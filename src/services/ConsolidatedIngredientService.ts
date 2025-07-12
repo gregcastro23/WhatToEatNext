@@ -721,12 +721,12 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
       
       // Check calorie range if specified
       if (filter.minCalories !== undefined) {
-        const calorieContent = nutritional.calories || 0;
+        const calorieContent = Number((nutritional as any).calories) || 0;
         if (calorieContent < Number(filter.minCalories)) return false;
       }
       
       if (filter.maxCalories !== undefined) {
-        const calorieContent = nutritional.calories || 0;
+        const calorieContent = Number((nutritional as any).calories) || 0;
         if (calorieContent > Number(filter.maxCalories)) return false;
       }
       
@@ -1016,8 +1016,8 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
       }
       
       // Check qualities/tags
-      if (isNonEmptyArray(ingredient.qualities) && 
-          safeSome(ingredient.qualities, q => q?.toLowerCase()?.includes(normalizedQuery))) {
+      if (Array.isArray(ingredient.qualities) && ingredient.qualities.length > 0 && 
+          ingredient.qualities.some(q => q?.toLowerCase()?.includes(normalizedQuery))) {
         return true;
       }
       
@@ -1369,6 +1369,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
       
       // Return a minimal valid ingredient on error
       return {
+        id: ingredient.id || `ingredient_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
         name: ingredient.name || 'unknown',
         category: ingredient.category || 'unknown',
         elementalProperties: createElementalProperties({ Fire: 0, Water: 0, Earth: 0, Air: 0 }),

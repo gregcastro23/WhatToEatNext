@@ -5,7 +5,7 @@ import { useAlchemical } from '@/contexts/AlchemicalContext/hooks'
 import { logger } from '@/utils/logger';
 import { PlanetaryHourCalculator } from '@/lib/PlanetaryHourCalculator'
 import { getCurrentSeason, getTimeOfDay } from '@/utils/dateUtils';
-import alchemize from '@/calculations/alchemize'; // Assuming path to alchemize function
+import { alchemize } from '@/calculations/alchemicalCalculations';
 
 export function StateDebugger() {
   const { state, planetaryPositions } = useAlchemical()
@@ -208,7 +208,16 @@ export function StateDebugger() {
       Object.entries(planetaryPositions).map(([planet, data]) => [planet, (data as any).sign])
     );
     const calculatedMetrics = alchemize(positionsForAlchemize);
-    setMetrics(calculatedMetrics);
+    if (calculatedMetrics && typeof calculatedMetrics === 'object') {
+      setMetrics({
+        heat: calculatedMetrics.heat || 0,
+        entropy: calculatedMetrics.entropy || 0,
+        reactivity: calculatedMetrics.reactivity || 0,
+        gregsEnergy: calculatedMetrics.gregsEnergy || 0,
+        kalchm: calculatedMetrics.kalchm || 0,
+        monica: calculatedMetrics.monica || 0
+      });
+    }
   }
 
   return (

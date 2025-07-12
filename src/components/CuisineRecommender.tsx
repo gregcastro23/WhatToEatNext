@@ -1172,7 +1172,7 @@ export default function CuisineRecommender() {
             await Promise.resolve(getRecipesForCuisineMatch((topRecommendation as { name?: string })?.name, allRecipes)) : [];
           
           const enhancedRecipes = Array.isArray(cuisineRecipes) ? cuisineRecipes.map(recipe => 
-            buildCompleteRecipe(recipe as any, (topRecommendation as { name?: string })?.name, currentMomentElementalProfile || {}, astroState as any, currentSeasonToUse)
+            buildCompleteRecipe(recipe as any, (topRecommendation as { name?: string })?.name, currentMomentElementalProfile || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }, astroState as any, currentSeasonToUse)
           ) : [];
           
           setRecipes(enhancedRecipes as any);

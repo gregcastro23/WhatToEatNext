@@ -1,9 +1,14 @@
 /**
  * Cooking methods with their elemental properties, astrological influences, and alchemical attributes
  */
-export const cookingMethods = {
+import type { CookingMethod, ElementalEffect, CookingAlchemicalProperties, AstrologicalInfluences, ThermodynamicProperties } from '@/types/cooking';
+
+// Type the cooking methods object for better type safety
+export const cookingMethods: Record<string, CookingMethod> = {
   roasting: {
+    id: 'roasting',
     name: 'Roasting',
+    description: 'A dry-heat cooking method that uses hot air to cook food evenly',
     elementalEffect: {
       Fire: 0.8,
       Air: 0.5,
@@ -36,7 +41,9 @@ export const cookingMethods = {
     suitable_for: ['meats', 'root vegetables', 'tubers', 'whole poultry']
   },
   steaming: {
+    id: 'steaming',
     name: 'Steaming',
+    description: 'Gentle cooking method using steam to preserve nutrients and delicate textures',
     elementalEffect: {
       Water: 0.9,
       Air: 0.4,
@@ -69,7 +76,9 @@ export const cookingMethods = {
     suitable_for: ['vegetables', 'fish', 'dumplings', 'custards']
   },
   grilling: {
+    id: 'grilling',
     name: 'Grilling',
+    description: 'High-heat direct cooking method that creates distinctive char flavors and textures',
     elementalEffect: {
       Fire: 0.9,
       Air: 0.6,
@@ -102,7 +111,9 @@ export const cookingMethods = {
     suitable_for: ['meats', 'seafood', 'vegetables', 'fruits']
   },
   boiling: {
+    id: 'boiling',
     name: 'Boiling',
+    description: 'Moist heat cooking method using rapidly bubbling water for quick, thorough cooking',
     elementalEffect: {
       Water: 1.0,
       Fire: 0.4,
@@ -135,7 +146,9 @@ export const cookingMethods = {
     suitable_for: ['pasta', 'grains', 'legumes', 'hard vegetables']
   },
   sauteing: {
+    id: 'sauteing',
     name: 'Sautéing',
+    description: 'Quick cooking method using small amounts of fat in a shallow pan over high heat',
     elementalEffect: {
       Fire: 0.7,
       Air: 0.5,
@@ -168,7 +181,9 @@ export const cookingMethods = {
     suitable_for: ['vegetables', 'thin cuts of meat', 'seafood', 'aromatics']
   },
   baking: {
+    id: 'baking',
     name: 'Baking',
+    description: 'Dry heat cooking method using enclosed oven environment for even heat distribution',
     elementalEffect: {
       Fire: 0.6,
       Air: 0.7,
@@ -201,7 +216,9 @@ export const cookingMethods = {
     suitable_for: ['doughs', 'batters', 'casseroles', 'gratins']
   },
   fermenting: {
+    id: 'fermenting',
     name: 'Fermenting',
+    description: 'Biological transformation process using beneficial microorganisms for enhanced nutrition',
     elementalEffect: {
       Water: 0.6,
       Earth: 0.7,
@@ -234,7 +251,9 @@ export const cookingMethods = {
     suitable_for: ['cabbage', 'milk', 'grains', 'vegetables']
   },
   braising: {
+    id: 'braising',
     name: 'Braising',
+    description: 'Combination cooking method using both wet and dry heat for tender, flavorful results',
     elementalEffect: {
       Water: 0.7,
       Fire: 0.5,
@@ -267,7 +286,9 @@ export const cookingMethods = {
     suitable_for: ['tough cuts of meat', 'root vegetables', 'hardy greens']
   },
   poaching: {
+    id: 'poaching',
     name: 'Poaching',
+    description: 'Gentle moist heat cooking method using barely simmering liquid for delicate foods',
     elementalEffect: {
       Water: 0.8,
       Fire: 0.3,
@@ -300,7 +321,9 @@ export const cookingMethods = {
     suitable_for: ['eggs', 'fish', 'fruit', 'delicate proteins']
   },
   smoking: {
+    id: 'smoking',
     name: 'Smoking',
+    description: 'Low-temperature cooking method using smoke for flavor development and preservation',
     elementalEffect: {
       Fire: 0.6,
       Air: 0.8,
@@ -333,7 +356,9 @@ export const cookingMethods = {
     suitable_for: ['meats', 'fish', 'cheese', 'vegetables']
   },
   dehydrating: {
+    id: 'dehydrating',
     name: 'Dehydrating',
+    description: 'Moisture removal method for food preservation and concentrated flavors',
     elementalEffect: {
       Air: 0.9,
       Fire: 0.4,
@@ -366,7 +391,9 @@ export const cookingMethods = {
     suitable_for: ['fruits', 'herbs', 'vegetables', 'meats']
   },
   pressure_cooking: {
+    id: 'pressure_cooking',
     name: 'Pressure Cooking',
+    description: 'High-pressure steam cooking method for rapid, efficient cooking with retained nutrients',
     elementalEffect: {
       Fire: 0.5,
       Water: 0.7,
@@ -399,7 +426,9 @@ export const cookingMethods = {
     suitable_for: ['tough cuts of meat', 'beans', 'grains', 'root vegetables']
   },
   sous_vide: {
+    id: 'sous_vide',
     name: 'Sous Vide',
+    description: 'Precision temperature cooking method using vacuum-sealed ingredients for exact control',
     elementalEffect: {
       Water: 0.8,
       Earth: 0.4,
@@ -432,7 +461,9 @@ export const cookingMethods = {
     suitable_for: ['meats', 'eggs', 'fish', 'vegetables']
   },
   pickling: {
+    id: 'pickling',
     name: 'Pickling',
+    description: 'Acidic preservation method that creates tangy flavors while extending shelf life',
     elementalEffect: {
       Water: 0.7,
       Earth: 0.5,

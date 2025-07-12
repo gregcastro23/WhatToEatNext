@@ -305,7 +305,7 @@ export default function CuisineRecommenderDebug() {
       // Step 5: Transform cuisines
       let transformedCuisines;
       try {
-        transformedCuisines = (transformCuisines as unknown)(recs, 'default', true, {}, 10);
+        transformedCuisines = (transformCuisines as unknown as (...args: unknown[]) => unknown)(recs, 'default', true, {}, 10);
         updateStep(4, transformedCuisines.slice(0, 3), true); // Show only first 3
       } catch (err) {
         console.error('Error transforming cuisines:', err);
@@ -316,7 +316,7 @@ export default function CuisineRecommenderDebug() {
       // Step 6: Sort by alchemical compatibility
       let sortedCuisines;
       try {
-        sortedCuisines = (sortByAlchemicalCompatibility as unknown)(
+        sortedCuisines = (sortByAlchemicalCompatibility as unknown as (...args: unknown[]) => unknown)(
           transformedCuisines,
           combinedProfile,
           'default',
@@ -394,9 +394,9 @@ export default function CuisineRecommenderDebug() {
       
       // Step 8: Sauce recommendations
       try {
-        const sauces = (generateTopSauceRecommendations as unknown)(combinedProfile, 5, 'default', true, {});
-        setSauceRecommendations(sauces);
-        updateStep(7, sauces.slice(0, 3), true);
+        const sauces = (generateTopSauceRecommendations as unknown as (...args: unknown[]) => unknown)(combinedProfile, 5, 'default', true, {});
+        setSauceRecommendations(Array.isArray(sauces) ? sauces : []);
+        updateStep(7, Array.isArray(sauces) ? sauces.slice(0, 3) : [], true);
       } catch (err) {
         console.error('Error generating sauce recommendations:', err);
         updateStep(7, null, true, err instanceof Error ? err.message : 'Unknown error');

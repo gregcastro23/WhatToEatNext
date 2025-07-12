@@ -838,17 +838,17 @@ export default function EnhancedCuisineRecommender() {
                   {sauceRecommendations.slice(0, 6).map((sauce, index) => (
                     <div key={index} className="bg-white rounded-lg shadow p-4">
                       <div className="flex items-center justify-between mb-2">
-                        <h4 className="font-semibold text-gray-900">{(sauce as any).name || sauce.id}</h4>
+                        <h4 className="font-semibold text-gray-900">{(sauce as any).name || (sauce as any).id}</h4>
                         <div className={`px-2 py-1 rounded-full text-xs font-bold text-white ${getEnhancedMatchScoreClass((sauce as any).matchPercentage || 50)}`}>
                           {(sauce as any).matchPercentage || 50}%
                         </div>
                       </div>
-                      {sauce.description && (
-                        <p className="text-sm text-gray-600 mb-2">{sauce.description}</p>
+                      {(sauce as any).description && (
+                        <p className="text-sm text-gray-600 mb-2">{(sauce as any).description}</p>
                       )}
-                      {showEnhancedFeatures && sauce.enhancedScore && (
+                      {showEnhancedFeatures && (sauce as any).enhancedScore && (
                         <div className="mt-2">
-                          {renderEnhancedScore(sauce.enhancedScore)}
+                          {renderEnhancedScore((sauce as any).enhancedScore)}
                         </div>
                       )}
                     </div>

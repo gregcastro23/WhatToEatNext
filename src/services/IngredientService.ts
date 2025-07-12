@@ -193,10 +193,10 @@ export class IngredientService implements IngredientServiceInterface {
               Fire: 0, Water: 0, Earth: 0, Air: 0 
             })) as ElementalProperties,
             alchemicalProperties: {
-              Spirit: (data as Record<string, unknown>)?.alchemicalProperties?.Spirit as number || (data as Record<string, unknown>)?.Spirit as number || 0,
-              Essence: (data as Record<string, unknown>)?.alchemicalProperties?.Essence as number || (data as Record<string, unknown>)?.Essence as number || 0,
-              Matter: (data as Record<string, unknown>)?.alchemicalProperties?.Matter as number || (data as Record<string, unknown>)?.Matter as number || 0,
-              Substance: (data as Record<string, unknown>)?.alchemicalProperties?.Substance as number || (data as Record<string, unknown>)?.Substance as number || 0
+              Spirit: (data as any)?.alchemicalProperties?.Spirit || (data as any)?.Spirit || 0,
+              Essence: (data as any)?.alchemicalProperties?.Essence || (data as any)?.Essence || 0,
+              Matter: (data as any)?.alchemicalProperties?.Matter || (data as any)?.Matter || 0,
+              Substance: (data as any)?.alchemicalProperties?.Substance || (data as any)?.Substance || 0
             }
           });
         });
@@ -290,7 +290,7 @@ export class IngredientService implements IngredientServiceInterface {
     if (!subcategory) return [];
     
     try {
-      return (this?.unifiedIngredientsFlat || []).filter(ingredient => ingredient.subcategory?.toLowerCase() === subcategory?.toLowerCase()
+      return (this?.unifiedIngredientsFlat || []).filter(ingredient => ingredient.subCategory?.toLowerCase() === subcategory?.toLowerCase()
       );
     } catch (error) {
       logger.error(`Error getting ingredients by subcategory ${subcategory}:`, error);
@@ -1319,6 +1319,7 @@ export class IngredientService implements IngredientServiceInterface {
       
       // Create default base ingredient
       const baseIngredient: UnifiedIngredient = {
+        id: ingredient.id || `ingredient_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
         name: ingredient.name,
         category: ingredient.category || 'unknown',
         elementalProperties: createElementalProperties({

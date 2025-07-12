@@ -71,7 +71,7 @@ export function UnifiedDebug({ mode = 'compact', showTabs = true }: UnifiedDebug
     try {
       const phaseValue = calculateLunarPhase(new Date());
       
-      if (phaseValue instanceof Promise) {
+      if (phaseValue && typeof (phaseValue as unknown as Promise<unknown>).then === 'function') {
         phaseValue.then(value => {
           const phaseName = getLunarPhaseName(value);
           setLunarPhase(phaseName);

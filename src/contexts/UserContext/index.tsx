@@ -1,7 +1,15 @@
 'use client';
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { UserProfile } from "../../services/userService";
-import * as userService from "../../services/userService";
+// import { UserProfile } from "../../services/userService";
+// import * as userService from "../../services/userService";
+
+// Temporary UserProfile interface until userService is implemented
+interface UserProfile {
+  id?: string;
+  name?: string;
+  email?: string;
+  preferences?: Record<string, unknown>;
+}
 
 interface UserContextType {
   currentUser: UserProfile | null;
@@ -27,8 +35,9 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
     setIsLoading(true);
     setError(null);
     try {
-      // Mock user ID for demo purposes
-      const user = await userService.getUserProfile('mock-user-id');
+      // Mock user ID for demo purposes - temporarily disabled until userService is implemented
+      // const user = await userService.getUserProfile('mock-user-id');
+      const user: UserProfile = { id: 'mock-user-id', name: 'Demo User' };
       setCurrentUser(user);
     } catch (err) {
       setError('Failed to load user profile');
@@ -46,11 +55,12 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
         throw new Error('No user profile loaded');
       }
       
-      const updatedProfile = await userService.saveUserProfile({
-        ...data,
-        userId: currentUser.userId
-      });
+      // const updatedProfile = await userService.saveUserProfile({
+      //   ...data,
+      //   userId: currentUser.id
+      // });
       
+      const updatedProfile = { ...currentUser, ...data };
       setCurrentUser(updatedProfile);
       return updatedProfile;
     } catch (err) {

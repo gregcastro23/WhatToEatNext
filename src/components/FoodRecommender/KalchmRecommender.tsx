@@ -5,12 +5,12 @@ import { useAlchemical } from '@/contexts/AlchemicalContext';
 import { calculateKalchmResults } from '@/calculations/core/kalchmEngine';
 import { IngredientService } from '@/services/IngredientService';
 import { UnifiedIngredient } from '@/data/unified/unifiedTypes';
-import type { ElementalProperties, ElementalProperties } from '@/types/alchemy';
+import type { ElementalProperties } from '@/types/alchemy';
 import { PlanetaryPosition } from '@/types/celestial';
 import { useRealAlchemizeService } from '@/services/RealAlchemizeService';
 import { useUnifiedScoringService } from '@/services/UnifiedScoringService';
 import { useThermodynamicEngine } from '@/calculations/core/thermodynamicEngine';
-import { usePlanetaryHoursCalculator } from '@/data/planets/planetaryHoursCalculator';
+import { usePlanetaryHours } from '@/hooks/usePlanetaryHours';
 import { useSwissEphemerisService } from '@/services/SwissEphemerisService';
 import { 
   calculateAlchemicalNumber,
@@ -77,7 +77,7 @@ export default function KalchmRecommender({
 }: KalchmRecommenderProps) {
   const alchemicalContext = useAlchemical();
   const planetaryPositions = alchemicalContext?.planetaryPositions;
-  const elementalState = (alchemicalContext?.state as unknown)?.elementalProperties;
+  const elementalState = (alchemicalContext?.state as unknown as { elementalProperties?: unknown })?.elementalProperties;
   const [recommendations, setRecommendations] = useState<Record<string, UnifiedIngredient[]>>({});
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -121,7 +121,7 @@ export default function KalchmRecommender({
         // Get recommendations based on current elemental properties
         const recommendedIngredients = elementalState ? 
           ingredientService.getRecommendedIngredients(
-            elementalState,
+            elementalState as ElementalProperties,
             {
               limit: maxRecommendations,
               includeThermodynamics: true,
@@ -246,8 +246,8 @@ export default function KalchmRecommender({
             </div>
           </div>
           <div className="mt-2 text-sm text-gray-600">
-            Dominant Element: <span className={`font-medium ${getElementColor(getDominantElement(elementalState))}`}>
-              {getDominantElement(elementalState)}
+            Dominant Element: <span className={`font-medium ${getElementColor(getDominantElement(elementalState as ElementalProperties))}`}>
+              {getDominantElement(elementalState as ElementalProperties)}
             </span>
           </div>
         </div>

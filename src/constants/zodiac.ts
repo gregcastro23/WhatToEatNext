@@ -18,6 +18,43 @@ export type ZodiacSign =
   | 'pisces';
 
 /**
+ * Zodiac sign object interface for detailed usage
+ */
+export interface ZodiacSignObject {
+  name: string;
+  symbol: string;
+  start: number; // Degree position in zodiac wheel
+  element: ElementalCharacter;
+  sign: ZodiacSign; // String literal identifier
+}
+
+/**
+ * Array of all zodiac signs in order (string literals for type safety)
+ */
+export const zodiacSignNames: ZodiacSign[] = [
+  'aries', 'taurus', 'gemini', 'cancer', 'leo', 'virgo',
+  'libra', 'scorpio', 'sagittarius', 'capricorn', 'aquarius', 'pisces'
+];
+
+/**
+ * Detailed zodiac sign objects with all properties
+ */
+export const zodiacSigns: ZodiacSignObject[] = [
+  { name: 'Aries', symbol: '♈', start: 0, element: 'Fire', sign: 'aries' },
+  { name: 'Taurus', symbol: '♉', start: 30, element: 'Earth', sign: 'taurus' },
+  { name: 'Gemini', symbol: '♊', start: 60, element: 'Air', sign: 'gemini' },
+  { name: 'Cancer', symbol: '♋', start: 90, element: 'Water', sign: 'cancer' },
+  { name: 'Leo', symbol: '♌', start: 120, element: 'Fire', sign: 'leo' },
+  { name: 'Virgo', symbol: '♍', start: 150, element: 'Earth', sign: 'virgo' },
+  { name: 'Libra', symbol: '♎', start: 180, element: 'Air', sign: 'libra' },
+  { name: 'Scorpio', symbol: '♏', start: 210, element: 'Water', sign: 'scorpio' },
+  { name: 'Sagittarius', symbol: '♐', start: 240, element: 'Fire', sign: 'sagittarius' },
+  { name: 'Capricorn', symbol: '♑', start: 270, element: 'Earth', sign: 'capricorn' },
+  { name: 'Aquarius', symbol: '♒', start: 300, element: 'Air', sign: 'aquarius' },
+  { name: 'Pisces', symbol: '♓', start: 330, element: 'Water', sign: 'pisces' }
+];
+
+/**
  * Elemental correspondences for zodiac signs
  */
 export const zodiacElementMap: Record<ZodiacSign, ElementalCharacter> = {
@@ -94,4 +131,18 @@ export const getZodiacSignsByElement = (element: ElementalCharacter): ZodiacSign
   return Object.entries(zodiacElementMap)
     .filter(([_, signElement]) => signElement === element)
     .map(([sign, _]) => sign as ZodiacSign);
+};
+
+/**
+ * Gets a zodiac sign object by its string literal identifier
+ */
+export const getZodiacSignObject = (sign: ZodiacSign): ZodiacSignObject | undefined => {
+  return zodiacSigns.find(zodiacSign => zodiacSign.sign === sign);
+};
+
+/**
+ * Gets a zodiac sign object by its name
+ */
+export const getZodiacSignByName = (name: string): ZodiacSignObject | undefined => {
+  return zodiacSigns.find(zodiacSign => zodiacSign.name.toLowerCase() === name.toLowerCase());
 }; 

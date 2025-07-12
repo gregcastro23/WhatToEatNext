@@ -6,7 +6,7 @@ import type {
   ZodiacSign,
 } from '@/types/alchemy';
 import { cuisinesMap } from '@/data/cuisines';
-import { getCurrentTimeFactors } from '@/utils/getCurrentTimeFactors';
+import { getCurrentTimeFactors, TimeFactors as ImportedTimeFactors } from '@/utils/timeFactors';
 
 // Recipe interface for internal use in enhanced recommender
 interface RecipeData {
@@ -64,6 +64,17 @@ interface TimeFactors {
   currentDate: Date;
 }
 
+// Convert imported TimeFactors to local TimeFactors
+function convertTimeFactors(imported: ImportedTimeFactors): TimeFactors {
+  return {
+    planetaryDay: imported.dayPlanet as PlanetaryDay,
+    planetaryHour: imported.hourPlanet as PlanetaryHour,
+    timeOfDay: imported.hour < 12 ? 'morning' : imported.hour < 18 ? 'afternoon' : 'evening',
+    currentSeason: imported.season,
+    currentDate: new Date()
+  };
+}
+
 type PlanetaryDay =
   | 'Sun'
   | 'Moon'
@@ -114,7 +125,7 @@ export class EnhancedCuisineRecommender {
     dietaryRestrictions?: string[]
   ): EnhancedRecipeMatch[] {
     // Get current time factors
-    const timeFactors = getCurrentTimeFactors();
+    const timeFactors = convertTimeFactors(getCurrentTimeFactors());
 
     // Get cuisine data
     const cuisine = this.getCuisine(cuisineName);
@@ -147,15 +158,16 @@ export class EnhancedCuisineRecommender {
 
     // Calculate match scores for each recipe
     const matches = dietaryFilteredRecipes.map((recipe) => {
-      const seasonalScore = this.calculateSeasonalScore(recipe, getCurrentTimeFactors());
+      const convertedTimeFactors = convertTimeFactors(getCurrentTimeFactors());
+      const seasonalScore = this.calculateSeasonalScore(recipe, convertedTimeFactors);
       const planetaryDayScore = this.calculatePlanetaryDayScore(
         recipe,
-        getCurrentTimeFactors(),
+        convertedTimeFactors,
         astroState
       );
       const planetaryHourScore = this.calculatePlanetaryHourScore(
         recipe,
-        getCurrentTimeFactors(),
+        convertedTimeFactors,
         astroState
       );
       const elementalScore = this.calculateElementalScore(recipe, astroState);
@@ -200,67 +212,6 @@ export class EnhancedCuisineRecommender {
       .slice(0, count);
   }
 
-  /**
-   * Get current planetary day, hour, season and time of day
-   */
-  private getCurrentTimeFactors(): TimeFactors {
-    const now = new Date();
-    const dayOfWeek = now.getDay(); // 0 = Sunday, 1 = Monday, etc.
-    const hours = now.getHours();
-    const minutes = now.getMinutes();
-
-    // Map day of week to planetary day
-    const planetaryDays: PlanetaryDay[] = [
-      'Sun',
-      'Moon',
-      'Mars',
-      'Mercury',
-      'Jupiter',
-      'Venus',
-      'Saturn',
-    ];
-    const planetaryDay = planetaryDays[dayOfWeek];
-
-    // Calculate planetary hour (simplified implementation)
-    // In traditional planetary hours, daylight is divided into 12 equal parts, as is night
-    // For simplicity, we'll use a 24-hour approximation
-    const hourIndex = (dayOfWeek * 24 + hours) % 7;
-    const planetaryHour = planetaryDays[hourIndex];
-
-    // Determine time of day
-    let timeOfDay: TimeOfDay;
-    if (hours >= 5 && hours < 12) {
-      timeOfDay = 'morning';
-    } else if (hours >= 12 && hours < 17) {
-      timeOfDay = 'afternoon';
-    } else if (hours >= 17 && hours < 22) {
-      timeOfDay = 'evening';
-    } else {
-      timeOfDay = 'night';
-    }
-
-    // Determine current season based on month in Northern Hemisphere
-    // (This could be improved to account for Southern Hemisphere)
-    const month = now.getMonth(); // 0 = January, 11 = December
-    let currentSeason: Season;
-    if (month >= 2 && month <= 4) {
-      currentSeason = 'spring';
-    } else if (month >= 5 && month <= 7) {
-      currentSeason = 'summer';
-    } else if (month >= 8 && month <= 10) {
-      currentSeason = 'autumn';
-    } else {
-      currentSeason = 'winter';
-    }
-
-    return {
-      planetaryDay,
-      planetaryHour,
-      timeOfDay,
-      currentSeason,
-      currentDate: now,
-    };
-  }
 
   /**
    * Get cuisine data by name
@@ -344,7 +295,7 @@ export class EnhancedCuisineRecommender {
     timeFactors: TimeFactors,
     astroState: AstrologicalState
   ): number {
-    const { planetaryDay, currentDate } = getCurrentTimeFactors();
+    const { planetaryDay, currentDate } = timeFactors;
     const _isDaytime = this.isDaytime(currentDate);
 
     // If recipe has no elemental properties, give it a neutral score
@@ -411,7 +362,7 @@ export class EnhancedCuisineRecommender {
     timeFactors: TimeFactors,
     astroState: AstrologicalState
   ): number {
-    const { planetaryHour, currentDate } = getCurrentTimeFactors();
+    const { planetaryHour, currentDate } = timeFactors;
     const _isDaytime = this.isDaytime(currentDate);
 
     // If recipe has no elemental properties, give it a neutral score

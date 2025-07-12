@@ -7,6 +7,14 @@ export interface BaseItem {
   description?: string;
   elementalProperties: ElementalProperties;
   alchemicalProperties?: AlchemicalProperties;
+  // Additional properties commonly used in transformations
+  uniqueness?: number;
+  elementalState?: any;
+  category?: string;
+  transformationScore?: number;
+  planetaryInfluences?: string[];
+  lunarPhaseEffect?: string;
+  zodiacInfluence?: string;
 }
 
 export interface IngredientItem extends BaseItem {

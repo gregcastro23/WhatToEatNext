@@ -3,9 +3,18 @@
  */
 
 import { useState, useCallback } from 'react';
-import ingredientMappingService from '@/services/ingredientMappingService';
 import type { Recipe } from '@/types/recipe';
 import type { ElementalProperties } from '@/types/alchemy';
+
+// Use dynamic import to avoid circular dependency
+let ingredientMappingService: any = null;
+const getIngredientMappingService = async () => {
+  if (!ingredientMappingService) {
+    const module = await import('@/services/ingredientMappingService');
+    ingredientMappingService = module.default;
+  }
+  return ingredientMappingService;
+};
 
 export function useIngredientMapping() {
   const [isLoading, setIsLoading] = useState(false);
@@ -14,11 +23,12 @@ export function useIngredientMapping() {
   /**
    * Map ingredients for a specific recipe
    */
-  const mapRecipeIngredients = useCallback((recipe: Recipe) => {
+  const mapRecipeIngredients = useCallback(async (recipe: Recipe) => {
     try {
       setIsLoading(true);
       setError(null);
-      const result = ingredientMappingService.mapRecipeIngredients(recipe);
+      const service = await getIngredientMappingService();
+      const result = service.mapRecipeIngredients(recipe);
       return result;
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'An unknown error occurred';
@@ -32,7 +42,7 @@ export function useIngredientMapping() {
   /**
    * Find recipes matching the given criteria
    */
-  const findMatchingRecipes = useCallback((options: {
+  const findMatchingRecipes = useCallback(async (options: {
     elementalTarget?: ElementalProperties;
     requiredIngredients?: string[];
     excludedIngredients?: string[];
@@ -45,7 +55,8 @@ export function useIngredientMapping() {
     try {
       setIsLoading(true);
       setError(null);
-      const result = ingredientMappingService.findMatchingRecipes(options);
+      const service = await getIngredientMappingService();
+      const result = service.findMatchingRecipes(options);
       return result;
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'An unknown error occurred';
@@ -59,11 +70,12 @@ export function useIngredientMapping() {
   /**
    * Suggest alternative ingredients with similar properties
    */
-  const suggestAlternatives = useCallback((ingredientName: string, options = {}) => {
+  const suggestAlternatives = useCallback(async (ingredientName: string, options = {}) => {
     try {
       setIsLoading(true);
       setError(null);
-      const result = ingredientMappingService.suggestAlternativeIngredients(ingredientName, options);
+      const service = await getIngredientMappingService();
+      const result = service.suggestAlternativeIngredients(ingredientName, options);
       return result;
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'An unknown error occurred';
@@ -81,11 +93,12 @@ export function useIngredientMapping() {
   /**
    * Calculate compatibility between two ingredients
    */
-  const calculateCompatibility = useCallback((ingredient1: string, ingredient2: string) => {
+  const calculateCompatibility = useCallback(async (ingredient1: string, ingredient2: string) => {
     try {
       setIsLoading(true);
       setError(null);
-      const result = ingredientMappingService.calculateCompatibility(ingredient1, ingredient2);
+      const service = await getIngredientMappingService();
+      const result = service.calculateCompatibility(ingredient1, ingredient2);
       return result;
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'An unknown error occurred';
@@ -103,11 +116,12 @@ export function useIngredientMapping() {
   /**
    * Analyze ingredient combinations in a recipe
    */
-  const analyzeRecipeCombinations = useCallback((recipe: Recipe) => {
+  const analyzeRecipeCombinations = useCallback(async (recipe: Recipe) => {
     try {
       setIsLoading(true);
       setError(null);
-      const result = ingredientMappingService.analyzeRecipeIngredientCombinations(recipe);
+      const service = await getIngredientMappingService();
+      const result = service.analyzeRecipeIngredientCombinations(recipe);
       return result;
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'An unknown error occurred';

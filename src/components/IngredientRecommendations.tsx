@@ -291,7 +291,7 @@ export default function IngredientRecommendations({
       : '50%';
     
     // Get dominant element for styling
-    const dominantElement = Object.entries(elementalProps)
+    const dominantElement = Object.entries(_elementalProps)
       .sort((a, b) => b[1] - a[1])[0][0];
     
     return (
@@ -313,7 +313,7 @@ export default function IngredientRecommendations({
             <div className={styles.barContainer}>
               <div 
                 className={`${styles.bar} ${styles.fireBar}`}
-                style={{ width: `${elementalProps.Fire * 100}%` }}
+                style={{ width: `${_elementalProps.Fire * 100}%` }}
               ></div>
             </div>
           </div>
@@ -322,7 +322,7 @@ export default function IngredientRecommendations({
             <div className={styles.barContainer}>
               <div 
                 className={`${styles.bar} ${styles.waterBar}`}
-                style={{ width: `${elementalProps.Water * 100}%` }}
+                style={{ width: `${_elementalProps.Water * 100}%` }}
               ></div>
             </div>
           </div>
@@ -331,7 +331,7 @@ export default function IngredientRecommendations({
             <div className={styles.barContainer}>
               <div 
                 className={`${styles.bar} ${styles.earthBar}`}
-                style={{ width: `${elementalProps.Earth * 100}%` }}
+                style={{ width: `${_elementalProps.Earth * 100}%` }}
               ></div>
             </div>
           </div>
@@ -340,7 +340,7 @@ export default function IngredientRecommendations({
             <div className={styles.barContainer}>
               <div 
                 className={`${styles.bar} ${styles.airBar}`}
-                style={{ width: `${elementalProps.Air * 100}%` }}
+                style={{ width: `${_elementalProps.Air * 100}%` }}
               ></div>
             </div>
           </div>

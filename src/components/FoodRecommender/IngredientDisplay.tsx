@@ -31,7 +31,7 @@ export default function IngredientDisplay() {
         // Get recommendations based on current astrological state
         if (elementalProperties) {
           const recommendations = ingredientService.getRecommendedIngredients(
-            _elementalProperties,
+            elementalProperties,
             { maxResults: 6, sortByScore: true } as any
           );
           
@@ -67,7 +67,7 @@ export default function IngredientDisplay() {
         } else {
           // Fallback to getting all ingredients
           const _allIngredients = ingredientService.getAllIngredientsFlat();
-          const selectedIngredients = allIngredients.slice(0, 6).map(ing => ({
+          const selectedIngredients = _allIngredients.slice(0, 6).map(ing => ({
             name: ing.name,
             category: ing.category,
             element: 'Earth', // fallback

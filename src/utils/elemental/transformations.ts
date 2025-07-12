@@ -182,7 +182,7 @@ export function transformSingleItem(
   return {
     ...item,
     elementalProperties: transformedElemental,
-    alchemicalProperties: _alchemicalProperties,
+    alchemicalProperties: _alchemicalProperties as any,
     uniqueness,
     planetaryInfluences: Object.keys(planetaryInfluences),
     lunarPhaseEffect: context.lunarPhase || 'new Moon',
@@ -253,7 +253,7 @@ export function sortByAlchemicalCompatibility(
   targetElementalProperties?: { [key: string]: number }
 ): AlchemicalItem[] {
   if (!targetElementalProperties) {
-    return items.sort((a, b) => (b.transformationScore || 0) - (a.transformationScore || 0));
+    return items.sort((a, b) => ((b as any).transformationScore || 0) - ((a as any).transformationScore || 0));
   }
   
   return items.sort((a, b) => {

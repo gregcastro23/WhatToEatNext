@@ -48,6 +48,7 @@ export interface Ingredient {
   category: string;
   amount: string;
   elementalProperties: ElementalProperties;
+  storage?: any; // Storage information
   astrologicalProfile: {
     elementalAffinity: {
       base: string;

@@ -1156,7 +1156,7 @@ export default function CookingMethods() {
   const getMethodSpecificData = (method: ExtendedAlchemicalItem) => {
     const methodId = getMethodProperty(method, 'id', '');
     if (methodId && cookingMethods[methodId as keyof typeof cookingMethods]) {
-      const sourceData = cookingMethods[methodId as keyof typeof cookingMethods] as Record<string, unknown>;
+      const sourceData = cookingMethods[methodId as keyof typeof cookingMethods];
       
       return {
         benefits: Array.isArray(sourceData?.benefits) ? sourceData.benefits : [],

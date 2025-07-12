@@ -83,7 +83,10 @@ interface MealCollection {
 }
 
 // Add dishes property to Cuisine
-interface ExtendedCuisine extends Cuisine {
+interface ExtendedCuisine {
+  id: string;
+  name: string;
+  description?: string;
   dishes?: MealCollection | {
     dishes?: MealCollection;
   };
@@ -113,7 +116,7 @@ export class LocalRecipeService {
       // Get recipes from all available cuisines
       for (const cuisine of Object.values(cuisinesMap)) {
         if (cuisine) {
-          const cuisineRecipes = await this.getRecipesFromCuisine(cuisine as unknown);
+          const cuisineRecipes = await this.getRecipesFromCuisine(cuisine as ExtendedCuisine);
           recipes.push(...cuisineRecipes);
         }
       }
@@ -210,7 +213,7 @@ export class LocalRecipeService {
         );
         
         if (byIdMatch && byIdMatch[1]) {
-          return await this.getRecipesFromCuisine(byIdMatch[1] as unknown);
+          return await this.getRecipesFromCuisine(byIdMatch[1] as ExtendedCuisine);
         }
         
         logger.info(`Cuisine not found: ${cuisineName}`);

@@ -15,14 +15,14 @@ export async function getCuisineRecommendations(): Promise<Cuisine[]> {
             return {
                 id,
                 name: id.charAt(0).toUpperCase() + id.slice(1),
-                description: traditionData?.description || 'A unique culinary tradition',
-                alchemicalProperties: traditionData?.elementalAlignment || {
+                description: (traditionData as unknown as { description?: string })?.description || 'A unique culinary tradition',
+                alchemicalProperties: (traditionData as unknown as { elementalAlignment?: unknown })?.elementalAlignment || {
                     Fire: 0.25,
                     Water: 0.25,
                     Earth: 0.25,
                     Air: 0.25
                 },
-                elementalProperties: traditionData?.elementalAlignment || {
+                elementalProperties: (traditionData as unknown as { elementalAlignment?: unknown })?.elementalAlignment || {
                     Fire: 0.25,
                     Water: 0.25,
                     Earth: 0.25,

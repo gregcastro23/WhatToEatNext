@@ -453,24 +453,24 @@ const NutritionalRecommender: React.FC<NutritionalRecommenderProps> = ({
               <h3 className="text-lg font-medium mb-3">{category}</h3>
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                {((recommendations[category] as unknown) || []).map(
+                {((recommendations[category] as unknown as unknown[]) || []).map(
                   (value: Record<string, unknown>, index: number) => {
                     // Extract ingredient data with safe property access
                     const ingredientData = value as unknown;
-                    const ingredientName = (ingredientData as unknown)?.name || (ingredientData as unknown)?.ingredient || '';
+                    const ingredientName = (ingredientData as unknown as { name?: unknown; ingredient?: unknown })?.name || (ingredientData as unknown as { name?: unknown; ingredient?: unknown })?.ingredient || '';
                     
                     return (
                       <IngredientCard
-                        key={ingredientName}
+                        key={String(ingredientName)}
                         ingredient={value as unknown as IngredientMapping}
-                        isSelected={selectedIngredients.includes(ingredientName)}
+                        isSelected={selectedIngredients.includes(String(ingredientName))}
                         onToggleSelection={toggleIngredientSelection}
-                        enhancedData={enhancedNutritionData[ingredientName]}
+                        enhancedData={enhancedNutritionData[String(ingredientName)]}
                         isSpoonacularLoading={
-                          isSpoonacularLoading[ingredientName] || false
+                          isSpoonacularLoading[String(ingredientName)] || false
                         }
                         onLoadSpoonacularData={() =>
-                          fetchEnhancedNutritionData(ingredientName)
+                          fetchEnhancedNutritionData(String(ingredientName))
                         }
                         isExpanded={expandedIngredient === ingredientName}
                         onToggleExpand={(name) =>

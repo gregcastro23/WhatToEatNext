@@ -172,16 +172,16 @@ export default function CookingMethodPage() {
                 ))}
               </Grid>
               
-              {(method as { variations?: string[] })?.variations && (
+              {method.variations && (
                 <>
                   <Divider sx={{ my: 3 }} />
                   <Typography variant="h5" gutterBottom>
                     Variations
                   </Typography>
                   <List>
-                    {Array.isArray((method as { variations?: string[] })?.variations) && (method as { variations?: string[] })?.variations.map((variation, index) => (
+                    {Array.isArray(method.variations) && method.variations.map((variation, index) => (
                       <ListItem key={index}>
-                        <ListItemText primary={variation} />
+                        <ListItemText primary={typeof variation === 'string' ? variation : variation.name} />
                       </ListItem>
                     ))}
                   </List>
@@ -308,7 +308,7 @@ export default function CookingMethodPage() {
                 <Box sx={{ display: 'flex', alignItems: 'flex-start', mb: 2 }}>
                   <Whatshot sx={{ mr: 2, mt: 0.5 }} />
                   <Typography variant="body1">
-                    <strong>Thermodynamic Properties:</strong> {method.thermodynamicProperties}
+                    <strong>Thermodynamic Properties:</strong> {JSON.stringify(method.thermodynamicProperties, null, 2)}
                   </Typography>
                 </Box>
               )}

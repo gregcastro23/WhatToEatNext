@@ -6,6 +6,7 @@ import { useServices } from '@/hooks/useServices';
 
 import { _Element } from "@/types/alchemy";
 import { _PlanetaryPosition } from "@/types/celestial";
+import { zodiacSigns, ZodiacSignObject } from "@/constants/zodiac";
 
 interface AstrologyChartProps {
   size?: number;

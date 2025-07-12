@@ -53,7 +53,7 @@ export default function Header({ onServingsChange }: HeaderProps) {
               {planetaryPositions?.sun && (
                 <div className="flex items-center">
                   <Sun className="w-4 h-4 mr-1" />
-                  <span>{(planetaryPositions.sun as unknown)?.sign}</span>
+                  <span>{(planetaryPositions.sun as unknown as { sign?: unknown })?.sign}</span>
                 </div>
               )}
               {planetaryPositions?.moon && (

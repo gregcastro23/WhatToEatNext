@@ -164,7 +164,7 @@ const MoonDisplayMigrated: React.FC = () => {
     if (!isLoading && !error && astrologyService) {
       const getLocation = async () => {
         try {
-          const astroService = astrologyService as Record<string, unknown>;
+          const astroService = astrologyService as unknown as Record<string, unknown>;
           const location = await (astroService?.getUserLocation as Function)?.();
           if (location) {
             setCoordinates({
@@ -186,18 +186,18 @@ const MoonDisplayMigrated: React.FC = () => {
     if (!isLoading && !error && astrologyService) {
       const calculateTimes = async () => {
         try {
-          const astroService = astrologyService as Record<string, unknown>;
+          const astroService = astrologyService as unknown as Record<string, unknown>;
           const _times = await (astroService?.getMoonTimes as Function)?.(new Date(), coordinates);
           
-          if (times) {
+          if (_times) {
             setMoonTimes({
-              rise: times.rise,
-              set: times.set,
+              rise: _times.rise,
+              set: _times.set,
               calculating: false
             });
           } else {
             // If calculation fails, use a fallback
-            debugLog('Moon times calculation failed, using fallback values');
+            console.log('Moon times calculation failed, using fallback values');
             const now = new Date();
             const tomorrow = new Date(now);
             tomorrow.setDate(tomorrow.getDate() + 1);
@@ -237,7 +237,7 @@ const MoonDisplayMigrated: React.FC = () => {
           const phaseData = await astrologyService.getLunarPhaseData(false);
           
           if (phaseData) {
-            const phaseDataObj = phaseData as Record<string, unknown>;
+            const phaseDataObj = phaseData as unknown as Record<string, unknown>;
             setMoonPhase({
               phase: String(phaseDataObj?.phaseName || phaseDataObj?.phase || 'new_moon'),
               phaseValue: Number(phaseDataObj?.phaseValue) || 0,

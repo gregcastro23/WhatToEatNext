@@ -1,13 +1,13 @@
 'use client';
 
-import { _ElementalProperties, _Element , _PlanetaryPosition } from '@/types/celestial';
+import { _ElementalProperties, _Element as AlchemicalElement , _PlanetaryPosition } from '@/types/celestial';
 import React, { useState, useEffect, useMemo } from 'react';
 import { useServices } from '@/hooks/useServices';
 
 
 
 interface ElementalRecommendation {
-  element: Element;
+  element: AlchemicalElement;
   recommendation: string;
 }
 
@@ -156,7 +156,7 @@ const ElementalRecommendationsMigrated: React.FC<ElementalRecommendationsProps> 
               color: getElementColor(dominantElement)
             }}
           >
-            {getElementEmoji(dominantElement)} Dominant: {dominantElement}
+            {getElementEmoji(dominantElement)} Dominant: {String(dominantElement)}
           </span>
         )}
       </div>
@@ -167,7 +167,7 @@ const ElementalRecommendationsMigrated: React.FC<ElementalRecommendationsProps> 
           <div className="flex h-6 rounded-full overflow-hidden">
             {(formattedElements || []).map(({ element, percentage }) => (
               <div
-                key={element}
+                key={element as unknown as string}
                 className="h-full transition-all duration-300"
                 style={{
                   width: `${percentage}%`,
@@ -179,12 +179,12 @@ const ElementalRecommendationsMigrated: React.FC<ElementalRecommendationsProps> 
           </div>
           <div className="flex justify-between mt-1 text-xs text-gray-600">
             {(formattedElements || []).map(({ element, percentage }) => (
-              <div key={element} className="flex items-center">
+              <div key={element as unknown as string} className="flex items-center">
                 <span
                   className="inline-block w-2 h-2 rounded-full mr-1"
                   style={{ backgroundColor: getElementColor(element) }}
                 />
-                <span>{element}</span>
+                <span>{String(element)}</span>
               </div>
             ))}
           </div>
@@ -196,13 +196,13 @@ const ElementalRecommendationsMigrated: React.FC<ElementalRecommendationsProps> 
           <div 
             key={index} 
             className="p-3 rounded-md" 
-            style={{ backgroundColor: `${getElementColor(rec.element)}10` }}
+            style={{ backgroundColor: `${getElementColor(rec.element as Element)}10` }}
           >
             <div className="flex items-center mb-1">
-              <span className="mr-2">{getElementEmoji(rec.element)}</span>
+              <span className="mr-2">{getElementEmoji(rec.element as Element)}</span>
               <span 
                 className="font-medium"
-                style={{ color: getElementColor(rec.element) }}
+                style={{ color: getElementColor(rec.element as Element) }}
               >
                 {rec.element.charAt(0)?.toUpperCase() + rec.element?.slice(1)} Recommendation
               </span>

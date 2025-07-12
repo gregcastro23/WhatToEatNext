@@ -3,34 +3,17 @@ import { ChevronDown, ChevronUp, Globe, Flame, Droplets, Wind, Mountain, Search,
 import { useIngredientMapping } from '@/hooks/useIngredientMapping'; // Import our new hook
 import styles from './CookingMethods.module.css';
 import { getTechnicalTips, getIdealIngredients } from '@/utils/cookingMethodTips';
-
-// Define proper types for the methods
-interface CookingMethod {
-  id: string;
-  name: string;
-  description: string;
-  score?: number;
-  culturalOrigin?: string;
-  variations?: CookingMethod[];
-  elementalEffect?: {
-    Fire: number;
-    Water: number;
-    Earth: number;
-    Air: number;
-  };
-  duration?: {
-    min: number;
-    max: number;
-  };
-  suitable_for?: string[];
-  benefits?: string[];
-  alchemicalProperties?: {
-    Spirit: number;
-    Essence: number;
-    Matter: number;
-    Substance: number;
-  };
-}
+import type { CookingMethod, ElementalEffect, CookingAlchemicalProperties, AstrologicalInfluences } from '@/types/cooking';
+import { 
+  isCookingMethod, 
+  getElementalEffect, 
+  getAlchemicalProperties, 
+  getThermodynamicProperties,
+  getAstrologicalInfluences,
+  getDuration,
+  getSuitableIngredients,
+  getBenefits
+} from '@/utils/cookingMethodValidation';
 
 interface CookingMethodsProps {
   methods: CookingMethod[];
@@ -121,13 +104,13 @@ export const CookingMethodsSection: React.FC<CookingMethodsProps> = ({
   }, [methods, selectedMethodId]);
   
   // Handle ingredient compatibility calculation
-  const calculateIngredientCompatibility = () => {
+  const calculateIngredientCompatibility = async () => {
     if (!searchIngredient.trim()) return;
     
     // Calculate compatibility with each cooking method based on elemental properties
     const compatibilityResults: Record<string, number> = {};
     
-    methods.forEach(method => {
+    for (const method of methods) {
       if (method.elementalEffect) {
         // Create a compatibility object from method's elemental effect
         const methodElemental = {
@@ -138,11 +121,11 @@ export const CookingMethodsSection: React.FC<CookingMethodsProps> = ({
         };
         
         // Calculate compatibility between ingredient and cooking method
-        const result = calculateCompatibility(searchIngredient as unknown as string, {
+        const result = await calculateCompatibility(searchIngredient, {
           name: method.name,
           elementalProperties: methodElemental,
           category: 'cooking_method'
-        } as unknown);
+        } as any);
         
         if (result.success) {
           compatibilityResults[method.id] = result.compatibility;
@@ -150,25 +133,32 @@ export const CookingMethodsSection: React.FC<CookingMethodsProps> = ({
         
         // Also calculate for variations if they exist
         if (method.variations) {
-          method.variations.forEach(variation => {
+          for (const variation of method.variations) {
+            // Type guard: handle both string and CookingMethod variations
+            if (typeof variation === 'string') {
+              // Skip string variations for compatibility calculation
+              continue;
+            }
+            
+            // Now variation is guaranteed to be CookingMethod
             // Use parent method's elemental effect if variation doesn't have one
             const variationElemental = variation.elementalEffect || method.elementalEffect;
             
             if (variationElemental) {
-              const variationResult = calculateCompatibility(searchIngredient as unknown as string, {
+              const variationResult = await calculateCompatibility(searchIngredient, {
                 name: variation.name,
                 elementalProperties: variationElemental,
                 category: 'cooking_method'
-              } as unknown);
+              } as any);
               
               if (variationResult.success) {
                 compatibilityResults[variation.id] = variationResult.compatibility;
               }
             }
-          });
+          }
         }
       }
-    });
+    }
     
     setIngredientCompatibility(compatibilityResults);
   };
@@ -208,38 +198,42 @@ export const CookingMethodsSection: React.FC<CookingMethodsProps> = ({
       Air: 0
     };
 
+    // Use type-safe getters
+    const alchemicalProps = getAlchemicalProperties(method);
+    const elementalEffect = getElementalEffect(method);
+
     // If method has alchemical properties, use them to calculate transformations
-    if (method.alchemicalProperties) {
+    if (alchemicalProps) {
       // Spirit primarily influences Fire and Air
-      if (method.alchemicalProperties.Spirit > 0) {
-        transformations.Fire += method.alchemicalProperties.Spirit * 0.6;
-        transformations.Air += method.alchemicalProperties.Spirit * 0.4;
+      if (alchemicalProps.Spirit > 0) {
+        transformations.Fire += alchemicalProps.Spirit * 0.6;
+        transformations.Air += alchemicalProps.Spirit * 0.4;
       }
       
       // Essence primarily influences Water and Air
-      if (method.alchemicalProperties.Essence > 0) {
-        transformations.Water += method.alchemicalProperties.Essence * 0.6;
-        transformations.Air += method.alchemicalProperties.Essence * 0.4;
+      if (alchemicalProps.Essence > 0) {
+        transformations.Water += alchemicalProps.Essence * 0.6;
+        transformations.Air += alchemicalProps.Essence * 0.4;
       }
       
       // Matter primarily influences Earth and Water
-      if (method.alchemicalProperties.Matter > 0) {
-        transformations.Earth += method.alchemicalProperties.Matter * 0.6;
-        transformations.Water += method.alchemicalProperties.Matter * 0.4;
+      if (alchemicalProps.Matter > 0) {
+        transformations.Earth += alchemicalProps.Matter * 0.6;
+        transformations.Water += alchemicalProps.Matter * 0.4;
       }
       
       // Substance primarily influences Earth and Fire
-      if (method.alchemicalProperties.Substance > 0) {
-        transformations.Earth += method.alchemicalProperties.Substance * 0.6;
-        transformations.Fire += method.alchemicalProperties.Substance * 0.4;
+      if (alchemicalProps.Substance > 0) {
+        transformations.Earth += alchemicalProps.Substance * 0.6;
+        transformations.Fire += alchemicalProps.Substance * 0.4;
       }
     } 
     // If no alchemical properties, use elementalEffect as directional indicators
-    else if (method.elementalEffect) {
-      transformations.Fire = method.elementalEffect.Fire;
-      transformations.Water = method.elementalEffect.Water;
-      transformations.Earth = method.elementalEffect.Earth;
-      transformations.Air = method.elementalEffect.Air;
+    else if (elementalEffect) {
+      transformations.Fire = elementalEffect.Fire;
+      transformations.Water = elementalEffect.Water;
+      transformations.Earth = elementalEffect.Earth;
+      transformations.Air = elementalEffect.Air;
     }
 
     return transformations;
@@ -286,9 +280,10 @@ export const CookingMethodsSection: React.FC<CookingMethodsProps> = ({
 
   // Get alchemical essence label from properties
   const getAlchemicalLabel = (method: CookingMethod): { primary: string, secondary: string } | null => {
-    if (!method.alchemicalProperties) return null;
+    const alchemicalProps = getAlchemicalProperties(method);
+    if (!alchemicalProps) return null;
     
-    const { Spirit, Essence, Matter, Substance } = method.alchemicalProperties;
+    const { Spirit, Essence, Matter, Substance } = alchemicalProps;
     const alchemical = [
       { name: 'Spirit', value: Spirit || 0 },
       { name: 'Essence', value: Essence || 0 },
@@ -327,7 +322,7 @@ export const CookingMethodsSection: React.FC<CookingMethodsProps> = ({
     if (method.description) return method.description;
     
     // Generate description based on elemental properties
-    const elemental = method.elementalEffect;
+    const elemental = getElementalEffect(method);
     if (elemental) {
       const dominantElement = Object.entries(elemental)
         .reduce((max, [element, value]) => 

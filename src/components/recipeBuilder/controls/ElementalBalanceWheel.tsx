@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback, useEffect, SetStateAction } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -121,13 +121,13 @@ export default function ElementalBalanceWheel({
 }: ElementalBalanceWheelProps) {
   
   const [tempElements, setTempElements] = useState<ElementalProperties>(
-    criteria.elementalPreference || { Fire: 0.(25 as ElementalProperties | (() => ElementalProperties)), Water: 0.(25 as ElementalProperties | (() => ElementalProperties)), Earth: 0.(25 as ElementalProperties | (() => ElementalProperties)), Air: 0.25 }
+    criteria.elementalPreference || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }
   );
 
   // Sync with criteria when it changes externally
   useEffect(() => {
     if (criteria.elementalPreference) {
-      setTempElements(criteria.elementalPreference as SetStateAction<ElementalProperties>);
+      setTempElements(criteria.elementalPreference as ElementalProperties);
     }
   }, [criteria.elementalPreference]);
 
@@ -296,10 +296,6 @@ export default function ElementalBalanceWheel({
                           key={quality}
                           variant="secondary"
                           className="text-xs"
-                          style={{ 
-                            backgroundColor: element.lightColor,
-                            color: element.color 
-                          }}
                         >
                           {quality}
                         </Badge>

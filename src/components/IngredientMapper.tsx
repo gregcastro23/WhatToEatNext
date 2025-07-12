@@ -26,7 +26,7 @@ export default function IngredientMapper() {
   const [secondIngredient, setSecondIngredient] = useState('');
 
   // Find recipes with good ingredient mappings
-  const handleFindRecipes = () => {
+  const handleFindRecipes = async () => {
     const elementalTarget = {
       // Can be customized based on user preferences or context
       Fire: 0.3, 
@@ -35,7 +35,7 @@ export default function IngredientMapper() {
       Air: 0.2
     };
 
-    const results = findMatchingRecipes({
+    const results = await findMatchingRecipes({
       elementalTarget,
       requiredIngredients: searchTerm ? [searchTerm] : undefined,
       cuisineType: selectedCuisine || undefined
@@ -48,7 +48,7 @@ export default function IngredientMapper() {
   const handleFindAlternatives = () => {
     if (!selectedIngredient) return;
     const result = suggestAlternatives(selectedIngredient);
-    setAlternatives(result.success ? result.suggestions : []);
+    setAlternatives((result as any).success ? (result as any).suggestions : []);
   };
 
   // Calculate compatibility between two ingredients
@@ -223,24 +223,24 @@ export default function IngredientMapper() {
         {/* Display Result */}
         {compatibilityResult && (
           <div className="mt-4">
-            {compatibilityResult.success ? (
+            {(compatibilityResult as any).success ? (
               <div className="p-3 border rounded">
                 <div className="text-lg font-semibold mb-1">
-                  {compatibilityResult.type.charAt(0).toUpperCase() + compatibilityResult.type.slice(1)} Compatibility
+                  {(compatibilityResult as any).type.charAt(0).toUpperCase() + (compatibilityResult as any).type.slice(1)} Compatibility
                 </div>
                 <div className="relative h-4 bg-gray-200 rounded-full overflow-hidden mt-2">
                   <div 
                     className="absolute top-0 left-0 h-full bg-blue-500"
-                    style={{ width: `${compatibilityResult.compatibility * 100}%` }}
+                    style={{ width: `${(compatibilityResult as any).compatibility * 100}%` }}
                   ></div>
                 </div>
                 <div className="text-right text-sm mt-1">
-                  {(compatibilityResult.compatibility * 100).toFixed(0)}%
+                  {((compatibilityResult as any).compatibility * 100).toFixed(0)}%
                 </div>
               </div>
             ) : (
               <div className="p-3 bg-red-100 text-red-800 rounded">
-                {compatibilityResult.message}
+                {(compatibilityResult as any).message}
               </div>
             )}
           </div>

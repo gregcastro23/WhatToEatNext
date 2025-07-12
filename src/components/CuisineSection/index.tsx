@@ -1,6 +1,7 @@
 import React from 'react';
 import type { Recipe } from '@/types/recipe';
 import type { Cuisine } from '@/types/cuisine';
+import type { Season } from '@/types/alchemy';
 import styles from './CuisineSection.module.css';
 import { getRelatedCuisines, getRecipesForCuisineMatch } from '@/data/cuisineFlavorProfiles';
 import { getBestRecipeMatches } from '@/data/recipes';
@@ -102,12 +103,9 @@ export const CuisineSection: React.FC<CuisineSectionProps> = ({
         // Note: This will be handled by useEffect since it's async
         // For now, we'll use getBestRecipeMatches which is synchronous
         
-        // If no recipes from getRecipesForCuisineMatch, try getBestRecipeMatches
-        matchedRecipes = getBestRecipeMatches({
-          cuisine: cuisine || '',
-          season: (elementalState?.season as string) || 'all',
-          mealType: elementalState?.timeOfDay || 'all'
-        }, 8);
+        // For now, return empty array since getBestRecipeMatches is async
+        // This will be handled by useEffect
+        matchedRecipes = [];
       } catch (error) {
         // Error handled silently
       }
@@ -202,11 +200,15 @@ export const CuisineSection: React.FC<CuisineSectionProps> = ({
                   <h2 className="text-2xl font-bold capitalize mb-4">{cuisine.replace('_', ' ')} Cuisine</h2>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     {specialRecipes.map((recipe, i) => {
-                      const recipeData = recipe as unknown;
+                      // Type guard for recipe data
+                      const isRecipeWithProperties = (item: any): item is { name?: string; description?: string } => {
+                        return item && typeof item === 'object';
+                      };
+                      
                       return (
                         <div key={i} className="border rounded-lg p-4 hover:shadow-md transition-shadow">
-                          <h3 className="text-lg font-medium">{(recipeData as { name?: string })?.name}</h3>
-                          <p className="text-gray-600 text-sm mt-1">{recipeData?.description}</p>
+                          <h3 className="text-lg font-medium">{isRecipeWithProperties(recipe) ? recipe.name : 'Unknown Recipe'}</h3>
+                          <p className="text-gray-600 text-sm mt-1">{isRecipeWithProperties(recipe) ? recipe.description : ''}</p>
                         </div>
                       );
                     })}

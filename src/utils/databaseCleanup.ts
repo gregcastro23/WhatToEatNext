@@ -1,4 +1,4 @@
-import { allIngredients } from '@/data/ingredients/ingredients';
+import allIngredients from '@/data/ingredients';
 import { logger } from '@/utils/logger';
 import type { ElementalProperties, Ingredient, AstrologicalProfile } from '@/types/alchemy';
 

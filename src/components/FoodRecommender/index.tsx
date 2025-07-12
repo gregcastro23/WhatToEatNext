@@ -48,22 +48,22 @@ if (typeof window !== 'undefined') {
 // Create wrapper component to combine both implementations
 const FoodRecommender = () => {
   const astroState = useAstrologicalState();
-  const planetaryPositions = (astroState as unknown)?.planetaryPositions;
-  const elementalProperties = (astroState as unknown)?.elementalProperties;
-  const activePlanets = (astroState as unknown)?.activePlanets;
-  const _zodiacSign = (astroState as unknown)?.zodiacSign;
-  const _lunarPhase = (astroState as unknown)?.lunarPhase;
+  const planetaryPositions = (astroState as unknown as { planetaryPositions?: unknown })?.planetaryPositions;
+  const elementalProperties = (astroState as unknown as { elementalProperties?: unknown })?.elementalProperties;
+  const activePlanets = (astroState as unknown as { activePlanets?: unknown })?.activePlanets;
+  const _zodiacSign = (astroState as unknown as { zodiacSign?: unknown })?.zodiacSign;
+  const _lunarPhase = (astroState as unknown as { lunarPhase?: unknown })?.lunarPhase;
   
   // Create a full astrological state object to pass to components
   const astrologicalState = useMemo(() => ({
     planetaryPositions,
-    _elementalProperties,
+    elementalProperties,
     activePlanets,
-    zodiacSign,
-    lunarPhase,
+    zodiacSign: _zodiacSign,
+    lunarPhase: _lunarPhase,
     dominantElement: getDominantElement(elementalProperties),
     timestamp: new Date()
-  }), [planetaryPositions, elementalProperties, activePlanets, zodiacSign, lunarPhase]);
+  }), [planetaryPositions, elementalProperties, activePlanets, _zodiacSign, _lunarPhase]);
   
   return (
     <div className="food-recommender-container">

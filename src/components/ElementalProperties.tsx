@@ -3,7 +3,7 @@ import { _Element } from '../utils/elemental/elementCompatibility';
 import { _ElementalProperties } from "@/types/alchemy";
 
 interface ElementalPropertiesProps {
-  properties: Record<Element, number>;
+  properties: _ElementalProperties | Record<string, number>;
   showPercentages?: boolean;
   className?: string;
 }
@@ -32,22 +32,22 @@ const ElementalProperties: React.FC<ElementalPropertiesProps> = ({ properties,
       <div className="grid grid-cols-2 gap-2 md:grid-cols-4">
         <div className="element Fire p-2 rounded-md bg-red-100">
           <div className="element-name font-semibold">Fire</div>
-          <div className="element-value">{formatValue((properties as unknown)?.Fire)}</div>
+          <div className="element-value">{formatValue(properties?.Fire || (properties as Record<string, number>)?.Fire)}</div>
         </div>
         
         <div className="element Water p-2 rounded-md bg-blue-100">
           <div className="element-name font-semibold">Water</div>
-          <div className="element-value">{formatValue((properties as unknown)?.Water)}</div>
+          <div className="element-value">{formatValue(properties?.Water || (properties as Record<string, number>)?.Water)}</div>
         </div>
         
         <div className="element Earth p-2 rounded-md bg-green-100">
           <div className="element-name font-semibold">Earth</div>
-          <div className="element-value">{formatValue((properties as unknown)?.Earth)}</div>
+          <div className="element-value">{formatValue(properties?.Earth || (properties as Record<string, number>)?.Earth)}</div>
         </div>
         
         <div className="element Air p-2 rounded-md bg-purple-100">
           <div className="element-name font-semibold">Air</div>
-          <div className="element-value">{formatValue((properties as unknown)?.Air)}</div>
+          <div className="element-value">{formatValue(properties?.Air || (properties as Record<string, number>)?.Air)}</div>
         </div>
       </div>
     </div>

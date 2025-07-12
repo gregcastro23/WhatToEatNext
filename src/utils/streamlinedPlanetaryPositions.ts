@@ -13,7 +13,7 @@ import { _validatePlanetaryPositions } from './validatePlanetaryPositions';
 
 import { _cache } from '../utils/cache';
 import { createLogger } from '../utils/logger';
-// getCurrentTransitSign removed - function not exported
+import { getCurrentTransitSign } from './astrology/validation';
 
 // Create local logger instance - removed conflicting import
 const logger = createLogger('StreamlinedPlanetaryPositions');

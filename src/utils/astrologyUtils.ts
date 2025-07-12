@@ -1149,7 +1149,7 @@ export function longitudeToZodiacPosition(longitude: number): { sign: string, de
  * @param sign Zodiac sign
  * @returns Dignity information
  */
-export function getPlanetaryDignityInfo(planet: string, sign: ZodiacSign | undefined): { type: DignityType, strength: number } {
+export function getPlanetaryDignityInfo(planet: string, sign: ZodiacSign | undefined): { type: string, strength: number } {
   // Handle undefined input
   if (!planet || !sign) {
     return { type: 'Neutral', strength: 0 };
@@ -1339,7 +1339,7 @@ export function calculateAspects(
           aspects.push({
             planet1,
             planet2,
-            type: type as AspectType,
+            type: type as ImportedAspectType,
             orb,
             strength: strength * Math.abs(multiplier), // Strength is always positive, direction in multiplier
             influence: multiplier, // Store the raw multiplier for reference
@@ -1429,12 +1429,12 @@ export async function getCurrentAstrologicalState(date: Date = new Date()): Prom
     return {
       currentZodiac: sunSign,
       zodiacSign: sunSign,
-      lunarPhase,
-      moonPhase: lunarPhase,
+      lunarPhase: lunarPhase as LunarPhase,
+      moonPhase: lunarPhase as LunarPhase,
       currentPlanetaryAlignment,
       planetaryPositions,
       activePlanets,
-      planetaryHour: planetaryHour as string,
+      planetaryHour: planetaryHour as Planet,
       aspects: aspects as PlanetaryAspect[], // Type assertion to avoid compatibility issues
       tarotElementBoosts: { Fire: 0, Water: 0, Earth: 0, Air: 0 },
       tarotPlanetaryBoosts: {}
@@ -1454,7 +1454,7 @@ export async function getCurrentAstrologicalState(date: Date = new Date()): Prom
       currentPlanetaryAlignment: {},
       planetaryPositions: defaultPositions,
       activePlanets: [],
-      planetaryHour: 'sun' as string,
+      planetaryHour: 'sun' as Planet,
       aspects: [],
       tarotElementBoosts: { Fire: 0, Water: 0, Earth: 0, Air: 0 },
       tarotPlanetaryBoosts: {}
@@ -2231,7 +2231,7 @@ export function transformItemsWithPlanetaryPositions(
         ...item,
         compatibilityScore,
         dominantElement,
-        alchemicalProperties,
+        alchemicalProperties: _alchemicalProperties,
         thermodynamicProperties,
         // Required AlchemicalItem properties
         transformedElementalProperties: { ...item.elementalProperties } as Record<ElementalCharacter, number>,

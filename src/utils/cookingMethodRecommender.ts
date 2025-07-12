@@ -11,40 +11,30 @@ import saturnData from '@/data/planets/saturn';
 import uranusData from '@/data/planets/uranus';
 import neptuneData from '@/data/planets/neptune';
 import plutoData from '@/data/planets/pluto';
-import { PlanetaryAspect, LunarPhase, AstrologicalState, BasicThermodynamicProperties, CookingMethodProfile, MethodRecommendationOptions, MethodRecommendation, COOKING_METHOD_THERMODYNAMICS } from '@/types/alchemy';
-import { CookingMethod } from '@/types/cooking';
+import { PlanetaryAspect, LunarPhase, AstrologicalState, BasicThermodynamicProperties, MethodRecommendationOptions, MethodRecommendation, COOKING_METHOD_THERMODYNAMICS } from '@/types/alchemy';
+import type { 
+  CookingMethod, 
+  CookingMethodData, 
+  AstrologicalInfluences,
+  ThermodynamicProperties,
+  CookingMethodRecommendation as CookingMethodRecommendationType,
+  CookingMethodCompatibility,
+  CookingMethodFilterOptions,
+  CookingMethodScoreDetails
+} from '@/types/cooking';
 import { calculateLunarPhase, getLunarPhaseName } from '@/utils/astrologyUtils';
 
-// Define a proper interface for our cooking method objects
-interface CookingMethodData {
-  id: string;
-  name: string;
-  description: string;
-  elementalEffect: ElementalProperties;
-  elementalProperties?: ElementalProperties; // Some methods use this instead
-  thermodynamicProperties?: BasicThermodynamicProperties; // Add missing thermodynamic properties
-  duration: {
-    min: number;
-    max: number;
-  };
-  suitable_for: string[];
-  benefits: string[];
-  astrologicalInfluences?: {
-    favorableZodiac?: ZodiacSign[];
-    unfavorableZodiac?: ZodiacSign[];
-    dominantPlanets?: string[];
-  };
-  toolsRequired?: string[];
-  bestFor?: string[];
-  culturalOrigin?: string;
-  seasonalRecommendations?: string[];
-  score?: number;
-  variations?: CookingMethodData[]; // Add variations property to store related cultural methods
-  relatedToMainMethod?: string; // Track if this is a variation of another method
-  // Add missing properties that are referenced in the code
-  preferences?: Record<string, unknown>;
-  scoreDetails?: Record<string, unknown>;
-  planetaryAffinity?: Record<string, unknown>;
+// Define a proper interface for our cooking method objects using centralized types
+interface CookingMethodProfile extends CookingMethod {
+  // Additional properties specific to the recommender
+  elementalCompatibility?: number;
+  astrologicalCompatibility?: number;
+  seasonalCompatibility?: number;
+  toolCompatibility?: number;
+  dietaryCompatibility?: number;
+  culturalCompatibility?: number;
+  lunarCompatibility?: number;
+  venusCompatibility?: number;
 }
 
 // Type for the dictionary of methods

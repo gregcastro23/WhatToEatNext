@@ -121,7 +121,7 @@ const CuisineSpecificRecommendations: React.FC<CuisineSpecificRecommendationsPro
                 recipe.planetaryDayScore <= 0.3 ? 'bg-red-100 text-red-800' :
                 'bg-gray-100 text-gray-800'
               }`}>
-                {timeFactors.planetaryDay.planet} Day {recipe.planetaryDayScore >= 0.7 ? '✓' : recipe.planetaryDayScore <= 0.3 ? '✗' : ''}
+                {_timeFactors.planetaryDay.planet} Day {recipe.planetaryDayScore >= 0.7 ? '✓' : recipe.planetaryDayScore <= 0.3 ? '✗' : ''}
               </span>
               
               <span className={`inline-block px-2 py-1 rounded-full text-xs ${
@@ -129,7 +129,7 @@ const CuisineSpecificRecommendations: React.FC<CuisineSpecificRecommendationsPro
                 recipe.planetaryHourScore <= 0.3 ? 'bg-red-100 text-red-800' :
                 'bg-gray-100 text-gray-800'
               }`}>
-                {timeFactors.planetaryHour.planet} Hour {recipe.planetaryHourScore >= 0.7 ? '✓' : recipe.planetaryHourScore <= 0.3 ? '✗' : ''}
+                {_timeFactors.planetaryHour.planet} Hour {recipe.planetaryHourScore >= 0.7 ? '✓' : recipe.planetaryHourScore <= 0.3 ? '✗' : ''}
               </span>
             </div>
             
@@ -192,7 +192,7 @@ const CuisineSpecificRecommendations: React.FC<CuisineSpecificRecommendationsPro
                   {tag}
                 </span>
               ))}
-              {recipe.season.includes(timeFactors.season.toLowerCase()) && (
+              {recipe.season.includes(_timeFactors.season.toLowerCase()) && (
                 <span className="inline-block px-2 py-1 rounded-full bg-green-100 text-green-800 text-xs">
                   In Season
                 </span>

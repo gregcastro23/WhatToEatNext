@@ -202,13 +202,12 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
       // Get cooking method elemental effect or calculate it
       let elementalEffect;
       if (method && typeof method === 'object' && 'elementalEffect' in method) {
-        elementalEffect = (method as Record<string, unknown>).elementalEffect;
+        elementalEffect = method.elementalEffect;
       } else {
         // Calculate based on cooking method characteristics
         elementalEffect = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
         
-        const methodName = (method && typeof method === 'object' && 'name' in method && typeof (method as any).name === 'string') ? 
-          (method as any).name.toLowerCase() : String(key || '').toLowerCase();
+        const methodName = method?.name?.toLowerCase() || String(key || '').toLowerCase();
         
         // Adjust by cooking method type
         if (methodName.includes('grill') || methodName.includes('roast') || methodName.includes('bake') ||
@@ -257,8 +256,7 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
       
       return {
         id: key,
-        name: (method && typeof method === 'object' && 'name' in method && typeof (method as Record<string, unknown>).name === 'string') ? 
-          (method as Record<string, unknown>).name : key,
+        name: method?.name || key,
         elementalProperties: elementalEffect
       } as ElementalItem;
     });

@@ -526,7 +526,7 @@ export const calculateNutritionalBalance = (ingredients: unknown[]): Nutritional
   }
   
   // Aggregate nutritional values from ingredients
-  const totals = ingredients.reduce((acc, ingredient) => {
+  const totals = ingredients.reduce((acc: NutritionalProfile, ingredient) => {
     const ingredientData = ingredient as any;
     const nutrition = ingredientData?.nutrition || {};
     

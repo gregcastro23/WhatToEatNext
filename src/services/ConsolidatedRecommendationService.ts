@@ -198,7 +198,7 @@ export class ConsolidatedRecommendationService implements RecommendationServiceI
       const allIngredients = await this.ingredientService.getAllIngredients();
       
       // Apply elemental filtering
-      let filteredIngredients = allIngredients;
+      let filteredIngredients: any[] = allIngredients;
       
       // Use safe type casting for criteria access
       const criteriaData = criteria as Record<string, unknown>;
@@ -427,7 +427,7 @@ export class ConsolidatedRecommendationService implements RecommendationServiceI
    * Calculate compatibility score between elemental properties
    */
   calculateElementalCompatibility(source: ElementalProperties, target: ElementalProperties): number {
-    return calculateElementalCompatibility(source as any, target);
+    return calculateElementalCompatibility(source as Partial<ElementalProperties>, target);
   }
 
   /**
