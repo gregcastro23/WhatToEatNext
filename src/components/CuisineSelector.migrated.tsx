@@ -80,7 +80,7 @@ function CuisineSelectorMigrated({
         // Use safe method access for lunar phase
         const _lunarPhase = propCurrentLunarPhase || 
           ((serviceData as Record<string, unknown>)?.getCurrentLunarPhase && typeof (serviceData as Record<string, unknown>).getCurrentLunarPhase === 'function' ? await ((serviceData as Record<string, unknown>).getCurrentLunarPhase as Function)() : 'full moon');
-        setResolvedLunarPhase((_lunarPhase as unknown as SetStateAction<LunarPhaseWithSpaces>));
+        setResolvedLunarPhase(_lunarPhase as any);
       } catch (err) {
         // console.error('Error loading astrological data:', err);
         setError(err instanceof Error ? err : new Error('Error loading astrological data'));
@@ -110,10 +110,9 @@ function CuisineSelectorMigrated({
         // Get recommended cuisines based on planetary positions
         const result = await recommendationService.getRecommendedCuisines({
           planetaryPositions: Object.entries(resolvedPlanetaryPositions)?.reduce((acc, [planet, degree]) => {
-            // Apply safe type casting for astrology service access
-            const serviceData = astrologyService as unknown;
-            const _zodiacSign = (serviceData as Record<string, unknown>)?.getZodiacSignForDegree && typeof (serviceData as Record<string, unknown>).getZodiacSignForDegree === 'function' ? 
-              ((serviceData as Record<string, unknown>).getZodiacSignForDegree as Function)(Number(degree)) : 'aries';
+            const serviceData = astrologyService as any;
+            const zodiacSign = serviceData?.getZodiacSignForDegree ? 
+              serviceData.getZodiacSignForDegree(Number(degree)) : 'aries';
             
             acc[planet] = { 
               sign: zodiacSign,
@@ -127,8 +126,7 @@ function CuisineSelectorMigrated({
         // Transform to ElementalItem format for compatibility with existing component
         const cuisines: ElementalItem[] = (result?.items || []).map((cuisine, index) => {
           // Extract elemental properties from context if available
-          const _elementalProps = result.context?.elementalState?.[cuisine] || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
-          };
+          const _elementalProps = result.context?.elementalState?.[cuisine] || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
           
           // Get score from result
           const score = result?.scores?.[cuisine] || 0.5;
@@ -185,8 +183,7 @@ function CuisineSelectorMigrated({
     if ((cuisine as Record<string, unknown>)?.modality) return (cuisine as Record<string, unknown>).modality as Modality;
     
     // Otherwise determine from elemental state
-    return determineModalityFromElements((cuisine as Record<string, unknown> as ElementalProperties)?.elementalState || (cuisine as Record<string, unknown>)?.elementalState || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
-    } as unknown as Record<string, unknown>);
+    return determineModalityFromElements((cuisine as any)?.elementalState || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 });
   };
   
   // Filter cuisines by modality and zodiac influence
@@ -200,11 +197,9 @@ function CuisineSelectorMigrated({
       // Apply zodiac filter
       if (zodiacFilter !== 'all') {
         // Check if cuisine has zodiac influences and includes the selected zodiac
-        // Apply safe type casting for zodiac influences access
-        const zodiacInfluencesData = cuisine.zodiacInfluences as unknown;
-        const zodiacInfluences = Array.isArray(zodiacInfluencesData) ? zodiacInfluencesData : [];
+        const zodiacInfluences = Array.isArray(cuisine.zodiacInfluences) ? cuisine.zodiacInfluences : [];
         
-        if (zodiacFilter !== 'all' && !(zodiacInfluences as any[])?.includes?.(zodiacFilter)) {
+        if (zodiacFilter !== 'all' && !zodiacInfluences.includes(zodiacFilter)) {
           // Also check for planetary dignities if cuisines were transformed
           if ('planetaryDignities' in cuisine) {
             const hasPlanetaryMatch = Object.values(cuisine.planetaryDignities || {}).some((dignity) => {
@@ -397,11 +392,11 @@ function CuisineSelectorMigrated({
         {(filteredCuisines || []).map((cuisine) => {
           // Determine if current zodiac is favorable for this cuisine
           const isZodiacFavorable = resolvedCurrentZodiac && 
-            ((Array.isArray(cuisine.zodiacInfluences) ? (cuisine.zodiacInfluences as any[])?.includes?.(resolvedCurrentZodiac) : cuisine.zodiacInfluences === resolvedCurrentZodiac) ||
+            ((Array.isArray(cuisine.zodiacInfluences) ? cuisine.zodiacInfluences.includes(resolvedCurrentZodiac) : cuisine.zodiacInfluences === resolvedCurrentZodiac) ||
              Object.values(cuisine.planetaryDignities || {}).some((dignity) => {
                const signs = (dignity as PlanetaryDignityDetails).favorableZodiacSigns;
                if (!signs) return false;
-               return Array.isArray(signs) ? (signs as any[])?.includes?.(resolvedCurrentZodiac) : signs === resolvedCurrentZodiac;
+               return Array.isArray(signs) ? signs.includes(resolvedCurrentZodiac) : signs === resolvedCurrentZodiac;
              }
              ));
           
@@ -440,13 +435,13 @@ function CuisineSelectorMigrated({
                 const zodiacInfluencesData = cuisine.zodiacInfluences as unknown;
                 const zodiacInfluences = Array.isArray(zodiacInfluencesData) ? zodiacInfluencesData : [];
                 
-                return (zodiacInfluences as any[])?.length || 0 > 0 && (
+                return zodiacInfluences.length > 0 && (
                   <div className="zodiac-influences text-xs mt-2">
                     <span>Zodiac influences: </span>
                     {zodiacInfluences.map((sign: string, i: number) => (
                       <span key={sign} className={`${resolvedCurrentZodiac === sign ? 'font-bold' : ''}`}>
                         {sign.charAt(0)?.toUpperCase() + sign?.slice(1)}
-                        {i < (zodiacInfluences as any[])?.length || 0 - 1 ? ', ' : ''}
+                        {i < zodiacInfluences.length - 1 ? ', ' : ''}
                       </span>
                     ))}
                   </div>

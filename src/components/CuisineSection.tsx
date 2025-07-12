@@ -116,7 +116,6 @@ export const CuisineSection: React.FC<CuisineSectionProps> = ({
         if (recipe.cuisine?.toLowerCase() === cuisine?.toLowerCase()) return true;
         
         // Match regional cuisine if specified
-        // Apply surgical type casting with variable extraction
         const cuisineLower = String(cuisine || '').toLowerCase();
         
         if (String(recipe.regionalCuisine || '').toLowerCase() === cuisineLower) return true;
@@ -125,8 +124,7 @@ export const CuisineSection: React.FC<CuisineSectionProps> = ({
         try {
           const relatedCuisines = getRelatedCuisines(cuisine || '');
           if ((relatedCuisines || []).some(rc => {
-            // Apply surgical type casting with variable extraction
-            const rcLower = String(rc || '').toLowerCase();
+                const rcLower = String(rc || '').toLowerCase();
             return (
               recipe.cuisine?.toLowerCase() === rcLower ||
               String(recipe.regionalCuisine || '').toLowerCase() === rcLower
@@ -150,9 +148,7 @@ export const CuisineSection: React.FC<CuisineSectionProps> = ({
         if (scoreB !== scoreA) return scoreB - scoreA;
         
         // If match scores are equal, prioritize direct cuisine matches
-        // Apply surgical type casting with variable extraction
-        const cuisineStringForSort = cuisine as unknown;
-        const cuisineLowerForSort = String(cuisineStringForSort || '').toLowerCase();
+        const cuisineLowerForSort = String(cuisine || '').toLowerCase();
         
         const directMatchA = a.cuisine?.toLowerCase() === cuisineLowerForSort;
         const directMatchB = b.cuisine?.toLowerCase() === cuisineLowerForSort;
@@ -166,18 +162,17 @@ export const CuisineSection: React.FC<CuisineSectionProps> = ({
       .slice(0, viewAllRecipes ? undefined : 4);
   }, [recipes, cuisine, elementalState, viewAllRecipes]);
 
-  if (!Array.isArray(cuisineRecipes) || (cuisineRecipes as any[])?.length || 0 === 0) {
+  if (!Array.isArray(cuisineRecipes) || cuisineRecipes.length === 0) {
     // Special case for African and American cuisines
-    // Use safe type casting for string methods
-    const cuisineString = cuisine as string;
-    const isSpecialCase = cuisineString?.toLowerCase() === 'african' || cuisineString?.toLowerCase() === 'american';
+    const cuisineString = String(cuisine || '');
+    const isSpecialCase = cuisineString.toLowerCase() === 'african' || cuisineString.toLowerCase() === 'american';
     if (isSpecialCase) {
       // Last-ditch effort to find recipes for these problematic cuisines
       try {
         // Try direct access with different capitalizations
         const importedCuisine = cuisinesMap[cuisine] || 
-                              cuisinesMap[cuisine?.toLowerCase()] || 
-                              cuisinesMap[cuisine?.charAt(0)?.toUpperCase() + cuisine?.slice(1)?.toLowerCase()];
+                              cuisinesMap[cuisineString.toLowerCase()] || 
+                              cuisinesMap[cuisineString.charAt(0).toUpperCase() + cuisineString.slice(1).toLowerCase()];
                               
         if (importedCuisine && importedCuisine.dishes) {
           const specialRecipes = [];
@@ -186,20 +181,20 @@ export const CuisineSection: React.FC<CuisineSectionProps> = ({
           Object.entries(importedCuisine.dishes || {}).forEach(([mealType, seasonalDishes]) => {
             const dishesData = seasonalDishes as { all?: unknown[] };
             if (seasonalDishes && dishesData.all && Array.isArray(dishesData.all)) {
-              specialRecipes?.push(...dishesData.all.slice(0, 4));
+              specialRecipes.push(...dishesData.all.slice(0, 4));
             }
           });
           
-          if ((specialRecipes || []).length > 0) {
+          if (specialRecipes.length > 0) {
             // Format recipes for display
             return (
               <div className="mb-8">
-                <h2 className="text-2xl font-bold capitalize mb-4">{cuisine.replace('_', ' ')} Cuisine</h2>
+                <h2 className="text-2xl font-bold capitalize mb-4">{cuisineString.replace('_', ' ')} Cuisine</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {(specialRecipes || []).map((recipe, i) => (
+                  {specialRecipes.map((recipe: any, i: number) => (
                     <div key={i} className="border rounded-lg p-4 hover:shadow-md transition-shadow">
-                      <h3 className="text-lg font-medium">{recipe.name}</h3>
-                      <p className="text-gray-600 text-sm mt-1">{recipe.description}</p>
+                      <h3 className="text-lg font-medium">{recipe.name || 'Unnamed Recipe'}</h3>
+                      <p className="text-gray-600 text-sm mt-1">{recipe.description || 'No description'}</p>
                     </div>
                   ))}
                 </div>
@@ -282,35 +277,25 @@ export const CuisineSection: React.FC<CuisineSectionProps> = ({
 
   // Check for regional variations to add information about cuisine relationships
   const isRegionalVariant = Array.isArray(cuisineRecipes) && cuisineRecipes.some(r => {
-    // Apply surgical type casting with variable extraction
-    const recipeData = r as unknown;
-    const cuisineStringForRegional = cuisine as any;
-    const cuisineLowerForRegional = cuisineStringForRegional?.toLowerCase?.();
-    
-    return (recipeData as any)?.regionalCuisine?.toLowerCase() === cuisineLowerForRegional;
+      return (r as any)?.regionalCuisine?.toLowerCase() === String(cuisine || '').toLowerCase();
   });
   const parentCuisineName = isRegionalVariant && Array.isArray(cuisineRecipes) ? (() => {
     const foundRecipe = cuisineRecipes.find(r => {
-      const recipeData = r as unknown;
-      return (recipeData as any)?.regionalCuisine?.toLowerCase() === cuisine?.toLowerCase();
+      return (r as any)?.regionalCuisine?.toLowerCase() === String(cuisine || '').toLowerCase();
     });
-    const foundRecipeData = foundRecipe as unknown;
-    return (foundRecipeData as any)?.cuisine;
+    return (foundRecipe as any)?.cuisine;
   })() : null;
   
   // Check if this is a parent cuisine with regional variants shown
   const hasRegionalVariants = Array.isArray(cuisineRecipes) && cuisineRecipes.some(r => {
-    const recipeData = r as unknown;
-    return (recipeData as any)?.regionalCuisine && (recipeData as any)?.cuisine?.toLowerCase() === cuisine?.toLowerCase();
+    return (r as any)?.regionalCuisine && (r as any)?.cuisine?.toLowerCase() === String(cuisine || '').toLowerCase();
   });
   const regionalVariantNames = [...new Set(Array.isArray(cuisineRecipes) ? cuisineRecipes
     .filter(r => {
-      const recipeData = r as unknown;
-      return (recipeData as any)?.regionalCuisine && (recipeData as any)?.cuisine?.toLowerCase() === cuisine?.toLowerCase();
+      return (r as any)?.regionalCuisine && (r as any)?.cuisine?.toLowerCase() === String(cuisine || '').toLowerCase();
     })
     .map(r => {
-      const recipeData = r as unknown;
-      return (recipeData as any)?.regionalCuisine;
+      return (r as any)?.regionalCuisine;
     }) : [])] as string[];
 
   // Render a sauce card

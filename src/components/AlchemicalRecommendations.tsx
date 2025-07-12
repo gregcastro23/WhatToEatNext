@@ -64,7 +64,7 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
       Object.entries(alchemicalContext.planetaryPositions).forEach(([planet, data]) => {
         if (planet in positions) {
           // Fix TS2339: Property 'degree' does not exist on type 'unknown'
-          const planetData = data as unknown as unknown as PlanetaryPosition;
+          const planetData = data as any;
           const degree = planetData?.degree;
           positions[planet as RulingPlanet] = degree || 0;
         }
@@ -90,11 +90,11 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
   
   const resolvedIsDaytime = isDaytime !== undefined ? isDaytime : alchemicalContext.isDaytime;
   const resolvedCurrentZodiac = currentZodiac || 
-    (alchemicalContext.state?.astrologicalState?.zodiacSign as unknown as unknown as ZodiacSign) || null;
+    (alchemicalContext.state?.astrologicalState?.zodiacSign as any) || null;
   
   // Fix the lunar phase type resolution
   const resolvedLunarPhase: LunarPhaseWithSpaces = lunarPhase || 
-    (alchemicalContext.state?.astrologicalState?.lunarPhase as unknown as unknown as LunarPhaseWithSpaces) || 
+    (alchemicalContext.state?.astrologicalState?.lunarPhase as any) || 
     'new moon';
   
   // State for targeting specific elements or properties
@@ -121,26 +121,26 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
         elementalProps = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
         
         // Adjust by category
-        if ((category as string)?.toLowerCase?.() || ''.includes('vegetable')) {
+        if (String(category || '').toLowerCase().includes('vegetable')) {
           elementalProps.Earth += 0.5;
           elementalProps.Water += 0.3;
-        } else if ((category as string)?.toLowerCase?.() || ''.includes('fruit')) {
+        } else if (String(category || '').toLowerCase().includes('fruit')) {
           elementalProps.Water += 0.4;
           elementalProps.Air += 0.3;
-        } else if ((category as string)?.toLowerCase?.() || ''.includes('protein') || (category as string)?.toLowerCase?.() || ''.includes('meat')) {
+        } else if (String(category || '').toLowerCase().includes('protein') || String(category || '').toLowerCase().includes('meat')) {
           elementalProps.Fire += 0.4;
           elementalProps.Earth += 0.3;
-        } else if ((category as string)?.toLowerCase?.() || ''.includes('grain')) {
+        } else if (String(category || '').toLowerCase().includes('grain')) {
           elementalProps.Earth += 0.5;
           elementalProps.Air += 0.2;
-        } else if ((category as string)?.toLowerCase?.() || ''.includes('herb') || (category as string)?.toLowerCase?.() || ''.includes('spice')) {
+        } else if (String(category || '').toLowerCase().includes('herb') || String(category || '').toLowerCase().includes('spice')) {
           elementalProps.Fire += 0.3;
           elementalProps.Air += 0.4;
         }
         
         // Adjust by ruling planets
         rulingPlanets.forEach((planet: string) => {
-          switch ((planet as string)?.toLowerCase?.() || '') {
+          switch (String(planet || '').toLowerCase()) {
             case 'sun':
               elementalProps.Fire += 0.2;
               break;
@@ -192,7 +192,7 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
         elementalProperties: elementalProps,
         qualities: (ingredientData as { qualities?: string[] }).qualities || [],
         modality: (ingredientData as { modality?: string }).modality
-      } as unknown as ElementalItem;
+      } as ElementalItem;
     });
   }, []);
   
@@ -207,28 +207,28 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
         // Calculate based on cooking method characteristics
         elementalEffect = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
         
-        const methodName = (method && typeof method === 'object' && 'name' in method && typeof (method as Record<string, unknown>).name === 'string') ? 
-          ((method as Record<string, unknown>).name as string).toLowerCase() : (key as string)?.toLowerCase?.() || '';
+        const methodName = (method && typeof method === 'object' && 'name' in method && typeof (method as any).name === 'string') ? 
+          (method as any).name.toLowerCase() : String(key || '').toLowerCase();
         
         // Adjust by cooking method type
-        if ((methodName as any[])?.includes?.('grill') || (methodName as any[])?.includes?.('roast') || (methodName as any[])?.includes?.('bake') ||
-            (methodName as any[])?.includes?.('broil') || (methodName as any[])?.includes?.('fry')) {
+        if (methodName.includes('grill') || methodName.includes('roast') || methodName.includes('bake') ||
+            methodName.includes('broil') || methodName.includes('fry')) {
           elementalEffect.Fire += 0.6;
           elementalEffect.Air += 0.2;
-        } else if ((methodName as any[])?.includes?.('steam') || (methodName as any[])?.includes?.('boil') || (methodName as any[])?.includes?.('poach') ||
-                  (methodName as any[])?.includes?.('simmer')) {
+        } else if (methodName.includes('steam') || methodName.includes('boil') || methodName.includes('poach') ||
+                  methodName.includes('simmer')) {
           elementalEffect.Water += 0.6;
           elementalEffect.Air += 0.2;
-        } else if ((methodName as any[])?.includes?.('saute') || (methodName as any[])?.includes?.('stir-fry')) {
+        } else if (methodName.includes('saute') || methodName.includes('stir-fry')) {
           elementalEffect.Fire += 0.4;
           elementalEffect.Air += 0.4;
-        } else if ((methodName as any[])?.includes?.('braise') || (methodName as any[])?.includes?.('stew')) {
+        } else if (methodName.includes('braise') || methodName.includes('stew')) {
           elementalEffect.Water += 0.4;
           elementalEffect.Earth += 0.4;
-        } else if ((methodName as any[])?.includes?.('smoke') || (methodName as any[])?.includes?.('cure')) {
+        } else if (methodName.includes('smoke') || methodName.includes('cure')) {
           elementalEffect.Air += 0.5;
           elementalEffect.Fire += 0.3;
-        } else if ((methodName as any[])?.includes?.('ferment') || (methodName as any[])?.includes?.('pickle')) {
+        } else if (methodName.includes('ferment') || methodName.includes('pickle')) {
           elementalEffect.Water += 0.4;
           elementalEffect.Earth += 0.4;
         } else {
@@ -260,7 +260,7 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
         name: (method && typeof method === 'object' && 'name' in method && typeof (method as Record<string, unknown>).name === 'string') ? 
           (method as Record<string, unknown>).name : key,
         elementalProperties: elementalEffect
-      } as unknown as unknown as ElementalItem;
+      } as ElementalItem;
     });
   }, []);
   
@@ -333,7 +333,7 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
         id: key,
         name: (cuisine as Record<string, unknown>).name as string || key,
         elementalProperties: elementalState
-      } as unknown as unknown as ElementalItem;
+      } as ElementalItem;
     });
   }, []);
   

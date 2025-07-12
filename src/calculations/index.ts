@@ -135,13 +135,13 @@ export async function calculateComprehensiveAlchemicalResult(
     // 2. Calculate comprehensive elemental properties
     let elementalProperties = calculateComprehensiveElementalProperties(
       planetaryPositions,
-      _season,
+      season,
       lunarPhase,
       isDaytime
     );
 
     // Apply seasonal and lunar adjustments
-    elementalProperties = applySeasonalAdjustments(elementalProperties, _season);
+    elementalProperties = applySeasonalAdjustments(elementalProperties, season);
     if (lunarPhase) {
       elementalProperties = applyLunarPhaseAdjustments(elementalProperties, lunarPhase);
     }
@@ -417,14 +417,14 @@ async function getFallbackResult(input: CalculationInput, cacheKey: string): Pro
         },
         elementalInfluences: fallbackElemental,
         dominantPlanets: [
-          { planet: 'Sun', strength: 0.8, element: 'Fire' as unknown as Element },
-          { planet: 'Moon', strength: 0.7, element: 'Water' as unknown as Element },
-          { planet: 'Mercury', strength: 0.6, element: 'Air' as unknown as Element }
+          { planet: 'Sun', strength: 0.8, element: 'Fire' as any },
+          { planet: 'Moon', strength: 0.7, element: 'Water' as any },
+          { planet: 'Mercury', strength: 0.6, element: 'Air' as any }
         ]
       },
       recommendations: {
         elemental: {
-          dominant: 'Fire' as unknown as Element,
+          dominant: 'Fire' as any,
           balance: 0.7,
           recommendations: ['⚠️ Using emergency calculations - results may be limited']
         },
