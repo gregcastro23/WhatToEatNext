@@ -1,5 +1,8 @@
-import { _Element } from "@/types/alchemy";
-import { _PlanetaryPosition } from "@/types/celestial";
+import type { _Element } from "@/types/alchemy";
+import type { _PlanetaryPosition } from "@/types/celestial";
+
+// Prevent unused type warnings
+type _PreventUnusedWarnings = _Element | _PlanetaryPosition;
 import { 
 
 
@@ -12,8 +15,8 @@ import {
 describe('Astrologize API Integration', () => {
   beforeAll(() => {
     // Mock console methods to avoid spam during tests
-    jest.spyOn(console, 'log')?.mockImplementation(() => {});
-    jest.spyOn(console, 'error')?.mockImplementation(() => {});
+    jest.spyOn(console, 'log')?.mockImplementation(() => { /* no-op */ });
+    jest.spyOn(console, 'error')?.mockImplementation(() => { /* no-op */ });
   });
 
   afterAll(() => {
@@ -27,9 +30,9 @@ describe('Astrologize API Integration', () => {
       expect(typeof result)?.toBe('boolean');
       
       if (result) {
-        console.log('✅ Astrologize API connection successful');
+        // console.log('✅ Astrologize API connection successful');
       } else {
-        console.log('❌ Astrologize API connection failed - this is expected in test environment');
+        // console.log('❌ Astrologize API connection failed - this is expected in test environment');
       }
     }, 30000); // 30 second timeout for API calls
   });

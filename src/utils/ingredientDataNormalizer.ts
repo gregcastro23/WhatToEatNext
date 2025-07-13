@@ -92,10 +92,10 @@ function formatAntioxidantName(name: string): string {
 /**
  * Normalize culinary applications data
  */
-export function normalizeCulinaryApplications(applications: Record<string, unknown>): Record<string, any> {
+export function normalizeCulinaryApplications(applications: Record<string, unknown>): Record<string, unknown> {
   if (!applications || typeof applications !== 'object') return {};
   
-  const normalized: Record<string, any> = {};
+  const normalized: Record<string, unknown> = {};
   
   Object.entries(applications).forEach(([method, data]) => {
     normalized[formatCulinaryMethod(method)] = normalizeCulinaryMethod(data as Record<string, unknown>);
@@ -118,7 +118,7 @@ function formatCulinaryMethod(method: string): string {
 /**
  * Normalize individual culinary method data
  */
-function normalizeCulinaryMethod(data: Record<string, unknown>): any {
+function normalizeCulinaryMethod(data: Record<string, unknown>): Record<string, unknown> {
   if (!data) return {};
   
   return {
@@ -132,10 +132,10 @@ function normalizeCulinaryMethod(data: Record<string, unknown>): any {
 /**
  * Normalize varieties data
  */
-export function normalizeVarieties(varieties: Record<string, unknown>): Record<string, any> {
+export function normalizeVarieties(varieties: Record<string, unknown>): Record<string, unknown> {
   if (!varieties || typeof varieties !== 'object') return {};
   
-  const normalized: Record<string, any> = {};
+  const normalized: Record<string, unknown> = {};
   
   Object.entries(varieties).forEach(([variety, data]) => {
     normalized[formatVarietyName(variety)] = normalizeVarietyData(data as Record<string, unknown>);
@@ -158,7 +158,7 @@ function formatVarietyName(name: string): string {
 /**
  * Normalize variety data
  */
-function normalizeVarietyData(data: Record<string, unknown>): any {
+function normalizeVarietyData(data: Record<string, unknown>): Record<string, unknown> {
   if (!data || typeof data !== 'object') return {};
   
   return {
@@ -178,7 +178,7 @@ function normalizeVarietyData(data: Record<string, unknown>): any {
 /**
  * Normalize storage information
  */
-export function normalizeStorage(storage: Record<string, unknown>): any {
+export function normalizeStorage(storage: Record<string, unknown>): Record<string, unknown> {
   if (!storage) return {};
   
   if (typeof storage === 'string') {
@@ -200,7 +200,7 @@ export function normalizeStorage(storage: Record<string, unknown>): any {
 /**
  * Normalize preparation information
  */
-export function normalizePreparation(preparation: Record<string, unknown>): any {
+export function normalizePreparation(preparation: Record<string, unknown>): Record<string, unknown> {
   if (!preparation) return {};
   
   if (typeof preparation === 'string') {
@@ -221,7 +221,7 @@ export function normalizePreparation(preparation: Record<string, unknown>): any 
 /**
  * Main ingredient normalization function
  */
-export function normalizeIngredientData(ingredient: Record<string, unknown>): any {
+export function normalizeIngredientData(ingredient: Record<string, unknown>): Record<string, unknown> {
   if (!ingredient) return null;
 
   // Add type guard after imports
@@ -255,7 +255,7 @@ export function normalizeIngredientData(ingredient: Record<string, unknown>): an
 /**
  * Safe getter for nutritional data
  */
-export function safeGetNutritionalData(ingredient: Record<string, unknown>, field: string): any {
+export function safeGetNutritionalData(ingredient: Record<string, unknown>, field: string): unknown {
   try {
     return ingredient?.nutritionalProfile?.[field] || null;
   } catch (error) {

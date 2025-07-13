@@ -166,7 +166,7 @@ export const getSeasonalEffectiveness = (
     };
 };
 
-export const calculateRecipeSeasonalAlignment = (recipeElements, seasonalModifier) => {
+export const calculateRecipeSeasonalAlignment = (recipeElements: Record<string, number>, seasonalModifier: Record<string, number>): number => {
     if (!recipeElements || !seasonalModifier) return 0;
     let alignmentScore = 0;
     

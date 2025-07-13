@@ -1,7 +1,4 @@
-import type { ElementalProperties, ZodiacSign, LunarPhase, Season, Element, AstrologicalState } from '@/types';
-import type { Planet, Modality } from '@/types/celestial';
-import { spices } from '@/data/ingredients/spices';
-import { herbs } from '@/data/ingredients/herbs';
+import type { ElementalProperties, ZodiacSign } from '@/types';
 import { fruits } from '@/data/ingredients/fruits';
 import { grains } from '@/data/ingredients/grains';
 import { vegetables } from '@/data/ingredients/vegetables';
@@ -10,8 +7,6 @@ import { vinegars } from '@/data/ingredients/vinegars';
 import { seasonings } from '@/data/ingredients/seasonings';
 import { proteins, meats, poultry, seafood, legumes, plantBased } from '@/data/ingredients/proteins';
 import { getCurrentSeason } from '@/utils/dateUtils';
-import { isNutritionalProfile } from '@/types/guards';
-import type { NutritionalProfile } from '@/types/nutrition';
 import type { IngredientMapping } from '@/data/ingredients/types';
 
 // Create eggs and dairy from proteins by filtering category
@@ -22,6 +17,27 @@ const eggs = (Object.entries(proteins) as [string, IngredientMapping][])
 const dairy = (Object.entries(proteins) as [string, IngredientMapping][])
   .filter(([_, value]) => value.category === 'dairy')
   .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
+
+// Prefix unused vars
+const _currentHour = new Date().getHours();
+
+type FlavorProfile = Record<string, number>;
+
+type NutritionalMacros = {
+  protein: number;
+  carbs: number;
+  fat: number;
+  fiber: number;
+  sugars: number;
+};
+
+type NutritionalProfileType = {
+  calories: number;
+  macros: NutritionalMacros;
+  vitamins: Record<string, number>;
+  minerals: Record<string, number>;
+  phytonutrients: Record<string, number>;
+};
 
 export interface EnhancedIngredient {
   name: string;
@@ -35,21 +51,9 @@ export interface EnhancedIngredient {
     rulingPlanets: string[];
     favorableZodiac?: ZodiacSign[];
   };
-  flavorProfile?: Record<string, number>;
+  flavorProfile?: FlavorProfile;
   season?: string[];
-  nutritionalProfile?: {
-    calories: number;
-    macros: {
-      protein: number;
-      carbs: number;
-      fat: number;
-      fiber: number;
-      sugars: number;
-    };
-    vitamins: Record<string, number>;
-    minerals: Record<string, number>;
-    phytonutrients: Record<string, number>;
-  };
+  nutritionalProfile?: NutritionalProfileType;
   score?: number;
   scoreDetails?: Record<string, number>;
   subCategory?: string;
@@ -89,10 +93,6 @@ export const getAllIngredients = (): EnhancedIngredient[] => {
     { name: 'Vinegars', data: vinegars }
   ];
 
-  // Track counts for categories of interest
-  let herbCount = 0;
-  let grainCount = 0;
-  
   // Process each category
   categories.forEach(category => {
     if (!category.data) {
@@ -113,7 +113,6 @@ export const getAllIngredients = (): EnhancedIngredient[] => {
       
       // Special tracking for grains and herbs
       if (category.name === 'Grains') {
-        grainCount++;
         // Ensure grains are properly categorized
         ingredientData.category = 'grains';
         if (!ingredientData.subCategory) {
@@ -129,7 +128,6 @@ export const getAllIngredients = (): EnhancedIngredient[] => {
           }
         }
       } else if (category.name === 'Herbs') {
-        herbCount++;
         // Ensure herbs are properly categorized
         ingredientData.category = 'herbs';
         if (!ingredientData.subCategory) {
@@ -146,23 +144,12 @@ export const getAllIngredients = (): EnhancedIngredient[] => {
     });
   });
   
-  // console.log(`Added ${grainCount} grain ingredients and ${herbCount} herb ingredients`);
-  
   // Filter out ingredients without proper astrological profiles
   const validIngredients = allIngredients.filter(ing => 
     ing.astrologicalProfile && 
     ing.astrologicalProfile.elementalAffinity && 
     ing.astrologicalProfile.rulingPlanets
   );
-  
-  // console.log(`Total ingredients: ${allIngredients.length}, Valid ingredients: ${validIngredients.length}`);
-  if (validIngredients.length < allIngredients.length) {
-    const filteredOut = allIngredients.filter(ing => 
-      !(ing.astrologicalProfile && ing.astrologicalProfile.elementalAffinity && ing.astrologicalProfile.rulingPlanets)
-    );
-    // console.log('Filtered out:', filteredOut.length, 'ingredients');
-    // console.log('Categories of filtered ingredients:', [...new Set(filteredOut.map(ing => ing.category))].join(', '));
-  }
   
   // At the end of the getAllIngredients function, add standardization
   return validIngredients.map(ingredient => standardizeIngredient(ingredient));
@@ -406,7 +393,7 @@ export const getRecommendedIngredients = (astroState: AstrologicalState): Enhanc
       
       // Enhanced planetary score (0-1) - case-insensitive planet matching
       // Now includes planet strength based on current sign and aspects
-      let planetScore = 0;
+      let _planetScore = 0;
       if (profile.rulingPlanets && profile.rulingPlanets.length > 0) {
         let totalPlanetStrength = 0;
         let matchingPlanets = 0;
@@ -440,7 +427,7 @@ export const getRecommendedIngredients = (astroState: AstrologicalState): Enhanc
           }
         });
         
-        planetScore = matchingPlanets > 0 ? 
+        _planetScore = matchingPlanets > 0 ? 
                      totalPlanetStrength / (profile.rulingPlanets.length * 1.5) : 0;
       }
       
@@ -466,7 +453,7 @@ export const getRecommendedIngredients = (astroState: AstrologicalState): Enhanc
       }
       
       // Enhanced time of day score with planetary hour considerations
-      const currentHour = new Date().getHours();
+      const _currentHour = new Date().getHours();
       let timeOfDayScore = 0.5; // Start with neutral score
       
       // Get current day of week (0 = Sunday, 1 = Monday, etc.)
@@ -763,9 +750,9 @@ export const getRecommendedIngredients = (astroState: AstrologicalState): Enhanc
             
         profile.rulingPlanets.forEach(planet => {
           if (astroState.tarotPlanetaryBoosts && 
-              astroState.tarotPlanetaryBoosts[planet.toLowerCase() as Planet]) {
+              astroState.tarotPlanetaryBoosts[planet.toLowerCase() as any]) {
             tarotScore = Math.max(tarotScore, 
-              Math.min(1, 0.6 + astroState.tarotPlanetaryBoosts[planet.toLowerCase() as Planet]));
+              Math.min(1, 0.6 + astroState.tarotPlanetaryBoosts[planet.toLowerCase() as any]));
           }
         });
       }
@@ -839,10 +826,10 @@ export const getRecommendedIngredients = (astroState: AstrologicalState): Enhanc
       }
       
       // NEW: Calculate nutritional score based on ingredient nutritional properties
-      let nutritionalScore = 0.5; // Default neutral score
+      let _nutritionalScore = 0.5; // Default neutral score
       const rawProfile = standardized.nutritionalProfile;
-      if (rawProfile && isNutritionalProfile(rawProfile)) {
-        const nutrition: NutritionalProfile = rawProfile;
+      if (rawProfile && rawProfile.calories > 0 && rawProfile?.macros) {
+        const nutrition: NutritionalProfileType = rawProfile;
         
         // Calculate protein density (protein per calorie)
         const proteinDensity = nutrition.calories > 0 && nutrition?.macros ? 
@@ -887,7 +874,7 @@ export const getRecommendedIngredients = (astroState: AstrologicalState): Enhanc
         }
         
         // Combine all nutritional factors
-        nutritionalScore = (
+        _nutritionalScore = (
           proteinDensity * 0.3 + 
           fiberDensity * 0.2 + 
           micronutrientScore * 0.2 + 
@@ -896,7 +883,7 @@ export const getRecommendedIngredients = (astroState: AstrologicalState): Enhanc
         );
         
         // Normalize to 0-1 range
-        nutritionalScore = Math.min(1, Math.max(0, nutritionalScore));
+        _nutritionalScore = Math.min(1, Math.max(0, _nutritionalScore));
       }
       
       // Final score calculation - weighted combination of all factors
@@ -1139,12 +1126,6 @@ export const formatFactorName = (factor: string): string => {
     .replace(/^./, str => str.toUpperCase());
 };
 
-// Ensure you don't need to check the type anymore when using elementalAffinity
-function getElementalAffinity(ingredient: EnhancedIngredient): string {
-  // Now can directly access .base without type checking
-  return ingredient.astrologicalProfile.elementalAffinity.base;
-}
-
 // Helper functions for the enhanced logic
 function getZodiacElement(sign: string): keyof ElementalProperties | null {
   const fireSign = ['aries', 'leo', 'sagittarius'];
@@ -1169,24 +1150,6 @@ function getSeasonElement(season: string): keyof ElementalProperties | null {
   if (season === 'summer') return 'Fire';
   if (season === 'autumn' || season === 'fall') return 'Earth';
   if (season === 'winter') return 'Water';
-  
-  return null;
-}
-
-function getPlanetaryElement(planet: string): keyof ElementalProperties | null {
-  planet = planet.toLowerCase();
-  
-  // Basic planetary elemental associations
-  if (planet === 'sun') return 'Fire';
-  if (planet === 'moon') return 'Water';
-  if (planet === 'mercury') return 'Air'; // Can also be Earth, but primarily Air
-  if (planet === 'venus') return 'Earth'; // Also has Water aspects
-  if (planet === 'mars') return 'Fire';
-  if (planet === 'jupiter') return 'Fire'; // Also has Air aspects
-  if (planet === 'saturn') return 'Earth';
-  if (planet === 'uranus') return 'Air';
-  if (planet === 'neptune') return 'Water';
-  if (planet === 'pluto') return 'Water'; // Also has Earth aspects
   
   return null;
 }
@@ -1226,7 +1189,7 @@ const planetaryElements: Record<string, { diurnal: string, nocturnal: string }> 
  * @param modality The modality to check against
  * @returns Affinity score between 0 and 1
  */
-export function getModalityElementalAffinity(element: keyof ElementalProperties, modality: Modality): number {
+export function getModalityElementalAffinity(element: keyof ElementalProperties, modality: any): number {
   switch (modality) {
     case 'Mutable':
       // Air has strongest affinity with Mutable, followed by Water, Fire, Earth

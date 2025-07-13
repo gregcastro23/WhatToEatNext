@@ -28,7 +28,7 @@ import {
   isElementalPropertyKey,
   logUnexpectedValue,
 } from '@/utils/validation';
-import { ErrorHandler } from '@/services/errorHandler';
+// import { ErrorHandler } from '@/services/errorHandler';
 
 // Import AlchemicalProperty from celestial types
 import type { AlchemicalProperty } from '@/types/celestial';
@@ -479,7 +479,7 @@ export const elementalUtils = {
    * Pattern OO-3: Utility Import Alignment - Format consistency helper
    * Ensures elemental property keys are in lowercase format
    */
-  ensureLowercaseFormat(properties: Record<string, unknown>): any {
+  ensureLowercaseFormat(properties: Record<string, unknown>): Record<string, unknown> {
     if (!properties || typeof properties !== 'object') {
       return properties;
     }
@@ -1586,7 +1586,7 @@ export function getDefaultElementalProperties(): ElementalProperties {
   return DEFAULT_ELEMENTAL_PROPERTIES;
 }
 
-export function ensureLowercaseFormat(properties: Record<string, unknown>): any {
+export function ensureLowercaseFormat(properties: Record<string, unknown>): Record<string, unknown> {
   if (!properties || typeof properties !== 'object') {
     return properties;
   }

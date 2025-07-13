@@ -77,7 +77,7 @@ export interface UnifiedIngredient {
     secondary?: string;
   };
   tags?: string[];
-  pAiringRecommendations?: string[];
+  pairingRecommendations?: string[];
   preparationMethods?: string[];
   description?: string;
   planetaryRuler?: PlanetName;
@@ -100,8 +100,7 @@ export function createUnifiedIngredient(name: string, category: string): Unified
   return {
     name,
     category,
-    elementalProperties: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
-    },
+    elementalProperties: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
     alchemicalProperties: {
       Spirit: 0,
       Essence: 0,
@@ -121,8 +120,8 @@ export function isUnifiedIngredient(obj: unknown): obj is UnifiedIngredient {
   return (
     typeof ingredient.name === 'string' &&
     typeof ingredient.category === 'string' &&
-    ingredient.elementalPropertiesState !== undefined &&
-    typeof ingredient.elementalPropertiesState === 'object' &&
+    ingredient.elementalProperties !== undefined &&
+    typeof ingredient.elementalProperties === 'object' &&
     ingredient.alchemicalProperties !== undefined &&
     typeof ingredient.alchemicalProperties === 'object'
   );

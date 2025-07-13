@@ -150,8 +150,8 @@ function calculateReferenceLongitude(planet: string): number {
 /**
  * Get planetary positions for a given date using fallback approach
  */
-export function getFallbackPlanetaryPositions(date: Date): { [key: string]: any } {
-  const positions: { [key: string]: any } = {};
+export function getFallbackPlanetaryPositions(date: Date): { [key: string]: PlanetPositionData } {
+  const positions: { [key: string]: PlanetPositionData } = {};
   
   // Calculate days difference from reference date
   const daysDiff = (date.getTime() - REFERENCE_DATE.getTime()) / (24 * 60 * 60 * 1000);
@@ -408,7 +408,7 @@ export function getPositionsSummary(): string {
  * @param positions Positions object to validate
  * @returns Boolean indicating if the structure is valid
  */
-export function validatePositionsStructure(positions: { [key: string]: any }): boolean {
+export function validatePositionsStructure(positions: { [key: string]: PlanetPositionData }): boolean {
   if (!positions || typeof positions !== 'object') {
     return false;
   }
@@ -426,7 +426,7 @@ export function validatePositionsStructure(positions: { [key: string]: any }): b
     }
     
     // Check for required properties
-    const planetData = pos as Record<string, any>;
+    const planetData = pos as PlanetPositionData;
     if (!planetData.sign || typeof planetData.degree !== 'number') {
       return false;
     }

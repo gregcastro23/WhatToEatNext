@@ -1,41 +1,41 @@
 // @ts-nocheck
 // Enhanced Ingredient interface for Phase 11
-interface EnhancedIngredient {
-  name: string;
-  type: string;
-  elementalProperties?: ElementalProperties;
-  astrologicalInfluences?: AstrologicalInfluences;
-  elementalState?: ElementalState;
-  season?: Season;
-  regionalCuisine?: string;
-  astrologicalProfile?: {
-    rulingPlanets?: string[];
-    signAffinities?: string[];
-  };
-  // Add commonly missing properties
-  flavorProfile?: Record<string, number>;
-  cuisine?: string;
-  description?: string;
-  category?: string;
-  qualities?: string[];
-  mealType?: string;
-  matchScore?: number;
-  timing?: Record<string, unknown>;
-  duration?: Record<string, unknown>;
-}
+// interface EnhancedIngredient {
+//   name: string;
+//   type: string;
+//   elementalProperties?: ElementalProperties;
+//   astrologicalInfluences?: AstrologicalInfluences;
+//   elementalState?: ElementalState;
+//   season?: Season;
+//   regionalCuisine?: string;
+//   astrologicalProfile?: {
+//     rulingPlanets?: string[];
+//     signAffinities?: string[];
+//   };
+//   // Add commonly missing properties
+//   flavorProfile?: Record<string, number>;
+//   cuisine?: string;
+//   description?: string;
+//   category?: string;
+//   qualities?: string[];
+//   mealType?: string;
+//   matchScore?: number;
+//   timing?: Record<string, unknown>;
+//   duration?: Record<string, unknown>;
+// }
 import { AstrologicalState } from '@/types';
 import { _ElementalProperties, _ChakraEnergies, Season, ZodiacSign } from '@/types/alchemy';
 import { ElementalState } from '@/types/elemental';
 import type { Modality, Ingredient } from '@/data/ingredients/types';
 
 // AstrologicalInfluences interface
-export interface AstrologicalInfluences {
-  rulingPlanets?: string[];
-  favorableZodiac?: string[];
-  elementalAffinity?: string;
-  lunarPhaseModifiers?: Record<string, unknown>;
-  aspectEnhancers?: string[];
-}
+// export interface AstrologicalInfluences {
+//   rulingPlanets?: string[];
+//   favorableZodiac?: string[];
+//   elementalAffinity?: string;
+//   lunarPhaseModifiers?: Record<string, unknown>;
+//   aspectEnhancers?: string[];
+// }
 
 // Import actual ingredient data
 import { vegetables } from '@/data/ingredients/vegetables';
@@ -48,16 +48,18 @@ import { seasonings } from '@/data/ingredients/seasonings';
 import { oils } from '@/data/ingredients/oils';
 
 // Import planet data
-import venusData from '@/data/planets/venus';
-import marsData from '@/data/planets/mars';
-import mercuryData from '@/data/planets/mercury';
-import jupiterData from '@/data/planets/jupiter';
-import saturnData from '@/data/planets/saturn';
+// import venusData from '@/data/planets/venus';
+// import marsData from '@/data/planets/mars';
+// import mercuryData from '@/data/planets/mercury';
+// import jupiterData from '@/data/planets/jupiter';
+// import saturnData from '@/data/planets/saturn';
+// import { LUNAR_PHASES } from '@/constants/lunar';
+// import { _calculateLunarPhase, _calculatePlanetaryPositions } from '@/utils/astrologyUtils';
 
 import { CHAKRA_NUTRITIONAL_CORRELATIONS, CHAKRA_HERBS } from '@/constants/chakraSymbols';
-import { LUNAR_PHASES } from '@/constants/lunar';
+// import { LUNAR_PHASES } from '@/constants/lunar';
 import { ingredientCategories } from '@/data/ingredientCategories';
-import { _calculateLunarPhase, _calculatePlanetaryPositions } from '@/utils/astrologyUtils';
+// import { _calculateLunarPhase, _calculatePlanetaryPositions } from '@/utils/astrologyUtils';
 
 // Import the getAllIngredients function if it exists, otherwise we'll create our own
 import { getAllIngredients as getIngredientsUtil } from '@/utils/foodRecommender';
@@ -231,7 +233,7 @@ export function getRecommendedIngredients(astroState: AstrologicalState): Enhanc
   
   // If we have a current zodiac sign, prioritize ingredients with that affinity
   if (astroState.zodiacSign) {
-    const _zodiacSign = astroState.zodiacSign.toLowerCase();
+    const _zodiacSign = astroState.zodiacSign.toLowerCase() as ZodiacSign;
     
     // Apply Venus's zodiac transit data if Venus is active and in this sign
     const venusBoost = planetsToUse.includes('Venus') && 

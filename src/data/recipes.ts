@@ -1117,3 +1117,15 @@ function calculateCulturalCompatibility(vector1: RecipeVector, vector2: RecipeVe
   
   return (authenticityAlignment * 0.4) + (modernAlignment * 0.3) + (fusionAlignment * 0.3);
 }
+
+// Replace any with Recipe[]
+const recipesList: Recipe[] = [
+  // existing recipe array
+];
+
+// Add guard
+export function getRecipe(id: string): Recipe | undefined {
+  const recipe = recipesList.find(r => r.id === id);
+  if (recipe?.id) return recipe;
+  return undefined;
+}

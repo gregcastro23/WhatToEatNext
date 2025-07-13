@@ -1,28 +1,20 @@
 import { allCookingMethods, cookingMethods as detailedCookingMethods } from '@/data/cooking';
-import { culturalCookingMethods, getCulturalVariations } from '@/utils/culturalMethodsAggregator';
+import { culturalCookingMethods } from '@/utils/culturalMethodsAggregator';
 import type { ZodiacSign, ElementalProperties } from '@/types';
-import type { CookingMethod as CookingMethodEnum } from '@/types/alchemy';
+import type { CookingMethod as _CookingMethodEnum } from '@/types/alchemy';
 import { getCurrentSeason } from '@/utils/dateUtils';
-import venusData from '@/data/planets/venus';
-import marsData from '@/data/planets/mars';
-import mercuryData from '@/data/planets/mercury';
-import jupiterData from '@/data/planets/jupiter';
-import saturnData from '@/data/planets/saturn';
-import uranusData from '@/data/planets/uranus';
-import neptuneData from '@/data/planets/neptune';
-import plutoData from '@/data/planets/pluto';
+import _marsData from '@/data/planets/mars';
+import _mercuryData from '@/data/planets/mercury';
+import _jupiterData from '@/data/planets/jupiter';
+import _saturnData from '@/data/planets/saturn';
+import _uranusData from '@/data/planets/uranus';
+import _neptuneData from '@/data/planets/neptune';
+import _plutoData from '@/data/planets/pluto';
 import { PlanetaryAspect, LunarPhase, AstrologicalState, BasicThermodynamicProperties, MethodRecommendationOptions, MethodRecommendation, COOKING_METHOD_THERMODYNAMICS } from '@/types/alchemy';
 import type { 
   CookingMethod, 
-  CookingMethodData, 
-  AstrologicalInfluences,
-  ThermodynamicProperties,
-  CookingMethodRecommendation as CookingMethodRecommendationType,
-  CookingMethodCompatibility,
-  CookingMethodFilterOptions,
-  CookingMethodScoreDetails
+  CookingMethodData
 } from '@/types/cooking';
-import { calculateLunarPhase, getLunarPhaseName } from '@/utils/astrologyUtils';
 
 // Define a proper interface for our cooking method objects using centralized types
 interface CookingMethodProfile extends CookingMethod {
@@ -44,7 +36,7 @@ type CookingMethodDictionary = Record<string, CookingMethodData>;
 const allCookingMethodsCombined: CookingMethodDictionary = {
   // Convert allCookingMethods to our format
   ...(Object.entries(allCookingMethods || {}).reduce((acc: CookingMethodDictionary, [id, method]) => {
-    const methodData = method as unknown as CookingMethodData;
+    const methodData = method as CookingMethodData;
     acc[id] = {
       id,
       ...methodData,
@@ -476,50 +468,31 @@ export async function getRecommendedCookingMethods(
   // Check if Venus is one of the active planets
   const isVenusActive = planets?.includes('Venus') || false;
   
-  // Check if Venus is retrograde
-  const isVenusRetrograde = planets?.includes('Venus-R') || false;
+  // Comment unused imports
+  // let _isVenusRetrograde = planets?.includes('Venus-R') || false;
+  // let _isMarsRetrograde = planets?.includes('Mars-R') || false;
+  // ... for all retrogrades
   
   // Check if Mars is one of the active planets
   const isMarsActive = planets?.includes('Mars') || false;
   
-  // Check if Mars is retrograde
-  const isMarsRetrograde = planets?.includes('Mars-R') || false;
-  
   // Check if Mercury is one of the active planets
   const isMercuryActive = planets?.includes('Mercury') || false;
-  
-  // Check if Mercury is retrograde
-  const isMercuryRetrograde = planets?.includes('Mercury-R') || false;
   
   // Check if Jupiter is one of the active planets
   const isJupiterActive = planets?.includes('Jupiter') || false;
   
-  // Check if Jupiter is retrograde
-  const isJupiterRetrograde = planets?.includes('Jupiter-R') || false;
-  
   // Check if Saturn is one of the active planets
   const isSaturnActive = planets?.includes('Saturn') || false;
-  
-  // Check if Saturn is retrograde
-  const _isSaturnRetrograde = planets?.includes('Saturn-R') || false;
   
   // Check if Uranus is one of the active planets
   const isUranusActive = planets?.includes('Uranus') || false;
   
-  // Check if Uranus is retrograde
-  const isUranusRetrograde = planets?.includes('Uranus-R') || false;
-  
   // Check if Neptune is one of the active planets
   const isNeptuneActive = planets?.includes('Neptune') || false;
   
-  // Check if Neptune is retrograde
-  const isNeptuneRetrograde = planets?.includes('Neptune-R') || false;
-  
   // Check if Pluto is one of the active planets
   const isPlutoActive = planets?.includes('Pluto') || false;
-  
-  // Check if Pluto is retrograde
-  const isPlutoRetrograde = planets?.includes('Pluto-R') || false;
   
   // Get Venus transit data for current zodiac sign if applicable
   const venusZodiacTransit = isVenusActive && currentZodiac 
@@ -562,7 +535,7 @@ export async function getRecommendedCookingMethods(
     : undefined;
   
   // Get Venus sign-based temperament for current zodiac
-  let venusTemperament = null;
+  const venusTemperament = null;
   if (currentZodiac && isVenusActive) {
     const lowerSign = (currentZodiac as string)?.toLowerCase?.();
     const earthSigns = ['taurus', 'virgo', 'capricorn'];
@@ -570,19 +543,19 @@ export async function getRecommendedCookingMethods(
     const waterSigns = ['cancer', 'scorpio', 'pisces'];
     const fireSigns = ['aries', 'leo', 'sagittarius'];
     
-    if ((earthSigns as string[])?.includes?.(lowerSign) && (venusData.PlanetSpecific?.CulinaryTemperament as Record<string, any>)?.EarthVenus) {
-      venusTemperament = (venusData.PlanetSpecific.CulinaryTemperament as Record<string, any>).EarthVenus;
-    } else if ((airSigns as string[])?.includes?.(lowerSign) && (venusData.PlanetSpecific?.CulinaryTemperament as Record<string, any>)?.AirVenus) {
-      venusTemperament = (venusData.PlanetSpecific.CulinaryTemperament as Record<string, any>).AirVenus;
-    } else if ((waterSigns as string[])?.includes?.(lowerSign) && (venusData.PlanetSpecific?.CulinaryTemperament as Record<string, any>)?.WaterVenus) {
-      venusTemperament = (venusData.PlanetSpecific.CulinaryTemperament as Record<string, any>).WaterVenus;
-    } else if ((fireSigns as string[])?.includes?.(lowerSign) && (venusData.PlanetSpecific?.CulinaryTemperament as Record<string, any>)?.FireVenus) {
-      venusTemperament = (venusData.PlanetSpecific.CulinaryTemperament as Record<string, any>).FireVenus;
+    if ((earthSigns as string[])?.includes?.(lowerSign) && (venusData.PlanetSpecific?.CulinaryTemperament as Record<string, unknown>)?.EarthVenus) {
+      venusTemperament = (venusData.PlanetSpecific.CulinaryTemperament as Record<string, unknown>).EarthVenus;
+    } else if ((airSigns as string[])?.includes?.(lowerSign) && (venusData.PlanetSpecific?.CulinaryTemperament as Record<string, unknown>)?.AirVenus) {
+      venusTemperament = (venusData.PlanetSpecific.CulinaryTemperament as Record<string, unknown>).AirVenus;
+    } else if ((waterSigns as string[])?.includes?.(lowerSign) && (venusData.PlanetSpecific?.CulinaryTemperament as Record<string, unknown>)?.WaterVenus) {
+      venusTemperament = (venusData.PlanetSpecific.CulinaryTemperament as Record<string, unknown>).WaterVenus;
+    } else if ((fireSigns as string[])?.includes?.(lowerSign) && (venusData.PlanetSpecific?.CulinaryTemperament as Record<string, unknown>)?.FireVenus) {
+      venusTemperament = (venusData.PlanetSpecific.CulinaryTemperament as Record<string, unknown>).FireVenus;
     }
   }
   
   // Get Mars sign-based temperament for current zodiac
-  let _marsTemperament = null;
+  const _marsTemperament = null;
   if (currentZodiac && isMarsActive) {
     const lowerSign = (currentZodiac as string)?.toLowerCase?.();
     const fireSigns = ['aries', 'leo', 'sagittarius'];
@@ -596,7 +569,7 @@ export async function getRecommendedCookingMethods(
   }
   
   // Get Mercury sign-based temperament for current zodiac
-  let mercuryTemperament = null;
+  const mercuryTemperament = null;
   if (currentZodiac && isMercuryActive) {
     const lowerSign = (currentZodiac as string)?.toLowerCase?.();
     const airSigns = ['gemini', 'libra', 'aquarius'];
@@ -610,7 +583,7 @@ export async function getRecommendedCookingMethods(
   }
   
   // Get Jupiter sign-based temperament for current zodiac
-  let jupiterTemperament = null;
+  const jupiterTemperament = null;
   if (currentZodiac && isJupiterActive) {
     const lowerSign = (currentZodiac as string)?.toLowerCase?.();
     const fireSigns = ['aries', 'leo', 'sagittarius'];
@@ -624,7 +597,7 @@ export async function getRecommendedCookingMethods(
   }
   
   // Get Saturn sign-based temperament for current zodiac
-  let _saturnTemperament = null;
+  const _saturnTemperament = null;
   if (currentZodiac && isSaturnActive) {
     const lowerSign = (currentZodiac as string)?.toLowerCase?.();
     const earthSigns = ['taurus', 'virgo', 'capricorn'];
@@ -720,7 +693,7 @@ export async function getRecommendedCookingMethods(
             elementalProperties: methodData.elementalEffect || methodData.elementalProperties || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
             elementalEffect: methodData.elementalEffect || methodData.elementalProperties || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
             astrologicalInfluences: methodData.astrologicalInfluences || {}
-          } as any;
+          } as CookingMethodProfile;
           
           planetaryDayScore = calculatePlanetaryDayInfluence(methodProfile, planetaryDay);
         }
@@ -762,7 +735,7 @@ export async function getRecommendedCookingMethods(
             elementalProperties: methodData.elementalEffect || methodData.elementalProperties || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
             elementalEffect: methodData.elementalEffect || methodData.elementalProperties || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
             astrologicalInfluences: methodData.astrologicalInfluences || {}
-          } as any;
+          } as CookingMethodProfile;
           
           planetaryHourScore = calculatePlanetaryHourInfluence(methodProfileHour, planetaryHour, daytime);
         }
@@ -1394,7 +1367,7 @@ export function getCookingMethodRecommendations(
       elementalProperties: method.elementalEffect || method.elementalProperties || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
       elementalEffect: method.elementalEffect || method.elementalProperties || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
       astrologicalInfluences: method.astrologicalInfluences || {}
-    } as any;
+    } as CookingMethodProfile;
     
     // Use our enhanced calculation with multiplier
     const score = calculateMethodScore(methodProfileScore, astroState);

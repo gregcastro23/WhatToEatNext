@@ -21,7 +21,7 @@ const safeGetAstrologicalInfluences = (method: unknown): AstrologicalInfluence[]
   if (!method) return [defaultAstrologicalInfluence];
   
   // Fix TS2339: Property 'astrologicalInfluences' does not exist on type 'unknown'
-  const methodData = method as unknown;
+  const methodData = method as Record<string, unknown>;
   if (!methodData?.astrologicalInfluences) return [defaultAstrologicalInfluence];
   if (Array.isArray(methodData.astrologicalInfluences)) {
     return methodData.astrologicalInfluences as AstrologicalInfluence[];

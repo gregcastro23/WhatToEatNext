@@ -1,7 +1,7 @@
 import { useServices } from './useServices';
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 import { useEffect, useState } from 'react';
-import { _PlanetaryPosition } from "@/types/celestial";
+import type { _PlanetaryPosition } from '@/types/celestial';
 
 /**
  * A bridge hook that allows components to work with both legacy AlchemicalContext 
@@ -24,7 +24,7 @@ export function useAlchemicalBridge() {
   const chakraService = (serviceData as unknown)?.chakraService;
 
   // Create state for service-based data
-  const [servicePositions, setServicePositions] = useState<Record<string, any>>({});
+  const [servicePositions, setServicePositions] = useState<Record<string, _PlanetaryPosition>>({});
   const [daytime, setDaytime] = useState<boolean | undefined>(undefined);
 
   // Fetch data from services when available

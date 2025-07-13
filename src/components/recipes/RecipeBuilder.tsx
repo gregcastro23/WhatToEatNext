@@ -8,6 +8,7 @@ import type {
 } from '@/types/alchemy';
 import type { TimeFactors } from '@/types/time';
 import { getTimeFactors } from '@/types/time';
+import type { Ingredient } from '@/types/ingredient';
 
 import { 
   Box, 
@@ -150,7 +151,7 @@ const determineIngredientModality = (
 
 export default function RecipeBuilder() {
   // State Management
-  const [selectedIngredients, setSelectedIngredients] = useState<any[]>([]);
+  const [selectedIngredients, setSelectedIngredients] = useState<Ingredient[]>([]);
   const [recipeModality, setRecipeModality] = useState<Modality>('Mutable');
   const [chakraAccess, setChakraAccess] = useState<ChakraEnergyAccess[]>([]);
   const [recipe, setRecipe] = useState<Recipe | null>(null);
@@ -255,7 +256,7 @@ export default function RecipeBuilder() {
     const season = getCurrentSeason();
     const currentZodiacSign = getCurrentZodiacSign();
 
-    const seasonalElements = applySeasonalInfluence(elements, _season);
+    const seasonalElements = applySeasonalInfluence(elements, season);
     const astrologicalElements = getZodiacElementalInfluence(currentZodiacSign);
 
     const finalElements = {

@@ -87,7 +87,7 @@ interface CelestialBody {
   Sign?: {
     label?: string;
   };
-  [key: string]: unknown;
+  [key: string]: Record<string, unknown>;
 }
 
 // Use StandardizedAlchemicalResult instead of redefining

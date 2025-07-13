@@ -171,7 +171,7 @@ export function enhanceIngredientWithAlchemy(
   }
 ): AlchemicalIngredient {
   // Derive alchemical properties from elemental properties
-  const _alchemicalProperties = deriveAlchemicalFromElemental(ingredient.elementalPropertiesState);
+  const alchemicalProperties = deriveAlchemicalFromElemental(ingredient.elementalProperties);
   
   // Calculate Kalchm
   const kalchm = calculateKalchm(alchemicalProperties);
@@ -332,11 +332,11 @@ export const DEFAULT_KALCHM = 1.0;
 
 // Kalchm ranges for different ingredient categories
 export const KALCHM_RANGES = {
-  spices: {},
-  herbs: {},
-  vegetables: {},
-  fruits: {},
-  grains: {},
-  proteins: {},
-  dAiry: { min: 0.8, max: 1.6 }
+  spices: { min: 0.5, max: 1.5 },
+  herbs: { min: 0.6, max: 1.4 },
+  vegetables: { min: 0.7, max: 1.3 },
+  fruits: { min: 0.8, max: 1.2 },
+  grains: { min: 0.9, max: 1.1 },
+  proteins: { min: 1.0, max: 2.0 },
+  dairy: { min: 0.8, max: 1.6 }
 }; 

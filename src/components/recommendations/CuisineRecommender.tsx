@@ -1,5 +1,3 @@
-// @ts-nocheck
-
 // Phase 10: Calculation Type Interfaces
 interface CalculationData {
   value: number;
@@ -75,7 +73,7 @@ import {
   AstrologicalState,
   PlanetaryPositionsType,
   AlchemicalState
-, _Element } from "@/types/alchemy";
+} from "@/types/alchemy";
 import type { ZodiacSign } from '@/types/zodiac';
 import type { LunarPhase, LunarPhaseWithSpaces } from '@/types/alchemy';
 import { ElementalCharacter, AlchemicalProperty } from '../../constants/planetaryElements';
@@ -100,7 +98,7 @@ import marsData from '../../data/planets/mars';
 import mercuryData from '../../data/planets/mercury';
 import jupiterData from '../../data/planets/jupiter';
 
-import { _PlanetaryPosition } from "@/types/celestial";
+import type { _PlanetaryPosition } from "@/types/celestial";
 
 // Define AlchemicalItem interface for cuisine recommendations
 interface AlchemicalItem {
@@ -114,7 +112,6 @@ interface AlchemicalItem {
 }
 
 
-// DUPLICATE: import { _Element } from "@/types/alchemy";
 // Keep the interface exports for any code that depends on them
 export interface Cuisine {
   id: string;
@@ -186,7 +183,7 @@ interface RecipeData {
   skill_level?: string;
   dietaryInfo?: string[];
   dietary_restrictions?: string[];
-  [key: string]: Record<string, unknown>;
+  [key: string]: unknown;
 }
 
 // Helper function to ensure consistent recipe structure
@@ -202,7 +199,7 @@ function buildCompleteRecipe(recipe: RecipeData, cuisineName: string): RecipeDat
   );
 
   // Apply safe type casting for cuisineProfile access
-  const cuisineProfileData = cuisineProfile as any;
+  const cuisineProfileData = cuisineProfile as Record<string, unknown>;
   const elementalAlignment = cuisineProfileData?.elementalAlignment;
   const elementalState = cuisineProfileData?.elementalState;
 
@@ -268,8 +265,8 @@ export default function CuisineRecommender() {
   const astroStateRef = useRef({
     currentZodiacSign: currentZodiac,
     lunarPhase: lunarPhase,
-    elementalState: (alchemicalContext as any)?.state?.astrologicalState?.elementalState || 
-                   (state as any)?.astrologicalState?.elementalState || 
+    elementalState: (alchemicalContext as Record<string, unknown>)?.state?.astrologicalState?.elementalState || 
+                   (state as Record<string, unknown>)?.astrologicalState?.elementalState || 
                    createDefaultElementalProperties()
   });
 
@@ -284,8 +281,8 @@ export default function CuisineRecommender() {
     astroStateRef.current = {
       currentZodiacSign: currentZodiac,
       lunarPhase: lunarPhase,
-      elementalState: (alchemicalContext as any)?.state?.astrologicalState?.elementalState ||
-                      (state as any)?.astrologicalState?.elementalState ||
+      elementalState: (alchemicalContext as Record<string, unknown>)?.state?.astrologicalState?.elementalState ||
+                      (state as Record<string, unknown>)?.astrologicalState?.elementalState ||
                       createDefaultElementalProperties()
     };
   }, [alchemicalContext, state, currentZodiac, lunarPhase]);
@@ -317,8 +314,8 @@ export default function CuisineRecommender() {
   const [showCuisineSpecificDetails, setShowCuisineSpecificDetails] = useState(false);
   const [showPlanetaryInfluences, setShowPlanetaryInfluences] = useState(false);
   const [currentMomentElementalProfile, setCurrentMomentElementalProfile] = useState<ElementalProperties | undefined>(
-    (alchemicalContext as any)?.state?.astrologicalState?.elementalState ||
-    (alchemicalContext as any)?.state?.elementalState
+    (alchemicalContext as Record<string, unknown>)?.state?.astrologicalState?.elementalState ||
+    (alchemicalContext as Record<string, unknown>)?.state?.elementalState
   );
   const [matchingRecipes, setMatchingRecipes] = useState<Record<string, unknown>[]>([]);
   const [allRecipesData, setAllRecipesData] = useState<Recipe[]>([]);
@@ -326,12 +323,12 @@ export default function CuisineRecommender() {
   // Update current moment elemental profile when astrological state changes
   useEffect(() => {
     // Use a stable reference for comparisons by converting to a string
-    const elementalStateString = JSON.stringify((state as any)?.astrologicalState?.elementalState || {});
+    const elementalStateString = JSON.stringify((state as Record<string, unknown>)?.astrologicalState?.elementalState || {});
     const currentProfileString = JSON.stringify(currentMomentElementalProfile || {});
     
     // Only update if the state has actually changed
     if (elementalStateString !== currentProfileString) {
-      const newElementalState = (state as any)?.astrologicalState?.elementalState;
+      const newElementalState = (state as Record<string, unknown>)?.astrologicalState?.elementalState;
       
       if (newElementalState) {
         setCurrentMomentElementalProfile({ ...newElementalState });
@@ -402,7 +399,7 @@ export default function CuisineRecommender() {
       setLoading(true);
       setError(null);
       
-      const elementalProperties = (state as any)?.elementalState || (state as any)?.astrologicalState?.elementalState || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
+      const elementalProperties = (state as Record<string, unknown>)?.elementalState || (state as Record<string, unknown>)?.astrologicalState?.elementalState || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
        };
       
       // Use the recommendation service instead of direct utility function
@@ -432,8 +429,8 @@ export default function CuisineRecommender() {
         };
       }).filter(Boolean);
       
-      setTransformedCuisines(cuisineList as any as AlchemicalItem[]);
-      setCuisineRecommendations(cuisineList as any as Record<string, unknown>[]);
+      setTransformedCuisines(cuisineList as AlchemicalItem[]);
+      setCuisineRecommendations(cuisineList as Record<string, unknown>[]);
       setLoading(false);
       
       // Track this event
@@ -490,7 +487,7 @@ export default function CuisineRecommender() {
         
         if ((recipesForCuisine || []).length > 0) {
           setMatchingRecipes((recipesForCuisine || []).map(recipe => 
-            buildCompleteRecipe(recipe as any, foundCuisineData.name)
+            buildCompleteRecipe(recipe as Record<string, unknown>, foundCuisineData.name as string)
           ));
         } else {
           setMatchingRecipes([]);

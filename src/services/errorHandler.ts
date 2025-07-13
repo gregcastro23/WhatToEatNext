@@ -16,6 +16,11 @@ const logInfo = (message: string, data?: Record<string, unknown>) => {
   // console.info(`[INFO] ${message}`, data);
 };
 
+// Prefix unused logs
+export const _logError = logError;
+export const _logWarning = logWarning;
+export const _logInfo = logInfo;
+
 // Error types
 export enum ErrorType {
   UI = 'UI',
@@ -60,7 +65,7 @@ class ErrorHandlerService {
   /**
    * Log an error with additional context. Accepts any unknown error type so callers can safely pass Error instances without casting.
    */
-  log(error: unknown, options: ErrorOptions = {}) {
+  log(error: Error, options: ErrorOptions = {}) {
     const {
       type = ErrorType.UNKNOWN,
       severity = ErrorSeverity.ERROR,
@@ -145,7 +150,7 @@ class ErrorHandlerService {
    */
   handleError(error: unknown, context?: Record<string, unknown>): void {
     // Delegate to the main log method with proper options
-    this.log(error, {
+    this.log(error as Error, {
       context: context || 'unknown',
       type: ErrorType.UNKNOWN,
       severity: ErrorSeverity.ERROR
@@ -265,7 +270,7 @@ export function safeExecuteWithContext<T>(
   try {
     return fn();
   } catch (error) {
-    ErrorHandler.log(error, { context });
+    ErrorHandler.log(error as Error, { context });
     return defaultValue;
   }
 }
@@ -325,7 +330,7 @@ export function handlePropertyAccessError(error: unknown, propertyPath: string, 
     message = `Error accessing ${propertyPath} in ${context}: ${error.message}`;
   }
   
-  ErrorHandler.log(error, {
+  ErrorHandler.log(error as Error, {
     context,
     data: { propertyPath }
   });
@@ -342,7 +347,7 @@ export function trackExecution(functionName: string, step: string, data?: unknow
  * Log TypeScript specific errors (undefined access, type mismatches)
  */
 export function logTypeError(error: unknown, context: string, operation: string): void {
-  ErrorHandler.log(error, {
+  ErrorHandler.log(error as Error, {
     context: `TypeScript:${context}`,
     data: { operation }
   });

@@ -7,24 +7,24 @@ import type {
 } from "@/types/alchemy";
 
 // Define IngredientMapping locally since it's not exported from alchemy
-interface IngredientMapping {
-  name: string;
-  elementalProperties: ElementalProperties;
-  astrologicalProfile?: Record<string, unknown>;
-  qualities?: string[];
-  // Add commonly missing properties
-  description?: string;
-  category?: string;
-  cuisine?: string;
-  flavorProfile?: Record<string, number>;
-  regionalCuisine?: string;
-  season?: Record<string, unknown>;
-  timing?: Record<string, unknown>;
-  duration?: Record<string, unknown>;
-  matchScore?: number;
-  mealType?: string;
-}
-import { _elementalUtils } from './elementalUtils';
+// interface IngredientMapping {
+//   name: string;
+//   elementalProperties: ElementalProperties;
+//   astrologicalProfile?: Record<string, unknown>;
+//   qualities?: string[];
+//   // Add commonly missing properties
+//   description?: string;
+//   category?: string;
+//   cuisine?: string;
+//   flavorProfile?: Record<string, number>;
+//   regionalCuisine?: string;
+//   season?: Record<string, unknown>;
+//   timing?: Record<string, unknown>;
+//   duration?: Record<string, unknown>;
+//   matchScore?: number;
+//   mealType?: string;
+// }
+// import { elementalUtils } from './elementalUtils';
 import { ingredientsMap } from '@/data/ingredients';
 import { _calculateMatchScore } from './ElementalCalculator';
 // Import from correct location
@@ -77,7 +77,7 @@ interface CacheEntry<T> {
 }
 
 const matchCache = new Map<string, CacheEntry<MatchResult[]>>();
-const _CACHE_TTL = 5 * 60 * 1000; // 5 minutes in milliseconds
+const _CACHE_TTL = 3600000; // 1 hour
 
 // Define Modality type
 type Modality = 'cardinal' | 'fixed' | 'mutable';
@@ -98,7 +98,7 @@ export function findBestMatches(
   const cachedEntry = matchCache.get(cacheKey);
 
   // Check if we have a valid cache entry
-  if (cachedEntry && Date.now() - cachedEntry.timestamp < CACHE_TTL) {
+  if (cachedEntry && Date.now() - cachedEntry.timestamp < _CACHE_TTL) {
     // console.log('Using cached recipe matches');
     return cachedEntry.data;
   }
@@ -865,7 +865,7 @@ function getCacheKey(
 ): string {
   // Create a simplified representation of recipes (just ids to avoid huge keys)
   const recipeIds =
-    recipes?.map((r) => r.id || `${(r as any)?.name}-${r.cuisine}`).join(',') || 'none';
+    recipes?.map((r) => r.id || `${(r as Record<string, unknown>)?.name}-${(r as Record<string, unknown>)?.cuisine}`).join(',') || 'none';
 
   // Stringify the filters and energy objects
   const filtersStr = JSON.stringify(filters);
@@ -887,7 +887,7 @@ export function clearMatchCache(all = false): void {
   // Remove only expired entries
   const now = Date.now();
   for (const [key, entry] of matchCache.entries()) {
-    if (now - entry.timestamp > CACHE_TTL) {
+    if (now - entry.timestamp > _CACHE_TTL) {
       matchCache.delete(key);
     }
   }
@@ -1007,14 +1007,14 @@ export const connectIngredientsToMappings = (
   }
 
   // SSR check - only use localStorage in browser environment
-  const _isBrowser = typeof window !== 'undefined';
+  let _isBrowser = typeof window !== 'undefined';
 
   // Create a cache key for this recipe's ingredients
-  const cacheKey = `ingredient-mapping-${recipe.id || (recipe as any)?.name}`;
+  const cacheKey = `ingredient-mapping-${recipe.id || (recipe as Record<string, unknown>)?.name}`;
   let cached: string | null = null;
 
   // Try to get from localStorage, with proper error handling
-  if (isBrowser) {
+  if (_isBrowser) {
     try {
       cached = window.localStorage.getItem(cacheKey);
     } catch (e) {
@@ -1042,13 +1042,13 @@ export const connectIngredientsToMappings = (
   const matches = recipe.ingredients.map((recipeIngredient) => {
     // Initial result with no match
     const result = {
-      name: (recipeIngredient as any)?.name,
+      name: (recipeIngredient as Record<string, unknown>)?.name,
       matchedTo: undefined,
       confidence: 0,
     };
 
     // 1. Try exact match first
-    const exactMatch = ingredientsMap[(recipeIngredient as any)?.name.toLowerCase()];
+    const exactMatch = ingredientsMap[(recipeIngredient as Record<string, unknown>)?.name.toLowerCase()];
     if (exactMatch) {
       result.matchedTo = exactMatch as IngredientMapping;
       result.confidence = 1.0;
@@ -1056,7 +1056,7 @@ export const connectIngredientsToMappings = (
     }
 
     // 2. Try matching by name parts (for compound ingredients)
-    const nameParts = (recipeIngredient as any)?.name.toLowerCase().split(/\s+/);
+    const nameParts = (recipeIngredient as Record<string, unknown>)?.name.toLowerCase().split(/\s+/);
     for (const part of nameParts) {
       if (part.length < 3) continue; // Skip short parts like "of", "and", etc.
 
@@ -1081,19 +1081,19 @@ export const connectIngredientsToMappings = (
 
       // Check if the ingredient matches the category
       const categoryMatch =
-        recipeIngredient.category &&
-        ingredient.category === recipeIngredient.category
+        (recipeIngredient as Record<string, unknown>)?.category &&
+        (ingredient as IngredientMapping).category === (recipeIngredient as Record<string, unknown>)?.category
           ? 0.2
           : 0;
 
       // Calculate string similarity
       const similarity =
-        getStringSimilarity((recipeIngredient as any)?.name, key) + categoryMatch;
+        getStringSimilarity((recipeIngredient as Record<string, unknown>)?.name, key) + categoryMatch;
 
       if (similarity > bestMatch.similarity) {
         bestMatch = {
           similarity,
-          ingredient: ingredient as unknown as IngredientMapping,
+          ingredient: ingredient as IngredientMapping,
         };
       }
     }
@@ -1122,7 +1122,7 @@ export const connectIngredientsToMappings = (
   });
 
   // Cache the results
-  if (isBrowser) {
+  if (_isBrowser) {
     try {
       window.localStorage.setItem(
         cacheKey,

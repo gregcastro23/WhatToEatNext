@@ -106,7 +106,8 @@ import styles from './CookingMethods.module.css';
 import { RecommendationAdapter } from '@/services/RecommendationAdapter';
 import { ElementalItem, AlchemicalItem } from '@/calculations/alchemicalTransformation';
 import { AlchemicalProperty, ElementalCharacter } from '@/constants/planetaryElements';
-import { planetaryFoodAssociations, _Planet } from '@/constants/planetaryFoodAssociations';
+import type { _Planet } from '@/constants/planetaryFoodAssociations';
+import { planetaryFoodAssociations } from '@/constants/planetaryFoodAssociations';
 import type { LunarPhase } from '@/types/celestial';
 import type { ElementalProperties, ZodiacSign, CookingMethod, BasicThermodynamicProperties } from '@/types/alchemy';
 import { formatLunarPhaseForDisplay } from '@/utils/lunarPhaseUtils';
@@ -117,12 +118,13 @@ import { testCookingMethodRecommendations } from '../utils/testRecommendations';
 
 // Import cooking methods from both traditional and cultural sources
 import { cookingMethods } from '@/data/cooking/cookingMethods';
-import { culturalCookingMethods, _getCulturalVariations } from '@/utils/culturalMethodsAggregator';
+import type { _getCulturalVariations } from '@/utils/culturalMethodsAggregator';
+import { culturalCookingMethods } from '@/utils/culturalMethodsAggregator';
 import { allCookingMethods } from '@/data/cooking';
 import { molecularCookingMethods } from '@/data/cooking/molecularMethods';
 
 // Add this import at the top with the other imports
-import { _getCurrentSeason } from '@/data/integrations/seasonal';
+import type { _getCurrentSeason } from '@/data/integrations/seasonal';
 import { getLunarMultiplier } from '@/utils/lunarMultiplier';
 
 // Add these imports or declarations at the top of the component
@@ -131,7 +133,7 @@ import { getLunarMultiplier } from '@/utils/lunarMultiplier';
 // Add import for modality type and utils
 import type { Modality } from '@/data/ingredients/types';
 import { determineIngredientModality } from '@/utils/ingredientUtils';
-import { _isElementalProperties } from '@/utils/elemental/elementalUtils';
+import type { _isElementalProperties } from '@/utils/elemental/elementalUtils';
 import type { PlanetaryDignityDetails } from '@/constants/planetaryFoodAssociations';
 
 // Utility functions for alchemical calculations

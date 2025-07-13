@@ -38,12 +38,23 @@ module.exports = {
     }
   },
   rules: {
-    // TypeScript rules
-    '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
-    '@typescript-eslint/no-explicit-any': 'warn',
-    '@typescript-eslint/explicit-function-return-type': 'off',
+    // Enhanced TypeScript rules
+    '@typescript-eslint/no-unsafe-return': 'error',
+    '@typescript-eslint/ban-ts-comment': ['error', { 'ts-ignore': 'allow-with-description' }],
+    '@typescript-eslint/no-floating-promises': 'error',
+    '@typescript-eslint/no-unused-vars': ['error', {
+      varsIgnorePattern: '^_',
+      argsIgnorePattern: '^_',
+      caughtErrorsIgnorePattern: '^_'
+    }],
+    '@typescript-eslint/no-explicit-any': 'error',
+    '@typescript-eslint/no-unsafe-assignment': 'error',
+    '@typescript-eslint/no-unsafe-member-access': 'error',
+    '@typescript-eslint/no-unsafe-call': 'error',
+    '@typescript-eslint/explicit-function-return-type': 'warn',
     '@typescript-eslint/explicit-module-boundary-types': 'off',
     '@typescript-eslint/no-non-null-assertion': 'warn',
+    '@typescript-eslint/consistent-type-imports': 'error',
     
     // React rules
     'react/react-in-jsx-scope': 'off',
@@ -72,9 +83,10 @@ module.exports = {
     ],
     'import/no-unresolved': 'error',
     'import/no-duplicates': 'error',
+    'import/no-cycle': 'error',
     
     // General rules
-    'no-console': 'warn',
+    'no-console': ['error', { allow: ['warn', 'error'] }],
     'no-debugger': 'error',
     'no-unused-vars': 'off', // Use TypeScript version
     'prefer-const': 'error',

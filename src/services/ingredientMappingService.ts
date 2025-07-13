@@ -5,8 +5,6 @@
  * to their corresponding ingredient database entries.
  */
 
-import { connectIngredientsToMappings } from '@/utils/recipeMatching';
-import { filterRecipesByIngredientMappings } from '@/utils/recipeFilters';
 import { ingredientsMap } from '@/data/ingredients';
 import { cuisinesMap } from '@/data/cuisines';
 import type { Recipe } from '@/types/recipe';
@@ -21,7 +19,7 @@ class IngredientMappingService {
    */
   mapRecipeIngredients(recipe: Recipe) {
     // Pattern HH: Safe Recipe type casting for connectIngredientsToMappings with proper import resolution
-    return connectIngredientsToMappings(recipe as unknown);
+    return connectIngredientsToMappings(recipe as Recipe);
   }
 
   /**
@@ -80,7 +78,7 @@ class IngredientMappingService {
     
     // Use the filter function with collected recipes
     return filterRecipesByIngredientMappings(
-      allRecipes as unknown as Recipe[],
+      allRecipes as Recipe[],
       options.elementalTarget,
       {
         required: options.requiredIngredients || [],

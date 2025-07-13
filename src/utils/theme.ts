@@ -1,4 +1,4 @@
-import { _cache } from './cache';
+// Disable cache for now but keep import in case needed later\n// import { _cache } from './cache';
 import { logger } from './logger';
 
 export interface ThemeData {

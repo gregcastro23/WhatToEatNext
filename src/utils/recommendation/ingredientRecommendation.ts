@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { AstrologicalState, _ElementalProperties, _ChakraEnergies, _AstrologicalProfile, ElementalAffinity, _PlanetName, _Element } from "@/types/alchemy";
 import type { Modality, Ingredient, SensoryProfile, CookingMethod } from '../../data/ingredients/types';
 
@@ -53,18 +52,18 @@ interface MatchingResult {
 
 
 // Phase 8: Lazy loading imports for performance optimization
-let vegetables: { [key: string]: any } = {};
-let fruits: { [key: string]: any } = {};
-let herbs: { [key: string]: any } = {};
-let spices: { [key: string]: any } = {};
-let proteins: { [key: string]: any } = {};
-let grains: { [key: string]: any } = {};
-let seasonings: { [key: string]: any } = {};
-let oils: { [key: string]: any } = {};
-let vinegars: { [key: string]: any } = {};
+let vegetables: Record<string, unknown> = {};
+let fruits: Record<string, unknown> = {};
+let herbs: Record<string, unknown> = {};
+let spices: Record<string, unknown> = {};
+let proteins: Record<string, unknown> = {};
+let grains: Record<string, unknown> = {};
+let seasonings: Record<string, unknown> = {};
+let oils: Record<string, unknown> = {};
+let vinegars: Record<string, unknown> = {};
 
 // Lazy loading functions
-const loadVegetables = async (): Promise<Record<string, any>> => {
+const loadVegetables = async (): Promise<Record<string, unknown>> => {
   if (Object.keys(vegetables).length === 0) {
     try {
       const module = await import('../../data/ingredients/vegetables');
@@ -76,7 +75,7 @@ const loadVegetables = async (): Promise<Record<string, any>> => {
   return vegetables;
 };
 
-const loadFruits = async (): Promise<Record<string, any>> => {
+const loadFruits = async (): Promise<Record<string, unknown>> => {
   if (Object.keys(fruits).length === 0) {
     try {
       const module = await import('../../data/ingredients/fruits');
@@ -88,7 +87,7 @@ const loadFruits = async (): Promise<Record<string, any>> => {
   return fruits;
 };
 
-const loadHerbs = async (): Promise<Record<string, any>> => {
+const loadHerbs = async (): Promise<Record<string, unknown>> => {
   if (Object.keys(herbs).length === 0) {
     try {
       const module = await import('../../data/ingredients/herbs');
@@ -480,11 +479,11 @@ export const getAllIngredients = async (): Promise<EnhancedIngredient[]> => {
   
   // Create eggs and dairy from proteins by filtering category
   const eggs = Object.entries(proteinsData || {})
-    .filter(([_, value]) => (value as unknown).category === 'egg')
+    .filter(([_, value]) => (value as Record<string, unknown>).category === 'egg')
     .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
   
   const dairy = Object.entries(proteinsData || {})
-    .filter(([_, value]) => (value as unknown).category === 'dairy')
+    .filter(([_, value]) => (value as Record<string, unknown>).category === 'dairy')
     .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
   
   // Define all categories with loaded data
@@ -546,7 +545,7 @@ export const getAllIngredients = async (): Promise<EnhancedIngredient[]> => {
   // Filter out ingredients without proper astrological profiles
   const validIngredients = allIngredients.filter(ing => 
     ing?.astrologicalProfile && 
-    (ing.astrologicalProfile.elementalAffinity as unknown)?.base && 
+    (ing.astrologicalProfile.elementalAffinity as Record<string, unknown>)?.base && 
     ing.astrologicalProfile.rulingPlanets
   );
   
@@ -666,7 +665,7 @@ export async function getIngredientRecommendations(
       const modalityScore = await calculateModalityScore(ingredient.qualities || [], options.modalityPreference);
       
       // NEW: Unified flavor compatibility scoring
-      const flavorScore = calculateUnifiedFlavorScore(ingredient, elementalProps, _options);
+      const flavorScore = calculateUnifiedFlavorScore(ingredient, elementalProps, options);
       
       // NEW: Kalchm resonance scoring
       const kalchmScore = calculateKalchmResonance(ingredient, elementalProps);
@@ -675,7 +674,7 @@ export async function getIngredientRecommendations(
       const monicaScore = calculateMonicaOptimization(ingredient, elementalProps);
       
       // NEW: Cultural context scoring
-      const culturalScore = calculateCulturalContextScore(ingredient, _options);
+      const culturalScore = calculateCulturalContextScore(ingredient, options);
       
       // Enhanced weighted calculation
       const totalScore = (
@@ -748,7 +747,7 @@ export const getTopIngredientMatches = async (
     
     // Elemental compatibility
     if (astroState.dominantElement && ingredient.elementalProperties) {
-      const elementValue = ingredient.elementalProperties[astroState.dominantElement] || 0;
+      const elementValue = ingredient.elementalProperties[astroState.dominantElement as keyof ElementalProperties] || 0;
       score += elementValue * 0.3;
     }
     

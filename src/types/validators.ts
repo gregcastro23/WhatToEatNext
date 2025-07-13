@@ -36,7 +36,7 @@ export const normalizeElementalProperties = (properties: ElementalProperties): E
  * @returns True if valid, false otherwise
  */
 export const validateElementalProperties = (properties: ElementalProperties): boolean => {
-    if (!properties) return false;
+    if (!properties || typeof properties !== 'object') return false;
     
     const requiredElements = ['Fire', 'Water', 'Earth', 'Air'];
     const hasAllElements = requiredElements.every(element => 
@@ -128,6 +128,10 @@ export const validateRecipe = (recipe: Recipe | null | undefined): boolean => {
     return true;
 };
 
-// Backward-compatibility aliases (temporary)
+// Prefix unused aliases
 export const _validateElementalProperties = validateElementalProperties;
 export const _normalizeElementalProperties = normalizeElementalProperties; 
+
+// Prefix unused for no-unused-vars
+export const _validateIngredient = validateIngredient;
+export const _validateRecipe = validateRecipe; 

@@ -37,14 +37,14 @@ export class PerformanceCache<T> {
   private defaultTTL: number;
   private hitCount = 0;
   private missCount = 0;
-  private cleanupInterval: NodeJS.Timeout | null = null;
+  private _cleanupInterval: NodeJS.Timeout | null = null;
 
   constructor(maxSize = 1000, defaultTTL = 300000) { // 5 minutes default TTL
     this.maxSize = maxSize;
     this.defaultTTL = defaultTTL;
     
     // Start cleanup interval (every 60 seconds)
-    this.cleanupInterval = setInterval(() => this.cleanup(), 60000);
+    this._cleanupInterval = setInterval(() => this.cleanup(), 60000);
   }
 
   /**
@@ -227,9 +227,9 @@ export class PerformanceCache<T> {
    * Destroy cache and cleanup intervals
    */
   destroy(): void {
-    if (this.cleanupInterval) {
-      clearInterval(this.cleanupInterval);
-      this.cleanupInterval = null;
+    if (this._cleanupInterval) {
+      clearInterval(this._cleanupInterval);
+      this._cleanupInterval = null;
     }
     this.clear();
   }
@@ -372,9 +372,9 @@ export class PerformanceMonitor {
 
 // ===== GLOBAL CACHE INSTANCES =====
 
-export const flavorCompatibilityCache = new PerformanceCache<any>(2000, 600000); // 10 minutes TTL
-export const astrologicalProfileCache = new PerformanceCache<any>(500, 300000); // 5 minutes TTL
-export const ingredientProfileCache = new PerformanceCache<any>(1500, 1800000); // 30 minutes TTL
+export const flavorCompatibilityCache = new PerformanceCache<unknown>(2000, 600000); // 10 minutes TTL
+export const astrologicalProfileCache = new PerformanceCache<unknown>(500, 300000); // 5 minutes TTL
+export const ingredientProfileCache = new PerformanceCache<unknown>(1500, 1800000); // 30 minutes TTL
 export const performanceMonitor = new PerformanceMonitor();
 
 // ===== CACHE WARMING FUNCTIONS =====

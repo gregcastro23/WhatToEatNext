@@ -58,7 +58,6 @@ interface MatchingResult {
 }
 
 
-import { _elementalUtils } from '../elementalUtils';
 import { allIngredients } from '../../data/ingredients';
 import { calculateMatchScore } from '../ElementalCalculator';
 
@@ -124,7 +123,7 @@ interface CacheEntry<T> {
 }
 
 const matchCache = new Map<string, CacheEntry<MatchResult[]>>();
-const _CACHE_TTL = 5 * 60 * 1000; // 5 minutes in milliseconds
+let _CACHE_TTL = 3600000; // 1 hour
 
 /**
  * Generate cache key for recipe matching
@@ -156,7 +155,7 @@ export function clearMatchCache(all = false): void {
     const entries = matchCache.entries();
     for (const entry of entries) {
       const [key, cacheEntry] = entry;
-      if (now - cacheEntry.timestamp > CACHE_TTL) {
+      if (now - cacheEntry.timestamp > _CACHE_TTL) {
         matchCache.delete(key);
       }
     }
@@ -280,7 +279,7 @@ export function findBestMatches(
   const cachedEntry = matchCache.get(cacheKey);
 
   // Check if we have a valid cache entry
-  if (cachedEntry && Date.now() - cachedEntry.timestamp < CACHE_TTL) {
+  if (cachedEntry && Date.now() - cachedEntry.timestamp < _CACHE_TTL) {
     return cachedEntry.data;
   }
 
@@ -465,7 +464,7 @@ function applyMatchFilters(recipes: Recipe[], filters: MatchFilters): Recipe[] {
 // ===== CALCULATION FUNCTIONS =====
 
 const calculateBaseElements = (recipe: Recipe): ElementalProperties => {
-  return getRecipeElementalProperties(recipe);
+  return _getRecipeElementalProperties(recipe);
 };
 
 const calculateDominantElements = (
@@ -481,7 +480,7 @@ function calculateRecipeEnergyMatch(
   currentEnergy: AstrologicalState
 ): number {
   // Get recipe elemental properties
-  const recipeElements = getRecipeElementalProperties(recipe);
+  const recipeElements = _getRecipeElementalProperties(recipe);
   
   // Calculate match score based on dominant element
   if (currentEnergy.dominantElement) {
@@ -497,7 +496,7 @@ function calculateElementalAlignment(
   currentEnergy: AstrologicalState
 ): number {
   // Get recipe elemental properties
-  const recipeElements = getRecipeElementalProperties(recipe);
+  const recipeElements = _getRecipeElementalProperties(recipe);
   
   // Get astrological influences
   const recipeInfluences = getRecipeAstrologicalInfluences(recipe);
@@ -616,7 +615,7 @@ function getCurrentSeason(timestamp: Date): string {
  */
 function getRecipePlanetaryInfluence(recipe: Recipe, planet: string): number {
   // Simple implementation based on recipe elemental properties
-  const elements = getRecipeElementalProperties(recipe);
+  const elements = _getRecipeElementalProperties(recipe);
   const elementMapper = new ElementMapper();
   const planetElement = elementMapper.getPlanetaryElement(planet);
   
@@ -667,7 +666,7 @@ function calculateMonicaCompatibility(recipe: Recipe, monicaConstant: number): n
   
   // Recipes with transformation-heavy cooking methods benefit from higher monica values
   const transformationMethods = ['fermentation', 'curing', 'smoking', 'aging', 'reduction'];
-  const cookingMethod = (recipe as unknown).cookingMethod?.toLowerCase() || '';
+  const cookingMethod = (recipe as unknown as Recipe)?.cookingMethod?.toLowerCase() || '';
   
   const isTransformational = transformationMethods.some(method => 
     cookingMethod.includes(method)

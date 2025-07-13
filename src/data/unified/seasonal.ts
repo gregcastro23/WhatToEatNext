@@ -108,14 +108,14 @@ export interface SeasonalRecommendations {
   cookingMethods: EnhancedCookingMethod[];
   recipes: unknown[];                       // Will be enhanced when recipe system is unified
   monicaOptimization: number;
-  kalchmHarmony: number;}
+  kalchmHarmony: number;
+}
 
 // ===== CONSOLIDATED SEASONAL DATA =====
 
 export const unifiedSeasonalProfiles: Record<Season, SeasonalProfile> = {
   spring: {
-    elementalDominance: { Fire: 0.4, Water: 0.2, Earth: 0.2, Air: 0.2
-    },
+    elementalDominance: { Fire: 0.4, Water: 0.2, Earth: 0.2, Air: 0.2 },
     kalchmRange: { min: 0.8, max: 1.2 },
     monicaModifiers: {
       temperatureAdjustment: 10,
@@ -204,8 +204,7 @@ export const unifiedSeasonalProfiles: Record<Season, SeasonalProfile> = {
   },
 
   summer: {
-    elementalDominance: { Fire: 0.5, Water: 0.3, Earth: 0.1, Air: 0.1
-    },
+    elementalDominance: { Fire: 0.5, Water: 0.3, Earth: 0.1, Air: 0.1 },
     kalchmRange: { min: 0.8, max: 1.2 },
     monicaModifiers: {
       temperatureAdjustment: -15,
@@ -292,8 +291,7 @@ export const unifiedSeasonalProfiles: Record<Season, SeasonalProfile> = {
   },
 
   autumn: {
-    elementalDominance: { Fire: 0.1, Water: 0.3, Earth: 0.4, Air: 0.2
-    },
+    elementalDominance: { Fire: 0.1, Water: 0.3, Earth: 0.4, Air: 0.2 },
     kalchmRange: { min: 0.8, max: 1.2 },
     monicaModifiers: {
       temperatureAdjustment: 5,
@@ -380,8 +378,7 @@ export const unifiedSeasonalProfiles: Record<Season, SeasonalProfile> = {
   },
 
   fall: {
-    elementalDominance: { Fire: 0.1, Water: 0.3, Earth: 0.4, Air: 0.2
-    },
+    elementalDominance: { Fire: 0.1, Water: 0.3, Earth: 0.4, Air: 0.2 },
     kalchmRange: { min: 0.8, max: 1.2 },
     monicaModifiers: {
       temperatureAdjustment: 5,
@@ -469,8 +466,7 @@ export const unifiedSeasonalProfiles: Record<Season, SeasonalProfile> = {
   },
 
   winter: {
-    elementalDominance: { Fire: 0.2, Water: 0.4, Earth: 0.3, Air: 0.1
-    },
+    elementalDominance: { Fire: 0.2, Water: 0.4, Earth: 0.3, Air: 0.1 },
     kalchmRange: { min: 0.8, max: 1.2 },
     monicaModifiers: {
       temperatureAdjustment: 20,
@@ -557,8 +553,7 @@ export const unifiedSeasonalProfiles: Record<Season, SeasonalProfile> = {
   },
 
   all: {
-    elementalDominance: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
-    },
+    elementalDominance: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
     kalchmRange: { min: 0.8, max: 1.2 },
     monicaModifiers: {
       temperatureAdjustment: 0,
@@ -1161,7 +1156,11 @@ export class UnifiedSeasonalSystem {
     to: ElementalProperties,
     progress: number
   ): ElementalProperties {
-    return { Fire: from.Fire + (to.Fire - from.Fire) * progress, Water: from.Water + (to.Water - from.Water) * progress, Earth: from.Earth + (to.Earth - from.Earth) * progress, Air: from.Air + (to.Air - from.Air) * progress
+    return {
+      Fire: from.Fire + (to.Fire - from.Fire) * progress,
+      Water: from.Water + (to.Water - from.Water) * progress,
+      Earth: from.Earth + (to.Earth - from.Earth) * progress,
+      Air: from.Air + (to.Air - from.Air) * progress
     };
   }
 

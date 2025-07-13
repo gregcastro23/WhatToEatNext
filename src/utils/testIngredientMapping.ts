@@ -27,11 +27,11 @@ export function findMatchedItalianDinnerRecipes() {
   
   // Map all ingredients to our ingredient database
   const mappedRecipes = allDinnerRecipes.map(recipe => {
-    const mappedIngredients = connectIngredientsToMappings(recipe as any);
+    const mappedIngredients = connectIngredientsToMappings(recipe as Record<string, unknown>);
     
     // Calculate mapping score (percentage of ingredients with a mapping)
     // Apply surgical type casting with variable extraction
-    const recipeData = recipe as any;
+    const recipeData = recipe as Record<string, unknown>;
     const ingredients = recipeData?.ingredients || [];
     
     const mappingScore = mappedIngredients.filter(i => i.matchedTo).length / 

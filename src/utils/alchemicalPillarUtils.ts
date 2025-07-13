@@ -29,6 +29,7 @@ interface PillarCalculationResult {
   seasonalAlignment?: number;
 }
 import { AlchemicalProperty } from '../types/celestial';
+
 // CookingMethod type definition
 interface CookingMethod {
   name: string;
@@ -38,7 +39,7 @@ interface CookingMethod {
 }
 import { 
   getCookingMethodAlchemicalEffect, 
-  getCookingMethodPillar as _getCookingMethodPillar,
+  getCookingMethodPillar,
   getCookingMethodThermodynamics,
   ALCHEMICAL_PILLARS,
   AlchemicalPillar,
