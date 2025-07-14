@@ -1,10 +1,10 @@
 {
   "summary": {
-    "totalFiles": 1010,
-    "filesWithUnused": 464,
-    "totalUnused": 1208,
-    "totalDeclarations": 10522,
-    "unusedRatio": 0.11480707089906862
+    "totalFiles": 1011,
+    "filesWithUnused": 463,
+    "totalUnused": 1198,
+    "totalDeclarations": 10549,
+    "unusedRatio": 0.11356526684993838
   },
   "topFiles": [
     {
@@ -33,27 +33,6 @@
         "getRecipeIngredients"
       ],
       "unusedRatio": 0.5277777777777778
-    },
-    {
-      "filePath": "/Users/GregCastro/Desktop/WhatToEatNext/src/utils/elementalUtils.ts",
-      "totalDeclarations": 58,
-      "unusedCount": 13,
-      "unusedVariables": [
-        "ELEMENT_WEIGHTS",
-        "applyNonLinearScaling",
-        "calculateUniquenessScore",
-        "fixIngredientMappings",
-        "calculateUniqueness",
-        "transformItemsWithPlanetaryPositions",
-        "getPrimaryElement",
-        "getElementStrength",
-        "fixRawIngredientMappings",
-        "getBalancingElement",
-        "getStrengtheningElement",
-        "enhanceVegetableTransformations",
-        "enhanceOilProperties"
-      ],
-      "unusedRatio": 0.22413793103448276
     },
     {
       "filePath": "/Users/GregCastro/Desktop/WhatToEatNext/src/data/recipes.ts",
@@ -390,6 +369,23 @@
         "ELEMENTAL_DEFAULTS"
       ],
       "unusedRatio": 0.6923076923076923
+    },
+    {
+      "filePath": "/Users/GregCastro/Desktop/WhatToEatNext/src/constants/defaults.ts",
+      "totalDeclarations": 57,
+      "unusedCount": 9,
+      "unusedVariables": [
+        "DEFAULT_CHAKRA_ENERGIES",
+        "DEFAULT_PLANETARY_ALIGNMENT",
+        "DEFAULT_ASTROLOGICAL_STATE",
+        "DEFAULT_ZODIAC_ENERGIES",
+        "DEFAULT_THERMODYNAMIC_PROPERTIES",
+        "DEFAULT_MODALITY_DISTRIBUTION",
+        "DEFAULT_ERROR_MESSAGES",
+        "DEFAULT_FOOD_RECOMMENDATION",
+        "DEFAULT_CALCULATION_PARAMS"
+      ],
+      "unusedRatio": 0.15789473684210525
     }
   ],
   "categoryAnalysis": [
@@ -397,7 +393,7 @@
       "category": "Components",
       "fileCount": 183,
       "totalUnused": 82,
-      "totalDeclarations": 2699
+      "totalDeclarations": 2703
     },
     {
       "category": "Services",
@@ -408,8 +404,8 @@
     {
       "category": "Utils",
       "fileCount": 165,
-      "totalUnused": 364,
-      "totalDeclarations": 2110
+      "totalUnused": 354,
+      "totalDeclarations": 2131
     },
     {
       "category": "Types",
@@ -437,9 +433,9 @@
     },
     {
       "category": "Other",
-      "fileCount": 149,
+      "fileCount": 150,
       "totalUnused": 190,
-      "totalDeclarations": 1503
+      "totalDeclarations": 1505
     }
   ]
 }
