@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
-import { cookingMethods } from '@/data/cooking/cookingMethods';
-import { allCookingMethods } from '@/data/cooking/methods';
+import { allCookingMethods } from '@/data/cooking';
 
 // Define the interface for cooking methods that the component expects
 interface CookingMethod {
@@ -38,7 +37,7 @@ export function useCookingMethods() {
   useEffect(() => {
     try {
       // Convert the cooking methods data to the format expected by CookingMethodsSection
-      const convertedMethods: CookingMethod[] = Object.entries(cookingMethods).map(([key, methodData]) => {
+      const convertedMethods: CookingMethod[] = Object.entries(allCookingMethods).map(([key, methodData]) => {
         const data = methodData as any;
         
         // Calculate a score based on alchemical properties and elemental effects
@@ -92,10 +91,15 @@ export function useCookingMethods() {
 
       setMethods(sortedMethods);
       setIsLoading(false);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to load cooking methods');
-      setIsLoading(false);
-    }
+      if (process.env.NODE_ENV === 'development') {
+        console.log(`Loaded ${sortedMethods.length} cooking methods successfully`);
+      }
+          } catch (err) {
+        console.error('Error loading cooking methods:', err);
+        const errorMessage = err instanceof Error ? err.message : 'Failed to load cooking methods';
+        setError(errorMessage);
+        setIsLoading(false);
+      }
   }, []);
 
   const selectMethod = (methodId: string) => {

@@ -9,7 +9,10 @@ import { useCookingMethods } from '@/hooks/useCookingMethods';
 // Use dynamic import for CookingMethodsSection to avoid chunk loading issues
 const DynamicCookingMethodsSection = dynamic(
   () => import('@/components/CookingMethodsSection').then(mod => ({ default: mod.CookingMethodsSection })),
-  { ssr: false }
+  { 
+    ssr: false,
+    loading: () => <div className="flex items-center justify-center py-8"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-orange-500"></div></div>
+  }
 );
 import RecipeGeneratorCap from '@/components/FoodRecommender/RecipeGeneratorCap';
 import { ChefHat, Sparkles, Utensils, Home as HomeIcon, Globe, Target } from 'lucide-react';
@@ -19,7 +22,10 @@ import MainRecipeBuilder from '@/components/recipes/MainRecipeBuilder';
 // Use dynamic import with SSR disabled for components that use client-side only features
 const DynamicCuisineRecommender = dynamic(
   () => import('@/components/CuisineRecommender'),
-  { ssr: false }
+  { 
+    ssr: false,
+    loading: () => <div className="flex items-center justify-center py-8"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-purple-500"></div><span className="ml-2 text-gray-600">Loading cuisine recommendations...</span></div>
+  }
 );
 
 const DynamicPlanetaryTimeDisplay = dynamic(
@@ -226,7 +232,17 @@ export default function Home() {
                   </div>
                 ) : cookingMethodsError ? (
                   <div className="text-red-500 text-center py-4">
-                    Error loading cooking methods: {cookingMethodsError}
+                    <p>Error loading cooking methods: {cookingMethodsError}</p>
+                    <button 
+                      onClick={() => window.location.reload()} 
+                      className="mt-2 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
+                    >
+                      Retry
+                    </button>
+                  </div>
+                ) : cookingMethods.length === 0 ? (
+                  <div className="text-center py-4 text-gray-600">
+                    <p>No cooking methods found. Check console for details.</p>
                   </div>
                 ) : (
                   <DynamicCookingMethodsSection

@@ -18,6 +18,10 @@ import {
   Target
 } from 'lucide-react';
 
+import { CookingMethodsSection } from '@/components/CookingMethodsSection';
+import { useAstrologicalState } from '@/hooks/useAstrologicalState';
+import { calculateMethodScore } from '@/utils/cookingMethodRecommender';
+
 interface CookingMethod {
   id: string;
   name: string;
@@ -54,7 +58,11 @@ export default function CookingMethodsPage() {
   const [elementFilter, setElementFilter] = useState<string>('all');
   const [durationFilter, setDurationFilter] = useState<string>('all');
   const [sortBy, setSortBy] = useState<'score' | 'name' | 'duration'>('score');
+  const [elementDominanceFilter, setElementDominanceFilter] = useState<string>('all');
+  const [alchemicalPropertiesFilter, setAlchemicalPropertiesFilter] = useState<string>('all');
   // const [showSidebar, setShowSidebar] = useState(false);
+
+  const { astroState } = useAstrologicalState();
 
   useEffect(() => {
     // Convert cooking methods data to the format expected by the component
@@ -301,75 +309,15 @@ export default function CookingMethodsPage() {
           </div>
         </div>
 
-        {/* Methods Grid */}
+        {/* Use the CookingMethodsSection component */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Methods List */}
+          {/* Use the CookingMethodsSection component */}
           <div className="lg:col-span-2">
-            <div className="bg-white rounded-lg shadow-md p-6">
-              <h2 className="text-2xl font-semibold text-gray-900 mb-6">
-                <BookOpen className="inline-block mr-2" size={24} />
-                Cooking Methods ({filteredMethods.length})
-              </h2>
-              
-              {filteredMethods.length === 0 ? (
-                <div className="text-center py-12">
-                  <Search className="mx-auto text-gray-400 mb-4" size={48} />
-                  <h3 className="text-lg font-medium text-gray-900 mb-2">No methods found</h3>
-                  <p className="text-gray-600">Try adjusting your search or filters</p>
-                </div>
-              ) : (
-                <div className="space-y-4">
-                  {filteredMethods.map((method) => (
-                    <div
-                      key={method.id}
-                      className={`p-4 border rounded-lg cursor-pointer transition-all duration-200 hover:shadow-md ${
-                        selectedMethod?.id === method.id
-                          ? 'border-indigo-500 bg-indigo-50'
-                          : 'border-gray-200 hover:border-indigo-300'
-                      }`}
-                      onClick={() => handleMethodSelect(method)}
-                    >
-                      <div className="flex items-center justify-between mb-2">
-                        <h3 className="text-lg font-semibold text-gray-900">{method.name}</h3>
-                        {method.score && (
-                          <span className="px-2 py-1 bg-indigo-100 text-indigo-800 rounded-full text-sm font-medium">
-                            {Math.round(method.score * 100)}%
-                          </span>
-                        )}
-                      </div>
-                      
-                      <p className="text-gray-600 mb-3">{method.description}</p>
-                      
-                      {/* Elemental Effects */}
-                      {method.elementalEffect && (
-                        <div className="flex items-center space-x-4 mb-3">
-                          <span className="text-sm font-medium text-gray-700">Elements:</span>
-                          {Object.entries(method.elementalEffect)
-                            .filter(([_, value]) => value > 0.3)
-                            .sort(([_, a], [__, b]) => (b as number) - (a as number))
-                            .map(([element, value]) => (
-                              <div key={element} className="flex items-center space-x-1">
-                                {getElementIcon(element)}
-                                <span className={`text-sm font-medium ${getElementColor(element)}`}>
-                                  {Math.round(value * 100)}%
-                                </span>
-                              </div>
-                            ))}
-                        </div>
-                      )}
-                      
-                      {/* Duration */}
-                      {method.duration && (
-                        <div className="flex items-center text-sm text-gray-600">
-                          <Clock size={14} className="mr-1" />
-                          {method.duration.min}-{method.duration.max} minutes
-                        </div>
-                      )}
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
+            <CookingMethodsSection 
+              methods={filteredMethods}
+              onSelectMethod={handleMethodSelect}
+              selectedMethodId={selectedMethod?.id || null}
+            />
           </div>
 
           {/* Method Details Sidebar */}

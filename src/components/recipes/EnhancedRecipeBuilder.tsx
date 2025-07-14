@@ -65,6 +65,7 @@ import { cuisinesMap } from '@/data/cuisines';
 import { cuisineFlavorProfiles } from '@/data/cuisineFlavorProfiles';
 import type { CuisineFlavorProfile } from '@/data/cuisineFlavorProfiles';
 import { generateIngredientRecommendations, getSeasonalIngredients } from '@/data/unified/enhancedIngredients';
+import { calculatePlanetaryPositions } from '../../utils/astrologyUtils';
 
 // Enhanced Recipe Builder Interfaces
 interface RecipeBuilderStep {
@@ -542,6 +543,9 @@ export default function EnhancedRecipeBuilder() {
     setIsGenerating(true);
     
     try {
+      // New: Fetch current planetary positions
+      const positions = await calculatePlanetaryPositions(new Date());
+      
       const criteria: RecipeBuildingCriteria = {
         cuisine: state.cuisine || undefined,
         season: state.season || undefined,
@@ -555,7 +559,9 @@ export default function EnhancedRecipeBuilder() {
         maxPrepTime: state.prepTime,
         maxCookTime: state.cookTime,
         requiredIngredients: state.selectedIngredients.map(ing => ing.name),
-        skillLevel: state.difficulty
+        skillLevel: state.difficulty,
+        // New: Pass planetary positions
+        planetaryPositions: positions
       };
       
       // Use the imported _generateMonicaOptimizedRecipe for sophisticated recipe generation
@@ -914,8 +920,94 @@ const AlchemicalStep = ({ state, setState, onComplete }: any) => (
   <div>Alchemical Step - To be implemented</div>
 );
 
-const ReviewStep = ({ state, generatedRecipe, isGenerating, onGenerate, onComplete }: any) => (
-  <div>Review Step - To be implemented</div>
-);
+// Enhance ReviewStep to transform and display in Recipe format
+
+import { Recipe } from '@/data/recipebuilding/recipes';
+
+const ReviewStep = ({ state, generatedRecipe, isGenerating, onGenerate, onComplete }: any) => {
+  const transformedRecipe = useMemo<Recipe | null>(() => {
+    if (!generatedRecipe) return null;
+    
+    return {
+      name: generatedRecipe.name || 'Generated Recipe',
+      description: generatedRecipe.description || '',
+      ingredients: generatedRecipe.ingredients?.map(ing => ({
+        name: typeof ing === 'string' ? ing : ing.name || '',
+        amount: typeof ing === 'string' ? 1 : ing.amount || 1,
+        unit: typeof ing === 'string' ? '' : ing.unit || ''
+      })) || [],
+      nutrition: generatedRecipe.nutritionalOptimization?.alchemicalNutrition || {
+        calories: 0,
+        protein: 0,
+        carbs: 0,
+        fat: 0,
+        vitamins: [],
+        minerals: []
+      },
+      timeToMake: `${generatedRecipe.prepTime || 0} + ${generatedRecipe.cookTime || 0} minutes`,
+      season: generatedRecipe.seasonalAdaptation?.currentSeason ? [generatedRecipe.seasonalAdaptation.currentSeason] : ['all'],
+      cuisine: generatedRecipe.cuisine || 'Fusion',
+      mealType: generatedRecipe.mealType || ['Dinner'],
+      elementalBalance: generatedRecipe.elementalProperties || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
+      instructions: generatedRecipe.instructions || []
+    };
+  }, [generatedRecipe]);
+  
+  return (
+    <Box>
+      <Typography variant="h6" gutterBottom>
+        Review Your Recipe
+      </Typography>
+      
+      <Typography variant="subtitle1" gutterBottom>
+        Basic Information
+      </Typography>
+      <Typography>Name: {state.name || 'Untitled Recipe'}</Typography>
+      <Typography>Cuisine: {state.cuisine || 'Not specified'}</Typography>
+      <Typography>Servings: {state.servings}</Typography>
+      <Typography>Difficulty: {state.difficulty}</Typography>
+      
+      <Typography variant="subtitle1" sx={{ mt: 2 }} gutterBottom>
+        Ingredients ({state.selectedIngredients.length})
+      </Typography>
+      <ul>
+        {state.selectedIngredients.map((ing, index) => (
+          <li key={index}>
+            {ing.quantity} {ing.unit} {ing.name} {ing.preparation ? `(${ing.preparation})` : ''}
+          </li>
+        ))}
+      </ul>
+      
+      <Typography variant="subtitle1" sx={{ mt: 2 }} gutterBottom>
+        Instructions ({state.instructions.length})
+      </Typography>
+      <ol>
+        {state.instructions.map((inst, index) => (
+          <li key={index}>{inst.instruction}</li>
+        ))}
+      </ol>
+      
+      <Button 
+        variant="contained" 
+        onClick={onGenerate} 
+        disabled={isGenerating} 
+        sx={{ mt: 2 }}
+      >
+        {isGenerating ? 'Generating...' : 'Generate Optimized Recipe'}
+      </Button>
+      
+      {generatedRecipe && transformedRecipe && (
+        <Box sx={{ mt: 3 }}>
+          <Typography variant="h6" gutterBottom>
+            Generated Recipe (Standard Format)
+          </Typography>
+          <pre style={{ background: '#f5f5f5', padding: '1rem', overflow: 'auto' }}>
+            {JSON.stringify(transformedRecipe, null, 2)}
+          </pre>
+        </Box>
+      )}
+    </Box>
+  );
+};
 
 // LivePreviewSidebar component is now imported from separate file 

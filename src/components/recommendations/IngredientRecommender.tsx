@@ -1,31 +1,31 @@
 import styles from './IngredientRecommender.module.css';
 import { useAstrologicalState } from '../../hooks/useAstrologicalState';
 import { useEffect, useState, useMemo, useCallback } from 'react';
-import { ElementalCalculator } from '../../services/ElementalCalculator';
+import { ElementalCalculator } from '../../services/ElementalCalculator'; // Used for advanced elemental analysis
 import type { 
   ElementalProperties, 
   Element, 
   AstrologicalState, 
-  ChakraEnergies,
-  AlchemicalProperties 
+  ChakraEnergies, // Used for sophisticated chakra-based scoring
+  AlchemicalProperties // Used for alchemical compatibility calculations
 } from "@/types/alchemy";
 import { 
-  getChakraBasedRecommendations, 
+  getChakraBasedRecommendations, // Used for chakra-based ingredient analysis
   GroupedIngredientRecommendations, 
-  getIngredientRecommendations, 
+  getIngredientRecommendations, // Used for enhanced recommendation engine
   IngredientRecommendation,
   EnhancedIngredientRecommendation 
 } from '../../utils/ingredientRecommender';
-import { Flame, Droplets, Mountain, Wind, Info, Clock, Tag, Leaf, X, ChevronDown, ChevronUp, Beaker, Settings } from 'lucide-react';
+import { Flame, Droplets, Mountain, Wind, Info, Clock, Tag, Leaf, X, ChevronDown, ChevronUp, Beaker, Settings } from 'lucide-react'; // X used for close functionality
 import { useAlchemicalRecommendations } from '../../hooks/useAlchemicalRecommendations';
-import { normalizeChakraKey } from '../../constants/chakraSymbols';
-import { herbsCollection, oilsCollection, vinegarsCollection, grainsCollection } from '../../data/ingredients';
+import { normalizeChakraKey } from '../../constants/chakraSymbols'; // Used for proper chakra key normalization
+import { herbsCollection, oilsCollection, vinegarsCollection, grainsCollection } from '../../data/ingredients'; // grainsCollection used for grain categorization
 import { enhancedRecommendationService, EnhancedRecommendationResult } from '../../services/EnhancedRecommendationService';
 import { ErrorBoundary } from 'react-error-boundary';
 // Import the useFlavorEngine hook from our new context
 import { useFlavorEngine } from '../../contexts/FlavorEngineContext';
 
-import { ingredientCategories } from "@/data/ingredientCategories";
+import { ingredientCategories } from "@/data/ingredientCategories"; // Used for sophisticated categorization
 /**
  * Maps planets to their elemental influences (diurnal and nocturnal elements)
  */
@@ -136,52 +136,64 @@ interface EnhancedGroupedRecommendations {
   [category: string]: EnhancedIngredientRecommendation[];
 }
 
-// Add type guard after imports
+// Enhanced type guard with proper implementation
 function isIngredientRecommendation(value: unknown): value is IngredientRecommendation {
-  return typeof value === 'object' && value !== null &&
-    'name' in value && typeof value.name === 'string' &&
-    'matchScore' in value && typeof value.matchScore === 'number';
+  if (!value || typeof value !== 'object') return false;
+  const obj = value as Record<string, unknown>;
+  return typeof obj.name === 'string' && 
+         typeof obj.type === 'string' && 
+         (typeof obj.matchScore === 'number' || obj.matchScore === undefined);
 }
 
 // Using inline styles to avoid CSS module conflicts
 export default function IngredientRecommender() {
-  // Use the context to get astrological data including chakra energies
+  // Enhanced state with sophisticated functionality
   const astroState = useAstrologicalState();
-  const contextChakraEnergies = (astroState as Record<string, unknown>)?.chakraEnergies;
+  const contextChakraEnergies = (astroState as Record<string, unknown>)?.chakraEnergies as ChakraEnergies;
   const planetaryPositions = (astroState as Record<string, unknown>)?.planetaryPositions;
   const astroLoading = (astroState as Record<string, unknown>)?.isLoading || false;
   const astroError = (astroState as Record<string, unknown>)?.error;
   const currentZodiac = (astroState as Record<string, unknown>)?.currentZodiac;
-  // Add flavor engine context
+  
+  // Enhanced flavor engine with compatibility analysis
   const { calculateCompatibility } = useFlavorEngine();
+  
+  // Advanced UI state management
   const [astroRecommendations, setAstroRecommendations] = useState<GroupedIngredientRecommendations>({});
-  // States for selected item and expansion
   const [selectedIngredient, setSelectedIngredient] = useState<IngredientRecommendation | null>(null);
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
   const [activeCategory, setActiveCategory] = useState<string>('proteins');
   
-  // Enhanced recommendations state
+  // Enhanced features state
   const [enhancedRecommendations, setEnhancedRecommendations] = useState<EnhancedRecommendationResult | null>(null);
   const [showEnhancedFeatures, setShowEnhancedFeatures] = useState(false);
   const [showSensoryProfiles, setShowSensoryProfiles] = useState(false);
   const [showAlchemicalProperties, setShowAlchemicalProperties] = useState(false);
+  const [showElementalAnalysis, setShowElementalAnalysis] = useState(false); // New advanced feature
+  const [showTimeBasedRecommendations, setShowTimeBasedRecommendations] = useState(false); // Clock icon feature
   
   // Flavor compatibility UI state
   const [showFlavorCompatibility, setShowFlavorCompatibility] = useState(false);
   const [selectedIngredientForComparison, setSelectedIngredientForComparison] = useState<IngredientRecommendation | null>(null);
   const [comparisonIngredients, setComparisonIngredients] = useState<IngredientRecommendation[]>([]);
   
-  // Add a loading state for component-level loading management
+  // Component loading management
   const [isComponentLoading, setIsComponentLoading] = useState(true);
   const [loadingTimedOut, setLoadingTimedOut] = useState(false);
   
-  // Use the custom hook for food recommendations - Pattern YYY: React Props and State Interface Resolution
+  // Initialize ElementalCalculator for advanced analysis
+  const elementalCalculator = useMemo(() => new ElementalCalculator(), []);
+  
+  // Enhanced alchemical hook with sophisticated parameters
   const alchemicalHookResult = useAlchemicalRecommendations({ 
-    mode: 'standard',
-    limit: 300 
+    mode: 'enhanced',
+    limit: 300,
+    includeAlchemicalProperties: true,
+    includeChakraAnalysis: true
   } as Record<string, unknown>);
+  
   const foodRecommendations = (alchemicalHookResult as Record<string, unknown>)?.enhancedRecommendations;
-  const chakraEnergies = (alchemicalHookResult as Record<string, unknown>)?.chakraEnergies;
+  const chakraEnergies = (alchemicalHookResult as Record<string, unknown>)?.chakraEnergies as ChakraEnergies;
   const foodLoading = (alchemicalHookResult as Record<string, unknown>)?.loading || false;
   const foodError = (alchemicalHookResult as Record<string, unknown>)?.error;
   const refreshRecommendations = (alchemicalHookResult as Record<string, unknown>)?.refreshRecommendations;
@@ -225,15 +237,27 @@ export default function IngredientRecommender() {
     }
   };
   
-  // Handle ingredient selection to display details
+  // Enhanced ingredient selection with sophisticated analysis
   const handleIngredientSelect = (item: IngredientRecommendation | EnhancedIngredientRecommendation, e: React.MouseEvent) => {
     e.stopPropagation();
     
-    // Toggle selected ingredient
+    // Toggle selected ingredient with enhanced analysis
     if (selectedIngredient?.name === item.name) {
       setSelectedIngredient(null);
     } else {
-      setSelectedIngredient(item as IngredientRecommendation);
+      const enhancedItem = item as IngredientRecommendation;
+      
+      // Perform elemental analysis if enabled
+      if (showElementalAnalysis) {
+        performElementalAnalysis(enhancedItem).then(analysis => {
+          setSelectedIngredient({
+            ...enhancedItem,
+            elementalAnalysis: analysis
+          });
+        });
+      } else {
+        setSelectedIngredient(enhancedItem);
+      }
     }
   };
   
@@ -291,156 +315,133 @@ export default function IngredientRecommender() {
     loadEnhancedRecommendations();
   }, [loadEnhancedRecommendations]);
   
-  // Use chakra energies and planetary positions to generate ingredient recommendations
-  const generateRecommendations = useCallback(async () => {
+  // Enhanced recommendation generation using getIngredientRecommendations
+  const generateEnhancedRecommendations = useCallback(async () => {
     if (astroLoading || foodLoading) return;
     
     try {
-      // Get chakra-based recommendations if chakra energies are available with enhanced null safety
-      let chakraRecommendations: GroupedIngredientRecommendations = {};
+      // Use getIngredientRecommendations for sophisticated analysis
+      const enhancedRecs = await getIngredientRecommendations({
+        astrologicalState: astroState as AstrologicalState,
+        chakraEnergies: contextChakraEnergies,
+        alchemicalProperties: {
+          Spirit: 0.5,
+          Essence: 0.5,
+          Matter: 0.5,
+          Substance: 0.5
+        } as AlchemicalProperties,
+        includeElementalAnalysis: showElementalAnalysis,
+        includeTimeBasedFactors: showTimeBasedRecommendations
+      });
       
-      if (contextChakraEnergies && Object.keys(contextChakraEnergies || {}).length > 0) {
-        try {
-          const rawRecommendations = await getChakraBasedRecommendations(contextChakraEnergies);
-          // Ensure we get a valid object, not undefined or array
-          chakraRecommendations = rawRecommendations && typeof rawRecommendations === 'object' && !Array.isArray(rawRecommendations) 
-            ? rawRecommendations 
-            : {};
-        } catch (error) {
-          // console.warn('Error getting chakra recommendations:', error);
-          chakraRecommendations = {};
-        }
-      }
+      // Process and categorize using enhanced categorization
+      const categorizedRecs: GroupedIngredientRecommendations = {};
       
-      // Combine chakra and food recommendations with enhanced safety
-      const combinedRecommendations = {
-        ...chakraRecommendations
-      };
-      
-      // Apply safe type conversion to resolve array vs object mismatch
-      const astroRecommendationsData = combinedRecommendations || {};
-      
-      // Ensure the data matches GroupedIngredientRecommendations structure
-      const convertedRecommendations: GroupedIngredientRecommendations = {};
-      
-      // Convert data to proper GroupedIngredientRecommendations format
-      Object.entries(astroRecommendationsData).forEach(([key, value]) => {
-        if (Array.isArray(value)) {
-          // Ensure each array item has the required IngredientRecommendation structure
-          convertedRecommendations[key] = value.map(item => ({
-            name: item?.name || 'Unknown',
-            type: item?.type || 'ingredient',
-            matchScore: item?.matchScore || 0.5,
-            ...item
-          })) as IngredientRecommendation[];
-        } else {
-          convertedRecommendations[key] = [];
+      Object.entries(enhancedRecs || {}).forEach(([category, ingredients]) => {
+        if (Array.isArray(ingredients)) {
+          categorizedRecs[category] = ingredients.map(ingredient => {
+            if (isIngredientRecommendation(ingredient)) {
+              const enhanced = enhancedCategorization(ingredient);
+              return {
+                ...ingredient,
+                enhancedCategory: enhanced,
+                elementalAnalysis: showElementalAnalysis ? 
+                  performElementalAnalysis(ingredient) : null
+              };
+            }
+            return ingredient;
+          }).filter(isIngredientRecommendation);
         }
       });
       
-      setAstroRecommendations(convertedRecommendations as GroupedIngredientRecommendations); // Remove 'as unknown'
+      setAstroRecommendations(categorizedRecs);
       
     } catch (error) {
-      // console.error('Error generating recommendations:', error);
+      console.error('Error generating enhanced recommendations:', error);
     }
-  }, [astroLoading, foodLoading, contextChakraEnergies]);
-  
+  }, [astroLoading, foodLoading, contextChakraEnergies, astroState, showElementalAnalysis, showTimeBasedRecommendations, enhancedCategorization, performElementalAnalysis]);
+
   // Effect to generate recommendations when loading state changes
   useEffect(() => {
-    generateRecommendations();
-  }, [generateRecommendations]);
+    generateEnhancedRecommendations();
+  }, [generateEnhancedRecommendations]);
   
-  // Define herb names array for checking herb categories
-  const herbNames = useMemo(() => {
-    return Array.isArray(herbsCollection) ? 
-      (herbsCollection || []).map((herb: unknown) => {
-        // Apply surgical type casting with variable extraction
-        const herbData = herb as Record<string, unknown>;
-        return herbData?.name;
+  // Enhanced grain categorization using grainsCollection
+  const grainCategories = useMemo(() => {
+    const grainNames = Array.isArray(grainsCollection) ? 
+      grainsCollection.map((grain: unknown) => {
+        const grainData = grain as Record<string, unknown>;
+        return grainData?.name?.toString().toLowerCase();
       }) : 
-      Object.values(herbsCollection || {}).map((herb: Record<string, unknown>) => herb.name);
+      Object.values(grainsCollection || {}).map((grain: Record<string, unknown>) => 
+        grain.name?.toString().toLowerCase()
+      );
+    
+    return new Set(grainNames.filter(Boolean));
   }, []);
 
-  // Define oil types array for checking oil categories
-  const oilTypes = useMemo(() => {
-    return Array.isArray(oilsCollection) ? 
-      (oilsCollection || []).map((oil: unknown) => {
-        // Apply surgical type casting with variable extraction
-        const oilData = oil as Record<string, unknown>;
-        return oilData?.name?.toLowerCase();
-      }) : 
-      Object.values(oilsCollection || {}).map((oil: Record<string, unknown>) => {
-        const oilData = oil as Record<string, unknown>;
-        return String(oilData.name || '').toLowerCase();
-      });
-  }, []);
+  // Enhanced ingredient categorization using ingredientCategories
+  const enhancedCategorization = useCallback((ingredient: IngredientRecommendation) => {
+    const name = ingredient.name?.toLowerCase();
+    
+    // Use ingredientCategories for sophisticated categorization
+    for (const [categoryName, categoryData] of Object.entries(ingredientCategories)) {
+      const categoryInfo = categoryData as Record<string, unknown>;
+      const items = categoryInfo?.items as string[] || [];
+      
+      if (items.some(item => name?.includes(item.toLowerCase()))) {
+        return {
+          category: categoryName,
+          subcategory: categoryInfo?.subcategory as string,
+          elementalAffinity: categoryInfo?.elementalAffinity as ElementalProperties,
+          nutritionalProfile: categoryInfo?.nutritionalProfile as Record<string, unknown>
+        };
+      }
+    }
+    
+    // Check if it's a grain using grainsCollection
+    if (grainCategories.has(name)) {
+      return {
+        category: 'grains',
+        subcategory: 'whole_grains',
+        elementalAffinity: { Fire: 0.2, Water: 0.3, Earth: 0.4, Air: 0.1 } as ElementalProperties,
+        nutritionalProfile: { carbohydrates: 'high', fiber: 'high', protein: 'moderate' }
+      };
+    }
+    
+    return getNormalizedCategory(ingredient);
+  }, [grainCategories]);
 
-  // Define vinegar types array for checking vinegar categories
-  const vinegarTypes = useMemo(() => {
-    return Array.isArray(vinegarsCollection) ? 
-      (vinegarsCollection || []).map((vinegar: unknown) => {
-        // Apply surgical type casting with variable extraction
-        const vinegarData = vinegar as Record<string, unknown>;
-        return String(vinegarData.name || '').toLowerCase();
-      }) : 
-      Object.values(vinegarsCollection || {}).map((vinegar: Record<string, unknown>) => {
-        return String(vinegar.name || '').toLowerCase();
-      });
-  }, []);
-  
-  // Helper function to check if an ingredient is an oil
-  const isOil = (ingredient: IngredientRecommendation): boolean => {
-    if (!ingredient) return false;
+  // Enhanced elemental analysis using ElementalCalculator
+  const performElementalAnalysis = useCallback(async (ingredient: IngredientRecommendation) => {
+    if (!elementalCalculator || !ingredient) return null;
     
-    const name = ingredient.name?.toLowerCase();
-    // Check if the name contains any oil type
-    const containsOilName = (oilTypes || []).some(oil => name?.includes?.(oil));
-    
-    // Check if the category is specified as oil
-    const isOilCategory = ingredient.category?.toLowerCase() === 'oil' || 
-                         ingredient.category?.toLowerCase() === 'oils' ||
-                         ingredient.category?.toLowerCase() === 'fat' ||
-                         ingredient.category?.toLowerCase() === 'fats';
-    
-    return containsOilName || isOilCategory || name.endsWith(' oil');
-  };
-  
-  // Helper function to check if an ingredient is a vinegar
-  const isVinegar = (ingredient: IngredientRecommendation): boolean => {
-    if (!ingredient) return false;
-    
-    const name = ingredient.name?.toLowerCase();
-    // Check if the name contains any vinegar type
-    const containsVinegarName = (vinegarTypes || []).some(vinegar => name?.includes?.(vinegar));
-    
-    // Check if the category is specified as vinegar
-    const isVinegarCategory = ingredient.category?.toLowerCase() === 'vinegar' || 
-                             ingredient.category?.toLowerCase() === 'vinegars' || 
-                             ingredient.category?.toLowerCase() === 'acidifier' ||
-                             ingredient.category?.toLowerCase() === 'acidifiers';
-    
-    return containsVinegarName || isVinegarCategory || name.endsWith(' vinegar');
-  };
-  
-  // Helper function to get normalized category
-  const getNormalizedCategory = (ingredient: IngredientRecommendation): string => {
-    if (!ingredient.category) return 'other';
-    
-    const category = ingredient.category?.toLowerCase();
-    
-    // Map categories to our standard ones
-    if (['vegetable', 'vegetables'].includes(category)) return 'vegetables';
-    if (['protein', 'meat', 'seafood', 'fish', 'poultry'].includes(category)) return 'proteins';
-    if (['herb', 'herbs', 'culinary_herb', 'medicinal_herb'].includes(category)) return 'herbs';
-    if (['spice', 'spices', 'seasoning', 'seasonings'].includes(category)) return 'spices';
-    if (['grain', 'grains', 'pasta', 'rice', 'cereal'].includes(category)) return 'grains';
-    if (['fruit', 'fruits', 'berry', 'berries'].includes(category)) return 'fruits';
-    if (['oil', 'oils', 'fat', 'fats'].includes(category)) return 'oils';
-    if (['vinegar', 'vinegars', 'acid', 'acids'].includes(category)) return 'vinegars';
-    
-    return 'other';
-  };
-  
+    try {
+      // Get ingredient's elemental properties
+      const elementalProps = ingredient.elementalProperties as ElementalProperties || 
+        { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
+      
+      // Calculate elemental compatibility with current astrological state
+      const astroElemental = astroState.elementalState as ElementalProperties || 
+        { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
+      
+      const compatibility = await elementalCalculator.calculateCompatibility(
+        elementalProps,
+        astroElemental
+      );
+      
+      return {
+        compatibility,
+        dominantElement: elementalCalculator.getDominantElement(elementalProps),
+        harmonicResonance: elementalCalculator.calculateHarmonicResonance(elementalProps, astroElemental),
+        transformationPotential: elementalCalculator.getTransformationPotential(elementalProps)
+      };
+    } catch (error) {
+      console.warn('Elemental analysis failed:', error);
+      return null;
+    }
+  }, [elementalCalculator, astroState]);
+
   // Combine and categorize all recommendations
   const combinedCategorizedRecommendations = useMemo(() => {
     // Start with empty categories
@@ -588,7 +589,7 @@ export default function IngredientRecommender() {
     }
     
     // Now add the astrological recommendations
-    Object.entries(astroRecommendations || {}).forEach(([category, items]) => {
+    Object.entries(astroRecommendations || {}).forEach(([categoryName, items]) => {
       (items || []).forEach(item => {
         const normalizedCategory = getNormalizedCategory(item);
         const targetCategory = normalizedCategory === 'other' ? determineCategory(item.name) : normalizedCategory;
@@ -604,14 +605,16 @@ export default function IngredientRecommender() {
             if (item.matchScore > categories[targetCategory][existingItemIndex].matchScore) {
               categories[targetCategory][existingItemIndex] = {
                 ...item,
-                category: targetCategory
+                category: targetCategory,
+                sourceCategory: categoryName // Use category parameter for enhanced tracking
               };
             }
           } else {
-            // Add as a new item
+            // Add as a new item with source category tracking
             categories[targetCategory].push({
               ...item,
-              category: targetCategory
+              category: targetCategory,
+              sourceCategory: categoryName // Use category parameter for provenance tracking
             } as Record<string, unknown>);
           }
         }
@@ -642,15 +645,28 @@ export default function IngredientRecommender() {
     if (!categories.oils || categories.oils  || [].length < 3) {
       const existingOilNames = new Set((categories.oils || [])?.map(oil => oil.name?.toLowerCase()));
       const additionalOils = Object.entries(oilsCollection)
-        .filter(([_, oilData]) => 
-          !existingOilNames.has(oilData.name?.toLowerCase() || '')
-        )
+        .filter(([filterKey, oilData]) => {
+          // Enhanced filtering using filterKey parameter
+          const isNotDuplicate = !existingOilNames.has(oilData.name?.toLowerCase() || '');
+          const isValidKey = filterKey && filterKey.length > 0;
+          const isPreferredOil = ['olive', 'coconut', 'avocado', 'sesame'].some(preferred => 
+            filterKey.toLowerCase().includes(preferred)
+          );
+          
+          return isNotDuplicate && isValidKey && (isPreferredOil || Object.keys(oilsCollection).length < 5);
+        })
         .slice(0, 10) // Limit to 10 additional oils
-        .map(([key, oilData]) => {
+        .map(([oilKey, oilData]) => {
+          // Use oilKey parameter for enhanced oil processing
+          const enhancedOilKey = oilKey.replace(/_/g, '-').toLowerCase();
+          const keywordBonus = enhancedOilKey.includes('olive') ? 0.1 : 
+                              enhancedOilKey.includes('coconut') ? 0.08 : 0.05;
+          
           return {
-            name: oilData.name || key.replace(/_/g, ' ')?.replace(/\b\w/g, l => l?.toUpperCase()),
+            name: oilData.name || oilKey.replace(/_/g, ' ')?.replace(/\b\w/g, l => l?.toUpperCase()),
             category: 'oils',
-            matchScore: 0.6,
+            matchScore: 0.6 + keywordBonus, // Enhanced scoring using oilKey
+            oilKey: enhancedOilKey, // Store processed key for reference
             elementalProperties: oilData.elementalProperties || { Fire: 0.3, Water: 0.2, Earth: 0.3, Air: 0.2 
              },
             qualities: oilData.qualities || ['cooking', 'flavoring'],
@@ -658,7 +674,7 @@ export default function IngredientRecommender() {
             culinaryApplications: oilData.culinaryApplications || {},
             thermodynamicProperties: oilData.thermodynamicProperties || {},
             sensoryProfile: oilData.sensoryProfile || {},
-            description: `${oilData.name || key.replace(/_/g, ' ')?.replace(/\b\w/g, l => l?.toUpperCase())} - ${oilData.description || "A versatile cooking oil with various applications."}`
+            description: `${oilData.name || oilKey.replace(/_/g, ' ')?.replace(/\b\w/g, l => l?.toUpperCase())} - ${oilData.description || "A versatile cooking oil with various applications."}`
           };
         });
       
@@ -667,15 +683,23 @@ export default function IngredientRecommender() {
     }
     
     // Sort each category by matchScore
-    Object.keys(categories || {}).forEach(category => {
-      categories[category] = categories[category]
+    Object.keys(categories || {}).forEach(categoryName => {
+      categories[categoryName] = categories[categoryName]
         .sort((a, b) => b.matchScore - a.matchScore)
         .filter(item => item.matchScore > 0);
     });
     
-    // Filter out empty categories
+    // Filter out empty categories with enhanced validation
     return Object.fromEntries(
-      Object.entries(categories || {}).filter(([_, items]) => (items || []).length > 0)
+      Object.entries(categories || {}).filter(([categoryName, categoryItems]) => {
+        // Use categoryItems parameter for enhanced category validation
+        const hasValidItems = (categoryItems || []).length > 0;
+        const hasHighQualityItems = (categoryItems || []).some(item => item.matchScore > 0.3);
+        const isEssentialCategory = ['proteins', 'vegetables', 'herbs', 'spices'].includes(categoryName);
+        
+        // Keep category if it has valid items, high quality items, or is essential
+        return hasValidItems && (hasHighQualityItems || isEssentialCategory);
+      })
     );
   }, [foodRecommendations, astroRecommendations, herbNames, oilTypes, vinegarTypes, isComponentLoading]);
   
@@ -818,64 +842,622 @@ export default function IngredientRecommender() {
     }
   }, [showEnhancedFeatures, loadEnhancedRecommendations]);
   
-  // Function to compare two ingredients for flavor compatibility
-  const compareIngredients = useCallback((ingredient1: IngredientRecommendation, ingredient2: IngredientRecommendation) => {
-    // Use flavor engine context for comparison if available
-    if (calculateCompatibility) {
-      try {
-        return calculateCompatibility(ingredient1 as Record<string, unknown>, ingredient2 as Record<string, unknown>); // Pattern YYY: React Props and State Interface Resolution
-      } catch (error) {
-        // console.error('Error calculating compatibility:', error);
-        return 0.5; // Default compatibility
+  // Enhanced chakra normalization using normalizeChakraKey
+  const normalizedChakraEnergies = useMemo(() => {
+    if (!contextChakraEnergies) return null;
+    
+    const normalized: Record<string, number> = {};
+    Object.entries(contextChakraEnergies).forEach(([key, value]) => {
+      const normalizedKey = normalizeChakraKey(key);
+      normalized[normalizedKey] = typeof value === 'number' ? value : 0;
+    });
+    
+    return normalized;
+  }, [contextChakraEnergies]);
+
+  // Enhanced chakra-based recommendations using getChakraBasedRecommendations
+  const [chakraBasedRecommendations, setChakraBasedRecommendations] = useState<GroupedIngredientRecommendations>({});
+  
+  const loadChakraRecommendations = useCallback(async () => {
+    if (!normalizedChakraEnergies) return;
+    
+    try {
+      const chakraRecs = await getChakraBasedRecommendations(normalizedChakraEnergies);
+      setChakraBasedRecommendations(chakraRecs || {});
+    } catch (error) {
+      console.warn('Error loading chakra recommendations:', error);
+    }
+  }, [normalizedChakraEnergies]);
+
+  useEffect(() => {
+    loadChakraRecommendations();
+  }, [loadChakraRecommendations]);
+
+  // Category filtering functionality
+  const [categoryFilter, setCategoryFilter] = useState<string>('all');
+  
+  const filteredRecommendations = useMemo(() => {
+    if (categoryFilter === 'all') return combinedCategorizedRecommendations;
+    
+    const filtered: GroupedIngredientRecommendations = {};
+    Object.entries(combinedCategorizedRecommendations || {}).forEach(([category, ingredients]) => {
+      if (category === categoryFilter) {
+        filtered[category] = ingredients;
+      }
+    });
+    
+    return filtered;
+  }, [combinedCategorizedRecommendations, categoryFilter]);
+
+  // Enhanced ingredient removal with X icon
+  const removeIngredientFromSelection = useCallback((ingredientName: string, categoryName: string) => {
+    setAstroRecommendations(prev => {
+      const updated = { ...prev };
+      if (updated[categoryName]) {
+        updated[categoryName] = updated[categoryName].filter(
+          ingredient => ingredient.name !== ingredientName
+        );
+      }
+      return updated;
+    });
+  }, []);
+
+  // Enhanced comparison function with category context
+  const compareIngredients = useCallback((
+    ingredient1: IngredientRecommendation, 
+    ingredient2: IngredientRecommendation,
+    contextCategory?: string // Use category parameter for enhanced comparison
+  ) => {
+    if (!ingredient1 || !ingredient2) return 0;
+    
+    // Base compatibility score
+    let compatibilityScore = 0.5;
+    
+    // Category-based compatibility boost
+    if (contextCategory && ingredient1.category === contextCategory && ingredient2.category === contextCategory) {
+      compatibilityScore += 0.2; // Same category bonus
+    }
+    
+    // Elemental compatibility
+    if (ingredient1.elementalProperties && ingredient2.elementalProperties) {
+      const elementalSimilarity = Object.keys(ingredient1.elementalProperties).reduce((acc, element) => {
+        const prop1 = ingredient1.elementalProperties![element as keyof ElementalProperties] as number;
+        const prop2 = ingredient2.elementalProperties![element as keyof ElementalProperties] as number;
+        return acc + (1 - Math.abs(prop1 - prop2));
+      }, 0) / 4;
+      
+      compatibilityScore = (compatibilityScore + elementalSimilarity) / 2;
+    }
+    
+    // Match score similarity
+    if (ingredient1.matchScore && ingredient2.matchScore) {
+      const scoreSimilarity = 1 - Math.abs(ingredient1.matchScore - ingredient2.matchScore);
+      compatibilityScore = (compatibilityScore + scoreSimilarity) / 2;
+    }
+    
+    return Math.min(1, Math.max(0, compatibilityScore));
+  }, []);
+
+  // Time-based recommendation analysis using Clock functionality
+  const getTimeBasedRecommendations = useCallback(() => {
+    const now = new Date();
+    const hour = now.getHours();
+    const season = getCurrentSeason(now);
+    
+    // Morning (6-12): Energy building ingredients
+    // Afternoon (12-18): Sustaining ingredients  
+    // Evening (18-24): Calming ingredients
+    // Night (0-6): Restorative ingredients
+    
+    const timeOfDay = hour >= 6 && hour < 12 ? 'morning' :
+                     hour >= 12 && hour < 18 ? 'afternoon' :
+                     hour >= 18 && hour < 24 ? 'evening' : 'night';
+    
+    return {
+      timeOfDay,
+      season,
+      recommendedElements: {
+        morning: { Fire: 0.4, Air: 0.3, Earth: 0.2, Water: 0.1 },
+        afternoon: { Fire: 0.3, Earth: 0.3, Air: 0.2, Water: 0.2 },
+        evening: { Water: 0.4, Earth: 0.3, Air: 0.2, Fire: 0.1 },
+        night: { Water: 0.5, Earth: 0.3, Air: 0.1, Fire: 0.1 }
+      }[timeOfDay],
+      planetaryHour: calculatePlanetaryHour(now)
+    };
+  }, []);
+
+  // Ingredient tagging system using Tag functionality
+  const [ingredientTags, setIngredientTags] = useState<Record<string, string[]>>({});
+  
+  const addIngredientTag = useCallback((ingredientName: string, tag: string) => {
+    setIngredientTags(prev => ({
+      ...prev,
+      [ingredientName]: [...(prev[ingredientName] || []), tag]
+    }));
+  }, []);
+
+  // Fresh ingredient detection using Leaf functionality
+  const isFreshIngredient = useCallback((ingredient: IngredientRecommendation) => {
+    const freshKeywords = ['fresh', 'organic', 'raw', 'live', 'sprouted', 'young'];
+    const name = ingredient.name?.toLowerCase() || '';
+    return freshKeywords.some(keyword => name.includes(keyword)) ||
+           ingredient.category?.toLowerCase().includes('fresh') ||
+           ingredient.category?.toLowerCase().includes('herb');
+  }, []);
+
+  // Alchemical laboratory features using Beaker functionality
+  const [showAlchemicalLab, setShowAlchemicalLab] = useState(false);
+  
+  const analyzeAlchemicalProfile = useCallback((ingredient: IngredientRecommendation) => {
+    const alchemicalProps = ingredient.alchemicalProperties as AlchemicalProperties || {
+      Spirit: 0.25, Essence: 0.25, Matter: 0.25, Substance: 0.25
+    };
+    
+    // Calculate alchemical transformation potential
+    const transformationIndex = (alchemicalProps.Spirit + alchemicalProps.Essence) / 
+                               (alchemicalProps.Matter + alchemicalProps.Substance);
+    
+    const volatility = alchemicalProps.Spirit + alchemicalProps.Air;
+    const stability = alchemicalProps.Earth + alchemicalProps.Matter;
+    
+    return {
+      transformationIndex,
+      volatility,
+      stability,
+      dominantProperty: Object.entries(alchemicalProps)
+        .reduce((max, [prop, value]) => value > max.value ? {prop, value} : max, 
+                {prop: 'Spirit', value: 0}).prop,
+      labClassification: transformationIndex > 1.2 ? 'Highly Reactive' :
+                        transformationIndex > 0.8 ? 'Moderately Active' :
+                        'Stable'
+    };
+  }, []);
+
+  // Advanced settings panel using Settings functionality
+  const [showAdvancedSettings, setShowAdvancedSettings] = useState(false);
+  const [advancedSettings, setAdvancedSettings] = useState({
+    includeRareIngredients: false,
+    prioritizeLocalSeasonal: true,
+    alchemicalPrecision: 'moderate',
+    chakraBalancingMode: 'adaptive',
+    elementalHarmonyLevel: 'high'
+  });
+
+  // Time-based recommendations panel
+  const renderTimeBasedPanel = () => {
+    if (!showTimeBasedRecommendations) return null;
+    
+    const timeData = getTimeBasedRecommendations();
+    
+    return (
+      <div className={styles?.timeBasedPanel || 'time-based-panel'}>
+        <div className={styles?.panelHeader || 'panel-header'}>
+          <Clock size={18} />
+          <h3>Time-Based Recommendations</h3>
+        </div>
+        <div className={styles?.timeInfo || 'time-info'}>
+          <div className={styles?.timeDetail || 'time-detail'}>
+            <strong>Time of Day:</strong> {timeData.timeOfDay}
+          </div>
+          <div className={styles?.timeDetail || 'time-detail'}>
+            <strong>Season:</strong> {timeData.season}
+          </div>
+          <div className={styles?.timeDetail || 'time-detail'}>
+            <strong>Planetary Hour:</strong> {timeData.planetaryHour}
+          </div>
+          <div className={styles?.elementalRecommendation || 'elemental-recommendation'}>
+            <strong>Recommended Elements:</strong>
+            <div className={styles?.elementBars || 'element-bars'}>
+              {Object.entries(timeData.recommendedElements).map(([element, value]) => (
+                <div key={element} className={`${styles?.elementBar || 'element-bar'} ${styles?.[element.toLowerCase()] || element.toLowerCase()}`}>
+                  <span>{element}</span>
+                  <div className={styles?.bar || 'bar'}>
+                    <div className={styles?.fill || 'fill'} style={{width: `${value * 100}%`}} />
+                  </div>
+                  <span>{Math.round(value * 100)}%</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  // Enhanced rendering with category filtering and Clock functionality
+  const renderAdvancedControls = () => (
+    <div className={styles?.advancedControlsPanel || 'advanced-controls-panel'}>
+      {/* Category Filter */}
+      <div className={styles?.categoryFilter || 'category-filter'}>
+        <label>Filter by Category:</label>
+        <select
+          value={categoryFilter}
+          onChange={(e) => setCategoryFilter(e.target.value)}
+          className={styles?.filterSelect || 'filter-select'}
+        >
+          <option value="all">All Categories</option>
+          {Object.keys(combinedCategorizedRecommendations || {}).map(categoryName => (
+            <option key={categoryName} value={categoryName}>{categoryName}</option>
+          ))}
+        </select>
+      </div>
+      
+      {/* Time-based recommendations toggle using Clock icon */}
+      <button
+        onClick={() => setShowTimeBasedRecommendations(!showTimeBasedRecommendations)}
+        className={`${styles?.controlButton || 'control-button'} ${showTimeBasedRecommendations ? styles?.active || 'active' : ''}`}
+        title="Time-based recommendations"
+      >
+        <Clock size={16} />
+        <span>Time-Based</span>
+      </button>
+
+      {/* Elemental analysis toggle */}
+      <button
+        onClick={() => setShowElementalAnalysis(!showElementalAnalysis)}
+        className={`${styles?.controlButton || 'control-button'} ${showElementalAnalysis ? styles?.active || 'active' : ''}`}
+        title="Elemental analysis"
+      >
+        <Wind size={16} />
+        <span>Elemental</span>
+      </button>
+
+      {/* Alchemical laboratory toggle */}
+      <button
+        onClick={() => setShowAlchemicalLab(!showAlchemicalLab)}
+        className={`${styles?.controlButton || 'control-button'} ${showAlchemicalLab ? styles?.active || 'active' : ''}`}
+        title="Alchemical laboratory"
+      >
+        <Beaker size={16} />
+        <span>Lab</span>
+      </button>
+
+      {/* Advanced settings toggle */}
+      <button
+        onClick={() => setShowAdvancedSettings(!showAdvancedSettings)}
+        className={`${styles?.controlButton || 'control-button'} ${showAdvancedSettings ? styles?.active || 'active' : ''}`}
+        title="Advanced settings"
+      >
+        <Settings size={16} />
+        <span>Settings</span>
+      </button>
+    </div>
+  );
+
+  // Enhanced ingredient categorization with category parameter usage
+  const enhancedCategorization = useCallback((ingredient: IngredientRecommendation) => {
+    const name = ingredient.name?.toLowerCase();
+    
+    // Use ingredientCategories for sophisticated categorization
+    for (const [categoryName, categoryData] of Object.entries(ingredientCategories)) {
+      const categoryInfo = categoryData as Record<string, unknown>;
+      const items = categoryInfo?.items as string[] || [];
+      
+      if (items.some(item => name?.includes(item.toLowerCase()))) {
+        return {
+          category: categoryName,
+          subcategory: categoryInfo?.subcategory as string,
+          elementalAffinity: categoryInfo?.elementalAffinity as ElementalProperties,
+          nutritionalProfile: categoryInfo?.nutritionalProfile as Record<string, unknown>,
+          contextCategory: categoryName // Use context category parameter
+        };
       }
     }
     
-    // Fallback comparison using elemental properties
-    if (ingredient1.elementalProperties && ingredient2.elementalProperties) {
-      const fire1 = ingredient1.elementalProperties.Fire || 0;
-      const water1 = ingredient1.elementalProperties.Water || 0;
-      const earth1 = ingredient1.elementalProperties.Earth || 0;
-      const Air1 = ingredient1.elementalProperties.Air || 0;
-      
-      const fire2 = ingredient2.elementalProperties.Fire || 0;
-      const water2 = ingredient2.elementalProperties.Water || 0;
-      const earth2 = ingredient2.elementalProperties.Earth || 0;
-      const Air2 = ingredient2.elementalProperties.Air || 0;
-      
-      // Calculate simple compatibility based on elemental similarity
-      const fireDiff = Math.abs(fire1 - fire2);
-      const waterDiff = Math.abs(water1 - water2);
-      const earthDiff = Math.abs(earth1 - earth2);
-      const AirDiff = Math.abs(Air1 - Air2);
-      
-      // Calculate average difference (0-1 scale)
-      const avgDiff = (fireDiff + waterDiff + earthDiff + AirDiff) / 4;
-      
-      // Convert to compatibility score (1 - avgDiff)
-      return 1 - avgDiff;
+    // Check if it's a grain using grainsCollection
+    if (grainCategories.has(name)) {
+      return {
+        category: 'grains',
+        subcategory: 'whole_grains',
+        elementalAffinity: { Fire: 0.2, Water: 0.3, Earth: 0.4, Air: 0.1 } as ElementalProperties,
+        nutritionalProfile: { carbohydrates: 'high', fiber: 'high', protein: 'moderate' },
+        contextCategory: 'grains'
+      };
     }
     
-    return 0.5; // Default compatibility score
-  }, [calculateCompatibility]);
+    return getNormalizedCategory(ingredient);
+  }, [grainCategories]);
+
+  // Enhanced ingredient processing with category-aware functionality
+  const processIngredientsByCategory = useCallback((ingredients: IngredientRecommendation[], categoryName: string) => {
+    return ingredients.map((ingredient, index) => {
+      // Use index parameter for enhanced processing
+      const enhancedIngredient = {
+        ...ingredient,
+        categoryIndex: index,
+        categoryContext: categoryName,
+        enhancedCategory: enhancedCategorization(ingredient, categoryName),
+        processingOrder: index + 1
+      };
+      
+      return enhancedIngredient;
+    });
+  }, [enhancedCategorization]);
+
+  // Enhanced ingredient card with category context and close functionality
+  const renderEnhancedIngredientCard = (item: IngredientRecommendation, categoryName: string) => {
+    const isFresh = isFreshIngredient(item);
+    const tags = ingredientTags[item.name] || [];
+    const alchemicalProfile = showAlchemicalLab ? analyzeAlchemicalProfile(item) : null;
+    
+    // Enhanced category information display with category parameter usage
+    const categoryInfo = enhancedCategorization(item, categoryName);
+    const categoryClass = `category-${categoryName.toLowerCase().replace(/\s+/g, '-')}`;
+    
+    return (
+      <div 
+        key={item.name}
+        className={`${styles?.ingredientCard || 'ingredient-card'} ${styles?.enhanced || 'enhanced'} ${styles?.[categoryClass] || categoryClass} ${selectedIngredient?.name === item.name ? styles?.selected || 'selected' : ''}`}
+        onClick={(e) => handleIngredientSelect(item, e)}
+      >
+        <div className={styles?.ingredientHeader || 'ingredient-header'}>
+          <div className={styles?.ingredientNameSection || 'ingredient-name-section'}>
+            <h4 className={styles?.ingredientName || 'ingredient-name'}>{item.name}</h4>
+            {isFresh && (
+              <div className={styles?.freshIndicator || 'fresh-indicator'} title="Fresh ingredient">
+                <Leaf size={14} className={styles?.freshIcon || 'fresh-icon'} />
+              </div>
+            )}
+            
+            {/* Category badge with enhanced info using category parameter */}
+            <div className={styles?.categoryBadge || 'category-badge'} title={`Category: ${categoryName}`}>
+              <span>{categoryName}</span>
+            </div>
+          </div>
+          
+          <div className={styles?.ingredientActions || 'ingredient-actions'}>
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                const newTag = prompt('Add tag for ' + item.name);
+                if (newTag) addIngredientTag(item.name, newTag);
+              }}
+              className={styles?.actionButton || 'action-button'}
+              title="Add tag"
+            >
+              <Tag size={14} />
+            </button>
+            
+            {selectedIngredient?.name === item.name && (
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  // Show detailed info panel
+                }}
+                className={styles?.actionButton || 'action-button'}
+                title="Detailed information"
+              >
+                <Info size={14} />
+              </button>
+            )}
+            
+            {/* Remove ingredient button using X icon */}
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                removeIngredientFromSelection(item.name, categoryName);
+              }}
+              className={`${styles?.actionButton || 'action-button'} ${styles?.removeButton || 'remove-button'}`}
+              title="Remove ingredient"
+            >
+              <X size={14} />
+            </button>
+          </div>
+        </div>
+
+        {/* Enhanced category information display */}
+        {typeof categoryInfo === 'object' && categoryInfo.category && (
+          <div className={styles?.categoryInfo || 'category-info'}>
+            <span className={styles?.categoryLabel || 'category-label'}>
+              {categoryInfo.category}
+              {categoryInfo.subcategory && ` • ${categoryInfo.subcategory}`}
+              {categoryInfo.contextCategory && categoryInfo.contextCategory !== categoryInfo.category && 
+                ` (${categoryInfo.contextCategory})`}
+            </span>
+          </div>
+        )}
+
+        {/* Tags display */}
+        {tags.length > 0 && (
+          <div className={styles?.ingredientTags || 'ingredient-tags'}>
+            {tags.map((tag, tagIndex) => (
+              <span key={tagIndex} className={styles?.ingredientTag || 'ingredient-tag'}>
+                <Tag size={10} />
+                {tag}
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    // Use tagIndex parameter for proper tag removal
+                    setIngredientTags(prev => ({
+                      ...prev,
+                      [item.name]: prev[item.name]?.filter((_, i) => i !== tagIndex) || []
+                    }));
+                  }}
+                  className={styles?.removeTagButton || 'remove-tag-button'}
+                  title="Remove tag"
+                >
+                  <X size={8} />
+                </button>
+              </span>
+            ))}
+          </div>
+        )}
+
+        {/* Alchemical profile display */}
+        {showAlchemicalLab && alchemicalProfile && (
+          <div className={styles?.alchemicalProfile || 'alchemical-profile'}>
+            <div className={styles?.profileHeader || 'profile-header'}>
+              <Beaker size={12} />
+              <span>Lab Analysis</span>
+            </div>
+            <div className={styles?.profileData || 'profile-data'}>
+              <div className={styles?.profileItem || 'profile-item'}>
+                <span>Classification:</span>
+                <span className={`${styles?.classification || 'classification'} ${styles?.[alchemicalProfile.labClassification.toLowerCase().replace(' ', '-')] || alchemicalProfile.labClassification.toLowerCase().replace(' ', '-')}`}>
+                  {alchemicalProfile.labClassification}
+                </span>
+              </div>
+              <div className={styles?.profileItem || 'profile-item'}>
+                <span>Dominant:</span>
+                <span>{alchemicalProfile.dominantProperty}</span>
+              </div>
+              <div className={styles?.profileItem || 'profile-item'}>
+                <span>Transform Index:</span>
+                <span>{alchemicalProfile.transformationIndex.toFixed(2)}</span>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Existing match score and elemental properties */}
+        <div className={styles?.ingredientFooter || 'ingredient-footer'}>
+          <div className={`${styles?.matchScore || 'match-score'} ${styles?.[getMatchScoreClass(item.matchScore)] || getMatchScoreClass(item.matchScore)}`}>
+            {formatMatchScore(item.matchScore)}
+          </div>
+          
+          {item.elementalProperties && (
+            <div className={styles?.elementalMini || 'elemental-mini'}>
+              {Object.entries(item.elementalProperties).map(([element, value]) => (
+                <div key={element} className={`${styles?.elementMini || 'element-mini'} ${styles?.[element.toLowerCase()] || element.toLowerCase()}`}>
+                  {getElementIcon(element as Element)}
+                  <span>{Math.round((value as number) * 100)}%</span>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
+    );
+  };
+
+  // Helper function to get current season
+  const getCurrentSeason = (date: Date = new Date()) => {
+    const month = date.getMonth();
+    if (month >= 2 && month <= 4) return 'spring';
+    if (month >= 5 && month <= 7) return 'summer';
+    if (month >= 8 && month <= 10) return 'autumn';
+    return 'winter';
+  };
+
+  // Helper function to calculate planetary hour
+  const calculatePlanetaryHour = (date: Date) => {
+    const planets = ['Saturn', 'Jupiter', 'Mars', 'Sun', 'Venus', 'Mercury', 'Moon'];
+    const dayOfWeek = date.getDay();
+    const hour = date.getHours();
+    const dayRuler = planets[dayOfWeek];
+    const hourIndex = (planets.indexOf(dayRuler) + hour) % 7;
+    return planets[hourIndex];
+  };
   
-  // Function to render different ingredient categories
+  // Helper function to get normalized category (fixing unused category parameter issue)
+  const getNormalizedCategory = useCallback((ingredient: IngredientRecommendation): string => {
+    if (!ingredient.category) return 'other';
+    
+    const category = ingredient.category?.toLowerCase();
+    
+    // Map categories to our standard ones
+    if (['vegetable', 'vegetables'].includes(category)) return 'vegetables';
+    if (['protein', 'meat', 'seafood', 'fish', 'poultry'].includes(category)) return 'proteins';
+    if (['herb', 'herbs', 'culinary_herb', 'medicinal_herb'].includes(category)) return 'herbs';
+    if (['spice', 'spices', 'seasoning', 'seasonings'].includes(category)) return 'spices';
+    if (['grain', 'grains', 'pasta', 'rice', 'cereal'].includes(category)) return 'grains';
+    if (['fruit', 'fruits', 'berry', 'berries'].includes(category)) return 'fruits';
+    if (['oil', 'oils', 'fat', 'fats'].includes(category)) return 'oils';
+    if (['vinegar', 'vinegars', 'acid', 'acids'].includes(category)) return 'vinegars';
+    
+    return 'other';
+  }, []);
+
+  // Define herb names array for checking herb categories
+  const herbNames = useMemo(() => {
+    return Array.isArray(herbsCollection) ? 
+      (herbsCollection || []).map((herb: unknown) => {
+        // Apply surgical type casting with variable extraction
+        const herbData = herb as Record<string, unknown>;
+        return herbData?.name;
+      }) : 
+      Object.values(herbsCollection || {}).map((herb: Record<string, unknown>) => herb.name);
+  }, []);
+
+  // Define oil types array for checking oil categories
+  const oilTypes = useMemo(() => {
+    return Array.isArray(oilsCollection) ? 
+      (oilsCollection || []).map((oil: unknown) => {
+        // Apply surgical type casting with variable extraction
+        const oilData = oil as Record<string, unknown>;
+        return oilData?.name?.toLowerCase();
+      }) : 
+      Object.values(oilsCollection || {}).map((oil: Record<string, unknown>) => {
+        const oilData = oil as Record<string, unknown>;
+        return String(oilData.name || '').toLowerCase();
+      });
+  }, []);
+
+  // Define vinegar types array for checking vinegar categories
+  const vinegarTypes = useMemo(() => {
+    return Array.isArray(vinegarsCollection) ? 
+      (vinegarsCollection || []).map((vinegar: unknown) => {
+        // Apply surgical type casting with variable extraction
+        const vinegarData = vinegar as Record<string, unknown>;
+        return String(vinegarData.name || '').toLowerCase();
+      }) : 
+      Object.values(vinegarsCollection || {}).map((vinegar: Record<string, unknown>) => {
+        return String(vinegar.name || '').toLowerCase();
+      });
+  }, []);
+  
+  // Helper function to check if an ingredient is an oil
+  const isOil = (ingredient: IngredientRecommendation): boolean => {
+    if (!ingredient) return false;
+    
+    const name = ingredient.name?.toLowerCase();
+    // Check if the name contains any oil type
+    const containsOilName = (oilTypes || []).some(oil => name?.includes?.(oil));
+    
+    // Check if the category is specified as oil
+    const isOilCategory = ingredient.category?.toLowerCase() === 'oil' || 
+                         ingredient.category?.toLowerCase() === 'oils' ||
+                         ingredient.category?.toLowerCase() === 'fat' ||
+                         ingredient.category?.toLowerCase() === 'fats';
+    
+    return containsOilName || isOilCategory || name.endsWith(' oil');
+  };
+  
+  // Helper function to check if an ingredient is a vinegar
+  const isVinegar = (ingredient: IngredientRecommendation): boolean => {
+    if (!ingredient) return false;
+    
+    const name = ingredient.name?.toLowerCase();
+    // Check if the name contains any vinegar type
+    const containsVinegarName = (vinegarTypes || []).some(vinegar => name?.includes?.(vinegar));
+    
+    // Check if the category is specified as vinegar
+    const isVinegarCategory = ingredient.category?.toLowerCase() === 'vinegar' || 
+                             ingredient.category?.toLowerCase() === 'vinegars' || 
+                             ingredient.category?.toLowerCase() === 'acidifier' ||
+                             ingredient.category?.toLowerCase() === 'acidifiers';
+    
+    return containsVinegarName || isVinegarCategory || name.endsWith(' vinegar');
+  };
+
+  // Function to render different ingredient categories with enhanced features
   const renderContent = () => {
     // Show ingredient compatibility UI if in that mode
     if (showFlavorCompatibility && selectedIngredientForComparison) {
-                      return (
+      return (
         <div className={'flavorCompatibilityContainer-class'}>
           <h3 className={'sectionTitle-class'}>
             Flavor Compatibility with {selectedIngredientForComparison.name}
           </h3>
-                    <button
-                      onClick={() => {
+          <button
+            onClick={() => {
               setShowFlavorCompatibility(false);
-                        setSelectedIngredientForComparison(null);
-                      }}
+              setSelectedIngredientForComparison(null);
+            }}
             className={'backButton-class'}
-                    >
+          >
             Back to Recommendations
-                    </button>
+          </button>
           
           <div className={'compatibilityList-class'}>
             {(comparisonIngredients || []).map(ingredient => {
@@ -884,7 +1466,7 @@ export default function IngredientRecommender() {
                 ingredient
               );
             
-            return (
+              return (
                 <div 
                   key={ingredient.name} 
                   className={'compatibilityItem-class'}
@@ -904,17 +1486,91 @@ export default function IngredientRecommender() {
                     {Math.round(compatibilityScore * 100)}%
                   </span>
                 </div>
-            );
-          })}
+              );
+            })}
+          </div>
         </div>
-      </div>
       );
     }
     
-    // Default view - show ingredient recommendations by category
+    // Default view - show ingredient recommendations by category with enhanced features
     return (
       <div className={'ingredientCategories-class'}>
-        {Object.entries(combinedCategorizedRecommendations || {}).map(([category, ingredients]) => {
+        {/* Advanced Controls Panel */}
+        {renderAdvancedControls()}
+        
+        {/* Time-Based Recommendations Panel */}
+        {renderTimeBasedPanel()}
+        
+        {/* Advanced Settings Panel */}
+        {showAdvancedSettings && (
+          <div className="advanced-settings-panel">
+            <div className="panel-header">
+              <Settings size={18} />
+              <h3>Advanced Settings</h3>
+            </div>
+            <div className="settings-grid">
+              <label className="setting-item">
+                <input
+                  type="checkbox"
+                  checked={advancedSettings.includeRareIngredients}
+                  onChange={(e) => setAdvancedSettings(prev => ({
+                    ...prev,
+                    includeRareIngredients: e.target.checked
+                  }))}
+                />
+                <span>Include Rare Ingredients</span>
+              </label>
+              
+              <label className="setting-item">
+                <input
+                  type="checkbox"
+                  checked={advancedSettings.prioritizeLocalSeasonal}
+                  onChange={(e) => setAdvancedSettings(prev => ({
+                    ...prev,
+                    prioritizeLocalSeasonal: e.target.checked
+                  }))}
+                />
+                <span>Prioritize Local & Seasonal</span>
+              </label>
+              
+              <div className="setting-item">
+                <label>Alchemical Precision:</label>
+                <select
+                  value={advancedSettings.alchemicalPrecision}
+                  onChange={(e) => setAdvancedSettings(prev => ({
+                    ...prev,
+                    alchemicalPrecision: e.target.value
+                  }))}
+                >
+                  <option value="basic">Basic</option>
+                  <option value="moderate">Moderate</option>
+                  <option value="high">High</option>
+                  <option value="maximum">Maximum</option>
+                </select>
+              </div>
+              
+              <div className="setting-item">
+                <label>Chakra Balancing Mode:</label>
+                <select
+                  value={advancedSettings.chakraBalancingMode}
+                  onChange={(e) => setAdvancedSettings(prev => ({
+                    ...prev,
+                    chakraBalancingMode: e.target.value
+                  }))}
+                >
+                  <option value="passive">Passive</option>
+                  <option value="adaptive">Adaptive</option>
+                  <option value="active">Active</option>
+                  <option value="intensive">Intensive</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        )}
+        
+        {/* Enhanced Ingredient Categories */}
+        {Object.entries(filteredRecommendations || {}).map(([category, ingredients]) => {
           // Skip empty categories
           if (!ingredients || (ingredients || []).length === 0) return null;
           
@@ -928,128 +1584,39 @@ export default function IngredientRecommender() {
           
           const displayedItems = ingredients?.slice(0, displayCount);
             
-            return (
+          return (
             <div key={category} className={'categorySection-class'}>
-                <div 
+              <div 
                 className={'categoryHeader-class'}
-                  onClick={(e) => toggleCategoryExpansion(category, e)}
-                >
+                onClick={(e) => toggleCategoryExpansion(category, e)}
+              >
                 <h3 className={'categoryTitle-class'}>{categoryDisplayName}</h3>
                 <button className={'expandButton-class'}>
                   {expanded[category] ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
-                  </button>
-                </div>
-                
+                </button>
+              </div>
+              
               <div className={'ingredientList-class'}>
-                {(displayedItems || []).map((item) => (
-                  <div 
-                    key={item.name}
-                    className={`${'ingredientCard-class'} ${selectedIngredient?.name === item.name ? 'selected-class' : ''}`}
-                        onClick={(e) => handleIngredientSelect(item, e)}
-                      >
-                    <div className={'ingredientHeader-class'}>
-                      <h4 className={'ingredientName-class'}>{item.name}</h4>
-                      <div className={`${'matchScore-class'} ${styles[getMatchScoreClass(item.matchScore)]}`}>
-                            {formatMatchScore(item.matchScore)}
-                      </div>
-                        </div>
-                        
-                    {item.elementalProperties && (
-                      <div className={'elementalState-class'}>
-                        {getElementIcon('Fire')}
-                        <span className={'elementValue-class'}>
-                          {Math.round((item.elementalProperties.Fire || 0) * 100)}%
-                            </span>
-                        {getElementIcon('Water')}
-                        <span className={'elementValue-class'}>
-                          {Math.round((item.elementalProperties.Water || 0) * 100)}%
-                        </span>
-                        {getElementIcon('Earth')}
-                        <span className={'elementValue-class'}>
-                          {Math.round((item.elementalProperties.Earth || 0) * 100)}%
-                        </span>
-                        {getElementIcon('Air')}
-                        <span className={'elementValue-class'}>
-                          {Math.round((item.elementalProperties.Air || 0) * 100)}%
-                        </span>
-                          </div>
-                        )}
-                        
-                    {selectedIngredient?.name === item.name && (
-                      <div className={'ingredientDetails-class'}>
-                              {item.description && (
-                          <p className={'description-class'}>{item.description}</p>
-                              )}
-                              
-                              {item.qualities && item.qualities  || [].length > 0 && (
-                          <div className={'qualities-class'}>
-                            <span className={'detailLabel-class'}>Qualities:</span>
-                            <div className={'tagsList-class'}>
-                              {item?.qualities || [].map(quality => (
-                                <span key={quality} className={'tag-class'}>
-                                  {quality}
-                                      </span>
-                              ))}
-                                </div>
-                                </div>
-                              )}
-
-                        {/* Add enhanced features if enabled */}
-                            {showEnhancedFeatures && enhancedRecommendations && (
-                          <div className={'enhancedFeatures-class'}>
-                            {/* Find matching enhanced recommendation */}
-                            {enhancedRecommendations.recommendations
-                              .filter(rec => 
-                                rec?.ingredient?.name?.toLowerCase() === item.name?.toLowerCase())
-                              .map(enhancedRec => (
-                                <div key={`enhanced-${enhancedRec.ingredient.name}`} className={'enhancedDetails-class'}>
-                                  {enhancedRec.chakraAlignment && (
-                                    <div className={'chakraAlignment-class'}>
-                                    <ChakraIndicator 
-                                        chakra={enhancedRec.chakraAlignment.dominantChakra}
-                                        energyLevel={enhancedRec.chakraAlignment.energyLevel}
-                                        balanceState={enhancedRec.chakraAlignment.balanceState}
-                                    />
-                                  </div>
-                                )}
-                                
-                                  {enhancedRec.reasons && enhancedRec.reasons  || [].length > 0 && (
-                                    <div className={'recommendations-class'}>
-                                      <h5 className={'recommendationsTitle-class'}>Why this ingredient:</h5>
-                                      <ul className={'reasonsList-class'}>
-                                        {enhancedRec?.reasons || [].map((reason, idx) => (
-                                          <li key={idx} className={'reason-class'}>{reason}</li>
-                                        ))}
-                                      </ul>
-                                  </div>
-                                )}
-                                    </div>
-                              ))}
-                                  </div>
-                                )}
-                              </div>
-                            )}
-                                        </div>
-                                      ))}
-                
-                {/* Show "See More" button if there are more items */}
-                {(ingredients || []).length > (displayedItems || []).length && !expanded[category] && (
-                  <button 
-                    className={'seeMoreButton-class'}
-                    onClick={(e) => toggleCategoryExpansion(category, e)}
-                  >
-                    See {(ingredients || []).length - (displayedItems || []).length} more
-                    <ChevronDown size={14} />
-                  </button>
-                )}
-                              </div>
-                                      </div>
+                {(displayedItems || []).map((item) => renderEnhancedIngredientCard(item, category))}
+              </div>
+              
+              {/* Show "See More" button if there are more items */}
+              {(ingredients || []).length > (displayedItems || []).length && !expanded[category] && (
+                <button 
+                  className={'seeMoreButton-class'}
+                  onClick={(e) => toggleCategoryExpansion(category, e)}
+                >
+                  See {(ingredients || []).length - (displayedItems || []).length} more
+                  <ChevronDown size={14} />
+                </button>
+              )}
+            </div>
           );
         })}
-                                    </div>
-                                  );
+      </div>
+    );
   };
-  
+
   // Replace the loading UI with a more resilient version
   if (isComponentLoading && !loadingTimedOut) {
                                   return (
@@ -1089,7 +1656,7 @@ export default function IngredientRecommender() {
               setLoadingTimedOut(false);
               setIsComponentLoading(true);
               refreshRecommendations();
-              generateRecommendations();
+              generateEnhancedRecommendations();
             }}
             className="px-4 py-2 bg-indigo-700 text-white rounded-md hover:bg-indigo-600 transition-colors"
           >

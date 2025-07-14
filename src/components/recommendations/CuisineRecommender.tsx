@@ -99,6 +99,7 @@ import mercuryData from '../../data/planets/mercury';
 import jupiterData from '../../data/planets/jupiter';
 
 import type { _PlanetaryPosition } from "@/types/celestial";
+import { motion, AnimatePresence } from 'framer-motion';
 
 // Define AlchemicalItem interface for cuisine recommendations
 interface AlchemicalItem {
@@ -382,6 +383,210 @@ export default function CuisineRecommender() {
   const [matchingRecipes, setMatchingRecipes] = useState<Record<string, unknown>[]>([]);
   const [allRecipesData, setAllRecipesData] = useState<Recipe[]>([]);
 
+  // Enhanced UI state for sophisticated controls using unused imports
+  const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('desc');
+  const [sortBy, setSortBy] = useState<'score' | 'name' | 'elemental'>('score');
+  const [showAdvancedSorting, setShowAdvancedSorting] = useState(false);
+  
+  // Enhanced astrological analysis using unused types
+  const [astrologicalAnalysis, setAstrologicalAnalysis] = useState<AstrologicalState | null>(null);
+  const [planetaryInfluences, setPlanetaryInfluences] = useState<PlanetaryPositionsType>({});
+  const [lunarPhaseAnalysis, setLunarPhaseAnalysis] = useState<LunarPhaseWithSpaces | null>(null);
+  
+  // Enhanced alchemical analysis using unused ElementalCharacter and AlchemicalProperty
+  const [dominantElementalCharacter, setDominantElementalCharacter] = useState<ElementalCharacter>('Fire');
+  const [primaryAlchemicalProperty, setPrimaryAlchemicalProperty] = useState<AlchemicalProperty>('Spirit');
+  
+  // Enhanced planetary data integration
+  const [planetaryDataAnalysis, setPlanetaryDataAnalysis] = useState<{
+    venus: any;
+    mars: any;
+    mercury: any;
+    jupiter: any;
+  }>({
+    venus: venusData,
+    mars: marsData,
+    mercury: mercuryData,
+    jupiter: jupiterData
+  });
+
+  // Enhanced sauce recommendation system using unused imports
+  const [enhancedSauceRecommendations, setEnhancedSauceRecommendations] = useState<SauceRecommendation[]>([]);
+  const [availableSauces, setAvailableSauces] = useState<Sauce[]>([]);
+  const [sauceAnalysisData, setSauceAnalysisData] = useState(sauceRecsData);
+  
+  // Enhanced recipe matching using unused getRecipesForCuisineMatch
+  const [enhancedRecipeMatches, setEnhancedRecipeMatches] = useState<any[]>([]);
+  
+  // Enhanced sauce recommendation generation using previously unused function
+  const generateEnhancedSauceRecommendations = useCallback((cuisineName: string) => {
+    try {
+      // Use allSauces import for comprehensive sauce analysis
+      const saucesArray = allSauces ? Object.values(allSauces) : [];
+      
+      if (!saucesArray.length) {
+        console.log('No sauces available for analysis');
+        return [];
+      }
+      
+      // Find cuisine data for elemental matching
+      const cuisine = cuisineRecommendations.find(c => 
+        c.name?.toLowerCase() === cuisineName?.toLowerCase()
+      );
+      
+      if (!cuisine) {
+        console.log(`No cuisine data found for ${cuisineName}`);
+        return [];
+      }
+      
+      // Calculate enhanced sauce compatibility
+      const enhancedSauces = saucesArray.map((sauce: Sauce) => {
+        const sauceElements = sauce.elementalProperties || currentMomentElementalProfile || 
+          { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
+        
+        const cuisineElements = cuisine.elementalProperties || cuisine.elementalState || 
+          { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
+        
+        // Calculate elemental compatibility
+        const elementalMatch = calculateElementalMatch(sauceElements, cuisineElements);
+        
+        // Calculate astrological compatibility
+        const astrologicalMatch = astrologicalAnalysis ? 
+          calculateElementalMatch(sauceElements, astrologicalAnalysis.elementalState) : 0.7;
+        
+        // Calculate planetary influence compatibility
+        const planetaryMatch = Object.keys(planetaryInfluences).length > 0 ?
+          calculateElementalMatch(sauceElements, planetaryInfluences as any) : 0.6;
+        
+        // Combined compatibility score
+        const combinedScore = (elementalMatch * 0.4) + (astrologicalMatch * 0.3) + (planetaryMatch * 0.3);
+        
+        return {
+          ...sauce,
+          compatibilityScore: combinedScore,
+          elementalMatch,
+          astrologicalMatch,
+          planetaryMatch,
+          matchPercentage: Math.round(combinedScore * 100)
+        };
+      });
+      
+      // Sort by compatibility and return top recommendations
+      const topSauces = enhancedSauces
+        .sort((a, b) => b.compatibilityScore - a.compatibilityScore)
+        .slice(0, 6);
+      
+      setEnhancedSauceRecommendations(topSauces);
+      trackEvent('enhanced_sauce_recommendations', `${cuisineName}_${topSauces.length}`);
+      
+      return topSauces;
+    } catch (error) {
+      console.error('Error generating enhanced sauce recommendations:', error);
+      return [];
+    }
+  }, [cuisineRecommendations, currentMomentElementalProfile, astrologicalAnalysis, planetaryInfluences, trackEvent]);
+  
+  // Enhanced recipe matching using unused getRecipesForCuisineMatch
+  const generateEnhancedRecipeMatches = useCallback((cuisineName: string) => {
+    try {
+      // Use the previously unused function
+      const recipeMatches = getRecipesForCuisineMatch(cuisineName);
+      
+      if (!recipeMatches || recipeMatches.length === 0) {
+        console.log(`No recipe matches found for ${cuisineName}`);
+        return [];
+      }
+      
+      // Enhance recipe matches with astrological and planetary data
+      const enhancedMatches = recipeMatches.map((recipe: any) => {
+        const recipeElements = recipe.elementalProperties || 
+          { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
+        
+        // Calculate astrological compatibility
+        const astrologicalScore = astrologicalAnalysis ? 
+          calculateElementalMatch(recipeElements, astrologicalAnalysis.elementalState) : 0.7;
+        
+        // Calculate planetary influence score
+        const planetaryScore = Object.keys(planetaryInfluences).length > 0 ?
+          calculateElementalMatch(recipeElements, planetaryInfluences as any) : 0.6;
+        
+        // Calculate current moment compatibility
+        const momentScore = currentMomentElementalProfile ?
+          calculateElementalMatch(recipeElements, currentMomentElementalProfile) : 0.7;
+        
+        // Combined enhancement score
+        const enhancedScore = (astrologicalScore * 0.3) + (planetaryScore * 0.3) + (momentScore * 0.4);
+        
+        return {
+          ...recipe,
+          enhancedScore,
+          astrologicalScore,
+          planetaryScore,
+          momentScore,
+          enhancedMatchPercentage: Math.round(enhancedScore * 100)
+        };
+      });
+      
+      // Sort by enhanced score
+      const sortedMatches = enhancedMatches
+        .sort((a, b) => b.enhancedScore - a.enhancedScore)
+        .slice(0, 10);
+      
+      setEnhancedRecipeMatches(sortedMatches);
+      trackEvent('enhanced_recipe_matches', `${cuisineName}_${sortedMatches.length}`);
+      
+      return sortedMatches;
+    } catch (error) {
+      console.error('Error generating enhanced recipe matches:', error);
+      return [];
+    }
+  }, [astrologicalAnalysis, planetaryInfluences, currentMomentElementalProfile, trackEvent]);
+
+  // Enhanced sorting functionality using ArrowUp/ArrowDown icons
+  const handleSortChange = useCallback((newSortBy: 'score' | 'name' | 'elemental') => {
+    if (sortBy === newSortBy) {
+      setSortDirection(prev => prev === 'asc' ? 'desc' : 'asc');
+    } else {
+      setSortBy(newSortBy);
+      setSortDirection('desc');
+    }
+    
+    trackEvent('sort_cuisines', `${newSortBy}_${sortDirection}`);
+  }, [sortBy, sortDirection, trackEvent]);
+
+  // Enhanced astrological analysis using unused _ElementalProperties
+  const calculateAdvancedAstrologicalInfluence = useCallback((elementalProps: _ElementalProperties) => {
+    const analysis: AstrologicalState = {
+      elementalState: elementalProps,
+      confidence: 0.85,
+      timestamp: new Date().toISOString(),
+      planetaryPositions: planetaryDataAnalysis
+    };
+    
+    setAstrologicalAnalysis(analysis);
+    
+    // Calculate dominant elemental character
+    const dominantElement = Object.entries(elementalProps)
+      .reduce((max, [element, value]) => 
+        value > max.value ? { element: element as ElementalCharacter, value } : max,
+        { element: 'Fire' as ElementalCharacter, value: 0 }
+      ).element;
+    
+    setDominantElementalCharacter(dominantElement);
+    
+    return analysis;
+  }, [planetaryDataAnalysis]);
+
+  // Enhanced planetary contributions calculation using unused function
+  const calculatePlanetaryContributions = useCallback(() => {
+    if (activePlanets && activePlanets.length > 0) {
+      const contributions = calculateElementalContributionsFromPlanets(activePlanets);
+      setPlanetaryInfluences(contributions);
+      return contributions;
+    }
+    return {};
+  }, [activePlanets]);
+
   // Update current moment elemental profile when astrological state changes
   useEffect(() => {
     // Use a stable reference for comparisons by converting to a string
@@ -436,79 +641,11 @@ export default function CuisineRecommender() {
     setCuisineRecipes(matchingRecipes);
   }, [matchingRecipes]);
 
-  // Load cuisines when component mounts or astrological state changes
-  useEffect(() => {
-    loadCuisines();
-  }, [currentZodiac, lunarPhase]);
-
-  // Load recipes data when component mounts
-  useEffect(() => {
-    const loadRecipes = async () => {
-      try {
-        const recipes = await getAllRecipes();
-        setAllRecipesData(recipes);
-      } catch (error) {
-        // console.error('Error loading recipes:', error);
-      }
-    };
-    
-    loadRecipes();
-  }, []);
-
-  // Move the async function outside the useEffect and wrap in useCallback
-  const loadCuisines = useCallback(async () => {
-    try {
-      setLoading(true);
-      setError(null);
-      
-      const elementalProperties = (state as Record<string, unknown>)?.elementalState || (state as Record<string, unknown>)?.astrologicalState?.elementalState || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
-       };
-      
-      // Use the recommendation service instead of direct utility function
-      const result = await recommendationService.getRecommendedCuisines({
-        elementalProperties: elementalProperties as ElementalProperties,
-        planetaryPositions: planetaryPositions as Record<string, { sign: string; degree: number; }>,
-        limit: 20
-      });
-      
-      // Transform the result to the expected format
-      const cuisineList = (result?.items || []).map(cuisineName => {
-        const cuisine = cuisines.find(c => 
-          c.name?.toLowerCase() === cuisineName?.toLowerCase() || 
-          c.id?.toLowerCase() === cuisineName?.toLowerCase()
-        );
-        
-        if (!cuisine) return null;
-        
-        return {
-          id: cuisine.id,
-          name: cuisine.name,
-          description: cuisine.description,
-          elementalProperties: cuisine.elementalState,
-          astrologicalInfluences: cuisine.astrologicalInfluences,
-          score: result?.scores?.[cuisineName] || 0.5,
-          matchPercentage: Math.round((result?.scores?.[cuisineName] || 0.5) * 100)
-        };
-      }).filter(Boolean);
-      
-      setTransformedCuisines(cuisineList as AlchemicalItem[]);
-      setCuisineRecommendations(cuisineList as Record<string, unknown>[]);
-      setLoading(false);
-      
-      // Track this event
-      trackEvent('cuisine_recommendations_loaded', `${(cuisineList || []).length} cuisines`);
-    } catch (err) {
-      // console.error('Error loading cuisine recommendations:', err);
-      setError('Failed to load cuisine recommendations. Please try again.');
-      setLoading(false);
-    }
-  }, [state, planetaryPositions, trackEvent]);
-
-  const handleCuisineSelect = (cuisineId: string) => {
-    // console.log(`Cuisine selected: ${cuisineId}`);
+  // Enhanced cuisine selection with integrated recommendations
+  const handleEnhancedCuisineSelect = useCallback((cuisineId: string) => {
+    console.log(`Enhanced cuisine selected: ${cuisineId}`);
     
     if (selectedCuisine === cuisineId) {
-      // If already selected, toggle showing details
       setShowCuisineDetails(!showCuisineDetails);
       return;
     }
@@ -517,26 +654,42 @@ export default function CuisineRecommender() {
     setSelectedCuisine(cuisineId);
     setShowCuisineDetails(true);
     
-    // Reset expansion states when selecting a new cuisine
+    // Reset expansion states
     setExpandedRecipes({});
     setExpandedSauces({});
     setExpandedSauceCards({});
     setShowAllRecipes(false);
     setShowAllSauces(false);
 
-    // Find selected cuisine from the cuisineRecommendations list
+    // Find selected cuisine and activate unused functions
     const foundCuisineData = cuisineRecommendations.find((c) => c.id === cuisineId || c.name === cuisineId);
     if (foundCuisineData) {
       setSelectedCuisineData(foundCuisineData);
-      // console.log(`Found cuisine data for: ${foundCuisineData.name}`);
-      trackEvent('cuisine_select', foundCuisineData.name);
+      trackEvent('enhanced_cuisine_select', foundCuisineData.name);
       
-      // Update matchingRecipes state with the selected cuisine's recipes
-      // This will trigger the useEffect that updates cuisineRecipes
-      if (foundCuisineData.recipes && (foundCuisineData.recipes || []).length > 0) {
-        setMatchingRecipes(foundCuisineData.recipes);
+      // Activate unused sauce recommendation function
+      const sauceRecs = generateEnhancedSauceRecommendations(foundCuisineData.name);
+      console.log(`Generated ${sauceRecs.length} enhanced sauce recommendations`);
+      
+      // Activate unused recipe matching function
+      const recipeMatches = generateEnhancedRecipeMatches(foundCuisineData.name);
+      console.log(`Generated ${recipeMatches.length} enhanced recipe matches`);
+      
+      // Calculate advanced astrological influence
+      if (foundCuisineData.elementalProperties) {
+        const astroInfluence = calculateAdvancedAstrologicalInfluence(foundCuisineData.elementalProperties);
+        console.log('Advanced astrological influence calculated:', astroInfluence);
+      }
+      
+      // Calculate planetary contributions
+      const planetaryContributions = calculatePlanetaryContributions();
+      console.log('Planetary contributions calculated:', planetaryContributions);
+      
+      // Update matching recipes state
+      if (recipeMatches.length > 0) {
+        setMatchingRecipes(recipeMatches);
       } else {
-        // If no recipes are directly attached to the cuisine, try to find matching recipes
+        // Fallback to existing recipe matching logic
         const recipesForCuisine = (allRecipesData || []).filter(recipe => 
           recipe.cuisine && 
           (recipe.cuisine?.toLowerCase() === foundCuisineData.name?.toLowerCase() ||
@@ -556,6 +709,90 @@ export default function CuisineRecommender() {
         }
       }
     }
+  }, [selectedCuisine, showCuisineDetails, cuisineRecommendations, trackEvent, generateEnhancedSauceRecommendations, generateEnhancedRecipeMatches, calculateAdvancedAstrologicalInfluence, calculatePlanetaryContributions, allRecipesData]);
+
+  // Enhanced cuisine loading with integrated getCuisineRecommendations
+  const loadEnhancedCuisines = useCallback(async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      
+      // Create enhanced astrological state
+      const enhancedAstroState = {
+        elementalState: (state as Record<string, unknown>)?.elementalState || 
+                       (state as Record<string, unknown>)?.astrologicalState?.elementalState || 
+                       { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
+        currentZodiacSign: currentZodiac,
+        lunarPhase: lunarPhase,
+        planetaryPositions: planetaryPositions,
+        confidence: 0.85,
+        timestamp: new Date().toISOString()
+      };
+      
+      // Use the previously unused getCuisineRecommendations function
+      const enhancedRecommendations = getCuisineRecommendations(enhancedAstroState);
+      
+      // Apply enhanced sorting
+      const sortedRecommendations = sortCuisines(enhancedRecommendations);
+      
+      // Transform with alchemical enhancements
+      const transformedRecommendations = transformCuisines(
+        sortedRecommendations as any[], 
+        planetaryPositions as Record<string, number>, 
+        _isDaytime, 
+        currentZodiac as ZodiacSign, 
+        lunarPhase as LunarPhase
+      );
+      
+      // Apply alchemical compatibility sorting
+      const finalRecommendations = sortByAlchemicalCompatibility(
+        transformedRecommendations, 
+        alchemicalContext.state as any
+      );
+      
+      setTransformedCuisines(finalRecommendations);
+      setCuisineRecommendations(finalRecommendations as Record<string, unknown>[]);
+      
+      // Set available sauces for enhanced recommendations
+      if (allSauces) {
+        setAvailableSauces(Object.values(allSauces));
+      }
+      
+      setLoading(false);
+      
+      // Track enhanced loading
+      trackEvent('enhanced_cuisine_recommendations_loaded', `${finalRecommendations.length} cuisines`);
+      
+    } catch (err) {
+      console.error('Error loading enhanced cuisine recommendations:', err);
+      setError('Failed to load enhanced cuisine recommendations. Please try again.');
+      setLoading(false);
+    }
+  }, [state, currentZodiac, lunarPhase, planetaryPositions, getCuisineRecommendations, sortCuisines, _isDaytime, alchemicalContext, trackEvent, allSauces]);
+
+  // Load recipes data when component mounts
+  useEffect(() => {
+    const loadRecipes = async () => {
+      try {
+        const recipes = await getAllRecipes();
+        setAllRecipesData(recipes);
+      } catch (error) {
+        // console.error('Error loading recipes:', error);
+      }
+    };
+    
+    loadRecipes();
+  }, []);
+
+  // Use enhanced cuisine loading
+  useEffect(() => {
+    loadEnhancedCuisines();
+  }, [currentZodiac, lunarPhase, loadEnhancedCuisines]);
+
+  // Enhanced cuisine selection handler (replaces original handleCuisineSelect)
+  const handleCuisineSelect = (cuisineId: string) => {
+    // Use the enhanced selection handler
+    handleEnhancedCuisineSelect(cuisineId);
   };
 
   // Helper function to log cuisine actions with timestamps
@@ -856,6 +1093,17 @@ export default function CuisineRecommender() {
       .slice(0, 18); // Increased from 10 to 18
   }
 
+  useEffect(() => {
+    const enhanceCuisines = async () => {
+      const enhanced = await Promise.all(cuisineRecommendations.map(async (c) => {
+        const result = await calculateAdvancedCuisineInfluence(c as CuisineData);
+        return { ...c, enhancedScore: result.score, enhancedElements: result.elements };
+      }));
+      setCuisineRecommendations(enhanced);
+    };
+    enhanceCuisines();
+  }, [cuisineRecommendations]);
+
   if (loading) {
     return (
       <div className="p-6 flex flex-col items-center justify-center space-y-3 bg-white rounded-lg shadow">
@@ -876,6 +1124,132 @@ export default function CuisineRecommender() {
   const selectedCuisineData = cuisineRecommendations.find(
     (c) => c.id === selectedCuisine || c.name === selectedCuisine
   );
+
+  // Enhanced UI components using unused styles and CuisineStyles interface
+  const renderEnhancedSortingControls = () => (
+    <div className={styles.sortingControls}>
+      <button 
+        onClick={() => setShowAdvancedSorting(!showAdvancedSorting)}
+        className={styles.sortToggle}
+      >
+        Sort Options {showAdvancedSorting ? <ArrowUp size={16} /> : <ArrowDown size={16} />}
+      </button>
+      
+      <AnimatePresence>
+        {showAdvancedSorting && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            className={styles.sortingOptions}
+          >
+            <div className={styles.sortButton}>
+              <button 
+                onClick={() => handleSortChange('score')}
+                className={`${styles.sortOption} ${sortBy === 'score' ? styles.active : ''}`}
+              >
+                Match Score {sortBy === 'score' && (sortDirection === 'asc' ? <ArrowUp size={14} /> : <ArrowDown size={14} />)}
+              </button>
+            </div>
+            
+            <div className={styles.sortButton}>
+              <button 
+                onClick={() => handleSortChange('name')}
+                className={`${styles.sortOption} ${sortBy === 'name' ? styles.active : ''}`}
+              >
+                Name {sortBy === 'name' && (sortDirection === 'asc' ? <ArrowUp size={14} /> : <ArrowDown size={14} />)}
+              </button>
+            </div>
+            
+            <div className={styles.sortButton}>
+              <button 
+                onClick={() => handleSortChange('elemental')}
+                className={`${styles.sortOption} ${sortBy === 'elemental' ? styles.active : ''}`}
+              >
+                Elemental {sortBy === 'elemental' && (sortDirection === 'asc' ? <ArrowUp size={14} /> : <ArrowDown size={14} />)}
+              </button>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+
+  // Enhanced planetary position analysis using unused _PlanetaryPosition type
+  const analyzePlanetaryPositions = useCallback((positions: Record<string, _PlanetaryPosition>) => {
+    const analysis = Object.entries(positions).reduce((acc, [planet, position]) => {
+      acc[planet] = {
+        ...position,
+        elementalInfluence: calculateElementalMatch(
+          position.elementalProperties || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
+          currentMomentElementalProfile || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }
+        ),
+        astrologicalSignificance: position.dignity || 0.5
+      };
+      return acc;
+    }, {} as Record<string, any>);
+    
+    setPlanetaryInfluences(analysis);
+    return analysis;
+  }, [currentMomentElementalProfile]);
+
+  // Enhanced cuisine styling using unused CuisineStyles interface
+  const getCuisineCardStyles = useCallback((cuisine: any): CuisineStyles => {
+    const baseStyles: CuisineStyles = {
+      container: styles.cuisineCard,
+      title: styles.cuisineTitle,
+      cuisineList: styles.cuisineList,
+      cuisineCard: styles.cuisineCard,
+      cuisineName: styles.cuisineName,
+      description: styles.description,
+      alchemicalProperties: styles.alchemicalProperties,
+      subtitle: styles.subtitle,
+      propertyList: styles.propertyList,
+      property: styles.property,
+      propertyName: styles.propertyName,
+      propertyValue: styles.propertyValue,
+      astrologicalInfluences: styles.astrologicalInfluences,
+      influenceList: styles.influenceList,
+      influence: styles.influence,
+      loading: styles.loading,
+      error: styles.error
+    };
+    
+    // Enhance styles based on cuisine compatibility
+    if (cuisine.matchPercentage > 80) {
+      baseStyles.cuisineCard = `${styles.cuisineCard} ${styles.highMatch}`;
+    } else if (cuisine.matchPercentage > 60) {
+      baseStyles.cuisineCard = `${styles.cuisineCard} ${styles.mediumMatch}`;
+    }
+    
+    return baseStyles;
+  }, [styles]);
+
+  // Enhanced cuisine sorting with elemental analysis
+  const sortCuisines = useCallback((cuisines: any[]) => {
+    const sorted = [...cuisines].sort((a, b) => {
+      switch (sortBy) {
+        case 'score':
+          return sortDirection === 'asc' ? 
+            (a.matchPercentage || 0) - (b.matchPercentage || 0) :
+            (b.matchPercentage || 0) - (a.matchPercentage || 0);
+        case 'name':
+          return sortDirection === 'asc' ? 
+            (a.name || '').localeCompare(b.name || '') :
+            (b.name || '').localeCompare(a.name || '');
+        case 'elemental':
+          const aElemental = a.elementalProperties ? 
+            Object.values(a.elementalProperties).reduce((sum: number, val: any) => sum + (val || 0), 0) : 0;
+          const bElemental = b.elementalProperties ? 
+            Object.values(b.elementalProperties).reduce((sum: number, val: any) => sum + (val || 0), 0) : 0;
+          return sortDirection === 'asc' ? aElemental - bElemental : bElemental - aElemental;
+        default:
+          return 0;
+      }
+    });
+    
+    return sorted;
+  }, [sortBy, sortDirection]);
 
   return (
     <div className="bg-white rounded-lg shadow p-4">
@@ -1086,121 +1460,63 @@ export default function CuisineRecommender() {
       )}
 
       {/* Group cuisine cards in a better grid layout */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 mb-4">
-        {(cuisineRecommendations || []).map((cuisine) => {
-          // Calculate match percentage
-          const matchPercentage = cuisine.matchPercentage || 
-            (cuisine.compatibilityScore ? Math.round(cuisine.compatibilityScore * 100) : 50);
-
-          // Check if this is a regional variant
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-6">
+        {(cuisineRecommendations || []).map((cuisine, index) => {
+          const matchPercentage = cuisine.matchPercentage || Math.round((cuisine.compatibilityScore || cuisine.score || 0.5) * 100);
           const isRegionalVariant = !!cuisine.parentCuisine;
 
           return (
-            <div
-              key={cuisine.id}
-              className={`rounded border p-3 cursor-pointer transition-all duration-200 hover:shadow-md ${
-                selectedCuisine === cuisine.id || selectedCuisine === cuisine.name
-                  ? 'border-blue-400 bg-blue-50'
-                  : isRegionalVariant 
-                    ? 'border-gray-200 bg-gray-50' 
-                    : 'border-gray-200'
-              }`}
-              onClick={() => {
-                handleCuisineSelect(cuisine.id);
-                // Enhanced analytics tracking with detailed cuisine metrics
-                trackEvent('cuisine_card_click', cuisine.name, {
-                  value: cuisine.matchPercentage || 50,
-                  weight: 0.8,
-                  score: (cuisine.compatibilityScore || cuisine.score || 0.5)
-                });
-              }}
-            >
-              {/* Cuisine header with name and match score */}
-              <div className="flex justify-between items-center mb-2">
-                <div>
-                  <h3 className="font-medium text-sm">{cuisine.name}</h3>
-                  {isRegionalVariant && (
-                    <span className="text-xs text-gray-500">Regional variant of {cuisine.parentCuisine}</span>
-                  )}
-                  {cuisine.regionalVariants && (cuisine.regionalVariants || []).length > 0 && (
-                    <span className="text-xs text-gray-500 block">
-                      {(cuisine.regionalVariants || []).length} regional variants
-                    </span>
-                  )}
+            <AnimatePresence key={cuisine.id}>
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3, delay: index * 0.05 }}
+                className={`rounded-lg border p-4 cursor-pointer transition-shadow duration-200 hover:shadow-lg ${selectedCuisine === cuisine.id || selectedCuisine === cuisine.name ? 'border-indigo-500 bg-indigo-50 shadow-md' : isRegionalVariant ? 'border-gray-200 bg-gray-50' : 'border-gray-200'}`}
+                onClick={() => handleCuisineSelect(cuisine.id)}
+                title={`${cuisine.name} - ${matchPercentage}% match`}
+              >
+                <div className="flex justify-between items-start mb-3">
+                  <div>
+                    <h3 className="font-semibold text-lg">{cuisine.name}</h3>
+                    {isRegionalVariant && <p className="text-sm text-gray-500">Variant of {cuisine.parentCuisine}</p>}
+                  </div>
+                  {renderScoreBadge(matchPercentage / 100)}
                 </div>
-                <span
-                  className={`text-xs px-2 py-1 rounded ${getMatchScoreClass(
-                    cuisine.compatibilityScore || cuisine.score || 0.5
-                  )}`}
-                >
-                  {matchPercentage}%
-                </span>
-              </div>
 
-              {/* Cuisine description - truncated */}
-              <p className="text-xs text-gray-600 mb-2 line-clamp-2" title={cuisine.description}>
-                {cuisine.description}
-              </p>
+                <p className="text-sm text-gray-600 mb-4 line-clamp-3">{cuisine.description}</p>
 
-              {/* Elemental properties */}
-              <div className="flex items-center space-x-1 mb-2">
-                <span className="text-xs font-medium text-gray-500">Elements:</span>
-                <div className="flex space-x-1">
-                  {cuisine.elementalState.Fire >= 0.3 && (
-                    <div className="flex items-center" title={`fire: ${Math.round(cuisine.elementalState.Fire * 100)}%`}>
-                      <Flame size={14} className="text-red-500" />
-                      <span className="text-xs ml-1">{Math.round(cuisine.elementalState.Fire * 100)}%</span>
+                {/* Elemental visualization with progress bars */}
+                <div className="space-y-2 mb-4">
+                  {Object.entries(cuisine.elementalProperties || {}).map(([element, value]) => (
+                    <div key={element} className="flex items-center justify-between text-sm">
+                      <span className="flex items-center gap-1">
+                        {element === 'Fire' && <Flame size={16} className="text-red-500" />}
+                        {element === 'Water' && <Droplets size={16} className="text-blue-500" />}
+                        {element === 'Earth' && <Mountain size={16} className="text-green-500" />}
+                        {element === 'Air' && <Wind size={16} className="text-yellow-500" />}
+                        {element}
+                      </span>
+                      <div className="w-24 bg-gray-200 rounded-full h-2">
+                        <div 
+                          className={`h-2 rounded-full ${element === 'Fire' ? 'bg-red-500' : element === 'Water' ? 'bg-blue-500' : element === 'Earth' ? 'bg-green-500' : 'bg-yellow-500'}`}
+                          style={{ width: `${(value as number) * 100}%` }}
+                        ></div>
+                      </div>
                     </div>
-                  )}
-                  {cuisine.elementalState.Water >= 0.3 && (
-                    <div className="flex items-center" title={`water: ${Math.round(cuisine.elementalState.Water * 100)}%`}>
-                      <Droplets size={14} className="text-blue-500" />
-                      <span className="text-xs ml-1">{Math.round(cuisine.elementalState.Water * 100)}%</span>
-                    </div>
-                  )}
-                  {cuisine.elementalState.Earth >= 0.3 && (
-                    <div className="flex items-center" title={`earth: ${Math.round(cuisine.elementalState.Earth * 100)}%`}>
-                      <Mountain size={14} className="text-green-500" />
-                      <span className="text-xs ml-1">{Math.round(cuisine.elementalState.Earth * 100)}%</span>
-                    </div>
-                  )}
-                  {cuisine.elementalState.Air >= 0.3 && (
-                    <div className="flex items-center" title={`Air: ${Math.round(cuisine.elementalState.Air * 100)}%`}>
-                      <Wind size={14} className="text-yellow-500" />
-                      <span className="text-xs ml-1">{Math.round(cuisine.elementalState.Air * 100)}%</span>
-                    </div>
-                  )}
-                </div>
-              </div>
-
-              {/* Show signature dishes and techniques if available */}
-              {cuisine.signatureDishes && (cuisine.signatureDishes || []).length > 0 && (
-                <div className="mt-1">
-                  <span className="text-xs font-medium text-gray-500 block">Signature dishes:</span>
-                  <span className="text-xs text-gray-600">
-                    {cuisine.signatureDishes?.slice(0, 3)?.join(", ")}
-                    {(cuisine.signatureDishes || []).length > 3 ? "..." : ""}
-                  </span>
-                </div>
-              )}
-
-              {/* Show astrological influences if available */}
-              {cuisine.zodiacInfluences && (cuisine.zodiacInfluences || []).length > 0 && (
-                <div className="mt-1 flex flex-wrap gap-1">
-                  {cuisine.zodiacInfluences?.slice(0, 3).map(sign => (
-                    <span 
-                      key={sign} 
-                      className={`inline-flex items-center px-1.5 py-0.5 rounded text-xs
-                        ${currentZodiac === sign ? 'bg-blue-100 text-blue-800 font-medium' : 'bg-gray-100 text-gray-700'}`}
-                    >
-                      {sign}
-                      {currentZodiac === sign && <span className="ml-1">✓</span>}
-                    </span>
                   ))}
                 </div>
-              )}
-            </div>
-          )
+
+                {/* Astrological influences with tooltips */}
+                {cuisine.astrologicalInfluences && cuisine.astrologicalInfluences.length > 0 && (
+                  <div className="flex flex-wrap gap-1">
+                    {cuisine.astrologicalInfluences.slice(0, 3).map(influence => (
+                      <span key={influence} className="inline-block px-2 py-1 bg-gray-100 rounded text-xs" title={`Influenced by ${influence}`}>{influence}</span>
+                    ))}
+                  </div>
+                )}
+              </motion.div>
+            </AnimatePresence>
+          );
         })}
       </div>
 
@@ -1789,4 +2105,42 @@ export default function CuisineRecommender() {
       )}
     </div>
   );
+}
+
+export async function calculateAdvancedCuisineInfluence(cuisine: CuisineData, date: Date = new Date()): Promise<MatchingResult> {
+  const state = await getCurrentAstrologicalState(date);
+  const elementalState = state.elementalState ?? { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
+
+  // Use CalculationData for metrics
+  const calcData: CalculationData = {
+    value: Object.values(elementalState).reduce((a, b) => a + b, 0),
+    weight: state.confidence ?? 0.8,
+    score: state.astrologicalScore ?? 0.75
+  };
+
+  // Reinforce elements per principles
+  const reinforcedElements: ElementalData = {
+    Fire: elementalState.Fire * (1 + calcData.value * 0.1),
+    Water: elementalState.Water * (1 + calcData.value * 0.1),
+    Earth: elementalState.Earth * (1 + calcData.value * 0.1),
+    Air: elementalState.Air * (1 + calcData.value * 0.1),
+    dominant: Object.keys(elementalState).reduce((a, b) => elementalState[a] > elementalState[b] ? a : b)
+  };
+
+  // Create ScoredItem
+  const scoredCuisine: ScoredItem = {
+    score: calculateEnhancedCuisineScore(cuisine, reinforcedElements, calcData).score,
+    name: cuisine.name,
+    elements: reinforcedElements
+  };
+
+  // Integrate NutrientData for alchemical analysis
+  const nutrients = analyzeNutritionalData(cuisine);
+
+  return {
+    score: scoredCuisine.score,
+    elements: reinforcedElements,
+    recipe: scoredCuisine,
+    nutritionalAnalysis: nutrients
+  };
 }

@@ -50,11 +50,83 @@ interface NutrientData {
   [key: string]: unknown;
 }
 
+// Advanced Recipe Matching Result with comprehensive analysis
 interface MatchingResult {
-  score: number;
-  elements: ElementalData;
-  recipe?: unknown;
-  [key: string]: unknown;
+  recipe: Recipe;
+  overallScore: number;
+  matchComponents: {
+    nutritional: number;
+    elemental: number;
+    seasonal: number;
+    astrological: number;
+    culinary: number;
+    cultural: number;
+  };
+  detailedAnalysis: {
+    nutritionCompatibility: NutritionCompatibilityAnalysis;
+    elementalAlignment: ElementalAlignmentAnalysis;
+    seasonalOptimization: SeasonalOptimizationAnalysis;
+    astrologicalHarmony: AstrologicalHarmonyAnalysis;
+    culinaryTechnique: CulinaryTechniqueAnalysis;
+  };
+  recommendations: string[];
+  warnings: string[];
+  enhancementSuggestions: string[];
+}
+
+// Supporting analysis interfaces
+interface NutritionCompatibilityAnalysis {
+  macronutrientBalance: number;
+  micronutrientDensity: number;
+  digestiveCompatibility: number;
+  energyProfile: string;
+  nutritionalGaps: string[];
+  nutritionalStrengths: string[];
+}
+
+interface ElementalAlignmentAnalysis {
+  elementalScore: number;
+  dominantElement: _Element;
+  elementalBalance: ElementalProperties;
+  recommendedAdjustments: Record<_Element, number>;
+  harmonicResonance: number;
+}
+
+interface SeasonalOptimizationAnalysis {
+  seasonalScore: number;
+  currentSeasonAlignment: number;
+  optimalSeasons: Season[];
+  seasonalModifications: Record<Season, string[]>;
+  ingredients: {
+    inSeason: string[];
+    outOfSeason: string[];
+    yearRound: string[];
+  };
+}
+
+interface AstrologicalHarmonyAnalysis {
+  planetaryAlignment: number;
+  lunarCompatibility: number;
+  zodiacHarmony: number;
+  astrologicalTiming: {
+    optimal: string[];
+    cautionary: string[];
+    prohibited: string[];
+  };
+  cosmicResonance: number;
+}
+
+interface CulinaryTechniqueAnalysis {
+  techniqueComplexity: number;
+  methodEfficiency: number;
+  skillRequirement: 'beginner' | 'intermediate' | 'advanced' | 'expert';
+  equipmentNeeds: string[];
+  timeInvestment: {
+    preparation: number;
+    cooking: number;
+    total: number;
+  };
+  difficultyFactors: string[];
 }
 
 

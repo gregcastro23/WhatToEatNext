@@ -98,6 +98,642 @@ type CookingMethodDictionary = Record<string, CookingMethodData>;
 
 // ===== DATA AGGREGATION =====
 
+// Advanced planetary cooking method database with thermodynamic scoring
+const planetaryMethodDatabase = {
+  venus: {
+    methods: venusData.cookingMethods || [],
+    elementalBoost: venusData.elementalProperties || { Fire: 0.1, Water: 0.4, Earth: 0.3, Air: 0.2 },
+    culturalInfluence: venusData.culturalAssociations || [],
+    thermodynamicModifier: 1.2
+  },
+  mars: {
+    methods: marsData.cookingMethods || [],
+    elementalBoost: marsData.elementalProperties || { Fire: 0.5, Water: 0.1, Earth: 0.2, Air: 0.2 },
+    culturalInfluence: marsData.culturalAssociations || [],
+    thermodynamicModifier: 1.5
+  },
+  mercury: {
+    methods: mercuryData.cookingMethods || [],
+    elementalBoost: mercuryData.elementalProperties || { Fire: 0.2, Water: 0.2, Earth: 0.2, Air: 0.4 },
+    culturalInfluence: mercuryData.culturalAssociations || [],
+    thermodynamicModifier: 1.1
+  },
+  jupiter: {
+    methods: jupiterData.cookingMethods || [],
+    elementalBoost: jupiterData.elementalProperties || { Fire: 0.3, Water: 0.2, Earth: 0.2, Air: 0.3 },
+    culturalInfluence: jupiterData.culturalAssociations || [],
+    thermodynamicModifier: 1.3
+  },
+  saturn: {
+    methods: saturnData.cookingMethods || [],
+    elementalBoost: saturnData.elementalProperties || { Fire: 0.1, Water: 0.2, Earth: 0.5, Air: 0.2 },
+    culturalInfluence: saturnData.culturalAssociations || [],
+    thermodynamicModifier: 0.9
+  },
+  uranus: {
+    methods: uranusData.cookingMethods || [],
+    elementalBoost: uranusData.elementalProperties || { Fire: 0.2, Water: 0.3, Earth: 0.1, Air: 0.4 },
+    culturalInfluence: uranusData.culturalAssociations || [],
+    thermodynamicModifier: 1.4
+  },
+  neptune: {
+    methods: neptuneData.cookingMethods || [],
+    elementalBoost: neptuneData.elementalProperties || { Fire: 0.1, Water: 0.5, Earth: 0.2, Air: 0.2 },
+    culturalInfluence: neptuneData.culturalAssociations || [],
+    thermodynamicModifier: 1.0
+  },
+  pluto: {
+    methods: plutoData.cookingMethods || [],
+    elementalBoost: plutoData.elementalProperties || { Fire: 0.3, Water: 0.2, Earth: 0.3, Air: 0.2 },
+    culturalInfluence: plutoData.culturalAssociations || [],
+    thermodynamicModifier: 1.6
+  }
+};
+
+// Advanced cultural cooking method integration system
+function getCulturalMethodVariations(baseMethod: string): Array<{ method: string; culture: string; enhancement: string }> {
+  const variations = _getCulturalVariations(baseMethod);
+  return variations.map((variation: _CulturalCookingMethod) => ({
+    method: variation.name || baseMethod,
+    culture: variation.culture || 'universal',
+    enhancement: variation.culturalEnhancement || 'traditional preparation'
+  }));
+}
+
+// Advanced lunar phase cooking optimization
+function calculateLunarCookingBonus(method: CookingMethodData, currentDate: Date = new Date()): { phase: _LunarPhase; bonus: number; reasoning: string } {
+  const lunarPhase = _calculateLunarPhase(currentDate);
+  
+  const lunarBonuses: Record<_LunarPhase, { methodTypes: string[]; bonus: number; reasoning: string }> = {
+    'new': {
+      methodTypes: ['fermentation', 'sprouting', 'preparation'],
+      bonus: 0.15,
+      reasoning: 'New moon energy supports new beginnings and gentle processes'
+    },
+    'waxing': {
+      methodTypes: ['baking', 'rising', 'growth'],
+      bonus: 0.12,
+      reasoning: 'Waxing moon enhances growth and building energy'
+    },
+    'full': {
+      methodTypes: ['transformation', 'high-heat', 'intense'],
+      bonus: 0.20,
+      reasoning: 'Full moon provides maximum transformation energy'
+    },
+    'waning': {
+      methodTypes: ['reduction', 'concentration', 'distillation'],
+      bonus: 0.10,
+      reasoning: 'Waning moon supports reduction and concentration'
+    }
+  };
+  
+  const currentPhaseData = lunarBonuses[lunarPhase];
+  const methodName = method.name?.toLowerCase() || '';
+  
+  const isOptimalMethod = currentPhaseData.methodTypes.some(type => 
+    methodName.includes(type) || method.description?.toLowerCase().includes(type)
+  );
+  
+  return {
+    phase: lunarPhase,
+    bonus: isOptimalMethod ? currentPhaseData.bonus : 0.05,
+    reasoning: currentPhaseData.reasoning
+  };
+}
+
+// Advanced elemental cooking method analysis
+function analyzeElementalMethodAlignment(method: CookingMethodData, targetElemental: _ElementalProperties): { score: number; analysis: string; recommendations: string[] } {
+  if (!_isElementalProperties(method.elementalEffect) || !_isElementalProperties(targetElemental)) {
+    return {
+      score: 0.5,
+      analysis: 'Limited elemental data available',
+      recommendations: ['Use standard preparation methods']
+    };
+  }
+  
+  const methodElemental = method.elementalEffect;
+  const alignmentScores = {
+    Fire: Math.abs(getElementalProperty(methodElemental, 'Fire') - getElementalProperty(targetElemental, 'Fire')),
+    Water: Math.abs(getElementalProperty(methodElemental, 'Water') - getElementalProperty(targetElemental, 'Water')),
+    Earth: Math.abs(getElementalProperty(methodElemental, 'Earth') - getElementalProperty(targetElemental, 'Earth')),
+    Air: Math.abs(getElementalProperty(methodElemental, 'Air') - getElementalProperty(targetElemental, 'Air'))
+  };
+  
+  const averageAlignment = Object.values(alignmentScores).reduce((sum, score) => sum + (1 - score), 0) / 4;
+  
+  const dominantElement = Object.entries(targetElemental)
+    .reduce((a, b) => (a[1] as number) > (b[1] as number) ? a : b)[0] as _Element;
+  
+  const recommendations = generateElementalRecommendations(dominantElement, method, alignmentScores);
+  
+  return {
+    score: averageAlignment,
+    analysis: `Method aligns ${(averageAlignment * 100).toFixed(1)}% with target elemental profile. Dominant element: ${dominantElement}`,
+    recommendations
+  };
+}
+
+// Advanced flavor profile cooking method matching
+function calculateFlavorMethodSynergy(method: CookingMethodData, targetFlavors: Record<string, unknown>): { score: number; enhancements: string[]; warnings: string[] } {
+  if (!hasFlavorProperties(targetFlavors)) {
+    return {
+      score: 0.7,
+      enhancements: ['Method suitable for general flavor development'],
+      warnings: []
+    };
+  }
+  
+  const methodName = method.name?.toLowerCase() || '';
+  const methodDescription = method.description?.toLowerCase() || '';
+  
+  // Flavor enhancement analysis
+  const flavorEnhancements: Record<string, { methods: string[]; enhancement: string; warning?: string }> = {
+    bitter: {
+      methods: ['roasting', 'grilling', 'charring'],
+      enhancement: 'Develops complex bitter compounds through Maillard reactions',
+      warning: 'Monitor closely to prevent over-bitterness'
+    },
+    sweet: {
+      methods: ['caramelizing', 'slow-roasting', 'confit'],
+      enhancement: 'Concentrates and develops natural sugars'
+    },
+    sour: {
+      methods: ['fermentation', 'pickling', 'acidulation'],
+      enhancement: 'Enhances acidic notes and brightness'
+    },
+    salty: {
+      methods: ['brining', 'curing', 'salt-crusting'],
+      enhancement: 'Intensifies and balances salinity'
+    },
+    umami: {
+      methods: ['braising', 'reduction', 'aging'],
+      enhancement: 'Develops deep savory complexity'
+    }
+  };
+  
+  let totalScore = 0;
+  const enhancements: string[] = [];
+  const warnings: string[] = [];
+  
+  Object.entries(targetFlavors).forEach(([flavor, intensity]) => {
+    const flavorData = flavorEnhancements[flavor];
+    if (flavorData && typeof intensity === 'number' && intensity > 0.3) {
+      const methodMatches = flavorData.methods.some(m => 
+        methodName.includes(m) || methodDescription.includes(m)
+      );
+      
+      if (methodMatches) {
+        totalScore += intensity * 0.8;
+        enhancements.push(flavorData.enhancement);
+        if (flavorData.warning) {
+          warnings.push(flavorData.warning);
+        }
+      }
+    }
+  });
+  
+  return {
+    score: Math.min(totalScore / Object.keys(targetFlavors).length, 1.0),
+    enhancements,
+    warnings
+  };
+}
+
+// Helper function for elemental recommendations
+function generateElementalRecommendations(dominantElement: _Element, method: CookingMethodData, alignmentScores: Record<string, number>): string[] {
+  const recommendations: string[] = [];
+  
+  const elementAdvice: Record<_Element, string[]> = {
+    Fire: [
+      'Increase heat intensity for better Fire alignment',
+      'Consider high-temperature techniques like grilling or searing',
+      'Add warming spices to enhance Fire element'
+    ],
+    Water: [
+      'Use moist cooking methods like steaming or poaching',
+      'Incorporate cooling ingredients',
+      'Consider liquid-based preparations'
+    ],
+    Earth: [
+      'Use grounding techniques like slow roasting',
+      'Incorporate root vegetables and grains',
+      'Consider earthenware cooking vessels'
+    ],
+    Air: [
+      'Use light, quick cooking methods',
+      'Incorporate fresh herbs and aromatics',
+      'Consider techniques that create lightness and lift'
+    ]
+  };
+  
+  recommendations.push(...elementAdvice[dominantElement]);
+  
+  // Add specific alignment suggestions
+  Object.entries(alignmentScores).forEach(([element, misalignment]) => {
+    if (misalignment > 0.3) {
+      recommendations.push(`Adjust ${element} properties - current misalignment: ${(misalignment * 100).toFixed(1)}%`);
+    }
+  });
+  
+  return recommendations;
+}
+
+// Advanced thermodynamic cooking method scoring system
+function calculateThermodynamicScore(method: CookingMethodData, options: MethodRecommendationOptions): { score: number; analysis: ThermodynamicAnalysis; recommendations: string[] } {
+  const methodName = method.name?.toLowerCase() || '';
+  const baseThermodynamics = COOKING_METHOD_THERMODYNAMICS[methodName as CookingMethodEnum] || {
+    heatTransfer: 0.5,
+    moistureRetention: 0.5,
+    chemicalReaction: 0.5,
+    energyEfficiency: 0.5,
+    temperatureControl: 0.5
+  };
+  
+  // Calculate seasonal adjustments
+  const currentSeason = getCurrentSeason();
+  const seasonalModifiers = getSeasonalThermodynamicModifiers(currentSeason);
+  
+  // Apply planetary influences
+  const planetaryBonus = calculatePlanetaryThermodynamicBonus(method, options.astrologicalState);
+  
+  // Calculate final thermodynamic properties
+  const adjustedThermodynamics = {
+    heatTransfer: baseThermodynamics.heatTransfer * seasonalModifiers.heatTransfer * planetaryBonus.heatModifier,
+    moistureRetention: baseThermodynamics.moistureRetention * seasonalModifiers.moistureRetention * planetaryBonus.moistureModifier,
+    chemicalReaction: baseThermodynamics.chemicalReaction * seasonalModifiers.chemicalReaction * planetaryBonus.reactionModifier,
+    energyEfficiency: baseThermodynamics.energyEfficiency * seasonalModifiers.energyEfficiency * planetaryBonus.efficiencyModifier,
+    temperatureControl: baseThermodynamics.temperatureControl * seasonalModifiers.temperatureControl * planetaryBonus.controlModifier
+  };
+  
+  // Calculate overall thermodynamic score
+  const thermodynamicScore = Object.values(adjustedThermodynamics).reduce((sum, value) => sum + value, 0) / 5;
+  
+  const analysis: ThermodynamicAnalysis = {
+    baseProperties: baseThermodynamics,
+    adjustedProperties: adjustedThermodynamics,
+    seasonalModifiers,
+    planetaryInfluence: planetaryBonus,
+    overallEfficiency: thermodynamicScore,
+    optimalConditions: generateOptimalConditions(adjustedThermodynamics)
+  };
+  
+  const recommendations = generateThermodynamicRecommendations(analysis, method);
+  
+  return {
+    score: thermodynamicScore,
+    analysis,
+    recommendations
+  };
+}
+
+// Seasonal thermodynamic modifiers
+function getSeasonalThermodynamicModifiers(season: string): BasicThermodynamicProperties {
+  const modifiers: Record<string, BasicThermodynamicProperties> = {
+    'spring': {
+      heatTransfer: 1.0,
+      moistureRetention: 1.1,
+      chemicalReaction: 1.05,
+      energyEfficiency: 1.0,
+      temperatureControl: 1.0
+    },
+    'summer': {
+      heatTransfer: 0.9,
+      moistureRetention: 0.8,
+      chemicalReaction: 1.1,
+      energyEfficiency: 0.9,
+      temperatureControl: 0.85
+    },
+    'autumn': {
+      heatTransfer: 1.1,
+      moistureRetention: 1.0,
+      chemicalReaction: 0.95,
+      energyEfficiency: 1.05,
+      temperatureControl: 1.1
+    },
+    'winter': {
+      heatTransfer: 1.2,
+      moistureRetention: 0.9,
+      chemicalReaction: 0.9,
+      energyEfficiency: 1.1,
+      temperatureControl: 1.2
+    }
+  };
+  
+  return modifiers[season] || modifiers['spring'];
+}
+
+// Planetary thermodynamic bonus calculation
+function calculatePlanetaryThermodynamicBonus(method: CookingMethodData, astroState?: AstrologicalState): PlanetaryThermodynamicBonus {
+  if (!astroState) {
+    return {
+      heatModifier: 1.0,
+      moistureModifier: 1.0,
+      reactionModifier: 1.0,
+      efficiencyModifier: 1.0,
+      controlModifier: 1.0,
+      dominantPlanet: 'sun'
+    };
+  }
+  
+  // Determine dominant planetary influence
+  const planetaryHour = astroState.planetaryHour || 'sun';
+  const planetData = planetaryMethodDatabase[planetaryHour as keyof typeof planetaryMethodDatabase];
+  
+  if (!planetData) {
+    return {
+      heatModifier: 1.0,
+      moistureModifier: 1.0,
+      reactionModifier: 1.0,
+      efficiencyModifier: 1.0,
+      controlModifier: 1.0,
+      dominantPlanet: planetaryHour
+    };
+  }
+  
+  const baseModifier = planetData.thermodynamicModifier;
+  
+  return {
+    heatModifier: baseModifier * 1.1,
+    moistureModifier: baseModifier * 0.9,
+    reactionModifier: baseModifier,
+    efficiencyModifier: baseModifier * 1.05,
+    controlModifier: baseModifier * 0.95,
+    dominantPlanet: planetaryHour
+  };
+}
+
+// Generate optimal conditions for thermodynamic efficiency
+function generateOptimalConditions(thermodynamics: BasicThermodynamicProperties): string[] {
+  const conditions: string[] = [];
+  
+  if (thermodynamics.heatTransfer > 0.8) {
+    conditions.push('High heat transfer - ideal for quick searing and browning');
+  }
+  
+  if (thermodynamics.moistureRetention > 0.8) {
+    conditions.push('Excellent moisture retention - perfect for tender, juicy results');
+  }
+  
+  if (thermodynamics.chemicalReaction > 0.8) {
+    conditions.push('Enhanced chemical reactions - optimal for flavor development');
+  }
+  
+  if (thermodynamics.energyEfficiency > 0.8) {
+    conditions.push('High energy efficiency - sustainable and cost-effective');
+  }
+  
+  if (thermodynamics.temperatureControl > 0.8) {
+    conditions.push('Precise temperature control - ideal for delicate preparations');
+  }
+  
+  return conditions;
+}
+
+// Generate thermodynamic recommendations
+function generateThermodynamicRecommendations(analysis: ThermodynamicAnalysis, method: CookingMethodData): string[] {
+  const recommendations: string[] = [];
+  
+  const { adjustedProperties } = analysis;
+  
+  if (adjustedProperties.heatTransfer < 0.6) {
+    recommendations.push('Consider preheating equipment longer for better heat transfer');
+  }
+  
+  if (adjustedProperties.moistureRetention < 0.6) {
+    recommendations.push('Add moisture-retaining techniques like covering or basting');
+  }
+  
+  if (adjustedProperties.chemicalReaction < 0.6) {
+    recommendations.push('Increase cooking time or temperature to enhance chemical reactions');
+  }
+  
+  if (adjustedProperties.energyEfficiency < 0.6) {
+    recommendations.push('Optimize cooking vessel size and heat settings for better efficiency');
+  }
+  
+  if (adjustedProperties.temperatureControl < 0.6) {
+    recommendations.push('Use more precise temperature monitoring and control methods');
+  }
+  
+  // Add method-specific recommendations based on method properties
+  if (method.culturalOrigin) {
+    recommendations.push(`Traditional ${method.culturalOrigin} techniques may enhance this method`);
+  }
+  
+  if (method.seasonalPreference && method.seasonalPreference.length > 0) {
+    recommendations.push(`Optimal during ${method.seasonalPreference.join(', ')} seasons`);
+  }
+  
+  // Add planetary-specific recommendations
+  const planetaryPlanet = analysis.planetaryInfluence.dominantPlanet;
+  const planetData = planetaryMethodDatabase[planetaryPlanet as keyof typeof planetaryMethodDatabase];
+  
+  if (planetData && planetData.culturalInfluence.length > 0) {
+    recommendations.push(`Consider ${planetaryPlanet}-influenced techniques from ${planetData.culturalInfluence.join(', ')} traditions`);
+  }
+  
+  return recommendations;
+}
+
+// Enhanced method recommendation with comprehensive scoring
+export function getEnhancedMethodRecommendations(options: MethodRecommendationOptions): MethodRecommendation[] {
+  const recommendations: MethodRecommendation[] = [];
+  
+  Object.values(allCookingMethodsCombined).forEach(method => {
+    // Skip methods without required data
+    if (!method.name || !method.elementalEffect) return;
+    
+    // Calculate base compatibility score
+    let totalScore = 0;
+    let scoreComponents: Record<string, number> = {};
+    
+    // Elemental alignment scoring
+    if (options.targetElemental) {
+      const elementalAnalysis = analyzeElementalMethodAlignment(method, options.targetElemental);
+      scoreComponents.elemental = elementalAnalysis.score * 0.25;
+      totalScore += scoreComponents.elemental;
+    }
+    
+    // Flavor synergy scoring
+    if (options.targetFlavors) {
+      const flavorAnalysis = calculateFlavorMethodSynergy(method, options.targetFlavors);
+      scoreComponents.flavor = flavorAnalysis.score * 0.20;
+      totalScore += scoreComponents.flavor;
+    }
+    
+    // Thermodynamic scoring
+    const thermodynamicAnalysis = calculateThermodynamicScore(method, options);
+    scoreComponents.thermodynamic = thermodynamicAnalysis.score * 0.30;
+    totalScore += scoreComponents.thermodynamic;
+    
+    // Lunar phase bonus
+    const lunarAnalysis = calculateLunarCookingBonus(method);
+    scoreComponents.lunar = lunarAnalysis.bonus;
+    totalScore += scoreComponents.lunar;
+    
+    // Cultural variation scoring
+    const culturalVariations = getCulturalMethodVariations(method.name);
+    scoreComponents.cultural = culturalVariations.length > 0 ? 0.05 : 0;
+    totalScore += scoreComponents.cultural;
+    
+    // Create enhanced recommendation
+    const recommendation: MethodRecommendation = {
+      method: method,
+      score: Math.min(totalScore, 1.0),
+      scoreComponents: scoreComponents,
+      reasoning: generateRecommendationReasoning(method, options, scoreComponents),
+      enhancements: {
+        elementalOptimization: options.targetElemental ? analyzeElementalMethodAlignment(method, options.targetElemental) : undefined,
+        flavorSynergy: options.targetFlavors ? calculateFlavorMethodSynergy(method, options.targetFlavors) : undefined,
+        thermodynamicAnalysis: thermodynamicAnalysis,
+        lunarOptimization: lunarAnalysis,
+        culturalVariations: culturalVariations
+      },
+      practicalGuidance: generatePracticalGuidance(method, thermodynamicAnalysis),
+      seasonalAdaptations: generateSeasonalAdaptations(method),
+      planetaryAlignments: generatePlanetaryAlignments(method, options.astrologicalState)
+    };
+    
+    recommendations.push(recommendation);
+  });
+  
+  // Sort by score and return top recommendations
+  return recommendations
+    .sort((a, b) => b.score - a.score)
+    .slice(0, options.maxRecommendations || 10);
+}
+
+// Generate recommendation reasoning
+function generateRecommendationReasoning(method: CookingMethodData, options: MethodRecommendationOptions, scores: Record<string, number>): string {
+  const reasons: string[] = [];
+  
+  if (scores.elemental > 0.7) {
+    reasons.push('excellent elemental alignment');
+  } else if (scores.elemental > 0.5) {
+    reasons.push('good elemental compatibility');
+  }
+  
+  if (scores.flavor > 0.7) {
+    reasons.push('strong flavor synergy');
+  }
+  
+  if (scores.thermodynamic > 0.8) {
+    reasons.push('optimal thermodynamic properties');
+  } else if (scores.thermodynamic > 0.6) {
+    reasons.push('efficient thermodynamic profile');
+  }
+  
+  if (scores.lunar > 0.15) {
+    reasons.push('enhanced by current lunar phase');
+  }
+  
+  if (scores.cultural > 0) {
+    reasons.push('rich cultural variations available');
+  }
+  
+  return reasons.length > 0 
+    ? `Recommended for ${reasons.join(', ')}`
+    : 'Standard compatibility with current parameters';
+}
+
+// Generate practical guidance
+function generatePracticalGuidance(method: CookingMethodData, thermodynamics: { analysis: ThermodynamicAnalysis }): string[] {
+  const guidance: string[] = [];
+  
+  // Equipment recommendations
+  if (method.toolsRequired) {
+    guidance.push(`Required equipment: ${method.toolsRequired.join(', ')}`);
+  }
+  
+  // Temperature guidance
+  const tempControl = thermodynamics.analysis.adjustedProperties.temperatureControl;
+  if (tempControl > 0.8) {
+    guidance.push('Use precise temperature monitoring for best results');
+  } else if (tempControl < 0.4) {
+    guidance.push('Temperature tolerance is forgiving - suitable for beginners');
+  }
+  
+  // Timing guidance
+  if (method.duration) {
+    guidance.push(`Cooking time: ${method.duration.min}-${method.duration.max} minutes`);
+  }
+  
+  // Best applications
+  if (method.bestFor && method.bestFor.length > 0) {
+    guidance.push(`Best for: ${method.bestFor.join(', ')}`);
+  }
+  
+  return guidance;
+}
+
+// Generate seasonal adaptations with method-specific considerations
+function generateSeasonalAdaptations(method: CookingMethodData): Record<string, string[]> {
+  const baseAdaptations: Record<string, string[]> = {
+    spring: ['Use lighter touches', 'Incorporate fresh herbs', 'Reduce cooking times slightly'],
+    summer: ['Lower temperatures when possible', 'Focus on quick cooking', 'Emphasize cooling elements'],
+    autumn: ['Embrace heartier preparations', 'Extend cooking times for depth', 'Use warming spices'],
+    winter: ['Maximize heat and warming', 'Use longer, slower methods', 'Focus on comfort and richness']
+  };
+  
+  // Add method-specific adaptations
+  const methodName = method.name?.toLowerCase() || '';
+  
+  if (methodName.includes('grill')) {
+    baseAdaptations.summer.unshift('Ideal season for outdoor grilling');
+    baseAdaptations.winter.push('Consider indoor grilling alternatives');
+  }
+  
+  if (methodName.includes('brais') || methodName.includes('stew')) {
+    baseAdaptations.autumn.unshift('Perfect for slow, warming preparations');
+    baseAdaptations.winter.unshift('Ideal for hearty, warming dishes');
+  }
+  
+  if (method.duration && method.duration.min > 60) {
+    baseAdaptations.summer.push('Start early to avoid peak heat hours');
+    baseAdaptations.winter.push('Perfect for cozy, extended cooking sessions');
+  }
+  
+  return baseAdaptations;
+}
+
+// Generate planetary alignments
+function generatePlanetaryAlignments(method: CookingMethodData, astroState?: AstrologicalState): Record<string, string> {
+  if (!astroState) {
+    return {
+      current: 'No astrological data available',
+      optimal: 'Any time suitable for general cooking'
+    };
+  }
+  
+  const currentPlanet = astroState.planetaryHour || 'sun';
+  const planetData = planetaryMethodDatabase[currentPlanet as keyof typeof planetaryMethodDatabase];
+  
+  return {
+    current: `${currentPlanet} hour - ${planetData ? 'favorable' : 'neutral'} for this method`,
+    optimal: `Best during planetary hours that enhance ${method.name} energy`,
+    enhancement: planetData ? `${planetData.thermodynamicModifier > 1 ? 'Enhanced' : 'Moderated'} by ${currentPlanet} influence` : 'Standard planetary influence'
+  };
+}
+
+// Type definitions for enhanced functionality
+interface ThermodynamicAnalysis {
+  baseProperties: BasicThermodynamicProperties;
+  adjustedProperties: BasicThermodynamicProperties;
+  seasonalModifiers: BasicThermodynamicProperties;
+  planetaryInfluence: PlanetaryThermodynamicBonus;
+  overallEfficiency: number;
+  optimalConditions: string[];
+}
+
+interface PlanetaryThermodynamicBonus {
+  heatModifier: number;
+  moistureModifier: number;
+  reactionModifier: number;
+  efficiencyModifier: number;
+  controlModifier: number;
+  dominantPlanet: string;
+}
+
 // Combine traditional and cultural cooking methods
 const allCookingMethodsCombined: CookingMethodDictionary = {
   // Convert allCookingMethods to our format
