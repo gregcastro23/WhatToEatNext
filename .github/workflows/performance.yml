@@ -1,0 +1,77 @@
+name: Performance Monitoring
+
+on:
+  schedule:
+    - cron: '0 */6 * * *'  # Every 6 hours
+  workflow_dispatch:
+  repository_dispatch:
+    types: [performance-check]
+
+jobs:
+  lighthouse:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Run Lighthouse CI
+        uses: treosh/lighthouse-ci-action@v10
+        with:
+          urls: |
+            https://what-to-eat-next.vercel.app
+            https://what-to-eat-next.vercel.app/what-to-eat-next
+            https://what-to-eat-next.vercel.app/alchm-kitchen
+          uploadArtifacts: true
+          temporaryPublicStorage: true
+
+  bundle-analysis:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'yarn'
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Build and analyze bundle
+        run: |
+          yarn build
+          npx @next/bundle-analyzer || echo "Bundle analysis completed"
+
+      - name: Generate bundle report
+        run: |
+          echo "# Bundle Analysis Report" > bundle-report.md
+          echo "Generated at: $(date)" >> bundle-report.md
+          echo "## Build Output" >> bundle-report.md
+          ls -la .next/static/chunks/ >> bundle-report.md
+
+      - name: Upload bundle report
+        uses: actions/upload-artifact@v4
+        with:
+          name: bundle-analysis
+          path: bundle-report.md
+
+  uptime-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check application uptime
+        run: |
+          URLS=(
+            "https://what-to-eat-next.vercel.app"
+            "https://what-to-eat-next.vercel.app/what-to-eat-next"
+            "https://what-to-eat-next.vercel.app/api/health"
+          )
+          
+          for url in "${URLS[@]}"; do
+            echo "Checking $url"
+            if curl -f --max-time 10 "$url"; then
+              echo "✅ $url is responding"
+            else
+              echo "❌ $url is not responding"
+              exit 1
+            fi
+          done 

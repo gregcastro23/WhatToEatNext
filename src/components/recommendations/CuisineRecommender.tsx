@@ -100,6 +100,8 @@ import jupiterData from '../../data/planets/jupiter';
 
 import type { _PlanetaryPosition } from "@/types/celestial";
 import { motion, AnimatePresence } from 'framer-motion';
+import type { ElementalProperties, ZodiacSign, LunarPhase } from '@/types/alchemy';
+import type { RecipeData } from '@/types/recipe';
 
 // Define AlchemicalItem interface for cuisine recommendations
 interface AlchemicalItem {
@@ -349,7 +351,7 @@ export default function CuisineRecommender() {
   }, [alchemicalContext, state, currentZodiac, lunarPhase]);
 
   const [selectedCuisine, setSelectedCuisine] = useState<string | null>(null);
-  const [selectedCuisineData, setSelectedCuisineData] = useState<Record<string, unknown> | null>(null);
+  const [selectedCuisineData, setSelectedCuisineData] = useState<RecipeData | null>(null);
   const [transformedCuisines, setTransformedCuisines] = useState<
     AlchemicalItem[]
   >([]);
@@ -409,6 +411,23 @@ export default function CuisineRecommender() {
     mercury: mercuryData,
     jupiter: jupiterData
   });
+
+  // Add missing calculationMetrics variable
+  const calculationMetrics = useMemo(() => ({
+    totalCuisines: cuisineRecommendations.length,
+    selectedCuisine: selectedCuisine,
+    enhancedFeatures: {
+      sauceRecommendations: showSauceRecommendations,
+      cuisineDetails: showCuisineSpecificDetails,
+      planetaryInfluences: showPlanetaryInfluences,
+      advancedFilters: showAdvancedFilters,
+      elementalAnalysis: showElementalAnalysis
+    },
+    sorting: {
+      sortBy,
+      sortDirection
+    }
+  }), [cuisineRecommendations.length, selectedCuisine, showSauceRecommendations, showCuisineSpecificDetails, showPlanetaryInfluences, showAdvancedFilters, showElementalAnalysis, sortBy, sortDirection]);
 
   // Enhanced sauce recommendation system using unused imports
   const [enhancedSauceRecommendations, setEnhancedSauceRecommendations] = useState<SauceRecommendation[]>([]);
@@ -784,10 +803,71 @@ export default function CuisineRecommender() {
     loadRecipes();
   }, []);
 
+  // Add missing loadCuisines function
+  const loadCuisines = useCallback(async () => {
+    try {
+      setLoading(true);
+      setLoadingStep('Loading cuisine data...');
+      
+      // Get cuisine recommendations based on current astrological state
+      const recommendations = getCuisineRecommendations(astroStateRef.current);
+      
+      // Transform cuisines using alchemical transformation
+      const transformedRecommendations = transformCuisines(recommendations, alchemicalContext.state as any);
+      
+      // Sort by alchemical compatibility
+      const finalRecommendations = sortByAlchemicalCompatibility(
+        transformedRecommendations, 
+        alchemicalContext.state as any
+      );
+      
+      setTransformedCuisines(finalRecommendations);
+      setCuisineRecommendations(finalRecommendations as Record<string, unknown>[]);
+      
+      setLoading(false);
+      trackEvent('cuisine_recommendations_loaded', `${finalRecommendations.length} cuisines`);
+      
+    } catch (err) {
+      console.error('Error loading cuisine recommendations:', err);
+      setError('Failed to load cuisine recommendations. Please try again.');
+      setLoading(false);
+    }
+  }, [alchemicalContext, trackEvent]);
+
   // Use enhanced cuisine loading
   useEffect(() => {
     loadEnhancedCuisines();
   }, [currentZodiac, lunarPhase, loadEnhancedCuisines]);
+
+  // Add missing handleEnhancedCuisineSelect function
+  const handleEnhancedCuisineSelect = useCallback((cuisineId: string) => {
+    try {
+      setSelectedCuisine(cuisineId);
+      
+      // Find the selected cuisine data
+      const cuisine = cuisineRecommendations.find(c => c.id === cuisineId || c.name === cuisineId);
+      if (cuisine) {
+        setSelectedCuisineData(cuisine as RecipeData);
+        
+        // Generate sauce recommendations for this cuisine
+        const sauceRecs = generateSauceRecommendationsForCuisine(cuisine.name);
+        setSauceRecommendations(sauceRecs);
+        
+        // Generate enhanced sauce recommendations
+        const enhancedSauces = generateEnhancedSauceRecommendations(cuisine.name);
+        setEnhancedSauceRecommendations(enhancedSauces);
+        
+        // Generate enhanced recipe matches
+        const enhancedRecipes = generateEnhancedRecipeMatches(cuisine.name);
+        setEnhancedRecipeMatches(enhancedRecipes);
+        
+        // Track the selection
+        trackEvent('cuisine_selected', cuisine.name);
+      }
+    } catch (error) {
+      console.error('Error selecting cuisine:', error);
+    }
+  }, [cuisineRecommendations, generateSauceRecommendationsForCuisine, generateEnhancedSauceRecommendations, generateEnhancedRecipeMatches, trackEvent]);
 
   // Enhanced cuisine selection handler (replaces original handleCuisineSelect)
   const handleCuisineSelect = (cuisineId: string) => {
@@ -1224,6 +1304,18 @@ export default function CuisineRecommender() {
     
     return baseStyles;
   }, [styles]);
+
+  // Add missing handleSortChange function
+  const handleSortChange = useCallback((newSortBy: 'score' | 'name' | 'elemental') => {
+    if (sortBy === newSortBy) {
+      setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');
+    } else {
+      setSortBy(newSortBy);
+      setSortDirection('desc');
+    }
+    
+    trackEvent('sort_changed', `${newSortBy}_${sortDirection}`);
+  }, [sortBy, sortDirection, trackEvent]);
 
   // Enhanced cuisine sorting with elemental analysis
   const sortCuisines = useCallback((cuisines: any[]) => {

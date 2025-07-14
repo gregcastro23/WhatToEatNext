@@ -91,6 +91,22 @@ import {
   ElementalItem, 
   AlchemicalItem 
 } from '@/calculations/alchemicalTransformation';
+import type { AlchemicalItem } from '@/calculations/alchemicalTransformation';
+import type { ElementalProperties } from '@/types/alchemy';
+
+// New interface for recommendations
+interface RecommendationsData {
+  topIngredients: AlchemicalItem[];
+  topMethods: AlchemicalItem[];
+  topCuisines: AlchemicalItem[];
+  dominantElement: string;
+  dominantAlchemicalProperty: string;
+  heat: number;
+  entropy: number;
+  reactivity: number;
+  gregsEnergy: number;
+  elementalState: ElementalProperties;
+}
 
 interface AlchemicalRecommendationsProps {
   // If these aren't passed, the component will use current astronomical conditions
@@ -155,16 +171,17 @@ const AlchemicalRecommendationsMigrated: React.FC<AlchemicalRecommendationsProps
   const [resolvedLunarPhase, setResolvedLunarPhase] = useState<LunarPhaseWithSpaces>('new moon');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
-  const [recommendations, setRecommendations] = useState<Record<string, unknown>>({
+  const [recommendations, setRecommendations] = useState<RecommendationsData>({
     topIngredients: [],
     topMethods: [],
     topCuisines: [],
     dominantElement: 'Fire',
     dominantAlchemicalProperty: 'Spirit',
-    heat: 0.5,
-    entropy: 0.5,
-    reactivity: 0.5,
-    gregsEnergy: 0.5
+    heat: 0,
+    entropy: 0,
+    reactivity: 0,
+    gregsEnergy: 0,
+    elementalState: { Fire: 0, Water: 0, Earth: 0, Air: 0 }
   });
   const [transformedIngredients, setTransformedIngredients] = useState<AlchemicalItem[]>([]);
   const [transformedMethods, setTransformedMethods] = useState<AlchemicalItem[]>([]);
@@ -647,11 +664,11 @@ const AlchemicalRecommendationsMigrated: React.FC<AlchemicalRecommendationsProps
             <div className="stat-grid">
               <div className="stat">
                 <span className="label">Dominant Element:</span>
-                <span className="value">{(recommendations as Record<string, unknown>)?.dominantElement || 'Fire'}</span>
+                <span className="value">{(recommendations.dominantElement || 'Fire')}</span>
               </div>
               <div className="stat">
                 <span className="label">Dominant Alchemical Property:</span>
-                <span className="value">{(recommendations as Record<string, unknown>)?.dominantAlchemicalProperty || 'Spirit'}</span>
+                <span className="value">{(recommendations.dominantAlchemicalProperty || 'Spirit')}</span>
               </div>
               {resolvedCurrentZodiac && (
                 <div className="stat">
@@ -671,19 +688,19 @@ const AlchemicalRecommendationsMigrated: React.FC<AlchemicalRecommendationsProps
             <div className="stat-grid">
               <div className="stat">
                 <span className="label">Heat:</span>
-                <span className="value">{((recommendations as Record<string, unknown>)?.heat || 0).toFixed(2)}</span>
+                <span className="value">{(recommendations.heat || 0).toFixed(2)}</span>
               </div>
               <div className="stat">
                 <span className="label">Entropy:</span>
-                <span className="value">{((recommendations as Record<string, unknown>)?.entropy || 0).toFixed(2)}</span>
+                <span className="value">{(recommendations.entropy || 0).toFixed(2)}</span>
               </div>
               <div className="stat">
                 <span className="label">Reactivity:</span>
-                <span className="value">{((recommendations as Record<string, unknown>)?.reactivity || 0).toFixed(2)}</span>
+                <span className="value">{(recommendations.reactivity || 0).toFixed(2)}</span>
               </div>
               <div className="stat">
                 <span className="label">Greg's Energy:</span>
-                <span className="value">{((recommendations as Record<string, unknown>)?.gregsEnergy || 0).toFixed(2)}</span>
+                <span className="value">{(recommendations.gregsEnergy || 0).toFixed(2)}</span>
               </div>
             </div>
           </div>
@@ -736,7 +753,7 @@ const AlchemicalRecommendationsMigrated: React.FC<AlchemicalRecommendationsProps
             <div className="recommendation-section">
               <h3>Recommended Ingredients</h3>
               <ul className="recommendation-list">
-                {(recommendations?.topIngredients || []).map((item: AlchemicalItem, index: number) => {
+                {(recommendations.topIngredients || []).map((item: AlchemicalItem, index: number) => {
                   const elementalState = item.elementalState as Record<string, unknown>;
                   return (
                     <li key={`ingredient-${index}`} className="recommendation-item">
@@ -771,7 +788,7 @@ const AlchemicalRecommendationsMigrated: React.FC<AlchemicalRecommendationsProps
             <div className="recommendation-section">
               <h3>Recommended Cooking Methods</h3>
               <ul className="recommendation-list">
-                {(recommendations?.topMethods || []).map((item: AlchemicalItem, index: number) => {
+                {(recommendations.topMethods || []).map((item: AlchemicalItem, index: number) => {
                   const elementalState = item.elementalState as Record<string, unknown>;
                   return (
                     <li key={`method-${index}`} className="recommendation-item">
@@ -799,7 +816,7 @@ const AlchemicalRecommendationsMigrated: React.FC<AlchemicalRecommendationsProps
             <div className="recommendation-section">
               <h3>Recommended Cuisines</h3>
               <ul className="recommendation-list">
-                {(recommendations?.topCuisines || []).map((item: AlchemicalItem, index: number) => {
+                {(recommendations.topCuisines || []).map((item: AlchemicalItem, index: number) => {
                   const elementalState = item.elementalState as Record<string, unknown>;
                   return (
                     <li key={`cuisine-${index}`} className="recommendation-item">

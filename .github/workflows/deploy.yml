@@ -1,0 +1,171 @@
+name: CD - Advanced Deployment Pipeline
+
+on:
+  push:
+    branches: [main]
+    tags: ['v*']
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Environment to deploy to'
+        required: true
+        default: 'production'
+        type: choice
+        options:
+          - production
+          - staging
+      rollback:
+        description: 'Rollback to previous version'
+        required: false
+        type: boolean
+        default: false
+
+jobs:
+  # Pre-deployment validation
+  pre-deploy:
+    runs-on: ubuntu-latest
+    outputs:
+      should-deploy: ${{ steps.check.outputs.should-deploy }}
+      environment: ${{ steps.check.outputs.environment }}
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Check deployment conditions
+        id: check
+        run: |
+          if [[ "${{ github.event.inputs.rollback }}" == "true" ]]; then
+            echo "should-deploy=rollback" >> $GITHUB_OUTPUT
+          elif [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
+            echo "should-deploy=true" >> $GITHUB_OUTPUT
+            echo "environment=production" >> $GITHUB_OUTPUT
+          elif [[ "${{ github.event.inputs.environment }}" != "" ]]; then
+            echo "should-deploy=true" >> $GITHUB_OUTPUT
+            echo "environment=${{ github.event.inputs.environment }}" >> $GITHUB_OUTPUT
+          else
+            echo "should-deploy=false" >> $GITHUB_OUTPUT
+          fi
+
+  # Staging deployment
+  deploy-staging:
+    runs-on: ubuntu-latest
+    needs: pre-deploy
+    if: needs.pre-deploy.outputs.environment == 'staging' || (github.ref == 'refs/heads/develop' && github.event_name == 'push')
+    environment: staging
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Deploy to Vercel (Staging)
+        uses: amondnet/vercel-action@v25
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID_STAGING }}
+          scope: ${{ github.repository_owner }}
+
+      - name: Run staging smoke tests
+        run: |
+          sleep 30
+          curl -f https://what-to-eat-next-staging.vercel.app/api/health || exit 1
+
+  # Production deployment
+  deploy-production:
+    runs-on: ubuntu-latest
+    needs: pre-deploy
+    if: needs.pre-deploy.outputs.should-deploy == 'true' && needs.pre-deploy.outputs.environment == 'production'
+    environment: production
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Deploy to Vercel (Production)
+        id: deploy
+        uses: amondnet/vercel-action@v25
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+          vercel-args: '--prod'
+          scope: ${{ github.repository_owner }}
+
+      - name: Run production smoke tests
+        run: |
+          sleep 30
+          curl -f https://what-to-eat-next.vercel.app/api/health || exit 1
+          curl -f https://what-to-eat-next.vercel.app/what-to-eat-next || exit 1
+
+      - name: Create deployment tag
+        if: github.ref == 'refs/heads/main'
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git tag -a "deploy-$(date +%Y%m%d-%H%M%S)" -m "Production deployment $(date)"
+          git push origin --tags
+
+  # Rollback deployment
+  rollback:
+    runs-on: ubuntu-latest
+    needs: pre-deploy
+    if: needs.pre-deploy.outputs.should-deploy == 'rollback'
+    environment: production
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: Get previous deployment
+        id: previous
+        run: |
+          PREVIOUS_TAG=$(git tag -l "deploy-*" | sort -V | tail -2 | head -1)
+          echo "tag=$PREVIOUS_TAG" >> $GITHUB_OUTPUT
+          git checkout $PREVIOUS_TAG
+
+      - name: Rollback to previous version
+        uses: amondnet/vercel-action@v25
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+          vercel-args: '--prod'
+          scope: ${{ github.repository_owner }}
+
+      - name: Verify rollback
+        run: |
+          sleep 30
+          curl -f https://what-to-eat-next.vercel.app/api/health || exit 1
+
+  # Post-deployment monitoring
+  post-deploy:
+    runs-on: ubuntu-latest
+    needs: [deploy-production]
+    if: always() && needs.deploy-production.result == 'success'
+    steps:
+      - name: Monitor deployment health
+        run: |
+          for i in {1..5}; do
+            if curl -f https://what-to-eat-next.vercel.app/api/health; then
+              echo "Health check $i: PASSED"
+            else
+              echo "Health check $i: FAILED"
+              exit 1
+            fi
+            sleep 10
+          done
+
+      - name: Run Lighthouse performance check
+        uses: treosh/lighthouse-ci-action@v10
+        with:
+          urls: https://what-to-eat-next.vercel.app
+          uploadArtifacts: true
+          temporaryPublicStorage: true
+
+      - name: Notify deployment success
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.repos.createCommitStatus({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              sha: context.sha,
+              state: 'success',
+              description: 'Production deployment successful',
+              context: 'deployment/production'
+            }) 

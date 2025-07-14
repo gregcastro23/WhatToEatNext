@@ -978,12 +978,14 @@ export const OIL_COMPATIBILITY_INTELLIGENCE = {
         (oilCompatibilityAnalysis.oilCategoryDistribution.cooking || 0) - 
         (oilCompatibilityAnalysis.oilCategoryDistribution.finishing || 0)
       ) / Object.keys(allOilsAnalyzed).length,
-      overallIntegration: (1.0 - oilIntegrationMetrics.elementalBalance / 2) * 
-                         (1.0 - oilIntegrationMetrics.thermalBalance / 2) * 
-                         (1.0 - oilIntegrationMetrics.categoryBalance / 2),
       oilDiversity: Object.keys(oilCompatibilityAnalysis.oilCategoryDistribution).length * 0.2,
       oilHarmonyIndex: oilCompatibilityAnalysis.oilCompatibilityComplexity * 0.8
     };
+
+    // Calculate overall integration after defining the metrics
+    oilIntegrationMetrics.overallIntegration = (1.0 - oilIntegrationMetrics.elementalBalance / 2) * 
+                                             (1.0 - oilIntegrationMetrics.thermalBalance / 2) * 
+                                             (1.0 - oilIntegrationMetrics.categoryBalance / 2);
 
     // Synergy analysis
     const oilSynergyAnalysis = {

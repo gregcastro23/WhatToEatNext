@@ -209,7 +209,7 @@ export function calculateZodiacAffinityFromElements(
     result[sign as ZodiacSign] = Math.min(1, Math.max(0, result[sign as ZodiacSign]));
   });
   
-  debugLog("Calculated zodiac affinity:", result);
+  // debugLog("Calculated zodiac affinity:", result);
   
   return result;
 }

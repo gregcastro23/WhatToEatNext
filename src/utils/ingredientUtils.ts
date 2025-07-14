@@ -458,7 +458,7 @@ export function getDominantElement(elementalProperties: ElementalProperties): st
  */
 export function mapToIngredient(mapping: IngredientMapping): Ingredient {
   return {
-    name: mapping.name,
+    name: String(mapping.name),
     category: mapping.category as IngredientCategory,
     elementalProperties: mapping.elementalProperties,
     flavorProfile: mapping.flavorProfile,
@@ -550,7 +550,14 @@ export function fromSimpleIngredient(simple: SimpleIngredient): Ingredient {
     name: simple.name,
     category: simple.category as IngredientCategory,
     elementalProperties: simple.elementalProperties,
-    flavorProfile: {},
+    flavorProfile: {
+      spicy: 0,
+      sweet: 0,
+      sour: 0,
+      bitter: 0,
+      salty: 0,
+      umami: 0
+    },
     nutritionalInfo: {},
     qualities: [],
     storage: {},
@@ -631,17 +638,17 @@ export const IngredientAnalysisIntelligence = {
     const alchemicalProps = calculateAlchemicalProperties(ingredient);
     const elementalProps = ingredient.elementalProperties;
     
-    const analysisMetrics = {
-      alchemicalBalance: Math.abs(0.25 - Math.abs(alchemicalProps.spirit - alchemicalProps.essence - alchemicalProps.matter - alchemicalProps.substance) / 4),
+    let analysisMetrics = {
       dominantAlchemicalProperty: alchemicalProps.spirit > alchemicalProps.essence && alchemicalProps.spirit > alchemicalProps.matter && alchemicalProps.spirit > alchemicalProps.substance ? 'spirit' :
                                    alchemicalProps.essence > alchemicalProps.matter && alchemicalProps.essence > alchemicalProps.substance ? 'essence' :
                                    alchemicalProps.matter > alchemicalProps.substance ? 'matter' : 'substance',
       alchemicalIntensity: Math.max(alchemicalProps.spirit, alchemicalProps.essence, alchemicalProps.matter, alchemicalProps.substance),
       transformationPotential: alchemicalProps.spirit * 0.4 + alchemicalProps.substance * 0.3 + alchemicalProps.essence * 0.2 + alchemicalProps.matter * 0.1,
-      stabilityIndex: alchemicalProps.matter * 0.5 + alchemicalProps.essence * 0.3 + alchemicalProps.earth * 0.2,
+      stabilityIndex: alchemicalProps.matter * 0.5 + alchemicalProps.essence * 0.3 + elementalProps.Earth * 0.2,
       volatilityIndex: alchemicalProps.spirit * 0.6 + alchemicalProps.substance * 0.4,
       harmonicResonance: Math.sin(alchemicalProps.spirit * Math.PI) * Math.cos(alchemicalProps.essence * Math.PI) * 0.5 + 0.5
     };
+    analysisMetrics.alchemicalBalance = Math.abs(0.25 - Math.abs(alchemicalProps.spirit - alchemicalProps.essence - alchemicalProps.matter - alchemicalProps.substance) / 4);
 
     const elementalCorrelation = {
       fireSpirit: elementalProps.Fire * alchemicalProps.spirit,
@@ -674,8 +681,7 @@ export const IngredientAnalysisIntelligence = {
     const alchemicalProps = calculateAlchemicalProperties(ingredient);
     const thermodynamicProps = calculateThermodynamicProperties(alchemicalProps, ingredient.elementalProperties);
     
-    const energyMetrics = {
-      energyEfficiency: Math.max(0, thermodynamicProps.energy) / Math.max(0.1, thermodynamicProps.heat),
+    let energyMetrics = {
       thermalStability: 1 / (1 + thermodynamicProps.entropy),
       reactivityPotential: thermodynamicProps.reactivity * 0.8 + thermodynamicProps.heat * 0.2,
       energyBalance: Math.abs(thermodynamicProps.energy) < 0.1 ? 1 : 1 / (1 + Math.abs(thermodynamicProps.energy)),
@@ -684,7 +690,7 @@ export const IngredientAnalysisIntelligence = {
       transformationEnergy: Math.abs(thermodynamicProps.energy) * thermodynamicProps.reactivity
     };
 
-    const thermalClassification = {
+    let thermalClassification = {
       thermalType: thermodynamicProps.heat > 0.6 ? 'heating' : thermodynamicProps.heat < 0.4 ? 'cooling' : 'neutral',
       energyType: thermodynamicProps.energy > 0.1 ? 'energizing' : thermodynamicProps.energy < -0.1 ? 'calming' : 'balanced',
       reactivityType: thermodynamicProps.reactivity > 0.7 ? 'highly_reactive' : thermodynamicProps.reactivity > 0.4 ? 'moderately_reactive' : 'stable',
@@ -714,7 +720,7 @@ export const IngredientAnalysisIntelligence = {
     const modality = determineIngredientModality(ingredient.qualities || [], ingredient.elementalProperties);
     const dominantElement = getDominantElement(ingredient.elementalProperties);
     
-    const modalityMetrics = {
+    let modalityMetrics = {
       modalityStrength: modality === 'Cardinal' ? ingredient.elementalProperties.Fire * 0.8 + ingredient.elementalProperties.Air * 0.2 :
                         modality === 'Fixed' ? ingredient.elementalProperties.Earth * 0.8 + ingredient.elementalProperties.Water * 0.2 :
                         ingredient.elementalProperties.Air * 0.6 + ingredient.elementalProperties.Water * 0.4,
@@ -728,7 +734,7 @@ export const IngredientAnalysisIntelligence = {
       behavioralPredictability: modality === 'Fixed' ? 0.9 : modality === 'Cardinal' ? 0.7 : 0.5
     };
 
-    const culinaryBehavior = {
+    let culinaryBehavior = {
       cookingRole: modality === 'Cardinal' ? 'flavor_initiator' : modality === 'Fixed' ? 'foundation_ingredient' : 'harmonizing_element',
       combinationStyle: modality === 'Cardinal' ? 'dominant_flavors' : modality === 'Fixed' ? 'stable_base' : 'adaptive_blending',
       preparationApproach: modality === 'Cardinal' ? 'bold_techniques' : modality === 'Fixed' ? 'traditional_methods' : 'flexible_preparation',
@@ -766,17 +772,19 @@ export const IngredientValidationIntelligence = {
     const validation = validateIngredient(ingredient);
     const typeCheck = isFullIngredient(ingredient);
     
-    const qualityMetrics = {
+    let qualityMetrics = {
       overallQuality: validation.isValid ? 100 : Math.max(0, 100 - (validation.errors.length * 15)),
       dataCompleteness: typeCheck ? 100 : 70,
       structuralIntegrity: validation.isValid ? 100 : Math.max(0, 100 - (validation.errors.filter(e => e.includes('required')).length * 25)),
       numericalAccuracy: validation.isValid ? 100 : Math.max(0, 100 - (validation.errors.filter(e => e.includes('number')).length * 20)),
       consistencyScore: validation.isValid ? 100 : Math.max(0, 100 - (validation.errors.filter(e => e.includes('sum')).length * 30)),
-      typeConformance: typeCheck ? 100 : Math.max(0, 100 - (validation.errors.filter(e => e.includes('type')).length * 20)),
-      validationScore: (qualityMetrics.overallQuality + qualityMetrics.dataCompleteness + qualityMetrics.structuralIntegrity + qualityMetrics.numericalAccuracy + qualityMetrics.consistencyScore + qualityMetrics.typeConformance) / 6
+      typeConformance: typeCheck ? 100 : Math.max(0, 100 - (validation.errors.filter(e => e.includes('type')).length * 20))
     };
+    
+    // Calculate validation score after qualityMetrics is defined
+    qualityMetrics.validationScore = (qualityMetrics.overallQuality + qualityMetrics.dataCompleteness + qualityMetrics.structuralIntegrity + qualityMetrics.numericalAccuracy + qualityMetrics.consistencyScore + qualityMetrics.typeConformance) / 6;
 
-    const errorAnalysis = {
+    let errorAnalysis = {
       errorCount: validation.errors.length,
       errorTypes: {
         structural: validation.errors.filter(e => e.includes('required')).length,
@@ -815,17 +823,19 @@ export const IngredientValidationIntelligence = {
     const validation = validateRecipeIngredient(ingredient);
     const typeCheck = isRecipeIngredient(ingredient);
     
-    const recipeQualityMetrics = {
+    let recipeQualityMetrics = {
       recipeReadiness: validation.isValid ? 100 : Math.max(0, 100 - (validation.errors.length * 20)),
       measurementAccuracy: (ingredient.amount && ingredient.amount > 0) ? 100 : 0,
       unitSpecificity: ingredient.unit ? 100 : 0,
       preparationClarity: ingredient.preparation ? 100 : 50,
       documentationLevel: ingredient.notes ? 100 : 70,
-      flexibilityScore: ingredient.optional !== undefined ? 100 : 80,
-      usabilityScore: (recipeQualityMetrics.recipeReadiness + recipeQualityMetrics.measurementAccuracy + recipeQualityMetrics.unitSpecificity + recipeQualityMetrics.preparationClarity + recipeQualityMetrics.documentationLevel + recipeQualityMetrics.flexibilityScore) / 6
+      flexibilityScore: ingredient.optional !== undefined ? 100 : 80
     };
 
-    const recipeErrorAnalysis = {
+    // Calculate usability score after defining all properties
+    recipeQualityMetrics.usabilityScore = (recipeQualityMetrics.recipeReadiness + recipeQualityMetrics.measurementAccuracy + recipeQualityMetrics.unitSpecificity + recipeQualityMetrics.preparationClarity + recipeQualityMetrics.documentationLevel + recipeQualityMetrics.flexibilityScore) / 6;
+
+    let recipeErrorAnalysis = {
       measurementErrors: validation.errors.filter(e => e.includes('amount')),
       unitErrors: validation.errors.filter(e => e.includes('unit')),
       nameErrors: validation.errors.filter(e => e.includes('name')),
@@ -858,17 +868,19 @@ export const IngredientValidationIntelligence = {
     const normalized = normalizeElementalProperties(properties);
     const dominant = getDominantElement(properties);
     
-    const consistencyMetrics = {
+    let consistencyMetrics = {
       elementalSum: properties.Fire + properties.Water + properties.Earth + properties.Air,
-      sumDeviation: Math.abs(1 - consistencyMetrics.elementalSum),
-      normalizedRequired: consistencyMetrics.sumDeviation > 0.1,
       elementalBalance: 1 - Math.abs(0.25 - Math.max(properties.Fire, properties.Water, properties.Earth, properties.Air)),
       elementalDistribution: Math.abs(properties.Fire - properties.Water) + Math.abs(properties.Earth - properties.Air) + Math.abs(properties.Fire - properties.Earth) + Math.abs(properties.Water - properties.Air),
       dominanceStrength: Math.max(properties.Fire, properties.Water, properties.Earth, properties.Air) - Math.min(properties.Fire, properties.Water, properties.Earth, properties.Air),
       harmonicMean: 4 / (1/Math.max(0.01, properties.Fire) + 1/Math.max(0.01, properties.Water) + 1/Math.max(0.01, properties.Earth) + 1/Math.max(0.01, properties.Air))
     };
 
-    const elementalProfile = {
+    // Calculate dependent properties after defining base properties
+    consistencyMetrics.sumDeviation = Math.abs(1 - consistencyMetrics.elementalSum);
+    consistencyMetrics.normalizedRequired = consistencyMetrics.sumDeviation > 0.1;
+
+    let elementalProfile = {
       dominantElement: dominant,
       secondaryElement: Object.entries(properties).filter(([key, _]) => key !== dominant).sort(([_, a], [__, b]) => b - a)[0][0],
       elementalType: consistencyMetrics.dominanceStrength > 0.4 ? 'strongly_dominant' : 
@@ -910,24 +922,28 @@ export const IngredientTransformationIntelligence = {
     const transformedIngredient = mapToIngredient(mapping);
     const qualityAnalysis = IngredientValidationIntelligence.analyzeIngredientQuality(transformedIngredient);
     
-    const mappingMetrics = {
+    let mappingMetrics = {
       mappingCompleteness: Object.keys(mapping).length / 12, // Assuming 12 possible properties
       dataFidelity: qualityAnalysis.qualityMetrics.validationScore / 100,
       transformationSuccess: qualityAnalysis.validation.isValid ? 1.0 : 0.5,
       informationPreservation: mapping.elementalProperties ? 1.0 : 0.7,
       enrichmentPotential: mapping.flavorProfile ? 1.0 : mapping.nutritionalInfo ? 0.8 : 0.6,
-      structuralIntegrity: mapping.category && mapping.name ? 1.0 : 0.5,
-      mappingQuality: (mappingMetrics.mappingCompleteness + mappingMetrics.dataFidelity + mappingMetrics.transformationSuccess + mappingMetrics.informationPreservation + mappingMetrics.enrichmentPotential + mappingMetrics.structuralIntegrity) / 6
+      structuralIntegrity: mapping.category && mapping.name ? 1.0 : 0.5
     };
 
-    const transformationAnalysis = {
+    // Calculate mapping quality after defining all properties
+    mappingMetrics.mappingQuality = (mappingMetrics.mappingCompleteness + mappingMetrics.dataFidelity + mappingMetrics.transformationSuccess + mappingMetrics.informationPreservation + mappingMetrics.enrichmentPotential + mappingMetrics.structuralIntegrity) / 6;
+
+    let transformationAnalysis = {
       sourceDataRichness: Object.keys(mapping).filter(key => mapping[key as keyof IngredientMapping] !== undefined).length,
       targetDataRichness: Object.keys(transformedIngredient).filter(key => transformedIngredient[key as keyof Ingredient] !== undefined).length,
-      dataExpansion: transformationAnalysis.targetDataRichness / Math.max(1, transformationAnalysis.sourceDataRichness),
       missingCriticalData: !mapping.elementalProperties || !mapping.category || !mapping.name,
-      optionalDataPresence: !!(mapping.flavorProfile || mapping.nutritionalInfo || mapping.qualities),
-      defaultsApplied: transformationAnalysis.targetDataRichness > transformationAnalysis.sourceDataRichness
+      optionalDataPresence: !!(mapping.flavorProfile || mapping.nutritionalInfo || mapping.qualities)
     };
+
+    // Calculate dependent properties after defining base properties
+    transformationAnalysis.dataExpansion = transformationAnalysis.targetDataRichness / Math.max(1, transformationAnalysis.sourceDataRichness);
+    transformationAnalysis.defaultsApplied = transformationAnalysis.targetDataRichness > transformationAnalysis.sourceDataRichness;
 
     return {
       originalMapping: mapping,
@@ -954,24 +970,28 @@ export const IngredientTransformationIntelligence = {
     const recipeIngredient = ingredientToRecipeIngredient(ingredient, amount, unit);
     const conversionAnalysis = IngredientValidationIntelligence.analyzeRecipeIngredientQuality(recipeIngredient);
     
-    const conversionMetrics = {
+    let conversionMetrics = {
       conversionAccuracy: conversionAnalysis.recipeQualityMetrics.usabilityScore / 100,
       measurementPrecision: amount > 0 ? 1.0 : 0.0,
       unitAppropriatenesss: unit && unit.length > 0 ? 1.0 : 0.5,
       dataTransferEfficiency: 1.0, // Name is always transferred
       informationLoss: 1 - (Object.keys(ingredient).length - 3) / Object.keys(ingredient).length, // 3 properties transferred
-      conversionUtility: (conversionMetrics.conversionAccuracy + conversionMetrics.measurementPrecision + conversionMetrics.unitAppropriatenesss + conversionMetrics.dataTransferEfficiency) / 4,
       recipeReadiness: conversionAnalysis.recipeQualityMetrics.recipeReadiness / 100
     };
 
-    const conversionContext = {
+    // Calculate conversion utility after defining all properties
+    conversionMetrics.conversionUtility = (conversionMetrics.conversionAccuracy + conversionMetrics.measurementPrecision + conversionMetrics.unitAppropriatenesss + conversionMetrics.dataTransferEfficiency) / 4;
+
+    let conversionContext = {
       sourceComplexity: Object.keys(ingredient).length,
       targetSimplicity: Object.keys(recipeIngredient).length,
-      simplificationRatio: conversionContext.targetSimplicity / conversionContext.sourceComplexity,
       preservedEssentials: recipeIngredient.name === ingredient.name,
       addedMeasurements: amount !== 1 || unit !== 'item',
       conversionType: amount === 1 && unit === 'item' ? 'basic_conversion' : 'measured_conversion'
     };
+
+    // Calculate simplification ratio after defining base properties
+    conversionContext.simplificationRatio = conversionContext.targetSimplicity / conversionContext.sourceComplexity;
 
     return {
       sourceIngredient: ingredient,
@@ -998,26 +1018,30 @@ export const IngredientTransformationIntelligence = {
     const reconstructedIngredient = fromSimpleIngredient(simpleIngredient);
     const isValidSimple = isSimpleIngredient(simpleIngredient);
     
-    const transformationMetrics = {
+    let transformationMetrics = {
       simplificationAccuracy: isValidSimple ? 1.0 : 0.5,
       dataRetention: Object.keys(simpleIngredient).length / 3, // 3 core properties
       reconstructionFidelity: reconstructedIngredient.name === ingredient.name && reconstructedIngredient.category === ingredient.category ? 1.0 : 0.5,
       elementalPreservation: JSON.stringify(simpleIngredient.elementalProperties) === JSON.stringify(ingredient.elementalProperties) ? 1.0 : 0.8,
-      informationCompression: Object.keys(simpleIngredient).length / Object.keys(ingredient).length,
-      roundTripAccuracy: (transformationMetrics.simplificationAccuracy + transformationMetrics.reconstructionFidelity + transformationMetrics.elementalPreservation) / 3,
-      transformationEfficiency: transformationMetrics.dataRetention * transformationMetrics.roundTripAccuracy
+      informationCompression: Object.keys(simpleIngredient).length / Object.keys(ingredient).length
     };
 
-    const compressionAnalysis = {
+    // Calculate dependent properties after defining base properties
+    transformationMetrics.roundTripAccuracy = (transformationMetrics.simplificationAccuracy + transformationMetrics.reconstructionFidelity + transformationMetrics.elementalPreservation) / 3;
+    transformationMetrics.transformationEfficiency = transformationMetrics.dataRetention * transformationMetrics.roundTripAccuracy;
+
+    let compressionAnalysis = {
       originalSize: Object.keys(ingredient).length,
       compressedSize: Object.keys(simpleIngredient).length,
-      reconstructedSize: Object.keys(reconstructedIngredient).length,
-      compressionRatio: compressionAnalysis.compressedSize / compressionAnalysis.originalSize,
-      expansionRatio: compressionAnalysis.reconstructedSize / compressionAnalysis.compressedSize,
-      dataLoss: compressionAnalysis.originalSize - compressionAnalysis.compressedSize,
-      dataGeneration: compressionAnalysis.reconstructedSize - compressionAnalysis.compressedSize,
-      netDataChange: compressionAnalysis.reconstructedSize - compressionAnalysis.originalSize
+      reconstructedSize: Object.keys(reconstructedIngredient).length
     };
+
+    // Calculate dependent properties after defining base properties
+    compressionAnalysis.compressionRatio = compressionAnalysis.compressedSize / compressionAnalysis.originalSize;
+    compressionAnalysis.expansionRatio = compressionAnalysis.reconstructedSize / compressionAnalysis.compressedSize;
+    compressionAnalysis.dataLoss = compressionAnalysis.originalSize - compressionAnalysis.compressedSize;
+    compressionAnalysis.dataGeneration = compressionAnalysis.reconstructedSize - compressionAnalysis.compressedSize;
+    compressionAnalysis.netDataChange = compressionAnalysis.reconstructedSize - compressionAnalysis.originalSize;
 
     return {
       originalIngredient: ingredient,
@@ -1054,25 +1078,29 @@ export const IngredientCompatibilityIntelligence = {
     const additionConsistency = IngredientValidationIntelligence.analyzeElementalConsistency(addition);
     const mergedConsistency = IngredientValidationIntelligence.analyzeElementalConsistency(merged);
     
-    const mergingMetrics = {
+    let mergingMetrics = {
       harmonicImprovement: mergedConsistency.consistencyMetrics.harmonicMean - Math.max(baseConsistency.consistencyMetrics.harmonicMean, additionConsistency.consistencyMetrics.harmonicMean),
       balanceOptimization: mergedConsistency.consistencyMetrics.elementalBalance - Math.max(baseConsistency.consistencyMetrics.elementalBalance, additionConsistency.consistencyMetrics.elementalBalance),
       dominanceStabilization: Math.abs(mergedConsistency.consistencyMetrics.dominanceStrength - 0.3), // Optimal dominance
       elementalSynergy: 1 - Math.abs(baseConsistency.consistencyMetrics.elementalSum + additionConsistency.consistencyMetrics.elementalSum - 2) / 2,
       weightOptimization: Math.abs(weight - 0.5) < 0.2 ? 1.0 : 0.8,
-      mergingSuccess: (mergingMetrics.harmonicImprovement + mergingMetrics.balanceOptimization + mergingMetrics.elementalSynergy + mergingMetrics.weightOptimization) / 4,
       stabilityGain: mergedConsistency.elementalProfile.elementalStability === 'stable' ? 1.0 : 0.6
     };
 
-    const elementalInteraction = {
+    // Calculate merging success after defining all properties
+    mergingMetrics.mergingSuccess = (mergingMetrics.harmonicImprovement + mergingMetrics.balanceOptimization + mergingMetrics.elementalSynergy + mergingMetrics.weightOptimization) / 4;
+
+    let elementalInteraction = {
       fireInteraction: Math.abs(base.Fire - addition.Fire) < 0.3 ? 'harmonious' : 'contrasting',
       waterInteraction: Math.abs(base.Water - addition.Water) < 0.3 ? 'harmonious' : 'contrasting',
       earthInteraction: Math.abs(base.Earth - addition.Earth) < 0.3 ? 'harmonious' : 'contrasting',
       airInteraction: Math.abs(base.Air - addition.Air) < 0.3 ? 'harmonious' : 'contrasting',
-      overallHarmony: [elementalInteraction.fireInteraction, elementalInteraction.waterInteraction, elementalInteraction.earthInteraction, elementalInteraction.airInteraction].filter(i => i === 'harmonious').length / 4,
       dominantElementShift: baseConsistency.elementalProfile.dominantElement !== mergedConsistency.elementalProfile.dominantElement,
       complementaryBalance: (base.Fire + addition.Water + base.Earth + addition.Air) / 2 // Cross-element balance
     };
+
+    // Calculate overall harmony after defining all properties
+    elementalInteraction.overallHarmony = [elementalInteraction.fireInteraction, elementalInteraction.waterInteraction, elementalInteraction.earthInteraction, elementalInteraction.airInteraction].filter(i => i === 'harmonious').length / 4;
 
     return {
       baseProperties: base,
@@ -1100,7 +1128,7 @@ export const IngredientCompatibilityIntelligence = {
     const element1 = getDominantElement(ingredient1.elementalProperties);
     const element2 = getDominantElement(ingredient2.elementalProperties);
     
-    const compatibilityMetrics = {
+    let compatibilityMetrics = {
       overallCompatibility: compatibility,
       elementalSimilarity: 1 - (Math.abs(ingredient1.elementalProperties.Fire - ingredient2.elementalProperties.Fire) + 
                                 Math.abs(ingredient1.elementalProperties.Water - ingredient2.elementalProperties.Water) + 
@@ -1117,7 +1145,7 @@ export const IngredientCompatibilityIntelligence = {
       compatibilityLevel: compatibility > 0.8 ? 'excellent' : compatibility > 0.6 ? 'good' : compatibility > 0.4 ? 'moderate' : 'poor'
     };
 
-    const interactionAnalysis = {
+    let interactionAnalysis = {
       elementalBalance: (ingredient1.elementalProperties.Fire + ingredient2.elementalProperties.Fire + 
                         ingredient1.elementalProperties.Water + ingredient2.elementalProperties.Water + 
                         ingredient1.elementalProperties.Earth + ingredient2.elementalProperties.Earth + 
@@ -1156,19 +1184,21 @@ export const IngredientCompatibilityIntelligence = {
     const compatibleIngredients = findCompatibleSimpleIngredients(target, candidates, limit);
     const allCompatibilities = candidates.map(candidate => calculateSimpleCompatibility(target, candidate));
     
-    const networkMetrics = {
+    let networkMetrics = {
       averageCompatibility: allCompatibilities.reduce((sum, comp) => sum + comp, 0) / allCompatibilities.length,
       maxCompatibility: Math.max(...allCompatibilities),
       minCompatibility: Math.min(...allCompatibilities),
-      compatibilityRange: networkMetrics.maxCompatibility - networkMetrics.minCompatibility,
       highCompatibilityCount: allCompatibilities.filter(comp => comp > 0.7).length,
       moderateCompatibilityCount: allCompatibilities.filter(comp => comp > 0.5 && comp <= 0.7).length,
       lowCompatibilityCount: allCompatibilities.filter(comp => comp <= 0.5).length,
-      networkDensity: networkMetrics.highCompatibilityCount / candidates.length,
       discoverySuccess: compatibleIngredients.length / Math.min(limit, candidates.length)
     };
 
-    const compatibilityDistribution = {
+    // Calculate dependent properties after defining base properties
+    networkMetrics.compatibilityRange = networkMetrics.maxCompatibility - networkMetrics.minCompatibility;
+    networkMetrics.networkDensity = networkMetrics.highCompatibilityCount / candidates.length;
+
+    let compatibilityDistribution = {
       excellentMatches: compatibleIngredients.filter(match => match.compatibility > 0.8),
       goodMatches: compatibleIngredients.filter(match => match.compatibility > 0.6 && match.compatibility <= 0.8),
       moderateMatches: compatibleIngredients.filter(match => match.compatibility > 0.4 && match.compatibility <= 0.6),
@@ -1178,15 +1208,17 @@ export const IngredientCompatibilityIntelligence = {
                          (compatibleIngredients[compatibleIngredients.length - 1].compatibility - compatibleIngredients[0].compatibility) / (compatibleIngredients.length - 1) : 0
     };
 
-    const networkAnalysis = {
+    let networkAnalysis = {
       targetElement: getDominantElement(target.elementalProperties),
       dominantElementsInNetwork: candidates.map(c => getDominantElement(c.elementalProperties)),
-      elementalDiversity: [...new Set(networkAnalysis.dominantElementsInNetwork)].length,
       categoryDiversity: [...new Set(candidates.map(c => c.category))].length,
-      networkComplexity: networkAnalysis.elementalDiversity * networkAnalysis.categoryDiversity,
       searchEfficiency: compatibleIngredients.length / candidates.length,
       qualityVsQuantity: networkMetrics.averageCompatibility * networkMetrics.discoverySuccess
     };
+
+    // Calculate dependent properties after defining base properties
+    networkAnalysis.elementalDiversity = [...new Set(networkAnalysis.dominantElementsInNetwork)].length;
+    networkAnalysis.networkComplexity = networkAnalysis.elementalDiversity * networkAnalysis.categoryDiversity;
 
     return {
       targetIngredient: target,

@@ -1,10 +1,12 @@
-import type { ElementalProperties, ZodiacSign } from '@/types';
+import type { ElementalProperties, ZodiacSign, AstrologicalState } from '@/types';
 import { fruits } from '@/data/ingredients/fruits';
 import { grains } from '@/data/ingredients/grains';
 import { vegetables } from '@/data/ingredients/vegetables';
 import { oils } from '@/data/ingredients/oils';
 import { vinegars } from '@/data/ingredients/vinegars';
 import { seasonings } from '@/data/ingredients/seasonings';
+import { spices } from '@/data/ingredients/spices';
+import { herbs } from '@/data/ingredients/herbs';
 import { proteins, meats, poultry, seafood, legumes, plantBased } from '@/data/ingredients/proteins';
 import { getCurrentSeason } from '@/utils/dateUtils';
 import type { IngredientMapping } from '@/data/ingredients/types';

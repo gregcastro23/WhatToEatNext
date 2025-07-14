@@ -2,68 +2,20 @@
   "summary": {
     "totalFiles": 1010,
     "filesWithUnused": 464,
-    "totalUnused": 1249,
-    "totalDeclarations": 10503,
-    "unusedRatio": 0.11891840426544796
+    "totalUnused": 1208,
+    "totalDeclarations": 10522,
+    "unusedRatio": 0.11480707089906862
   },
   "topFiles": [
     {
-      "filePath": "/Users/GregCastro/Desktop/WhatToEatNext/src/types/alchemy.ts",
-      "totalDeclarations": 97,
-      "unusedCount": 21,
-      "unusedVariables": [
-        "ASTROLOGICAL_TYPE_INTELLIGENCE",
-        "ALCHEMICAL_PROPERTIES_INTELLIGENCE",
-        "TYPE_VALIDATION_INTELLIGENCE",
-        "CELESTIAL_ALIGNMENT_INTELLIGENCE",
-        "COOKING_METHOD_THERMODYNAMICS",
-        "AlchemicalCalculationResult",
-        "BasicThermodynamicProperties",
-        "ElementalProfile",
-        "RecipeHarmonyResult",
-        "CombinationEffect",
-        "BirthInfo",
-        "PlanetaryHarmony",
-        "TarotSuit",
-        "AstrologicalInfluence",
-        "PlanetaryPositionsType",
-        "AlchemicalState",
-        "CookingMethodProfile",
-        "timeFactors",
-        "alchemicalValues",
-        "BaseIngredient",
-        "RecipeData"
-      ],
-      "unusedRatio": 0.21649484536082475
-    },
-    {
-      "filePath": "/Users/GregCastro/Desktop/WhatToEatNext/src/utils/ingredientUtils.ts",
-      "totalDeclarations": 32,
-      "unusedCount": 15,
-      "unusedVariables": [
-        "calculateAlchemicalProperties",
-        "calculateThermodynamicProperties",
-        "determineIngredientModality",
-        "isRecipeIngredient",
-        "isFullIngredient",
-        "validateIngredient",
-        "validateRecipeIngredient",
-        "mergeElementalProperties",
-        "mapToIngredient",
-        "ingredientToRecipeIngredient",
-        "normalizeElementalProperties",
-        "toSimpleIngredients",
-        "isSimpleIngredient",
-        "fromSimpleIngredient",
-        "findCompatibleSimpleIngredients"
-      ],
-      "unusedRatio": 0.46875
-    },
-    {
       "filePath": "/Users/GregCastro/Desktop/WhatToEatNext/src/utils/recipe/recipeUtils.ts",
-      "totalDeclarations": 32,
-      "unusedCount": 15,
+      "totalDeclarations": 36,
+      "unusedCount": 19,
       "unusedVariables": [
+        "RecipeAnalysisIntelligence",
+        "RecipeMetadataIntelligence",
+        "RecipeTimingIntelligence",
+        "RecipeSafetyIntelligence",
         "isScoredRecipe",
         "isRecipeIngredient",
         "getRecipeMealTypes",
@@ -80,28 +32,7 @@
         "isRecipeDietaryCompatible",
         "getRecipeIngredients"
       ],
-      "unusedRatio": 0.46875
-    },
-    {
-      "filePath": "/Users/GregCastro/Desktop/WhatToEatNext/src/data/ingredients/oils/index.ts",
-      "totalDeclarations": 16,
-      "unusedCount": 13,
-      "unusedVariables": [
-        "cookingOils",
-        "finishingOils",
-        "supplementOils",
-        "specialtyOils",
-        "fireOils",
-        "waterOils",
-        "earthOils",
-        "airOils",
-        "highHeatOils",
-        "bakingOils",
-        "dressingOils",
-        "nutOils",
-        "allOils"
-      ],
-      "unusedRatio": 0.8125
+      "unusedRatio": 0.5277777777777778
     },
     {
       "filePath": "/Users/GregCastro/Desktop/WhatToEatNext/src/utils/elementalUtils.ts",
@@ -406,6 +337,59 @@
         "ChakraBalancingFoods"
       ],
       "unusedRatio": 0.4166666666666667
+    },
+    {
+      "filePath": "/Users/GregCastro/Desktop/WhatToEatNext/src/utils/astrologyUtils.ts",
+      "totalDeclarations": 116,
+      "unusedCount": 10,
+      "unusedVariables": [
+        "HOUSE_STRENGTH",
+        "zodiacSignToPlanet",
+        "elementToZodiac",
+        "parseAstroChartData",
+        "parseAstroChartAspects",
+        "combineElementalProperties",
+        "calculateCompleteAstrologicalEffects",
+        "getNodeInfo",
+        "PlanetaryDignity",
+        "PlanetPositionData"
+      ],
+      "unusedRatio": 0.08620689655172414
+    },
+    {
+      "filePath": "/Users/GregCastro/Desktop/WhatToEatNext/src/utils/recommendation/ingredientRecommendation.ts",
+      "totalDeclarations": 73,
+      "unusedCount": 10,
+      "unusedVariables": [
+        "getIngredientsFromCategories",
+        "cachedAllIngredientsData",
+        "cacheTimestamp",
+        "getAllIngredientsData",
+        "getTopIngredientMatches",
+        "getAllIngredientsFromCategories",
+        "formatFactorName",
+        "getFlavorProperty",
+        "isElementalProperties",
+        "calculateElementalInfluences"
+      ],
+      "unusedRatio": 0.136986301369863
+    },
+    {
+      "filePath": "/Users/GregCastro/Desktop/WhatToEatNext/src/config/defaults.ts",
+      "totalDeclarations": 13,
+      "unusedCount": 9,
+      "unusedVariables": [
+        "DEFAULT_FILTERS",
+        "DEFAULT_DIETARY_PREFERENCES",
+        "DEFAULT_TIME_PREFERENCES",
+        "DEFAULT_SPICE_PREFERENCES",
+        "DEFAULT_TEMPERATURE_PREFERENCES",
+        "DEFAULT_NUTRITION_PREFS",
+        "TIME_RANGES",
+        "MEAL_PERIODS",
+        "ELEMENTAL_DEFAULTS"
+      ],
+      "unusedRatio": 0.6923076923076923
     }
   ],
   "categoryAnalysis": [
@@ -424,20 +408,20 @@
     {
       "category": "Utils",
       "fileCount": 165,
-      "totalUnused": 373,
-      "totalDeclarations": 2101
+      "totalUnused": 364,
+      "totalDeclarations": 2110
     },
     {
       "category": "Types",
       "fileCount": 99,
-      "totalUnused": 171,
-      "totalDeclarations": 637
+      "totalUnused": 151,
+      "totalDeclarations": 640
     },
     {
       "category": "Data",
       "fileCount": 331,
-      "totalUnused": 337,
-      "totalDeclarations": 2326
+      "totalUnused": 325,
+      "totalDeclarations": 2333
     },
     {
       "category": "Hooks",

@@ -9,6 +9,7 @@ import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 import { createLogger } from '@/utils/logger';
 import { PlanetaryPosition } from '@/types/celestial';
 import { staticAlchemize } from '@/utils/alchemyInitializer';
+import { StateDebugger } from '@/components/debug/StateDebugger';
 
 const logger = createLogger('AlchmKitchen');
 
@@ -134,24 +135,8 @@ export default function AlchmKitchen() {
                 </div>
             )}
             
-            <div className={styles.debugInfo}>
-                <h3>Debug Info</h3>
-                <div>Mounted: {mounted.toString()}</div>
-                <div>Renders: {renderCount}</div>
-                <div>Current Sign: {currentSign}</div>
-                <div>Planetary Hour: {planetaryHour as string}</div>
-                <div>Lunar Phase: {_lunarPhase}</div>
-                <h4>Alchemical Tokens:</h4>
-                <div>⦿ Spirit: {alchemicalValues?.Spirit.toFixed(4) || '0.0000'}</div>
-                <div>⦿ Essence: {alchemicalValues?.Essence.toFixed(4) || '0.0000'}</div>
-                <div>⦿ Matter: {alchemicalValues?.Matter.toFixed(4) || '0.0000'}</div>
-                <div>⦿ Substance: {alchemicalValues?.Substance.toFixed(4) || '0.0000'}</div>
-                <h4>Elemental Balance:</h4>
-                <div>Fire: {elementalBalance.Fire}%</div>
-                <div>Water: {elementalBalance.Water}%</div>
-                <div>Earth: {elementalBalance.Earth}%</div>
-                <div>Air: {elementalBalance.Air}%</div>
-            </div>
+            {/* Use the comprehensive StateDebugger component instead of basic debug info */}
+            <StateDebugger />
         </div>
     );
 } 
