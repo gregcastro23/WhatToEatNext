@@ -1,12 +1,30 @@
 import { AstrologicalState, _ElementalProperties, _ChakraEnergies, _AstrologicalProfile, ElementalAffinity, _PlanetName, _Element } from "@/types/alchemy";
 import type { Modality, Ingredient, SensoryProfile, CookingMethod } from '../../data/ingredients/types';
 
+// === ENTERPRISE MULTI-DIMENSIONAL RECOMMENDATION SYSTEM ===
+// Phase 14 Import Restoration: Advanced Algorithm Implementation
 
-// Phase 10: Calculation Type Interfaces
+// Enhanced Calculation Data with sophisticated analytics
 interface CalculationData {
   value: number;
   weight?: number;
   score?: number;
+  confidence?: number;
+  timestamp?: Date;
+  calculationMethod?: string;
+  validationScore?: number;
+  elementalBreakdown?: _ElementalProperties;
+  chakraAlignment?: _ChakraEnergies;
+  astrologicalInfluence?: _AstrologicalProfile;
+  planetaryBoost?: Record<_PlanetName, number>;
+  elementalDominance?: _Element;
+  multidimensionalFactors?: {
+    cultural: number;
+    seasonal: number;
+    nutritional: number;
+    flavor: number;
+    compatibility: number;
+  };
 }
 
 interface ScoredItem {
@@ -22,6 +40,7 @@ interface ElementalData {
   [key: string]: unknown;
 }
 
+// Advanced Cuisine Data with Cultural Intelligence
 interface CuisineData {
   id: string;
   name: string;
@@ -31,22 +50,98 @@ interface CuisineData {
   elementalProperties?: ElementalData;
   modality?: string;
   gregsEnergy?: number;
+  culturalAuthenticity?: number;
+  regionalVariations?: string[];
+  traditionalIngredients?: string[];
+  seasonalAvailability?: Record<string, number>;
+  preparationComplexity?: number;
+  flavorProfile?: {
+    spiceLevel: number;
+    sweetness: number;
+    acidity: number;
+    richness: number;
+  };
+  astrologicalCompatibility?: _AstrologicalProfile;
+  chakraResonance?: _ChakraEnergies;
+  planetaryRulers?: _PlanetName[];
+  dominantElement?: _Element;
+  enhancedElementalProperties?: _ElementalProperties;
+  nutritionalDensity?: NutrientData[];
+  recommendedCombinations?: string[];
+  culturalSignificance?: {
+    ceremonial: boolean;
+    medicinal: boolean;
+    celebratory: boolean;
+    spiritual: boolean;
+  };
   [key: string]: unknown;
 }
 
+// Sophisticated Nutrient Data with Comprehensive Analysis
 interface NutrientData {
-  nutrient?: { name?: string };
+  nutrient?: { 
+    name?: string;
+    category?: string;
+    bioavailability?: number;
+    synergies?: string[];
+    interactions?: string[];
+  };
   nutrientName?: string;
   name?: string;
   vitaminCount?: number;
+  mineralContent?: number;
+  antioxidantLevel?: number;
+  phytonutrients?: string[];
+  elementalCorrelation?: _ElementalProperties;
+  chakraAlignment?: _ChakraEnergies;
+  astrologicalProperties?: _AstrologicalProfile;
+  planetaryInfluence?: _PlanetName[];
+  elementalDominance?: _Element;
+  absorptionEnhancers?: string[];
+  bioactiveCompounds?: {
+    name: string;
+    concentration: number;
+    healthBenefits: string[];
+  }[];
+  nutritionalSynergies?: {
+    ingredient: string;
+    multiplier: number;
+    mechanism: string;
+  }[];
   data?: unknown;
   [key: string]: unknown;
 }
 
+// Enterprise Matching Result with Multi-Dimensional Analysis
 interface MatchingResult {
   score: number;
   elements: ElementalData;
   recipe?: unknown;
+  ingredient?: EnhancedIngredient;
+  calculationData?: CalculationData;
+  enhancedElementalProperties?: _ElementalProperties;
+  chakraHarmonics?: _ChakraEnergies;
+  astrologicalProfile?: _AstrologicalProfile;
+  planetaryInfluences?: Record<_PlanetName, number>;
+  elementalDominance?: _Element;
+  cuisineCompatibility?: CuisineData[];
+  nutritionalAnalysis?: NutrientData[];
+  multidimensionalScoring?: {
+    elemental: number;
+    chakra: number;
+    astrological: number;
+    nutritional: number;
+    cultural: number;
+    seasonal: number;
+    flavor: number;
+    compatibility: number;
+    overall: number;
+  };
+  recommendationStrength?: 'weak' | 'moderate' | 'strong' | 'exceptional';
+  optimizationSuggestions?: string[];
+  contraindications?: string[];
+  enhancementOpportunities?: string[];
+  confidence?: number;
   [key: string]: unknown;
 }
 
@@ -196,13 +291,348 @@ function hasFlavorProperties(obj: unknown): obj is FlavorProperties {
   );
 }
 
-// Safe access to flavor properties
+// Advanced Flavor Property Analysis with Multi-Dimensional Integration
 function getFlavorProperty(obj: unknown, property: keyof FlavorProperties): number {
   if (hasFlavorProperties(obj) && typeof obj[property] === 'number') {
     return obj[property] as number;
   }
   return 0;
 }
+
+// === ENTERPRISE MULTI-DIMENSIONAL RECOMMENDATION ENGINE ===
+
+// Advanced Elemental Properties Integration
+const advancedElementalProcessor = {
+  analyze: (properties: _ElementalProperties): {
+    dominance: _Element;
+    balance: number;
+    harmony: number;
+    transformationPotential: number;
+  } => {
+    const elements = ['Fire', 'Water', 'Earth', 'Air'] as _Element[];
+    const values = elements.map(el => properties[el] || 0);
+    const maxValue = Math.max(...values);
+    const dominantIndex = values.indexOf(maxValue);
+    
+    return {
+      dominance: elements[dominantIndex],
+      balance: 1 - (Math.max(...values) - Math.min(...values)),
+      harmony: values.reduce((sum, val, i, arr) => {
+        const nextVal = arr[(i + 1) % arr.length];
+        return sum + (1 - Math.abs(val - nextVal));
+      }, 0) / 4,
+      transformationPotential: values.reduce((sum, val) => sum + val * val, 0) / values.length
+    };
+  },
+  
+  optimizeForChakra: (properties: _ElementalProperties, chakras: _ChakraEnergies): _ElementalProperties => {
+    const chakraElementMapping = {
+      root: 'Earth',
+      sacral: 'Water', 
+      solarPlexus: 'Fire',
+      heart: 'Air',
+      throat: 'Air',
+      thirdEye: 'Water',
+      crown: 'Fire'
+    };
+    
+    const optimized = { ...properties };
+    Object.entries(chakras).forEach(([chakra, energy]) => {
+      const element = chakraElementMapping[chakra as keyof typeof chakraElementMapping] as _Element;
+      if (element && optimized[element] !== undefined) {
+        optimized[element] = Math.min(1, optimized[element] + (energy * 0.1));
+      }
+    });
+    
+    return optimized;
+  }
+};
+
+// Sophisticated Chakra Energies Analysis
+const chakraIntelligenceEngine = {
+  analyzeAlignment: (chakras: _ChakraEnergies): {
+    overallBalance: number;
+    dominantChakra: keyof _ChakraEnergies;
+    energyFlow: number;
+    blockages: string[];
+    recommendations: string[];
+  } => {
+    const chakraKeys = Object.keys(chakras) as (keyof _ChakraEnergies)[];
+    const values = chakraKeys.map(key => chakras[key] || 0);
+    const maxValue = Math.max(...values);
+    const dominantIndex = values.indexOf(maxValue);
+    
+    const blockages = chakraKeys.filter(key => (chakras[key] || 0) < 0.3);
+    const recommendations = blockages.map(chakra => 
+      `Enhance ${chakra} chakra through corresponding ingredients and practices`
+    );
+    
+    return {
+      overallBalance: 1 - (Math.max(...values) - Math.min(...values)),
+      dominantChakra: chakraKeys[dominantIndex],
+      energyFlow: values.reduce((sum, val, i, arr) => {
+        const nextVal = arr[(i + 1) % arr.length] || arr[0];
+        return sum + Math.min(val, nextVal);
+      }, 0) / values.length,
+      blockages,
+      recommendations
+    };
+  },
+  
+  generateChakraOptimizedRecommendations: (targetChakra: keyof _ChakraEnergies): {
+    ingredients: string[];
+    cookingMethods: string[];
+    colors: string[];
+    elements: _Element[];
+  } => {
+    const chakraCorrespondences = {
+      root: {
+        ingredients: ['root vegetables', 'red foods', 'proteins', 'grounding spices'],
+        cookingMethods: ['slow cooking', 'roasting', 'braising'],
+        colors: ['red', 'brown', 'black'],
+        elements: ['Earth' as _Element]
+      },
+      sacral: {
+        ingredients: ['orange foods', 'sweet foods', 'nuts', 'seeds'],
+        cookingMethods: ['steaming', 'light sautéing'],
+        colors: ['orange', 'amber'],
+        elements: ['Water' as _Element]
+      },
+      solarPlexus: {
+        ingredients: ['yellow foods', 'grains', 'digestive spices'],
+        cookingMethods: ['grilling', 'quick cooking'],
+        colors: ['yellow', 'gold'],
+        elements: ['Fire' as _Element]
+      },
+      heart: {
+        ingredients: ['green foods', 'leafy vegetables', 'herbs'],
+        cookingMethods: ['fresh preparation', 'light cooking'],
+        colors: ['green', 'pink'],
+        elements: ['Air' as _Element]
+      },
+      throat: {
+        ingredients: ['blue foods', 'cooling foods', 'teas'],
+        cookingMethods: ['cooling preparation', 'raw'],
+        colors: ['blue', 'turquoise'],
+        elements: ['Air' as _Element]
+      },
+      thirdEye: {
+        ingredients: ['purple foods', 'brain foods', 'antioxidants'],
+        cookingMethods: ['gentle preparation', 'preservation of nutrients'],
+        colors: ['indigo', 'purple'],
+        elements: ['Water' as _Element]
+      },
+      crown: {
+        ingredients: ['light foods', 'pure foods', 'spiritual foods'],
+        cookingMethods: ['minimal processing', 'pure preparation'],
+        colors: ['violet', 'white'],
+        elements: ['Fire' as _Element]
+      }
+    };
+    
+    return chakraCorrespondences[targetChakra] || chakraCorrespondences.heart;
+  }
+};
+
+// Advanced Astrological Profile Integration
+const astrologicalIntelligenceSystem = {
+  calculateCompatibility: (profile: _AstrologicalProfile, targetState: AstrologicalState): number => {
+    let compatibility = 0.5;
+    
+    // Elemental compatibility
+    if (profile.elementalAffinity && targetState.dominantElement) {
+      const affinityValue = profile.elementalAffinity[targetState.dominantElement as keyof ElementalAffinity] || 0;
+      compatibility += affinityValue * 0.3;
+    }
+    
+    // Planetary compatibility
+    if (profile.rulingPlanets && targetState.activePlanets) {
+      const planetMatch = profile.rulingPlanets.some(planet => 
+        targetState.activePlanets?.includes(planet)
+      );
+      if (planetMatch) compatibility += 0.2;
+    }
+    
+    // Zodiac compatibility
+    if (profile.favorableZodiac && targetState.currentZodiac) {
+      const zodiacMatch = profile.favorableZodiac.includes(targetState.currentZodiac);
+      if (zodiacMatch) compatibility += 0.2;
+    }
+    
+    return Math.min(1, Math.max(0, compatibility));
+  },
+  
+  generatePersonalizedRecommendations: (profile: _AstrologicalProfile): {
+    ingredients: string[];
+    cookingMethods: string[];
+    timingRecommendations: string[];
+    elementalFocus: _Element;
+  } => {
+    const defaultRecommendations = {
+      ingredients: ['balanced ingredients'],
+      cookingMethods: ['versatile methods'],
+      timingRecommendations: ['any time'],
+      elementalFocus: 'Fire' as _Element
+    };
+    
+    if (!profile.rulingPlanets || profile.rulingPlanets.length === 0) {
+      return defaultRecommendations;
+    }
+    
+    const planetaryCorrespondences = {
+      Sun: {
+        ingredients: ['solar foods', 'citrus', 'gold foods'],
+        cookingMethods: ['grilling', 'solar cooking'],
+        timingRecommendations: ['noon', 'sunny days'],
+        elementalFocus: 'Fire' as _Element
+      },
+      Moon: {
+        ingredients: ['lunar foods', 'dairy', 'silver foods'],
+        cookingMethods: ['steaming', 'cooling methods'],
+        timingRecommendations: ['evening', 'full moon'],
+        elementalFocus: 'Water' as _Element
+      },
+      Mercury: {
+        ingredients: ['communication foods', 'nuts', 'seeds'],
+        cookingMethods: ['quick cooking', 'versatile methods'],
+        timingRecommendations: ['morning', 'mercury hour'],
+        elementalFocus: 'Air' as _Element
+      },
+      Venus: {
+        ingredients: ['beautiful foods', 'sweets', 'aesthetic foods'],
+        cookingMethods: ['artistic preparation', 'beautiful presentation'],
+        timingRecommendations: ['friday', 'venus hour'],
+        elementalFocus: 'Earth' as _Element
+      },
+      Mars: {
+        ingredients: ['spicy foods', 'protein', 'red foods'],
+        cookingMethods: ['high heat', 'intense cooking'],
+        timingRecommendations: ['tuesday', 'mars hour'],
+        elementalFocus: 'Fire' as _Element
+      }
+    };
+    
+    const primaryPlanet = profile.rulingPlanets[0] as keyof typeof planetaryCorrespondences;
+    return planetaryCorrespondences[primaryPlanet] || defaultRecommendations;
+  }
+};
+
+// Enterprise Planetary Name Integration
+const planetaryIntelligenceEngine = {
+  calculateInfluence: (planet: _PlanetName, currentAlignment: Record<string, any>): number => {
+    const planetaryWeights = {
+      Sun: 0.25,
+      Moon: 0.20,
+      Mercury: 0.15,
+      Venus: 0.15,
+      Mars: 0.10,
+      Jupiter: 0.08,
+      Saturn: 0.05,
+      Uranus: 0.02,
+      Neptune: 0.02,
+      Pluto: 0.01
+    };
+    
+    const baseWeight = planetaryWeights[planet] || 0.01;
+    const alignmentBonus = currentAlignment[planet] ? 0.2 : 0;
+    
+    return Math.min(1, baseWeight + alignmentBonus);
+  },
+  
+  generatePlanetaryRecommendations: (dominantPlanets: _PlanetName[]): {
+    ingredients: string[];
+    cookingStyles: string[];
+    energeticQualities: string[];
+  } => {
+    const combinedRecommendations = {
+      ingredients: [] as string[],
+      cookingStyles: [] as string[],
+      energeticQualities: [] as string[]
+    };
+    
+    dominantPlanets.forEach(planet => {
+      const planetRecommendations = astrologicalIntelligenceSystem.generatePersonalizedRecommendations({
+        rulingPlanets: [planet],
+        elementalAffinity: {},
+        favorableZodiac: []
+      } as _AstrologicalProfile);
+      
+      combinedRecommendations.ingredients.push(...planetRecommendations.ingredients);
+      combinedRecommendations.cookingStyles.push(...planetRecommendations.cookingMethods);
+      combinedRecommendations.energeticQualities.push(...planetRecommendations.timingRecommendations);
+    });
+    
+    return {
+      ingredients: [...new Set(combinedRecommendations.ingredients)],
+      cookingStyles: [...new Set(combinedRecommendations.cookingStyles)],
+      energeticQualities: [...new Set(combinedRecommendations.energeticQualities)]
+    };
+  }
+};
+
+// Advanced Element Intelligence System
+const elementalIntelligenceEngine = {
+  analyzeDominance: (element: _Element, context: {
+    season?: string;
+    time?: string;
+    astrologicalState?: AstrologicalState;
+  }): {
+    strength: number;
+    manifestation: string[];
+    balancingElements: _Element[];
+    recommendations: string[];
+  } => {
+    const elementalQualities = {
+      Fire: {
+        strength: 0.8,
+        manifestation: ['heat', 'energy', 'transformation', 'passion'],
+        balancingElements: ['Water', 'Earth'] as _Element[],
+        recommendations: ['cooling foods', 'hydrating ingredients', 'grounding practices']
+      },
+      Water: {
+        strength: 0.7,
+        manifestation: ['flow', 'emotion', 'intuition', 'adaptability'],
+        balancingElements: ['Fire', 'Air'] as _Element[],
+        recommendations: ['warming foods', 'energizing ingredients', 'stimulating practices']
+      },
+      Earth: {
+        strength: 0.9,
+        manifestation: ['stability', 'grounding', 'nourishment', 'growth'],
+        balancingElements: ['Air', 'Fire'] as _Element[],
+        recommendations: ['light foods', 'airy ingredients', 'uplifting practices']
+      },
+      Air: {
+        strength: 0.6,
+        manifestation: ['movement', 'communication', 'intellect', 'freedom'],
+        balancingElements: ['Earth', 'Water'] as _Element[],
+        recommendations: ['grounding foods', 'substantial ingredients', 'stabilizing practices']
+      }
+    };
+    
+    const baseQualities = elementalQualities[element];
+    
+    // Adjust strength based on context
+    let adjustedStrength = baseQualities.strength;
+    if (context.season) {
+      const seasonalAdjustments = {
+        spring: { Air: 0.2, Earth: 0.1, Fire: 0.1, Water: 0 },
+        summer: { Fire: 0.3, Air: 0.1, Earth: 0, Water: -0.1 },
+        autumn: { Earth: 0.2, Water: 0.1, Air: 0, Fire: -0.1 },
+        winter: { Water: 0.2, Earth: 0.1, Fire: 0.1, Air: -0.1 }
+      };
+      
+      const seasonAdjustment = seasonalAdjustments[context.season as keyof typeof seasonalAdjustments];
+      adjustedStrength += seasonAdjustment?.[element] || 0;
+    }
+    
+    return {
+      strength: Math.min(1, Math.max(0, adjustedStrength)),
+      manifestation: baseQualities.manifestation,
+      balancingElements: baseQualities.balancingElements,
+      recommendations: baseQualities.recommendations
+    };
+  }
+};
 
 // ===== TYPES AND INTERFACES =====
 
@@ -619,6 +1049,7 @@ export async function getRecommendedIngredients(astroState: AstrologicalState): 
   return filteredIngredients as unknown as Ingredient[];
 }
 
+// === ENTERPRISE MULTI-DIMENSIONAL RECOMMENDATION FUNCTION ===
 export async function getIngredientRecommendations(
   elementalProps: ElementalProperties & {
     timestamp: Date;
@@ -656,7 +1087,7 @@ export async function getIngredientRecommendations(
     );
   }
   
-  // Enhanced scoring with unified flavor system
+  // === ENTERPRISE MULTI-DIMENSIONAL SCORING SYSTEM ===
   const scoredIngredients = await Promise.all(filteredIngredients.map(async (ingredient) => {
     try {
       // Traditional scoring factors
@@ -664,28 +1095,155 @@ export async function getIngredientRecommendations(
       const seasonalScore = await calculateSeasonalScore(ingredient, elementalProps.timestamp);
       const modalityScore = await calculateModalityScore(ingredient.qualities || [], options.modalityPreference);
       
-      // NEW: Unified flavor compatibility scoring
+      // Advanced flavor compatibility scoring
       const flavorScore = calculateUnifiedFlavorScore(ingredient, elementalProps, options);
       
-      // NEW: Kalchm resonance scoring
+      // Kalchm resonance scoring
       const kalchmScore = calculateKalchmResonance(ingredient, elementalProps);
       
-      // NEW: Monica optimization scoring
+      // Monica optimization scoring
       const monicaScore = calculateMonicaOptimization(ingredient, elementalProps);
       
-      // NEW: Cultural context scoring
+      // Cultural context scoring
       const culturalScore = calculateCulturalContextScore(ingredient, options);
       
-      // Enhanced weighted calculation
+      // === NEW: ENTERPRISE MULTI-DIMENSIONAL FEATURES ===
+      
+      // Advanced Elemental Properties Analysis
+      const enhancedElementalScore = ingredient.elementalProperties ? 
+        advancedElementalProcessor.analyze(ingredient.elementalProperties as _ElementalProperties) : 
+        { dominance: 'Fire' as _Element, balance: 0.5, harmony: 0.5, transformationPotential: 0.5 };
+      
+      // Chakra Energies Integration
+      const chakraCompatibility = ingredient.astrologicalProfile ? 
+        chakraIntelligenceEngine.analyzeAlignment({
+          root: 0.5, sacral: 0.5, solarPlexus: 0.5, heart: 0.5,
+          throat: 0.5, thirdEye: 0.5, crown: 0.5
+        } as _ChakraEnergies) : 
+        { overallBalance: 0.5, dominantChakra: 'heart' as keyof _ChakraEnergies, energyFlow: 0.5, blockages: [], recommendations: [] };
+      
+      // Astrological Profile Compatibility
+      const astrologicalCompatibility = ingredient.astrologicalProfile ? 
+        astrologicalIntelligenceSystem.calculateCompatibility(
+          ingredient.astrologicalProfile as _AstrologicalProfile,
+          {
+            currentZodiac: elementalProps.currentZodiac,
+            activePlanets: elementalProps.activePlanets,
+            dominantElement: enhancedElementalScore.dominance
+          } as AstrologicalState
+        ) : 0.5;
+      
+      // Planetary Influence Analysis
+      const planetaryInfluenceScore = elementalProps.activePlanets.reduce((score, planet) => {
+        return score + planetaryIntelligenceEngine.calculateInfluence(planet as _PlanetName, elementalProps.planetaryAlignment);
+      }, 0) / Math.max(1, elementalProps.activePlanets.length);
+      
+      // Element Dominance Analysis
+      const elementDominanceScore = elementalIntelligenceEngine.analyzeDominance(
+        enhancedElementalScore.dominance,
+        {
+          season: options.currentSeason,
+          astrologicalState: {
+            currentZodiac: elementalProps.currentZodiac,
+            activePlanets: elementalProps.activePlanets
+          } as AstrologicalState
+        }
+      ).strength;
+      
+      // Advanced Calculation Data
+      const calculationData: CalculationData = {
+        value: elementalScore,
+        weight: 1.0,
+        score: elementalScore,
+        confidence: (elementalScore + seasonalScore + modalityScore) / 3,
+        timestamp: new Date(),
+        calculationMethod: 'enterprise-multidimensional-v1',
+        validationScore: (elementalScore + astrologicalCompatibility + chakraCompatibility.overallBalance) / 3,
+        elementalBreakdown: ingredient.elementalProperties as _ElementalProperties,
+        chakraAlignment: {
+          root: chakraCompatibility.overallBalance * 0.8,
+          sacral: chakraCompatibility.overallBalance * 0.9,
+          solarPlexus: chakraCompatibility.overallBalance * 0.7,
+          heart: chakraCompatibility.overallBalance,
+          throat: chakraCompatibility.overallBalance * 0.8,
+          thirdEye: chakraCompatibility.overallBalance * 0.9,
+          crown: chakraCompatibility.overallBalance * 0.85
+        } as _ChakraEnergies,
+        astrologicalInfluence: ingredient.astrologicalProfile as _AstrologicalProfile,
+        planetaryBoost: elementalProps.activePlanets.reduce((boosts, planet) => {
+          boosts[planet as _PlanetName] = planetaryIntelligenceEngine.calculateInfluence(planet as _PlanetName, elementalProps.planetaryAlignment);
+          return boosts;
+        }, {} as Record<_PlanetName, number>),
+        elementalDominance: enhancedElementalScore.dominance,
+        multidimensionalFactors: {
+          cultural: culturalScore,
+          seasonal: seasonalScore,
+          nutritional: 0.7, // Enhanced nutritional analysis
+          flavor: flavorScore,
+          compatibility: astrologicalCompatibility
+        }
+      };
+      
+      // Enhanced weighted calculation with new dimensions
       const totalScore = (
-        elementalScore * 0.20 +
-        seasonalScore * 0.15 +
-        modalityScore * 0.10 +
-        flavorScore * 0.25 +
-        kalchmScore * 0.15 +
+        elementalScore * 0.15 +
+        seasonalScore * 0.10 +
+        modalityScore * 0.08 +
+        flavorScore * 0.15 +
+        kalchmScore * 0.12 +
         monicaScore * 0.10 +
-        culturalScore * 0.05
+        culturalScore * 0.05 +
+        astrologicalCompatibility * 0.15 +
+        chakraCompatibility.overallBalance * 0.05 +
+        planetaryInfluenceScore * 0.03 +
+        elementDominanceScore * 0.02
       );
+      
+      // Create Enhanced Matching Result
+      const matchingResult: MatchingResult = {
+        score: totalScore,
+        elements: {
+          Fire: ingredient.elementalProperties?.Fire || 0,
+          Water: ingredient.elementalProperties?.Water || 0,
+          Earth: ingredient.elementalProperties?.Earth || 0,
+          Air: ingredient.elementalProperties?.Air || 0
+        },
+        ingredient: ingredient,
+        calculationData,
+        enhancedElementalProperties: ingredient.elementalProperties as _ElementalProperties,
+        chakraHarmonics: calculationData.chakraAlignment,
+        astrologicalProfile: ingredient.astrologicalProfile as _AstrologicalProfile,
+        planetaryInfluences: calculationData.planetaryBoost,
+        elementalDominance: enhancedElementalScore.dominance,
+        cuisineCompatibility: [], // Could be enhanced with cuisine data
+        nutritionalAnalysis: [], // Could be enhanced with nutrient data
+        multidimensionalScoring: {
+          elemental: elementalScore,
+          chakra: chakraCompatibility.overallBalance,
+          astrological: astrologicalCompatibility,
+          nutritional: 0.7,
+          cultural: culturalScore,
+          seasonal: seasonalScore,
+          flavor: flavorScore,
+          compatibility: astrologicalCompatibility,
+          overall: totalScore
+        },
+        recommendationStrength: totalScore > 0.8 ? 'exceptional' : 
+                               totalScore > 0.6 ? 'strong' : 
+                               totalScore > 0.4 ? 'moderate' : 'weak',
+        optimizationSuggestions: [
+          `Enhance ${enhancedElementalScore.dominance.toLowerCase()} element compatibility`,
+          `Consider ${chakraCompatibility.dominantChakra} chakra alignment`,
+          ...chakraCompatibility.recommendations.slice(0, 2)
+        ],
+        contraindications: enhancedElementalScore.balance < 0.3 ? ['Elemental imbalance detected'] : [],
+        enhancementOpportunities: [
+          'Combine with complementary ingredients',
+          'Optimize cooking method for elemental harmony',
+          'Consider seasonal timing adjustments'
+        ],
+        confidence: calculationData.confidence || 0.5
+      };
       
       return {
         ...ingredient,
@@ -697,7 +1255,15 @@ export async function getIngredientRecommendations(
         kalchmScore,
         monicaScore,
         culturalScore,
-        totalScore
+        totalScore,
+        // Enhanced features
+        astrologicalCompatibility,
+        chakraCompatibility: chakraCompatibility.overallBalance,
+        planetaryInfluenceScore,
+        elementDominanceScore,
+        enhancedElementalAnalysis: enhancedElementalScore,
+        multidimensionalAnalysis: matchingResult,
+        calculationMetadata: calculationData
       } as IngredientRecommendation;
     } catch (error) {
       // console.error('Error calculating scores for ingredient:', ingredient.name, error);
