@@ -130,7 +130,7 @@ const AlchemicalRecommendationsMigrated: React.FC<AlchemicalRecommendationsProps
   } = services;
   
   // Safe access to elementalCalculator from services
-  const servicesData = services as any;
+  const servicesData = services as Record<string, unknown>;
   const elementalCalculator = servicesData?.elementalCalculator;
 
   // Component state
@@ -155,7 +155,7 @@ const AlchemicalRecommendationsMigrated: React.FC<AlchemicalRecommendationsProps
   const [resolvedLunarPhase, setResolvedLunarPhase] = useState<LunarPhaseWithSpaces>('new moon');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
-  const [recommendations, setRecommendations] = useState<any>({
+  const [recommendations, setRecommendations] = useState<Record<string, unknown>>({
     topIngredients: [],
     topMethods: [],
     topCuisines: [],
@@ -169,7 +169,7 @@ const AlchemicalRecommendationsMigrated: React.FC<AlchemicalRecommendationsProps
   const [transformedIngredients, setTransformedIngredients] = useState<AlchemicalItem[]>([]);
   const [transformedMethods, setTransformedMethods] = useState<AlchemicalItem[]>([]);
   const [transformedCuisines, setTransformedCuisines] = useState<AlchemicalItem[]>([]);
-  const [energeticProfile, setEnergeticProfile] = useState<any>(null);
+  const [energeticProfile, setEnergeticProfile] = useState<Record<string, unknown> | null>(null);
   const [ingredientsArray, setIngredientsArray] = useState<ElementalItem[]>([]);
   const [cookingMethodsArray, setCookingMethodsArray] = useState<ElementalItem[]>([]);
   const [cuisinesArray, setCuisinesArray] = useState<ElementalItem[]>([]);
@@ -213,7 +213,7 @@ const AlchemicalRecommendationsMigrated: React.FC<AlchemicalRecommendationsProps
         }
         
         // Set other resolved values with safe property access
-        const astroData = astrologyService as any;
+        const astroData = astrologyService as Record<string, unknown>;
         setResolvedIsDaytime(isDaytime !== undefined ? isDaytime : await astrologyService.isDaytime());
         setResolvedCurrentZodiac(currentZodiac || await astrologyService.getCurrentZodiacSign() || null);
         
@@ -346,7 +346,7 @@ const AlchemicalRecommendationsMigrated: React.FC<AlchemicalRecommendationsProps
     const loadCookingAndCuisineData = async () => {
       try {
         // Safe access to getAllCookingMethods
-        const serviceData = recommendationService as any;
+        const serviceData = recommendationService as Record<string, unknown>;
         const getAllCookingMethodsMethod = serviceData?.getAllCookingMethods;
         
         let cookingMethods = [];
@@ -483,7 +483,7 @@ const AlchemicalRecommendationsMigrated: React.FC<AlchemicalRecommendationsProps
       const elementalProps = ingredient.elementalPropertiesState;
       const qualities = Array.isArray(ingredient.qualities) ? ingredient.qualities : [];
       const modality = ingredient.modality as Modality | undefined || 
-        determineIngredientModality(qualities as any, elementalProps as ElementalProperties);
+        determineIngredientModality(qualities as Record<string, unknown>, elementalProps as ElementalProperties);
       return modality === modalityFilter;
     });
   }, [ingredientsArray, modalityFilter]);
@@ -507,7 +507,7 @@ const AlchemicalRecommendationsMigrated: React.FC<AlchemicalRecommendationsProps
         setLoading(true);
         
         // Create recommendation adapter using the alchemical recommendation service
-        const serviceAny = alchemicalRecommendationService as any;
+        const serviceAny = alchemicalRecommendationService as Record<string, unknown>;
         const transformedData = await (serviceAny?.transformData ||
           (() => ({ ingredients: [], cookingMethods: [], cuisines: [] })))(
           filteredIngredientsArray,
@@ -525,9 +525,9 @@ const AlchemicalRecommendationsMigrated: React.FC<AlchemicalRecommendationsProps
         // ✅ Pattern MM-1: generateRecommendations expects (planetaryPositions, ingredients, cookingMethods)
         const planetaryPositions = resolvedPlanetaryPositions || {};
         const recs = await alchemicalRecommendationService.generateRecommendations(
-          planetaryPositions as any,
-          (filteredIngredientsArray || []) as any,
-          (cookingMethodsArray || []) as any
+          planetaryPositions as Record<string, unknown>,
+          (filteredIngredientsArray || []) as Record<string, unknown>,
+          (cookingMethodsArray || []) as Record<string, unknown>
         );
         
         // Set recommendations and transformed data
@@ -537,7 +537,7 @@ const AlchemicalRecommendationsMigrated: React.FC<AlchemicalRecommendationsProps
         setTransformedCuisines(transformedData.cuisines);
         
         // Create energetic profile
-        const recsData = recs as any;
+        const recsData = recs as Record<string, unknown>;
         const profile = {
           dominantElement: recsData?.dominantElement || 'Fire',
           dominantAlchemicalProperty: recsData?.dominantAlchemicalProperty || 'Spirit',
@@ -614,7 +614,7 @@ const AlchemicalRecommendationsMigrated: React.FC<AlchemicalRecommendationsProps
     if (!recipes || (recipes || []).length === 0 || !energeticProfile) return [];
     
     // Use recommendation engine to recommend recipes
-    const result = (getRecommendedRecipes as any)(recipes);
+    const result = (getRecommendedRecipes as Record<string, unknown>)(recipes);
     // Ensure we return an array, not a Promise
     return Array.isArray(result) ? result : [];
   }, [recipes, energeticProfile, recipeCount]);
@@ -647,11 +647,11 @@ const AlchemicalRecommendationsMigrated: React.FC<AlchemicalRecommendationsProps
             <div className="stat-grid">
               <div className="stat">
                 <span className="label">Dominant Element:</span>
-                <span className="value">{(recommendations as any)?.dominantElement || 'Fire'}</span>
+                <span className="value">{(recommendations as Record<string, unknown>)?.dominantElement || 'Fire'}</span>
               </div>
               <div className="stat">
                 <span className="label">Dominant Alchemical Property:</span>
-                <span className="value">{(recommendations as any)?.dominantAlchemicalProperty || 'Spirit'}</span>
+                <span className="value">{(recommendations as Record<string, unknown>)?.dominantAlchemicalProperty || 'Spirit'}</span>
               </div>
               {resolvedCurrentZodiac && (
                 <div className="stat">
@@ -671,19 +671,19 @@ const AlchemicalRecommendationsMigrated: React.FC<AlchemicalRecommendationsProps
             <div className="stat-grid">
               <div className="stat">
                 <span className="label">Heat:</span>
-                <span className="value">{((recommendations as any)?.heat || 0).toFixed(2)}</span>
+                <span className="value">{((recommendations as Record<string, unknown>)?.heat || 0).toFixed(2)}</span>
               </div>
               <div className="stat">
                 <span className="label">Entropy:</span>
-                <span className="value">{((recommendations as any)?.entropy || 0).toFixed(2)}</span>
+                <span className="value">{((recommendations as Record<string, unknown>)?.entropy || 0).toFixed(2)}</span>
               </div>
               <div className="stat">
                 <span className="label">Reactivity:</span>
-                <span className="value">{((recommendations as any)?.reactivity || 0).toFixed(2)}</span>
+                <span className="value">{((recommendations as Record<string, unknown>)?.reactivity || 0).toFixed(2)}</span>
               </div>
               <div className="stat">
                 <span className="label">Greg's Energy:</span>
-                <span className="value">{((recommendations as any)?.gregsEnergy || 0).toFixed(2)}</span>
+                <span className="value">{((recommendations as Record<string, unknown>)?.gregsEnergy || 0).toFixed(2)}</span>
               </div>
             </div>
           </div>
@@ -737,7 +737,7 @@ const AlchemicalRecommendationsMigrated: React.FC<AlchemicalRecommendationsProps
               <h3>Recommended Ingredients</h3>
               <ul className="recommendation-list">
                 {(recommendations?.topIngredients || []).map((item: AlchemicalItem, index: number) => {
-                  const elementalState = item.elementalState as any;
+                  const elementalState = item.elementalState as Record<string, unknown>;
                   return (
                     <li key={`ingredient-${index}`} className="recommendation-item">
                       <h4>{item.name}</h4>
@@ -757,7 +757,7 @@ const AlchemicalRecommendationsMigrated: React.FC<AlchemicalRecommendationsProps
                       </div>
                       {item.modality && (
                         <div className="item-modality">
-                          <span className={`modality-badge ${(item.modality as any)?.toLowerCase?.() || ''}`}>
+                          <span className={`modality-badge ${(item.modality as Record<string, unknown>)?.toLowerCase?.() || ''}`}>
                             {item.modality as string}
                           </span>
                         </div>
@@ -772,7 +772,7 @@ const AlchemicalRecommendationsMigrated: React.FC<AlchemicalRecommendationsProps
               <h3>Recommended Cooking Methods</h3>
               <ul className="recommendation-list">
                 {(recommendations?.topMethods || []).map((item: AlchemicalItem, index: number) => {
-                  const elementalState = item.elementalState as any;
+                  const elementalState = item.elementalState as Record<string, unknown>;
                   return (
                     <li key={`method-${index}`} className="recommendation-item">
                       <h4>{item.name}</h4>
@@ -800,7 +800,7 @@ const AlchemicalRecommendationsMigrated: React.FC<AlchemicalRecommendationsProps
               <h3>Recommended Cuisines</h3>
               <ul className="recommendation-list">
                 {(recommendations?.topCuisines || []).map((item: AlchemicalItem, index: number) => {
-                  const elementalState = item.elementalState as any;
+                  const elementalState = item.elementalState as Record<string, unknown>;
                   return (
                     <li key={`cuisine-${index}`} className="recommendation-item">
                       <h4>{item.name}</h4>

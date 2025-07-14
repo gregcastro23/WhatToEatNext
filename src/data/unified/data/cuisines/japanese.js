@@ -1,7 +1,4 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.japanese = void 0;
-exports.japanese = {
+export const japanese = {
     id: 'japanese',
     name: 'Japanese',
     description: 'Traditional Japanese cuisine emphasizing seasonal ingredients, harmony of flavors, and meticulous preparation techniques',

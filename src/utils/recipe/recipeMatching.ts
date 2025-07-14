@@ -123,7 +123,7 @@ interface CacheEntry<T> {
 }
 
 const matchCache = new Map<string, CacheEntry<MatchResult[]>>();
-let _CACHE_TTL = 3600000; // 1 hour
+const _CACHE_TTL = 3600000; // 1 hour
 
 /**
  * Generate cache key for recipe matching

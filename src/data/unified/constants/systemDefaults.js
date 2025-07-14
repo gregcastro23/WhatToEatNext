@@ -305,7 +305,7 @@ function cloneDefault(defaultObject) {
     }
     const cloned = {};
     for (const key in defaultObject) {
-        if (defaultObject.hasOwnProperty(key)) {
+        if (Object.prototype.hasOwnProperty.call(defaultObject, key)) {
             cloned[key] = cloneDefault(defaultObject[key]);
         }
     }
@@ -339,7 +339,7 @@ exports.getDefaultPlanetaryPositions = getDefaultPlanetaryPositions;
 function mergeWithDefaults(userValues, defaults) {
     const result = cloneDefault(defaults);
     for (const key in userValues) {
-        if (userValues.hasOwnProperty(key) && userValues[key] !== undefined) {
+        if (Object.prototype.hasOwnProperty.call(userValues, key) && userValues[key] !== undefined) {
             if (typeof userValues[key] === 'object' &&
                 typeof defaults[key] === 'object' &&
                 !Array.isArray(userValues[key])) {

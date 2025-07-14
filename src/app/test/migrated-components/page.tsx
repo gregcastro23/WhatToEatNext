@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { Recipe } from '@/types/recipe';
+// import { Recipe } from '@/types/recipe';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import ChakraDisplay from '@/components/ChakraDisplay';
 import ChakraDisplayMigrated from '@/components/ChakraDisplay.migrated';
@@ -9,7 +9,7 @@ import dynamic from 'next/dynamic';
 import ElementalRecommendations from '@/components/ElementalDisplay/ElementalEnergyDisplay';
 import ElementalRecommendationsMigrated from '@/components/ElementalRecommendations.migrated';
 import Link from 'next/link';
-import { Element } from "@/types/alchemy";
+// import { Element } from "@/types/alchemy";
 
 const AstrologyChart = dynamic(
   () => import('@/components/AstrologyChart/AstrologyChart.migrated')?.then(mod => {

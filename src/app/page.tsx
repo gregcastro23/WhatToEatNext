@@ -13,6 +13,8 @@ const DynamicCookingMethodsSection = dynamic(
 );
 import RecipeGeneratorCap from '@/components/FoodRecommender/RecipeGeneratorCap';
 import { ChefHat, Sparkles, Utensils, Home as HomeIcon, Globe, Target } from 'lucide-react';
+import { RecipeQueueProvider } from '@/contexts/RecipeQueueContext';
+import MainRecipeBuilder from '@/components/recipes/MainRecipeBuilder';
 
 // Use dynamic import with SSR disabled for components that use client-side only features
 const DynamicCuisineRecommender = dynamic(
@@ -139,7 +141,7 @@ export default function Home() {
   const [showFullRecipeGenerator, setShowFullRecipeGenerator] = useState(false);
 
   // Add error handling for astrological state
-  const [astroError, _setAstroError] = useState<string | null>(null);
+  // const [astroError, _setAstroError] = useState<string | null>(null);
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-indigo-50 via-blue-50 to-gray-100 text-gray-800">
@@ -253,13 +255,9 @@ export default function Home() {
                 </p>
               </div>
               <ClientOnly>
-                {showFullRecipeGenerator ? (
-                  <FoodRecommender />
-                ) : (
-                  <RecipeGeneratorCap 
-                    onRemoveCap={() => setShowFullRecipeGenerator(true)}
-                  />
-                )}
+                <RecipeQueueProvider>
+                  <MainRecipeBuilder />
+                </RecipeQueueProvider>
               </ClientOnly>
             </div>
           </div>

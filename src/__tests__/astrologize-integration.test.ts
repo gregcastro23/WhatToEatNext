@@ -1,8 +1,6 @@
-import type { _Element } from "@/types/alchemy";
-import type { _PlanetaryPosition } from "@/types/celestial";
+// import type { _Element } from "@/types/alchemy";
+// import type { _PlanetaryPosition } from "@/types/celestial";
 
-// Prevent unused type warnings
-type _PreventUnusedWarnings = _Element | _PlanetaryPosition;
 import { 
 
 

@@ -6,7 +6,7 @@ import type {
   AstrologicalState,
   AlchemicalCalculationResult,
   ElementalAffinity,
-  AstrologicalInfluence,
+  // AstrologicalInfluence,
   Season,
   RecipeHarmonyResult,
   LunarPhaseWithSpaces,
@@ -23,7 +23,7 @@ import { getZodiacElementalInfluence } from '@/utils/zodiacUtils';
 import { recipeCalculations } from '@/utils/recipeCalculations';
 import { getAccuratePlanetaryPositions } from '@/utils/accurateAstronomy';
 import { createLogger } from '@/utils/logger';
-import { isElementalProperties, validateOrDefault } from '@/utils/validation';
+// import { isElementalProperties, validateOrDefault } from '@/utils/validation';
 import { DEFAULT_ELEMENTAL_PROPERTIES } from '@/constants/defaults';
 import ErrorHandler from '@/services/errorHandler';
 

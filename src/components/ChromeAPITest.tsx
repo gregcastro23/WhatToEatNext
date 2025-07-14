@@ -11,19 +11,19 @@ const ChromeAPITest = () => {
     if (typeof window !== 'undefined') {
       // Initialize Chrome API if not already available
       if (!window.chrome) {
-        console.log('Initializing Chrome API');
+        // console.log('Initializing Chrome API');
         window.chrome = {};
       }
       
       if (!window.chrome.tabs) {
         window.chrome.tabs = {
           create: function(options) {
-            console.log('Mock chrome.tabs.create called with:', _options);
+            // console.log('Mock chrome.tabs.create called with:', options);
             try {
               window.open((options as any)?.url || 'about:blank', '_blank');
               return Promise.resolve({id: 999, url: options?.url});
             } catch (e) {
-              console.warn('Error opening URL:', (e as any)?.message);
+              // console.warn('Error opening URL:', (e as any)?.message);
               return Promise.reject(e);
             }
           }
@@ -35,11 +35,11 @@ const ChromeAPITest = () => {
       script.src = '/dummy-popup.js';
       script.async = true;
       script.onload = () => {
-        console.log('dummy-popup.js loaded successfully');
+        // console.log('dummy-popup.js loaded successfully');
         setApiReady(true);
       };
       script.onerror = (error) => {
-        console.error('Error loading dummy-popup.js:', error);
+        // console.error('Error loading dummy-popup.js:', error);
         // Still set API ready since we have our minimal implementation
         setApiReady(true);
       };
@@ -49,20 +49,20 @@ const ChromeAPITest = () => {
 
   const handleOpenFormSwift = () => {
     try {
-      console.log('Attempting to open FormSwift URL');
+      // console.log('Attempting to open FormSwift URL');
       // Use our guaranteed available Chrome API
       window.chrome.tabs.create({
         url: "https://formswift.com / (sem || 1) / (edit || 1)-pdf",
         active: true,
       }).then(result => {
-        console.log('Chrome tabs create result:', result);
+        // console.log('Chrome tabs create result:', result);
       }).catch(error => {
-        console.error('Chrome tabs create error:', error);
+        // console.error('Chrome tabs create error:', error);
         // Fallback in case the Promise fails
         window.open("https://formswift.com / (sem || 1) / (edit || 1)-pdf", "_blank");
       });
     } catch (error) {
-      console.error('Error opening FormSwift:', error);
+      // console.error('Error opening FormSwift:', error);
       // Fallback
       window.open("https://formswift.com / (sem || 1) / (edit || 1)-pdf", "_blank");
     }

@@ -14,17 +14,42 @@ export interface AlchemicalValues {
   Substance: number;
 }
 
+// Tarot card interfaces
+interface TarotCard {
+  name: string;
+  number: number;
+  meaning?: string;
+  suit?: string;
+  energy?: number;
+  element?: string;
+  [key: string]: unknown;
+}
+
+interface PlanetaryCard {
+  name: string;
+  energy: number;
+  [key: string]: unknown;
+}
+
+interface TarotCards {
+  minorCard: TarotCard;
+  majorCard: TarotCard;
+  planetaryCards?: Record<string, PlanetaryCard>;
+}
+
+interface TarotLoadedData {
+  minorCard: TarotCard;
+  majorCard: TarotCard;
+  planetaryCards?: Record<string, PlanetaryCard>;
+  alchemicalValues?: AlchemicalValues;
+}
+
 export interface TarotFoodDisplayProps {
-  onTarotLoaded?: (data: { 
-    minorCard: unknown; 
-    majorCard: unknown; 
-    planetaryCards?: Record<string, unknown>;
-    alchemicalValues?: AlchemicalValues;
-  }) => void;
+  onTarotLoaded?: (data: TarotLoadedData) => void;
 }
 
 export default function TarotFoodDisplay({ onTarotLoaded }: TarotFoodDisplayProps) {
-  const [tarotCards, setTarotCards] = useState<{ minorCard: unknown, majorCard: unknown, planetaryCards?: Record<string, unknown> } | null>(null);
+  const [tarotCards, setTarotCards] = useState<TarotCards | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [currentPeriod, setCurrentPeriod] = useState<string>('');
   const onTarotLoadedRef = useRef(onTarotLoaded);
@@ -33,7 +58,7 @@ export default function TarotFoodDisplay({ onTarotLoaded }: TarotFoodDisplayProp
   const { currentPlanetaryAlignment, loading: astroLoading } = useAstrologicalState();
 
   // Type guard to check if currentPlanetaryAlignment has sun property with the right shape
-  const hasSunPosition = (alignment: any): alignment is { Sun: PlanetaryPosition } | { sun: PlanetaryPosition } => {
+  const hasSunPosition = (alignment: unknown): alignment is { Sun: PlanetaryPosition } | { sun: PlanetaryPosition } => {
     return alignment && 
            typeof alignment === 'object' && 
            (('Sun' in alignment && alignment.Sun && typeof alignment.Sun === 'object' && 'sign' in alignment.Sun) ||
@@ -67,8 +92,9 @@ export default function TarotFoodDisplay({ onTarotLoaded }: TarotFoodDisplayProp
       
       // Get sun position from planetary alignment if available
       let sunPosition;
-      if (hasSunPosition(currentPlanetaryAlignment as any)) {
-        const sunData = (currentPlanetaryAlignment as any).Sun || (currentPlanetaryAlignment as any).sun;
+      if (hasSunPosition(currentPlanetaryAlignment)) {
+        const sunData = (currentPlanetaryAlignment as { Sun?: PlanetaryPosition; sun?: PlanetaryPosition }).Sun || 
+                       (currentPlanetaryAlignment as { Sun?: PlanetaryPosition; sun?: PlanetaryPosition }).sun;
         sunPosition = {
           sign: sunData?.sign || '',
           degree: sunData?.degree || 0
@@ -117,12 +143,11 @@ export default function TarotFoodDisplay({ onTarotLoaded }: TarotFoodDisplayProp
   }, [loadTarotCards]);
 
   // Function to compute alchemical values from tarot card
-  const getAlchemicalValues = (card: unknown) => {
+  const getAlchemicalValues = (card: TarotCard | null) => {
     if (!card) return { Spirit: 0, Essence: 0, Matter: 0, Substance: 0 };
     
-    const cardData = card as any;
-    const suit = cardData?.name?.split(' of ')[1];
-    const number = cardData?.number || 0;
+    const suit = card.name?.split(' of ')[1];
+    const number = card.number || 0;
     
     // Create base object with all values at 0
     const values = { Spirit: 0, Essence: 0, Matter: 0, Substance: 0 };
@@ -160,7 +185,7 @@ export default function TarotFoodDisplay({ onTarotLoaded }: TarotFoodDisplayProp
   if (!tarotCards) return <div className="text-purple-300 mb-4">Divining celestial cards...</div>;
 
   // Safe access to tarot card properties
-  const minorCardData = tarotCards.minorCard as any;
+  const minorCardData = tarotCards.minorCard;
   const suit = minorCardData?.name?.split(' ')[2];
   const element = suit ? (SUIT_TO_ELEMENT[suit as keyof typeof SUIT_TO_ELEMENT] || 'Unknown') : 'Unknown';
   const token = suit ? (SUIT_TO_TOKEN[suit as keyof typeof SUIT_TO_TOKEN] || 'Quantum') : 'Quantum';
@@ -175,9 +200,11 @@ export default function TarotFoodDisplay({ onTarotLoaded }: TarotFoodDisplayProp
         <span>Biweekly Period: {currentPeriod}</span>
         <Clock className="w-3 h-3 ml-3 mr-1" />
         <span>Updated daily with planetary positions</span>
-        {hasSunPosition(currentPlanetaryAlignment as any) && (
+        {hasSunPosition(currentPlanetaryAlignment) && (
           <span className="ml-3">
-            • Sun: {((currentPlanetaryAlignment as any).Sun || (currentPlanetaryAlignment as any).sun)?.sign} {Math.floor(((currentPlanetaryAlignment as any).Sun || (currentPlanetaryAlignment as any).sun)?.degree || 0)}°
+            • Sun: {((currentPlanetaryAlignment as { Sun?: PlanetaryPosition; sun?: PlanetaryPosition }).Sun || 
+                    (currentPlanetaryAlignment as { Sun?: PlanetaryPosition; sun?: PlanetaryPosition }).sun)?.sign} {Math.floor(((currentPlanetaryAlignment as { Sun?: PlanetaryPosition; sun?: PlanetaryPosition }).Sun || 
+                    (currentPlanetaryAlignment as { Sun?: PlanetaryPosition; sun?: PlanetaryPosition }).sun)?.degree || 0)}°
           </span>
         )}
       </div>
@@ -186,7 +213,7 @@ export default function TarotFoodDisplay({ onTarotLoaded }: TarotFoodDisplayProp
         <div className={`rounded-lg p-4 bg-opacity-10 ${getElementColor(element)}`}>
           <div className="flex justify-between items-start">
             <div>
-              <h4 className="font-bold text-white text-lg drop-shadow-md">{(minorCardData as any)?.name || 'Minor Arcana'}</h4>
+              <h4 className="font-bold text-white text-lg drop-shadow-md">{minorCardData?.name || 'Minor Arcana'}</h4>
               <div className="flex items-center mt-1 bg-black bg-opacity-20 rounded px-2 py-1 inline-block">
                 {getElementIcon(element)}
                 <span className="ml-1 text-sm font-medium">{element}</span>
@@ -200,7 +227,7 @@ export default function TarotFoodDisplay({ onTarotLoaded }: TarotFoodDisplayProp
           
           <div className="mt-4 text-sm">
             <div className="italic font-medium text-white bg-black bg-opacity-30 p-2 rounded-md">
-              {(minorCardData as any)?.meaning || 'Divine guidance flows through the cards'}
+              {minorCardData?.meaning || 'Divine guidance flows through the cards'}
             </div>
           </div>
         </div>
@@ -208,20 +235,20 @@ export default function TarotFoodDisplay({ onTarotLoaded }: TarotFoodDisplayProp
         <div className="rounded-lg p-4 bg-gradient-to-br from-purple-900 to-indigo-900 text-white bg-opacity-10">
           <div className="flex justify-between items-start">
             <div>
-              <h4 className="font-bold text-white text-lg drop-shadow-md">{(tarotCards.majorCard as any)?.name || 'Major Arcana'}</h4>
+              <h4 className="font-bold text-white text-lg drop-shadow-md">{tarotCards.majorCard?.name || 'Major Arcana'}</h4>
               <div className="flex items-center mt-1 bg-black bg-opacity-20 rounded px-2 py-1 inline-block">
                 <Sparkles className="w-4 h-4 text-yellow-300" />
                 <span className="ml-1 text-sm font-medium">Archetypal</span>
               </div>
             </div>
             <div className="flex items-center bg-black bg-opacity-50 px-3 py-1.5 rounded-full shadow">
-              <span className="text-sm text-white font-medium">#{(tarotCards.majorCard as any)?.number || 0}</span>
+              <span className="text-sm text-white font-medium">#{tarotCards.majorCard?.number || 0}</span>
             </div>
           </div>
           
           <div className="mt-4 text-sm">
             <div className="italic font-medium text-white bg-black bg-opacity-30 p-2 rounded-md">
-              {(tarotCards.majorCard as any)?.meaning || 'The path reveals itself'}
+              {tarotCards.majorCard?.meaning || 'The path reveals itself'}
             </div>
           </div>
         </div>
@@ -232,10 +259,8 @@ export default function TarotFoodDisplay({ onTarotLoaded }: TarotFoodDisplayProp
           <h4 className="text-sm font-semibold mb-2">Active Planetary Influences</h4>
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
             {Object.entries(tarotCards.planetaryCards).map(([planet, card]) => {
-              // Apply surgical type casting with variable extraction
-              const cardData = card as any;
-              const name = cardData?.name;
-              const energy = cardData?.energy;
+              const name = card?.name;
+              const energy = card?.energy;
               
               return (
                 <div key={planet} className="rounded-lg p-2 bg-gray-800 bg-opacity-40 text-xs">

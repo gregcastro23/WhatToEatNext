@@ -1,7 +1,4 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.PLANETARY_MODIFIERS = exports.RULING_PLANETS = void 0;
-exports.RULING_PLANETS = [
+export const RULING_PLANETS = [
     'Mercury',
     'Venus',
     'Mars',
@@ -13,7 +10,8 @@ exports.RULING_PLANETS = [
     'Neptune',
     'Pluto'
 ];
-exports.PLANETARY_MODIFIERS = {
+
+export const PLANETARY_MODIFIERS = {
     Mars: 0.4,
     Sun: 0.35,
     Jupiter: 0.3,

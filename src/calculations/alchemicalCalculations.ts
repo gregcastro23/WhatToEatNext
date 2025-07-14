@@ -1,22 +1,22 @@
-import { RulingPlanet } from '../constants/planets';
+// import { RulingPlanet } from '../constants/planets';
 import { 
   getPlanetaryElement, 
-  getPlanetaryAlchemicalProperty, 
+  // getPlanetaryAlchemicalProperty, 
   ElementalCharacter,
   AlchemicalProperty
 } from '../constants/planetaryElements';
 import {
-  ElementalAlchemicalCounts,
+  // ElementalAlchemicalCounts,
   calculateHeat,
   calculateEntropy,
   calculateReactivity,
   calculateGregsEnergy,
-  countElementalAlchemicalProperties,
-  thermodynamicCalculator,
-  convertToElementalState
+  // countElementalAlchemicalProperties,
+  // thermodynamicCalculator,
+  // convertToElementalState
 } from './gregsEnergy';
-import { _Planet } from '../constants/planetaryFoodAssociations';
-import { signs, planetInfo } from '../data/astroData';
+// import { _Planet } from '../constants/planetaryFoodAssociations';
+// import { signs, planetInfo } from '../data/astroData';
 import { StandardizedAlchemicalResult, ElementalProperties, PlanetaryPosition } from '@/types/alchemy';
 import { createLogger } from '@/utils/logger';
 

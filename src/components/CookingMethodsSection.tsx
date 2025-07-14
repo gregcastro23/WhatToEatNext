@@ -1,6 +1,7 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useContext } from 'react';
 import { ChevronDown, ChevronUp, Globe, Flame, Droplets, Wind, Mountain, Search, ArrowUp, ArrowDown, Zap, Sparkles, Minus, Info, List, ThumbsUp, Clock } from 'lucide-react'; // Added Zap, Sparkles, and Minus icons
 import { useIngredientMapping } from '@/hooks/useIngredientMapping'; // Import our new hook
+import { RecipeQueueContext } from '@/contexts/RecipeQueueContext';
 import styles from './CookingMethods.module.css';
 import { getTechnicalTips, getIdealIngredients } from '@/utils/cookingMethodTips';
 import type { CookingMethod, ElementalEffect, CookingAlchemicalProperties, AstrologicalInfluences } from '@/types/cooking';
@@ -38,6 +39,8 @@ export const CookingMethodsSection: React.FC<CookingMethodsProps> = ({
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [showAllMethods, setShowAllMethods] = useState(false);
+  
+  const { addCookingMethod } = useContext(RecipeQueueContext);
   
   // Get top method based on score
   const topMethod = useMemo(() => {
@@ -436,6 +439,7 @@ export const CookingMethodsSection: React.FC<CookingMethodsProps> = ({
                   key={method.id} 
                   className={`${styles['method-card']} ${selectedMethodId === method.id ? styles.selected : ''}`}
                   onClick={() => onSelectMethod && onSelectMethod(method)}
+                  onDoubleClick={() => addCookingMethod(method.name)}
                 >
                   <div className={styles['method-header']}>
                     <h4 className={styles['method-name']}>{method.name}</h4>

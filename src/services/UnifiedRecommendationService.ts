@@ -57,7 +57,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
       
       // Use safe type casting for criteria access
       const criteriaData = criteria as unknown;
-      const elementalState = (criteriaData as any)?.elementalState || (criteriaData as any)?.elementalProperties;
+      const elementalState = (criteriaData as Record<string, unknown>)?.elementalState || (criteriaData as Record<string, unknown>)?.elementalProperties;
       
       // Calculate elemental compatibility if criteria includes elemental properties
       if (elementalState && recipe.elementalState) {
@@ -161,7 +161,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
       
       // Use safe type casting for criteria access
       const criteriaData = criteria as unknown;
-      const elementalState = (criteriaData as any)?.elementalState || (criteriaData as any)?.elementalProperties;
+      const elementalState = (criteriaData as Record<string, unknown>)?.elementalState || (criteriaData as Record<string, unknown>)?.elementalProperties;
       
       // Calculate elemental compatibility if criteria includes elemental properties
       if (elementalState && ingredient.elementalProperties) {
@@ -183,14 +183,14 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
       }
       
       // Check for planetary ruler match
-      if (criteria.planetaryRuler && (ingredient.astrologicalProperties as any)?.planets) {
-        const planets = (ingredient.astrologicalProperties as any).planets;
-        const planetMatch = Array.isArray(planets) ? planets.includes(criteria.planetaryRuler as unknown as Record<string, any>) : planets === criteria.planetaryRuler as unknown as Record<string, any>;
+      if (criteria.planetaryRuler && (ingredient.astrologicalProperties as Record<string, unknown>)?.planets) {
+        const planets = (ingredient.astrologicalProperties as Record<string, unknown>).planets;
+        const planetMatch = Array.isArray(planets) ? planets.includes(criteria.planetaryRuler as unknown as Record<string, unknown>) : planets === criteria.planetaryRuler as unknown as Record<string, unknown>;
         score += planetMatch ? 0.1 : 0;
       }
       
       // Check for season match with safe type casting
-      const currentSeason = (criteriaData as any)?.currentSeason || (criteriaData as any)?.season;
+      const currentSeason = (criteriaData as Record<string, unknown>)?.currentSeason || (criteriaData as Record<string, unknown>)?.season;
       if (currentSeason && ingredient.seasonality) {
         const seasonMatch = (ingredient.seasonality || []).some(s =>
           s?.toLowerCase() === currentSeason?.toLowerCase()
@@ -290,7 +290,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
       
       // Use safe type casting for criteria access
       const criteriaData = criteria as unknown;
-      const elementalState = (criteriaData as any)?.elementalState || (criteriaData as any)?.elementalProperties;
+      const elementalState = (criteriaData as Record<string, unknown>)?.elementalState || (criteriaData as Record<string, unknown>)?.elementalProperties;
       
       // Calculate elemental compatibility if criteria includes elemental properties
       if (elementalState && cuisineElements[cuisine]) {
@@ -407,7 +407,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
       
       // Use safe type casting for criteria access
       const criteriaData = criteria as unknown;
-      const elementalState = (criteriaData as any)?.elementalState || (criteriaData as any)?.elementalProperties;
+      const elementalState = (criteriaData as Record<string, unknown>)?.elementalState || (criteriaData as Record<string, unknown>)?.elementalProperties;
       
       // Calculate elemental compatibility if criteria includes elemental properties
       if (elementalState && method?.elementalEffect) {
@@ -462,7 +462,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
     target: ElementalProperties
   ): number {
     // Apply Pattern PP-1: Safe service method access
-    const alchemicalEngineData = alchemicalEngine as any;
+    const alchemicalEngineData = alchemicalEngine as Record<string, unknown>;
     if (alchemicalEngineData?.calculateElementalCompatibility) {
       return alchemicalEngineData.calculateElementalCompatibility(source, target);
     }
@@ -539,7 +539,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
    */
   calculateThermodynamics(elementalProperties: ElementalProperties): ThermodynamicMetrics {
     // Use the AlchemicalEngine to calculate thermodynamic metrics
-    const alchemicalEngineData = alchemicalEngine as any;
+    const alchemicalEngineData = alchemicalEngine as Record<string, unknown>;
     if (alchemicalEngineData?.calculateThermodynamics) {
       return alchemicalEngineData.calculateThermodynamics(elementalProperties);
     }

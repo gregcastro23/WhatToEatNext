@@ -1,44 +1,44 @@
 'use client';
 
-import React, { useState } from 'react';
-import { Recipe } from '@/types/recipe';
+import React from 'react';
+// import { Recipe } from '@/types/recipe';
 import RecipeFiltersMigrated, { FilterState, initialFilters } from '@/components/Recipe/RecipeFilters.migrated';
-import { logger } from '@/utils/logger';
+// import { logger } from '@/utils/logger';
 
 export default function RecipeFiltersTestPage() {
   // State for original filters
-  const [originalFilters, setOriginalFilters] = useState<FilterState>(initialFilters);
-  const [showOriginalFilters, setShowOriginalFilters] = useState(false);
+  // const [originalFilters, setOriginalFilters] = useState<FilterState>(initialFilters);
+  // const [showOriginalFilters, setShowOriginalFilters] = useState(false);
 
   // State for migrated filters
-  const [migratedFilters, setMigratedFilters] = useState<FilterState>(initialFilters);
-  const [showMigratedFilters, setShowMigratedFilters] = useState(false);
+  // const [migratedFilters, setMigratedFilters] = useState<FilterState>(initialFilters);
+  // const [showMigratedFilters, setShowMigratedFilters] = useState(false);
 
   // Update filters for original implementation
-  const updateOriginalFilters = (updates: Partial<FilterState>) => {
-    setOriginalFilters(prev => ({ ...prev, ...updates }));
-    logger.info('Original filters updated:', updates);
-  };
+  // const updateOriginalFilters = (updates: Partial<FilterState>) => {
+  //   setOriginalFilters(prev => ({ ...prev, ...updates }));
+  //   logger.info('Original filters updated:', updates);
+  // };
 
   // Reset filters for original implementation
-  const resetOriginalFilters = () => {
-    setOriginalFilters(initialFilters);
-    setShowOriginalFilters(false);
-    logger.info('Original filters reset');
-  };
+  // const resetOriginalFilters = () => {
+  //   setOriginalFilters(initialFilters);
+  //   setShowOriginalFilters(false);
+  //   logger.info('Original filters reset');
+  // };
 
   // Update filters for migrated implementation
-  const updateMigratedFilters = (updates: Partial<FilterState>) => {
-    setMigratedFilters(prev => ({ ...prev, ...updates }));
-    logger.info('Migrated filters updated:', updates);
-  };
+  // const updateMigratedFilters = (updates: Partial<FilterState>) => {
+  //   setMigratedFilters(prev => ({ ...prev, ...updates }));
+  //   logger.info('Migrated filters updated:', updates);
+  // };
 
   // Reset filters for migrated implementation
-  const resetMigratedFilters = () => {
-    setMigratedFilters(initialFilters);
-    setShowMigratedFilters(false);
-    logger.info('Migrated filters reset');
-  };
+  // const resetMigratedFilters = () => {
+  //   setMigratedFilters(initialFilters);
+  //   setShowMigratedFilters(false);
+  //   logger.info('Migrated filters reset');
+  // };
 
   // For monitoring filter changes
   const renderFilterState = (filters: FilterState) => {
@@ -76,7 +76,7 @@ export default function RecipeFiltersTestPage() {
           <h2 className="text-xl font-semibold mb-4">🔄 Migrated Implementation</h2>
           
           {/* Migrated RecipeFilters component */}
-          <RecipeFiltersMigrated
+          {/* <RecipeFiltersMigrated
             filters={migratedFilters}
             updateFilters={updateMigratedFilters}
             resetFilters={resetMigratedFilters}
@@ -84,7 +84,8 @@ export default function RecipeFiltersTestPage() {
             setShowFilters={setShowMigratedFilters}
           />
           
-          {renderFilterState(migratedFilters)}
+          {renderFilterState(migratedFilters)} */}
+          <p>Component temporarily disabled for testing</p>
         </div>
       </div>
 

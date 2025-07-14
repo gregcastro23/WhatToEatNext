@@ -1,9 +1,9 @@
-import { RulingPlanet } from '../constants/planets';
+// import { RulingPlanet } from '../constants/planets';
 import { 
   ElementalCharacter, 
   AlchemicalProperty,
   getPlanetaryElement,
-  getPlanetaryAlchemicalProperty
+  // getPlanetaryAlchemicalProperty
 } from '../constants/planetaryElements';
 import {
   calculateAlchemicalProperties,
@@ -11,12 +11,12 @@ import {
 } from './alchemicalCalculations';
 import {
   calculatePlanetaryBoost,
-  _Planet,
+  // _Planet,
   PlanetaryDignity,
   PlanetaryDignityDetails
 } from '../constants/planetaryFoodAssociations';
 import { ZodiacSign } from '../constants/zodiac';
-import { LunarPhaseWithSpaces } from '../types/alchemy';
+// import { LunarPhaseWithSpaces } from '../types/alchemy';
 import { createLogger } from '@/utils/logger';
 import { CelestialPosition } from '@/types/celestial';
 

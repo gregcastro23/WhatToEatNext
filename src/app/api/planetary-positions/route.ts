@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { _calculatePlanetaryPositions, calculateAspects, getDefaultPlanetaryPositions } from '@/utils/astrologyUtils';
-import { getAccuratePlanetaryPositions } from '@/utils/accurateAstronomy';
+// import { getAccuratePlanetaryPositions } from '@/utils/accurateAstronomy';
 import { _cache } from '@/utils/cache';
 
 const CACHE_KEY = 'planetary-positions';

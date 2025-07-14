@@ -285,7 +285,7 @@ export class UnifiedNutritionalSystem {
     const totalElementalValues = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
     
     profiles.forEach(profile => {
-      const profileData = profile as any;
+      const profileData = profile as Record<string, unknown>;
       const nutrients = profileData?.elementalNutrients;
       
       if (nutrients) {
@@ -313,7 +313,7 @@ export class UnifiedNutritionalSystem {
     let validProfiles = 0;
     
     profiles.forEach(profile => {
-      const profileData = profile as any;
+      const profileData = profile as Record<string, unknown>;
       const astroProfile = profileData?.astrologicalProfile;
       
       if (astroProfile && astroProfile.seasonalPeak) {
@@ -336,7 +336,7 @@ export class UnifiedNutritionalSystem {
     let validProfiles = 0;
     
     profiles.forEach(profile => {
-      const profileData = profile as any;
+      const profileData = profile as Record<string, unknown>;
       const astroProfile = profileData?.astrologicalProfile;
       
       if (astroProfile && astroProfile.rulingPlanets) {
@@ -418,7 +418,7 @@ export class UnifiedNutritionalSystem {
     
     // Calculate Kalchm harmony
     const kalchmHarmony = profiles.reduce((sum, profile) => {
-      const profileData = profile as any;
+      const profileData = profile as Record<string, unknown>;
       return sum + (profileData?.kalchm || 0.5);
     }, 0) / profiles.length;
     
@@ -461,14 +461,14 @@ export class UnifiedNutritionalSystem {
     cookingMethod?: CookingMethod
   ): AlchemicalNutritionalProfile {
     
-    const baseData = baseProfile as any;
+    const baseData = baseProfile as Record<string, unknown>;
     
     // Calculate alchemical properties from nutritional data
     const alchemicalProperties: AlchemicalProperties = {
-      Spirit: (baseData as any)?.volatileCompounds || 0.2,
-      Essence: (baseData as any)?.activeCompounds || 0.3,
-      Matter: (baseData as any)?.structuralNutrients || 0.3,
-      Substance: (baseData as any)?.stableNutrients || 0.2
+      Spirit: (baseData as Record<string, unknown>)?.volatileCompounds || 0.2,
+      Essence: (baseData as Record<string, unknown>)?.activeCompounds || 0.3,
+      Matter: (baseData as Record<string, unknown>)?.structuralNutrients || 0.3,
+      Substance: (baseData as Record<string, unknown>)?.stableNutrients || 0.2
     };
     
     // Calculate Kalchm value
@@ -496,8 +496,8 @@ export class UnifiedNutritionalSystem {
       },
       astrologicalProfile: {
         rulingPlanets: ['Sun'] as PlanetName[],
-        favorableZodiac: ['Leo'] as any,
-        seasonalPeak: ['Summer'] as any,
+        favorableZodiac: ['Leo'] as Record<string, unknown>,
+        seasonalPeak: ['Summer'] as Record<string, unknown>,
         elementalAffinity: _createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 })
       },
       metadata: {
@@ -527,17 +527,17 @@ export const calculateNutritionalBalance = (ingredients: unknown[]): Nutritional
   
   // Aggregate nutritional values from ingredients
   const totals = ingredients.reduce((acc: NutritionalProfile, ingredient) => {
-    const ingredientData = ingredient as any;
+    const ingredientData = ingredient as Record<string, unknown>;
     const nutrition = ingredientData?.nutrition || {};
     
     return {
-      calories: acc.calories + ((nutrition as any).calories || 0),
-      protein: acc.protein + ((nutrition as any).protein || 0),
-      carbohydrates: acc.carbohydrates + ((nutrition as any).carbohydrates || 0),
-      fat: acc.fat + ((nutrition as any).fat || 0),
-      fiber: acc.fiber + ((nutrition as any).fiber || 0),
-      vitamins: { ...acc.vitamins, ...(nutrition as any).vitamins },
-      minerals: { ...acc.minerals, ...(nutrition as any).minerals }
+      calories: acc.calories + ((nutrition as Record<string, unknown>).calories || 0),
+      protein: acc.protein + ((nutrition as Record<string, unknown>).protein || 0),
+      carbohydrates: acc.carbohydrates + ((nutrition as Record<string, unknown>).carbohydrates || 0),
+      fat: acc.fat + ((nutrition as Record<string, unknown>).fat || 0),
+      fiber: acc.fiber + ((nutrition as Record<string, unknown>).fiber || 0),
+      vitamins: { ...acc.vitamins, ...(nutrition as Record<string, unknown>).vitamins },
+      minerals: { ...acc.minerals, ...(nutrition as Record<string, unknown>).minerals }
     };
   }, {
     calories: 0,
@@ -553,7 +553,7 @@ export const calculateNutritionalBalance = (ingredients: unknown[]): Nutritional
 };
 
 export const nutritionalToElemental = (profile: NutritionalProfile): ElementalProperties => {
-  const profileData = profile as any;
+  const profileData = profile as Record<string, unknown>;
   
   // Map nutritional components to elemental properties
   const protein = profileData?.protein || 0;

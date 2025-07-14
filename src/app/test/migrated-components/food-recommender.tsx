@@ -5,7 +5,7 @@ import { Grid, Card, CardContent, Typography, Divider } from '@mui/material';
 import FoodRecommender from '@/components/FoodRecommender';
 import FoodRecommenderMigrated from '@/components/FoodRecommender/FoodRecommender.migrated';
 
-import { AstrologicalState } from "@/types/celestial";
+// import { AstrologicalState } from "@/types/celestial";
 /**
  * Test page for comparing the original FoodRecommender component
  * with its migrated version using the services architecture.

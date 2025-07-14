@@ -1,7 +1,4 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.russian = void 0;
-exports.russian = {
+export const russian = {
     id: "russian",
     name: "Russian",
     description: "Traditional Russian cuisine emphasizing hearty dishes, fermented foods, and preserved ingredients",
@@ -1193,4 +1190,3 @@ exports.russian = {
     },
     elementalProperties: { Fire: 0.10, Water: 0.30, Earth: 0.50, Air: 0.10 }
 };
-exports.default = exports.russian;

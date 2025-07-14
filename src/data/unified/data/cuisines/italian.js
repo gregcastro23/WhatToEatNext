@@ -1,7 +1,4 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.italian = void 0;
-exports.italian = {
+export const italian = {
     id: "italian",
     name: "Italian",
     description: "Traditional Italian cuisine emphasizing fresh ingredients, regional specialties, and time-honored techniques",

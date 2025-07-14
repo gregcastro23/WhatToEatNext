@@ -5,10 +5,10 @@ import type { PlanetaryPosition, ZodiacSign } from '@/types/alchemy';
  * A utility function for logging debug information
  * This is a safe replacement for console.log that can be disabled in production
  */
-const debugLog = (message: string, ...args: unknown[]): void => {
-  // Comment out console.log to avoid linting warnings
-  // console.log(message, ...args);
-};
+// const debugLog = (message: string, ...args: unknown[]): void => {
+//   // Comment out console.log to avoid linting warnings
+//   // console.log(message, ...args);
+// };
 
 // Updated reference data based on accurate positions provided by the user
 const REFERENCE_POSITIONS = {
@@ -316,7 +316,7 @@ export async function getAccuratePlanetaryPositions(date: Date = new Date()): Pr
     
     return positions;
   } catch (error) {
-    debugLog('Error calculating planetary positions:', error instanceof Error ? error.message : String(error));
+    debugLog('Error in getAccuratePlanetaryPositions:', error instanceof Error ? error.message : String(error));
     // Fall back to approximate calculations
     return getFallbackPlanetaryPositions(date);
   }

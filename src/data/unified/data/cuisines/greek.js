@@ -1,7 +1,4 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.greek = void 0;
-exports.greek = {
+export const greek = {
     id: "greek",
     name: "Greek",
     description: "Traditional Greek cuisine emphasizing fresh ingredients, olive oil, herbs, and regional specialties from mainland to islands",
@@ -1294,4 +1291,3 @@ exports.greek = {
     },
     elementalProperties: { Fire: 0.20, Water: 0.30, Earth: 0.40, Air: 0.10 }
 };
-exports.default = exports.greek;

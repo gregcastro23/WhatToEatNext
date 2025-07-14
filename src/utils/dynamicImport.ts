@@ -29,7 +29,7 @@ interface AstrologyUtilsModule {
   calculateSunSign: (date?: Date) => string;
   calculateLunarNodes: (date?: Date) => { northNode: number; isRetrograde: boolean; };
   getNodeInfo: (nodeLongitude: number) => { sign: string; degree: number; isRetrograde: boolean; };
-  getCurrentAstrologicalState: (date?: Date) => any;
+  getCurrentAstrologicalState: (date?: Date) => Record<string, unknown>;
 }
 
 interface AccurateAstronomyModule {
@@ -42,7 +42,7 @@ interface SafeAstrologyModule {
   getLunarPhaseName: (phase: number) => string;
   getMoonIllumination: () => Promise<number>;
   calculateSunSign: (date?: Date) => string;
-  getCurrentAstrologicalState: () => any;
+  getCurrentAstrologicalState: () => Record<string, unknown>;
 }
 
 interface MoonTimesModule {
@@ -50,7 +50,7 @@ interface MoonTimesModule {
 }
 
 interface CuisineCalculationsModule {
-  getCuisineRecommendations: (zodiacSign?: string, lunarPhase?: string, planetaryAlignment?: unknown) => any[];
+  getCuisineRecommendations: (zodiacSign?: string, lunarPhase?: string, planetaryAlignment?: unknown) => Record<string, unknown>[];
 }
 
 interface SunTimesModule {
@@ -90,7 +90,7 @@ type KnownModulePath = keyof typeof MODULE_MAP;
 /**
  * Safely import and execute a function using a known module path
  */
-export async function safeImportAndExecuteKnown<R, A extends any[] = any[]>(
+export async function safeImportAndExecuteKnown<R, A extends unknown[] = any[]>(
   path: KnownModulePath,
   functionName: string,
   args: A
@@ -121,7 +121,7 @@ export async function safeImportAndExecuteKnown<R, A extends any[] = any[]>(
 /**
  * Safely import a function using a known module path
  */
-export async function safeImportFunctionKnown<T extends (...args: unknown[]) => any>(
+export async function safeImportFunctionKnown<T extends (...args: unknown[]) => Record<string, unknown>>(
   path: KnownModulePath,
   functionName: string
 ): Promise<T | null> {
@@ -169,7 +169,7 @@ const getAstronomiaModule = async () => {
 };
 
 // Safe import function using static imports for known modules
-export async function safeImportAndExecute<R, A extends any[] = any[]>(
+export async function safeImportAndExecute<R, A extends unknown[] = any[]>(
   path: string,
   functionName: string,
   args: A
@@ -292,7 +292,7 @@ export async function safeImportAndExecute<R, A extends any[] = any[]>(
 /**
  * Safely import a function using any string path
  */
-export async function safeImportFunction<T extends (...args: unknown[]) => any>(
+export async function safeImportFunction<T extends (...args: unknown[]) => Record<string, unknown>>(
   path: string,
   functionName: string
 ): Promise<T | null> {
@@ -351,7 +351,7 @@ export async function dynamicImport<T, F = null>(
   }
 }
 
-export async function dynamicImportFunction<T extends (...args: unknown[]) => any, F extends (...args: unknown[]) => any = T>(
+export async function dynamicImportFunction<T extends (...args: unknown[]) => Record<string, unknown>, F extends (...args: unknown[]) => Record<string, unknown> = T>(
   path: string,
   functionName: string,
   fallbackFn: F | null = null
@@ -360,7 +360,7 @@ export async function dynamicImportFunction<T extends (...args: unknown[]) => an
   return safeImportFunction<T>(path, functionName);
 }
 
-export async function dynamicImportAndExecute<R, A extends any[] = any[], F = R>(
+export async function dynamicImportAndExecute<R, A extends unknown[] = any[], F = R>(
   path: string,
   functionName: string,
   args: A,

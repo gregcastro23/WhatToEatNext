@@ -591,11 +591,42 @@ interface CacheEntry<T> {
   key: string;
 }
 
+// Define cache value types
+interface SeasonalAnalysisCache {
+  overallScore: number;
+  seasonalScores: Record<Season, number>;
+  elementalBreakdown: Record<Season, ElementalProperties>;
+  astrologicalInfluence: Record<Season, AstrologicalProperties>;
+  recommendations: string[];
+}
+
+interface ElementalCompatibilityCache {
+  baseCompatibility: number;
+  seasonalBonus: number;
+  totalCompatibility: number;
+  reason: string;
+}
+
+interface EnhancedBreakdownCache {
+  baseElements: ElementalProperties;
+  seasonalModifiers: ElementalProperties;
+  finalElements: ElementalProperties;
+  ingredientContribution: ElementalProperties;
+  analysis: {
+    dominantElement: Element;
+    secondaryElement: Element;
+    seasonalMatch: number;
+    recommendations: string[];
+  };
+}
+
+type CacheValue = SeasonalAnalysisCache | ElementalCompatibilityCache | EnhancedBreakdownCache;
+
 class SeasonalCalculationsCache {
-  private cache: Map<string, CacheEntry<any>> = new Map();
+  private cache: Map<string, CacheEntry<CacheValue>> = new Map();
   private readonly TTL = 5 * 60 * 1000; // 5 minutes cache
   
-  get<T>(key: string): T | null {
+  get<T extends CacheValue>(key: string): T | null {
     const entry = this.cache.get(key);
     if (!entry) return null;
     
@@ -604,10 +635,10 @@ class SeasonalCalculationsCache {
       return null;
     }
     
-    return entry.value;
+    return entry.value as T;
   }
   
-  set<T>(key: string, value: T): void {
+  set<T extends CacheValue>(key: string, value: T): void {
     this.cache.set(key, {
       value,
       timestamp: Date.now(),
@@ -646,15 +677,15 @@ export function getComprehensiveSeasonalAnalysis(
   cacheHit: boolean;
 } {
   const cacheKey = `seasonal_analysis_${recipe.id || recipe.name}_${currentSeason}_${currentZodiac}_${lunarPhase}`;
-  const cached = seasonalCache.get(cacheKey);
+  const cached = seasonalCache.get<SeasonalAnalysisCache>(cacheKey);
   
   if (cached) {
     return { 
-      overallScore: (cached as any).overallScore || 0,
-      seasonalScores: (cached as any).seasonalScores || {},
-      elementalBreakdown: (cached as any).elementalBreakdown || {},
-      astrologicalInfluence: (cached as any).astrologicalInfluence || {},
-      recommendations: (cached as any).recommendations || [],
+      overallScore: cached.overallScore || 0,
+      seasonalScores: cached.seasonalScores || {},
+      elementalBreakdown: cached.elementalBreakdown || {},
+      astrologicalInfluence: cached.astrologicalInfluence || {},
+      recommendations: cached.recommendations || [],
       cacheHit: true 
     };
   }
@@ -710,14 +741,14 @@ export function getElementalCompatibilityWithSeason(
   reason: string;
 } {
   const cacheKey = `element_compat_${element1}_${element2}_${season}`;
-  const cached = seasonalCache.get(cacheKey);
+  const cached = seasonalCache.get<ElementalCompatibilityCache>(cacheKey);
   
   if (cached) {
     return {
-      baseCompatibility: (cached as any).baseCompatibility || 0.5,
-      seasonalBonus: (cached as any).seasonalBonus || 0,
-      totalCompatibility: (cached as any).totalCompatibility || 0.5,
-      reason: (cached as any).reason || "Neutral elemental relationship"
+      baseCompatibility: cached.baseCompatibility || 0.5,
+      seasonalBonus: cached.seasonalBonus || 0,
+      totalCompatibility: cached.totalCompatibility || 0.5,
+      reason: cached.reason || "Neutral elemental relationship"
     };
   }
 
@@ -780,15 +811,15 @@ export function getEnhancedElementalBreakdown(
   };
 } {
   const cacheKey = `enhanced_breakdown_${recipe.id || recipe.name}_${season}_${includeIngredientAnalysis}`;
-  const cached = seasonalCache.get(cacheKey);
+  const cached = seasonalCache.get<EnhancedBreakdownCache>(cacheKey);
   
   if (cached) {
     return {
-      baseElements: (cached as any).baseElements || { Fire: 0, Water: 0, Earth: 0, Air: 0 },
-      seasonalModifiers: (cached as any).seasonalModifiers || { Fire: 0, Water: 0, Earth: 0, Air: 0 },
-      finalElements: (cached as any).finalElements || { Fire: 0, Water: 0, Earth: 0, Air: 0 },
-      ingredientContribution: (cached as any).ingredientContribution || { Fire: 0, Water: 0, Earth: 0, Air: 0 },
-      analysis: (cached as any).analysis || {
+      baseElements: cached.baseElements || { Fire: 0, Water: 0, Earth: 0, Air: 0 },
+      seasonalModifiers: cached.seasonalModifiers || { Fire: 0, Water: 0, Earth: 0, Air: 0 },
+      finalElements: cached.finalElements || { Fire: 0, Water: 0, Earth: 0, Air: 0 },
+      ingredientContribution: cached.ingredientContribution || { Fire: 0, Water: 0, Earth: 0, Air: 0 },
+      analysis: cached.analysis || {
         dominantElement: 'Fire' as Element,
         secondaryElement: 'Water' as Element,
         seasonalMatch: 0,

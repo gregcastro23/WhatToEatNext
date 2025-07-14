@@ -19,7 +19,7 @@ import { russian } from './cuisines/russian';
 import type { Recipe, ElementalProperties, CuisineType } from '@/types/alchemy';
 
 // Example recipe type for reference
-const exampleRecipe: Recipe = {
+const _exampleRecipe: Recipe = {
   id: "example-recipe-001",
   name: "Example Recipe",
   description: "Template for recipe structure",
@@ -46,9 +46,9 @@ const exampleRecipe: Recipe = {
 
 // Helper function to adapt ElementalProperties from cuisine.ts to alchemy.ts format
 function adaptElementalProperties(props: unknown): ElementalProperties {
-  const propsData = props as any;
+  const propsData = props as Record<string, unknown>;
   // If it already has the index signature, return as is
-  if (propsData && typeof propsData === 'object' && propsData.hasOwnProperty('Fire')) {
+  if (propsData && typeof propsData === 'object' && Object.prototype.hasOwnProperty.call(propsData, 'Fire')) {
     return propsData as ElementalProperties;
   }
   
@@ -62,8 +62,8 @@ function adaptElementalProperties(props: unknown): ElementalProperties {
 }
 
 // Helper function to adapt cuisines to the local cuisine interface format
-function adaptCuisine(cuisine: unknown): any {
-  const cuisineData = cuisine as any;
+function adaptCuisine(cuisine: unknown): Record<string, unknown> {
+  const cuisineData = cuisine as Record<string, unknown>;
   return {
     ...(cuisineData || {}),
     // Convert elementalProperties if present - apply safe type casting
@@ -77,7 +77,7 @@ function adaptCuisine(cuisine: unknown): any {
 }
 
 // Combine all cuisines
-export const cuisines: Record<string, any> = {
+export const cuisines: Record<string, Record<string, unknown>> = {
   american: adaptCuisine(american),
   chinese: adaptCuisine(chinese),
   french: adaptCuisine(french),
@@ -100,12 +100,12 @@ export type { CuisineType };
 export type LocalCuisineType = Record<string, unknown>; // Fixed: replaced 'any' with proper type
 
 // Helper functions for accessing cuisine properties
-export const getCuisineByName = (name: string): any => 
+export const getCuisineByName = (name: string): Record<string, unknown> => 
   cuisines[name.toLowerCase()];
 
-export const getCuisinesByElement = (element: keyof ElementalProperties): any[] => 
+export const getCuisinesByElement = (element: keyof ElementalProperties): Record<string, unknown>[] => 
   Object.values(cuisines).filter(cuisine => {
-    const cuisineData = cuisine as any;
+    const cuisineData = cuisine as Record<string, unknown>;
     const elementalState = cuisineData?.elementalState as ElementalProperties | undefined;
     const elementalProperties = cuisineData?.elementalProperties as ElementalProperties | undefined;
     

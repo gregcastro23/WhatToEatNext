@@ -104,8 +104,8 @@ export default function CookingMethodsDemoPage() {
       {methods.length > 0 ? (
         <Box sx={{ mb: 6 }}>
           <CookingMethodsSection 
-            methods={methods as unknown as any} 
-            onSelectMethod={handleSelectMethod as unknown as any}
+            methods={methods as Record<string, unknown>} 
+            onSelectMethod={handleSelectMethod as Record<string, unknown>}
             selectedMethodId={selectedMethod?.id || null}
             initiallyExpanded={true}
           />

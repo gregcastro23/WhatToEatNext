@@ -1,8 +1,5 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.mexican = void 0;
 // src/data/cuisines/mexican.ts
-exports.mexican = {
+export const mexican = {
     name: "Mexican",
     description: "Traditional Mexican cuisine featuring regional specialties, corn-based dishes, and diverse moles and salsas",
     dishes: {
@@ -1088,4 +1085,3 @@ exports.mexican = {
     },
     elementalProperties: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }
 };
-exports.default = exports.mexican;

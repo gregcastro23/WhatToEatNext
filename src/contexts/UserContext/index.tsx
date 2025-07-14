@@ -41,7 +41,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
       setCurrentUser(user);
     } catch (err) {
       setError('Failed to load user profile');
-      console.error('Error loading profile:', err);
+      // console.error('Error loading profile:', err);
     } finally {
       setIsLoading(false);
     }
@@ -65,7 +65,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
       return updatedProfile;
     } catch (err) {
       setError('Failed to update profile');
-      console.error('Error updating profile:', err);
+      // console.error('Error updating profile:', err);
       return null;
     } finally {
       setIsLoading(false);

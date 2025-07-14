@@ -26,6 +26,9 @@ export default function Navigation() {
             <Link href="/alchm-kitchen" className="text-purple-600 hover:text-purple-900 font-medium">
               Alchm Kitchen
             </Link>
+            <Link href="/recipe-builder" className="text-gray-600 hover:text-gray-900">
+              Recipe Builder
+            </Link>
           </div>
         </div>
       </div>

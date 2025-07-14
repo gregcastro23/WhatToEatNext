@@ -9,9 +9,9 @@ import { AlchemicalEngineBase } from '@/lib/alchemicalEngine';
 import type {
   StandardizedAlchemicalResult,
   AstrologicalState,
-  ElementalProperties,
-  HoroscopeData,
-  ZodiacSign,
+  // ElementalProperties,
+  // HoroscopeData,
+  // ZodiacSign,
   ChakraEnergies,
   BirthInfo,
 } from '@/types/alchemy';

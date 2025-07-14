@@ -1,6 +1,7 @@
 import { ElementalCharacter } from './planetaryElements';
 import { ZodiacSign } from './zodiac';
 import { LunarPhaseWithSpaces } from '../types/alchemy';
+import { ElementalFoodItem } from '../types/celestial';
 
 /**
  * Enhanced planet type incorporating multiple astrological traditions
@@ -14,22 +15,22 @@ export type Planet =
   | 'Rahu' | 'Ketu';
 
 // Backward-compatibility alias ‑ to be removed after codebase is migrated
-export type _Planet = Planet;
+// export type _Planet = Planet;
 
 /**
  * Planetary dignity types for calculation
  */
-export type PlanetaryDignity = 
-  | 'Domicile'
-  | 'Exaltation'
-  | 'Triplicity'
-  | 'Term'
-  | 'Face'
-  | 'Mooltrikona'
-  | 'Nakshatra'
-  | 'Detriment'
-  | 'Fall'
-  | 'Neutral';
+// export type PlanetaryDignity = 
+//   | 'Domicile'
+//   | 'Exaltation'
+//   | 'Triplicity'
+//   | 'Term'
+//   | 'Face'
+//   | 'Mooltrikona'
+//   | 'Nakshatra'
+//   | 'Detriment'
+//   | 'Fall'
+//   | 'Neutral';
 
 /**
  * Interface for planetary dignity details
@@ -268,7 +269,7 @@ export const getDignityMultiplier = (dignity: PlanetaryDignity): number => {
 /**
  * Get zodiac boost based on elemental properties
  */
-export const getZodiacBoost = (zodiacSign: string, item: unknown): number => {
+export const getZodiacBoost = (zodiacSign: string, item: ElementalFoodItem): number => {
   // Get zodiac sign element
   const zodiacElements: Record<string, ElementalCharacter> = {
     aries: 'Fire', leo: 'Fire', sagittarius: 'Fire',
@@ -282,18 +283,17 @@ export const getZodiacBoost = (zodiacSign: string, item: unknown): number => {
   const zodiacElement = zodiacElements[normalizedSign as keyof typeof zodiacElements] || 'Fire';
   
   // Check if item has elemental properties
-  const itemData = item as unknown;
-  if (!(itemData as any).elementalProperties) {
+  if (!item.elementalProperties) {
     return 0.1; // Minimum boost if no elemental data
   }
   
   // Calculate boost based on elemental affinity
   // Higher boost if the cuisine's dominant element matches the zodiac element
-  const elementValue = (itemData as any).elementalProperties[zodiacElement] || 0;
+  const elementValue = item.elementalProperties[zodiacElement] || 0;
   const elementBoost = elementValue * 0.8; // Scale based on how strong the element is
 
   // Check if cuisine explicitly lists this zodiac sign as favorable
-  const zodiacBoost = itemData.zodiacInfluences?.includes(normalizedSign) ? 0.3 : 0;
+  const zodiacBoost = item.zodiacInfluences?.includes(normalizedSign) ? 0.3 : 0;
 
   // Apply modality boost based on cardinal/fixed/mutable qualities
   let modalityBoost = 0;
@@ -303,13 +303,13 @@ export const getZodiacBoost = (zodiacSign: string, item: unknown): number => {
   
   if (cardinalSigns.includes(normalizedSign)) {
     // Cardinal signs prefer bold, distinctive cuisines
-    modalityBoost = ((itemData as any).elementalProperties['Fire'] || 0) * 0.2;
+    modalityBoost = (item.elementalProperties['Fire'] || 0) * 0.2;
   } else if (fixedSigns.includes(normalizedSign)) {
     // Fixed signs prefer substantial, traditional cuisines
-    modalityBoost = ((itemData as any).elementalProperties['Earth'] || 0) * 0.2;
+    modalityBoost = (item.elementalProperties['Earth'] || 0) * 0.2;
   } else {
     // Mutable signs prefer adaptable, fusion cuisines
-    modalityBoost = ((itemData as any).elementalProperties['Air'] || 0) * 0.2;
+    modalityBoost = (item.elementalProperties['Air'] || 0) * 0.2;
   }
 
   // Calculate seasonal alignment (certain cuisines are better aligned with seasons)
@@ -323,7 +323,7 @@ export const getZodiacBoost = (zodiacSign: string, item: unknown): number => {
 };
 
 // Helper function to calculate seasonal alignment
-const calculateSeasonalAlignment = (zodiacSign: string, item: unknown): number => {
+const calculateSeasonalAlignment = (zodiacSign: string, item: ElementalFoodItem): number => {
   // Map zodiac signs to seasons
   const seasonMap: Record<string, string> = {
     'aries': 'spring', 'taurus': 'spring', 'gemini': 'spring',
@@ -346,8 +346,7 @@ const calculateSeasonalAlignment = (zodiacSign: string, item: unknown): number =
   
   // Calculate alignment based on the cuisine's elemental properties
   // Higher value if the cuisine aligns with the season's element
-  const itemData = item as unknown;
-  return (itemData as any).elementalProperties?.[seasonalElement] || 0.1;
+  return item.elementalProperties?.[seasonalElement] || 0.1;
 };
 
 /**

@@ -8,7 +8,7 @@ import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 import { useServices } from '@/hooks/useServices';
 import { logger } from '@/utils/logger';
 
-import { Element } from "@/types/alchemy";
+// import { Element } from "@/types/alchemy";
 // DUPLICATE: import { Element } from "@/types/alchemy";
 export default function CuisineSectionTestPage() {
   // Sample cuisine and elemental state for testing
@@ -22,9 +22,9 @@ export default function CuisineSectionTestPage() {
   const { recipeService } = useServices();
   
   // Component state
-  const [recipes, setRecipes] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<Error | null>(null);
+  // const [recipes, setRecipes] = useState([]);
+  // const [isLoading, setIsLoading] = useState(true);
+  // const [error, setError] = useState<Error | null>(null);
   
   // Load recipes for the selected cuisine
   useEffect(() => {

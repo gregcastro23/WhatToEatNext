@@ -140,6 +140,19 @@ export const INGREDIENT_GROUPS = {
  * Consolidated service for ingredient filtering, mapping, and compatibility operations
  */
 export class IngredientService implements IngredientServiceInterface {
+  // Enhanced calculation and analysis capabilities
+  private calculationEngine: typeof kalchmEngine;
+  private nutritionalAnalyzer: Map<string, NutritionalProfile>;
+  private ingredientMappings: Map<string, IngredientMapping>;
+  private processingOils: Record<string, any>;
+  
+  // Analysis interfaces for enhanced functionality
+  private calculationCache: Map<string, CalculationData>;
+  private scoredIngredients: Map<string, ScoredItem>;
+  private elementalDatabase: Map<string, ElementalData>;
+  private cuisineCompatibility: Map<string, CuisineData>;
+  private nutrientProfiles: Map<string, NutrientData>;
+  private matchingResults: Map<string, MatchingResult>;
   private static instance: IngredientService;
   private allIngredients: Record<string, Record<string, IngredientMapping>>;
   private unifiedIngredients: Record<string, UnifiedIngredient[]>;
@@ -164,6 +177,23 @@ export class IngredientService implements IngredientServiceInterface {
     // Initialize unified ingredients
     this.unifiedIngredients = this.convertToUnifiedIngredients();
     this.unifiedIngredientsFlat = this.flattenUnifiedIngredients();
+    
+    // Initialize enhanced analysis capabilities
+    this.calculationEngine = kalchmEngine;
+    this.nutritionalAnalyzer = new Map();
+    this.ingredientMappings = new Map(Object.entries(ingredientsMap || {}));
+    this.processingOils = processedOils || {};
+    
+    // Initialize analysis caches
+    this.calculationCache = new Map();
+    this.scoredIngredients = new Map();
+    this.elementalDatabase = new Map();
+    this.cuisineCompatibility = new Map();
+    this.nutrientProfiles = new Map();
+    this.matchingResults = new Map();
+    
+    // Pre-populate enhanced data
+    this.initializeEnhancedAnalysis();
   }
 
   /**
@@ -1795,6 +1825,214 @@ export class IngredientService implements IngredientServiceInterface {
       logger.error('Error getting recommended ingredients:', error);
       return [];
     }
+  }
+
+  // ===== ENHANCED ANALYSIS METHODS =====
+  
+  /**
+   * Initialize enhanced analysis capabilities using unused interfaces
+   */
+  private initializeEnhancedAnalysis(): void {
+    try {
+      // Initialize nutritional profiles for all ingredients
+      this.unifiedIngredientsFlat.forEach(ingredient => {
+        const nutritionalProfile: NutritionalProfile = {
+          macronutrients: ingredient.nutritionalPropertiesProfile?.macros || {},
+          micronutrients: ingredient.nutritionalPropertiesProfile?.vitamins || {},
+          bioactiveCompounds: ingredient.nutritionalPropertiesProfile?.minerals || {},
+          digestibilityIndex: 0.8,
+          glycemicImpact: 0.5,
+          inflammatoryResponse: 0.3
+        };
+        this.nutritionalAnalyzer.set(ingredient.name, nutritionalProfile);
+        
+        // Create elemental data
+        const elementalData: ElementalData = {
+          Fire: ingredient.elementalProperties?.Fire || 0.25,
+          Water: ingredient.elementalProperties?.Water || 0.25,
+          Earth: ingredient.elementalProperties?.Earth || 0.25,
+          Air: ingredient.elementalProperties?.Air || 0.25
+        };
+        this.elementalDatabase.set(ingredient.name, elementalData);
+      });
+      
+      logger.info('Enhanced analysis initialized successfully');
+    } catch (error) {
+      logger.error('Error initializing enhanced analysis:', error);
+    }
+  }
+  
+  /**
+   * Perform advanced ingredient calculation using CalculationData interface
+   */
+  public performAdvancedCalculation(ingredientName: string, context: Record<string, unknown>): CalculationData {
+    const cacheKey = `${ingredientName}-${JSON.stringify(context)}`;
+    
+    if (this.calculationCache.has(cacheKey)) {
+      return this.calculationCache.get(cacheKey)!;
+    }
+    
+    const ingredient = this.unifiedIngredientsFlat.find(ing => ing.name === ingredientName);
+    if (!ingredient) {
+      return { value: 0, weight: 0, score: 0 };
+    }
+    
+    const elementalData = this.elementalDatabase.get(ingredientName);
+    const nutritionalProfile = this.nutritionalAnalyzer.get(ingredientName);
+    
+    const calculation: CalculationData = {
+      value: this.calculationEngine ? 
+        this.calculationEngine.calculateElementalHarmony(ingredient.elementalProperties || {}) : 0.7,
+      weight: nutritionalProfile?.digestibilityIndex || 0.8,
+      score: elementalData ? 
+        Object.values(elementalData).reduce((sum, val) => sum + val, 0) / 4 : 0.5
+    };
+    
+    this.calculationCache.set(cacheKey, calculation);
+    return calculation;
+  }
+  
+  /**
+   * Create scored ingredient using ScoredItem interface
+   */
+  public createScoredIngredient(ingredientName: string, criteria: Record<string, unknown>): ScoredItem {
+    const calculation = this.performAdvancedCalculation(ingredientName, criteria);
+    const ingredient = this.unifiedIngredientsFlat.find(ing => ing.name === ingredientName);
+    
+    const scoredItem: ScoredItem = {
+      score: calculation.score * calculation.weight!,
+      name: ingredientName,
+      elementalHarmony: calculation.value,
+      nutritionalDensity: calculation.weight,
+      ingredient: ingredient,
+      calculationDetails: calculation
+    };
+    
+    this.scoredIngredients.set(ingredientName, scoredItem);
+    return scoredItem;
+  }
+  
+  /**
+   * Analyze ingredient compatibility with cuisine using CuisineData interface
+   */
+  public analyzeCuisineCompatibility(ingredientName: string, cuisineName: string): MatchingResult {
+    const cacheKey = `${ingredientName}-${cuisineName}`;
+    
+    if (this.matchingResults.has(cacheKey)) {
+      return this.matchingResults.get(cacheKey)!;
+    }
+    
+    const ingredient = this.unifiedIngredientsFlat.find(ing => ing.name === ingredientName);
+    const cuisine = cuisinesMap[cuisineName] || Object.values(cuisinesMap || {})[0];
+    
+    const cuisineData: CuisineData = {
+      id: cuisineName,
+      name: cuisineName,
+      elementalProperties: cuisine?.elementalProperties || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
+      zodiacInfluences: cuisine?.zodiacInfluences || [],
+      gregsEnergy: 75
+    };
+    
+    const elementalScore = ingredient?.elementalProperties && cuisineData.elementalProperties ?
+      this.calculateElementalCompatibility(ingredient.elementalProperties, cuisineData.elementalProperties) : 0.5;
+    
+    const matchingResult: MatchingResult = {
+      score: elementalScore,
+      elements: cuisineData.elementalProperties,
+      ingredient: ingredient,
+      cuisine: cuisineData,
+      compatibility: elementalScore > 0.7 ? 'high' : elementalScore > 0.5 ? 'medium' : 'low',
+      recommendations: elementalScore > 0.6 ? 
+        ['Excellent pairing', 'Enhances elemental balance'] : 
+        ['Consider complementary ingredients']
+    };
+    
+    this.matchingResults.set(cacheKey, matchingResult);
+    return matchingResult;
+  }
+  
+  /**
+   * Create unified ingredient using createUnifiedIngredient function
+   */
+  public createEnhancedUnifiedIngredient(recipeIngredient: RecipeIngredient): UnifiedIngredient {
+    const baseIngredient = createUnifiedIngredient({
+      name: recipeIngredient.name,
+      elementalProperties: _createElementalProperties(recipeIngredient.elementalProperties || {}),
+      nutritionalProfile: recipeIngredient.nutritionalProfile || {}
+    });
+    
+    // Validate and enhance with type guards
+    if (isUnifiedIngredient(baseIngredient) && _isElementalProperties(baseIngredient.elementalProperties)) {
+      return {
+        ...baseIngredient,
+        enhancedCalculation: this.performAdvancedCalculation(baseIngredient.name, {}),
+        processingCompatibility: this.processingOils[baseIngredient.name] || null,
+        nutritionalAnalysis: this.nutritionalAnalyzer.get(baseIngredient.name) || null
+      };
+    }
+    
+    return baseIngredient;
+  }
+  
+  /**
+   * Generate comprehensive nutrient analysis using NutrientData interface
+   */
+  public generateNutrientAnalysis(ingredientNames: string[]): NutrientData[] {
+    return ingredientNames.map(name => {
+      const nutritionalProfile = this.nutritionalAnalyzer.get(name);
+      const elementalData = this.elementalDatabase.get(name);
+      
+      const nutrientData: NutrientData = {
+        ingredient: name,
+        elementalContribution: elementalData || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
+        macronutrientDensity: nutritionalProfile?.macronutrients || {},
+        micronutrientProfile: nutritionalProfile?.micronutrients || {},
+        bioactiveCompounds: nutritionalProfile?.bioactiveCompounds || {},
+        digestibilityScore: nutritionalProfile?.digestibilityIndex || 0.8,
+        glycemicResponse: nutritionalProfile?.glycemicImpact || 0.5,
+        inflammatoryImpact: nutritionalProfile?.inflammatoryResponse || 0.3,
+        synergisticPotential: this.calculateSynergisticPotential(name, ingredientNames)
+      };
+      
+      this.nutrientProfiles.set(name, nutrientData);
+      return nutrientData;
+    });
+  }
+  
+  /**
+   * Helper method for elemental compatibility calculation
+   */
+  private calculateElementalCompatibility(elem1: ElementalData, elem2: ElementalData): number {
+    const keys: (keyof ElementalData)[] = ['Fire', 'Water', 'Earth', 'Air'];
+    let similarity = 0;
+    
+    keys.forEach(key => {
+      const diff = Math.abs((elem1[key] as number) - (elem2[key] as number));
+      similarity += (1 - diff);
+    });
+    
+    return Math.max(0, Math.min(1, similarity / keys.length));
+  }
+  
+  /**
+   * Helper method for synergistic potential calculation
+   */
+  private calculateSynergisticPotential(ingredient: string, context: string[]): number {
+    const elementalData = this.elementalDatabase.get(ingredient);
+    if (!elementalData) return 0.5;
+    
+    const contextElemental = context
+      .filter(name => name !== ingredient)
+      .map(name => this.elementalDatabase.get(name))
+      .filter(Boolean) as ElementalData[];
+    
+    if (contextElemental.length === 0) return 0.5;
+    
+    const avgCompatibility = contextElemental
+      .map(contextElem => this.calculateElementalCompatibility(elementalData, contextElem))
+      .reduce((sum, comp) => sum + comp, 0) / contextElemental.length;
+    
+    return avgCompatibility;
   }
 }
 

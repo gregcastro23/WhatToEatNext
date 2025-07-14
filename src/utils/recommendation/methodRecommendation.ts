@@ -161,15 +161,15 @@ const allCookingMethodsCombined: CookingMethodDictionary = {
         bestFor: ((method as unknown as Record<string, unknown>)).bestFor || [],
         culturalOrigin: ((method as unknown as Record<string, unknown>)).culturalOrigin,
         astrologicalInfluences: {
-          favorableZodiac: ((method as unknown as Record<string, any>)).astrologicalInfluences?.favorableZodiac || [].map(sign => sign as ZodiacSign) || [],
-          unfavorableZodiac: ((method as unknown as Record<string, any>)).astrologicalInfluences?.unfavorableZodiac || [].map(sign => sign as ZodiacSign) || [],
-          dominantPlanets: ((method as unknown as Record<string, any>)).astrologicalInfluences?.dominantPlanets || []
+          favorableZodiac: ((method as unknown as Record<string, unknown>)).astrologicalInfluences?.favorableZodiac || [].map(sign => sign as ZodiacSign) || [],
+          unfavorableZodiac: ((method as unknown as Record<string, unknown>)).astrologicalInfluences?.unfavorableZodiac || [].map(sign => sign as ZodiacSign) || [],
+          dominantPlanets: ((method as unknown as Record<string, unknown>)).astrologicalInfluences?.dominantPlanets || []
         },
         duration: {
-          min: ((method as unknown as Record<string, any>)).duration?.min || 0,
-          max: ((method as unknown as Record<string, any>)).duration?.max || 0
+          min: ((method as unknown as Record<string, unknown>)).duration?.min || 0,
+          max: ((method as unknown as Record<string, unknown>)).duration?.max || 0
         },
-        suitable_for: ((method as unknown as Record<string, any>)).bestFor || [],
+        suitable_for: ((method as unknown as Record<string, unknown>)).bestFor || [],
         benefits: [],
         variations: [],
       };
@@ -184,7 +184,7 @@ const allCookingMethodsCombined: CookingMethodDictionary = {
  * Get thermodynamic properties for a cooking method
  */
 export function getMethodThermodynamics(method: CookingMethodProfile): BasicThermodynamicProperties {
-  const methodNameLower = String(((method as unknown as Record<string, any>)).name?.toLowerCase() || '');
+  const methodNameLower = String(((method as unknown as Record<string, unknown>)).name?.toLowerCase() || '');
 
   // 1. Check the detailed data source first
   const detailedMethodData = detailedCookingMethods[methodNameLower as unknown as CookingMethodEnum];
@@ -198,12 +198,12 @@ export function getMethodThermodynamics(method: CookingMethodProfile): BasicTher
   }
 
   // 2. Check if the method object itself has thermodynamic properties
-  if (((method as unknown as Record<string, any>)).thermodynamicProperties) {
+  if (((method as unknown as Record<string, unknown>)).thermodynamicProperties) {
     return {
-      heat: ((method as unknown as Record<string, any>)).thermodynamicProperties?.heat ?? 0.5,
-      entropy: ((method as unknown as Record<string, any>)).thermodynamicProperties?.entropy ?? 0.5,
-      reactivity: ((method as unknown as Record<string, any>)).thermodynamicProperties?.reactivity ?? 0.5,
-      gregsEnergy: ((method as unknown as Record<string, any>)).thermodynamicProperties?.energy ?? 0.5
+      heat: ((method as unknown as Record<string, unknown>)).thermodynamicProperties?.heat ?? 0.5,
+      entropy: ((method as unknown as Record<string, unknown>)).thermodynamicProperties?.entropy ?? 0.5,
+      reactivity: ((method as unknown as Record<string, unknown>)).thermodynamicProperties?.reactivity ?? 0.5,
+      gregsEnergy: ((method as unknown as Record<string, unknown>)).thermodynamicProperties?.energy ?? 0.5
     };
   }
   
@@ -333,7 +333,7 @@ export function calculatePlanetaryDayInfluence(
     'Saturn': ['preserve', 'cure', 'age', 'ferment', 'pickle']
   };
   
-  const methodName = ((method as unknown as Record<string, any>)).name?.toLowerCase();
+  const methodName = ((method as unknown as Record<string, unknown>)).name?.toLowerCase();
   const affinities = planetaryMethodAffinities[planetaryDay] || [];
   
   const hasAffinity = (affinities || []).some(affinity => 
@@ -361,7 +361,7 @@ export function calculatePlanetaryHourInfluence(
     'Saturn': isDaytime ? ['preserve', 'cure'] : ['age', 'ferment']
   };
   
-  const methodName = ((method as unknown as Record<string, any>)).name?.toLowerCase();
+  const methodName = ((method as unknown as Record<string, unknown>)).name?.toLowerCase();
   const affinities = hourMethodAffinities[planetaryHour] || [];
   
   const hasAffinity = (affinities || []).some(affinity => 
@@ -404,7 +404,7 @@ export function getRecommendedCookingMethods(
     
     // Elemental compatibility (40% weight)
     const elementalScore = calculateEnhancedElementalCompatibility(
-      ((method as unknown as Record<string, any>))?.elementalEffect,
+      ((method as unknown as Record<string, unknown>))?.elementalEffect,
       elementalComposition
     );
     score += elementalScore * 0.4;
@@ -413,8 +413,8 @@ export function getRecommendedCookingMethods(
     }
     
     // Zodiac compatibility (20% weight)
-    if (currentZodiac && ((method as unknown as Record<string, any>)).astrologicalInfluences?.favorableZodiac) {
-      const zodiacMatch = ((method as unknown as Record<string, any>)).astrologicalInfluences.favorableZodiac?.includes(currentZodiac);
+    if (currentZodiac && ((method as unknown as Record<string, unknown>)).astrologicalInfluences?.favorableZodiac) {
+      const zodiacMatch = ((method as unknown as Record<string, unknown>)).astrologicalInfluences.favorableZodiac?.includes(currentZodiac);
       if (zodiacMatch) {
         score += 0.2;
         reasons?.push(`Favorable for ${currentZodiac}`);
@@ -422,9 +422,9 @@ export function getRecommendedCookingMethods(
     }
     
     // Planetary compatibility (15% weight)
-    if (planets && ((method as unknown as Record<string, any>)).astrologicalInfluences?.dominantPlanets) {
+    if (planets && ((method as unknown as Record<string, unknown>)).astrologicalInfluences?.dominantPlanets) {
       const planetMatch = (planets || []).some(planet => 
-        ((method as unknown as Record<string, any>))?.astrologicalInfluences?.dominantPlanets?.includes(planet)
+        ((method as unknown as Record<string, unknown>))?.astrologicalInfluences?.dominantPlanets?.includes(planet)
       );
       if (planetMatch) {
         score += 0.15;
@@ -433,20 +433,20 @@ export function getRecommendedCookingMethods(
     }
     
     // Seasonal compatibility (10% weight)
-    if (((method as unknown as Record<string, any>)).seasonalPreference?.includes(season)) {
+    if (((method as unknown as Record<string, unknown>)).seasonalPreference?.includes(season)) {
       score += 0.1;
       reasons?.push(`Perfect for ${season}`);
     }
     
     // Cultural preference (10% weight)
-    if (culturalPreference && ((method as unknown as Record<string, any>)).culturalOrigin === culturalPreference) {
+    if (culturalPreference && ((method as unknown as Record<string, unknown>)).culturalOrigin === culturalPreference) {
       score += 0.1;
       reasons?.push(`${culturalPreference} tradition`);
     }
     
     // Tool availability (5% weight)
-    if (availableTools && ((method as unknown as Record<string, any>)).toolsRequired) {
-      const toolsAvailable = ((method as unknown as Record<string, any>)).toolsRequired.every(tool => 
+    if (availableTools && ((method as unknown as Record<string, unknown>)).toolsRequired) {
+      const toolsAvailable = ((method as unknown as Record<string, unknown>)).toolsRequired.every(tool => 
         (availableTools || []).some(available => 
           available?.toLowerCase()?.includes(tool?.toLowerCase())
         )
@@ -498,7 +498,7 @@ export function calculateLunarMethodAffinity(method: CookingMethodData, phase: L
     'waning crescent': ['rest', 'minimal cooking', 'raw']
   };
   
-  const methodName = ((method as unknown as Record<string, any>)).name?.toLowerCase();
+  const methodName = ((method as unknown as Record<string, unknown>)).name?.toLowerCase();
   const phaseAffinities = lunarAffinities[phase] || [];
   
   const hasAffinity = (phaseAffinities || []).some(affinity => 
@@ -520,16 +520,16 @@ function _calculateAspectMethodAffinity(aspects: PlanetaryAspect[], method: Cook
     
     if (aspect.type === 'conjunction' || aspect.type === 'trine') {
       // Harmonious aspects favor gentle, harmonious cooking methods
-      if (((method as unknown as Record<string, any>)).name?.toLowerCase()?.includes('steam') || 
-          ((method as unknown as Record<string, any>)).name?.toLowerCase()?.includes('poach') ||
-          ((method as unknown as Record<string, any>)).name?.toLowerCase()?.includes('simmer')) {
+      if (((method as unknown as Record<string, unknown>)).name?.toLowerCase()?.includes('steam') || 
+          ((method as unknown as Record<string, unknown>)).name?.toLowerCase()?.includes('poach') ||
+          ((method as unknown as Record<string, unknown>)).name?.toLowerCase()?.includes('simmer')) {
         affinity = 0.8;
       }
     } else if (aspect.type === 'square' || aspect.type === 'opposition') {
       // Challenging aspects favor more intense cooking methods
-      if (((method as unknown as Record<string, any>)).name?.toLowerCase()?.includes('grill') || 
-          ((method as unknown as Record<string, any>)).name?.toLowerCase()?.includes('fry') ||
-          ((method as unknown as Record<string, any>)).name?.toLowerCase()?.includes('sear')) {
+      if (((method as unknown as Record<string, unknown>)).name?.toLowerCase()?.includes('grill') || 
+          ((method as unknown as Record<string, unknown>)).name?.toLowerCase()?.includes('fry') ||
+          ((method as unknown as Record<string, unknown>)).name?.toLowerCase()?.includes('sear')) {
         affinity = 0.8;
       }
     }
@@ -572,7 +572,7 @@ export function calculateMethodScore(method: CookingMethodProfile, astroState: A
 }
 
 export function getMethodElementalProfile(method: CookingMethodProfile): ElementalProperties {
-  return ((method as unknown as Record<string, any>)).elementalEffect || ((method as unknown as Record<string, any>)).elementalState || createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
+  return ((method as unknown as Record<string, unknown>)).elementalEffect || ((method as unknown as Record<string, unknown>)).elementalState || createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
    });
 }
 
@@ -648,7 +648,7 @@ export function getCookingMethodRecommendations(
       } as unknown as MethodRecommendation;
   });
   
-  const limit = ((options as unknown as Record<string, any>)).limit || 5;
+  const limit = ((options as unknown as Record<string, unknown>)).limit || 5;
   return scoredMethods
     .sort((a, b) => (Number(b.score) || 0) - (Number(a.score) || 0))
     .slice(0, limit);

@@ -1,21 +1,18 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.CUISINES = exports.cuisinesMap = void 0;
-// Import all cuisines
-const chinese_1 = require("./chinese");
-const french_1 = require("./french");
-const greek_1 = require("./greek");
-const indian_1 = require("./indian");
-const italian_1 = require("./italian");
-const japanese_1 = require("./japanese");
-const korean_1 = require("./korean");
-const mexican_1 = require("./mexican");
-const middle_eastern_1 = require("./middle-eastern");
-const russian_1 = require("./russian");
-const thai_1 = require("./thai");
-const vietnamese_1 = require("./vietnamese");
-const african_1 = require("./african");
-const american_1 = require("./american");
+import { african } from './african.js';
+import { american } from './american.js';
+import { chinese } from './chinese.js';
+import { french } from './french.js';
+import { greek } from './greek.js';
+import { indian } from './indian.js';
+import { italian } from './italian.js';
+import { japanese } from './japanese.js';
+import { korean } from './korean.js';
+import { mexican } from './mexican.js';
+import { middleEastern } from './middle-eastern.js';
+import { russian } from './russian.js';
+import { thai } from './thai.js';
+import { vietnamese } from './vietnamese.js';
 // Create a base cuisine structure
 const baseCuisine = {
     id: 'base',
@@ -114,28 +111,9 @@ const processCuisineRecipes = (cuisine) => {
     }; // Use type assertion to ensure the return type is Cuisine
 };
 // Create and export the cuisines map with validated structures
-exports.cuisinesMap = {
-    African: processCuisineRecipes(african_1.african),
-    American: processCuisineRecipes(american_1.american),
-    Chinese: processCuisineRecipes(chinese_1.chinese),
-    French: processCuisineRecipes(french_1.french),
-    Greek: processCuisineRecipes(greek_1.greek),
-    Indian: processCuisineRecipes(indian_1.indian),
-    Italian: processCuisineRecipes(italian_1.italian),
-    Japanese: processCuisineRecipes(japanese_1.japanese),
-    Korean: processCuisineRecipes(korean_1.korean),
-    Mexican: processCuisineRecipes(mexican_1.mexican),
-    'Middle Eastern': processCuisineRecipes(middle_eastern_1.middleEastern),
-    Russian: processCuisineRecipes(russian_1.russian),
-    Thai: processCuisineRecipes(thai_1.thai),
-    Vietnamese: processCuisineRecipes(vietnamese_1.vietnamese),
-    // Add lowercase variants for problematic cuisines
-    african: processCuisineRecipes(african_1.african),
-    american: processCuisineRecipes(american_1.american)
-};
-exports.default = exports.cuisinesMap;
+export { african, american, chinese, french, greek, indian, italian, japanese, korean, mexican, middleEastern, russian, thai, vietnamese };
 // Element properties for the refined culinary search
-exports.CUISINES = {
+export const CUISINES = {
     american: {
         name: 'American',
         elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.3, Air: 0.2

@@ -1,8 +1,5 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.chinese = void 0;
 // src/data/cuisines/chinese.ts
-exports.chinese = {
+export const chinese = {
     name: 'Chinese',
     description: 'Traditional Chinese cuisine with balanced flavors, varied techniques, and regional specialties. Known for harmony in taste, color, and nutrition.',
     traditionalSauces: {

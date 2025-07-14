@@ -1,37 +1,13 @@
 import { NextResponse } from 'next/server';
 
 
-// Phase 10: Calculation Type Interfaces
-interface CalculationData {
-  value: number;
-  weight?: number;
-  score?: number;
-}
-
-interface ScoredItem {
-  score: number;
-  [key: string]: unknown;
-}
-
-interface ElementalData {
-  Fire: number;
-  Water: number;
-  Earth: number;
-  Air: number;
-  [key: string]: unknown;
-}
-
-interface CuisineData {
-  id: string;
-  name: string;
-  zodiacInfluences?: string[];
-  planetaryDignities?: Record<string, unknown>;
-  elementalState?: ElementalData;
-  elementalProperties?: ElementalData;
-  modality?: string;
-  gregsEnergy?: number;
-  [key: string]: unknown;
-}
+// interface ElementalData {
+//   Fire: number;
+//   Water: number;
+//   Earth: number;
+//   Air: number;
+//   [key: string]: unknown;
+// }
 
 interface NutrientData {
   nutrient?: { name?: string };
@@ -42,12 +18,14 @@ interface NutrientData {
   [key: string]: unknown;
 }
 
-interface MatchingResult {
-  score: number;
-  elements: ElementalData;
-  recipe?: unknown;
-  [key: string]: unknown;
+interface NutritionApiResponse {
+  data?: {
+    foodNutrients?: NutrientData[];
+  } | Array<{
+    foodNutrients?: NutrientData[];
+  }>;
 }
+
 
 
 // USDA FoodData Central API endpoint and key
@@ -227,7 +205,7 @@ function getTotalVitaminsFound(results: Record<string, unknown>): number {
   const vitamins = new Set<string>();
   
   for (const data of Object.values(results)) {
-    const dataObj = data as { data?: any };
+    const dataObj = data as NutritionApiResponse;
     if (dataObj.data) {
       const nutrients = Array.isArray(dataObj.data) ? dataObj.data[0]?.foodNutrients : dataObj.data.foodNutrients;
       if (nutrients) {

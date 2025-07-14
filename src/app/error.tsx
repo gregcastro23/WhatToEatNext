@@ -6,7 +6,6 @@ import { logger } from '@/utils/logger';
 
 export default function Error({
   error,
-  reset,
 }: {
   error: Error & { digest?: string };
   reset: () => void;

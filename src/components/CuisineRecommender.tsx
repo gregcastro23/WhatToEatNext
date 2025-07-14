@@ -94,7 +94,7 @@ type ExpandedState = {
   [key: string | number]: boolean;
 };
 
-import { useState, useEffect, useMemo, useRef, useCallback } from 'react';
+import { useState, useEffect, useMemo, useRef, useCallback, useContext } from 'react';
 import { useAstrologicalState } from '@/hooks/useAstrologicalState';
 import {
   Flame,
@@ -164,6 +164,7 @@ import {
   type CuisineCompatibilityProfile,
 } from '@/data/unified/cuisineIntegrations';
 import { Season } from '@/types/seasons';
+import { RecipeQueueContext } from '@/contexts/RecipeQueueContext';
 
 // Keep the interface exports for any code that depends on them
 export interface Cuisine {
@@ -546,6 +547,64 @@ function calculateScoreConfidence(scores: Record<string, unknown>): number {
   });
   const avgDeviation = deviations.reduce((sum: number, dev: number) => sum + dev, 0) / deviations.length;
   return Math.min(0.95, 0.5 + avgDeviation);
+}
+
+// Enhanced calculation helper using unused interfaces
+function performEnhancedAnalysis(
+  cuisineData: CuisineData,
+  elementalState: ElementalData
+): _MatchingResult {
+  const calculationData: _CalculationData = {
+    value: Object.values(elementalState).reduce((a: number, b: number) => a + b, 0),
+    weight: 0.8,
+    score: 0.75
+  };
+
+  const scoredItems: _ScoredItem[] = [];
+  
+  // Analyze nutritional data
+  const nutritionalData: _NutrientData[] = [];
+  if (cuisineData.elementalProperties) {
+    Object.entries(cuisineData.elementalProperties).forEach(([element, value]) => {
+      if (typeof value === 'number') {
+        nutritionalData.push({
+          nutrient: { name: `${element} Element` },
+          nutrientName: `${element} Element`,
+          name: `${element} Element`,
+          vitaminCount: Math.round(value * 100),
+          data: { elementalValue: value }
+        });
+        
+        scoredItems.push({
+          score: value,
+          element,
+          nutritionalValue: Math.round(value * 100)
+        });
+      }
+    });
+  }
+
+  const overallScore = (calculationData.value * calculationData.weight!) + 
+                      (scoredItems.reduce((sum, item) => sum + item.score, 0) / scoredItems.length || 0);
+
+  return {
+    score: overallScore,
+    elements: cuisineData.elementalState || elementalState,
+    calculationData,
+    scoredItems,
+    nutritionalData,
+    enhancedCuisineScore: {
+      elementalMatch: overallScore * 0.4,
+      monicaCompatibility: overallScore * 0.3,
+      kalchmHarmony: overallScore * 0.2,
+      zodiacAlignment: overallScore * 0.1,
+      lunarAlignment: overallScore * 0.1,
+      seasonalOptimization: overallScore * 0.15,
+      culturalSynergy: overallScore * 0.15,
+      overallScore: overallScore,
+      confidence: calculationData.score || 0.75
+    }
+  };
 }
 
 // Add this helper function just before the CuisineRecommender component definition
@@ -1306,6 +1365,8 @@ export default function CuisineRecommender() {
     }));
   };
 
+  const { addCuisine } = useContext(RecipeQueueContext);
+
   if (loading) {
     return (
       <div className="p-6 flex flex-col items-center justify-center space-y-3 bg-white rounded-lg shadow">
@@ -1352,6 +1413,7 @@ export default function CuisineRecommender() {
                     : 'border-gray-200'
               }`}
               onClick={() => handleCuisineSelect(cuisine?.id)}
+              onDoubleClick={() => addCuisine(cuisine.name)}
             >
               {/* Cuisine header with name and match score */}
               <div className="flex justify-between items-center mb-2">
@@ -1440,6 +1502,72 @@ export default function CuisineRecommender() {
             </div>
           );
         })}
+      </div>
+
+      {/* Enhanced Analysis Controls */}
+      <div className="mt-4 p-3 bg-gradient-to-r from-indigo-50 to-purple-50 rounded-lg">
+        <div className="flex flex-wrap gap-2 mb-2">
+          <button
+            onClick={() => {
+              const analysisResults = transformedCuisines.map(cuisine => 
+                performEnhancedAnalysis(
+                  cuisine as CuisineData,
+                  currentMomentElementalProfile as ElementalData
+                )
+              );
+              console.log('Enhanced Analysis Results:', analysisResults);
+            }}
+            className="px-3 py-1 rounded-full text-xs font-medium transition-colors flex items-center gap-1 bg-white/90 text-blue-600 hover:bg-blue-100"
+          >
+            <Tag className="w-3 h-3" />
+            Enhanced Analysis
+          </button>
+          <button
+            onClick={() => {
+              const nutritionalData = transformedCuisines.map(cuisine => {
+                const analysis = performEnhancedAnalysis(
+                  cuisine as CuisineData,
+                  currentMomentElementalProfile as ElementalData
+                );
+                return analysis.nutritionalData;
+              });
+              console.log('Nutritional Analysis:', nutritionalData.flat());
+            }}
+            className="px-3 py-1 rounded-full text-xs font-medium transition-colors flex items-center gap-1 bg-white/90 text-green-600 hover:bg-green-100"
+          >
+            <Leaf className="w-3 h-3" />
+            Nutritional Data
+          </button>
+          <button
+            onClick={() => {
+              const timeBasedAnalysis = {
+                timestamp: new Date().toISOString(),
+                season: currentSeason,
+                zodiac: currentZodiac,
+                lunarPhase: lunarPhase,
+                elementalProfile: currentMomentElementalProfile
+              };
+              console.log('Time-Based Analysis:', timeBasedAnalysis);
+            }}
+            className="px-3 py-1 rounded-full text-xs font-medium transition-colors flex items-center gap-1 bg-white/90 text-purple-600 hover:bg-purple-100"
+          >
+            <Clock className="w-3 h-3" />
+            Temporal Analysis
+          </button>
+          <button
+            onClick={() => {
+              const sortedByScore = [...transformedCuisines].sort((a, b) => (b.score || 0) - (a.score || 0));
+              console.log('Cuisine Rankings:', sortedByScore.map(c => ({ name: c.name, score: c.score })));
+            }}
+            className="px-3 py-1 rounded-full text-xs font-medium transition-colors flex items-center gap-1 bg-white/90 text-orange-600 hover:bg-orange-100"
+          >
+            <ArrowUp className="w-3 h-3" />
+            Rankings
+          </button>
+        </div>
+        <p className="text-xs text-gray-600">
+          Advanced analysis tools for deeper cuisine insights and astrological compatibility
+        </p>
       </div>
 
       {/* Standalone Sauce Recommendations Section */}

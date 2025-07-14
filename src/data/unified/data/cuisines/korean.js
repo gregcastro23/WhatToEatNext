@@ -1,7 +1,4 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.korean = void 0;
-exports.korean = {
+export const korean = {
     id: "korean",
     name: "Korean",
     description: "Traditional Korean cuisine emphasizing fermented foods, communal dining, and balanced flavors with rice, banchan, and grilled meats",

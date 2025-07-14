@@ -3,10 +3,9 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { cookingMethods } from '@/data/cooking/cookingMethods';
-import { CookingMethodsSection } from '@/components/CookingMethodsSection';
 import { 
   Search, 
-  Filter, 
+ 
   Flame, 
   Droplets, 
   Mountain, 
@@ -55,7 +54,7 @@ export default function CookingMethodsPage() {
   const [elementFilter, setElementFilter] = useState<string>('all');
   const [durationFilter, setDurationFilter] = useState<string>('all');
   const [sortBy, setSortBy] = useState<'score' | 'name' | 'duration'>('score');
-  const [showSidebar, setShowSidebar] = useState(false);
+  // const [showSidebar, setShowSidebar] = useState(false);
 
   useEffect(() => {
     // Convert cooking methods data to the format expected by the component

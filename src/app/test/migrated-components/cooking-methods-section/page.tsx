@@ -4,11 +4,12 @@ import React, { useState } from 'react';
 import { CookingMethodsSection } from '@/components/CookingMethodsSection';
 import { CookingMethodsSectionMigrated } from '@/components/CookingMethodsSection.migrated';
 import { useServices } from '@/hooks/useServices';
-import { logger } from '@/utils/logger';
+// import { logger } from '@/utils/logger';
 
 // Sample cooking methods for testing
-const sampleMethods = [
-  {
+// const sampleMethods = [
+/*
+//   {
     id: 'grilling',
     name: 'Grilling',
     description: 'Cooking food over direct heat, usually on a grill with Fire or charcoal beneath.',
@@ -112,15 +113,16 @@ const sampleMethods = [
       Matter: 0.2,
       Substance: 0.1
     }
-  }
-];
+//   }
+*/
+// ];
 
 export default function CookingMethodsSectionTestPage() {
   // Component state
   const [selectedMethodId, setSelectedMethodId] = useState<string | null>(null);
   const [showToggle, setShowToggle] = useState<boolean>(true);
   const [initiallyExpanded, setInitiallyExpanded] = useState<boolean>(false);
-  const [methods, setMethods] = useState(sampleMethods);
+  // const [methods, setMethods] = useState(sampleMethods);
   
   // Get services
   useServices();

@@ -1,18 +1,18 @@
 import type { ElementalProperties } from "@/types/alchemy";
-import { _Element } from "@/types/alchemy";
+// import { _Element } from "@/types/alchemy";
 
 
 // --- Core Alchemizer Engine with Kalchm and Monica Constant ---
 
 // Zodiac sign names
-const signs = {
-  0: 'aries', 1: 'taurus', 2: 'gemini', 3: 'cancer',
-  4: 'leo', 5: 'virgo', 6: 'libra', 7: 'scorpio',
-  8: 'sagittarius', 9: 'capricorn', 10: 'aquarius', 11: 'pisces'
-};
+// const signs = {
+//   0: 'aries', 1: 'taurus', 2: 'gemini', 3: 'cancer',
+//   4: 'leo', 5: 'virgo', 6: 'libra', 7: 'scorpio',
+//   8: 'sagittarius', 9: 'capricorn', 10: 'aquarius', 11: 'pisces'
+// };
 
 // Planetary alchemy and element info
-const planetInfo: Record<string, unknown> = {
+/* const planetInfo: Record<string, unknown> = {
   Sun: {
     'Dignity Effect': { leo: 1, aries: 2, aquarius: -1, libra: -2 },
     Elements: ['Fire', 'Fire'],
@@ -87,10 +87,10 @@ const planetInfo: Record<string, unknown> = {
     'Diurnal Element': 'Earth',
     'Nocturnal Element': 'Earth'
   }
-};
+}; */
 
 // Zodiac sign info (abbreviated for brevity, expand as needed)
-const signInfo: Record<string, unknown> = {
+/* const signInfo: Record<string, unknown> = {
   aries: { Element: 'Fire' },
   taurus: { Element: 'Earth' },
   gemini: { Element: 'Air' },
@@ -103,7 +103,7 @@ const signInfo: Record<string, unknown> = {
   capricorn: { Element: 'Earth' },
   aquarius: { Element: 'Air' },
   pisces: { Element: 'Water' }
-};
+}; */
 
 // --- Types ---
 type AlchemyTotals = {
@@ -190,7 +190,7 @@ function alchemize(planetaryPositions: { [planet: string]: string }): Thermodyna
 }
 
 // --- Export for use in other modules ---
-export { alchemize, signs, planetInfo, signInfo };
+// export { alchemize, signs, planetInfo, signInfo };
 
 // Pattern OO-4: Integration Import Resolution - AlchemicalEngine class for service compatibility
 export class AlchemicalEngine {
@@ -224,4 +224,4 @@ export class AlchemicalEngine {
 }
 
 // Also provide default export for backwards compatibility
-export default { alchemize, signs, planetInfo, signInfo }; 
+// export default { alchemize, signs, planetInfo, signInfo }; 

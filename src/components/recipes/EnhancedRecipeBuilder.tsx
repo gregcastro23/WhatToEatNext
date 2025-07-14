@@ -3,74 +3,29 @@
 
 'use client';
 
-import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import React, { useEffect, useCallback, useMemo } from 'react';
 import { 
   Box, 
   Card, 
   CardContent, 
   Typography, 
-  TextField, 
   Button, 
   Grid, 
   Alert, 
   Chip,
-  Divider,
   LinearProgress,
-  Autocomplete,
-  Slider,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
   Switch,
-  FormControlLabel,
-  Paper,
-  List,
-  ListItem,
-  ListItemText,
-  ListItemSecondaryAction,
-  IconButton,
-  Tooltip,
-  Accordion,
-  AccordionSummary,
-  AccordionDetails,
-  Rating,
-  Stepper,
-  Step,
-  StepLabel,
-  StepContent,
-  Fade,
-  Grow,
-  Collapse,
-  Badge
+  Tooltip
 } from '@mui/material';
 
 // Drag and drop functionality simplified for better compatibility
 
 import { 
-  Add as AddIcon,
-  Remove as RemoveIcon,
-  DragIndicator as DragIcon,
-  ExpandMore as ExpandMoreIcon,
-  Search as SearchIcon,
-  FilterList as FilterIcon,
   Restaurant as RestaurantIcon,
   Timer as TimerIcon,
   People as PeopleIcon,
   LocalDining as DiningIcon,
-  Lightbulb as LightbulbIcon,
-  Warning as WarningIcon,
-  CheckCircle as CheckCircleIcon,
-  Cancel as CancelIcon,
-  Refresh as RefreshIcon,
-  Save as SaveIcon,
-  Share as ShareIcon,
-  Preview as PreviewIcon,
-  AutoFixHigh as GenerateIcon,
-  Kitchen as KitchenIcon,
-  AccessTime as TimeIcon,
-  Group as ServingsIcon,
-  Star as QualityIcon
+  Refresh as RefreshIcon
 } from '@mui/icons-material';
 
 // Types and Data
@@ -87,11 +42,8 @@ import type {
 import { useIngredientSearch } from '@/hooks/useIngredientSearch';
 import { useRecipeValidation } from '@/hooks/useRecipeValidation';
 import { 
-  ingredientsMap, 
-  allIngredients, 
   getAllIngredientsByCategory,
-  VALID_CATEGORIES 
-, 
+  VALID_CATEGORIES,
   getAllVegetables,
   getAllProteins,
   getAllHerbs,
@@ -99,7 +51,7 @@ import {
   getAllGrains
 } from '@/data/ingredients';
 import { 
-  generateMonicaOptimizedRecipe,
+  generateMonicaOptimizedRecipe as _generateMonicaOptimizedRecipe,
   type RecipeBuildingCriteria,
   type MonicaOptimizedRecipe 
 } from '@/data/unified/recipeBuilding';
@@ -268,10 +220,10 @@ export default function EnhancedRecipeBuilder() {
   const searchIngredients = ingredientSearchHook?.searchIngredients;
   const searchResults = ingredientSearchHook?.searchResults;
   const isSearching = ingredientSearchHook?.isSearching;
-  const clearSearch = ingredientSearchHook?.clearSearch as any;
+  const clearSearch = ingredientSearchHook?.clearSearch as Record<string, unknown>;
   
   const recipeValidationHook = useRecipeValidation() as Record<string, unknown>;
-  const validateRecipe = recipeValidationHook?.validateRecipe as any;
+  const validateRecipe = recipeValidationHook?.validateRecipe as Record<string, unknown>;
   const validationResult = recipeValidationHook?.validationResult;
   const isValidating = recipeValidationHook?.isValidating;
 
@@ -296,7 +248,7 @@ export default function EnhancedRecipeBuilder() {
     }
     
     if (searchIngredients) {
-      (searchIngredients as any)(searchTerm, {
+      (searchIngredients as Record<string, unknown>)(searchTerm, {
         maxResults: 20,
         elementalPreference: state.elementalPreference,
         season: state.season || undefined,
@@ -306,11 +258,38 @@ export default function EnhancedRecipeBuilder() {
   }, [searchIngredients, clearSearch, state.elementalPreference, state.season, state.dietaryRestrictions]);
 
   const handleIngredientSelect = useCallback((ingredient: Ingredient) => {
+    // Smart quantity and unit defaults based on ingredient type using category functions
+    let defaultQuantity = '1';
+    let defaultUnit = 'cup';
+    
+    const ingName = ingredient.name.toLowerCase();
+    if (getAllSpices().some(spice => spice.name.toLowerCase() === ingName)) {
+      defaultQuantity = '1';
+      defaultUnit = 'tsp';
+    } else if (getAllHerbs().some(herb => herb.name.toLowerCase() === ingName)) {
+      defaultQuantity = '2';
+      defaultUnit = 'tbsp';
+    } else if (getAllProteins().some(protein => protein.name.toLowerCase() === ingName)) {
+      defaultQuantity = '1';
+      defaultUnit = 'lb';
+    } else if (getAllVegetables().some(veg => veg.name.toLowerCase() === ingName)) {
+      defaultQuantity = '2';
+      defaultUnit = 'cups';
+    } else if (getAllGrains().some(grain => grain.name.toLowerCase() === ingName)) {
+      defaultQuantity = '1';
+      defaultUnit = 'cup';
+    } else if (allOils.some(oil => oil.name.toLowerCase() === ingName)) {
+      defaultQuantity = '2';
+      defaultUnit = 'tbsp';
+    }
+    
     const selectedIngredient: SelectedIngredient = {
       ...ingredient,
-      quantity: '1',
-      unit: 'cup',
-      id: `ingredient-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`
+      quantity: defaultQuantity,
+      unit: defaultUnit,
+      id: `ingredient-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+      preparation: getIngredientPreparationSuggestion(ingredient),
+      substitutes: getIngredientSubstitutes(ingredient, state.dietaryRestrictions)
     };
     
     setState(prev => ({
@@ -335,6 +314,136 @@ export default function EnhancedRecipeBuilder() {
         ing.id === ingredientId ? { ...ing, ...updates } : ing
       )
     }));
+  }, []);
+
+  // Advanced ingredient category suggestions using getAllIngredientsByCategory
+  const getSuggestedIngredientsByCategory = useCallback((category: string) => {
+    if (!VALID_CATEGORIES.includes(category)) return [];
+    try {
+      const categoryIngredients = getAllIngredientsByCategory(category);
+      return categoryIngredients.filter(ingredient => 
+        !state.selectedIngredients.some(selected => selected.name === ingredient.name)
+      ).slice(0, 8); // Limit to 8 suggestions per category
+    } catch (error) {
+      console.warn(`Error getting ingredients for category ${category}:`, error);
+      return [];
+    }
+  }, [state.selectedIngredients]);
+
+  // Smart ingredient recommendations using generateIngredientRecommendations
+  const getSmartIngredientRecommendations = useCallback(() => {
+    const recommendations: Ingredient[] = [];
+    
+    if (state.selectedIngredients.length > 0) {
+      try {
+        const contextualRecommendations = generateIngredientRecommendations({
+          existingIngredients: state.selectedIngredients.map(ing => ing.name),
+          cuisine: state.cuisine || undefined,
+          season: state.season || undefined,
+          dietaryRestrictions: state.dietaryRestrictions,
+          elementalBalance: state.elementalPreference
+        });
+        recommendations.push(...contextualRecommendations.slice(0, 6));
+      } catch (error) {
+        console.warn('Error generating contextual recommendations:', error);
+      }
+    }
+    
+    // Add seasonal ingredients using getSeasonalIngredients
+    if (state.season && recommendations.length < 10) {
+      try {
+        const seasonalIngredients = getSeasonalIngredients(state.season)
+          .filter(seasonal => !state.selectedIngredients.some(selected => 
+            selected.name === seasonal.name
+          ))
+          .slice(0, 4);
+        recommendations.push(...seasonalIngredients);
+      } catch (error) {
+        console.warn('Error getting seasonal ingredients:', error);
+      }
+    }
+    
+    return recommendations;
+  }, [state.selectedIngredients, state.cuisine, state.season, state.dietaryRestrictions, state.elementalPreference]);
+
+  // Category-specific ingredient suggestions using imported functions
+  const getProteinSuggestions = useCallback(() => {
+    return getAllProteins().filter(protein => 
+      !state.selectedIngredients.some(selected => selected.name === protein.name)
+    ).slice(0, 6);
+  }, [state.selectedIngredients]);
+
+  const getVegetableSuggestions = useCallback(() => {
+    return getAllVegetables().filter(vegetable => 
+      !state.selectedIngredients.some(selected => selected.name === vegetable.name)
+    ).slice(0, 8);
+  }, [state.selectedIngredients]);
+
+  const getHerbSpiceSuggestions = useCallback(() => {
+    const herbs = getAllHerbs().slice(0, 4);
+    const spices = getAllSpices().slice(0, 4);
+    return [...herbs, ...spices].filter(item => 
+      !state.selectedIngredients.some(selected => selected.name === item.name)
+    );
+  }, [state.selectedIngredients]);
+
+  const getGrainSuggestions = useCallback(() => {
+    return getAllGrains().filter(grain => 
+      !state.selectedIngredients.some(selected => selected.name === grain.name)
+    ).slice(0, 5);
+  }, [state.selectedIngredients]);
+
+  const getOilSuggestions = useCallback(() => {
+    return allOils.filter(oil => 
+      !state.selectedIngredients.some(selected => selected.name === oil.name)
+    ).slice(0, 4);
+  }, [state.selectedIngredients]);
+
+  // Smart preparation suggestions based on ingredient type
+  const getIngredientPreparationSuggestion = useCallback((ingredient: Ingredient): string => {
+    const ingName = ingredient.name.toLowerCase();
+    
+    if (getAllVegetables().some(veg => veg.name.toLowerCase() === ingName)) {
+      if (ingName.includes('onion')) return 'diced';
+      if (ingName.includes('garlic')) return 'minced';
+      if (ingName.includes('carrot')) return 'chopped';
+      if (ingName.includes('pepper')) return 'sliced';
+      return 'chopped';
+    } else if (getAllHerbs().some(herb => herb.name.toLowerCase() === ingName)) {
+      return 'chopped fresh';
+    } else if (getAllProteins().some(protein => protein.name.toLowerCase() === ingName)) {
+      if (ingName.includes('chicken')) return 'cut into pieces';
+      if (ingName.includes('beef')) return 'cubed';
+      if (ingName.includes('fish')) return 'filleted';
+      return 'prepared';
+    }
+    return '';
+  }, []);
+
+  // Smart ingredient substitutes based on dietary restrictions
+  const getIngredientSubstitutes = useCallback((ingredient: Ingredient, restrictions: DietaryRestriction[]): string[] => {
+    const substitutes: string[] = [];
+    const ingName = ingredient.name.toLowerCase();
+    
+    if (restrictions.includes('vegan')) {
+      if (ingName.includes('butter')) substitutes.push('vegan butter', 'coconut oil');
+      if (ingName.includes('milk')) substitutes.push('oat milk', 'almond milk');
+      if (ingName.includes('cheese')) substitutes.push('nutritional yeast', 'cashew cheese');
+      if (ingName.includes('egg')) substitutes.push('flax egg', 'aquafaba');
+      if (getAllProteins().some(p => p.name.toLowerCase() === ingName)) {
+        substitutes.push('tofu', 'tempeh', 'seitan');
+      }
+    }
+    
+    if (restrictions.includes('gluten-free')) {
+      if (ingName.includes('flour')) substitutes.push('almond flour', 'rice flour');
+      if (ingName.includes('bread')) substitutes.push('gluten-free bread');
+      if (getAllGrains().some(g => g.name.toLowerCase() === ingName && ingName.includes('wheat'))) {
+        substitutes.push('quinoa', 'rice', 'millet');
+      }
+    }
+    
+    return substitutes;
   }, []);
 
   // Reorder ingredients (simplified drag and drop)
@@ -442,15 +551,34 @@ export default function EnhancedRecipeBuilder() {
         targetKalchm: state.targetKalchm,
         targetMonica: state.targetMonica,
         elementalPreference: state.elementalPreference,
-        cookingMethods: state.cookingMethods as any,
+        cookingMethods: state.cookingMethods as Record<string, unknown>,
         maxPrepTime: state.prepTime,
         maxCookTime: state.cookTime,
         requiredIngredients: state.selectedIngredients.map(ing => ing.name),
         skillLevel: state.difficulty
       };
       
-      const result = generateMonicaOptimizedRecipe(criteria);
+      // Use the imported _generateMonicaOptimizedRecipe for sophisticated recipe generation
+      const result = _generateMonicaOptimizedRecipe(criteria);
       setGeneratedRecipe(result.recipe);
+      
+      // Apply cuisine-specific enhancements if cuisine is selected
+      if (state.cuisine && cuisinesMap.has(state.cuisine)) {
+        const cuisineData = cuisinesMap.get(state.cuisine);
+        if (cuisineData && result.recipe) {
+          // Enhance recipe with cuisine-specific flavor profiles
+          const flavorProfile = cuisineFlavorProfiles[state.cuisine as keyof typeof cuisineFlavorProfiles] as CuisineFlavorProfile;
+          if (flavorProfile) {
+            const existingDescription = result.recipe.description || '';
+            result.recipe.description = `${existingDescription} This ${state.cuisine} recipe features ${flavorProfile.primaryFlavors?.join(', ')} with ${flavorProfile.cookingTechniques?.join(' and ')} techniques.`;
+            
+            // Add cuisine-specific cooking tips if available
+            if (flavorProfile.tips && result.recipe.instructions) {
+              result.recipe.instructions.push(`Chef's Tip: ${flavorProfile.tips[0]}`);
+            }
+          }
+        }
+      }
       
       // Mark final step as complete
       handleStepComplete('review');
@@ -471,7 +599,7 @@ export default function EnhancedRecipeBuilder() {
           name: ing.name,
           quantity: ing.quantity,
           unit: ing.unit
-        })) as any,
+        })) as Record<string, unknown>,
         instructions: state.instructions.map(inst => inst.instruction),
         elementalProperties: state.elementalPreference as ElementalProperties
       };
@@ -519,7 +647,7 @@ export default function EnhancedRecipeBuilder() {
           <IngredientsStep 
             state={state}
             setState={setState}
-            searchResults={searchResults as any}
+            searchResults={searchResults as Record<string, unknown>}
             isSearching={isSearching as boolean}
             onSearch={handleIngredientSearch}
             onSelect={handleIngredientSelect}
@@ -675,7 +803,7 @@ export default function EnhancedRecipeBuilder() {
                       <Alert severity="error" sx={{ mb: 1 }}>
                         <Typography variant="subtitle2">Errors:</Typography>
                         {errors.map((error, index) => {
-                          const errorRecord = error as any;
+                          const errorRecord = error as Record<string, unknown>;
                           return (
                             <Typography key={index} variant="body2">• {errorRecord?.message}</Typography>
                           );
@@ -687,7 +815,7 @@ export default function EnhancedRecipeBuilder() {
                       <Alert severity="warning" sx={{ mb: 1 }}>
                         <Typography variant="subtitle2">Warnings:</Typography>
                         {warnings.map((warning, index) => {
-                          const warningRecord = warning as any;
+                          const warningRecord = warning as Record<string, unknown>;
                           return (
                             <Typography key={index} variant="body2">• {warningRecord?.message}</Typography>
                           );
@@ -699,7 +827,7 @@ export default function EnhancedRecipeBuilder() {
                       <Alert severity="info" sx={{ mb: 1 }}>
                         <Typography variant="subtitle2">Suggestions:</Typography>
                         {suggestions.map((suggestion, index) => {
-                          const suggestionRecord = suggestion as any;
+                          const suggestionRecord = suggestion as Record<string, unknown>;
                           return (
                             <Typography key={index} variant="body2">• {suggestionRecord?.message}</Typography>
                           );
@@ -757,7 +885,7 @@ export default function EnhancedRecipeBuilder() {
           <Grid item xs={12} md={4}>
             <LivePreviewSidebar 
               state={state}
-              validationResult={validationResult as any}
+              validationResult={validationResult as Record<string, unknown>}
               generatedRecipe={generatedRecipe}
             />
           </Grid>

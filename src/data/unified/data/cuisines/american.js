@@ -1,7 +1,4 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.american = void 0;
-exports.american = {
+export const american = {
     id: "american",
     name: "American",
     description: "A diverse and evolving cuisine reflecting regional traditions, immigrant influences, and innovative culinary trends throughout the United States.",
@@ -1750,4 +1747,3 @@ exports.american = {
         "Venus" // Comfort foods and indulgent desserts
     ]
 };
-exports.default = exports.american;

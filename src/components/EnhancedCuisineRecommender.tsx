@@ -624,7 +624,7 @@ export default function EnhancedCuisineRecommender() {
         setLoading(true);
         
         const allRecipes = await getAllRecipes();
-        let cuisineRecipes = await Promise.resolve(getRecipesForCuisineMatch(selectedCuisineData.name, allRecipes));
+        const cuisineRecipes = await Promise.resolve(getRecipesForCuisineMatch(selectedCuisineData.name, allRecipes));
         
         setRecipes(cuisineRecipes as unknown as Recipe[]);
         
@@ -644,24 +644,36 @@ export default function EnhancedCuisineRecommender() {
     loadRecipesForCuisine();
   };
 
-  // Enhanced score display component
+  // Enhanced score display component with elemental icons
   const renderEnhancedScore = (score: EnhancedCuisineScore) => (
     <div className="grid grid-cols-2 md:grid-cols-4 gap-2 text-xs">
-      <div className="bg-red-50 p-2 rounded">
-        <div className="font-medium text-red-700">Elemental</div>
-        <div className="text-red-600">{Math.round(score.elementalMatch * 100)}%</div>
+      <div className="bg-red-50 p-2 rounded flex items-center">
+        <Flame className="w-3 h-3 text-red-500 mr-1" />
+        <div>
+          <div className="font-medium text-red-700">Elemental</div>
+          <div className="text-red-600">{Math.round(score.elementalMatch * 100)}%</div>
+        </div>
       </div>
-      <div className="bg-purple-50 p-2 rounded">
-        <div className="font-medium text-purple-700">Monica</div>
-        <div className="text-purple-600">{Math.round(score.monicaCompatibility * 100)}%</div>
+      <div className="bg-purple-50 p-2 rounded flex items-center">
+        <Zap className="w-3 h-3 text-purple-500 mr-1" />
+        <div>
+          <div className="font-medium text-purple-700">Monica</div>
+          <div className="text-purple-600">{Math.round(score.monicaCompatibility * 100)}%</div>
+        </div>
       </div>
-      <div className="bg-blue-50 p-2 rounded">
-        <div className="font-medium text-blue-700">Kalchm</div>
-        <div className="text-blue-600">{Math.round(score.kalchmHarmony * 100)}%</div>
+      <div className="bg-blue-50 p-2 rounded flex items-center">
+        <Droplets className="w-3 h-3 text-blue-500 mr-1" />
+        <div>
+          <div className="font-medium text-blue-700">Kalchm</div>
+          <div className="text-blue-600">{Math.round(score.kalchmHarmony * 100)}%</div>
+        </div>
       </div>
-      <div className="bg-green-50 p-2 rounded">
-        <div className="font-medium text-green-700">Overall</div>
-        <div className="text-green-600">{Math.round(score.overallScore * 100)}%</div>
+      <div className="bg-green-50 p-2 rounded flex items-center">
+        <Star className="w-3 h-3 text-green-500 mr-1" />
+        <div>
+          <div className="font-medium text-green-700">Overall</div>
+          <div className="text-green-600">{Math.round(score.overallScore * 100)}%</div>
+        </div>
       </div>
     </div>
   );
@@ -717,6 +729,83 @@ export default function EnhancedCuisineRecommender() {
           >
             <Leaf className="w-3 h-3 inline mr-1" />
             Seasonal
+          </button>
+          <button
+            onClick={() => {
+              console.log('Alchemical Analysis triggered');
+              const alchemicalData = cuisineRecommendations.map(cuisine => ({
+                name: cuisine.name,
+                elements: cuisine.elementalProperties,
+                score: cuisine.enhancedScore
+              }));
+              console.log('Alchemical Data:', alchemicalData);
+            }}
+            className="px-3 py-1 rounded-full text-xs font-medium transition-colors bg-white/90 text-orange-600 hover:bg-orange-100"
+          >
+            <Beaker className="w-3 h-3 inline mr-1" />
+            Alchemical
+          </button>
+          <button
+            onClick={() => {
+              const sorted = [...cuisineRecommendations].sort((a, b) => (b.enhancedScore?.overallScore || 0) - (a.enhancedScore?.overallScore || 0));
+              console.log('Ranked Cuisines:', sorted.map(c => ({ name: c.name, score: c.enhancedScore?.overallScore })));
+            }}
+            className="px-3 py-1 rounded-full text-xs font-medium transition-colors bg-white/90 text-indigo-600 hover:bg-indigo-100"
+          >
+            <Target className="w-3 h-3 inline mr-1" />
+            Rank
+          </button>
+        </div>
+      </div>
+
+      {/* Search and Filter Controls */}
+      <div className="mb-4 space-y-3">
+        <div className="flex items-center space-x-2">
+          <div className="relative flex-1">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+            <input
+              type="text"
+              placeholder="Search cuisines..."
+              className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+              onChange={(e) => {
+                const searchTerm = e.target.value.toLowerCase();
+                if (searchTerm) {
+                  const filtered = cuisineRecommendations.filter(cuisine => 
+                    cuisine.name.toLowerCase().includes(searchTerm) ||
+                    cuisine.description.toLowerCase().includes(searchTerm)
+                  );
+                  console.log('Filtered Results:', filtered.length);
+                }
+              }}
+            />
+          </div>
+          <button
+            onClick={() => {
+              console.log('Settings panel would open here');
+            }}
+            className="p-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+          >
+            <Settings className="w-4 h-4 text-gray-600" />
+          </button>
+        </div>
+        
+        {/* Quick filter buttons */}
+        <div className="flex flex-wrap gap-2">
+          <button className="px-3 py-1 text-xs bg-gray-100 hover:bg-gray-200 rounded-full flex items-center">
+            <Wind className="w-3 h-3 mr-1" />
+            Air Dominant
+          </button>
+          <button className="px-3 py-1 text-xs bg-gray-100 hover:bg-gray-200 rounded-full flex items-center">
+            <Flame className="w-3 h-3 mr-1" />
+            Fire Dominant
+          </button>
+          <button className="px-3 py-1 text-xs bg-gray-100 hover:bg-gray-200 rounded-full flex items-center">
+            <Droplets className="w-3 h-3 mr-1" />
+            Water Dominant
+          </button>
+          <button className="px-3 py-1 text-xs bg-gray-100 hover:bg-gray-200 rounded-full flex items-center">
+            <Mountain className="w-3 h-3 mr-1" />
+            Earth Dominant
           </button>
         </div>
       </div>

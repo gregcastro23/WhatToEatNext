@@ -45,7 +45,7 @@ export function hasAstrologicalProfile(
     !!obj &&
     typeof obj === 'object' &&
     'astrologicalProfile' in obj &&
-    isAstrologicalProfile((obj as any).astrologicalProfile)
+    isAstrologicalProfile((obj as Record<string, unknown>).astrologicalProfile)
   );
 }
 

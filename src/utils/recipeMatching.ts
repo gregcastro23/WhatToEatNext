@@ -1,7 +1,7 @@
 // @ts-nocheck
 import type {
-  Recipe,
-  ElementalProperties,
+  // Recipe,
+  // ElementalProperties,
   AstrologicalState,
   Season,
 } from "@/types/alchemy";
@@ -1007,7 +1007,7 @@ export const connectIngredientsToMappings = (
   }
 
   // SSR check - only use localStorage in browser environment
-  let _isBrowser = typeof window !== 'undefined';
+  const _isBrowser = typeof window !== 'undefined';
 
   // Create a cache key for this recipe's ingredients
   const cacheKey = `ingredient-mapping-${recipe.id || (recipe as Record<string, unknown>)?.name}`;

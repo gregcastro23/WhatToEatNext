@@ -1,4 +1,4 @@
-import { RulingPlanet } from '../constants/planets';
+// import { RulingPlanet } from '../constants/planets';
 import { _LunarPhase, LunarPhaseWithSpaces, CookingMethod } from '../types/alchemy';
 import type { CelestialPosition } from '@/types/celestial';
 import { 
@@ -33,7 +33,7 @@ export const transformIngredients = (
 ): AlchemicalItem[] => {
   return transformItemsWithPlanetaryPositions(
     ingredients,
-    planetPositions as unknown as Record<string, CelestialPosition>, // Pattern TTT: Record Type Conversion
+    planetPositions as Record<string, CelestialPosition>, // Pattern TTT: Record Type Conversion
     isDaytime,
     currentZodiac,
     lunarPhase
@@ -61,7 +61,7 @@ export const transformCookingMethods = (
   // First, apply the standard transformations - Pattern TTT: Record Type Conversion
   const transformedItems = transformItemsWithPlanetaryPositions(
     methods,
-    planetPositions as unknown as Record<string, CelestialPosition>,
+    planetPositions as Record<string, CelestialPosition>,
     isDaytime,
     currentZodiac,
     lunarPhase
@@ -94,7 +94,7 @@ export const transformCuisines = (
 ): AlchemicalItem[] => {
   return transformItemsWithPlanetaryPositions(
     cuisines,
-    planetPositions as unknown as Record<string, CelestialPosition>, // Pattern TTT: Record Type Conversion
+    planetPositions as Record<string, CelestialPosition>, // Pattern TTT: Record Type Conversion
     isDaytime,
     currentZodiac,
     lunarPhase

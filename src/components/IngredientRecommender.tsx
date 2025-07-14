@@ -1,5 +1,5 @@
 import { useAstrologicalState } from '@/context/AstrologicalContext';
-import { useEffect, useState, useMemo } from 'react';
+import { useEffect, useState, useMemo, useContext } from 'react';
 import { ElementalCalculator } from '@/services/ElementalCalculator';
 import { _ElementalProperties } from '@/types/alchemy';
 import { getChakraBasedRecommendations, GroupedIngredientRecommendations, getIngredientRecommendations, IngredientRecommendation } from '@/utils/ingredientRecommender';
@@ -12,6 +12,7 @@ import { unifiedIngredients } from '@/data/unified/ingredients';
 import styles from './IngredientRecommender.module.css';
 import type { Modality } from '@/types/alchemy';
 import type { Ingredient as _Ingredient, RecipeIngredient as _RecipeIngredient } from '@/types/recipe';
+import { RecipeQueueContext } from '@/contexts/RecipeQueueContext';
 
 /**
  * Maps planets to their elemental influences (diurnal and nocturnal elements)
@@ -94,6 +95,8 @@ export default function IngredientRecommender() {
     refreshRecommendations
   } = useChakraInfluencedFood({ limit: 300 }); // Increased from 200 to 300 to ensure all categories have plenty of items
   
+  const { addIngredient } = useContext(RecipeQueueContext);
+
   // Helper function to get element icon with inline styles
   const getElementIcon = (element: string) => {
     const iconStyle = { 
@@ -908,6 +911,7 @@ export default function IngredientRecommender() {
                               initiallyExpanded={true}
                               emphasizeCulinary={true}
                               onClick={() => {}}
+                              onDoubleClick={() => addIngredient(item.name)}
                             />
                           </div>
                         )}
@@ -1105,6 +1109,7 @@ export default function IngredientRecommender() {
                         key={`${item.name}-${category}-${item.subCategory || ''}-${Math.random().toString(36).substr(2, 5)}`} 
                         className={`${styles.ingredientCard} ${isSelected ? styles.selected : ''} ${elementColor}`}
                         onClick={(e) => handleIngredientSelect(item as unknown as Record<string, unknown>, e)}
+                        onDoubleClick={() => addIngredient(item.name)}
                       >
                         <div className="flex justify-between items-start">
                           <h4 className={styles.ingredientName}>{item.name}</h4>
@@ -1138,6 +1143,7 @@ export default function IngredientRecommender() {
                               initiallyExpanded={true}
                               emphasizeCulinary={true}
                               onClick={() => {}}
+                              onDoubleClick={() => addIngredient(item.name)}
                             />
                           </div>
                         )}

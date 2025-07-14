@@ -1,6 +1,3 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.validateElementalProperties = exports.calculateElementalCompatibility = exports.normalizeElementalProperties = exports.getDominantElement = exports.ELEMENTAL_CHARACTERISTICS = exports.ELEMENTAL_WEIGHTS = exports.ELEMENTAL_THRESHOLDS = exports.VALIDATION_THRESHOLDS = exports.DECANS = exports.ZODIAC_ELEMENTS = exports.ELEMENT_COMBINATIONS = exports.ELEMENT_AFFINITIES = exports.DEFAULT_ELEMENTAL_PROPERTIES = exports.ELEMENTS = void 0;
 /**
  * Core elemental constants - consolidated from multiple files
  * This file replaces: elementalConstants.ts, elements.ts, and elemental parts of defaults.ts
@@ -9,18 +6,18 @@ exports.validateElementalProperties = exports.calculateElementalCompatibility = 
 /**
  * List of all elemental types
  */
-exports.ELEMENTS = ['Fire', 'Water', 'Earth', 'Air'];
+export const ELEMENTS = ['Fire', 'Earth', 'Air', 'Water'];
 /**
  * Default balanced elemental properties (25% each)
  */
-exports.DEFAULT_ELEMENTAL_PROPERTIES = { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
+export const DEFAULT_ELEMENTAL_PROPERTIES = { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
 };
 // ===== ELEMENTAL RELATIONSHIPS =====
 /**
  * Element affinities based on traditional correspondences
  * Each element reinforces itself most strongly
  */
-exports.ELEMENT_AFFINITIES = { Fire: ['Fire', 'Air'],
+export const ELEMENT_AFFINITIES = { Fire: ['Fire', 'Air'],
     Water: ['Water', 'Earth'],
     Air: ['Air', 'Fire'],
     Earth: ['Earth', 'Water']
@@ -28,7 +25,7 @@ exports.ELEMENT_AFFINITIES = { Fire: ['Fire', 'Air'],
 /**
  * Element combinations for compatibility calculations
  */
-exports.ELEMENT_COMBINATIONS = {
+export const ELEMENT_COMBINATIONS = {
     harmonious: [
         ['Fire', 'Fire'],
         ['Water', 'Water'],
@@ -46,7 +43,7 @@ exports.ELEMENT_COMBINATIONS = {
 /**
  * Zodiac sign to element mapping
  */
-exports.ZODIAC_ELEMENTS = {
+export const ZODIAC_ELEMENTS = {
     aries: 'Fire',
     leo: 'Fire',
     sagittarius: 'Fire',
@@ -63,7 +60,7 @@ exports.ZODIAC_ELEMENTS = {
 /**
  * Decan rulers for each zodiac sign
  */
-exports.DECANS = {
+export const DECANS = {
     aries: [
         { ruler: 'Mars', element: 'Fire', degree: 0 },
         { ruler: 'Sun', element: 'Fire', degree: 10 },
@@ -129,7 +126,7 @@ exports.DECANS = {
 /**
  * Validation thresholds for elemental properties
  */
-exports.VALIDATION_THRESHOLDS = {
+export const VALIDATION_THRESHOLDS = {
     MINIMUM_ELEMENT: 0,
     MAXIMUM_ELEMENT: 1,
     BALANCE_PRECISION: 0.01
@@ -137,7 +134,7 @@ exports.VALIDATION_THRESHOLDS = {
 /**
  * Elemental significance thresholds
  */
-exports.ELEMENTAL_THRESHOLDS = {
+export const ELEMENTAL_THRESHOLDS = {
     dominant: 0.4,
     significant: 0.25,
     present: 0.1,
@@ -146,13 +143,13 @@ exports.ELEMENTAL_THRESHOLDS = {
 /**
  * Elemental weights for calculations
  */
-exports.ELEMENTAL_WEIGHTS = { Fire: 1, Water: 1, Earth: 1, Air: 1
+export const ELEMENTAL_WEIGHTS = { Fire: 1, Water: 1, Earth: 1, Air: 1
 };
 // ===== COMPREHENSIVE ELEMENTAL CHARACTERISTICS =====
 /**
  * Enhanced elemental characteristics with comprehensive properties
  */
-exports.ELEMENTAL_CHARACTERISTICS = { Fire: {
+export const ELEMENTAL_CHARACTERISTICS = { Fire: {
         // Basic properties
         qualities: ['hot', 'dry', 'active', 'energetic', 'expansive'],
         season: 'summer',
@@ -253,31 +250,29 @@ exports.ELEMENTAL_CHARACTERISTICS = { Fire: {
 /**
  * Get the dominant element from elemental properties
  */
-function getDominantElement(properties) {
+export const getDominantElement = (properties) => {
     return Object.entries(properties)
         .reduce((max, [element, value]) => value > max.value ? { element: element, value } : max, { element: 'Fire', value: 0 }).element;
 }
-exports.getDominantElement = getDominantElement;
 /**
  * Normalize elemental properties to sum to 1
  */
-function normalizeElementalProperties(properties) {
+export const normalizeElementalProperties = (properties) => {
     const total = Object.values(properties).reduce((sum, val) => sum + (val || 0), 0);
     if (total === 0) {
-        return { ...exports.DEFAULT_ELEMENTAL_PROPERTIES };
+        return { ...DEFAULT_ELEMENTAL_PROPERTIES };
     }
     return { Fire: (properties.Fire || 0) / total, Water: (properties.Water || 0) / total, Earth: (properties.Earth || 0) / total, Air: (properties.Air || 0) / total
     };
 }
-exports.normalizeElementalProperties = normalizeElementalProperties;
 /**
  * Calculate elemental compatibility between two sets of properties
  */
-function calculateElementalCompatibility(properties1, properties2) {
+export const calculateElementalCompatibility = (properties1, properties2) => {
     // Each element reinforces itself most strongly
     let compatibility = 0;
     let totalWeight = 0;
-    for (const element of exports.ELEMENTS) {
+    for (const element of ELEMENTS) {
         const value1 = properties1[element] || 0;
         const value2 = properties2[element] || 0;
         // Same element compatibility (highest)
@@ -291,31 +286,13 @@ function calculateElementalCompatibility(properties1, properties2) {
     }
     return totalWeight > 0 ? compatibility / totalWeight : 0.7;
 }
-exports.calculateElementalCompatibility = calculateElementalCompatibility;
 /**
  * Validate elemental properties
  */
-function validateElementalProperties(properties) {
+export const validateElementalProperties = (properties) => {
     const total = Object.values(properties).reduce((sum, val) => sum + val, 0);
-    const isValidRange = Object.values(properties).every(val => val >= exports.VALIDATION_THRESHOLDS.MINIMUM_ELEMENT &&
-        val <= exports.VALIDATION_THRESHOLDS.MAXIMUM_ELEMENT);
-    const isValidSum = Math.abs(total - 1) <= exports.VALIDATION_THRESHOLDS.BALANCE_PRECISION;
+    const isValidRange = Object.values(properties).every(val => val >= VALIDATION_THRESHOLDS.MINIMUM_ELEMENT &&
+        val <= VALIDATION_THRESHOLDS.MAXIMUM_ELEMENT);
+    const isValidSum = Math.abs(total - 1) <= VALIDATION_THRESHOLDS.BALANCE_PRECISION;
     return isValidRange && isValidSum;
 }
-exports.validateElementalProperties = validateElementalProperties;
-exports.default = {
-    ELEMENTS: exports.ELEMENTS,
-    DEFAULT_ELEMENTAL_PROPERTIES: exports.DEFAULT_ELEMENTAL_PROPERTIES,
-    ELEMENT_AFFINITIES: exports.ELEMENT_AFFINITIES,
-    ELEMENT_COMBINATIONS: exports.ELEMENT_COMBINATIONS,
-    ZODIAC_ELEMENTS: exports.ZODIAC_ELEMENTS,
-    DECANS: exports.DECANS,
-    VALIDATION_THRESHOLDS: exports.VALIDATION_THRESHOLDS,
-    ELEMENTAL_THRESHOLDS: exports.ELEMENTAL_THRESHOLDS,
-    ELEMENTAL_WEIGHTS: exports.ELEMENTAL_WEIGHTS,
-    ELEMENTAL_CHARACTERISTICS: exports.ELEMENTAL_CHARACTERISTICS,
-    getDominantElement,
-    normalizeElementalProperties,
-    calculateElementalCompatibility,
-    validateElementalProperties
-};

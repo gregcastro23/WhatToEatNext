@@ -70,6 +70,22 @@ export interface CelestialPosition {
   dignity?: DignityType;
 }
 
+// Planetary Positions Map for specific planet typing
+export interface PlanetaryPositionsMap {
+  sun?: CelestialPosition;
+  moon?: CelestialPosition;
+  mercury?: CelestialPosition;
+  venus?: CelestialPosition;
+  mars?: CelestialPosition;
+  jupiter?: CelestialPosition;
+  saturn?: CelestialPosition;
+  uranus?: CelestialPosition;
+  neptune?: CelestialPosition;
+  pluto?: CelestialPosition;
+  ascendant?: CelestialPosition;
+  [key: string]: CelestialPosition | undefined; // Allow dynamic planet access
+}
+
 // Planetary position interface for compatibility
 export interface PlanetaryPosition {
   sign: ZodiacSign;
@@ -181,7 +197,7 @@ export interface AstrologicalState {
   dominantPlanets?: string[]; // Used in recommendation engine
   
   // Planetary positions for test compatibility
-  planetaryPositions?: Record<string, CelestialPosition>;
+  planetaryPositions?: PlanetaryPositionsMap;
   
   // Additional properties for compatibility
   sunSign?: ZodiacSign;
@@ -194,6 +210,50 @@ export interface AstrologicalState {
   loading?: boolean;
   isReady?: boolean;
   renderCount?: number;
+}
+
+// ---------------- INGREDIENT & NUTRITION TYPES ----------------
+
+// Better typed nutrition information
+export interface NutritionInfo {
+  calories?: number;
+  protein_g?: number;
+  carbs_g?: number;
+  fat_g?: number;
+  fiber_g?: number;
+  vitamins?: string[];
+  minerals?: string[];
+  [key: string]: string | number | string[] | undefined;
+}
+
+// Better typed elemental state for ingredients
+export interface IngredientElementalState {
+  Fire?: number;
+  Water?: number;
+  Earth?: number;
+  Air?: number;
+  [key: string]: number | undefined;
+}
+
+// ---------------- CUISINE & FOOD ITEM TYPES ----------------
+
+// Interface for items with elemental properties (cuisines, ingredients, recipes)
+export interface ElementalFoodItem {
+  elementalProperties: ElementalProperties;
+  zodiacInfluences?: string[];
+  seasonality?: string[];
+  name?: string;
+  id?: string;
+  category?: string;
+}
+
+// Interface for cuisine data used in planetary calculations
+export interface CuisineItem extends ElementalFoodItem {
+  zodiacInfluences?: string[];
+  planetaryDignities?: Record<string, unknown>;
+  elementalState?: ElementalProperties;
+  modality?: string;
+  gregsEnergy?: number;
 }
 
 // ---------------- Backward-compatibility aliases ----------------

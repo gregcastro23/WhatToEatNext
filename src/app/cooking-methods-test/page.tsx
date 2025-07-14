@@ -1,10 +1,11 @@
 'use client';
 
-import { useState } from 'react';
+// import { useState } from 'react';
 import { Container, Typography, Card, CardContent } from '@mui/material';
 
 export default function CookingMethodsTestPage() {
-  const [loading, setLoading] = useState(false);
+  // const [loading, _setLoading] = useState(false);
+  const loading = false; // Simplified for testing
 
   const testMethods = [
     {

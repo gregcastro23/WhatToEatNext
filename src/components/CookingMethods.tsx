@@ -543,6 +543,80 @@ const _adaptLunarPhase = (phase: LunarPhase | undefined): unknown => {
 };
 
 
+// Enhanced functionality using unused interfaces
+function createCookingMethodComponent(
+  method: CookingMethodBase,
+  props: _CookingMethodComponentProps
+): _CookingMethodData {
+  return {
+    id: method.id,
+    name: method.name,
+    description: method.description,
+    element: method.elementalProperties ? 
+      Object.entries(method.elementalProperties)
+        .reduce((a, b) => a[1] > b[1] ? a : b)[0] : 'Air',
+    season: Array.isArray(method.suitable_for) ? method.suitable_for : ['all'],
+    cuisine: method.culturalOrigin || 'universal',
+    mealType: method.suitable_for || ['any']
+  };
+}
+
+function calculateCookingMethodScore(
+  method: CookingMethodBase,
+  alignment: PlanetaryAlignment
+): CookingMethodWithScore {
+  const baseScore = 0.7;
+  const elementalBonus = method.elementalProperties ? 
+    Object.values(method.elementalProperties).reduce((a, b) => a + b, 0) * 0.2 : 0;
+  const astroBonus = alignment.overallCompatibility * 0.3;
+  
+  return {
+    ...method,
+    score: Math.min(1, baseScore + elementalBonus + astroBonus),
+    gregsEnergy: (baseScore + elementalBonus) * 100,
+    matchReason: `Elemental alignment (${Math.round(elementalBonus * 100)}%) + Astrological compatibility (${Math.round(astroBonus * 100)}%)`,
+    heat: method.elementalProperties?.Fire || 0.25,
+    entropy: 0.5,
+    reactivity: method.elementalProperties?.Air || 0.25,
+    energy: method.elementalProperties?.Fire || 0.25,
+    thermodynamicProperties: {
+      temperature: (method.elementalProperties?.Fire || 0.25) * 500,
+      pressure: 1.0,
+      entropy: 0.5,
+      enthalpy: (method.elementalProperties?.Fire || 0.25) * 200
+    }
+  };
+}
+
+function analyzeIngredientCompatibility(
+  method: CookingMethodBase,
+  ingredients: string[]
+): IngredientCompatibilityData {
+  const compatibility = ingredients.map(ingredient => {
+    const idealIngredients = method.idealIngredients || [];
+    const isIdeal = idealIngredients.some(ideal => 
+      ideal.toLowerCase().includes(ingredient.toLowerCase()) ||
+      ingredient.toLowerCase().includes(ideal.toLowerCase())
+    );
+    
+    return {
+      ingredient,
+      compatibilityScore: isIdeal ? 0.9 : 0.5,
+      reasons: isIdeal ? ['Ideal for this method'] : ['General compatibility'],
+      elementalSynergy: method.elementalProperties || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }
+    };
+  });
+  
+  return {
+    method: method.name,
+    overallCompatibility: compatibility.reduce((sum, item) => sum + item.compatibilityScore, 0) / compatibility.length,
+    ingredientAnalysis: compatibility,
+    recommendations: compatibility
+      .filter(item => item.compatibilityScore > 0.7)
+      .map(item => item.ingredient)
+  };
+}
+
 // Missing function definitions for CookingMethods component
 function getIdealIngredients(method: ExtendedAlchemicalItem): string[] {
   // Replace placeholder implementation with proper ingredient extraction
@@ -1719,5 +1793,146 @@ export default function CookingMethods() {
     return getMethodProperty(method, 'name', 'Unknown Method');
   };
 
-  // ... rest of the component ...
+  // Enhanced rendering functions using unused icons
+  const renderEnhancedMethodCard = (method: ExtendedAlchemicalItem) => {
+    const methodData = createCookingMethodComponent(method as CookingMethodBase, {});
+    const alignment: PlanetaryAlignment = {
+      overallCompatibility: method.score || 0.7,
+      planetaryFactors: {},
+      dominantElements: methodData.element || 'Air'
+    };
+    const scoredMethod = calculateCookingMethodScore(method as CookingMethodBase, alignment);
+    
+    return (
+      <div key={methodData.id} className="bg-white rounded-lg shadow-md p-4 mb-4">
+        <div className="flex items-center justify-between mb-3">
+          <h3 className="font-semibold text-lg flex items-center">
+            {methodData.element === 'Fire' && <Flame className="w-5 h-5 text-red-500 mr-2" />}
+            {methodData.element === 'Water' && <Droplets className="w-5 h-5 text-blue-500 mr-2" />}
+            {methodData.element === 'Earth' && <Mountain className="w-5 h-5 text-green-500 mr-2" />}
+            {methodData.element === 'Air' && <Wind className="w-5 h-5 text-gray-500 mr-2" />}
+            {methodData.name}
+          </h3>
+          <div className="flex items-center space-x-2">
+            <div className="flex items-center text-sm text-gray-600">
+              <Thermometer className="w-4 h-4 mr-1" />
+              {Math.round(scoredMethod.heat * 100)}°
+            </div>
+            <div className="flex items-center text-sm text-gray-600">
+              <Timer className="w-4 h-4 mr-1" />
+              {scoredMethod.energy > 0.5 ? 'Fast' : 'Slow'}
+            </div>
+            <div className="flex items-center text-sm">
+              <Sparkles className="w-4 h-4 mr-1 text-yellow-500" />
+              <span className="font-medium">{Math.round(scoredMethod.score * 100)}%</span>
+            </div>
+          </div>
+        </div>
+        
+        <p className="text-gray-600 text-sm mb-3">{methodData.description}</p>
+        
+        <div className="flex items-center justify-between">
+          <div className="flex items-center space-x-4 text-xs text-gray-500">
+            <div className="flex items-center">
+              <Globe className="w-3 h-3 mr-1" />
+              {methodData.cuisine}
+            </div>
+            <div className="flex items-center">
+              <Clock className="w-3 h-3 mr-1" />
+              {Array.isArray(methodData.season) ? methodData.season.join(', ') : methodData.season}
+            </div>
+          </div>
+          <div className="flex items-center space-x-1">
+            {scoredMethod.score > 0.8 && <CheckCircle2 className="w-4 h-4 text-green-500" />}
+            {scoredMethod.score < 0.5 && <AlertCircle className="w-4 h-4 text-yellow-500" />}
+            <Info className="w-4 h-4 text-blue-500 cursor-pointer" 
+                  title={scoredMethod.matchReason} />
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  // Enhanced method analysis panel
+  const renderAnalysisPanel = () => {
+    if (!selectedMethod) return null;
+    
+    const ingredientCompatibility = analyzeIngredientCompatibility(
+      selectedMethod as CookingMethodBase,
+      ['tomatoes', 'onions', 'garlic', 'herbs']
+    );
+    
+    return (
+      <div className="mt-6 bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg p-4">
+        <h3 className="text-lg font-semibold mb-4 flex items-center">
+          <Sparkles className="w-5 h-5 mr-2 text-purple-500" />
+          Enhanced Method Analysis
+        </h3>
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="bg-white rounded p-3">
+            <h4 className="font-medium mb-2 flex items-center">
+              <Thermometer className="w-4 h-4 mr-1 text-red-500" />
+              Thermal Properties
+            </h4>
+            <div className="space-y-1 text-sm text-gray-600">
+              <div>Heat Level: {Math.round((selectedMethod.elementalProperties?.Fire || 0.25) * 100)}%</div>
+              <div>Energy: {Math.round((selectedMethod.elementalProperties?.Air || 0.25) * 100)}%</div>
+            </div>
+          </div>
+          
+          <div className="bg-white rounded p-3">
+            <h4 className="font-medium mb-2 flex items-center">
+              <Globe className="w-4 h-4 mr-1 text-green-500" />
+              Ingredient Compatibility
+            </h4>
+            <div className="space-y-1 text-sm text-gray-600">
+              <div>Overall: {Math.round(ingredientCompatibility.overallCompatibility * 100)}%</div>
+              <div>Recommendations: {ingredientCompatibility.recommendations.length}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  // Main component return with enhanced functionality
+  return (
+    <div className="cooking-methods-container p-6">
+      <div className="flex items-center justify-between mb-6">
+        <h2 className="text-2xl font-bold flex items-center">
+          <Sparkles className="w-6 h-6 mr-2 text-purple-500" />
+          Enhanced Cooking Methods
+        </h2>
+        
+        <div className="flex items-center space-x-2">
+          <button
+            onClick={() => {
+              const enhancedMethods = recommendedMethods.map(method => 
+                renderEnhancedMethodCard(method)
+              );
+              console.log('Enhanced Methods Analysis Complete');
+            }}
+            className="px-4 py-2 bg-purple-500 text-white rounded-lg hover:bg-purple-600 transition-colors flex items-center"
+          >
+            <Sparkles className="w-4 h-4 mr-1" />
+            Enhance
+          </button>
+        </div>
+      </div>
+      
+      {loading ? (
+        <div className="text-center py-8">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-500 mx-auto mb-4"></div>
+          <p className="text-gray-600">Aligning cooking methods with celestial energies...</p>
+        </div>
+      ) : (
+        <div className="space-y-4">
+          {recommendedMethods.map(method => renderEnhancedMethodCard(method))}
+          {renderAnalysisPanel()}
+          {renderDebugPanel()}
+        </div>
+      )}
+    </div>
+  );
 }

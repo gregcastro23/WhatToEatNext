@@ -1,15 +1,7 @@
 import { allCookingMethods, cookingMethods as detailedCookingMethods } from '@/data/cooking';
 import { culturalCookingMethods } from '@/utils/culturalMethodsAggregator';
 import type { ZodiacSign, ElementalProperties } from '@/types';
-import type { CookingMethod as _CookingMethodEnum } from '@/types/alchemy';
 import { getCurrentSeason } from '@/utils/dateUtils';
-import _marsData from '@/data/planets/mars';
-import _mercuryData from '@/data/planets/mercury';
-import _jupiterData from '@/data/planets/jupiter';
-import _saturnData from '@/data/planets/saturn';
-import _uranusData from '@/data/planets/uranus';
-import _neptuneData from '@/data/planets/neptune';
-import _plutoData from '@/data/planets/pluto';
 import { PlanetaryAspect, LunarPhase, AstrologicalState, BasicThermodynamicProperties, MethodRecommendationOptions, MethodRecommendation, COOKING_METHOD_THERMODYNAMICS } from '@/types/alchemy';
 import type { 
   CookingMethod, 
@@ -561,10 +553,10 @@ export async function getRecommendedCookingMethods(
     const fireSigns = ['aries', 'leo', 'sagittarius'];
     const waterSigns = ['cancer', 'scorpio', 'pisces'];
     
-    if ((fireSigns as string[])?.includes?.(lowerSign) && (marsData.PlanetSpecific?.CulinaryTemperament as Record<string, any>)?.FireMars) {
-      _marsTemperament = (marsData.PlanetSpecific.CulinaryTemperament as Record<string, any>).FireMars;
-    } else if ((waterSigns as string[])?.includes?.(lowerSign) && (marsData.PlanetSpecific?.CulinaryTemperament as Record<string, any>)?.WaterMars) {
-      _marsTemperament = (marsData.PlanetSpecific.CulinaryTemperament as Record<string, any>).WaterMars;
+    if ((fireSigns as string[])?.includes?.(lowerSign) && (marsData.PlanetSpecific?.CulinaryTemperament as Record<string, unknown>)?.FireMars) {
+      _marsTemperament = (marsData.PlanetSpecific.CulinaryTemperament as Record<string, unknown>).FireMars;
+    } else if ((waterSigns as string[])?.includes?.(lowerSign) && (marsData.PlanetSpecific?.CulinaryTemperament as Record<string, unknown>)?.WaterMars) {
+      _marsTemperament = (marsData.PlanetSpecific.CulinaryTemperament as Record<string, unknown>).WaterMars;
     }
   }
   
@@ -575,10 +567,10 @@ export async function getRecommendedCookingMethods(
     const airSigns = ['gemini', 'libra', 'aquarius'];
     const earthSigns = ['taurus', 'virgo', 'capricorn'];
     
-    if ((airSigns as string[])?.includes?.(lowerSign) && (mercuryData.PlanetSpecific?.CulinaryTemperament as Record<string, any>)?.AirMercury) {
-      mercuryTemperament = (mercuryData.PlanetSpecific.CulinaryTemperament as Record<string, any>).AirMercury;
-    } else if ((earthSigns as string[])?.includes?.(lowerSign) && (mercuryData.PlanetSpecific?.CulinaryTemperament as Record<string, any>)?.EarthMercury) {
-      mercuryTemperament = (mercuryData.PlanetSpecific.CulinaryTemperament as Record<string, any>).EarthMercury;
+    if ((airSigns as string[])?.includes?.(lowerSign) && (mercuryData.PlanetSpecific?.CulinaryTemperament as Record<string, unknown>)?.AirMercury) {
+      mercuryTemperament = (mercuryData.PlanetSpecific.CulinaryTemperament as Record<string, unknown>).AirMercury;
+    } else if ((earthSigns as string[])?.includes?.(lowerSign) && (mercuryData.PlanetSpecific?.CulinaryTemperament as Record<string, unknown>)?.EarthMercury) {
+      mercuryTemperament = (mercuryData.PlanetSpecific.CulinaryTemperament as Record<string, unknown>).EarthMercury;
     }
   }
   
@@ -589,10 +581,10 @@ export async function getRecommendedCookingMethods(
     const fireSigns = ['aries', 'leo', 'sagittarius'];
     const airSigns = ['gemini', 'libra', 'aquarius'];
     
-    if ((fireSigns as string[])?.includes?.(lowerSign) && (jupiterData.PlanetSpecific?.CulinaryTemperament as Record<string, any>)?.FireJupiter) {
-      jupiterTemperament = (jupiterData.PlanetSpecific.CulinaryTemperament as Record<string, any>).FireJupiter;
-    } else if ((airSigns as string[])?.includes?.(lowerSign) && (jupiterData.PlanetSpecific?.CulinaryTemperament as Record<string, any>)?.AirJupiter) {
-      jupiterTemperament = (jupiterData.PlanetSpecific.CulinaryTemperament as Record<string, any>).AirJupiter;
+    if ((fireSigns as string[])?.includes?.(lowerSign) && (jupiterData.PlanetSpecific?.CulinaryTemperament as Record<string, unknown>)?.FireJupiter) {
+      jupiterTemperament = (jupiterData.PlanetSpecific.CulinaryTemperament as Record<string, unknown>).FireJupiter;
+    } else if ((airSigns as string[])?.includes?.(lowerSign) && (jupiterData.PlanetSpecific?.CulinaryTemperament as Record<string, unknown>)?.AirJupiter) {
+      jupiterTemperament = (jupiterData.PlanetSpecific.CulinaryTemperament as Record<string, unknown>).AirJupiter;
     }
   }
   
@@ -603,10 +595,10 @@ export async function getRecommendedCookingMethods(
     const earthSigns = ['taurus', 'virgo', 'capricorn'];
     const airSigns = ['gemini', 'libra', 'aquarius'];
     
-    if ((earthSigns as string[])?.includes?.(lowerSign) && (saturnData.PlanetSpecific?.CulinaryTemperament as Record<string, any>)?.EarthSaturn) {
-      _saturnTemperament = (saturnData.PlanetSpecific.CulinaryTemperament as Record<string, any>).EarthSaturn;
-    } else if ((airSigns as string[])?.includes?.(lowerSign) && (saturnData.PlanetSpecific?.CulinaryTemperament as Record<string, any>)?.AirSaturn) {
-      _saturnTemperament = (saturnData.PlanetSpecific.CulinaryTemperament as Record<string, any>).AirSaturn;
+    if ((earthSigns as string[])?.includes?.(lowerSign) && (saturnData.PlanetSpecific?.CulinaryTemperament as Record<string, unknown>)?.EarthSaturn) {
+      _saturnTemperament = (saturnData.PlanetSpecific.CulinaryTemperament as Record<string, unknown>).EarthSaturn;
+    } else if ((airSigns as string[])?.includes?.(lowerSign) && (saturnData.PlanetSpecific?.CulinaryTemperament as Record<string, unknown>)?.AirSaturn) {
+      _saturnTemperament = (saturnData.PlanetSpecific.CulinaryTemperament as Record<string, unknown>).AirSaturn;
     }
   }
   
@@ -1001,7 +993,7 @@ export async function getRecommendedCookingMethods(
       if (isVenusRetrograde && venusData.PlanetSpecific?.Retrograde) {
         // Check if cooking method aligns with retrograde focus
         // Extract retrograde data with safe property access
-        const retrogradeData = venusData.PlanetSpecific.Retrograde as Record<string, any>;
+        const retrogradeData = venusData.PlanetSpecific.Retrograde as Record<string, unknown>;
         const foodFocus = retrogradeData?.FoodFocus;
         
         if (foodFocus) {
@@ -1277,7 +1269,7 @@ export function calculateMethodScore(method: CookingMethodProfile, astroState: A
   }
   
   // Add a small method-specific variance to prevent identical scores
-  const methodNameLength = (method as Record<string, any>)?.name?.length || 10;
+  const methodNameLength = (method as Record<string, unknown>)?.name?.length || 10;
   const methodSpecificVariance = (methodNameLength % 7) * 0.01;
   
   // Calculate final score with all enhancements
@@ -1290,7 +1282,7 @@ export function calculateMethodScore(method: CookingMethodProfile, astroState: A
 
 // Helper function to get method elemental profile
 function getMethodElementalProfile(method: CookingMethodProfile): ElementalProperties {
-  return (method as Record<string, any>)?.elementalProperties || (method as Record<string, any>)?.elementalEffect || { 
+  return (method as Record<string, unknown>)?.elementalProperties || (method as Record<string, unknown>)?.elementalEffect || { 
     Fire: 0, 
     Water: 0, 
     Earth: 0, 
@@ -1378,7 +1370,7 @@ export function getCookingMethodRecommendations(
         name: (method as CookingMethodData)?.name || name,
         description: (method as CookingMethodData)?.description || 'Cooking method',
         category: 'General',
-        element: 'Fire' as 'Fire',
+        element: 'Fire' as const,
         intensity: 1,
         elementalEffect: (method as CookingMethodData)?.elementalEffect,
         elementalProperties: (method as CookingMethodData)?.elementalProperties,

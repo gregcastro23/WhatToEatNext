@@ -1,7 +1,4 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.middleEastern = void 0;
-exports.middleEastern = {
+export const middleEastern = {
     id: "middle-eastern",
     name: 'Middle Eastern',
     description: 'Traditional Middle Eastern cuisine featuring aromatic spices, fresh herbs, and ancient cooking techniques',
@@ -67,7 +64,7 @@ exports.middleEastern = {
                 {
                     name: "Ful Medames",
                     description: "Traditional fava bean breakfast with olive oil, lemon, and herbs",
-                    cuisine: "Middle Eastern",
+                    cuisine: "Middle Eastern (Levant)",
                     cookingMethods: ["simmering", "mashing", "garnishing"],
                     tools: [
                         "medium pot",

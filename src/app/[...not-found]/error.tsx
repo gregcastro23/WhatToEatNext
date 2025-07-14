@@ -5,7 +5,6 @@ import { logger } from '@/utils/logger';
 
 export default function NotFoundError({
   error,
-  reset,
 }: {
   error: Error & { digest?: string }
   reset: () => void

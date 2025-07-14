@@ -226,6 +226,50 @@ function buildCompleteRecipe(recipe: RecipeData, cuisineName: string): RecipeDat
   };
 }
 
+// Enhanced scoring with MatchingResult interface
+function calculateEnhancedCuisineScore(
+  cuisineData: CuisineData,
+  elementalState: ElementalData,
+  calculationData: CalculationData
+): MatchingResult {
+  const elementalMatch = recommendationService.calculateElementalCompatibility(
+    cuisineData.elementalProperties || elementalState,
+    elementalState
+  );
+  
+  const score = (elementalMatch * calculationData.weight!) + (calculationData.value * 0.3);
+  
+  return {
+    score,
+    elements: cuisineData.elementalState || elementalState,
+    recipe: cuisineData,
+    nutritionalAnalysis: analyzeNutritionalData(cuisineData),
+    confidence: calculationData.score || 0.75
+  };
+}
+
+// Nutrient analysis using NutrientData interface
+function analyzeNutritionalData(cuisineData: CuisineData): NutrientData[] {
+  // Extract nutritional information from cuisine data
+  const nutrients: NutrientData[] = [];
+  
+  if (cuisineData.elementalProperties) {
+    Object.entries(cuisineData.elementalProperties).forEach(([element, value]) => {
+      if (typeof value === 'number') {
+        nutrients.push({
+          nutrient: { name: `${element} Element` },
+          nutrientName: `${element} Element`,
+          name: `${element} Element`,
+          vitaminCount: Math.round(value * 100),
+          data: { elementalValue: value, cuisineId: cuisineData.id }
+        });
+      }
+    });
+  }
+  
+  return nutrients;
+}
+
 // Use recommendation service's method instead of local implementation
 function calculateElementalMatch(
   recipeElements: ElementalProperties,
@@ -240,17 +284,23 @@ type ExpandedState = {
 };
 
 export default function CuisineRecommender() {
-  // Add a simple analytics tracking function
-  const trackEvent = (eventName: string, eventValue: string) => {
+  // Enhanced analytics tracking with calculation data
+  const trackEvent = (eventName: string, eventValue: string, calculationData?: CalculationData) => {
     // This function will safely capture analytics events
     // For now, just log to console in development
     if (process.env.NODE_ENV === 'development') {
-      // console.log(`[Analytics] ${eventName}: ${eventValue}`);
+      // console.log(`[Analytics] ${eventName}: ${eventValue}`, calculationData);
+    }
+
+    // Store calculation metrics for analysis
+    if (calculationData) {
+      // Future: Send to analytics service
     }
     // In the future, you can connect this to a real analytics service
   };
 
-  // Get access to the AlchemicalContext
+  // Get enhanced astrological state with calculation capabilities
+  const astrologyState = useAstrologicalState();
   const alchemicalContext = useAlchemical();
   const _isDaytime = (alchemicalContext?.isDaytime ?? true);
   const planetaryPositions = alchemicalContext?.planetaryPositions ?? {};
@@ -260,6 +310,16 @@ export default function CuisineRecommender() {
   };
   const currentZodiac = state.astrologicalState?.currentZodiacSign;
   const lunarPhase = state.astrologicalState?.lunarPhase;
+
+  // Memoized calculation data for performance
+  const calculationMetrics = useMemo((): CalculationData => {
+    const elementalState = astrologyState?.elementalState || state?.astrologicalState?.elementalState;
+    return {
+      value: elementalState ? Object.values(elementalState).reduce((a: number, b: number) => a + b, 0) : 1.0,
+      weight: astrologyState?.confidence || 0.8,
+      score: astrologyState?.astrologicalScore || 0.75
+    };
+  }, [astrologyState, state]);
 
   // Create a ref to store astrological state
   const astroStateRef = useRef({
@@ -309,10 +369,12 @@ export default function CuisineRecommender() {
   >({});
   const [showCuisineDetails, setShowCuisineDetails] = useState<boolean>(false);
   
-  // Enhanced features state
+  // Enhanced features state with advanced UI controls
   const [showSauceRecommendations, setShowSauceRecommendations] = useState(false);
   const [showCuisineSpecificDetails, setShowCuisineSpecificDetails] = useState(false);
   const [showPlanetaryInfluences, setShowPlanetaryInfluences] = useState(false);
+  const [showAdvancedFilters, setShowAdvancedFilters] = useState(false);
+  const [showElementalAnalysis, setShowElementalAnalysis] = useState(false);
   const [currentMomentElementalProfile, setCurrentMomentElementalProfile] = useState<ElementalProperties | undefined>(
     (alchemicalContext as Record<string, unknown>)?.state?.astrologicalState?.elementalState ||
     (alchemicalContext as Record<string, unknown>)?.state?.elementalState
@@ -822,36 +884,206 @@ export default function CuisineRecommender() {
       {/* Enhanced features toggles */}
       <div className="flex flex-wrap gap-2 mb-4 p-3 bg-gradient-to-r from-indigo-50 to-purple-50 rounded-lg">
         <button
-          onClick={() => setShowSauceRecommendations(!showSauceRecommendations)}
-          className={`px-3 py-1 rounded-full text-xs font-medium transition-colors ${
+          onClick={() => {
+            setShowSauceRecommendations(!showSauceRecommendations);
+            trackEvent('sauce_harmonizer_toggle', showSauceRecommendations ? 'disabled' : 'enabled', calculationMetrics);
+          }}
+          className={`px-3 py-1 rounded-full text-xs font-medium transition-colors flex items-center gap-1 ${
             showSauceRecommendations 
               ? 'bg-orange-500 text-white' 
               : 'bg-white/90 text-orange-600 hover:bg-orange-100'
           }`}
         >
-          🍯 Sauce Harmonizer
+          <Leaf className="w-3 h-3" />
+          Sauce Harmonizer
         </button>
         <button
-          onClick={() => setShowCuisineSpecificDetails(!showCuisineSpecificDetails)}
-          className={`px-3 py-1 rounded-full text-xs font-medium transition-colors ${
+          onClick={() => {
+            setShowCuisineSpecificDetails(!showCuisineSpecificDetails);
+            trackEvent('regional_details_toggle', showCuisineSpecificDetails ? 'disabled' : 'enabled', calculationMetrics);
+          }}
+          className={`px-3 py-1 rounded-full text-xs font-medium transition-colors flex items-center gap-1 ${
             showCuisineSpecificDetails 
               ? 'bg-green-500 text-white' 
               : 'bg-white/90 text-green-600 hover:bg-green-100'
           }`}
         >
-          🌍 Regional Details
+          <Info className="w-3 h-3" />
+          Regional Details
         </button>
         <button
-          onClick={() => setShowPlanetaryInfluences(!showPlanetaryInfluences)}
-          className={`px-3 py-1 rounded-full text-xs font-medium transition-colors ${
+          onClick={() => {
+            setShowPlanetaryInfluences(!showPlanetaryInfluences);
+            trackEvent('planetary_influences_toggle', showPlanetaryInfluences ? 'disabled' : 'enabled', calculationMetrics);
+          }}
+          className={`px-3 py-1 rounded-full text-xs font-medium transition-colors flex items-center gap-1 ${
             showPlanetaryInfluences 
               ? 'bg-purple-500 text-white' 
               : 'bg-white/90 text-purple-600 hover:bg-purple-100'
           }`}
         >
-          🪐 Planetary Influences
+          <Clock className="w-3 h-3" />
+          Planetary Influences
+        </button>
+        <button
+          onClick={() => {
+            const cuisineScores = cuisineRecommendations.map(cuisine => 
+              calculateEnhancedCuisineScore(
+                cuisine as CuisineData,
+                currentMomentElementalProfile as ElementalData,
+                calculationMetrics
+              )
+            );
+            trackEvent('enhanced_analysis', 'triggered', { value: cuisineScores.length, score: cuisineScores.reduce((a, b) => a + b.score, 0) / cuisineScores.length });
+          }}
+          className="px-3 py-1 rounded-full text-xs font-medium transition-colors flex items-center gap-1 bg-white/90 text-blue-600 hover:bg-blue-100"
+        >
+          <Tag className="w-3 h-3" />
+          Analyze
+        </button>
+        <button
+          onClick={() => {
+            setShowAdvancedFilters(!showAdvancedFilters);
+            trackEvent('advanced_filters_toggle', showAdvancedFilters ? 'disabled' : 'enabled', calculationMetrics);
+          }}
+          className={`px-3 py-1 rounded-full text-xs font-medium transition-colors flex items-center gap-1 ${
+            showAdvancedFilters 
+              ? 'bg-indigo-500 text-white' 
+              : 'bg-white/90 text-indigo-600 hover:bg-indigo-100'
+          }`}
+        >
+          <Search className="w-3 h-3" />
+          Filters
+        </button>
+        <button
+          onClick={() => {
+            setShowElementalAnalysis(!showElementalAnalysis);
+            trackEvent('elemental_analysis_toggle', showElementalAnalysis ? 'disabled' : 'enabled', calculationMetrics);
+          }}
+          className={`px-3 py-1 rounded-full text-xs font-medium transition-colors flex items-center gap-1 ${
+            showElementalAnalysis 
+              ? 'bg-emerald-500 text-white' 
+              : 'bg-white/90 text-emerald-600 hover:bg-emerald-100'
+          }`}
+        >
+          <List className="w-3 h-3" />
+          Elements
         </button>
       </div>
+
+      {/* Advanced Filters Panel */}
+      {showAdvancedFilters && (
+        <div className="mb-4 p-4 bg-gradient-to-r from-indigo-50 to-blue-50 rounded-lg border border-indigo-200">
+          <h3 className="text-sm font-medium mb-3 flex items-center gap-2">
+            <Search className="w-4 h-4 text-indigo-600" />
+            Advanced Filtering Options
+          </h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
+            <div>
+              <label className="text-xs font-medium text-gray-600 block mb-1">Elemental Focus</label>
+              <select className="w-full text-xs border rounded p-1.5">
+                <option>All Elements</option>
+                <option>Fire Dominant</option>
+                <option>Water Dominant</option>
+                <option>Earth Dominant</option>
+                <option>Air Dominant</option>
+              </select>
+            </div>
+            <div>
+              <label className="text-xs font-medium text-gray-600 block mb-1">Match Threshold</label>
+              <select className="w-full text-xs border rounded p-1.5">
+                <option>All Matches</option>
+                <option>≥ 60%</option>
+                <option>≥ 70%</option>
+                <option>≥ 80%</option>
+                <option>≥ 90%</option>
+              </select>
+            </div>
+            <div>
+              <label className="text-xs font-medium text-gray-600 block mb-1">Zodiac Alignment</label>
+              <select className="w-full text-xs border rounded p-1.5">
+                <option>Any Sign</option>
+                <option>Current Sign Only</option>
+                <option>Compatible Signs</option>
+              </select>
+            </div>
+            <div>
+              <label className="text-xs font-medium text-gray-600 block mb-1">Lunar Phase</label>
+              <select className="w-full text-xs border rounded p-1.5">
+                <option>Any Phase</option>
+                <option>Current Phase</option>
+                <option>New Moon</option>
+                <option>Full Moon</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Elemental Analysis Panel */}
+      {showElementalAnalysis && (
+        <div className="mb-4 p-4 bg-gradient-to-r from-emerald-50 to-teal-50 rounded-lg border border-emerald-200">
+          <h3 className="text-sm font-medium mb-3 flex items-center gap-2">
+            <List className="w-4 h-4 text-emerald-600" />
+            Elemental Harmony Analysis
+          </h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="bg-white/80 p-3 rounded border">
+              <h4 className="text-xs font-medium text-gray-600 mb-2">Current Moment Elements</h4>
+              {currentMomentElementalProfile && (
+                <div className="space-y-2">
+                  {Object.entries(currentMomentElementalProfile).map(([element, value]) => (
+                    <div key={element} className="flex items-center justify-between">
+                      <div className="flex items-center gap-1">
+                        {element === 'Fire' && <Flame size={12} className="text-red-500" />}
+                        {element === 'Water' && <Droplets size={12} className="text-blue-500" />}
+                        {element === 'Earth' && <Mountain size={12} className="text-green-500" />}
+                        {element === 'Air' && <Wind size={12} className="text-yellow-500" />}
+                        <span className="text-xs">{element}</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <div className="w-16 bg-gray-200 rounded-full h-1.5">
+                          <div 
+                            className={`h-1.5 rounded-full ${
+                              element === 'Fire' ? 'bg-red-500' : 
+                              element === 'Water' ? 'bg-blue-500' : 
+                              element === 'Earth' ? 'bg-green-500' : 
+                              'bg-yellow-500'
+                            }`}
+                            style={{ width: `${(typeof value === 'number' ? value * 100 : 0)}%` }}
+                          ></div>
+                        </div>
+                        <span className="text-xs font-medium">{(typeof value === 'number' ? value * 100 : 0).toFixed(1)}%</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+            <div className="bg-white/80 p-3 rounded border">
+              <h4 className="text-xs font-medium text-gray-600 mb-2">Top Elemental Matches</h4>
+              <div className="space-y-1">
+                {cuisineRecommendations
+                  .sort((a, b) => (b.matchPercentage || 0) - (a.matchPercentage || 0))
+                  .slice(0, 5)
+                  .map((cuisine) => (
+                    <div key={cuisine.id} className="flex justify-between items-center text-xs">
+                      <span className="truncate mr-2">{cuisine.name}</span>
+                      <span className={`px-1.5 py-0.5 rounded ${
+                        (cuisine.matchPercentage || 0) >= 80 ? 'bg-green-100 text-green-800' :
+                        (cuisine.matchPercentage || 0) >= 60 ? 'bg-yellow-100 text-yellow-800' :
+                        'bg-red-100 text-red-800'
+                      }`}>
+                        {cuisine.matchPercentage}%
+                      </span>
+                    </div>
+                  ))
+                }
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Group cuisine cards in a better grid layout */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 mb-4">
@@ -873,7 +1105,15 @@ export default function CuisineRecommender() {
                     ? 'border-gray-200 bg-gray-50' 
                     : 'border-gray-200'
               }`}
-              onClick={() => handleCuisineSelect(cuisine.id)}
+              onClick={() => {
+                handleCuisineSelect(cuisine.id);
+                // Enhanced analytics tracking with detailed cuisine metrics
+                trackEvent('cuisine_card_click', cuisine.name, {
+                  value: cuisine.matchPercentage || 50,
+                  weight: 0.8,
+                  score: (cuisine.compatibilityScore || cuisine.score || 0.5)
+                });
+              }}
             >
               {/* Cuisine header with name and match score */}
               <div className="flex justify-between items-center mb-2">
@@ -1146,8 +1386,17 @@ export default function CuisineRecommender() {
         <div className="mt-4 pt-3 border-t border-gray-200">
           <div className="flex justify-between items-center mb-2">
             <div>
-              <h3 className="font-semibold text-lg">
+              <h3 className="font-semibold text-lg flex items-center gap-2">
                 {selectedCuisineData.name} Cuisine
+                <button
+                  onClick={() => {
+                    setShowCuisineDetails(false);
+                    trackEvent('cuisine_details_close', selectedCuisineData.name, calculationMetrics);
+                  }}
+                  className="text-gray-400 hover:text-gray-600 transition-colors"
+                >
+                  <X className="w-4 h-4" />
+                </button>
               </h3>
               {selectedCuisineData.parentCuisine && (
                 <span className="text-sm text-gray-500">Regional variant of {selectedCuisineData.parentCuisine}</span>

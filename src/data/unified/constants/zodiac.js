@@ -1,10 +1,7 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.getZodiacSignsByElement = exports.getElementFromZodiac = exports.TRIPLICITY_RULERS = exports.PLANETARY_EXALTATIONS = exports.PLANETARY_RULERSHIPS = exports.ZODIAC_ELEMENTS = exports.zodiacElementMap = void 0;
 /**
  * Elemental correspondences for zodiac signs
  */
-exports.zodiacElementMap = {
+export const zodiacElementMap = {
     aries: 'Fire',
     taurus: 'Earth',
     gemini: 'Air',
@@ -19,11 +16,11 @@ exports.zodiacElementMap = {
     pisces: 'Water'
 };
 // Export zodiac elements directly for easier imports
-exports.ZODIAC_ELEMENTS = exports.zodiacElementMap;
+export const ZODIAC_ELEMENTS = zodiacElementMap;
 /**
  * Planetary rulerships - which planets rule which signs
  */
-exports.PLANETARY_RULERSHIPS = {
+export const PLANETARY_RULERSHIPS = {
     'Sun': ['leo'],
     'Moon': ['cancer'],
     'Mercury': ['gemini', 'virgo'],
@@ -38,7 +35,7 @@ exports.PLANETARY_RULERSHIPS = {
 /**
  * Planetary exaltations - where planets have extra strength
  */
-exports.PLANETARY_EXALTATIONS = {
+export const PLANETARY_EXALTATIONS = {
     'Sun': 'aries',
     'Moon': 'taurus',
     'Mercury': 'virgo',
@@ -53,7 +50,7 @@ exports.PLANETARY_EXALTATIONS = {
 /**
  * Triplicity rulers - planets that rule elements
  */
-exports.TRIPLICITY_RULERS = {
+export const TRIPLICITY_RULERS = {
     'Fire': ['Sun', 'Jupiter', 'Mars'],
     'Earth': ['Venus', 'Saturn', 'Mercury'],
     'Air': ['Saturn', 'Mercury', 'Jupiter'],
@@ -62,16 +59,14 @@ exports.TRIPLICITY_RULERS = {
 /**
  * Converts a zodiac sign to its corresponding element
  */
-const getElementFromZodiac = (sign) => {
-    return exports.zodiacElementMap[sign];
+export const getElementFromZodiac = (sign) => {
+    return zodiacElementMap[sign];
 };
-exports.getElementFromZodiac = getElementFromZodiac;
 /**
  * Gets all zodiac signs associated with a specific element
  */
-const getZodiacSignsByElement = (element) => {
-    return Object.entries(exports.zodiacElementMap)
+export const getZodiacSignsByElement = (element) => {
+    return Object.entries(zodiacElementMap)
         .filter(([_, signElement]) => signElement === element)
         .map(([sign, _]) => sign);
 };
-exports.getZodiacSignsByElement = getZodiacSignsByElement;

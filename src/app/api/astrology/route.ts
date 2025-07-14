@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 
-export async function GET(request: Request) {
+export async function GET() {
   // Return a simple mock response for now
   return NextResponse.json({
     status: 'success',

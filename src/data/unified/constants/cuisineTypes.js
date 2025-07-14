@@ -1,7 +1,4 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.CUISINE_TYPES = void 0;
-exports.CUISINE_TYPES = {
+export const CUISINE_TYPES = {
     AFRICAN: 'african',
     CHINESE: 'chinese',
     FRENCH: 'french',

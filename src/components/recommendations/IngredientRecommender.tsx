@@ -147,11 +147,11 @@ function isIngredientRecommendation(value: unknown): value is IngredientRecommen
 export default function IngredientRecommender() {
   // Use the context to get astrological data including chakra energies
   const astroState = useAstrologicalState();
-  const contextChakraEnergies = (astroState as any)?.chakraEnergies;
-  const planetaryPositions = (astroState as any)?.planetaryPositions;
-  const astroLoading = (astroState as any)?.isLoading || false;
-  const astroError = (astroState as any)?.error;
-  const currentZodiac = (astroState as any)?.currentZodiac;
+  const contextChakraEnergies = (astroState as Record<string, unknown>)?.chakraEnergies;
+  const planetaryPositions = (astroState as Record<string, unknown>)?.planetaryPositions;
+  const astroLoading = (astroState as Record<string, unknown>)?.isLoading || false;
+  const astroError = (astroState as Record<string, unknown>)?.error;
+  const currentZodiac = (astroState as Record<string, unknown>)?.currentZodiac;
   // Add flavor engine context
   const { calculateCompatibility } = useFlavorEngine();
   const [astroRecommendations, setAstroRecommendations] = useState<GroupedIngredientRecommendations>({});
@@ -179,12 +179,12 @@ export default function IngredientRecommender() {
   const alchemicalHookResult = useAlchemicalRecommendations({ 
     mode: 'standard',
     limit: 300 
-  } as any);
-  const foodRecommendations = (alchemicalHookResult as any)?.enhancedRecommendations;
-  const chakraEnergies = (alchemicalHookResult as any)?.chakraEnergies;
-  const foodLoading = (alchemicalHookResult as any)?.loading || false;
-  const foodError = (alchemicalHookResult as any)?.error;
-  const refreshRecommendations = (alchemicalHookResult as any)?.refreshRecommendations;
+  } as Record<string, unknown>);
+  const foodRecommendations = (alchemicalHookResult as Record<string, unknown>)?.enhancedRecommendations;
+  const chakraEnergies = (alchemicalHookResult as Record<string, unknown>)?.chakraEnergies;
+  const foodLoading = (alchemicalHookResult as Record<string, unknown>)?.loading || false;
+  const foodError = (alchemicalHookResult as Record<string, unknown>)?.error;
+  const refreshRecommendations = (alchemicalHookResult as Record<string, unknown>)?.refreshRecommendations;
 
   // Add timeout for loading state
   useEffect(() => {
@@ -355,7 +355,7 @@ export default function IngredientRecommender() {
     return Array.isArray(herbsCollection) ? 
       (herbsCollection || []).map((herb: unknown) => {
         // Apply surgical type casting with variable extraction
-        const herbData = herb as any;
+        const herbData = herb as Record<string, unknown>;
         return herbData?.name;
       }) : 
       Object.values(herbsCollection || {}).map((herb: Record<string, unknown>) => herb.name);
@@ -366,7 +366,7 @@ export default function IngredientRecommender() {
     return Array.isArray(oilsCollection) ? 
       (oilsCollection || []).map((oil: unknown) => {
         // Apply surgical type casting with variable extraction
-        const oilData = oil as any;
+        const oilData = oil as Record<string, unknown>;
         return oilData?.name?.toLowerCase();
       }) : 
       Object.values(oilsCollection || {}).map((oil: Record<string, unknown>) => {
@@ -612,7 +612,7 @@ export default function IngredientRecommender() {
             categories[targetCategory].push({
               ...item,
               category: targetCategory
-            } as any);
+            } as Record<string, unknown>);
           }
         }
       });
@@ -823,7 +823,7 @@ export default function IngredientRecommender() {
     // Use flavor engine context for comparison if available
     if (calculateCompatibility) {
       try {
-        return calculateCompatibility(ingredient1 as any, ingredient2 as any); // Pattern YYY: React Props and State Interface Resolution
+        return calculateCompatibility(ingredient1 as Record<string, unknown>, ingredient2 as Record<string, unknown>); // Pattern YYY: React Props and State Interface Resolution
       } catch (error) {
         // console.error('Error calculating compatibility:', error);
         return 0.5; // Default compatibility

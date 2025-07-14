@@ -1,15 +1,15 @@
 import type { ZodiacSign } from '@/types/alchemy';
 import { ZodiacAffinity, DEFAULT_ZODIAC_AFFINITY } from '@/types/zodiacAffinity';
-import { _ElementalProperties } from '@/types/alchemy';
+// import { _ElementalProperties } from '@/types/alchemy';
 
 /**
  * A utility function for logging debug information
  * This is a safe replacement for console.log that can be disabled in production
  */
-const debugLog = (message: string, ...args: unknown[]): void => {
-  // Comment out console.log to avoid linting warnings
-  // console.log(message, ...args);
-};
+// const debugLog = (message: string, ...args: unknown[]): void => {
+//   // Comment out console.log to avoid linting warnings
+//   // console.log(message, ...args);
+// };
 
 /**
  * Get the current zodiac sign based on the current date
@@ -100,7 +100,7 @@ export function getElementForZodiac(sign: ZodiacSign): 'Fire' | 'Earth' | 'Air' 
   const fireZodiacs: ZodiacSign[] = ['aries', 'leo', 'sagittarius'];
   const earthZodiacs: ZodiacSign[] = ['taurus', 'virgo', 'capricorn'];
   const airZodiacs: ZodiacSign[] = ['gemini', 'libra', 'aquarius'];
-  const waterZodiacs: ZodiacSign[] = ['cancer', 'scorpio', 'pisces'];
+  const _waterZodiacs: ZodiacSign[] = ['cancer', 'scorpio', 'pisces'];
 
   if (fireZodiacs.includes(sign)) return 'Fire';
   if (earthZodiacs.includes(sign)) return 'Earth';
@@ -244,7 +244,7 @@ function getElementalCompatibility(
 export function getModalityForZodiac(sign: ZodiacSign): 'cardinal' | 'fixed' | 'mutable' {
   const cardinalZodiacs: ZodiacSign[] = ['aries', 'cancer', 'libra', 'capricorn'];
   const fixedZodiacs: ZodiacSign[] = ['taurus', 'leo', 'scorpio', 'aquarius'];
-  const mutableZodiacs: ZodiacSign[] = ['gemini', 'virgo', 'sagittarius', 'pisces'];
+  const _mutableZodiacs: ZodiacSign[] = ['gemini', 'virgo', 'sagittarius', 'pisces'];
 
   if (cardinalZodiacs.includes(sign)) return 'cardinal';
   if (fixedZodiacs.includes(sign)) return 'fixed';

@@ -8,7 +8,7 @@
 
 
 import type { ElementalProperties } from "@/types/alchemy";
-import { _Element } from "@/types/alchemy";
+// import { _Element } from "@/types/alchemy";
 
 /**
  * Seasonal modifiers for elemental properties

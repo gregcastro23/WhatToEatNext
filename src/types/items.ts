@@ -1,5 +1,6 @@
 // Item types for the application
 import { ElementalProperties, AlchemicalProperties } from './alchemy';
+import { NutritionInfo, IngredientElementalState } from './celestial';
 
 export interface BaseItem {
   id: string;
@@ -9,7 +10,7 @@ export interface BaseItem {
   alchemicalProperties?: AlchemicalProperties;
   // Additional properties commonly used in transformations
   uniqueness?: number;
-  elementalState?: any;
+  elementalState?: IngredientElementalState;
   category?: string;
   transformationScore?: number;
   planetaryInfluences?: string[];
@@ -21,7 +22,7 @@ export interface IngredientItem extends BaseItem {
   type: 'ingredient';
   category: string;
   subcategory?: string;
-  nutritionalInfo?: Record<string, any>;
+  nutritionalInfo?: NutritionInfo;
   flavorProfile?: string[];
   cookingMethods?: string[];
   seasonality?: string[];

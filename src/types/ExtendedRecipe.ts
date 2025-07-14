@@ -164,10 +164,10 @@ export function toExtendedRecipe(recipe: Recipe): ExtendedRecipe {
     preparationNotes: recipe.preparationNotes || '',
     ingredients: (recipe.ingredients || []).map(ingredient => ({
       ...ingredient,
-      id: (ingredient as Record<string, any>)?.id || 'ingredient-' + Date.now(),
-      preparation: (ingredient as Record<string, any>).preparation || '',
-      optional: (ingredient as Record<string, any>).optional || false,
-      notes: (ingredient as Record<string, any>).notes || ''
+      id: (ingredient as Record<string, unknown>)?.id || 'ingredient-' + Date.now(),
+      preparation: (ingredient as Record<string, unknown>).preparation || '',
+      optional: (ingredient as Record<string, unknown>).optional || false,
+      notes: (ingredient as Record<string, unknown>).notes || ''
     }))
   } as ExtendedRecipe;
 }

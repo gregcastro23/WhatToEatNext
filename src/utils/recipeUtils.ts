@@ -1,4 +1,4 @@
-import type { Recipe } from '@/types/recipe';
+// import type { Recipe } from '@/types/recipe';
 
 // Replace any with Recipe
 function processRecipes(recipes: Recipe[]): Recipe[] {
@@ -11,4 +11,4 @@ if (recipe?.ingredients && Array.isArray(recipe.ingredients)) {
 }
 
 // Prefix unused
-let _matchScore = 0; 
+const _matchScore = 0; 

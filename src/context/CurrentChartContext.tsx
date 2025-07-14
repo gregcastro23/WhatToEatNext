@@ -4,7 +4,7 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 import { _calculatePlanetaryPositions, calculateAspects, longitudeToZodiacPosition, getPlanetaryDignity } from '@/utils/astrologyUtils';
 import { getCurrentSeason } from '@/utils/dateUtils';
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
-import { PlanetaryAspect } from '@/types/celestial';
+import { PlanetaryAspect, PlanetaryPositionsMap, CelestialPosition } from '@/types/celestial';
 
 // Default placeholder for planetary positions
 const getDefaultPlanetaryPositions = () => {
@@ -36,15 +36,10 @@ const getDefaultPlanetaryPositions = () => {
 // Removed local PlanetaryAspect interface - now using authoritative definition from @/types/celestial
 
 export interface ChartData {
-  planetaryPositions: Record<string, unknown>;
+  planetaryPositions: PlanetaryPositionsMap;
   ascendant?: string;
   midheaven?: string;
-  planets: Record<string, {
-    sign: string;
-    degree: number;
-    isRetrograde?: boolean;
-    exactLongitude?: number;
-  }>;
+  planets: Record<string, CelestialPosition>;
   houses?: Record<number, {
     sign: string;
     degree: number;
@@ -52,7 +47,7 @@ export interface ChartData {
 }
 
 interface CurrentChart {
-  planetaryPositions: Record<string, unknown>;
+  planetaryPositions: PlanetaryPositionsMap;
   aspects: PlanetaryAspect[];
   currentSeason: string;
   lastUpdated: Date;
@@ -67,7 +62,7 @@ interface CurrentChartContextType {
   error: string | null;
   refreshChart: () => Promise<void>;
   createChartSvg: () => {
-    planetPositions: Record<string, unknown>;
+    planetPositions: Record<string, CelestialPosition>;
     ascendantSign: string;
     svgContent: string;
   };
@@ -88,13 +83,12 @@ export const CurrentChartProvider: React.FC<{children: React.ReactNode}> = ({ ch
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const calculateStelliums = (positions: Record<string, unknown>): Record<string, string[]> => {
+  const calculateStelliums = (positions: PlanetaryPositionsMap): Record<string, string[]> => {
     const signGroups: Record<string, string[]> = {};
     Object.entries(positions).forEach(([planet, data]) => {
-      const planetData = data as any;
-      if (planet === 'ascendant' || !data || !planetData?.sign) return;
+      if (planet === 'ascendant' || !data || !data?.sign) return;
       
-      const sign = planetData.sign;
+      const sign = data.sign;
       if (!signGroups[sign]) {
         signGroups[sign] = [];
       }
@@ -111,7 +105,7 @@ export const CurrentChartProvider: React.FC<{children: React.ReactNode}> = ({ ch
     return stelliums;
   };
 
-  const calculateHouseEffects = (positions: Record<string, unknown>): Record<string, number> => {
+  const calculateHouseEffects = (positions: PlanetaryPositionsMap): Record<string, number> => {
     const houseEffects: Record<string, number> = {
       Fire: 0,
       Water: 0,
@@ -120,10 +114,9 @@ export const CurrentChartProvider: React.FC<{children: React.ReactNode}> = ({ ch
     };
 
     Object.entries(positions).forEach(([planet, data]) => {
-      const planetData = data as any;
-      if (planet === 'ascendant' || !data || !planetData?.sign) return;
+      if (planet === 'ascendant' || !data || !data?.sign) return;
       
-      const sign = planetData.sign;
+      const sign = data.sign;
       const element = getElementFromSign(sign);
       if (element) {
         houseEffects[element] += 1;
@@ -217,22 +210,21 @@ export const CurrentChartProvider: React.FC<{children: React.ReactNode}> = ({ ch
 
   const createChartSvg = () => {
     // Convert chart data to the format expected by components
-    const formattedPlanets: Record<string, unknown> = {};
+    const formattedPlanets: Record<string, CelestialPosition> = {};
     Object.entries(chart.planetaryPositions).forEach(([key, data]) => {
-      if (key === 'ascendant') return;
+      if (key === 'ascendant' || !data) return;
       
-      const planetData = data as any;
       const planetName = key.charAt(0).toUpperCase() + key.slice(1);
       formattedPlanets[planetName] = {
-        sign: planetData?.sign || 'Unknown',
-        degree: planetData?.degree || 0,
-        isRetrograde: planetData?.isRetrograde || false,
-        exactLongitude: planetData?.exactLongitude || 0,
+        sign: data.sign || 'Unknown',
+        degree: data.degree || 0,
+        isRetrograde: data.isRetrograde || false,
+        exactLongitude: data.exactLongitude || 0,
       };
     });
     
     // Create a basic SVG representation
-    const ascendantData = chart.planetaryPositions.ascendant as any;
+    const ascendantData = chart.planetaryPositions.ascendant;
     return {
       planetPositions: formattedPlanets,
       ascendantSign: ascendantData?.sign || 'Libra',
@@ -240,11 +232,10 @@ export const CurrentChartProvider: React.FC<{children: React.ReactNode}> = ({ ch
         <circle cx="150" cy="150" r="140" fill="none" stroke="#333" stroke-width="1"/>
         <text x="150" y="20" text-anchor="middle">Current Chart</text>
         ${Object.entries(formattedPlanets).map(([planet, data], index) => {
-          const planetInfo = data as unknown;
           const angle = (index * 30) % 360;
           const x = 150 + 120 * Math.cos(angle * Math.PI / 180);
           const y = 150 + 120 * Math.sin(angle * Math.PI / 180);
-          return `<text x="${x}" y="${y}" text-anchor="middle">${planet}: ${(planetInfo as any)?.sign}</text>`;
+          return `<text x="${x}" y="${y}" text-anchor="middle">${planet}: ${data.sign}</text>`;
         }).join('')}
       </svg>`
     };
@@ -268,22 +259,21 @@ export const useCurrentChart = () => {
   }
   
   // Return the same interface that standalone hook would return for compatibility
-  const ascendantData = context.chart.planetaryPositions.ascendant as unknown;
+  const ascendantData = context.chart.planetaryPositions.ascendant;
   return {
     chartData: {
       planets: Object.entries(context.chart.planetaryPositions).reduce((acc, [key, data]) => {
-        if (key === 'ascendant') return acc;
-        const planetData = data as any;
+        if (key === 'ascendant' || !data) return acc;
         const planetName = key.charAt(0).toUpperCase() + key.slice(1);
         acc[planetName] = {
-          sign: planetData?.sign || 'Unknown',
-          degree: planetData?.degree || 0,
-          isRetrograde: planetData?.isRetrograde || false,
-          exactLongitude: planetData?.exactLongitude || 0,
+          sign: data.sign || 'Unknown',
+          degree: data.degree || 0,
+          isRetrograde: data.isRetrograde || false,
+          exactLongitude: data.exactLongitude || 0,
         };
         return acc;
-      }, {} as Record<string, unknown>),
-      ascendant: (ascendantData as any)?.sign
+      }, {} as Record<string, CelestialPosition>),
+      ascendant: ascendantData?.sign
     },
     createChartSvg: context.createChartSvg,
     isLoading: context.loading,

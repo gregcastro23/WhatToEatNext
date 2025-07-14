@@ -1,7 +1,4 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.thai = void 0;
-exports.thai = {
+export const thai = {
     id: 'thai',
     name: 'Thai',
     description: 'Traditional Thai cuisine featuring complex harmony of flavors including spicy, sweet, sour and salty elements',
@@ -1667,4 +1664,3 @@ exports.thai = {
     ],
     elementalProperties: { Fire: 1.00, Water: 0.00, Earth: 0.00, Air: 0.00 }
 };
-exports.default = exports.thai;

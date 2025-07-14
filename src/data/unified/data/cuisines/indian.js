@@ -1,7 +1,4 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.indian = void 0;
-exports.indian = {
+export const indian = {
     id: "indian",
     name: "Indian",
     description: "Traditional Indian cuisine spanning diverse regional specialties, spice blends, and cooking techniques",
@@ -905,7 +902,7 @@ exports.indian = {
                     substitutions: {
                         "milk": ["full-fat plant milk + agar"],
                         "pistachios": ["almonds", "cashews"],
-                        "rose Water: ["kewra water", "vanilla"]
+                        "rose water": ["kewra water", "vanilla"]
                     },
                     servingSize: 8,
                     allergens: ["dAiry", "nuts"],
