@@ -1,0 +1,130 @@
+🔍 Analyzing project for unused variables...
+
+Found 1010 TypeScript/JavaScript files
+
+Progress: 0/1010 files analyzed
+Progress: 50/1010 files analyzed
+Progress: 100/1010 files analyzed
+Progress: 150/1010 files analyzed
+Progress: 200/1010 files analyzed
+Progress: 250/1010 files analyzed
+Progress: 300/1010 files analyzed
+Progress: 350/1010 files analyzed
+Progress: 400/1010 files analyzed
+Progress: 450/1010 files analyzed
+Progress: 500/1010 files analyzed
+Progress: 550/1010 files analyzed
+Progress: 600/1010 files analyzed
+Progress: 650/1010 files analyzed
+Progress: 700/1010 files analyzed
+Progress: 750/1010 files analyzed
+Progress: 800/1010 files analyzed
+Progress: 850/1010 files analyzed
+Progress: 900/1010 files analyzed
+Progress: 950/1010 files analyzed
+Progress: 1000/1010 files analyzed
+
+📊 UNUSED VARIABLES ANALYSIS REPORT
+
+NaN
+📈 SUMMARY STATISTICS
+Total files analyzed: 1010
+Files with unused variables: 464 (45.9%)
+Total unused variables: 1249
+Total declarations: 10503
+Overall unused ratio: 11.9%
+
+🏆 TOP 10 FILES WITH MOST UNUSED VARIABLES
+
+Rank | File | Unused Count | Total Declarations | Unused Ratio
+--------------------------------------------------------------------------------
+1    | src/types/alchemy.ts                     | 21           | 97                 | 21.6%
+2    | src/utils/ingredientUtils.ts             | 15           | 32                 | 46.9%
+3    | src/utils/recipe/recipeUtils.ts          | 15           | 32                 | 46.9%
+4    | src/data/ingredients/oils/index.ts       | 13           | 16                 | 81.3%
+5    | src/utils/elementalUtils.ts              | 13           | 58                 | 22.4%
+6    | src/data/recipes.ts                      | 12           | 54                 | 22.2%
+7    | src/types/shared.ts                      | 12           | 25                 | 48.0%
+8    | src/utils/seasonalCalculations.ts        | 12           | 51                 | 23.5%
+9    | src/constants/chakraSymbols.ts           | 11           | 12                 | 91.7%
+10   | src/constants/elementalConstants.ts      | 11           | 16                 | 68.8%
+
+🔍 DETAILED BREAKDOWN OF TOP 10 FILES
+
+1. src/types/alchemy.ts
+   Unused variables (21): ASTROLOGICAL_TYPE_INTELLIGENCE, ALCHEMICAL_PROPERTIES_INTELLIGENCE, TYPE_VALIDATION_INTELLIGENCE, CELESTIAL_ALIGNMENT_INTELLIGENCE, COOKING_METHOD_THERMODYNAMICS, AlchemicalCalculationResult, BasicThermodynamicProperties, ElementalProfile, RecipeHarmonyResult, CombinationEffect, BirthInfo, PlanetaryHarmony, TarotSuit, AstrologicalInfluence, PlanetaryPositionsType, AlchemicalState, CookingMethodProfile, timeFactors, alchemicalValues, BaseIngredient, RecipeData
+   Total declarations: 97
+   Unused ratio: 21.6%
+
+2. src/utils/ingredientUtils.ts
+   Unused variables (15): calculateAlchemicalProperties, calculateThermodynamicProperties, determineIngredientModality, isRecipeIngredient, isFullIngredient, validateIngredient, validateRecipeIngredient, mergeElementalProperties, mapToIngredient, ingredientToRecipeIngredient, normalizeElementalProperties, toSimpleIngredients, isSimpleIngredient, fromSimpleIngredient, findCompatibleSimpleIngredients
+   Total declarations: 32
+   Unused ratio: 46.9%
+
+3. src/utils/recipe/recipeUtils.ts
+   Unused variables (15): isScoredRecipe, isRecipeIngredient, getRecipeMealTypes, getRecipeSeasons, getRecipeAstrologicalInfluences, getRecipeZodiacInfluences, getRecipeCookingTime, isRecipeCompatibleWithDiet, recipeHasIngredient, getRecipeDominantElement, getSafeRecipeName, getSafeRecipeDescription, toScoredRecipe, isRecipeDietaryCompatible, getRecipeIngredients
+   Total declarations: 32
+   Unused ratio: 46.9%
+
+4. src/data/ingredients/oils/index.ts
+   Unused variables (13): cookingOils, finishingOils, supplementOils, specialtyOils, fireOils, waterOils, earthOils, airOils, highHeatOils, bakingOils, dressingOils, nutOils, allOils
+   Total declarations: 16
+   Unused ratio: 81.3%
+
+5. src/utils/elementalUtils.ts
+   Unused variables (13): ELEMENT_WEIGHTS, applyNonLinearScaling, calculateUniquenessScore, fixIngredientMappings, calculateUniqueness, transformItemsWithPlanetaryPositions, getPrimaryElement, getElementStrength, fixRawIngredientMappings, getBalancingElement, getStrengtheningElement, enhanceVegetableTransformations, enhanceOilProperties
+   Total declarations: 58
+   Unused ratio: 22.4%
+
+6. src/data/recipes.ts
+   Unused variables (12): getRecipesForZodiac, getRecipesForSeason, getRecipesForLunarPhase, getRecipesForCuisine, getRecipesForPlanetaryAlignment, getDominantPlanetaryInfluence, getRecommendedCookingTechniques, getRecipesForFlavorProfile, getRecommendedCuisines, getFusionSuggestions, calculateCompatibilityScore, getRecipe
+   Total declarations: 54
+   Unused ratio: 22.2%
+
+7. src/types/shared.ts
+   Unused variables (12): MOON_PHASE_MAP, MOON_PHASE_TO_DISPLAY, MOON_PHASE_TO_LOWERCASE, LOWERCASE_TO_MOON_PHASE, CelestialPosition, ElementalScore, ThermodynamicProperties, ZodiacSign, Season, ViewOption, ElementalFilter, CookingMethodRecord
+   Total declarations: 25
+   Unused ratio: 48.0%
+
+8. src/utils/seasonalCalculations.ts
+   Unused variables (12): SEASONAL_MODIFIERS, getSeasonalEffectiveness, getSeasonalModifier, calculateSeasonalModifiers, getElementalBreakdown, applySeasonalInfluence, calculateLunarPhaseCompatibility, getComprehensiveSeasonalAnalysis, getElementalCompatibilityWithSeason, getEnhancedElementalBreakdown, getSeasonalCacheStats, Rating
+   Total declarations: 51
+   Unused ratio: 23.5%
+
+9. src/constants/chakraSymbols.ts
+   Unused variables (11): CHAKRA_ORDER, CHAKRA_SYMBOLS, CHAKRA_BIJA_MANTRAS, CHAKRA_BG_COLORS, CHAKRA_TEXT_COLORS, CHAKRA_SANSKRIT_NAMES, CHAKRA_NUTRITIONAL_CORRELATIONS, CHAKRA_HERBS, ENERGY_STATE_CHAKRA_MAPPING, normalizeChakraKey, getChakraDisplayName
+   Total declarations: 12
+   Unused ratio: 91.7%
+
+10. src/constants/elementalConstants.ts
+   Unused variables (11): ELEMENTS, DEFAULT_ELEMENTAL_PROPERTIES, VALIDATION_THRESHOLDS, ELEMENT_AFFINITIES, ZODIAC_ELEMENTS, MINIMUM_THRESHOLD, MAXIMUM_THRESHOLD, IDEAL_PROPORTION, DECANS, ELEMENTAL_WEIGHTS, ELEMENTAL_CHARACTERISTICS
+   Total declarations: 16
+   Unused ratio: 68.8%
+
+⚠️  FILES WITH HIGH UNUSED RATIOS (>50% and >3 unused variables)
+
+File | Unused Count | Total Declarations | Unused Ratio
+--------------------------------------------------------------------------------
+src/constants/tarotCards.ts                        | 5            | 5                  | 100.0%
+src/types/common.ts                                | 5            | 5                  | 100.0%
+src/utils/constants.ts                             | 5            | 5                  | 100.0%
+src/data/planets/types.ts                          | 4            | 4                  | 100.0%
+src/constants/chakraSymbols.ts                     | 11           | 12                 | 91.7%
+src/data/integrations/types.ts                     | 6            | 7                  | 85.7%
+src/data/unified/constants/zodiac.js               | 6            | 7                  | 85.7%
+src/data/ingredients/oils/index.ts                 | 13           | 16                 | 81.3%
+src/constants/seasons.ts                           | 4            | 5                  | 80.0%
+src/data/ingredients/vinegars/index.ts             | 4            | 5                  | 80.0%
+
+📂 CATEGORY ANALYSIS
+
+Components: 183 files, 82 unused variables, 3.0% unused ratio
+Services: 64 files, 61 unused variables, 5.8% unused ratio
+Utils: 165 files, 373 unused variables, 17.8% unused ratio
+Types: 99 files, 171 unused variables, 26.8% unused ratio
+Data: 331 files, 337 unused variables, 14.5% unused ratio
+Hooks: 27 files, 20 unused variables, 7.5% unused ratio
+Contexts: 32 files, 27 unused variables, 15.8% unused ratio
+Other: 149 files, 190 unused variables, 12.6% unused ratio
+
+📄 Detailed report saved to unused-variables-report.json
