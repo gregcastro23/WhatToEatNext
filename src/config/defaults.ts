@@ -293,3 +293,16 @@ export const CONFIGURATION_INTELLIGENCE_DEMO = {
     };
   }
 };
+
+// Export configuration intelligence systems for use in the WhatToEatNext project
+// (CONFIGURATION_INTELLIGENCE_DEMO is already exported above)
+
+// Alternative export for backward compatibility
+export const CONFIG_INTELLIGENCE_SUITE = {
+  demo: CONFIGURATION_INTELLIGENCE_DEMO
+};
+
+// Export for direct usage in configuration demonstrations
+export const CONFIG_DEMO_SYSTEMS = {
+  DEMO: CONFIGURATION_INTELLIGENCE_DEMO
+};

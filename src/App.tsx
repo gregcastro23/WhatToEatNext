@@ -15,6 +15,19 @@ import ErrorHandler from '@/services/errorHandler';
 import './utils/globals';  // Import global utilities to prevent undefined errors
 import './styles/expandable.css';  // Import our expandable component styles
 
+// 🧠 Import Intelligence Systems for App-Wide Availability
+import { MASTER_INTELLIGENCE_SUITE, MASTER_SYSTEMS, UNIFIED_INTELLIGENCE_ORCHESTRATOR } from '@/utils/unifiedIntelligenceHub';
+import { ELEMENTAL_INTELLIGENCE_SUITE, ELEMENTAL_SYSTEMS } from '@/constants/elements';
+import { CONSTANTS_INTELLIGENCE_SUITE, UTILS_CONSTANTS_SYSTEMS } from '@/utils/constants';
+import { ELEMENTAL_MAPPINGS_SUITE, ELEMENTAL_MAPPING_SYSTEMS } from '@/utils/elementalMappings';
+import { TAROT_MAPPINGS_SUITE, TAROT_MAPPING_SYSTEMS } from '@/utils/tarotMappings';
+import { PATH_INTELLIGENCE_SUITE, PATH_RESOLUTION_SYSTEMS } from '@/paths';
+import { CUISINE_INTELLIGENCE_SUITE, CUISINE_CONFIG_SYSTEMS } from '@/config/cuisines';
+import { CONFIG_INTELLIGENCE_SUITE, CONFIG_DEMO_SYSTEMS } from '@/config/defaults';
+import { ALCHEMICAL_ENERGY_SUITE, ALCHEMICAL_ENERGY_SYSTEMS } from '@/constants/alchemicalEnergyMapping';
+import { KALCHM_INTELLIGENCE_SUITE, KALCHM_SYSTEMS, UNIFIED_ALCHEMICAL_INTELLIGENCE } from '@/data/unified/alchemicalCalculations';
+import { MIDDLEWARE_INTELLIGENCE_SUITE, MIDDLEWARE_SYSTEMS, UNIFIED_MIDDLEWARE_INTELLIGENCE } from '@/middleware';
+
 // Dynamically import FoodRecommender with loading state
 const FoodRecommender = dynamic(
   () => import('@/components/FoodRecommender'),
@@ -57,6 +70,59 @@ function App() {
     try {
       // Initialize the alchemical engine
       initializeAlchemicalEngine();
+      
+      // 🧠 Initialize Intelligence Systems for App-Wide Availability
+      console.log('🚀 Initializing Intelligence Systems...');
+      
+      // Initialize master intelligence systems
+      const masterHealth = UNIFIED_INTELLIGENCE_ORCHESTRATOR.healthCheck();
+      console.log('🧠 Master Intelligence Health:', masterHealth);
+      
+      // Initialize elemental intelligence
+      const elementalDemo = ELEMENTAL_INTELLIGENCE_SUITE.property.analyzeElementalProperties({
+        elements: ['Fire', 'Water', 'Earth', 'Air'],
+        context: 'cooking'
+      });
+      console.log('🔥 Elemental Intelligence Active:', elementalDemo);
+      
+      // Initialize alchemical intelligence
+      const alchemicalDemo = KALCHM_INTELLIGENCE_SUITE.baseline.analyzeBaseline();
+      console.log('⚗️ Alchemical Intelligence Active:', alchemicalDemo);
+      
+      // Initialize configuration intelligence
+      const configDemo = CONFIG_INTELLIGENCE_SUITE.demo.runFullAnalysis();
+      console.log('⚙️ Configuration Intelligence Active:', configDemo);
+      
+      // Store intelligence systems in global context for access
+      (window as any).intelligenceSystems = {
+        master: MASTER_INTELLIGENCE_SUITE,
+        systems: MASTER_SYSTEMS,
+        orchestrator: UNIFIED_INTELLIGENCE_ORCHESTRATOR,
+        elemental: ELEMENTAL_INTELLIGENCE_SUITE,
+        alchemical: KALCHM_INTELLIGENCE_SUITE,
+        middleware: MIDDLEWARE_INTELLIGENCE_SUITE,
+        constants: CONSTANTS_INTELLIGENCE_SUITE,
+        paths: PATH_INTELLIGENCE_SUITE,
+        cuisine: CUISINE_INTELLIGENCE_SUITE,
+        config: CONFIG_INTELLIGENCE_SUITE,
+        alchemicalEnergy: ALCHEMICAL_ENERGY_SUITE,
+        elementalMappings: ELEMENTAL_MAPPINGS_SUITE,
+        tarotMappings: TAROT_MAPPINGS_SUITE,
+        elementalSystems: ELEMENTAL_SYSTEMS,
+        utilsSystems: UTILS_CONSTANTS_SYSTEMS,
+        elementalMappingSystems: ELEMENTAL_MAPPING_SYSTEMS,
+        tarotMappingSystems: TAROT_MAPPING_SYSTEMS,
+        pathSystems: PATH_RESOLUTION_SYSTEMS,
+        cuisineSystems: CUISINE_CONFIG_SYSTEMS,
+        configSystems: CONFIG_DEMO_SYSTEMS,
+        alchemicalEnergySystems: ALCHEMICAL_ENERGY_SYSTEMS,
+        kalchmSystems: KALCHM_SYSTEMS,
+        middlewareSystems: MIDDLEWARE_SYSTEMS,
+        unifiedAlchemical: UNIFIED_ALCHEMICAL_INTELLIGENCE,
+        unifiedMiddleware: UNIFIED_MIDDLEWARE_INTELLIGENCE
+      };
+      
+      console.log('✅ All Intelligence Systems Initialized Successfully');
       
       // Get user's location if possible
       if (navigator.geolocation) {

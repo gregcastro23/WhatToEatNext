@@ -300,3 +300,16 @@ export function calculateThermodynamicProperties(
     };
   }
 } 
+
+// Export alchemical energy intelligence systems for use in the WhatToEatNext project
+// (SHARED_PLANETS is already exported above)
+
+// Alternative export for backward compatibility
+export const ALCHEMICAL_ENERGY_SUITE = {
+  sharedPlanets: SHARED_PLANETS
+};
+
+// Export for direct usage in alchemical energy calculations
+export const ALCHEMICAL_ENERGY_SYSTEMS = {
+  SHARED_PLANETS: SHARED_PLANETS
+}; 

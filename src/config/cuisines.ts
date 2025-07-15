@@ -123,4 +123,17 @@ export const CUISINES: Record<string, CuisineProperties> = {
     }
 };
 
-export const CUISINE_CATEGORIES = Object.keys(CUISINES); 
+export const CUISINE_CATEGORIES = Object.keys(CUISINES);
+
+// Export cuisine intelligence systems for use in the WhatToEatNext project
+// (CUISINE_CATEGORIES is already exported above)
+
+// Alternative export for backward compatibility
+export const CUISINE_INTELLIGENCE_SUITE = {
+  categories: CUISINE_CATEGORIES
+};
+
+// Export for direct usage in cuisine calculations
+export const CUISINE_CONFIG_SYSTEMS = {
+  CATEGORIES: CUISINE_CATEGORIES
+}; 

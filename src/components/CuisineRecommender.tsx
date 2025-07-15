@@ -754,6 +754,7 @@ export default function CuisineRecommender() {
   const { suggestAlternatives, calculateCompatibility } = useIngredientMapping();
   const elementalStateHook = useElementalState();
   const astroTarotHook = useAstroTarotElementalState();
+  const alchemicalContext = useAlchemical?.() || null;
   
   const {
     currentZodiac: currentZodiacSign,
@@ -1600,7 +1601,7 @@ export default function CuisineRecommender() {
     };
 
     // Utilize useAlchemical hook for advanced alchemical calculations
-    const alchemicalContext = useAlchemical?.() || null;
+    // alchemicalContext is now defined at component level
     
     return {
       analyzeCulturalCompatibility: (cuisine: CuisineData) => {

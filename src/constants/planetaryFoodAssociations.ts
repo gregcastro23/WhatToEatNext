@@ -20,17 +20,17 @@ export type Planet =
 /**
  * Planetary dignity types for calculation
  */
-// export type PlanetaryDignity = 
-//   | 'Domicile'
-//   | 'Exaltation'
-//   | 'Triplicity'
-//   | 'Term'
-//   | 'Face'
-//   | 'Mooltrikona'
-//   | 'Nakshatra'
-//   | 'Detriment'
-//   | 'Fall'
-//   | 'Neutral';
+export type PlanetaryDignity = 
+  | 'Domicile'
+  | 'Exaltation'
+  | 'Triplicity'
+  | 'Term'
+  | 'Face'
+  | 'Mooltrikona'
+  | 'Nakshatra'
+  | 'Detriment'
+  | 'Fall'
+  | 'Neutral';
 
 /**
  * Interface for planetary dignity details

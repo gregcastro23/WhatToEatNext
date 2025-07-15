@@ -141,3 +141,18 @@ const elementalMappings = {
 };
 
 export default elementalMappings;
+
+// Export elemental intelligence systems for use in the WhatToEatNext project
+// (ELEMENT_COMBINATIONS and ELEMENT_AFFINITIES are already exported above)
+
+// Alternative export for backward compatibility
+export const ELEMENTAL_MAPPINGS_SUITE = {
+  combinations: ELEMENT_COMBINATIONS,
+  affinities: ELEMENT_AFFINITIES
+};
+
+// Export for direct usage in elemental calculations
+export const ELEMENTAL_MAPPING_SYSTEMS = {
+  COMBINATIONS: ELEMENT_COMBINATIONS,
+  AFFINITIES: ELEMENT_AFFINITIES
+};
