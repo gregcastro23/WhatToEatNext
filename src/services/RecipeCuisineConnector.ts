@@ -5,7 +5,7 @@
 import type { Recipe } from '@/types/recipe';
 import type { Cuisine, CuisineDishes, SeasonalDishes } from '@/types/cuisine';
 import type { Season, ElementalProperties } from '@/types/alchemy';
-import { cuisines } from '@/data/cuisines';
+import cuisinesMap from '@/data/cuisines';
 import { generateMonicaOptimizedRecipe } from '@/data/unified/recipeBuilding';
 
 // Interface for cuisine recipe with builder compatibility
@@ -78,11 +78,11 @@ export interface RecipeImportResult {
 }
 
 export class RecipeCuisineConnector {
-  private cuisineDatabase: Cuisine[];
+  private cuisineDatabase: Record<string, Cuisine>;
   private recipeCache: Map<string, CuisineRecipe>;
 
   constructor() {
-    this.cuisineDatabase = cuisines;
+    this.cuisineDatabase = cuisinesMap;
     this.recipeCache = new Map();
     this.buildRecipeCache();
   }
@@ -91,7 +91,7 @@ export class RecipeCuisineConnector {
    * Build cache of all recipes from cuisine database for fast searching
    */
   private buildRecipeCache(): void {
-    this.cuisineDatabase.forEach(cuisine => {
+    Object.entries(this.cuisineDatabase).forEach(([cuisineName, cuisine]) => {
       this.extractRecipesFromCuisine(cuisine).forEach(recipe => {
         const recipeId = this.generateRecipeId(recipe.name, cuisine.name);
         this.recipeCache.set(recipeId, {
@@ -189,7 +189,7 @@ export class RecipeCuisineConnector {
    * Get all available cuisines
    */
   getCuisineList(): string[] {
-    return this.cuisineDatabase.map(cuisine => cuisine.name);
+    return Object.values(this.cuisineDatabase).map(cuisine => cuisine.name);
   }
 
   /**

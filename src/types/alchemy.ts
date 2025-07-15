@@ -1598,7 +1598,7 @@ export const TYPE_INTELLIGENCE_DEMO = {
     const astrologicalTypeResults = ASTROLOGICAL_TYPE_INTELLIGENCE.analyzeLunarPhaseTypes(sampleLunarPhase);
     const celestialTypeResults = ASTROLOGICAL_TYPE_INTELLIGENCE.analyzeCelestialTypes(sampleAlignment);
     const alchemicalValuesResults = ALCHEMICAL_PROPERTIES_INTELLIGENCE.analyzeAlchemicalValues(sampleValues);
-    const thermodynamicTypeResults = ALCHEMICAL_PROPERTIES_INTELLIGENCE.analyzeThermodynamicTypes(sampleMetrics);
+    const thermodynamicTypeResults = ALCHEMICAL_PROPERTIES_INTELLIGENCE.analyzeThermodynamicTypes(sampleMetrics || { heat: 0, entropy: 0, reactivity: 0, gregsEnergy: 0, kalchm: 0, monica: 0 });
     const filterOptionsResults = TYPE_VALIDATION_INTELLIGENCE.analyzeFilterOptions(sampleFilters);
     const ingredientSearchResults = TYPE_VALIDATION_INTELLIGENCE.analyzeIngredientSearchCriteria(sampleCriteria);
     const celestialBodyResults = CELESTIAL_ALIGNMENT_INTELLIGENCE.analyzeCelestialBody(sampleCelestialBody);
@@ -1797,7 +1797,7 @@ export const ALCHEMY_TYPE_INTELLIGENCE_SYSTEM = {
     const calculationAnalysis = calculations.map(calc => ({
       scoreRange: calc.score,
       confidence: calc.confidence,
-      factorCount: calc.factors.length,
+      factorCount: calc.factors?.length || 0,
       elementalBalance: Object.values(calc.elementalProperties).reduce((sum, val) => sum + val, 0)
     }));
     

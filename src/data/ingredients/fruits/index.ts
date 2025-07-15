@@ -545,12 +545,19 @@ export const FRUIT_PREPARATION_INTELLIGENCE = {
       bakedPreparation: preparationAnalysis.methodDistribution.find(d => d.method === 'baked')?.coverage || 0,
       preservedPreparation: preparationAnalysis.methodDistribution.find(d => d.method === 'preserved')?.coverage || 0,
       frozenPreparation: preparationAnalysis.methodDistribution.find(d => d.method === 'frozen')?.coverage || 0,
-      rawMethodsRatio: (preparationStructure.freshPreparation + preparationStructure.driedPreparation) / 2,
-      processedMethodsRatio: (preparationStructure.juicedPreparation + preparationStructure.preservedPreparation + preparationStructure.frozenPreparation) / 3,
-      thermalMethodsRatio: (preparationStructure.cookedPreparation + preparationStructure.bakedPreparation) / 2,
       methodBalance: preparationMetrics.culinaryBalance * preparationMetrics.methodCompleteness,
       preparationIntegrity: preparationMetrics.functionalIntegrity * preparationMetrics.preparationCoverage
     };
+
+    // Calculate ratios after preparationStructure is defined
+    const preparationRatios = {
+      rawMethodsRatio: (preparationStructure.freshPreparation + preparationStructure.driedPreparation) / 2,
+      processedMethodsRatio: (preparationStructure.juicedPreparation + preparationStructure.preservedPreparation + preparationStructure.frozenPreparation) / 3,
+      thermalMethodsRatio: (preparationStructure.cookedPreparation + preparationStructure.bakedPreparation) / 2
+    };
+
+    // Merge the ratios into preparationStructure
+    Object.assign(preparationStructure, preparationRatios);
 
     const preparationOptimization = [
       'Enhance preparation method filtering for optimal culinary applications',
@@ -638,14 +645,16 @@ export const FRUIT_COMPATIBILITY_INTELLIGENCE = {
       networkEfficiency: compatibilityAnalysis.networkMetrics.averageConnections / Object.keys(fruits).length
     };
 
+    const isolatedFruits = compatibilityAnalysis.compatibilityResults.filter(r => r.compatibleCount === 0).length / sampleFruits.length;
+    
     const compatibilityStructure = {
       highlyConnected: compatibilityAnalysis.compatibilityResults.filter(r => r.compatibleCount > 5).length / sampleFruits.length,
       moderatelyConnected: compatibilityAnalysis.compatibilityResults.filter(r => r.compatibleCount >= 2 && r.compatibleCount <= 5).length / sampleFruits.length,
       poorlyConnected: compatibilityAnalysis.compatibilityResults.filter(r => r.compatibleCount < 2).length / sampleFruits.length,
-      isolatedFruits: compatibilityAnalysis.compatibilityResults.filter(r => r.compatibleCount === 0).length / sampleFruits.length,
+      isolatedFruits: isolatedFruits,
       networkCohesion: compatibilityMetrics.networkConnectivity * compatibilityMetrics.reciprocityScore,
       connectivityDistribution: compatibilityMetrics.networkDensity * compatibilityMetrics.compatibilityBalance,
-      structuralIntegrity: compatibilityMetrics.functionalIntegrity * (1 - compatibilityStructure.isolatedFruits)
+      structuralIntegrity: compatibilityMetrics.functionalIntegrity * (1 - isolatedFruits)
     };
 
     const compatibilityOptimization = [
