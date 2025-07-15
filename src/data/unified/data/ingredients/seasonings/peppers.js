@@ -1,12 +1,10 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.pinkPeppercorn = exports.whitePepper = exports.blackPepper = void 0;
-const elementalUtils_1 = require("../../../utils/elementalUtils");
-const elementalUtils_2 = require("../../../utils/elemental/elementalUtils");
+import { fixIngredientMappings } from "../../../utils/elementalUtils.js";
+import { createElementalProperties } from "../../../utils/elemental/elementalUtils.js";
+
 const rawPeppers = {
     'black_pepper': {
         name: 'Black Pepper',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.6, Water: 0.1, Earth: 0.2, Air: 0.1
+        elementalProperties: createElementalProperties({ Fire: 0.6, Water: 0.1, Earth: 0.2, Air: 0.1
         }),
         astrologicalProfile: {
             rulingPlanets: ['Mars', 'Sun'],
@@ -21,12 +19,12 @@ const rawPeppers = {
             },
             lunarPhaseModifiers: {
                 waxingCrescent: {
-                    elementalBoost: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.2, Earth: 0.1
+                    elementalBoost: createElementalProperties({ Fire: 0.2, Earth: 0.1
                     }),
                     preparationTips: ['Best for marinades']
                 },
                 fullmoon: {
-                    elementalBoost: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.3, Air: 0.1
+                    elementalBoost: createElementalProperties({ Fire: 0.3, Air: 0.1
                     }),
                     preparationTips: ['Ideal for robust dishes']
                 }
@@ -107,7 +105,7 @@ const rawPeppers = {
     },
     'white_pepper': {
         name: 'White Pepper',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.5, Water: 0.1, Earth: 0.3, Air: 0.1
+        elementalProperties: createElementalProperties({ Fire: 0.5, Water: 0.1, Earth: 0.3, Air: 0.1
         }),
         astrologicalProfile: {
             rulingPlanets: ['Mercury', 'Mars'],
@@ -122,12 +120,12 @@ const rawPeppers = {
             },
             lunarPhaseModifiers: {
                 newmoon: {
-                    elementalBoost: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.1, Air: 0.2
+                    elementalBoost: createElementalProperties({ Fire: 0.1, Air: 0.2
                     }),
                     preparationTips: ['Best for subtle applications']
                 },
                 fullmoon: {
-                    elementalBoost: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.2, Earth: 0.1
+                    elementalBoost: createElementalProperties({ Fire: 0.2, Earth: 0.1
                     }),
                     preparationTips: ['Enhanced pungency']
                 }
@@ -189,7 +187,7 @@ const rawPeppers = {
     },
     'pink_peppercorn': {
         name: 'Pink Peppercorn',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.4, Water: 0.2, Earth: 0.1, Air: 0.3
+        elementalProperties: createElementalProperties({ Fire: 0.4, Water: 0.2, Earth: 0.1, Air: 0.3
         }),
         astrologicalProfile: {
             rulingPlanets: ['Venus', 'Mars'],
@@ -204,14 +202,14 @@ const rawPeppers = {
             },
             lunarPhaseModifiers: {
                 waxingCrescent: {
-                    elementalBoost: (0, elementalUtils_2.createElementalProperties)({
+                    elementalBoost: createElementalProperties({
                         Air: 0.2,
                         Water: 0.1
                     }),
                     preparationTips: ['Gentle introduction to dishes']
                 },
                 fullmoon: {
-                    elementalBoost: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.1, Air: 0.2
+                    elementalBoost: createElementalProperties({ Fire: 0.1, Air: 0.2
                     }),
                     preparationTips: ['Enhanced aroma']
                 }
@@ -260,7 +258,7 @@ const rawPeppers = {
     },
     'szechuan_peppercorn': {
         name: 'Szechuan Peppercorn',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
+        elementalProperties: createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
         }),
         astrologicalProfile: {
             rulingPlanets: ['Mercury', 'Uranus'],
@@ -300,7 +298,7 @@ const rawPeppers = {
     },
     'long_pepper': {
         name: 'Long Pepper',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
+        elementalProperties: createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
         }),
         astrologicalProfile: {
             rulingPlanets: ['Mars', 'Saturn'],
@@ -345,11 +343,14 @@ const rawPeppers = {
         }
     }
 };
-// Apply any fixes needed to raw ingredient data
-const peppers = (0, elementalUtils_1.fixIngredientMappings)(rawPeppers);
-// Export the entire collection
-exports.default = peppers;
+
+// Fix the ingredient mappings to ensure they have all required properties
+const peppers = fixIngredientMappings(rawPeppers);
+
 // Export individual peppers for direct access
-exports.blackPepper = peppers.black_pepper;
-exports.whitePepper = peppers.white_pepper;
-exports.pinkPeppercorn = peppers.pink_peppercorn;
+export const blackPepper = peppers.black_pepper;
+export const whitePepper = peppers.white_pepper;
+export const pinkPeppercorn = peppers.pink_peppercorn;
+
+// Default export
+export default peppers;

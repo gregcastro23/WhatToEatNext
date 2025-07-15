@@ -1240,4 +1240,5 @@ export const indian = {
     },
     elementalProperties: { Fire: 0.50, Water: 0.20, Earth: 0.20, Air: 0.10 }
 };
-exports.default = exports.indian;
+
+export default indian;

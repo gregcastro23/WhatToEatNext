@@ -122,7 +122,12 @@ export default function CookingMethodsSectionTestPage() {
   const [selectedMethodId, setSelectedMethodId] = useState<string | null>(null);
   const [showToggle, setShowToggle] = useState<boolean>(true);
   const [initiallyExpanded, setInitiallyExpanded] = useState<boolean>(false);
-  // const [methods, setMethods] = useState(sampleMethods);
+  // Simple methods array for testing
+  const methods = [
+    { id: 'grilling', name: 'Grilling', description: 'Cooking over direct heat', score: 0.8 },
+    { id: 'boiling', name: 'Boiling', description: 'Cooking in boiling water', score: 0.7 },
+    { id: 'steaming', name: 'Steaming', description: 'Cooking with steam', score: 0.9 }
+  ];
   
   // Get services
   useServices();

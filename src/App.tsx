@@ -55,9 +55,11 @@ function App() {
 
   // Handle errors that occur during setup
   const handleSetupError = (error: Error) => {
-    // Wrap error details in a plain object to satisfy `Record<string, unknown>` requirement
+    // Create a proper Error object for ErrorHandler.log
+    const errorToLog = new Error(error.message);
+    errorToLog.stack = error.stack;
     ErrorHandler.log(
-      { message: error.message, stack: error.stack },
+      errorToLog,
       {
         context: 'App:setup',
         isFatal: true,
@@ -139,9 +141,10 @@ function App() {
             });
           },
           (error) => {
-            // Extract only safe serialisable fields from the geolocation error
+            // Create a proper Error object for geolocation errors
+            const geoError = new Error(`Geolocation error (code: ${error.code}): ${error.message}`);
             ErrorHandler.log(
-              { code: error.code, message: error.message },
+              geoError,
               {
                 context: 'App:geolocation',
                 isFatal: false,

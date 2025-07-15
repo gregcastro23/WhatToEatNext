@@ -1,13 +1,10 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.allMedicinalHerbs = exports.medicinalHerbs = void 0;
-const elementalUtils_1 = require("../../../utils/elementalUtils");
-const elementalUtils_2 = require("../../../utils/elemental/elementalUtils");
+import { fixIngredientMappings } from "../../../utils/elementalUtils";
+import { createElementalProperties } from "../../../utils/elemental/elementalUtils";
+
 const rawMedicinalHerbs = {
     'echinacea': {
         name: 'Echinacea',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
-        }),
+        elementalProperties: createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }),
         astrologicalProfile: {
             planetaryRuler: 'Mars',
             zodiacRuler: 'aries',
@@ -301,8 +298,7 @@ const rawMedicinalHerbs = {
     },
     'elderberry': {
         name: 'Elderberry',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
-        }),
+        elementalProperties: createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }),
         qualities: ['antiviral', 'immune-supporting', 'cooling'],
         category: 'medicinal_herb',
         parts_used: ['berries', 'flowers'],
@@ -327,8 +323,7 @@ const rawMedicinalHerbs = {
     },
     'chamomile': {
         name: 'Chamomile',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
-        }),
+        elementalProperties: createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }),
         qualities: ['calming', 'soothing', 'cooling'],
         category: 'medicinal_herb',
         parts_used: ['flowers'],
@@ -352,8 +347,11 @@ const rawMedicinalHerbs = {
         }
     }
 };
+
 // Fix the ingredient mappings to ensure they have all required properties
-exports.medicinalHerbs = (0, elementalUtils_1.fixIngredientMappings)(rawMedicinalHerbs);
+export const medicinalHerbs = fixIngredientMappings(rawMedicinalHerbs);
+
 // Create a collection of all medicinal herbs
-exports.allMedicinalHerbs = Object.values(exports.medicinalHerbs);
-exports.default = exports.medicinalHerbs;
+export const allMedicinalHerbs = Object.values(medicinalHerbs);
+
+export default medicinalHerbs;

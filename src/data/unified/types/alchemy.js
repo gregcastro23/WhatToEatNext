@@ -1,8 +1,5 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.LUNAR_PHASE_MULTIPLIERS = exports.COOKING_METHOD_ELEMENTS = exports.PLANET_ELEMENT_MAPPING = exports.PLANETARY_HARMONY_MATRIX = exports.COOKING_METHOD_THERMODYNAMICS = exports.LUNAR_PHASE_REVERSE_MAPPING = exports.LUNAR_PHASE_MAPPING = void 0;
 // Mapping between the two formats
-exports.LUNAR_PHASE_MAPPING = {
+export const LUNAR_PHASE_MAPPING = {
     'new moon': 'new_moon',
     'waxing crescent': 'waxing_crescent',
     'first quarter': 'first_quarter',
@@ -13,7 +10,7 @@ exports.LUNAR_PHASE_MAPPING = {
     'waning crescent': 'waning_crescent'
 };
 // Reverse mapping (can be useful in some contexts)
-exports.LUNAR_PHASE_REVERSE_MAPPING = {
+export const LUNAR_PHASE_REVERSE_MAPPING = {
     'new_moon': 'new moon',
     'waxing_crescent': 'waxing crescent',
     'first_quarter': 'first quarter',
@@ -24,7 +21,7 @@ exports.LUNAR_PHASE_REVERSE_MAPPING = {
     'waning_crescent': 'waning crescent'
 };
 // Define standard thermodynamic properties for cooking methods
-exports.COOKING_METHOD_THERMODYNAMICS = {
+export const COOKING_METHOD_THERMODYNAMICS = {
     baking: { heat: 0.7, entropy: 0.5, reactivity: 0.6, energy: 0.65 },
     boiling: { heat: 0.9, entropy: 0.8, reactivity: 0.7, energy: 0.8 },
     roasting: { heat: 0.8, entropy: 0.6, reactivity: 0.5, energy: 0.7 },
@@ -52,7 +49,7 @@ exports.COOKING_METHOD_THERMODYNAMICS = {
     broiling: { heat: 0.9, entropy: 0.5, reactivity: 0.7, energy: 0.7 }
 };
 // Define the planetary harmony matrix based on your Food Alchemy System
-exports.PLANETARY_HARMONY_MATRIX = {
+export const PLANETARY_HARMONY_MATRIX = {
     Sun: {
         Sun: 1.0, Moon: -0.5, Mercury: 0.3, Venus: 0.4, Mars: 0.6,
         Jupiter: 0.8, Saturn: -0.3, Uranus: 0.2, Neptune: 0.1, Pluto: 0.5
@@ -83,7 +80,7 @@ exports.PLANETARY_HARMONY_MATRIX = {
     }
 };
 // Elemental associations for planets
-exports.PLANET_ELEMENT_MAPPING = {
+export const PLANET_ELEMENT_MAPPING = {
     Sun: 'Fire',
     Moon: 'Water',
     Mercury: 'Air',
@@ -96,7 +93,7 @@ exports.PLANET_ELEMENT_MAPPING = {
     Pluto: 'Earth'
 };
 // Cooking method elemental associations
-exports.COOKING_METHOD_ELEMENTS = {
+export const COOKING_METHOD_ELEMENTS = {
     'roasting': 'Fire',
     'grilling': 'Fire',
     'baking': 'Earth',
@@ -125,7 +122,7 @@ exports.COOKING_METHOD_ELEMENTS = {
     'poaching': 'Water'
 };
 // Lunar phase effect multipliers
-exports.LUNAR_PHASE_MULTIPLIERS = {
+export const LUNAR_PHASE_MULTIPLIERS = {
     'new moon': { heat: 0.3, entropy: 0.8, reactivity: 0.5, energy: 0.5 },
     'waxing crescent': { heat: 0.4, entropy: 0.7, reactivity: 0.6, energy: 0.6 },
     'first quarter': { heat: 0.5, entropy: 0.6, reactivity: 0.7, energy: 0.6 },
@@ -134,12 +131,4 @@ exports.LUNAR_PHASE_MULTIPLIERS = {
     'waning gibbous': { heat: 0.7, entropy: 0.5, reactivity: 0.8, energy: 0.7 },
     'last quarter': { heat: 0.6, entropy: 0.6, reactivity: 0.7, energy: 0.6 },
     'waning crescent': { heat: 0.7, entropy: 0.6, reactivity: 0.6, energy: 0.6 }
-};
-exports.default = {
-    ElementalProperties,
-    AstrologicalState,
-    Recipe,
-    Ingredient,
-    ElementalSummary,
-    CombinationResult
 };

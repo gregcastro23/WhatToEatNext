@@ -1,13 +1,10 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.refinedGrains = void 0;
-const elementalUtils_1 = require("../../../utils/elementalUtils");
-const elementalUtils_2 = require("../../../utils/elemental/elementalUtils");
+import { fixIngredientMappings } from '../../../utils/elementalUtils';
+import { createElementalProperties } from '../../../utils/elemental/elementalUtils';
+
 const rawRefinedGrains = {
     'white_rice': {
         name: 'White Rice',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.1, Water: 0.3, Earth: 0.5, Air: 0.1
-        }),
+        elementalProperties: createElementalProperties({ Fire: 0.1, Water: 0.3, Earth: 0.5, Air: 0.1 }),
         astrologicalProfile: {
             rulingPlanets: ['Moon', 'Venus'],
             favorableZodiac: ['cancer', 'taurus'],
@@ -21,17 +18,11 @@ const rawRefinedGrains = {
             },
             lunarPhaseModifiers: {
                 newmoon: {
-                    elementalBoost: (0, elementalUtils_2.createElementalProperties)({
-                        Earth: 0.2,
-                        Water: 0.1
-                    }),
+                    elementalBoost: createElementalProperties({ Earth: 0.2, Water: 0.1 }),
                     preparationTips: ['Simple preparations', 'Base for other dishes']
                 },
                 fullmoon: {
-                    elementalBoost: (0, elementalUtils_2.createElementalProperties)({
-                        Earth: 0.3,
-                        Water: 0.2
-                    }),
+                    elementalBoost: createElementalProperties({ Earth: 0.3, Water: 0.2 }),
                     preparationTips: ['Perfect for celebration dishes', 'Enhanced fluffiness']
                 }
             }
@@ -157,8 +148,7 @@ const rawRefinedGrains = {
     },
     'white_flour': {
         name: 'White Flour',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.1, Water: 0.2, Earth: 0.6, Air: 0.1
-        }),
+        elementalProperties: createElementalProperties({ Fire: 0.1, Water: 0.2, Earth: 0.6, Air: 0.1 }),
         astrologicalProfile: {
             rulingPlanets: ['Saturn', 'Moon'],
             favorableZodiac: ['capricorn', 'cancer'],
@@ -172,17 +162,11 @@ const rawRefinedGrains = {
             },
             lunarPhaseModifiers: {
                 waxingCrescent: {
-                    elementalBoost: (0, elementalUtils_2.createElementalProperties)({
-                        Earth: 0.2,
-                        Water: 0.1
-                    }),
+                    elementalBoost: createElementalProperties({ Earth: 0.2, Water: 0.1 }),
                     preparationTips: ['Good for starting breads and fermentations']
                 },
                 fullmoon: {
-                    elementalBoost: (0, elementalUtils_2.createElementalProperties)({
-                        Earth: 0.3,
-                        Air: 0.1
-                    }),
+                    elementalBoost: createElementalProperties({ Earth: 0.3, Air: 0.1 }),
                     preparationTips: ['Maximum rising potential for breads']
                 }
             }
@@ -291,8 +275,7 @@ const rawRefinedGrains = {
     },
     'semolina': {
         name: 'Semolina',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.2, Water: 0.2, Earth: 0.5, Air: 0.1
-        }),
+        elementalProperties: createElementalProperties({ Fire: 0.2, Water: 0.2, Earth: 0.5, Air: 0.1 }),
         astrologicalProfile: {
             rulingPlanets: ['Mercury', 'Saturn'],
             favorableZodiac: ['virgo', 'capricorn'],
@@ -354,8 +337,7 @@ const rawRefinedGrains = {
     },
     'pearl_barley': {
         name: 'Pearl Barley',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.2, Water: 0.2, Earth: 0.5, Air: 0.1
-        }),
+        elementalProperties: createElementalProperties({ Fire: 0.2, Water: 0.2, Earth: 0.5, Air: 0.1 }),
         astrologicalProfile: {
             rulingPlanets: ['Moon', 'Saturn'],
             favorableZodiac: ['cancer', 'capricorn'],
@@ -418,8 +400,7 @@ const rawRefinedGrains = {
     },
     'polished_farro': {
         name: 'Polished Farro',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.2, Water: 0.2, Earth: 0.5, Air: 0.1
-        }),
+        elementalProperties: createElementalProperties({ Fire: 0.2, Water: 0.2, Earth: 0.5, Air: 0.1 }),
         astrologicalProfile: {
             rulingPlanets: ['Saturn', 'Mercury'],
             favorableZodiac: ['capricorn', 'virgo'],
@@ -479,8 +460,7 @@ const rawRefinedGrains = {
     },
     'white_cornmeal': {
         name: 'White Cornmeal',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.2, Water: 0.2, Earth: 0.5, Air: 0.1
-        }),
+        elementalProperties: createElementalProperties({ Fire: 0.2, Water: 0.2, Earth: 0.5, Air: 0.1 }),
         astrologicalProfile: {
             rulingPlanets: ['Sun', 'Jupiter'],
             favorableZodiac: ['leo', 'sagittarius'],
@@ -541,8 +521,7 @@ const rawRefinedGrains = {
     },
     'all_purpose_flour': {
         name: 'All-Purpose Flour',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.2, Water: 0.2, Earth: 0.5, Air: 0.1
-        }),
+        elementalProperties: createElementalProperties({ Fire: 0.2, Water: 0.2, Earth: 0.5, Air: 0.1 }),
         astrologicalProfile: {
             rulingPlanets: ['Mercury', 'Venus'],
             favorableZodiac: ['virgo', 'libra'],
@@ -613,6 +592,7 @@ const rawRefinedGrains = {
         }
     }
 };
+
 // Fix the ingredient mappings to ensure they have all required properties
-exports.refinedGrains = (0, elementalUtils_1.fixIngredientMappings)(rawRefinedGrains);
-exports.default = exports.refinedGrains;
+export const refinedGrains = fixIngredientMappings(rawRefinedGrains);
+export default refinedGrains;

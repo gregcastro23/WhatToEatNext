@@ -1,12 +1,10 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.guava = exports.lychee = exports.dragonFruit = exports.passionFruit = exports.papaya = exports.pineapple = exports.mango = exports.tropical = void 0;
-const elementalUtils_1 = require("../../../utils/elementalUtils");
-const elementalUtils_2 = require("../../../utils/elemental/elementalUtils");
+import { fixIngredientMappings } from '../../../utils/elementalUtils';
+import { createElementalProperties } from '../../../utils/elemental/elementalUtils';
+
 const rawTropicalFruits = {
     'mango': {
         name: 'Mango',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.4, Water: 0.3, Earth: 0.2, Air: 0.1
+        elementalProperties: createElementalProperties({ Fire: 0.4, Water: 0.3, Earth: 0.2, Air: 0.1
         }),
         astrologicalProfile: {
             rulingPlanets: ['Sun', 'Jupiter'],
@@ -51,7 +49,7 @@ const rawTropicalFruits = {
     },
     'pineapple': {
         name: 'Pineapple',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.5, Water: 0.3, Earth: 0.1, Air: 0.1
+        elementalProperties: createElementalProperties({ Fire: 0.5, Water: 0.3, Earth: 0.1, Air: 0.1
         }),
         astrologicalProfile: {
             rulingPlanets: ['Sun', 'Mars'],
@@ -94,7 +92,7 @@ const rawTropicalFruits = {
     },
     'papaya': {
         name: 'Papaya',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({
+        elementalProperties: createElementalProperties({
             Water: 0.4,
             Fire: 0.3,
             Earth: 0.2,
@@ -143,7 +141,7 @@ const rawTropicalFruits = {
     },
     'passion fruit': {
         name: 'Passion Fruit',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({
+        elementalProperties: createElementalProperties({
             Water: 0.3,
             Air: 0.3,
             Fire: 0.2,
@@ -191,7 +189,7 @@ const rawTropicalFruits = {
     },
     'dragon fruit': {
         name: 'Dragon Fruit',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({
+        elementalProperties: createElementalProperties({
             Water: 0.5,
             Air: 0.3,
             Earth: 0.1,
@@ -239,7 +237,7 @@ const rawTropicalFruits = {
     },
     'lychee': {
         name: 'Lychee',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({
+        elementalProperties: createElementalProperties({
             Water: 0.4,
             Air: 0.3,
             Earth: 0.2,
@@ -287,7 +285,7 @@ const rawTropicalFruits = {
     },
     'guava': {
         name: 'Guava',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({
+        elementalProperties: createElementalProperties({
             Earth: 0.3,
             Water: 0.3,
             Fire: 0.2,
@@ -335,7 +333,7 @@ const rawTropicalFruits = {
     },
     'rambutan': {
         name: 'Rambutan',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
+        elementalProperties: createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
         }),
         qualities: ['sweet', 'delicate', 'refreshing'],
         season: ['summer', 'fall'],
@@ -367,7 +365,7 @@ const rawTropicalFruits = {
     },
     'mangosteen': {
         name: 'Mangosteen',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
+        elementalProperties: createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
         }),
         qualities: ['sweet', 'delicate', 'complex'],
         season: ['summer'],
@@ -399,7 +397,7 @@ const rawTropicalFruits = {
     },
     'soursop': {
         name: 'Soursop',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
+        elementalProperties: createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
         }),
         qualities: ['sweet-sour', 'creamy', 'tropical'],
         season: ['summer', 'fall'],
@@ -431,7 +429,7 @@ const rawTropicalFruits = {
     },
     'jackfruit': {
         name: 'Jackfruit',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
+        elementalProperties: createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
         }),
         qualities: ['sweet', 'meaty', 'complex'],
         season: ['summer', 'autumn'],
@@ -463,7 +461,7 @@ const rawTropicalFruits = {
     },
     'durian': {
         name: 'Durian',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
+        elementalProperties: createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
         }),
         qualities: ['creamy', 'pungent', 'complex'],
         season: ['summer'],
@@ -495,7 +493,7 @@ const rawTropicalFruits = {
     },
     'carambola': {
         name: 'Carambola',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
+        elementalProperties: createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
         }),
         qualities: ['sweet-tart', 'crisp', 'decorative'],
         season: ['winter', 'spring'],
@@ -526,7 +524,7 @@ const rawTropicalFruits = {
     },
     'kiwi': {
         name: 'Kiwi',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
+        elementalProperties: createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
         }),
         qualities: ['sweet-tart', 'bright', 'refreshing'],
         season: ['winter', 'spring'],
@@ -558,7 +556,7 @@ const rawTropicalFruits = {
     },
     'coconut': {
         name: 'Coconut',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
+        elementalProperties: createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
         }),
         qualities: ['sweet', 'creamy', 'tropical'],
         season: ['year-round'],
@@ -590,7 +588,7 @@ const rawTropicalFruits = {
     },
     'pomelo': {
         name: 'Pomelo',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
+        elementalProperties: createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
         }),
         qualities: ['sweet-tart', 'mild', 'refreshing'],
         season: ['winter'],
@@ -622,7 +620,7 @@ const rawTropicalFruits = {
     },
     'longan': {
         name: 'Longan',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
+        elementalProperties: createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
         }),
         qualities: ['sweet', 'subtle', 'refreshing'],
         season: ['late summer'],
@@ -654,7 +652,7 @@ const rawTropicalFruits = {
     },
     'custard apple': {
         name: 'Custard Apple',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
+        elementalProperties: createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
         }),
         qualities: ['sweet', 'creamy', 'fragrant'],
         season: ['fall', 'winter'],
@@ -685,15 +683,18 @@ const rawTropicalFruits = {
         }
     }
 };
+
 // Fix the ingredient mappings to ensure they have all required properties
-exports.tropical = (0, elementalUtils_1.fixIngredientMappings)(rawTropicalFruits);
+export const tropical = fixIngredientMappings(rawTropicalFruits);
+
 // Export the entire collection
-exports.default = exports.tropical;
+export default tropical;
+
 // Export individual tropical fruits for direct access
-exports.mango = exports.tropical.mango;
-exports.pineapple = exports.tropical.pineapple;
-exports.papaya = exports.tropical.papaya;
-exports.passionFruit = exports.tropical["passion fruit"];
-exports.dragonFruit = exports.tropical["dragon fruit"];
-exports.lychee = exports.tropical.lychee;
-exports.guava = exports.tropical.guava;
+export const mango = tropical.mango;
+export const pineapple = tropical.pineapple;
+export const papaya = tropical.papaya;
+export const passionFruit = tropical["passion fruit"];
+export const dragonFruit = tropical["dragon fruit"];
+export const lychee = tropical.lychee;
+export const guava = tropical.guava;

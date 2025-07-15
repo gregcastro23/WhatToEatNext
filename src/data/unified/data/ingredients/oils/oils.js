@@ -1,15 +1,13 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.allOils = exports.walnutOil = exports.palmOil = exports.sesameOil = exports.avocadoOil = exports.coconutOil = exports.oliveOil = exports.processedOils = void 0;
-const elementalUtils_1 = require("../../../utils/elementalUtils");
-const elementalUtils_2 = require("../../../utils/elemental/elementalUtils");
+import { fixIngredientMappings } from "../../../utils/elementalUtils.js";
+import { createElementalProperties } from "../../../utils/elemental/elementalUtils.js";
+
 // Define the raw oils data with partial IngredientMapping properties
 const rawOils = {
     'olive_oil': {
         name: 'Olive Oil',
         category: 'oil',
         subCategory: 'cooking',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.3, Water: 0.2, Earth: 0.3, Air: 0.2
+        elementalProperties: createElementalProperties({ Fire: 0.3, Water: 0.2, Earth: 0.3, Air: 0.2
         }),
         seasonality: ['spring', 'summer', 'fall', 'winter'],
         smokePoint: {
@@ -57,11 +55,11 @@ const rawOils = {
             },
             lunarPhaseModifiers: {
                 firstQuarter: {
-                    elementalBoost: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.1, Earth: 0.1 }),
+                    elementalBoost: createElementalProperties({ Fire: 0.1, Earth: 0.1 }),
                     preparationTips: ['Best for dressings']
                 },
                 fullmoon: {
-                    elementalBoost: (0, elementalUtils_2.createElementalProperties)({ Water: 0.2, Air: 0.1 }),
+                    elementalBoost: createElementalProperties({ Water: 0.2, Air: 0.1 }),
                     preparationTips: ['Ideal for finishing dishes']
                 }
             }
@@ -93,7 +91,7 @@ const rawOils = {
         name: 'Coconut Oil',
         category: 'oil',
         subCategory: 'cooking',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.2, Water: 0.4, Earth: 0.3, Air: 0.1
+        elementalProperties: createElementalProperties({ Fire: 0.2, Water: 0.4, Earth: 0.3, Air: 0.1
         }),
         seasonality: ['all'],
         smokePoint: {
@@ -140,11 +138,11 @@ const rawOils = {
             },
             lunarPhaseModifiers: {
                 fullmoon: {
-                    elementalBoost: (0, elementalUtils_2.createElementalProperties)({}),
+                    elementalBoost: createElementalProperties({}),
                     preparationTips: ['Enhanced purification properties during full moon']
                 },
                 newmoon: {
-                    elementalBoost: (0, elementalUtils_2.createElementalProperties)({}),
+                    elementalBoost: createElementalProperties({}),
                     preparationTips: ['Best time for protective and grounding rituals']
                 }
             }
@@ -228,7 +226,7 @@ const rawOils = {
         name: 'Palm Oil',
         category: 'oil',
         subCategory: 'cooking',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1
+        elementalProperties: createElementalProperties({ Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1
         }),
         seasonality: ['all'],
         smokePoint: {
@@ -298,7 +296,7 @@ const rawOils = {
         name: 'Sesame Oil',
         category: 'oil',
         subCategory: 'finishing',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.3, Water: 0.2, Earth: 0.2, Air: 0.3
+        elementalProperties: createElementalProperties({ Fire: 0.3, Water: 0.2, Earth: 0.2, Air: 0.3
         }),
         seasonality: ['fall', 'winter'],
         smokePoint: {
@@ -347,11 +345,11 @@ const rawOils = {
             },
             lunarPhaseModifiers: {
                 waxingCrescent: {
-                    elementalBoost: (0, elementalUtils_2.createElementalProperties)({}),
+                    elementalBoost: createElementalProperties({}),
                     preparationTips: ['Best for stir-frying']
                 },
                 fullmoon: {
-                    elementalBoost: (0, elementalUtils_2.createElementalProperties)({}),
+                    elementalBoost: createElementalProperties({}),
                     preparationTips: ['Ideal for finishing dishes']
                 }
             }
@@ -378,7 +376,7 @@ const rawOils = {
         name: 'Avocado Oil',
         category: 'oil',
         subCategory: 'cooking',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.2, Water: 0.3, Earth: 0.4, Air: 0.1
+        elementalProperties: createElementalProperties({ Fire: 0.2, Water: 0.3, Earth: 0.4, Air: 0.1
         }),
         seasonality: ['spring', 'summer', 'fall', 'winter'],
         smokePoint: {
@@ -427,11 +425,11 @@ const rawOils = {
             },
             lunarPhaseModifiers: {
                 fullmoon: {
-                    elementalBoost: (0, elementalUtils_2.createElementalProperties)({ Water: 0.2, Earth: 0.1 }),
+                    elementalBoost: createElementalProperties({ Water: 0.2, Earth: 0.1 }),
                     preparationTips: ['Enhanced beauty and prosperity properties during full moon']
                 },
                 waxingCrescent: {
-                    elementalBoost: (0, elementalUtils_2.createElementalProperties)({ Earth: 0.2, Water: 0.1 }),
+                    elementalBoost: createElementalProperties({ Earth: 0.2, Water: 0.1 }),
                     preparationTips: ['Best time for healing skin treatments']
                 }
             }
@@ -486,7 +484,7 @@ const rawOils = {
         name: 'Walnut Oil',
         category: 'oil',
         subCategory: 'finishing',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.2, Water: 0.1, Earth: 0.3, Air: 0.4
+        elementalProperties: createElementalProperties({ Fire: 0.2, Water: 0.1, Earth: 0.3, Air: 0.4
         }),
         seasonality: ['fall', 'winter'],
         smokePoint: {
@@ -516,16 +514,20 @@ const rawOils = {
         }
     }
 };
-// Process ingredient mappings and export
-exports.processedOils = (0, elementalUtils_1.fixIngredientMappings)(rawOils);
+
+// Fix the ingredient mappings to ensure they have all required properties
+const processedOils = fixIngredientMappings(rawOils);
+
 // Export individual oils for direct access
-exports.oliveOil = exports.processedOils.olive_oil;
-exports.coconutOil = exports.processedOils.coconut_oil;
-exports.avocadoOil = exports.processedOils.avocado_oil;
-exports.sesameOil = exports.processedOils.sesame_oil;
-exports.palmOil = exports.processedOils.palm_oil;
-exports.walnutOil = exports.processedOils.walnut_oil;
-// Export all oils for collection access
-exports.allOils = exports.processedOils;
+export const oliveOil = processedOils.olive_oil;
+export const coconutOil = processedOils.coconut_oil;
+export const avocadoOil = processedOils.avocado_oil;
+export const sesameOil = processedOils.sesame_oil;
+export const palmOil = processedOils.palm_oil;
+export const walnutOil = processedOils.walnut_oil;
+
+// Export the full collection
+export const allOils = processedOils;
+
 // Default export
-exports.default = exports.processedOils;
+export default processedOils;

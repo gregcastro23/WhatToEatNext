@@ -1,12 +1,11 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.buckwheatGrain = void 0;
-const elementalUtils_1 = require("../../../../utils/elementalUtils");
-const elementalUtils_2 = require("../../../../utils/elemental/elementalUtils");
+import { fixIngredientMappings } from '../../../../utils/elementalUtils';
+import { createElementalProperties } from '../../../../utils/elemental/elementalUtils';
+
 const rawBuckwheat = {
     'buckwheat': {
         name: 'Buckwheat',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({
+        elementalProperties: createElementalProperties({
             Earth: 0.4,
             Fire: 0.3,
             Air: 0.2,
@@ -25,14 +24,14 @@ const rawBuckwheat = {
             },
             lunarPhaseModifiers: {
                 newmoon: {
-                    elementalBoost: (0, elementalUtils_2.createElementalProperties)({
+                    elementalBoost: createElementalProperties({
                         Earth: 0.2,
                         Fire: 0.1
                     }),
                     preparationTips: ['Good time for sprouting', 'Mindful preparation']
                 },
                 fullmoon: {
-                    elementalBoost: (0, elementalUtils_2.createElementalProperties)({
+                    elementalBoost: createElementalProperties({
                         Earth: 0.1,
                         Fire: 0.2
                     }),
@@ -85,9 +84,12 @@ const rawBuckwheat = {
         }
     }
 };
+
 // Apply any fixes needed to raw ingredient data
-const buckwheat = (0, elementalUtils_1.fixIngredientMappings)(rawBuckwheat);
+const buckwheat = fixIngredientMappings(rawBuckwheat);
+
 // Export the entire collection
-exports.default = buckwheat;
+export default buckwheat;
+
 // Export individual item for direct access
-exports.buckwheatGrain = buckwheat.buckwheat;
+export const buckwheatGrain = buckwheat.buckwheat;

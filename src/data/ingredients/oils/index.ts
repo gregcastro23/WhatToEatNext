@@ -399,6 +399,126 @@ export const OIL_CATEGORIZATION_INTELLIGENCE = {
       specialtyOptimizationSuggestions,
       specialtyHarmonyMetrics
     };
+  },
+
+  // 2. OIL PROPERTY INTELLIGENCE SYSTEM
+  /**
+   * Analyze elemental oil categories (Fire, Water, Earth, Air)
+   * @param oilData Processed oil data
+   * @returns Elemental oil analytics and optimization
+   */
+  analyzeElementalOils: (oilData: typeof processedOils): {
+    elementalAnalytics: Record<string, any[]>;
+    categoryCounts: Record<string, number>;
+    optimization: string[];
+  } => {
+    const categories = ['Fire', 'Water', 'Earth', 'Air'];
+    const elementalAnalytics: Record<string, any[]> = {};
+    categories.forEach(element => {
+      elementalAnalytics[element] = Object.entries(oilData)
+        .filter(([_, value]) => value.elementalProperties[element as keyof typeof value.elementalProperties] >= 0.4 || value.astrologicalProfile?.elementalAffinity?.base === element)
+        .map(([key, value]) => ({ key, ...value }));
+    });
+    return {
+      elementalAnalytics,
+      categoryCounts: Object.fromEntries(categories.map(e => [e, elementalAnalytics[e].length])),
+      optimization: categories.map(e => elementalAnalytics[e].length > 2 ? `Good ${e} oil diversity` : `Add more ${e} oils for balance`)
+    };
+  },
+
+  /**
+   * Analyze nut oils for culinary and health optimization
+   * @param oilData Processed oil data
+   * @returns Nut oil analytics and recommendations
+   */
+  analyzeNutOils: (oilData: typeof processedOils): {
+    nutOils: any[];
+    nutOilCount: number;
+    omega3Rich: number;
+    recommendations: string[];
+  } => {
+    const nutKeys = ['walnut', 'almond', 'macadamia', 'peanut'];
+    const nutOils = Object.entries(oilData)
+      .filter(([key, _]) => nutKeys.some(nut => key.includes(nut)))
+      .map(([key, value]) => ({ key, ...value }));
+    return {
+      nutOils,
+      nutOilCount: nutOils.length,
+      omega3Rich: nutOils.filter(oil => oil.nutritionalProfile?.omega3 > 0.5).length,
+      recommendations: nutOils.length > 2 ? ['Good nut oil variety'] : ['Consider adding more nut oils']
+    };
+  },
+
+  /**
+   * Analyze high-heat oils for cooking optimization
+   * @param oilData Processed oil data
+   * @returns High-heat oil analytics and suggestions
+   */
+  analyzeHighHeatOils: (oilData: typeof processedOils): {
+    highHeatOils: any[];
+    count: number;
+    bestForFrying: string[];
+    suggestions: string[];
+  } => {
+    const highHeatOils = Object.entries(oilData)
+      .filter(([_, value]) => (value.smokePoint?.fahrenheit >= 400) || (value.culinaryApplications?.frying || value.culinaryApplications?.deepfrying))
+      .map(([key, value]) => ({ key, ...value }));
+    return {
+      highHeatOils,
+      count: highHeatOils.length,
+      bestForFrying: highHeatOils.filter(oil => oil.culinaryApplications?.frying).map(oil => oil.key),
+      suggestions: highHeatOils.length > 3 ? ['Excellent high-heat options'] : ['Add more high-heat oils']
+    };
+  },
+
+  /**
+   * Analyze baking, dressing, and specialty oils for culinary diversity
+   * @param oilData Processed oil data
+   * @returns Analytics for baking, dressing, and specialty oils
+   */
+  analyzeBakingDressingSpecialtyOils: (oilData: typeof processedOils): {
+    bakingOils: any[];
+    dressingOils: any[];
+    specialtyOils: any[];
+    diversityScore: number;
+    recommendations: string[];
+  } => {
+    const bakingOils = Object.entries(oilData).filter(([_, value]) => value.culinaryApplications?.baking).map(([key, value]) => ({ key, ...value }));
+    const dressingOils = Object.entries(oilData).filter(([_, value]) => value.culinaryApplications?.dressings).map(([key, value]) => ({ key, ...value }));
+    const specialtyOils = Object.entries(oilData).filter(([_, value]) => !value.subCategory || (value.subCategory !== 'cooking' && value.subCategory !== 'finishing' && value.subCategory !== 'supplement')).map(([key, value]) => ({ key, ...value }));
+    return {
+      bakingOils,
+      dressingOils,
+      specialtyOils,
+      diversityScore: (bakingOils.length + dressingOils.length + specialtyOils.length) / Object.keys(oilData).length,
+      recommendations: [
+        bakingOils.length > 1 ? 'Good baking oil options' : 'Add more baking oils',
+        dressingOils.length > 1 ? 'Good dressing oil options' : 'Add more dressing oils',
+        specialtyOils.length > 1 ? 'Good specialty oil options' : 'Add more specialty oils'
+      ]
+    };
+  },
+
+  /**
+   * Analyze supplement oils for health optimization
+   * @param oilData Processed oil data
+   * @returns Supplement oil analytics and health recommendations
+   */
+  analyzeSupplementOils: (oilData: typeof processedOils): {
+    supplementOils: any[];
+    count: number;
+    omega3Rich: number;
+    recommendations: string[];
+  } => {
+    const supplementOils = Object.entries(oilData)
+      .filter(([_, value]) => value.subCategory === 'supplement')
+      .map(([key, value]) => ({ key, ...value }));
+    return {
+      supplementOils,
+      count: supplementOils.length,
+      omega3Rich: supplementOils.filter(oil => oil.nutritionalProfile?.omega3 > 0.5).length,
+      recommendations: supplementOils.length > 1 ? ['Good supplement oil options'] : ['Add more supplement oils']
+    };
   }
 };
 
@@ -1139,14 +1259,35 @@ export const OIL_INTELLIGENCE_DEMO = {
   }
 };
 
-// Create sample demonstration to ensure all systems are actively used
-const executeOilDemonstration = () => {
-  // Execute comprehensive oil demonstration
-  return OIL_INTELLIGENCE_DEMO.demonstrateAllOilIntelligence(processedOils);
+/**
+ * Demonstration platform for all oil intelligence analytics
+ * Runs all analytics and returns a summary object
+ */
+export const OIL_DEMONSTRATION_PLATFORM = {
+  demonstrateAllOilSystems: () => {
+    const cooking = OIL_CATEGORIZATION_INTELLIGENCE.analyzeCookingOils(processedOils);
+    const finishing = OIL_CATEGORIZATION_INTELLIGENCE.analyzeFinishingOils(processedOils);
+    const elemental = OIL_CATEGORIZATION_INTELLIGENCE.analyzeElementalOils(processedOils);
+    const nut = OIL_CATEGORIZATION_INTELLIGENCE.analyzeNutOils(processedOils);
+    const highHeat = OIL_CATEGORIZATION_INTELLIGENCE.analyzeHighHeatOils(processedOils);
+    const bakingDressingSpecialty = OIL_CATEGORIZATION_INTELLIGENCE.analyzeBakingDressingSpecialtyOils(processedOils);
+    const supplement = OIL_CATEGORIZATION_INTELLIGENCE.analyzeSupplementOils(processedOils);
+    return {
+      cooking,
+      finishing,
+      elemental,
+      nut,
+      highHeat,
+      bakingDressingSpecialty,
+      supplement
+    };
+  }
 };
 
-// Active execution to ensure all oil intelligence systems are utilized
-export const PHASE_30_OIL_DEMONSTRATION_RESULTS = executeOilDemonstration();
+/**
+ * Phase 43 summary export: demonstrates all oil intelligence analytics
+ */
+export const PHASE_43_OIL_INTELLIGENCE_SUMMARY = OIL_DEMONSTRATION_PLATFORM.demonstrateAllOilSystems();
 
 // Note: All Oil Intelligence Systems are already exported via their const declarations above
 

@@ -22,9 +22,9 @@ export default function CuisineSectionTestPage() {
   const { recipeService } = useServices();
   
   // Component state
-  // const [recipes, setRecipes] = useState([]);
-  // const [isLoading, setIsLoading] = useState(true);
-  // const [error, setError] = useState<Error | null>(null);
+  const [recipes, setRecipes] = useState<Recipe[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<Error | null>(null);
   
   // Load recipes for the selected cuisine
   useEffect(() => {
@@ -34,7 +34,7 @@ export default function CuisineSectionTestPage() {
       try {
         setIsLoading(true);
         const cuisineRecipes = await recipeService.getRecipesForCuisine(selectedCuisine);
-        setRecipes(cuisineRecipes);
+        setRecipes(cuisineRecipes as unknown as Recipe[]);
         setError(null);
       } catch (err) {
         logger.error('Error loading recipes:', err);

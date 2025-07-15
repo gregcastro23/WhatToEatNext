@@ -1,5 +1,5 @@
-// CommonJS imports
-const { celestialCalculator } = require('../services/celestialCalculations');
+// ES module imports
+import { celestialCalculator } from '../services/celestialCalculations.js';
 
 // Local interface for testing purposes
 interface PlanetaryPosition {

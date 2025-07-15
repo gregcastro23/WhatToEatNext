@@ -98,7 +98,11 @@ type _Season = 'spring' | 'summer' | 'autumn' | 'winter';
 export class EnhancedCuisineRecommender {
   private static instance: EnhancedCuisineRecommender;
 
-  private constructor() {}
+  private constructor() {
+    // Initialize the singleton instance
+    // This constructor is called only once when the singleton is first created
+    EnhancedCuisineRecommender.instance = this;
+  }
 
   public static getInstance(): EnhancedCuisineRecommender {
     if (!EnhancedCuisineRecommender.instance) {

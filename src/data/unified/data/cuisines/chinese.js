@@ -682,4 +682,5 @@ export const chinese = {
     },
     elementalProperties: { Fire: 0.30, Water: 0.30, Earth: 0.30, Air: 0.10 }
 };
-exports.default = exports.chinese;
+
+export default chinese;

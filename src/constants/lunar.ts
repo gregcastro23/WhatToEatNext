@@ -269,10 +269,11 @@ export const LUNAR_PHASES = {
           score = phaseData.qualities.filter(q => ['active', 'manifesting'].includes(q)).length * 0.8 + 
                  phaseData.duration * 0.2;
           break;
-        case 'elementalBalance':
+        case 'elementalBalance': {
           const elementalBalance = Object.values(phaseData.elementalModifier).reduce((acc, val) => acc + val, 0) / 4;
           score = 1 - Math.abs(elementalBalance - 0.25); // Closer to 0.25 = more balanced
           break;
+        }
       }
       
       // Boost score if target element is dominant

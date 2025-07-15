@@ -1,11 +1,12 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.getMonicaCompatibleCookingMethods = exports.findCookingMethodsByMonicaRange = exports.getAllEnhancedCookingMethods = exports.createEnhancedCookingMethod = exports.enhanceAlchemicalPillar = exports.getTarotCardAlchemicalEffect = exports.getPlanetaryAlchemicalEffect = exports.getCookingMethodThermodynamics = exports.getCookingMethodAlchemicalEffect = exports.getCookingMethodPillar = exports.TAROT_SUIT_ALCHEMICAL_MAPPING = exports.PLANETARY_ALCHEMICAL_EFFECTS = exports.ELEMENTAL_THERMODYNAMIC_PROPERTIES = exports.COOKING_METHOD_PILLAR_MAPPING = exports.ALCHEMICAL_PILLARS = exports.ALCHEMICAL_PROPERTY_ELEMENTS = void 0;
 /**
  * The fundamental elemental nature of alchemical properties
  * Based on core principles of the alchemizer engine
  */
-exports.ALCHEMICAL_PROPERTY_ELEMENTS = {
+/**
+ * The fundamental elemental nature of alchemical properties
+ * Based on core principles of the alchemizer engine
+ */
+export const ALCHEMICAL_PROPERTY_ELEMENTS = {
     Spirit: { primary: 'Fire', secondary: 'Air' },
     Essence: { primary: 'Fire', secondary: 'Water' },
     Matter: { primary: 'Earth', secondary: 'Water' },
@@ -16,7 +17,7 @@ exports.ALCHEMICAL_PROPERTY_ELEMENTS = {
  * fundamental alchemical properties (Spirit, Essence, Matter, Substance)
  * are transformed during alchemical processes
  */
-exports.ALCHEMICAL_PILLARS = [
+export const ALCHEMICAL_PILLARS = [
     {
         id: 1,
         name: 'Solution',
@@ -258,7 +259,7 @@ exports.ALCHEMICAL_PILLARS = [
 /**
  * Maps cooking methods to their corresponding alchemical pillars
  */
-exports.COOKING_METHOD_PILLAR_MAPPING = {
+export const COOKING_METHOD_PILLAR_MAPPING = {
     // Wet Cooking Methods
     'boiling': 1,
     'steaming': 3,
@@ -297,7 +298,7 @@ exports.COOKING_METHOD_PILLAR_MAPPING = {
 /**
  * Define the thermodynamic properties for each element
  */
-exports.ELEMENTAL_THERMODYNAMIC_PROPERTIES = {
+export const ELEMENTAL_THERMODYNAMIC_PROPERTIES = {
     'Fire': { heat: 0.8, entropy: 0.6, reactivity: 0.7 },
     'Air': { heat: 0.4, entropy: 0.7, reactivity: 0.6 },
     'Water': { heat: 0.3, entropy: 0.5, reactivity: 0.4 },
@@ -307,7 +308,7 @@ exports.ELEMENTAL_THERMODYNAMIC_PROPERTIES = {
  * Maps planets to their alchemical effects based on day/night status
  * Values represent the contribution to each alchemical property
  */
-exports.PLANETARY_ALCHEMICAL_EFFECTS = {
+export const PLANETARY_ALCHEMICAL_EFFECTS = {
     'Sun': {
         diurnal: {},
         nocturnal: { Spirit: 0.8, Essence: 0.2, Matter: 0, Substance: 0 }
@@ -352,7 +353,7 @@ exports.PLANETARY_ALCHEMICAL_EFFECTS = {
 /**
  * Maps tarot suits to their alchemical property contributions
  */
-exports.TAROT_SUIT_ALCHEMICAL_MAPPING = {
+export const TAROT_SUIT_ALCHEMICAL_MAPPING = {
     'Wands': { Spirit: 0.7, Essence: 0.2, Matter: 0, Substance: 0.1 },
     'Cups': { Spirit: 0.1, Essence: 0.7, Matter: 0.1, Substance: 0.1 },
     'Swords': { Spirit: 0.5, Essence: 0.1, Matter: 0.1, Substance: 0.3 },
@@ -363,76 +364,71 @@ exports.TAROT_SUIT_ALCHEMICAL_MAPPING = {
  * @param cookingMethod The cooking method to map
  * @returns The corresponding alchemical pillar or undefined if not mapped
  */
-function getCookingMethodPillar(cookingMethod) {
-    const pillerId = exports.COOKING_METHOD_PILLAR_MAPPING[cookingMethod.toLowerCase()];
+export function getCookingMethodPillar(cookingMethod) {
+    const pillerId = COOKING_METHOD_PILLAR_MAPPING[cookingMethod.toLowerCase()];
     if (!pillerId)
         return undefined;
-    return exports.ALCHEMICAL_PILLARS.find(pillar => pillar.id === pillerId);
+    return ALCHEMICAL_PILLARS.find(pillar => pillar.id === pillerId);
 }
-exports.getCookingMethodPillar = getCookingMethodPillar;
 /**
  * Calculate the alchemical effect of a cooking method
  * @param cookingMethod The cooking method
  * @returns The effect on alchemical properties or null if method not recognized
  */
-function getCookingMethodAlchemicalEffect(cookingMethod) {
+export function getCookingMethodAlchemicalEffect(cookingMethod) {
     const pillar = getCookingMethodPillar(cookingMethod);
     if (!pillar)
         return null;
     return pillar.effects;
 }
-exports.getCookingMethodAlchemicalEffect = getCookingMethodAlchemicalEffect;
 /**
  * Calculate the thermodynamic properties of a cooking method based on its elemental associations
  * @param cookingMethod The cooking method
  * @returns Thermodynamic properties (heat, entropy, reactivity) or null if method not recognized
  */
-function getCookingMethodThermodynamics(cookingMethod) {
+export function getCookingMethodThermodynamics(cookingMethod) {
     const pillar = getCookingMethodPillar(cookingMethod);
     if (!pillar || !pillar.elementalAssociations)
         return null;
     const _primaryElement = pillar.elementalAssociations.primary;
     const secondaryElement = pillar.elementalAssociations.secondary;
-    const primaryProps = exports.ELEMENTAL_THERMODYNAMIC_PROPERTIES[primaryElement];
+    const primaryProps = ELEMENTAL_THERMODYNAMIC_PROPERTIES[primaryElement];
     // If no secondary element, return primary properties
     if (!secondaryElement)
         return primaryProps;
     // If secondary element exists, blend properties (70% primary, 30% secondary)
-    const secondaryProps = exports.ELEMENTAL_THERMODYNAMIC_PROPERTIES[secondaryElement];
+    const secondaryProps = ELEMENTAL_THERMODYNAMIC_PROPERTIES[secondaryElement];
     return {
         heat: (primaryProps.heat * 0.7) + (secondaryProps.heat * 0.3),
         entropy: (primaryProps.entropy * 0.7) + (secondaryProps.entropy * 0.3),
         reactivity: (primaryProps.reactivity * 0.7) + (secondaryProps.reactivity * 0.3)
     };
 }
-exports.getCookingMethodThermodynamics = getCookingMethodThermodynamics;
 /**
  * Calculate the alchemical effect of a planet based on day/night status
  * @param planet The planet name
  * @param isDaytime Whether it is day (true) or night (false)
  * @returns The alchemical effect of the planet
  */
-function getPlanetaryAlchemicalEffect(planet, _isDaytime = true) {
-    const planetEffects = exports.PLANETARY_ALCHEMICAL_EFFECTS[planet];
+export function getPlanetaryAlchemicalEffect(planet, _isDaytime = true) {
+    const planetEffects = PLANETARY_ALCHEMICAL_EFFECTS[planet];
     if (!planetEffects)
         return null;
     return isDaytime ? planetEffects.diurnal : planetEffects.nocturnal;
 }
-exports.getPlanetaryAlchemicalEffect = getPlanetaryAlchemicalEffect;
 /**
  * Get the alchemical effect of a tarot card based on its suit
  * @param cardName The full name of the tarot card (e.g., "10 of Cups")
  * @returns The alchemical effect of the tarot card or null if not recognized
  */
-function getTarotCardAlchemicalEffect(cardName) {
+export function getTarotCardAlchemicalEffect(cardName) {
     // Extract the suit from the card name
     const suitMatch = cardName.match(/of\s+(\w+)/i);
     if (!suitMatch)
         return null;
     const suit = suitMatch[1];
-    return exports.TAROT_SUIT_ALCHEMICAL_MAPPING[suit] || null;
+    return TAROT_SUIT_ALCHEMICAL_MAPPING[suit] || null;
 }
-exports.getTarotCardAlchemicalEffect = getTarotCardAlchemicalEffect;
 /**
  * Calculate Monica constant for an alchemical pillar
  * Formula: M = -Greg's Energy / (Reactivity × ln(Kalchm))
@@ -469,7 +465,7 @@ function calculatePillarGregsEnergy(heat, entropy, reactivity) {
 /**
  * Calculate enhanced properties for an alchemical pillar
  */
-function enhanceAlchemicalPillar(pillar) {
+export function enhanceAlchemicalPillar(pillar) {
     // Get thermodynamic properties from elemental associations
     const thermodynamics = getCookingMethodThermodynamics(pillar.name.toLowerCase()) || {
         heat: 0.5,
@@ -498,7 +494,7 @@ function enhanceAlchemicalPillar(pillar) {
         }
     };
 }
-exports.enhanceAlchemicalPillar = enhanceAlchemicalPillar;
+
 /**
  * Determine Monica classification for a pillar
  */
@@ -534,7 +530,7 @@ function calculatePillarMonicaModifiers(monica) {
 /**
  * Create enhanced cooking method with Monica constants from alchemical pillars
  */
-function createEnhancedCookingMethod(cookingMethodName) {
+export function createEnhancedCookingMethod(cookingMethodName) {
     // Get the alchemical pillar for this cooking method
     const pillar = getCookingMethodPillar(cookingMethodName);
     if (!pillar)
@@ -563,7 +559,7 @@ function createEnhancedCookingMethod(cookingMethodName) {
         optimalConditions
     };
 }
-exports.createEnhancedCookingMethod = createEnhancedCookingMethod;
+
 /**
  * Calculate optimal cooking conditions based on Monica constant
  */
@@ -643,9 +639,9 @@ function calculateLunarPhaseBonus(enhancedPillar) {
 /**
  * Get all enhanced cooking methods with Monica constants
  */
-function getAllEnhancedCookingMethods() {
+export function getAllEnhancedCookingMethods() {
     const enhancedMethods = {};
-    for (const [methodName] of Object.entries(exports.COOKING_METHOD_PILLAR_MAPPING)) {
+    for (const [methodName] of Object.entries(COOKING_METHOD_PILLAR_MAPPING)) {
         const enhanced = createEnhancedCookingMethod(methodName);
         if (enhanced) {
             enhancedMethods[methodName] = enhanced;
@@ -653,11 +649,11 @@ function getAllEnhancedCookingMethods() {
     }
     return enhancedMethods;
 }
-exports.getAllEnhancedCookingMethods = getAllEnhancedCookingMethods;
+
 /**
  * Find cooking methods by Monica constant range
  */
-function findCookingMethodsByMonicaRange(minMonica, maxMonica) {
+export function findCookingMethodsByMonicaRange(minMonica, maxMonica) {
     const allMethods = getAllEnhancedCookingMethods();
     return Object.values(allMethods).filter(method => {
         const monica = method.monicaConstant;
@@ -666,11 +662,11 @@ function findCookingMethodsByMonicaRange(minMonica, maxMonica) {
         return monica >= minMonica && monica <= maxMonica;
     });
 }
-exports.findCookingMethodsByMonicaRange = findCookingMethodsByMonicaRange;
+
 /**
  * Get cooking method recommendations based on Monica compatibility
  */
-function getMonicaCompatibleCookingMethods(targetMonica, tolerance = 0.5) {
+export function getMonicaCompatibleCookingMethods(targetMonica, tolerance = 0.5) {
     if (isNaN(targetMonica))
         return [];
     return findCookingMethodsByMonicaRange(targetMonica - tolerance, targetMonica + tolerance).sort((a, b) => {
@@ -679,4 +675,4 @@ function getMonicaCompatibleCookingMethods(targetMonica, tolerance = 0.5) {
         return diffA - diffB;
     });
 }
-exports.getMonicaCompatibleCookingMethods = getMonicaCompatibleCookingMethods;
+

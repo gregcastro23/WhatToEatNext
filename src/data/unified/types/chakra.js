@@ -1,8 +1,6 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateChakraEnergy = exports.getChakraEnergy = exports.createChakraEnergies = exports.isChakraEnergies = exports.isChakraPosition = exports.CHAKRA_MAPPING_SUMMARY = exports.KEY_CARD_CHAKRA_MAPPINGS = exports.SUIT_CHAKRA_MAPPINGS = exports.MAJOR_ARCANA_CHAKRAS = exports.CHAKRAS = void 0;
 // Constants for reference
-exports.CHAKRAS = {
+export const CHAKRAS = {
     root: {
         name: 'Root Chakra',
         sanskritName: 'Muladhara',
@@ -88,7 +86,7 @@ exports.CHAKRAS = {
         primaryEnergyState: 'Spirit'
     }
 };
-exports.MAJOR_ARCANA_CHAKRAS = [
+export const MAJOR_ARCANA_CHAKRAS = [
     {
         cardName: 'The Emperor',
         chakraPosition: 'root',
@@ -155,7 +153,7 @@ exports.MAJOR_ARCANA_CHAKRAS = [
         description: 'Symbolizes rebirth, spiritual awakening, and transcendence, connecting to the Crown Chakra\'s theme of spiritual enlightenment.'
     }
 ];
-exports.SUIT_CHAKRA_MAPPINGS = [
+export const SUIT_CHAKRA_MAPPINGS = [
     {
         suit: 'wands',
         primaryChakra: 'solarPlexus',
@@ -190,7 +188,7 @@ exports.SUIT_CHAKRA_MAPPINGS = [
     }
 ];
 // Key card to chakra mappings (tarot cards and their planetary/chakra associations)
-exports.KEY_CARD_CHAKRA_MAPPINGS = [
+export const KEY_CARD_CHAKRA_MAPPINGS = [
     {
         cardName: 'The Fool',
         chakraPosition: 'crown',
@@ -324,7 +322,7 @@ exports.KEY_CARD_CHAKRA_MAPPINGS = [
         description: 'Symbolizes completion, fulfillment, and integration of all elements, connecting to the Crown Chakra\'s wholeness.'
     }
 ];
-exports.CHAKRA_MAPPING_SUMMARY = [
+export const CHAKRA_MAPPING_SUMMARY = [
     {
         chakra: 'root',
         majorArcana: ['The Emperor'],
@@ -363,23 +361,21 @@ exports.CHAKRA_MAPPING_SUMMARY = [
     }
 ];
 // Type guard for ChakraPosition
-function isChakraPosition(value) {
+export function isChakraPosition(value) {
     if (typeof value !== 'string')
         return false;
     return ['root', 'sacral', 'solarPlexus', 'heart', 'throat', 'brow', 'crown'].includes(value);
 }
-exports.isChakraPosition = isChakraPosition;
 // Type guard for ChakraEnergies
-function isChakraEnergies(value) {
+export function isChakraEnergies(value) {
     if (!value || typeof value !== 'object')
         return false;
     const obj = value;
     const requiredProperties = ['root', 'sacral', 'solarPlexus', 'heart', 'throat', 'brow', 'crown'];
     return requiredProperties.every(prop => prop in obj && (typeof obj[prop] === 'number' || obj[prop] === undefined));
 }
-exports.isChakraEnergies = isChakraEnergies;
 // Helper to create a default ChakraEnergies object
-function createChakraEnergies(defaultValue = 0) {
+export function createChakraEnergies(defaultValue = 0) {
     return {
         root: defaultValue,
         sacral: defaultValue,
@@ -390,19 +386,16 @@ function createChakraEnergies(defaultValue = 0) {
         crown: defaultValue
     };
 }
-exports.createChakraEnergies = createChakraEnergies;
 // Helper to safely access chakra energy values
-function getChakraEnergy(chakraEnergies, position) {
+export function getChakraEnergy(chakraEnergies, position) {
     if (!chakraEnergies)
         return 0;
     return chakraEnergies[position] || 0;
 }
-exports.getChakraEnergy = getChakraEnergy;
 // Helper to update chakra energy values
-function updateChakraEnergy(chakraEnergies, position, value) {
+export function updateChakraEnergy(chakraEnergies, position, value) {
     return {
         ...chakraEnergies,
         [position]: value
     };
 }
-exports.updateChakraEnergy = updateChakraEnergy;

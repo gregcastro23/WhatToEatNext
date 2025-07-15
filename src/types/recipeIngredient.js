@@ -1,10 +1,8 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.validateIngredient = void 0;
 /**
  * Validates an ingredient object against the RecipeIngredient interface
  */
-function validateIngredient(ingredient) {
+export function validateIngredient(ingredient) {
     if (!ingredient || typeof ingredient !== 'object') {
         return false;
     }
@@ -20,12 +18,11 @@ function validateIngredient(ingredient) {
     }
     // Optional elemental properties
     if (ingredient.elementalProperties) {
-        const props_1 = ingredient.elementalProperties;
+        const props = ingredient.elementalProperties;
         const requiredElements = ['Fire', 'Water', 'Earth', 'Air'];
-        if (!requiredElements.every(function (element) { return typeof props_1[element] === 'number'; })) {
+        if (!requiredElements.every(element => typeof props[element] === 'number')) {
             return false;
         }
     }
     return true;
 }
-exports.validateIngredient = validateIngredient;

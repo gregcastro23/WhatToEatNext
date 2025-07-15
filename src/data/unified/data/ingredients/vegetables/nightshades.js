@@ -1,12 +1,10 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.eggplant = exports.tomato = exports.nightshades = void 0;
-const elementalUtils_1 = require("../../../utils/elementalUtils");
-const elementalUtils_2 = require("../../../utils/elemental/elementalUtils");
+import { fixIngredientMappings } from "../../../utils/elementalUtils.js";
+import { createElementalProperties } from "../../../utils/elemental/elementalUtils.js";
+
 const rawNightshades = {
     'tomato': {
         name: 'Tomato',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({
+        elementalProperties: createElementalProperties({
             Water: 0.5,
             Fire: 0.3,
             Earth: 0.1,
@@ -25,11 +23,11 @@ const rawNightshades = {
             },
             lunarPhaseModifiers: {
                 fullmoon: {
-                    elementalBoost: (0, elementalUtils_2.createElementalProperties)({ Water: 0.3, Fire: 0.1 }),
+                    elementalBoost: createElementalProperties({ Water: 0.3, Fire: 0.1 }),
                     preparationTips: ['Enhanced flavor', 'Perfect for harvesting']
                 },
                 waxingGibbous: {
-                    elementalBoost: (0, elementalUtils_2.createElementalProperties)({ Water: 0.2, Earth: 0.1 }),
+                    elementalBoost: createElementalProperties({ Water: 0.2, Earth: 0.1 }),
                     preparationTips: ['Good for preserving', 'Enhanced sweetness']
                 }
             }
@@ -62,7 +60,7 @@ const rawNightshades = {
     },
     'eggplant': {
         name: 'Eggplant',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({
+        elementalProperties: createElementalProperties({
             Water: 0.4,
             Earth: 0.3,
             Air: 0.2,
@@ -81,11 +79,11 @@ const rawNightshades = {
             },
             lunarPhaseModifiers: {
                 fullmoon: {
-                    elementalBoost: (0, elementalUtils_2.createElementalProperties)({ Water: 0.3 }),
+                    elementalBoost: createElementalProperties({ Water: 0.3 }),
                     preparationTips: ['Enhanced flavor absorption', 'Best for cooking']
                 },
                 waxingGibbous: {
-                    elementalBoost: (0, elementalUtils_2.createElementalProperties)({ Earth: 0.2, Water: 0.1 }),
+                    elementalBoost: createElementalProperties({ Earth: 0.2, Water: 0.1 }),
                     preparationTips: ['Good time for harvest', 'Enhanced texture when cooked']
                 }
             }
@@ -117,10 +115,13 @@ const rawNightshades = {
         }
     }
 };
+
 // Process ingredient mappings to ensure they have all required properties
-exports.nightshades = (0, elementalUtils_1.fixIngredientMappings)(rawNightshades);
+export const nightshades = fixIngredientMappings(rawNightshades);
+
 // Export individual nightshades for direct access
-exports.tomato = exports.nightshades.tomato;
-exports.eggplant = exports.nightshades.eggplant;
+export const tomato = nightshades.tomato;
+export const eggplant = nightshades.eggplant;
+
 // Default export
-exports.default = exports.nightshades;
+export default nightshades;

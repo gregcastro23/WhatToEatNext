@@ -1800,11 +1800,217 @@ export const ELEMENTAL_INTELLIGENCE_DEMO = {
       elementalIntegrationMetrics,
       comprehensiveElementalAnalysis
     };
-  }
+  },
+  
+  // Analyze elemental weights and scaling patterns
+  analyzeElementalWeights: (properties: ElementalProperties) => {
+    const weights = Object.entries(properties).map(([element, weight]) => ({ element, weight }));
+    const totalWeight = weights.reduce((sum, item) => sum + item.weight, 0);
+    const averageWeight = totalWeight / weights.length;
+    const weightVariance = weights.reduce((sum, item) => sum + Math.pow(item.weight - averageWeight, 2), 0) / weights.length;
+    
+    return {
+      weights,
+      totalWeight,
+      averageWeight,
+      weightVariance,
+      balanceScore: 1 - weightVariance,
+      recommendations: weightVariance > 0.1 ? ['Consider balancing elemental weights'] : ['Good elemental balance']
+    };
+  },
+  
+  // Analyze non-linear scaling effects on elemental properties
+  analyzeNonLinearScaling: (properties: ElementalProperties) => {
+    const original = { ...properties };
+    const scaled = applyNonLinearScaling(properties);
+    
+    const changes = Object.entries(scaled).map(([element, value]) => ({
+      element,
+      original: original[element as keyof ElementalProperties],
+      scaled: value,
+      change: value - original[element as keyof ElementalProperties],
+      changePercent: ((value - original[element as keyof ElementalProperties]) / original[element as keyof ElementalProperties]) * 100
+    }));
+    
+    return {
+      original,
+      scaled,
+      changes,
+      totalChange: changes.reduce((sum, change) => sum + Math.abs(change.change), 0),
+      maxChange: Math.max(...changes.map(c => Math.abs(c.change))),
+      recommendations: changes.some(c => Math.abs(c.changePercent) > 20) ? 
+        ['Significant scaling effects detected'] : ['Moderate scaling effects']
+    };
+  },
+  
+  // Analyze uniqueness scoring for elemental items
+  analyzeUniquenessScoring: (items: ElementalItem[]) => {
+    const scores = items.map(item => ({
+      item: item.name || 'Unknown',
+      score: calculateUniquenessScore(item),
+      properties: item.elementalProperties
+    }));
+    
+    const averageScore = scores.reduce((sum, item) => sum + item.score, 0) / scores.length;
+    const scoreVariance = scores.reduce((sum, item) => sum + Math.pow(item.score - averageScore, 2), 0) / scores.length;
+    
+    return {
+      scores,
+      averageScore,
+      scoreVariance,
+      uniquenessDistribution: scores.map(s => s.score),
+      recommendations: averageScore > 0.7 ? ['High uniqueness variety'] : ['Consider increasing uniqueness variety']
+    };
+  },
+  
+  // Analyze ingredient mapping fixes and transformations
+  analyzeIngredientMappingFixes: (originalMappings: Record<string, any>, fixedMappings: Record<string, any>) => {
+    const originalKeys = Object.keys(originalMappings);
+    const fixedKeys = Object.keys(fixedMappings);
+    
+    const addedKeys = fixedKeys.filter(key => !originalKeys.includes(key));
+    const removedKeys = originalKeys.filter(key => !fixedKeys.includes(key));
+    const modifiedKeys = originalKeys.filter(key => 
+      fixedKeys.includes(key) && JSON.stringify(originalMappings[key]) !== JSON.stringify(fixedMappings[key])
+    );
+    
+    return {
+      originalCount: originalKeys.length,
+      fixedCount: fixedKeys.length,
+      addedKeys,
+      removedKeys,
+      modifiedKeys,
+      improvementScore: (fixedKeys.length - originalKeys.length) / Math.max(originalKeys.length, 1),
+      recommendations: [
+        addedKeys.length > 0 ? `Added ${addedKeys.length} new mappings` : 'No new mappings added',
+        removedKeys.length > 0 ? `Removed ${removedKeys.length} invalid mappings` : 'No mappings removed',
+        modifiedKeys.length > 0 ? `Modified ${modifiedKeys.length} existing mappings` : 'No mappings modified'
+      ]
+    };
+  },
+  
+  // Analyze planetary position transformations
+  analyzePlanetaryTransformations: (items: ElementalItem[], planetaryPositions: Record<string, unknown>) => {
+    const originalItems = items.length;
+    const transformedItems = transformItemsWithPlanetaryPositions(items, planetaryPositions);
+    
+    const transformationStats = {
+      originalCount: originalItems,
+      transformedCount: transformedItems.length,
+      transformationRate: transformedItems.length / originalItems,
+      averageElementalChange: transformedItems.reduce((sum, item) => {
+        const originalItem = items.find(orig => orig.name === item.name);
+        if (originalItem) {
+          const change = Object.entries(item.elementalProperties).reduce((sum, [element, value]) => {
+            const originalValue = originalItem.elementalProperties[element as keyof ElementalProperties] || 0;
+            return sum + Math.abs(value - originalValue);
+          }, 0);
+          return sum + change;
+        }
+        return sum;
+      }, 0) / transformedItems.length
+    };
+    
+    return {
+      transformationStats,
+      planetaryInfluence: Object.keys(planetaryPositions).length,
+      recommendations: transformationStats.transformationRate > 0.8 ? 
+        ['Strong planetary influence detected'] : ['Moderate planetary influence']
+    };
+  },
+  
+  // Analyze elemental strength and primary element patterns
+  analyzeElementalStrength: (elementalAffinities: ElementalAffinity[]) => {
+    const primaryElements = elementalAffinities.map(affinity => getPrimaryElement(affinity));
+    const strengths = elementalAffinities.map(affinity => getElementStrength(affinity));
+    
+    const elementDistribution = primaryElements.reduce((acc, element) => {
+      acc[element] = (acc[element] || 0) + 1;
+      return acc;
+    }, {} as Record<string, number>);
+    
+    const averageStrength = strengths.reduce((sum, strength) => sum + strength, 0) / strengths.length;
+    const strengthVariance = strengths.reduce((sum, strength) => sum + Math.pow(strength - averageStrength, 2), 0) / strengths.length;
+    
+    return {
+      primaryElements,
+      strengths,
+      elementDistribution,
+      averageStrength,
+      strengthVariance,
+      dominantElement: Object.entries(elementDistribution).reduce((max, [element, count]) => 
+        count > max.count ? { element, count } : max, { element: '', count: 0 }
+      ),
+      recommendations: strengthVariance > 0.1 ? ['Consider balancing elemental strengths'] : ['Good elemental strength balance']
+    };
+  },
+  
+  // Analyze balancing and strengthening element patterns
+  analyzeBalancingStrengthening: (elements: Element[]) => {
+    const balancingElements = elements.map(element => getBalancingElement(element));
+    const strengtheningElements = elements.map(element => getStrengtheningElement(element));
+    
+    const balancingDistribution = balancingElements.reduce((acc, element) => {
+      acc[element] = (acc[element] || 0) + 1;
+      return acc;
+    }, {} as Record<string, number>);
+    
+    const strengtheningDistribution = strengtheningElements.reduce((acc, element) => {
+      acc[element] = (acc[element] || 0) + 1;
+      return acc;
+    }, {} as Record<string, number>);
+    
+    return {
+      balancingElements,
+      strengtheningElements,
+      balancingDistribution,
+      strengtheningDistribution,
+      balanceVariety: Object.keys(balancingDistribution).length,
+      strengthVariety: Object.keys(strengtheningDistribution).length,
+      recommendations: [
+        Object.keys(balancingDistribution).length > 2 ? 'Good balancing variety' : 'Consider more balancing options',
+        Object.keys(strengtheningDistribution).length > 2 ? 'Good strengthening variety' : 'Consider more strengthening options'
+      ]
+    };
+  },
+  
+  // Analyze vegetable and oil property enhancements
+  analyzePropertyEnhancements: (originalData: Record<string, any>, enhancedData: Record<string, any>) => {
+    const originalKeys = Object.keys(originalData);
+    const enhancedKeys = Object.keys(enhancedData);
+    
+    const enhancements = enhancedKeys.map(key => {
+      const original = originalData[key];
+      const enhanced = enhancedData[key];
+      return {
+        key,
+        originalProperties: original?.elementalProperties || {},
+        enhancedProperties: enhanced?.elementalProperties || {},
+        improvement: enhanced?.elementalProperties ? 
+          Object.entries(enhanced.elementalProperties).reduce((sum, [element, value]) => {
+            const originalValue = original?.elementalProperties?.[element] || 0;
+            return sum + Math.abs(value - originalValue);
+          }, 0) : 0
+      };
+    });
+    
+    const totalImprovement = enhancements.reduce((sum, item) => sum + item.improvement, 0);
+    const averageImprovement = totalImprovement / enhancements.length;
+    
+    return {
+      enhancements,
+      totalImprovement,
+      averageImprovement,
+      enhancedCount: enhancedKeys.length,
+      improvementRate: enhancedKeys.length / originalKeys.length,
+      recommendations: averageImprovement > 0.1 ? 
+        ['Significant property enhancements detected'] : ['Moderate property enhancements']
+    };
+  },
 };
 
-// Active execution to ensure all elemental intelligence systems are utilized
-export const PHASE_31_ELEMENTAL_DEMONSTRATION_RESULTS = ELEMENTAL_INTELLIGENCE_DEMO.demonstrateAllElementalIntelligence();
+// Lazy execution function to ensure all elemental intelligence systems are utilized
+export const generatePhase31ElementalDemonstrationResults = () => ELEMENTAL_INTELLIGENCE_DEMO.demonstrateAllElementalIntelligence();
 
 // ========== PHASE 31: ELEMENTAL INTELLIGENCE SYSTEMS ==========
 // Revolutionary Import Restoration: Transform unused elemental variables into sophisticated enterprise functionality
@@ -2554,3 +2760,50 @@ export const analyzeRawIngredientMappings = (originalMappings: Record<string, an
 
 // Add the helper functions from the snippet
 // calculateTransformationMatrix, getProcessingChanges, getEnhancements, getAstrologicalDistribution
+
+/**
+ * Demonstration platform for all elemental utility intelligence analytics
+ * Runs all analytics and returns a summary object
+ */
+export const ELEMENTAL_UTILITY_DEMONSTRATION_PLATFORM = {
+  demonstrateAllElementalUtilitySystems: () => {
+    // Sample data for demonstration
+    const sampleProperties: ElementalProperties = { Fire: 0.3, Water: 0.2, Earth: 0.3, Air: 0.2 };
+    const sampleItems: ElementalItem[] = [
+      { name: 'Sample Item 1', elementalProperties: { Fire: 0.4, Water: 0.2, Earth: 0.2, Air: 0.2 } },
+      { name: 'Sample Item 2', elementalProperties: { Fire: 0.2, Water: 0.4, Earth: 0.2, Air: 0.2 } }
+    ];
+    const sampleAffinities: ElementalAffinity[] = [
+      { base: 'Fire', strength: 0.8 },
+      { base: 'Water', strength: 0.6 }
+    ];
+    const sampleElements: Element[] = ['Fire', 'Water', 'Earth'];
+    const sampleMappings = { item1: { name: 'Test' }, item2: { name: 'Test2' } };
+    const samplePlanetaryPositions = { sun: 'Aries', moon: 'Cancer' };
+    
+    const weights = ELEMENTAL_INTELLIGENCE_DEMO.analyzeElementalWeights(sampleProperties);
+    const scaling = ELEMENTAL_INTELLIGENCE_DEMO.analyzeNonLinearScaling(sampleProperties);
+    const uniqueness = ELEMENTAL_INTELLIGENCE_DEMO.analyzeUniquenessScoring(sampleItems);
+    const mappingFixes = ELEMENTAL_INTELLIGENCE_DEMO.analyzeIngredientMappingFixes(sampleMappings, sampleMappings);
+    const planetary = ELEMENTAL_INTELLIGENCE_DEMO.analyzePlanetaryTransformations(sampleItems, samplePlanetaryPositions);
+    const strength = ELEMENTAL_INTELLIGENCE_DEMO.analyzeElementalStrength(sampleAffinities);
+    const balancing = ELEMENTAL_INTELLIGENCE_DEMO.analyzeBalancingStrengthening(sampleElements);
+    const enhancements = ELEMENTAL_INTELLIGENCE_DEMO.analyzePropertyEnhancements(sampleMappings, sampleMappings);
+    
+    return {
+      weights,
+      scaling,
+      uniqueness,
+      mappingFixes,
+      planetary,
+      strength,
+      balancing,
+      enhancements
+    };
+  }
+};
+
+/**
+ * Phase 44 summary export: demonstrates all elemental utility intelligence analytics
+ */
+export const PHASE_44_ELEMENTAL_UTILITY_INTELLIGENCE_SUMMARY = ELEMENTAL_UTILITY_DEMONSTRATION_PLATFORM.demonstrateAllElementalUtilitySystems();

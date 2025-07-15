@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
+import SunCalc from 'suncalc';
 
 const AstroDebug: React.FC = () => {
   const [expanded, setExpanded] = useState(false);
@@ -35,7 +36,6 @@ const AstroDebug: React.FC = () => {
               console.log('Current state:', state);
               console.log('Planetary positions:', planetaryPositions);
               try {
-                const SunCalc = require('suncalc');
                 console.log('SunCalc moon illumination:', SunCalc.getMoonIllumination(new Date()));
               } catch (error) {
                 console.error('SunCalc test failed:', error);

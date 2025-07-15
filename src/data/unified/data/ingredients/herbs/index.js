@@ -1,16 +1,10 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.herbNames = exports.allHerbs = exports.medicinalHerbs = exports.aromaticHerbs = exports.driedHerbs = exports.freshHerbs = exports.herbs = void 0;
-const medicinalHerbs_1 = require("./medicinalHerbs");
-Object.defineProperty(exports, "medicinalHerbs", { enumerable: true, get: function () { return medicinalHerbs_1.medicinalHerbs; } });
-const freshHerbs_1 = require("./freshHerbs");
-Object.defineProperty(exports, "freshHerbs", { enumerable: true, get: function () { return freshHerbs_1.freshHerbs; } });
-const driedHerbs_1 = require("./driedHerbs");
-Object.defineProperty(exports, "driedHerbs", { enumerable: true, get: function () { return driedHerbs_1.driedHerbs; } });
-const aromatic_1 = require("./aromatic");
-Object.defineProperty(exports, "aromaticHerbs", { enumerable: true, get: function () { return aromatic_1.aromaticHerbs; } });
-const elementalUtils_1 = require("../../../utils/elementalUtils");
-const elementalUtils_2 = require("../../../utils/elemental/elementalUtils");
+import { medicinalHerbs } from "./medicinalHerbs.js";
+import { freshHerbs } from "./freshHerbs.js";
+import { driedHerbs } from "./driedHerbs.js";
+import { aromaticHerbs } from "./aromatic.js";
+import { fixIngredientMappings } from "../../../utils/elementalUtils.js";
+import { createElementalProperties } from "../../../utils/elemental/elementalUtils.js";
+
 // Define cuisine types as string literals
 const CUISINE_TYPES = {
     ITALIAN: 'italian',
@@ -30,6 +24,7 @@ const CUISINE_TYPES = {
     TURKISH: 'turkish',
     LEBANESE: 'lebanese'
 };
+
 // Helper function to generate meaningful herb values
 function generateHerbValues(elementalProps) {
     // Normalize elements to ensure they sum to 1
@@ -38,14 +33,17 @@ function generateHerbValues(elementalProps) {
         acc[key] = val / (totalElements || 1);
         return acc;
     }, {});
+
     // Find dominant element
     const dominant = Object.entries(normalized)
         .sort(([, a], [, b]) => b - a)[0][0];
+
     // Calculate unique values
     const aromaticStrength = Math.round((normalized['Air'] * 6 + normalized['Fire'] * 4) + Math.random() * 2);
     const potency = Math.round((normalized[dominant] * 7) + Math.random() * 3);
     const flavor_complexity = Math.round((Object.keys(normalized).filter(k => normalized[k] > 0.15).length * 2) + Math.random() * 3);
     const preservation_factor = Math.round((normalized['Earth'] * 5 + normalized['Water'] * 3) + Math.random());
+
     return {
         aromatics: Math.min(10, Math.max(1, aromaticStrength)),
         potency: Math.min(10, Math.max(1, potency)),
@@ -54,6 +52,7 @@ function generateHerbValues(elementalProps) {
         infusion_speed: Math.min(10, Math.max(1, Math.round(10 - preservation_factor + Math.random() * 2)))
     };
 }
+
 // Helper function to standardize ingredient mappings with enhanced values
 function createIngredientMapping(id, properties) {
     // Default elemental properties if none provided
@@ -63,8 +62,10 @@ function createIngredientMapping(id, properties) {
         Fire: 0.25,
         Air: 0.25
     };
+
     // Generate meaningful numeric values based on elemental properties
     const herbValues = generateHerbValues(elementalProps);
+
     return {
         name: id,
         elementalProperties: elementalProps,
@@ -73,12 +74,13 @@ function createIngredientMapping(id, properties) {
         ...properties
     };
 }
+
 // Combine all herbs into one record
-exports.herbs = (0, elementalUtils_1.fixIngredientMappings)({
-    ...freshHerbs_1.freshHerbs,
-    ...driedHerbs_1.driedHerbs,
-    ...aromatic_1.aromaticHerbs,
-    ...medicinalHerbs_1.medicinalHerbs,
+export const herbs = fixIngredientMappings({
+    ...freshHerbs,
+    ...driedHerbs,
+    ...aromaticHerbs,
+    ...medicinalHerbs,
     // Custom herbs
     'basil': createIngredientMapping('basil', {
         elementalProperties: { Fire: 0.4, Water: 0.2, Air: 0.3, Earth: 0.1 },
@@ -221,7 +223,7 @@ exports.herbs = (0, elementalUtils_1.fixIngredientMappings)({
     }),
     // Additional specialty herbs
     'curry_leaves': createIngredientMapping('curry_leaves', {
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
+        elementalProperties: createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
         }),
         qualities: ['aromatic', 'citrusy', 'nutty'],
         category: 'culinary_herb',
@@ -253,7 +255,7 @@ exports.herbs = (0, elementalUtils_1.fixIngredientMappings)({
         pAirings: ['mustard seeds', 'coconut', 'lentils', 'asafoetida', 'turmeric']
     }),
     'lemongrass': createIngredientMapping('lemongrass', {
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
+        elementalProperties: createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
         }),
         qualities: ['lemony', 'citral', 'grassy', 'refreshing'],
         category: 'culinary_herb',
@@ -280,7 +282,7 @@ exports.herbs = (0, elementalUtils_1.fixIngredientMappings)({
         pAirings: ['coconut milk', 'chili', 'lime', 'ginger', 'garlic']
     }),
     'shiso': createIngredientMapping('shiso', {
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
+        elementalProperties: createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
         }),
         qualities: ['minty', 'basil-like', 'anise', 'citrusy'],
         category: 'culinary_herb',
@@ -295,12 +297,17 @@ exports.herbs = (0, elementalUtils_1.fixIngredientMappings)({
         pAirings: ['fish', 'rice', 'cucumber', 'ume plum', 'tofu']
     })
 });
-// Create a comprehensive herb collection that includes all herb variants
-exports.allHerbs = (0, elementalUtils_1.fixIngredientMappings)({
-    ...freshHerbs_1.freshHerbs,
-    ...driedHerbs_1.driedHerbs,
-    ...aromatic_1.aromaticHerbs,
-    ...medicinalHerbs_1.medicinalHerbs
+
+// Export all herbs for collection access
+export const allHerbs = fixIngredientMappings({
+    ...freshHerbs,
+    ...driedHerbs,
+    ...aromaticHerbs,
+    ...medicinalHerbs
 });
-// Export a list of herb names for easy reference
-exports.herbNames = Object.keys(exports.allHerbs);
+
+// Export herb names for easy access
+export const herbNames = Object.keys(allHerbs);
+
+// Default export
+export default herbs;

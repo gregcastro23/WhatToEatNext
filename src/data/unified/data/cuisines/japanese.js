@@ -1278,4 +1278,5 @@ export const japanese = {
         "Moon - Shapes the cyclical nature of seasonal cuisine"
     ]
 };
-exports.default = exports.japanese;
+
+export default japanese;

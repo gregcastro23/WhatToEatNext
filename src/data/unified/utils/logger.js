@@ -1,13 +1,12 @@
-"use strict";
 /**
  * Advanced logger utility to standardize logging across the application.
  * This module provides component-specific logging capabilities and consistent formatting.
  */
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.errorLog = exports.warnLog = exports.infoLog = exports.debugLog = exports.createLogger = exports.logger = void 0;
+
 // Get environment
 const isDev = process.env.NODE_ENV !== 'production';
 const _isBrowser = typeof window !== 'undefined';
+
 /**
  * Logger class providing centralized logging capabilities
  */
@@ -19,12 +18,14 @@ class Logger {
         // Track components that have created loggers
         this.componentLoggers = new Set();
     }
+
     /**
      * Set the minimum log level
      */
     setLevel(level) {
         this.logLevel = level;
     }
+
     /**
      * Create a component-specific logger
      * @param component The name of the component or module
@@ -40,6 +41,7 @@ class Logger {
             error: (message, ...args) => this.error(message, ...args, { component }),
         };
     }
+
     /**
      * Log debug information (only in development)
      */
@@ -50,6 +52,7 @@ class Logger {
             // console.debug(`[DEBUG]${component} ${message}`, ...options.rest);
         }
     }
+
     /**
      * Log general information
      */
@@ -60,6 +63,7 @@ class Logger {
             // console.info(`[INFO]${component} ${message}`, ...options.rest);
         }
     }
+
     /**
      * Log warnings
      */
@@ -70,6 +74,7 @@ class Logger {
             // console.warn(`[WARN]${component} ${message}`, ...options.rest);
         }
     }
+
     /**
      * Log errors
      */
@@ -82,6 +87,7 @@ class Logger {
             this.storeError(message, options.component);
         }
     }
+
     /**
      * Extract options from args, if last arg is an object with component property
      */
@@ -95,12 +101,13 @@ class Logger {
         }
         return { rest: args };
     }
+
     /**
      * Store error in recent errors list
      */
     storeError(message, component) {
         this.recentErrors.unshift({
-            _message,
+            message,
             timestamp: Date.now(),
             component
         });
@@ -109,6 +116,7 @@ class Logger {
             this.recentErrors.pop();
         }
     }
+
     /**
      * Get a summary of recent errors
      */
@@ -118,18 +126,20 @@ class Logger {
         }
         return this.recentErrors
             .map(err => {
-            const date = new Date(err.timestamp).toLocaleTimeString();
-            const component = err.component ? `[${err.component}]` : '';
-            return `[${date}]${component} ${err.message}`;
-        })
+                const date = new Date(err.timestamp).toLocaleTimeString();
+                const component = err.component ? `[${err.component}]` : '';
+                return `[${date}]${component} ${err.message}`;
+            })
             .join('\n');
     }
+
     /**
      * Get a list of all registered components
      */
     getComponents() {
         return [...this.componentLoggers];
     }
+
     /**
      * Check if we should log at this level
      */
@@ -140,17 +150,15 @@ class Logger {
         return targetLevelIndex >= currentLevelIndex;
     }
 }
+
 // Singleton instance of the logger
-exports.logger = new Logger();
+export const logger = new Logger();
+
 // Helper functions for creating component-specific loggers
-const createLogger = (component) => exports.logger.createLogger(component);
-exports.createLogger = createLogger;
+export const createLogger = (component) => logger.createLogger(component);
+
 // Utility functions for direct use (for backwards compatibility)
-const debugLog = (message, ...args) => exports.logger.debug(message, ...args);
-exports.debugLog = debugLog;
-const infoLog = (message, ...args) => exports.logger.info(message, ...args);
-exports.infoLog = infoLog;
-const warnLog = (message, ...args) => exports.logger.warn(message, ...args);
-exports.warnLog = warnLog;
-const errorLog = (message, ...args) => exports.logger.error(message, ...args);
-exports.errorLog = errorLog;
+export const debugLog = (message, ...args) => logger.debug(message, ...args);
+export const infoLog = (message, ...args) => logger.info(message, ...args);
+export const warnLog = (message, ...args) => logger.warn(message, ...args);
+export const errorLog = (message, ...args) => logger.error(message, ...args);

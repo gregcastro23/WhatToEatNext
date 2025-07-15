@@ -545,7 +545,7 @@ export function getEnhancedMethodRecommendations(options: MethodRecommendationOp
     
     // Calculate base compatibility score
     let totalScore = 0;
-    let scoreComponents: Record<string, number> = {};
+    const scoreComponents: Record<string, number> = {};
     
     // Elemental alignment scoring
     if (options.targetElemental) {

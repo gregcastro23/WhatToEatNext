@@ -897,7 +897,7 @@ export async function getRecipesForCuisineMatch(
       // console.log(`Using specialized handling for ${cuisineName}`);
       try {
         // First, try LocalRecipeService
-        const { LocalRecipeService } = require('../services/LocalRecipeService');
+        const { LocalRecipeService } = await import('../services/LocalRecipeService');
 
         // Clear cache to ensure fresh data
         LocalRecipeService.clearCache();
@@ -919,10 +919,10 @@ export async function getRecipesForCuisineMatch(
         let cuisine;
         try {
           if (normalizedCuisineName === 'american') {
-            const { american } = require('../data/cuisines/american');
+            const { american } = await import('../data/cuisines/american');
             cuisine = american;
           } else {
-            const { african } = require('../data/cuisines/african');
+            const { african } = await import('../data/cuisines/african');
             cuisine = african;
           }
         } catch (importError) {
@@ -1004,7 +1004,7 @@ export async function getRecipesForCuisineMatch(
     if (!Array.isArray(recipes) || recipes.length === 0) {
       try {
         // console.log(`No recipes array provided, trying LocalRecipeService for ${cuisineName}`);
-        const { LocalRecipeService } = require('../services/LocalRecipeService');
+        const { LocalRecipeService } = await import('../services/LocalRecipeService');
         const localRecipes = LocalRecipeService.getRecipesByCuisine(cuisineName);
         // console.log(`Fetched ${localRecipes?.length || 0} recipes directly from LocalRecipeService for ${cuisineName}`);
 

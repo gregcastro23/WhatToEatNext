@@ -139,6 +139,7 @@ import type { PlanetaryDignityDetails } from '@/constants/planetaryFoodAssociati
 // Utility functions for alchemical calculations
 // Simple placeholder implementations if actual implementations aren't accessible
 import { staticAlchemize } from '@/utils/alchemyInitializer';
+import { getTechnicalTips as getMethodTips } from '../utils/cookingMethodTips';
 
 // Implement the alchemize function using staticAlchemize
 const alchemize = async (
@@ -2260,8 +2261,7 @@ export default function CookingMethods() {
     return methodElementalEffect || elementalEffect;
   };
 
-  // Add import for our utility function at the top of the component
-  const { getTechnicalTips: getMethodTips } = require('../utils/cookingMethodTips');
+  // getTechnicalTips is now imported as getMethodTips
 
   // Add a function to determine which modality a cooking method best complements
   const getMethodModalityAffinity = (method: ExtendedAlchemicalItem): string => {

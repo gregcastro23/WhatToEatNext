@@ -1,7 +1,6 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.eggs = void 0;
-const elementalUtils_1 = require("../../../utils/elementalUtils");
+import { fixIngredientMappings } from '../../../utils/elementalUtils';
+
 const rawEggs = {
     "chicken_egg": {
         name: "Chicken Egg",
@@ -11,8 +10,7 @@ const rawEggs = {
         sustainabilityScore: 7,
         season: ["all"],
         regionalOrigins: ["global"],
-        elementalProperties: { Fire: 0.2, Water: 0.5, Earth: 0.2, Air: 0.1
-        },
+        elementalProperties: { Fire: 0.2, Water: 0.5, Earth: 0.2, Air: 0.1 },
         nutritionalProfile: {
             calories: 78,
             protein_g: 6.3,
@@ -40,8 +38,7 @@ const rawEggs = {
         sustainabilityScore: 6,
         season: ["all"],
         regionalOrigins: ["asia", "europe"],
-        elementalProperties: { Fire: 0.2, Water: 0.6, Earth: 0.1, Air: 0.1
-        },
+        elementalProperties: { Fire: 0.2, Water: 0.6, Earth: 0.1, Air: 0.1 },
         nutritionalProfile: {
             calories: 130,
             protein_g: 9.0,
@@ -68,8 +65,7 @@ const rawEggs = {
         sustainabilityScore: 5,
         season: ["all"],
         regionalOrigins: ["asia", "europe", "middle_east"],
-        elementalProperties: { Fire: 0.1, Water: 0.5, Earth: 0.3, Air: 0.1
-        },
+        elementalProperties: { Fire: 0.1, Water: 0.5, Earth: 0.3, Air: 0.1 },
         nutritionalProfile: {
             calories: 14,
             protein_g: 1.2,
@@ -89,5 +85,6 @@ const rawEggs = {
         affinities: ["gourmet_presentations", "appetizers"]
     }
 };
-exports.eggs = (0, elementalUtils_1.fixIngredientMappings)(rawEggs);
-exports.default = exports.eggs;
+
+export const eggs = fixIngredientMappings(rawEggs);
+export default eggs;

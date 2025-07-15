@@ -1,12 +1,9 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.KALCHM_RANGES = exports.DEFAULT_KALCHM = exports.getDefaultAlchemicalProperties = exports.normalizeAlchemicalProperties = exports.validateAlchemicalProperties = exports.findKalchmSimilarIngredients = exports.calculateCuisineKalchm = exports.calculateKalchmCompatibility = exports.enhanceIngredientWithAlchemy = exports.deriveAlchemicalFromElemental = exports.performAlchemicalAnalysis = exports.calculateMonica = exports.calculateThermodynamics = exports.calculateKalchm = void 0;
 // ===== CORE CALCULATION FUNCTIONS =====
 /**
  * Calculate Kalchm (K_alchm) - Baseline alchemical equilibrium
  * Formula: K_alchm = (Spirit^Spirit * Essence^Essence) / (Matter^Matter * Substance^Substance)
  */
-function calculateKalchm(alchemicalProps) {
+export function calculateKalchm(alchemicalProps) {
     const { Spirit, Essence, Matter, Substance } = alchemicalProps;
     // Handle edge cases where values might be 0
     const safespirit = Math.max(Spirit, 0.01);
@@ -17,11 +14,10 @@ function calculateKalchm(alchemicalProps) {
     const denominator = Math.pow(safematter, safematter) * Math.pow(safesubstance, safesubstance);
     return numerator / denominator;
 }
-exports.calculateKalchm = calculateKalchm;
 /**
  * Calculate thermodynamic metrics including heat, entropy, reactivity, and Greg's Energy
  */
-function calculateThermodynamics(alchemicalProps, _elementalProps) {
+export function calculateThermodynamics(alchemicalProps, elementalProps) {
     const { Spirit, Essence, Matter, Substance } = alchemicalProps;
     const { Fire, Water, Air, Earth } = elementalProps;
     // Heat calculation
@@ -41,12 +37,11 @@ function calculateThermodynamics(alchemicalProps, _elementalProps) {
     const gregsEnergy = heat - (entropy * reactivity);
     return { heat, entropy, reactivity, gregsEnergy };
 }
-exports.calculateThermodynamics = calculateThermodynamics;
 /**
  * Calculate Monica constant (M) - Dynamic scaling factor
  * Formula: M = -Greg's Energy / (Reactivity * ln(Kalchm))
  */
-function calculateMonica(gregsEnergy, reactivity, kalchm) {
+export function calculateMonica(gregsEnergy, reactivity, kalchm) {
     if (kalchm <= 0)
         return NaN;
     const lnKalchm = Math.log(kalchm);
@@ -54,15 +49,14 @@ function calculateMonica(gregsEnergy, reactivity, kalchm) {
         return NaN;
     return -gregsEnergy / (reactivity * lnKalchm);
 }
-exports.calculateMonica = calculateMonica;
 /**
  * Complete alchemical analysis for an ingredient or cuisine
  */
-function performAlchemicalAnalysis(alchemicalProps, _elementalProps) {
+export function performAlchemicalAnalysis(alchemicalProps, elementalProps) {
     // Calculate Kalchm
     const kalchm = calculateKalchm(alchemicalProps);
     // Calculate thermodynamic metrics
-    const thermodynamics = calculateThermodynamics(alchemicalProps, _elementalProps);
+    const thermodynamics = calculateThermodynamics(alchemicalProps, elementalProps);
     // Calculate Monica constant
     const monica = calculateMonica(thermodynamics.gregsEnergy, thermodynamics.reactivity, kalchm);
     return {
@@ -71,13 +65,12 @@ function performAlchemicalAnalysis(alchemicalProps, _elementalProps) {
         monica
     };
 }
-exports.performAlchemicalAnalysis = performAlchemicalAnalysis;
 // ===== INGREDIENT ENHANCEMENT FUNCTIONS =====
 /**
  * Derive alchemical properties from elemental properties
  * This is used when we only have elemental data and need to estimate alchemical properties
  */
-function deriveAlchemicalFromElemental(elementalProps) {
+export function deriveAlchemicalFromElemental(elementalProps) {
     const { Fire, Water, Earth, Air } = elementalProps;
     // Mapping based on alchemical principles:
     // Spirit: Volatile, transformative (Fire + Air dominant)
@@ -91,13 +84,12 @@ function deriveAlchemicalFromElemental(elementalProps) {
         Substance: (Earth * 0.5 + Water * 0.4 + Fire * 0.1)
     };
 }
-exports.deriveAlchemicalFromElemental = deriveAlchemicalFromElemental;
 /**
  * Enhance an ingredient with alchemical properties and Kalchm calculation
  */
-function enhanceIngredientWithAlchemy(ingredient) {
+export function enhanceIngredientWithAlchemy(ingredient) {
     // Derive alchemical properties from elemental properties
-    const _alchemicalProperties = deriveAlchemicalFromElemental(ingredient.elementalProperties);
+    const alchemicalProperties = deriveAlchemicalFromElemental(ingredient.elementalProperties);
     // Calculate Kalchm
     const kalchm = calculateKalchm(alchemicalProperties);
     return {
@@ -106,23 +98,21 @@ function enhanceIngredientWithAlchemy(ingredient) {
         kalchm
     };
 }
-exports.enhanceIngredientWithAlchemy = enhanceIngredientWithAlchemy;
 /**
  * Calculate compatibility between two ingredients based on their Kalchm values
  * Uses self-reinforcement principles: similar Kalchm = higher compatibility
  */
-function calculateKalchmCompatibility(kalchm1, kalchm2) {
+export function calculateKalchmCompatibility(kalchm1, kalchm2) {
     // Calculate the ratio between the two Kalchm values
     const ratio = Math.min(kalchm1, kalchm2) / Math.max(kalchm1, kalchm2);
     // Convert ratio to compatibility score (0.7 minimum for good compatibility)
     return 0.7 + (ratio * 0.3);
 }
-exports.calculateKalchmCompatibility = calculateKalchmCompatibility;
 // ===== CUISINE ENHANCEMENT FUNCTIONS =====
 /**
  * Calculate aggregate Kalchm for a cuisine based on its typical ingredients
  */
-function calculateCuisineKalchm(ingredients, weights) {
+export function calculateCuisineKalchm(ingredients, weights) {
     if (ingredients.length === 0)
         return 1.0;
     const effectiveWeights = weights || ingredients.map(() => 1 / ingredients.length);
@@ -135,22 +125,20 @@ function calculateCuisineKalchm(ingredients, weights) {
     }
     return totalWeight > 0 ? weightedKalchmSum / totalWeight : 1.0;
 }
-exports.calculateCuisineKalchm = calculateCuisineKalchm;
 /**
  * Find ingredients with similar Kalchm values for substitution recommendations
  */
-function findKalchmSimilarIngredients(targetKalchm, ingredientPool, tolerance = 0.2) {
+export function findKalchmSimilarIngredients(targetKalchm, ingredientPool, tolerance = 0.2) {
     return ingredientPool.filter(ingredient => {
         const compatibility = calculateKalchmCompatibility(targetKalchm, ingredient.kalchm);
         return compatibility >= (0.9 - tolerance); // High compatibility threshold
     });
 }
-exports.findKalchmSimilarIngredients = findKalchmSimilarIngredients;
 // ===== VALIDATION AND UTILITY FUNCTIONS =====
 /**
  * Validate alchemical properties to ensure they're within reasonable bounds
  */
-function validateAlchemicalProperties(props) {
+export function validateAlchemicalProperties(props) {
     const { Spirit, Essence, Matter, Substance } = props;
     // Check if all values are positive numbers
     if (Spirit <= 0 || Essence <= 0 || Matter <= 0 || Substance <= 0) {
@@ -162,11 +150,10 @@ function validateAlchemicalProperties(props) {
     }
     return true;
 }
-exports.validateAlchemicalProperties = validateAlchemicalProperties;
 /**
  * Normalize alchemical properties to ensure they sum to 1
  */
-function normalizeAlchemicalProperties(props) {
+export function normalizeAlchemicalProperties(props) {
     const { Spirit, Essence, Matter, Substance } = props;
     const sum = Spirit + Essence + Matter + Substance;
     if (sum === 0) {
@@ -180,11 +167,10 @@ function normalizeAlchemicalProperties(props) {
         Substance: Substance / sum
     };
 }
-exports.normalizeAlchemicalProperties = normalizeAlchemicalProperties;
 /**
  * Get default alchemical properties for unknown ingredients
  */
-function getDefaultAlchemicalProperties() {
+export function getDefaultAlchemicalProperties() {
     return {
         Spirit: 0.25,
         Essence: 0.25,
@@ -192,11 +178,10 @@ function getDefaultAlchemicalProperties() {
         Substance: 0.25
     };
 }
-exports.getDefaultAlchemicalProperties = getDefaultAlchemicalProperties;
 // Default Kalchm value for unknown ingredients
-exports.DEFAULT_KALCHM = 1.0;
+export const DEFAULT_KALCHM = 1.0;
 // Kalchm ranges for different ingredient categories
-exports.KALCHM_RANGES = {
+export const KALCHM_RANGES = {
     spices: {},
     herbs: {},
     vegetables: {},

@@ -1,15 +1,13 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.anise = exports.bayLeaf = exports.dill = exports.basil = exports.rosemary = exports.thyme = exports.aromaticHerbs = void 0;
-const elementalUtils_1 = require("../../../utils/elementalUtils");
-const elementalUtils_2 = require("../../../utils/elemental/elementalUtils");
+import { fixIngredientMappings } from "../../../utils/elementalUtils.js";
+import { createElementalProperties } from "../../../utils/elemental/elementalUtils.js";
+
 // Define the raw aromatic herbs data with partial IngredientMapping properties
 const rawAromaticHerbs = {
     'thyme': {
         name: 'Thyme',
         category: 'culinary_herb',
         subCategory: 'aromatic',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.3, Water: 0.2, Earth: 0.3, Air: 0.2
+        elementalProperties: createElementalProperties({ Fire: 0.3, Water: 0.2, Earth: 0.3, Air: 0.2
         }),
         qualities: ['aromatic', 'pungent', 'savory'],
         nutritionalProfile: {
@@ -35,19 +33,19 @@ const rawAromaticHerbs = {
         },
         lunarPhaseModifiers: {
             newmoon: {
-                elementalBoost: (0, elementalUtils_2.createElementalProperties)({ Air: 0.2, Earth: 0.1 }),
+                elementalBoost: createElementalProperties({ Air: 0.2, Earth: 0.1 }),
                 preparationTips: ['Best for drying and preserving']
             },
             fullmoon: {
-                elementalBoost: (0, elementalUtils_2.createElementalProperties)({ Water: 0.2, Air: 0.1 }),
+                elementalBoost: createElementalProperties({ Water: 0.2, Air: 0.1 }),
                 preparationTips: ['Enhanced aromatic properties', 'Ideal for teas and infusions']
             },
             waxingCrescent: {
-                elementalBoost: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.1, Air: 0.1 }),
+                elementalBoost: createElementalProperties({ Fire: 0.1, Air: 0.1 }),
                 preparationTips: ['Good for light cooking applications']
             },
             waxingGibbous: {
-                elementalBoost: (0, elementalUtils_2.createElementalProperties)({ Water: 0.1, Earth: 0.1 }),
+                elementalBoost: createElementalProperties({ Water: 0.1, Earth: 0.1 }),
                 preparationTips: ['Perfect for stocks and broths']
             }
         },
@@ -62,7 +60,7 @@ const rawAromaticHerbs = {
         name: 'Rosemary',
         category: 'culinary_herb',
         subCategory: 'aromatic',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.4, Water: 0.1, Earth: 0.3, Air: 0.2
+        elementalProperties: createElementalProperties({ Fire: 0.4, Water: 0.1, Earth: 0.3, Air: 0.2
         }),
         qualities: ['aromatic', 'pungent', 'woody', 'warming'],
         nutritionalProfile: {
@@ -88,35 +86,35 @@ const rawAromaticHerbs = {
         },
         lunarPhaseModifiers: {
             newmoon: {
-                elementalBoost: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.1, Earth: 0.1 }),
+                elementalBoost: createElementalProperties({ Fire: 0.1, Earth: 0.1 }),
                 preparationTips: ['Best for subtle infusions', 'Good time for drying']
             },
             waxingCrescent: {
-                elementalBoost: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.2, Air: 0.1 }),
+                elementalBoost: createElementalProperties({ Fire: 0.2, Air: 0.1 }),
                 preparationTips: ['Good for infused oils']
             },
             firstQuarter: {
-                elementalBoost: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.3, Earth: 0.1 }),
+                elementalBoost: createElementalProperties({ Fire: 0.3, Earth: 0.1 }),
                 preparationTips: ['Ideal for grilling meats']
             },
             waxingGibbous: {
-                elementalBoost: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.3, Earth: 0.2 }),
+                elementalBoost: createElementalProperties({ Fire: 0.3, Earth: 0.2 }),
                 preparationTips: ['Perfect for roasts and hearty dishes']
             },
             fullmoon: {
-                elementalBoost: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.2, Water: 0.2 }),
+                elementalBoost: createElementalProperties({ Fire: 0.2, Water: 0.2 }),
                 preparationTips: ['Maximum potency', 'Best for medicinal preparations']
             },
             waningGibbous: {
-                elementalBoost: (0, elementalUtils_2.createElementalProperties)({ Water: 0.2, Earth: 0.2 }),
+                elementalBoost: createElementalProperties({ Water: 0.2, Earth: 0.2 }),
                 preparationTips: ['Excellent for soups and stews']
             },
             lastQuarter: {
-                elementalBoost: (0, elementalUtils_2.createElementalProperties)({ Water: 0.2, Fire: 0.1 }),
+                elementalBoost: createElementalProperties({ Water: 0.2, Fire: 0.1 }),
                 preparationTips: ['Good for marinades']
             },
             waningCrescent: {
-                elementalBoost: (0, elementalUtils_2.createElementalProperties)({ Air: 0.2, Water: 0.1 }),
+                elementalBoost: createElementalProperties({ Air: 0.2, Water: 0.1 }),
                 preparationTips: ['Best for subtle applications']
             }
         },
@@ -131,7 +129,7 @@ const rawAromaticHerbs = {
         name: 'Basil',
         category: 'culinary_herb',
         subCategory: 'aromatic',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.2, Water: 0.2, Earth: 0.1, Air: 0.5
+        elementalProperties: createElementalProperties({ Fire: 0.2, Water: 0.2, Earth: 0.1, Air: 0.5
         }),
         qualities: ['aromatic', 'sweet', 'fresh', 'peppery'],
         nutritionalProfile: {
@@ -157,11 +155,11 @@ const rawAromaticHerbs = {
         },
         lunarPhaseModifiers: {
             waxingCrescent: {
-                elementalBoost: (0, elementalUtils_2.createElementalProperties)({ Air: 0.2, Water: 0.1 }),
+                elementalBoost: createElementalProperties({ Air: 0.2, Water: 0.1 }),
                 preparationTips: ['Best for fresh pesto']
             },
             fullmoon: {
-                elementalBoost: (0, elementalUtils_2.createElementalProperties)({ Water: 0.2, Air: 0.2 }),
+                elementalBoost: createElementalProperties({ Water: 0.2, Air: 0.2 }),
                 preparationTips: ['Ideal for infused oils']
             }
         },
@@ -176,7 +174,7 @@ const rawAromaticHerbs = {
         name: 'Lovage',
         category: 'culinary_herb',
         subCategory: 'aromatic',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2
+        elementalProperties: createElementalProperties({ Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2
         }),
         qualities: ['warming', 'aromatic', 'digestive', 'stimulating'],
         astrologicalProfile: {
@@ -234,7 +232,7 @@ const rawAromaticHerbs = {
         name: 'Lemon Verbena',
         category: 'culinary_herb',
         subCategory: 'aromatic',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.1, Water: 0.2, Earth: 0.1, Air: 0.6
+        elementalProperties: createElementalProperties({ Fire: 0.1, Water: 0.2, Earth: 0.1, Air: 0.6
         }),
         qualities: ['cooling', 'uplifting', 'refreshing', 'calming'],
         nutritionalProfile: {
@@ -295,7 +293,7 @@ const rawAromaticHerbs = {
         name: 'Savory',
         category: 'culinary_herb',
         subCategory: 'aromatic',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.5, Water: 0.1, Earth: 0.3, Air: 0.1
+        elementalProperties: createElementalProperties({ Fire: 0.5, Water: 0.1, Earth: 0.3, Air: 0.1
         }),
         qualities: ['warming', 'stimulating', 'digestive', 'astringent'],
         nutritionalProfile: {
@@ -363,7 +361,7 @@ const rawAromaticHerbs = {
         name: 'Curry Leaf',
         category: 'culinary_herb',
         subCategory: 'aromatic',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.4, Water: 0.1, Earth: 0.3, Air: 0.2
+        elementalProperties: createElementalProperties({ Fire: 0.4, Water: 0.1, Earth: 0.3, Air: 0.2
         }),
         qualities: ['warming', 'stimulating', 'digestive', 'aromatic'],
         nutritionalProfile: {
@@ -426,7 +424,7 @@ const rawAromaticHerbs = {
         name: 'Chervil',
         category: 'culinary_herb',
         subCategory: 'aromatic',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.1, Water: 0.3, Earth: 0.2, Air: 0.4
+        elementalProperties: createElementalProperties({ Fire: 0.1, Water: 0.3, Earth: 0.2, Air: 0.4
         }),
         qualities: ['cooling', 'delicate', 'digestive', 'balancing'],
         nutritionalProfile: {
@@ -483,7 +481,7 @@ const rawAromaticHerbs = {
         name: 'Dill',
         category: 'culinary_herb',
         subCategory: 'aromatic',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({
+        elementalProperties: createElementalProperties({
             Air: 0.4,
             Fire: 0.3,
             Earth: 0.2,
@@ -517,7 +515,7 @@ const rawAromaticHerbs = {
         name: 'Bay Leaf',
         category: 'culinary_herb',
         subCategory: 'aromatic',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({
+        elementalProperties: createElementalProperties({
             Air: 0.4,
             Fire: 0.3,
             Earth: 0.2,
@@ -551,7 +549,7 @@ const rawAromaticHerbs = {
         name: 'Anise',
         category: 'culinary_herb',
         subCategory: 'aromatic',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({
+        elementalProperties: createElementalProperties({
             Air: 0.4,
             Fire: 0.3,
             Earth: 0.2,
@@ -582,14 +580,17 @@ const rawAromaticHerbs = {
         }
     }
 };
+
 // Fix the ingredient mappings to ensure they have all required properties
-exports.aromaticHerbs = (0, elementalUtils_1.fixIngredientMappings)(rawAromaticHerbs);
-// Export individual herbs for direct access
-exports.thyme = exports.aromaticHerbs.thyme;
-exports.rosemary = exports.aromaticHerbs.rosemary;
-exports.basil = exports.aromaticHerbs.basil;
-exports.dill = exports.aromaticHerbs.dill;
-exports.bayLeaf = exports.aromaticHerbs.bay_leaf;
-exports.anise = exports.aromaticHerbs.anise;
+export const aromaticHerbs = fixIngredientMappings(rawAromaticHerbs);
+
+// Export individual aromatic herbs for direct access
+export const thyme = aromaticHerbs.thyme;
+export const rosemary = aromaticHerbs.rosemary;
+export const basil = aromaticHerbs.basil;
+export const dill = aromaticHerbs.dill;
+export const bayLeaf = aromaticHerbs.bay_leaf;
+export const anise = aromaticHerbs.anise;
+
 // Default export
-exports.default = exports.aromaticHerbs;
+export default aromaticHerbs;

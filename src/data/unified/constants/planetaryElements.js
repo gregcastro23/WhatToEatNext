@@ -1,10 +1,10 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.getTarotCardPlanet = exports.getTarotCardQuantum = exports.getTarotCardElement = exports.getPlanetaryAlchemicalProperty = exports.getPlanetaryElement = exports.planetaryAlchemicalMap = exports.majorArcanaPlanetMap = exports.tarotCardQuantumValues = exports.tarotSuitElementMap = exports.planetaryElementMap = void 0;
+/**
+ * Planetary and tarot card elemental associations
+ */
 /**
  * Maps planets to their elemental character
  */
-exports.planetaryElementMap = {
+export const planetaryElementMap = {
     Sun: 'Fire',
     Moon: 'Water',
     Mercury: 'Air',
@@ -19,7 +19,7 @@ exports.planetaryElementMap = {
 /**
  * Maps tarot suits to their elemental character
  */
-exports.tarotSuitElementMap = {
+export const tarotSuitElementMap = {
     Wands: 'Fire',
     Cups: 'Water',
     Pentacles: 'Earth',
@@ -30,7 +30,7 @@ exports.tarotSuitElementMap = {
  * Court cards have the following values:
  * Page = 1, Knight = 2, Queen = 3, King = 4
  */
-exports.tarotCardQuantumValues = {
+export const tarotCardQuantumValues = {
     // Wands (Fire)
     'Ace of Wands': 1,
     'Two of Wands': 2,
@@ -95,7 +95,7 @@ exports.tarotCardQuantumValues = {
 /**
  * Maps major arcana cards to their ruling planets
  */
-exports.majorArcanaPlanetMap = {
+export const majorArcanaPlanetMap = {
     'The Magician': 'Mercury',
     'The High Priestess': 'Moon',
     'The Empress': 'Venus',
@@ -121,7 +121,7 @@ exports.majorArcanaPlanetMap = {
 /**
  * Maps each planet to a corresponding alchemical property
  */
-exports.planetaryAlchemicalMap = {
+export const planetaryAlchemicalMap = {
     Sun: 'Spirit',
     Moon: 'Essence',
     Mercury: 'Substance',
@@ -138,54 +138,49 @@ exports.planetaryAlchemicalMap = {
  * @param planet Ruling planet
  * @returns The associated elemental character
  */
-const getPlanetaryElement = (planet) => {
-    return exports.planetaryElementMap[planet];
+export const getPlanetaryElement = (planet) => {
+    return planetaryElementMap[planet];
 };
-exports.getPlanetaryElement = getPlanetaryElement;
 /**
  * Gets the alchemical property associated with a planet
  * @param planet Ruling planet
  * @returns The associated alchemical property
  */
-const getPlanetaryAlchemicalProperty = (planet) => {
-    return exports.planetaryAlchemicalMap[planet];
+export const getPlanetaryAlchemicalProperty = (planet) => {
+    return planetaryAlchemicalMap[planet];
 };
-exports.getPlanetaryAlchemicalProperty = getPlanetaryAlchemicalProperty;
 /**
  * Gets the elemental character from a tarot card name
  * @param cardName Tarot card name
  * @returns The associated elemental character or null if not found
  */
-const getTarotCardElement = (cardName) => {
+export const getTarotCardElement = (cardName) => {
     // Check if it's a minor arcana card
-    for (const [suit, element] of Object.entries(exports.tarotSuitElementMap)) {
+    for (const [suit, element] of Object.entries(tarotSuitElementMap)) {
         if (cardName.includes(suit)) {
             return element;
         }
     }
     // For major arcana, use the planetary association if available
-    const planet = exports.majorArcanaPlanetMap[cardName];
+    const planet = majorArcanaPlanetMap[cardName];
     if (planet) {
-        return exports.planetaryElementMap[planet];
+        return planetaryElementMap[planet];
     }
     return null;
 };
-exports.getTarotCardElement = getTarotCardElement;
 /**
  * Gets the quantum value for a tarot card (minor arcana only)
  * @param cardName Tarot card name
  * @returns The quantum value or 0 if not found
  */
-const getTarotCardQuantum = (cardName) => {
-    return exports.tarotCardQuantumValues[cardName] || 0;
+export const getTarotCardQuantum = (cardName) => {
+    return tarotCardQuantumValues[cardName] || 0;
 };
-exports.getTarotCardQuantum = getTarotCardQuantum;
 /**
  * Gets the ruling planet for a major arcana card
  * @param cardName Major arcana card name
  * @returns The ruling planet or null if not found
  */
-const getTarotCardPlanet = (cardName) => {
-    return exports.majorArcanaPlanetMap[cardName] || null;
+export const getTarotCardPlanet = (cardName) => {
+    return majorArcanaPlanetMap[cardName] || null;
 };
-exports.getTarotCardPlanet = getTarotCardPlanet;

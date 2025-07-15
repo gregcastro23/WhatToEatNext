@@ -1,10 +1,10 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.calculateAspects = exports.calculateElementalProfile = exports.calculateDominantElement = exports.calculateElementalCompatibility = exports.getZodiacElementalInfluence = exports.getPlanetaryElementalInfluence = exports.getCurrentAstrologicalState = exports.getZodiacSign = exports.longitudeToZodiacPosition = exports.getDefaultPlanetaryPositions = exports.calculatePlanetaryPositions = exports.calculatemoonSign = exports.calculateSunSign = exports.getmoonIllumination = exports.getLunarPhaseName = exports.calculateLunarPhase = exports.getZodiacElement = exports.getLunarPhaseModifier = exports.calculatePlanetaryAspects = void 0;
-const dateUtils_1 = require("../dateUtils");
-const PlanetaryHourCalculator_1 = require("../../lib/PlanetaryHourCalculator");
-const positions_1 = require("./positions");
-const validation_1 = require("./validation");
+import { isValidDate, getCurrentSeason, getTimeOfDay } from '../dateUtils.js';
+import { PlanetaryHourCalculator } from '../../lib/PlanetaryHourCalculator.js';
+import { safePlanetaryPositions } from './positions.js';
+import { calculatePlanetaryAspects } from './validation.js';
+
+// Export calculatePlanetaryAspects from validation module
+export { calculatePlanetaryAspects };
 /**
  * A utility function for logging debug information
  * This is a safe replacement for console.log that can be disabled in production
@@ -27,14 +27,12 @@ const zodiacSigns = [
     'leo', 'virgo', 'libra', 'scorpio',
     'sagittarius', 'capricorn', 'aquarius', 'pisces'
 ];
-// Export calculatePlanetaryAspects from validation module
-exports.calculatePlanetaryAspects = validation_1.calculatePlanetaryAspects;
 /**
  * Get the modifier value for a specific lunar phase
  * @param phase Lunar phase
  * @returns Modifier value between 0 and 1
  */
-function getLunarPhaseModifier(phase) {
+export function getLunarPhaseModifier(phase) {
     const modifiers = {
         'new moon': 0.2,
         'waxing crescent': 0.5,
@@ -47,13 +45,13 @@ function getLunarPhaseModifier(phase) {
     };
     return modifiers[phase] || 0.5; // default to 0.5 if phase is not recognized
 }
-exports.getLunarPhaseModifier = getLunarPhaseModifier;
+
 /**
  * Get the element associated with a zodiac sign
  * @param sign Zodiac sign
  * @returns Element ('Fire', 'Earth', 'Air', or 'Water')
  */
-function getZodiacElement(sign) {
+export function getZodiacElement(sign) {
     const elements = {
         'aries': 'Fire',
         'leo': 'Fire',
@@ -70,7 +68,6 @@ function getZodiacElement(sign) {
     };
     return elements[sign] || 'Fire';
 }
-exports.getZodiacElement = getZodiacElement;
 /**
  * Calculate lunar phase more accurately using astronomy-engine data
  * @param date Date to calculate phase for
@@ -79,7 +76,7 @@ exports.getZodiacElement = getZodiacElement;
 async function calculateLunarPhase(date = new Date()) {
     try {
         // Get accurate positions
-        const positions = await (0, positions_1.getAccuratePlanetaryPositions)(date);
+        const positions = await safePlanetaryPositions(date);
         if (!positions.Sun || !positions.Moon) {
             throw new Error('Sun or Moon position missing');
         }
@@ -95,7 +92,7 @@ async function calculateLunarPhase(date = new Date()) {
         return 0; // Default to new Moon
     }
 }
-exports.calculateLunarPhase = calculateLunarPhase;
+export { calculateLunarPhase };
 /**
  * Get the name of the lunar phase based on phase value
  * @param phase Lunar phase (0-1)
@@ -123,7 +120,7 @@ function getLunarPhaseName(phase) {
         return 'last quarter';
     return 'waning crescent';
 }
-exports.getLunarPhaseName = getLunarPhaseName;
+export { getLunarPhaseName };
 /**
  * Get Moon illumination percentage
  * @param date Date to calculate for
@@ -150,7 +147,7 @@ async function getmoonIllumination(date = new Date()) {
         return 0.5; // Default to 50% illumination
     }
 }
-exports.getmoonIllumination = getmoonIllumination;
+export { getmoonIllumination };
 /**
  * Calculate Sun sign based on date
  * @param date Date to calculate for
@@ -185,7 +182,7 @@ function calculateSunSign(date = new Date()) {
     // If date is out of range, return undefined and let the UI handle the error
     return undefined;
 }
-exports.calculateSunSign = calculateSunSign;
+export { calculateSunSign };
 /**
  * Calculate Moon sign based on date (simplified)
  * @param date Date to calculate for
@@ -193,7 +190,7 @@ exports.calculateSunSign = calculateSunSign;
  */
 async function calculatemoonSign(date = new Date()) {
     try {
-        const positions = await (0, positions_1.getAccuratePlanetaryPositions)(date);
+        const positions = await safePlanetaryPositions(date);
         if (positions.Moon && positions.Moon.sign) {
             return positions.Moon.sign;
         }
@@ -205,7 +202,7 @@ async function calculatemoonSign(date = new Date()) {
         return 'cancer'; // Default to cancer as moon's ruling sign
     }
 }
-exports.calculatemoonSign = calculatemoonSign;
+export { calculatemoonSign };
 /**
  * Calculate planetary positions for all planets
  * @param date Date to calculate for
@@ -213,14 +210,14 @@ exports.calculatemoonSign = calculatemoonSign;
  */
 async function calculatePlanetaryPositions(date = new Date()) {
     try {
-        return await (0, positions_1.getAccuratePlanetaryPositions)(date);
+        return await safePlanetaryPositions(date);
     }
     catch (error) {
         errorLog('Error calculating planetary positions:', error instanceof Error ? error.message : String(error));
         return getDefaultPlanetaryPositions() || {};
     }
 }
-exports.calculatePlanetaryPositions = calculatePlanetaryPositions;
+export { calculatePlanetaryPositions };
 /**
  * Get default planetary positions for fallback
  * @returns Object with default planet positions
@@ -233,7 +230,7 @@ function getDefaultPlanetaryPositions() {
     };
     return defaultPositions;
 }
-exports.getDefaultPlanetaryPositions = getDefaultPlanetaryPositions;
+export { getDefaultPlanetaryPositions };
 /**
  * Convert longitude to zodiac position
  * @param longitude Longitude in degrees (0-360)
@@ -254,7 +251,7 @@ function longitudeToZodiacPosition(longitude) {
     const sign = signs[signIndex];
     return { sign, degree };
 }
-exports.longitudeToZodiacPosition = longitudeToZodiacPosition;
+export { longitudeToZodiacPosition };
 /**
  * Get zodiac sign from longitude
  * @param longitude Longitude in degrees
@@ -264,7 +261,7 @@ function getZodiacSign(longitude) {
     const { sign } = longitudeToZodiacPosition(longitude);
     return sign;
 }
-exports.getZodiacSign = getZodiacSign;
+export { getZodiacSign };
 /**
  * Get the current astrological state
  * @param date Date to calculate for
@@ -276,17 +273,17 @@ async function getCurrentAstrologicalState(date = new Date()) {
         const sunSign = calculateSunSign(date) || 'aries';
         // Get lunar phase
         const lunarPhaseValue = await calculateLunarPhase(date);
-        const _lunarPhase = getLunarPhaseName(lunarPhaseValue);
+        const lunarPhase = getLunarPhaseName(lunarPhaseValue);
         // Get Moon sign (can be async)
         const moonSign = await calculatemoonSign(date);
         // Get planetary positions
         const planetaryPositions = await calculatePlanetaryPositions(date);
         // Calculate dominant element
         const timeFactors = {
-            season: (0, dateUtils_1.getCurrentSeason)(date),
-            timeOfDay: (0, dateUtils_1.getTimeOfDay)(date),
-            hourPlanet: new PlanetaryHourCalculator_1.PlanetaryHourCalculator().getPlanetaryHour(date).planet,
-            dayPlanet: new PlanetaryHourCalculator_1.PlanetaryHourCalculator().getPlanetaryDay(date)
+            season: getCurrentSeason(date),
+            timeOfDay: getTimeOfDay(date),
+            hourPlanet: new PlanetaryHourCalculator().getPlanetaryHour(date).planet,
+            dayPlanet: new PlanetaryHourCalculator().getPlanetaryDay(date)
         };
         const dominantElement = calculateDominantElement({
             sunSign,
@@ -318,7 +315,7 @@ async function getCurrentAstrologicalState(date = new Date()) {
         };
     }
 }
-exports.getCurrentAstrologicalState = getCurrentAstrologicalState;
+export { getCurrentAstrologicalState };
 /**
  * Get planetary elemental influence
  * @param planet Planet name
@@ -339,7 +336,7 @@ function getPlanetaryElementalInfluence(planet) {
     };
     return planetElements[planet.toLowerCase()] || 'Fire';
 }
-exports.getPlanetaryElementalInfluence = getPlanetaryElementalInfluence;
+export { getPlanetaryElementalInfluence };
 /**
  * Get zodiac elemental influence
  * @param sign Zodiac sign
@@ -349,7 +346,7 @@ function getZodiacElementalInfluence(sign) {
     const element = getZodiacElement(sign);
     return element;
 }
-exports.getZodiacElementalInfluence = getZodiacElementalInfluence;
+export { getZodiacElementalInfluence };
 /**
  * Calculate elemental compatibility between two elements
  * @param element1 First element
@@ -364,7 +361,7 @@ function calculateElementalCompatibility(element1, element2) {
     // All different element combinations have good compatibility
     return 0.7;
 }
-exports.calculateElementalCompatibility = calculateElementalCompatibility;
+export { calculateElementalCompatibility };
 /**
  * Calculate dominant element from astrological state
  * @param astroState Astrological state
@@ -402,7 +399,7 @@ function calculateDominantElement(astroState, timeFactors) {
     });
     return dominantElement;
 }
-exports.calculateDominantElement = calculateDominantElement;
+export { calculateDominantElement };
 /**
  * Calculate elemental profile from astrological state
  * @param astroState Astrological state
@@ -441,7 +438,7 @@ function calculateElementalProfile(astroState, timeFactors) {
     });
     return profile;
 }
-exports.calculateElementalProfile = calculateElementalProfile;
+export { calculateElementalProfile };
 /**
  * Calculate planetary aspects between positions
  * @param positions Planetary positions
@@ -533,4 +530,4 @@ function calculateAspects(positions, _risingDegree) {
     }
     return { aspects, elementalEffects };
 }
-exports.calculateAspects = calculateAspects;
+export { calculateAspects };

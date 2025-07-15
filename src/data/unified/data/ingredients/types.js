@@ -1,7 +1,5 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.VALID_CATEGORIES = void 0;
-exports.VALID_CATEGORIES = [
+export const VALID_CATEGORIES = [
     'culinary_herb',
     'spice',
     'vegetable',

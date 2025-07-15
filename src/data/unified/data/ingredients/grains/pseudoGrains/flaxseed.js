@@ -1,12 +1,10 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.flaxseed = void 0;
-const elementalUtils_1 = require("../../../../utils/elemental/elementalUtils");
-const elementalUtils_2 = require("../../../../utils/elementalUtils");
+import { createElementalProperties } from '../../../../utils/elemental/elementalUtils';
+import { fixIngredientMappings } from '../../../../utils/elementalUtils';
+
 const rawFlaxseed = {
     'flaxseed': {
         name: 'Flaxseed',
-        elementalProperties: (0, elementalUtils_1.createElementalProperties)({ Fire: 0.2, Water: 0.2, Earth: 0.5, Air: 0.1
+        elementalProperties: createElementalProperties({ Fire: 0.2, Water: 0.2, Earth: 0.5, Air: 0.1
         }),
         astrologicalProfile: {
             rulingPlanets: ['Moon', 'Venus'],
@@ -59,4 +57,5 @@ const rawFlaxseed = {
         }
     }
 };
-exports.flaxseed = (0, elementalUtils_2.fixIngredientMappings)(rawFlaxseed);
+
+export const flaxseed = fixIngredientMappings(rawFlaxseed);

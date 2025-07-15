@@ -1,15 +1,13 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.freshHerbs = void 0;
-const elementalUtils_1 = require("../../../utils/elementalUtils");
-const elementalUtils_2 = require("../../../utils/elemental/elementalUtils");
+import { fixIngredientMappings } from "../../../utils/elementalUtils";
+import { createElementalProperties } from "../../../utils/elemental/elementalUtils";
+
 const rawFreshHerbs = {
     'basil': {
         name: 'Basil',
         category: 'culinary_herb',
         subCategory: 'fresh_herb',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
-        }),
+        elementalProperties: createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }),
         qualities: ['aromatic', 'sweet', 'peppery', 'fresh', 'vibrant', 'delicate'],
         origin: ['India', 'Southeast Asia', 'Mediterranean'],
         // Nutritional information (standardized)
@@ -253,5 +251,7 @@ const rawFreshHerbs = {
     },
     // More herbs would be added here...
 };
-exports.freshHerbs = (0, elementalUtils_1.fixIngredientMappings)(rawFreshHerbs);
-exports.default = exports.freshHerbs;
+
+export const freshHerbs = fixIngredientMappings(rawFreshHerbs);
+
+export default freshHerbs;

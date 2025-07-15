@@ -1,8 +1,6 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.getZodiacCompatibility = exports.getModalityCompatibility = exports.createZodiacAffinity = exports.DEFAULT_ZODIAC_AFFINITY = exports.ZODIAC_MODALITIES = exports.elementalCharacteristics = exports.elementalCompatibility = exports.getElementalAffinity = exports.getZodiacSign = exports.zodiacElements = exports.zodiacDateRanges = void 0;
 // Zodiac Date Ranges
-exports.zodiacDateRanges = {
+export const zodiacDateRanges = {
     aries: { startMonth: 3, startDay: 21, endMonth: 4, endDay: 19 },
     taurus: { startMonth: 4, startDay: 20, endMonth: 5, endDay: 20 },
     gemini: { startMonth: 5, startDay: 21, endMonth: 6, endDay: 20 },
@@ -17,7 +15,7 @@ exports.zodiacDateRanges = {
     pisces: { startMonth: 2, startDay: 19, endMonth: 3, endDay: 20 }
 };
 // Zodiac Elements
-exports.zodiacElements = {
+export const zodiacElements = {
     aries: 'Fire',
     leo: 'Fire',
     sagittarius: 'Fire',
@@ -32,10 +30,10 @@ exports.zodiacElements = {
     pisces: 'Water'
 };
 // Helper Functions
-const getZodiacSign = (date) => {
+export const getZodiacSign = (date) => {
     const month = date.getMonth() + 1;
     const day = date.getDate();
-    for (const [sign, range] of Object.entries(exports.zodiacDateRanges)) {
+    for (const [sign, range] of Object.entries(zodiacDateRanges)) {
         const { startMonth, startDay, endMonth, endDay } = range;
         if ((month === startMonth && day >= startDay) ||
             (month === endMonth && day <= endDay)) {
@@ -45,13 +43,11 @@ const getZodiacSign = (date) => {
     // Default to capricorn if no match (shouldn't happen with proper ranges)
     return 'capricorn';
 };
-exports.getZodiacSign = getZodiacSign;
-const getElementalAffinity = (sign) => {
-    return exports.zodiacElements[sign];
+export const getElementalAffinity = (sign) => {
+    return zodiacElements[sign];
 };
-exports.getElementalAffinity = getElementalAffinity;
 // Elemental Compatibility
-exports.elementalCompatibility = { Fire: {
+export const elementalCompatibility = { Fire: {
         compatible: ['Fire'],
         incompatible: ['Air', 'Water', 'Earth']
     },
@@ -69,7 +65,7 @@ exports.elementalCompatibility = { Fire: {
     }
 };
 // Element Characteristics
-exports.elementalCharacteristics = { Fire: {
+export const elementalCharacteristics = { Fire: {
         qualities: ['Warm', 'Dry', 'Active', 'Energetic', 'Expansive'],
         keywords: ['Energy', 'Passion', 'Transformation', 'Vitality', 'Action'],
         foods: ['Spicy', 'Grilled', 'Roasted', 'Peppers', 'Ginger', 'Garlic'],
@@ -125,7 +121,7 @@ exports.elementalCharacteristics = { Fire: {
 /**
  * Mapping of zodiac signs to their modalities
  */
-exports.ZODIAC_MODALITIES = {
+export const ZODIAC_MODALITIES = {
     aries: 'cardinal',
     cancer: 'cardinal',
     libra: 'cardinal',
@@ -143,7 +139,7 @@ exports.ZODIAC_MODALITIES = {
  * Default neutral affinity values for all zodiac signs
  * NOTE: For type safety only. Do NOT use for live calculations or UI. Always use real calculated values.
  */
-exports.DEFAULT_ZODIAC_AFFINITY = {
+export const DEFAULT_ZODIAC_AFFINITY = {
     aries: 0,
     taurus: 0,
     gemini: 0,
@@ -161,20 +157,19 @@ exports.DEFAULT_ZODIAC_AFFINITY = {
  * Helper function to create zodiac affinity with default values
  * Only specified signs will have non-zero values
  */
-function createZodiacAffinity(affinities) {
+export function createZodiacAffinity(affinities) {
     return {
-        ...exports.DEFAULT_ZODIAC_AFFINITY,
+        ...DEFAULT_ZODIAC_AFFINITY,
         ...affinities
     };
 }
-exports.createZodiacAffinity = createZodiacAffinity;
 /**
  * Get the modality compatibility score between two zodiac signs
  * Signs of the same modality have the highest compatibility
  */
-function getModalityCompatibility(sign1, sign2) {
-    const modality1 = exports.ZODIAC_MODALITIES[sign1];
-    const modality2 = exports.ZODIAC_MODALITIES[sign2];
+export function getModalityCompatibility(sign1, sign2) {
+    const modality1 = ZODIAC_MODALITIES[sign1];
+    const modality2 = ZODIAC_MODALITIES[sign2];
     if (modality1 === modality2) {
         return 0.8; // Same modality: high compatibility
     }
@@ -186,12 +181,11 @@ function getModalityCompatibility(sign1, sign2) {
     };
     return modalityCompatibilityChart[modality1][modality2];
 }
-exports.getModalityCompatibility = getModalityCompatibility;
 /**
  * Calculates affinity between two zodiac signs based on elemental self-reinforcement
  * Same elements have highest compatibility, all combinations work well together
  */
-function getZodiacCompatibility(sign1, sign2) {
+export function getZodiacCompatibility(sign1, sign2) {
     const elementMap = {
         aries: 'Fire',
         leo: 'Fire',
@@ -206,19 +200,11 @@ function getZodiacCompatibility(sign1, sign2) {
         scorpio: 'Water',
         pisces: 'Water'
     };
-    // Following elemental self-reinforcement principles
-    const elementCompatibilityChart = { Fire: { Fire: 0.9, Earth: 0.7, Air: 0.7, Water: 0.7 },
-        Earth: { Fire: 0.7, Earth: 0.9, Air: 0.7, Water: 0.7 },
-        Air: { Fire: 0.7, Earth: 0.7, Air: 0.9, Water: 0.7 },
-        Water: { Fire: 0.7, Earth: 0.7, Air: 0.7, Water: 0.9 }
-    };
     const element1 = elementMap[sign1];
     const element2 = elementMap[sign2];
-    // Get element compatibility
-    const elementCompatibility = elementCompatibilityChart[element1][element2];
-    // Get modality compatibility
-    const modalityCompatibility = getModalityCompatibility(sign1, sign2);
-    // Combine element and modality compatibility (weighted average)
-    return (elementCompatibility * 0.6) + (modalityCompatibility * 0.4);
+    if (element1 === element2) {
+        return 0.9; // Same element: highest compatibility
+    }
+    // All other combinations are harmonious (following elemental logic)
+    return 0.7;
 }
-exports.getZodiacCompatibility = getZodiacCompatibility;

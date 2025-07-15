@@ -1,8 +1,5 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.elementalCharacteristics = exports.elementalCompatibility = exports.getElementalAffinity = exports.getZodiacSign = exports.zodiacElements = exports.zodiacDateRanges = void 0;
 // Zodiac Date Ranges
-exports.zodiacDateRanges = {
+export const zodiacDateRanges = {
     aries: { startMonth: 3, startDay: 21, endMonth: 4, endDay: 19 },
     taurus: { startMonth: 4, startDay: 20, endMonth: 5, endDay: 20 },
     gemini: { startMonth: 5, startDay: 21, endMonth: 6, endDay: 20 },
@@ -16,8 +13,9 @@ exports.zodiacDateRanges = {
     aquarius: { startMonth: 1, startDay: 20, endMonth: 2, endDay: 18 },
     pisces: { startMonth: 2, startDay: 19, endMonth: 3, endDay: 20 }
 };
+
 // Zodiac Elements
-exports.zodiacElements = {
+export const zodiacElements = {
     aries: 'Fire',
     leo: 'Fire',
     sagittarius: 'Fire',
@@ -31,13 +29,13 @@ exports.zodiacElements = {
     scorpio: 'Water',
     pisces: 'Water'
 };
+
 // Helper Functions
-const getZodiacSign = function (date) {
+export function getZodiacSign(date) {
     const month = date.getMonth() + 1;
     const day = date.getDate();
-    for (let _i = 0, _a = Object.entries(exports.zodiacDateRanges); _i < _a.length; _i++) {
-        const _b = _a[_i], sign = _b[0], range = _b[1];
-        const startMonth = range.startMonth, startDay = range.startDay, endMonth = range.endMonth, endDay = range.endDay;
+    for (const [sign, range] of Object.entries(zodiacDateRanges)) {
+        const { startMonth, startDay, endMonth, endDay } = range;
         if ((month === startMonth && day >= startDay) ||
             (month === endMonth && day <= endDay)) {
             return sign;
@@ -45,14 +43,15 @@ const getZodiacSign = function (date) {
     }
     // Default to capricorn if no match (shouldn't happen with proper ranges)
     return 'capricorn';
-};
-exports.getZodiacSign = getZodiacSign;
-const getElementalAffinity = function (sign) {
-    return exports.zodiacElements[sign];
-};
-exports.getElementalAffinity = getElementalAffinity;
+}
+
+export function getElementalAffinity(sign) {
+    return zodiacElements[sign];
+}
+
 // Elemental Compatibility
-exports.elementalCompatibility = { Fire: {
+export const elementalCompatibility = { 
+    Fire: {
         compatible: ['Fire'],
         incompatible: ['Air', 'Water', 'Earth']
     },
@@ -69,8 +68,10 @@ exports.elementalCompatibility = { Fire: {
         incompatible: ['Fire', 'Air', 'Earth']
     }
 };
+
 // Element Characteristics
-exports.elementalCharacteristics = { Fire: {
+export const elementalCharacteristics = { 
+    Fire: {
         qualities: ['Warm', 'Dry', 'Active', 'Energetic', 'Expansive'],
         keywords: ['Energy', 'Passion', 'Transformation', 'Vitality', 'Action'],
         foods: ['Spicy', 'Grilled', 'Roasted', 'Peppers', 'Ginger', 'Garlic'],

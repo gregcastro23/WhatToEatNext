@@ -37,7 +37,7 @@ import {
   LunarPhaseWithSpaces,
   ElementalProperties
 } from '@/types/alchemy';
-import { ElementalCharacter, AlchemicalProperty } from '@/constants/planetaryElements';
+import type { ElementalCharacter, AlchemicalProperty } from '@/constants/planetaryElements';
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 import {
   useIngredientMapping,
@@ -350,9 +350,7 @@ export default function EnhancedCuisineRecommender() {
         enhancedScore,
         astrologicalInfluences: {
           zodiacAlignment: enhancedScore.zodiacAlignment,
-          lunarAlignment: enhancedScore.lunarAlignment,
-          elementalCharacter: ElementalCharacter,
-          alchemicalProperty: AlchemicalProperty
+          lunarAlignment: enhancedScore.lunarAlignment
         }
       } as EnhancedCuisineRecommendation;
     }).filter(rec => rec.score >= advancedFilters.elementalThreshold);

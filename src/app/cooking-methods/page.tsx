@@ -62,7 +62,7 @@ export default function CookingMethodsPage() {
   const [alchemicalPropertiesFilter, setAlchemicalPropertiesFilter] = useState<string>('all');
   // const [showSidebar, setShowSidebar] = useState(false);
 
-  const { astroState } = useAstrologicalState();
+  const { currentZodiac, domElements, loading: astroLoading } = useAstrologicalState();
 
   useEffect(() => {
     // Convert cooking methods data to the format expected by the component
@@ -170,16 +170,18 @@ export default function CookingMethodsPage() {
     // Apply sorting
     filtered.sort((a, b) => {
       switch (sortBy) {
-        case 'score':
+        case 'score': {
           const scoreA = a.score || 0;
           const scoreB = b.score || 0;
           return scoreB - scoreA;
+        }
         case 'name':
           return a.name.localeCompare(b.name);
-        case 'duration':
+        case 'duration': {
           const durationA = a.duration ? (a.duration.min + a.duration.max) / 2 : 0;
           const durationB = b.duration ? (b.duration.min + b.duration.max) / 2 : 0;
           return durationA - durationB;
+        }
         default:
           return 0;
       }

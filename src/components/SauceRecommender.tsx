@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Sauce } from '@/data/sauces';
 import { ElementalProperties } from '@/types/alchemy';
 import { ChevronDown, ChevronUp, Info, Check, Droplet, Flame, Wind, Mountain } from 'lucide-react';
+import { getTimeFactors } from '@/types/time';
 
 // Add new interface for sauce recommendations
 interface SauceRecommendation {
@@ -280,7 +281,6 @@ export default function SauceRecommender({
           Object.entries(cuisineData.traditionalSauces).forEach(([id, sauceData]: [string, any]) => {
             if (sauceData.name.toLowerCase() === sauceName.toLowerCase()) {
               // Get current time factors
-              const { getTimeFactors } = require('@/types/time');
               const timeFactors = getTimeFactors();
               
               // Basic elemental match calculation
@@ -349,7 +349,6 @@ export default function SauceRecommender({
           Object.entries(cuisineData.traditionalSauces).forEach(([id, sauceData]: [string, any]) => {
             if (sauceData.name.toLowerCase() === sauceName.toLowerCase()) {
               // Get current time factors
-              const { getTimeFactors } = require('@/types/time');
               const timeFactors = getTimeFactors();
               
               // Basic elemental match calculation
@@ -418,7 +417,6 @@ export default function SauceRecommender({
           Object.entries(cuisineData.traditionalSauces).forEach(([id, sauceData]: [string, any]) => {
             if (sauceData.name.toLowerCase() === sauceName.toLowerCase()) {
               // Get current time factors
-              const { getTimeFactors } = require('@/types/time');
               const timeFactors = getTimeFactors();
               
               // Basic elemental match calculation
@@ -484,7 +482,6 @@ export default function SauceRecommender({
       if (!protein && !vegetable && !cookingMethod) {
         Object.entries(cuisineData.traditionalSauces).forEach(([id, sauceData]: [string, any]) => {
           // Get current time factors
-          const { getTimeFactors } = require('@/types/time');
           const timeFactors = getTimeFactors();
           
           // Basic elemental match calculation
@@ -558,7 +555,6 @@ export default function SauceRecommender({
         if (cuisineData.traditionalSauces) {
           Object.entries(cuisineData.traditionalSauces).forEach(([id, sauceData]: [string, any]) => {
             // Get current time factors
-            const { getTimeFactors } = require('@/types/time');
             const timeFactors = getTimeFactors();
             
             // Basic elemental match calculation

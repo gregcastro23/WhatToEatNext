@@ -1,12 +1,11 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.amaranthGrain = void 0;
-const elementalUtils_1 = require("../../../../utils/elementalUtils");
-const elementalUtils_2 = require("../../../../utils/elemental/elementalUtils");
+import { fixIngredientMappings } from '../../../../utils/elementalUtils';
+import { createElementalProperties } from '../../../../utils/elemental/elementalUtils';
+
 const rawAmaranth = {
     'amaranth': {
         name: 'Amaranth',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({
+        elementalProperties: createElementalProperties({
             Earth: 0.5,
             Fire: 0.3,
             Water: 0.1,
@@ -25,14 +24,14 @@ const rawAmaranth = {
             },
             lunarPhaseModifiers: {
                 newmoon: {
-                    elementalBoost: (0, elementalUtils_2.createElementalProperties)({
+                    elementalBoost: createElementalProperties({
                         Earth: 0.2,
                         Fire: 0.1
                     }),
                     preparationTips: ['Begin sprouting process', 'Mindful cooking with minimal seasonings']
                 },
                 fullmoon: {
-                    elementalBoost: (0, elementalUtils_2.createElementalProperties)({
+                    elementalBoost: createElementalProperties({
                         Earth: 0.1,
                         Fire: 0.2
                     }),
@@ -79,9 +78,12 @@ const rawAmaranth = {
         }
     }
 };
+
 // Apply any fixes needed to raw ingredient data
-const amaranth = (0, elementalUtils_1.fixIngredientMappings)(rawAmaranth);
+const amaranth = fixIngredientMappings(rawAmaranth);
+
 // Export the entire collection
-exports.default = amaranth;
+export default amaranth;
+
 // Export individual item for direct access
-exports.amaranthGrain = amaranth.amaranth;
+export const amaranthGrain = amaranth.amaranth;

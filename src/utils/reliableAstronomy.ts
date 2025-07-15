@@ -181,7 +181,8 @@ async function fetchHorizonsData(date: Date): Promise<Record<string, unknown>> {
     return positions;
   } catch (error) {
     // console.error('Error in batch planet fetching:', error);
-    throw error;
+    // Return fallback positions if batch fetching fails
+    return getMarch2025Positions(date);
   }
 }
 

@@ -1,7 +1,4 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.PlanetaryHourCalculator = void 0;
-const suncalc_1 = require("suncalc");
+import suncalc from "suncalc";
 class PlanetaryHourCalculator {
     constructor(latitude, longitude) {
         this.planetaryRulers = [
@@ -88,7 +85,7 @@ class PlanetaryHourCalculator {
      */
     getPlanetaryHour(date) {
         // Get Sun times for the day
-        const times = suncalc_1.default.getTimes(new Date(date.getFullYear(), date.getMonth(), date.getDate()), this.coordinates.latitude, this.coordinates.longitude);
+        const times = suncalc.getTimes(new Date(date.getFullYear(), date.getMonth(), date.getDate()), this.coordinates.latitude, this.coordinates.longitude);
         const sunrise = times.sunrise;
         const sunset = times.sunset;
         if (!sunrise || !sunset) {
@@ -211,7 +208,8 @@ class PlanetaryHourCalculator {
         };
     }
 }
-exports.PlanetaryHourCalculator = PlanetaryHourCalculator;
+
+export { PlanetaryHourCalculator };
 // Planetary hour configuration according to traditional planetary rulers
 PlanetaryHourCalculator.planetaryHours = {
     Sunday: ['Sun', 'Venus', 'Mercury', 'Moon', 'Saturn', 'Jupiter', 'Mars'],

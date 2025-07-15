@@ -10,7 +10,7 @@ import type {
   StandardizedAlchemicalResult,
   AstrologicalState,
   // ElementalProperties,
-  // HoroscopeData,
+  HoroscopeData,
   // ZodiacSign,
   ChakraEnergies,
   BirthInfo,
@@ -86,10 +86,10 @@ const alchemicalEngine = {
     }
   },
   
-  calculateZodiacEnergies: (positions: Record<string, unknown>): Record<string, number> => {
+  calculateZodiacEnergies: async (positions: Record<string, unknown>): Promise<Record<string, number>> => {
     try {
       // Import and call the function from the source module
-      const { calculateZodiacEnergies } = require('@/calculations/alchemicalEngine');
+      const { calculateZodiacEnergies } = await import('@/calculations/alchemicalEngine');
       return calculateZodiacEnergies(positions);
     } catch (error) {
       // console.error('Error calculating zodiac energies:', error);
@@ -111,10 +111,10 @@ const alchemicalEngine = {
     }
   },
   
-  calculateChakraEnergies: (zodiacEnergies: Record<string, number>): ChakraEnergies => {
+  calculateChakraEnergies: async (zodiacEnergies: Record<string, number>): Promise<ChakraEnergies> => {
     try {
       // Import and call the function from the source module
-      const { calculateChakraEnergies } = require('@/calculations/alchemicalEngine');
+      const { calculateChakraEnergies } = await import('@/calculations/alchemicalEngine');
       return calculateChakraEnergies(zodiacEnergies);
     } catch (error) {
       // console.error('Error calculating chakra energies:', error);

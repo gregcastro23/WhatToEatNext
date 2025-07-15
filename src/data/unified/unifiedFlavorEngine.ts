@@ -186,33 +186,36 @@ export class UnifiedFlavorEngine {
   
   private initializeProfilesSync(): void {
     try {
-      // Use require for synchronous loading
-      const flavorProfileMigration = require('./flavorProfileMigration');
-      
-      // Run the migration but don't wait for it - it will cache its results
-      flavorProfileMigration.runFlavorProfileMigration()?.then((stats: {}) => {
-        const profiles = flavorProfileMigration.getMigratedFlavorProfiles();
-        
-        // Add profiles to our map
-        for (const profile of profiles) {
-          this.profiles.set(profile.id, profile);
-        }
-        
-        // Log successful initialization
-        // console.log('🚀 Unified Flavor Engine initialized with', (profiles || []).length, 'profiles');
-        
-        // Log category stats
-        const categoryStats = profiles.reduce((acc, profile: {}) => {
-          acc[(profile as unknown)?.category] = (acc[(profile as unknown)?.category] || 0) + 1;
-          return acc;
-        }, {});
-        
-        // console.log('📊 Categories:', JSON.stringify(categoryStats));
-        
-        // Mark as initialized
-        setGlobalState(this, false, true);
-      }).catch((error: Error) => {
-        // console.error('Failed to initialize profiles:', error);
+      // Use dynamic import for asynchronous loading
+      import('./flavorProfileMigration').then(flavorProfileMigration => {
+        // Run the migration but don't wait for it - it will cache its results
+        flavorProfileMigration.runFlavorProfileMigration()?.then((stats: {}) => {
+          const profiles = flavorProfileMigration.getMigratedFlavorProfiles();
+          
+          // Add profiles to our map
+          for (const profile of profiles) {
+            this.profiles.set(profile.id, profile);
+          }
+          
+          // Log successful initialization
+          // console.log('🚀 Unified Flavor Engine initialized with', (profiles || []).length, 'profiles');
+          
+          // Log category stats
+          const categoryStats = profiles.reduce((acc, profile: {}) => {
+            acc[(profile as unknown)?.category] = (acc[(profile as unknown)?.category] || 0) + 1;
+            return acc;
+          }, {});
+          
+          // console.log('📊 Categories:', JSON.stringify(categoryStats));
+          
+          // Mark as initialized
+          setGlobalState(this, false, true);
+        }).catch((error: Error) => {
+          // console.error('Failed to initialize profiles:', error);
+          setGlobalState(this, false, false);
+        });
+      }).catch((error) => {
+        // console.error('Error during synchronous initialization:', error);
         setGlobalState(this, false, false);
       });
     } catch (error) {

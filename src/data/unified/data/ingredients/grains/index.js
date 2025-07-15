@@ -1,50 +1,47 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.pseudoGrains = exports.refinedGrains = exports.wholeGrains = exports.grainPreparationMethods = exports.grainNames = exports.grains = exports.allGrains = void 0;
-const wholeGrains_1 = require("./wholeGrains");
-Object.defineProperty(exports, "wholeGrains", { enumerable: true, get: function () { return wholeGrains_1.wholeGrains; } });
-const refinedGrains_1 = require("./refinedGrains");
-Object.defineProperty(exports, "refinedGrains", { enumerable: true, get: function () { return refinedGrains_1.refinedGrains; } });
-const pseudoGrains_1 = require("./pseudoGrains");
-Object.defineProperty(exports, "pseudoGrains", { enumerable: true, get: function () { return pseudoGrains_1.pseudoGrains; } });
-const elementalUtils_1 = require("../../../utils/elementalUtils");
-const elementalUtils_2 = require("../../../utils/elemental/elementalUtils");
+import { wholeGrains } from "./wholeGrains";
+import { refinedGrains } from "./refinedGrains";
+import { pseudoGrains } from "./pseudoGrains";
+import { fixIngredientMappings } from "../../../utils/elementalUtils";
+import { createElementalProperties } from "../../../utils/elemental/elementalUtils";
+
 // Create a comprehensive collection of all grain types
-exports.allGrains = (0, elementalUtils_1.fixIngredientMappings)({
-    ...wholeGrains_1.wholeGrains,
-    ...refinedGrains_1.refinedGrains,
-    ...pseudoGrains_1.pseudoGrains
+export const allGrains = fixIngredientMappings({
+    ...wholeGrains,
+    ...refinedGrains,
+    ...pseudoGrains
 });
+
 // Fix the raw grains object with proper ingredient mapping structure
 const rawGrains = {
     'whole': {
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
-        }),
+        elementalProperties: createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }),
         name: "Whole Grains",
         category: "grain",
-        ...wholeGrains_1.wholeGrains
+        ...wholeGrains
     },
     'refined': {
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
-        }),
+        elementalProperties: createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }),
         name: "Refined Grains",
         category: "grain",
-        ...refinedGrains_1.refinedGrains
+        ...refinedGrains
     },
     'pseudo': {
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
-        }),
+        elementalProperties: createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }),
         name: "Pseudo Grains",
         category: "grain",
-        ...pseudoGrains_1.pseudoGrains
+        ...pseudoGrains
     }
 };
+
 // Apply the fix to ensure all required properties exist
-exports.grains = (0, elementalUtils_1.fixIngredientMappings)(rawGrains);
+export const grains = fixIngredientMappings(rawGrains);
+
 // Create a list of all grain names for easy reference
-exports.grainNames = Object.keys(exports.allGrains);
+export const grainNames = Object.keys(allGrains);
+
 // Keep the preparation methods as a separate object
-exports.grainPreparationMethods = {
+export const grainPreparationMethods = {
     'basic_cooking': {
         'boiling': {
             method: 'covered pot',
@@ -84,4 +81,5 @@ exports.grainPreparationMethods = {
         }
     }
 };
-exports.default = exports.grains;
+
+export default grains;

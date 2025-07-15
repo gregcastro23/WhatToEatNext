@@ -1,12 +1,11 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.melons = void 0;
-const elementalUtils_1 = require("../../../utils/elementalUtils");
-const elementalUtils_2 = require("../../../utils/elemental/elementalUtils");
+import { fixIngredientMappings } from '../../../utils/elementalUtils';
+import { createElementalProperties } from '../../../utils/elemental/elementalUtils';
+
 const rawMelons = {
     'watermelon': {
         name: 'watermelon',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.1, Water: 0.7, Earth: 0.1, Air: 0.1
+        elementalProperties: createElementalProperties({ Fire: 0.1, Water: 0.7, Earth: 0.1, Air: 0.1
         }),
         astrologicalProfile: {
             rulingPlanets: ['Moon', 'Venus'],
@@ -21,14 +20,14 @@ const rawMelons = {
             },
             lunarPhaseModifiers: {
                 fullmoon: {
-                    elementalBoost: (0, elementalUtils_2.createElementalProperties)({
+                    elementalBoost: createElementalProperties({
                         Water: 0.3,
                         Air: 0.1
                     }),
                     preparationTips: ['Maximum sweetness', 'Perfect for juicing']
                 },
                 waxingGibbous: {
-                    elementalBoost: (0, elementalUtils_2.createElementalProperties)({
+                    elementalBoost: createElementalProperties({
                         Water: 0.2,
                         Earth: 0.1
                     }),
@@ -91,7 +90,7 @@ const rawMelons = {
     },
     'cantaloupe': {
         name: 'Cantaloupe',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.3, Water: 0.5, Earth: 0.1, Air: 0.1
+        elementalProperties: createElementalProperties({ Fire: 0.3, Water: 0.5, Earth: 0.1, Air: 0.1
         }),
         astrologicalProfile: {
             rulingPlanets: ['Sun', 'Venus'],
@@ -106,12 +105,12 @@ const rawMelons = {
             },
             lunarPhaseModifiers: {
                 firstQuarter: {
-                    elementalBoost: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.2, Water: 0.1
+                    elementalBoost: createElementalProperties({ Fire: 0.2, Water: 0.1
                     }),
                     preparationTips: ['Good time for ripening']
                 },
                 fullmoon: {
-                    elementalBoost: (0, elementalUtils_2.createElementalProperties)({
+                    elementalBoost: createElementalProperties({
                         Water: 0.2,
                         Fire: 0.2
                     }),
@@ -619,5 +618,6 @@ const rawMelons = {
         }
     }
 };
+
 // Fix the ingredient mappings to ensure they have all required properties
-exports.melons = (0, elementalUtils_1.fixIngredientMappings)(rawMelons);
+export const melons = fixIngredientMappings(rawMelons);

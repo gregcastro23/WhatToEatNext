@@ -1,12 +1,10 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.chia = void 0;
-const elementalUtils_1 = require("../../../../utils/elementalUtils");
-const elementalUtils_2 = require("../../../../utils/elemental/elementalUtils");
+import { fixIngredientMappings } from '../../../../utils/elementalUtils';
+import { createElementalProperties } from '../../../../utils/elemental/elementalUtils';
+
 const rawChia = {
     'chia': {
         name: 'Chia Seeds',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
+        elementalProperties: createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
         }),
         astrologicalProfile: {
             rulingPlanets: ['Neptune', 'Moon'],
@@ -46,4 +44,5 @@ const rawChia = {
         }
     }
 };
-exports.chia = (0, elementalUtils_1.fixIngredientMappings)(rawChia);
+
+export const chia = fixIngredientMappings(rawChia);

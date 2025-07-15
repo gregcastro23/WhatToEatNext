@@ -1,12 +1,11 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.blackberry = exports.raspberry = exports.strawberry = exports.blueberry = exports.berries = void 0;
-const elementalUtils_1 = require("../../../utils/elementalUtils");
-const elementalUtils_2 = require("../../../utils/elemental/elementalUtils");
+import { fixIngredientMappings } from "../../../utils/elementalUtils";
+import { createElementalProperties } from "../../../utils/elemental/elementalUtils";
+
 const rawBerries = {
     'blueberry': {
         name: 'Blueberry',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.1, Water: 0.5, Earth: 0.2, Air: 0.2
+        elementalProperties: createElementalProperties({ Fire: 0.1, Water: 0.5, Earth: 0.2, Air: 0.2
         }),
         astrologicalProfile: {
             rulingPlanets: ['Moon', 'Venus'],
@@ -21,14 +20,14 @@ const rawBerries = {
             },
             lunarPhaseModifiers: {
                 firstQuarter: {
-                    elementalBoost: (0, elementalUtils_2.createElementalProperties)({
+                    elementalBoost: createElementalProperties({
                         Water: 0.2,
                         Air: 0.1
                     }),
                     preparationTips: ['Best for fresh eating']
                 },
                 fullmoon: {
-                    elementalBoost: (0, elementalUtils_2.createElementalProperties)({
+                    elementalBoost: createElementalProperties({
                         Water: 0.3,
                         Earth: 0.1
                     }),
@@ -175,7 +174,7 @@ const rawBerries = {
     },
     'strawberry': {
         name: 'Strawberry',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.3, Water: 0.4, Earth: 0.2, Air: 0.1
+        elementalProperties: createElementalProperties({ Fire: 0.3, Water: 0.4, Earth: 0.2, Air: 0.1
         }),
         astrologicalProfile: {
             rulingPlanets: ['Venus', 'Mars'],
@@ -190,28 +189,28 @@ const rawBerries = {
             },
             lunarPhaseModifiers: {
                 newmoon: {
-                    elementalBoost: (0, elementalUtils_2.createElementalProperties)({
+                    elementalBoost: createElementalProperties({
                         Earth: 0.2,
                         Water: 0.1
                     }),
                     preparationTips: ['Good for preserving', 'Make jams and jellies']
                 },
                 fullmoon: {
-                    elementalBoost: (0, elementalUtils_2.createElementalProperties)({
+                    elementalBoost: createElementalProperties({
                         Water: 0.2,
                         Fire: 0.1
                     }),
                     preparationTips: ['Sweetness enhanced', 'Best eaten fresh']
                 },
                 firstQuarter: {
-                    elementalBoost: (0, elementalUtils_2.createElementalProperties)({
+                    elementalBoost: createElementalProperties({
                         Water: 0.1,
                         Air: 0.1
                     }),
                     preparationTips: ['Good for infusions and light desserts']
                 },
                 waningGibbous: {
-                    elementalBoost: (0, elementalUtils_2.createElementalProperties)({
+                    elementalBoost: createElementalProperties({
                         Earth: 0.2,
                         Fire: 0.1
                     }),
@@ -249,7 +248,7 @@ const rawBerries = {
     },
     'raspberry': {
         name: 'Raspberry',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.3, Water: 0.4, Earth: 0.2, Air: 0.1
+        elementalProperties: createElementalProperties({ Fire: 0.3, Water: 0.4, Earth: 0.2, Air: 0.1
         }),
         astrologicalProfile: {
             rulingPlanets: ['Venus', 'Mars'],
@@ -264,14 +263,14 @@ const rawBerries = {
             },
             lunarPhaseModifiers: {
                 waxingCrescent: {
-                    elementalBoost: (0, elementalUtils_2.createElementalProperties)({
+                    elementalBoost: createElementalProperties({
                         Water: 0.2,
                         Fire: 0.1
                     }),
                     preparationTips: ['Great for light preparations']
                 },
                 fullmoon: {
-                    elementalBoost: (0, elementalUtils_2.createElementalProperties)({
+                    elementalBoost: createElementalProperties({
                         Water: 0.3,
                         Fire: 0.2
                     }),
@@ -297,54 +296,54 @@ const rawBerries = {
         },
         lunarPhaseModifiers: {
             newmoon: {
-                elementalBoost: (0, elementalUtils_2.createElementalProperties)({
+                elementalBoost: createElementalProperties({
                     Earth: 0.1,
                     Water: 0.1
                 }),
                 preparationTips: ['Good for preserving', 'Start jams and jellies']
             },
             waxingCrescent: {
-                elementalBoost: (0, elementalUtils_2.createElementalProperties)({
+                elementalBoost: createElementalProperties({
                     Water: 0.1,
                     Air: 0.1
                 }),
                 preparationTips: ['Good for light syrups and cordials']
             },
             firstQuarter: {
-                elementalBoost: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.1, Water: 0.2
+                elementalBoost: createElementalProperties({ Fire: 0.1, Water: 0.2
                 }),
                 preparationTips: ['Perfect for fresh eating and light desserts']
             },
             waxingGibbous: {
-                elementalBoost: (0, elementalUtils_2.createElementalProperties)({
+                elementalBoost: createElementalProperties({
                     Water: 0.2,
                     Air: 0.1
                 }),
                 preparationTips: ['Excellent for sorbets and mousses']
             },
             fullmoon: {
-                elementalBoost: (0, elementalUtils_2.createElementalProperties)({
+                elementalBoost: createElementalProperties({
                     Water: 0.3,
                     Fire: 0.1
                 }),
                 preparationTips: ['Flavor peaks', 'Ideal for special desserts']
             },
             waningGibbous: {
-                elementalBoost: (0, elementalUtils_2.createElementalProperties)({
+                elementalBoost: createElementalProperties({
                     Earth: 0.1,
                     Fire: 0.2
                 }),
                 preparationTips: ['Good for baking and pies']
             },
             lastQuarter: {
-                elementalBoost: (0, elementalUtils_2.createElementalProperties)({
+                elementalBoost: createElementalProperties({
                     Earth: 0.2,
                     Water: 0.1
                 }),
                 preparationTips: ['Ideal for preserving and jamming']
             },
             waningCrescent: {
-                elementalBoost: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.1, Earth: 0.1
+                elementalBoost: createElementalProperties({ Fire: 0.1, Earth: 0.1
                 }),
                 preparationTips: ['Best for compotes and reductions']
             }
@@ -363,7 +362,7 @@ const rawBerries = {
     },
     'blackberry': {
         name: 'Blackberry',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.2, Water: 0.5, Earth: 0.2, Air: 0.1
+        elementalProperties: createElementalProperties({ Fire: 0.2, Water: 0.5, Earth: 0.2, Air: 0.1
         }),
         astrologicalProfile: {
             rulingPlanets: ['Saturn', 'Pluto'],
@@ -378,14 +377,14 @@ const rawBerries = {
             },
             lunarPhaseModifiers: {
                 newmoon: {
-                    elementalBoost: (0, elementalUtils_2.createElementalProperties)({
+                    elementalBoost: createElementalProperties({
                         Water: 0.2,
                         Earth: 0.1
                     }),
                     preparationTips: ['Good for preserving']
                 },
                 fullmoon: {
-                    elementalBoost: (0, elementalUtils_2.createElementalProperties)({
+                    elementalBoost: createElementalProperties({
                         Water: 0.3,
                         Earth: 0.2
                     }),
@@ -402,54 +401,54 @@ const rawBerries = {
         cookingMethods: ['raw', 'baked', 'preserved', 'cooked'],
         lunarPhaseModifiers: {
             newmoon: {
-                elementalBoost: (0, elementalUtils_2.createElementalProperties)({
+                elementalBoost: createElementalProperties({
                     Earth: 0.2,
                     Water: 0.1
                 }),
                 preparationTips: ['Good for starting preserves', 'Subtle flavors']
             },
             waxingCrescent: {
-                elementalBoost: (0, elementalUtils_2.createElementalProperties)({
+                elementalBoost: createElementalProperties({
                     Water: 0.1,
                     Fire: 0.1
                 }),
                 preparationTips: ['Building flavor for syrups and cordials']
             },
             firstQuarter: {
-                elementalBoost: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.1, Water: 0.2
+                elementalBoost: createElementalProperties({ Fire: 0.1, Water: 0.2
                 }),
                 preparationTips: ['Good for pies and cobblers']
             },
             waxingGibbous: {
-                elementalBoost: (0, elementalUtils_2.createElementalProperties)({
+                elementalBoost: createElementalProperties({
                     Water: 0.2,
                     Fire: 0.1
                 }),
                 preparationTips: ['Excellent for jams and jellies']
             },
             fullmoon: {
-                elementalBoost: (0, elementalUtils_2.createElementalProperties)({
+                elementalBoost: createElementalProperties({
                     Water: 0.3,
                     Fire: 0.1
                 }),
                 preparationTips: ['Flavor at peak wildness', 'Best for fresh eating']
             },
             waningGibbous: {
-                elementalBoost: (0, elementalUtils_2.createElementalProperties)({
+                elementalBoost: createElementalProperties({
                     Earth: 0.1,
                     Fire: 0.2
                 }),
                 preparationTips: ['Ideal for rich sauces and reductions']
             },
             lastQuarter: {
-                elementalBoost: (0, elementalUtils_2.createElementalProperties)({
+                elementalBoost: createElementalProperties({
                     Earth: 0.2,
                     Water: 0.1
                 }),
                 preparationTips: ['Good for wines and liqueurs']
             },
             waningCrescent: {
-                elementalBoost: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.1, Earth: 0.1
+                elementalBoost: createElementalProperties({ Fire: 0.1, Earth: 0.1
                 }),
                 preparationTips: ['Best for dried preparations']
             }
@@ -477,7 +476,7 @@ const rawBerries = {
     },
     'gooseberry': {
         name: 'Gooseberry',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.1, Water: 0.3, Earth: 0.4, Air: 0.2
+        elementalProperties: createElementalProperties({ Fire: 0.1, Water: 0.3, Earth: 0.4, Air: 0.2
         }),
         qualities: ['tart', 'bright', 'complex'],
         season: ['early summer'],
@@ -507,28 +506,28 @@ const rawBerries = {
         },
         lunarPhaseModifiers: {
             newmoon: {
-                elementalBoost: (0, elementalUtils_2.createElementalProperties)({
+                elementalBoost: createElementalProperties({
                     Earth: 0.2,
                     Water: 0.1
                 }),
                 preparationTips: ['Good for starting preserves']
             },
             fullmoon: {
-                elementalBoost: (0, elementalUtils_2.createElementalProperties)({
+                elementalBoost: createElementalProperties({
                     Water: 0.2,
                     Air: 0.1
                 }),
                 preparationTips: ['Tartness balanced with sweetness', 'Ideal for special desserts']
             },
             waxingCrescent: {
-                elementalBoost: (0, elementalUtils_2.createElementalProperties)({
+                elementalBoost: createElementalProperties({
                     Water: 0.1,
                     Fire: 0.1
                 }),
                 preparationTips: ['Good for compotes and sauces']
             },
             lastQuarter: {
-                elementalBoost: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.1, Earth: 0.1
+                elementalBoost: createElementalProperties({ Fire: 0.1, Earth: 0.1
                 }),
                 preparationTips: ['Best for jams and preserves']
             }
@@ -536,7 +535,7 @@ const rawBerries = {
     },
     'currant': {
         name: 'Currant',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.2, Water: 0.3, Earth: 0.3, Air: 0.2
+        elementalProperties: createElementalProperties({ Fire: 0.2, Water: 0.3, Earth: 0.3, Air: 0.2
         }),
         qualities: ['tart', 'bright', 'jewel-like'],
         season: ['mid summer'],
@@ -566,28 +565,28 @@ const rawBerries = {
         },
         lunarPhaseModifiers: {
             newmoon: {
-                elementalBoost: (0, elementalUtils_2.createElementalProperties)({
+                elementalBoost: createElementalProperties({
                     Earth: 0.1,
                     Water: 0.1
                 }),
                 preparationTips: ['Good for starting jams and jellies']
             },
             fullmoon: {
-                elementalBoost: (0, elementalUtils_2.createElementalProperties)({
+                elementalBoost: createElementalProperties({
                     Water: 0.1,
                     Fire: 0.1
                 }),
                 preparationTips: ['Maximum flavor extraction', 'Best for syrups and cordials']
             },
             waxingGibbous: {
-                elementalBoost: (0, elementalUtils_2.createElementalProperties)({
+                elementalBoost: createElementalProperties({
                     Water: 0.2,
                     Fire: 0.1
                 }),
                 preparationTips: ['Perfect for sauces and glazes']
             },
             waningCrescent: {
-                elementalBoost: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.1, Earth: 0.1
+                elementalBoost: createElementalProperties({ Fire: 0.1, Earth: 0.1
                 }),
                 preparationTips: ['Good for drying or dehydrating']
             }
@@ -595,7 +594,7 @@ const rawBerries = {
     },
     'elderberry': {
         name: 'Elderberry',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.2, Water: 0.3, Earth: 0.4, Air: 0.1
+        elementalProperties: createElementalProperties({ Fire: 0.2, Water: 0.3, Earth: 0.4, Air: 0.1
         }),
         qualities: ['tart', 'medicinal', 'complex'],
         season: ['late summer', 'early autumn'],
@@ -626,42 +625,42 @@ const rawBerries = {
         },
         lunarPhaseModifiers: {
             newmoon: {
-                elementalBoost: (0, elementalUtils_2.createElementalProperties)({
+                elementalBoost: createElementalProperties({
                     Earth: 0.2,
                     Water: 0.1
                 }),
                 preparationTips: ['Good for starting medicinal preparations']
             },
             waxingCrescent: {
-                elementalBoost: (0, elementalUtils_2.createElementalProperties)({
+                elementalBoost: createElementalProperties({
                     Water: 0.1,
                     Earth: 0.2
                 }),
                 preparationTips: ['Building medicinal potency']
             },
             firstQuarter: {
-                elementalBoost: (0, elementalUtils_2.createElementalProperties)({
+                elementalBoost: createElementalProperties({
                     Water: 0.2,
                     Fire: 0.1
                 }),
                 preparationTips: ['Good for syrups and cordials']
             },
             fullmoon: {
-                elementalBoost: (0, elementalUtils_2.createElementalProperties)({
+                elementalBoost: createElementalProperties({
                     Water: 0.2,
                     Air: 0.2
                 }),
                 preparationTips: ['Maximum medicinal potency', 'Best for wellness tonics']
             },
             waningGibbous: {
-                elementalBoost: (0, elementalUtils_2.createElementalProperties)({
+                elementalBoost: createElementalProperties({
                     Earth: 0.2,
                     Water: 0.1
                 }),
                 preparationTips: ['Good for jams and preserves']
             },
             lastQuarter: {
-                elementalBoost: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.1, Earth: 0.2
+                elementalBoost: createElementalProperties({ Fire: 0.1, Earth: 0.2
                 }),
                 preparationTips: ['Best for elderberry wine']
             }
@@ -669,7 +668,7 @@ const rawBerries = {
     },
     'mulberry': {
         name: 'Mulberry',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.2, Water: 0.3, Earth: 0.3, Air: 0.2
+        elementalProperties: createElementalProperties({ Fire: 0.2, Water: 0.3, Earth: 0.3, Air: 0.2
         }),
         qualities: ['sweet-tart', 'earthy', 'delicate'],
         season: ['late spring', 'early summer'],
@@ -699,28 +698,28 @@ const rawBerries = {
         },
         lunarPhaseModifiers: {
             newmoon: {
-                elementalBoost: (0, elementalUtils_2.createElementalProperties)({
+                elementalBoost: createElementalProperties({
                     Earth: 0.2,
                     Water: 0.1
                 }),
                 preparationTips: ['Good for starting preserves']
             },
             waxingCrescent: {
-                elementalBoost: (0, elementalUtils_2.createElementalProperties)({
+                elementalBoost: createElementalProperties({
                     Water: 0.2,
                     Fire: 0.1
                 }),
                 preparationTips: ['Building flavor for syrups']
             },
             fullmoon: {
-                elementalBoost: (0, elementalUtils_2.createElementalProperties)({
+                elementalBoost: createElementalProperties({
                     Water: 0.2,
                     Air: 0.2
                 }),
                 preparationTips: ['Best for fresh eating', 'Flavor peaks']
             },
             waningGibbous: {
-                elementalBoost: (0, elementalUtils_2.createElementalProperties)({
+                elementalBoost: createElementalProperties({
                     Earth: 0.2,
                     Fire: 0.1
                 }),
@@ -730,7 +729,7 @@ const rawBerries = {
     },
     'boysenberry': {
         name: 'Boysenberry',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.3, Water: 0.3, Earth: 0.2, Air: 0.2
+        elementalProperties: createElementalProperties({ Fire: 0.3, Water: 0.3, Earth: 0.2, Air: 0.2
         }),
         qualities: ['complex', 'wine-like', 'aromatic'],
         season: ['summer'],
@@ -760,24 +759,24 @@ const rawBerries = {
         },
         lunarPhaseModifiers: {
             newmoon: {
-                elementalBoost: (0, elementalUtils_2.createElementalProperties)({
+                elementalBoost: createElementalProperties({
                     Earth: 0.2,
                     Water: 0.1
                 }),
                 preparationTips: ['Good for starting preserves']
             },
             firstQuarter: {
-                elementalBoost: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.1, Water: 0.2
+                elementalBoost: createElementalProperties({ Fire: 0.1, Water: 0.2
                 }),
                 preparationTips: ['Perfect for pies and cobblers']
             },
             fullmoon: {
-                elementalBoost: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.2, Water: 0.2
+                elementalBoost: createElementalProperties({ Fire: 0.2, Water: 0.2
                 }),
                 preparationTips: ['Wine-like qualities enhanced', 'Best for special desserts']
             },
             waningGibbous: {
-                elementalBoost: (0, elementalUtils_2.createElementalProperties)({
+                elementalBoost: createElementalProperties({
                     Earth: 0.2,
                     Water: 0.1
                 }),
@@ -787,7 +786,7 @@ const rawBerries = {
     },
     'cloudberry': {
         name: 'Cloudberry',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.1, Water: 0.4, Earth: 0.3, Air: 0.2
+        elementalProperties: createElementalProperties({ Fire: 0.1, Water: 0.4, Earth: 0.3, Air: 0.2
         }),
         qualities: ['tart', 'honey-like', 'exotic'],
         season: ['late summer'],
@@ -817,28 +816,28 @@ const rawBerries = {
         },
         lunarPhaseModifiers: {
             newmoon: {
-                elementalBoost: (0, elementalUtils_2.createElementalProperties)({
+                elementalBoost: createElementalProperties({
                     Earth: 0.2,
                     Water: 0.1
                 }),
                 preparationTips: ['Good for starting preserves']
             },
             firstQuarter: {
-                elementalBoost: (0, elementalUtils_2.createElementalProperties)({
+                elementalBoost: createElementalProperties({
                     Water: 0.2,
                     Air: 0.1
                 }),
                 preparationTips: ['Building flavor for jams']
             },
             fullmoon: {
-                elementalBoost: (0, elementalUtils_2.createElementalProperties)({
+                elementalBoost: createElementalProperties({
                     Water: 0.3,
                     Air: 0.2
                 }),
                 preparationTips: ['Honey-like qualities enhanced', 'Best for rare desserts']
             },
             lastQuarter: {
-                elementalBoost: (0, elementalUtils_2.createElementalProperties)({
+                elementalBoost: createElementalProperties({
                     Earth: 0.2,
                     Water: 0.1
                 }),
@@ -847,13 +846,11 @@ const rawBerries = {
         }
     }
 };
-// Fix the ingredient mappings to ensure they have all required properties
-exports.berries = (0, elementalUtils_1.fixIngredientMappings)(rawBerries);
-// Export the entire collection
-exports.default = exports.berries;
-// Export individual berries for direct access
-exports.blueberry = exports.berries.blueberry;
-exports.strawberry = exports.berries.strawberry;
-exports.raspberry = exports.berries.raspberry;
-exports.blackberry = exports.berries.blackberry;
+
+export const berries = fixIngredientMappings(rawBerries);
+export default berries;
+export const blueberry = berries.blueberry;
+export const strawberry = berries.strawberry;
+export const raspberry = berries.raspberry;
+export const blackberry = berries.blackberry;
 // Add other individual exports as needed

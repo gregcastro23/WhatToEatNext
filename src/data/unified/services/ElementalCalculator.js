@@ -1,13 +1,10 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.ElementalCalculator = void 0;
-const elementalUtils_1 = require("../utils/elementalUtils");
-const elementalCore_1 = require("../constants/elementalCore");
-const logger_1 = require("../utils/logger");
-const logger = (0, logger_1.createLogger)('ElementalCalculator');
+import { fixIngredientMappings, normalizeProperties } from "../utils/elementalUtils";
+import { DEFAULT_ELEMENTAL_PROPERTIES } from "../constants/elementalCore";
+import { createLogger } from "../utils/logger";
+const logger = createLogger('ElementalCalculator');
 class ElementalCalculator {
     constructor(debugMode = false) {
-        this.currentBalance = elementalCore_1.DEFAULT_ELEMENTAL_PROPERTIES;
+        this.currentBalance = DEFAULT_ELEMENTAL_PROPERTIES;
         this.initialized = false;
         this.debugMode = debugMode;
         if (this.debugMode) {
@@ -32,7 +29,7 @@ class ElementalCalculator {
     static initialize(initialState) {
         const instance = ElementalCalculator.getInstance();
         instance.currentBalance = initialState || {
-            ...elementalCore_1.DEFAULT_ELEMENTAL_PROPERTIES,
+            ...DEFAULT_ELEMENTAL_PROPERTIES,
         };
         instance.initialized = true;
         logger.debug('ElementalCalculator initialized with', instance.currentBalance);
@@ -420,7 +417,7 @@ class ElementalCalculator {
             result[element] += value || 0;
         });
         // Normalize to ensure values stay in valid range
-        return (0, elementalUtils_1.normalizeProperties)(result);
+        return normalizeProperties(result);
     }
     static combineElementalProperties(properties) {
         const result = { Fire: 0, Water: 0, Earth: 0, Air: 0,
@@ -516,5 +513,6 @@ class ElementalCalculator {
         return false;
     }
 }
-exports.ElementalCalculator = ElementalCalculator;
-exports.default = ElementalCalculator;
+
+export { ElementalCalculator };
+export default ElementalCalculator;

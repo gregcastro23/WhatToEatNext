@@ -816,4 +816,5 @@ export const vietnamese = {
     ],
     elementalProperties: { Fire: 0.00, Water: 1.00, Earth: 0.00, Air: 0.00 }
 };
-exports.default = exports.vietnamese;
+
+export default vietnamese;

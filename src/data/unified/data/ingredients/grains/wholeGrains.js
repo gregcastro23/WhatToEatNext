@@ -1,13 +1,11 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.allWholeGrains = exports.wholeGrains = void 0;
-const elementalUtils_1 = require("../../../utils/elementalUtils");
-const elementalUtils_2 = require("../../../utils/elemental/elementalUtils");
+import { fixIngredientMappings } from '../../../utils/elementalUtils';
+import { createElementalProperties } from '../../../utils/elemental/elementalUtils';
+
 const rawWholeGrains = {
     'brown_rice': {
         name: 'Brown Rice',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.1, Water: 0.3, Earth: 0.5, Air: 0.1
-        }),
+        elementalProperties: createElementalProperties({ Fire: 0.1, Water: 0.3, Earth: 0.5, Air: 0.1 }),
         astrologicalProfile: {
             rulingPlanets: ['Moon', 'Venus'],
             favorableZodiac: ['cancer', 'capricorn', 'taurus'],
@@ -22,28 +20,28 @@ const rawWholeGrains = {
             },
             lunarPhaseModifiers: {
                 newmoon: {
-                    elementalBoost: (0, elementalUtils_2.createElementalProperties)({
+                    elementalBoost: createElementalProperties({
                         Earth: 0.2,
                         Water: 0.1
                     }),
                     preparationTips: ['Begin sprouting process', 'Mindful cooking with minimal seasonings']
                 },
                 fullmoon: {
-                    elementalBoost: (0, elementalUtils_2.createElementalProperties)({
+                    elementalBoost: createElementalProperties({
                         Earth: 0.3,
                         Water: 0.2
                     }),
                     preparationTips: ['Perfect for hearty dishes', 'Enhanced digestibility']
                 },
                 waxingCrescent: {
-                    elementalBoost: (0, elementalUtils_2.createElementalProperties)({
+                    elementalBoost: createElementalProperties({
                         Water: 0.2,
                         Earth: 0.1
                     }),
                     preparationTips: ['Good for starting fermentations', 'Basic cooking methods']
                 },
                 firstQuarter: {
-                    elementalBoost: (0, elementalUtils_2.createElementalProperties)({
+                    elementalBoost: createElementalProperties({
                         Earth: 0.2,
                         Fire: 0.1
                     }),
@@ -198,128 +196,125 @@ const rawWholeGrains = {
                     'reduce heat to low simmer',
                     'cover with tight-fitting lid',
                     'cook 45-50 minutes',
-                    'rest 10 minutes off heat',
-                    'fluff with fork'
+                    'let rest 10 minutes before fluffing'
                 ],
-                tips: [
-                    'avoid lifting lid while cooking',
-                    'ensure tight-fitting lid',
-                    'fluff with fork after resting',
-                    'check for doneness - should be tender but slightly chewy'
-                ],
-                variations: {
-                    'stovetop': 'traditional method as described above',
-                    'rice_cooker': 'same ratio, select brown rice setting',
-                    'pressure_cooker': '1:1.25 rice to water, high pressure 20-22 minutes, natural release'
-                }
+                tips: ['Don\'t peek during cooking', 'Use heavy-bottomed pot', 'Keep lid on tight']
             },
             'pilaf_method': {
                 name: 'Pilaf Method',
                 steps: [
-                    'sauté onions and aromatics in oil',
-                    'toast rice in oil until fragrant',
-                    'add hot liquid (stock preferred)',
-                    'bring to boil, then reduce heat',
-                    'simmer covered 45-50 minutes',
-                    'rest off heat 10 minutes'
+                    'sauté aromatics in oil',
+                    'add rice and toast briefly',
+                    'add liquid and seasonings',
+                    'bring to boil, then simmer',
+                    'cook covered until done'
                 ],
-                aromatics: ['onion', 'garlic', 'carrots', 'celery', 'spices', 'herbs'],
-                variations: {
-                    'mushroom': 'incorporate dried or fresh mushrooms, thyme',
-                    'herb': 'use abundant fresh herbs, lemon zest',
-                    'vegetable': 'add diced vegetables that hold up to long cooking'
-                },
-                notes: 'Excellent way to add depth of flavor'
+                benefits: 'enhances flavor and texture'
             },
-            'grain_bowl': {
-                name: 'Grain Bowl',
-                components: {
-                    'base': 'cooked brown rice',
-                    'protein': ['tofu', 'tempeh', 'beans', 'lentils', 'eggs', 'fish'],
-                    'vegetables': ['roasted', 'pickled', 'raw', 'fermented'],
-                    'sauce': ['tahini-based', 'peanut', 'miso', 'vinaigrette'],
-                    'toppings': ['seeds', 'nuts', 'herbs', 'sprouts', 'avocado']
-                },
-                preparation: 'Arrange components in individual bowls',
-                variations: {
-                    'asian_inspired': 'edamame, pickled vegetables, sesame, tamari-based sauce',
-                    'mediterranean': 'chickpeas, cucumber, tomato, feta, herb-lemon dressing',
-                    'mexican': 'black beans, corn, avocado, lime-cilantro dressing'
-                },
-                notes: 'Infinitely customizable to dietary preferences and what\'s on hand'
+            'pressure_cooking': {
+                name: 'Pressure Cooking',
+                ratio: '1:1.5 rice to water',
+                cooking_time: '15-20 minutes high pressure',
+                natural_release: '10 minutes',
+                benefits: 'faster cooking, consistent results'
             },
-            'fried_rice': {
-                name: 'Brown Fried Rice',
-                preparation: 'best with day-old refrigerated rice',
-                key_technique: 'high heat, continuous stirring, cook ingredients separately',
-                essential_ingredients: ['oil with high smoke point', 'aromatics', 'eggs', 'vegetables'],
-                variations: {
-                    'classic': 'with peas, carrots, scrambled egg, green onion',
-                    'kimchi': 'incorporate kimchi, sesame oil, gochujang',
-                    'pineapple': 'with pineapple chunks, cashews, curry powder'
-                },
-                notes: 'Pre-cook and cool rice for best texture; never use freshly cooked rice'
-            },
-            'rice_pudding': {
-                name: 'Brown Rice Pudding',
-                cooking_method: 'slow simmer with frequent stirring',
-                key_ingredients: ['milk or plant milk', 'sweetener', 'spices', 'dried fruit'],
-                variations: {
-                    'classic': 'cinnamon, raisins, vanilla',
-                    'coconut': 'coconut milk, cardamom, pistachios',
-                    'chocolate': 'cocoa powder, almond milk, cherries'
-                },
-                notes: 'Takes longer than white rice pudding but has nuttier flavor'
+            'steaming': {
+                name: 'Steaming',
+                method: 'use rice cooker or steamer basket',
+                ratio: '1:1.5 rice to water',
+                benefits: 'gentle cooking, fluffy texture'
             }
         },
         storage: {
-            temperature: {
-                fahrenheit: { min: 50, max: 70 },
-                celsius: { min: 10, max: 21 }
+            uncooked: {
+                container: 'Airtight container',
+                location: 'cool, dark place',
+                duration: '6 months to 1 year',
+                notes: 'Store in refrigerator for longer shelf life'
             },
-            humidity: 'low',
-            container: 'Airtight container, away from light',
-            uncooked_duration: 'up to 6 months in pantry, 1 year refrigerated',
-            cooked_duration: '4-6 days refrigerated',
-            notes: 'Refrigeration extends shelf life due to natural oils in bran'
-        },
-        seasonalAdjustments: {},
-        cuisineAffinity: {
-            'modern_health': {
-                preparations: 'grain bowls, alternative sushi, veggie burgers',
-                emphasis: 'nutrient density, whole foods philosophy',
-                notes: 'Often featured in contemporary health-focused cuisines'
+            cooked: {
+                container: 'Airtight container',
+                location: 'refrigerator',
+                duration: '3-5 days',
+                reheating: 'steam or microwave with splash of water'
+            },
+            freezing: {
+                method: 'portion into freezer bags',
+                duration: 'up to 6 months',
+                reheating: 'thaw in refrigerator overnight'
             }
-        }
+        },
+        regionalPreparations: {
+            'asian': {
+                name: 'Asian',
+                dishes: ['fried rice', 'sushi', 'congee', 'rice bowls'],
+                techniques: 'steaming, stir-frying, slow cooking',
+                seasonings: ['soy sauce', 'sesame oil', 'ginger', 'garlic']
+            },
+            'mediterranean': {
+                name: 'Mediterranean',
+                dishes: ['pilafs', 'risottos', 'grain salads'],
+                techniques: 'sautéing with aromatics, broth cooking',
+                seasonings: ['olive oil', 'herbs', 'lemon', 'garlic']
+            },
+            'latin_american': {
+                name: 'Latin American',
+                dishes: ['gallo pinto', 'arroz con pollo', 'rice and beans'],
+                techniques: 'sautéing with sofrito, cooking with broth',
+                seasonings: ['achiote', 'cumin', 'cilantro', 'lime']
+            },
+            'indian': {
+                name: 'Indian',
+                dishes: ['biryani', 'pulao', 'khichdi'],
+                techniques: 'layering, dum cooking, tempering',
+                seasonings: ['ghee', 'spices', 'saffron', 'herbs']
+            }
+        },
+        pAirings: ['lentils', 'beans', 'vegetables', 'herbs', 'spices', 'broths', 'oils'],
+        substitutions: ['quinoa', 'farro', 'buckwheat', 'millet'],
+        affinities: ['aromatics', 'herbs', 'spices', 'vegetables', 'legumes', 'proteins']
     },
     'quinoa': {
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.2, Water: 0.2, Earth: 0.5, Air: 0.1
-        }),
-        astrologicalProfile: {
-            rulingPlanets: ['Moon', 'Mercury'],
-            favorableZodiac: ['cancer', 'gemini'],
-            elementalAffinity: {
-                base: 'Air',
-                decanModifiers: {
-                    first: { element: 'Earth', planet: "Saturn" },
-                    second: { element: 'Earth', planet: "Mercury" },
-                    third: { element: 'Water', planet: 'Neptune' }
-                }
+        name: 'Quinoa',
+        elementalProperties: createElementalProperties({ Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 }),
+        qualities: ['nutty', 'light', 'versatile', 'complete_protein'],
+        category: 'whole_grain',
+        culinaryApplications: {
+            'basic_cooking': {
+                ratio: '1:2 quinoa to water',
+                cooking_time: '15-20 minutes',
+                method: 'simmer until water absorbed'
+            },
+            'soaked_method': {
+                soaking: '8-12 hours',
+                cooking_time: '45-60 minutes',
+                benefits: 'improved texture and digestibility'
             }
         },
-        qualities: ['light', 'protein-rich', 'versatile'],
-        category: 'whole_grain',
-        varieties: {},
-        preparation: {
-            'rinsing': {
-                duration: '1-2 minutes',
-                purpose: 'remove saponins'
+        preparations: {
+            'bread_making': {
+                method: 'grind fresh',
+                fermentation: 'longer rise time needed',
+                notes: 'pAirs well with sourdough'
+            },
+            'hearty_salads': {
+                method: 'cook until chewy',
+                additions: ['root vegetables', 'hardy greens', 'vinaigrette'],
+                service: 'room temperature'
             }
+        },
+        nutritionalProfile: {
+            protein: 'moderate protein',
+            minerals: ['manganese', 'phosphorus', 'magnesium'],
+            vitamins: ['b1', 'b3', 'b6'],
+            calories_per_100g: 338,
+            protein_g: 10.3,
+            fiber_g: 15.1
         }
     },
     'kamut': {
         name: 'Kamut',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.2, Water: 0.2, Earth: 0.5, Air: 0.1
+        elementalProperties: createElementalProperties({ Fire: 0.2, Water: 0.2, Earth: 0.5, Air: 0.1
         }),
         qualities: ['buttery', 'rich', 'chewy'],
         category: 'whole_grain',
@@ -358,7 +353,7 @@ const rawWholeGrains = {
     },
     'spelt_berries': {
         name: 'Spelt Berries',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.2, Water: 0.2, Earth: 0.5, Air: 0.1
+        elementalProperties: createElementalProperties({ Fire: 0.2, Water: 0.2, Earth: 0.5, Air: 0.1
         }),
         qualities: ['nutty', 'complex', 'hearty'],
         category: 'whole_grain',
@@ -397,7 +392,7 @@ const rawWholeGrains = {
     },
     'einkorn': {
         name: 'Einkorn',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.2, Water: 0.2, Earth: 0.5, Air: 0.1
+        elementalProperties: createElementalProperties({ Fire: 0.2, Water: 0.2, Earth: 0.5, Air: 0.1
         }),
         qualities: ['nutty', 'ancient', 'nutritious'],
         category: 'whole_grain',
@@ -436,7 +431,7 @@ const rawWholeGrains = {
     },
     'rye_berries': {
         name: 'Rye Berries',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.2, Water: 0.2, Earth: 0.5, Air: 0.1
+        elementalProperties: createElementalProperties({ Fire: 0.2, Water: 0.2, Earth: 0.5, Air: 0.1
         }),
         qualities: ['earthy', 'robust', 'hearty'],
         category: 'whole_grain',
@@ -475,7 +470,7 @@ const rawWholeGrains = {
     },
     'wild_rice': {
         name: 'Wild Rice',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.2, Water: 0.2, Earth: 0.5, Air: 0.1
+        elementalProperties: createElementalProperties({ Fire: 0.2, Water: 0.2, Earth: 0.5, Air: 0.1
         }),
         qualities: ['nutty', 'complex', 'aromatic'],
         category: 'whole_grain',
@@ -513,7 +508,7 @@ const rawWholeGrains = {
     },
     'triticale': {
         name: 'Triticale',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.2, Water: 0.2, Earth: 0.5, Air: 0.1
+        elementalProperties: createElementalProperties({ Fire: 0.2, Water: 0.2, Earth: 0.5, Air: 0.1
         }),
         qualities: ['nutty', 'hybrid vigor', 'nutritious'],
         category: 'whole_grain',
@@ -551,7 +546,7 @@ const rawWholeGrains = {
         }
     },
     'oats': {
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.2, Water: 0.2, Earth: 0.5, Air: 0.1
+        elementalProperties: createElementalProperties({ Fire: 0.2, Water: 0.2, Earth: 0.5, Air: 0.1
         }),
         astrologicalProfile: {
             rulingPlanets: ['Moon', 'Venus'],
@@ -602,7 +597,7 @@ const rawWholeGrains = {
             rulingPlanets: ['Venus', 'Moon'],
             favorableZodiac: ['cancer', 'taurus']
         },
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.2, Water: 0.2, Earth: 0.5, Air: 0.1
+        elementalProperties: createElementalProperties({ Fire: 0.2, Water: 0.2, Earth: 0.5, Air: 0.1
         }),
         qualities: ['nutty', 'chewy', 'wholesome'],
         category: 'whole_grain',
@@ -640,8 +635,11 @@ const rawWholeGrains = {
         }
     }
 };
+
 // Fix the ingredient mappings to ensure they have all required properties
-exports.wholeGrains = (0, elementalUtils_1.fixIngredientMappings)(rawWholeGrains);
+export const wholeGrains = fixIngredientMappings(rawWholeGrains);
+
 // Create a collection of all whole grains
-exports.allWholeGrains = Object.values(exports.wholeGrains);
-exports.default = exports.wholeGrains;
+export const allWholeGrains = Object.values(wholeGrains);
+
+export default wholeGrains;

@@ -1,7 +1,5 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.ELEMENT_AFFINITIES = exports.ELEMENT_COMBINATIONS = exports.elementalFunctions = exports.elementalInteractions = exports.elements = void 0;
-exports.elements = {
+
+export const elements = {
     'Fire': {
         heat: 1.0,
         dryness: 0.8,
@@ -27,7 +25,7 @@ exports.elements = {
         structure: 0.7
     }
 };
-exports.elementalInteractions = {
+export const elementalInteractions = {
     'Fire': {
         'Water': 0.7,
         'Earth': 0.7,
@@ -53,7 +51,7 @@ exports.elementalInteractions = {
         'Air': 1.0 // self - highest compatibility
     }
 };
-exports.elementalFunctions = {
+export const elementalFunctions = {
     /**
      * Calculate the elemental affinity between two sets of properties
      */
@@ -62,8 +60,8 @@ exports.elementalFunctions = {
         let count = 0;
         for (const [element1, value1] of Object.entries(props1)) {
             for (const [element2, value2] of Object.entries(props2)) {
-                if (exports.elementalInteractions[element1]?.[element2]) {
-                    affinity += value1 * value2 * exports.elementalInteractions[element1][element2];
+                if (elementalInteractions[element1]?.[element2]) {
+                    affinity += value1 * value2 * elementalInteractions[element1][element2];
                     count++;
                 }
             }
@@ -80,7 +78,7 @@ exports.elementalFunctions = {
      * Check if elements are complementary
      */
     areComplementary: (element1, element2) => {
-        return exports.elementalInteractions[element1][element2] > 0.5;
+        return elementalInteractions[element1][element2] > 0.5;
     },
     /**
      * Get element balance score
@@ -95,12 +93,12 @@ exports.elementalFunctions = {
      * Suggest complementary elements
      */
     suggestComplementaryElements: (props) => {
-        const dominant = exports.elementalFunctions.getDominantElement(props);
-        return Object.keys(exports.elementalInteractions).filter(element => exports.elementalInteractions[element][dominant] > 0.5 &&
+        const dominant = elementalFunctions.getDominantElement(props);
+        return Object.keys(elementalInteractions).filter(element => elementalInteractions[element][dominant] > 0.5 &&
             !(element in props));
     }
 };
-exports.ELEMENT_COMBINATIONS = {
+export const ELEMENT_COMBINATIONS = {
     harmonious: [
         ['Fire', 'Fire'],
         ['Water', 'Water'],
@@ -110,14 +108,15 @@ exports.ELEMENT_COMBINATIONS = {
         ['Water', 'Earth']
     ]
 };
-exports.ELEMENT_AFFINITIES = { Fire: ['Fire', 'Air'],
+export const ELEMENT_AFFINITIES = { 
+    Fire: ['Fire', 'Air'],
     Water: ['Water', 'Earth'],
     Air: ['Air', 'Fire'],
     Earth: ['Earth', 'Water']
 };
 const elementalMappings = {
-    elements: exports.elements,
-    elementalInteractions: exports.elementalInteractions,
-    elementalFunctions: exports.elementalFunctions
+    elements: elements,
+    elementalInteractions: elementalInteractions,
+    elementalFunctions: elementalFunctions
 };
-exports.default = elementalMappings;
+export default elementalMappings;

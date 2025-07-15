@@ -1,8 +1,6 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.validateIngredient = exports.validateRecipe = void 0;
-const seasonalConstants_1 = require("@/constants/seasonalConstants");
-function validateRecipe(recipe) {
+import { VALID_SEASONS } from '@/constants/seasonalConstants';
+
+export function validateRecipe(recipe) {
     // Validate basic recipe properties
     if (!recipe.name || !recipe.ingredients || !Array.isArray(recipe.ingredients)) {
         return false;
@@ -10,19 +8,19 @@ function validateRecipe(recipe) {
     // Validate season field if present
     if (recipe.season) {
         const seasons = Array.isArray(recipe.season) ? recipe.season : [recipe.season];
-        const isValidSeason = seasons.every(function (season) {
+        const isValidSeason = seasons.every(season => {
             // Convert to lowercase for case-insensitive comparison
             const normalizedSeason = season.toLowerCase();
-            return seasonalConstants_1.VALID_SEASONS.map(function (s) { return s.toLowerCase(); }).includes(normalizedSeason);
+            return VALID_SEASONS.map(s => s.toLowerCase()).includes(normalizedSeason);
         });
         if (!isValidSeason)
             return false;
     }
     // Validate ingredients
-    return recipe.ingredients.every(function (ing) { return validateIngredient(ing); });
+    return recipe.ingredients.every(ing => validateIngredient(ing));
 }
-exports.validateRecipe = validateRecipe;
-function validateIngredient(ingredient) {
+
+export function validateIngredient(ingredient) {
     // Validate basic ingredient properties
     if (!ingredient.name || typeof ingredient.amount !== 'number') {
         return false;
@@ -31,10 +29,10 @@ function validateIngredient(ingredient) {
     if (ingredient.seasonality) {
         if (!Array.isArray(ingredient.seasonality))
             return false;
-        const isValidSeasonality = ingredient.seasonality.every(function (season) {
+        const isValidSeasonality = ingredient.seasonality.every(season => {
             // Convert to lowercase for case-insensitive comparison
             const normalizedSeason = season.toLowerCase();
-            return seasonalConstants_1.VALID_SEASONS.map(function (s) { return s.toLowerCase(); }).includes(normalizedSeason);
+            return VALID_SEASONS.map(s => s.toLowerCase()).includes(normalizedSeason);
         });
         if (!isValidSeasonality)
             return false;
@@ -42,10 +40,9 @@ function validateIngredient(ingredient) {
     // Validate elemental properties if present
     if (ingredient.elementalProperties) {
         const sum = Object.values(ingredient.elementalProperties)
-            .reduce(function (acc, val) { return acc + val; }, 0);
+            .reduce((acc, val) => acc + val, 0);
         if (Math.abs(sum - 1) > 0.000001)
             return false;
     }
     return true;
 }
-exports.validateIngredient = validateIngredient;

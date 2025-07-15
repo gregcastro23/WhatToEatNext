@@ -1,4 +1,4 @@
-// import { RulingPlanet } from '../constants/planets';
+import { RulingPlanet } from '../constants/planets';
 import { 
   getPlanetaryElement, 
   // getPlanetaryAlchemicalProperty, 
@@ -16,7 +16,7 @@ import {
   // convertToElementalState
 } from './gregsEnergy';
 // import { _Planet } from '../constants/planetaryFoodAssociations';
-// import { signs, planetInfo } from '../data/astroData';
+import { signs, planetInfo } from '../data/astroData';
 import { StandardizedAlchemicalResult, ElementalProperties, PlanetaryPosition } from '@/types/alchemy';
 import { createLogger } from '@/utils/logger';
 

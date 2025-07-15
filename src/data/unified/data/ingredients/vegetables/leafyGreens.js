@@ -1,8 +1,6 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.spinach = exports.kale = exports.leafyGreens = void 0;
-const elementalUtils_1 = require("../../../utils/elementalUtils");
-const elementalUtils_2 = require("../../../utils/elemental/elementalUtils");
+import { fixIngredientMappings } from "../../../utils/elementalUtils";
+import { createElementalProperties } from "../../../utils/elemental/elementalUtils";
 // Helper function for generating consistent numeric values
 const generateVegetableAttributes = (vegData) => {
     return {
@@ -23,7 +21,7 @@ const rawLeafyGreens = {
         name: 'Kale',
         category: 'vegetable',
         subCategory: 'leafy_green',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({
+        elementalProperties: createElementalProperties({
             Earth: 0.4,
             Water: 0.3,
             Air: 0.2,
@@ -243,11 +241,11 @@ const rawLeafyGreens = {
             },
             lunarPhaseModifiers: {
                 newmoon: {
-                    elementalBoost: (0, elementalUtils_2.createElementalProperties)({ Air: 0.2, Earth: 0.1 }),
+                    elementalBoost: createElementalProperties({ Air: 0.2, Earth: 0.1 }),
                     preparationTips: ['Light preparations', 'Quick cooking methods']
                 },
                 fullmoon: {
-                    elementalBoost: (0, elementalUtils_2.createElementalProperties)({ Water: 0.2, Earth: 0.1 }),
+                    elementalBoost: createElementalProperties({ Water: 0.2, Earth: 0.1 }),
                     preparationTips: ['Enhanced nutritional extraction', 'Good for preservation methods']
                 }
             }
@@ -281,7 +279,7 @@ const rawLeafyGreens = {
         name: 'Spinach',
         category: 'vegetable',
         subCategory: 'leafy_green',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({
+        elementalProperties: createElementalProperties({
             Water: 0.4,
             Earth: 0.3,
             Air: 0.2,
@@ -310,11 +308,11 @@ const rawLeafyGreens = {
             },
             lunarPhaseModifiers: {
                 newmoon: {
-                    elementalBoost: (0, elementalUtils_2.createElementalProperties)({ Water: 0.2 }),
+                    elementalBoost: createElementalProperties({ Water: 0.2 }),
                     preparationTips: ['Best for fresh preparations']
                 },
                 fullmoon: {
-                    elementalBoost: (0, elementalUtils_2.createElementalProperties)({ Water: 0.3 }),
+                    elementalBoost: createElementalProperties({ Water: 0.3 }),
                     preparationTips: ['Enhanced nutrient extraction', 'Best for cooking']
                 }
             }
@@ -322,7 +320,7 @@ const rawLeafyGreens = {
     },
     'swiss chard': {
         name: 'Swiss chard',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
+        elementalProperties: createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
         }),
         astrologicalProfile: {
             rulingPlanets: ['Venus', 'Saturn'],
@@ -386,9 +384,9 @@ const rawLeafyGreens = {
     }
 };
 // Process ingredient mappings to ensure they have all required properties
-exports.leafyGreens = (0, elementalUtils_1.fixIngredientMappings)(rawLeafyGreens);
+export const leafyGreens = fixIngredientMappings(rawLeafyGreens);
 // Export individual leafy greens for direct access
-exports.kale = exports.leafyGreens.kale;
-exports.spinach = exports.leafyGreens.spinach;
+export const kale = leafyGreens.kale;
+export const spinach = leafyGreens.spinach;
 // Default export
-exports.default = exports.leafyGreens;
+export default leafyGreens;

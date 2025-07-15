@@ -187,7 +187,7 @@ const PlanetaryDisplay: React.FC<PlanetaryDisplayProps> = ({
     case 'time':
       return <PlanetaryTimeDisplay compact={compact} className={className} />;
       
-    case 'combined':
+    case 'combined': {
       // Memoize the time factors to prevent recalculation on every render
       const _timeFactors = useMemo(() => getTimeFactorsStable(), [getTimeFactorsStable]);
       
@@ -202,6 +202,7 @@ const PlanetaryDisplay: React.FC<PlanetaryDisplayProps> = ({
           )}
         </div>
       );
+    }
       
     default:
       return <div className="text-red-400">Invalid display mode</div>;

@@ -1127,4 +1127,5 @@ export const middleEastern = {
     },
     elementalProperties: { Fire: 0.20, Water: 0.30, Earth: 0.30, Air: 0.20 }
 };
-exports.default = exports.middleEastern;
+
+export default middleEastern;

@@ -1,7 +1,5 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.getRecommendations = exports.getmoonPhase = exports.getMealPeriod = exports.getTimeOfDay = exports.getDayOfYear = exports.getSeason = exports.getPreviousSeason = exports.getNextSeason = exports.isInSeason = exports.getSeasonForDate = exports.getCurrentSeason = void 0;
-const cuisines_1 = require("../data/cuisines");
+import { cuisines } from "../data/cuisines";
+
 /**
  * A utility function for logging debug information
  * This is a safe replacement for console.log that can be disabled in production
@@ -10,11 +8,12 @@ const debugLog = (message, ...args) => {
     // Comment out console.log to avoid linting warnings
     // console.log(message, ...args);
 };
+
 /**
  * Get the current season based on the current date
  * Uses meteorological seasons (Dec-Feb: Winter, Mar-May: Spring, etc.)
  */
-function getCurrentSeason() {
+export function getCurrentSeason() {
     const now = new Date();
     const month = now.getMonth(); // 0-11
     if (month >= 2 && month <= 4) {
@@ -30,11 +29,11 @@ function getCurrentSeason() {
         return 'winter'; // December, January, February
     }
 }
-exports.getCurrentSeason = getCurrentSeason;
+
 /**
  * Get season for a specific date
  */
-function getSeasonForDate(date) {
+export function getSeasonForDate(date) {
     const month = date.getMonth(); // 0-11
     if (month >= 2 && month <= 4) {
         return 'spring';
@@ -49,38 +48,38 @@ function getSeasonForDate(date) {
         return 'winter';
     }
 }
-exports.getSeasonForDate = getSeasonForDate;
+
 /**
  * Check if a date is in a specific season
  */
-function isInSeason(date, _season) {
+export function isInSeason(date, season) {
     return getSeasonForDate(date) === season;
 }
-exports.isInSeason = isInSeason;
+
 /**
  * Get the next season
  */
-function getNextSeason(currentSeason) {
+export function getNextSeason(currentSeason) {
     const seasons = ['spring', 'summer', 'autumn', 'winter'];
     const currentIndex = seasons.indexOf(currentSeason);
     return seasons[(currentIndex + 1) % 4];
 }
-exports.getNextSeason = getNextSeason;
+
 /**
  * Get the previous season
  */
-function getPreviousSeason(currentSeason) {
+export function getPreviousSeason(currentSeason) {
     const seasons = ['spring', 'summer', 'autumn', 'winter'];
     const currentIndex = seasons.indexOf(currentSeason);
     return seasons[(currentIndex - 1 + 4) % 4];
 }
-exports.getPreviousSeason = getPreviousSeason;
+
 /**
  * Get the season based on a specific month
  * @param month Month (0-11)
  * @returns Season
  */
-const getSeason = (month) => {
+export const getSeason = (month) => {
     if ([11, 0, 1].includes(month))
         return "winter";
     if ([2, 3, 4].includes(month))
@@ -89,23 +88,23 @@ const getSeason = (month) => {
         return "summer";
     return "fall";
 };
-exports.getSeason = getSeason;
+
 /**
  * Calculate the day of year (1-366)
  * @param date Date to calculate day of year for
  * @returns Day of year (1-366)
  */
-function getDayOfYear(date) {
+export function getDayOfYear(date) {
     const start = new Date(date.getFullYear(), 0, 0);
     const diff = date.getTime() - start.getTime();
     return Math.floor(diff / (1000 * 60 * 60 * 24));
 }
-exports.getDayOfYear = getDayOfYear;
+
 /**
  * Get the current time of day
  * @returns Time of day ('morning', 'afternoon', 'evening', or 'night')
  */
-function getTimeOfDay() {
+export function getTimeOfDay() {
     const hour = new Date().getHours();
     if (hour >= 5 && hour < 12)
         return 'morning';
@@ -115,13 +114,13 @@ function getTimeOfDay() {
         return 'evening';
     return 'night';
 }
-exports.getTimeOfDay = getTimeOfDay;
+
 /**
  * Get the meal period based on the hour
  * @param hour Hour (0-23)
  * @returns Meal period
  */
-const getMealPeriod = (hour) => {
+export const getMealPeriod = (hour) => {
     if (hour >= 5 && hour < 11)
         return "breakfast";
     if (hour >= 11 && hour < 16)
@@ -130,12 +129,12 @@ const getMealPeriod = (hour) => {
         return "dinner";
     return "breakfast";
 };
-exports.getMealPeriod = getMealPeriod;
+
 /**
  * Get the current Moon phase using a simplified calculation
  * @returns Moon phase as a string with spaces
  */
-function getmoonPhase() {
+export function getmoonPhase() {
     // Calculate Moon age (in days) from the latest known new Moon
     // April 2024 new Moon was on April 8, 2024
     const LATEST_NEW_moon = new Date(2024, 3, 8).getTime(); // April 8, 2024
@@ -163,10 +162,10 @@ function getmoonPhase() {
         return 'waning crescent';
     return 'new moon';
 }
-exports.getmoonPhase = getmoonPhase;
+
 // Helper function to get all dishes for a cuisine
 const getAllDishesForCuisine = (cuisineId) => {
-    const cuisine = cuisines_1.cuisines[cuisineId];
+    const cuisine = cuisines[cuisineId];
     if (!cuisine || !cuisine.dishes)
         return [];
     let allDishes = [];
@@ -188,6 +187,7 @@ const getAllDishesForCuisine = (cuisineId) => {
     });
     return allDishes;
 };
+
 /**
  * Get food recommendations based on meal time, season, and cuisine
  * @param mealTime Meal time ('breakfast', 'lunch', 'dinner')
@@ -195,33 +195,48 @@ const getAllDishesForCuisine = (cuisineId) => {
  * @param cuisineId Cuisine ID
  * @returns Array of dishes
  */
-const getRecommendations = (mealTime, _season, cuisineId) => {
+export const getRecommendations = (mealTime, season, cuisineId) => {
     try {
         debugLog(`Getting recommendations for: ${cuisineId}, ${mealTime}, ${season}`);
-        const cuisine = cuisines_1.cuisines[cuisineId];
-        if (!cuisine || !cuisine.dishes) {
-            debugLog(`Cuisine ${cuisineId} not found or has no dishes`);
+        
+        const cuisine = cuisines[cuisineId];
+        if (!cuisine) {
+            debugLog(`Cuisine not found: ${cuisineId}`);
             return [];
         }
-        const mealTimeDishes = cuisine.dishes?.[mealTime];
-        if (!mealTimeDishes) {
-            debugLog(`No ${mealTime} dishes found for ${cuisineId}`);
-            return [];
+
+        const dishes = cuisine.dishes?.[mealTime];
+        if (!dishes) {
+            debugLog(`No dishes found for meal time: ${mealTime}`);
+            return getAllDishesForCuisine(cuisineId);
         }
-        // If mealTimeDishes is an array, return it directly
-        if (Array.isArray(mealTimeDishes)) {
-            return mealTimeDishes;
+
+        // If dishes is an object with season keys
+        if (typeof dishes === 'object' && !Array.isArray(dishes)) {
+            // Try to get dishes for the specific season
+            let seasonDishes = dishes[season];
+            
+            // If no dishes for specific season, try 'all' season
+            if (!seasonDishes || seasonDishes.length === 0) {
+                seasonDishes = dishes['all'];
+            }
+            
+            // If still no dishes, get dishes from any available season
+            if (!seasonDishes || seasonDishes.length === 0) {
+                const availableSeasons = Object.keys(dishes);
+                if (availableSeasons.length > 0) {
+                    seasonDishes = dishes[availableSeasons[0]];
+                }
+            }
+            
+            return seasonDishes || [];
         }
-        // Get dishes from both 'all' season and current season
-        const allSeasonDishes = Array.isArray(mealTimeDishes['all']) ? mealTimeDishes['all'] : [];
-        const seasonalDishes = Array.isArray(mealTimeDishes[season]) ? mealTimeDishes[season] : [];
-        const combinedDishes = [...allSeasonDishes, ...seasonalDishes];
-        debugLog(`Found ${combinedDishes.length} dishes for ${cuisineId}`);
-        return combinedDishes;
-    }
-    catch (error) {
-        // console.error(`Error getting recommendations for ${cuisineId}:`, error);
+        
+        // If dishes is a direct array
+        return Array.isArray(dishes) ? dishes : [];
+        
+    } catch (error) {
+        debugLog(`Error getting recommendations: ${error.message}`);
         return [];
     }
 };
-exports.getRecommendations = getRecommendations;

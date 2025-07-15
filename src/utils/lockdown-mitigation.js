@@ -1,3 +1,4 @@
+/* global window, setInterval, clearInterval */
 /**
  * lockdown-mitigation.js
  * This file mitigates the effects of lockdown.js removing crucial objects.

@@ -1,12 +1,10 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.driedHerbs = void 0;
-const elementalUtils_1 = require("../../../utils/elementalUtils");
-const elementalUtils_2 = require("../../../utils/elemental/elementalUtils");
+import { fixIngredientMappings } from "../../../utils/elementalUtils.js";
+import { createElementalProperties } from "../../../utils/elemental/elementalUtils.js";
+
 const rawDriedHerbs = {
     'dried_basil': {
         name: 'Dried Basil',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
+        elementalProperties: createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
         }),
         qualities: ['warming', 'pungent', 'aromatic'],
         season: ['all'],
@@ -37,7 +35,7 @@ const rawDriedHerbs = {
     },
     'dried_oregano': {
         name: 'Dried Oregano',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
+        elementalProperties: createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
         }),
         qualities: ['warming', 'pungent', 'drying'],
         season: ['all'],
@@ -67,7 +65,7 @@ const rawDriedHerbs = {
     },
     'dried_thyme': {
         name: 'Dried Thyme',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
+        elementalProperties: createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
         }),
         qualities: ['warming', 'drying', 'pungent'],
         season: ['all'],
@@ -97,7 +95,7 @@ const rawDriedHerbs = {
     },
     'dried_rosemary': {
         name: 'Dried Rosemary',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
+        elementalProperties: createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
         }),
         qualities: ['warming', 'pungent', 'drying'],
         season: ['all'],
@@ -127,7 +125,7 @@ const rawDriedHerbs = {
     },
     'dried_sage': {
         name: 'Dried Sage',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
+        elementalProperties: createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
         }),
         qualities: ['warming', 'drying', 'astringent'],
         season: ['all'],
@@ -161,7 +159,7 @@ const rawDriedHerbs = {
     },
     'dried_bay_leaves': {
         name: 'Dried Bay Leaves',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
+        elementalProperties: createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
         }),
         qualities: ['warming', 'bitter', 'aromatic'],
         season: ['all'],
@@ -191,7 +189,7 @@ const rawDriedHerbs = {
     },
     'dried_marjoram': {
         name: 'Dried Marjoram',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
+        elementalProperties: createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
         }),
         qualities: ['sweet', 'delicate', 'warming'],
         season: ['all'],
@@ -220,7 +218,7 @@ const rawDriedHerbs = {
     },
     'dried_savory': {
         name: 'Dried Savory',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
+        elementalProperties: createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
         }),
         qualities: ['peppery', 'robust', 'aromatic'],
         season: ['all'],
@@ -249,7 +247,7 @@ const rawDriedHerbs = {
     },
     'dried_chervil': {
         name: 'Dried Chervil',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
+        elementalProperties: createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
         }),
         qualities: ['delicate', 'subtle', 'anise-like'],
         season: ['all'],
@@ -278,7 +276,7 @@ const rawDriedHerbs = {
     },
     'dried_tarragon': {
         name: 'Dried Tarragon',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
+        elementalProperties: createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
         }),
         qualities: ['anise-like', 'sweet', 'aromatic'],
         season: ['all'],
@@ -307,7 +305,7 @@ const rawDriedHerbs = {
     },
     'dried_dill': {
         name: 'Dried Dill',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
+        elementalProperties: createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
         }),
         qualities: ['fresh', 'tangy', 'herbaceous'],
         season: ['all'],
@@ -336,7 +334,7 @@ const rawDriedHerbs = {
     },
     'dried_mint': {
         name: 'Dried Mint',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
+        elementalProperties: createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
         }),
         qualities: ['cooling', 'refreshing', 'pungent'],
         season: ['all'],
@@ -370,7 +368,7 @@ const rawDriedHerbs = {
     },
     'dried_fennel': {
         name: 'Dried Fennel',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
+        elementalProperties: createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
         }),
         qualities: ['warming', 'sweet', 'aromatic'],
         season: ['all'],
@@ -404,7 +402,7 @@ const rawDriedHerbs = {
     },
     'dried_parsley': {
         name: 'Dried Parsley',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
+        elementalProperties: createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
         }),
         qualities: ['herbaceous', 'mild', 'fresh'],
         season: ['all'],
@@ -433,7 +431,7 @@ const rawDriedHerbs = {
     },
     'dried_cilantro': {
         name: 'Dried Cilantro',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
+        elementalProperties: createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
         }),
         qualities: ['citrusy', 'warm', 'distinctive'],
         season: ['all'],
@@ -462,7 +460,7 @@ const rawDriedHerbs = {
     },
     'dried_chives': {
         name: 'Dried Chives',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
+        elementalProperties: createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
         }),
         qualities: ['oniony', 'mild', 'delicate'],
         season: ['all'],
@@ -491,7 +489,7 @@ const rawDriedHerbs = {
     },
     'dried_lemon_balm': {
         name: 'Dried Lemon Balm',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
+        elementalProperties: createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
         }),
         qualities: ['lemony', 'mild', 'soothing'],
         season: ['all'],
@@ -525,7 +523,7 @@ const rawDriedHerbs = {
     },
     'dried_lavender': {
         name: 'Dried Lavender',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
+        elementalProperties: createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
         }),
         qualities: ['floral', 'sweet', 'aromatic'],
         season: ['all'],
@@ -559,7 +557,7 @@ const rawDriedHerbs = {
     },
     'dried_summer_savory': {
         name: 'Dried Summer Savory',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
+        elementalProperties: createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
         }),
         qualities: ['peppery', 'robust', 'warming'],
         season: ['all'],
@@ -588,7 +586,7 @@ const rawDriedHerbs = {
     },
     'dried_lovage': {
         name: 'Dried Lovage',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
+        elementalProperties: createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
         }),
         qualities: ['celery-like', 'robust', 'savory'],
         season: ['all'],
@@ -667,6 +665,9 @@ const rawDriedHerbs = {
         }
     }
 };
+
 // Fix the ingredient mappings to ensure they have all required properties
-exports.driedHerbs = (0, elementalUtils_1.fixIngredientMappings)(rawDriedHerbs);
-exports.default = exports.driedHerbs;
+export const driedHerbs = fixIngredientMappings(rawDriedHerbs);
+
+// Default export
+export default driedHerbs;

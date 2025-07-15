@@ -5,12 +5,12 @@ import { _calculatePlanetaryPositions, calculateAspects, longitudeToZodiacPositi
 import { getCurrentSeason } from '@/utils/dateUtils';
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 import { PlanetaryAspect, PlanetaryPositionsMap, CelestialPosition } from '@/types/celestial';
+import { getReliablePlanetaryPositions } from '@/utils/reliableAstronomy';
 
 // Default placeholder for planetary positions
 const getDefaultPlanetaryPositions = () => {
   try {
     // Try to get more accurate positions from reliable astronomy utilities
-    const { getReliablePlanetaryPositions } = require('@/utils/reliableAstronomy');
     const positions = getReliablePlanetaryPositions();
     
     if (positions && Object.keys(positions).length > 0) {

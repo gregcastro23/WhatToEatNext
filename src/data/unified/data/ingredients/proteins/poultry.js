@@ -1,13 +1,10 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.allPoultry = exports.poultry = void 0;
-const elementalUtils_1 = require("../../../utils/elementalUtils");
-const elementalUtils_2 = require("../../../utils/elemental/elementalUtils");
+import { fixIngredientMappings } from "../../../utils/elementalUtils";
+import { createElementalProperties } from "../../../utils/elemental/elementalUtils";
+
 const rawPoultry = {
     'chicken': {
         name: 'Chicken',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
-        }),
+        elementalProperties: createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }),
         astrologicalProfile: {
             rulingPlanets: ['Mercury'],
             favorableZodiac: ['virgo'],
@@ -198,898 +195,67 @@ const rawPoultry = {
             }
         },
         affinities: [
-            'lemon', 'garlic', 'onions', 'thyme', 'rosemary',
-            'sage', 'parsley', 'tarragon', 'ginger', 'soy sauce',
-            'paprika', 'yogurt', 'mustard', 'honey', 'mushrooms'
+            'herbs', 'citrus', 'garlic', 'onions', 'root vegetables',
+            'wine', 'stock', 'butter', 'olive oil', 'spices',
+            'grains', 'legumes', 'vegetables', 'fruits'
         ],
-        substitutions: {
-            'conventional replacements': ['turkey', 'game hen', 'quail', 'rabbit'],
-            'plant-based alternatives': ['tofu', 'seitan', 'tempeh', 'jackfruit']
-        },
-        preparations: {
-            'spatchcocking': {
-                name: 'Spatchcocking',
-                function: 'Faster, more even cooking of whole bird',
-                technique: 'Remove backbone and flatten bird for even cooking surface',
-                benefits: ['Reduces cooking time by 30-40%', 'More even doneness', 'More crispy skin surface']
-            },
-            'deboning': {
-                name: 'Deboning',
-                function: 'Creates uniform pieces for even cooking, easier eating',
-                techniques: {
-                    'butterfly': 'Cutting horizontally through center of breast or thigh',
-                    'supreme': 'Boneless breast with wing drumette attached',
-                    'ballotine': 'Deboned stuffed thigh or whole chicken'
-                }
-            }
-        }
-    },
-    'duck': {
-        name: 'Duck',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
-        }),
-        astrologicalProfile: {
-            rulingPlanets: ['Neptune', 'Venus'],
-            favorableZodiac: ['pisces', 'taurus', 'cancer'],
-            elementalAffinity: {
-                base: 'Water',
-                secondary: 'Fire',
-                decanModifiers: {
-                    first: {},
-                    second: {},
-                    third: { element: 'Earth', planet: 'Saturn' }
-                }
-            },
-            lunarPhaseModifiers: {
-                newmoon: {
-                    elementalBoost: {},
-                    preparationTips: ['Light braises', 'Gentle poaching']
-                },
-                fullmoon: {
-                    elementalBoost: {},
-                    preparationTips: ['Roasting', 'Smoking', 'Curing']
-                }
-            },
-            aspectEnhancers: ['Neptune trine venus', 'Mars sextile jupiter']
-        },
-        qualities: ['rich', 'flavorful', 'fatty', 'succulent', 'warming', 'grounding'],
-        origin: ['Asia', 'Europe', 'Americas'],
-        category: 'protein',
-        subCategory: 'poultry',
-        nutritionalProfile: {
-            serving_size_oz: 3,
-            macronutrients: {
-                protein_per_100g: 19,
-                fat_per_100g: 28,
-                saturated_fat_per_100g: 10.2,
-                calories_per_100g: 337
-            },
-            micronutrients: {
-                rich_in: ['iron', 'selenium', 'zinc', 'vitamin B12', 'niacin'],
-                contains: ['vitamin E', 'phosphorus', 'copper', 'pantothenic acid']
-            },
-            fatty_acids: {
-                monounsaturated: 'High',
-                omega_3: 'Present in wild or pasture-raised ducks',
-                omega_6: 'Moderate'
-            },
-            comparison: {
-                vs_chicken: 'Higher fat content, richer flavor, more minerals',
-                vs_beef: 'Similar iron content, different fat profile',
-                vs_pork: 'Comparable richness, distinct gamey notes'
-            }
-        },
-        healthBenefits: {
-            'blood_health': {
-                benefit: 'Blood Health',
-                nutrients: ['iron', 'vitamin B12'],
-                mechanism: 'Supports red blood cell production and oxygen transport'
-            },
-            'immune_function': {
-                benefit: 'Immune Support',
-                nutrients: ['zinc', 'selenium'],
-                mechanism: 'Mineral cofactors for immune enzymatic reactions'
-            },
-            'energy_production': {
-                benefit: 'Energy Metabolism',
-                nutrients: ['B vitamins', 'iron'],
-                mechanism: 'Crucial for cellular energy production pathways'
-            },
-            'skin_health': {
-                benefit: 'Skin Health',
-                nutrients: ['vitamin E', 'fatty acids'],
-                mechanism: 'Supports skin integrity and moisture retention'
-            }
-        },
-        varieties: {
-            'pekin': {
-                name: 'Pekin (White Duck)',
-                characteristics: 'Mild flavor, tender meat, white feathers',
-                origin: 'China',
-                best_for: 'Roasting whole, Peking duck preparation',
-                notes: 'Most common commercial variety'
-            },
-            'muscovy': {
-                name: 'Muscovy',
-                characteristics: 'Leaner, more red meat, stronger flavor',
-                origin: 'South America',
-                best_for: 'Breast preparations, aging, curing',
-                notes: 'Not a true duck (different genus), less fatty than other varieties'
-            },
-            'mallard': {
-                name: 'Mallard',
-                characteristics: 'Gamey, rich dark meat, wild flavor',
-                origin: 'Northern Hemisphere',
-                best_for: 'Traditional wild preparations, slow cooking',
-                notes: 'Ancestor of most domestic ducks, often hunted wild'
-            },
-            'rouen': {
-                name: 'Rouen',
-                characteristics: 'Rich flavor, similar to mallard, large size',
-                origin: 'France',
-                best_for: 'Traditional French preparations, confits',
-                notes: 'Heritage breed, prized in French cuisine'
-            },
-            'moulard': {
-                name: 'Moulard',
-                characteristics: 'Large size, meaty breast, excellent liver',
-                origin: 'Hybrid of Pekin and Muscovy',
-                best_for: 'Foie gras production, magret (duck breast)',
-                notes: 'Sterile hybrid, raised specifically for foie gras and large breasts'
-            }
-        },
-        cuts: {
-            'whole': {
-                name: 'Whole Duck',
-                characteristics: 'Complete bird, skin-on, bone-in',
-                cooking_methods: ['roast', 'smoke', 'braise'],
-                internal_temp: {
-                    breast: {},
-                    leg: { fahrenheit: 165, celsius: 74 }
-                },
-                preparation_notes: 'Often roasted with aromatics in cavity',
-                rendered_fat_yield: 'Approximately 1 cup per 5-6 pound duck'
-            },
-            'breast': {
-                name: 'Duck Breast (Magret)',
-                characteristics: 'Rich, tender, red meat with thick fat cap',
-                cooking_methods: ['pan-sear', 'grill', 'smoke', 'cure'],
-                internal_temp: {
-                    rare: {},
-                    medium_rare: {},
-                    medium: { fahrenheit: 145, celsius: 63 }
-                },
-                preparation_notes: 'Score fat in diamond pattern, render slowly skin-side down',
-                sear_technique: 'Begin cold pan to render fat, finish in oven if thick'
-            },
-            'leg': {
-                name: 'Duck Leg',
-                characteristics: 'Dark meat, high fat content, rich flavor',
-                cooking_methods: ['confit', 'braise', 'roast', 'grill'],
-                internal_temp: {},
-                preparation_notes: 'Benefits from slow cooking methods',
-                best_uses: ['confit', 'rillettes', 'stews', 'cassoulet']
-            },
-            'liver': {
-                name: 'Duck Liver',
-                characteristics: 'Rich, creamy texture, intense flavor',
-                cooking_methods: ['sauté', 'terrine', 'pâté', 'mousse'],
-                internal_temp: {},
-                doneness: 'Pink interior for best texture and flavor',
-                foie_gras: 'Specially fattened liver, controversial production methods'
-            },
-            'offal': {
-                name: 'Duck Offal',
-                types: ['heart', 'gizzard', 'neck', 'feet'],
-                cooking_methods: ['braise', 'confit', 'stock'],
-                cultural_significance: 'Prized in Chinese, French, and nose-to-tail cooking',
-                flavor_profile: 'Intensely ducky, mineral-rich'
-            }
-        },
-        culinaryApplications: {
-            'roasting': {
-                name: 'Roasting',
-                'whole_duck': {
-                    name: 'Whole Roasted Duck',
-                    preparation: {
-                        prep_techniques: {
-                            pricking: 'Pierce skin all over without cutting into meat',
-                            blanching: 'Optional step to tighten skin and begin fat rendering',
-                            drying: 'Air dry uncovered in refrigerator 12-24 hours for crispy skin'
-                        },
-                        aromatics: ['orange', 'star anise', 'ginger', 'garlic', 'thyme'],
-                        basting: 'Optional brushing with honey-soy mixture during last 20 minutes'
-                    },
-                    cooking: {
-                        temperature: {
-                            initial: {},
-                            main: { fahrenheit: 350, celsius: 175 }
-                        },
-                        position: 'Elevate on rack to allow fat to drain',
-                        timing: '20 minutes per pound, about 1.5-2 hours for 5-pound duck',
-                        basting: 'Optional, using rendered fat every 30 minutes'
-                    },
-                    serving: {
-                        resting: '15-20 minutes',
-                        carving: 'Remove legs first, then breast, slice breast against grain',
-                        accompaniments: ['cherry sauce', 'orange glaze', 'plum sauce']
-                    }
-                },
-                'breast_only': {
-                    name: 'Pan-roasted Duck Breast',
-                    technique: {
-                        scoring: 'Score fat in diamond pattern without cutting meat',
-                        fat_rendering: 'Begin in cold pan, skin side down, render slowly',
-                        cooking: 'Turn once skin is crispy, finish to preferred doneness',
-                        resting: '5-10 minutes before slicing'
-                    },
-                    internal_temps: {
-                        rare: {},
-                        medium_rare: {},
-                        medium: { fahrenheit: 145, celsius: 63 }
-                    },
-                    serving: {
-                        slicing: 'Thin slices across the grain',
-                        sauce_pAirings: ['cherry', 'orange', 'blackberry', 'port wine']
-                    }
-                }
-            },
-            'confit': {
-                name: 'Duck Confit',
-                description: 'Salt-cured duck slowly cooked in its own fat',
-                preparation: {
-                    curing: {
-                        salt_mixture: ['salt', 'pepper', 'thyme', 'bay leaf', 'garlic'],
-                        curing_time: '24-48 hours refrigerated',
-                        post_cure: 'Rinse and pat dry'
-                    },
-                    cooking: {
-                        fat: 'Duck fat, enough to fully submerge pieces',
-                        temperature: {},
-                        time: '3-4 hours until meat is tender and falling off bone',
-                        storage: 'Can be stored in fat for several weeks refrigerated'
-                    }
-                },
-                serving_suggestions: {
-                    traditional: ['Cassoulet', 'Served with lentils', 'With sautéed potatoes'],
-                    modern: ['Shredded in salads', 'In tacos', 'On pizza']
-                }
-            },
-            'peking_duck': {
-                name: 'Peking Duck',
-                description: 'Traditional Chinese preparation focused on crispy skin',
-                preparation: {
-                    pre_cooking: {
-                        Air_pumping: 'Separate skin from meat with Air',
-                        blanching: 'Pour boiling water over duck to tighten skin',
-                        coating: 'Brush with maltose or honey solution',
-                        drying: '24-48 hours hanging in cool, dry place'
-                    },
-                    cooking: {
-                        traditional: 'Hang in special oven with fruit wood',
-                        home_method: 'Roast at high heat (425°F / (220 || 1)°C) then lower (350°F / (175 || 1)°C)',
-                        internal_temp: {},
-                        appearance: 'Lacquered, deep mahogany color'
-                    }
-                },
-                serving: {
-                    traditional_service: {
-                        components: ['Thin pancakes', 'Scallions', 'Cucumber', 'Hoisin sauce'],
-                        three_stage_meal: {
-                            first: 'Skin only, dipped in sugar',
-                            second: 'Meat with pancakes and condiments',
-                            third: 'Carcass for soup'
-                        }
-                    }
-                }
-            },
-            'duck_prosciutto': {
-                name: 'Duck Prosciutto',
-                description: 'Salt-cured, Air-dried duck breast',
-                preparation: {
-                    curing: {
-                        salt_mixture: ['kosher salt', 'sugar', 'herbs', 'spices'],
-                        process: 'Coat breast in salt mixture for 24-48 hours',
-                        weight: 'Weight should be recorded to monitor moisture loss'
-                    },
-                    drying: {
-                        washing: 'Rinse salt mixture off thoroughly',
-                        wrapping: 'Wrap in cheesecloth',
-                        hanging: 'Hang in cool (50-60°F / (10 || 1)-15°C), humid place for 2-3 weeks',
-                        doneness: 'Firm to touch, loss of 30% original weight'
-                    }
-                },
-                food_safety: {
-                    curing_salt: 'Optional for longer preservation',
-                    contamination: 'Monitor for off smells or discoloration',
-                    storage: 'Refrigerate after drying process is complete'
-                },
-                serving: 'Thinly sliced as part of charcuterie board or antipasto'
-            }
-        },
-        regionalPreparations: {
-            'chinese': {
-                name: 'Chinese',
-                'peking_duck': {
-                    name: 'Peking Duck',
-                    significance: 'Imperial dish dating back to Ming Dynasty',
-                    preparation: 'Complex multi-day process for perfect skin',
-                    serving: 'Multi-course presentation featuring skin, meat, and bones'
-                },
-                'tea_smoked': {
-                    name: 'Tea-Smoked Duck',
-                    origin: 'Sichuan Province',
-                    preparation: 'Marinated, partially steamed, then smoked with tea leaves',
-                    flavor_profile: 'Smoky, fragrant, with tea undertones'
-                },
-                'salted_duck_egg': {
-                    name: 'Salted Duck Egg',
-                    preparation: 'Duck eggs preserved in brine or packed in salted charcoal',
-                    usage: 'Condiment, flavoring for congee, Moon cake filling',
-                    significance: 'Traditional preserving technique'
-                }
-            },
-            'thai': {
-                name: 'Thai',
-                'ped_yang': {
-                    name: 'Ped Yang (Thai Roast Duck)',
-                    preparation: 'Marinated, roasted, often with five spice',
-                    serving: 'With rice and sweet sauce',
-                    variations: 'Regional differences in marinade and sauce'
-                },
-                'gaeng_pet': {
-                    name: 'Gaeng Pet (Duck Curry)',
-                    preparation: 'Duck simmered in red curry with pineapple and vegetables',
-                    flavor_profile: 'Spicy, sweet, rich',
-                    regional_variations: 'Central Thai version vs. Northern style'
-                }
-            }
-        },
-        seasonality: {
-            'wild_duck': {
-                hunting_season: 'Fall / (Winter || 1) in most regions',
-                flavor_notes: 'More pronounced in fall after summer feeding',
-                pAiring_suggestions: 'Fall fruits, root vegetables, hearty grains'
-            },
-            'farmed_duck': {
-                availability: 'Year-round',
-                seasonal_dishes: {
-                    spring: ['Duck salad with spring vegetables', 'Duck with asparagus'],
-                    summer: ['Grilled duck with summer fruits', 'Duck confit salad'],
-                    fall: ['Duck with wild mushrooms', 'Duck with squash'],
-                    winter: ['Cassoulet', 'Duck with root vegetables']
-                }
-            }
-        },
-        substitutions: {
-            'for_duck': ['Goose (richer)', 'Dark meat chicken (milder)', 'Turkey thigh (leaner)'],
-            'duck_fat_alternatives': ['Chicken fat', 'Pork fat', 'Beef tallow', 'Olive oil (different flavor)'],
-            'for_rendered_duck_fat': 'Ghee or lard for similar high smoke point'
-        },
-        sustainability: {
-            'conventional': {
-                feed_conversion: 'Less efficient than chicken',
-                waste_management: 'Higher environmental impacts if not managed properly',
-                water_usage: 'Higher than chicken due to aquatic nature'
-            },
-            'pasture_raised': {
-                benefits: ['Natural foraging behavior', 'Pest management', 'Integration with crops'],
-                considerations: 'Higher cost, seasonal fluctuations in quality'
-            },
-            'heritage_breeds': {
-                biodiversity: 'Conservation of genetic diversity',
-                challenges: 'Lower production yields, specialty markets required',
-                benefits: 'Adaptation to local conditions, distinctive flavors'
-            },
-            'by_products': {
-                feathers: 'Down for insulation products',
-                fat: 'Culinary gold, shelf-stable cooking medium',
-                eggs: 'Richer than chicken eggs, prized for baking'
-            }
-        },
-        storage: {
-            'frozen': {
-                whole: 'Up to 6 months',
-                parts: 'Up to 4 months',
-                preparation: 'Wrap tightly to prevent freezer burn',
-                thawing: 'In refrigerator 24 hours for whole duck, 12 hours for parts'
-            },
-            'rendered_fat': {
-                refrigerated: 'Up to 6 months in sealed container',
-                frozen: 'Up to 1 year',
-                signs_of_spoilage: 'Off smell, mold, change in texture'
-            }
-        },
-        food_safety: {
-            'handling': {
-                cross_contamination: 'Separate preparation area from ready-to-eat foods',
-                hand_washing: 'Before and after handling raw duck',
-                cutting_boards: 'Dedicated board for poultry or thorough sanitation'
-            },
-            'cooking': {
-                minimum_temp: {
-                    safety: {},
-                    preference: { breast: { fahrenheit: 135, celsius: 57 }, legs: { fahrenheit: 165, celsius: 74 } }
-                },
-                carryover_cooking: 'Temperature will rise 5-10°F during resting',
-                resting: 'Essential for juiciness and temperature equilibration'
-            },
-            'wild_duck': {
-                inspection: 'Check carefully for shot pellets',
-                parasites: 'Freeze wild duck at 0°F (-18°C) for at least 7 days before consumption',
-                game_handling: 'Proper field dressing and cooling essential'
-            }
+        pAirings: ['lemon', 'garlic', 'herbs', 'wine', 'butter', 'olive_oil'],
+        substitutions: ['turkey', 'pork', 'fish', 'tofu'],
+        idealSeasonings: {
+            savory: ['thyme', 'rosemary', 'sage', 'garlic', 'lemon', 'black_pepper'],
+            sweet: ['honey', 'maple', 'orange', 'cinnamon']
         }
     },
     'turkey': {
         name: 'Turkey',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
-        }),
-        astrologicalProfile: {
-            rulingPlanets: ['Jupiter', 'Mercury'],
-            favorableZodiac: ['sagittarius', 'gemini', 'capricorn'],
-            elementalAffinity: {
-                base: 'Earth',
-                secondary: 'Water',
-                decanModifiers: {
-                    first: {},
-                    second: {},
-                    third: { element: 'Air', planet: 'Jupiter' }
-                }
-            },
-            lunarPhaseModifiers: {
-                newmoon: {
-                    elementalBoost: {},
-                    preparationTips: ['Brining', 'Light herb preparations']
-                },
-                fullmoon: {
-                    elementalBoost: {},
-                    preparationTips: ['Smoking', 'Spicy rubs', 'Celebratory roasts']
-                }
-            },
-            aspectEnhancers: ['Jupiter trine saturn', 'Mercury in capricornCapricorn']
-        },
-        qualities: ['lean', 'mild', 'versatile', 'hearty', 'grounding'],
-        origin: ['Americas', 'Native to North America'],
-        category: 'protein',
-        subCategory: 'poultry',
-        nutritionalProfile: {
-            serving_size_oz: 3,
-            macronutrients: {
-                protein_per_100g: 29,
-                fat_per_100g: 7,
-                saturated_fat_per_100g: 2.4,
-                calories_per_100g: 189
-            },
-            micronutrients: {
-                rich_in: ['niacin', 'vitamin B6', 'selenium', 'phosphorus', 'zinc'],
-                contains: ['magnesium', 'potassium', 'iron', 'vitamin B12']
-            },
-            amino_acids: ['tryptophan', 'threonine', 'isoleucine', 'leucine'],
-            comparison: {
-                vs_chicken: 'higher protein, slightly higher calories',
-                vs_beef: 'lower fat, higher protein per calorie'
-            }
-        },
-        healthBenefits: {
-            'immune_support': {
-                benefit: 'Immune System Support',
-                nutrients: ['zinc', 'selenium'],
-                mechanism: 'Essential minerals support white blood cell function'
-            },
-            'muscle_building': {
-                benefit: 'Muscle Development',
-                nutrients: ['complete protein', 'B vitamins'],
-                mechanism: 'High-quality protein supports muscle synthesis'
-            },
-            'heart_health': {
-                benefit: 'Heart Health',
-                nutrients: ['lean protein', 'low saturated fat'],
-                mechanism: 'Supports healthy cholesterol levels when substituted for fattier meats'
-            },
-            'energy_metabolism': {
-                benefit: 'Energy Production',
-                nutrients: ['niacin', 'B6', 'B12'],
-                mechanism: 'B vitamins essential for converting food to energy'
-            },
-            'mood_regulation': {
-                benefit: 'Mood Support',
-                nutrients: ['tryptophan'],
-                mechanism: 'Precursor to serotonin production'
-            }
-        },
+        elementalProperties: createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }),
+        qualities: ['lean', 'mild', 'versatile', 'traditional'],
+        category: 'poultry',
+        origin: ['North America', 'domesticated from wild turkey'],
         varieties: {
+            'young_tom': {
+                name: 'Young Tom',
+                characteristics: 'young male, tender meat, 12-16 pounds',
+                best_cooking_methods: ['roasting', 'grilling', 'smoking'],
+                notes: 'Most common commercial turkey'
+            },
+            'hen': {
+                name: 'Hen',
+                characteristics: 'young female, smaller size, 8-12 pounds',
+                best_cooking_methods: ['roasting', 'grilling'],
+                notes: 'More tender than toms, good for smaller gatherings'
+            },
             'heritage': {
                 name: 'Heritage',
-                characteristics: 'Richer flavor, more fat, smaller size',
-                breeds: ['Bourbon Red', 'Narragansett', 'Black Spanish'],
-                best_for: 'special occasions, superior flavor',
-                cooking_notes: 'Cooks faster than commercial breeds'
-            },
-            'broad_breasted_white': {
-                name: 'Broad Breasted White',
-                characteristics: 'Large breast meat, mild flavor, commercial standard',
-                best_for: 'economical feeding of large groups',
-                cooking_notes: 'Prone to dryness, benefits from brining'
-            },
-            'whole': {
-                name: 'Whole',
-                weight: '10-24 lbs',
-                characteristics: 'traditional roasting bird',
-                best_for: 'holiday meals',
-                optimal_size: '12-14 lbs for balanced cooking'
-            },
-            'breast': {
-                name: 'Breast',
-                weight: '4-8 lbs',
-                characteristics: 'white meat only',
-                best_for: 'smaller gatherings',
-                cooking_challenge: 'preventing dryness'
+                characteristics: 'traditional breeds, more flavorful, smaller size',
+                examples: ['Bourbon Red', 'Narragansett', 'Standard Bronze'],
+                notes: 'Often pasture-raised with more complex flavor'
             }
         },
         cuts: {
+            'whole': {
+                name: 'Whole',
+                characteristics: 'traditional presentation, requires careful cooking',
+                cooking_methods: ['roast', 'smoke', 'deep fry'],
+                internal_temp: { fahrenheit: 165, celsius: 74 }
+            },
             'breast': {
                 name: 'Breast',
-                characteristics: 'lean white meat, very low fat',
-                cooking_methods: ['roast', 'smoke', 'grill', 'sous vide'],
-                internal_temp: {},
-                doneness_notes: 'Can be cooked to 160°F if rested properly',
-                common_pitfalls: 'Overcooking, lack of brining'
+                characteristics: 'lean, quick-cooking',
+                cooking_methods: ['roast', 'grill', 'pan-sear'],
+                internal_temp: { fahrenheit: 155, celsius: 68 }
             },
             'thigh': {
                 name: 'Thigh',
-                characteristics: 'dark meat, more flavor, higher fat content',
-                cooking_methods: ['braise', 'roast', 'grill', 'smoke'],
-                internal_temp: {},
-                texture_profile: 'Tender when cooked properly, rich mouthfeel',
-                substitution_notes: 'Good chicken thigh substitute'
-            },
-            'drumstick': {
-                name: 'Drumstick',
-                characteristics: 'dark meat, distinctive shape, economical',
-                cooking_methods: ['braise', 'roast', 'grill', 'smoke', 'fry'],
-                internal_temp: {},
-                best_for: 'casual dining, kid-friendly meals'
+                characteristics: 'more flavor, higher fat content',
+                cooking_methods: ['roast', 'grill', 'braise'],
+                internal_temp: { fahrenheit: 165, celsius: 74 }
             },
             'wing': {
                 name: 'Wing',
-                characteristics: 'larger than chicken wings, balanced meat-to-bone ratio',
-                cooking_methods: ['smoke', 'braise', 'grill', 'fry'],
-                flavor_affinity: 'Takes well to strong flavors and spices',
-                portion_size: 'Typically 2-3 per person as appetizer'
-            },
-            'ground': {
-                name: 'Ground Turkey',
-                characteristics: 'versatile, lean alternative to beef',
-                cooking_methods: ['sauté', 'burgers', 'meatballs', 'chili'],
-                internal_temp: {},
-                fat_content_options: ['99% lean', '93% lean', '85% lean'],
-                best_practices: 'Add fat for burgers, avoid overcooking'
-            },
-            'whole': {
-                name: 'Whole',
-                characteristics: 'mix of white and dark meat, ceremonial presentation',
-                cooking_methods: ['roast', 'smoke', 'deep-fry'],
-                internal_temp: {
-                    breast: {},
-                    thigh: { fahrenheit: 175, celsius: 79 }
-                },
-                resting_time: '30-45 minutes tented with foil'
-            }
-        },
-        culinaryApplications: {
-            'roasting': {
-                name: 'Roasting',
-                'traditional': {
-                    name: 'Traditional',
-                    preparation: {
-                        brining: {
-                            wet: '1 cup salt, 1 cup sugar per gallon water for 12-24 hours',
-                            dry: '1 tbsp salt per 5 lbs, refrigerate uncovered 24-48 hours'
-                        },
-                        cavity: ['lemon', 'onion', 'herbs', 'aromatics'],
-                        skin: ['butter', 'herbs', 'salt', 'pepper']
-                    },
-                    method: {
-                        temperature: {
-                            initial: {},
-                            cooking: { fahrenheit: 325, celsius: 165 }
-                        },
-                        timing: '13 minutes per pound unstuffed, 15 minutes stuffed',
-                        basting: 'Every 45 minutes after first hour',
-                        techniques: {
-                            tent_with_foil: 'If browning too quickly',
-                            upside_down: 'Start breast-down for juicier results',
-                            stuffing_alternatives: 'Aromatics only for faster cooking'
-                        }
-                    },
-                    troubleshooting: {
-                        dry_breast: 'Brine longer, cook to lower temperature, rest properly',
-                        undercooked_thighs: 'Shield breast with foil to cook thighs longer',
-                        uneven_cooking: 'Let turkey come to room temperature before roasting'
-                    }
-                },
-                'spatchcock': {
-                    name: 'Spatchcock',
-                    preparation: {
-                        method: 'Remove backbone and flatten',
-                        advantages: ['Faster cooking', 'More even doneness', 'More crispy skin'],
-                        tools_needed: ['Poultry shears', 'Heavy knife', 'Rimmed baking sheet']
-                    },
-                    cooking: {
-                        temperature: {},
-                        timing: '6-7 minutes per pound',
-                        surface: 'Wire rack over rimmed baking sheet',
-                        advantages: 'No turning or basting required'
-                    }
-                },
-                'butter_blanket': {
-                    name: 'Butter-Blanket Method',
-                    preparation: {
-                        compound_butter: ['Herbs', 'Garlic', 'Citrus zest'],
-                        application: 'Place thin slices under skin directly on meat'
-                    },
-                    cooking: {
-                        base_temp: {},
-                        advantages: 'Self-basting effect, enhanced flavor penetration'
-                    }
-                }
-            },
-            'smoking': {
-                name: 'Smoking',
-                preparation: {
-                    brine: 'Recommended for moisture retention',
-                    rub: ['Paprika', 'Brown sugar', 'Salt', 'Pepper', 'Garlic powder'],
-                    wood_pAirings: {
-                        mild: ['Apple', 'Cherry', 'Peach'],
-                        medium: ['Hickory', 'Maple', 'Oak'],
-                        strong: ['Mesquite']
-                    }
-                },
-                method: {
-                    temperature: {},
-                    timing: '30-40 minutes per pound',
-                    target_internal_temp: {},
-                    rest_time: '20-30 minutes'
-                }
-            },
-            'braising': {
-                name: 'Braising',
-                best_for: ['Legs', 'Thighs', 'Wings'],
-                'turkey_legs_red_wine': {
-                    name: 'Red Wine Braised Turkey Legs',
-                    preparation: {
-                        sear: 'Brown all sides in hot oil',
-                        aromatics: ['Mirepoix', 'Garlic', 'Herbs']
-                    },
-                    liquid: {
-                        base: ['Red wine', 'Stock'],
-                        ratio: '1:2 wine to stock',
-                        level: 'Half to two-thirds up the meat'
-                    },
-                    cooking: {
-                        temperature: {},
-                        timing: '2-3 hours until fall-off-bone tender',
-                        vessel: 'Dutch oven or covered roasting pan'
-                    }
-                }
-            },
-            'ground_applications': {
-                name: 'Ground Turkey Applications',
-                'burgers': {
-                    name: 'Turkey Burgers',
-                    challenges: 'Preventing dryness and bland flavor',
-                    solutions: {
-                        fat_addition: ['Olive oil', 'Butter', 'Ricotta cheese'],
-                        flavor_boosters: ['Umami-rich ingredients', 'Herbs', 'Spices'],
-                        binding: ['Egg', 'Breadcrumbs soaked in milk']
-                    },
-                    cooking: {
-                        temp: 'Medium-high heat',
-                        technique: 'Form patties loosely, make indentation in center',
-                        doneness: 'Internal temperature 165°F / (74 || 1)°C'
-                    }
-                },
-                'meatballs': {
-                    name: 'Turkey Meatballs',
-                    preparation: {
-                        base_mix: ['Ground turkey', 'Breadcrumbs', 'Egg', 'Aromatics'],
-                        flavor_principles: 'Balance lean meat with moisture and fat',
-                        techniques: 'Mix gently, refrigerate before cooking'
-                    },
-                    cooking_methods: ['Bake', 'Pan-fry then simmer in sauce', 'Steam'],
-                    sauce_pAirings: ['Tomato', 'Mushroom cream', 'Swedish style', 'Asian-inspired']
-                }
-            }
-        },
-        regionalPreparations: {
-            'american': {
-                name: 'American',
-                'thanksgiving': {
-                    name: 'Thanksgiving Roast',
-                    cultural_significance: 'Central to national holiday celebration',
-                    typical_accompaniments: ['Cranberry sauce', 'Gravy', 'Stuffing / (dressing || 1)', 'Sweet potatoes'],
-                    preparation: 'Typically roasted whole, often brined'
-                }
-            },
-            'mexican': {
-                name: 'Mexican',
-                'mole_poblano': {
-                    name: 'Pavo en Mole Poblano',
-                    sauce: 'Complex sauce with chocolate, chilies, nuts, and spices',
-                    serving: 'Often served for special occasions and celebrations',
-                    preparation: 'Turkey pieces braised in mole sauce'
-                }
-            },
-            'middle_eastern': {
-                name: 'Middle Eastern',
-                'turkish_style': {
-                    name: 'Turkish-style Roasted Turkey',
-                    preparation: 'Stuffed with rice, nuts, dried fruits, herbs',
-                    spices: ['Allspice', 'Cinnamon', 'Cumin', 'Coriander'],
-                    serving: 'Over rice pilaf with pine nuts'
-                }
-            }
-        },
-        seasonality: {
-            'peak_availability': {
-                fresh_whole: 'November-December',
-                parts: 'Year-round',
-                heritage: 'Fall months by pre-order'
-            },
-            'seasonal_dishes': {
-                spring: ['Turkey salads', 'Grilled turkey tenderloins'],
-                summer: ['Smoked turkey', 'Turkey burgers'],
-                fall: ['Traditional roast turkey', 'Turkey soup'],
-                winter: ['Turkey pot pie', 'Turkey tetrazzini']
-            }
-        },
-        substitutions: {
-            'for_chicken': 'Direct substitution with adjusted cooking times',
-            'for_beef': 'In ground applications with added fat',
-            'vegetarian_options': ['Seitan', 'Tofu', 'Mushroom-based alternatives'],
-            'similar_taste_profile': 'Chicken with deeper flavor notes'
-        },
-        sustainability: {
-            'conventional': {
-                environmental_impact: 'Lower than beef, higher than plant proteins',
-                water_usage: 'Moderate compared to other animal proteins',
-                feed_conversion: 'More efficient than beef, less than chicken'
-            },
-            'pasture_raised': {
-                benefits: ['Improved animal welfare', 'Enhanced flavor', 'Ecosystem services'],
-                considerations: 'Higher price point, seasonal availability'
-            },
-            'heritage_breeds': {
-                conservation_value: 'Preserves genetic diversity',
-                challenges: 'Higher cost, less meat yield',
-                flavor_advantage: 'Superior taste and texture'
-            }
-        },
-        storage: {
-            'frozen': {
-                whole: 'Up to 12 months',
-                parts: '9 months',
-                ground: '3-4 months',
-                thawing: {
-                    refrigerator: '24 hours per 4-5 pounds',
-                    cold_water: '30 minutes per pound, change water every 30 minutes',
-                    do_not: 'Never thaw at room temperature'
-                }
-            }
-        },
-        food_safety: {
-            'handling': {
-                cross_contamination: 'Use separate cutting boards and utensils',
-                hand_washing: 'Before and after handling raw turkey',
-                sanitizing: 'Disinfect all surfaces after contact with raw turkey'
-            },
-            'leftovers': {
-                cooling: 'Refrigerate within 2 hours of cooking',
-                reheating: 'To at least 165°F (74°C)',
-                maximum_storage: 'Consume within 3-4 days'
-            }
-        }
-    },
-    'quail': {
-        name: 'Quail',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
-        }),
-        qualities: ['delicate', 'gamey', 'tender'],
-        origin: ['Global'],
-        category: 'protein',
-        subCategory: 'poultry',
-        varieties: {
-            'jumbo': {
-                name: 'Jumbo',
-                weight: '7-9 oz',
-                characteristics: 'larger, meatier',
-                best_for: 'stuffing, roasting'
-            }
-        },
-        cuts: {
-            'whole': {
-                name: 'Whole',
-                characteristics: 'small, tender bird',
-                cooking_methods: ['grill', 'roast', 'pan-sear'],
+                characteristics: 'high in collagen, good for stock',
+                cooking_methods: ['fry', 'grill', 'braise'],
                 internal_temp: { fahrenheit: 165, celsius: 74 }
-            },
-            'breast': {
-                name: 'Breast',
-                characteristics: 'lean, quick-cooking',
-                cooking_methods: ['pan-sear', 'grill'],
-                internal_temp: { fahrenheit: 155, celsius: 68 }
-            }
-        },
-        culinaryApplications: {
-            'grilling': {
-                name: 'Grilling',
-                'spatchcock': {
-                    name: 'Spatchcock',
-                    preparation: {
-                        method: 'butterfly and flatten',
-                        marinade: ['olive oil', 'herbs', 'garlic'],
-                        timing: '2-4 hours'
-                    },
-                    cooking: {
-                        temperature: 'high heat',
-                        timing: '4-5 minutes per side',
-                        finish: 'rest 5 minutes'
-                    }
-                }
-            },
-            'stuffed': {
-                name: 'Stuffed',
-                preparation: {
-                    stuffing: ['wild rice', 'herbs', 'dried fruits'],
-                    trussing: 'secure with twine'
-                },
-                cooking: {
-                    temperature: {},
-                    timing: '20-25 minutes total'
-                }
-            }
-        },
-        regionalPreparations: {
-            'japanese': {
-                name: 'Japanese',
-                'yakitori': {
-                    name: 'Yakitori',
-                    method: 'skewered and grilled',
-                    sauce: 'tare glaze',
-                    service: 'with scallions'
-                }
-            }
-        }
-    },
-    'guinea_fowl': {
-        name: 'Guinea Fowl',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
-        }),
-        qualities: ['gamey', 'lean', 'flavorful'],
-        origin: ['Africa', 'Europe'],
-        category: 'protein',
-        subCategory: 'poultry',
-        varieties: {
-            'pearl': {
-                name: 'Pearl',
-                weight: '2-4 lbs',
-                characteristics: 'spotted feathers, lean meat',
-                best_for: 'roasting, braising'
-            }
-        },
-        cuts: {
-            'whole': {
-                name: 'Whole',
-                characteristics: 'lean, flavorful bird',
-                cooking_methods: ['roast', 'braise', 'grill'],
-                internal_temp: { fahrenheit: 165, celsius: 74 }
-            },
-            'breast': {
-                name: 'Breast',
-                characteristics: 'lean, quick-cooking',
-                cooking_methods: ['pan-sear', 'grill', 'roast'],
-                internal_temp: { fahrenheit: 160, celsius: 71 }
             }
         },
         culinaryApplications: {
@@ -1135,8 +301,7 @@ const rawPoultry = {
     },
     'pheasant': {
         name: 'Pheasant',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
-        }),
+        elementalProperties: createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }),
         qualities: ['gamey', 'lean', 'elegant'],
         origin: ['Europe', 'Asia'],
         category: 'protein',
@@ -1213,8 +378,7 @@ const rawPoultry = {
     },
     'partridge': {
         name: 'Partridge',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
-        }),
+        elementalProperties: createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }),
         qualities: ['delicate', 'gamey', 'small'],
         origin: ['Europe', 'Middle East'],
         category: 'protein',
@@ -1290,8 +454,11 @@ const rawPoultry = {
         }
     }
 };
+
 // Fix the ingredient mappings to ensure they have all required properties
-exports.poultry = (0, elementalUtils_1.fixIngredientMappings)(rawPoultry);
+export const poultry = fixIngredientMappings(rawPoultry);
+
 // Create a collection of all poultry items
-exports.allPoultry = Object.values(exports.poultry);
-exports.default = exports.poultry;
+export const allPoultry = Object.values(poultry);
+
+export default poultry;

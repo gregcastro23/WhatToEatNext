@@ -1172,4 +1172,5 @@ export const korean = {
     },
     elementalProperties: { Fire: 1.00, Water: 0.00, Earth: 0.00, Air: 0.00 }
 };
-exports.default = exports.korean;
+
+export default korean;

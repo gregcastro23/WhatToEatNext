@@ -565,13 +565,14 @@ export const RecipeGrid: React.FC<RecipeGridProps> = ({
           case 'seasonal':
             comparison = getSeasonalScore(b) - getSeasonalScore(a);
             break;
-          case 'calories':
+          case 'calories': {
             const aRecord = a as Record<string, unknown>;
             const bRecord = b as Record<string, unknown>;
             const aNutrition = aRecord.nutrition as Record<string, unknown>;
             const bNutrition = bRecord.nutrition as Record<string, unknown>;
             comparison = ((aNutrition?.calories as number) || 0) - ((bNutrition?.calories as number) || 0);
             break;
+          }
           case 'difficulty':
             comparison = ((aRecord.difficulty as number) || 1) - ((bRecord.difficulty as number) || 1);
             break;

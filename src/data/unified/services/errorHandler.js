@@ -1,10 +1,7 @@
-"use strict";
 /**
  * Error Handler Service
  * Centralized error handling and logging
  */
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.logTypeError = exports.trackExecution = exports.safeExecuteWithContext = exports.safePropertyAccess = exports.safeValue = exports.errorHandler = exports.ErrorHandler = exports.ErrorSeverity = exports.ErrorType = void 0;
 // Simple logger functionality
 const logError = (message, data) => {
     // console.error(`[ERROR] ${message}`, data);
@@ -16,24 +13,22 @@ const logInfo = (message, data) => {
     // console.info(`[INFO] ${message}`, data);
 };
 // Error types
-let ErrorType;
-(function (ErrorType) {
-    ErrorType["UI"] = "UI";
-    ErrorType["API"] = "API";
-    ErrorType["DATA"] = "DATA";
-    ErrorType["NETWORK"] = "NETWORK";
-    ErrorType["ASTROLOGY"] = "ASTROLOGY";
-    ErrorType["UNKNOWN"] = "UNKNOWN";
-})(ErrorType || (exports.ErrorType = ErrorType = {}));
+export const ErrorType = {
+    UI: "UI",
+    API: "API",
+    DATA: "DATA",
+    NETWORK: "NETWORK",
+    ASTROLOGY: "ASTROLOGY",
+    UNKNOWN: "UNKNOWN"
+};
 // Error severity levels
-let ErrorSeverity;
-(function (ErrorSeverity) {
-    ErrorSeverity["INFO"] = "INFO";
-    ErrorSeverity["WARNING"] = "WARNING";
-    ErrorSeverity["ERROR"] = "ERROR";
-    ErrorSeverity["CRITICAL"] = "CRITICAL";
-    ErrorSeverity["FATAL"] = "FATAL";
-})(ErrorSeverity || (exports.ErrorSeverity = ErrorSeverity = {}));
+export const ErrorSeverity = {
+    INFO: "INFO",
+    WARNING: "WARNING",
+    ERROR: "ERROR",
+    CRITICAL: "CRITICAL",
+    FATAL: "FATAL"
+};
 class ErrorHandlerService {
     /**
      * Handle an error with additional context (alias for log method)
@@ -168,11 +163,10 @@ class ErrorHandlerService {
     }
 }
 // Create singleton instance
-const ErrorHandler = new ErrorHandlerService();
-exports.ErrorHandler = ErrorHandler;
-exports.errorHandler = ErrorHandler;
+export const ErrorHandler = new ErrorHandlerService();
+export const errorHandler = ErrorHandler;
 // Export the singleton instance as default and for named imports
-exports.default = ErrorHandler;
+export default ErrorHandler;
 /**
  * Global function to safely check if a value exists and has the right type
  * Use this to validate critical values before using them
@@ -184,7 +178,7 @@ function safeValue(value, fallback, context, variableName) {
     }
     return value;
 }
-exports.safeValue = safeValue;
+export { safeValue };
 /**
  * Safely access a property from an object with proper error handling
  * @param obj The object to access
@@ -216,7 +210,7 @@ function safePropertyAccess(obj, properties, defaultValue, context) {
         return defaultValue;
     }
 }
-exports.safePropertyAccess = safePropertyAccess;
+export { safePropertyAccess };
 /**
  * Safely execute a function with error handling
  * @param fn Function to execute
@@ -232,21 +226,19 @@ function safeExecuteWithContext(fn, defaultValue, context) {
         return defaultValue;
     }
 }
-exports.safeExecuteWithContext = safeExecuteWithContext;
+export { safeExecuteWithContext };
 /**
  * Track code execution paths for debugging
  */
-function trackExecution(functionName, step, data) {
+export function trackExecution(functionName, step, data) {
     logInfo(`[EXECUTION] ${functionName} - ${step}`, data);
 }
-exports.trackExecution = trackExecution;
 /**
  * Log TypeScript specific errors (undefined access, type mismatches)
  */
-function logTypeError(error, context, operation) {
+export function logTypeError(error, context, operation) {
     ErrorHandler.log(error, {
         context: `TypeScript:${context}`,
         data: { operation }
     });
 }
-exports.logTypeError = logTypeError;

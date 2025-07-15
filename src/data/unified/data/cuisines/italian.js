@@ -1221,4 +1221,5 @@ export const italian = {
         "Mercury - Governs the communication and conviviality central to Italian food culture"
     ]
 };
-exports.default = exports.italian;
+
+export default italian;

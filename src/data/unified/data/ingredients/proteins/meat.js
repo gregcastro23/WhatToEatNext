@@ -1,8 +1,5 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.meats = void 0;
-const elementalUtils_1 = require("../../../utils/elementalUtils");
-const elementalUtils_2 = require("../../../utils/elemental/elementalUtils");
+import { fixIngredientMappings } from "../../../utils/elementalUtils";
+import { createElementalProperties } from "../../../utils/elemental/elementalUtils";
 const rawMeats = {
     'beef': {
         name: 'Beef',
@@ -1311,5 +1308,5 @@ const rawMeats = {
     }
 };
 // Fix the ingredient mappings to ensure they have all required properties
-exports.meats = (0, elementalUtils_1.fixIngredientMappings)(rawMeats);
-exports.default = exports.meats;
+export const meats = fixIngredientMappings(rawMeats);
+export default meats;

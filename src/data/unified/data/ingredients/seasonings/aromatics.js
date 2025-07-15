@@ -1,12 +1,11 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.aromatics = void 0;
-const elementalUtils_1 = require("../../../utils/elementalUtils");
-const elementalUtils_2 = require("../../../utils/elemental/elementalUtils");
+import { fixIngredientMappings } from "../../../utils/elementalUtils";
+import { createElementalProperties } from "../../../utils/elemental/elementalUtils";
+
 const rawAromatics = {
     'onion': {
         name: 'Onion',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
+        elementalProperties: createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
         }),
         astrologicalProfile: {
             rulingPlanets: ['Mars', 'Saturn'],
@@ -47,7 +46,7 @@ const rawAromatics = {
     },
     'garlic': {
         name: 'Garlic',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
+        elementalProperties: createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
         }),
         astrologicalProfile: {
             rulingPlanets: ['Mars', 'Pluto'],
@@ -88,7 +87,7 @@ const rawAromatics = {
     },
     'ginger': {
         name: 'Ginger',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
+        elementalProperties: createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
         }),
         astrologicalProfile: {
             rulingPlanets: ['Mars', 'Sun'],
@@ -148,7 +147,7 @@ const rawAromatics = {
     },
     'lemongrass': {
         name: 'Lemongrass',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
+        elementalProperties: createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
         }),
         astrologicalProfile: {
             rulingPlanets: ['Mercury', 'Venus'],
@@ -193,7 +192,7 @@ const rawAromatics = {
     },
     'shallot': {
         name: 'Shallot',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
+        elementalProperties: createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
         }),
         astrologicalProfile: {
             rulingPlanets: ['Mercury', 'Venus'],
@@ -228,7 +227,7 @@ const rawAromatics = {
     },
     'scallion': {
         name: 'Scallion',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
+        elementalProperties: createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
         }),
         astrologicalProfile: {
             rulingPlanets: ['Mercury', 'Moon'],
@@ -263,7 +262,7 @@ const rawAromatics = {
     },
     'saffron': {
         name: 'Saffron',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
+        elementalProperties: createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
         }),
         astrologicalProfile: {
             rulingPlanets: ['Sun', 'Mars'],
@@ -312,5 +311,5 @@ const rawAromatics = {
         }
     }
 };
-// Fix the ingredient mappings to ensure they have all required properties
-exports.aromatics = (0, elementalUtils_1.fixIngredientMappings)(rawAromatics);
+
+export const aromatics = fixIngredientMappings(rawAromatics);

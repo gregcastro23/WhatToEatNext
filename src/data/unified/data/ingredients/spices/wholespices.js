@@ -1,13 +1,10 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.wholeSpices = void 0;
-const elementalUtils_1 = require("../../../utils/elementalUtils");
-const elementalUtils_2 = require("../../../utils/elemental/elementalUtils");
+import { fixIngredientMappings } from '../../../utils/elementalUtils.js';
+import { createElementalProperties } from '../../../utils/elemental/elementalUtils.js';
+
 const rawWholeSpices = {
     'star_anise': {
         name: 'Star Anise',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
-        }),
+        elementalProperties: createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }),
         qualities: ['sweet', 'licorice-like', 'warming'],
         origin: ['China', 'Vietnam'],
         category: 'spice',
@@ -54,8 +51,7 @@ const rawWholeSpices = {
     },
     'cardamom_pods': {
         name: 'Cardamom Pods',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
-        }),
+        elementalProperties: createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }),
         astrologicalProfile: {
             rulingPlanets: ['Mercury', 'Venus'],
             favorableZodiac: ['gemini', 'libra'],
@@ -119,8 +115,7 @@ const rawWholeSpices = {
     },
     'mustard_seeds': {
         name: 'Mustard Seeds',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
-        }),
+        elementalProperties: createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }),
         qualities: ['pungent', 'hot', 'nutty'],
         origin: ['India', 'Canada', 'Nepal'],
         category: 'spice',
@@ -179,8 +174,7 @@ const rawWholeSpices = {
     },
     'fennel_seeds': {
         name: 'Fennel Seeds',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
-        }),
+        elementalProperties: createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }),
         qualities: ['sweet', 'anise-like', 'warming'],
         origin: ['India', 'Mediterranean', 'China'],
         category: 'spice',
@@ -239,8 +233,7 @@ const rawWholeSpices = {
     },
     'coriander_seeds': {
         name: 'Coriander Seeds',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
-        }),
+        elementalProperties: createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }),
         qualities: ['citrusy', 'nutty', 'floral'],
         origin: ['India', 'Morocco', 'Eastern Europe'],
         category: 'spice',
@@ -288,8 +281,7 @@ const rawWholeSpices = {
     },
     'cumin_seeds': {
         name: 'Cumin Seeds',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
-        }),
+        elementalProperties: createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }),
         astrologicalProfile: {
             rulingPlanets: ['Mercury', 'Saturn'],
             favorableZodiac: ['virgo', 'capricorn'],
@@ -349,8 +341,7 @@ const rawWholeSpices = {
     },
     'caraway_seeds': {
         name: 'Caraway Seeds',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
-        }),
+        elementalProperties: createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }),
         qualities: ['warming', 'sharp', 'slightly sweet'],
         origin: ['Netherlands', 'Eastern Europe', 'Finland'],
         category: 'spice',
@@ -397,5 +388,5 @@ const rawWholeSpices = {
         }
     }
 };
-// Fix the ingredient mappings to ensure they have all required properties
-exports.wholeSpices = (0, elementalUtils_1.fixIngredientMappings)(rawWholeSpices);
+
+export const wholeSpices = fixIngredientMappings(rawWholeSpices);

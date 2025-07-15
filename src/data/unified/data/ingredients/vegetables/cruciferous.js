@@ -1,12 +1,11 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.brusselsSprouts = exports.broccoli = exports.cauliflower = exports.cruciferous = void 0;
-const elementalUtils_1 = require("../../../utils/elementalUtils");
-const elementalUtils_2 = require("../../../utils/elemental/elementalUtils");
+import { fixIngredientMappings } from "../../../utils/elementalUtils.js";
+import { createElementalProperties } from "../../../utils/elemental/elementalUtils.js";
+
 const rawCruciferous = {
     'cauliflower': {
         name: 'Cauliflower',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({
+        elementalProperties: createElementalProperties({
             Air: 0.3,
             Water: 0.3,
             Earth: 0.3,
@@ -25,11 +24,11 @@ const rawCruciferous = {
             },
             lunarPhaseModifiers: {
                 newmoon: {
-                    elementalBoost: (0, elementalUtils_2.createElementalProperties)({ Air: 0.2, Water: 0.1 }),
+                    elementalBoost: createElementalProperties({ Air: 0.2, Water: 0.1 }),
                     preparationTips: ['Fresh preparations', 'Minimal cooking']
                 },
                 fullmoon: {
-                    elementalBoost: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.1, Earth: 0.2 }),
+                    elementalBoost: createElementalProperties({ Fire: 0.1, Earth: 0.2 }),
                     preparationTips: ['More flavorful roasting', 'Enhanced caramelization']
                 }
             }
@@ -106,7 +105,7 @@ const rawCruciferous = {
     },
     'broccoli': {
         name: 'Broccoli',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({
+        elementalProperties: createElementalProperties({
             Earth: 0.4,
             Air: 0.3,
             Fire: 0.2,
@@ -126,11 +125,11 @@ const rawCruciferous = {
             },
             lunarPhaseModifiers: {
                 newmoon: {
-                    elementalBoost: (0, elementalUtils_2.createElementalProperties)({ Air: 0.2, Fire: 0.1 }),
+                    elementalBoost: createElementalProperties({ Air: 0.2, Fire: 0.1 }),
                     preparationTips: ['Quick preparations', 'Maximum nutrition retention']
                 },
                 fullmoon: {
-                    elementalBoost: (0, elementalUtils_2.createElementalProperties)({ Earth: 0.2, Water: 0.1 }),
+                    elementalBoost: createElementalProperties({ Earth: 0.2, Water: 0.1 }),
                     preparationTips: ['Roasting brings out sweetness', 'Enhanced caramelization']
                 }
             }
@@ -219,7 +218,7 @@ const rawCruciferous = {
     },
     'brussels sprouts': {
         name: 'Brussels sprouts',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({
+        elementalProperties: createElementalProperties({
             Earth: 0.4,
             Fire: 0.3,
             Air: 0.2,
@@ -239,11 +238,11 @@ const rawCruciferous = {
             },
             lunarPhaseModifiers: {
                 waxingGibbous: {
-                    elementalBoost: (0, elementalUtils_2.createElementalProperties)({ Earth: 0.2, Fire: 0.1 }),
+                    elementalBoost: createElementalProperties({ Earth: 0.2, Fire: 0.1 }),
                     preparationTips: ['Enhanced caramelization', 'Sweeter flavor profile']
                 },
                 fullmoon: {
-                    elementalBoost: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.2, Earth: 0.1 }),
+                    elementalBoost: createElementalProperties({ Fire: 0.2, Earth: 0.1 }),
                     preparationTips: ['Best time for high-heat cooking', 'Maximum flavor development']
                 }
             }
@@ -332,7 +331,7 @@ const rawCruciferous = {
     },
     'bok choy': {
         name: 'Bok Choy',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
+        elementalProperties: createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
         }),
         astrologicalProfile: {
             rulingPlanets: ['Moon', 'Mercury'],
@@ -445,7 +444,7 @@ const rawCruciferous = {
     },
     'kohlrabi': {
         name: 'Kohlrabi',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
+        elementalProperties: createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
         }),
         astrologicalProfile: {
             rulingPlanets: ['Saturn', 'Mercury'],
@@ -553,7 +552,7 @@ const rawCruciferous = {
     },
     'cabbage': {
         name: 'Cabbage',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
+        elementalProperties: createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
         }),
         astrologicalProfile: {
             rulingPlanets: ['Moon', 'Saturn'],
@@ -677,11 +676,14 @@ const rawCruciferous = {
         }
     }
 };
+
 // Fix the ingredient mappings to ensure they have all required properties
-exports.cruciferous = (0, elementalUtils_1.fixIngredientMappings)(rawCruciferous);
-// Export individual vegetables for direct access
-exports.cauliflower = exports.cruciferous.cauliflower;
-exports.broccoli = exports.cruciferous.broccoli;
-exports.brusselsSprouts = exports.cruciferous['brussels sprouts'];
+export const cruciferous = fixIngredientMappings(rawCruciferous);
+
+// Export individual cruciferous vegetables for direct access
+export const cauliflower = cruciferous.cauliflower;
+export const broccoli = cruciferous.broccoli;
+export const brusselsSprouts = cruciferous['brussels sprouts'];
+
 // Default export
-exports.default = exports.cruciferous;
+export default cruciferous;

@@ -38,8 +38,11 @@ import { planetInfo, signInfo, signs } from '@/calculations/core/alchemicalEngin
  * This is a safe replacement for console.log that can be disabled in production
  */
 const _debugLog = (message: string, ...args: unknown[]): void => {
-  // Comment out console.log to avoid linting warnings
-  // console.log(message, ...args);
+  // Enable debug logging in development environment
+  if (process.env.NODE_ENV === 'development') {
+    console.log(`[DEBUG] ${message}`, ...args);
+  }
+  // In production, debug logging is disabled for performance
 };
 
 // Define interfaces
@@ -1048,11 +1051,11 @@ export function alchemize(
       '% Fixed': 0,
       '% Mutable': 0,
       'Dominant Modality': '',
-      'All Conjunctions': [] as any[], 
-      'All Trines': [] as any[],
-      'All Squares': [] as any[],
-      'All Oppositions': [] as any[],
-      'Stelliums': [] as any[],
+      'All Conjunctions': [] as Array<{ planet1: string; planet2: string; angle: number }>,
+      'All Trines': [] as Array<{ planet1: string; planet2: string; angle: number }>,
+      'All Squares': [] as Array<{ planet1: string; planet2: string; angle: number }>,
+      'All Oppositions': [] as Array<{ planet1: string; planet2: string; angle: number }>,
+      'Stelliums': [] as Array<{ planets: string[]; sign: string; element: string }>,
       'Signs': {
         "aries": {},
         "taurus": {},
@@ -2134,13 +2137,13 @@ async function getCurrentAstrologicalState(): Promise<AstrologicalState> {
     return {
       currentZodiac: sunSign,
       sunSign,
-      lunarPhase,
+      lunarPhase: _lunarPhase,
       activePlanets,
       elementalProperties,
       planetaryPositions: positions,
       timestamp: new Date(),
       dominantElement,
-      season,
+      season: _season,
       moonSign
     } as AstrologicalState;
   } catch (error) {

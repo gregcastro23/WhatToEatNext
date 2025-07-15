@@ -1,6 +1,4 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.getTimeFactors = void 0;
 const DAY_RULERS = {
     'Sunday': 'Sun',
     'Monday': 'Moon',
@@ -21,7 +19,7 @@ const TIME_TO_MEAL_MAPPING = {
     'Evening': 'Dinner',
     'Night': 'Snack'
 };
-function getTimeFactors() {
+export function getTimeFactors() {
     const now = new Date();
     const month = now.getMonth();
     const hour = now.getHours();
@@ -90,4 +88,3 @@ function getTimeFactors() {
         mealType
     };
 }
-exports.getTimeFactors = getTimeFactors;

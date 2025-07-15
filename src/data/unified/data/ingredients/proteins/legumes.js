@@ -1,7 +1,5 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.legumes = void 0;
-exports.legumes = {
+export const legumes = {
     "black_beans": {
         name: "Black Beans",
         description: "Small, shiny black beans with a dense, meaty texture popular in Latin American cuisine.",
@@ -10,8 +8,7 @@ exports.legumes = {
         sustainabilityScore: 9,
         season: ["all"],
         regionalOrigins: ["central_america", "south_america"],
-        elementalProperties: { Fire: 0.1, Water: 0.3, Earth: 0.5, Air: 0.1
-        },
+        elementalProperties: { Fire: 0.1, Water: 0.3, Earth: 0.5, Air: 0.1 },
         nutritionalProfile: {
             serving_size_oz: 3,
             calories: 341,
@@ -37,8 +34,7 @@ exports.legumes = {
         sustainabilityScore: 9,
         season: ["all"],
         regionalOrigins: ["middle_east", "mediterranean", "india"],
-        elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.5, Air: 0.1
-        },
+        elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.5, Air: 0.1 },
         nutritionalProfile: {
             serving_size_oz: 3,
             calories: 364,
@@ -65,8 +61,7 @@ exports.legumes = {
         sustainabilityScore: 9,
         season: ["all"],
         regionalOrigins: ["middle_east", "india", "mediterranean", "north_africa"],
-        elementalProperties: { Fire: 0.2, Water: 0.3, Earth: 0.4, Air: 0.1
-        },
+        elementalProperties: { Fire: 0.2, Water: 0.3, Earth: 0.4, Air: 0.1 },
         astrologicalProfile: {
             rulingPlanets: ['Saturn', 'Mercury'],
             favorableZodiac: ['capricorn', 'virgo', 'taurus'],
@@ -261,8 +256,7 @@ exports.legumes = {
         sustainabilityScore: 8,
         season: ["all"],
         regionalOrigins: ["indonesia"],
-        elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2
-        },
+        elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
         nutritionalProfile: {
             serving_size_oz: 3,
             calories: 193,
@@ -282,4 +276,5 @@ exports.legumes = {
         affinities: ["asian_aromatics", "umami_flavors"]
     }
 };
-exports.default = exports.legumes;
+
+export default legumes;

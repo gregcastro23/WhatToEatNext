@@ -1,7 +1,4 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.allVinegars = exports.artisanalVinegars = exports.vinegars = void 0;
-const elementalUtils_1 = require("../../../utils/elementalUtils");
+import { fixIngredientMappings } from "../../../utils/elementalUtils";
 // Define vinegars directly in this file rather than importing from seasonings
 const rawVinegars = {
     'rice_vinegar': {
@@ -236,7 +233,7 @@ const rawVinegars = {
     }
 };
 // Export fixed vinegars
-exports.vinegars = (0, elementalUtils_1.fixIngredientMappings)(rawVinegars);
+export const vinegars = fixIngredientMappings(rawVinegars);
 // Define artisanal vinegars (premium / (specialty || 1) vinegars)
 const rawArtisanalVinegars = {
     'aged_balsamic': {
@@ -301,16 +298,16 @@ const rawArtisanalVinegars = {
     }
 };
 // Export artisanal vinegars
-exports.artisanalVinegars = (0, elementalUtils_1.fixIngredientMappings)(rawArtisanalVinegars);
+export const artisanalVinegars = fixIngredientMappings(rawArtisanalVinegars);
 // Add any additional vinegars specific to this directory
 const additionalVinegars = {
 // Additional vinegars can be added here
 };
 // Merge with any additional vinegars and artisanal vinegars
-exports.allVinegars = (0, elementalUtils_1.fixIngredientMappings)({
+export const allVinegars = fixIngredientMappings({
     ...rawVinegars,
     ...rawArtisanalVinegars,
     ...additionalVinegars
 });
 // Export default for convenience
-exports.default = exports.vinegars;
+export default vinegars;

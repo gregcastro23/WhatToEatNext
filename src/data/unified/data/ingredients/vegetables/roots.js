@@ -1,12 +1,10 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.rootVegetables = exports.jerusalemArtichoke = exports.ginger = exports.carrot = exports.blackRadish = exports.heirloomCarrot = exports.roots = void 0;
-const elementalUtils_1 = require("../../../utils/elementalUtils");
-const elementalUtils_2 = require("../../../utils/elemental/elementalUtils");
+import { fixIngredientMappings } from "../../../utils/elementalUtils.js";
+import { createElementalProperties } from "../../../utils/elemental/elementalUtils.js";
+
 const rawRootVegetables = {
     'heirloom_carrot': {
         name: 'Heirloom Carrot',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({
+        elementalProperties: createElementalProperties({
             Earth: 0.5,
             Water: 0.2,
             Fire: 0.2,
@@ -25,11 +23,11 @@ const rawRootVegetables = {
             },
             lunarPhaseModifiers: {
                 fullmoon: {
-                    elementalBoost: (0, elementalUtils_2.createElementalProperties)({ Earth: 0.3 }),
+                    elementalBoost: createElementalProperties({ Earth: 0.3 }),
                     preparationTips: ['Enhanced flavor', 'Best for roasting']
                 },
                 newmoon: {
-                    elementalBoost: (0, elementalUtils_2.createElementalProperties)({ Water: 0.2 }),
+                    elementalBoost: createElementalProperties({ Water: 0.2 }),
                     preparationTips: ['Good for preservation', 'Best for juice extraction']
                 }
             }
@@ -61,7 +59,7 @@ const rawRootVegetables = {
     },
     'black_radish': {
         name: 'Black Radish',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({
+        elementalProperties: createElementalProperties({
             Earth: 0.4,
             Fire: 0.3,
             Air: 0.2,
@@ -80,11 +78,11 @@ const rawRootVegetables = {
             },
             lunarPhaseModifiers: {
                 waningGibbous: {
-                    elementalBoost: (0, elementalUtils_2.createElementalProperties)({ Earth: 0.2, Fire: 0.1 }),
+                    elementalBoost: createElementalProperties({ Earth: 0.2, Fire: 0.1 }),
                     preparationTips: ['Enhanced pungency', 'Good for pickling']
                 },
                 lastQuarter: {
-                    elementalBoost: (0, elementalUtils_2.createElementalProperties)({ Air: 0.2 }),
+                    elementalBoost: createElementalProperties({ Air: 0.2 }),
                     preparationTips: ['Best for cleansing preparations']
                 }
             }
@@ -116,7 +114,7 @@ const rawRootVegetables = {
     },
     'carrot': {
         name: 'Carrot',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({
+        elementalProperties: createElementalProperties({
             Earth: 0.4,
             Water: 0.3,
             Fire: 0.2,
@@ -135,11 +133,11 @@ const rawRootVegetables = {
             },
             lunarPhaseModifiers: {
                 newmoon: {
-                    elementalBoost: (0, elementalUtils_2.createElementalProperties)({ Water: 0.2, Air: 0.1 }),
+                    elementalBoost: createElementalProperties({ Water: 0.2, Air: 0.1 }),
                     preparationTips: ['Best for juicing']
                 },
                 fullmoon: {
-                    elementalBoost: (0, elementalUtils_2.createElementalProperties)({ Earth: 0.2, Fire: 0.1 }),
+                    elementalBoost: createElementalProperties({ Earth: 0.2, Fire: 0.1 }),
                     preparationTips: ['Ideal for roasted dishes']
                 }
             }
@@ -171,7 +169,10 @@ const rawRootVegetables = {
     },
     'ginger': {
         name: 'Ginger',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.5, Earth: 0.3, Air: 0.1,
+        elementalProperties: createElementalProperties({ 
+            Fire: 0.5, 
+            Earth: 0.3, 
+            Air: 0.1,
             Water: 0.1
         }),
         astrologicalProfile: {
@@ -187,105 +188,109 @@ const rawRootVegetables = {
             },
             lunarPhaseModifiers: {
                 firstQuarter: {
-                    elementalBoost: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.3 }),
+                    elementalBoost: createElementalProperties({ Fire: 0.3 }),
                     preparationTips: ['Maximum potency', 'Enhanced medicinal properties']
                 },
                 fullmoon: {
-                    elementalBoost: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.2, Earth: 0.1 }),
+                    elementalBoost: createElementalProperties({ Fire: 0.2, Earth: 0.1 }),
                     preparationTips: ['Good for flavor extraction', 'Best for infusions']
                 }
             }
         },
         subCategory: 'root',
         season: ['fall', 'winter'],
-        category: 'spice',
-        cookingMethods: ['grate', 'sliced', 'juiced', 'infused'],
-        qualities: ['warming', 'spicy', 'aromatic'],
-        affinities: ['garlic', 'lemon', 'honey', 'soy sauce', 'turmeric'],
+        category: 'vegetable',
+        cookingMethods: ['raw', 'juice', 'infuse', 'candy'],
+        qualities: ['warming', 'stimulating', 'medicinal'],
+        affinities: ['lemon', 'honey', 'turmeric', 'garlic', 'citrus'],
         nutritionalProfile: {
             fiber: 'moderate',
             vitamins: ['b6', 'c'],
-            minerals: ['magnesium', 'potassium'],
+            minerals: ['magnesium', 'manganese'],
             calories: 80,
             carbs_g: 17.8,
             fiber_g: 2
         },
         preparation: {
-            peeling: 'recommended',
-            grating: 'for intense flavor',
-            notes: 'Can be frozen for longer storage'
+            washing: true,
+            peeling: 'optional for young ginger',
+            notes: 'Can be used fresh, dried, or powdered'
         },
         storage: {
-            temperature: 'room temperature or refrigerated',
-            duration: '3-4 weeks',
-            notes: 'Store in dry place or refrigerate in paper bag'
+            temperature: 'refrigerated or frozen',
+            duration: '2-3 weeks fresh, 6 months frozen',
+            notes: 'Wrap in paper towel in plastic bag'
         }
     },
     'jerusalem_artichoke': {
         name: 'Jerusalem Artichoke',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({
-            Earth: 0.5,
-            Water: 0.2,
+        elementalProperties: createElementalProperties({
+            Earth: 0.4,
+            Water: 0.3,
             Air: 0.2,
             Fire: 0.1
         }),
         astrologicalProfile: {
-            rulingPlanets: ['Venus', 'Moon'],
-            favorableZodiac: ['taurus', 'virgo'],
+            rulingPlanets: ['Saturn', 'Uranus'],
+            favorableZodiac: ['capricorn', 'aquarius'],
             elementalAffinity: {
                 base: 'Earth',
                 decanModifiers: {
-                    first: { element: 'Earth', planet: 'Venus' },
-                    second: { element: 'Earth', planet: 'Moon' },
-                    third: { element: 'Air', planet: 'Saturn' }
+                    first: { element: 'Earth', planet: 'Saturn' },
+                    second: { element: 'Air', planet: 'Uranus' },
+                    third: { element: 'Water', planet: 'Neptune' }
                 }
             },
             lunarPhaseModifiers: {
-                fullmoon: {
-                    elementalBoost: (0, elementalUtils_2.createElementalProperties)({ Earth: 0.2, Water: 0.1 }),
-                    preparationTips: ['Enhanced sweetness', 'Best for cooking']
+                waningCrescent: {
+                    elementalBoost: createElementalProperties({ Earth: 0.2, Air: 0.1 }),
+                    preparationTips: ['Good for fermentation', 'Enhanced digestibility']
                 },
-                waxingGibbous: {
-                    elementalBoost: (0, elementalUtils_2.createElementalProperties)({ Earth: 0.3 }),
-                    preparationTips: ['Perfect for harvest', 'Maximum nutritional value']
+                newmoon: {
+                    elementalBoost: createElementalProperties({ Water: 0.2 }),
+                    preparationTips: ['Best for raw preparations']
                 }
             }
         },
         subCategory: 'root',
         season: ['fall', 'winter'],
         category: 'vegetable',
-        cookingMethods: ['roast', 'boil', 'fry', 'raw'],
-        qualities: ['grounding', 'sweet', 'nutty'],
-        affinities: ['thyme', 'lemon', 'butter', 'sage', 'parsley'],
+        cookingMethods: ['roast', 'saute', 'raw', 'pickle'],
+        qualities: ['grounding', 'prebiotic', 'nutritious'],
+        affinities: ['garlic', 'thyme', 'lemon', 'butter', 'sage'],
         nutritionalProfile: {
             fiber: 'high',
-            vitamins: ['thiamine', 'niacin'],
+            vitamins: ['b1', 'b3'],
             minerals: ['iron', 'potassium'],
             calories: 73,
-            carbs_g: 17,
+            carbs_g: 17.4,
             fiber_g: 1.6
         },
         preparation: {
             washing: true,
             peeling: 'optional',
-            notes: 'Soak in water with lemon juice to prevent browning'
+            notes: 'Can cause digestive issues if not cooked properly'
         },
         storage: {
             temperature: 'refrigerated',
             duration: '1-2 weeks',
-            notes: 'Store in paper bag in crisper drawer'
+            notes: 'Store in plastic bag with moisture'
         }
     }
 };
-// Process ingredient mappings to ensure they have all required properties
-exports.roots = (0, elementalUtils_1.fixIngredientMappings)(rawRootVegetables);
-// Export individual root vegetables for direct access
-exports.heirloomCarrot = exports.roots.heirloom_carrot;
-exports.blackRadish = exports.roots.black_radish;
-exports.carrot = exports.roots.carrot;
-exports.ginger = exports.roots.ginger;
-exports.jerusalemArtichoke = exports.roots.jerusalem_artichoke;
-// For backwards compatibility
-exports.rootVegetables = exports.roots;
+
+// Fix the ingredient mappings to ensure they have all required properties
+export const roots = fixIngredientMappings(rawRootVegetables);
+
+// Export individual roots for direct access
+export const heirloomCarrot = roots.heirloom_carrot;
+export const blackRadish = roots.black_radish;
+export const carrot = roots.carrot;
+export const ginger = roots.ginger;
+export const jerusalemArtichoke = roots.jerusalem_artichoke;
+
+// Export the full collection
+export const rootVegetables = roots;
+
 // Default export
-exports.default = exports.roots;
+export default roots;

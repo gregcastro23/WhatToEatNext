@@ -345,9 +345,9 @@ function isSauceData(value: unknown): value is Record<string, unknown> {
 
 // Export the function that was previously defined but not exported
 // === ENTERPRISE CULTURAL INTELLIGENCE SAUCE RECOMMENDATIONS ===
-export function generateTopSauceRecommendations(currentElementalProfile = null, count = 5) {
+export async function generateTopSauceRecommendations(currentElementalProfile = null, count = 5) {
   // Import sauce data
-  const { allSauces } = require('@/data/sauces');
+  const { allSauces } = await import('@/data/sauces');
   
   // Use provided elemental profile from current moment's calculations, only fall back if absolutely necessary
   const userProfile = currentElementalProfile || {

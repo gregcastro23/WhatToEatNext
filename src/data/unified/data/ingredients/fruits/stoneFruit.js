@@ -1,12 +1,10 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.damson = exports.greengage = exports.nectarine = exports.cherry = exports.apricot = exports.plum = exports.peach = exports.stoneFruit = void 0;
-const elementalUtils_1 = require("../../../utils/elementalUtils");
-const elementalUtils_2 = require("../../../utils/elemental/elementalUtils");
+import { fixIngredientMappings } from '../../../utils/elementalUtils';
+import { createElementalProperties } from '../../../utils/elemental/elementalUtils';
+
 const rawStoneFruit = {
     'peach': {
         name: 'Peach',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({
+        elementalProperties: createElementalProperties({
             Water: 0.4,
             Fire: 0.3,
             Earth: 0.2,
@@ -54,7 +52,7 @@ const rawStoneFruit = {
     },
     'plum': {
         name: 'Plum',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({
+        elementalProperties: createElementalProperties({
             Water: 0.4,
             Earth: 0.3,
             Fire: 0.2,
@@ -102,7 +100,7 @@ const rawStoneFruit = {
     },
     'apricot': {
         name: 'Apricot',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.3, Earth: 0.3,
+        elementalProperties: createElementalProperties({ Fire: 0.3, Earth: 0.3,
             Water: 0.3,
             Air: 0.1
         }),
@@ -148,7 +146,7 @@ const rawStoneFruit = {
     },
     'cherry': {
         name: 'Cherry',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.4, Water: 0.3, Earth: 0.2, Air: 0.1
+        elementalProperties: createElementalProperties({ Fire: 0.4, Water: 0.3, Earth: 0.2, Air: 0.1
         }),
         astrologicalProfile: {
             rulingPlanets: ['Venus', 'Mars'],
@@ -192,7 +190,7 @@ const rawStoneFruit = {
     },
     'nectarine': {
         name: 'Nectarine',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.3, Water: 0.4, Earth: 0.2, Air: 0.1
+        elementalProperties: createElementalProperties({ Fire: 0.3, Water: 0.4, Earth: 0.2, Air: 0.1
         }),
         astrologicalProfile: {
             rulingPlanets: ['Venus', 'Sun'],
@@ -236,7 +234,7 @@ const rawStoneFruit = {
     },
     'greengage': {
         name: 'Greengage',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({
+        elementalProperties: createElementalProperties({
             Earth: 0.4,
             Water: 0.4,
             Air: 0.1,
@@ -284,7 +282,7 @@ const rawStoneFruit = {
     },
     'damson': {
         name: 'Damson',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({
+        elementalProperties: createElementalProperties({
             Earth: 0.4,
             Water: 0.3,
             Fire: 0.2,
@@ -331,15 +329,18 @@ const rawStoneFruit = {
         }
     }
 };
+
 // Fix the ingredient mappings to ensure they have all required properties
-exports.stoneFruit = (0, elementalUtils_1.fixIngredientMappings)(rawStoneFruit);
+export const stoneFruit = fixIngredientMappings(rawStoneFruit);
+
 // Export the entire collection
-exports.default = exports.stoneFruit;
+export default stoneFruit;
+
 // Export individual stone fruits for direct access
-exports.peach = exports.stoneFruit.peach;
-exports.plum = exports.stoneFruit.plum;
-exports.apricot = exports.stoneFruit.apricot;
-exports.cherry = exports.stoneFruit.cherry;
-exports.nectarine = exports.stoneFruit.nectarine;
-exports.greengage = exports.stoneFruit.greengage;
-exports.damson = exports.stoneFruit.damson;
+export const peach = stoneFruit.peach;
+export const plum = stoneFruit.plum;
+export const apricot = stoneFruit.apricot;
+export const cherry = stoneFruit.cherry;
+export const nectarine = stoneFruit.nectarine;
+export const greengage = stoneFruit.greengage;
+export const damson = stoneFruit.damson;

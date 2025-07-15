@@ -1,12 +1,9 @@
-"use strict";
 // ===== FLAVOR PROFILE TYPE DEFINITIONS =====
 // Used for classifying flavor profiles across the application
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.FlavorProfileType = void 0;
 /**
  * Enum for categorizing flavor profiles in various cuisines and ingredients
  */
-let FlavorProfileType;
+export let FlavorProfileType;
 (function (FlavorProfileType) {
     FlavorProfileType["SAVORY"] = "SAVORY";
     FlavorProfileType["SWEET"] = "SWEET";
@@ -24,5 +21,5 @@ let FlavorProfileType;
     FlavorProfileType["AROMATIC"] = "AROMATIC";
     FlavorProfileType["TANGY"] = "TANGY";
     FlavorProfileType["RICH"] = "RICH";
-})(FlavorProfileType || (exports.FlavorProfileType = FlavorProfileType = {}));
-exports.default = FlavorProfileType;
+})(FlavorProfileType || (FlavorProfileType = {}));
+export default FlavorProfileType;

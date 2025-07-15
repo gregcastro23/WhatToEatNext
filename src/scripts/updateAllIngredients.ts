@@ -9,14 +9,14 @@
  */
 
 // Import all the individual category update functions
-const { updateHerbs } = require('./updateHerbs');
-const { updateVegetables } = require('./updateVegetables');
-const { updateFruits } = require('./updateFruits');
-const { updateGrains } = require('./updateGrains');
-const { updateProteins } = require('./updateProteins');
-const { updateSpices } = require('./updateSpices');
-const { updateOils } = require('./updateOils');
-const { updateVinegars } = require('./updateVinegars');
+import { updateHerbs } from './updateHerbs.js';
+import { updateVegetables } from './updateVegetables.js';
+import { updateFruits } from './updateFruits.js';
+import { updateGrains } from './updateGrains.js';
+import { updateProteins } from './updateProteins.js';
+import { updateSpices } from './updateSpices.js';
+import { updateOils } from './updateOils.js';
+import { updateVinegars } from './updateVinegars.js';
 
 // Map of all available category update functions
 const categoryUpdaters = {
@@ -93,7 +93,7 @@ async function main() {
 }
 
 // Run the main function
-if (require.main === module) {
+if (import.meta.url === `file://${process.argv[1]}`) {
   main().catch(error => {
     // console.error('Error in main process:', error);
     process.exit(1);
@@ -101,4 +101,4 @@ if (require.main === module) {
 }
 
 // Export for use in other scripts if needed
-module.exports = { updateCategories }; 
+export { updateCategories }; 

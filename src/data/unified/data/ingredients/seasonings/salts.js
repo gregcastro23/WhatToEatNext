@@ -1,12 +1,10 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.himalayanPinkSalt = exports.seaSalt = exports.salts = void 0;
-const elementalUtils_1 = require("../../../utils/elementalUtils");
-const elementalUtils_2 = require("../../../utils/elemental/elementalUtils");
+import { fixIngredientMappings } from "../../../utils/elementalUtils.js";
+import { createElementalProperties } from "../../../utils/elemental/elementalUtils.js";
+
 const rawSalts = {
     'fleur_de_sel': {
         name: 'Fleur De Sel',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
+        elementalProperties: createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
         }),
         qualities: ['delicate', 'moist', 'mineral'],
         origin: ['France', 'Portugal'],
@@ -73,7 +71,7 @@ const rawSalts = {
     },
     'maldon_salt': {
         name: 'Maldon Salt',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
+        elementalProperties: createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
         }),
         qualities: ['crisp', 'clean', 'flaky'],
         origin: ['United Kingdom'],
@@ -118,7 +116,7 @@ const rawSalts = {
     },
     'sea_salt': {
         name: 'Sea Salt',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.1, Water: 0.5, Earth: 0.4, Air: 0.0
+        elementalProperties: createElementalProperties({ Fire: 0.1, Water: 0.5, Earth: 0.4, Air: 0.0
         }),
         astrologicalProfile: {
             rulingPlanets: ['Moon', 'Neptune'],
@@ -133,14 +131,14 @@ const rawSalts = {
             },
             lunarPhaseModifiers: {
                 fullmoon: {
-                    elementalBoost: (0, elementalUtils_2.createElementalProperties)({
+                    elementalBoost: createElementalProperties({
                         Water: 0.3,
                         Earth: 0.1
                     }),
                     preparationTips: ['Excellent for preserving and curing']
                 },
                 newmoon: {
-                    elementalBoost: (0, elementalUtils_2.createElementalProperties)({
+                    elementalBoost: createElementalProperties({
                         Water: 0.2,
                         Earth: 0.2
                     }),
@@ -217,7 +215,7 @@ const rawSalts = {
     },
     'himalayan_salt': {
         name: 'Himalayan Salt',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
+        elementalProperties: createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
         }),
         astrologicalProfile: {
             planetaryRuler: 'Mars',
@@ -438,7 +436,7 @@ const rawSalts = {
     },
     'kosher_salt': {
         name: 'Kosher Salt',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
+        elementalProperties: createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
         }),
         qualities: ['clean', 'consistent', 'pure'],
         origin: ['Various'],
@@ -496,7 +494,7 @@ const rawSalts = {
     },
     'table_salt': {
         name: 'Table Salt',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
+        elementalProperties: createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
         }),
         qualities: ['basic', 'refined', 'uniform'],
         origin: ['Global'],
@@ -538,7 +536,7 @@ const rawSalts = {
     },
     'himalayan_pink_salt': {
         name: 'Himalayan Pink Salt',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.2, Water: 0.3, Earth: 0.5, Air: 0.0
+        elementalProperties: createElementalProperties({ Fire: 0.2, Water: 0.3, Earth: 0.5, Air: 0.0
         }),
         astrologicalProfile: {
             rulingPlanets: ['Venus', 'Saturn'],
@@ -553,14 +551,14 @@ const rawSalts = {
             },
             lunarPhaseModifiers: {
                 fullmoon: {
-                    elementalBoost: (0, elementalUtils_2.createElementalProperties)({
+                    elementalBoost: createElementalProperties({
                         Earth: 0.3,
                         Water: 0.1
                     }),
                     preparationTips: ['Excellent for salt blocks and grilling']
                 },
                 waxingGibbous: {
-                    elementalBoost: (0, elementalUtils_2.createElementalProperties)({
+                    elementalBoost: createElementalProperties({
                         Earth: 0.2,
                         Fire: 0.1
                     }),
@@ -626,10 +624,13 @@ const rawSalts = {
         }
     }
 };
+
 // Fix the ingredient mappings to ensure they have all required properties
-exports.salts = (0, elementalUtils_1.fixIngredientMappings)(rawSalts);
-// Export the entire collection
-exports.default = exports.salts;
+const salts = fixIngredientMappings(rawSalts);
+
 // Export individual salts for direct access
-exports.seaSalt = exports.salts.sea_salt;
-exports.himalayanPinkSalt = exports.salts.himalayan_pink_salt;
+export const seaSalt = salts.sea_salt;
+export const himalayanPinkSalt = salts.himalayan_pink_salt;
+
+// Default export
+export default salts;

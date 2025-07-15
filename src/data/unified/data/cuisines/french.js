@@ -1195,4 +1195,5 @@ export const french = {
         "Mercury - Shapes the precise techniques and articulate presentation"
     ]
 };
-exports.default = exports.french;
+
+export default french;

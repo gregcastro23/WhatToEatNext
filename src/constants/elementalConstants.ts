@@ -573,20 +573,26 @@ export const ZODIAC_ELEMENTAL_INTELLIGENCE = {
       triplicityAccuracy: Object.values(zodiacAnalysis.traditionalTriplicities).filter(Boolean).length / 4,
       traditionalAlignment: Object.values(zodiacAnalysis.traditionalTriplicities).every(Boolean) ? 1.0 : 0.8,
       distributionQuality: Object.values(zodiacAnalysis.elementalDistribution).every(count => count === 3) ? 1.0 : 0.9,
-      astrologicalIntegrity: zodiacAnalysis.signMappings.every(s => s.signIndex >= 0) ? 1.0 : 0.8,
-      cosmicHarmony: astrologyMetrics.triplicityAccuracy * astrologyMetrics.elementalBalance
+      astrologicalIntegrity: zodiacAnalysis.signMappings.every(s => s.signIndex >= 0) ? 1.0 : 0.8
     };
 
+    // Calculate cosmic harmony after astrologyMetrics is defined
+    const cosmicHarmony = astrologyMetrics.triplicityAccuracy * astrologyMetrics.elementalBalance;
+
+    const cardinalSigns = zodiacAnalysis.signMappings.filter(s => s.modality === 'cardinal').length / 12;
+    const fixedSigns = zodiacAnalysis.signMappings.filter(s => s.modality === 'fixed').length / 12;
+    const mutableSigns = zodiacAnalysis.signMappings.filter(s => s.modality === 'mutable').length / 12;
+    
     const zodiacStructure = {
       fireQuadrant: zodiacAnalysis.elementalDistribution.Fire / 12,
       earthQuadrant: zodiacAnalysis.elementalDistribution.Earth / 12,
       airQuadrant: zodiacAnalysis.elementalDistribution.Air / 12,
       waterQuadrant: zodiacAnalysis.elementalDistribution.Water / 12,
-      cardinalSigns: zodiacAnalysis.signMappings.filter(s => s.modality === 'cardinal').length / 12,
-      fixedSigns: zodiacAnalysis.signMappings.filter(s => s.modality === 'fixed').length / 12,
-      mutableSigns: zodiacAnalysis.signMappings.filter(s => s.modality === 'mutable').length / 12,
+      cardinalSigns,
+      fixedSigns,
+      mutableSigns,
       seasonalBalance: new Set(zodiacAnalysis.signMappings.map(s => s.season)).size / 4,
-      modalityBalance: Math.abs(zodiacStructure.cardinalSigns - zodiacStructure.fixedSigns) < 0.1 && Math.abs(zodiacStructure.fixedSigns - zodiacStructure.mutableSigns) < 0.1 ? 1.0 : 0.8
+      modalityBalance: Math.abs(cardinalSigns - fixedSigns) < 0.1 && Math.abs(fixedSigns - mutableSigns) < 0.1 ? 1.0 : 0.8
     };
 
     const zodiacOptimization = [
@@ -605,7 +611,7 @@ export const ZODIAC_ELEMENTAL_INTELLIGENCE = {
       triplicityHarmony: astrologyMetrics.triplicityAccuracy * astrologyMetrics.traditionalAlignment,
       structuralHarmony: zodiacStructure.seasonalBalance * zodiacStructure.modalityBalance,
       traditionalHarmony: astrologyMetrics.traditionalAlignment * astrologyMetrics.astrologicalIntegrity,
-      cosmicHarmony: astrologyMetrics.cosmicHarmony * zodiacStructure.seasonalBalance,
+      cosmicHarmony: cosmicHarmony * zodiacStructure.seasonalBalance,
       astrologicalHarmony: astrologyMetrics.astrologicalIntegrity * astrologyMetrics.distributionQuality
     };
 
@@ -914,7 +920,11 @@ export const ELEMENTAL_CHARACTERISTICS_INTELLIGENCE = {
         comprehensiveness: Object.keys(profile).length / 14,
         richness: Object.values(profile).flat().length / 100
       })),
-      categoryAnalysis: characteristicsAnalysis.characteristicCategories.map(category => ({
+      categoryAnalysis: [
+        'qualities', 'keywords', 'foods', 'cookingTechniques', 'flavorProfiles', 
+        'seasonalAssociations', 'healthBenefits', 'complementaryIngredients', 
+        'moodEffects', 'culinaryHerbs', 'timeOfDay', 'tastes', 'cuisine', 'effects'
+      ].map(category => ({
         category,
         elementsCovered: Object.keys(characteristics).filter(element => 
           characteristics[element as keyof typeof characteristics][category as keyof typeof characteristics[keyof typeof characteristics]]
@@ -929,11 +939,15 @@ export const ELEMENTAL_CHARACTERISTICS_INTELLIGENCE = {
       diversityMetrics: {
         totalUniqueItems: new Set(Object.values(characteristics).flatMap(profile => Object.values(profile).flat())).size,
         averageItemsPerElement: Object.values(characteristics).reduce((sum, profile) => sum + Object.values(profile).flat().length, 0) / Object.keys(characteristics).length,
-        categoryCompleteness: characteristicsAnalysis.characteristicCategories.filter(category => 
+        categoryCompleteness: [
+          'qualities', 'keywords', 'foods', 'cookingTechniques', 'flavorProfiles', 
+          'seasonalAssociations', 'healthBenefits', 'complementaryIngredients', 
+          'moodEffects', 'culinaryHerbs', 'timeOfDay', 'tastes', 'cuisine', 'effects'
+        ].filter(category => 
           Object.keys(characteristics).every(element => 
             characteristics[element as keyof typeof characteristics][category as keyof typeof characteristics[keyof typeof characteristics]]
           )
-        ).length / characteristicsAnalysis.characteristicCategories.length
+        ).length / 14
       }
     };
 

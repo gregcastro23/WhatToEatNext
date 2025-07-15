@@ -1,12 +1,10 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.limaBeans = exports.edamame = exports.snowPeas = exports.snapPeas = exports.greenBeans = exports.legumes = void 0;
-const elementalUtils_1 = require("../../../utils/elementalUtils");
-const elementalUtils_2 = require("../../../utils/elemental/elementalUtils");
+import { fixIngredientMappings } from "../../../utils/elementalUtils.js";
+import { createElementalProperties } from "../../../utils/elemental/elementalUtils.js";
+
 const rawLegumes = {
     'green beans': {
         name: 'Green beans',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({
+        elementalProperties: createElementalProperties({
             Earth: 0.4,
             Air: 0.3,
             Water: 0.2,
@@ -25,11 +23,11 @@ const rawLegumes = {
             },
             lunarPhaseModifiers: {
                 newmoon: {
-                    elementalBoost: (0, elementalUtils_2.createElementalProperties)({ Air: 0.2, Earth: 0.1 }),
+                    elementalBoost: createElementalProperties({ Air: 0.2, Earth: 0.1 }),
                     preparationTips: ['Quick blanching', 'Fresh preparations']
                 },
                 fullmoon: {
-                    elementalBoost: (0, elementalUtils_2.createElementalProperties)({ Water: 0.2, Earth: 0.1 }),
+                    elementalBoost: createElementalProperties({ Water: 0.2, Earth: 0.1 }),
                     preparationTips: ['Slower cooking methods', 'Fermentation']
                 }
             }
@@ -93,7 +91,7 @@ const rawLegumes = {
     },
     'snap peas': {
         name: 'Snap peas',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({
+        elementalProperties: createElementalProperties({
             Water: 0.4,
             Earth: 0.3,
             Air: 0.2,
@@ -112,11 +110,11 @@ const rawLegumes = {
             },
             lunarPhaseModifiers: {
                 newmoon: {
-                    elementalBoost: (0, elementalUtils_2.createElementalProperties)({ Water: 0.2, Air: 0.1 }),
+                    elementalBoost: createElementalProperties({ Water: 0.2, Air: 0.1 }),
                     preparationTips: ['Fresh eating', 'Light preparations']
                 },
                 fullmoon: {
-                    elementalBoost: (0, elementalUtils_2.createElementalProperties)({ Water: 0.3 }),
+                    elementalBoost: createElementalProperties({ Water: 0.3 }),
                     preparationTips: ['Enhanced sweetness', 'Perfect for harvesting']
                 }
             }
@@ -151,7 +149,7 @@ const rawLegumes = {
     },
     'snow peas': {
         name: 'Snow peas',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({
+        elementalProperties: createElementalProperties({
             Air: 0.4,
             Water: 0.3,
             Earth: 0.2,
@@ -171,11 +169,11 @@ const rawLegumes = {
             },
             lunarPhaseModifiers: {
                 newmoon: {
-                    elementalBoost: (0, elementalUtils_2.createElementalProperties)({ Air: 0.2 }),
+                    elementalBoost: createElementalProperties({ Air: 0.2 }),
                     preparationTips: ['Fresh preparations', 'Quick cooking methods']
                 },
                 fullmoon: {
-                    elementalBoost: (0, elementalUtils_2.createElementalProperties)({ Water: 0.2, Air: 0.1 }),
+                    elementalBoost: createElementalProperties({ Water: 0.2, Air: 0.1 }),
                     preparationTips: ['Enhanced crispness', 'Perfect harvest time']
                 }
             }
@@ -198,121 +196,140 @@ const rawLegumes = {
         preparation: {
             washing: true,
             trimming: 'remove stem end and string along the seam',
-            notes: 'Flat pods with visible peas inside'
+            notes: 'Best used fresh, can be eaten whole'
         },
         storage: {
             temperature: 'refrigerated',
-            duration: '2-3 days',
+            duration: '3-5 days',
             humidity: 'high',
             method: 'paper towel in plastic bag',
-            notes: 'Very perishable, use quickly'
+            notes: 'Consume quickly for best flavor and texture'
         }
     },
     'edamame': {
         name: 'Edamame',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({
+        elementalProperties: createElementalProperties({
             Earth: 0.5,
-            Water: 0.2,
-            Fire: 0.2,
-            Air: 0.1
+            Water: 0.3,
+            Air: 0.1,
+            Fire: 0.1
         }),
         astrologicalProfile: {
-            rulingPlanets: ['Jupiter', 'Venus'],
-            favorableZodiac: ['taurus', 'virgo'],
+            rulingPlanets: ['Venus', 'Saturn'],
+            favorableZodiac: ['taurus', 'capricorn'],
             elementalAffinity: {
                 base: 'Earth',
                 decanModifiers: {
                     first: { element: 'Earth', planet: 'Venus' },
-                    second: { element: 'Earth', planet: 'Jupiter' },
-                    third: { element: 'Fire', planet: 'Mars' }
+                    second: { element: 'Earth', planet: 'Saturn' },
+                    third: { element: 'Water', planet: 'Moon' }
                 }
             },
             lunarPhaseModifiers: {
                 fullmoon: {
-                    elementalBoost: (0, elementalUtils_2.createElementalProperties)({ Earth: 0.2, Water: 0.1 }),
-                    preparationTips: ['Enhanced nutritional extraction', 'Good for harvesting']
+                    elementalBoost: createElementalProperties({ Earth: 0.3, Water: 0.1 }),
+                    preparationTips: ['Enhanced protein content', 'Perfect harvest time']
+                },
+                waxingGibbous: {
+                    elementalBoost: createElementalProperties({ Earth: 0.2 }),
+                    preparationTips: ['Good for preservation', 'Enhanced sweetness']
                 }
             }
         },
-        qualities: ['nourishing', 'strengthening', 'substantial', 'grounding'],
+        qualities: ['nourishing', 'protein-rich', 'satisfying'],
         season: ['summer', 'early fall'],
         category: 'vegetable',
         subCategory: 'legume',
-        affinities: ['salt', 'sesame', 'chili', 'lemon', 'olive oil', 'garlic'],
-        cookingMethods: ['boiled', 'steamed', 'microwaved', 'roasted'],
+        affinities: ['sea salt', 'sesame oil', 'garlic', 'ginger', 'soy sauce'],
+        cookingMethods: ['steamed', 'boiled', 'blanched'],
         nutritionalProfile: {
             fiber: 'high',
-            vitamins: ['k', 'folate', 'c', 'b2', 'b1'],
-            minerals: ['iron', 'calcium', 'magnesium', 'zinc', 'potassium'],
+            vitamins: ['k', 'c', 'folate'],
+            minerals: ['iron', 'calcium', 'magnesium'],
             calories: 121,
-            protein_g: 12,
-            fiber_g: 5,
-            carbs_g: 10,
-            fat_g: 5
+            protein_g: 11.9,
+            fiber_g: 5.2,
+            carbs_g: 9.9
         },
         preparation: {
             washing: true,
-            cooking: 'simmer in salted water 3-5 minutes',
-            shelling: 'typically eaten by squeezing beans from pods',
-            notes: 'Do not eat the pods, just the beans inside'
+            notes: 'Can be served hot or cold, in pod or shelled'
         },
         storage: {
-            temperature: 'refrigerated or frozen',
-            fresh_duration: '1-2 days',
-            frozen_duration: '6-12 months',
-            notes: 'Often purchased frozen, keeps quality well'
+            temperature: 'refrigerated',
+            duration: '3-5 days',
+            method: 'plastic bag',
+            notes: 'Best consumed fresh'
         }
     },
     'lima beans': {
         name: 'Lima beans',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({
-            Earth: 0.5,
+        elementalProperties: createElementalProperties({
+            Earth: 0.6,
             Water: 0.2,
-            Fire: 0.2,
-            Air: 0.1
+            Air: 0.1,
+            Fire: 0.1
         }),
         astrologicalProfile: {
-            rulingPlanets: ['Saturn', 'Moon'],
-            favorableZodiac: ['capricorn', 'cancer'],
+            rulingPlanets: ['Saturn', 'Venus'],
+            favorableZodiac: ['capricorn', 'taurus'],
             elementalAffinity: {
                 base: 'Earth',
                 decanModifiers: {
                     first: { element: 'Earth', planet: 'Saturn' },
-                    second: { element: 'Water', planet: 'Moon' },
-                    third: { element: 'Fire', planet: 'Mars' }
+                    second: { element: 'Earth', planet: 'Venus' },
+                    third: { element: 'Water', planet: 'Moon' }
                 }
             },
             lunarPhaseModifiers: {
-                fullmoon: {
-                    elementalBoost: (0, elementalUtils_2.createElementalProperties)({ Earth: 0.2, Water: 0.1 }),
-                    preparationTips: ['Enhanced digestibility', 'Best for cooking']
+                waningGibbous: {
+                    elementalBoost: createElementalProperties({ Earth: 0.3 }),
+                    preparationTips: ['Enhanced protein content', 'Good for preservation']
+                },
+                lastQuarter: {
+                    elementalBoost: createElementalProperties({ Earth: 0.2, Water: 0.1 }),
+                    preparationTips: ['Best for slow cooking methods']
                 }
             }
         },
-        qualities: ['hearty', 'nourishing', 'substantial', 'grounding'],
+        qualities: ['grounding', 'nourishing', 'substantial'],
         season: ['summer', 'fall'],
         category: 'vegetable',
         subCategory: 'legume',
-        affinities: ['butter', 'bacon', 'sage', 'thyme', 'garlic', 'corn', 'tomatoes'],
-        cookingMethods: ['boiled', 'steamed', 'braised', 'pressure-cooked'],
+        affinities: ['garlic', 'onion', 'herbs', 'butter', 'cream'],
+        cookingMethods: ['boiled', 'braised', 'stewed', 'pureed'],
         nutritionalProfile: {
-            fiber: 'very high',
-            vitamins: ['folate', 'b1', 'b6', 'k'],
-            minerals: ['copper', 'manganese', 'iron', 'magnesium', 'potassium'],
+            fiber: 'high',
+            vitamins: ['b1', 'b6', 'folate'],
+            minerals: ['iron', 'magnesium', 'potassium'],
             calories: 115,
-            protein_g: 8,
+            protein_g: 7.8,
             fiber_g: 7,
-            carbs_g: 21
+            carbs_g: 20.9
+        },
+        preparation: {
+            washing: true,
+            soaking: 'recommended for dried beans',
+            notes: 'Can be used fresh or dried'
+        },
+        storage: {
+            temperature: 'refrigerated',
+            duration: '3-5 days fresh',
+            method: 'plastic bag',
+            notes: 'Can be frozen for longer storage'
         }
     }
 };
-// Process ingredient mappings to ensure they have all required properties
-exports.legumes = (0, elementalUtils_1.fixIngredientMappings)(rawLegumes);
+
+// Fix the ingredient mappings to ensure they have all required properties
+export const legumes = fixIngredientMappings(rawLegumes);
+
 // Export individual legumes for direct access
-exports.greenBeans = exports.legumes['green beans'];
-exports.snapPeas = exports.legumes['snap peas'];
-exports.snowPeas = exports.legumes['snow peas'];
-exports.edamame = exports.legumes.edamame;
-exports.limaBeans = exports.legumes['lima beans'];
+export const greenBeans = legumes['green beans'];
+export const snapPeas = legumes['snap peas'];
+export const snowPeas = legumes['snow peas'];
+export const edamame = legumes.edamame;
+export const limaBeans = legumes['lima beans'];
+
 // Default export
-exports.default = exports.legumes;
+export default legumes;

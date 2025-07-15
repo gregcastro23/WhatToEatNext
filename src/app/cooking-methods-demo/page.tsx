@@ -26,7 +26,7 @@ export default function CookingMethodsDemoPage() {
     demoMethods.sort((a, b) => (b.score || 0) - (a.score || 0));
     
     // Limit to 12 methods for the demo
-    setMethods(demoMethods.slice(0, 12) as unknown as CookingMethod[]);
+    setMethods(demoMethods.slice(0, 12) as CookingMethod[]);
   }, []);
 
   const formatMethodsForComponent = (methodsObj: Record<string, unknown>, prefix: string) => {
@@ -104,8 +104,8 @@ export default function CookingMethodsDemoPage() {
       {methods.length > 0 ? (
         <Box sx={{ mb: 6 }}>
           <CookingMethodsSection 
-            methods={methods as Record<string, unknown>} 
-            onSelectMethod={handleSelectMethod as Record<string, unknown>}
+            methods={methods} 
+            onSelectMethod={handleSelectMethod}
             selectedMethodId={selectedMethod?.id || null}
             initiallyExpanded={true}
           />

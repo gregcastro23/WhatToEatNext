@@ -1,7 +1,6 @@
 import { ElementalEnergy, ElementType, signElementMap } from '@/types/elements';
 import { DEFAULT_ELEMENTAL_PROPERTIES } from '@/constants/elementalConstants';
 import type {
-  ElementalProperties as ElementProps,
   Season,
 } from '@/types/alchemy';
 import type { PlanetaryPosition } from '@/types/celestial';
@@ -23,7 +22,11 @@ export class ElementalCalculator {
   private currentBalance: ElementalProperties = DEFAULT_ELEMENTAL_PROPERTIES;
   private initialized = false;
 
-  private constructor() {}
+  private constructor() {
+    // Initialize the singleton instance with default values
+    this.currentBalance = { ...DEFAULT_ELEMENTAL_PROPERTIES };
+    this.initialized = false;
+  }
 
   static getInstance(): ElementalCalculator {
     if (!ElementalCalculator.instance) {
@@ -186,6 +189,21 @@ export class ElementalCalculator {
       Air: 0.25,
     };
 
+    // Apply phase-based modifiers
+    if (phase === 'waxing') {
+      properties.Fire = properties.Fire * 1.15;
+      properties.Air = properties.Air * 1.1;
+    } else if (phase === 'waning') {
+      properties.Water = properties.Water * 1.15;
+      properties.Earth = properties.Earth * 1.1;
+    } else if (phase === 'full') {
+      properties.Fire = properties.Fire * 1.2;
+      properties.Water = properties.Water * 1.2;
+    } else if (phase === 'new') {
+      properties.Earth = properties.Earth * 1.2;
+      properties.Air = properties.Air * 1.2;
+    }
+
     // Apply time-based modifiers
     if (time === 'day') {
       properties.Fire = properties.Fire * 1.1;
@@ -298,6 +316,9 @@ export function calculateElementalEnergies(
     if (element) {
       energyValues[element] += weight;
       totalWeight += weight;
+      
+      // Use the processZodiacInfluence function to enhance calculations
+      processZodiacInfluence(sign, weight, energyValues);
     }
   }
 
@@ -350,7 +371,7 @@ function getDefaultElementalEnergies(): ElementalEnergy[] {
 }
 
 // Process a zodiac sign and its relevant position to update energy values
-function processZodiacInfluence(sign: string, weight: number, energyValues: ElementalProperties): void {
+function processZodiacInfluence(sign: string, weight: number, energyValues: Record<ElementType, number>): void {
   const element = signElementMap[sign];
 
   if (element) {

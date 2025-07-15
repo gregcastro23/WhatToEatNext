@@ -1,7 +1,6 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.squash = void 0;
-const elementalUtils_1 = require("../../../utils/elementalUtils");
+import { fixIngredientMappings } from "../../../utils/elementalUtils";
+
 const rawSquash = {
     "butternut squash": {
         "name": "Butternut squash",
@@ -317,5 +316,6 @@ const rawSquash = {
         }
     }
 };
+
 // Fix the ingredient mappings to ensure they have all required properties
-exports.squash = (0, elementalUtils_1.fixIngredientMappings)(rawSquash);
+export const squash = fixIngredientMappings(rawSquash);

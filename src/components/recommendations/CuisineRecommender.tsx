@@ -77,6 +77,8 @@ import {
 import type { ZodiacSign } from '@/types/zodiac';
 import type { LunarPhase, LunarPhaseWithSpaces } from '@/types/alchemy';
 import { ElementalCharacter, AlchemicalProperty } from '../../constants/planetaryElements';
+import { allSauces } from '@/data/sauces';
+import { getTimeFactors } from '@/types/time';
 import { useAlchemical } from '../../contexts/AlchemicalContext/hooks';
 import { transformCuisines,
   sortByAlchemicalCompatibility } from '../../utils/alchemicalTransformationUtils';
@@ -925,8 +927,6 @@ export default function CuisineRecommender() {
   // Create a simplified local implementation for generateSauceRecommendations
   function generateSauceRecommendationsForCuisine(cuisineName: string) {
     try {
-      const { allSauces } = require('@/data/sauces');
-      const { getTimeFactors } = require('@/types/time');
       const timeFactors = getTimeFactors();
       
       // Get the cuisine's elemental profile
@@ -1329,12 +1329,13 @@ export default function CuisineRecommender() {
           return sortDirection === 'asc' ? 
             (a.name || '').localeCompare(b.name || '') :
             (b.name || '').localeCompare(a.name || '');
-        case 'elemental':
+        case 'elemental': {
           const aElemental = a.elementalProperties ? 
             Object.values(a.elementalProperties).reduce((sum: number, val: any) => sum + (val || 0), 0) : 0;
           const bElemental = b.elementalProperties ? 
             Object.values(b.elementalProperties).reduce((sum: number, val: any) => sum + (val || 0), 0) : 0;
           return sortDirection === 'asc' ? aElemental - bElemental : bElemental - aElemental;
+        }
         default:
           return 0;
       }

@@ -3,10 +3,9 @@
  * Lunar Phase Types
  * This file contains all lunar phase related type definitions
  */
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.LUNAR_PHASES = exports.LUNAR_PHASE_REVERSE_MAPPING = exports.LUNAR_PHASE_TO_DISPLAY = exports.LUNAR_PHASE_MAP = void 0;
+
 // Mapping between different lunar phase formats
-exports.LUNAR_PHASE_MAP = {
+export const LUNAR_PHASE_MAP = {
     'new_moon': 'NEW_MOON',
     'waxing_crescent': 'WAXING_CRESCENT',
     'first_quarter': 'FIRST_QUARTER',
@@ -16,8 +15,9 @@ exports.LUNAR_PHASE_MAP = {
     'last_quarter': 'LAST_QUARTER',
     'waning_crescent': 'WANING_CRESCENT'
 };
+
 // Mapping from LunarPhase to LunarPhaseWithSpaces
-exports.LUNAR_PHASE_TO_DISPLAY = {
+export const LUNAR_PHASE_TO_DISPLAY = {
     'NEW_MOON': 'new moon',
     'WAXING_CRESCENT': 'Waxing Crescent',
     'FIRST_QUARTER': 'First Quarter',
@@ -27,8 +27,9 @@ exports.LUNAR_PHASE_TO_DISPLAY = {
     'LAST_QUARTER': 'Last Quarter',
     'WANING_CRESCENT': 'Waning Crescent'
 };
+
 // Reverse mapping from LunarPhaseWithSpaces to LunarPhase
-exports.LUNAR_PHASE_REVERSE_MAPPING = {
+export const LUNAR_PHASE_REVERSE_MAPPING = {
     'new moon': 'NEW_MOON',
     'Waxing Crescent': 'WAXING_CRESCENT',
     'First Quarter': 'FIRST_QUARTER',
@@ -38,8 +39,9 @@ exports.LUNAR_PHASE_REVERSE_MAPPING = {
     'Last Quarter': 'LAST_QUARTER',
     'Waning Crescent': 'WANING_CRESCENT'
 };
+
 // Array of all lunar phases
-exports.LUNAR_PHASES = [
+export const LUNAR_PHASES = [
     'NEW_MOON',
     'WAXING_CRESCENT',
     'FIRST_QUARTER',

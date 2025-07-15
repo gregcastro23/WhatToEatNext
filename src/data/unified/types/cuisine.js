@@ -1,10 +1,7 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.CulinaryFlavor = exports.CulinaryTemperature = exports.CulinaryTradition = void 0;
 /**
  * Defines culinary tradition categorization
  */
-let CulinaryTradition;
+export let CulinaryTradition;
 (function (CulinaryTradition) {
     CulinaryTradition["Asian"] = "Asian";
     CulinaryTradition["European"] = "European";
@@ -16,22 +13,22 @@ let CulinaryTradition;
     CulinaryTradition["Caribbean"] = "Caribbean";
     CulinaryTradition["Fusion"] = "Fusion";
     CulinaryTradition["Other"] = "Other";
-})(CulinaryTradition || (exports.CulinaryTradition = CulinaryTradition = {}));
+})(CulinaryTradition || (CulinaryTradition = {}));
 /**
  * Defines temperature categorization
  */
-let CulinaryTemperature;
+export let CulinaryTemperature;
 (function (CulinaryTemperature) {
     CulinaryTemperature["Hot"] = "Hot";
     CulinaryTemperature["Warm"] = "Warm";
     CulinaryTemperature["Neutral"] = "Neutral";
     CulinaryTemperature["Cool"] = "Cool";
     CulinaryTemperature["Cold"] = "Cold";
-})(CulinaryTemperature || (exports.CulinaryTemperature = CulinaryTemperature = {}));
+})(CulinaryTemperature || (CulinaryTemperature = {}));
 /**
  * Defines flavor profile categorization
  */
-let CulinaryFlavor;
+export let CulinaryFlavor;
 (function (CulinaryFlavor) {
     CulinaryFlavor["Sweet"] = "Sweet";
     CulinaryFlavor["Salty"] = "Salty";
@@ -44,4 +41,4 @@ let CulinaryFlavor;
     CulinaryFlavor["Astringent"] = "Astringent";
     CulinaryFlavor["Rich"] = "Rich";
     CulinaryFlavor["Refreshing"] = "Refreshing";
-})(CulinaryFlavor || (exports.CulinaryFlavor = CulinaryFlavor = {}));
+})(CulinaryFlavor || (CulinaryFlavor = {}));

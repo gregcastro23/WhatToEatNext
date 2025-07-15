@@ -1,23 +1,21 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.CUISINES = exports.cuisinesMap = exports.getCuisinesByElement = exports.getCuisineByName = exports.cuisines = void 0;
 // src/data/cuisines.ts
-const index_1 = require("./cuisines/index");
-Object.defineProperty(exports, "CUISINES", { enumerable: true, get: function () { return index_1.CUISINES; } });
-const african_1 = require("./cuisines/african");
-const american_1 = require("./cuisines/american");
-const chinese_1 = require("./cuisines/chinese");
-const french_1 = require("./cuisines/french");
-const greek_1 = require("./cuisines/greek");
-const indian_1 = require("./cuisines/indian");
-const italian_1 = require("./cuisines/italian");
-const japanese_1 = require("./cuisines/japanese");
-const korean_1 = require("./cuisines/korean");
-const mexican_1 = require("./cuisines/mexican");
-const middle_eastern_1 = require("./cuisines/middle-eastern");
-const thai_1 = require("./cuisines/thai");
-const vietnamese_1 = require("./cuisines/vietnamese");
-const russian_1 = require("./cuisines/russian");
+import { CUISINES, cuisinesMap } from './cuisines/index.js';
+import { african } from './cuisines/african.js';
+import { american } from './cuisines/american.js';
+import { chinese } from './cuisines/chinese.js';
+import { french } from './cuisines/french.js';
+import { greek } from './cuisines/greek.js';
+import { indian } from './cuisines/indian.js';
+import { italian } from './cuisines/italian.js';
+import { japanese } from './cuisines/japanese.js';
+import { korean } from './cuisines/korean.js';
+import { mexican } from './cuisines/mexican.js';
+import { middleEastern } from './cuisines/middle-eastern.js';
+import { thai } from './cuisines/thai.js';
+import { vietnamese } from './cuisines/vietnamese.js';
+import { russian } from './cuisines/russian.js';
+
+export { CUISINES, cuisinesMap };
 // Example recipe type for reference
 const exampleRecipe = {
     id: "example-recipe-001",
@@ -64,27 +62,25 @@ function adaptCuisine(cuisine) {
     };
 }
 // Combine all cuisines
-exports.cuisines = {
-    american: adaptCuisine(american_1.american),
-    chinese: adaptCuisine(chinese_1.chinese),
-    french: adaptCuisine(french_1.french),
-    greek: adaptCuisine(greek_1.greek),
-    indian: adaptCuisine(indian_1.indian),
-    italian: adaptCuisine(italian_1.italian),
-    japanese: adaptCuisine(japanese_1.japanese),
-    korean: adaptCuisine(korean_1.korean),
-    mexican: adaptCuisine(mexican_1.mexican),
-    middleEastern: adaptCuisine(middle_eastern_1.middleEastern),
-    thai: adaptCuisine(thai_1.thai),
-    vietnamese: adaptCuisine(vietnamese_1.vietnamese),
-    african: adaptCuisine(african_1.african),
-    russian: adaptCuisine(russian_1.russian)
+export const cuisines = {
+    american: adaptCuisine(american),
+    chinese: adaptCuisine(chinese),
+    french: adaptCuisine(french),
+    greek: adaptCuisine(greek),
+    indian: adaptCuisine(indian),
+    italian: adaptCuisine(italian),
+    japanese: adaptCuisine(japanese),
+    korean: adaptCuisine(korean),
+    mexican: adaptCuisine(mexican),
+    middleEastern: adaptCuisine(middleEastern),
+    thai: adaptCuisine(thai),
+    vietnamese: adaptCuisine(vietnamese),
+    african: adaptCuisine(african),
+    russian: adaptCuisine(russian)
 };
 // Helper functions for accessing cuisine properties
-const getCuisineByName = (name) => exports.cuisines[name.toLowerCase()];
-exports.getCuisineByName = getCuisineByName;
-const getCuisinesByElement = (element) => Object.values(exports.cuisines).filter(cuisine => (cuisine.elementalState?.[element] ?? 0) >= 0.3 || (cuisine.elementalProperties?.[element] ?? 0) >= 0.3);
-exports.getCuisinesByElement = getCuisinesByElement;
-// Re-export the cuisinesMap from the imported one
-exports.cuisinesMap = index_1.cuisinesMap;
-exports.default = exports.cuisines;
+export const getCuisineByName = (name) => cuisines[name.toLowerCase()];
+
+export const getCuisinesByElement = (element) => Object.values(cuisines).filter(cuisine => (cuisine.elementalState?.[element] ?? 0) >= 0.3 || (cuisine.elementalProperties?.[element] ?? 0) >= 0.3);
+
+export default cuisines;

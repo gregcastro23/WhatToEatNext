@@ -5,6 +5,7 @@
  */
 
 import ingredientCollection from '../data/ingredients';
+import { DEFAULT_ELEMENTAL_PROPERTIES } from '../constants/elementalConstants';
 
 /**
  * Standardizes ingredient data to ensure all required fields are present with valid values

@@ -1,7 +1,6 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.dAiry = void 0;
-const elementalUtils_1 = require("../../../utils/elementalUtils");
+import { fixIngredientMappings } from '../../../utils/elementalUtils';
+
 const rawDAiry = {
     "greek_yogurt": {
         name: "Greek Yogurt",
@@ -11,8 +10,7 @@ const rawDAiry = {
         sustainabilityScore: 6,
         season: ["all"],
         regionalOrigins: ["mediterranean", "middle_east"],
-        elementalProperties: { Fire: 0.1, Water: 0.6, Earth: 0.2, Air: 0.1
-        },
+        elementalProperties: { Fire: 0.1, Water: 0.6, Earth: 0.2, Air: 0.1 },
         astrologicalProfile: {
             rulingPlanets: ["Moon", "Venus"],
             zodiacInfluence: ["cancer", "taurus"],
@@ -157,8 +155,7 @@ const rawDAiry = {
         sustainabilityScore: 5,
         season: ["all"],
         regionalOrigins: ["europe", "north_america"],
-        elementalProperties: { Fire: 0.1, Water: 0.5, Earth: 0.3, Air: 0.1
-        },
+        elementalProperties: { Fire: 0.1, Water: 0.5, Earth: 0.3, Air: 0.1 },
         astrologicalProfile: {
             rulingPlanets: ["Moon", "Venus"],
             zodiacInfluence: ["taurus", "cancer"],
@@ -203,204 +200,53 @@ const rawDAiry = {
             "recovery": "Popular among athletes for post-workout recovery"
         },
         varieties: {
-            "small curd": {
-                texture: "Smaller, more uniform pieces",
-                moisture: "Medium",
-                protein: "Standard",
-                uses: "Baking, dips, smoother applications",
-                notes: "More versatile for recipes requiring uniform texture"
-            },
-            "large curd": {
-                texture: "Larger, more defined pieces",
-                moisture: "Medium",
-                protein: "Standard",
-                uses: "Direct eating, where texture is desirable",
-                notes: "Traditional style, more 'rustic' appearance"
-            },
-            "dry curd": {
-                texture: "Low moisture, distinctly separate curds",
-                moisture: "Low",
+            "small_curd": {
+                texture: "Fine, small curds",
+                moisture: "Medium-high",
                 protein: "High",
-                uses: "Baking, lactose-sensitive diets",
-                notes: "Lowest lactose content, least smooth"
+                uses: "Salads, dips, smoothies",
+                notes: "Most common variety"
             },
-            "whipped": {
-                texture: "Smoother, more blended consistency",
-                moisture: "Medium-high",
-                protein: "Standard",
-                uses: "Spreads, dips, smoother applications",
-                notes: "Easier to incorporate into recipes"
-            }
-        },
-        culinaryApplications: {
-            raw: {
-                notes: ["Eaten plain or with fruits", "Base for protein-rich snacks"],
-                techniques: ["Drizzle with honey or fruit", "Top with cracked black pepper and herbs"],
-                dishes: ["Cottage cheese bowls", "Stuffed avocados", "Protein snack plates"]
-            },
-            mix: {
-                notes: ["Added to salads", "Used in dips", "Blended for smoother applications"],
-                techniques: ["Fold gently to maintain texture", "Pulse in food processor for smoother consistency"],
-                dishes: ["Vegetable dips", "Protein-enriched sauces", "Waldorf salad variation"]
-            },
-            bake: {
-                notes: ["Filling for crepes", "Added to casseroles and lasagna", "Moisture-adding ingredient"],
-                techniques: ["Drain excess moisture for baking", "Mix with eggs for structure"],
-                dishes: ["Cottage cheese pancakes", "Cheesecake", "Lasagna filling", "Protein bread"]
-            },
-            blend: {
-                notes: ["Can be blended smooth for variety of uses", "Adds creaminess without heavy fat"],
-                techniques: ["Blend until completely smooth", "Mix with other ingredients for desired consistency"],
-                dishes: ["Protein smoothies", "Creamy dressings", "Healthier 'cream' sauces"]
-            }
-        },
-        preparation: {
-            homemade: {
-                ingredients: ["Whole milk", "Acid (vinegar or lemon juice)", "Salt"],
-                process: "Heat milk, add acid, allow curds to form, drain and rinse",
-                tips: ["Rinse curds thoroughly to control saltiness", "Save whey for baking applications"]
-            },
-            storebought: {
-                selection: "Check date codes, avoid excessive liquid",
-                preparation: "Drain excess liquid if desired"
-            }
-        },
-        storage: {
-            container: "Original container or Airtight glass",
-            duration: "5-7 days refrigerated",
-            temperature: {
-                fahrenheit: 38,
-                celsius: 3.3
-            },
-            notes: "Texture and flavor best when fresh, tends to sour rather than spoil"
-        },
-        culturalSignificance: {
-            "european": {
-                role: "Traditional fresh cheese in many cuisines",
-                pAirings: "Fresh herbs, black pepper, fruit preserves",
-                dishes: "Blintzes, pierogi filling, breakfast dishes"
-            },
-            "american": {
-                role: "Diet food popularized in mid-20th century",
-                pAirings: "Canned fruit, gelatin salads, crackers",
-                dishes: "1950s 'diet plates', retro salads"
-            },
-            "modern health": {
-                role: "Rediscovered as high-protein, whole food",
-                adaptations: "Protein bowls, savory applications, healthy baking ingredient"
-            }
-        },
-        affinities: {
-            sweet: ["peaches", "pineapple", "berries", "honey", "cinnamon", "nutmeg"],
-            savory: ["tomatoes", "cucumbers", "bell peppers", "herbs", "olive oil", "black pepper"]
-        },
-        pAirings: ["peaches", "pineapple", "tomatoes", "herbs", "pepper", "everything bagel seasoning"],
-        substitutions: ["ricotta", "greek_yogurt", "quark", "fromage blanc"],
-        idealSeasonings: {
-            sweet: ["cinnamon", "vanilla", "nutmeg", "maple", "honey"],
-            savory: ["chives", "black pepper", "dill", "garlic powder", "everything bagel seasoning"]
-        }
-    },
-    "ricotta": {
-        name: "Ricotta",
-        description: "Soft, mild Italian whey cheese with small, fluffy curds and versatile applications.",
-        category: "dAiry",
-        qualities: ["mild", "creamy", "sweet", "delicate", "versatile"],
-        sustainabilityScore: 6,
-        season: ["all"],
-        regionalOrigins: ["italy", "mediterranean"],
-        elementalProperties: { Fire: 0.1, Water: 0.5, Earth: 0.3, Air: 0.1
-        },
-        astrologicalProfile: {
-            rulingPlanets: ["Moon", "Venus"],
-            zodiacInfluence: ["cancer", "taurus"],
-            celestialAspects: {
-                moonPhase: {
-                    waxing: "increased moisture and softness",
-                    full: "optimal texture and sweetness",
-                    waning: "slightly drier, more complex flavor"
-                }
-            }
-        },
-        lunarPhaseModifiers: {
-            "New moon": {
-                elementalBoost: {
-                    Water: 0.2
-                },
-                preparationTips: ["Best for beginning cheese making", "Creates most delicate texture"]
-            },
-            "Full moon": {
-                elementalBoost: {
-                    Water: 0.1,
-                    Earth: 0.1
-                },
-                preparationTips: ["Best flavor development", "Optimal milk protein composition"]
-            }
-        },
-        nutritionalProfile: {
-            serving_size_oz: 4,
-            calories: 164,
-            protein_g: 11,
-            fat_g: 12,
-            carbs_g: 4,
-            vitamins: ['Vitamin A', 'Vitamin B12', 'Riboflavin'],
-            minerals: ['Calcium', 'Phosphorus', 'Selenium', 'Zinc']
-        },
-        healthBenefits: {
-            "protein source": "Complete protein with all essential amino acids",
-            "bone health": "High calcium content supports skeletal strength",
-            "digestibility": "Easier to digest than aged cheeses",
-            "muscle recovery": "Provides branched-chain amino acids",
-            "satiety": "Balance of protein and fat increases fullness"
-        },
-        varieties: {
-            "whole milk": {
-                texture: "Richest, creamiest",
-                moisture: "High",
-                fat: "High",
-                uses: "Desserts, traditional dishes, eating plain",
-                notes: "Traditional and most flavorful variety"
-            },
-            "part-skim": {
-                texture: "Slightly less creamy, more distinct curds",
-                moisture: "Medium-high",
-                fat: "Medium",
-                uses: "All-purpose, balanced nutrition and flavor",
-                notes: "Most commonly available commercial variety"
-            },
-            "sheep milk": {
-                texture: "Rich, distinctive",
+            "large_curd": {
+                texture: "Larger, more distinct curds",
                 moisture: "Medium",
-                fat: "High",
-                uses: "Specialty applications, authentic Italian dishes",
-                notes: "Traditional ricotta type with more complex flavor"
+                protein: "High",
+                uses: "Eating fresh, fruit pAirings",
+                notes: "More traditional style"
             },
-            "buffalo milk": {
-                texture: "Very rich, creamy",
+            "low_fat": {
+                texture: "Slightly drier, less creamy",
+                moisture: "Medium",
+                protein: "Very high",
+                uses: "Weight management, high protein needs",
+                notes: "Lower calorie option"
+            },
+            "full_fat": {
+                texture: "Creamiest, richest",
                 moisture: "High",
-                fat: "Very high",
-                uses: "Premium applications, special dishes",
-                notes: "Luxury variant, most often in southern Italy"
+                protein: "High",
+                uses: "Rich applications, traditional uses",
+                notes: "Best flavor and texture"
             }
         },
         culinaryApplications: {
             raw: {
-                notes: ["Served with honey or fruit", "Spread on bread or toast"],
-                techniques: ["Drizzle with good olive oil and sea salt", "Top with fresh herbs and pepper"],
-                dishes: ["Crostini", "Bruschetta", "Fresh fruit accompaniment"]
+                notes: ["Classic breakfast food", "High-protein snack"],
+                techniques: ["Top with fruit or honey", "Mix with herbs for savory"],
+                dishes: ["Breakfast bowls", "Fruit salads", "Protein snacks"]
             },
             mix: {
-                notes: ["Mixed into pasta dishes", "Combined with herbs for fillings"],
-                techniques: ["Room temperature incorporation", "Gently fold to maintain texture"],
-                dishes: ["Pasta alla Norma", "Dips", "Herb spreads"]
+                notes: ["Base for dips and spreads", "Used in fillings"],
+                techniques: ["Blend until smooth for dips", "Mix gently for texture"],
+                dishes: ["Veggie dip", "Stuffed pasta", "Protein smoothies"]
+            },
+            cook: {
+                notes: ["Adds protein to dishes", "Can be used in baked goods"],
+                techniques: ["Add at end of cooking", "Use in place of ricotta"],
+                dishes: ["Lasagna", "Stuffed shells", "Protein pancakes"]
             },
             bake: {
-                notes: ["Classic ingredient in lasagna", "Italian desserts", "Cheesecake"],
-                techniques: ["Drain excess moisture for some applications", "Mix with egg for structure in baking"],
-                dishes: ["Lasagna", "Cannoli filling", "Cassata", "Cheesecake"]
-            },
-            stuff: {
-                notes: ["Traditional filling for pasta and pastries", "Holds shape when baked"],
+                notes: ["Can replace ricotta in many recipes", "Adds protein to baked goods"],
                 techniques: ["Mix with eggs for stability", "Combine with other cheeses for depth"],
                 dishes: ["Ravioli", "Manicotti", "Stuffed shells", "Calzone"]
             }
@@ -455,8 +301,7 @@ const rawDAiry = {
         sustainabilityScore: 4,
         season: ["all"],
         regionalOrigins: ["united_states", "europe"],
-        elementalProperties: { Fire: 0.1, Water: 0.4, Earth: 0.4, Air: 0.1
-        },
+        elementalProperties: { Fire: 0.1, Water: 0.4, Earth: 0.4, Air: 0.1 },
         astrologicalProfile: {
             rulingPlanets: ["Venus", "Moon"],
             zodiacInfluence: ["taurus", "cancer", "libra"],
@@ -598,5 +443,7 @@ const rawDAiry = {
         }
     }
 };
+
 // Fix the ingredient mappings to ensure they have all required properties
-exports.dAiry = (0, elementalUtils_1.fixIngredientMappings)(rawDAiry);
+export const dAiry = fixIngredientMappings(rawDAiry);
+export default dAiry;

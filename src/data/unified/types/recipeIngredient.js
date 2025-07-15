@@ -1,10 +1,8 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.validateIngredient = void 0;
 /**
  * Validates an ingredient object against the RecipeIngredient interface
  */
-function validateIngredient(ingredient) {
+export function validateIngredient(ingredient) {
     if (!ingredient || typeof ingredient !== 'object') {
         return false;
     }
@@ -30,4 +28,3 @@ function validateIngredient(ingredient) {
     }
     return true;
 }
-exports.validateIngredient = validateIngredient;

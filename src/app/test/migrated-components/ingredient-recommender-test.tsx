@@ -3,7 +3,7 @@
 import React from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import IngredientRecommender from '@/components/recommendations/IngredientRecommender';
-import IngredientRecommenderMigrated from '@/components/recommendations/IngredientRecommender.migrated';
+// import IngredientRecommenderMigrated from '@/components/recommendations/IngredientRecommender.migrated';
 
 export default function IngredientRecommenderTestPage() {
   return (
@@ -26,7 +26,8 @@ export default function IngredientRecommenderTestPage() {
         <TabsContent value="migrated" className="space-y-8">
           <div className="border p-4 rounded-lg">
             <h2 className="text-lg font-semibold mb-4">Migrated Implementation</h2>
-            <IngredientRecommenderMigrated />
+            {/* <IngredientRecommenderMigrated /> */}
+            <div className="p-4 text-center text-gray-500">Migrated component not available</div>
           </div>
         </TabsContent>
       </Tabs>

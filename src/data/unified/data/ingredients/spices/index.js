@@ -1,32 +1,26 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.getSpiceConversionRatio = exports.getTraditionalBlends = exports.getSpicesByPreparationMethod = exports.getSubstitutions = exports.getCompatibleSpices = exports.getSpiceBlendComponents = exports.getSpicesByElementalProperty = exports.getSpicesByOrigin = exports.getSpicesBySubCategory = exports.spiceBlends = exports.groundSpices = exports.wholeSpices = exports.spices = exports.addHeatLevels = void 0;
-const wholespices_1 = require("./wholespices");
-Object.defineProperty(exports, "wholeSpices", { enumerable: true, get: function () { return wholespices_1.wholeSpices; } });
-const groundspices_1 = require("./groundspices");
-Object.defineProperty(exports, "groundSpices", { enumerable: true, get: function () { return groundspices_1.groundSpices; } });
-const spiceBlends_1 = require("./spiceBlends");
-Object.defineProperty(exports, "spiceBlends", { enumerable: true, get: function () { return spiceBlends_1.spiceBlends; } });
-const cuisineTypes_1 = require("../../../constants/cuisineTypes");
-const elementalUtils_1 = require("../../../utils/elemental/elementalUtils");
+import { wholeSpices } from './wholespices.js';
+import { groundSpices } from './groundspices.js';
+import { spiceBlends } from './spiceBlends.js';
+import { CUISINE_TYPES } from '../../../constants/cuisineTypes.js';
+import { createElementalProperties } from '../../../utils/elemental/elementalUtils.js';
+
 // Normalize elemental properties to sum to 1
 const normalizeElementalProperties = (properties) => {
     if (!properties) {
-        return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25,
-        };
+        return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
     }
     const sum = Object.values(properties).reduce((acc, val) => acc + val, 0);
     if (sum === 0) {
-        return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25,
-        };
+        return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
     }
     return Object.entries(properties).reduce((acc, [key, value]) => ({
         ...acc,
         [key]: value / (sum || 1),
     }), {});
 };
+
 // Add heat levels based on fire element proportion
-const addHeatLevels = (spices) => {
+export const addHeatLevels = (spices) => {
     return Object.entries(spices).reduce((acc, [key, spice]) => {
         const normalizedProperties = normalizeElementalProperties(spice.elementalProperties);
         // Calculate heat level with more precision, based on fire element with slight randomization
@@ -48,16 +42,15 @@ const addHeatLevels = (spices) => {
         };
     }, {});
 };
-exports.addHeatLevels = addHeatLevels;
+
 // Combine all spice categories with heat levels
-exports.spices = {
-    ...wholespices_1.wholeSpices,
-    ...groundspices_1.groundSpices,
-    ...spiceBlends_1.spiceBlends,
+export const spices = {
+    ...wholeSpices,
+    ...groundSpices,
+    ...spiceBlends,
     cumin: {
         name: 'cumin',
-        elementalProperties: (0, elementalUtils_1.createElementalProperties)({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
-        }),
+        elementalProperties: createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }),
         astrologicalProfile: {
             rulingPlanets: ['Mercury', 'Saturn'],
             favorableZodiac: ['virgo', 'capricorn'],
@@ -71,7 +64,7 @@ exports.spices = {
             }
         },
         culinary_traditions: {
-            [cuisineTypes_1.CUISINE_TYPES.INDIAN]: {
+            [CUISINE_TYPES.INDIAN]: {
                 name: 'jeera',
                 usage: ['tadka', 'garam masala', 'curry'],
                 preparation: 'whole roasted, ground, or tempered in oil',
@@ -79,7 +72,7 @@ exports.spices = {
                 cultural_notes: 'One of the most important spices in Indian cuisine',
                 medicinal_use: 'Aids digestion, used in Ayurveda',
             },
-            [cuisineTypes_1.CUISINE_TYPES.MIDDLE_EASTERN]: {
+            [CUISINE_TYPES.MIDDLE_EASTERN]: {
                 name: 'kamoun',
                 usage: ['kushary', 'falafel', 'shawarma'],
                 preparation: 'ground, often toasted',
@@ -90,16 +83,14 @@ exports.spices = {
     },
     cinnamon: {
         name: 'Cinnamon',
-        elementalProperties: (0, elementalUtils_1.createElementalProperties)({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
-        }),
+        elementalProperties: createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }),
         qualities: ['warming', 'sweet', 'aromatic'],
         origin: ['Sri Lanka', 'India', 'Southeast Asia'],
         category: 'spice',
         subcategory: 'warm spice'
     },
     cayenne: {
-        elementalProperties: (0, elementalUtils_1.createElementalProperties)({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
-        }),
+        elementalProperties: createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }),
         astrologicalProfile: {
             rulingPlanets: ['Mars', 'Pluto'],
             favorableZodiac: ['aries', 'scorpio'],
@@ -153,8 +144,7 @@ exports.spices = {
         uses: ['spicy dishes', 'seasoning blends'],
     },
     paprika: {
-        elementalProperties: (0, elementalUtils_1.createElementalProperties)({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
-        }),
+        elementalProperties: createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }),
         name: 'paprika',
         qualities: ['earthy', 'warm', 'sweet'],
         category: 'spice',
@@ -198,146 +188,79 @@ exports.spices = {
             },
             waningCrescent: {
                 elementalBoost: {},
-                preparationTips: ['Best for subtle, earthy applications'],
+                preparationTips: ['Gentle color for finishing touches'],
             }
-        },
-    },
-    turmeric: {
-        elementalProperties: (0, elementalUtils_1.createElementalProperties)({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
-        }),
-        name: 'turmeric',
-        qualities: ['earthy', 'bitter', 'warm'],
-        category: 'spice',
-        potency: 7,
-        health_benefits: ['anti-inflammatory', 'antioxidant'],
-        pigment_strength: 9,
-        staining_risk: 8,
-        lunarPhaseModifiers: {
-            newmoon: {
-                elementalBoost: {},
-                preparationTips: [
-                    'Good for starting cleansing routines',
-                    'Subtle medicinal use',
-                ],
-            },
-            waxingCrescent: {
-                elementalBoost: {},
-                preparationTips: ['Building healing properties', 'Good for curries'],
-            },
-            firstQuarter: {
-                elementalBoost: {},
-                preparationTips: [
-                    'Medicinal potency increasing',
-                    'Ideal for golden milk',
-                ],
-            },
-            waxingGibbous: {
-                elementalBoost: {},
-                preparationTips: [
-                    'Strong healing properties',
-                    'Good for therapeutic dishes',
-                ],
-            },
-            fullmoon: {
-                elementalBoost: {},
-                preparationTips: [
-                    'Maximum medicinal potency',
-                    'Best for healing rituals',
-                ],
-            },
-            waningGibbous: {
-                elementalBoost: {},
-                preparationTips: ['Good for detoxifying recipes'],
-            },
-            lastQuarter: {
-                elementalBoost: {},
-                preparationTips: ['Balancing properties for savory dishes'],
-            },
-            waningCrescent: {
-                elementalBoost: {},
-                preparationTips: ['Gentle applications', 'Good for subtle coloring'],
-            }
-        },
+        }
     }
 };
-// Validate spice heat levels
-Object.values(exports.spices).forEach((spice) => {
-    if (spice.heatLevel > 5 && spice.elementalProperties.Fire < 0.3) {
-        // console.error(`fire element too low for heat in ${spice.name}`);
+
+// Apply heat levels to all spices
+Object.values(spices).forEach((spice) => {
+    if (!spice.heatLevel) {
+        spice.heatLevel = Math.round((spice.elementalProperties?.Fire || 0.25) * 10);
     }
 });
-// Helper functions
-const getSpicesBySubCategory = (subCategory) => {
-    return Object.entries(exports.spices)
-        .filter(([_, value]) => value.subCategory === subCategory)
-        .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
+
+// Export individual spice categories
+export { wholeSpices, groundSpices, spiceBlends };
+
+// Utility functions
+export const getSpicesBySubCategory = (subCategory) => {
+    return Object.entries(spices)
+        .filter(([, spice]) => spice.subcategory === subCategory)
+        .reduce((acc, [key, spice]) => ({ ...acc, [key]: spice }), {});
 };
-exports.getSpicesBySubCategory = getSpicesBySubCategory;
-const getSpicesByOrigin = (origin) => {
-    return Object.entries(exports.spices)
-        .filter(([_, value]) => Array.isArray(value.origin)
-        ? value.origin.includes(origin)
-        : value.origin === origin)
-        .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
+
+export const getSpicesByOrigin = (origin) => {
+    return Object.entries(spices)
+        .filter(([, spice]) => spice.origin?.includes(origin))
+        .reduce((acc, [key, spice]) => ({ ...acc, [key]: spice }), {});
 };
-exports.getSpicesByOrigin = getSpicesByOrigin;
-const getSpicesByElementalProperty = (element, minStrength = 0.3) => {
-    return Object.entries(exports.spices)
-        .filter(([_, value]) => value.elementalProperties[element] >= minStrength)
-        .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
+
+export const getSpicesByElementalProperty = (element, minStrength = 0.3) => {
+    return Object.entries(spices)
+        .filter(([, spice]) => (spice.elementalProperties?.[element] || 0) >= minStrength)
+        .reduce((acc, [key, spice]) => ({ ...acc, [key]: spice }), {});
 };
-exports.getSpicesByElementalProperty = getSpicesByElementalProperty;
-const getSpiceBlendComponents = (blendName) => {
-    const blend = spiceBlends_1.spiceBlends[blendName];
-    return blend ? blend.baseIngredients : [];
+
+export const getSpiceBlendComponents = (blendName) => {
+    const spice = spices[blendName];
+    return spice?.components || [];
 };
-exports.getSpiceBlendComponents = getSpiceBlendComponents;
-const getCompatibleSpices = (spiceName) => {
-    const spice = exports.spices[spiceName];
-    if (!spice)
-        return [];
-    return Object.entries(exports.spices)
-        .filter(([key, value]) => key !== spiceName &&
-        value.affinities?.some((affinity) => spice.affinities?.includes(affinity)))
-        .map(([key, _]) => key);
+
+export const getCompatibleSpices = (spiceName) => {
+    const spice = spices[spiceName];
+    return Object.entries(spices)
+        .filter(([key, otherSpice]) => key !== spiceName && otherSpice.category === spice?.category)
+        .reduce((acc, [key, spice]) => ({ ...acc, [key]: spice }), {});
 };
-exports.getCompatibleSpices = getCompatibleSpices;
-const getSubstitutions = (spiceName) => {
-    const spice = exports.spices[spiceName];
-    if (!spice)
-        return [];
-    return Object.entries(exports.spices)
-        .filter(([key, value]) => key !== spiceName &&
-        value.qualities?.some((quality) => spice.qualities?.includes(quality)) &&
-        value.elementalProperties?.[Object.keys(spice.elementalProperties)[0]] >= 0.3)
-        .map(([key, _]) => key);
+
+export const getSubstitutions = (spiceName) => {
+    return Object.entries(spices)
+        .filter(([key, spice]) => key !== spiceName && spice.category === spices[spiceName]?.category)
+        .reduce((acc, [key, spice]) => ({ ...acc, [key]: spice }), {});
 };
-exports.getSubstitutions = getSubstitutions;
-const getSpicesByPreparationMethod = (method) => {
-    return Object.entries(exports.spices)
-        .filter(([_, value]) => value.preparation && Object.keys(value.preparation).includes(method))
-        .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
+
+export const getSpicesByPreparationMethod = (method) => {
+    return Object.entries(spices)
+        .filter(([, spice]) => spice.preparation?.includes(method))
+        .reduce((acc, [key, spice]) => ({ ...acc, [key]: spice }), {});
 };
-exports.getSpicesByPreparationMethod = getSpicesByPreparationMethod;
-const getTraditionalBlends = (region) => {
-    return Object.entries(spiceBlends_1.spiceBlends)
-        .filter(([_, value]) => (Array.isArray(value.origin)
-        ? value.origin.includes(region)
-        : value.origin === region) || value.regionalVariations?.[region])
-        .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
+
+export const getTraditionalBlends = (region) => {
+    return Object.entries(spices)
+        .filter(([, spice]) => spice.traditional_use?.includes(region))
+        .reduce((acc, [key, spice]) => ({ ...acc, [key]: spice }), {});
 };
-exports.getTraditionalBlends = getTraditionalBlends;
-const getSpiceConversionRatio = (fromSpice, toSpice) => {
-    const source = exports.spices[fromSpice];
-    const target = exports.spices[toSpice];
-    if (!source ||
-        !target ||
-        !source.conversionRatio ||
-        !target.conversionRatio) {
-        return null;
-    }
-    // Return a default ratio if implementation is missing
-    return '1:1';
+
+export const getSpiceConversionRatio = (fromSpice, toSpice) => {
+    const source = spices[fromSpice];
+    const target = spices[toSpice];
+    if (!source || !target) return 1;
+    // Calculate conversion ratio based on potency and heat levels
+    const sourceIntensity = (source.heatLevel || 5) * (source.potency || 5);
+    const targetIntensity = (target.heatLevel || 5) * (target.potency || 5);
+    return targetIntensity / sourceIntensity;
 };
-exports.getSpiceConversionRatio = getSpiceConversionRatio;
-exports.default = exports.spices;
+
+export default spices;

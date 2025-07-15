@@ -1,12 +1,11 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.quinoaGrain = void 0;
-const elementalUtils_1 = require("../../../../utils/elementalUtils");
-const elementalUtils_2 = require("../../../../utils/elemental/elementalUtils");
+import { fixIngredientMappings } from '../../../../utils/elementalUtils';
+import { createElementalProperties } from '../../../../utils/elemental/elementalUtils';
+
 const rawQuinoa = {
     'quinoa': {
         name: 'Quinoa',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2
+        elementalProperties: createElementalProperties({ Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2
         }),
         astrologicalProfile: {
             rulingPlanets: ['Mercury', 'Saturn'],
@@ -21,14 +20,14 @@ const rawQuinoa = {
             },
             lunarPhaseModifiers: {
                 newmoon: {
-                    elementalBoost: (0, elementalUtils_2.createElementalProperties)({
+                    elementalBoost: createElementalProperties({
                         Earth: 0.2,
                         Air: 0.1
                     }),
                     preparationTips: ['Begin sprouting process', 'Mindful cooking with minimal seasonings']
                 },
                 fullmoon: {
-                    elementalBoost: (0, elementalUtils_2.createElementalProperties)({
+                    elementalBoost: createElementalProperties({
                         Earth: 0.2,
                         Water: 0.2
                     }),
@@ -156,9 +155,12 @@ const rawQuinoa = {
         }
     }
 };
+
 // Apply any fixes needed to raw ingredient data
-const quinoa = (0, elementalUtils_1.fixIngredientMappings)(rawQuinoa);
+const quinoa = fixIngredientMappings(rawQuinoa);
+
 // Export the entire collection
-exports.default = quinoa;
+export default quinoa;
+
 // Export individual item for direct access
-exports.quinoaGrain = quinoa.quinoa;
+export const quinoaGrain = quinoa.quinoa;

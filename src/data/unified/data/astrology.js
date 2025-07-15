@@ -1,13 +1,10 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.signInfo = exports.planetInfo = exports.planetaryRulers = exports.elements = exports.zodiacSigns = void 0;
 // Basic astrology data for the ElementalCalculator
-exports.zodiacSigns = [
+export const zodiacSigns = [
     'aries', 'taurus', 'gemini', 'cancer',
     'leo', 'virgo', 'libra', 'scorpio',
     'sagittarius', 'capricorn', 'aquarius', 'pisces'
 ];
-exports.elements = { 'aries': 'Fire',
+export const elements = { 'aries': 'Fire',
     'leo': 'Fire',
     'sagittarius': 'Fire',
     'taurus': 'Earth',
@@ -20,7 +17,7 @@ exports.elements = { 'aries': 'Fire',
     'scorpio': 'Water',
     'pisces': 'Water'
 };
-exports.planetaryRulers = { 'aries': 'Mars',
+export const planetaryRulers = { 'aries': 'Mars',
     'taurus': 'Venus',
     'gemini': 'Mercury',
     'cancer': 'Moon',
@@ -35,7 +32,7 @@ exports.planetaryRulers = { 'aries': 'Mars',
 };
 
 // Export planetInfo data structure needed by the calculations
-exports.planetInfo = {
+export const planetInfo = {
     'Sun': {
         'Elements': ['Fire', 'Fire'],
         'Alchemy': { Spirit: 1, Essence: 0, Matter: 0, Substance: 0 },
@@ -102,7 +99,7 @@ exports.planetInfo = {
     }
 };
 // Export signInfo data structure needed by the calculations
-exports.signInfo = {
+export const signInfo = {
     "aries": {
         "Element": 'Fire',
         "Start": { month: 3, day: 21 },
@@ -237,10 +234,10 @@ exports.signInfo = {
     }
 };
 // NOTE: signInfo is truncated for brevity - please add the remaining signs as needed,
-exports.default = {
-    zodiacSigns: exports.zodiacSigns,
-    elements: exports.elements,
-    planetaryRulers: exports.planetaryRulers,
-    planetInfo: exports.planetInfo,
-    signInfo: exports.signInfo
+export default {
+    zodiacSigns,
+    elements,
+    planetaryRulers,
+    planetInfo,
+    signInfo
 };

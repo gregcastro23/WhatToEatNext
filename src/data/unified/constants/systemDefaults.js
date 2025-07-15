@@ -1,6 +1,7 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.validateAgainstDefaults = exports.mergeWithDefaults = exports.getDefaultPlanetaryPositions = exports.getDefaultAstrologicalState = exports.getDefaultElementalProperties = exports.cloneDefault = exports.DEFAULT_API_CONFIG = exports.DEFAULT_SYSTEM_CONFIG = exports.DEFAULT_RETRY_CONFIG = exports.DEFAULT_ERROR_MESSAGES = exports.DEFAULT_COMPATIBILITY_THRESHOLDS = exports.DEFAULT_CALCULATION_PARAMS = exports.DEFAULT_NUTRITIONAL_PROFILE = exports.DEFAULT_FOOD_RECOMMENDATION = exports.DEFAULT_RECIPE_ELEMENTAL_VALUES = exports.DEFAULT_MODALITY_DISTRIBUTION = exports.DEFAULT_THERMODYNAMIC_PROPERTIES = exports.DEFAULT_ZODIAC_ENERGIES = exports.DEFAULT_ASTROLOGICAL_STATE = exports.DEFAULT_CHAKRA_ENERGIES = exports.DEFAULT_PLANETARY_POSITIONS = exports.DEFAULT_PLANETARY_ALIGNMENT = exports.DEFAULT_RISING_SIGN = exports.DEFAULT_moon_SIGN = exports.DEFAULT_SUN_SIGN = exports.DEFAULT_LUNAR_PHASE = exports.DEFAULT_ALCHEMICAL_VALUES = exports.DEFAULT_ELEMENTAL_PROPERTIES = void 0;
+/**
+ * System defaults - consolidated from multiple files
+ * This file replaces default values scattered across defaults.ts and other files
+ */
 /**
  * System defaults - consolidated from multiple files
  * This file replaces default values scattered across defaults.ts and other files
@@ -9,12 +10,12 @@ exports.validateAgainstDefaults = exports.mergeWithDefaults = exports.getDefault
 /**
  * Default elemental properties with balanced values
  */
-exports.DEFAULT_ELEMENTAL_PROPERTIES = { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
+export const DEFAULT_ELEMENTAL_PROPERTIES = { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
 };
 /**
  * Default alchemical values with standard distribution
  */
-exports.DEFAULT_ALCHEMICAL_VALUES = {
+export const DEFAULT_ALCHEMICAL_VALUES = {
     Spirit: 0.29,
     Essence: 0.28,
     Matter: 0.21,
@@ -24,18 +25,18 @@ exports.DEFAULT_ALCHEMICAL_VALUES = {
 /**
  * Default lunar phase
  */
-exports.DEFAULT_LUNAR_PHASE = 'new moon';
+export const DEFAULT_LUNAR_PHASE = 'new moon';
 /**
- * Default zodiac signs
+ * Default zodiac signs based on last successful API call
  */
-exports.DEFAULT_SUN_SIGN = 'aries';
-exports.DEFAULT_moon_SIGN = 'taurus';
-exports.DEFAULT_RISING_SIGN = 'leo';
+export const DEFAULT_SUN_SIGN = 'gemini';
+export const DEFAULT_moon_SIGN = 'virgo';
+export const DEFAULT_RISING_SIGN = 'aries';
 /**
  * Default planetary alignment with safe values
  * NOTE: For type safety only. Do NOT use for live calculations or UI. Always use real planetary positions.
  */
-exports.DEFAULT_PLANETARY_ALIGNMENT = {
+export const DEFAULT_PLANETARY_ALIGNMENT = {
     Sun: {},
     Moon: {},
     Mercury: {},
@@ -48,67 +49,75 @@ exports.DEFAULT_PLANETARY_ALIGNMENT = {
     Pluto: { sign: '', degree: 0 }
 };
 /**
- * Default planetary positions for Sun and Moon
+ * Default planetary positions based on last successful API call
+ * These are fallback positions from the astrologize API when it fails
+ * They represent real planetary positions from a recent successful API call
  */
-exports.DEFAULT_PLANETARY_POSITIONS = {
+export const DEFAULT_PLANETARY_POSITIONS = {
     Sun: {
-        sign: 'aries',
-        degree: 15,
-        exactLongitude: 15.5,
+        sign: 'gemini',
+        degree: 13,
+        exactLongitude: 73.9,
         isRetrograde: false
     },
     Moon: {
-        sign: 'taurus',
-        degree: 8,
-        exactLongitude: 38.2,
+        sign: 'virgo',
+        degree: 26,
+        exactLongitude: 176.52,
         isRetrograde: false
     },
     Mercury: {
         sign: 'gemini',
-        degree: 10,
-        exactLongitude: 70.0,
+        degree: 20,
+        exactLongitude: 80.18,
         isRetrograde: false
     },
     Venus: {
-        sign: 'libra',
-        degree: 12,
-        exactLongitude: 192.0,
+        sign: 'aries',
+        degree: 28,
+        exactLongitude: 28.1,
         isRetrograde: false
     },
     Mars: {
-        sign: 'aries',
-        degree: 20,
-        exactLongitude: 20.0,
+        sign: 'leo',
+        degree: 22,
+        exactLongitude: 142.8,
         isRetrograde: false
     },
     Jupiter: {
-        sign: 'sagittarius',
-        degree: 5,
-        exactLongitude: 245.0,
+        sign: 'gemini',
+        degree: 28,
+        exactLongitude: 88.73,
         isRetrograde: false
     },
     Saturn: {
-        sign: 'capricorn',
-        degree: 18,
-        exactLongitude: 288.0,
+        sign: 'aries',
+        degree: 0,
+        exactLongitude: 0.68,
         isRetrograde: false
     },
     Uranus: {
-        sign: 'aquarius',
-        degree: 25,
-        exactLongitude: 325.0,
+        sign: 'taurus',
+        degree: 28,
+        exactLongitude: 58.28,
         isRetrograde: false
     },
     Neptune: {
-        sign: 'pisces',
-        degree: 14,
-        exactLongitude: 344.0,
+        sign: 'aries',
+        degree: 1,
+        exactLongitude: 1.92,
         isRetrograde: false
     },
     Pluto: {
-        sign: 'scorpio',
-        degree: 22,
-        exactLongitude: 232.0,
+        sign: 'aquarius',
+        degree: 3,
+        exactLongitude: 303.6,
+        isRetrograde: true
+    },
+    Ascendant: {
+        sign: 'aries',
+        degree: 16,
+        exactLongitude: 16.27,
         isRetrograde: false
     }
 };
@@ -116,7 +125,7 @@ exports.DEFAULT_PLANETARY_POSITIONS = {
 /**
  * Default chakra energies with neutral values
  */
-exports.DEFAULT_CHAKRA_ENERGIES = {
+export const DEFAULT_CHAKRA_ENERGIES = {
     root: 0.5,
     sacral: 0.5,
     solarPlexus: 0.5,
@@ -130,11 +139,11 @@ exports.DEFAULT_CHAKRA_ENERGIES = {
 /**
  * Default astrological state with safe values for all required properties
  */
-exports.DEFAULT_ASTROLOGICAL_STATE = {
-    sunSign: exports.DEFAULT_SUN_SIGN,
-    moonSign: exports.DEFAULT_moon_SIGN,
-    lunarPhase: exports.DEFAULT_LUNAR_PHASE,
-    risingSign: exports.DEFAULT_RISING_SIGN,
+export const DEFAULT_ASTROLOGICAL_STATE = {
+    sunSign: DEFAULT_SUN_SIGN,
+    moonSign: DEFAULT_moon_SIGN,
+    lunarPhase: DEFAULT_LUNAR_PHASE,
+    risingSign: DEFAULT_RISING_SIGN,
     planetaryHour: 'Sun',
     planetaryDay: 'Sun',
     season: 'spring',
@@ -146,20 +155,20 @@ exports.DEFAULT_ASTROLOGICAL_STATE = {
     },
     aspects: [],
     dominantElement: 'Fire',
-    elementalProfile: exports.DEFAULT_ELEMENTAL_PROPERTIES,
-    planetaryPositions: exports.DEFAULT_PLANETARY_POSITIONS,
+    elementalProfile: DEFAULT_ELEMENTAL_PROPERTIES,
+    planetaryPositions: DEFAULT_PLANETARY_POSITIONS,
     isDaytime: true,
     activePlanets: ['Sun', 'Moon'],
     activeAspects: [],
-    zodiacSign: exports.DEFAULT_SUN_SIGN,
-    calculationError: false,alchemicalValues: exports.DEFAULT_ALCHEMICAL_VALUES
+    zodiacSign: DEFAULT_SUN_SIGN,
+    calculationError: false,alchemicalValues: DEFAULT_ALCHEMICAL_VALUES
 };
 // ===== ENERGY AND CALCULATION DEFAULTS =====
 /**
  * Default zodiac energies
  * NOTE: For type safety only. Do NOT use for live calculations or UI. Always use real calculated values.
  */
-exports.DEFAULT_ZODIAC_ENERGIES = {
+export const DEFAULT_ZODIAC_ENERGIES = {
     aries: 0,
     taurus: 0,
     gemini: 0,
@@ -176,7 +185,7 @@ exports.DEFAULT_ZODIAC_ENERGIES = {
 /**
  * Default thermodynamic properties
  */
-exports.DEFAULT_THERMODYNAMIC_PROPERTIES = {
+export const DEFAULT_THERMODYNAMIC_PROPERTIES = {
     heat: 0.5,
     entropy: 0.5,
     reactivity: 0.5,
@@ -188,7 +197,7 @@ exports.DEFAULT_THERMODYNAMIC_PROPERTIES = {
 /**
  * Default modality distribution
  */
-exports.DEFAULT_MODALITY_DISTRIBUTION = {
+export const DEFAULT_MODALITY_DISTRIBUTION = {
     cardinal: 0.33,
     fixed: 0.33,
     mutable: 0.34
@@ -197,14 +206,14 @@ exports.DEFAULT_MODALITY_DISTRIBUTION = {
 /**
  * Default recipe elemental values
  */
-exports.DEFAULT_RECIPE_ELEMENTAL_VALUES = { Fire: 0.3, Water: 0.3, Earth: 0.2, Air: 0.2
+export const DEFAULT_RECIPE_ELEMENTAL_VALUES = { Fire: 0.3, Water: 0.3, Earth: 0.2, Air: 0.2
 };
 /**
  * Default food recommendation
  */
-exports.DEFAULT_FOOD_RECOMMENDATION = {
+export const DEFAULT_FOOD_RECOMMENDATION = {
     cuisine: 'balanced',
-    elements: exports.DEFAULT_RECIPE_ELEMENTAL_VALUES,
+    elements: DEFAULT_RECIPE_ELEMENTAL_VALUES,
     recommendation: 'A balanced meal with a variety of fresh ingredients',
     score: 0.5,
     confidence: 0.7
@@ -212,7 +221,7 @@ exports.DEFAULT_FOOD_RECOMMENDATION = {
 /**
  * Default nutritional profile
  */
-exports.DEFAULT_NUTRITIONAL_PROFILE = {
+export const DEFAULT_NUTRITIONAL_PROFILE = {
     calories: 0,
     protein: 0,
     carbs: 0,
@@ -226,7 +235,7 @@ exports.DEFAULT_NUTRITIONAL_PROFILE = {
 /**
  * Default calculation parameters
  */
-exports.DEFAULT_CALCULATION_PARAMS = {
+export const DEFAULT_CALCULATION_PARAMS = {
     useAspects: true,
     usePlanetaryHours: true,
     useLunarPhase: true,
@@ -239,7 +248,7 @@ exports.DEFAULT_CALCULATION_PARAMS = {
 /**
  * Default compatibility thresholds
  */
-exports.DEFAULT_COMPATIBILITY_THRESHOLDS = {
+export const DEFAULT_COMPATIBILITY_THRESHOLDS = {
     excellent: 0.8,
     good: 0.6,
     fAir: 0.4,
@@ -250,7 +259,7 @@ exports.DEFAULT_COMPATIBILITY_THRESHOLDS = {
 /**
  * Default error message templates
  */
-exports.DEFAULT_ERROR_MESSAGES = {
+export const DEFAULT_ERROR_MESSAGES = {
     calculation: 'Error in astrological calculation',
     missing_data: 'Missing required data for calculation',
     invalid_input: 'Invalid input data provided',
@@ -264,7 +273,7 @@ exports.DEFAULT_ERROR_MESSAGES = {
 /**
  * Default retry configuration
  */
-exports.DEFAULT_RETRY_CONFIG = {
+export const DEFAULT_RETRY_CONFIG = {
     maxRetries: 3,
     retryDelay: 1000,
     backoffMultiplier: 2,
@@ -274,7 +283,7 @@ exports.DEFAULT_RETRY_CONFIG = {
 /**
  * Default system configuration
  */
-exports.DEFAULT_SYSTEM_CONFIG = {
+export const DEFAULT_SYSTEM_CONFIG = {
     enableLogging: true,
     logLevel: 'info',
     enableCaching: true,
@@ -286,7 +295,7 @@ exports.DEFAULT_SYSTEM_CONFIG = {
 /**
  * Default API configuration
  */
-exports.DEFAULT_API_CONFIG = {
+export const DEFAULT_API_CONFIG = {
     timeout: 30000,
     retries: 3,
     rateLimit: 100,
@@ -296,7 +305,7 @@ exports.DEFAULT_API_CONFIG = {
 /**
  * Clone a default object to prevent mutation
  */
-function cloneDefault(defaultObject) {
+export function cloneDefault(defaultObject) {
     if (typeof defaultObject !== 'object' || defaultObject === null) {
         return defaultObject;
     }
@@ -311,32 +320,50 @@ function cloneDefault(defaultObject) {
     }
     return cloned;
 }
-exports.cloneDefault = cloneDefault;
 /**
  * Get default elemental properties
  */
-function getDefaultElementalProperties() {
-    return cloneDefault(exports.DEFAULT_ELEMENTAL_PROPERTIES);
+export function getDefaultElementalProperties() {
+    return cloneDefault(DEFAULT_ELEMENTAL_PROPERTIES);
 }
-exports.getDefaultElementalProperties = getDefaultElementalProperties;
 /**
  * Get default astrological state
  */
-function getDefaultAstrologicalState() {
-    return cloneDefault(exports.DEFAULT_ASTROLOGICAL_STATE);
+export function getDefaultAstrologicalState() {
+    return cloneDefault(DEFAULT_ASTROLOGICAL_STATE);
 }
-exports.getDefaultAstrologicalState = getDefaultAstrologicalState;
 /**
  * Get default planetary positions
  */
-function getDefaultPlanetaryPositions() {
-    return cloneDefault(exports.DEFAULT_PLANETARY_POSITIONS);
+export function getDefaultPlanetaryPositions() {
+    return cloneDefault(DEFAULT_PLANETARY_POSITIONS);
 }
-exports.getDefaultPlanetaryPositions = getDefaultPlanetaryPositions;
+
+/**
+ * Get the most recent successful API planetary positions
+ * This function attempts to get real-time data and falls back to cached/default data
+ */
+export async function getLatestPlanetaryPositions() {
+    try {
+        // Try to get current positions from the API
+        const { getCurrentPlanetaryPositions } = await import('@/services/astrologizeApi');
+        const positions = await getCurrentPlanetaryPositions();
+        
+        // If successful, return the real positions
+        if (positions && Object.keys(positions).length > 0) {
+            return positions;
+        }
+    } catch (error) {
+        // console.log('Failed to get latest planetary positions, using defaults:', error);
+    }
+    
+    // Fall back to default positions (which are based on last successful API call)
+    return cloneDefault(DEFAULT_PLANETARY_POSITIONS);
+}
 /**
  * Merge user values with defaults
  */
-function mergeWithDefaults(userValues, defaults) {
+export function mergeWithDefaults(userValues, defaults) {
     const result = cloneDefault(defaults);
     for (const key in userValues) {
         if (Object.prototype.hasOwnProperty.call(userValues, key) && userValues[key] !== undefined) {
@@ -352,11 +379,10 @@ function mergeWithDefaults(userValues, defaults) {
     }
     return result;
 }
-exports.mergeWithDefaults = mergeWithDefaults;
 /**
  * Validate values against defaults structure
  */
-function validateAgainstDefaults(values, defaults) {
+export function validateAgainstDefaults(values, defaults) {
     const errors = [];
     // Check for unknown keys
     for (const key in values) {
@@ -379,40 +405,41 @@ function validateAgainstDefaults(values, defaults) {
         errors
     };
 }
-exports.validateAgainstDefaults = validateAgainstDefaults;
-exports.default = {
+// Default export with all constants and functions
+export default {
     // Core defaults
-    DEFAULT_ELEMENTAL_PROPERTIES: exports.DEFAULT_ELEMENTAL_PROPERTIES,
-    DEFAULT_ALCHEMICAL_VALUES: exports.DEFAULT_ALCHEMICAL_VALUES,
-    DEFAULT_CHAKRA_ENERGIES: exports.DEFAULT_CHAKRA_ENERGIES,
+    DEFAULT_ELEMENTAL_PROPERTIES,
+    DEFAULT_ALCHEMICAL_VALUES,
+    DEFAULT_CHAKRA_ENERGIES,
     // Astrological defaults
-    DEFAULT_LUNAR_PHASE: exports.DEFAULT_LUNAR_PHASE,
-    DEFAULT_SUN_SIGN: exports.DEFAULT_SUN_SIGN,
-    DEFAULT_moon_SIGN: exports.DEFAULT_moon_SIGN,
-    DEFAULT_RISING_SIGN: exports.DEFAULT_RISING_SIGN,
-    DEFAULT_PLANETARY_ALIGNMENT: exports.DEFAULT_PLANETARY_ALIGNMENT,
-    DEFAULT_PLANETARY_POSITIONS: exports.DEFAULT_PLANETARY_POSITIONS,
-    DEFAULT_ASTROLOGICAL_STATE: exports.DEFAULT_ASTROLOGICAL_STATE,
+    DEFAULT_LUNAR_PHASE,
+    DEFAULT_SUN_SIGN,
+    DEFAULT_moon_SIGN,
+    DEFAULT_RISING_SIGN,
+    DEFAULT_PLANETARY_ALIGNMENT,
+    DEFAULT_PLANETARY_POSITIONS,
+    DEFAULT_ASTROLOGICAL_STATE,
     // Energy defaults
-    DEFAULT_ZODIAC_ENERGIES: exports.DEFAULT_ZODIAC_ENERGIES,
-    DEFAULT_THERMODYNAMIC_PROPERTIES: exports.DEFAULT_THERMODYNAMIC_PROPERTIES,
-    DEFAULT_MODALITY_DISTRIBUTION: exports.DEFAULT_MODALITY_DISTRIBUTION,
+    DEFAULT_ZODIAC_ENERGIES,
+    DEFAULT_THERMODYNAMIC_PROPERTIES,
+    DEFAULT_MODALITY_DISTRIBUTION,
     // Recipe defaults
-    DEFAULT_RECIPE_ELEMENTAL_VALUES: exports.DEFAULT_RECIPE_ELEMENTAL_VALUES,
-    DEFAULT_FOOD_RECOMMENDATION: exports.DEFAULT_FOOD_RECOMMENDATION,
-    DEFAULT_NUTRITIONAL_PROFILE: exports.DEFAULT_NUTRITIONAL_PROFILE,
+    DEFAULT_RECIPE_ELEMENTAL_VALUES,
+    DEFAULT_FOOD_RECOMMENDATION,
+    DEFAULT_NUTRITIONAL_PROFILE,
     // System defaults
-    DEFAULT_CALCULATION_PARAMS: exports.DEFAULT_CALCULATION_PARAMS,
-    DEFAULT_COMPATIBILITY_THRESHOLDS: exports.DEFAULT_COMPATIBILITY_THRESHOLDS,
-    DEFAULT_ERROR_MESSAGES: exports.DEFAULT_ERROR_MESSAGES,
-    DEFAULT_RETRY_CONFIG: exports.DEFAULT_RETRY_CONFIG,
-    DEFAULT_SYSTEM_CONFIG: exports.DEFAULT_SYSTEM_CONFIG,
-    DEFAULT_API_CONFIG: exports.DEFAULT_API_CONFIG,
+    DEFAULT_CALCULATION_PARAMS,
+    DEFAULT_COMPATIBILITY_THRESHOLDS,
+    DEFAULT_ERROR_MESSAGES,
+    DEFAULT_RETRY_CONFIG,
+    DEFAULT_SYSTEM_CONFIG,
+    DEFAULT_API_CONFIG,
     // Utility functions
     cloneDefault,
     getDefaultElementalProperties,
     getDefaultAstrologicalState,
     getDefaultPlanetaryPositions,
+    getLatestPlanetaryPositions,
     mergeWithDefaults,
     validateAgainstDefaults
 };

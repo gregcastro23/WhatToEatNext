@@ -1,13 +1,11 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.spiceBlends = void 0;
-const elementalUtils_1 = require("../../../utils/elementalUtils");
-const elementalUtils_2 = require("../../../utils/elemental/elementalUtils");
+import { fixIngredientMappings } from "../../../utils/elementalUtils";
+import { createElementalProperties } from "../../../utils/elemental/elementalUtils";
+
 const rawSpiceBlends = {
     'garam_masala': {
         name: 'Garam Masala',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.5, Water: 0.1, Earth: 0.3, Air: 0.1
-        }),
+        elementalProperties: createElementalProperties({ Fire: 0.5, Water: 0.1, Earth: 0.3, Air: 0.1 }),
         astrologicalProfile: {
             rulingPlanets: ['Mars', 'Jupiter'],
             favorableZodiac: ['aries', 'sagittarius'],
@@ -21,13 +19,11 @@ const rawSpiceBlends = {
             },
             lunarPhaseModifiers: {
                 waxingCrescent: {
-                    elementalBoost: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.2, Earth: 0.1
-                    }),
+                    elementalBoost: createElementalProperties({ Fire: 0.2, Earth: 0.1 }),
                     preparationTips: ['Begin toasting whole spices']
                 },
                 fullmoon: {
-                    elementalBoost: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.3, Air: 0.1
-                    }),
+                    elementalBoost: createElementalProperties({ Fire: 0.3, Air: 0.1 }),
                     preparationTips: ['Ideal for robust, celebratory dishes']
                 }
             }
@@ -84,8 +80,7 @@ const rawSpiceBlends = {
     },
     'ras_el_hanout': {
         name: 'Ras El Hanout',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
-        }),
+        elementalProperties: createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }),
         astrologicalProfile: {
             rulingPlanets: ['Venus', 'Mars'],
             favorableZodiac: ['taurus', 'scorpio'],
@@ -145,8 +140,7 @@ const rawSpiceBlends = {
     },
     'herbes_de_provence': {
         name: 'Herbes De Provence',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
-        }),
+        elementalProperties: createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }),
         qualities: ['aromatic', 'Mediterranean', 'savory'],
         origin: ['Southern France'],
         category: 'spice',
@@ -192,8 +186,7 @@ const rawSpiceBlends = {
     },
     'chinese_five_spice': {
         name: 'Chinese Five Spice',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.4, Water: 0.1, Earth: 0.3, Air: 0.2
-        }),
+        elementalProperties: createElementalProperties({ Fire: 0.4, Water: 0.1, Earth: 0.3, Air: 0.2 }),
         astrologicalProfile: {
             rulingPlanets: ['Jupiter', 'Mercury'],
             favorableZodiac: ['sagittarius', 'gemini'],
@@ -202,293 +195,338 @@ const rawSpiceBlends = {
                 decanModifiers: {
                     first: { element: 'Fire', planet: 'Jupiter' },
                     second: { element: 'Air', planet: 'Mercury' },
-                    third: { element: 'Earth', planet: 'Venus' }
-                }
-            },
-            lunarPhaseModifiers: {
-                waxingGibbous: {
-                    elementalBoost: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.2, Air: 0.2
-                    }),
-                    preparationTips: ['Perfect for marinades']
-                },
-                fullmoon: {
-                    elementalBoost: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.3, Earth: 0.1
-                    }),
-                    preparationTips: ['Ideal for festive dishes']
+                    third: { element: 'Earth', planet: 'Saturn' }
                 }
             }
         },
-        qualities: ['warming', 'complex', 'balanced', 'aromatic'],
+        qualities: ['warming', 'aromatic', 'complex', 'balanced'],
         origin: ['China'],
-        season: ['all'],
+        season: ['fall', 'winter'],
         category: 'spice',
         subCategory: 'blend',
-        composition: {
-            'traditional': [
-                'star anise', 'cloves', 'Chinese cinnamon',
-                'Sichuan peppercorns', 'fennel seeds'
-            ],
-            'regional_variations': {
-                'northern': ['star anise', 'cloves', 'cinnamon', 'fennel', 'Sichuan peppercorns'],
-                'southern': ['star anise', 'cloves', 'cinnamon', 'fennel', 'white pepper'],
-                'taiwanese': ['star anise', 'cloves', 'cinnamon', 'fennel', 'licorice', 'ginger', 'galangal']
-            },
-            'symbolism': 'represents the five elements in Chinese philosophy'
+        baseIngredients: [
+            'star anise',
+            'cloves',
+            'cinnamon',
+            'sichuan pepper',
+            'fennel seeds'
+        ],
+        regionalVariations: {
+            'Cantonese': ['star anise heavy'],
+            'Sichuan': ['sichuan pepper heavy'],
+            'Northern': ['cinnamon heavy']
         },
-        culinaryApplications: {
-            'marinades': {
-                name: 'Marinades',
-                method: 'mix with soy sauce, rice wine, and sweetener',
-                applications: ['pork', 'duck', 'chicken', 'beef'],
-                timing: '30 minutes to overnight',
-                notes: 'Classic for red braised dishes'
-            },
-            'dry_rubs': {
-                name: 'Dry Rubs',
-                method: 'mix with salt and sugar',
-                applications: ['ribs', 'roasted meats', 'poultry'],
-                timing: 'apply 1-24 hours before cooking',
-                notes: 'Creates a fragrant crust when roasted'
-            }
+        affinities: ['pork', 'duck', 'chicken', 'vegetables', 'noodles'],
+        cookingMethods: ['braising', 'roasting', 'stir-frying'],
+        proportions: {
+            'star anise': 2,
+            'cloves': 1,
+            'cinnamon': 1,
+            'sichuan pepper': 1,
+            'fennel seeds': 1
         },
-        storage: {
-            temperature: {
-                fahrenheit: { min: 60, max: 70 },
-                celsius: { min: 15, max: 21 }
-            },
-            humidity: 'low',
-            container: 'Airtight, dark',
-            duration: '3-6 months',
-            notes: 'Star anise and fennel seeds lose potency fastest'
+        preparation: {
+            toasting: 'light toasting of whole spices',
+            grinding: 'grind together just before use',
+            storage: 'Airtight container away from light',
+            notes: 'Can be used whole or ground'
+        },
+        medicinalProperties: {
+            actions: ['digestive aid', 'warming'],
+            energetics: 'warming',
+            tastes: ['sweet', 'pungent', 'aromatic']
         }
     },
-    'za_atar': {
-        name: 'Za Atar',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
-        }),
-        qualities: ['earthy', 'tangy', 'aromatic'],
-        origin: ['Levant'],
+    'zaatar': {
+        name: 'Zaatar',
+        elementalProperties: createElementalProperties({ Fire: 0.3, Water: 0.1, Earth: 0.4, Air: 0.2 }),
+        astrologicalProfile: {
+            rulingPlanets: ['Mercury', 'Venus'],
+            favorableZodiac: ['gemini', 'taurus'],
+            elementalAffinity: {
+                base: 'Earth',
+                decanModifiers: {
+                    first: { element: 'Air', planet: 'Mercury' },
+                    second: { element: 'Earth', planet: 'Venus' },
+                    third: { element: 'Water', planet: 'Moon' }
+                }
+            }
+        },
+        qualities: ['herbaceous', 'nutty', 'earthy', 'aromatic'],
+        origin: ['Middle East'],
+        season: ['spring', 'summer'],
         category: 'spice',
         subCategory: 'blend',
-        baseIngredients: {
-            'dried thyme': 2,
-            'sesame seeds': 2,
-            'sumac': 1,
+        baseIngredients: [
+            'thyme',
+            'oregano',
+            'marjoram',
+            'sumac',
+            'sesame seeds',
+            'salt'
+        ],
+        regionalVariations: {
+            'Lebanese': ['thyme heavy'],
+            'Syrian': ['oregano heavy'],
+            'Palestinian': ['marjoram heavy']
+        },
+        affinities: ['bread', 'olive oil', 'vegetables', 'meats', 'dips'],
+        cookingMethods: ['sprinkling', 'mixing with oil', 'baking'],
+        proportions: {
+            'thyme': 2,
             'oregano': 1,
             'marjoram': 1,
+            'sumac': 1,
+            'sesame seeds': 1,
             'salt': 0.5
         },
-        ratios: '2:2:1:1:1:0.5',
-        regionalVariations: {
-            'Lebanese': {
-                name: 'Lebanese',
-                'dried thyme': 2,
-                'sesame seeds': 2,
-                'sumac': 2,
-                'oregano': 1,
-                'marjoram': 1,
-                'salt': 0.5
-            },
-            'Palestinian': {
-                name: 'Palestinian',
-                'dried thyme': 2,
-                'sesame seeds': 3,
-                'sumac': 1,
-                'oregano': 1,
-                'marjoram': 1,
-                'salt': 0.5
-            }
-        }
-    },
-    'curry_powder': {
-        name: 'Curry Powder',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
-        }),
-        qualities: ['warming', 'complex', 'pungent'],
-        origin: ['British-Indian'],
-        category: 'spice',
-        subCategory: 'blend',
-        baseIngredients: {
-            'turmeric': 3,
-            'coriander': 2,
-            'cumin': 2,
-            'ginger': 1,
-            'black pepper': 1,
-            'cinnamon': 0.5,
-            'cardamom': 0.5,
-            'cayenne': 0.5,
-            'fenugreek': 0.5
+        preparation: {
+            mixing: 'combine herbs and sumac',
+            toasting: 'toast sesame seeds separately',
+            storage: 'Airtight container',
+            notes: 'Can be mixed with olive oil for storage'
         },
-        ratios: '3:2:2:1:1:0.5:0.5:0.5:0.5',
-        regionalVariations: {
-            'Madras': {
-                name: 'Madras',
-                'turmeric': 3,
-                'coriander': 2,
-                'cumin': 2,
-                'ginger': 1,
-                'black pepper': 1,
-                'cinnamon': 0.5,
-                'cardamom': 0.5,
-                'cayenne': 2,
-                'fenugreek': 0.5
-            }
-        }
-    },
-    'berbere': {
-        name: 'Berbere',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
-        }),
-        qualities: ['hot', 'complex', 'earthy'],
-        origin: ['Ethiopia'],
-        category: 'spice',
-        subCategory: 'blend',
-        baseIngredients: {
-            'dried chili peppers': 4,
-            'garlic': 2,
-            'ginger': 2,
-            'basil': 1,
-            'korarima': 1,
-            'white pepper': 1,
-            'black pepper': 1,
-            'fenugreek': 1,
-            'cloves': 0.5,
-            'cinnamon': 0.5,
-            'nutmeg': 0.5
-        },
-        ratios: '4:2:2:1:1:1:1:1:0.5:0.5:0.5',
-        regionalVariations: {
-            'Traditional': {
-                name: 'Traditional',
-                // includes additional fermentation process
-                'rue': 0.5 // additional ingredient
-            }
+        medicinalProperties: {
+            actions: ['digestive aid', 'anti-inflammatory'],
+            energetics: 'cooling',
+            tastes: ['sour', 'herbaceous', 'nutty']
         }
     },
     'dukkah': {
         name: 'Dukkah',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
-        }),
-        qualities: ['nutty', 'aromatic', 'crunchy'],
+        elementalProperties: createElementalProperties({ Fire: 0.2, Water: 0.1, Earth: 0.5, Air: 0.2 }),
+        astrologicalProfile: {
+            rulingPlanets: ['Saturn', 'Venus'],
+            favorableZodiac: ['capricorn', 'taurus'],
+            elementalAffinity: {
+                base: 'Earth',
+                decanModifiers: {
+                    first: { element: 'Earth', planet: 'Saturn' },
+                    second: { element: 'Earth', planet: 'Venus' },
+                    third: { element: 'Air', planet: 'Mercury' }
+                }
+            }
+        },
+        qualities: ['nutty', 'crunchy', 'earthy', 'aromatic'],
         origin: ['Egypt'],
+        season: ['all'],
         category: 'spice',
         subCategory: 'blend',
-        baseIngredients: {
+        baseIngredients: [
+            'hazelnuts',
+            'sesame seeds',
+            'coriander seeds',
+            'cumin seeds',
+            'salt',
+            'black pepper'
+        ],
+        regionalVariations: {
+            'Traditional': ['hazelnuts'],
+            'Modern': ['pistachios', 'almonds'],
+            'Australian': ['macadamia nuts']
+        },
+        affinities: ['bread', 'olive oil', 'vegetables', 'eggs', 'cheese'],
+        cookingMethods: ['sprinkling', 'dipping', 'coating'],
+        proportions: {
             'hazelnuts': 3,
             'sesame seeds': 2,
-            'coriander': 1,
-            'cumin': 1,
-            'black pepper': 0.5,
-            'salt': 0.5
+            'coriander seeds': 1,
+            'cumin seeds': 1,
+            'salt': 0.5,
+            'black pepper': 0.5
         },
-        ratios: '3:2:1:1:0.5:0.5',
-        regionalVariations: {
-            'Alexandria': {
-                name: 'Alexandria',
-                'hazelnuts': 2,
-                'pine nuts': 1,
-                'sesame seeds': 3,
-                'coriander': 1,
-                'cumin': 1,
-                'black pepper': 0.5,
-                'salt': 0.5
-            }
-        }
-    },
-    'shichimi_togarashi': {
-        name: 'Shichimi Togarashi',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
-        }),
-        qualities: ['spicy', 'citrusy', 'nutty'],
-        origin: ['Japan'],
-        category: 'spice',
-        subCategory: 'blend',
-        baseIngredients: {
-            'dried red chili pepper': 3,
-            'sansho pepper': 1,
-            'orange peel': 1,
-            'black sesame': 1,
-            'white sesame': 1,
-            'hemp seeds': 0.5,
-            'nori': 0.5,
-            'ginger': 0.5
+        preparation: {
+            toasting: 'toast nuts and seeds separately',
+            grinding: 'coarse grind to maintain texture',
+            storage: 'Airtight container',
+            notes: 'Keep nuts and seeds separate until serving'
         },
-        ratios: '3:1:1:1:1:0.5:0.5:0.5',
-        regionalVariations: {
-            'Tokyo': {
-                name: 'Tokyo',
-                'orange peel': 2 // more citrus
-            },
-            'Kyoto': {
-                name: 'Kyoto',
-                'black sesame': 2,
-                'white sesame': 2 // more sesame
-            }
+        medicinalProperties: {
+            actions: ['nutritive', 'digestive aid'],
+            energetics: 'neutral',
+            tastes: ['nutty', 'earthy', 'aromatic']
         }
     },
     'baharat': {
         name: 'Baharat',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
-        }),
-        qualities: ['warming', 'aromatic', 'complex'],
+        elementalProperties: createElementalProperties({ Fire: 0.4, Water: 0.1, Earth: 0.3, Air: 0.2 }),
+        astrologicalProfile: {
+            rulingPlanets: ['Mars', 'Jupiter'],
+            favorableZodiac: ['aries', 'sagittarius'],
+            elementalAffinity: {
+                base: 'Fire',
+                decanModifiers: {
+                    first: { element: 'Fire', planet: 'Mars' },
+                    second: { element: 'Fire', planet: 'Jupiter' },
+                    third: { element: 'Earth', planet: 'Saturn' }
+                }
+            }
+        },
+        qualities: ['warming', 'aromatic', 'complex', 'spicy'],
         origin: ['Middle East'],
+        season: ['fall', 'winter'],
         category: 'spice',
         subCategory: 'blend',
-        baseIngredients: {
-            'black pepper': 2,
-            'cumin': 2,
-            'coriander': 1,
-            'cinnamon': 1,
-            'cardamom': 1,
-            'paprika': 1,
-            'cloves': 0.5,
-            'nutmeg': 0.5
-        },
-        ratios: '2:2:1:1:1:1:0.5:0.5',
+        baseIngredients: [
+            'black pepper',
+            'coriander',
+            'cinnamon',
+            'cloves',
+            'cumin',
+            'cardamom',
+            'nutmeg',
+            'paprika'
+        ],
         regionalVariations: {
-            'Turkish': {
-                name: 'Turkish',
-                'mint': 0.5 // additional
-            },
-            'Gulf': {
-                name: 'Gulf',
-                'lime powder': 1 // additional
-            }
+            'Turkish': ['mint heavy'],
+            'Lebanese': ['allspice heavy'],
+            'Syrian': ['cinnamon heavy']
+        },
+        affinities: ['lamb', 'chicken', 'rice', 'vegetables', 'soups'],
+        cookingMethods: ['marinades', 'rubs', 'stews'],
+        proportions: {
+            'black pepper': 2,
+            'coriander': 2,
+            'cinnamon': 1,
+            'cloves': 1,
+            'cumin': 1,
+            'cardamom': 1,
+            'nutmeg': 0.5,
+            'paprika': 1
+        },
+        preparation: {
+            toasting: 'light toasting of whole spices',
+            grinding: 'grind together just before use',
+            storage: 'Airtight container away from light',
+            notes: 'Can be used whole or ground'
+        },
+        medicinalProperties: {
+            actions: ['digestive aid', 'warming'],
+            energetics: 'warming',
+            tastes: ['pungent', 'sweet', 'aromatic']
         }
     },
-    'jerk_seasoning': {
-        name: 'Jerk Seasoning',
-        elementalProperties: (0, elementalUtils_2.createElementalProperties)({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
-        }),
-        qualities: ['hot', 'pungent', 'aromatic'],
-        origin: ['Jamaica'],
+    'berbere': {
+        name: 'Berbere',
+        elementalProperties: createElementalProperties({ Fire: 0.6, Water: 0.1, Earth: 0.2, Air: 0.1 }),
+        astrologicalProfile: {
+            rulingPlanets: ['Mars', 'Pluto'],
+            favorableZodiac: ['aries', 'scorpio'],
+            elementalAffinity: {
+                base: 'Fire',
+                decanModifiers: {
+                    first: { element: 'Fire', planet: 'Mars' },
+                    second: { element: 'Water', planet: 'Pluto' },
+                    third: { element: 'Earth', planet: 'Saturn' }
+                }
+            }
+        },
+        qualities: ['spicy', 'warming', 'complex', 'aromatic'],
+        origin: ['Ethiopia'],
+        season: ['fall', 'winter'],
         category: 'spice',
         subCategory: 'blend',
-        baseIngredients: {
-            'allspice': 3,
-            'scotch bonnet': 2,
-            'thyme': 2,
-            'garlic': 2,
-            'ginger': 1,
-            'black pepper': 1,
-            'brown sugar': 1,
-            'cinnamon': 0.5,
-            'nutmeg': 0.5
-        },
-        ratios: '3:2:2:2:1:1:1:0.5:0.5',
+        baseIngredients: [
+            'chili peppers',
+            'paprika',
+            'coriander',
+            'fenugreek',
+            'cardamom',
+            'cinnamon',
+            'cloves',
+            'allspice',
+            'ginger',
+            'garlic'
+        ],
         regionalVariations: {
-            'Traditional': {
-                name: 'Traditional',
-                // Wet paste version
-                'green onions': 2,
-                'soy sauce': 1
-            },
-            'Western': {
-                name: 'Western',
-                'scotch bonnet': 1 // reduced heat
+            'Traditional': ['dried chili peppers'],
+            'Modern': ['smoked paprika'],
+            'Commercial': ['may include artificial colors']
+        },
+        affinities: ['lentils', 'chicken', 'beef', 'vegetables', 'stews'],
+        cookingMethods: ['stewing', 'braising', 'marinating'],
+        proportions: {
+            'chili peppers': 3,
+            'paprika': 2,
+            'coriander': 1,
+            'fenugreek': 1,
+            'cardamom': 1,
+            'cinnamon': 1,
+            'cloves': 0.5,
+            'allspice': 0.5,
+            'ginger': 1,
+            'garlic': 1
+        },
+        preparation: {
+            toasting: 'toast spices until fragrant',
+            grinding: 'grind to fine powder',
+            storage: 'Airtight container away from light',
+            notes: 'Can be made fresh or purchased'
+        },
+        medicinalProperties: {
+            actions: ['warming', 'digestive aid'],
+            energetics: 'heating',
+            tastes: ['pungent', 'hot', 'aromatic']
+        }
+    },
+    'ras_el_hanout_sweet': {
+        name: 'Ras El Hanout Sweet',
+        elementalProperties: createElementalProperties({ Fire: 0.2, Water: 0.3, Earth: 0.2, Air: 0.3 }),
+        astrologicalProfile: {
+            rulingPlanets: ['Venus', 'Moon'],
+            favorableZodiac: ['taurus', 'cancer'],
+            elementalAffinity: {
+                base: 'Water',
+                decanModifiers: {
+                    first: { element: 'Earth', planet: 'Venus' },
+                    second: { element: 'Water', planet: 'Moon' },
+                    third: { element: 'Air', planet: 'Mercury' }
+                }
             }
+        },
+        qualities: ['sweet', 'aromatic', 'complex', 'warming'],
+        origin: ['North Africa'],
+        season: ['fall', 'winter'],
+        category: 'spice',
+        subCategory: 'blend',
+        baseIngredients: [
+            'cinnamon',
+            'cardamom',
+            'ginger',
+            'nutmeg',
+            'allspice',
+            'cloves',
+            'rose petals',
+            'saffron'
+        ],
+        regionalVariations: {
+            'Moroccan': ['saffron heavy'],
+            'Tunisian': ['rose petals heavy'],
+            'Algerian': ['cinnamon heavy']
+        },
+        affinities: ['desserts', 'sweet dishes', 'rice', 'poultry'],
+        cookingMethods: ['baking', 'sweetening', 'aromatizing'],
+        proportions: {
+            'cinnamon': 2,
+            'cardamom': 1,
+            'ginger': 1,
+            'nutmeg': 1,
+            'allspice': 1,
+            'cloves': 0.5,
+            'rose petals': 1,
+            'saffron': 0.5
+        },
+        preparation: {
+            mixing: 'combine ground spices',
+            storage: 'Airtight container away from light',
+            notes: 'Can be used in sweet and savory dishes'
+        },
+        medicinalProperties: {
+            actions: ['warming', 'digestive aid'],
+            energetics: 'warming',
+            tastes: ['sweet', 'aromatic', 'pungent']
         }
     }
 };
-// Fix the ingredient mappings to ensure they have all required properties
-exports.spiceBlends = (0, elementalUtils_1.fixIngredientMappings)(rawSpiceBlends);
+
+export const spiceBlends = fixIngredientMappings(rawSpiceBlends);
