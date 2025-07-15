@@ -307,7 +307,7 @@ export const RECIPE_COMPATIBILITY_INTELLIGENCE = {
     return {
       ...compatibilityAnalysis,
       timestamp: new Date().toISOString(),
-      recommendations: generateCompatibilityRecommendations(compatibilityAnalysis)
+      recommendations: generateAnalysisRecommendations(compatibilityAnalysis)
     };
   },
   
@@ -372,7 +372,7 @@ function generateInputRecommendations(enhancedInput: any): string[] {
   return recommendations;
 }
 
-function generateCompatibilityRecommendations(analysis: any): string[] {
+function generateAnalysisRecommendations(analysis: any): string[] {
   const recommendations = [];
   
   if (analysis.coreMetrics.overallCompatibility < 0.9) {
