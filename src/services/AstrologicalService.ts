@@ -30,7 +30,7 @@ import {
   PlanetaryAlignment,
   ZodiacSign,
   _Planet,
-  _LunarPhase,
+  LunarPhase,
   AstrologicalState as CentralizedAstrologicalState
 } from '@/types/celestial';
 

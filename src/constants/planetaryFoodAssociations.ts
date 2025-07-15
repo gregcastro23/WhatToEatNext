@@ -45,7 +45,7 @@ export interface PlanetaryDignityDetails {
 /**
  * Lunar phase system
  */
-export type LunarPhase = LunarPhaseWithSpaces;
+import type { LunarPhase } from '@/types/alchemy';
 
 /**
  * Planetary food associations structure

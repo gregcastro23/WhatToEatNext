@@ -4,7 +4,7 @@
 
 // Define or import ElementalCharacter and Planet types
 import { ElementalCharacter } from '../constants/planetaryElements';
-import { ZodiacSign, _LunarPhase, _Planet, _PlanetName } from "@/types/alchemy";
+import type { ZodiacSign, LunarPhase, Planet, PlanetName } from "@/types/alchemy";
 
 /**
  * Represents planets in astrology 
@@ -82,7 +82,7 @@ export interface AstrologicalAspect {
 /* Example code - commented out to avoid type errors
 import { FoodAlchemySystem } from '@/services/FoodAlchemySystem';
 import { thermodynamicCalculator } from '@/calculations/gregsEnergy';
-import {_Planet, _PlanetName, ZodiacSign, _LunarPhase, CelestialPosition} from '@/types/celestial';
+import {_Planet, _PlanetName, ZodiacSign, LunarPhase, CelestialPosition} from '@/types/celestial';
 
 // Example usage
 const foodSystem = new FoodAlchemySystem();
@@ -92,17 +92,6 @@ const compatibility = foodSystem.calculateFoodCompatibility(
     currentPlanetaryHour
 ); 
 */
-
-// Export the LunarPhase type if not already defined in alchemy.ts
-export type AstrologyLunarPhase = 
-  | 'new_moon'
-  | 'waxing_crescent'
-  | 'first_quarter'
-  | 'waxing_gibbous'
-  | 'full_moon'
-  | 'waning_gibbous'
-  | 'last_quarter'
-  | 'waning_crescent'; 
 
 // Re-export types for convenience
 export type { ZodiacSign, LunarPhase, Planet, PlanetName } from "@/types/alchemy";

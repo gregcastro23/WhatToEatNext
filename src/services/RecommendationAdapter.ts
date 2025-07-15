@@ -2,7 +2,7 @@
 import { ElementalItem, AlchemicalItem } from '../calculations/alchemicalTransformation';
 import { ElementalCharacter } from '../constants/planetaryElements';
 import { 
-  LunarPhaseWithSpaces,
+  LunarPhase,
   PlanetaryAspect,
   AlchemicalProperty,
 } from '../types/alchemy';
@@ -45,7 +45,7 @@ export class RecommendationAdapter {
   private planetaryPositions: Record<string, PlanetData>;
   private isDaytime: boolean;
   private currentZodiac: string | null;
-  private lunarPhase: LunarPhaseWithSpaces | null;
+  private lunarPhase: LunarPhase | null;
   private transformedIngredients: AlchemicalItem[] = [];
   private transformedMethods: AlchemicalItem[] = [];
   private transformedCuisines: AlchemicalItem[] = [];
@@ -83,7 +83,7 @@ export class RecommendationAdapter {
     planetaryPositions: Record<string, PlanetData>,
     isDaytime = true,
     currentZodiac: string | null = null,
-    lunarPhase: LunarPhaseWithSpaces | null = null,
+    lunarPhase: LunarPhase | null = null,
     tarotElementBoosts?: Record<ElementalCharacter, number>,
     tarotPlanetaryBoosts?: Record<string, number>,
     aspects: PlanetaryAspect[] = []

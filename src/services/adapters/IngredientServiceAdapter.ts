@@ -26,7 +26,7 @@ export class EnhancedIngredientSystem {
   /**
    * Private constructor to enforce singleton pattern
    */
-  private constructor() {}
+  private constructor() { /* Private constructor to enforce singleton pattern */ }
   
   /**
    * Get singleton instance

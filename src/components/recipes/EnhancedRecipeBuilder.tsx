@@ -25,7 +25,9 @@ import {
   Timer as TimerIcon,
   People as PeopleIcon,
   LocalDining as DiningIcon,
-  Refresh as RefreshIcon
+  Refresh as RefreshIcon,
+  GetApp as ImportIcon,
+  Close as CloseIcon
 } from '@mui/icons-material';
 
 // Types and Data
@@ -38,6 +40,9 @@ import type {
   DietaryRestriction,
   CookingMethod
 } from '@/types/alchemy';
+
+// Recipe Import
+import { RecipeImporter } from './RecipeImporter';
 
 import { useIngredientSearch } from '@/hooks/useIngredientSearch';
 import { useRecipeValidation } from '@/hooks/useRecipeValidation';
@@ -136,6 +141,7 @@ interface RecipeBuilderState {
   showAdvancedOptions: boolean;
   showLivePreview: boolean;
   validationEnabled: boolean;
+  showImportModal: boolean;
 }
 
 const RECIPE_STEPS: RecipeBuilderStep[] = [
@@ -206,7 +212,8 @@ const DEFAULT_STATE: RecipeBuilderState = {
   activeStep: 0,
   showAdvancedOptions: false,
   showLivePreview: true,
-  validationEnabled: true
+  validationEnabled: true,
+  showImportModal: false
 };
 
 export default function EnhancedRecipeBuilder() {
@@ -257,6 +264,36 @@ export default function EnhancedRecipeBuilder() {
       });
     }
   }, [searchIngredients, clearSearch, state.elementalPreference, state.season, state.dietaryRestrictions]);
+
+  // Handle recipe import from cuisine database
+  const handleImportRecipe = useCallback((importedRecipe: Recipe) => {
+    setState(prev => ({
+      ...prev,
+      name: importedRecipe.name,
+      description: importedRecipe.description,
+      cuisine: importedRecipe.cuisine as CuisineType,
+      selectedIngredients: importedRecipe.ingredients.map((ingredient, index) => ({
+        ...ingredient,
+        id: `imported-ingredient-${index}`,
+        elementalProperties: ingredient.elementalProperties || { Fire: 0, Water: 0, Earth: 0, Air: 0 },
+        category: 'ingredient',
+        preparation: '',
+        substitutes: ingredient.swaps || []
+      })),
+      instructions: importedRecipe.instructions.map((instruction, index) => ({
+        id: `imported-instruction-${index}`,
+        stepNumber: index + 1,
+        instruction: instruction,
+        timing: '',
+        temperature: '',
+        equipment: []
+      })),
+      elementalPreference: importedRecipe.elementalBalance || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
+      mealType: importedRecipe.mealType || [],
+      season: (importedRecipe.season?.[0] as Season) || '',
+      showImportModal: false
+    }));
+  }, []);
 
   const handleIngredientSelect = useCallback((ingredient: Ingredient) => {
     // Smart quantity and unit defaults based on ingredient type using category functions
@@ -720,7 +757,15 @@ export default function EnhancedRecipeBuilder() {
             <Typography variant="h4" component="h1">
               Enhanced Recipe Builder
             </Typography>
-            <Box sx={{ display: 'flex', gap: 1 }}>
+            <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
+              <Button
+                variant="outlined"
+                startIcon={<ImportIcon />}
+                onClick={() => setState(prev => ({ ...prev, showImportModal: true }))}
+                sx={{ mr: 2 }}
+              >
+                Import Recipe
+              </Button>
               <Tooltip title="Toggle Advanced Options">
                 <Switch
                   checked={state.showAdvancedOptions}
@@ -897,6 +942,55 @@ export default function EnhancedRecipeBuilder() {
           </Grid>
         )}
       </Grid>
+
+      {/* Recipe Import Modal */}
+      {state.showImportModal && (
+        <Box
+          sx={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            bgcolor: 'rgba(0, 0, 0, 0.5)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            zIndex: 1300,
+            p: 2
+          }}
+          onClick={() => setState(prev => ({ ...prev, showImportModal: false }))}
+        >
+          <Card
+            sx={{
+              width: '90%',
+              maxWidth: '1000px',
+              height: '80vh',
+              maxHeight: '800px',
+              overflow: 'hidden',
+              display: 'flex',
+              flexDirection: 'column'
+            }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <Box sx={{ p: 2, borderBottom: 1, borderColor: 'divider', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <Typography variant="h6">
+                Import Recipe from Cuisine Database
+              </Typography>
+              <IconButton onClick={() => setState(prev => ({ ...prev, showImportModal: false }))}>
+                <CloseIcon />
+              </IconButton>
+            </Box>
+            <CardContent sx={{ flexGrow: 1, overflow: 'auto', p: 0 }}>
+              <RecipeImporter
+                onImportRecipe={handleImportRecipe}
+                onClose={() => setState(prev => ({ ...prev, showImportModal: false }))}
+                maxHeight="100%"
+              />
+            </CardContent>
+          </Card>
+        </Box>
+      )}
     </Box>
   );
 }

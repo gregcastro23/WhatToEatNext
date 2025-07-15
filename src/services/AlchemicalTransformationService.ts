@@ -12,7 +12,7 @@ import {
   filterByAlchemicalCompatibility,
   getTopCompatibleItems
 } from '../utils/alchemicalTransformationUtils';
-import { ZodiacSign, _LunarPhase, PlanetaryAspect, LunarPhaseWithSpaces } from '../types/alchemy';
+import { ZodiacSign, LunarPhase, PlanetaryAspect } from '../types/alchemy';
 import type { Recipe } from '../types/recipe';
 
 /**
@@ -164,7 +164,7 @@ export class AlchemicalTransformationService {
       this.planetPositions,
       this._isDaytime,
       this.currentZodiac,
-      this.lunarPhase as unknown as LunarPhaseWithSpaces
+      this.lunarPhase as unknown as LunarPhase
     );
   }
   
@@ -177,7 +177,7 @@ export class AlchemicalTransformationService {
       this.planetPositions,
       this._isDaytime,
       this.currentZodiac,
-      this.lunarPhase as unknown as LunarPhaseWithSpaces
+      this.lunarPhase as unknown as LunarPhase
     );
   }
   
@@ -190,7 +190,7 @@ export class AlchemicalTransformationService {
       this.planetPositions,
       this._isDaytime,
       this.currentZodiac,
-      this.lunarPhase as unknown as LunarPhaseWithSpaces
+      this.lunarPhase as unknown as LunarPhase
     );
   }
   

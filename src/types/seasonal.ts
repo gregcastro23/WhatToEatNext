@@ -1,6 +1,6 @@
 import { _ElementalProperties } from './alchemy';
 
-export type Season = 'spring' | 'summer' | 'fall' | 'winter';
+import type { Season } from './alchemy';
 
 export interface SeasonalPhase {
   name: Season;

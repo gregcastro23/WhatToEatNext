@@ -1,5 +1,5 @@
 // Common types used across the application
-export type Season = 'spring' | 'summer' | 'autumn' | 'winter';
+import type { Season } from './alchemy';
 
 export type ZodiacSign = 
   | 'aries' | 'taurus' | 'gemini' | 'cancer'

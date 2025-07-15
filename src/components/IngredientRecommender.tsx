@@ -910,7 +910,7 @@ export default function IngredientRecommender() {
                               ingredient={item as any}
                               initiallyExpanded={true}
                               emphasizeCulinary={true}
-                              onClick={() => {}}
+                              onClick={() => { /* Placeholder - actual interaction handled by onDoubleClick */ }}
                               onDoubleClick={() => addIngredient(item.name)}
                             />
                           </div>
@@ -1142,7 +1142,7 @@ export default function IngredientRecommender() {
                               ingredient={item as any}
                               initiallyExpanded={true}
                               emphasizeCulinary={true}
-                              onClick={() => {}}
+                              onClick={() => { /* Placeholder - actual interaction handled by onDoubleClick */ }}
                               onDoubleClick={() => addIngredient(item.name)}
                             />
                           </div>

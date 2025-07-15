@@ -1,9 +1,7 @@
 import type { IngredientMapping } from '@/data/ingredients/types';
 import type { ElementalProperties, ZodiacSign } from '@/types/alchemy';
 import type { Season } from '@/types/seasons';
-import { fixIngredientMappings } from '@/utils/elementalUtils';
-
-const rawVinegars = {
+import { fixIngredientMappings } from '@/utils/elementalUtils';const rawVinegars = {
   'rice_vinegar': {
     name: 'Rice Vinegar',
     category: 'vinegar',

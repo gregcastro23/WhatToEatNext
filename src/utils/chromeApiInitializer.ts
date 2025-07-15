@@ -80,8 +80,8 @@ export function initializeChromeApis(): void {
           return Promise.resolve({ success: true });
         },
         onMessage: {
-          addListener: function() {},
-          removeListener: function() {}
+          addListener: function() { /* Mock Chrome API - no-op for compatibility */ },
+          removeListener: function() { /* Mock Chrome API - no-op for compatibility */ }
         }
       };
     }

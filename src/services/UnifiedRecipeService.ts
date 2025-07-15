@@ -14,7 +14,7 @@ type RecipeFilterCriteria = { cuisine?: string; tags?: string[]; };
 export class UnifiedRecipeService {
   private static instance: UnifiedRecipeService;
 
-  private constructor() {}
+  private constructor() { /* Private constructor to enforce singleton pattern */ }
 
   public static getInstance(): UnifiedRecipeService {
     if (!UnifiedRecipeService.instance) {

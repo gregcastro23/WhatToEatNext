@@ -1,6 +1,6 @@
-import { LunarPhase } from '../types/astrology';
+import type { LunarPhase } from '../types/alchemy';
 
 const mockLunarData = {
-  phase: 'waxing_crescent' as LunarPhase,
+  phase: 'waxing crescent' as LunarPhase,
   // ... other properties
 }; 

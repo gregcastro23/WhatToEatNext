@@ -61,124 +61,10 @@ export type Planet = 'sun' | 'moon' | 'mercury' | 'venus' | 'mars' | 'jupiter' |
 
 // ========== LUNAR TYPES ==========
 
-/**
- * Lunar phases with spaces (UI friendly)
- */
-export type LunarPhaseWithSpaces = 'new moon' | 'waxing crescent' | 'first quarter' | 'waxing gibbous' | 'full moon' | 'waning gibbous' | 'last quarter' | 'waning crescent';
+// Lunar phase types are now imported from @/types/alchemy
+// All lunar phase definitions have been consolidated to use the canonical LunarPhase type
 
-/**
- * Default LunarPhase type using spaces format
- */
-export type LunarPhase = LunarPhaseWithSpaces;
-
-/**
- * Standardized MoonPhase type to be used throughout the codebase.
- * This includes all possible moon phase values in uppercase format.
- */
-export type MoonPhase = 
-  | 'NEW_MOON' 
-  | 'WAXING_CRESCENT' 
-  | 'FIRST_QUARTER' 
-  | 'WAXING_GIBBOUS' 
-  | 'FULL_MOON' 
-  | 'WANING_GIBBOUS' 
-  | 'LAST_QUARTER' 
-  | 'WANING_CRESCENT';
-
-/**
- * MoonPhase with spaces format for display purposes
- */
-export type MoonPhaseWithSpaces = 
-  | 'New Moon' 
-  | 'Waxing Crescent' 
-  | 'First Quarter' 
-  | 'Waxing Gibbous' 
-  | 'Full Moon' 
-  | 'Waning Gibbous' 
-  | 'Last Quarter' 
-  | 'Waning Crescent';
-
-/**
- * MoonPhase with underscores format for storage and API purposes
- */
-export type MoonPhaseWithUnderscores = 
-  | 'new_moon' 
-  | 'waxing_crescent' 
-  | 'first_quarter' 
-  | 'waxing_gibbous' 
-  | 'full_moon' 
-  | 'waning_gibbous' 
-  | 'last_quarter' 
-  | 'waning_crescent';
-
-/**
- * Lowercase moon phases with spaces for backward compatibility
- */
-export type LowercaseMoonPhaseWithSpaces =
-  | 'new moon'
-  | 'waxing crescent'
-  | 'first quarter'
-  | 'waxing gibbous'
-  | 'full moon'
-  | 'waning gibbous'
-  | 'last quarter'
-  | 'waning crescent';
-
-/**
- * Mapping between different lunar phase formats
- */
-export const MOON_PHASE_MAP: Record<MoonPhaseWithUnderscores, MoonPhase> = {
-  'new_moon': 'NEW_MOON',
-  'waxing_crescent': 'WAXING_CRESCENT',
-  'first_quarter': 'FIRST_QUARTER',
-  'waxing_gibbous': 'WAXING_GIBBOUS',
-  'full_moon': 'FULL_MOON',
-  'waning_gibbous': 'WANING_GIBBOUS',
-  'last_quarter': 'LAST_QUARTER',
-  'waning_crescent': 'WANING_CRESCENT'
-};
-
-/**
- * Mapping from MoonPhase to MoonPhaseWithSpaces for display
- */
-export const MOON_PHASE_TO_DISPLAY: Record<MoonPhase, MoonPhaseWithSpaces> = {
-  'NEW_MOON': 'New Moon',
-  'WAXING_CRESCENT': 'Waxing Crescent',
-  'FIRST_QUARTER': 'First Quarter',
-  'WAXING_GIBBOUS': 'Waxing Gibbous',
-  'FULL_MOON': 'Full Moon',
-  'WANING_GIBBOUS': 'Waning Gibbous',
-  'LAST_QUARTER': 'Last Quarter',
-  'WANING_CRESCENT': 'Waning Crescent'
-};
-
-/**
- * Mapping from MoonPhase to lowercase moon phases with spaces
- */
-export const MOON_PHASE_TO_LOWERCASE: Record<MoonPhase, LowercaseMoonPhaseWithSpaces> = {
-  'NEW_MOON': 'new moon',
-  'WAXING_CRESCENT': 'waxing crescent',
-  'FIRST_QUARTER': 'first quarter',
-  'WAXING_GIBBOUS': 'waxing gibbous',
-  'FULL_MOON': 'full moon',
-  'WANING_GIBBOUS': 'waning gibbous',
-  'LAST_QUARTER': 'last quarter',
-  'WANING_CRESCENT': 'waning crescent'
-};
-
-/**
- * Mapping from lowercase moon phases with spaces to MoonPhase
- */
-export const LOWERCASE_TO_MOON_PHASE: Record<LowercaseMoonPhaseWithSpaces, MoonPhase> = {
-  'new moon': 'NEW_MOON',
-  'waxing crescent': 'WAXING_CRESCENT',
-  'first quarter': 'FIRST_QUARTER',
-  'waxing gibbous': 'WAXING_GIBBOUS',
-  'full moon': 'FULL_MOON',
-  'waning gibbous': 'WANING_GIBBOUS',
-  'last quarter': 'LAST_QUARTER',
-  'waning crescent': 'WANING_CRESCENT'
-};
+// Lunar phase mappings are now handled by @/utils/lunarPhaseUtils.ts
 
 /**
  * Convenience type for elemental scoring
@@ -194,7 +80,7 @@ export interface ElementalScore {
  * Seasons of the year
  * Note: Both 'autumn' and 'fall' are included for flexibility
  */
-export type Season = 'spring' | 'summer' | 'autumn' | 'fall' | 'winter';
+import type { Season } from './alchemy';
 
 // ========== UI COMPONENT TYPES ==========
 

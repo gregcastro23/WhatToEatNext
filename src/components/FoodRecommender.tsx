@@ -102,7 +102,7 @@ function FoodRecommenderWrapper() {
             update: function() { return this; },
             on: function(event: string, callback?: Record<string, unknown>) { 
               return { 
-                off: function() {},
+                off: function() { /* Mock popup API - no-op for compatibility */ },
                 trigger: function(event: string) { return this; }
               }; 
             },
@@ -114,7 +114,7 @@ function FoodRecommenderWrapper() {
         update: function() { return this; },
         on: function(event: string, callback?: Record<string, unknown>) { 
           return { 
-            off: function() {},
+            off: function() { /* Mock popup API - no-op for compatibility */ },
             trigger: function(event: string) { return this; }
           }; 
         },

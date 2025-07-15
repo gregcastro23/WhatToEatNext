@@ -399,3 +399,276 @@ export function updateChakraEnergy(chakraEnergies, position, value) {
         [position]: value
     };
 }
+
+// ===== CHAKRA ENTERPRISE INTELLIGENCE SYSTEMS =====
+
+/**
+ * CHAKRA_ANALYSIS_INTELLIGENCE - Advanced chakra analysis utilizing all chakra data structures
+ */
+export const CHAKRA_ANALYSIS_INTELLIGENCE = {
+    /**
+     * Comprehensive Chakra Profile Analysis
+     * Utilizes CHAKRAS constant for detailed chakra system analysis
+     */
+    analyzeChakraProfile: (chakraEnergies, context = 'unknown') => {
+        const analysis = {
+            timestamp: Date.now(),
+            context: context,
+            chakraStates: {},
+            energyDistribution: {},
+            elementalBalance: { Earth: 0, Water: 0, Fire: 0, Air: 0, ether: 0, light: 0, thought: 0 },
+            planetaryInfluences: {},
+            overallAssessment: {
+                totalEnergy: 0,
+                averageEnergy: 0,
+                balancedChakras: 0,
+                blockedChakras: 0,
+                overactiveChakras: 0,
+                dominantElement: null,
+                primaryPlanet: null,
+                energyState: 'unknown'
+            },
+            recommendations: []
+        };
+
+        if (!isChakraEnergies(chakraEnergies)) {
+            analysis.recommendations.push('Provide valid chakra energies object');
+            return analysis;
+        }
+
+        let totalEnergy = 0;
+        const chakraNames = Object.keys(CHAKRAS);
+        
+        // Analyze each chakra
+        for (const chakraName of chakraNames) {
+            const chakraData = CHAKRAS[chakraName];
+            const energy = getChakraEnergy(chakraEnergies, chakraName);
+            
+            analysis.chakraStates[chakraName] = {
+                name: chakraData.name,
+                sanskritName: chakraData.sanskritName,
+                element: chakraData.element,
+                color: chakraData.color,
+                planet: chakraData.planet,
+                energy: energy,
+                energyLevel: energy >= 8 ? 'high' : energy >= 6 ? 'balanced' : energy >= 4 ? 'moderate' : 'low',
+                status: energy >= 7 ? 'flowing' : energy >= 5 ? 'stable' : 'blocked',
+                balanceIndicators: chakraData.balanceIndicators,
+                imbalanceIndicators: chakraData.imbalanceIndicators,
+                governs: chakraData.governs,
+                needsAttention: energy < 5
+            };
+
+            // Track energy distribution
+            analysis.energyDistribution[chakraName] = {
+                percentage: 0, // Will be calculated after total is known
+                energyState: chakraData.primaryEnergyState
+            };
+
+            // Accumulate elemental balance
+            const element = chakraData.element;
+            analysis.elementalBalance[element] = (analysis.elementalBalance[element] || 0) + energy;
+
+            // Track planetary influences
+            const planet = chakraData.planet;
+            analysis.planetaryInfluences[planet] = (analysis.planetaryInfluences[planet] || 0) + energy;
+
+            totalEnergy += energy;
+            
+            // Count balance states
+            if (energy >= 6 && energy <= 8) {
+                analysis.overallAssessment.balancedChakras++;
+            } else if (energy < 5) {
+                analysis.overallAssessment.blockedChakras++;
+            } else if (energy > 8) {
+                analysis.overallAssessment.overactiveChakras++;
+            }
+        }
+
+        analysis.overallAssessment.totalEnergy = totalEnergy;
+        analysis.overallAssessment.averageEnergy = totalEnergy / chakraNames.length;
+
+        // Calculate energy distribution percentages
+        for (const chakraName of chakraNames) {
+            const energy = getChakraEnergy(chakraEnergies, chakraName);
+            analysis.energyDistribution[chakraName].percentage = 
+                totalEnergy > 0 ? ((energy / totalEnergy) * 100).toFixed(1) + '%' : '0%';
+        }
+
+        // Determine dominant element
+        analysis.overallAssessment.dominantElement = Object.keys(analysis.elementalBalance)
+            .reduce((max, element) => analysis.elementalBalance[element] > analysis.elementalBalance[max] ? element : max);
+
+        // Determine primary planetary influence
+        analysis.overallAssessment.primaryPlanet = Object.keys(analysis.planetaryInfluences)
+            .reduce((max, planet) => analysis.planetaryInfluences[planet] > analysis.planetaryInfluences[max] ? planet : max);
+
+        // Overall energy state assessment
+        if (analysis.overallAssessment.averageEnergy >= 7) {
+            analysis.overallAssessment.energyState = 'high';
+        } else if (analysis.overallAssessment.averageEnergy >= 5) {
+            analysis.overallAssessment.energyState = 'balanced';
+        } else if (analysis.overallAssessment.averageEnergy >= 3) {
+            analysis.overallAssessment.energyState = 'moderate';
+        } else {
+            analysis.overallAssessment.energyState = 'low';
+        }
+
+        // Generate recommendations
+        if (analysis.overallAssessment.blockedChakras > 2) {
+            analysis.recommendations.push('Multiple chakras are blocked - consider comprehensive energy healing');
+        }
+
+        if (analysis.overallAssessment.overactiveChakras > 1) {
+            analysis.recommendations.push('Some chakras are overactive - focus on grounding and balance');
+        }
+
+        if (analysis.overallAssessment.averageEnergy < 5) {
+            analysis.recommendations.push('Overall energy is low - consider energy enhancement practices');
+        }
+
+        // Chakra-specific recommendations
+        for (const [chakraName, chakraState] of Object.entries(analysis.chakraStates)) {
+            if (chakraState.needsAttention) {
+                analysis.recommendations.push(`${chakraState.name} needs attention - focus on ${chakraState.governs.join(', ')}`);
+            }
+        }
+
+        return analysis;
+    },
+
+    /**
+     * Chakra Tarot Correlation Analysis
+     * Utilizes MAJOR_ARCANA_CHAKRAS for tarot-chakra insights
+     */
+    analyzeChakraTarotCorrelation: (chakraEnergies, context = 'unknown') => {
+        const analysis = {
+            timestamp: Date.now(),
+            context: context,
+            chakraTarotMappings: {},
+            tarotInsights: {},
+            recommendations: []
+        };
+
+        if (!isChakraEnergies(chakraEnergies)) {
+            analysis.recommendations.push('Provide valid chakra energies object');
+            return analysis;
+        }
+
+        // Map each chakra to its tarot associations
+        for (const tarotMapping of MAJOR_ARCANA_CHAKRAS) {
+            const chakraName = tarotMapping.chakraPosition;
+            const energy = getChakraEnergy(chakraEnergies, chakraName);
+            
+            analysis.chakraTarotMappings[chakraName] = {
+                cardName: tarotMapping.cardName,
+                planet: tarotMapping.planet,
+                description: tarotMapping.description,
+                chakraEnergy: energy,
+                tarotInfluence: energy > 6 ? 'strong' : energy > 4 ? 'moderate' : 'weak',
+                alignment: energy > 6 ? 'aligned' : energy > 4 ? 'neutral' : 'misaligned'
+            };
+
+            // Generate tarot insights
+            analysis.tarotInsights[tarotMapping.cardName] = {
+                chakra: chakraName,
+                planet: tarotMapping.planet,
+                energyResonance: energy,
+                interpretation: energy > 6 ? 
+                    'Strong resonance with this archetype' : 
+                    energy > 4 ? 
+                    'Moderate connection to this energy' : 
+                    'Weak alignment - consider strengthening this aspect',
+                suggestedFocus: energy < 5 ? 
+                    `Work with ${tarotMapping.cardName} energy to strengthen ${chakraName} chakra` : 
+                    `${tarotMapping.cardName} energy is supporting your ${chakraName} chakra well`
+            };
+        }
+
+        // Generate recommendations based on tarot-chakra analysis
+        const weakAlignments = Object.entries(analysis.chakraTarotMappings)
+            .filter(([_, mapping]) => mapping.alignment === 'misaligned')
+            .map(([chakra, mapping]) => ({ chakra, card: mapping.cardName }));
+
+        if (weakAlignments.length > 0) {
+            analysis.recommendations.push('Consider tarot meditation on these cards for chakra alignment:');
+            weakAlignments.forEach(({ chakra, card }) => {
+                analysis.recommendations.push(`- ${card} for ${chakra} chakra strengthening`);
+            });
+        }
+
+        return analysis;
+    },
+
+    /**
+     * Chakra Suit Correlation Analysis
+     * Utilizes SUIT_CHAKRA_MAPPINGS for suit-chakra insights
+     */
+    analyzeChakraSuitCorrelation: (chakraEnergies, context = 'unknown') => {
+        const analysis = {
+            timestamp: Date.now(),
+            context: context,
+            chakraSuitMappings: {},
+            suitInfluences: {},
+            recommendations: []
+        };
+
+        if (!isChakraEnergies(chakraEnergies)) {
+            analysis.recommendations.push('Provide valid chakra energies object');
+            return analysis;
+        }
+
+        // Map each chakra to its suit associations
+        for (const suitMapping of SUIT_CHAKRA_MAPPINGS) {
+            const chakraName = suitMapping.primaryChakra;
+            const energy = getChakraEnergy(chakraEnergies, chakraName);
+            
+            analysis.chakraSuitMappings[chakraName] = {
+                majorArcana: suitMapping.majorArcana,
+                primarySuit: suitMapping.primarySuit || suitMapping.secondarySuit,
+                chakraEnergy: energy,
+                suitResonance: energy > 6 ? 'strong' : energy > 4 ? 'moderate' : 'weak',
+                tarotGuidance: suitMapping.majorArcana
+            };
+
+            // Generate suit influence analysis
+            const suitName = suitMapping.primarySuit || suitMapping.secondarySuit;
+            if (!analysis.suitInfluences[suitName]) {
+                analysis.suitInfluences[suitName] = {
+                    totalEnergy: 0,
+                    chakraCount: 0,
+                    associatedChakras: []
+                };
+            }
+
+            analysis.suitInfluences[suitName].totalEnergy += energy;
+            analysis.suitInfluences[suitName].chakraCount++;
+            analysis.suitInfluences[suitName].associatedChakras.push({
+                chakra: chakraName,
+                energy: energy,
+                majorArcana: suitMapping.majorArcana
+            });
+        }
+
+        // Calculate suit influence averages
+        for (const [suitName, influence] of Object.entries(analysis.suitInfluences)) {
+            influence.averageEnergy = influence.totalEnergy / influence.chakraCount;
+            influence.dominance = influence.averageEnergy > 6 ? 'high' : 
+                                influence.averageEnergy > 4 ? 'moderate' : 'low';
+        }
+
+        // Generate recommendations based on suit analysis
+        const weakSuits = Object.entries(analysis.suitInfluences)
+            .filter(([_, influence]) => influence.dominance === 'low')
+            .map(([suit, influence]) => ({ suit, chakras: influence.associatedChakras }));
+
+        if (weakSuits.length > 0) {
+            analysis.recommendations.push('Consider working with these tarot suits for chakra strengthening:');
+            weakSuits.forEach(({ suit, chakras }) => {
+                analysis.recommendations.push(`- ${suit} suit for chakras: ${chakras.map(c => c.chakra).join(', ')}`);
+            });
+        }
+
+        return analysis;
+    }
+};

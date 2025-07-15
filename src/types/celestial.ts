@@ -160,15 +160,7 @@ export interface ThermodynamicProperties {
 
 // =============== COMPLEX TYPES ===============
 
-/**
- * Lunar phase definitions with spaces (used for display)
- */
-/**
- * Standard LunarPhase type - spaces format for display
- */
-export type LunarPhase = 
-  | 'new moon' | 'waxing crescent' | 'first quarter' | 'waxing gibbous' 
-  | 'full moon' | 'waning gibbous' | 'last quarter' | 'waning crescent';
+// LunarPhase type is now imported from @/types/alchemy
 
 /**
  * Planetary dignity types
@@ -268,6 +260,7 @@ export type _PlanetaryPosition = PlanetaryPosition;
 export type _Planet = Planet;
 export type _PlanetName = PlanetName;
 export type _ZodiacSign = ZodiacSign;
+import type { LunarPhase } from './alchemy';
 export type _LunarPhase = LunarPhase;
 export type _Element = Element;
 export type _Modality = Modality;

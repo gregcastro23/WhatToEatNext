@@ -275,8 +275,8 @@ export class ElementalCalculator {
       });
     } else {
       // Handle individual planet objects
-      const planetNames = ['sun', 'moon', 'mercury', 'venus', 'mars', 'jupiter', 
-                          'saturn', 'uranus', 'neptune', 'pluto'];
+      const planetNames = ['Sun', 'Moon', 'Mercury', 'Venus', 'Mars', 'Jupiter', 
+                          'Saturn', 'Uranus', 'Neptune', 'Pluto'];
       
       planetNames.forEach(planetName => {
         if (bodies[planetName]) {

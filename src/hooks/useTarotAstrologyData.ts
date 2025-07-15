@@ -2,7 +2,7 @@ import { useState, useEffect, useMemo } from 'react';
 import { useAstrologicalState } from './useAstrologicalState';
 import { getTarotCardsForDate } from '@/lib/tarotCalculations';
 import { ElementalCharacter } from '@/constants/planetaryElements';
-import { LunarPhase as AlchemyLunarPhase, PlanetaryAspect, LunarPhaseWithSpaces } from '@/types/alchemy';
+import { LunarPhase as AlchemyLunarPhase, PlanetaryAspect } from '@/types/alchemy';
 import { LunarPhase as FoodAssociationsLunarPhase } from '@/constants/planetaryFoodAssociations';
 import { PLANET_TO_MAJOR_ARCANA } from '@/constants/tarotCards';
 import { calculateSignEnergyStates, SignEnergyState } from '@/constants/signEnergyStates';
@@ -36,11 +36,11 @@ export interface TarotCard {
 // Adapter function to convert between different lunar phase formats
 export function adaptLunarPhase(
   phase: FoodAssociationsLunarPhase | null | undefined
-): LunarPhaseWithSpaces | null {
+  ): LunarPhase | null {
   if (!phase) return null;
   
   // Direct mapping without needing REVERSE_LUNAR_PHASE_MAP
-  const phaseMap: Record<string, LunarPhaseWithSpaces> = {
+  const phaseMap: Record<string, LunarPhase> = {
     'New Moon': 'new moon',
     'Waxing Crescent': 'waxing crescent',
     'First Quarter': 'first quarter',
@@ -64,7 +64,7 @@ export interface TarotAstrologyData {
   currentZodiac: string | null;
   activePlanets: string[];
   isDaytime: boolean;
-  lunarPhase: LunarPhaseWithSpaces | null;
+  lunarPhase: LunarPhase | null;
   
   // Tarot data
   minorCard: TarotCard | null;
@@ -82,7 +82,7 @@ export interface TarotAstrologyData {
   // Derived data
   tarotElementBoosts: Record<ElementalCharacter, number>;
   tarotPlanetaryBoosts: Record<string, number>;
-  currentLunarPhase: LunarPhaseWithSpaces | null;
+  currentLunarPhase: LunarPhase | null;
 }
 
 export interface TarotAstrologyResult extends TarotAstrologyData {
@@ -112,7 +112,7 @@ export const useTarotAstrologyData = (): TarotAstrologyResult => {
     try {
       // Cast the string to FoodAssociationsLunarPhase since it matches the expected format
       return foodAssociationsLunarPhase ? 
-        adaptLunarPhase((foodAssociationsLunarPhase as unknown as LunarPhaseWithSpaces)) : 
+        adaptLunarPhase((foodAssociationsLunarPhase as unknown as LunarPhase)) : 
         null;
     } catch (error) {
       logger.error('Error converting lunar phase', error);
@@ -132,7 +132,7 @@ export const useTarotAstrologyData = (): TarotAstrologyResult => {
     Air: 0
   });
   const [tarotPlanetaryBoosts, setTarotPlanetaryBoosts] = useState<Record<string, number>>({});
-  const [currentLunarPhase, setCurrentLunarPhase] = useState<LunarPhaseWithSpaces | null>(null);
+  const [currentLunarPhase, setCurrentLunarPhase] = useState<LunarPhase | null>(null);
   const [signEnergyStates, setSignEnergyStates] = useState<SignEnergyState[]>([]);
   const [alchemicalValues, setAlchemicalValues] = useState<{
     Spirit: number;
@@ -304,7 +304,7 @@ export const useTarotAstrologyData = (): TarotAstrologyResult => {
       if (foodAssociationsLunarPhase) {
         const normalizedPhase = REVERSE_LUNAR_PHASE_MAP[foodAssociationsLunarPhase];
         if (normalizedPhase) {
-          setCurrentLunarPhase(normalizedPhase as LunarPhaseWithSpaces);
+          setCurrentLunarPhase(normalizedPhase as LunarPhase);
         }
       }
       // Otherwise use a default lunar phase

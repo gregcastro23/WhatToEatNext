@@ -1,22 +1,14 @@
-export type LunarPhase =
-  | 'NEW_MOON'
-  | 'WAXING_CRESCENT'
-  | 'FIRST_QUARTER'
-  | 'WAXING_GIBBOUS'
-  | 'FULL_MOON'
-  | 'WANING_GIBBOUS'
-  | 'LAST_QUARTER'
-  | 'WANING_CRESCENT';
+import type { LunarPhase } from '../types/alchemy';
 
 export const LUNAR_PHASES: Record<LunarPhase, string> = {
-  'NEW_MOON': 'New Moon',
-  'WAXING_CRESCENT': 'Waxing Crescent',
-  'FIRST_QUARTER': 'First Quarter',
-  'WAXING_GIBBOUS': 'Waxing Gibbous',
-  'FULL_MOON': 'Full Moon',
-  'WANING_GIBBOUS': 'Waning Gibbous',
-  'LAST_QUARTER': 'Last Quarter',
-  'WANING_CRESCENT': 'Waning Crescent'
+  'new moon': 'New Moon',
+  'waxing crescent': 'Waxing Crescent',
+  'first quarter': 'First Quarter',
+  'waxing gibbous': 'Waxing Gibbous',
+  'full moon': 'Full Moon',
+  'waning gibbous': 'Waning Gibbous',
+  'last quarter': 'Last Quarter',
+  'waning crescent': 'Waning Crescent'
 };
 
 // Standard lunar cycle is approximately 29.53 days

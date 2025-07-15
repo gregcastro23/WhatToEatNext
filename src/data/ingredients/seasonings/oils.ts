@@ -1,8 +1,6 @@
 import { fixIngredientMappings } from '@/utils/elementalUtils';
 import type { Season } from '@/types/seasons';
-import type { IngredientMapping } from '@/data/ingredients/types';
-
-// Pattern AA: Ingredient Interface Restructuring
+import type { IngredientMapping } from '@/data/ingredients/types';// Pattern AA: Ingredient Interface Restructuring
 // Proper type annotation for raw ingredients to ensure IngredientMapping compatibility
 const rawOils: Record<string, Partial<IngredientMapping>> = {
     'olive_oil': {

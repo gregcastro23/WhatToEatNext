@@ -1,5 +1,4 @@
-import type { ElementalProperties, LunarPhase, LunarPhaseWithSpaces, LunarPhaseWithUnderscores } from '../types/alchemy';
-import { LUNAR_PHASE_MAPPING, LUNAR_PHASE_REVERSE_MAPPING } from '../types/alchemy';
+import type { ElementalProperties, LunarPhase, LunarPhaseWithUnderscores } from '../types/alchemy';
 import type { LunarPhaseModifier } from '../types/lunar';
 import type { ElementalState } from '@/types/elemental';
 
@@ -219,11 +218,11 @@ export const getLunarPhaseKey = (phase: string): LunarPhaseKey => {
   
   // If it already has underscores, validate it's a proper key
   if (phase.includes('_')) {
-    return isValidUnderscorePhase(phase) ? phase as LunarPhaseKey : 'new_moon';
+    return phase as LunarPhaseKey;
   }
   
   // Look up the underscore version or fall back to a manual conversion
-  return LUNAR_PHASE_MAP[phase as LunarPhase] || phase.replace(/\s+/g, '_') as LunarPhaseKey;
+  return phase.replace(/\s+/g, '_') as LunarPhaseKey;
 };
 
 /**
@@ -237,21 +236,59 @@ export const formatLunarPhase = (phase: string): LunarPhase => {
   
   // If it already has spaces, validate it's a proper key
   if (!phase.includes('_')) {
-    return isValidSpacePhase(phase) ? phase as LunarPhase : 'new moon';
+    return phase as LunarPhase;
   }
   
   // Look up the space version or fall back to a manual conversion
-  return REVERSE_LUNAR_PHASE_MAP[phase as LunarPhaseKey] || phase.replace(/_/g, ' ') as LunarPhase;
+  return phase.replace(/_/g, ' ') as LunarPhase;
 };
 
-// Helper functions for validation
-const isValidUnderscorePhase = (phase: string): boolean => {
-  return Object.keys(REVERSE_LUNAR_PHASE_MAP).includes(phase);
-};
+/**
+ * Convert a LunarPhase (spaces) to underscore format
+ */
+export function toUnderscore(phase: LunarPhase): LunarPhaseWithUnderscores {
+  return phase.replace(/\s+/g, '_') as LunarPhaseWithUnderscores;
+}
 
-const isValidSpacePhase = (phase: string): boolean => {
-  return Object.keys(LUNAR_PHASE_MAP).includes(phase);
-};
+/**
+ * Convert an underscore format to LunarPhase (spaces)
+ */
+export function fromUnderscore(phase: string): LunarPhase | undefined {
+  return phase.replace(/_/g, ' ') as LunarPhase;
+}
+
+/**
+ * Convert a display string (e.g., 'Full Moon', any case) to LunarPhase
+ */
+export function fromDisplay(phase: string): LunarPhase | undefined {
+  const normalized = phase.trim().toLowerCase();
+  return (
+    [
+      'new moon',
+      'waxing crescent',
+      'first quarter',
+      'waxing gibbous',
+      'full moon',
+      'waning gibbous',
+      'last quarter',
+      'waning crescent',
+    ] as LunarPhase[]
+  ).find((p) => p === normalized);
+}
+
+/**
+ * Convert a LunarPhase to display format (Title Case)
+ */
+export function toDisplay(phase: LunarPhase): string {
+  return phase.replace(/\b\w/g, (c) => c.toUpperCase());
+}
+
+/**
+ * Normalize any lunar phase string to canonical LunarPhase, or undefined if invalid
+ */
+export function normalizeLunarPhase(phase: string): LunarPhase | undefined {
+  return fromDisplay(phase) || fromUnderscore(phase);
+}
 
 /**
  * Format lunar phase for display (same as formatLunarPhase but with a more descriptive name)
@@ -319,14 +356,14 @@ export const LUNAR_PHASE_ELEMENTS: Record<LunarPhaseWithUnderscores, ElementalPr
  * Converts a lunar phase with spaces to one with underscores
  */
 export function convertToUnderscoreFormat(phase: LunarPhaseWithSpaces): LunarPhaseWithUnderscores {
-  return LUNAR_PHASE_MAPPING[phase];
+  return phase.replace(/\s+/g, '_') as LunarPhaseWithUnderscores;
 }
 
 /**
  * Converts a lunar phase with underscores to one with spaces
  */
 export function convertToSpacesFormat(phase: LunarPhaseWithUnderscores): LunarPhaseWithSpaces {
-  return LUNAR_PHASE_REVERSE_MAPPING[phase];
+  return phase.replace(/_/g, ' ') as LunarPhaseWithSpaces;
 }
 
 /**
@@ -335,40 +372,10 @@ export function convertToSpacesFormat(phase: LunarPhaseWithUnderscores): LunarPh
 export function getLunarPhaseElements(phase: LunarPhase): ElementalProperties {
   // Convert to underscore format if needed
   const phaseKey = phase.includes(' ') 
-    ? LUNAR_PHASE_MAPPING[phase as LunarPhaseWithSpaces] 
+    ? phase.replace(/\s+/g, '_') as LunarPhaseWithUnderscores
     : phase as unknown as LunarPhaseWithUnderscores;
     
   return LUNAR_PHASE_ELEMENTS[phaseKey];
-}
-
-/**
- * Safely normalizes any lunar phase string to a valid LunarPhase type
- */
-export function normalizeLunarPhase(phase: string | null | undefined): LunarPhase | undefined {
-  if (!phase) return undefined;
-  
-  const cleanPhase = phase.toLowerCase().trim();
-  
-  // Check if it's already a valid lunar phase with spaces
-  if (isValidSpacePhase(cleanPhase)) {
-    return cleanPhase as LunarPhase;
-  }
-  
-  // Try to find a mapping from underscore format
-  const spacesFormat = REVERSE_LUNAR_PHASE_MAP[cleanPhase as LunarPhaseKey];
-  if (spacesFormat) {
-    return spacesFormat;
-  }
-  
-  // Try partial matching
-  const phases = Object.keys(LUNAR_PHASE_MAP) as LunarPhase[];
-  const match = phases.find(p => 
-    p.includes(cleanPhase) || 
-    cleanPhase.includes(p.replace(' ', '')) ||
-    cleanPhase.includes(p.replace(' ', '_'))
-  );
-  
-  return match;
 }
 
 // ========== MISSING FUNCTION FOR TS2305 FIXES ==========

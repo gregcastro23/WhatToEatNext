@@ -2,7 +2,7 @@ import { useState, useEffect, useMemo } from 'react';
 import { RulingPlanet } from '../constants/planets';
 import { ElementalCharacter, AlchemicalProperty } from '../constants/planetaryElements';
 import { ElementalItem } from '../calculations/alchemicalTransformation';
-import { AlchemicalItem , _LunarPhase, LunarPhaseWithSpaces, ZodiacSign, PlanetaryAspect } from '../types/alchemy';
+import { AlchemicalItem , LunarPhase, ZodiacSign, PlanetaryAspect } from '../types/alchemy';
 import { RecommendationAdapter } from '../services/RecommendationAdapter';
 import { AlchemicalRecommendations } from '../services/AlchemicalTransformationService';
 
@@ -16,7 +16,7 @@ interface UseAlchemicalRecommendationsProps {
   targetAlchemicalProperty?: AlchemicalProperty;
   count?: number;
   currentZodiac?: ZodiacSign | null;
-  lunarPhase?: LunarPhaseWithSpaces;
+  lunarPhase?: LunarPhase;
   tarotElementBoosts?: Record<ElementalCharacter, number>;
   tarotPlanetaryBoosts?: Record<string, number>;
   aspects?: PlanetaryAspect[];

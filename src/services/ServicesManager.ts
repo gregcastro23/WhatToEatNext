@@ -43,7 +43,7 @@ export class ServicesManager {
   private _initializationStatus: InitializationStatus = InitializationStatus.NOT_STARTED;
   private _serviceResults: ServiceInitializationResult[] = [];
   
-  private constructor() {}
+  private constructor() { /* Private constructor to enforce singleton pattern */ }
   
   /**
    * Get the singleton instance
@@ -136,7 +136,7 @@ export class ServicesManager {
       // Just perform a simple operation to verify it's working
       const dummyPositions = {
         Sun: 'aries',
-        moon: 'taurus',
+        Moon: 'taurus',
         Mercury: 'gemini',
         Venus: 'cancer',
         Mars: 'leo',
@@ -338,7 +338,7 @@ export class ServicesManager {
       // ✅ Pattern MM-1: Type assertion for Record<Planet, ZodiacSign> compatibility  
       const dummyPositions = {
         Sun: 'aries',
-        moon: 'taurus',
+        Moon: 'taurus',
         Mercury: 'gemini',
         Venus: 'cancer',
         Mars: 'leo',

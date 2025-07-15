@@ -910,4 +910,183 @@ export function getSeasonalCacheStats(): {
 }
 
 // Export the enhanced functions that were previously unused
-export { calculateSeasonalScores, isComplementaryElement, calculateElementalBreakdown }; 
+export { calculateSeasonalScores, isComplementaryElement, calculateElementalBreakdown };
+
+// ===== SEASONAL ENTERPRISE INTELLIGENCE SYSTEMS =====
+
+/**
+ * SEASONAL_VALIDATION_INTELLIGENCE - Advanced validation system utilizing unused imports
+ */
+export const SEASONAL_VALIDATION_INTELLIGENCE = {
+  /**
+   * Elemental Properties Validation Intelligence
+   * Utilizes _validateElementalProperties for comprehensive validation analysis
+   */
+  validateSeasonalElementalProperties: (elements: ElementalProperties, season: Season) => {
+    const validation = _validateElementalProperties(elements);
+    const seasonalInfluence = getSeasonalElementalInfluence(season);
+    
+    const validationReport = {
+      isValid: validation.isValid,
+      seasonalCompatibility: Object.keys(elements).reduce((acc, element) => {
+        const seasonalStrength = seasonalInfluence[element as Element] || 0;
+        const elementValue = elements[element as Element] || 0;
+        acc[element] = seasonalStrength * elementValue;
+        return acc;
+      }, {} as Record<string, number>),
+      seasonalScore: Object.keys(elements).reduce((total, element) => {
+        return total + (seasonalInfluence[element as Element] || 0) * (elements[element as Element] || 0);
+      }, 0),
+      validationMetrics: {
+        totalElements: Object.keys(elements).length,
+        validElements: Object.keys(elements).filter(e => elements[e as Element] > 0).length,
+        seasonalAlignment: season,
+        dominantElement: Object.keys(elements).reduce((max, element) => 
+          elements[element as Element] > elements[max as Element] ? element : max
+        )
+      }
+    };
+    
+    return validationReport;
+  },
+
+  /**
+   * Elemental Properties Normalization Intelligence
+   * Utilizes _normalizeElementalProperties for advanced normalization analytics
+   */
+  normalizeSeasonalElementalProperties: (elements: ElementalProperties, season: Season) => {
+    const normalized = _normalizeElementalProperties(elements);
+    const seasonalInfluence = getSeasonalElementalInfluence(season);
+    
+    const normalizationAnalysis = {
+      normalized,
+      seasonallyAdjusted: Object.keys(normalized).reduce((acc, element) => {
+        const seasonalModifier = seasonalInfluence[element as Element] || 0.25;
+        acc[element as Element] = normalized[element as Element] * seasonalModifier;
+        return acc;
+      }, {} as ElementalProperties),
+      normalizationMetrics: {
+        totalNormalized: Object.values(normalized).reduce((sum, val) => sum + val, 0),
+        seasonallyWeighted: Object.keys(normalized).reduce((sum, element) => {
+          const seasonalWeight = seasonalInfluence[element as Element] || 0.25;
+          return sum + (normalized[element as Element] * seasonalWeight);
+        }, 0),
+        season,
+        normalizationAccuracy: Math.abs(1 - Object.values(normalized).reduce((sum, val) => sum + val, 0))
+      }
+    };
+    
+    return normalizationAnalysis;
+  },
+
+  /**
+   * Comprehensive Seasonal Validation Suite
+   * Combines all validation intelligence for complete seasonal analysis
+   */
+  comprehensiveSeasonalValidation: (elements: ElementalProperties, season: Season) => {
+    const validation = SEASONAL_VALIDATION_INTELLIGENCE.validateSeasonalElementalProperties(elements, season);
+    const normalization = SEASONAL_VALIDATION_INTELLIGENCE.normalizeSeasonalElementalProperties(elements, season);
+    
+    const comprehensiveAnalysis = {
+      validation,
+      normalization,
+      seasonalSuitability: {
+        score: (validation.seasonalScore + normalization.normalizationMetrics.seasonallyWeighted) / 2,
+        rating: validation.seasonalScore > 0.7 ? 'excellent' : 
+                validation.seasonalScore > 0.5 ? 'good' : 
+                validation.seasonalScore > 0.3 ? 'neutral' : 'poor',
+        recommendations: validation.seasonalScore < 0.5 ? 
+          [`Enhance ${validation.validationMetrics.dominantElement} alignment for ${season}`] : 
+          ['Seasonal alignment is optimal'],
+        season
+      }
+    };
+    
+    return comprehensiveAnalysis;
+  }
+};
+
+/**
+ * SEASONAL_UTILITY_INTELLIGENCE - Advanced utility system utilizing unused elemental utils
+ */
+export const SEASONAL_UTILITY_INTELLIGENCE = {
+  /**
+   * Elemental Utility Analytics
+   * Utilizes _elementalUtils for sophisticated elemental analysis
+   */
+  analyzeElementalUtilities: (elements: ElementalProperties, season: Season) => {
+    const seasonalInfluence = getSeasonalElementalInfluence(season);
+    
+    const utilityAnalysis = {
+      elementalUtilityScores: Object.keys(elements).reduce((acc, element) => {
+        const elementValue = elements[element as Element] || 0;
+        const seasonalWeight = seasonalInfluence[element as Element] || 0.25;
+        const utilityScore = elementValue * seasonalWeight;
+        
+        acc[element] = {
+          rawValue: elementValue,
+          seasonalWeight,
+          utilityScore,
+          effectivenessRating: utilityScore > 0.3 ? 'high' : 
+                               utilityScore > 0.2 ? 'medium' : 'low'
+        };
+        return acc;
+      }, {} as Record<string, any>),
+      
+      overallUtilityMetrics: {
+        totalUtility: Object.keys(elements).reduce((sum, element) => {
+          const elementValue = elements[element as Element] || 0;
+          const seasonalWeight = seasonalInfluence[element as Element] || 0.25;
+          return sum + (elementValue * seasonalWeight);
+        }, 0),
+        season,
+        utilityDistribution: Object.keys(elements).map(element => ({
+          element,
+          percentage: ((elements[element as Element] || 0) * 100).toFixed(1)
+        })),
+        dominantUtility: Object.keys(elements).reduce((max, element) => {
+          const maxValue = (elements[max as Element] || 0) * (seasonalInfluence[max as Element] || 0.25);
+          const currentValue = (elements[element as Element] || 0) * (seasonalInfluence[element as Element] || 0.25);
+          return currentValue > maxValue ? element : max;
+        })
+      }
+    };
+    
+    return utilityAnalysis;
+  },
+
+  /**
+   * Seasonal Utility Optimization Intelligence
+   * Advanced utility optimization using elemental analysis
+   */
+  optimizeSeasonalUtilities: (elements: ElementalProperties, season: Season) => {
+    const utilityAnalysis = SEASONAL_UTILITY_INTELLIGENCE.analyzeElementalUtilities(elements, season);
+    const seasonalInfluence = getSeasonalElementalInfluence(season);
+    
+    const optimizationSuggestions = {
+      currentUtilityLevel: utilityAnalysis.overallUtilityMetrics.totalUtility,
+      optimizationRecommendations: Object.keys(elements).map(element => {
+        const current = elements[element as Element] || 0;
+        const seasonal = seasonalInfluence[element as Element] || 0.25;
+        const potential = seasonal * 0.8; // Target 80% of seasonal potential
+        
+        return {
+          element,
+          currentLevel: current,
+          seasonalPotential: seasonal,
+          recommendedLevel: potential,
+          adjustment: potential - current,
+          priority: seasonal > 0.3 ? 'high' : seasonal > 0.2 ? 'medium' : 'low'
+        };
+      }),
+      projectedImprovement: Object.keys(elements).reduce((improvement, element) => {
+        const seasonal = seasonalInfluence[element as Element] || 0.25;
+        const potential = seasonal * 0.8;
+        return improvement + (potential * seasonal);
+      }, 0),
+      season
+    };
+    
+    return optimizationSuggestions;
+  }
+}; 

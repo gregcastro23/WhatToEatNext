@@ -12,7 +12,7 @@ import { convertToLunarPhase } from '@/utils/lunarPhaseUtils';
 import type { ElementalProperties, 
   ElementalItem, 
   AlchemicalItem,
-  LunarPhaseWithSpaces,
+  LunarPhase,
   PlanetaryAspect } from '@/types/alchemy';
 import { ElementalCharacter } from '@/constants/planetaryElements';
 import astrologizeCache from '@/services/AstrologizeApiCache';
@@ -65,7 +65,7 @@ export class RecommendationService {
   private planetaryPositions: { [key: string]: PlanetData };
   private isDaytime: boolean;
   private currentZodiac: string | null;
-  private lunarPhase: LunarPhaseWithSpaces | null;
+  private lunarPhase: LunarPhase | null;
   private transformedIngredients: AlchemicalItem[] = [];
   private transformedMethods: AlchemicalItem[] = [];
   private transformedCuisines: AlchemicalItem[] = [];
@@ -117,7 +117,7 @@ export class RecommendationService {
     planetaryPositions: { [key: string]: PlanetData },
     isDaytime = true,
     currentZodiac: string | null = null,
-    lunarPhase: LunarPhaseWithSpaces | null = null,
+    lunarPhase: LunarPhase | null = null,
     tarotElementBoosts?: Record<ElementalCharacter, number>,
     tarotPlanetaryBoosts?: { [key: string]: number },
     aspects: PlanetaryAspect[] = []
@@ -512,7 +512,7 @@ export class RecommendationService {
         fallbackLocation
       );
       score += alchemicalScore * 0.35; // Slightly lower weight without location
-    } else if (criteria.astrologicalState) {
+    } else {
       // Basic compatibility check using simple elemental matching
       const currentElements = this.getCurrentElementalInfluence();
       const recipeElements = recipe.elementalProperties || {

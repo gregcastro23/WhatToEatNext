@@ -1,4 +1,4 @@
-import { ZodiacSign, LunarPhase, Modality, AlchemicalProperties, PlanetName, Planet, PlanetaryAlignment, CelestialPosition, PlanetaryAspect } from '@/types/celestial';
+import { ZodiacSign, Modality, AlchemicalProperties, PlanetName, Planet, PlanetaryAlignment, CelestialPosition, PlanetaryAspect } from '@/types/celestial';
 import { TarotCard } from '@/contexts/TarotContext/types';
 import { ElementalCharacter } from '@/constants/planetaryElements';
 
@@ -6,8 +6,11 @@ import { ElementalCharacter } from '@/constants/planetaryElements';
 import type { AlchemicalProperty } from '@/types/celestial';
 
 // CRITICAL: Re-export all imported types to maintain API compatibility
-export type { ZodiacSign, LunarPhase, Modality, AlchemicalProperties, PlanetName, Planet, PlanetaryAlignment, CelestialPosition, PlanetaryAspect };
+export type { ZodiacSign, Modality, AlchemicalProperties, PlanetName, Planet, PlanetaryAlignment, CelestialPosition, PlanetaryAspect };
 export type { AlchemicalProperty };
+
+// LunarPhase is defined in this file, so export it directly
+export type { LunarPhase };
 
 // src/types/alchemy.ts
 
@@ -225,11 +228,50 @@ export interface CookingMethodModifier {
 
 // ========== ASTROLOGICAL TYPES ==========
 
-// Format with spaces (UI friendly)
-export type LunarPhaseWithSpaces = 'new moon' | 'waxing crescent' | 'first quarter' | 'waxing gibbous' | 'full moon' | 'waning gibbous' | 'last quarter' | 'waning crescent';
+// Canonical LunarPhase type
+export type LunarPhase =
+  | 'new moon'
+  | 'waxing crescent'
+  | 'first quarter'
+  | 'waxing gibbous'
+  | 'full moon'
+  | 'waning gibbous'
+  | 'last quarter'
+  | 'waning crescent';
 
-// Format with underscores (API/object key friendly)
-export type LunarPhaseWithUnderscores = 'new_moon' | 'waxing_crescent' | 'first_quarter' | 'waxing_gibbous' | 'full_moon' | 'waning_gibbous' | 'last_quarter' | 'waning_crescent';
+// Remove/alias all other variants
+export type LunarPhaseWithSpaces = LunarPhase;
+export type LunarPhaseWithUnderscores =
+  | 'new_moon'
+  | 'waxing_crescent'
+  | 'first_quarter'
+  | 'waxing_gibbous'
+  | 'full_moon'
+  | 'waning_gibbous'
+  | 'last_quarter'
+  | 'waning_crescent';
+
+// Mappings for conversion
+export const LUNAR_PHASE_TO_UNDERSCORE: Record<LunarPhase, LunarPhaseWithUnderscores> = {
+  'new moon': 'new_moon',
+  'waxing crescent': 'waxing_crescent',
+  'first quarter': 'first_quarter',
+  'waxing gibbous': 'waxing_gibbous',
+  'full moon': 'full_moon',
+  'waning gibbous': 'waning_gibbous',
+  'last quarter': 'last_quarter',
+  'waning crescent': 'waning_crescent',
+};
+export const LUNAR_PHASE_FROM_UNDERSCORE: Record<LunarPhaseWithUnderscores, LunarPhase> = {
+  'new_moon': 'new moon',
+  'waxing_crescent': 'waxing crescent',
+  'first_quarter': 'first quarter',
+  'waxing_gibbous': 'waxing gibbous',
+  'full_moon': 'full moon',
+  'waning_gibbous': 'waning gibbous',
+  'last_quarter': 'last quarter',
+  'waning_crescent': 'waning crescent',
+};
 
 // Default LunarPhase type - use the format with spaces as the primary representation
 

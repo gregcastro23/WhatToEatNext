@@ -966,7 +966,7 @@ export const IngredientTransformationIntelligence = {
    * Recipe Ingredient Conversion Intelligence
    * Utilizes ingredientToRecipeIngredient for advanced recipe conversion
    */
-  analyzeRecipeConversion: (ingredient: Ingredient, amount: number = 1, unit: string = 'item') => {
+  analyzeRecipeConversion: (ingredient: Ingredient, amount = 1, unit = 'item') => {
     const recipeIngredient = ingredientToRecipeIngredient(ingredient, amount, unit);
     const conversionAnalysis = IngredientValidationIntelligence.analyzeRecipeIngredientQuality(recipeIngredient);
     
@@ -1072,7 +1072,7 @@ export const IngredientCompatibilityIntelligence = {
    * Advanced Elemental Merging Intelligence
    * Utilizes mergeElementalProperties for sophisticated elemental harmony analysis
    */
-  analyzeElementalMerging: (base: ElementalProperties, addition: ElementalProperties, weight: number = 0.5) => {
+  analyzeElementalMerging: (base: ElementalProperties, addition: ElementalProperties, weight = 0.5) => {
     const merged = mergeElementalProperties(base, addition, weight);
     const baseConsistency = IngredientValidationIntelligence.analyzeElementalConsistency(base);
     const additionConsistency = IngredientValidationIntelligence.analyzeElementalConsistency(addition);
@@ -1180,7 +1180,7 @@ export const IngredientCompatibilityIntelligence = {
    * Compatible Ingredients Discovery Intelligence
    * Utilizes findCompatibleSimpleIngredients for advanced ingredient discovery and optimization
    */
-  analyzeCompatibilityNetwork: (target: SimpleIngredient, candidates: SimpleIngredient[], limit: number = 5) => {
+  analyzeCompatibilityNetwork: (target: SimpleIngredient, candidates: SimpleIngredient[], limit = 5) => {
     const compatibleIngredients = findCompatibleSimpleIngredients(target, candidates, limit);
     const allCompatibilities = candidates.map(candidate => calculateSimpleCompatibility(target, candidate));
     

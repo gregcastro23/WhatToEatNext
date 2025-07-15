@@ -1,8 +1,10 @@
-import { _PlanetName, ZodiacSign } from './alchemy';
+import { _PlanetName, ZodiacSign, Season } from './alchemy';
 
 export type WeekDay = 'Sunday' | 'Monday' | 'Tuesday' | 'Wednesday' | 'Thursday' | 'Friday' | 'Saturday';
-export type Season = 'Spring' | 'Summer' | 'Fall' | 'Winter';
 export type TimeOfDay = 'Morning' | 'Afternoon' | 'Evening' | 'Night';
+
+// Re-export Season for compatibility
+export type { Season };
 
 export interface PlanetaryDay {
   day: WeekDay;
@@ -50,13 +52,13 @@ export function getTimeFactors(): TimeFactors {
   // Determine season (Northern Hemisphere)
   let season: Season;
   if (month >= 2 && month <= 4) {
-    season = 'Spring';
+    season = 'spring';
   } else if (month >= 5 && month <= 7) {
-    season = 'Summer';
+    season = 'summer';
   } else if (month >= 8 && month <= 10) {
-    season = 'Fall';
+    season = 'autumn';
   } else {
-    season = 'Winter';
+    season = 'winter';
   }
   
   // Determine time of day

@@ -14,9 +14,7 @@ import { oils, processedOils } from '../data/ingredients/oils';
 import { fruits } from '../data/ingredients/fruits';
 import { logger } from '../utils/logger';
 import type { Recipe } from '../types/recipe';
-
-
-// Phase 10: Calculation Type Interfaces
+import type { Season } from '../types/alchemy';
 interface CalculationData {
   value: number;
   weight?: number;

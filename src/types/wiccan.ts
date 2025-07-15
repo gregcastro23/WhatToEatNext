@@ -31,13 +31,4 @@ export type ElementalCharacter =
 /**
  * Represents the seasons in Wiccan traditions
  */
-export type Season = 
-  | 'spring' 
-  | 'summer' 
-  | 'autumn' 
-  | 'fall' 
-  | 'winter' 
-  | 'waxing' 
-  | 'waning' 
-  | 'solstice' 
-  | 'equinox'; 
+import type { Season } from './alchemy'; 

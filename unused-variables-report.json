@@ -1,2 +1,447 @@
-yarn run v1.22.22
-info Visit https://yarnpkg.com/en/docs/cli/run for documentation about this command.
+{
+  "summary": {
+    "totalFiles": 1013,
+    "filesWithUnused": 535,
+    "totalUnused": 1410,
+    "totalDeclarations": 11104,
+    "unusedRatio": 0.12698126801152737
+  },
+  "topFiles": [
+    {
+      "filePath": "/Users/GregCastro/Desktop/WhatToEatNext/src/utils/recipe/recipeUtils.ts",
+      "totalDeclarations": 36,
+      "unusedCount": 19,
+      "unusedVariables": [
+        "RecipeAnalysisIntelligence",
+        "RecipeMetadataIntelligence",
+        "RecipeTimingIntelligence",
+        "RecipeSafetyIntelligence",
+        "isScoredRecipe",
+        "isRecipeIngredient",
+        "getRecipeMealTypes",
+        "getRecipeSeasons",
+        "getRecipeAstrologicalInfluences",
+        "getRecipeZodiacInfluences",
+        "getRecipeCookingTime",
+        "isRecipeCompatibleWithDiet",
+        "recipeHasIngredient",
+        "getRecipeDominantElement",
+        "getSafeRecipeName",
+        "getSafeRecipeDescription",
+        "toScoredRecipe",
+        "isRecipeDietaryCompatible",
+        "getRecipeIngredients"
+      ],
+      "unusedRatio": 0.5277777777777778
+    },
+    {
+      "filePath": "/Users/GregCastro/Desktop/WhatToEatNext/src/data/unified/utils/validation.js",
+      "totalDeclarations": 14,
+      "unusedCount": 14,
+      "unusedVariables": [
+        "isElementalProperties",
+        "isElementalPropertyKey",
+        "isChakraEnergies",
+        "isChakraKey",
+        "isPlanetaryPositions",
+        "isZodiacEnergies",
+        "logUnexpectedValue",
+        "isNumberInRange",
+        "isPositiveNumber",
+        "isNonNegativeNumber",
+        "isNonEmptyString",
+        "hasRequiredProperties",
+        "isArrayOfType",
+        "isValidString"
+      ],
+      "unusedRatio": 1
+    },
+    {
+      "filePath": "/Users/GregCastro/Desktop/WhatToEatNext/src/data/unified/data/ingredients/oils/index.js",
+      "totalDeclarations": 16,
+      "unusedCount": 13,
+      "unusedVariables": [
+        "cookingOils",
+        "finishingOils",
+        "supplementOils",
+        "specialtyOils",
+        "fireOils",
+        "waterOils",
+        "earthOils",
+        "AirOils",
+        "highHeatOils",
+        "bakingOils",
+        "dressingOils",
+        "nutOils",
+        "allOils"
+      ],
+      "unusedRatio": 0.8125
+    },
+    {
+      "filePath": "/Users/GregCastro/Desktop/WhatToEatNext/src/data/recipes.ts",
+      "totalDeclarations": 54,
+      "unusedCount": 12,
+      "unusedVariables": [
+        "getRecipesForZodiac",
+        "getRecipesForSeason",
+        "getRecipesForLunarPhase",
+        "getRecipesForCuisine",
+        "getRecipesForPlanetaryAlignment",
+        "getDominantPlanetaryInfluence",
+        "getRecommendedCookingTechniques",
+        "getRecipesForFlavorProfile",
+        "getRecommendedCuisines",
+        "getFusionSuggestions",
+        "calculateCompatibilityScore",
+        "getRecipe"
+      ],
+      "unusedRatio": 0.2222222222222222
+    },
+    {
+      "filePath": "/Users/GregCastro/Desktop/WhatToEatNext/src/data/unified/data/ingredients/proteins/index.js",
+      "totalDeclarations": 27,
+      "unusedCount": 12,
+      "unusedVariables": [
+        "getProteinsBySeasonality",
+        "getProteinsBySustainability",
+        "getProteinsByRegionalCuisine",
+        "getProteinsByCategory",
+        "getProteinsByCookingMethod",
+        "getProteinsByNutrition",
+        "getCompatibleProteins",
+        "getProteinSubstitutes",
+        "validateProteinCombination",
+        "validateCookingMethod",
+        "getProteinsBySubCategory",
+        "getVeganProteins"
+      ],
+      "unusedRatio": 0.4444444444444444
+    },
+    {
+      "filePath": "/Users/GregCastro/Desktop/WhatToEatNext/src/types/shared.ts",
+      "totalDeclarations": 25,
+      "unusedCount": 12,
+      "unusedVariables": [
+        "MOON_PHASE_MAP",
+        "MOON_PHASE_TO_DISPLAY",
+        "MOON_PHASE_TO_LOWERCASE",
+        "LOWERCASE_TO_MOON_PHASE",
+        "CelestialPosition",
+        "ElementalScore",
+        "ThermodynamicProperties",
+        "ZodiacSign",
+        "Season",
+        "ViewOption",
+        "ElementalFilter",
+        "CookingMethodRecord"
+      ],
+      "unusedRatio": 0.48
+    },
+    {
+      "filePath": "/Users/GregCastro/Desktop/WhatToEatNext/src/utils/seasonalCalculations.ts",
+      "totalDeclarations": 53,
+      "unusedCount": 12,
+      "unusedVariables": [
+        "SEASONAL_MODIFIERS",
+        "getSeasonalEffectiveness",
+        "getSeasonalModifier",
+        "calculateSeasonalModifiers",
+        "getElementalBreakdown",
+        "applySeasonalInfluence",
+        "calculateLunarPhaseCompatibility",
+        "getComprehensiveSeasonalAnalysis",
+        "getElementalCompatibilityWithSeason",
+        "getEnhancedElementalBreakdown",
+        "getSeasonalCacheStats",
+        "Rating"
+      ],
+      "unusedRatio": 0.22641509433962265
+    },
+    {
+      "filePath": "/Users/GregCastro/Desktop/WhatToEatNext/src/data/unified/constants/elementalCore.js",
+      "totalDeclarations": 14,
+      "unusedCount": 11,
+      "unusedVariables": [
+        "ELEMENT_AFFINITIES",
+        "ELEMENT_COMBINATIONS",
+        "ZODIAC_ELEMENTS",
+        "DECANS",
+        "ELEMENTAL_THRESHOLDS",
+        "ELEMENTAL_WEIGHTS",
+        "ELEMENTAL_CHARACTERISTICS",
+        "getDominantElement",
+        "normalizeElementalProperties",
+        "calculateElementalCompatibility",
+        "validateElementalProperties"
+      ],
+      "unusedRatio": 0.7857142857142857
+    },
+    {
+      "filePath": "/Users/GregCastro/Desktop/WhatToEatNext/src/services/AstrologicalService.ts",
+      "totalDeclarations": 27,
+      "unusedCount": 11,
+      "unusedVariables": [
+        "PROKERALA_API_URL",
+        "PROKERALA_CLIENT_ID",
+        "PROKERALA_CLIENT_SECRET",
+        "NASA_HORIZONS_API",
+        "NASA_DEFAULT_PARAMS",
+        "ASTRONOMY_API_URL",
+        "ASTRONOMY_API_APP_ID",
+        "ASTRONOMY_API_APP_SECRET",
+        "isEphemerisFileAvailable",
+        "PlanetPosition",
+        "PlanetName"
+      ],
+      "unusedRatio": 0.4074074074074074
+    },
+    {
+      "filePath": "/Users/GregCastro/Desktop/WhatToEatNext/src/utils/astrology/validation.ts",
+      "totalDeclarations": 38,
+      "unusedCount": 11,
+      "unusedVariables": [
+        "debugLog",
+        "CACHE_DURATION",
+        "getZodiacPositionInDegrees",
+        "calculatePlanetaryAspects",
+        "validatePlanetaryPositions",
+        "getBaseSignLongitude",
+        "getCurrentTransitPositions",
+        "calculateApproximateSunSign",
+        "getDaysSinceDate",
+        "toZodiacSign",
+        "PlanetDataWithTransits"
+      ],
+      "unusedRatio": 0.2894736842105263
+    },
+    {
+      "filePath": "/Users/GregCastro/Desktop/WhatToEatNext/src/data/ingredients/seasonings/index.ts",
+      "totalDeclarations": 23,
+      "unusedCount": 10,
+      "unusedVariables": [
+        "categorizedSalts",
+        "getSeasoningsByCategory",
+        "getSeasoningsByIntensity",
+        "getCompatibleSeasonings",
+        "getSeasoningsByTiming",
+        "getTraditionalCombinations",
+        "getSeasoningsByLunarPhase",
+        "getSeasoningsByElementalBoost",
+        "PreservationMethod",
+        "SeasoningAstrologicalProfile"
+      ],
+      "unusedRatio": 0.43478260869565216
+    },
+    {
+      "filePath": "/Users/GregCastro/Desktop/WhatToEatNext/src/data/ingredients/spices/index.ts",
+      "totalDeclarations": 18,
+      "unusedCount": 10,
+      "unusedVariables": [
+        "addHeatLevels",
+        "getSpicesBySubCategory",
+        "getSpicesByOrigin",
+        "getSpicesByElementalProperty",
+        "getSpiceBlendComponents",
+        "getCompatibleSpices",
+        "getSubstitutions",
+        "getSpicesByPreparationMethod",
+        "getTraditionalBlends",
+        "getSpiceConversionRatio"
+      ],
+      "unusedRatio": 0.5555555555555556
+    },
+    {
+      "filePath": "/Users/GregCastro/Desktop/WhatToEatNext/src/data/unified/data/ingredients/spices/index.js",
+      "totalDeclarations": 17,
+      "unusedCount": 10,
+      "unusedVariables": [
+        "addHeatLevels",
+        "getSpicesBySubCategory",
+        "getSpicesByOrigin",
+        "getSpicesByElementalProperty",
+        "getSpiceBlendComponents",
+        "getCompatibleSpices",
+        "getSubstitutions",
+        "getSpicesByPreparationMethod",
+        "getTraditionalBlends",
+        "getSpiceConversionRatio"
+      ],
+      "unusedRatio": 0.5882352941176471
+    },
+    {
+      "filePath": "/Users/GregCastro/Desktop/WhatToEatNext/src/data/unified/types/chakra.js",
+      "totalDeclarations": 10,
+      "unusedCount": 10,
+      "unusedVariables": [
+        "CHAKRAS",
+        "MAJOR_ARCANA_CHAKRAS",
+        "SUIT_CHAKRA_MAPPINGS",
+        "KEY_CARD_CHAKRA_MAPPINGS",
+        "CHAKRA_MAPPING_SUMMARY",
+        "isChakraPosition",
+        "isChakraEnergies",
+        "createChakraEnergies",
+        "getChakraEnergy",
+        "updateChakraEnergy"
+      ],
+      "unusedRatio": 1
+    },
+    {
+      "filePath": "/Users/GregCastro/Desktop/WhatToEatNext/src/data/unified/utils/dateUtils.js",
+      "totalDeclarations": 14,
+      "unusedCount": 10,
+      "unusedVariables": [
+        "getSeason",
+        "getMealPeriod",
+        "getRecommendations",
+        "getCurrentSeason",
+        "isInSeason",
+        "getNextSeason",
+        "getPreviousSeason",
+        "getDayOfYear",
+        "getTimeOfDay",
+        "getmoonPhase"
+      ],
+      "unusedRatio": 0.7142857142857143
+    },
+    {
+      "filePath": "/Users/GregCastro/Desktop/WhatToEatNext/src/lib/tarotCalculations.ts",
+      "totalDeclarations": 35,
+      "unusedCount": 10,
+      "unusedVariables": [
+        "majorArcana",
+        "minorArcanaKeywords",
+        "majorArcanaPlanets",
+        "getTarotFoodRecommendations",
+        "getTarotCardForDate",
+        "getRecipesForTarotCard",
+        "getMajorArcanaForDecan",
+        "getQuantumValueForCard",
+        "getElementalQuantum",
+        "getRecipeFiltersFromTarot"
+      ],
+      "unusedRatio": 0.2857142857142857
+    },
+    {
+      "filePath": "/Users/GregCastro/Desktop/WhatToEatNext/src/types/chakra.ts",
+      "totalDeclarations": 24,
+      "unusedCount": 10,
+      "unusedVariables": [
+        "CHAKRAS",
+        "MAJOR_ARCANA_CHAKRAS",
+        "SUIT_CHAKRA_MAPPINGS",
+        "KEY_CARD_CHAKRA_MAPPINGS",
+        "CHAKRA_MAPPING_SUMMARY",
+        "ChakraZodiacMapping",
+        "ChakraFood",
+        "ChakraEnergies",
+        "ZodiacChakraMappings",
+        "ChakraBalancingFoods"
+      ],
+      "unusedRatio": 0.4166666666666667
+    },
+    {
+      "filePath": "/Users/GregCastro/Desktop/WhatToEatNext/src/utils/astrologyUtils.ts",
+      "totalDeclarations": 116,
+      "unusedCount": 10,
+      "unusedVariables": [
+        "HOUSE_STRENGTH",
+        "zodiacSignToPlanet",
+        "elementToZodiac",
+        "parseAstroChartData",
+        "parseAstroChartAspects",
+        "combineElementalProperties",
+        "calculateCompleteAstrologicalEffects",
+        "getNodeInfo",
+        "PlanetaryDignity",
+        "PlanetPositionData"
+      ],
+      "unusedRatio": 0.08620689655172414
+    },
+    {
+      "filePath": "/Users/GregCastro/Desktop/WhatToEatNext/src/utils/recommendation/ingredientRecommendation.ts",
+      "totalDeclarations": 73,
+      "unusedCount": 10,
+      "unusedVariables": [
+        "getIngredientsFromCategories",
+        "cachedAllIngredientsData",
+        "cacheTimestamp",
+        "getAllIngredientsData",
+        "getTopIngredientMatches",
+        "getAllIngredientsFromCategories",
+        "formatFactorName",
+        "getFlavorProperty",
+        "isElementalProperties",
+        "calculateElementalInfluences"
+      ],
+      "unusedRatio": 0.136986301369863
+    },
+    {
+      "filePath": "/Users/GregCastro/Desktop/WhatToEatNext/src/constants/zodiac.ts",
+      "totalDeclarations": 14,
+      "unusedCount": 9,
+      "unusedVariables": [
+        "zodiacSignNames",
+        "ZODIAC_ELEMENTS",
+        "PLANETARY_RULERSHIPS",
+        "PLANETARY_EXALTATIONS",
+        "TRIPLICITY_RULERS",
+        "getElementFromZodiac",
+        "getZodiacSignsByElement",
+        "getZodiacSignObject",
+        "getZodiacSignByName"
+      ],
+      "unusedRatio": 0.6428571428571429
+    }
+  ],
+  "categoryAnalysis": [
+    {
+      "category": "Components",
+      "fileCount": 183,
+      "totalUnused": 82,
+      "totalDeclarations": 2707
+    },
+    {
+      "category": "Services",
+      "fileCount": 64,
+      "totalUnused": 64,
+      "totalDeclarations": 1058
+    },
+    {
+      "category": "Utils",
+      "fileCount": 167,
+      "totalUnused": 414,
+      "totalDeclarations": 2235
+    },
+    {
+      "category": "Types",
+      "fileCount": 99,
+      "totalUnused": 202,
+      "totalDeclarations": 679
+    },
+    {
+      "category": "Data",
+      "fileCount": 331,
+      "totalUnused": 557,
+      "totalDeclarations": 2679
+    },
+    {
+      "category": "Hooks",
+      "fileCount": 27,
+      "totalUnused": 20,
+      "totalDeclarations": 265
+    },
+    {
+      "category": "Contexts",
+      "fileCount": 32,
+      "totalUnused": 27,
+      "totalDeclarations": 171
+    },
+    {
+      "category": "Other",
+      "fileCount": 150,
+      "totalUnused": 152,
+      "totalDeclarations": 1603
+    }
+  ]
+}

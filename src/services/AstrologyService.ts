@@ -1,18 +1,20 @@
-import { PlanetaryAlignment, AstrologicalState, _CelestialPosition, ZodiacSign, _Planet, _LunarPhase } from "@/types/celestial";
+import { PlanetaryAlignment, AstrologicalState, _CelestialPosition, ZodiacSign, _Planet } from "@/types/celestial";
+import type { LunarPhase } from "@/types/alchemy";
 import { getCurrentPlanetaryPositions, getPlanetaryPositionsForDateTime } from '@/services/astrologizeApi';
 
 // Define and export the DEFAULT_PLANETARY_ALIGNMENT constant
 export const DEFAULT_PLANETARY_ALIGNMENT: PlanetaryAlignment = {
-  sun: { sign: 'aries', degree: 0 },
-  moon: { sign: 'taurus', degree: 0 },
-  mercury: { sign: 'gemini', degree: 0 },
-  venus: { sign: 'libra', degree: 0 },
-  mars: { sign: 'aries', degree: 0 },
-  jupiter: { sign: 'sagittarius', degree: 0 },
-  saturn: { sign: 'capricorn', degree: 0 },
-  uranus: { sign: 'aquarius', degree: 0 },
-  neptune: { sign: 'pisces', degree: 0 },
-  pluto: { sign: 'scorpio', degree: 0 }
+  Sun: { sign: 'aries', degree: 0 },
+  Moon: { sign: 'taurus', degree: 0 },
+  Mercury: { sign: 'gemini', degree: 0 },
+  Venus: { sign: 'libra', degree: 0 },
+  Mars: { sign: 'aries', degree: 0 },
+  Jupiter: { sign: 'sagittarius', degree: 0 },
+  Saturn: { sign: 'capricorn', degree: 0 },
+  Uranus: { sign: 'aquarius', degree: 0 },
+  Neptune: { sign: 'pisces', degree: 0 },
+  Pluto: { sign: 'scorpio', degree: 0 },
+  Ascendant: { sign: '', degree: 0 }
 };
 
 /**
@@ -33,7 +35,7 @@ export class AstrologyService {
     isReady: false
   };
 
-  private constructor() {}
+  private constructor() { /* Private constructor to enforce singleton pattern */ }
 
   /**
    * Get the singleton instance of AstrologyService

@@ -339,7 +339,7 @@ export const SEASONAL_TRANSITIONS_INTELLIGENCE = {
    * @param transitionIntensity Desired transition intensity (0-1)
    * @returns Comprehensive transition analysis
    */
-  analyzeSeasonalTransitions: (currentDate: Date, targetSeason: string, transitionIntensity: number = 0.5) => {
+  analyzeSeasonalTransitions: (currentDate: Date, targetSeason: string, transitionIntensity = 0.5) => {
     const baseTransitions = {
       daysPerTransition: 21,
       transitionPoints: {
@@ -680,7 +680,7 @@ export const SEASON_DATE_INTELLIGENCE = {
    * @param preferences User preferences for seasonal timing
    * @returns Comprehensive seasonal date analysis
    */
-  analyzeSeasonalDates: (targetDate: Date, region: string = 'temperate', preferences: Record<string, any> = {}) => {
+  analyzeSeasonalDates: (targetDate: Date, region = 'temperate', preferences: Record<string, any> = {}) => {
     const baseDateRanges = {
       spring: { startMonth: 1, startDay: 15, endMonth: 4, endDay: 14 },   // Feb 15 - May 14 (0-indexed)
       summer: { startMonth: 4, startDay: 15, endMonth: 7, endDay: 14 },   // May 15 - Aug 14 (0-indexed)
@@ -1084,5 +1084,5 @@ export const SEASON_DATE_INTELLIGENCE = {
   }
 };
 
-export const VALID_SEASONS = ['Spring', 'Summer', 'Autumn', 'Winter'] as const;
-export type Season = typeof VALID_SEASONS[number];
+
+import type { Season } from '@/types/alchemy';

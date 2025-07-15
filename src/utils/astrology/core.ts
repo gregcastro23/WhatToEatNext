@@ -9,9 +9,7 @@ import type { LunarPhase,
 } from "@/types/alchemy";
 import type { TimeFactors, Season, TimeOfDay } from "@/types/time";
 import { getCurrentSeason, getTimeOfDay } from '../dateUtils';
-import { PlanetaryHourCalculator } from '../../lib/PlanetaryHourCalculator';
-
-// Add missing imports for TS2304 fixes
+import { PlanetaryHourCalculator } from '../../lib/PlanetaryHourCalculator';// Add missing imports for TS2304 fixes
 import { calculatePlanetaryAspects as safeCalculatePlanetaryAspects } from '@/utils/safeAstrology';
 import { getAccuratePlanetaryPositions } from '@/utils/accurateAstronomy';
 import { getPlanetaryPositions } from '@/utils/astrologyDataProvider';

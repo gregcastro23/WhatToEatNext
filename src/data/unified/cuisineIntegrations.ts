@@ -1,6 +1,7 @@
 // Import unified types for cuisine integrations
 import type { UnifiedIngredient } from '@/types/unified';
 import type { EnhancedCookingMethod } from '@/types/cooking';
+import type { Season } from '@/types/alchemy';
 import type { 
   Element, 
   ElementalProperties, 

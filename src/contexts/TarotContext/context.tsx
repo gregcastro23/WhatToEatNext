@@ -11,8 +11,8 @@ const defaultContext: TarotContextType = {
     Earth: 0,
     Air: 0
   },
-  setTarotCard: () => {},
-  setTarotElementalInfluences: () => {}
+  setTarotCard: () => { /* Default context - no-op */ },
+  setTarotElementalInfluences: () => { /* Default context - no-op */ }
 };
 
 export const TarotContext = createContext<TarotContextType>(defaultContext); 

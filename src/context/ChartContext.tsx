@@ -14,7 +14,7 @@ const defaultContextValue: ChartContextType = {
   currentChart: null,
   isLoading: false,
   error: null,
-  updateChart: () => {},
+  updateChart: () => { /* Default context - no-op */ },
 };
 
 const ChartContext = createContext<ChartContextType>(defaultContextValue);

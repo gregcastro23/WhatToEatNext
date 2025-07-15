@@ -16,7 +16,7 @@ import {
   PlanetaryDignityDetails
 } from '../constants/planetaryFoodAssociations';
 import { ZodiacSign } from '../constants/zodiac';
-// import { LunarPhaseWithSpaces } from '../types/alchemy';
+// import { LunarPhase } from '../types/alchemy';
 import { createLogger } from '@/utils/logger';
 import { CelestialPosition } from '@/types/celestial';
 
@@ -66,7 +66,7 @@ export const transformItemWithPlanetaryPositions = (
   planetPositions: Record<string, CelestialPosition>,
   isDaytime: boolean,
   currentZodiac?: string | null,
-  lunarPhase?: LunarPhaseWithSpaces | null
+  lunarPhase?: LunarPhase | null
 ): AlchemicalItem => {
   try {
     // Validate and sanitize input values
@@ -246,7 +246,7 @@ export const transformItemsWithPlanetaryPositions = (
   planetPositions: Record<string, CelestialPosition>,
   isDaytime: boolean,
   currentZodiac?: string | null,
-  lunarPhase?: LunarPhaseWithSpaces | null
+  lunarPhase?: LunarPhase | null
 ): AlchemicalItem[] => {
   try {
     return items.map(item => 

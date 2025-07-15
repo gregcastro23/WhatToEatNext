@@ -1229,7 +1229,7 @@ export default function CuisineRecommender() {
   };
 
   // Enhanced filter management with elemental and astrological context
-  const handleFilterChange = (filterType: keyof typeof selectedFilters, value: string, add: boolean = true) => {
+  const handleFilterChange = (filterType: keyof typeof selectedFilters, value: string, add = true) => {
     setSelectedFilters(prev => {
       const currentFilter = prev[filterType];
       const newFilter = add 
@@ -1732,10 +1732,10 @@ export default function CuisineRecommender() {
       // Advanced sauce state management using previously unused variables
       manageSauceState: () => ({
         sauces: sauces || [],
-        setSauces: setSauces || (() => {}),
+        setSauces: setSauces || (() => { /* No-op fallback */ }),
         expandedSauces: expandedSauces || {},
         isLoading: isLoading || false,
-        setIsLoading: setIsLoading || (() => {})
+        setIsLoading: setIsLoading || (() => { /* No-op fallback */ })
       })
     };
   }, [sauceRecsData, currentSeason, currentZodiac, lunarPhase, culturalIntelligenceEngine, currentMomentElementalProfile, 
@@ -1789,7 +1789,7 @@ export default function CuisineRecommender() {
       // Utilize setExpandedCuisines for comprehensive expansion control
       manageExpansionState: {
         cuisines: expandedCuisines,
-        setCuisines: setExpandedCuisines || (() => {}),
+        setCuisines: setExpandedCuisines || (() => { /* No-op fallback */ }),
         recipes: expandedRecipes,
         sauces: expandedSauces,
         sauceCards: expandedSauceCards
@@ -1798,22 +1798,22 @@ export default function CuisineRecommender() {
       // Utilize setIsLoading and isLoading for enhanced loading states
       loadingController: {
         isLoading: isLoading || false,
-        setLoading: setIsLoading || (() => {}),
+        setLoading: setIsLoading || (() => { /* No-op fallback */ }),
         astroLoading: astroLoading || false
       },
       
       // Utilize setCuisineRecommendations for advanced recommendation management
       recommendationManager: {
         recommendations: cuisineRecommendations,
-        setRecommendations: setCuisineRecommendations || (() => {}),
+        setRecommendations: setCuisineRecommendations || (() => { /* No-op fallback */ }),
         transformedCuisines: transformedCuisines,
-        setTransformedCuisines: setTransformedCuisines || (() => {})
+        setTransformedCuisines: setTransformedCuisines || (() => { /* No-op fallback */ })
       },
       
       // Utilize setCurrentMomentElementalProfile for elemental state management  
       elementalStateManager: {
         currentProfile: currentMomentElementalProfile,
-        setProfile: setCurrentMomentElementalProfile || (() => {}),
+        setProfile: setCurrentMomentElementalProfile || (() => { /* No-op fallback */ }),
         astroTarotState: astroTarotHook
       },
       

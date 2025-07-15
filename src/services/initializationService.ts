@@ -9,12 +9,12 @@ import { _ElementalProperties } from '../types/alchemy'
 
 // Interface for celestial data
 export interface CelestialData {
-  sun?: {
+  Sun?: {
     sign?: string;
     degree?: number;
     exactLongitude?: number;
   };
-  moon?: {
+  Moon?: {
     sign?: string;
     degree?: number;
     exactLongitude?: number;
@@ -188,8 +188,8 @@ class InitializationService {
       
       // Convert CelestialAlignment to CelestialData format with safe property access
       return {
-        sun: (alignment as any)?.sun || { sign: '', degree: 0, exactLongitude: 0 },
-        moon: (alignment as any)?.moon || { sign: '', degree: 0, exactLongitude: 0 },
+        Sun: (alignment as any)?.Sun || { sign: '', degree: 0, exactLongitude: 0 },
+        Moon: (alignment as any)?.Moon || { sign: '', degree: 0, exactLongitude: 0 },
         Fire: (alignment as any)?.Fire || 0.25,
         Water: (alignment as any)?.Water || 0.25,
         Earth: (alignment as any)?.Earth || 0.25,
@@ -236,15 +236,15 @@ class InitializationService {
 
   private formatCelestialData(celestialData: CelestialData) {
     return {
-      sun: {
-        sign: celestialData.sun?.sign || '',
-        degree: celestialData.sun?.degree,
-        exactLongitude: celestialData.sun?.exactLongitude
+      Sun: {
+        sign: celestialData.Sun?.sign || '',
+        degree: celestialData.Sun?.degree,
+        exactLongitude: celestialData.Sun?.exactLongitude
       },
-      moon: {
-        sign: celestialData.moon?.sign || '',
-        degree: celestialData.moon?.degree,
-        exactLongitude: celestialData.moon?.exactLongitude
+      Moon: {
+        sign: celestialData.Moon?.sign || '',
+        degree: celestialData.Moon?.degree,
+        exactLongitude: celestialData.Moon?.exactLongitude
       }
     };
   }

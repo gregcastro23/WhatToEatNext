@@ -23,7 +23,6 @@ import type {
 import type { ElementalProperties, 
   ZodiacSign, 
   LunarPhase, 
-  LunarPhaseWithSpaces, 
   PlanetaryAspect,
   IngredientMapping,
   PlanetaryPosition } from '@/types/alchemy';
@@ -138,7 +137,7 @@ export class AlchemicalService {
   /**
    * Private constructor to enforce singleton pattern
    */
-  private constructor() {}
+  private constructor() { /* Private constructor to enforce singleton pattern */ }
   
   /**
    * Get singleton instance
@@ -176,7 +175,7 @@ export class AlchemicalService {
       const lunarPhase = await _calculateLunarPhase(new Date());
       
       // Convert to format expected by adapter
-      const lunarPhaseFormatted = convertToLunarPhase(lunarPhase as any) as LunarPhaseWithSpaces;
+      const lunarPhaseFormatted = convertToLunarPhase(lunarPhase as any) as LunarPhase;
       
       // Calculate if it's currently daytime
       const now = new Date();

@@ -89,7 +89,7 @@ export const RecipeAnalysisIntelligence = {
   },
 
   // Recipe Scoring Intelligence - Sophisticated scoring algorithms and optimization
-  getRecipeScoringIntelligence: (recipe: Recipe, baseScore: number = 0.7): {
+  getRecipeScoringIntelligence: (recipe: Recipe, baseScore = 0.7): {
     enhancedScore: number;
     scoringFactors: Record<string, number>;
     optimizationMetrics: Record<string, number>;

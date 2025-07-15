@@ -66,13 +66,13 @@ export const defaultState: AlchemicalState = {
 // Create the context with default values
 export const AlchemicalContext = createContext<AlchemicalContextType>({
   state: defaultState,
-  dispatch: () => {},
+  dispatch: () => { /* Default context - no-op */ },
   planetaryPositions: {},
   isDaytime: true,
-  updatePlanetaryPositions: () => {},
+  updatePlanetaryPositions: () => { /* Default context - no-op */ },
   refreshPlanetaryPositions: async () => ({}),
-  setDaytime: () => {},
-  updateState: () => {}
+  setDaytime: () => { /* Default context - no-op */ },
+  updateState: () => { /* Default context - no-op */ }
 });
 
 // Export the AlchemicalContextType for direct imports

@@ -1,4 +1,4 @@
-export type Season = 'spring' | 'summer' | 'autumn' | 'fall' | 'winter' | 'all';
+import type { Season } from './alchemy';
 
 export interface SeasonalProfile {
   spring: number;

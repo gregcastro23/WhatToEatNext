@@ -108,7 +108,7 @@ import { ElementalItem, AlchemicalItem } from '@/calculations/alchemicalTransfor
 import { AlchemicalProperty, ElementalCharacter } from '@/constants/planetaryElements';
 import type { _Planet } from '@/constants/planetaryFoodAssociations';
 import { planetaryFoodAssociations } from '@/constants/planetaryFoodAssociations';
-import type { LunarPhase } from '@/types/celestial';
+import type { LunarPhase } from '@/types/alchemy';
 import type { ElementalProperties, ZodiacSign, CookingMethod, BasicThermodynamicProperties } from '@/types/alchemy';
 import { formatLunarPhaseForDisplay } from '@/utils/lunarPhaseUtils';
 import { COOKING_METHOD_THERMODYNAMICS } from '@/types/alchemy';

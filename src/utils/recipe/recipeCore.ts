@@ -6,9 +6,7 @@ import { createLogger } from '../logger';
 import { _Element } from "@/types/alchemy";
 
 
-import { _getPlanetaryElementalInfluence, getZodiacElementalInfluence, calculateElementalCompatibility, calculateDominantElement, calculateElementalProfile } from "../astrologyUtils";
-
-const logger = createLogger('RecipeCore');
+import { _getPlanetaryElementalInfluence, getZodiacElementalInfluence, calculateElementalCompatibility, calculateDominantElement, calculateElementalProfile } from "../astrologyUtils";const logger = createLogger('RecipeCore');
 
 // ===== RECIPE MATCHING UTILITIES =====
 

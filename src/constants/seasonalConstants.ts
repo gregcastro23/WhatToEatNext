@@ -398,7 +398,7 @@ export const SEASONAL_MODIFIER_INTELLIGENCE = {
    * @param intensity Modifier intensity (0-1)
    * @returns Optimized seasonal modifiers
    */
-  calculateDynamicModifiers: (season: Season, context: string, intensity: number = 1.0) => {
+  calculateDynamicModifiers: (season: Season, context: string, intensity = 1.0) => {
     const baseModifiers = {
       spring: { Air: 0.4, Water: 0.3, Earth: 0.2, Fire: 0.1 },
       summer: { Fire: 0.4, Air: 0.3, Water: 0.2, Earth: 0.1 },

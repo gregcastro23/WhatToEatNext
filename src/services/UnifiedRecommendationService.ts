@@ -30,7 +30,7 @@ import { recipeDataService } from '@/services/recipeData';
 export class UnifiedRecommendationService implements RecommendationServiceInterface {
   private static instance: UnifiedRecommendationService;
   
-  private constructor() {}
+  private constructor() { /* Private constructor to enforce singleton pattern */ }
   
   /**
    * Get the singleton instance

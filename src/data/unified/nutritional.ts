@@ -14,9 +14,8 @@ import type {
 } from "@/types/alchemy";
 
 import type { ZodiacSign } from "@/types/zodiac";
-import type { Season } from "@/types/seasons";
+import type { Season } from "@/types/alchemy";
 import type { NutritionalProfile } from "@/types/nutrition";
-// TODO: Fix import - add what to import from "./ingredients.ts"
 // TODO: Fix import - add what to import from "./seasonal.ts"
 import { 
   calculateKalchm, 

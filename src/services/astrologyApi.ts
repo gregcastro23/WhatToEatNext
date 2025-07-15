@@ -6,16 +6,16 @@ type CelestialPosition = {
     sunSign: string;
     moonPhase: string;
     planetaryPositions: {
-        sun: { sign: string; degree: number; minutes: number; isRetrograde?: boolean };
-        moon: { sign: string; degree: number; minutes: number; isRetrograde?: boolean };
-        mercury: { sign: string; degree: number; minutes: number; isRetrograde?: boolean };
-        venus: { sign: string; degree: number; minutes: number; isRetrograde?: boolean };
-        mars: { sign: string; degree: number; minutes: number; isRetrograde?: boolean };
-        jupiter: { sign: string; degree: number; minutes: number; isRetrograde?: boolean };
-        saturn: { sign: string; degree: number; minutes: number; isRetrograde?: boolean };
-        uranus: { sign: string; degree: number; minutes: number; isRetrograde?: boolean };
-        neptune: { sign: string; degree: number; minutes: number; isRetrograde?: boolean };
-        pluto: { sign: string; degree: number; minutes: number; isRetrograde?: boolean };
+        Sun: { sign: string; degree: number; minutes: number; isRetrograde?: boolean };
+        Moon: { sign: string; degree: number; minutes: number; isRetrograde?: boolean };
+        Mercury: { sign: string; degree: number; minutes: number; isRetrograde?: boolean };
+        Venus: { sign: string; degree: number; minutes: number; isRetrograde?: boolean };
+        Mars: { sign: string; degree: number; minutes: number; isRetrograde?: boolean };
+        Jupiter: { sign: string; degree: number; minutes: number; isRetrograde?: boolean };
+        Saturn: { sign: string; degree: number; minutes: number; isRetrograde?: boolean };
+        Uranus: { sign: string; degree: number; minutes: number; isRetrograde?: boolean };
+        Neptune: { sign: string; degree: number; minutes: number; isRetrograde?: boolean };
+        Pluto: { sign: string; degree: number; minutes: number; isRetrograde?: boolean };
     };
     time: {
         hours: number;
@@ -155,16 +155,16 @@ const getFallbackPositions = (date: Date = new Date()): CelestialPosition => {
 // Helper function to get static planetary positions
 function getStaticPlanetaryPositions(): CelestialPosition['planetaryPositions'] {
     return {
-        sun: { sign: 'aries', degree: 14, minutes: 37 },
-        moon: { sign: 'cancer', degree: 2, minutes: 40 },
-        mercury: { sign: 'pisces', degree: 27, minutes: 19, isRetrograde: true },
-        venus: { sign: 'pisces', degree: 26, minutes: 13, isRetrograde: true },
-        mars: { sign: 'cancer', degree: 24, minutes: 39 },
-        jupiter: { sign: 'gemini', degree: 16, minutes: 28 },
-        saturn: { sign: 'pisces', degree: 24, minutes: 51 },
-        uranus: { sign: 'taurus', degree: 24, minutes: 54 },
-        neptune: { sign: 'aries', degree: 0, minutes: 10 },
-        pluto: { sign: 'aquarius', degree: 3, minutes: 36 }
+        Sun: { sign: 'aries', degree: 14, minutes: 37 },
+        Moon: { sign: 'cancer', degree: 2, minutes: 40 },
+        Mercury: { sign: 'pisces', degree: 27, minutes: 19, isRetrograde: true },
+        Venus: { sign: 'pisces', degree: 26, minutes: 13, isRetrograde: true },
+        Mars: { sign: 'cancer', degree: 24, minutes: 39 },
+        Jupiter: { sign: 'gemini', degree: 16, minutes: 28 },
+        Saturn: { sign: 'pisces', degree: 24, minutes: 51 },
+        Uranus: { sign: 'taurus', degree: 24, minutes: 54 },
+        Neptune: { sign: 'aries', degree: 0, minutes: 10 },
+        Pluto: { sign: 'aquarius', degree: 3, minutes: 36 }
     };
 }
 
@@ -210,18 +210,18 @@ export const getElementalInfluence = async (): Promise<typeof elementalUtils.DEF
             // Fall back to basic calculation with zodiac sign and moon
             const sunElement = getElementFromZodiac(astroState.currentZodiac);
             const moonElement = getElementFromZodiac(
-                astroState.currentPlanetaryAlignment?.moon?.sign || 'cancer'
+                astroState.currentPlanetaryAlignment?.Moon?.sign || 'cancer'
             );
             
             // Get elements from other planets for a more balanced calculation
             const mercuryElement = getElementFromZodiac(
-                astroState.currentPlanetaryAlignment?.mercury?.sign || 'gemini'
+                astroState.currentPlanetaryAlignment?.Mercury?.sign || 'gemini'
             );
             const venusElement = getElementFromZodiac(
-                astroState.currentPlanetaryAlignment?.venus?.sign || 'taurus'
+                astroState.currentPlanetaryAlignment?.Venus?.sign || 'taurus'
             );
             const marsElement = getElementFromZodiac(
-                astroState.currentPlanetaryAlignment?.mars?.sign || 'aries'
+                astroState.currentPlanetaryAlignment?.Mars?.sign || 'aries'
             );
             
             // Create a weighted influence based on planetary positions
@@ -305,16 +305,16 @@ export function calculateElementalBalanceFromPositions(positions: Record<string,
     
     // Define planetary weights - some planets have more influence than others
     const planetaryWeights = {
-        sun: 0.25,     // Sun and Moon are most important
-        moon: 0.25,
-        mercury: 0.10,  // Inner planets
-        venus: 0.10,
-        mars: 0.10,
-        jupiter: 0.07,  // Outer planets
-        saturn: 0.07,
-        uranus: 0.02,   // Distant planets have less immediate influence
-        neptune: 0.02,
-        pluto: 0.02
+        Sun: 0.25,     // Sun and Moon are most important
+        Moon: 0.25,
+        Mercury: 0.10,  // Inner planets
+        Venus: 0.10,
+        Mars: 0.10,
+        Jupiter: 0.07,  // Outer planets
+        Saturn: 0.07,
+        Uranus: 0.02,   // Distant planets have less immediate influence
+        Neptune: 0.02,
+        Pluto: 0.02
     };
     
     // Calculate total influence

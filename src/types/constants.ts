@@ -35,14 +35,15 @@ export const DIETARY_RESTRICTIONS = [
 ] as const;
 export type DietaryRestriction = typeof DIETARY_RESTRICTIONS[number];
 
+import type { LunarPhase } from './alchemy';
+
 export const LUNAR_PHASES = [
   'new moon', 'waxing crescent', 'first quarter', 'waxing gibbous',
   'full moon', 'waning gibbous', 'last quarter', 'waning crescent'
 ] as const;
-export type LunarPhase = typeof LUNAR_PHASES[number];
 
 export const SEASONS = ['spring', 'summer', 'fall', 'winter'] as const;
-export type Season = typeof SEASONS[number];
+import type { Season } from './alchemy';
 
 // Validation helpers
 export function isElementType(value: string): value is ElementType {

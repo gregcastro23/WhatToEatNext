@@ -9,7 +9,6 @@ import type {
   // AstrologicalInfluence,
   Season,
   RecipeHarmonyResult,
-  LunarPhaseWithSpaces,
   StandardizedAlchemicalResult,
 } from '@/types/alchemy';
 // Import ChakraEnergies from the more complete chakra.ts that includes 'brow'
@@ -48,7 +47,7 @@ const _debugLog = (message: string, ...args: unknown[]): void => {
 // Define interfaces
 interface NaturalInfluenceParams {
   season: string;
-  moonPhase: LunarPhaseWithSpaces;
+  moonPhase: LunarPhase;
   timeOfDay: string;
   sunSign: ZodiacSign;
   degreesInSign: number;
@@ -579,7 +578,7 @@ export class AlchemicalEngineAdvanced {
    */
   private getBaseNaturalInfluences(
     season: string,
-    moonPhase: LunarPhaseWithSpaces,
+    moonPhase: LunarPhase,
     timeOfDay: string
   ): ElementalProperties {
     const seasonBase = this.seasonalModifiers[season.toLowerCase()];
