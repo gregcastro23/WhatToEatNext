@@ -1,0 +1,571 @@
+.recipeCard {
+    background: var(--bg-primary);
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.recipeCard:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.expanded {
+    cursor: default;
+}
+
+.imageContainer {
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+}
+
+.imageContainer img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.header {
+    margin-bottom: 0.5rem;
+}
+
+.title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0;
+}
+
+.cuisine {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    margin-top: 0.25rem;
+}
+
+.basicInfo {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    padding: 1rem 0;
+    border-top: 1px solid var(--border-color);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.timeInfo, .moreInfo {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.timeInfo span, .moreInfo span {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.details {
+    margin-top: 1rem;
+}
+
+.description {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: var(--text-primary);
+    margin-bottom: 1.5rem;
+}
+
+.nutritionalInfo {
+    background: var(--bg-secondary);
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+}
+
+.servingSize {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    margin-bottom: 0.5rem;
+}
+
+.nutritionGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: 1rem;
+    text-align: center;
+}
+
+.nutritionGrid div {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.nutritionGrid span {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
+.nutritionGrid strong {
+    font-size: 1.1rem;
+    color: var(--text-primary);
+}
+
+.sectionTitle {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 1.5rem 0 1rem;
+}
+
+.ingredientsSection ul,
+.instructionsSection ol {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.ingredient {
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+    line-height: 1.4;
+}
+
+.amount {
+    font-weight: 500;
+    color: var(--text-primary);
+    white-space: nowrap;
+}
+
+.ingredientName {
+    color: var(--text-primary);
+}
+
+.preparation, .notes {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+.instruction {
+    position: relative;
+    padding-left: 2rem;
+    margin-bottom: 1rem;
+    line-height: 1.6;
+}
+
+.instruction::before {
+    content: counter(item);
+    counter-increment: item;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 1.5rem;
+    height: 1.5rem;
+    background: var(--accent-color);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+.tips, .variations, .pAirings, .culturalNotes {
+    background: var(--bg-secondary);
+    padding: 1rem;
+    border-radius: 8px;
+    margin-top: 1.5rem;
+}
+
+.tips ul, .variations ul, .pAirings ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.tips li, .variations li, .pAirings li {
+    position: relative;
+    padding-left: 1.5rem;
+    margin-bottom: 0.75rem;
+    line-height: 1.4;
+}
+
+.tips li::before, .variations li::before, .pAirings li::before {
+    content: "•";
+    position: absolute;
+    left: 0.5rem;
+    color: var(--accent-color);
+}
+
+.culturalNotes p {
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .recipeCard {
+        padding: 1rem;
+    }
+
+    .title {
+        font-size: 1.3rem;
+    }
+
+    .timeInfo, .moreInfo {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .nutritionGrid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* Animation */
+.details {
+    counter-reset: item;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.details {
+    animation: fadeIn 0.3s ease-out;
+}
+
+.matchPercentage {
+    font-weight: 600;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.875rem;
+}
+
+.highMatch {
+    background-color: #dcfce7;
+    color: #166534;
+}
+
+.mediumMatch {
+    background-color: #fef9c3;
+    color: #854d0e;
+}
+
+.lowMatch {
+    background-color: #fee2e2;
+    color: #991b1b;
+}
+
+.planetaryBadges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+.planetaryBadge {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.25rem 0.75rem;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    background: #f0f0f0;
+}
+
+.favorablePlanet {
+    background: rgba(0, 128, 0, 0.1);
+    color: darkgreen;
+    border: 1px solid rgba(0, 128, 0, 0.2);
+}
+
+.unfavorablePlanet {
+    background: rgba(220, 53, 69, 0.1);
+    color: #dc3545;
+    border: 1px solid rgba(220, 53, 69, 0.2);
+}
+
+.planetarySection {
+    background: var(--bg-secondary, #f9f9f9);
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+}
+
+.planetaryGrid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.favorable, .unfavorable {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.favorable span:first-child, .unfavorable span:first-child {
+    font-weight: 500;
+    font-size: 0.9rem;
+    color: var(--text-secondary, #666);
+}
+
+.favorable span:last-child {
+    color: darkgreen;
+}
+
+.unfavorable span:last-child {
+    color: #dc3545;
+}
+
+.currentInfluences {
+    border-top: 1px solid var(--border-color, #eee);
+    padding-top: 1rem;
+}
+
+.currentTimeLabel {
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+    color: var(--text-secondary, #666);
+}
+
+.timeInfluenceDetails {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9rem;
+}
+
+@media (max-width: 768px) {
+    .planetaryGrid {
+        grid-template-columns: 1fr;
+    }
+    
+    .timeInfluenceDetails {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+}
+
+/* New sections */
+.servingInfo, .spiceLevelInfo, .toolsSection, .substitutionsSection, .preparationNotesSection, .technicalTipsSection {
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    background: var(--bg-secondary);
+    border-radius: 8px;
+}
+
+.servingInfo p {
+    font-size: 1.1rem;
+    margin: 0.5rem 0 0;
+}
+
+.spiceIndicator {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+.spiceDot {
+    opacity: 0.3;
+    transition: opacity 0.3s ease;
+}
+
+.spiceDot.active {
+    opacity: 1;
+}
+
+.toolsList, .substitutionsList, .tipsList {
+    list-style: none;
+    padding: 0;
+    margin: 0.5rem 0 0;
+}
+
+.toolsList li, .tipsList li {
+    position: relative;
+    padding-left: 1.5rem;
+    margin-bottom: 0.75rem;
+    line-height: 1.4;
+}
+
+.toolsList li::before, .tipsList li::before {
+    content: "•";
+    position: absolute;
+    left: 0.5rem;
+    color: var(--accent-color);
+    font-weight: bold;
+}
+
+.substitution {
+    margin-bottom: 0.75rem;
+    line-height: 1.4;
+}
+
+.originalIngredient {
+    font-weight: 600;
+    margin-right: 0.5rem;
+}
+
+.alternatives {
+    color: var(--text-secondary);
+}
+
+.preparationNotes {
+    margin: 0.5rem 0 0;
+    line-height: 1.6;
+}
+
+.servingInfo {
+    margin-bottom: 1.5rem;
+    background: var(--bg-secondary);
+    padding: 0.75rem;
+    border-radius: 8px;
+}
+
+.spiceLevelInfo {
+    margin-bottom: 1.5rem;
+    padding: 0.75rem;
+    border-radius: 8px;
+    background: var(--bg-secondary);
+}
+
+.spiceIndicator {
+    display: flex;
+    gap: 0.25rem;
+    margin-top: 0.5rem;
+}
+
+.spiceDot {
+    opacity: 0.3;
+    transition: opacity 0.2s ease;
+}
+
+.spiceDot.active {
+    opacity: 1;
+}
+
+.ingredientsSection {
+    margin-bottom: 1.5rem;
+}
+
+.ingredient {
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: flex-start;
+}
+
+.amount {
+    font-weight: 500;
+    margin-right: 0.5rem;
+    min-width: 80px;
+}
+
+.ingredientName {
+    flex: 1;
+}
+
+.category {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    margin-left: 0.5rem;
+}
+
+.substitutionsSection {
+    margin-bottom: 1.5rem;
+    background: var(--bg-secondary);
+    padding: 0.75rem;
+    border-radius: 8px;
+}
+
+.substitutionsList {
+    list-style: none;
+    padding: 0;
+    margin: 0.5rem 0 0;
+}
+
+.substitution {
+    margin-bottom: 0.5rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.originalIngredient {
+    font-weight: 500;
+    margin-right: 0.5rem;
+}
+
+.alternatives {
+    color: var(--text-secondary);
+    font-style: italic;
+}
+
+.toolsSection {
+    margin-bottom: 1.5rem;
+    background: var(--bg-secondary);
+    padding: 0.75rem;
+    border-radius: 8px;
+}
+
+.toolsList {
+    list-style: disc;
+    margin: 0.5rem 0 0;
+    padding-left: 1.25rem;
+}
+
+.preparationNotesSection {
+    margin-bottom: 1.5rem;
+    background: var(--bg-accent);
+    padding: 0.75rem;
+    border-radius: 8px;
+}
+
+.preparationNotes {
+    font-style: italic;
+    line-height: 1.4;
+}
+
+.technicalTipsSection {
+    margin-bottom: 1.5rem;
+    background: var(--bg-secondary);
+    padding: 0.75rem;
+    border-radius: 8px;
+}
+
+.tipsList {
+    list-style: disc;
+    margin: 0.5rem 0 0;
+    padding-left: 1.25rem;
+}
+
+.sectionTitle {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0 0 0.5rem;
+} 

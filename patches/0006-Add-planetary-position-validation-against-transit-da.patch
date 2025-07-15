@@ -1,0 +1,155 @@
+From b3b69fd113d7c50cc312c1eb28fb47e8918ba8bf Mon Sep 17 00:00:00 2001
+From: gregcastro23 <120056982+gregcastro23@users.noreply.github.com>
+Date: Sun, 4 May 2025 06:10:20 -0400
+Subject: [PATCH 06/10] Add planetary position validation against transit dates
+
+---
+ src/utils/planetaryCache.ts | 135 ++++++++++++++++++++++++++++++++++++
+ 1 file changed, 135 insertions(+)
+ create mode 100644 src/utils/planetaryCache.ts
+
+diff --git a/src/utils/planetaryCache.ts b/src/utils/planetaryCache.ts
+new file mode 100644
+index 00000000..136aa9e6
+--- /dev/null
++++ b/src/utils/planetaryCache.ts
+@@ -0,0 +1,135 @@
++import { CelestialPosition } from '@/types/celestial';
++import { createLogger } from '@/utils/logger';
++
++const logger = createLogger('PlanetaryCache');
++
++interface CachedPositions {
++  positions: Record<string, CelestialPosition>;
++  timestamp: number;
++  date: Date;
++}
++
++interface PlanetaryCache {
++  [key: string]: CachedPositions;
++}
++
++// Cache expiration time (15 minutes)
++const CACHE_EXPIRATION = 15 * 60 * 1000;
++
++// Maximum cache size
++const MAX_CACHE_SIZE = 10;
++
++// In-memory cache
++let cache: PlanetaryCache = {};
++
++/**
++ * Generate a cache key from a date
++ * @param date The date to create a key for
++ * @returns A string key for the cache
++ */
++export function generateCacheKey(date: Date): string {
++  // Format: YYYY-MM-DD-HH
++  return `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}-${date.getHours()}`;
++}
++
++/**
++ * Store planetary positions in the cache
++ * @param positions The planetary positions to cache
++ * @param date The date for which these positions apply
++ * @returns Boolean indicating success
++ */
++export function cachePlanetaryPositions(
++  positions: Record<string, CelestialPosition>,
++  date: Date = new Date()
++): boolean {
++  try {
++    const key = generateCacheKey(date);
++    
++    // Store positions with timestamp
++    cache[key] = {
++      positions,
++      timestamp: Date.now(),
++      date: new Date(date)
++    };
++    
++    // Prune cache if needed
++    pruneCache();
++    
++    logger.debug(`Cached planetary positions for ${date.toISOString()}`);
++    return true;
++  } catch (error) {
++    logger.error('Failed to cache planetary positions:', error);
++    return false;
++  }
++}
++
++/**
++ * Retrieve cached planetary positions if available
++ * @param date The date to retrieve positions for
++ * @returns The cached positions or null if not found/expired
++ */
++export function getCachedPlanetaryPositions(
++  date: Date = new Date()
++): Record<string, CelestialPosition> | null {
++  try {
++    const key = generateCacheKey(date);
++    const cached = cache[key];
++    
++    // Check if we have a cache entry
++    if (!cached) {
++      return null;
++    }
++    
++    // Check if the cache entry has expired
++    if (Date.now() - cached.timestamp > CACHE_EXPIRATION) {
++      logger.debug(`Cache expired for ${date.toISOString()}`);
++      delete cache[key];
++      return null;
++    }
++    
++    logger.debug(`Using cached planetary positions for ${date.toISOString()}`);
++    return cached.positions;
++  } catch (error) {
++    logger.error('Error retrieving cached positions:', error);
++    return null;
++  }
++}
++
++/**
++ * Clear the entire planetary position cache
++ */
++export function clearCache(): void {
++  cache = {};
++  logger.debug('Planetary position cache cleared');
++}
++
++/**
++ * Remove the oldest entries if the cache exceeds the maximum size
++ */
++function pruneCache(): void {
++  const keys = Object.keys(cache);
++  
++  if (keys.length <= MAX_CACHE_SIZE) {
++    return;
++  }
++  
++  // Sort keys by timestamp (oldest first)
++  const sortedKeys = keys.sort((a, b) => cache[a].timestamp - cache[b].timestamp);
++  
++  // Remove oldest entries
++  const keysToRemove = sortedKeys.slice(0, keys.length - MAX_CACHE_SIZE);
++  keysToRemove.forEach(key => {
++    delete cache[key];
++    logger.debug(`Removed old cache entry: ${key}`);
++  });
++}
++
++/**
++ * Get cache statistics for debugging/monitoring
++ */
++export function getCacheStats(): { size: number, keys: string[] } {
++  return {
++    size: Object.keys(cache).length,
++    keys: Object.keys(cache)
++  };
++} 
+\ No newline at end of file
+-- 
+2.47.0
+

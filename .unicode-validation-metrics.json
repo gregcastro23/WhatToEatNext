@@ -1,0 +1,13 @@
+{
+  "totalScans": 7,
+  "totalFixes": 0,
+  "filesScanned": 11263,
+  "filesFixed": 0,
+  "issuesFound": 74,
+  "issuesFixed": 0,
+  "lastScan": "2025-07-02T11:10:18.142Z",
+  "patterns": {
+    "zerothWidthChars": 74
+  },
+  "safetyScore": 1
+}

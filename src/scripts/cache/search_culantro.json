@@ -1,0 +1,29 @@
+{
+  "totalHits": 0,
+  "currentPage": 1,
+  "totalPages": 0,
+  "pageList": [],
+  "foodSearchCriteria": {
+    "dataType": [
+      "SR Legacy",
+      "Survey (FNDDS)"
+    ],
+    "query": "culantro",
+    "generalSearchInput": "culantro",
+    "pageNumber": 1,
+    "numberOfResultsPerPage": 50,
+    "pageSize": 10,
+    "requireAllWords": false,
+    "foodTypes": [
+      "SR Legacy",
+      "Survey (FNDDS)"
+    ]
+  },
+  "foods": [],
+  "aggregations": {
+    "dataType": {
+      "Branded": 37
+    },
+    "nutrients": {}
+  }
+}

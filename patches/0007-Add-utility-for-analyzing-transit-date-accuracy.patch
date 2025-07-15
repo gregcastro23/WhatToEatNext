@@ -1,0 +1,217 @@
+From 979ad027aa56df9a77ad2550c8fae8edad371b96 Mon Sep 17 00:00:00 2001
+From: gregcastro23 <120056982+gregcastro23@users.noreply.github.com>
+Date: Sun, 4 May 2025 06:10:29 -0400
+Subject: [PATCH 07/10] Add utility for analyzing transit date accuracy
+
+---
+ src/utils/alchemyInitializer.ts |  43 ++++++++++-
+ src/utils/updateTransitDates.ts | 122 ++++++++++++++++++++++++++++++++
+ 2 files changed, 163 insertions(+), 2 deletions(-)
+ create mode 100644 src/utils/updateTransitDates.ts
+
+diff --git a/src/utils/alchemyInitializer.ts b/src/utils/alchemyInitializer.ts
+index 5eb8cea2..a440ac4e 100644
+--- a/src/utils/alchemyInitializer.ts
++++ b/src/utils/alchemyInitializer.ts
+@@ -2,11 +2,22 @@
+ declare global {
+   interface Window {
+     alchemize?: unknown;
++    debugAstrology?: {
++      validatePlanetaryPositions: () => Promise<unknown>;
++      clearPositionCache: () => void;
++      getCacheStats: () => unknown;
++    };
+   }
+ }
+ 
+ import { StandardizedAlchemicalResult } from '@/types/alchemy';
+ import alchemicalEngine from '@/app/alchemicalEngine';
++import { fetchAndValidatePlanetaryPositions } from '@/utils/astrologyValidation';
++import { clearCache, getCacheStats } from '@/utils/planetaryCache';
++import { createLogger } from '@/utils/logger';
++
++// Create a logger for the alchemical engine
++const logger = createLogger('AlchemicalEngine');
+ 
+ // Use the standardized interface we created
+ export type AlchemicalResult = StandardizedAlchemicalResult;
+@@ -20,9 +31,33 @@ export function initializeAlchemicalEngine() {
+   try {
+     // Assign the core alchemize function to the window object
+     window.alchemize = alchemicalEngine.alchemize;
+-    console.log("Alchemical engine initialized successfully");
++    
++    // Add debugging utilities for planetary positions
++    window.debugAstrology = {
++      validatePlanetaryPositions: async () => {
++        try {
++          const result = await fetchAndValidatePlanetaryPositions();
++          logger.info('Validation result:', result.validationResult);
++          return result.validationResult;
++        } catch (error) {
++          logger.error('Error validating planetary positions:', error);
++          return { isValid: false, error: String(error) };
++        }
++      },
++      clearPositionCache: () => {
++        clearCache();
++        logger.info('Planetary position cache cleared');
++      },
++      getCacheStats: () => {
++        const stats = getCacheStats();
++        logger.info('Planetary position cache stats:', stats);
++        return stats;
++      }
++    };
++    
++    logger.info("Alchemical engine initialized successfully");
+   } catch (error) {
+-    console.error("Failed to initialize alchemize function:", error);
++    logger.error("Failed to initialize alchemize function:", error);
+   }
+ }
+ 
+@@ -31,6 +66,10 @@ export function initializeAlchemicalEngine() {
+  * This wraps the core engine's implementation
+  */
+ export const staticAlchemize = (birthInfo: unknown, horoscopeDict: unknown): AlchemicalResult => {
++  // Initialize planetary positions if needed
++  if (typeof window !== 'undefined' && !window.alchemize) {
++    initializeAlchemicalEngine();
++  }
+   return alchemicalEngine.alchemize(birthInfo, horoscopeDict);
+ };
+ 
+diff --git a/src/utils/updateTransitDates.ts b/src/utils/updateTransitDates.ts
+new file mode 100644
+index 00000000..16b51f35
+--- /dev/null
++++ b/src/utils/updateTransitDates.ts
+@@ -0,0 +1,122 @@
++import { planetInfo } from '@/data/planets';
++import { getAccuratePlanetaryPositions } from './accurateAstronomy';
++import { createLogger } from './logger';
++
++const logger = createLogger('TransitDates');
++
++/**
++ * Analyzes the current planet positions and compares them with transit dates in planet data files
++ * @returns A report object with transit date update recommendations
++ */
++export async function analyzeTransitDates() {
++  try {
++    const positions = await getAccuratePlanetaryPositions();
++    const now = new Date();
++    const formattedDate = now.toISOString().split('T')[0];
++    
++    const recommendations: Record<string, any> = {};
++    
++    for (const [planet, position] of Object.entries(positions)) {
++      // Skip if not a planet with transit dates
++      if (!planetInfo[planet] || !planetInfo[planet].PlanetSpecific?.TransitDates) {
++        continue;
++      }
++      
++      const transitDates = planetInfo[planet].PlanetSpecific.TransitDates;
++      let currentTransit = null;
++      let nextTransit = null;
++      
++      // Extract simple transit dates (like Mars, Venus, etc.)
++      const simpleDates: Record<string, any> = {};
++      for (const [sign, dates] of Object.entries(transitDates)) {
++        if (typeof dates === 'object' && dates.Start && dates.End) {
++          simpleDates[sign] = dates;
++          
++          // Check if current date is in this transit period
++          if (formattedDate >= dates.Start && formattedDate <= dates.End) {
++            currentTransit = { sign, dates };
++          }
++          
++          // Find the next transit
++          if (formattedDate < dates.Start && (!nextTransit || dates.Start < nextTransit.dates.Start)) {
++            nextTransit = { sign, dates };
++          }
++        }
++      }
++      
++      // Check if the current position matches the expected transit
++      const currentSign = position.sign.toLowerCase();
++      let recommendation = null;
++      
++      if (currentTransit && currentSign !== currentTransit.sign.toLowerCase()) {
++        // Current position doesn't match the expected transit period
++        recommendation = {
++          type: 'update_current',
++          currentPosition: currentSign,
++          expectedTransit: currentTransit.sign,
++          transitStart: currentTransit.dates.Start,
++          transitEnd: currentTransit.dates.End,
++          suggestion: `Update transit dates for ${planet} in ${currentTransit.sign} or ${currentSign}`
++        };
++      } else if (!currentTransit) {
++        // We're not in any defined transit period
++        recommendation = {
++          type: 'missing_transit',
++          currentPosition: currentSign,
++          suggestion: `Add transit date for ${planet} in ${currentSign} including ${formattedDate}`
++        };
++      }
++      
++      if (recommendation) {
++        recommendations[planet] = recommendation;
++      }
++    }
++    
++    return {
++      date: formattedDate,
++      recommendations,
++      hasRecommendations: Object.keys(recommendations).length > 0
++    };
++    
++  } catch (error) {
++    logger.error('Error analyzing transit dates:', error);
++    return { 
++      date: new Date().toISOString().split('T')[0],
++      error: String(error),
++      recommendations: {},
++      hasRecommendations: false
++    };
++  }
++}
++
++/**
++ * Logs a report of transit date recommendations
++ */
++export async function logTransitDateRecommendations() {
++  const report = await analyzeTransitDates();
++  
++  if (report.error) {
++    logger.error('Failed to analyze transit dates:', report.error);
++    return;
++  }
++  
++  if (report.hasRecommendations) {
++    logger.warn(`Transit date updates needed as of ${report.date}:`);
++    
++    for (const [planet, recommendation] of Object.entries(report.recommendations)) {
++      if (recommendation.type === 'update_current') {
++        logger.warn(`- ${planet}: Currently in ${recommendation.currentPosition} but transit data indicates ${recommendation.expectedTransit} (${recommendation.transitStart} to ${recommendation.transitEnd})`);
++      } else if (recommendation.type === 'missing_transit') {
++        logger.warn(`- ${planet}: Currently in ${recommendation.currentPosition} but no matching transit period found`);
++      }
++    }
++  } else {
++    logger.info(`All transit dates are up to date as of ${report.date}`);
++  }
++}
++
++// For use in browser console during development
++if (typeof window !== 'undefined') {
++  (window as any).analyzeTransitDates = analyzeTransitDates;
++  (window as any).logTransitDateRecommendations = logTransitDateRecommendations;
++} 
+\ No newline at end of file
+-- 
+2.47.0
+

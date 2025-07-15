@@ -1,0 +1,50 @@
+{
+  "name": "alchm-kitchen-integration",
+  "version": "1.0.0",
+  "description": "Integration components for Alchm Kitchen - Astrological Food Recommendation System",
+  "main": "AlchmKitchenTab.tsx",
+  "type": "module",
+  "scripts": {
+    "demo": "open index.html",
+    "build": "echo 'No build step required for integration components'",
+    "test": "echo 'No tests specified'"
+  },
+  "keywords": [
+    "alchm-kitchen",
+    "astrological",
+    "food-recommendations",
+    "alchemical",
+    "cuisine",
+    "recipes",
+    "integration",
+    "react-component",
+    "iframe"
+  ],
+  "author": "Alchm Kitchen Team",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-username/WhatToEatNext.git"
+  },
+  "homepage": "https://v0-alchm-kitchen.vercel.app/",
+  "peerDependencies": {
+    "react": ">=16.8.0",
+    "react-dom": ">=16.8.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.0.0",
+    "@types/react-dom": "^18.0.0",
+    "typescript": "^5.0.0"
+  },
+  "files": [
+    "AlchmKitchenTab.tsx",
+    "IntegrationExample.tsx",
+    "integration-config.json",
+    "README.md",
+    "index.html"
+  ],
+  "engines": {
+    "node": ">=20.18.0",
+    "yarn": ">=1.22.0"
+  }
+} 

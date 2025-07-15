@@ -1,0 +1,81 @@
+# dependencies
+/node_modules
+/.pnp
+.pnp.js
+yarn.lock
+
+# testing
+/coverage
+
+# next.js
+/.next/
+/.next-backup/
+/.next*/
+/out/
+
+# production
+/build
+/dist
+
+# misc
+.DS_Store
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+*.pem
+.env*
+errors.log
+tsconfig.tsbuildinfo
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# IDE
+.idea
+.vscode
+.cursor
+
+# local files
+temp.log
+
+# Add this to ignore Next.js cache
+.next/
+
+# Editor directories and files
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?%
+
+# Ignore duplicate files (with spaces and/or numbers in their names)
+*\ [0-9]*
+*\ [0-9]*.json
+*\ [0-9]*.ts
+*\ [0-9]*.tsx
+*\ [0-9]*.js
+*\ [0-9]*.mjs
+*\ [0-9]*.css
+*\ [0-9]*.md
+*\ [0-9]*.astro
+
+# Backup files
+*.bak
+*_backup*
+*.backup*
+*-backup*
+backup/
+backups/
+.backup/
+bak/
+.bak/
+.next\ 2/
+.next-backup/
+eslint-fix-backups/push_script.sh
+
+# SWC binaries (large files)
+.yarn/unplugged/@next-swc-*
+node_modules/@next/swc-*
