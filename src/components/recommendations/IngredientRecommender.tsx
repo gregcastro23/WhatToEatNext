@@ -139,13 +139,20 @@ interface EnhancedGroupedRecommendations {
 
 // Using inline styles to avoid CSS module conflicts
 export default function IngredientRecommender() {
-  // Use the context to get astrological data including chakra energies
+  // Use the hook to get astrological data
   const astroState = useAstrologicalState();
-  const contextChakraEnergies = (astroState as Record<string, unknown>)?.chakraEnergies;
-  const planetaryPositions = (astroState as Record<string, unknown>)?.planetaryPositions;
-  const astroLoading = (astroState as Record<string, unknown>)?.isLoading || false;
-  const astroError = (astroState as Record<string, unknown>)?.error;
-  const currentZodiac = (astroState as Record<string, unknown>)?.currentZodiac;
+  const { 
+    currentZodiac, 
+    currentPlanetaryAlignment, 
+    loading: astroLoading, 
+    isDaytime 
+  } = astroState;
+  
+  // Note: chakraEnergies are not available from useAstrologicalState
+  // We'll rely on the useAlchemicalRecommendations hook for enhanced recommendations
+  const contextChakraEnergies = null; // Not available from this hook
+  const planetaryPositions = currentPlanetaryAlignment;
+  const astroError = null; // Hook doesn't expose error state
   // Add flavor engine context
   const { calculateCompatibility } = useFlavorEngine();
   const [astroRecommendations, setAstroRecommendations] = useState<GroupedIngredientRecommendations>({});

@@ -1,0 +1,104 @@
+{
+  "_celestialBodies": {
+    "sun": {
+      "sign": "aries",
+      "degree": 8.5,
+      "minute": 30,
+      "exactLongitude": 8.5,
+      "isRetrograde": false
+    },
+    "moon": {
+      "sign": "aries", 
+      "degree": 1.57,
+      "minute": 34,
+      "exactLongitude": 1.57,
+      "isRetrograde": false
+    },
+    "mercury": {
+      "sign": "aries",
+      "degree": 0.85,
+      "minute": 51,
+      "exactLongitude": 0.85,
+      "isRetrograde": true
+    },
+    "venus": {
+      "sign": "pisces",
+      "degree": 29.08,
+      "minute": 5,
+      "exactLongitude": 359.08,
+      "isRetrograde": true
+    },
+    "mars": {
+      "sign": "cancer",
+      "degree": 22.63,
+      "minute": 38,
+      "exactLongitude": 112.63,
+      "isRetrograde": false
+    },
+    "jupiter": {
+      "sign": "gemini",
+      "degree": 15.52,
+      "minute": 31,
+      "exactLongitude": 75.52,
+      "isRetrograde": false
+    },
+    "saturn": {
+      "sign": "pisces",
+      "degree": 24.12,
+      "minute": 7,
+      "exactLongitude": 354.12,
+      "isRetrograde": false
+    },
+    "uranus": {
+      "sign": "taurus",
+      "degree": 24.62,
+      "minute": 37,
+      "exactLongitude": 54.62,
+      "isRetrograde": false
+    },
+    "neptune": {
+      "sign": "pisces",
+      "degree": 29.93,
+      "minute": 56,
+      "exactLongitude": 359.93,
+      "isRetrograde": false
+    },
+    "pluto": {
+      "sign": "aquarius",
+      "degree": 3.5,
+      "minute": 30,
+      "exactLongitude": 333.5,
+      "isRetrograde": false
+    },
+    "northNode": {
+      "sign": "pisces",
+      "degree": 26.88,
+      "minute": 53,
+      "exactLongitude": 356.88,
+      "isRetrograde": true
+    },
+    "southNode": {
+      "sign": "virgo",
+      "degree": 26.88,
+      "minute": 53,
+      "exactLongitude": 176.88,
+      "isRetrograde": true
+    }
+  },
+  "birth_info": {
+    "year": 2025,
+    "month": 3,
+    "date": 28,
+    "hour": 12,
+    "minute": 0,
+    "latitude": 40.7498,
+    "longitude": -73.7976,
+    "ayanamsa": "TROPICAL"
+  },
+  "metadata": {
+    "source": "Local Fallback Data",
+    "date_created": "2025-03-28T12:00:00Z",
+    "description": "Reliable planetary positions for March 28, 2025",
+    "accuracy": "High precision ephemeris data"
+  }
+}

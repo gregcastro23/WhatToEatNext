@@ -1,0 +1,886 @@
+{
+  "alertRules": [
+    {
+      "id": "build-time-critical",
+      "name": "Critical Build Time",
+      "description": "Build time exceeds critical threshold",
+      "type": "performance",
+      "metric": "build_time",
+      "condition": "greater_than",
+      "threshold": 120000,
+      "severity": "critical",
+      "enabled": true,
+      "cooldownMinutes": 15,
+      "escalationMinutes": 30,
+      "autoResponse": true,
+      "responseActions": [
+        {
+          "id": "analyze-build-bottlenecks",
+          "name": "Analyze Build Bottlenecks",
+          "type": "script",
+          "config": {
+            "script": "analyze-build-performance.js"
+          },
+          "conditions": [],
+          "retryCount": 2,
+          "timeoutSeconds": 300
+        },
+        {
+          "id": "clear-build-cache",
+          "name": "Clear Build Cache",
+          "type": "command",
+          "config": {
+            "command": "yarn cache clean"
+          },
+          "conditions": [],
+          "retryCount": 1,
+          "timeoutSeconds": 60
+        }
+      ],
+      "notificationChannels": [
+        "console",
+        "file"
+      ]
+    },
+    {
+      "id": "typescript-errors-high",
+      "name": "High TypeScript Error Count",
+      "description": "TypeScript errors exceed acceptable threshold",
+      "type": "error",
+      "metric": "typescript_errors",
+      "condition": "greater_than",
+      "threshold": 1000,
+      "severity": "error",
+      "enabled": true,
+      "cooldownMinutes": 30,
+      "escalationMinutes": 60,
+      "autoResponse": true,
+      "responseActions": [
+        {
+          "id": "trigger-error-campaign",
+          "name": "Trigger Error Reduction Campaign",
+          "type": "campaign",
+          "config": {
+            "campaignType": "typescript-error-reduction",
+            "maxFiles": 20,
+            "safetyLevel": "HIGH"
+          },
+          "conditions": [
+            "error_count > 500"
+          ],
+          "retryCount": 1,
+          "timeoutSeconds": 1800
+        }
+      ],
+      "notificationChannels": [
+        "console",
+        "file"
+      ]
+    },
+    {
+      "id": "code-quality-low",
+      "name": "Low Code Quality Score",
+      "description": "Code quality score below acceptable threshold",
+      "type": "quality",
+      "metric": "code_quality_score",
+      "condition": "less_than",
+      "threshold": 60,
+      "severity": "warning",
+      "enabled": true,
+      "cooldownMinutes": 60,
+      "escalationMinutes": 120,
+      "autoResponse": false,
+      "responseActions": [
+        {
+          "id": "generate-quality-report",
+          "name": "Generate Quality Report",
+          "type": "script",
+          "config": {
+            "script": "generate-quality-report.js"
+          },
+          "conditions": [],
+          "retryCount": 1,
+          "timeoutSeconds": 120
+        }
+      ],
+      "notificationChannels": [
+        "console",
+        "file"
+      ]
+    },
+    {
+      "id": "memory-usage-high",
+      "name": "High Memory Usage",
+      "description": "Memory usage exceeds safe threshold",
+      "type": "system",
+      "metric": "memory_usage",
+      "condition": "greater_than",
+      "threshold": 536870912,
+      "severity": "warning",
+      "enabled": true,
+      "cooldownMinutes": 10,
+      "escalationMinutes": 30,
+      "autoResponse": true,
+      "responseActions": [
+        {
+          "id": "garbage-collect",
+          "name": "Force Garbage Collection",
+          "type": "script",
+          "config": {
+            "script": "force-gc.js"
+          },
+          "conditions": [],
+          "retryCount": 1,
+          "timeoutSeconds": 30
+        }
+      ],
+      "notificationChannels": [
+        "console"
+      ]
+    },
+    {
+      "id": "technical-debt-critical",
+      "name": "Critical Technical Debt",
+      "description": "Technical debt score indicates critical issues",
+      "type": "quality",
+      "metric": "technical_debt_score",
+      "condition": "greater_than",
+      "threshold": 80,
+      "severity": "critical",
+      "enabled": true,
+      "cooldownMinutes": 120,
+      "escalationMinutes": 240,
+      "autoResponse": false,
+      "responseActions": [
+        {
+          "id": "schedule-debt-reduction",
+          "name": "Schedule Technical Debt Reduction",
+          "type": "campaign",
+          "config": {
+            "campaignType": "technical-debt-reduction",
+            "priority": "high"
+          },
+          "conditions": [],
+          "retryCount": 1,
+          "timeoutSeconds": 300
+        }
+      ],
+      "notificationChannels": [
+        "console",
+        "file"
+      ]
+    },
+    {
+      "name": "Test Rule",
+      "description": "Test alert rule",
+      "type": "performance",
+      "metric": "build_time",
+      "condition": "greater_than",
+      "threshold": 60000,
+      "severity": "warning",
+      "enabled": true,
+      "cooldownMinutes": 10,
+      "escalationMinutes": 30,
+      "autoResponse": false,
+      "responseActions": [],
+      "notificationChannels": [
+        "console"
+      ],
+      "id": "rule-1752728349822"
+    },
+    {
+      "name": "Test Rule",
+      "description": "Test alert rule",
+      "type": "performance",
+      "metric": "build_time",
+      "condition": "greater_than",
+      "threshold": 90000,
+      "severity": "error",
+      "enabled": true,
+      "cooldownMinutes": 10,
+      "escalationMinutes": 30,
+      "autoResponse": false,
+      "responseActions": [],
+      "notificationChannels": [
+        "console"
+      ],
+      "id": "rule-1752728349823"
+    },
+    {
+      "name": "High Error Count",
+      "description": "Too many TypeScript errors",
+      "type": "error",
+      "metric": "typescript_errors",
+      "condition": "greater_than",
+      "threshold": 100,
+      "severity": "warning",
+      "enabled": true,
+      "cooldownMinutes": 5,
+      "escalationMinutes": 15,
+      "autoResponse": false,
+      "responseActions": [],
+      "notificationChannels": [
+        "console"
+      ],
+      "id": "rule-1752728349825"
+    },
+    {
+      "name": "Very High Error Count",
+      "description": "Extremely high TypeScript errors",
+      "type": "error",
+      "metric": "typescript_errors",
+      "condition": "greater_than",
+      "threshold": 1000,
+      "severity": "critical",
+      "enabled": true,
+      "cooldownMinutes": 5,
+      "escalationMinutes": 15,
+      "autoResponse": false,
+      "responseActions": [],
+      "notificationChannels": [
+        "console"
+      ],
+      "id": "rule-1752728349847"
+    },
+    {
+      "name": "Cooldown Test",
+      "description": "Test cooldown functionality",
+      "type": "error",
+      "metric": "typescript_errors",
+      "condition": "greater_than",
+      "threshold": 100,
+      "severity": "warning",
+      "enabled": true,
+      "cooldownMinutes": 60,
+      "escalationMinutes": 120,
+      "autoResponse": false,
+      "responseActions": [],
+      "notificationChannels": [
+        "console"
+      ],
+      "id": "rule-1752728349848"
+    },
+    {
+      "name": "Test Alert",
+      "description": "Test alert for acknowledgment",
+      "type": "error",
+      "metric": "typescript_errors",
+      "condition": "greater_than",
+      "threshold": 100,
+      "severity": "warning",
+      "enabled": true,
+      "cooldownMinutes": 5,
+      "escalationMinutes": 15,
+      "autoResponse": false,
+      "responseActions": [],
+      "notificationChannels": [
+        "console"
+      ],
+      "id": "rule-1752728349861"
+    },
+    {
+      "name": "Test Alert",
+      "description": "Test alert for resolution",
+      "type": "error",
+      "metric": "typescript_errors",
+      "condition": "greater_than",
+      "threshold": 100,
+      "severity": "warning",
+      "enabled": true,
+      "cooldownMinutes": 5,
+      "escalationMinutes": 15,
+      "autoResponse": false,
+      "responseActions": [],
+      "notificationChannels": [
+        "console"
+      ],
+      "id": "rule-1752728349864"
+    },
+    {
+      "name": "Performance Alert",
+      "type": "performance",
+      "severity": "warning",
+      "metric": "build_time",
+      "threshold": 30000,
+      "description": "Test Performance Alert",
+      "condition": "greater_than",
+      "enabled": true,
+      "cooldownMinutes": 5,
+      "escalationMinutes": 15,
+      "autoResponse": false,
+      "responseActions": [],
+      "notificationChannels": [
+        "console"
+      ],
+      "id": "rule-1752728349867"
+    },
+    {
+      "name": "Error Alert",
+      "type": "error",
+      "severity": "error",
+      "metric": "typescript_errors",
+      "threshold": 100,
+      "description": "Test Error Alert",
+      "condition": "greater_than",
+      "enabled": true,
+      "cooldownMinutes": 5,
+      "escalationMinutes": 15,
+      "autoResponse": false,
+      "responseActions": [],
+      "notificationChannels": [
+        "console"
+      ],
+      "id": "rule-1752728349869"
+    },
+    {
+      "name": "Critical Quality Alert",
+      "type": "quality",
+      "severity": "critical",
+      "metric": "code_quality_score",
+      "threshold": 50,
+      "description": "Test Critical Quality Alert",
+      "condition": "less_than",
+      "enabled": true,
+      "cooldownMinutes": 5,
+      "escalationMinutes": 15,
+      "autoResponse": false,
+      "responseActions": [],
+      "notificationChannels": [
+        "console"
+      ],
+      "id": "rule-1752728349870"
+    },
+    {
+      "name": "Performance Alert",
+      "type": "performance",
+      "severity": "warning",
+      "metric": "build_time",
+      "threshold": 30000,
+      "description": "Test Performance Alert",
+      "condition": "greater_than",
+      "enabled": true,
+      "cooldownMinutes": 5,
+      "escalationMinutes": 15,
+      "autoResponse": false,
+      "responseActions": [],
+      "notificationChannels": [
+        "console"
+      ],
+      "id": "rule-1752728349871"
+    },
+    {
+      "name": "Error Alert",
+      "type": "error",
+      "severity": "error",
+      "metric": "typescript_errors",
+      "threshold": 100,
+      "description": "Test Error Alert",
+      "condition": "greater_than",
+      "enabled": true,
+      "cooldownMinutes": 5,
+      "escalationMinutes": 15,
+      "autoResponse": false,
+      "responseActions": [],
+      "notificationChannels": [
+        "console"
+      ],
+      "id": "rule-1752728349873"
+    },
+    {
+      "name": "Critical Quality Alert",
+      "type": "quality",
+      "severity": "critical",
+      "metric": "code_quality_score",
+      "threshold": 50,
+      "description": "Test Critical Quality Alert",
+      "condition": "less_than",
+      "enabled": true,
+      "cooldownMinutes": 5,
+      "escalationMinutes": 15,
+      "autoResponse": false,
+      "responseActions": [],
+      "notificationChannels": [
+        "console"
+      ],
+      "id": "rule-1752728349874"
+    },
+    {
+      "name": "Performance Alert",
+      "type": "performance",
+      "severity": "warning",
+      "metric": "build_time",
+      "threshold": 30000,
+      "description": "Test Performance Alert",
+      "condition": "greater_than",
+      "enabled": true,
+      "cooldownMinutes": 5,
+      "escalationMinutes": 15,
+      "autoResponse": false,
+      "responseActions": [],
+      "notificationChannels": [
+        "console"
+      ],
+      "id": "rule-1752728349875"
+    },
+    {
+      "name": "Error Alert",
+      "type": "error",
+      "severity": "error",
+      "metric": "typescript_errors",
+      "threshold": 100,
+      "description": "Test Error Alert",
+      "condition": "greater_than",
+      "enabled": true,
+      "cooldownMinutes": 5,
+      "escalationMinutes": 15,
+      "autoResponse": false,
+      "responseActions": [],
+      "notificationChannels": [
+        "console"
+      ],
+      "id": "rule-1752728349876"
+    },
+    {
+      "name": "Critical Quality Alert",
+      "type": "quality",
+      "severity": "critical",
+      "metric": "code_quality_score",
+      "threshold": 50,
+      "description": "Test Critical Quality Alert",
+      "condition": "less_than",
+      "enabled": true,
+      "cooldownMinutes": 5,
+      "escalationMinutes": 15,
+      "autoResponse": false,
+      "responseActions": [],
+      "notificationChannels": [
+        "console"
+      ],
+      "id": "rule-1752728349877"
+    },
+    {
+      "name": "Summary Test Alert",
+      "description": "Test alert for summary",
+      "type": "error",
+      "metric": "typescript_errors",
+      "condition": "greater_than",
+      "threshold": 100,
+      "severity": "critical",
+      "enabled": true,
+      "cooldownMinutes": 5,
+      "escalationMinutes": 15,
+      "autoResponse": false,
+      "responseActions": [],
+      "notificationChannels": [
+        "console"
+      ],
+      "id": "rule-1752728349878"
+    },
+    {
+      "name": "Test Rule for Testing",
+      "description": "Rule to test alert creation",
+      "type": "performance",
+      "metric": "build_time",
+      "condition": "greater_than",
+      "threshold": 60000,
+      "severity": "warning",
+      "enabled": true,
+      "cooldownMinutes": 5,
+      "escalationMinutes": 15,
+      "autoResponse": false,
+      "responseActions": [],
+      "notificationChannels": [
+        "console"
+      ],
+      "id": "rule-1752728349879"
+    },
+    {
+      "name": "Test Rule",
+      "description": "Test alert rule",
+      "type": "performance",
+      "metric": "build_time",
+      "condition": "greater_than",
+      "threshold": 60000,
+      "severity": "warning",
+      "enabled": true,
+      "cooldownMinutes": 10,
+      "escalationMinutes": 30,
+      "autoResponse": false,
+      "responseActions": [],
+      "notificationChannels": [
+        "console"
+      ],
+      "id": "rule-1752728395712"
+    },
+    {
+      "name": "Test Rule",
+      "description": "Test alert rule",
+      "type": "performance",
+      "metric": "build_time",
+      "condition": "greater_than",
+      "threshold": 90000,
+      "severity": "error",
+      "enabled": true,
+      "cooldownMinutes": 10,
+      "escalationMinutes": 30,
+      "autoResponse": false,
+      "responseActions": [],
+      "notificationChannels": [
+        "console"
+      ],
+      "id": "rule-1752728395714"
+    },
+    {
+      "name": "High Error Count",
+      "description": "Too many TypeScript errors",
+      "type": "error",
+      "metric": "typescript_errors",
+      "condition": "greater_than",
+      "threshold": 100,
+      "severity": "warning",
+      "enabled": true,
+      "cooldownMinutes": 5,
+      "escalationMinutes": 15,
+      "autoResponse": false,
+      "responseActions": [],
+      "notificationChannels": [
+        "console"
+      ],
+      "id": "rule-1752728395717"
+    },
+    {
+      "name": "Very High Error Count",
+      "description": "Extremely high TypeScript errors",
+      "type": "error",
+      "metric": "typescript_errors",
+      "condition": "greater_than",
+      "threshold": 1000,
+      "severity": "critical",
+      "enabled": true,
+      "cooldownMinutes": 5,
+      "escalationMinutes": 15,
+      "autoResponse": false,
+      "responseActions": [],
+      "notificationChannels": [
+        "console"
+      ],
+      "id": "rule-1752728395719"
+    },
+    {
+      "name": "Cooldown Test",
+      "description": "Test cooldown functionality",
+      "type": "error",
+      "metric": "typescript_errors",
+      "condition": "greater_than",
+      "threshold": 100,
+      "severity": "warning",
+      "enabled": true,
+      "cooldownMinutes": 0.01,
+      "escalationMinutes": 120,
+      "autoResponse": false,
+      "responseActions": [],
+      "notificationChannels": [
+        "console"
+      ],
+      "id": "rule-1752728395720"
+    },
+    {
+      "name": "Test Alert",
+      "description": "Test alert for acknowledgment",
+      "type": "error",
+      "metric": "typescript_errors",
+      "condition": "greater_than",
+      "threshold": 100,
+      "severity": "warning",
+      "enabled": true,
+      "cooldownMinutes": 5,
+      "escalationMinutes": 15,
+      "autoResponse": false,
+      "responseActions": [],
+      "notificationChannels": [
+        "console"
+      ],
+      "id": "rule-1752728395731"
+    },
+    {
+      "name": "Test Alert",
+      "description": "Test alert for resolution",
+      "type": "error",
+      "metric": "typescript_errors",
+      "condition": "greater_than",
+      "threshold": 100,
+      "severity": "warning",
+      "enabled": true,
+      "cooldownMinutes": 5,
+      "escalationMinutes": 15,
+      "autoResponse": false,
+      "responseActions": [],
+      "notificationChannels": [
+        "console"
+      ],
+      "id": "rule-1752728395732"
+    },
+    {
+      "name": "Performance Alert",
+      "type": "performance",
+      "severity": "warning",
+      "metric": "build_time",
+      "threshold": 30000,
+      "description": "Test Performance Alert",
+      "condition": "greater_than",
+      "enabled": true,
+      "cooldownMinutes": 5,
+      "escalationMinutes": 15,
+      "autoResponse": false,
+      "responseActions": [],
+      "notificationChannels": [
+        "console"
+      ],
+      "id": "rule-1752728395733"
+    },
+    {
+      "name": "Error Alert",
+      "type": "error",
+      "severity": "error",
+      "metric": "typescript_errors",
+      "threshold": 100,
+      "description": "Test Error Alert",
+      "condition": "greater_than",
+      "enabled": true,
+      "cooldownMinutes": 5,
+      "escalationMinutes": 15,
+      "autoResponse": false,
+      "responseActions": [],
+      "notificationChannels": [
+        "console"
+      ],
+      "id": "rule-1752728395734"
+    },
+    {
+      "name": "Critical Quality Alert",
+      "type": "quality",
+      "severity": "critical",
+      "metric": "code_quality_score",
+      "threshold": 80,
+      "description": "Test Critical Quality Alert",
+      "condition": "less_than",
+      "enabled": true,
+      "cooldownMinutes": 5,
+      "escalationMinutes": 15,
+      "autoResponse": false,
+      "responseActions": [],
+      "notificationChannels": [
+        "console"
+      ],
+      "id": "rule-1752728395734"
+    },
+    {
+      "name": "Performance Alert",
+      "type": "performance",
+      "severity": "warning",
+      "metric": "build_time",
+      "threshold": 30000,
+      "description": "Test Performance Alert",
+      "condition": "greater_than",
+      "enabled": true,
+      "cooldownMinutes": 5,
+      "escalationMinutes": 15,
+      "autoResponse": false,
+      "responseActions": [],
+      "notificationChannels": [
+        "console"
+      ],
+      "id": "rule-1752728395736"
+    },
+    {
+      "name": "Error Alert",
+      "type": "error",
+      "severity": "error",
+      "metric": "typescript_errors",
+      "threshold": 100,
+      "description": "Test Error Alert",
+      "condition": "greater_than",
+      "enabled": true,
+      "cooldownMinutes": 5,
+      "escalationMinutes": 15,
+      "autoResponse": false,
+      "responseActions": [],
+      "notificationChannels": [
+        "console"
+      ],
+      "id": "rule-1752728395736"
+    },
+    {
+      "name": "Critical Quality Alert",
+      "type": "quality",
+      "severity": "critical",
+      "metric": "code_quality_score",
+      "threshold": 80,
+      "description": "Test Critical Quality Alert",
+      "condition": "less_than",
+      "enabled": true,
+      "cooldownMinutes": 5,
+      "escalationMinutes": 15,
+      "autoResponse": false,
+      "responseActions": [],
+      "notificationChannels": [
+        "console"
+      ],
+      "id": "rule-1752728395736"
+    },
+    {
+      "name": "Performance Alert",
+      "type": "performance",
+      "severity": "warning",
+      "metric": "build_time",
+      "threshold": 30000,
+      "description": "Test Performance Alert",
+      "condition": "greater_than",
+      "enabled": true,
+      "cooldownMinutes": 5,
+      "escalationMinutes": 15,
+      "autoResponse": false,
+      "responseActions": [],
+      "notificationChannels": [
+        "console"
+      ],
+      "id": "rule-1752728395737"
+    },
+    {
+      "name": "Error Alert",
+      "type": "error",
+      "severity": "error",
+      "metric": "typescript_errors",
+      "threshold": 100,
+      "description": "Test Error Alert",
+      "condition": "greater_than",
+      "enabled": true,
+      "cooldownMinutes": 5,
+      "escalationMinutes": 15,
+      "autoResponse": false,
+      "responseActions": [],
+      "notificationChannels": [
+        "console"
+      ],
+      "id": "rule-1752728395737"
+    },
+    {
+      "name": "Critical Quality Alert",
+      "type": "quality",
+      "severity": "critical",
+      "metric": "code_quality_score",
+      "threshold": 80,
+      "description": "Test Critical Quality Alert",
+      "condition": "less_than",
+      "enabled": true,
+      "cooldownMinutes": 5,
+      "escalationMinutes": 15,
+      "autoResponse": false,
+      "responseActions": [],
+      "notificationChannels": [
+        "console"
+      ],
+      "id": "rule-1752728395737"
+    },
+    {
+      "name": "Summary Test Alert",
+      "description": "Test alert for summary",
+      "type": "error",
+      "metric": "typescript_errors",
+      "condition": "greater_than",
+      "threshold": 100,
+      "severity": "critical",
+      "enabled": true,
+      "cooldownMinutes": 5,
+      "escalationMinutes": 15,
+      "autoResponse": false,
+      "responseActions": [],
+      "notificationChannels": [
+        "console"
+      ],
+      "id": "rule-1752728395738"
+    },
+    {
+      "name": "Test Rule for Testing",
+      "description": "Rule to test alert creation",
+      "type": "performance",
+      "metric": "build_time",
+      "condition": "greater_than",
+      "threshold": 60000,
+      "severity": "warning",
+      "enabled": true,
+      "cooldownMinutes": 5,
+      "escalationMinutes": 15,
+      "autoResponse": false,
+      "responseActions": [],
+      "notificationChannels": [
+        "console"
+      ],
+      "id": "rule-1752728395739"
+    }
+  ],
+  "escalationRules": [
+    {
+      "id": "critical-escalation",
+      "name": "Critical Alert Escalation",
+      "alertTypes": [
+        "performance",
+        "error",
+        "quality",
+        "system"
+      ],
+      "severityLevels": [
+        "critical"
+      ],
+      "escalationDelayMinutes": 30,
+      "escalationActions": [
+        {
+          "id": "notify-team",
+          "name": "Notify Development Team",
+          "type": "notification",
+          "config": {
+            "message": "Critical alert requires immediate attention",
+            "channels": [
+              "console",
+              "file"
+            ]
+          },
+          "conditions": [],
+          "retryCount": 1,
+          "timeoutSeconds": 30
+        }
+      ],
+      "maxEscalations": 3
+    },
+    {
+      "id": "error-escalation",
+      "name": "Error Alert Escalation",
+      "alertTypes": [
+        "error"
+      ],
+      "severityLevels": [
+        "error"
+      ],
+      "escalationDelayMinutes": 60,
+      "escalationActions": [
+        {
+          "id": "automated-fix-attempt",
+          "name": "Attempt Automated Fix",
+          "type": "campaign",
+          "config": {
+            "campaignType": "automated-error-fix",
+            "conservative": true
+          },
+          "conditions": [
+            "automation_opportunities > 5"
+          ],
+          "retryCount": 1,
+          "timeoutSeconds": 600
+        }
+      ],
+      "maxEscalations": 2
+    }
+  ],
+  "alerts": [],
+  "alertResponses": []
+}

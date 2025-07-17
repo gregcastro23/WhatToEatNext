@@ -1,0 +1,14 @@
+{
+  "maxFilesPerBatch": 20,
+  "safetyValidationEnabled": true,
+  "buildValidationFrequency": 5,
+  "importStyleEnforcement": true,
+  "organizationRules": {
+    "groupExternalImports": true,
+    "groupInternalImports": true,
+    "sortAlphabetically": true,
+    "separateTypeImports": true,
+    "enforceTrailingCommas": true,
+    "maxLineLength": 100
+  }
+}

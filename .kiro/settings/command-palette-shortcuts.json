@@ -1,0 +1,510 @@
+{
+  "customCommands": {
+    "astrological": [
+      {
+        "id": "astrology.calculateCurrentPositions",
+        "title": "🔮 Calculate Current Planetary Positions",
+        "category": "Astrology",
+        "description": "Calculate and display current planetary positions",
+        "shortcut": "Cmd+Alt+P",
+        "action": "executeScript",
+        "script": "src/utils/reliableAstronomy.ts",
+        "function": "getReliablePlanetaryPositions"
+      },
+      {
+        "id": "astrology.validateTransitDates",
+        "title": "⭐ Validate Transit Dates",
+        "category": "Astrology",
+        "description": "Validate planetary transit dates against stored data",
+        "shortcut": "Cmd+Alt+T",
+        "action": "executeScript",
+        "script": "src/utils/planetaryConsistencyCheck.ts",
+        "function": "validateAllTransitDates"
+      },
+      {
+        "id": "astrology.checkElementalHarmony",
+        "title": "🌟 Check Elemental Harmony",
+        "category": "Astrology",
+        "description": "Analyze elemental harmony for current ingredients",
+        "shortcut": "Cmd+Alt+E",
+        "action": "executeScript",
+        "script": "src/utils/elemental/elementalUtils.ts",
+        "function": "analyzeElementalHarmony"
+      },
+      {
+        "id": "astrology.generateRecommendations",
+        "title": "🍽️ Generate Astrological Recommendations",
+        "category": "Astrology",
+        "description": "Generate food recommendations based on current cosmic conditions",
+        "shortcut": "Cmd+Alt+R",
+        "action": "executeScript",
+        "script": "src/services/UnifiedRecommendationService.ts",
+        "function": "generateCurrentRecommendations"
+      },
+      {
+        "id": "astrology.testCalculations",
+        "title": "🧪 Test Astrological Calculations",
+        "category": "Astrology",
+        "description": "Run comprehensive tests for astrological calculations",
+        "shortcut": "Cmd+Alt+Shift+T",
+        "action": "runTests",
+        "testPattern": "src/calculations/**/*.test.ts"
+      }
+    ],
+    "campaign": [
+      {
+        "id": "campaign.analyzeErrors",
+        "title": "⚡ Analyze TypeScript Errors",
+        "category": "Campaign",
+        "description": "Analyze current TypeScript error distribution",
+        "shortcut": "Cmd+Shift+E",
+        "action": "executeScript",
+        "script": "src/services/campaign/TypeScriptErrorAnalyzer.ts",
+        "function": "analyzeCurrentErrors"
+      },
+      {
+        "id": "campaign.runErrorReduction",
+        "title": "🔧 Run Error Reduction Campaign",
+        "category": "Campaign",
+        "description": "Execute TypeScript error reduction campaign",
+        "shortcut": "Cmd+Shift+R",
+        "action": "executeScript",
+        "script": "src/services/campaign/CampaignController.ts",
+        "function": "runErrorReductionCampaign"
+      },
+      {
+        "id": "campaign.checkProgress",
+        "title": "📊 Check Campaign Progress",
+        "category": "Campaign",
+        "description": "View current campaign progress and metrics",
+        "shortcut": "Cmd+Shift+P",
+        "action": "executeScript",
+        "script": "src/services/campaign/ProgressTracker.ts",
+        "function": "getProgressReport"
+      },
+      {
+        "id": "campaign.validateSafety",
+        "title": "🛡️ Validate Safety Protocols",
+        "category": "Campaign",
+        "description": "Check campaign safety protocols and rollback status",
+        "shortcut": "Cmd+Shift+S",
+        "action": "executeScript",
+        "script": "src/services/campaign/SafetyProtocol.ts",
+        "function": "validateSafetyStatus"
+      },
+      {
+        "id": "campaign.emergencyStop",
+        "title": "🚨 Emergency Stop Campaign",
+        "category": "Campaign",
+        "description": "Emergency stop all running campaigns with rollback",
+        "shortcut": "Cmd+Shift+Alt+S",
+        "action": "executeScript",
+        "script": "src/services/campaign/EmergencyRecoverySystem.ts",
+        "function": "emergencyStopAll"
+      },
+      {
+        "id": "campaign.viewMetrics",
+        "title": "📈 View Quality Metrics",
+        "category": "Campaign",
+        "description": "Display comprehensive code quality metrics",
+        "shortcut": "Cmd+Shift+M",
+        "action": "executeScript",
+        "script": "src/services/campaign/MetricsCollectionSystem.ts",
+        "function": "getQualityMetrics"
+      }
+    ],
+    "specs": [
+      {
+        "id": "specs.createFeature",
+        "title": "📋 Create Feature Spec",
+        "category": "Specs",
+        "description": "Create new feature specification from template",
+        "shortcut": "Cmd+Alt+N",
+        "action": "createFromTemplate",
+        "template": ".kiro/templates/feature-spec-template.md",
+        "targetDir": ".kiro/specs/"
+      },
+      {
+        "id": "specs.createAstrological",
+        "title": "⭐ Create Astrological Feature Spec",
+        "category": "Specs",
+        "description": "Create astrological feature specification",
+        "shortcut": "Cmd+Alt+A",
+        "action": "createFromTemplate",
+        "template": ".kiro/templates/astrological-feature-template.md",
+        "targetDir": ".kiro/specs/"
+      },
+      {
+        "id": "specs.createCampaign",
+        "title": "⚡ Create Campaign Spec",
+        "category": "Specs",
+        "description": "Create campaign specification for code improvements",
+        "shortcut": "Cmd+Alt+C",
+        "action": "createFromTemplate",
+        "template": ".kiro/templates/campaign-spec-template.md",
+        "targetDir": ".kiro/specs/"
+      },
+      {
+        "id": "specs.validateAll",
+        "title": "✅ Validate All Specs",
+        "category": "Specs",
+        "description": "Validate all specification files for completeness",
+        "shortcut": "Cmd+Alt+V",
+        "action": "validateSpecs",
+        "specDir": ".kiro/specs/"
+      },
+      {
+        "id": "specs.listTasks",
+        "title": "📝 List Pending Tasks",
+        "category": "Specs",
+        "description": "Show all pending tasks across specifications",
+        "shortcut": "Cmd+Alt+L",
+        "action": "listTasks",
+        "specDir": ".kiro/specs/"
+      },
+      {
+        "id": "specs.generateReport",
+        "title": "📊 Generate Spec Report",
+        "category": "Specs",
+        "description": "Generate comprehensive specification progress report",
+        "shortcut": "Cmd+Alt+G",
+        "action": "generateReport",
+        "specDir": ".kiro/specs/"
+      }
+    ],
+    "mcp": [
+      {
+        "id": "mcp.testConnections",
+        "title": "🔌 Test MCP Connections",
+        "category": "MCP",
+        "description": "Test all MCP server connections and fallbacks",
+        "shortcut": "Cmd+M+T",
+        "action": "testMCPConnections",
+        "configFile": ".kiro/settings/mcp.json"
+      },
+      {
+        "id": "mcp.restartServers",
+        "title": "🔄 Restart MCP Servers",
+        "category": "MCP",
+        "description": "Restart all MCP servers with fresh connections",
+        "shortcut": "Cmd+M+R",
+        "action": "restartMCPServers",
+        "configFile": ".kiro/settings/mcp.json"
+      },
+      {
+        "id": "mcp.checkAstrology",
+        "title": "⭐ Test Astrology MCP",
+        "category": "MCP",
+        "description": "Test astrology MCP server with sample requests",
+        "shortcut": "Cmd+M+A",
+        "action": "testMCPServer",
+        "serverName": "astrology-server",
+        "testRequests": ["get_planetary_positions", "get_lunar_phase"]
+      },
+      {
+        "id": "mcp.checkNutrition",
+        "title": "🥗 Test Nutrition MCP",
+        "category": "MCP",
+        "description": "Test nutrition MCP server with sample requests",
+        "shortcut": "Cmd+M+N",
+        "action": "testMCPServer",
+        "serverName": "nutrition-server",
+        "testRequests": ["search_ingredients", "get_nutritional_data"]
+      },
+      {
+        "id": "mcp.checkSpoonacular",
+        "title": "🍽️ Test Spoonacular MCP",
+        "category": "MCP",
+        "description": "Test Spoonacular MCP server with sample requests",
+        "shortcut": "Cmd+M+S",
+        "action": "testMCPServer",
+        "serverName": "spoonacular-server",
+        "testRequests": ["search_recipes", "get_recipe_details"]
+      },
+      {
+        "id": "mcp.viewLogs",
+        "title": "📋 View MCP Logs",
+        "category": "MCP",
+        "description": "Display MCP server logs and connection status",
+        "shortcut": "Cmd+M+L",
+        "action": "viewMCPLogs",
+        "logLevel": "info"
+      },
+      {
+        "id": "mcp.clearCache",
+        "title": "🗑️ Clear MCP Cache",
+        "category": "MCP",
+        "description": "Clear all MCP server caches and reset connections",
+        "shortcut": "Cmd+M+C",
+        "action": "clearMCPCache"
+      }
+    ],
+    "development": [
+      {
+        "id": "dev.runAllTests",
+        "title": "🧪 Run All Tests",
+        "category": "Development",
+        "description": "Run complete test suite with coverage",
+        "shortcut": "Cmd+T",
+        "action": "runTests",
+        "testCommand": "npm test -- --coverage"
+      },
+      {
+        "id": "dev.lintFix",
+        "title": "🔧 Lint and Fix",
+        "category": "Development",
+        "description": "Run ESLint with automatic fixes",
+        "shortcut": "Cmd+L",
+        "action": "runCommand",
+        "command": "npm run lint:fix"
+      },
+      {
+        "id": "dev.typeCheck",
+        "title": "📝 Type Check",
+        "category": "Development",
+        "description": "Run TypeScript type checking",
+        "shortcut": "Cmd+Shift+T",
+        "action": "runCommand",
+        "command": "npx tsc --noEmit"
+      },
+      {
+        "id": "dev.buildProject",
+        "title": "🏗️ Build Project",
+        "category": "Development",
+        "description": "Build the Next.js project",
+        "shortcut": "Cmd+B",
+        "action": "runCommand",
+        "command": "npm run build"
+      },
+      {
+        "id": "dev.startDev",
+        "title": "🚀 Start Development Server",
+        "category": "Development",
+        "description": "Start Next.js development server",
+        "shortcut": "Cmd+D",
+        "action": "runCommand",
+        "command": "npm run dev"
+      },
+      {
+        "id": "dev.cleanBuild",
+        "title": "🧹 Clean Build",
+        "category": "Development",
+        "description": "Clean build artifacts and node_modules",
+        "shortcut": "Cmd+Shift+C",
+        "action": "runCommand",
+        "command": "rm -rf .next node_modules && npm install"
+      }
+    ],
+    "debugging": [
+      {
+        "id": "debug.showAstroInfo",
+        "title": "🔮 Show Astrological Debug Info",
+        "category": "Debug",
+        "description": "Display consolidated astrological debug information",
+        "shortcut": "Cmd+Alt+D",
+        "action": "showDebugInfo",
+        "component": "ConsolidatedDebugInfo"
+      },
+      {
+        "id": "debug.checkPerformance",
+        "title": "⚡ Check Performance Metrics",
+        "category": "Debug",
+        "description": "Display current performance metrics",
+        "shortcut": "Cmd+Alt+M",
+        "action": "showPerformanceMetrics"
+      },
+      {
+        "id": "debug.validateData",
+        "title": "✅ Validate Data Integrity",
+        "category": "Debug",
+        "description": "Run comprehensive data validation checks",
+        "shortcut": "Cmd+Alt+V",
+        "action": "validateDataIntegrity"
+      },
+      {
+        "id": "debug.clearCaches",
+        "title": "🗑️ Clear All Caches",
+        "category": "Debug",
+        "description": "Clear all application caches and reset state",
+        "shortcut": "Cmd+Alt+Shift+C",
+        "action": "clearAllCaches"
+      }
+    ]
+  },
+  "keyboardShortcuts": [
+    {
+      "key": "Cmd+K Cmd+A",
+      "command": "astrology.calculateCurrentPositions",
+      "when": "editorTextFocus"
+    },
+    {
+      "key": "Cmd+K Cmd+C",
+      "command": "campaign.analyzeErrors",
+      "when": "editorTextFocus"
+    },
+    {
+      "key": "Cmd+K Cmd+S",
+      "command": "specs.createFeature",
+      "when": "editorTextFocus"
+    },
+    {
+      "key": "Cmd+K Cmd+M",
+      "command": "mcp.testConnections",
+      "when": "editorTextFocus"
+    },
+    {
+      "key": "F5",
+      "command": "dev.startDev",
+      "when": "!inDebugMode"
+    },
+    {
+      "key": "Shift+F5",
+      "command": "dev.buildProject",
+      "when": "!inDebugMode"
+    },
+    {
+      "key": "Cmd+Shift+F5",
+      "command": "dev.cleanBuild",
+      "when": "!inDebugMode"
+    }
+  ],
+  "commandPaletteCustomization": {
+    "recentlyUsedLimit": 20,
+    "showRecentlyUsed": true,
+    "groupByCategory": true,
+    "showShortcuts": true,
+    "fuzzyMatching": true,
+    "categories": [
+      {
+        "name": "Astrology",
+        "icon": "🔮",
+        "priority": 1,
+        "description": "Astrological calculations and cosmic analysis"
+      },
+      {
+        "name": "Campaign",
+        "icon": "⚡",
+        "priority": 2,
+        "description": "Code quality improvement campaigns"
+      },
+      {
+        "name": "Specs",
+        "icon": "📋",
+        "priority": 3,
+        "description": "Specification management and creation"
+      },
+      {
+        "name": "MCP",
+        "icon": "🔌",
+        "priority": 4,
+        "description": "MCP server management and testing"
+      },
+      {
+        "name": "Development",
+        "icon": "🛠️",
+        "priority": 5,
+        "description": "Development tools and build commands"
+      },
+      {
+        "name": "Debug",
+        "icon": "🐛",
+        "priority": 6,
+        "description": "Debugging and diagnostic tools"
+      }
+    ]
+  },
+  "contextMenuEnhancements": [
+    {
+      "pattern": "src/calculations/**/*.ts",
+      "menuItems": [
+        {
+          "label": "🔮 Test Astrological Function",
+          "command": "astrology.testFunction",
+          "group": "astrology"
+        },
+        {
+          "label": "⭐ Validate Calculations",
+          "command": "astrology.validateCalculations",
+          "group": "astrology"
+        }
+      ]
+    },
+    {
+      "pattern": "src/data/**/*.ts",
+      "menuItems": [
+        {
+          "label": "📊 Validate Data Structure",
+          "command": "data.validateStructure",
+          "group": "data"
+        },
+        {
+          "label": "🔄 Update Transit Dates",
+          "command": "data.updateTransitDates",
+          "group": "data"
+        }
+      ]
+    },
+    {
+      "pattern": "src/services/campaign/**/*.ts",
+      "menuItems": [
+        {
+          "label": "⚡ Run Campaign Test",
+          "command": "campaign.testScript",
+          "group": "campaign"
+        },
+        {
+          "label": "📊 Analyze Metrics",
+          "command": "campaign.analyzeMetrics",
+          "group": "campaign"
+        }
+      ]
+    },
+    {
+      "pattern": ".kiro/specs/**/*.md",
+      "menuItems": [
+        {
+          "label": "📋 Validate Spec",
+          "command": "specs.validateSpec",
+          "group": "specs"
+        },
+        {
+          "label": "📝 Execute Next Task",
+          "command": "specs.executeNextTask",
+          "group": "specs"
+        }
+      ]
+    }
+  ],
+  "quickActions": [
+    {
+      "id": "quickAstrology",
+      "title": "Quick Astrology Panel",
+      "shortcut": "Cmd+Shift+A",
+      "actions": [
+        "astrology.calculateCurrentPositions",
+        "astrology.checkElementalHarmony",
+        "astrology.generateRecommendations"
+      ]
+    },
+    {
+      "id": "quickCampaign",
+      "title": "Quick Campaign Panel",
+      "shortcut": "Cmd+Shift+Q",
+      "actions": [
+        "campaign.analyzeErrors",
+        "campaign.checkProgress",
+        "campaign.viewMetrics"
+      ]
+    },
+    {
+      "id": "quickMCP",
+      "title": "Quick MCP Panel",
+      "shortcut": "Cmd+Shift+M",
+      "actions": [
+        "mcp.testConnections",
+        "mcp.checkAstrology",
+        "mcp.checkNutrition"
+      ]
+    }
+  ]
+}

@@ -1,117 +1,73 @@
 # Linting Guide for WhatToEatNext
 
-This document provides guidelines for linting in the WhatToEatNext project.
+This document describes the approach for fixing linting issues in the WhatToEatNext project.
 
 ## Overview
 
-The project uses ESLint with TypeScript support to maintain code quality. We've implemented an automated approach to fix common linting issues without corrupting files.
+The project uses ESLint with TypeScript support to maintain code quality. We've created a safe script that helps fix common linting issues without corrupting files.
 
-## Linting Configuration
+## Safety Measures
 
-The project uses ESLint with the new flat config format (eslint.config.mjs). This configuration includes:
+Our `fix-linting-issues.js` script implements several safeguards:
 
-- TypeScript support through the @typescript-eslint plugin
-- React and React Hooks rule sets
-- Import validation rules
-- Customized rules for different file types
+1. **Backups**: Creates backups of all files before modification
+2. **Content Validation**: Validates the modified content to ensure it's not corrupted
+3. **Precision**: Uses precise fixes rather than broad replacements
+4. **Error Handling**: Comprehensive error handling to prevent problems
+5. **Restoration**: Provides functionality to restore from backups if needed
+6. **Logging**: Detailed logs of all changes made
 
-## Running Linting Checks
+## Running the Linting Fix
 
-```bash
-# Check for linting issues
-yarn lint
-
-# Fix automatically fixable issues
-yarn lint:fix
-
-# Run comprehensive fixes with our custom script
-yarn lint:all-fix
-
-# Fix no-const-assign errors in a specific file
-yarn lint:const-assign src/path/to/file.ts
-
-# Fix unused variables in a specific file
-yarn lint:unused-vars src/path/to/file.ts
-
-# Clean up backup files after fixing linting issues
-yarn clean:backups
-```
-
-## Common Linting Issues
-
-### no-const-assign
-
-This error occurs when attempting to reassign a value to a variable declared with `const`. Fix by:
-
-1. Changing the declaration from `const` to `let`
-2. Using our custom script: `node src/scripts/fix-const-assign.js <filepath>`
-
-### unused-vars
-
-Variables and parameters that are unused should be prefixed with an underscore (_) to indicate they are intentionally unused.
-
-```typescript
-// Before
-function example(unusedParam) {
-  const unusedVar = 'never used';
-  return 'something else';
-}
-
-// After
-function example(_unusedParam) {
-  const _unusedVar = 'never used';
-  return 'something else';
-}
-```
-
-### no-explicit-any
-
-Avoid using the `any` type in TypeScript. Create proper interfaces or types instead.
-
-## Build Process
-
-The project is configured to run ESLint during builds (`next build`). This helps catch issues before deployment.
-
-```javascript
-// next.config.js
-eslint: {
-  ignoreDuringBuilds: false, // Enable ESLint during builds
-  dirs: ['src', 'pages'], // Directories to lint
-}
-```
-
-## Safe Fixing Approach
-
-We've created custom scripts to safely fix linting issues:
-
-1. **fix-linting-issues.js**: A comprehensive script that fixes multiple types of issues while creating backups
-2. **fix-const-assign.js**: A targeted script for fixing no-const-assign errors
-3. **fix-unused-vars.js**: A script to prefix unused variables with underscores
-4. **clean-backups.js**: A script to clean up backup files after fixing issues
-
-These scripts implement safeguards to prevent file corruption, including:
-
-- Creating backups before modifying files
-- Validating content after changes
-- Rolling back changes if errors occur
-
-## Backup Cleanup
-
-When running the linting fix scripts, backup files (.bak) are created to ensure safety. After verifying that the fixes work correctly, you can clean up these backup files with:
+We recommend using the included shell script to run the linting fix in a controlled manner:
 
 ```bash
-yarn clean:backups
+./src/scripts/run-lint-fix.sh
 ```
 
-This will remove:
-- All .bak files in the src directory
-- The lint-fix-backups directory (if it exists)
+This script will:
 
-## Best Practices
+1. First run in test mode to show what would be changed
+2. Ask for confirmation before making any actual changes
+3. Run in safe mode (less aggressive fixes) first
+4. Only proceed to more aggressive fixes with additional confirmation
 
-1. **Fix issues as you code**: Don't let linting errors accumulate
-2. **Run linting before commits**: Ensure your changes pass linting checks before committing
-3. **Use our custom scripts**: For safely fixing multiple issues at once
-4. **Maintain conventions**: Follow the project's naming and style conventions
-5. **Learn from errors**: Understanding linting errors helps write better code
-6. **Clean up backups**: After verifying fixes, remove backup files for cleanliness 
+## Manual Execution Options
+
+You can also run the script directly with different options:
+
+```bash
+# Test mode - shows what would be changed without making changes
+node src/scripts/fix-linting-issues.js --test
+
+# Safe mode - only applies low-risk fixes
+node src/scripts/fix-linting-issues.js --safe-mode
+
+# Full mode - applies all automated fixes
+node src/scripts/fix-linting-issues.js
+
+# Restore mode - reverts all changes from backups
+node src/scripts/fix-linting-issues.js --restore
+```
+
+## Types of Fixes Applied
+
+The script fixes several common ESLint issues:
+
+1. **Unused Variables**: Prefixes unused variables with underscores
+2. **Console Statements**: Comments out console.log statements
+3. **Unnecessary Escapes**: Removes unnecessary escape characters
+4. **Prefer-Const**: Converts `let` declarations to `const` where appropriate
+5. **Duplicate Imports**: Removes duplicate import statements
+
+## Troubleshooting
+
+If you encounter any issues:
+
+1. Check the log file (`lint-fix-log.txt`) for details
+2. Restore from backups using the restore command
+3. For major issues, manually restore the specific file from the backup directory
+
+## Backup Location
+
+All original files are backed up to `./lint-fix-backups/` with the original directory structure preserved. 

@@ -7,7 +7,10 @@ import {
   Star,
   Moon,
   AlertCircle,
-  RefreshCw
+  RefreshCw,
+  BarChart3,
+  Zap,
+  Brain
 } from 'lucide-react';
 import { 
   getCuisineRecommendations,
@@ -42,6 +45,9 @@ import {
   applyFilters,
   SearchIntent 
 } from '@/utils/naturalLanguageProcessor';
+import { useRecommendationAnalytics, useInteractionTracking } from '@/hooks/useRecommendationAnalytics';
+import PerformanceAnalyticsDashboard from '@/components/analytics/PerformanceAnalyticsDashboard';
+import EnterpriseIntelligencePanel from '@/components/intelligence/EnterpriseIntelligencePanel';
 
 // ========== INTERFACES ==========
 
@@ -345,6 +351,23 @@ export default function CuisineRecommender() {
   const [filteredCuisines, setFilteredCuisines] = useState<CuisineData[]>([]);
   const [originalCuisines, setOriginalCuisines] = useState<CuisineData[]>([]);
 
+  // Performance Analytics and Caching state
+  const [showPerformanceAnalytics, setShowPerformanceAnalytics] = useState<boolean>(false);
+  
+  // Enterprise Intelligence state
+  const [showEnterpriseIntelligence, setShowEnterpriseIntelligence] = useState<boolean>(false);
+  const [enterpriseIntelligenceAnalysis, setEnterpriseIntelligenceAnalysis] = useState<any>(null);
+  
+  // Analytics hooks
+  const [analyticsState, analyticsActions] = useRecommendationAnalytics({
+    enablePerformanceTracking: true,
+    enableCaching: true,
+    enableInteractionTracking: true,
+    metricsUpdateInterval: 5000
+  });
+  
+  const { trackClick, trackView, trackExpand, trackSearch, trackFilter } = useInteractionTracking();
+
   // ========== MEMOIZED VALUES ==========
   
   const currentMomentElementalProfile = useMemo(() => {
@@ -367,9 +390,39 @@ export default function CuisineRecommender() {
   // ========== DATA LOADING ==========
 
   const loadCuisineData = useCallback(async () => {
+    // Start performance tracking
+    const endTiming = analyticsActions.startTiming('cuisine_recommendation_load');
+    const loadStartTime = performance.now();
+    
     try {
       setLoadingState({ isLoading: true, step: 'Getting astrological state...', progress: 10 });
       setError(null);
+      
+      // Check cache first
+      const cacheKey = `cuisine_recommendations_${JSON.stringify(currentMomentElementalProfile)}_${JSON.stringify(astrologicalStateForRecommendations)}`;
+      const cachedRecommendations = analyticsActions.getCachedRecommendation<{
+        cuisines: CuisineData[];
+        culturalAnalytics: Record<string, CulturalAnalytics>;
+        fusionRecommendations: FusionCuisineRecommendation[];
+        sauces: SauceData[];
+      }>(cacheKey);
+      
+      if (cachedRecommendations) {
+        logger.info('Using cached cuisine recommendations');
+        setCuisineRecommendations(cachedRecommendations.cuisines);
+        setOriginalCuisines(cachedRecommendations.cuisines);
+        setFilteredCuisines(cachedRecommendations.cuisines);
+        setCulturalAnalytics(cachedRecommendations.culturalAnalytics);
+        setFusionRecommendations(cachedRecommendations.fusionRecommendations);
+        setSauceRecommendations(cachedRecommendations.sauces);
+        
+        const loadTime = performance.now() - loadStartTime;
+        analyticsActions.recordLoadTime(loadTime);
+        endTiming();
+        
+        setLoadingState({ isLoading: false, step: 'Complete!', progress: 100 });
+        return;
+      }
       
       // Small delay to show loading state
       await new Promise(resolve => setTimeout(resolve, 100));
@@ -580,13 +633,45 @@ export default function CuisineRecommender() {
       );
       setSauceRecommendations(topSauces as SauceData[]);
 
+      // Calculate overall confidence score for caching
+      const overallConfidence = analyticsActions.calculateConfidence({
+        astrologicalAlignment: 0.9,
+        elementalHarmony: 0.85,
+        culturalRelevance: 0.8,
+        seasonalOptimization: calculateSeasonalOptimization('average', getCurrentSeason()),
+        userPreferenceMatch: 0.8,
+        dataQuality: 0.95
+      });
+
+      // Cache the complete recommendation set with confidence-based TTL
+      const cacheData = {
+        cuisines: cuisinesWithRecipes,
+        culturalAnalytics: culturalAnalyticsData,
+        fusionRecommendations: fusionRecs,
+        sauces: topSauces
+      };
+      
+      analyticsActions.cacheRecommendation(cacheKey, cacheData, overallConfidence.overallScore);
+      
+      // Record final load time
+      const totalLoadTime = performance.now() - loadStartTime;
+      analyticsActions.recordLoadTime(totalLoadTime);
+      endTiming();
+      
+      logger.info(`Cuisine recommendations loaded in ${totalLoadTime.toFixed(2)}ms with confidence ${overallConfidence.overallScore.toFixed(2)}`);
+
       setLoadingState({ isLoading: false, step: 'Complete!', progress: 100 });
     } catch (err) {
       logger.error('Error loading cuisine data:', err);
       setError('Failed to load cuisine recommendations. Please try again.');
       setLoadingState({ isLoading: false, step: 'Error', progress: 0 });
+      
+      // Record error in analytics
+      const errorLoadTime = performance.now() - loadStartTime;
+      analyticsActions.recordLoadTime(errorLoadTime);
+      endTiming();
     }
-  }, [currentMomentElementalProfile, astrologicalStateForRecommendations]);
+  }, [currentMomentElementalProfile, astrologicalStateForRecommendations, analyticsActions]);
 
   // ========== EFFECTS ==========
 
@@ -597,21 +682,31 @@ export default function CuisineRecommender() {
   // ========== EVENT HANDLERS ==========
 
   const handleCuisineSelect = useCallback((cuisineId: string) => {
+    // Track user interaction
+    const selectedData = cuisineRecommendations.find(c => c.id === cuisineId);
+    trackClick(`cuisine_${cuisineId}`, {
+      cuisineName: selectedData?.name,
+      matchPercentage: selectedData?.matchPercentage,
+      isExpanding: selectedCuisine !== cuisineId
+    });
+
     if (selectedCuisine === cuisineId) {
       setShowCuisineDetails(!showCuisineDetails);
+      trackExpand(`cuisine_details_${cuisineId}`, {
+        action: showCuisineDetails ? 'collapse' : 'expand'
+      });
       return;
     }
     
     setSelectedCuisine(cuisineId);
     setShowCuisineDetails(true);
 
-    const selectedData = cuisineRecommendations.find(c => c.id === cuisineId);
     if (selectedData?.recipes?.length > 0) {
       setMatchingRecipes(selectedData.recipes);
     } else {
       setMatchingRecipes([]);
     }
-  }, [selectedCuisine, showCuisineDetails, cuisineRecommendations]);
+  }, [selectedCuisine, showCuisineDetails, cuisineRecommendations, trackClick, trackExpand]);
 
   const handleRetry = useCallback(() => {
     setError(null);
@@ -674,6 +769,12 @@ export default function CuisineRecommender() {
   }, [originalCuisines]);
 
   const handleSearch = useCallback((query: string) => {
+    // Track search interaction
+    trackSearch(query, {
+      originalResultCount: originalCuisines.length,
+      timestamp: Date.now()
+    });
+
     const intent = processNaturalLanguageQuery(query);
     setSearchIntent(intent);
     
@@ -695,7 +796,15 @@ export default function CuisineRecommender() {
     
     filtered = applyFilters(filtered, updatedFilters);
     setFilteredCuisines(filtered);
-  }, [searchFilters, originalCuisines]);
+
+    // Track filter results
+    trackFilter('search_results', {
+      query,
+      resultCount: filtered.length,
+      originalCount: originalCuisines.length,
+      confidence: intent.confidence
+    });
+  }, [searchFilters, originalCuisines, trackSearch, trackFilter]);
 
   // ========== RENDER HELPERS ==========
 
@@ -732,7 +841,96 @@ export default function CuisineRecommender() {
   return (
     <CuisineRecommenderErrorBoundary onRetry={handleRetry}>
       <div className="bg-white rounded-lg shadow p-4">
-        <h2 className="text-xl font-medium mb-3">Celestial Cuisine Guide</h2>
+        <div className="flex items-center justify-between mb-3">
+          <h2 className="text-xl font-medium">Celestial Cuisine Guide</h2>
+          <div className="flex items-center space-x-2">
+            <button
+              onClick={() => setShowEnterpriseIntelligence(!showEnterpriseIntelligence)}
+              className={`flex items-center space-x-1 px-3 py-1 text-sm rounded transition-colors ${
+                showEnterpriseIntelligence 
+                  ? 'bg-purple-100 text-purple-700' 
+                  : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+              }`}
+              title="Toggle Enterprise Intelligence"
+            >
+              <Brain size={14} />
+              <span>Intelligence</span>
+            </button>
+            <button
+              onClick={() => setShowPerformanceAnalytics(!showPerformanceAnalytics)}
+              className={`flex items-center space-x-1 px-3 py-1 text-sm rounded transition-colors ${
+                showPerformanceAnalytics 
+                  ? 'bg-blue-100 text-blue-700' 
+                  : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+              }`}
+              title="Toggle Performance Analytics"
+            >
+              <BarChart3 size={14} />
+              <span>Analytics</span>
+            </button>
+          </div>
+        </div>
+
+        {/* Performance Analytics Dashboard */}
+        {showPerformanceAnalytics && (
+          <div className="mb-6">
+            <PerformanceAnalyticsDashboard 
+              className="border-t pt-4"
+              compact={false}
+              showDetails={true}
+            />
+          </div>
+        )}
+
+        {/* Enterprise Intelligence Panel */}
+        {showEnterpriseIntelligence && (
+          <div className="mb-6">
+            <EnterpriseIntelligencePanel
+              recipeData={selectedCuisine ? cuisineRecommendations.find(c => c.id === selectedCuisine) : null}
+              ingredientData={{ ingredients: matchingRecipes }}
+              astrologicalContext={{
+                zodiacSign: astrologicalStateForRecommendations.zodiacSign,
+                lunarPhase: astrologicalStateForRecommendations.lunarPhase,
+                elementalProperties: currentMomentElementalProfile,
+                planetaryPositions: astrologicalStateForRecommendations.planetaryPositions
+              }}
+              className="border-t pt-4"
+              showDetailedMetrics={true}
+              autoAnalyze={true}
+              onAnalysisComplete={(analysis) => {
+                setEnterpriseIntelligenceAnalysis(analysis);
+                logger.info('Enterprise Intelligence Analysis completed:', {
+                  overallScore: analysis.overallScore,
+                  systemHealth: analysis.systemHealth
+                });
+              }}
+            />
+          </div>
+        )}
+
+        {/* Compact Performance Indicator (always visible) */}
+        {!showPerformanceAnalytics && analyticsState.metrics && (
+          <div className="mb-4 flex items-center justify-between text-xs text-gray-500 bg-gray-50 px-3 py-2 rounded">
+            <div className="flex items-center space-x-4">
+              <div className="flex items-center space-x-1">
+                <Zap size={12} className="text-blue-500" />
+                <span>Load: {analyticsState.metrics.loadTime.toFixed(0)}ms</span>
+              </div>
+              <div className="flex items-center space-x-1">
+                <span>Cache: {(analyticsState.cacheStats.hitRate * 100).toFixed(0)}%</span>
+              </div>
+              <div className="flex items-center space-x-1">
+                <span>Score: {analyticsState.performanceTrends.performanceScore.toFixed(0)}/100</span>
+              </div>
+            </div>
+            <button
+              onClick={() => setShowPerformanceAnalytics(true)}
+              className="text-blue-600 hover:text-blue-800 underline"
+            >
+              View Details
+            </button>
+          </div>
+        )}
 
         {/* Advanced Search and Filtering */}
         <div className="mb-6">
