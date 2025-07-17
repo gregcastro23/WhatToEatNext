@@ -177,7 +177,7 @@ export class BundleSizeOptimizer {
         const packageJson = JSON.parse(fs.readFileSync('package.json', 'utf8'));
         if (packageJson.dependencies?.['@next/bundle-analyzer']) {
           // Use bundle analyzer
-          const output = execSync('npm run analyze 2>/dev/null || echo "analyzer not available"', {
+          const output = execSync('yarn analyze 2>/dev/null || echo "analyzer not available"', {
             encoding: 'utf8',
             stdio: 'pipe'
           });

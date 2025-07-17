@@ -25,7 +25,7 @@ git clone https://github.com/your-org/WhatToEatNext.git
 cd WhatToEatNext
 
 # Install dependencies
-npm install
+yarn install
 # or
 yarn install
 

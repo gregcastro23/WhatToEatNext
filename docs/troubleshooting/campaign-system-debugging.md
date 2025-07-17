@@ -85,8 +85,8 @@ killall node  // If necessary
 
 // Issue: Missing dependencies
 // Solution: Reinstall dependencies
-rm -rf node_modules package-lock.json
-npm install
+rm -rf node_modules yarn.lock
+yarn install
 ```
 
 #### Issue: Campaign Configuration Errors

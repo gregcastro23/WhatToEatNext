@@ -235,7 +235,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Install dependencies
-        run: npm install
+        run: yarn install
       - name: Run any-type validation
         run: npm run validate-any-types
 ```

@@ -18,12 +18,9 @@ import {
   XCircle,
   BarChart3,
   Lightbulb,
-  Settings,
   RefreshCw,
   Eye,
-  EyeOff,
-  ChevronDown,
-  ChevronUp
+  EyeOff
 } from 'lucide-react';
 import { 
   useEnterpriseIntelligence,
@@ -64,7 +61,7 @@ export default function EnterpriseIntelligencePanel({
   // ========== STATE ==========
   
   const [isExpanded, setIsExpanded] = useState(false);
-  const [showPerformanceDetails, setShowPerformanceDetails] = useState(false);
+
   const [activeTab, setActiveTab] = useState<'overview' | 'recommendations' | 'health' | 'performance'>('overview');
 
   // ========== HOOKS ==========
@@ -80,7 +77,7 @@ export default function EnterpriseIntelligencePanel({
     logLevel: 'info'
   });
 
-  const healthStatus = useEnterpriseIntelligenceHealth();
+
   const { recommendations, hasRecommendations, highPriorityCount } = useEnterpriseIntelligenceRecommendations();
   const performanceStatus = useEnterpriseIntelligencePerformance();
 

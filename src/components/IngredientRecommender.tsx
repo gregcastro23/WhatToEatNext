@@ -3,12 +3,13 @@ import { useEffect, useState, useMemo } from 'react';
 import { ElementalCalculator } from '@/services/ElementalCalculator';
 import { ElementalProperties } from '@/types/alchemy';
 import { getChakraBasedRecommendations, GroupedIngredientRecommendations, getIngredientRecommendations, IngredientRecommendation } from '@/utils/ingredientRecommender';
-import { Flame, Droplets, Mountain, Wind, Info, Clock, Tag, Leaf, X, ChevronDown, ChevronUp, Beaker } from 'lucide-react';
+import { Flame, Droplets, Mountain, Wind, Info, Clock, Tag, Leaf, X, ChevronDown, ChevronUp, Beaker, Brain } from 'lucide-react';
 import { useChakraInfluencedFood } from '@/hooks/useChakraInfluencedFood';
 import { normalizeChakraKey } from '@/constants/chakraSymbols';
 import { herbsCollection, oilsCollection, vinegarsCollection, grainsCollection } from '@/data/ingredients';
 import type { Ingredient } from '@/types/ingredient';
 import type { UnifiedIngredient } from '@/types/ingredient';
+import EnterpriseIntelligencePanel from '@/components/intelligence/EnterpriseIntelligencePanel';
 
 /**
  * Maps planets to their elemental influences (diurnal and nocturnal elements)
@@ -82,6 +83,10 @@ export default function IngredientRecommender() {
   const [selectedIngredient, setSelectedIngredient] = useState<IngredientRecommendation | null>(null);
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
   const [activeCategory, setActiveCategory] = useState<string>('proteins');
+  
+  // Enterprise Intelligence state
+  const [showEnterpriseIntelligence, setShowEnterpriseIntelligence] = useState<boolean>(false);
+  const [enterpriseIntelligenceAnalysis, setEnterpriseIntelligenceAnalysis] = useState<any>(null);
   
   // Use the custom hook for food recommendations
   const { 
@@ -750,6 +755,51 @@ export default function IngredientRecommender() {
         <p className="text-indigo-600 dark:text-indigo-500 text-xs mt-1 italic">
           Click on any ingredient card to view detailed information.
         </p>
+        
+        {/* Enterprise Intelligence Toggle */}
+        <div className="flex items-center justify-between mt-4">
+          <div className="flex items-center space-x-2">
+            <button
+              onClick={() => setShowEnterpriseIntelligence(!showEnterpriseIntelligence)}
+              className={`flex items-center space-x-1 px-3 py-1 text-sm rounded transition-colors ${
+                showEnterpriseIntelligence 
+                  ? 'bg-purple-100 text-purple-700' 
+                  : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+              }`}
+            >
+              <Brain size={16} />
+              <span>Enterprise Intelligence</span>
+            </button>
+          </div>
+        </div>
+
+        {/* Enterprise Intelligence Panel */}
+        {showEnterpriseIntelligence && (
+          <div className="mt-4">
+            <EnterpriseIntelligencePanel
+              recipeData={null}
+              ingredientData={{ ingredients: Object.values(combinedCategorizedRecommendations).flat() }}
+              astrologicalContext={{
+                zodiacSign: (currentZodiac || 'aries') as any,
+                lunarPhase: 'new moon' as any,
+                elementalProperties: astroState.elementalProperties || {
+                  Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
+                },
+                planetaryPositions: currentPlanetaryAlignment
+              }}
+              className="border-t pt-4"
+              showDetailedMetrics={true}
+              autoAnalyze={true}
+              onAnalysisComplete={(analysis) => {
+                setEnterpriseIntelligenceAnalysis(analysis);
+                console.log('Enterprise Intelligence Analysis completed:', {
+                  overallScore: analysis.overallScore,
+                  systemHealth: analysis.systemHealth
+                });
+              }}
+            />
+          </div>
+        )}
         
         {/* Category navigation links */}
         <div className="flex flex-wrap justify-center gap-2 mt-4 bg-white/70 dark:bg-gray-800/70 p-2 rounded-lg shadow-sm">

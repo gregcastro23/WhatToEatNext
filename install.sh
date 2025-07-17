@@ -8,7 +8,7 @@ echo "Setting up WhatToEatNext application..."
 # Check if yarn is installed
 if ! command -v yarn &> /dev/null; then
     echo "Installing yarn..."
-    npm install -g yarn
+    curl -o- -L https://yarnpkg.com/install.sh | bash
 fi
 
 echo "Installing dependencies with yarn..."

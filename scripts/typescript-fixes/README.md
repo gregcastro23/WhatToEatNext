@@ -508,7 +508,7 @@ The new implementation:
 cd scripts/typescript-fixes
 
 # Install dependencies if needed
-npm install
+yarn install
 
 # Run the replacement script
 npm run replace-ingredients

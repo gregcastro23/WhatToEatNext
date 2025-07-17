@@ -51,7 +51,7 @@ The Enhanced Unused Import Cleaner is a production-ready tool for systematically
 ### Prerequisites
 ```bash
 # Install Babel parser for enhanced AST support
-npm install --save-dev @babel/parser
+yarn add --dev @babel/parser
 
 # Ensure you have a working lint command
 make lint  # Should work and show ESLint output
@@ -333,7 +333,7 @@ const DEFAULT_CONFIG = {
 
 #### **"@babel/parser not found"**
 ```bash
-npm install --save-dev @babel/parser
+yarn add --dev @babel/parser
 ```
 
 #### **"make lint" command fails**

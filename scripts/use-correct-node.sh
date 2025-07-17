@@ -39,7 +39,7 @@ echo "✅ Now using Node.js $CURRENT_VERSION"
 # Check if yarn is available
 if ! command -v yarn &> /dev/null; then
     echo "📦 Installing yarn..."
-    npm install -g yarn
+    curl -o- -L https://yarnpkg.com/install.sh | bash
 fi
 
 echo "🎉 Ready to run development commands!" 

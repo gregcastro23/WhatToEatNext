@@ -20,8 +20,8 @@ interface PerformanceTargets {
 ### Performance Monitoring Setup
 ```bash
 # Install performance monitoring tools
-npm install --save-dev webpack-bundle-analyzer
-npm install --save-dev @next/bundle-analyzer
+yarn add --dev webpack-bundle-analyzer
+yarn add --dev @next/bundle-analyzer
 
 # Run performance analysis
 npm run analyze:bundle

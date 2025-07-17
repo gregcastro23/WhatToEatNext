@@ -363,7 +363,7 @@ export class CodeQualityAutomationSystem {
   private async validateBuild(): Promise<boolean> {
     try {
       const { execSync } = require('child_process');
-      execSync('npm run build', {
+      execSync('yarn build', {
         encoding: 'utf8',
         stdio: 'pipe',
         timeout: 120000

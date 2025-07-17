@@ -10,7 +10,7 @@
 ```bash
 git clone https://github.com/your-org/WhatToEatNext.git
 cd WhatToEatNext
-npm install && npm run dev
+yarn install && yarn dev
 ```
 → **[Complete Developer Setup](getting-started/for-developers.md)**
 

@@ -238,11 +238,11 @@ export class DependencySecurityMonitor {
   }
 
   /**
-   * Scan for security vulnerabilities using npm audit
+   * Scan for security vulnerabilities using yarn audit
    */
   async scanSecurityVulnerabilities(): Promise<SecurityReport> {
     try {
-      const auditOutput = execSync('npm audit --json', {
+      const auditOutput = execSync('yarn audit --json', {
         encoding: 'utf8',
         stdio: 'pipe',
         timeout: 60000
@@ -287,7 +287,7 @@ export class DependencySecurityMonitor {
       return {
         vulnerabilities: [],
         summary: { critical: 0, high: 0, moderate: 0, low: 0, total: 0 },
-        recommendations: ['Failed to scan for vulnerabilities. Please run npm audit manually.']
+        recommendations: ['Failed to scan for vulnerabilities. Please run yarn audit manually.']
       };
     }
   }
@@ -297,7 +297,7 @@ export class DependencySecurityMonitor {
    */
   async checkDependencyUpdates(): Promise<UpdateReport> {
     try {
-      const outdatedOutput = execSync('npm outdated --json', {
+      const outdatedOutput = execSync('yarn outdated --json', {
         encoding: 'utf8',
         stdio: 'pipe',
         timeout: 60000
@@ -337,14 +337,14 @@ export class DependencySecurityMonitor {
       };
 
     } catch (error) {
-      // npm outdated returns non-zero exit code when updates are available
+      // yarn outdated returns non-zero exit code when updates are available
       if (error.stdout) {
         try {
           const outdatedData = JSON.parse(error.stdout || '{}');
           // Process the data as above
           return this.processOutdatedData(outdatedData);
         } catch (parseError) {
-          logger.error('Failed to parse npm outdated output', parseError);
+          logger.error('Failed to parse yarn outdated output', parseError);
         }
       }
       
@@ -377,8 +377,8 @@ export class DependencySecurityMonitor {
       try {
         // Apply the security fix
         const updateCommand = vuln.fixedVersion 
-          ? `npm install ${vuln.packageName}@${vuln.fixedVersion}`
-          : `npm audit fix --only=prod`;
+          ? `yarn add ${vuln.packageName}@${vuln.fixedVersion}`
+          : `yarn audit --fix`;
 
         execSync(updateCommand, {
           encoding: 'utf8',
@@ -429,7 +429,7 @@ export class DependencySecurityMonitor {
 
       try {
         // Apply the update
-        const updateCommand = `npm install ${update.packageName}@${update.latestVersion}`;
+        const updateCommand = `yarn add ${update.packageName}@${update.latestVersion}`;
         
         execSync(updateCommand, {
           encoding: 'utf8',
@@ -462,14 +462,14 @@ export class DependencySecurityMonitor {
   async runCompatibilityTests(): Promise<boolean> {
     try {
       // Run TypeScript compilation check
-      execSync('npm run build', {
+      execSync('yarn build', {
         encoding: 'utf8',
         stdio: 'pipe',
         timeout: 300000
       });
 
       // Run test suite
-      execSync('npm test', {
+      execSync('yarn test', {
         encoding: 'utf8',
         stdio: 'pipe',
         timeout: 300000
@@ -564,7 +564,7 @@ export class DependencySecurityMonitor {
 
   private async getChangelogUrl(packageName: string): Promise<string | undefined> {
     try {
-      const packageInfo = execSync(`npm view ${packageName} --json`, {
+      const packageInfo = execSync(`yarn info ${packageName} --json`, {
         encoding: 'utf8',
         stdio: 'pipe',
         timeout: 10000
@@ -580,7 +580,7 @@ export class DependencySecurityMonitor {
   private async runPackageTests(packageName: string): Promise<boolean> {
     try {
       // Run a subset of tests related to the updated package
-      execSync('npm test -- --testNamePattern=".*" --bail', {
+      execSync('yarn test --testNamePattern=".*" --bail', {
         encoding: 'utf8',
         stdio: 'pipe',
         timeout: 60000

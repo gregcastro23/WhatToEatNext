@@ -292,7 +292,7 @@
         "description": "Clean build artifacts and node_modules",
         "shortcut": "Cmd+Shift+C",
         "action": "runCommand",
-        "command": "rm -rf .next node_modules && npm install"
+        "command": "rm -rf .next node_modules && yarn install"
       }
     ],
     "debugging": [

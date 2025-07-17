@@ -15,14 +15,14 @@ This guide covers the most frequently encountered issues in the WhatToEatNext pr
 ```bash
 # Emergency reset procedure
 git stash                          # Save current work
-npm run emergency:reset            # Reset to last known good state
-npm install                        # Reinstall dependencies
-npm run build                      # Test build
+yarn emergency:reset            # Reset to last known good state
+yarn install                        # Reinstall dependencies
+yarn build                      # Test build
 
 # If still failing
-rm -rf node_modules .next package-lock.json
-npm install
-npm run build
+rm -rf node_modules .next yarn.lock
+yarn install
+yarn build
 ```
 
 **Root Causes:**

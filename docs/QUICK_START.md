@@ -31,8 +31,8 @@ WhatToEatNext provides personalized food recommendations based on:
 **Essential Commands**:
 ```bash
 # Quick setup
-npm install
-npm run dev
+yarn install
+yarn dev
 
 # Run tests
 npm test

@@ -296,7 +296,7 @@ Kiro automatically:
 ### 8.1 Basic Functionality Test
 ```bash
 # Install dependencies
-npm install
+yarn install
 
 # Run development server
 npm run dev

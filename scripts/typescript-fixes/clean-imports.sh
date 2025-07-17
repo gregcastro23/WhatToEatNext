@@ -147,7 +147,7 @@ check_prerequisites() {
         print_color "$GREEN" "✅ @babel/parser found in package.json"
     else
         print_color "$YELLOW" "⚠️  @babel/parser not found - install for better AST parsing:"
-        print_color "$YELLOW" "   npm install --save-dev @babel/parser"
+        print_color "$YELLOW" "   yarn add --dev @babel/parser"
     fi
     
     if [[ $errors -gt 0 ]]; then

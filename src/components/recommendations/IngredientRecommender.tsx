@@ -17,6 +17,7 @@ import {
   EnhancedIngredientRecommendation 
 } from '../../utils/ingredientRecommender';
 import { Flame, Droplets, Mountain, Wind, Info, Clock, Tag, Leaf, X, ChevronDown, ChevronUp, Beaker, Settings } from 'lucide-react';
+import { IngredientCard } from '../IngredientCard';
 import { useAlchemicalRecommendations } from '../../hooks/useAlchemicalRecommendations';
 import { normalizeChakraKey } from '../../constants/chakraSymbols';
 import { herbsCollection, oilsCollection, vinegarsCollection, grainsCollection } from '../../data/ingredients';
@@ -160,6 +161,17 @@ export default function IngredientRecommender() {
   const [selectedIngredient, setSelectedIngredient] = useState<IngredientRecommendation | null>(null);
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
   const [activeCategory, setActiveCategory] = useState<string>('proteins');
+  
+  // Category organization states
+  const [selectedCategories, setSelectedCategories] = useState<string[]>(['proteins', 'vegetables', 'herbs', 'spices']);
+  const [categoryFilter, setCategoryFilter] = useState<string>('all');
+  const [showAllCategories, setShowAllCategories] = useState(false);
+  
+  // Astrological filtering states
+  const [astrologicalFilter, setAstrologicalFilter] = useState<string>('all');
+  const [elementalFilter, setElementalFilter] = useState<Element | 'all'>('all');
+  const [planetaryFilter, setPlanetaryFilter] = useState<string>('all');
+  const [showAstrologicalFilters, setShowAstrologicalFilters] = useState(false);
   
   // Enhanced recommendations state
   const [enhancedRecommendations, setEnhancedRecommendations] = useState<EnhancedRecommendationResult | null>(null);
@@ -435,6 +447,227 @@ export default function IngredientRecommender() {
     if (['vinegar', 'vinegars', 'acid', 'acids'].includes(_category)) return 'vinegars';
     
     return 'other';
+  };
+
+  // Category management functions
+  const handleCategoryToggle = (category: string) => {
+    setSelectedCategories(prev => 
+      prev.includes(category) 
+        ? prev.filter(c => c !== category)
+        : [...prev, category]
+    );
+  };
+
+  const handleCategoryFilter = (category: string) => {
+    setCategoryFilter(category);
+    if (category !== 'all') {
+      setActiveCategory(category);
+    }
+  };
+
+  // Astrological filtering functions
+  const handleAstrologicalFilter = (filter: string) => {
+    setAstrologicalFilter(filter);
+  };
+
+  const handleElementalFilter = (element: Element | 'all') => {
+    setElementalFilter(element);
+  };
+
+  const handlePlanetaryFilter = (planet: string) => {
+    setPlanetaryFilter(planet);
+  };
+
+  // Calculate astrological score for an ingredient
+  const calculateAstrologicalScore = (ingredient: EnhancedIngredientRecommendation): number => {
+    let score = ingredient.matchScore || 0.5;
+    
+    // Enhance score based on current astrological conditions
+    if (ingredient.elementalProperties && currentZodiac) {
+      const zodiacElement = getZodiacElement(currentZodiac);
+      if (zodiacElement && ingredient.elementalProperties[zodiacElement]) {
+        score += (ingredient.elementalProperties[zodiacElement] || 0) * 0.2;
+      }
+    }
+    
+    // Enhance score based on planetary influences
+    if (planetaryPositions && Object.keys(planetaryPositions).length > 0) {
+      Object.entries(planetaryPositions).forEach(([planet, position]) => {
+        const planetElement = getPlanetaryElement(planet);
+        if (planetElement && ingredient.elementalProperties?.[planetElement]) {
+          score += (ingredient.elementalProperties[planetElement] || 0) * 0.1;
+        }
+      });
+    }
+    
+    // Enhance score based on time of day (diurnal/nocturnal)
+    if (ingredient.elementalProperties) {
+      const timeBonus = isDaytime ? 
+        (ingredient.elementalProperties.Fire || 0) * 0.1 + (ingredient.elementalProperties.Air || 0) * 0.05 :
+        (ingredient.elementalProperties.Water || 0) * 0.1 + (ingredient.elementalProperties.Earth || 0) * 0.05;
+      score += timeBonus;
+    }
+    
+    return Math.min(1.0, score);
+  };
+
+  // Get zodiac element helper
+  const getZodiacElement = (zodiac: string): Element | null => {
+    const zodiacElements: Record<string, Element> = {
+      'aries': 'Fire', 'leo': 'Fire', 'sagittarius': 'Fire',
+      'taurus': 'Earth', 'virgo': 'Earth', 'capricorn': 'Earth',
+      'gemini': 'Air', 'libra': 'Air', 'aquarius': 'Air',
+      'cancer': 'Water', 'scorpio': 'Water', 'pisces': 'Water'
+    };
+    return zodiacElements[zodiac.toLowerCase()] || null;
+  };
+
+  // Get planetary element helper
+  const getPlanetaryElement = (planet: string): Element | null => {
+    const planetElements: Record<string, Element> = {
+      'Sun': 'Fire', 'Mars': 'Fire', 'Jupiter': 'Fire',
+      'Moon': 'Water', 'Venus': 'Water', 'Neptune': 'Water',
+      'Mercury': 'Air', 'Uranus': 'Air',
+      'Saturn': 'Earth', 'Pluto': 'Earth'
+    };
+    return planetElements[planet] || null;
+  };
+
+  // Filter ingredients based on astrological criteria
+  const applyAstrologicalFiltering = (ingredients: EnhancedIngredientRecommendation[]): EnhancedIngredientRecommendation[] => {
+    return ingredients.filter(ingredient => {
+      // Apply elemental filter
+      if (elementalFilter !== 'all' && ingredient.elementalProperties) {
+        const elementValue = ingredient.elementalProperties[elementalFilter] || 0;
+        if (elementValue < 0.3) return false; // Must have significant elemental presence
+      }
+      
+      // Apply planetary filter
+      if (planetaryFilter !== 'all') {
+        const planetElement = getPlanetaryElement(planetaryFilter);
+        if (planetElement && ingredient.elementalProperties) {
+          const elementValue = ingredient.elementalProperties[planetElement] || 0;
+          if (elementValue < 0.2) return false;
+        }
+      }
+      
+      // Apply astrological compatibility filter
+      if (astrologicalFilter === 'high-compatibility') {
+        const astroScore = calculateAstrologicalScore(ingredient);
+        if (astroScore < 0.7) return false;
+      } else if (astrologicalFilter === 'current-zodiac') {
+        const zodiacElement = getZodiacElement(currentZodiac || 'aries');
+        if (zodiacElement && ingredient.elementalProperties) {
+          const elementValue = ingredient.elementalProperties[zodiacElement] || 0;
+          if (elementValue < 0.25) return false;
+        }
+      }
+      
+      return true;
+    }).map(ingredient => ({
+      ...ingredient,
+      matchScore: calculateAstrologicalScore(ingredient)
+    })).sort((a, b) => b.matchScore - a.matchScore);
+  };
+
+  // Helper function to determine category from ingredient name
+  const determineCategory = (name: string): string => {
+    const lowercaseName = name?.toLowerCase();
+    
+    // Proteins
+    if (
+      lowercaseName?.includes('beef') || lowercaseName?.includes('chicken') || 
+      lowercaseName?.includes('pork') || lowercaseName?.includes('lamb') || 
+      lowercaseName?.includes('fish') || lowercaseName?.includes('seafood') ||
+      lowercaseName?.includes('tofu') || lowercaseName?.includes('tempeh') ||
+      lowercaseName?.includes('seitan') || lowercaseName?.includes('protein')
+    ) {
+      return 'proteins';
+    }
+    
+    // Vegetables
+    if (
+      lowercaseName?.includes('carrot') || lowercaseName?.includes('broccoli') || 
+      lowercaseName?.includes('tomato') || lowercaseName?.includes('onion') ||
+      lowercaseName?.includes('garlic') || lowercaseName?.includes('spinach') ||
+      lowercaseName?.includes('lettuce') || lowercaseName?.includes('pepper')
+    ) {
+      return 'vegetables';
+    }
+    
+    // Fruits
+    if (
+      lowercaseName?.includes('apple') || lowercaseName?.includes('orange') || 
+      lowercaseName?.includes('lemon') || lowercaseName?.includes('berry') ||
+      lowercaseName?.includes('melon') || lowercaseName?.includes('grape')
+    ) {
+      return 'fruits';
+    }
+    
+    // Herbs
+    if (
+      lowercaseName?.includes('basil') || lowercaseName?.includes('oregano') || 
+      lowercaseName?.includes('thyme') || lowercaseName?.includes('rosemary') ||
+      lowercaseName?.includes('sage') || lowercaseName?.includes('parsley')
+    ) {
+      return 'herbs';
+    }
+    
+    // Spices
+    if (
+      lowercaseName?.includes('cinnamon') || lowercaseName?.includes('cumin') || 
+      lowercaseName?.includes('turmeric') || lowercaseName?.includes('paprika') ||
+      lowercaseName?.includes('cardamom') || lowercaseName?.includes('ginger')
+    ) {
+      return 'spices';
+    }
+    
+    // Grains
+    if (
+      lowercaseName?.includes('rice') || lowercaseName?.includes('wheat') || 
+      lowercaseName?.includes('oat') || lowercaseName?.includes('barley') ||
+      lowercaseName?.includes('quinoa') || lowercaseName?.includes('pasta')
+    ) {
+      return 'grains';
+    }
+    
+    // Default to vegetables
+    return 'vegetables';
+  };
+
+  // Helper function to check if ingredients are similar (for deduplication)
+  const areSimilarIngredients = (name1: string, name2: string): boolean => {
+    if (!name1 || !name2) return false;
+    
+    const normalize = (str: string) => str.toLowerCase().trim().replace(/\s+/g, ' ');
+    const n1 = normalize(name1);
+    const n2 = normalize(name2);
+    
+    // Exact match
+    if (n1 === n2) return true;
+    
+    // Check if one contains the other
+    if (n1.includes(n2) || n2.includes(n1)) return true;
+    
+    // Check for common variations
+    const variations = [
+      [' oil', ''],
+      [' vinegar', ''],
+      ['fresh ', ''],
+      ['dried ', ''],
+      ['ground ', ''],
+      ['whole ', '']
+    ];
+    
+    let modified1 = n1;
+    let modified2 = n2;
+    
+    variations.forEach(([from, to]) => {
+      modified1 = modified1.replace(from, to);
+      modified2 = modified2.replace(from, to);
+    });
+    
+    return modified1 === modified2;
   };
   
   // Combine and categorize all recommendations
@@ -1094,18 +1327,592 @@ export default function IngredientRecommender() {
             );
   }
   
+  // Category Selection Component
+  const CategorySelector = () => {
+    const availableCategories = Object.keys(combinedCategorizedRecommendations || {});
+    
+    return (
+      <div style={{
+        marginBottom: '24px',
+        padding: '16px',
+        backgroundColor: '#f8fafc',
+        borderRadius: '12px',
+        border: '1px solid #e2e8f0'
+      }}>
+        <div style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          marginBottom: '16px'
+        }}>
+          <h3 style={{
+            fontSize: '18px',
+            fontWeight: '600',
+            color: '#1e293b',
+            margin: 0
+          }}>
+            Ingredient Categories
+          </h3>
+          <button
+            onClick={() => setShowAllCategories(!showAllCategories)}
+            style={{
+              padding: '6px 12px',
+              backgroundColor: showAllCategories ? '#3b82f6' : '#e2e8f0',
+              color: showAllCategories ? 'white' : '#64748b',
+              border: 'none',
+              borderRadius: '6px',
+              fontSize: '14px',
+              cursor: 'pointer',
+              transition: 'all 0.2s ease'
+            }}
+          >
+            {showAllCategories ? 'Show Selected' : 'Show All'}
+          </button>
+        </div>
+        
+        <div style={{
+          display: 'flex',
+          flexWrap: 'wrap',
+          gap: '8px',
+          marginBottom: '16px'
+        }}>
+          {availableCategories.map(category => {
+            const isSelected = selectedCategories.includes(category);
+            const count = combinedCategorizedRecommendations[category]?.length || 0;
+            
+            return (
+              <button
+                key={category}
+                onClick={() => handleCategoryToggle(category)}
+                style={{
+                  padding: '8px 16px',
+                  backgroundColor: isSelected ? '#3b82f6' : '#ffffff',
+                  color: isSelected ? 'white' : '#475569',
+                  border: `1px solid ${isSelected ? '#3b82f6' : '#d1d5db'}`,
+                  borderRadius: '20px',
+                  fontSize: '14px',
+                  fontWeight: '500',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s ease',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '6px'
+                }}
+                onMouseEnter={(e) => {
+                  if (!isSelected) {
+                    e.currentTarget.style.backgroundColor = '#f1f5f9';
+                    e.currentTarget.style.borderColor = '#94a3b8';
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  if (!isSelected) {
+                    e.currentTarget.style.backgroundColor = '#ffffff';
+                    e.currentTarget.style.borderColor = '#d1d5db';
+                  }
+                }}
+              >
+                {CATEGORY_DISPLAY_NAMES[category] || category}
+                <span style={{
+                  backgroundColor: isSelected ? 'rgba(255,255,255,0.2)' : '#e2e8f0',
+                  color: isSelected ? 'white' : '#64748b',
+                  padding: '2px 6px',
+                  borderRadius: '10px',
+                  fontSize: '12px',
+                  fontWeight: '600'
+                }}>
+                  {count}
+                </span>
+              </button>
+            );
+          })}
+        </div>
+        
+        {/* Quick filter buttons */}
+        <div style={{
+          display: 'flex',
+          gap: '8px',
+          flexWrap: 'wrap'
+        }}>
+          <button
+            onClick={() => handleCategoryFilter('all')}
+            style={{
+              padding: '6px 12px',
+              backgroundColor: categoryFilter === 'all' ? '#10b981' : '#f3f4f6',
+              color: categoryFilter === 'all' ? 'white' : '#6b7280',
+              border: 'none',
+              borderRadius: '6px',
+              fontSize: '13px',
+              cursor: 'pointer'
+            }}
+          >
+            All Categories
+          </button>
+          {['proteins', 'vegetables', 'herbs', 'spices'].map(category => (
+            <button
+              key={category}
+              onClick={() => handleCategoryFilter(category)}
+              style={{
+                padding: '6px 12px',
+                backgroundColor: categoryFilter === category ? '#10b981' : '#f3f4f6',
+                color: categoryFilter === category ? 'white' : '#6b7280',
+                border: 'none',
+                borderRadius: '6px',
+                fontSize: '13px',
+                cursor: 'pointer'
+              }}
+            >
+              {CATEGORY_DISPLAY_NAMES[category]}
+            </button>
+          ))}
+        </div>
+        
+        {/* Astrological Filters Toggle */}
+        <div style={{
+          marginTop: '16px',
+          paddingTop: '16px',
+          borderTop: '1px solid #e2e8f0'
+        }}>
+          <button
+            onClick={() => setShowAstrologicalFilters(!showAstrologicalFilters)}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px',
+              padding: '8px 12px',
+              backgroundColor: showAstrologicalFilters ? '#7c3aed' : '#f8fafc',
+              color: showAstrologicalFilters ? 'white' : '#64748b',
+              border: `1px solid ${showAstrologicalFilters ? '#7c3aed' : '#d1d5db'}`,
+              borderRadius: '8px',
+              fontSize: '14px',
+              fontWeight: '500',
+              cursor: 'pointer',
+              transition: 'all 0.2s ease'
+            }}
+          >
+            <Beaker size={16} />
+            Astrological Filters
+            {showAstrologicalFilters ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+          </button>
+          
+          {/* Astrological Filter Options */}
+          {showAstrologicalFilters && (
+            <div style={{
+              marginTop: '12px',
+              padding: '16px',
+              backgroundColor: '#faf5ff',
+              borderRadius: '8px',
+              border: '1px solid #e9d5ff'
+            }}>
+              {/* Astrological Compatibility Filter */}
+              <div style={{ marginBottom: '16px' }}>
+                <label style={{
+                  display: 'block',
+                  fontSize: '13px',
+                  fontWeight: '600',
+                  color: '#7c3aed',
+                  marginBottom: '8px'
+                }}>
+                  Astrological Compatibility
+                </label>
+                <div style={{
+                  display: 'flex',
+                  gap: '6px',
+                  flexWrap: 'wrap'
+                }}>
+                  {[
+                    { value: 'all', label: 'All Ingredients' },
+                    { value: 'high-compatibility', label: 'High Compatibility (70%+)' },
+                    { value: 'current-zodiac', label: `Current ${currentZodiac || 'Aries'} Energy` }
+                  ].map(option => (
+                    <button
+                      key={option.value}
+                      onClick={() => handleAstrologicalFilter(option.value)}
+                      style={{
+                        padding: '6px 12px',
+                        backgroundColor: astrologicalFilter === option.value ? '#7c3aed' : '#ffffff',
+                        color: astrologicalFilter === option.value ? 'white' : '#64748b',
+                        border: `1px solid ${astrologicalFilter === option.value ? '#7c3aed' : '#d1d5db'}`,
+                        borderRadius: '16px',
+                        fontSize: '12px',
+                        fontWeight: '500',
+                        cursor: 'pointer',
+                        transition: 'all 0.2s ease'
+                      }}
+                    >
+                      {option.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+              
+              {/* Elemental Filter */}
+              <div style={{ marginBottom: '16px' }}>
+                <label style={{
+                  display: 'block',
+                  fontSize: '13px',
+                  fontWeight: '600',
+                  color: '#7c3aed',
+                  marginBottom: '8px'
+                }}>
+                  Elemental Focus
+                </label>
+                <div style={{
+                  display: 'flex',
+                  gap: '6px',
+                  flexWrap: 'wrap'
+                }}>
+                  <button
+                    onClick={() => handleElementalFilter('all')}
+                    style={{
+                      padding: '6px 12px',
+                      backgroundColor: elementalFilter === 'all' ? '#6b7280' : '#ffffff',
+                      color: elementalFilter === 'all' ? 'white' : '#64748b',
+                      border: `1px solid ${elementalFilter === 'all' ? '#6b7280' : '#d1d5db'}`,
+                      borderRadius: '16px',
+                      fontSize: '12px',
+                      fontWeight: '500',
+                      cursor: 'pointer'
+                    }}
+                  >
+                    All Elements
+                  </button>
+                  {(['Fire', 'Water', 'Earth', 'Air'] as Element[]).map(element => (
+                    <button
+                      key={element}
+                      onClick={() => handleElementalFilter(element)}
+                      style={{
+                        padding: '6px 12px',
+                        backgroundColor: elementalFilter === element ? 
+                          (element === 'Fire' ? '#ef4444' : 
+                           element === 'Water' ? '#3b82f6' :
+                           element === 'Earth' ? '#10b981' : '#8b5cf6') : '#ffffff',
+                        color: elementalFilter === element ? 'white' : '#64748b',
+                        border: `1px solid ${elementalFilter === element ? 
+                          (element === 'Fire' ? '#ef4444' : 
+                           element === 'Water' ? '#3b82f6' :
+                           element === 'Earth' ? '#10b981' : '#8b5cf6') : '#d1d5db'}`,
+                        borderRadius: '16px',
+                        fontSize: '12px',
+                        fontWeight: '500',
+                        cursor: 'pointer',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '4px'
+                      }}
+                    >
+                      {getElementIcon(element)}
+                      {element}
+                    </button>
+                  ))}
+                </div>
+              </div>
+              
+              {/* Planetary Filter */}
+              <div>
+                <label style={{
+                  display: 'block',
+                  fontSize: '13px',
+                  fontWeight: '600',
+                  color: '#7c3aed',
+                  marginBottom: '8px'
+                }}>
+                  Planetary Influence
+                </label>
+                <div style={{
+                  display: 'flex',
+                  gap: '6px',
+                  flexWrap: 'wrap'
+                }}>
+                  <button
+                    onClick={() => handlePlanetaryFilter('all')}
+                    style={{
+                      padding: '6px 12px',
+                      backgroundColor: planetaryFilter === 'all' ? '#6b7280' : '#ffffff',
+                      color: planetaryFilter === 'all' ? 'white' : '#64748b',
+                      border: `1px solid ${planetaryFilter === 'all' ? '#6b7280' : '#d1d5db'}`,
+                      borderRadius: '16px',
+                      fontSize: '12px',
+                      fontWeight: '500',
+                      cursor: 'pointer'
+                    }}
+                  >
+                    All Planets
+                  </button>
+                  {['Sun', 'Moon', 'Mercury', 'Venus', 'Mars', 'Jupiter', 'Saturn'].map(planet => (
+                    <button
+                      key={planet}
+                      onClick={() => handlePlanetaryFilter(planet)}
+                      style={{
+                        padding: '6px 12px',
+                        backgroundColor: planetaryFilter === planet ? '#f59e0b' : '#ffffff',
+                        color: planetaryFilter === planet ? 'white' : '#64748b',
+                        border: `1px solid ${planetaryFilter === planet ? '#f59e0b' : '#d1d5db'}`,
+                        borderRadius: '16px',
+                        fontSize: '12px',
+                        fontWeight: '500',
+                        cursor: 'pointer'
+                      }}
+                    >
+                      {planet}
+                    </button>
+                  ))}
+                </div>
+              </div>
+              
+              {/* Current Astrological State Display */}
+              <div style={{
+                marginTop: '16px',
+                padding: '12px',
+                backgroundColor: '#ffffff',
+                borderRadius: '6px',
+                border: '1px solid #e9d5ff'
+              }}>
+                <div style={{
+                  fontSize: '12px',
+                  color: '#7c3aed',
+                  fontWeight: '600',
+                  marginBottom: '6px'
+                }}>
+                  Current Cosmic Conditions
+                </div>
+                <div style={{
+                  fontSize: '11px',
+                  color: '#6b46c1',
+                  lineHeight: '1.4'
+                }}>
+                  <div>Zodiac: {currentZodiac || 'Aries'} ({getZodiacElement(currentZodiac || 'aries')} element)</div>
+                  <div>Time: {isDaytime ? 'Diurnal (Day)' : 'Nocturnal (Night)'}</div>
+                  <div>Active Planets: {Object.keys(planetaryPositions || {}).length} planetary influences</div>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+    );
+  };
+
+  // Enhanced Ingredient Card Wrapper Component
+  const EnhancedIngredientCard = ({ ingredient, category }: { ingredient: EnhancedIngredientRecommendation, category: string }) => {
+    const isSelected = selectedIngredient?.name === ingredient.name;
+    
+    return (
+      <IngredientCard
+        ingredient={ingredient as any}
+        isSelected={isSelected}
+        isExpandable={true}
+        showAstrologicalInfo={true}
+        matchScore={ingredient.matchScore}
+        category={category}
+        currentZodiac={currentZodiac || 'aries'}
+        isDaytime={isDaytime}
+        onClick={(ing) => handleIngredientSelect(ing as IngredientRecommendation, {} as React.MouseEvent)}
+      />
+    );
+  };
+
+  // Filter recommendations based on selected categories and astrological filters
+  const filteredRecommendations = useMemo(() => {
+    if (!combinedCategorizedRecommendations) return {};
+    
+    const filtered: EnhancedGroupedRecommendations = {};
+    
+    Object.entries(combinedCategorizedRecommendations).forEach(([category, ingredients]) => {
+      // Apply category filter
+      if (categoryFilter !== 'all' && category !== categoryFilter) return;
+      
+      // Apply selected categories filter
+      if (!showAllCategories && !selectedCategories.includes(category)) return;
+      
+      // Apply astrological filtering
+      let filteredIngredients = ingredients;
+      
+      // Apply astrological filters if any are active
+      if (astrologicalFilter !== 'all' || elementalFilter !== 'all' || planetaryFilter !== 'all') {
+        filteredIngredients = applyAstrologicalFiltering(ingredients);
+      }
+      
+      // Only include categories with ingredients after filtering
+      if (filteredIngredients.length > 0) {
+        filtered[category] = filteredIngredients;
+      }
+    });
+    
+    return filtered;
+  }, [
+    combinedCategorizedRecommendations, 
+    categoryFilter, 
+    selectedCategories, 
+    showAllCategories,
+    astrologicalFilter,
+    elementalFilter,
+    planetaryFilter,
+    currentZodiac,
+    planetaryPositions,
+    isDaytime
+  ]);
+
   // Display the recommendations
   return (
-    <div className={'recommendationsContainer-class'}>
+    <div style={{
+      padding: '24px',
+      backgroundColor: '#f8fafc',
+      minHeight: '100vh'
+    }}>
       <ErrorBoundary
         FallbackComponent={({ error }) => (
-          <div className={'errorContainer-class'}>
-            <h3>Error Loading Ingredient Recommendations</h3>
-            <p>{error.message}</p>
+          <div style={{
+            padding: '24px',
+            backgroundColor: '#fef2f2',
+            border: '1px solid #fecaca',
+            borderRadius: '8px',
+            textAlign: 'center'
+          }}>
+            <h3 style={{ color: '#dc2626', marginBottom: '8px' }}>Error Loading Ingredient Recommendations</h3>
+            <p style={{ color: '#7f1d1d' }}>{error.message}</p>
+          </div>
+        )}
+      >
+        <div style={{
+          maxWidth: '1200px',
+          margin: '0 auto'
+        }}>
+          {/* Header */}
+          <div style={{
+            marginBottom: '32px',
+            textAlign: 'center'
+          }}>
+            <h2 style={{
+              fontSize: '32px',
+              fontWeight: '700',
+              color: '#1e293b',
+              marginBottom: '8px'
+            }}>
+              Astrological Ingredient Recommendations
+            </h2>
+            <p style={{
+              fontSize: '16px',
+              color: '#64748b',
+              maxWidth: '600px',
+              margin: '0 auto'
+            }}>
+              Discover ingredients aligned with your current astrological state and cosmic influences
+            </p>
+          </div>
+
+          {/* Category Selector */}
+          <CategorySelector />
+
+          {/* Recommendations Grid */}
+          <div style={{
+            display: 'grid',
+            gap: '32px'
+          }}>
+            {Object.entries(filteredRecommendations).map(([category, ingredients]) => {
+              if (!ingredients || ingredients.length === 0) return null;
+              
+              const displayCount = expanded[category] ? ingredients.length : (CATEGORY_DISPLAY_COUNTS[category] || 6);
+              const displayedItems = ingredients.slice(0, displayCount);
+              
+              return (
+                <div key={category} style={{
+                  backgroundColor: '#ffffff',
+                  borderRadius: '16px',
+                  padding: '24px',
+                  boxShadow: '0 4px 6px rgba(0, 0, 0, 0.05)'
+                }}>
+                  {/* Category Header */}
+                  <div style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    marginBottom: '20px'
+                  }}>
+                    <h3 style={{
+                      fontSize: '24px',
+                      fontWeight: '600',
+                      color: '#1e293b',
+                      margin: 0
+                    }}>
+                      {CATEGORY_DISPLAY_NAMES[category] || category}
+                    </h3>
+                    <div style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '12px'
+                    }}>
+                      <span style={{
+                        fontSize: '14px',
+                        color: '#64748b'
+                      }}>
+                        {ingredients.length} ingredients
+                      </span>
+                      <button
+                        onClick={(e) => toggleCategoryExpansion(category, e)}
+                        style={{
+                          padding: '8px',
+                          backgroundColor: '#f1f5f9',
+                          border: 'none',
+                          borderRadius: '6px',
+                          cursor: 'pointer',
+                          display: 'flex',
+                          alignItems: 'center',
+                          color: '#475569'
+                        }}
+                      >
+                        {expanded[category] ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Ingredients Grid */}
+                  <div style={{
+                    display: 'grid',
+                    gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
+                    gap: '16px'
+                  }}>
+                    {displayedItems.map((ingredient) => (
+                      <EnhancedIngredientCard
+                        key={ingredient.name}
+                        ingredient={ingredient}
+                        category={category}
+                      />
+                    ))}
+                  </div>
+
+                  {/* Show More Button */}
+                  {ingredients.length > displayedItems.length && !expanded[category] && (
+                    <div style={{
+                      textAlign: 'center',
+                      marginTop: '20px'
+                    }}>
+                      <button
+                        onClick={(e) => toggleCategoryExpansion(category, e)}
+                        style={{
+                          padding: '12px 24px',
+                          backgroundColor: '#3b82f6',
+                          color: 'white',
+                          border: 'none',
+                          borderRadius: '8px',
+                          fontSize: '14px',
+                          fontWeight: '500',
+                          cursor: 'pointer',
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '8px',
+                          margin: '0 auto'
+                        }}
+                      >
+                        Show {ingredients.length - displayedItems.length} more ingredients
+                        <ChevronDown size={16} />
+                      </button>
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
         </div>
-      )}
-        >
-        {renderContent()}
       </ErrorBoundary>
     </div>
   );

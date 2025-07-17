@@ -95,7 +95,7 @@ vercel --prod
 ### **Option 2: Netlify**
 ```bash
 # Install Netlify CLI
-npm install -g netlify-cli
+yarn global add netlify-cli
 
 # Build and deploy
 yarn build

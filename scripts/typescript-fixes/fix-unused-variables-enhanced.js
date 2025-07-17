@@ -31,7 +31,7 @@ let parser;
 try {
   parser = await import('@babel/parser');
 } catch (err) {
-  console.error('⚠️  @babel/parser not found. Install with: npm install --save-dev @babel/parser');
+  console.error('⚠️  @babel/parser not found. Install with: yarn add --dev @babel/parser');
   console.error('Falling back to regex-based parsing (less robust)');
 }
 

@@ -17,8 +17,8 @@ npm run type-check                 # Check current status
 
 # Development server won't start
 rm -rf node_modules .next          # Clean installation
-npm install                        # Reinstall dependencies
-npm run dev                        # Restart server
+yarn install                        # Reinstall dependencies
+yarn dev                        # Restart server
 ```
 
 ## 🏗️ Setup and Installation Issues
@@ -52,7 +52,7 @@ npm cache clean --force
 rm -rf node_modules package-lock.json
 
 # Reinstall
-npm install
+yarn install
 
 # If still failing, try yarn
 yarn install

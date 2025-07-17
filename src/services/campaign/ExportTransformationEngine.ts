@@ -522,7 +522,7 @@ export class ExportTransformationEngine {
     const startTime = Date.now();
     
     try {
-      const output = execSync('npm run build', { 
+      const output = execSync('yarn build', { 
         encoding: 'utf-8',
         timeout: 60000,
         stdio: 'pipe'
@@ -560,7 +560,7 @@ export class ExportTransformationEngine {
     const startTime = Date.now();
     
     try {
-      const output = execSync('npm test -- --passWithNoTests', { 
+      const output = execSync('yarn test --passWithNoTests', { 
         encoding: 'utf-8',
         timeout: 120000,
         stdio: 'pipe'
