@@ -1,537 +1,377 @@
-// Phase 10: Calculation Type Interfaces
-interface CalculationData {
-  value: number;
-  weight?: number;
-  score?: number;
-}
-
-interface ScoredItem {
-  score: number;
-  [key: string]: unknown;
-}
-
-interface ElementalData {
-  Fire: number;
-  Water: number;
-  Earth: number;
-  Air: number;
-  [key: string]: unknown;
-}
-
-interface CuisineData {
-  id: string;
-  name: string;
-  zodiacInfluences?: string[];
-  planetaryDignities?: Record<string, unknown>;
-  elementalState?: ElementalData;
-  elementalProperties?: ElementalData;
-  modality?: string;
-  gregsEnergy?: number;
-  [key: string]: unknown;
-}
-
-interface NutrientData {
-  nutrient?: { name?: string };
-  nutrientName?: string;
-  name?: string;
-  vitaminCount?: number;
-  data?: unknown;
-  [key: string]: unknown;
-}
-
-interface MatchingResult {
-  score: number;
-  elements: ElementalData;
-  recipe?: unknown;
-  [key: string]: unknown;
-}
-
 'use client';
 
-import React, { useState, useEffect } from 'react';
-import type { 
-  Recipe, 
-  ElementalProperties,
-  ZodiacSign
-} from '@/types/alchemy';
-import type { TimeFactors } from '@/types/time';
-import { getTimeFactors } from '@/types/time';
-
+import React, { useState, useCallback, useMemo } from 'react';
 import { 
-  Box, 
-  Card, 
-  CardContent, 
-  Typography, 
-  Grid, 
-  Chip, 
-  Alert, 
-  CircularProgress,
-  Button,
-  Divider,
-  LinearProgress
-} from '@mui/material';
-import { 
-  Restaurant, 
-  AccessTime, 
-  Star, 
-  ExpandMore, 
-  ExpandLess 
-} from '@mui/icons-material';
+  ChevronDown, 
+  ChevronUp, 
+  Clock, 
+  Users, 
+  BarChart3,
+  Star,
+  Sparkles
+} from 'lucide-react';
+import { ElementalProperties } from '@/types/alchemy';
+import { calculateElementalMatch, getMatchScoreClass } from '@/utils/cuisineRecommender';
 
-import { useServices } from '@/hooks/useServices';
+// ========== INTERFACES ==========
 
-// Types
-type Season = 'spring' | 'summer' | 'autumn' | 'winter';
-
-interface ScoredRecipe {
-  recipe: Recipe;
-  score: number;
-  explanation?: string;
+interface RecipeData {
+  id?: string;
+  name?: string;
+  description?: string;
+  cuisine?: string;
+  matchPercentage?: number;
+  matchScore?: number;
+  elementalProperties?: ElementalProperties;
+  ingredients?: unknown[];
+  instructions?: unknown[];
+  cookTime?: string;
+  prepTime?: string;
+  servingSize?: number;
+  difficulty?: string;
+  tags?: string[];
+  [key: string]: unknown;
 }
 
-interface RecommendationExplanation {
-  totalScore: number;
-  elementalMatch: number;
-  seasonalAlignment: number;
-  breakdown: {
-    [key: string]: {
-      score: number;
-      weight: number;
-      explanation: string;
-    };
-  };
+interface RecipeRecommendationsProps {
+  recipes: RecipeData[];
+  cuisineName: string;
+  currentElementalProfile: ElementalProperties;
+  maxDisplayed?: number;
+  showExpandedByDefault?: boolean;
+  onRecipeSelect?: (recipe: RecipeData) => void;
 }
 
-// Helper Functions
-const validateElementalProperties = (props: Record<string, unknown>): ElementalProperties => {
-  const defaultProps = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
-  
-  if (!props || typeof props !== 'object') return defaultProps;
-  
-  return {
-    Fire: Math.max(0, Math.min(1, props.Fire || 0)),
-    Water: Math.max(0, Math.min(1, props.Water || 0)),
-    Earth: Math.max(0, Math.min(1, props.Earth || 0)),
-    Air: Math.max(0, Math.min(1, props.Air || 0))
-  };
-};
+interface ScoredRecipe extends RecipeData {
+  astrologicalScore: number;
+  elementalScore: number;
+  overallScore: number;
+  scoringReasons: string[];
+}
 
-const calculateElementalSimilarity = (
-  props1: ElementalProperties,
-  props2: ElementalProperties
-): number => {
-  const weights = { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
-  
-  let similarity = 0;
-  (Object.keys(weights) as Array<keyof ElementalProperties>).forEach(element => {
-    const diff = Math.abs(props1[element] - props2[element]);
-    similarity += weights[element] * (1 - diff);
-  });
-  
-  return Math.max(0, Math.min(1, similarity));
-};
+// ========== HELPER FUNCTIONS ==========
 
-const getSeasonalElementalProfile = (season: Season): ElementalProperties => {
-  const profiles: Record<Season, ElementalProperties> = {
-    spring: { Fire: 0.2, Water: 0.3, Earth: 0.2, Air: 0.3 },
-    summer: { Fire: 0.4, Water: 0.1, Earth: 0.2, Air: 0.3 },
-    autumn: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    winter: { Fire: 0.1, Water: 0.4, Earth: 0.3, Air: 0.2 }
-  };
+const calculateAstrologicalScore = (recipe: RecipeData): number => {
+  // Simple astrological scoring based on recipe properties
+  let score = 0.5; // Base score
   
-  return profiles[season];
-};
-
-const calculateRecommendationScore = (
-  recipe: Recipe,
-  season: Season,
-  _timeFactors: TimeFactors | null
-): RecommendationExplanation => {
-  const recipeElements = validateElementalProperties(recipe.elementalProperties || recipe.elementalState);
-  const seasonalProfile = getSeasonalElementalProfile(season);
+  // Check for astrological tags or properties
+  if (recipe.tags) {
+    const astrologicalTags = ['lunar', 'solar', 'planetary', 'celestial', 'zodiac'];
+    const hasAstrologicalTags = recipe.tags.some(tag => 
+      astrologicalTags.some(astroTag => 
+        tag.toLowerCase().includes(astroTag)
+      )
+    );
+    if (hasAstrologicalTags) score += 0.2;
+  }
   
-  const elementalMatch = calculateElementalSimilarity(recipeElements, seasonalProfile);
-  const seasonalScore = 0.8; // Simplified for now
-  
-  const totalScore = (elementalMatch * 0.7) + (seasonalScore * 0.3);
-
-  return {
-    totalScore,
-    elementalMatch,
-    seasonalAlignment: seasonalScore,
-    breakdown: {
-      elemental: {
-        score: elementalMatch,
-        weight: 0.7,
-        explanation: `Elemental harmony with ${season} season`
-      },
-      seasonal: {
-        score: seasonalScore,
-        weight: 0.3,
-        explanation: `Seasonal appropriateness for ${season}`
+  // Check cooking time alignment with current moment
+  if (recipe.cookTime) {
+    const cookTimeStr = recipe.cookTime.toLowerCase();
+    const now = new Date();
+    const hour = now.getHours();
+    
+    // Quick cooking for busy times, slow cooking for relaxed times
+    if (hour >= 17 && hour <= 20) { // Dinner time
+      if (cookTimeStr.includes('quick') || cookTimeStr.includes('15') || cookTimeStr.includes('20')) {
+        score += 0.15;
+      }
+    } else if (hour >= 10 && hour <= 16) { // Relaxed time
+      if (cookTimeStr.includes('slow') || cookTimeStr.includes('60') || cookTimeStr.includes('hour')) {
+        score += 0.15;
       }
     }
+  }
+  
+  return Math.min(1, score);
+};
+
+const scoreRecipe = (recipe: RecipeData, currentElementalProfile: ElementalProperties): ScoredRecipe => {
+  // Calculate elemental match score
+  const elementalScore = recipe.elementalProperties 
+    ? calculateElementalMatch(recipe.elementalProperties, currentElementalProfile)
+    : 0.5;
+  
+  // Calculate astrological score
+  const astrologicalScore = calculateAstrologicalScore(recipe);
+  
+  // Calculate overall score (weighted combination)
+  const overallScore = (elementalScore * 0.6) + (astrologicalScore * 0.4);
+  
+  // Generate scoring reasons
+  const scoringReasons: string[] = [];
+  
+  if (elementalScore > 0.7) {
+    scoringReasons.push(`Excellent elemental harmony (${Math.round(elementalScore * 100)}%)`);
+  } else if (elementalScore > 0.5) {
+    scoringReasons.push(`Good elemental match (${Math.round(elementalScore * 100)}%)`);
+  }
+  
+  if (astrologicalScore > 0.6) {
+    scoringReasons.push('Aligned with current celestial energies');
+  }
+  
+  if (recipe.difficulty === 'Easy' || recipe.difficulty === 'easy') {
+    scoringReasons.push('Perfect for beginners');
+  }
+  
+  if (recipe.cookTime && recipe.cookTime.includes('30')) {
+    scoringReasons.push('Quick preparation time');
+  }
+  
+  return {
+    ...recipe,
+    elementalScore,
+    astrologicalScore,
+    overallScore,
+    scoringReasons,
+    matchPercentage: Math.round(overallScore * 100)
   };
 };
 
-const explainRecommendation = (
-  recipe: Recipe,
-  season: Season,
-  timeFactors: TimeFactors | null
-): string => {
-  const explanation = calculateRecommendationScore(recipe, season, timeFactors);
-  const topReason = Object.entries(explanation.breakdown)
-    .sort(([,a], [,b]) => b.score - a.score)[0];
-  
-  return `${Math.round(explanation.totalScore * 100)}% match. ${topReason[1].explanation}`;
+// ========== RECIPE CARD COMPONENT ==========
+
+const RecipeCard: React.FC<{
+  recipe: ScoredRecipe;
+  isExpanded: boolean;
+  onToggle: () => void;
+  onSelect?: (recipe: RecipeData) => void;
+}> = ({ recipe, isExpanded, onToggle, onSelect }) => {
+  const handleCardClick = useCallback((e: React.MouseEvent) => {
+    e.stopPropagation();
+    onToggle();
+  }, [onToggle]);
+
+  const handleSelectClick = useCallback((e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (onSelect) {
+      onSelect(recipe);
+    }
+  }, [onSelect, recipe]);
+
+  return (
+    <div className="border rounded-lg p-4 bg-white hover:shadow-md transition-shadow cursor-pointer">
+      <div onClick={handleCardClick}>
+        {/* Recipe Header */}
+        <div className="flex justify-between items-start mb-2">
+          <h4 className="font-medium text-base text-gray-900 flex-1 mr-2">
+            {recipe.name}
+          </h4>
+          <div className="flex items-center space-x-2">
+            <span className={`text-xs px-2 py-1 rounded-full ${getMatchScoreClass(recipe.overallScore)}`}>
+              {recipe.matchPercentage}%
+            </span>
+            {isExpanded ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+          </div>
+        </div>
+
+        {/* Recipe Meta Info */}
+        <div className="flex items-center space-x-4 text-sm text-gray-600 mb-2">
+          {recipe.cookTime && (
+            <div className="flex items-center space-x-1">
+              <Clock size={14} />
+              <span>{recipe.cookTime}</span>
+            </div>
+          )}
+          {recipe.servingSize && (
+            <div className="flex items-center space-x-1">
+              <Users size={14} />
+              <span>{recipe.servingSize} servings</span>
+            </div>
+          )}
+          {recipe.difficulty && (
+            <div className="flex items-center space-x-1">
+              <BarChart3 size={14} />
+              <span>{recipe.difficulty}</span>
+            </div>
+          )}
+        </div>
+
+        {/* Scoring Reasons */}
+        {recipe.scoringReasons.length > 0 && (
+          <div className="mb-2">
+            <div className="flex items-center space-x-1 text-xs text-blue-600">
+              <Sparkles size={12} />
+              <span>{recipe.scoringReasons[0]}</span>
+            </div>
+          </div>
+        )}
+
+        {/* Short Description */}
+        <p className="text-sm text-gray-600 line-clamp-2 mb-2">
+          {recipe.description}
+        </p>
+      </div>
+
+      {/* Expanded Content */}
+      {isExpanded && (
+        <div className="mt-4 pt-4 border-t border-gray-200">
+          {/* Full Description */}
+          {recipe.description && (
+            <div className="mb-4">
+              <h5 className="font-medium text-sm mb-2">Description</h5>
+              <p className="text-sm text-gray-600">{recipe.description}</p>
+            </div>
+          )}
+
+          {/* Detailed Scores */}
+          <div className="mb-4">
+            <h5 className="font-medium text-sm mb-2">Compatibility Scores</h5>
+            <div className="grid grid-cols-2 gap-3">
+              <div className="bg-blue-50 p-2 rounded">
+                <div className="text-xs text-blue-600 font-medium">Elemental Match</div>
+                <div className="text-sm font-semibold text-blue-800">
+                  {Math.round(recipe.elementalScore * 100)}%
+                </div>
+              </div>
+              <div className="bg-purple-50 p-2 rounded">
+                <div className="text-xs text-purple-600 font-medium">Astrological</div>
+                <div className="text-sm font-semibold text-purple-800">
+                  {Math.round(recipe.astrologicalScore * 100)}%
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* All Scoring Reasons */}
+          {recipe.scoringReasons.length > 1 && (
+            <div className="mb-4">
+              <h5 className="font-medium text-sm mb-2">Why This Recipe?</h5>
+              <ul className="list-disc pl-4 space-y-1">
+                {recipe.scoringReasons.map((reason, index) => (
+                  <li key={index} className="text-xs text-gray-600">{reason}</li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          {/* Ingredients Preview */}
+          {recipe.ingredients && Array.isArray(recipe.ingredients) && recipe.ingredients.length > 0 && (
+            <div className="mb-4">
+              <h5 className="font-medium text-sm mb-2">Key Ingredients</h5>
+              <div className="flex flex-wrap gap-1">
+                {recipe.ingredients.slice(0, 8).map((ing, index) => (
+                  <span key={index} className="text-xs bg-gray-100 px-2 py-1 rounded">
+                    {typeof ing === 'string' ? ing : (ing as any).name || 'ingredient'}
+                  </span>
+                ))}
+                {recipe.ingredients.length > 8 && (
+                  <span className="text-xs text-gray-500">+{recipe.ingredients.length - 8} more</span>
+                )}
+              </div>
+            </div>
+          )}
+
+          {/* Action Button */}
+          {onSelect && (
+            <button
+              onClick={handleSelectClick}
+              className="w-full mt-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm rounded-lg transition-colors flex items-center justify-center space-x-2"
+            >
+              <Star size={16} />
+              <span>Select This Recipe</span>
+            </button>
+          )}
+        </div>
+      )}
+    </div>
+  );
 };
 
-/**
- * RecipeRecommendations Component
- * 
- * This component demonstrates using multiple services together to provide
- * recipe recommendations based on current astrological conditions.
- */
-export default function RecipeRecommendations() {
-  // State Management
-  const [recipes, setRecipes] = useState<ScoredRecipe[]>([]);
-  const [currentSeason, setCurrentSeason] = useState<Season>('spring');
-  const [planetaryPositions, setPlanetaryPositions] = useState<Record<string, string>>({});
-  const [isLoadingRecipes, setIsLoadingRecipes] = useState<boolean>(false);
-  const [expandedItems, setExpandedItems] = useState<{[key: string]: boolean}>({});
-  const [error, setError] = useState<string | null>(null);
-  
-  // Time Factors Integration
-  const [timeFactors, setTimeFactors] = useState<TimeFactors | null>(null);
-  
-  // Access services through the useServices hook
-  const {
-    isLoading: servicesLoading,
-    error: servicesError,
-    astrologyService,
-    recipeService,
-    recommendationService,
-    alchemicalRecommendationService
-  } = useServices();
+// ========== MAIN COMPONENT ==========
 
-  useEffect(() => {
-    const loadTimeFactors = async () => {
-      try {
-        const factors = await getTimeFactors();
-        setTimeFactors(factors);
-        setCurrentSeason(factors.season as Season || 'spring');
-      } catch (err) {
-        setError('Failed to load astrological data');
-      }
-    };
-    loadTimeFactors();
+export const RecipeRecommendations: React.FC<RecipeRecommendationsProps> = ({
+  recipes,
+  cuisineName,
+  currentElementalProfile,
+  maxDisplayed = 6,
+  showExpandedByDefault = false,
+  onRecipeSelect
+}) => {
+  const [expandedRecipes, setExpandedRecipes] = useState<Record<string, boolean>>({});
+  const [showAllRecipes, setShowAllRecipes] = useState(false);
+
+  // Score and sort recipes
+  const scoredRecipes = useMemo(() => {
+    return recipes
+      .map(recipe => scoreRecipe(recipe, currentElementalProfile))
+      .sort((a, b) => b.overallScore - a.overallScore);
+  }, [recipes, currentElementalProfile]);
+
+  // Determine which recipes to display
+  const displayedRecipes = useMemo(() => {
+    return showAllRecipes ? scoredRecipes : scoredRecipes.slice(0, maxDisplayed);
+  }, [scoredRecipes, showAllRecipes, maxDisplayed]);
+
+  const toggleRecipeExpansion = useCallback((recipeId: string) => {
+    setExpandedRecipes(prev => ({
+      ...prev,
+      [recipeId]: !prev[recipeId]
+    }));
   }, []);
 
-  // Load data when services are ready
-  useEffect(() => {
-    if (servicesLoading || servicesError || !astrologyService || !recipeService || !timeFactors) {
-      return;
-    }
+  const toggleShowAll = useCallback(() => {
+    setShowAllRecipes(prev => !prev);
+  }, []);
 
-    const loadData = async () => {
-      try {
-        setIsLoadingRecipes(true);
-        setError(null);
-        
-        // Get current planetary positions
-        const _positions = await astrologyService.getCurrentPlanetaryPositions();
-        
-        // Convert positions to the format needed by recommendation services
-        const formattedPositions: { [key: string]: string } = {};
-        Object.entries(_positions || {}).forEach(([planet, data]) => {
-          if (data && typeof data === 'object' && 'sign' in data) {
-            formattedPositions[planet] = String(data.sign);
-          }
-        });
-        
-        setPlanetaryPositions(formattedPositions);
-        
-        // Get seasonal recipes - Safe method access
-        let seasonalRecipes: Recipe[] = [];
-        if (recipeService && typeof (recipeService as Record<string, unknown>).getRecipesBySeason === 'function') {
-          seasonalRecipes = await (recipeService as Record<string, unknown>).getRecipesBySeason(currentSeason);
-        } else if (recipeService && typeof (recipeService as Record<string, unknown>).getAllRecipes === 'function') {
-          // Fallback to get all recipes and filter by season
-          const allRecipes = await (recipeService as Record<string, unknown>).getAllRecipes();
-          seasonalRecipes = (allRecipes || []).filter((recipe: Recipe) => 
-            recipe.season?.includes(currentSeason) || 
-            recipe.seasonality?.includes(currentSeason) ||
-            !recipe.season // Include recipes with no season specified
-          );
-        }
-        
-        // Get recommendations
-        const recommendations = await getRecommendedRecipes(seasonalRecipes, formattedPositions);
-        setRecipes(recommendations);
-      } catch (err) {
-        console.error('Error loading recipe recommendations:', err);
-        setError('Failed to load recipe recommendations');
-      } finally {
-        setIsLoadingRecipes(false);
-      }
-    };
-
-    loadData();
-  }, [servicesLoading, servicesError, astrologyService, recipeService, currentSeason, timeFactors]);
-
-  /**
-   * Get recommended recipes using the recommendation services
-   */
-  const getRecommendedRecipes = async (
-    availableRecipes: Recipe[],
-    _positions: { [key: string]: string }
-  ): Promise<ScoredRecipe[]> => {
-    if (!recommendationService || !alchemicalRecommendationService || !availableRecipes?.length) {
-      return [];
-    }
-
-    try {
-      const scoredRecipes: ScoredRecipe[] = [];
-
-      for (const recipe of availableRecipes.slice(0, 10)) { // Limit to 10 recipes for performance
-        if (!recipe) continue;
-        
-        // Calculate recommendation score
-        const explanation = calculateRecommendationScore(recipe, currentSeason, timeFactors);
-        const recommendationText = explainRecommendation(recipe, currentSeason, timeFactors);
-
-        scoredRecipes.push({
-          recipe,
-          score: explanation.totalScore,
-          explanation: recommendationText
-        });
-      }
-
-      // Sort by score (descending)
-      return scoredRecipes.sort((a, b) => (a as unknown as ScoredItem).score - (b as unknown as ScoredItem).score).slice(0, 5);
-    } catch (err) {
-      console.error('Error calculating recipe recommendations:', err);
-      return [];
-    }
-  };
-
-  // Expansion toggle handler
-  const toggleExpansion = (id: string) => {
-    setExpandedItems(prev => ({
-      ...prev,
-      [id]: !prev[id]
-    }));
-  };
-
-  // Error handling
-  if (error || servicesError) {
+  if (scoredRecipes.length === 0) {
     return (
-      <Alert severity="error">
-        {error || servicesError?.message || 'An error occurred'}
-      </Alert>
-    );
-  }
-
-  // Loading state
-  if (servicesLoading || !timeFactors) {
-    return (
-      <Box display="flex" justifyContent="center" p={3}>
-        <CircularProgress />
-        <Typography variant="body2" sx={{ ml: 2 }}>
-          Loading services...
-        </Typography>
-      </Box>
+      <div className="text-center py-8 text-gray-500">
+        <p>No recipes found for {cuisineName} cuisine.</p>
+        <p className="text-sm mt-1">Try exploring other cuisines or check back later.</p>
+      </div>
     );
   }
 
   return (
-    <Box sx={{ p: 3 }}>
-      <Typography variant="h4" gutterBottom>
-        Recipe Recommendations
-      </Typography>
-      
-      {/* Current Season Info */}
-      <Card sx={{ mb: 3 }}>
-        <CardContent>
-          <Typography variant="h6" gutterBottom>
-            Current Season: {currentSeason.charAt(0).toUpperCase() + currentSeason.slice(1)}
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            Based on Sun in {planetaryPositions.Sun || 'unknown'}
-          </Typography>
-          {timeFactors && (
-            <Box sx={{ mt: 1 }}>
-              <Chip 
-                label={`Planetary Day: ${timeFactors.planetaryDay}`}
-                size="small"
-                sx={{ mr: 1 }}
-              />
-              <Chip 
-                label={`Time: ${timeFactors.timeOfDay}`}
-                size="small"
-              />
-            </Box>
-          )}
-        </CardContent>
-      </Card>
-      
-      {/* Recommendations */}
-      <Typography variant="h6" gutterBottom>
-        Recommended Recipes
-        {isLoadingRecipes && (
-          <CircularProgress size={20} sx={{ ml: 2 }} />
-        )}
-      </Typography>
-      
-      {recipes.length > 0 ? (
-        <Grid container spacing={3}>
-          {recipes.map(({ recipe, score, explanation }, index) => (
-            <Grid item xs={12} md={6} lg={4} key={recipe.id || index}>
-              <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
-                <CardContent sx={{ flexGrow: 1 }}>
-                  <Box display="flex" justifyContent="space-between" alignItems="start" mb={2}>
-                    <Typography variant="h6" component="div">
-                      {recipe.name}
-                    </Typography>
-                    <Chip 
-                      icon={<Star />}
-                      label={`${Math.round(score * 100)}% match`}
-                      color="primary"
-                      size="small"
-                    />
-                  </Box>
-                  
-                  {recipe.cuisine && (
-                    <Typography variant="body2" color="text.secondary" gutterBottom>
-                      Cuisine: {String(recipe.cuisine || 'Unknown')}
-                    </Typography>
-                  )}
-                  
-                  {recipe.description && (
-                    <Typography variant="body2" sx={{ mb: 2 }}>
-                      {String(recipe.description || '')}
-                    </Typography>
-                  )}
-                  
-                  {/* Recipe Details */}
-                  <Box sx={{ mb: 2 }}>
-                    {recipe.cookTime && (
-                      <Chip 
-                        icon={<AccessTime />}
-                        label={`${recipe.cookTime} min`}
-                        size="small"
-                        sx={{ mr: 0.5, mb: 0.5 }}
-                      />
-                    )}
-                    
-                    {recipe.servings && (
-                      <Chip 
-                        icon={<Restaurant />}
-                        label={`Serves ${recipe.servings}`}
-                        size="small"
-                        sx={{ mr: 0.5, mb: 0.5 }}
-                      />
-                    )}
-                  </Box>
-                  
-                  {/* Elemental Properties */}
-                  {(recipe.elementalProperties || recipe.elementalState) && (
-                    <Box sx={{ mb: 2 }}>
-                      <Typography variant="subtitle2" gutterBottom>
-                        Elemental Properties:
-                      </Typography>
-                      <Grid container spacing={1}>
-                        {Object.entries(validateElementalProperties(recipe.elementalProperties || recipe.elementalState)).map(([element, value]) => (
-                          <Grid item xs={6} key={element}>
-                            <Box>
-                              <Typography variant="caption">
-                                {element}: {Math.round((value as number) * 100)}%
-                              </Typography>
-                              <LinearProgress 
-                                variant="determinate" 
-                                value={(value as number) * 100} 
-                                sx={{ height: 4, borderRadius: 2 }}
-                              />
-                            </Box>
-                          </Grid>
-                        ))}
-                      </Grid>
-                    </Box>
-                  )}
-                  
-                  {/* Explanation */}
-                  {explanation && (
-                    <Box sx={{ mt: 2 }}>
-                      <Divider sx={{ mb: 1 }} />
-                      <Typography variant="body2" color="text.secondary">
-                        <strong>Why this works:</strong> {explanation}
-                      </Typography>
-                    </Box>
-                  )}
-                  
-                  {/* Expandable Details */}
-                  <Box sx={{ mt: 2 }}>
-                    <Button
-                      onClick={() => toggleExpansion(recipe.id || `recipe-${index}`)}
-                      startIcon={expandedItems[recipe.id || `recipe-${index}`] ? <ExpandLess /> : <ExpandMore />}
-                      size="small"
-                      fullWidth
-                    >
-                      {expandedItems[recipe.id || `recipe-${index}`] ? 'Less Details' : 'More Details'}
-                    </Button>
-                  </Box>
-                  
-                  {/* Expanded Content */}
-                  {expandedItems[recipe.id || `recipe-${index}`] && (
-                    <Box sx={{ mt: 2 }}>
-                      <Divider sx={{ mb: 2 }} />
-                      
-                      {recipe.ingredients && (Array.isArray(recipe.ingredients) ? recipe.ingredients.length > 0 : recipe.ingredients) && (
-                        <Box sx={{ mb: 2 }}>
-                          <Typography variant="subtitle2" gutterBottom>
-                            Ingredients:
-                          </Typography>
-                          <Typography variant="body2">
-                            {Array.isArray(recipe.ingredients) 
-                              ? recipe.ingredients.slice(0, 8).join(', ') + (recipe.ingredients.length > 8 ? '...' : '')
-                              : String(recipe.ingredients).substring(0, 100) + '...'
-                            }
-                          </Typography>
-                        </Box>
-                      )}
-                      
-                      {recipe.instructions && (Array.isArray(recipe.instructions) ? recipe.instructions.length > 0 : recipe.instructions) && (
-                        <Box sx={{ mb: 2 }}>
-                          <Typography variant="subtitle2" gutterBottom>
-                            Instructions:
-                          </Typography>
-                          <Typography variant="body2">
-                            {Array.isArray(recipe.instructions) 
-                              ? (recipe.instructions[0] as Record<string, unknown>)?.substring(0, 150) + '...'
-                              : String(recipe.instructions).substring(0, 150) + '...'
-                            }
-                          </Typography>
-                        </Box>
-                      )}
-                    </Box>
-                  )}
-                </CardContent>
-              </Card>
-            </Grid>
-          ))}
-        </Grid>
-      ) : (
-        <Card>
-          <CardContent>
-            <Typography variant="body1" textAlign="center" color="text.secondary">
-              {isLoadingRecipes 
-                ? 'Loading recipe recommendations...' 
-                : 'No recipe recommendations available at this time.'
-              }
-            </Typography>
-          </CardContent>
-        </Card>
+    <div className="space-y-4">
+      {/* Header */}
+      <div className="flex justify-between items-center">
+        <h3 className="text-lg font-medium text-gray-900">
+          {cuisineName} Recipe Recommendations
+        </h3>
+        <span className="text-sm text-gray-500">
+          {scoredRecipes.length} recipe{scoredRecipes.length !== 1 ? 's' : ''} found
+        </span>
+      </div>
+
+      {/* Recipe Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {displayedRecipes.map((recipe) => (
+          <RecipeCard
+            key={recipe.id || recipe.name}
+            recipe={recipe}
+            isExpanded={expandedRecipes[recipe.id || recipe.name || ''] || showExpandedByDefault}
+            onToggle={() => toggleRecipeExpansion(recipe.id || recipe.name || '')}
+            onSelect={onRecipeSelect}
+          />
+        ))}
+      </div>
+
+      {/* Show More/Less Button */}
+      {scoredRecipes.length > maxDisplayed && (
+        <div className="text-center">
+          <button
+            onClick={toggleShowAll}
+            className="inline-flex items-center space-x-2 px-4 py-2 text-blue-600 hover:text-blue-800 hover:bg-blue-50 rounded-lg transition-colors"
+          >
+            {showAllRecipes ? (
+              <>
+                <ChevronUp size={16} />
+                <span>Show Less</span>
+              </>
+            ) : (
+              <>
+                <ChevronDown size={16} />
+                <span>Show All {scoredRecipes.length} Recipes</span>
+              </>
+            )}
+          </button>
+        </div>
       )}
-    </Box>
+    </div>
   );
-} 
+};
+
+export default RecipeRecommendations;

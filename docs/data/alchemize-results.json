@@ -1,0 +1,26 @@
+{
+  "elementalProperties": {
+    "Fire": 0.4166666666666667,
+    "Water": 0.16666666666666666,
+    "Earth": 0.3333333333333333,
+    "Air": 0.08333333333333333
+  },
+  "thermodynamicProperties": {
+    "heat": 0.11745897453823957,
+    "entropy": 0.24490346929888235,
+    "reactivity": 1.3948215638414279,
+    "gregsEnergy": -0.22413766549941866
+  },
+  "kalchm": 1315.9936088271336,
+  "monica": 0.022373286940498605,
+  "score": 1,
+  "normalized": true,
+  "confidence": 0.8,
+  "metadata": {
+    "source": "alchemize",
+    "dominantElement": "Fire",
+    "dominantModality": "Cardinal",
+    "sunSign": "cancer",
+    "chartRuler": "Water"
+  }
+}
