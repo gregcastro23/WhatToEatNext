@@ -39,6 +39,7 @@ let enterpriseIntelligence = {
   lastRunTime: new Date().toISOString(),
   safetyScore: 0,
   buildTimes: [],
+  averageBuildTime: 0,
   patternAccuracy: {
     totalPredictions: 0,
     correctPredictions: 0,
@@ -162,6 +163,9 @@ async function main() {
       }
 
       const batchTime = Date.now() - batchStartTime;
+      if (!enterpriseIntelligence.buildTimes) {
+        enterpriseIntelligence.buildTimes = [];
+      }
       enterpriseIntelligence.buildTimes.push({
         time: batchTime,
         timestamp: Date.now()
@@ -299,7 +303,7 @@ function updateMetrics() {
   enterpriseIntelligence.lastRunTime = new Date().toISOString();
   
   // Calculate average build time
-  if (enterpriseIntelligence.buildTimes.length > 0) {
+  if (enterpriseIntelligence.buildTimes && enterpriseIntelligence.buildTimes.length > 0) {
     const totalTime = enterpriseIntelligence.buildTimes.reduce((sum, time) => sum + time.time, 0);
     enterpriseIntelligence.averageBuildTime = totalTime / enterpriseIntelligence.buildTimes.length;
   }

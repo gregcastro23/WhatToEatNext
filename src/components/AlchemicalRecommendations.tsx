@@ -243,7 +243,7 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
         // Calculate based on cooking method characteristics
         elementalEffect = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
         
-        const methodName = ((method as string).name || key).toLowerCase();
+        const methodName = (method?.name || key).toLowerCase();
         
         // Adjust by cooking method type
         if (methodName.includes('grill') || methodName.includes('roast') || methodName.includes('bake') ||
@@ -309,8 +309,8 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
         // Calculate based on cuisine characteristics
         elementalState = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
         
-        const cuisineName = ((cuisine as string).name || key).toLowerCase();
-        const region = ((cuisine as string).region || '').toLowerCase();
+        const cuisineName = (cuisine?.name || key).toLowerCase();
+        const region = (cuisine?.region || '').toLowerCase();
         
         // Adjust by cuisine type/region
         if (cuisineName.includes('indian') || cuisineName.includes('thai') || 
