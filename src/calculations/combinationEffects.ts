@@ -106,7 +106,11 @@ export function calculateCombinationEffects({
     // Check elemental interactions
     effects.push(...calculateElementalInteractions(ingredients));
 
-    return effects.sort((a, b) => ((b as Record<string, unknown>)?.modifier || (b as Record<string, unknown>)?.strength || 0) - ((a as Record<string, unknown>)?.modifier || (a as Record<string, unknown>)?.strength || 0));
+    return effects.sort((a, b) => {
+      const aValue = (a as any)?.modifier || (a as any)?.strength || 0;
+      const bValue = (b as any)?.modifier || (b as any)?.strength || 0;
+      return bValue - aValue;
+    });
   } catch (error) {
     console.error('Error calculating combination effects:', error);
     return [];
@@ -184,7 +188,7 @@ const isAntagonisticCombination = (
   elem1: ElementalProperties,
   elem2: ElementalProperties
 ): boolean => {
-  const antagonistic = (ELEMENT_COMBINATIONS as Record<string, unknown>)?.antagonistic || [];
+  const antagonistic = (ELEMENT_COMBINATIONS as any)?.antagonistic || [];
   return antagonistic.some(([e1, e2]: [any, any]) =>
     (getDominantElement(elem1) === e1 && getDominantElement(elem2) === e2) ||
     (getDominantElement(elem1) === e2 && getDominantElement(elem2) === e1)

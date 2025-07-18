@@ -65,13 +65,8 @@ export class EnhancedIngredientSystem {
       logger.info('Getting recommended ingredients', { state, options });
       
       // Create elemental properties from the state - safe property access
-      const elements = (state as Record<string, unknown>)?.elements || (state as Record<string, unknown>)?.elementalPreference || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
-      const elementalState = createElementalProperties({ 
-        Fire: elements.Fire || 0.25, 
-        Water: elements.Water || 0.25, 
-        Earth: elements.Earth || 0.25, 
-        Air: elements.Air || 0.25
-      });
+      const elements = this.extractElementalProperties(state);
+      const elementalState = createElementalProperties(elements);
       
       // Get recommended ingredients
       const recommended = consolidatedIngredientService.getRecommendedIngredients(
@@ -93,7 +88,7 @@ export class EnhancedIngredientSystem {
           const seasons = ingredient.seasonality || ingredient.currentSeason || [];
           const seasonArray = Array.isArray(seasons) ? seasons : [seasons];
           return seasonArray.some(s => typeof s === 'string' && 
-                                       s?.toLowerCase() === currentSeason?.toLowerCase());
+                                       s?.toLowerCase() === (typeof currentSeason === 'string' ? currentSeason.toLowerCase() : ''));
         });
       }
       
@@ -157,6 +152,33 @@ export class EnhancedIngredientSystem {
       logger.error('Error getting recommended ingredients', error);
       return [];
     }
+  }
+  
+  /**
+   * Extract elemental properties from SystemState safely
+   * 
+   * @param state The SystemState to extract from
+   * @returns ElementalProperties with safe defaults
+   */
+  private extractElementalProperties(state: SystemState): ElementalProperties {
+    if (!state || typeof state !== 'object') {
+      return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
+    }
+    
+    const stateRecord = state as unknown as Record<string, unknown>;
+    const elements = stateRecord?.elements || stateRecord?.elementalPreference;
+    
+    if (!elements || typeof elements !== 'object') {
+      return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
+    }
+    
+    const elementsRecord = elements as Record<string, unknown>;
+    return {
+      Fire: typeof elementsRecord.Fire === 'number' ? elementsRecord.Fire : 0.25,
+      Water: typeof elementsRecord.Water === 'number' ? elementsRecord.Water : 0.25,
+      Earth: typeof elementsRecord.Earth === 'number' ? elementsRecord.Earth : 0.25,
+      Air: typeof elementsRecord.Air === 'number' ? elementsRecord.Air : 0.25
+    };
   }
   
   /**

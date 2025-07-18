@@ -448,7 +448,7 @@ export async function calculateComprehensiveAlchemicalResult(
     const _kalchm = calculateKalchmResults(planetaryPositions);
 
     // 2. Calculate comprehensive elemental properties
-    let elementalProperties = calculateComprehensiveElementalProperties(
+    let elementalProperties = await calculateComprehensiveElementalProperties(
       planetaryPositions,
       season,
       lunarPhase,
@@ -832,22 +832,7 @@ const recipeMatching = {
 };
 
 // Export all calculation functions and types
-export {
-  // Core engines
-  kalchmEngine,
-  planetaryInfluences,
-  
-  // Types
-  type KalchmResult,
-  type ElementalValues,
-  type ThermodynamicResults,
-  
-  // Utility functions
-  calculateKalchmResults,
-  toElementalProperties,
-  calculatePlanetaryInfluences,
-  getPlanetaryCulinaryRecommendations
-};
+// Note: These are now exported individually below to avoid conflicts
 
 // Import and export elementalCalculations from the core module
 import elementalCalculationsModule from './core/elementalCalculations';
@@ -880,13 +865,31 @@ export * from './combinationEffects';
 export * from './culinaryAstrology';
 export * from './enhancedAlchemicalMatching';
 export * from './enhancedCuisineRecommender';
-export * from './gregsEnergy';
-export * from './seasonalCalculations';
+export { 
+  default as gregsEnergyCalculations
+} from './gregsEnergy';
+export { 
+  default as seasonalCalculations
+} from './seasonalCalculations';
 
-// Export from core directory
-export * from './core/alchemicalCalculations';
-export * from './core/kalchmEngine';
-export * from './core/planetaryInfluences';
+// Export from core directory - avoid duplicate exports
+export {
+  calculateAlchemicalProperties as calculateCoreAlchemicalProperties
+} from './core/alchemicalCalculations';
+export { 
+  default as kalchmEngine,
+  calculateKalchmResults,
+  toElementalProperties,
+  type KalchmResult,
+  type ElementalValues,
+  type ThermodynamicResults,
+  type AlchemicalProperties
+} from './core/kalchmEngine';
+export { 
+  default as planetaryInfluences,
+  calculatePlanetaryInfluences,
+  getPlanetaryCulinaryRecommendations
+} from './core/planetaryInfluences';
 
 // Export from culinary directory
 export * from './culinary/cuisineRecommendations';

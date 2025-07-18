@@ -5,10 +5,15 @@
  */
 
 // Export all from alchemical calculations
-export * from './alchemicalCalculations';
+export { 
+  calculateAlchemicalProperties as calculateCoreAlchemicalProperties
+} from './alchemicalCalculations';
 
 // Export all from alchemical engine
-export * from './alchemicalEngine';
+export { 
+  alchemize as coreAlchemize,
+  AlchemicalEngine as CoreAlchemicalEngine
+} from './alchemicalEngine';
 
 // Export all from elemental calculations
 export {

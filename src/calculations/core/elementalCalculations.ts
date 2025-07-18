@@ -90,30 +90,30 @@ export const ELEMENTAL_ANALYSIS_INTELLIGENCE = {
     // Calculate elemental balance and harmony
     const balance = calculateElementalBalance(normalizedProperties);
     const dominantElement = getDominantElement(normalizedProperties);
-    const harmony = this.calculateElementalHarmony(normalizedProperties);
+    const harmony = ELEMENTAL_ANALYSIS_INTELLIGENCE.calculateElementalHarmony(normalizedProperties);
     
     // Generate predictions
-    const predictions = this.generateElementalPredictions(
+    const predictions = ELEMENTAL_ANALYSIS_INTELLIGENCE.generateElementalPredictions(
       normalizedProperties,
       balance,
-      dominantElement,
+      dominantElement as Element,
       context
     );
     
     // Generate optimizations
-    const optimizations = this.generateElementalOptimizations(
+    const optimizations = ELEMENTAL_ANALYSIS_INTELLIGENCE.generateElementalOptimizations(
       normalizedProperties,
       balance,
-      dominantElement,
+      dominantElement as Element,
       context,
       preferences
     );
     
     // Generate recommendations
-    const recommendations = this.generateElementalRecommendations(
+    const recommendations = ELEMENTAL_ANALYSIS_INTELLIGENCE.generateElementalRecommendations(
       normalizedProperties,
       balance,
-      dominantElement,
+      dominantElement as Element,
       context
     );
     
@@ -127,9 +127,9 @@ export const ELEMENTAL_ANALYSIS_INTELLIGENCE = {
         balance,
         dominantElement,
         harmony,
-        stability: this.calculateElementalStability(normalizedProperties),
-        efficiency: this.calculateElementalEfficiency(normalizedProperties, balance),
-        coherence: this.calculateElementalCoherence(normalizedProperties, dominantElement)
+        stability: ELEMENTAL_ANALYSIS_INTELLIGENCE.calculateElementalStability(normalizedProperties),
+        efficiency: ELEMENTAL_ANALYSIS_INTELLIGENCE.calculateElementalEfficiency(normalizedProperties, balance),
+        coherence: ELEMENTAL_ANALYSIS_INTELLIGENCE.calculateElementalCoherence(normalizedProperties, dominantElement as Element)
       },
       predictions,
       optimizations,
@@ -180,9 +180,9 @@ export const ELEMENTAL_ANALYSIS_INTELLIGENCE = {
         longTerm: 0.5 + (Math.random() * 0.2)
       },
       factors: {
-        seasonal: this.calculateSeasonalInfluence(context),
-        contextual: this.calculateContextualInfluence(context),
-        elemental: this.calculateElementalInfluence(properties, balance)
+        seasonal: ELEMENTAL_ANALYSIS_INTELLIGENCE.calculateSeasonalInfluence(context),
+        contextual: ELEMENTAL_ANALYSIS_INTELLIGENCE.calculateContextualInfluence(context),
+        elemental: ELEMENTAL_ANALYSIS_INTELLIGENCE.calculateElementalInfluence(properties, balance)
       }
     };
   },
@@ -202,32 +202,32 @@ export const ELEMENTAL_ANALYSIS_INTELLIGENCE = {
         current: properties.Fire,
         optimal: properties.Fire * (preferences.fireOptimization || 1.1),
         adjustment: (preferences.fireOptimization || 1.1) - 1,
-        recommendations: this.generateFireOptimizations(properties.Fire, context)
+        recommendations: ELEMENTAL_ANALYSIS_INTELLIGENCE.generateFireOptimizations(properties.Fire, context)
       },
       Water: {
         current: properties.Water,
         optimal: properties.Water * (preferences.waterOptimization || 1.05),
         adjustment: (preferences.waterOptimization || 1.05) - 1,
-        recommendations: this.generateWaterOptimizations(properties.Water, context)
+        recommendations: ELEMENTAL_ANALYSIS_INTELLIGENCE.generateWaterOptimizations(properties.Water, context)
       },
       Earth: {
         current: properties.Earth,
         optimal: properties.Earth * (preferences.earthOptimization || 1.0),
         adjustment: (preferences.earthOptimization || 1.0) - 1,
-        recommendations: this.generateEarthOptimizations(properties.Earth, context)
+        recommendations: ELEMENTAL_ANALYSIS_INTELLIGENCE.generateEarthOptimizations(properties.Earth, context)
       },
       Air: {
         current: properties.Air,
         optimal: properties.Air * (preferences.airOptimization || 1.1),
         adjustment: (preferences.airOptimization || 1.1) - 1,
-        recommendations: this.generateAirOptimizations(properties.Air, context)
+        recommendations: ELEMENTAL_ANALYSIS_INTELLIGENCE.generateAirOptimizations(properties.Air, context)
       }
     };
 
     return {
       optimizations,
-      overallOptimization: this.calculateOverallOptimization(optimizations),
-      implementation: this.generateOptimizationImplementation(optimizations, context)
+      overallOptimization: ELEMENTAL_ANALYSIS_INTELLIGENCE.calculateOverallOptimization(optimizations),
+      implementation: ELEMENTAL_ANALYSIS_INTELLIGENCE.generateOptimizationImplementation(optimizations, context)
     };
   },
 
@@ -429,9 +429,9 @@ export const SEASONAL_ELEMENTAL_INTELLIGENCE = {
       contextModifiers: contextMod,
       analysis: {
         dominantElement: Object.entries(normalizedSeasonalModifier).reduce((a, b) => a[1] > b[1] ? a : b)[0],
-        seasonalStrength: this.calculateSeasonalStrength(normalizedSeasonalModifier, season),
-        optimalTiming: this.calculateOptimalTiming(season),
-        recommendations: this.generateSeasonalRecommendations(normalizedSeasonalModifier, season, context)
+        seasonalStrength: SEASONAL_ELEMENTAL_INTELLIGENCE.calculateSeasonalStrength(normalizedSeasonalModifier, season),
+        optimalTiming: SEASONAL_ELEMENTAL_INTELLIGENCE.calculateOptimalTiming(season),
+        recommendations: SEASONAL_ELEMENTAL_INTELLIGENCE.generateSeasonalRecommendations(normalizedSeasonalModifier, season, context)
       }
     };
     
@@ -692,10 +692,10 @@ export function calculateComprehensiveElementalProperties(
   season?: string,
   lunarPhase?: string,
   isDaytime: boolean = true
-): ElementalProperties {
+): ElementalProperties | Promise<ElementalProperties> {
   const cacheKey = `elemental_${JSON.stringify(planetaryPositions)}_${season}_${lunarPhase}_${isDaytime}`;
   
-  return getCachedCalculation(
+  const cachedResult = getCachedCalculation(
     cacheKey,
     { positions: planetaryPositions, season, lunarPhase, isDaytime },
     () => {
@@ -715,6 +715,12 @@ export function calculateComprehensiveElementalProperties(
       return properties;
     }
   );
+
+  // Handle both sync and async results
+  if (cachedResult instanceof Promise) {
+    return cachedResult;
+  }
+  return cachedResult;
 }
 
 /**

@@ -51,6 +51,18 @@ import jupiterData from '../../data/planets/jupiter';
 
 import { PlanetaryPosition } from "@/types/celestial";
 
+// Phase 2D: Advanced Intelligence Systems Integration
+import { 
+  PredictiveIntelligenceResult,
+  MLIntelligenceResult,
+  AdvancedAnalyticsIntelligenceResult,
+  IntegratedAdvancedIntelligenceResult
+} from '@/types/advancedIntelligence';
+import { 
+  enterpriseIntelligenceIntegration,
+  EnterpriseIntelligenceAnalysis 
+} from '@/services/EnterpriseIntelligenceIntegration';
+
 // Define AlchemicalItem interface for cuisine recommendations
 interface AlchemicalItem {
   id: string;
@@ -281,6 +293,10 @@ export default function CuisineRecommender() {
   );
   const [matchingRecipes, setMatchingRecipes] = useState<unknown[]>([]);
   const [allRecipesData, setAllRecipesData] = useState<Recipe[]>([]);
+  // Phase 2D: Advanced Intelligence Systems Integration
+  const [enterpriseIntelligence, setEnterpriseIntelligence] = useState<EnterpriseIntelligenceAnalysis | null>(null);
+  const [advancedIntelligenceLoading, setAdvancedIntelligenceLoading] = useState(false);
+  const [showAdvancedIntelligence, setShowAdvancedIntelligence] = useState(false);
 
   // Update current moment elemental profile when astrological state changes
   useEffect(() => {
@@ -335,6 +351,43 @@ export default function CuisineRecommender() {
   useEffect(() => {
     loadCuisines();
   }, [currentZodiac, lunarPhase]);
+
+  // Phase 2D: Advanced Intelligence Systems Integration
+  const generateAdvancedIntelligenceAnalysis = async () => {
+    if (!selectedCuisine || !astroState) return;
+    
+    setAdvancedIntelligenceLoading(true);
+    try {
+      // Get current cuisine data
+      const cuisineData = cuisineRecommendations.find(c => c.id === selectedCuisine);
+      const recipeData = recipeRecommendations[0] || null;
+      const ingredientData = recipeData?.ingredients || [];
+      
+      // Generate enterprise intelligence analysis
+      const analysis = await enterpriseIntelligenceIntegration.performEnterpriseAnalysis(
+        recipeData,
+        ingredientData,
+        cuisineData,
+        {
+          zodiacSign: astroState.currentZodiacSign as ZodiacSign,
+          lunarPhase: astroState.lunarPhase as LunarPhase,
+          elementalProperties: astroState.elementalState || createDefaultElementalProperties(),
+          planetaryPositions: astroState.planetaryPositions
+        }
+      );
+      
+      setEnterpriseIntelligence(analysis);
+      setShowAdvancedIntelligence(true);
+      
+      // Track the event
+      trackEvent('advanced_intelligence_generated', selectedCuisine);
+    } catch (error) {
+      console.error('Advanced intelligence analysis failed:', error);
+      setError('Failed to generate advanced intelligence analysis');
+    } finally {
+      setAdvancedIntelligenceLoading(false);
+    }
+  };
 
   // Move the async function outside the useEffect
   async function loadCuisines() {
@@ -1489,6 +1542,228 @@ export default function CuisineRecommender() {
                   )}
                 </div>
               </div>
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* Phase 2D: Advanced Intelligence Systems Integration */}
+      {selectedCuisine && (
+        <div className="mt-6 pt-4 border-t border-gray-200">
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="text-lg font-semibold text-gray-800">
+              Advanced Intelligence Analysis
+            </h3>
+            <button
+              onClick={generateAdvancedIntelligenceAnalysis}
+              disabled={advancedIntelligenceLoading}
+              className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+            >
+              {advancedIntelligenceLoading ? (
+                <>
+                  <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                  Analyzing...
+                </>
+              ) : (
+                <>
+                  <Info size={16} />
+                  Generate Analysis
+                </>
+              )}
+            </button>
+          </div>
+
+          {showAdvancedIntelligence && enterpriseIntelligence && (
+            <div className="space-y-6">
+              {/* Overall System Health */}
+              <div className="bg-gradient-to-r from-purple-50 to-blue-50 p-4 rounded-lg border border-purple-200">
+                <h4 className="text-md font-semibold text-purple-800 mb-2">
+                  System Health Overview
+                </h4>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                  <div className="text-center">
+                    <div className="text-2xl font-bold text-purple-600">
+                      {Math.round(enterpriseIntelligence.overallScore * 100)}%
+                    </div>
+                    <div className="text-sm text-gray-600">Overall Score</div>
+                  </div>
+                  <div className="text-center">
+                    <div className={`text-2xl font-bold ${
+                      enterpriseIntelligence.systemHealth === 'excellent' ? 'text-green-600' :
+                      enterpriseIntelligence.systemHealth === 'good' ? 'text-blue-600' :
+                      enterpriseIntelligence.systemHealth === 'fair' ? 'text-yellow-600' : 'text-red-600'
+                    }`}>
+                      {enterpriseIntelligence.systemHealth.toUpperCase()}
+                    </div>
+                    <div className="text-sm text-gray-600">System Health</div>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-2xl font-bold text-blue-600">
+                      {enterpriseIntelligence.predictiveIntelligence ? 
+                        Math.round(enterpriseIntelligence.predictiveIntelligence.confidence * 100) : 0}%
+                    </div>
+                    <div className="text-sm text-gray-600">Predictive Confidence</div>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-2xl font-bold text-green-600">
+                      {enterpriseIntelligence.mlIntelligence ? 
+                        Math.round(enterpriseIntelligence.mlIntelligence.confidence * 100) : 0}%
+                    </div>
+                    <div className="text-sm text-gray-600">ML Confidence</div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Predictive Intelligence */}
+              {enterpriseIntelligence.predictiveIntelligence && (
+                <div className="bg-white p-4 rounded-lg border border-gray-200">
+                  <h4 className="text-md font-semibold text-gray-800 mb-3 flex items-center gap-2">
+                    <div className="w-3 h-3 bg-purple-500 rounded-full"></div>
+                    Predictive Intelligence
+                  </h4>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <h5 className="text-sm font-medium text-gray-700 mb-2">Recipe Predictions</h5>
+                      <div className="space-y-2 text-sm">
+                        <div className="flex justify-between">
+                          <span>Success Probability:</span>
+                          <span className="font-medium">{Math.round(enterpriseIntelligence.predictiveIntelligence.recipePrediction.successProbability * 100)}%</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span>User Satisfaction:</span>
+                          <span className="font-medium">{Math.round(enterpriseIntelligence.predictiveIntelligence.recipePrediction.userSatisfactionPrediction * 100)}%</span>
+                        </div>
+                        <div className="text-xs text-gray-600">
+                          {enterpriseIntelligence.predictiveIntelligence.recipePrediction.optimalTimingPrediction}
+                        </div>
+                      </div>
+                    </div>
+                    <div>
+                      <h5 className="text-sm font-medium text-gray-700 mb-2">Astrological Predictions</h5>
+                      <div className="space-y-2 text-sm">
+                        <div className="flex justify-between">
+                          <span>Alignment:</span>
+                          <span className="font-medium">{Math.round(enterpriseIntelligence.predictiveIntelligence.astrologicalPrediction.alignmentPrediction * 100)}%</span>
+                        </div>
+                        <div className="text-xs text-gray-600">
+                          {enterpriseIntelligence.predictiveIntelligence.astrologicalPrediction.timingOptimizationPrediction}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* ML Intelligence */}
+              {enterpriseIntelligence.mlIntelligence && (
+                <div className="bg-white p-4 rounded-lg border border-gray-200">
+                  <h4 className="text-md font-semibold text-gray-800 mb-3 flex items-center gap-2">
+                    <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+                    Machine Learning Intelligence
+                  </h4>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <h5 className="text-sm font-medium text-gray-700 mb-2">Recipe Optimization</h5>
+                      <div className="space-y-2 text-sm">
+                        <div className="flex justify-between">
+                          <span>ML Optimized Score:</span>
+                          <span className="font-medium">{Math.round(enterpriseIntelligence.mlIntelligence.recipeOptimization.mlOptimizedScore * 100)}%</span>
+                        </div>
+                        {enterpriseIntelligence.mlIntelligence.recipeOptimization.ingredientSubstitutionRecommendations.length > 0 && (
+                          <div className="text-xs text-gray-600">
+                            {enterpriseIntelligence.mlIntelligence.recipeOptimization.ingredientSubstitutionRecommendations[0]}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                    <div>
+                      <h5 className="text-sm font-medium text-gray-700 mb-2">Cuisine Fusion</h5>
+                      <div className="space-y-2 text-sm">
+                        <div className="flex justify-between">
+                          <span>Fusion Success:</span>
+                          <span className="font-medium">{Math.round(enterpriseIntelligence.mlIntelligence.cuisineFusion.fusionSuccessPrediction * 100)}%</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span>Cultural Harmony:</span>
+                          <span className="font-medium">{Math.round(enterpriseIntelligence.mlIntelligence.cuisineFusion.culturalHarmonyPrediction * 100)}%</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* Advanced Analytics Intelligence */}
+              {enterpriseIntelligence.advancedAnalyticsIntelligence && (
+                <div className="bg-white p-4 rounded-lg border border-gray-200">
+                  <h4 className="text-md font-semibold text-gray-800 mb-3 flex items-center gap-2">
+                    <div className="w-3 h-3 bg-blue-500 rounded-full"></div>
+                    Advanced Analytics Intelligence
+                  </h4>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <h5 className="text-sm font-medium text-gray-700 mb-2">Recipe Analytics</h5>
+                      <div className="space-y-2 text-sm">
+                        <div className="flex justify-between">
+                          <span>Multi-dimensional Score:</span>
+                          <span className="font-medium">{Math.round(enterpriseIntelligence.advancedAnalyticsIntelligence.recipeAnalytics.multiDimensionalScore * 100)}%</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span>Success Probability:</span>
+                          <span className="font-medium">{Math.round(enterpriseIntelligence.advancedAnalyticsIntelligence.recipeAnalytics.predictiveInsights.successProbability * 100)}%</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div>
+                      <h5 className="text-sm font-medium text-gray-700 mb-2">Astrological Analytics</h5>
+                      <div className="space-y-2 text-sm">
+                        <div className="flex justify-between">
+                          <span>Culinary Correlation:</span>
+                          <span className="font-medium">{Math.round(enterpriseIntelligence.advancedAnalyticsIntelligence.astrologicalAnalytics.correlationAnalysis.culinaryCorrelation * 100)}%</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span>Alignment Prediction:</span>
+                          <span className="font-medium">{Math.round(enterpriseIntelligence.advancedAnalyticsIntelligence.astrologicalAnalytics.predictiveModeling.alignmentPrediction * 100)}%</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* Integrated Advanced Intelligence */}
+              {enterpriseIntelligence.integratedAdvancedIntelligence && (
+                <div className="bg-gradient-to-r from-indigo-50 to-purple-50 p-4 rounded-lg border border-indigo-200">
+                  <h4 className="text-md font-semibold text-indigo-800 mb-3 flex items-center gap-2">
+                    <div className="w-3 h-3 bg-indigo-500 rounded-full"></div>
+                    Integrated Advanced Intelligence
+                  </h4>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div className="text-center">
+                      <div className="text-xl font-bold text-indigo-600">
+                        {Math.round(enterpriseIntelligence.integratedAdvancedIntelligence.overallConfidence * 100)}%
+                      </div>
+                      <div className="text-sm text-gray-600">Overall Confidence</div>
+                    </div>
+                    <div className="text-center">
+                      <div className={`text-xl font-bold ${
+                        enterpriseIntelligence.integratedAdvancedIntelligence.systemHealth === 'excellent' ? 'text-green-600' :
+                        enterpriseIntelligence.integratedAdvancedIntelligence.systemHealth === 'good' ? 'text-blue-600' :
+                        enterpriseIntelligence.integratedAdvancedIntelligence.systemHealth === 'fair' ? 'text-yellow-600' : 'text-red-600'
+                      }`}>
+                        {enterpriseIntelligence.integratedAdvancedIntelligence.systemHealth.toUpperCase()}
+                      </div>
+                      <div className="text-sm text-gray-600">System Health</div>
+                    </div>
+                    <div className="text-center">
+                      <div className="text-xl font-bold text-purple-600">
+                        {new Date(enterpriseIntelligence.integratedAdvancedIntelligence.timestamp).toLocaleTimeString()}
+                      </div>
+                      <div className="text-sm text-gray-600">Analysis Time</div>
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
           )}
         </div>

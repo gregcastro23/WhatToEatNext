@@ -90,6 +90,49 @@ export class EnhancedRecommendationService {
     this.chakraService = new ChakraService();
     this.wiccanService = new WiccanCorrespondenceService();
   }
+  
+  /**
+   * Safe element extraction with validation
+   */
+  private safeGetElement(value: unknown): Element | null {
+    if (typeof value === 'string') {
+      const validElements: Element[] = ['Fire', 'Water', 'Earth', 'Air'];
+      const capitalizedValue = value.charAt(0).toUpperCase() + value.slice(1).toLowerCase() as Element;
+      return validElements.includes(capitalizedValue) ? capitalizedValue : null;
+    }
+    return null;
+  }
+  
+  /**
+   * Safe string extraction
+   */
+  private safeGetString(value: unknown): string | null {
+    return typeof value === 'string' ? value : null;
+  }
+  
+  /**
+   * Safe number extraction
+   */
+  private safeGetNumber(value: unknown): number {
+    return typeof value === 'number' && !isNaN(value) ? value : 0;
+  }
+  
+  /**
+   * Safe elemental properties extraction
+   */
+  private safeExtractElementalProperties(value: unknown): ElementalProperties {
+    if (!value || typeof value !== 'object') {
+      return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
+    }
+    
+    const props = value as Record<string, unknown>;
+    return {
+      Fire: this.safeGetNumber(props.Fire),
+      Water: this.safeGetNumber(props.Water),
+      Earth: this.safeGetNumber(props.Earth),
+      Air: this.safeGetNumber(props.Air)
+    };
+  }
 
   /**
    * Get enhanced food recommendations with chakra, tarot, and wiccan influences
@@ -123,15 +166,16 @@ export class EnhancedRecommendationService {
       const enhancedRecommendations = await Promise.all(
         baseRecommendations.slice(0, 20).map(async (ingredient) => {
           // Create a proper EnhancedIngredient from the base recommendation
+          const ingredientData = ingredient as unknown as Record<string, unknown>;
           const enhancedIngredient: EnhancedIngredient = {
             name: ingredient.name || 'Unknown',
-            astrologicalProfile: (ingredient as Record<string, unknown>)?.astrologicalProfile || {},
+            astrologicalProfile: ingredientData?.astrologicalProfile || {},
             elementalPropertiesState: ingredient.elementalProperties || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
-            score: (ingredient as Record<string, unknown>)?.score || 0.5,
+            score: typeof ingredientData?.score === 'number' ? ingredientData.score : 0.5,
             // Add missing required properties for EnhancedIngredient
-            amount: (ingredient as Record<string, unknown>)?.amount || 1,
-            unit: (ingredient as Record<string, unknown>)?.unit || 'serving',
-            element: (ingredient as Record<string, unknown>)?.element || 'Air',
+            amount: typeof ingredientData?.amount === 'number' ? ingredientData.amount : 1,
+            unit: typeof ingredientData?.unit === 'string' ? ingredientData.unit : 'serving',
+            element: this.safeGetElement(ingredientData?.element) || 'Air',
             ...ingredient
           };
           
@@ -345,11 +389,12 @@ export class EnhancedRecommendationService {
     const dominantElement = this.getDominantElement(ingredient.elementalProperties);
     
     // Check if ingredient element matches tarot element
-    if (dominantElement?.toLowerCase() === tarotData?.element?.toLowerCase()) {
+    const tarotElement = this.safeGetString(tarotData?.element);
+    if (dominantElement?.toLowerCase() === tarotElement?.toLowerCase()) {
       return {
-        card: tarotData?.dailyCard || 'Unknown',
-        element: tarotData?.element,
-        recommendation: `This ${dominantElement} ingredient resonates with today's ${tarotData?.element} energy`
+        card: this.safeGetString(tarotData?.dailyCard) || 'Unknown',
+        element: this.safeGetElement(tarotData?.element) || 'Air',
+        recommendation: `This ${dominantElement} ingredient resonates with today's ${tarotElement} energy`
       };
     }
 
@@ -407,17 +452,17 @@ export class EnhancedRecommendationService {
     // Use safe type casting for astroState property access
     const astroData = astroState as Record<string, unknown>;
     if (astroData?.elementalState) {
-      const { Fire, Water, Earth, Air } = astroData.elementalState;
+      const elementalState = this.safeExtractElementalProperties(astroData.elementalState);
       
       // Fire signs
-      zodiacEnergies['aries'] += Fire * 0.3;
-      zodiacEnergies['leo'] += Fire * 0.3;
-      zodiacEnergies['sagittarius'] += Fire * 0.3;
+      zodiacEnergies['aries'] += elementalState.Fire * 0.3;
+      zodiacEnergies['leo'] += elementalState.Fire * 0.3;
+      zodiacEnergies['sagittarius'] += elementalState.Fire * 0.3;
       
       // Water signs
-      zodiacEnergies['cancer'] += Water * 0.3;
-      zodiacEnergies['scorpio'] += Water * 0.3;
-      zodiacEnergies['pisces'] += Water * 0.3;
+      zodiacEnergies['cancer'] += elementalState.Water * 0.3;
+      zodiacEnergies['scorpio'] += elementalState.Water * 0.3;
+      zodiacEnergies['pisces'] += elementalState.Water * 0.3;
       
       // Earth signs
       zodiacEnergies['taurus'] += Earth * 0.3;

@@ -119,9 +119,9 @@ export class EnhancedFoodAlchemySystem extends FoodAlchemySystem {
         // Calculate base influence (0.5 as neutral)
         const influence = 0.5;
         
-        // Add dignity effects if applicable
-        const planetKey = planet.charAt(0)?.toUpperCase() + planet?.slice(1);
-        const signFormatted = sign.charAt(0)?.toUpperCase() + sign?.slice(1);
+        // Add dignity effects if applicable - safe string handling
+        const planetKey = typeof planet === 'string' ? planet.charAt(0)?.toUpperCase() + planet?.slice(1) : planet;
+        const signFormatted = typeof sign === 'string' ? sign.charAt(0)?.toUpperCase() + sign?.slice(1) : sign;
         
         // Track this planet's influence
         planetaryInfluences[planetKey] = influence;
@@ -161,8 +161,9 @@ export class EnhancedFoodAlchemySystem extends FoodAlchemySystem {
       maxResults?: number;
     } = {}
   ): UnifiedIngredient[] {
-    // ✅ Pattern MM-1: Type assertion to resolve SystemState import mismatch
-    return enhancedIngredientSystem.getRecommendedIngredients(state as Record<string, unknown>, options);
+    // ✅ Pattern MM-1: Safe type conversion with runtime validation
+    const stateRecord = this.convertSystemStateToRecord(state);
+    return enhancedIngredientSystem.getRecommendedIngredients(stateRecord, options);
   }
   
   /**
@@ -222,6 +223,22 @@ export class EnhancedFoodAlchemySystem extends FoodAlchemySystem {
       bitter: Math.min(1, (Fire * 0.2) + (Air * 0.5) + (reactivity * 0.3)),
       salty: Math.min(1, (Earth * 0.7) + (Water * 0.3)),
       umami: Math.min(1, (Earth * 0.4) + (Fire * 0.3) + (reactivity * 0.3))
+    };
+  }
+  
+  /**
+   * Convert SystemState to Record format for adapter compatibility
+   * 
+   * @param state The SystemState to convert
+   * @returns Record representation of the state
+   */
+  private convertSystemStateToRecord(state: SystemState): Record<string, unknown> {
+    return {
+      elements: state.elements,
+      metrics: state.metrics,
+      planetaryPositions: state.planetaryPositions,
+      // Add other relevant state properties
+      ...(state as any)
     };
   }
   

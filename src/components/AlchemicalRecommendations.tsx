@@ -105,7 +105,10 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
           } else if (typeof value === 'number') {
             result[planet as RulingPlanet] = value;
           } else if (value && typeof value === 'object' && (value as Record<string, unknown>).sign) {
-            result[planet as RulingPlanet] = zodiacToDegrees((value as Record<string, unknown>).sign);
+            const signValue = (value as Record<string, unknown>).sign;
+            if (typeof signValue === 'string') {
+              result[planet as RulingPlanet] = zodiacToDegrees(signValue);
+            }
           }
         }
       });
@@ -157,32 +160,38 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
       } else {
         // Calculate based on ingredient category and attributes
         const category = (ingredient as Record<string, unknown>).category || '';
-        const rulingPlanets = (ingredient as Record<string, unknown>).astrologicalProfile?.rulingPlanets || [];
+        const astrologicalProfile = (ingredient as Record<string, unknown>).astrologicalProfile;
+        const rulingPlanets = (astrologicalProfile && typeof astrologicalProfile === 'object' && 
+          Array.isArray((astrologicalProfile as Record<string, unknown>).rulingPlanets)) 
+          ? (astrologicalProfile as Record<string, unknown>).rulingPlanets as string[] 
+          : [];
         
         // Start with balanced properties
         const tempProps = { ...BalancedElementalProperties };
         
         // Adjust by category
-        if (category.toLowerCase().includes('vegetable')) {
+        const categoryStr = typeof category === 'string' ? category : '';
+        if (categoryStr.toLowerCase().includes('vegetable')) {
           tempProps.Earth += 0.5;
           tempProps.Water += 0.3;
-        } else if (category.toLowerCase().includes('fruit')) {
+        } else if (categoryStr.toLowerCase().includes('fruit')) {
           tempProps.Water += 0.4;
           tempProps.Air += 0.3;
-        } else if (category.toLowerCase().includes('protein') || category.toLowerCase().includes('meat')) {
+        } else if (categoryStr.toLowerCase().includes('protein') || categoryStr.toLowerCase().includes('meat')) {
           tempProps.Fire += 0.4;
           tempProps.Earth += 0.3;
-        } else if (category.toLowerCase().includes('grain')) {
+        } else if (categoryStr.toLowerCase().includes('grain')) {
           tempProps.Earth += 0.5;
           tempProps.Air += 0.2;
-        } else if (category.toLowerCase().includes('herb') || category.toLowerCase().includes('spice')) {
+        } else if (categoryStr.toLowerCase().includes('herb') || categoryStr.toLowerCase().includes('spice')) {
           tempProps.Fire += 0.3;
           tempProps.Air += 0.4;
         }
         
         // Adjust by ruling planets
-        rulingPlanets.forEach((planet: string) => {
-          switch (planet.toLowerCase()) {
+        rulingPlanets.forEach((planet: unknown) => {
+          const planetStr = typeof planet === 'string' ? planet : '';
+          switch (planetStr.toLowerCase()) {
             case 'sun':
               tempProps.Fire += 0.2;
               break;

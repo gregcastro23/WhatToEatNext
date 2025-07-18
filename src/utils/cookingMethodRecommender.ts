@@ -918,18 +918,20 @@ export async function getRecommendedCookingMethods(
           continue;
         }
         
-        // Special case mappings
-        if ((pref as string)?.toLowerCase?.() === 'vegetarian' && 
-            (method as string)?.(name as string)?.toLowerCase?.().includes('veget')) {
+        // Special case mappings - fixed type access
+        const prefStr = typeof pref === 'string' ? pref.toLowerCase() : '';
+        const methodName = typeof method.name === 'string' ? method.name.toLowerCase() : '';
+        
+        if (prefStr === 'vegetarian' && methodName.includes('veget')) {
           matchStrength += 0.8;
-        } else if ((pref as string)?.toLowerCase?.() === 'vegan' && 
-                  !(method as string)?.(name as string)?.toLowerCase?.().includes('meat') &&
-                  !(method as string)?.(name as string)?.toLowerCase?.().includes('fish')) {
+        } else if (prefStr === 'vegan' && 
+                  !methodName.includes('meat') &&
+                  !methodName.includes('fish')) {
           matchStrength += 0.6;
-        } else if ((pref as string)?.toLowerCase?.().includes('gluten') && 
-                  !(method as string)?.(name as string)?.toLowerCase?.().includes('bread') &&
-                  !(method as string)?.(name as string)?.toLowerCase?.().includes('pasta') &&
-                  !(method as string)?.(name as string)?.toLowerCase?.().includes('flour')) {
+        } else if (prefStr.includes('gluten') && 
+                  !methodName.includes('bread') &&
+                  !methodName.includes('pasta') &&
+                  !methodName.includes('flour')) {
           matchStrength += 0.7;
         }
       }
