@@ -14,7 +14,7 @@ const config = {
             }
         }]
     },
-    setupFilesAfterEnv: ['<rootDir>/src/__tests__/setupTests.ts'],
+    setupFilesAfterEnv: ['<rootDir>/src/__tests__/setupTests.tsx'],
     testPathIgnorePatterns: ['/node_modules/', '/.next/'],
     globals: {
         'ts-jest': {

@@ -1,199 +1,59 @@
 {
   "mcpServers": {
-    "astrology-api": {
+    "nasa-horizons": {
       "command": "uvx",
-      "args": ["astrology-mcp-server@latest"],
+      "args": ["nasa-horizons-mcp-server@latest"],
       "env": {
-        "ASTROLOGIZE_API_URL": "https://alchm-backend.onrender.com/astrologize",
-        "LOCAL_API_BASE_URL": "http://localhost:3000/api",
-        "API_TIMEOUT": "5000",
-        "FALLBACK_MODE": "comprehensive",
-        "CACHE_DURATION": "3600",
-        "DEFAULT_LATITUDE": "40.7498",
-        "DEFAULT_LONGITUDE": "-73.7976",
-        "DEFAULT_ZODIAC_SYSTEM": "tropical",
-        "CIRCUIT_BREAKER_THRESHOLD": "5",
-        "CIRCUIT_BREAKER_TIMEOUT": "60",
-        "RETRY_ATTEMPTS": "3",
-        "RETRY_DELAY": "1000",
-        "FALLBACK_DATA_PATH": "./mcp-servers/fallback_data",
-        "ENABLE_TRANSIT_VALIDATION": "true",
-        "FASTMCP_LOG_LEVEL": "ERROR"
+        "FASTMCP_LOG_LEVEL": "ERROR",
+        "NASA_API_KEY": ""
       },
       "disabled": false,
       "autoApprove": [
         "get_planetary_positions",
-        "get_current_planetary_positions",
-        "get_lunar_phase",
-        "get_planetary_positions_for_date",
-        "validate_transit_dates",
-        "get_astrological_timing",
-        "calculate_elemental_influences",
-        "get_fallback_stats",
-        "validate_planetary_consistency"
+        "get_ephemeris_data",
+        "calculate_lunar_phases",
+        "get_transit_dates"
       ]
     },
-    "nutrition-api": {
-      "command": "uvx",
-      "args": ["nutrition-mcp-server@latest"],
+    "usda-nutrition": {
+      "command": "uvx", 
+      "args": ["usda-nutrition-mcp-server@latest"],
       "env": {
-        "USDA_API_KEY": "${USDA_API_KEY}",
-        "SPOONACULAR_API_KEY": "${SPOONACULAR_API_KEY}",
-        "CACHE_DURATION": "3600",
-        "RATE_LIMIT_REQUESTS": "150",
-        "RATE_LIMIT_PERIOD": "86400",
-        "FALLBACK_MODE": "comprehensive",
-        "API_TIMEOUT": "5000",
-        "CIRCUIT_BREAKER_THRESHOLD": "3",
-        "CIRCUIT_BREAKER_TIMEOUT": "30",
-        "RETRY_ATTEMPTS": "2",
-        "RETRY_DELAY": "1000",
-        "FALLBACK_DATA_PATH": "./mcp-servers/fallback_data",
-        "ENABLE_NUTRITIONAL_VALIDATION": "true",
-        "FASTMCP_LOG_LEVEL": "ERROR"
+        "FASTMCP_LOG_LEVEL": "ERROR",
+        "USDA_API_KEY": ""
       },
       "disabled": false,
       "autoApprove": [
-        "get_nutritional_data",
+        "get_nutrition_data",
         "search_ingredients",
-        "get_ingredient_properties",
-        "validate_ingredient_data",
-        "get_fallback_nutrition",
-        "validate_nutritional_consistency"
+        "get_food_details",
+        "search_branded_foods"
       ]
     },
-    "spoonacular-api": {
+    "spoonacular-recipes": {
       "command": "uvx",
-      "args": ["spoonacular-mcp-server@latest"],
+      "args": ["spoonacular-mcp-server@latest"], 
       "env": {
-        "SPOONACULAR_API_KEY": "${SPOONACULAR_API_KEY}",
-        "API_BASE_URL": "https://api.spoonacular.com",
-        "RATE_LIMIT": "150",
-        "RATE_LIMIT_PERIOD": "day",
-        "CACHE_DURATION": "7200",
-        "FALLBACK_MODE": "comprehensive",
-        "API_TIMEOUT": "5000",
-        "CIRCUIT_BREAKER_THRESHOLD": "3",
-        "CIRCUIT_BREAKER_TIMEOUT": "30",
-        "RETRY_ATTEMPTS": "2",
-        "RETRY_DELAY": "1000",
-        "FALLBACK_DATA_PATH": "./mcp-servers/fallback_data",
-        "ENABLE_RECIPE_VALIDATION": "true",
-        "DAILY_QUOTA_TRACKING": "true",
-        "FASTMCP_LOG_LEVEL": "ERROR"
+        "FASTMCP_LOG_LEVEL": "ERROR",
+        "SPOONACULAR_API_KEY": ""
       },
       "disabled": false,
       "autoApprove": [
-        "get_recipe_data",
         "search_recipes",
         "get_recipe_details",
-        "search_recipes_by_ingredients",
         "get_recipe_nutrition",
-        "get_fallback_recipes",
-        "check_rate_limit_status",
-        "validate_recipe_consistency"
+        "search_ingredients",
+        "get_ingredient_substitutes"
       ]
     },
-    "fallback-manager": {
+    "aws-docs": {
       "command": "uvx",
-      "args": ["fallback-manager@latest"],
+      "args": ["awslabs.aws-documentation-mcp-server@latest"],
       "env": {
-        "FALLBACK_DATA_PATH": "./mcp-servers/fallback_data",
-        "CACHE_CLEANUP_INTERVAL": "3600",
-        "STATS_COLLECTION_ENABLED": "true",
-        "CIRCUIT_BREAKER_MONITORING": "true",
-        "PERFORMANCE_TRACKING": "true",
-        "FALLBACK_TIER_LOGGING": "true",
-        "FASTMCP_LOG_LEVEL": "INFO"
+        "FASTMCP_LOG_LEVEL": "ERROR"
       },
-      "disabled": false,
-      "autoApprove": [
-        "get_fallback_stats",
-        "clear_expired_cache",
-        "reset_circuit_breakers",
-        "validate_fallback_data",
-        "get_performance_metrics",
-        "export_fallback_logs"
-      ]
-    }
-  },
-  "fallbackStrategy": {
-    "globalConfig": {
-      "enableComprehensiveFallback": true,
-      "fallbackTiers": [
-        "primary_api",
-        "secondary_api", 
-        "cache",
-        "local_data",
-        "hardcoded"
-      ],
-      "timeoutHandling": {
-        "primaryTimeout": 5000,
-        "secondaryTimeout": 3000,
-        "retryDelay": 1000,
-        "maxRetries": 3
-      },
-      "cacheManagement": {
-        "defaultTTL": 3600,
-        "maxCacheSize": "100MB",
-        "cleanupInterval": 3600,
-        "compressionEnabled": true
-      },
-      "circuitBreaker": {
-        "enabled": true,
-        "failureThreshold": 5,
-        "timeout": 60,
-        "halfOpenRetryTimeout": 30
-      },
-      "gracefulDegradation": {
-        "enabled": true,
-        "userNotification": true,
-        "fallbackIndicators": true,
-        "qualityScoring": true
-      }
-    },
-    "serviceSpecific": {
-      "astrology": {
-        "primarySources": [
-          "https://alchm-backend.onrender.com/astrologize",
-          "http://localhost:3000/api/astrologize"
-        ],
-        "fallbackSources": [
-          "local_ephemeris_calculations",
-          "cached_planetary_positions",
-          "hardcoded_march_2025_positions"
-        ],
-        "validationEnabled": true,
-        "transitDateValidation": true,
-        "positionConsistencyCheck": true
-      },
-      "nutrition": {
-        "primarySources": [
-          "https://api.nal.usda.gov/fdc/v1",
-          "https://api.spoonacular.com/food"
-        ],
-        "fallbackSources": [
-          "local_nutritional_database",
-          "cached_ingredient_data",
-          "hardcoded_common_ingredients"
-        ],
-        "rateLimitRespected": true,
-        "dataValidation": true,
-        "nutritionalConsistencyCheck": true
-      },
-      "recipes": {
-        "primarySources": [
-          "https://api.spoonacular.com/recipes"
-        ],
-        "fallbackSources": [
-          "local_recipe_database",
-          "cached_recipe_data",
-          "hardcoded_basic_recipes"
-        ],
-        "dailyQuotaTracking": true,
-        "recipeValidation": true,
-        "ingredientConsistencyCheck": true
-      }
+      "disabled": true,
+      "autoApprove": []
     }
   }
 }

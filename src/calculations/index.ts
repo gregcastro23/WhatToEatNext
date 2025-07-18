@@ -24,7 +24,7 @@ import kalchmEngine, {
   toElementalProperties
 } from './core/kalchmEngine';
 
-import elementalCalculations, {
+import {
   calculateComprehensiveElementalProperties,
   calculateElementalCompatibility,
   getDominantElement,
@@ -542,7 +542,7 @@ export function calculateRecipeCompatibility(
     // Combine recommendations
     const recommendations = [
       ...recipeResult.recommendations,
-      ...generateCompatibilityRecommendations(
+      ...generateDetailedCompatibilityRecommendations(
         compatibilityScore,
         recipeResult.elementalAlignment,
         recipeResult.alchemicalAlignment,
@@ -635,9 +635,9 @@ export function calculatePlanetaryAlignment(
 }
 
 /**
- * Generate compatibility recommendations
+ * Generate detailed compatibility recommendations
  */
-function generateCompatibilityRecommendations(
+function generateDetailedCompatibilityRecommendations(
   overall: number,
   elemental: number,
   _kalchm: number,
@@ -835,7 +835,6 @@ const recipeMatching = {
 export {
   // Core engines
   kalchmEngine,
-  elementalCalculations,
   planetaryInfluences,
   
   // Types (remove duplicate exports)

@@ -7,6 +7,7 @@
 
 import { CelestialPosition } from '@/types/celestial';
 import { logger } from '@/utils/logger';
+import { getMCPServerIntegration } from '@/utils/mcpServerIntegration';
 
 // Cache system to avoid frequent API calls
 interface PositionsCache {
@@ -34,7 +35,29 @@ export async function getReliablePlanetaryPositions(date: Date = new Date()): Pr
       return positionsCache.positions;
     }
     
-    // Primary: Call NASA JPL Horizons API for each planet
+    // Primary: Try MCP server integration first
+    try {
+      logger.debug('Fetching planetary positions via MCP server integration');
+      const mcp = getMCPServerIntegration();
+      const mcpResult = await mcp.getAstrologicalData(date);
+      
+      if (mcpResult.success && mcpResult.data) {
+        // Cache the successful result
+        positionsCache = {
+          positions: mcpResult.data,
+          timestamp: Date.now(),
+          date: dateString
+        };
+        
+        logger.debug(`Planetary positions fetched via MCP (${mcpResult.source})`);
+        return mcpResult.data;
+      }
+    } catch (error) {
+      logger.warn('MCP server integration failed:', error);
+      // Continue to direct API calls
+    }
+
+    // Secondary: Call NASA JPL Horizons API directly
     try {
       logger.debug('Fetching planetary positions from NASA JPL Horizons API');
       const positions = await fetchHorizonsData(date);
@@ -51,7 +74,7 @@ export async function getReliablePlanetaryPositions(date: Date = new Date()): Pr
       }
     } catch (error) {
       logger.error('Error fetching from NASA JPL Horizons:', error);
-      // Continue to secondary API
+      // Continue to tertiary API
     }
     
     // Secondary: Try public API

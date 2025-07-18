@@ -1,8 +1,11 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { ChevronDown, ChevronUp, Globe, Flame, Droplets, Wind, Mountain, Search, ArrowUp, ArrowDown, Zap, Sparkles, Minus, Info, List, ThumbsUp, Clock } from 'lucide-react'; // Added Zap, Sparkles, and Minus icons
-import { useIngredientMapping } from '@/hooks'; // Import our new hook
+import { ChevronDown, ChevronUp, Globe, Flame, Droplets, Wind, Mountain, Search, ArrowUp, ArrowDown, Zap, Sparkles, Minus, Info, List, ThumbsUp, Clock, ExternalLink } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { useIngredientMapping } from '@/hooks';
+import { useAstrologicalState } from '@/hooks/useAstrologicalState';
 import styles from './CookingMethods.module.css';
 import { getTechnicalTips, getIdealIngredients } from '@/utils/cookingMethodTips';
+import { cookingMethods } from '@/data/cooking/cookingMethods';
 
 // Define proper types for the methods
 interface CookingMethod {
@@ -30,23 +33,40 @@ interface CookingMethod {
     Matter: number;
     Substance: number;
   };
+  astrologicalInfluences?: {
+    dominantPlanets?: string[];
+    lunarPhaseEffect?: Record<string, number>;
+    favorableZodiac?: string[];
+  };
+  thermodynamicProperties?: {
+    heat: number;
+    entropy: number;
+    reactivity: number;
+  };
 }
 
-interface CookingMethodsProps {
-  methods: CookingMethod[];
+interface CookingMethodsSectionProps {
+  methods?: CookingMethod[];
   onSelectMethod?: (method: CookingMethod) => void;
   selectedMethodId?: string | null;
   showToggle?: boolean;
   initiallyExpanded?: boolean;
+  maxDisplayed?: number;
+  onViewMore?: () => void;
+  isMainPageVersion?: boolean;
 }
 
-export const CookingMethodsSection: React.FC<CookingMethodsProps> = ({
-  methods,
+export const CookingMethodsSection: React.FC<CookingMethodsSectionProps> = ({
+  methods: propMethods,
   onSelectMethod,
   selectedMethodId,
   showToggle = true,
   initiallyExpanded = false,
+  maxDisplayed = 6,
+  onViewMore,
+  isMainPageVersion = false,
 }) => {
+  const router = useRouter();
   const [isExpanded, setIsExpanded] = useState(initiallyExpanded);
   const [expandedMethods, setExpandedMethods] = useState<Record<string, boolean>>({});
   const [showIngredientSearch, setShowIngredientSearch] = useState(false);
@@ -55,6 +75,79 @@ export const CookingMethodsSection: React.FC<CookingMethodsProps> = ({
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [showAllMethods, setShowAllMethods] = useState(false);
+  
+  // Get astrological state for timing recommendations
+  const astroState = useAstrologicalState();
+  
+  // Convert cooking methods data to component format and add astrological scoring
+  const methods = useMemo(() => {
+    if (propMethods && propMethods.length > 0) {
+      return propMethods;
+    }
+    
+    // Convert from data format to component format with astrological scoring
+    return Object.entries(cookingMethods).map(([key, methodData]) => {
+      const method: CookingMethod = {
+        id: key,
+        name: methodData.name,
+        description: `${methodData.benefits.join(', ')}`,
+        elementalEffect: methodData.elementalEffect,
+        duration: methodData.duration,
+        suitable_for: methodData.suitable_for,
+        benefits: methodData.benefits,
+        alchemicalProperties: methodData.alchemicalProperties,
+        astrologicalInfluences: methodData.astrologicalInfluences,
+        thermodynamicProperties: methodData.thermodynamicProperties,
+        score: calculateAstrologicalScore(methodData, astroState)
+      };
+      return method;
+    });
+  }, [propMethods, astroState]);
+  
+  // Calculate astrological score for a cooking method
+  const calculateAstrologicalScore = (methodData: any, astroState: any): number => {
+    let score = 0.5; // Base score
+    
+    try {
+      // Planetary alignment bonus
+      if (methodData.astrologicalInfluences?.dominantPlanets && astroState.activePlanets) {
+        const alignedPlanets = methodData.astrologicalInfluences.dominantPlanets.filter(
+          (planet: string) => astroState.activePlanets.includes(planet.toLowerCase())
+        );
+        score += (alignedPlanets.length / methodData.astrologicalInfluences.dominantPlanets.length) * 0.3;
+      }
+      
+      // Lunar phase bonus
+      if (methodData.astrologicalInfluences?.lunarPhaseEffect && astroState.lunarPhase) {
+        const phaseEffect = methodData.astrologicalInfluences.lunarPhaseEffect[astroState.lunarPhase];
+        if (phaseEffect) {
+          score += (phaseEffect - 0.5) * 0.2;
+        }
+      }
+      
+      // Planetary hour bonus
+      if (methodData.astrologicalInfluences?.dominantPlanets && astroState.currentPlanetaryHour) {
+        const isHourAligned = methodData.astrologicalInfluences.dominantPlanets.some(
+          (planet: string) => planet.toLowerCase() === astroState.currentPlanetaryHour?.toLowerCase()
+        );
+        if (isHourAligned) {
+          score += 0.15;
+        }
+      }
+      
+      // Thermodynamic efficiency bonus
+      if (methodData.thermodynamicProperties) {
+        const efficiency = (methodData.thermodynamicProperties.heat + methodData.thermodynamicProperties.reactivity) / 
+                          (1 + methodData.thermodynamicProperties.entropy);
+        score += (efficiency - 0.5) * 0.1;
+      }
+      
+    } catch (error) {
+      console.warn('Error calculating astrological score:', error);
+    }
+    
+    return Math.min(0.95, Math.max(0.35, score));
+  };
   
   // Get top method based on score
   const topMethod = useMemo(() => {
@@ -66,7 +159,7 @@ export const CookingMethodsSection: React.FC<CookingMethodsProps> = ({
     })[0];
   }, [methods]);
   
-  // Sort methods by score and limit display unless showAll is true
+  // Sort methods by score and limit display for main page version
   const displayMethods = useMemo(() => {
     const sortedMethods = [...methods].sort((a, b) => {
       const scoreA = a.score !== undefined ? a.score : 0;
@@ -74,8 +167,13 @@ export const CookingMethodsSection: React.FC<CookingMethodsProps> = ({
       return scoreB - scoreA;
     });
     
+    // For main page version, limit to maxDisplayed
+    if (isMainPageVersion) {
+      return sortedMethods.slice(0, maxDisplayed);
+    }
+    
     return showAllMethods ? sortedMethods : sortedMethods.slice(0, 8);
-  }, [methods, showAllMethods]);
+  }, [methods, showAllMethods, isMainPageVersion, maxDisplayed]);
   
   // Use our new ingredient mapping hook
   const { suggestAlternatives, calculateCompatibility, isLoading: ingredientMappingLoading, error: ingredientMappingError } = useIngredientMapping();
@@ -196,6 +294,61 @@ export const CookingMethodsSection: React.FC<CookingMethodsProps> = ({
     if (showIngredientSearch) {
       setIngredientCompatibility({});
       setSearchIngredient('');
+    }
+  };
+  
+  // Handle navigation to full cooking methods page
+  const handleViewMore = () => {
+    if (onViewMore) {
+      onViewMore();
+    } else {
+      // Default navigation to cooking methods page
+      // Preserve selected method context in URL params
+      const params = new URLSearchParams();
+      if (selectedMethodId) {
+        params.set('selected', selectedMethodId);
+      }
+      const url = `/cooking-methods${params.toString() ? `?${params.toString()}` : ''}`;
+      router.push(url);
+    }
+  };
+  
+  // Handle method selection with enhanced navigation context preservation
+  const handleMethodSelect = (method: CookingMethod) => {
+    if (onSelectMethod) {
+      onSelectMethod(method);
+    }
+    
+    // For main page version, preserve context using enhanced state preservation
+    if (isMainPageVersion) {
+      // Import and use the state preservation utility
+      try {
+        const { saveNavigationState } = require('@/utils/statePreservation');
+        const { getNavigationState } = require('@/utils/statePreservation');
+        
+        const currentState = getNavigationState();
+        saveNavigationState({
+          ...currentState,
+          selectedCookingMethod: {
+            id: method.id,
+            name: method.name,
+            timestamp: Date.now()
+          }
+        });
+      } catch (error) {
+        console.warn('Failed to store selected method using enhanced state preservation:', error);
+        
+        // Fallback to sessionStorage
+        try {
+          sessionStorage.setItem('selectedCookingMethod', JSON.stringify({
+            id: method.id,
+            name: method.name,
+            timestamp: Date.now()
+          }));
+        } catch (fallbackError) {
+          console.warn('Failed to store selected method in session storage:', fallbackError);
+        }
+      }
     }
   };
   
@@ -366,7 +519,7 @@ export const CookingMethodsSection: React.FC<CookingMethodsProps> = ({
               <div 
                 key={method.id} 
                 className={`${styles['method-card']} ${selectedMethodId === method.id ? styles.selected : ''}`}
-                onClick={() => onSelectMethod && onSelectMethod(method)}
+                onClick={() => handleMethodSelect(method)}
               >
                 <div className={styles['method-header']}>
                   <h4 className={styles['method-name']}>{method.name}</h4>
@@ -471,6 +624,66 @@ export const CookingMethodsSection: React.FC<CookingMethodsProps> = ({
                         )}
                       </div>
                     )}
+                  </div>
+                )}
+                
+                {/* Astrological Timing Recommendations */}
+                {method.astrologicalInfluences && (
+                  <div className={styles['astrological-timing']}>
+                    <div className={styles['timing-header']}>
+                      <Sparkles size={14} className={styles['timing-icon']} />
+                      <span>Optimal Timing</span>
+                    </div>
+                    <div className={styles['timing-recommendations']}>
+                      {/* Planetary Hour Recommendation */}
+                      {method.astrologicalInfluences.dominantPlanets && (
+                        <div className={styles['timing-item']}>
+                          <span className={styles['timing-label']}>Best Hours:</span>
+                          <span className={styles['timing-value']}>
+                            {method.astrologicalInfluences.dominantPlanets.slice(0, 2).join(', ')} hours
+                          </span>
+                          {astroState.currentPlanetaryHour && 
+                           method.astrologicalInfluences.dominantPlanets.some(
+                             (planet: string) => planet.toLowerCase() === astroState.currentPlanetaryHour?.toLowerCase()
+                           ) && (
+                            <span className={styles['timing-active']}>• Active Now</span>
+                          )}
+                        </div>
+                      )}
+                      
+                      {/* Lunar Phase Recommendation */}
+                      {method.astrologicalInfluences.lunarPhaseEffect && (
+                        <div className={styles['timing-item']}>
+                          <span className={styles['timing-label']}>Lunar Phase:</span>
+                          <span className={styles['timing-value']}>
+                            {Object.entries(method.astrologicalInfluences.lunarPhaseEffect)
+                              .sort(([,a], [,b]) => (b as number) - (a as number))
+                              .slice(0, 1)
+                              .map(([phase]) => phase.replace('_', ' '))
+                              .join(', ')}
+                          </span>
+                          {astroState.lunarPhase && 
+                           method.astrologicalInfluences.lunarPhaseEffect[astroState.lunarPhase] && 
+                           method.astrologicalInfluences.lunarPhaseEffect[astroState.lunarPhase] > 0.6 && (
+                            <span className={styles['timing-active']}>• Favorable</span>
+                          )}
+                        </div>
+                      )}
+                      
+                      {/* Elemental Timing */}
+                      {method.elementalEffect && (
+                        <div className={styles['timing-item']}>
+                          <span className={styles['timing-label']}>Element:</span>
+                          <span className={styles['timing-value']}>
+                            {Object.entries(method.elementalEffect)
+                              .sort(([,a], [,b]) => b - a)
+                              .slice(0, 1)
+                              .map(([element]) => element)
+                              .join('')} dominant
+                          </span>
+                        </div>
+                      )}
+                    </div>
                   </div>
                 )}
                 
@@ -635,20 +848,31 @@ export const CookingMethodsSection: React.FC<CookingMethodsProps> = ({
             ))}
           </div>
           
-          {/* Show more/less button */}
-          {methods.length > 8 && (
+          {/* Show more/less button or View More for main page */}
+          {isMainPageVersion && methods.length > maxDisplayed ? (
             <div className={styles['show-more-container']}>
               <button 
-                className={styles['show-more-button']}
-                onClick={() => setShowAllMethods(!showAllMethods)}
+                className={styles['view-more-button']}
+                onClick={handleViewMore}
               >
-                {showAllMethods ? (
-                  <>Show Less <ChevronUp size={16} /></>
-                ) : (
-                  <>Show More ({methods.length - 8} more) <ChevronDown size={16} /></>
-                )}
+                View All Methods ({methods.length} total) <ExternalLink size={16} />
               </button>
             </div>
+          ) : (
+            methods.length > 8 && !isMainPageVersion && (
+              <div className={styles['show-more-container']}>
+                <button 
+                  className={styles['show-more-button']}
+                  onClick={() => setShowAllMethods(!showAllMethods)}
+                >
+                  {showAllMethods ? (
+                    <>Show Less <ChevronUp size={16} /></>
+                  ) : (
+                    <>Show More ({methods.length - 8} more) <ChevronDown size={16} /></>
+                  )}
+                </button>
+              </div>
+            )
           )}
         </div>
       )}

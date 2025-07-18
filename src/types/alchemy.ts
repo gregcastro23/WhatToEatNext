@@ -305,10 +305,40 @@ export interface Recipe {
 
 export interface RecipeIngredient {
   name: string;
-  amount: number;
+  amount?: number;
+  quantity?: string;
   unit: string;
+  timing?: 'early' | 'middle' | 'late';
+  preparation?: string;
   elementalProperties?: ElementalProperties;
   [key: string]: unknown;
+}
+
+export interface CustomRecipe {
+  id: string;
+  name: string;
+  ingredients: RecipeIngredient[];
+  methods: EnhancedCookingMethod[];
+  instructions: string[];
+  timing: RecipeTiming;
+  servings: number;
+  astrologicalOptimization: AstrologicalTiming;
+  elementalProperties?: ElementalProperties;
+  dominantElement?: Element;
+}
+
+export interface RecipeTiming {
+  prepTime: number;
+  cookTime: number;
+  totalTime: number;
+  servings: number;
+}
+
+export interface AstrologicalTiming {
+  optimalTime: string;
+  planetaryHour: string;
+  lunarPhase: string;
+  seasonalAlignment: string;
 }
 
 // Birth and horoscope data types
@@ -838,6 +868,9 @@ export type { AlchemicalProperties, Modality } from '@/types/celestial';
 
 // Export ElementalCharacter from constants
 export type { ElementalCharacter } from '@/constants/planetaryElements';
+
+// Export EnhancedCookingMethod from constants
+export type { EnhancedCookingMethod } from '@/constants/alchemicalPillars';
 
 // Add missing type aliases for compatibility
 export type AstrologicalInfluence = _AstrologicalInfluence;

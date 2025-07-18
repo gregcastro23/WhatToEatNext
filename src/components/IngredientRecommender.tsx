@@ -1,15 +1,26 @@
 import { useAstrologicalState } from '@/hooks/useAstrologicalState';
 import { useEffect, useState, useMemo } from 'react';
+import { useRouter } from 'next/navigation';
 import { ElementalCalculator } from '@/services/ElementalCalculator';
 import { ElementalProperties } from '@/types/alchemy';
 import { getChakraBasedRecommendations, GroupedIngredientRecommendations, getIngredientRecommendations, IngredientRecommendation } from '@/utils/ingredientRecommender';
-import { Flame, Droplets, Mountain, Wind, Info, Clock, Tag, Leaf, X, ChevronDown, ChevronUp, Beaker, Brain } from 'lucide-react';
+import { Flame, Droplets, Mountain, Wind, Info, Clock, Tag, Leaf, X, ChevronDown, ChevronUp, Beaker, Brain, ExternalLink, ArrowRight } from 'lucide-react';
 import { useChakraInfluencedFood } from '@/hooks/useChakraInfluencedFood';
 import { normalizeChakraKey } from '@/constants/chakraSymbols';
 import { herbsCollection, oilsCollection, vinegarsCollection, grainsCollection } from '@/data/ingredients';
 import type { Ingredient } from '@/types/ingredient';
 import type { UnifiedIngredient } from '@/types/ingredient';
 import EnterpriseIntelligencePanel from '@/components/intelligence/EnterpriseIntelligencePanel';
+
+// Props interface for IngredientRecommender
+interface IngredientRecommenderProps {
+  initialCategory?: string | null;
+  initialSelectedIngredient?: string | null;
+  isFullPageVersion?: boolean;
+  maxDisplayed?: number;
+  onCategorySelect?: (category: string) => void;
+  onIngredientSelect?: (ingredient: IngredientRecommendation) => void;
+}
 
 /**
  * Maps planets to their elemental influences (diurnal and nocturnal elements)
@@ -63,7 +74,15 @@ const CATEGORY_DISPLAY_COUNTS: Record<string, number> = {
 };
 
 // Using inline styles to avoid CSS module conflicts
-export default function IngredientRecommender() {
+export default function IngredientRecommender({
+  initialCategory = null,
+  initialSelectedIngredient = null,
+  isFullPageVersion = false,
+  maxDisplayed = 12,
+  onCategorySelect,
+  onIngredientSelect
+}: IngredientRecommenderProps = {}) {
+  const router = useRouter();
   // Use the hook to get astrological data
   const astroState = useAstrologicalState();
   const { 
@@ -82,7 +101,18 @@ export default function IngredientRecommender() {
   // States for selected item and expansion
   const [selectedIngredient, setSelectedIngredient] = useState<IngredientRecommendation | null>(null);
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
-  const [activeCategory, setActiveCategory] = useState<string>('proteins');
+  const [activeCategory, setActiveCategory] = useState<string>(initialCategory || 'proteins');
+
+  // Initialize state from props
+  useEffect(() => {
+    if (initialCategory) {
+      setActiveCategory(initialCategory);
+    }
+    if (initialSelectedIngredient) {
+      // Find the ingredient in recommendations and set it as selected
+      // This will be handled after recommendations are loaded
+    }
+  }, [initialCategory, initialSelectedIngredient]);
   
   // Enterprise Intelligence state
   const [showEnterpriseIntelligence, setShowEnterpriseIntelligence] = useState<boolean>(false);
@@ -125,7 +155,55 @@ export default function IngredientRecommender() {
       setSelectedIngredient(null);
     } else {
       setSelectedIngredient(item);
+      
+      // Call prop callback if provided
+      if (onIngredientSelect) {
+        onIngredientSelect(item as IngredientRecommendation);
+      }
+      
+      // Store selection in session storage for context preservation
+      try {
+        sessionStorage.setItem('selectedIngredient', JSON.stringify({
+          name: (item as any).name,
+          category: (item as any).category,
+          timestamp: Date.now()
+        }));
+      } catch (error) {
+        console.warn('Failed to store selected ingredient in session storage:', error);
+      }
     }
+  };
+
+  // Handle category selection
+  const handleCategorySelect = (category: string) => {
+    setActiveCategory(category);
+    
+    // Call prop callback if provided
+    if (onCategorySelect) {
+      onCategorySelect(category);
+    }
+    
+    // Store selection in session storage for context preservation
+    try {
+      sessionStorage.setItem('selectedIngredientCategory', category);
+    } catch (error) {
+      console.warn('Failed to store selected category in session storage:', error);
+    }
+  };
+
+  // Handle navigation to full ingredients page
+  const handleViewMore = () => {
+    // Preserve current context in URL parameters
+    const params = new URLSearchParams();
+    if (activeCategory) {
+      params.set('category', activeCategory);
+    }
+    if (selectedIngredient) {
+      params.set('ingredient', selectedIngredient.name);
+    }
+    
+    const url = `/ingredients${params.toString() ? `?${params.toString()}` : ''}`;
+    router.push(url);
   };
   
   // Toggle expansion for a category
@@ -827,7 +905,7 @@ export default function IngredientRecommender() {
                   const element = document.getElementById(category);
                   if (element) {
                     element.scrollIntoView({ behavior: 'smooth' });
-                    setActiveCategory(category);
+                    handleCategorySelect(category);
                   }
                 }}
                 className={`px-3 py-1.5 rounded-full text-xs font-medium flex items-center shadow-sm transition-colors duration-200 ${
@@ -1311,7 +1389,17 @@ export default function IngredientRecommender() {
         </div>
       )}
       
-      <div className="mt-6 text-center">
+      <div className="mt-6 text-center space-y-3">
+        {/* Navigation to full ingredients page - only show if not already on full page */}
+        {!isFullPageVersion && (
+          <button 
+            className="px-5 py-2 bg-gradient-to-r from-green-600 to-teal-600 text-white font-medium rounded-lg shadow-sm hover:shadow-md transform hover:-translate-y-0.5 transition-all flex items-center gap-2 mx-auto"
+            onClick={handleViewMore}
+          >
+            View All Ingredients <ExternalLink size={16} />
+          </button>
+        )}
+        
         <button 
           className="px-5 py-2 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-medium rounded-lg shadow-sm hover:shadow-md transform hover:-translate-y-0.5 transition-all"
           onClick={() => window.location.reload()}
