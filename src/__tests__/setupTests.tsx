@@ -6,8 +6,10 @@ global.IntersectionObserver = class IntersectionObserver {
   root: Element | null = null;
   rootMargin: string = '0px';
   thresholds: ReadonlyArray<number> = [0];
+  private callback: IntersectionObserverCallback;
   
   constructor(callback: IntersectionObserverCallback, options?: IntersectionObserverInit) {
+    this.callback = callback;
     this.root = (options?.root as Element) || null;
     this.rootMargin = options?.rootMargin || '0px';
     this.thresholds = options?.threshold ? 
@@ -104,7 +106,7 @@ beforeEach(() => {
 });
 
 // Suppress specific warnings that are expected in tests
-console.warn = (...args) => {
+console.warn = (...args: any[]) => {
   const message = args[0];
   if (
     typeof message === 'string' && 
@@ -117,7 +119,7 @@ console.warn = (...args) => {
   originalConsoleWarn.apply(console, args);
 };
 
-console.error = (...args) => {
+console.error = (...args: any[]) => {
   const message = args[0];
   if (
     typeof message === 'string' && 
@@ -130,20 +132,88 @@ console.error = (...args) => {
   originalConsoleError.apply(console, args);
 };
 
-// Mock implementations for git operations
+// Mock implementations for git operations - comprehensive implementation
 const gitMock = {
   stash: jest.fn().mockResolvedValue('stash-id'),
   stashPop: jest.fn().mockResolvedValue(true),
   getCurrentBranch: jest.fn().mockResolvedValue('main'),
   hasUncommittedChanges: jest.fn().mockResolvedValue(false),
-  getLastCommitHash: jest.fn().mockResolvedValue('abc123')
+  getLastCommitHash: jest.fn().mockResolvedValue('abc123'),
+  mockStashes: ['stash-1', 'stash-2'],
+  mockBranch: 'main',
+  mockGitStatus: {
+    staged: [],
+    unstaged: [],
+    untracked: []
+  },
+  shouldFailCommands: false,
+  setMockBranch: jest.fn((branch: string) => { gitMock.mockBranch = branch; }),
+  setMockStashes: jest.fn((stashes: string[]) => { gitMock.mockStashes = stashes; }),
+  setMockGitStatus: jest.fn((status: any) => { gitMock.mockGitStatus = status; }),
+  setShouldFailCommands: jest.fn((shouldFail: boolean) => { gitMock.shouldFailCommands = shouldFail; }),
+  addMockStash: jest.fn((stashId: string) => { gitMock.mockStashes.push(stashId); }),
+  removeMockStash: jest.fn((stashId: string) => { 
+    gitMock.mockStashes = gitMock.mockStashes.filter(s => s !== stashId); 
+  }),
+  clearMockStashes: jest.fn(() => { gitMock.mockStashes = []; }),
+  getMockStashes: jest.fn(() => gitMock.mockStashes),
+  simulateGitError: jest.fn((command: string, error: string) => {
+    console.warn(`Simulated git error for ${command}: ${error}`);
+  }),
+  resetMocks: jest.fn(() => {
+    gitMock.mockStashes = [];
+    gitMock.mockBranch = 'main';
+    gitMock.mockGitStatus = { staged: [], unstaged: [], untracked: [] };
+    gitMock.shouldFailCommands = false;
+  })
 };
 
-// Mock implementations for script execution
+// Mock implementations for script execution - comprehensive implementation
 const scriptMock = {
   executeScript: jest.fn().mockResolvedValue({ success: true, output: '' }),
   executeCommand: jest.fn().mockResolvedValue({ stdout: '', stderr: '', exitCode: 0 }),
-  getScriptOutput: jest.fn().mockReturnValue('')
+  getScriptOutput: jest.fn().mockReturnValue(''),
+  mockResults: {},
+  mockBuildSuccess: true,
+  mockTestSuccess: true,
+  shouldFailExecution: false,
+  mockExecutionTime: 1000,
+  mockMemoryUsage: 50,
+  mockErrorOutput: '',
+  mockStdout: '',
+  mockStderr: '',
+  mockExitCode: 0,
+  setMockResult: jest.fn((scriptPath: string, result: any) => {
+    scriptMock.mockResults[scriptPath] = result;
+  }),
+  setMockBuildSuccess: jest.fn((success: boolean) => { scriptMock.mockBuildSuccess = success; }),
+  setMockTestSuccess: jest.fn((success: boolean) => { scriptMock.mockTestSuccess = success; }),
+  setShouldFailExecution: jest.fn((shouldFail: boolean) => { scriptMock.shouldFailExecution = shouldFail; }),
+  setMockExecutionTime: jest.fn((time: number) => { scriptMock.mockExecutionTime = time; }),
+  setMockMemoryUsage: jest.fn((usage: number) => { scriptMock.mockMemoryUsage = usage; }),
+  setMockOutput: jest.fn((stdout: string, stderr: string, exitCode: number) => {
+    scriptMock.mockStdout = stdout;
+    scriptMock.mockStderr = stderr;
+    scriptMock.mockExitCode = exitCode;
+  }),
+  simulateScriptError: jest.fn((scriptPath: string, error: string) => {
+    console.warn(`Simulated script error for ${scriptPath}: ${error}`);
+  }),
+  simulateTimeout: jest.fn((scriptPath: string, timeout: number) => {
+    console.warn(`Simulated timeout for ${scriptPath}: ${timeout}ms`);
+  }),
+  resetMocks: jest.fn(() => {
+    scriptMock.mockResults = {};
+    scriptMock.mockBuildSuccess = true;
+    scriptMock.mockTestSuccess = true;
+    scriptMock.shouldFailExecution = false;
+    scriptMock.mockExecutionTime = 1000;
+    scriptMock.mockMemoryUsage = 50;
+    scriptMock.mockErrorOutput = '';
+    scriptMock.mockStdout = '';
+    scriptMock.mockStderr = '';
+    scriptMock.mockExitCode = 0;
+  })
 };
 
 // Global test utilities with extended interface

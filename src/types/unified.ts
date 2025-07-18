@@ -18,16 +18,64 @@ export type {
 
 export type { CookingMethod } from '@/types/cooking';
 
-// Ingredient types
+// Ingredient types - Unified interface consolidating all ingredient definitions
 export interface Ingredient {
-  id: string;
+  id?: string;
   name: string;
   category: string;
+  subCategory?: string;
+  
+  // Core properties
   elementalProperties: ElementalProperties;
   astrologicalProfile?: AstrologicalProfile;
   nutritionalData?: NutritionalData;
   description?: string;
   aliases?: string[];
+  
+  // Additional properties from various interfaces
+  qualities?: string[];
+  storage?: string | {
+    container?: string;
+    duration: string;
+    temperature?: string;
+    humidity?: string;
+    light?: string;
+  };
+  
+  // Preparation and usage
+  preparationMethods?: string[];
+  cookingMethods?: string[];
+  preparationNotes?: string;
+  
+  // Seasonality and origins
+  seasonality?: Season[];
+  regionalOrigins?: string[];
+  availability?: string[];
+  
+  // Flavor and culinary properties
+  flavorProfile?: {
+    spicy?: number;
+    sweet?: number;
+    sour?: number;
+    bitter?: number;
+    salty?: number;
+    umami?: number;
+  };
+  
+  // Astrological properties
+  zodiacInfluences?: ZodiacSign[];
+  planetaryInfluences?: string[];
+  lunarPhaseInfluences?: LunarPhase[];
+  
+  // Alchemical properties
+  alchemicalProperties?: AlchemicalResult;
+  affinities?: string[];
+  
+  // Metadata
+  source?: string;
+  validationStatus?: 'validated' | 'pending' | 'error';
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
 export interface UnifiedIngredient extends Ingredient {
@@ -134,7 +182,7 @@ export interface AstrologicalInfluences {
   seasonalAlignment?: SeasonalPreferences;
 }
 
-// Recipe types
+// Recipe types - Unified interface consolidating all recipe definitions
 export interface Recipe {
   id: string;
   name: string;
@@ -149,19 +197,62 @@ export interface Recipe {
   difficulty?: 'easy' | 'medium' | 'hard';
   cuisine?: string;
   tags?: string[];
-  elementalBalance?: ElementalProperties;
+  
+  // Standardized elemental properties (not elementalBalance)
+  elementalProperties: ElementalProperties;
+  
+  // Astrological and thermodynamic properties
   astrologicalTiming?: AstrologicalTiming;
+  thermodynamicProperties?: ThermodynamicProperties;
+  
+  // Nutritional information
   nutritionalInfo?: NutritionalData;
+  
+  // Additional properties from various interfaces
+  season?: Season[];
+  mealType?: string[];
+  source?: string;
+  category?: string;
+  
+  // Compatibility properties
+  monicaCompatibility?: number;
+  alchemicalScore?: number;
+  
+  // Optional metadata
+  createdAt?: Date;
+  updatedAt?: Date;
+  validationStatus?: 'validated' | 'pending' | 'error';
 }
 
 export interface RecipeIngredient {
-  ingredientId: string;
+  id?: string;
+  ingredientId?: string;
   name: string;
-  quantity: number;
+  amount: number;  // Standardized to 'amount' not 'quantity'
   unit: string;
   preparation?: string;
   optional?: boolean;
   substitutes?: string[];
+  
+  // Additional properties from various interfaces
+  category?: string;
+  notes?: string;
+  function?: string;
+  cookingPoint?: string;
+  timing?: 'early' | 'middle' | 'late';
+  
+  // Elemental and astrological properties
+  elementalProperties?: ElementalProperties;
+  zodiacInfluences?: ZodiacSign[];
+  planetaryInfluences?: string[];
+  lunarPhaseInfluences?: LunarPhase[];
+  
+  // Nutritional data
+  nutritionalContent?: NutritionalData;
+  
+  // Seasonal and regional data
+  seasonality?: string[];
+  regionalOrigins?: string[];
 }
 
 export interface AstrologicalTiming {

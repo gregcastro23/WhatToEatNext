@@ -15,6 +15,7 @@ import type {
 import type { ChakraEnergies, ChakraPosition } from '@/types/chakra';
 // Import Element from celestial for consistency (4 elements, no Aether)
 import type { Element } from '@/types/celestial';
+import type { PlanetPosition } from '@/types/unified';
 import { seasonalPatterns } from '@/data/integrations/seasonalPatterns';
 import { recipeElementalMappings } from '@/data/recipes/elementalMappings';
 import { PLANETARY_MODIFIERS, RulingPlanet } from '@/constants/planets';
@@ -25,6 +26,8 @@ import { getAccuratePlanetaryPositions } from '@/utils/accurateAstronomy';
 import { logger } from '@/utils/logger';
 import { DEFAULT_ELEMENTAL_PROPERTIES } from '@/constants/defaults';
 import ErrorHandler from '@/services/errorHandler';
+import { planetInfo } from '@/constants/planetInfo';
+import signs from '@/data/astrology';
 
 // Import planetary and sign data for alchemical calculations
 // Note: Removed circular import - these constants should be defined locally or in a separate constants file
@@ -1076,7 +1079,7 @@ export function alchemize(
             entry = celestialArray[celestial_bodies_index] || {};
             // Use safe type casting for entry property access
             const entryData = entry as Record<string, unknown>;
-            planet = entryData?.label || '';
+            planet = (entryData?.label as string) || '';
           }
         } catch (error) {
           console.error(`Error getting planet at index ${celestial_bodies_index}:`, error);
@@ -1108,7 +1111,8 @@ export function alchemize(
         // Get the sign
         let sign: string;
         try {
-          sign = entry?.Sign?.label || "Aries";
+          const entryWithSign = entry as Record<string, unknown>;
+          sign = (entryWithSign?.Sign as Record<string, unknown>)?.label as string || "Aries";
           
           // SAFELY update planet's sign
           if (alchmInfo['Planets'] && alchmInfo['Planets'][planet]) {
@@ -1172,7 +1176,8 @@ export function alchemize(
             // Process house
             let house = '';
             try {
-              house = entry?.House?.label || "1";
+              const entryWithHouse = entry as Record<string, unknown>;
+              house = (entryWithHouse?.House as Record<string, unknown>)?.label as string || "1";
               
               if (alchmInfo['Planets'] && alchmInfo['Planets'][planet]) {
                 alchmInfo['Planets'][planet]["House"] = house;
@@ -1516,7 +1521,7 @@ async function calculateCurrentPlanetaryPositions(): Promise<
         const convertedPositions: Record<string, unknown> = {};
         
         Object.entries(astrologizePositions).forEach(([planet, position]) => {
-          const pos = position as Record<string, unknown>;
+          const pos = position as PlanetPosition;
           convertedPositions[planet] = {
             Sign: { label: pos.sign },
             Degree: pos.degree,
@@ -1933,11 +1938,11 @@ function calculateChakraEnergies(
     // Sync thirdEye and brow for compatibility
     // Use safe type casting for chakraEnergies access
     const chakraData = chakraEnergies as Record<string, unknown>;
-    if (affectedChakras.has('brow') && !affectedChakras.has('thirdEye' as Record<string, unknown>)) {
+    if (affectedChakras.has('brow') && !affectedChakras.has('thirdEye')) {
       chakraData.thirdEye = chakraEnergies.brow;
-      affectedChakras.add('thirdEye' as Record<string, unknown>);
-    } else if (affectedChakras.has('thirdEye' as Record<string, unknown>) && !affectedChakras.has('brow')) {
-      chakraEnergies.brow = chakraData?.thirdEye || 0;
+      affectedChakras.add('thirdEye');
+    } else if (affectedChakras.has('thirdEye') && !affectedChakras.has('brow')) {
+      chakraEnergies.brow = (chakraData?.thirdEye as number) || 0;
       affectedChakras.add('brow');
     }
 
@@ -1997,16 +2002,18 @@ async function getCurrentAstrologicalState(): Promise<AstrologicalState> {
     const positions = await calculateCurrentPlanetaryPositions();
     
     // Extract zodiac sign from planetary positions (sun sign)
-    const sunSign = (positions.sun as string)?.sign?.toLowerCase() as ZodiacSign || 'aries';
+    const sunPosition = positions.sun as PlanetPosition;
+    const sunSign = sunPosition?.sign?.toLowerCase() as ZodiacSign || 'aries';
     
     // Extract moon sign from planetary positions
-    const moonSign = (positions.moon as string)?.sign?.toLowerCase() as ZodiacSign || 'taurus';
+    const moonPosition = positions.moon as PlanetPosition;
+    const moonSign = moonPosition?.sign?.toLowerCase() as ZodiacSign || 'taurus';
     
     // Calculate dominant element based on zodiac sign
     const dominantElement = (getElementFromSign(sunSign) as Element) || 'Fire';
     
     // Determine current lunar phase
-    const lunarPhase = (positions.moon as string)?.phase?.toLowerCase() as LunarPhase || 'full moon';
+    const lunarPhase = (moonPosition as any)?.phase?.toLowerCase() as LunarPhase || 'full moon';
     
     // Get current season based on sun sign
     const season = getSeasonFromSunSign(sunSign);
@@ -2197,10 +2204,10 @@ function alchemizeWithSafety(
     
     // Return simplified, but useful result that won't cause errors
     const horoscopeData = horoscopeDict as Record<string, unknown>;
-    const celestialBodies = horoscopeData?.tropical?.CelestialBodies;
-    const sunData = celestialBodies?.sun;
-    const sunSignData = sunData?.Sign;
-    const sunSignLabel = sunSignData?.label || 'aries';
+    const celestialBodies = (horoscopeData?.tropical as Record<string, unknown>)?.CelestialBodies;
+    const sunData = (celestialBodies as Record<string, unknown>)?.sun;
+    const sunSignData = (sunData as Record<string, unknown>)?.Sign;
+    const sunSignLabel = (sunSignData as Record<string, unknown>)?.label as string || 'aries';
     
     const heat = 0.5;
     const entropy = 0.5;

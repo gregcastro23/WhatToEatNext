@@ -1,9 +1,9 @@
 import { 
   ElementalCharacter, 
-  AlchemicalProperty,
   ZodiacSign,
   LunarPhaseWithSpaces
 } from '@/types/alchemy';
+import { AlchemicalProperty } from '@/types/celestial';
 import { AlchemicalResults, calculateAlchemicalProperties } from './alchemicalCalculations';
 import {
   calculatePlanetaryBoost,

@@ -96,8 +96,8 @@ export default function AlchmKitchen() {
         return <div className={styles.error}>Error: {error}</div>;
     }
 
-    // Format elemental balance for display
-    const elementalBalance = elementalState ? {
+    // Format elemental properties for display
+    const elementalProperties = elementalState ? {
         Fire: Math.round(elementalState.Fire * 100),
         Water: Math.round(elementalState.Water * 100),
         Earth: Math.round(elementalState.Earth * 100),
@@ -145,10 +145,10 @@ export default function AlchmKitchen() {
                 <div>⦿ Matter: {alchemicalValues?.Matter?.toFixed(4) || '0.0000'}</div>
                 <div>⦿ Substance: {alchemicalValues?.Substance?.toFixed(4) || '0.0000'}</div>
                 <h4>Elemental Balance:</h4>
-                <div>Fire: {elementalBalance.Fire}%</div>
-                <div>Water: {elementalBalance.Water}%</div>
-                <div>Earth: {elementalBalance.Earth}%</div>
-                <div>Air: {elementalBalance.Air}%</div>
+                <div>Fire: {elementalProperties.Fire}%</div>
+                <div>Water: {elementalProperties.Water}%</div>
+                <div>Earth: {elementalProperties.Earth}%</div>
+                <div>Air: {elementalProperties.Air}%</div>
             </div>
         </div>
     );

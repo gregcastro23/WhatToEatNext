@@ -9,7 +9,8 @@ export type ChakraPosition =
   | 'heart' 
   | 'throat' 
   | 'brow' 
-  | 'crown';
+  | 'crown'
+  | 'thirdEye';
 
 // Define Sanskrit names mapping
 export type ChakraSanskritName = 

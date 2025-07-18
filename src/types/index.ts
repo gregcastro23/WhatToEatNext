@@ -4,6 +4,7 @@ export type MealTime = typeof MEAL_TIMES[number];
 
 // Import fundamental types
 import { Recipe as AlchemyRecipe, ZodiacSign, Season, ElementalProperties } from './alchemy';
+import { Recipe } from './unified';
 
 // Define zodiac signs as seasons
 export const ZODIAC_SEASONS: ZodiacSign[] = [
@@ -85,9 +86,26 @@ export type TimeData = {
 
 export type CuisineData = {
   name: string;
-  dishes: {
+  recipes: Recipe[];
+  score?: number;
+  matchPercentage?: number;
+  monicaCompatibility?: number;
+  userMonica?: number;
+  cuisineMonica?: number;
+  thermodynamicHarmony?: number;
+  alchemicalBalance?: number;
+  elementalProperties?: ElementalProperties;
+  dishes?: {
     [mealTime in MealTime]?: TimeData;
   };
+  
+  // Additional properties for enhanced compatibility
+  region?: string;
+  description?: string;
+  culturalContext?: string;
+  traditionalTechniques?: string[];
+  seasonalFocus?: Season[];
+  astrologicalAffinities?: string[];
 };
 
 export type Cuisines = {

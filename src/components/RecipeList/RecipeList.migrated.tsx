@@ -16,8 +16,7 @@ import {
   People, FilterList, Clear
 } from '@mui/icons-material';
 
-import { Recipe } from '@/types/recipe';
-import { Recipe as AlchemyRecipe } from '@/types/alchemy';
+import { Recipe } from '@/types/unified';
 import { useServices } from '@/hooks/useServices';
 import * as astrologize from '@/services/astrologizeApi';
 import type { CuisineType, DietaryRestriction, ElementalProperties } from '@/types/alchemy';

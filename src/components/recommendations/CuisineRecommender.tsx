@@ -18,6 +18,7 @@ import { Flame,
   Search } from 'lucide-react';
 import { cuisines } from '../../data/cuisines';
 import { recommendationService } from '../../services/ConsolidatedRecommendationService';
+import { Recipe } from '@/types/unified';
 import {
   ElementalProperties,
   AstrologicalState,
@@ -145,34 +146,8 @@ const ELEMENT_COMPATIBILITY = { Fire: { Fire: 0.9, Water: 0.7, Earth: 0.7, Air: 
   Air: { Fire: 0.7, Water: 0.7, Earth: 0.7, Air: 0.9  }
 };
 
-// Define recipe type for better type safety
-interface RecipeData {
-  id?: string;
-  name?: string;
-  description?: string;
-  cuisine?: string;
-  matchPercentage?: number;
-  matchScore?: number;
-  elementalProperties?: ElementalProperties;
-  ingredients?: unknown[];
-  instructions?: unknown[];
-  preparationSteps?: unknown[];
-  procedure?: unknown[];
-  cookTime?: string;
-  cooking_time?: string;
-  cook_time?: string;
-  prepTime?: string;
-  preparation_time?: string;
-  prep_time?: string;
-  servingSize?: string;
-  servings?: string;
-  yield?: string;
-  difficulty?: string;
-  skill_level?: string;
-  dietaryInfo?: string[];
-  dietary_restrictions?: string[];
-  [key: string]: unknown;
-}
+// Define recipe type alias for backward compatibility
+type RecipeData = Recipe;
 
 // Helper function to ensure consistent recipe structure
 function buildCompleteRecipe(recipe: RecipeData, cuisineName: string): RecipeData {
