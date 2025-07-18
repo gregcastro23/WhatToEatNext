@@ -33,8 +33,9 @@
     "lint:const-assign": "node src/scripts/fix-const-assign.js",
     "clean:backups": "node src/scripts/clean-backups.js",
     "format": "prettier --write .",
-    "test": "jest",
-    "test:watch": "jest --watch",
+    "test": "NODE_OPTIONS='--expose-gc --max-old-space-size=2048' jest",
+    "test:watch": "NODE_OPTIONS='--expose-gc --max-old-space-size=2048' jest --watch",
+    "test:memory": "NODE_OPTIONS='--expose-gc --max-old-space-size=2048' jest --detectOpenHandles --forceExit",
     "open-browser": "node -e \"setTimeout(function(){require('open')('http://localhost:3000')}, 3000)\"",
     "test:coverage": "jest --coverage",
     "fix-elemental": "node fix-elemental-logic.js",
@@ -45,7 +46,14 @@
     "clean-imports": "scripts/typescript-fixes/clean-imports.sh",
     "clean-imports:dry": "scripts/typescript-fixes/clean-imports.sh --dry-run",
     "clean-imports:auto": "scripts/typescript-fixes/clean-imports.sh --auto-fix",
-    "clean-imports:metrics": "scripts/typescript-fixes/clean-imports.sh --metrics"
+    "clean-imports:metrics": "scripts/typescript-fixes/clean-imports.sh --metrics",
+    "build:validate": "node scripts/build-system-repair.cjs validate",
+    "build:repair": "node scripts/build-system-repair.cjs repair",
+    "build:rebuild": "node scripts/build-system-repair.cjs rebuild",
+    "build:comprehensive": "node scripts/build-system-repair.cjs comprehensive",
+    "build:quick": "node scripts/build-system-repair.cjs quick",
+    "build:health": "node scripts/build-system-repair.cjs health",
+    "build:emergency": "node scripts/build-system-repair.cjs emergency"
   },
   "dependencies": {
     "@emotion/react": "^11.11.1",

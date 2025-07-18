@@ -99,8 +99,20 @@ export async function POST(request: Request) {
 
     logger.info('Updated current moment data across all storage locations');
 
-    // Step 3: Calculate alchemical properties
-    const alchemicalResult = alchemize(planetaryPositions);
+    // Step 3: Convert PlanetPosition to PlanetaryPosition format for alchemize function
+    const convertedPositions: Record<string, import('@/services/RealAlchemizeService').PlanetaryPosition> = {};
+    
+    for (const [planet, position] of Object.entries(planetaryPositions)) {
+      convertedPositions[planet] = {
+        sign: position.sign,
+        degree: position.degree,
+        minute: position.minute || 0,
+        isRetrograde: position.isRetrograde || false
+      };
+    }
+    
+    // Calculate alchemical properties
+    const alchemicalResult = alchemize(convertedPositions);
     
     logger.info('Alchemical calculation completed');
 

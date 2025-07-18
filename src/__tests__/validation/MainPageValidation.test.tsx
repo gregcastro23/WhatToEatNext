@@ -31,7 +31,14 @@ jest.mock('../../utils/logger', () => ({
     debug: jest.fn(),
     warn: jest.fn(),
     error: jest.fn()
-  }
+  },
+  createLogger: jest.fn(() => ({
+    info: jest.fn(),
+    debug: jest.fn(),
+    warn: jest.fn(),
+    error: jest.fn(),
+    log: jest.fn()
+  }))
 }));
 
 jest.mock('../../utils/reliableAstronomy', () => ({

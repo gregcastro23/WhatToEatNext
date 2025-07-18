@@ -1,6 +1,6 @@
 import { 
   ElementalCharacter, 
-  AlchemicalProperty, 
+  AlchemicalProperties, 
   StandardizedAlchemicalResult,
   PlanetaryPosition,
   ElementalProperties} from '@/types/alchemy';
@@ -83,7 +83,7 @@ export const dignityStrengthModifiers: Record<DignityType, number> = {
  */
 export interface AlchemicalResults {
   elementalCounts: Record<ElementalCharacter, number>;
-  alchemicalCounts: Record<AlchemicalProperty, number>;
+  alchemicalCounts: Record<keyof AlchemicalProperties, number>;
   heat: number;
   entropy: number;
   reactivity: number;
@@ -119,7 +119,7 @@ const planetElementMap = (isDaytime: boolean): Record<string, ElementalCharacter
 });
 
 // Define day/night alchemical property maps
-const planetPropertyMap = (isDaytime: boolean): Record<string, AlchemicalProperty> => ({
+const planetPropertyMap = (isDaytime: boolean): Record<string, keyof AlchemicalProperties> => ({
   'sun': 'Spirit', // Always Spirit
   'moon': 'Essence', // Always Essence
   'mercury': isDaytime ? 'Substance' : 'Matter',
@@ -137,7 +137,7 @@ const planetPropertyMap = (isDaytime: boolean): Record<string, AlchemicalPropert
 });
 
 // Helper function to convert element to alchemical property
-const elementToAlchemicalProperty = (element: ElementalCharacter): AlchemicalProperty => {
+const elementToAlchemicalProperty = (element: ElementalCharacter): keyof AlchemicalProperties => {
   switch (element) {
     case 'Fire': return 'Spirit';
     case 'Water': return 'Essence';
@@ -180,7 +180,7 @@ export const calculateAlchemicalProperties = (
     Air: 0
   };
   
-  const alchemicalCounts: Record<AlchemicalProperty, number> = {
+  const alchemicalCounts: Record<keyof AlchemicalProperties, number> = {
     Spirit: 0,
     Essence: 0,
     Matter: 0, 
@@ -302,9 +302,9 @@ export const calculateAlchemicalProperties = (
     }
 
     // Use the day/night specific property map
-    let property: AlchemicalProperty;
+    let property: keyof AlchemicalProperties;
     if (planetLower in propertyMap) {
-      property = propertyMap[planetLower] as AlchemicalProperty;
+      property = propertyMap[planetLower] as keyof AlchemicalProperties;
     } else {
       // Derive property from element if planet not in map
       const element = signElement || 'Fire' as ElementalCharacter;
@@ -392,7 +392,7 @@ export const calculateAlchemicalProperties = (
     Object.keys(alchemicalCounts).forEach(prop => {
       if (prop !== property) {
         // Minor contribution to other properties (prevents 0 values)
-        alchemicalCounts[prop as AlchemicalProperty] += propertyContribution * 0.15;
+        alchemicalCounts[prop as keyof AlchemicalProperties] += propertyContribution * 0.15;
       }
     });
 

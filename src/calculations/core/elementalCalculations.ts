@@ -64,6 +64,12 @@ export const ELEMENTAL_ANALYSIS_INTELLIGENCE = {
         Water: 1.0,
         Earth: 1.0,
         Air: 1.0
+      },
+      general: {
+        Fire: 1.0,
+        Water: 1.0,
+        Earth: 1.0,
+        Air: 1.0
       }
     };
     
@@ -749,4 +755,17 @@ export function getElementalRecommendations(properties: ElementalProperties): {
     balance,
     recommendations
   };
-} 
+}
+
+// Alias for the comprehensive calculation function
+export const calculateElementalProperties = calculateComprehensiveElementalProperties;
+
+// Default export for the elementalCalculations
+const elementalCalculations = {
+  ELEMENTAL_ANALYSIS_INTELLIGENCE,
+  calculateElementalProperties,
+  getElementalRecommendations,
+  ZODIAC_ELEMENTS
+};
+
+export default elementalCalculations; 

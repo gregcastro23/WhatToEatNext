@@ -90,13 +90,13 @@ export default function CookingMethodPage() {
             </Typography>
             
             <Typography variant="h6" color="text.secondary" paragraph>
-              {(method as Record<string, unknown>).description}
+              {method && typeof method === 'object' && 'description' in method ? String((method as any).description) : 'No description available'}
             </Typography>
             
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, my: 3 }}>
               <AccessTime />
               <Typography variant="body1">
-                {(method as Record<string, unknown>).duration}
+                {method && typeof method === 'object' && 'duration' in method ? String((method as any).duration) : 'Duration not specified'}
               </Typography>
             </Box>
           </Grid>
@@ -127,15 +127,21 @@ export default function CookingMethodPage() {
                 Benefits
               </Typography>
               <List>
-                {Array.isArray((method as Record<string, unknown>).benefits) ? (
-                  (method as CookingMethod[]).benefits.map((benefit, index) => (
-                    <ListItem key={index}>
-                      <ListItemText primary={benefit} />
-                    </ListItem>
-                  ))
+                {method && typeof method === 'object' && 'benefits' in method ? (
+                  Array.isArray((method as any).benefits) ? (
+                    (method as any).benefits.map((benefit: string, index: number) => (
+                      <ListItem key={index}>
+                        <ListItemText primary={benefit} />
+                      </ListItem>
+                    ))
+                  ) : (
+                    <Typography variant="body1" paragraph>
+                      {String((method as any).benefits)}
+                    </Typography>
+                  )
                 ) : (
                   <Typography variant="body1" paragraph>
-                    {(method as Record<string, unknown>).benefits}
+                    No benefits information available
                   </Typography>
                 )}
               </List>
@@ -146,7 +152,7 @@ export default function CookingMethodPage() {
                 Suitable Foods
               </Typography>
               <Grid container spacing={1} sx={{ mb: 2 }}>
-                {Array.isArray((method as CookingMethod[]).suitable_for) && (method as CookingMethod[]).suitable_for.map((food, index) => (
+                {method && typeof method === 'object' && 'suitable_for' in method && Array.isArray((method as any).suitable_for) && (method as any).suitable_for.map((food: string, index: number) => (
                   <Grid item key={index}>
                     <Chip 
                       label={food} 
@@ -157,14 +163,14 @@ export default function CookingMethodPage() {
                 ))}
               </Grid>
               
-              {(method as Record<string, unknown>).variations && (
+              {method && typeof method === 'object' && 'variations' in method && (method as any).variations && (
                 <>
                   <Divider sx={{ my: 3 }} />
                   <Typography variant="h5" gutterBottom>
                     Variations
                   </Typography>
                   <List>
-                    {Array.isArray((method as CookingMethod[]).variations) && (method as CookingMethod[]).variations.map((variation, index) => (
+                    {Array.isArray((method as any).variations) && (method as any).variations.map((variation: string, index: number) => (
                       <ListItem key={index}>
                         <ListItemText primary={variation} />
                       </ListItem>
@@ -357,11 +363,11 @@ export default function CookingMethodPage() {
                 Method Details
               </Typography>
               
-              {(method as Record<string, unknown>).time_range && (
+              {method && typeof method === 'object' && 'time_range' in method && (method as any).time_range && (
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 2 }}>
                   <AccessTime />
                   <Typography variant="body1">
-                    <strong>Time Range:</strong> {(method as Record<string, unknown>).time_range.min}-{(method as Record<string, unknown>).time_range.max} minutes
+                    <strong>Time Range:</strong> {(method as any).time_range?.min || 'N/A'}-{(method as any).time_range?.max || 'N/A'} minutes
                   </Typography>
                 </Box>
               )}

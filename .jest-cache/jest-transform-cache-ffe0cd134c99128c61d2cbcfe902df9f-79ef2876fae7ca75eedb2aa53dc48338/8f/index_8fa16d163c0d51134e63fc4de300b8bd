@@ -1,0 +1,35 @@
+df69cbae092b84eb52d4e21ebfa698db
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.broiling = exports.grilling = exports.stirFrying = exports.frying = exports.roasting = exports.baking = exports.dryCookingMethods = void 0;
+const baking_1 = require("./baking");
+Object.defineProperty(exports, "baking", { enumerable: true, get: function () { return baking_1.baking; } });
+const roasting_1 = require("./roasting");
+Object.defineProperty(exports, "roasting", { enumerable: true, get: function () { return roasting_1.roasting; } });
+const frying_1 = require("./frying");
+Object.defineProperty(exports, "frying", { enumerable: true, get: function () { return frying_1.frying; } });
+const stir_frying_1 = require("./stir-frying");
+Object.defineProperty(exports, "stirFrying", { enumerable: true, get: function () { return stir_frying_1.stirFrying; } });
+const grilling_1 = require("./grilling");
+Object.defineProperty(exports, "grilling", { enumerable: true, get: function () { return grilling_1.grilling; } });
+const broiling_1 = require("./broiling");
+Object.defineProperty(exports, "broiling", { enumerable: true, get: function () { return broiling_1.broiling; } });
+// Import other dry cooking methods as they are added
+// Removed duplicate: // Removed duplicate: // import { broiling } from './broiling';
+/**
+ * Collection of dry cooking methods
+ *
+ * Dry cooking methods use hot air, radiation, or hot oil (not water-based liquids)
+ * to transfer heat to food
+ */
+exports.dryCookingMethods = {
+    baking: baking_1.baking,
+    roasting: roasting_1.roasting,
+    frying: frying_1.frying,
+    stir_frying: stir_frying_1.stirFrying,
+    grilling: grilling_1.grilling,
+    broiling: broiling_1.broiling,
+    // Add other cooking methods as they are implemented
+    // broiling,
+};
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJmaWxlIjoiL1VzZXJzL0dyZWdDYXN0cm8vRGVza3RvcC9XaGF0VG9FYXROZXh0L3NyYy9kYXRhL2Nvb2tpbmcvbWV0aG9kcy9kcnkvaW5kZXgudHMiLCJtYXBwaW5ncyI6Ijs7O0FBQUEscUNBQWtDO0FBNEJoQyx1RkE1Qk8sZUFBTSxPQTRCUDtBQTNCUix5Q0FBc0M7QUE0QnBDLHlGQTVCTyxtQkFBUSxPQTRCUDtBQTNCVixxQ0FBa0M7QUE0QmhDLHVGQTVCTyxlQUFNLE9BNEJQO0FBM0JSLCtDQUEyQztBQTRCekMsMkZBNUJPLHdCQUFVLE9BNEJQO0FBM0JaLHlDQUFzQztBQTRCcEMseUZBNUJPLG1CQUFRLE9BNEJQO0FBM0JWLHlDQUFzQztBQTRCcEMseUZBNUJPLG1CQUFRLE9BNEJQO0FBM0JWLHFEQUFxRDtBQUNyRCxxRkFBcUY7QUFFckY7Ozs7O0dBS0c7QUFDVSxRQUFBLGlCQUFpQixHQUFHO0lBQy9CLE1BQU0sRUFBTixlQUFNO0lBQ04sUUFBUSxFQUFSLG1CQUFRO0lBQ1IsTUFBTSxFQUFOLGVBQU07SUFDTixXQUFXLEVBQUUsd0JBQVU7SUFDdkIsUUFBUSxFQUFSLG1CQUFRO0lBQ1IsUUFBUSxFQUFSLG1CQUFRO0lBQ1Isb0RBQW9EO0lBQ3BELFlBQVk7Q0FDYixDQUFDIiwibmFtZXMiOltdLCJzb3VyY2VzIjpbIi9Vc2Vycy9HcmVnQ2FzdHJvL0Rlc2t0b3AvV2hhdFRvRWF0TmV4dC9zcmMvZGF0YS9jb29raW5nL21ldGhvZHMvZHJ5L2luZGV4LnRzIl0sInNvdXJjZXNDb250ZW50IjpbImltcG9ydCB7IGJha2luZyB9IGZyb20gJy4vYmFraW5nJztcbmltcG9ydCB7IHJvYXN0aW5nIH0gZnJvbSAnLi9yb2FzdGluZyc7XG5pbXBvcnQgeyBmcnlpbmcgfSBmcm9tICcuL2ZyeWluZyc7XG5pbXBvcnQgeyBzdGlyRnJ5aW5nIH0gZnJvbSAnLi9zdGlyLWZyeWluZyc7XG5pbXBvcnQgeyBncmlsbGluZyB9IGZyb20gJy4vZ3JpbGxpbmcnO1xuaW1wb3J0IHsgYnJvaWxpbmcgfSBmcm9tICcuL2Jyb2lsaW5nJztcbi8vIEltcG9ydCBvdGhlciBkcnkgY29va2luZyBtZXRob2RzIGFzIHRoZXkgYXJlIGFkZGVkXG4vLyBSZW1vdmVkIGR1cGxpY2F0ZTogLy8gUmVtb3ZlZCBkdXBsaWNhdGU6IC8vIGltcG9ydCB7IGJyb2lsaW5nIH0gZnJvbSAnLi9icm9pbGluZyc7XG5cbi8qKlxuICogQ29sbGVjdGlvbiBvZiBkcnkgY29va2luZyBtZXRob2RzXG4gKlxuICogRHJ5IGNvb2tpbmcgbWV0aG9kcyB1c2UgaG90IGFpciwgcmFkaWF0aW9uLCBvciBob3Qgb2lsIChub3Qgd2F0ZXItYmFzZWQgbGlxdWlkcylcbiAqIHRvIHRyYW5zZmVyIGhlYXQgdG8gZm9vZFxuICovXG5leHBvcnQgY29uc3QgZHJ5Q29va2luZ01ldGhvZHMgPSB7XG4gIGJha2luZyxcbiAgcm9hc3RpbmcsXG4gIGZyeWluZyxcbiAgc3Rpcl9mcnlpbmc6IHN0aXJGcnlpbmcsXG4gIGdyaWxsaW5nLFxuICBicm9pbGluZyxcbiAgLy8gQWRkIG90aGVyIGNvb2tpbmcgbWV0aG9kcyBhcyB0aGV5IGFyZSBpbXBsZW1lbnRlZFxuICAvLyBicm9pbGluZyxcbn07XG5cbi8vIEV4cG9ydCBpbmRpdmlkdWFsIG1ldGhvZHNcbmV4cG9ydCB7XG4gIGJha2luZyxcbiAgcm9hc3RpbmcsXG4gIGZyeWluZyxcbiAgc3RpckZyeWluZyxcbiAgZ3JpbGxpbmcsXG4gIGJyb2lsaW5nLFxuICAvLyBicm9pbGluZyxcbn07XG4iXSwidmVyc2lvbiI6M30=

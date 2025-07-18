@@ -837,29 +837,67 @@ export {
   kalchmEngine,
   planetaryInfluences,
   
-  // Types (remove duplicate exports)
+  // Types
   type KalchmResult,
-
   type ElementalValues,
   type ThermodynamicResults,
   
   // Utility functions
   calculateKalchmResults,
   toElementalProperties,
+  calculatePlanetaryInfluences,
+  getPlanetaryCulinaryRecommendations
+};
+
+// Import and export elementalCalculations from the core module
+import elementalCalculationsModule from './core/elementalCalculations';
+export { default as elementalCalculations } from './core/elementalCalculations';
+
+// Also export the ElementalCalculator class from the main elementalcalculations.ts file
+export { ElementalCalculator, calculateElementalEnergies } from './elementalcalculations';
+
+// Export all functions from core elementalCalculations for direct access (avoiding duplicates)
+export {
   calculateComprehensiveElementalProperties,
   calculateElementalCompatibility,
   getDominantElement,
   getElementalRecommendations,
-  calculatePlanetaryInfluences,
-  getPlanetaryCulinaryRecommendations,
-  ZODIAC_ELEMENTS
-};
+  ZODIAC_ELEMENTS,
+  calculateBaseElementalProperties,
+  applySeasonalAdjustments as applySeasonalAdjustmentsCore,
+  applyLunarPhaseAdjustments as applyLunarPhaseAdjustmentsCore,
+  calculateElementalBalance,
+  combineElementalProperties,
+  normalizeElementalProperties,
+  SEASONAL_MODIFIERS,
+  LUNAR_PHASE_MODIFIERS
+} from './core/elementalCalculations';
 
-// Default export
+// Export other calculation modules
+export * from './alchemicalCalculations';
+export * from './alchemicalTransformation';
+export * from './combinationEffects';
+export * from './culinaryAstrology';
+export * from './enhancedAlchemicalMatching';
+export * from './enhancedCuisineRecommender';
+export * from './gregsEnergy';
+export * from './seasonalCalculations';
+
+// Export from core directory
+export * from './core/alchemicalCalculations';
+export * from './core/kalchmEngine';
+export * from './core/planetaryInfluences';
+
+// Export from culinary directory
+export * from './culinary/cuisineRecommendations';
+export * from './culinary/recipeMatching';
+export * from './culinary/seasonalAdjustments';
+
+// Default export (placed at end to ensure all imports are available)
 export default {
   calculateComprehensiveAlchemicalResult,
   calculateRecipeCompatibility,
   kalchmEngine,
-  elementalCalculations,
+  elementalCalculations: elementalCalculationsModule,
   planetaryInfluences
-}; 
+};

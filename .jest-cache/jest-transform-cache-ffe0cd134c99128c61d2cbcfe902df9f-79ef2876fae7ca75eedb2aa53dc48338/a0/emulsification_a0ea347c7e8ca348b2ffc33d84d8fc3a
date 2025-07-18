@@ -1,0 +1,65 @@
+7fe58f2a84cc300948efa15aabb6aac3
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.emulsification = void 0;
+/**
+ * Emulsification: A molecular gastronomy technique for creating stable mixtures
+ * of normally immiscible liquids, such as oil and water
+ */
+exports.emulsification = {
+    name: 'Emulsification',
+    description: 'A technique that combines normally immiscible liquids, such as oil and water, into a stable, homogeneous mixture through the use of emulsifiers, agitation, or specialized equipment.',
+    elementalEffect: {
+        Fire: 0.1,
+        Water: 0.6,
+        Earth: 0.2,
+        Air: 0.4
+    },
+    duration: {
+        min: 5,
+        max: 30 // minutes
+    },
+    suitable_for: [
+        'Oils',
+        'Vinegars',
+        'Fats',
+        'Juices',
+        'Dairy',
+        'Purees',
+        'Stocks'
+    ],
+    benefits: [
+        'Can reduce the amount of fat needed in a dish while preserving flavor',
+        'Creates light, airy textures with concentrated flavors',
+        'Allows for even distribution of flavor compounds'
+    ],
+    history: 'While emulsification has been used traditionally in cooking for centuries (mayonnaise, hollandaise), modern molecular gastronomy has refined the technique using scientific principles and new ingredients, popularized by chefs like Ferran Adrià and Heston Blumenthal since the 1990s.',
+    modernVariations: [
+        'Foams (light, airy emulsions)',
+        'Espumas (created with siphons)',
+        'Airs (extremely light foams)',
+        'Stable emulsions (like modern mayonnaise)',
+        'Flavored butters (solid emulsions)',
+        'Fluid gels (emulsions stabilized with hydrocolloids)'
+    ],
+    optimalTemperatures: {
+        cold: 12,
+        hot: 70 // °C (average for hot emulsions)
+    },
+    toolsRequired: [
+        'Immersion blender',
+        'Food processor',
+        'Whisk',
+        'Siphon/whipping canister',
+        'Lecithin',
+        'Soy lecithin',
+        'Xanthan gum',
+        'Ultrasonic homogenizer (high-end)'
+    ],
+    healthConsiderations: [
+        'Some emulsifiers may cause digestive discomfort in sensitive individuals',
+        'Modern emulsifying agents should be used in appropriate quantities',
+        'Hot emulsions can break if not properly stabilized'
+    ]
+};
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJmaWxlIjoiL1VzZXJzL0dyZWdDYXN0cm8vRGVza3RvcC9XaGF0VG9FYXROZXh0L3NyYy9kYXRhL2Nvb2tpbmcvbWV0aG9kcy9tb2xlY3VsYXIvZW11bHNpZmljYXRpb24udHMiLCJtYXBwaW5ncyI6Ijs7O0FBR0E7OztHQUdHO0FBQ1UsUUFBQSxjQUFjLEdBQXNCO0lBQy9DLElBQUksRUFBRSxnQkFBaUM7SUFDdkMsV0FBVyxFQUFFLHVMQUF1TDtJQUNwTSxlQUFlLEVBQUU7UUFDZixJQUFJLEVBQUUsR0FBRztRQUNULEtBQUssRUFBRSxHQUFHO1FBQ1YsS0FBSyxFQUFFLEdBQUc7UUFDVixHQUFHLEVBQUUsR0FBRztLQUNUO0lBQ0QsUUFBUSxFQUFFO1FBQ1IsR0FBRyxFQUFFLENBQUM7UUFDTixHQUFHLEVBQUUsRUFBRSxDQUFDLFVBQVU7S0FDbkI7SUFDRCxZQUFZLEVBQUU7UUFDWixNQUFNO1FBQ04sVUFBVTtRQUNWLE1BQU07UUFDTixRQUFRO1FBQ1IsT0FBTztRQUNQLFFBQVE7UUFDUixRQUFRO0tBQ1Q7SUFDRCxRQUFRLEVBQUU7UUFDUix1RUFBdUU7UUFDdkUsd0RBQXdEO1FBQ3hELGtEQUFrRDtLQUNuRDtJQUNELE9BQU8sRUFBRSwyUkFBMlI7SUFDcFMsZ0JBQWdCLEVBQUU7UUFDaEIsK0JBQStCO1FBQy9CLGdDQUFnQztRQUNoQyw4QkFBOEI7UUFDOUIsMkNBQTJDO1FBQzNDLG9DQUFvQztRQUNwQyxzREFBc0Q7S0FDdkQ7SUFDRCxtQkFBbUIsRUFBRTtRQUNuQixJQUFJLEVBQUUsRUFBRTtRQUNSLEdBQUcsRUFBRSxFQUFFLENBQUMsaUNBQWlDO0tBQzFDO0lBQ0QsYUFBYSxFQUFFO1FBQ2IsbUJBQW1CO1FBQ25CLGdCQUFnQjtRQUNoQixPQUFPO1FBQ1AsMEJBQTBCO1FBQzFCLFVBQVU7UUFDVixjQUFjO1FBQ2QsYUFBYTtRQUNiLG1DQUFtQztLQUNwQztJQUNELG9CQUFvQixFQUFFO1FBQ3BCLDBFQUEwRTtRQUMxRSxvRUFBb0U7UUFDcEUsb0RBQW9EO0tBQ3JEO0NBQ0YsQ0FBQyIsIm5hbWVzIjpbXSwic291cmNlcyI6WyIvVXNlcnMvR3JlZ0Nhc3Ryby9EZXNrdG9wL1doYXRUb0VhdE5leHQvc3JjL2RhdGEvY29va2luZy9tZXRob2RzL21vbGVjdWxhci9lbXVsc2lmaWNhdGlvbi50cyJdLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQgdHlwZSB7IENvb2tpbmdNZXRob2REYXRhIH0gZnJvbSAnQC90eXBlcy9jb29raW5nTWV0aG9kJztcbmltcG9ydCB0eXBlIHsgQ29va2luZ01ldGhvZCB9IGZyb20gJ0AvdHlwZXMvc2hhcmVkJztcblxuLyoqXG4gKiBFbXVsc2lmaWNhdGlvbjogQSBtb2xlY3VsYXIgZ2FzdHJvbm9teSB0ZWNobmlxdWUgZm9yIGNyZWF0aW5nIHN0YWJsZSBtaXh0dXJlc1xuICogb2Ygbm9ybWFsbHkgaW1taXNjaWJsZSBsaXF1aWRzLCBzdWNoIGFzIG9pbCBhbmQgd2F0ZXJcbiAqL1xuZXhwb3J0IGNvbnN0IGVtdWxzaWZpY2F0aW9uOiBDb29raW5nTWV0aG9kRGF0YSA9IHtcbiAgbmFtZTogJ0VtdWxzaWZpY2F0aW9uJyBhcyBDb29raW5nTWV0aG9kLFxuICBkZXNjcmlwdGlvbjogJ0EgdGVjaG5pcXVlIHRoYXQgY29tYmluZXMgbm9ybWFsbHkgaW1taXNjaWJsZSBsaXF1aWRzLCBzdWNoIGFzIG9pbCBhbmQgd2F0ZXIsIGludG8gYSBzdGFibGUsIGhvbW9nZW5lb3VzIG1peHR1cmUgdGhyb3VnaCB0aGUgdXNlIG9mIGVtdWxzaWZpZXJzLCBhZ2l0YXRpb24sIG9yIHNwZWNpYWxpemVkIGVxdWlwbWVudC4nLFxuICBlbGVtZW50YWxFZmZlY3Q6IHtcbiAgICBGaXJlOiAwLjEsXG4gICAgV2F0ZXI6IDAuNixcbiAgICBFYXJ0aDogMC4yLFxuICAgIEFpcjogMC40XG4gIH0sXG4gIGR1cmF0aW9uOiB7XG4gICAgbWluOiA1LCAvLyBtaW51dGVzXG4gICAgbWF4OiAzMCAvLyBtaW51dGVzXG4gIH0sXG4gIHN1aXRhYmxlX2ZvcjogW1xuICAgICdPaWxzJyxcbiAgICAnVmluZWdhcnMnLFxuICAgICdGYXRzJyxcbiAgICAnSnVpY2VzJyxcbiAgICAnRGFpcnknLFxuICAgICdQdXJlZXMnLFxuICAgICdTdG9ja3MnXG4gIF0sXG4gIGJlbmVmaXRzOiBbXG4gICAgJ0NhbiByZWR1Y2UgdGhlIGFtb3VudCBvZiBmYXQgbmVlZGVkIGluIGEgZGlzaCB3aGlsZSBwcmVzZXJ2aW5nIGZsYXZvcicsXG4gICAgJ0NyZWF0ZXMgbGlnaHQsIGFpcnkgdGV4dHVyZXMgd2l0aCBjb25jZW50cmF0ZWQgZmxhdm9ycycsXG4gICAgJ0FsbG93cyBmb3IgZXZlbiBkaXN0cmlidXRpb24gb2YgZmxhdm9yIGNvbXBvdW5kcydcbiAgXSxcbiAgaGlzdG9yeTogJ1doaWxlIGVtdWxzaWZpY2F0aW9uIGhhcyBiZWVuIHVzZWQgdHJhZGl0aW9uYWxseSBpbiBjb29raW5nIGZvciBjZW50dXJpZXMgKG1heW9ubmFpc2UsIGhvbGxhbmRhaXNlKSwgbW9kZXJuIG1vbGVjdWxhciBnYXN0cm9ub215IGhhcyByZWZpbmVkIHRoZSB0ZWNobmlxdWUgdXNpbmcgc2NpZW50aWZpYyBwcmluY2lwbGVzIGFuZCBuZXcgaW5ncmVkaWVudHMsIHBvcHVsYXJpemVkIGJ5IGNoZWZzIGxpa2UgRmVycmFuIEFkcmnDoCBhbmQgSGVzdG9uIEJsdW1lbnRoYWwgc2luY2UgdGhlIDE5OTBzLicsXG4gIG1vZGVyblZhcmlhdGlvbnM6IFtcbiAgICAnRm9hbXMgKGxpZ2h0LCBhaXJ5IGVtdWxzaW9ucyknLFxuICAgICdFc3B1bWFzIChjcmVhdGVkIHdpdGggc2lwaG9ucyknLFxuICAgICdBaXJzIChleHRyZW1lbHkgbGlnaHQgZm9hbXMpJyxcbiAgICAnU3RhYmxlIGVtdWxzaW9ucyAobGlrZSBtb2Rlcm4gbWF5b25uYWlzZSknLFxuICAgICdGbGF2b3JlZCBidXR0ZXJzIChzb2xpZCBlbXVsc2lvbnMpJyxcbiAgICAnRmx1aWQgZ2VscyAoZW11bHNpb25zIHN0YWJpbGl6ZWQgd2l0aCBoeWRyb2NvbGxvaWRzKSdcbiAgXSxcbiAgb3B0aW1hbFRlbXBlcmF0dXJlczoge1xuICAgIGNvbGQ6IDEyLCAvLyDCsEMgKGF2ZXJhZ2UgZm9yIGNvbGQgZW11bHNpb25zKVxuICAgIGhvdDogNzAgLy8gwrBDIChhdmVyYWdlIGZvciBob3QgZW11bHNpb25zKVxuICB9LFxuICB0b29sc1JlcXVpcmVkOiBbXG4gICAgJ0ltbWVyc2lvbiBibGVuZGVyJyxcbiAgICAnRm9vZCBwcm9jZXNzb3InLFxuICAgICdXaGlzaycsXG4gICAgJ1NpcGhvbi93aGlwcGluZyBjYW5pc3RlcicsXG4gICAgJ0xlY2l0aGluJyxcbiAgICAnU295IGxlY2l0aGluJyxcbiAgICAnWGFudGhhbiBndW0nLFxuICAgICdVbHRyYXNvbmljIGhvbW9nZW5pemVyIChoaWdoLWVuZCknXG4gIF0sXG4gIGhlYWx0aENvbnNpZGVyYXRpb25zOiBbXG4gICAgJ1NvbWUgZW11bHNpZmllcnMgbWF5IGNhdXNlIGRpZ2VzdGl2ZSBkaXNjb21mb3J0IGluIHNlbnNpdGl2ZSBpbmRpdmlkdWFscycsXG4gICAgJ01vZGVybiBlbXVsc2lmeWluZyBhZ2VudHMgc2hvdWxkIGJlIHVzZWQgaW4gYXBwcm9wcmlhdGUgcXVhbnRpdGllcycsXG4gICAgJ0hvdCBlbXVsc2lvbnMgY2FuIGJyZWFrIGlmIG5vdCBwcm9wZXJseSBzdGFiaWxpemVkJ1xuICBdXG59OyAiXSwidmVyc2lvbiI6M30=

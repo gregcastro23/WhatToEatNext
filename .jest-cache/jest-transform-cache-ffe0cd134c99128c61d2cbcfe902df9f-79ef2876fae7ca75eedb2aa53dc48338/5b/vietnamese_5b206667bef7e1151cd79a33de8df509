@@ -1,0 +1,895 @@
+65ff3705d2b405d84893e2428f3293df
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.vietnamese = void 0;
+exports.vietnamese = {
+    id: "vietnamese",
+    name: "Vietnamese",
+    description: "Traditional Vietnamese cuisine emphasizing fresh ingredients, herbs, and balanced flavors",
+    dishes: {
+        breakfast: {
+            all: [
+                {
+                    name: "Phở Bò",
+                    description: "Traditional Vietnamese beef noodle soup",
+                    cuisine: "Vietnamese",
+                    cookingMethods: ["simmering", "boiling", "garnishing"],
+                    tools: [
+                        "large stock pot",
+                        "strainer",
+                        "ladle",
+                        "serving bowls",
+                        "chopsticks"
+                    ],
+                    preparationSteps: [
+                        "Char ginger and onions",
+                        "Simmer beef bones",
+                        "Toast spices",
+                        "Strain broth",
+                        "Cook rice noodles",
+                        "Assemble bowls",
+                        "Add garnishes"
+                    ],
+                    ingredients: [
+                        { name: "beef bones", amount: "2", unit: "kg", category: "protein" },
+                        { name: "rice noodles", amount: "500", unit: "g", category: "grain", swaps: ["shirataki noodles"] },
+                        { name: "beef slices", amount: "400", unit: "g", category: "protein", swaps: ["tofu", "mushrooms"] },
+                        { name: "onion", amount: "2", unit: "large", category: "vegetable" },
+                        { name: "ginger", amount: "100", unit: "g", category: "spice" },
+                        { name: "star anise", amount: "4", unit: "pieces", category: "spice" },
+                        { name: "cinnamon stick", amount: "2", unit: "pieces", category: "spice" },
+                        { name: "bean sprouts", amount: "200", unit: "g", category: "vegetable" },
+                        { name: "Thai basil", amount: "1", unit: "bunch", category: "herb" },
+                        { name: "cilantro", amount: "1", unit: "bunch", category: "herb" },
+                        { name: "lime", amount: "2", unit: "whole", category: "fruit" },
+                        { name: "hoisin sauce", amount: "4", unit: "tbsp", category: "condiment" },
+                        { name: "sriracha", amount: "4", unit: "tbsp", category: "condiment" }
+                    ],
+                    substitutions: {
+                        "beef bones": ["chicken bones", "mushroom broth"],
+                        "beef slices": ["chicken", "tofu", "mushrooms"],
+                        "hoisin sauce": ["soy sauce", "coconut aminos"]
+                    },
+                    servingSize: 6,
+                    allergens: ["soy"],
+                    prepTime: "30 minutes",
+                    cookTime: "6 hours",
+                    culturalNotes: "Phở originated in the early 20th century in northern Vietnam and is considered the national dish. The clear broth is a result of careful simmering and skimming",
+                    pairingSuggestions: ["Vietnamese coffee", "fresh chili peppers", "pickled garlic"],
+                    dietaryInfo: ["adaptable to gluten-free", "adaptable to vegan"],
+                    spiceLevel: "customizable",
+                    nutrition: {
+                        calories: 480,
+                        protein: 32,
+                        carbs: 58,
+                        fat: 16,
+                        vitamins: ["B12", "C", "A"],
+                        minerals: ["Iron", "Zinc"]
+                    },
+                    season: ["all"],
+                    mealType: ["breakfast", "lunch"],
+                    elementalProperties: {
+                        Water: 0.4,
+                        Fire: 0.2,
+                        Earth: 0.2,
+                        Air: 0.2
+                    }
+                },
+                {
+                    name: "Cháo Gà",
+                    description: "Vietnamese chicken rice porridge",
+                    cuisine: "Vietnamese",
+                    cookingMethods: ["simmering", "poaching"],
+                    tools: [
+                        "large pot",
+                        "ladle",
+                        "knife",
+                        "cutting board",
+                        "small bowls for garnishes"
+                    ],
+                    preparationSteps: [
+                        "Cook rice until very soft",
+                        "Poach chicken",
+                        "Prepare garnishes",
+                        "Season porridge",
+                        "Shred chicken",
+                        "Assemble bowls"
+                    ],
+                    ingredients: [
+                        { name: "jasmine rice", amount: "1", unit: "cup", category: "grain" },
+                        { name: "chicken", amount: "500", unit: "g", category: "protein", swaps: ["tofu"] },
+                        { name: "ginger", amount: "50", unit: "g", category: "spice" },
+                        { name: "green onions", amount: "4", unit: "stalks", category: "vegetable" },
+                        { name: "fish sauce", amount: "2", unit: "tbsp", category: "seasoning", swaps: ["soy sauce"] },
+                        { name: "black pepper", amount: "1", unit: "tsp", category: "spice" },
+                        { name: "fried shallots", amount: "4", unit: "tbsp", category: "garnish" },
+                        { name: "cilantro", amount: "1/2", unit: "cup", category: "herb" }
+                    ],
+                    substitutions: {
+                        "chicken": ["turkey", "tofu", "mushrooms"],
+                        "fish sauce": ["soy sauce", "coconut aminos"],
+                        "fried shallots": ["fried garlic", "crispy onions"]
+                    },
+                    servingSize: 4,
+                    allergens: ["fish"],
+                    prepTime: "15 minutes",
+                    cookTime: "45 minutes",
+                    culturalNotes: "Cháo is a comforting breakfast dish often served when someone is feeling unwell. Each region has its own variation",
+                    pairingSuggestions: ["youtiao (fried dough)", "pickled vegetables", "century eggs"],
+                    dietaryInfo: ["dairy-free", "adaptable to gluten-free"],
+                    spiceLevel: "mild",
+                    nutrition: {
+                        calories: 320,
+                        protein: 28,
+                        carbs: 42,
+                        fat: 8,
+                        vitamins: ["B6", "B12"],
+                        minerals: ["Iron", "Zinc"]
+                    },
+                    season: ["all"],
+                    mealType: ["breakfast"],
+                    elementalProperties: {
+                        Water: 0.4,
+                        Earth: 0.3,
+                        Air: 0.2,
+                        Fire: 0.1
+                    }
+                },
+                {
+                    name: "Bánh Cuốn",
+                    description: "Steamed rice rolls filled with ground pork and mushrooms",
+                    cuisine: "Vietnamese",
+                    cookingMethods: ["steaming", "filling", "assembling"],
+                    tools: [
+                        "steamer",
+                        "non-stick pan",
+                        "spatula",
+                        "mixing bowls",
+                        "serving plates"
+                    ],
+                    preparationSteps: [
+                        "Make rice batter",
+                        "Prepare filling",
+                        "Steam thin layers",
+                        "Fill and roll",
+                        "Make dipping sauce",
+                        "Garnish and serve"
+                    ],
+                    ingredients: [
+                        { name: "rice flour", amount: "300", unit: "g", category: "flour" },
+                        { name: "tapioca starch", amount: "50", unit: "g", category: "starch" },
+                        { name: "ground pork", amount: "200", unit: "g", category: "protein", swaps: ["mushrooms"] },
+                        { name: "wood ear mushrooms", amount: "50", unit: "g", category: "vegetable" },
+                        { name: "shallots", amount: "4", unit: "whole", category: "vegetable" },
+                        { name: "fish sauce", amount: "3", unit: "tbsp", category: "seasoning" },
+                        { name: "fried shallots", amount: "4", unit: "tbsp", category: "garnish" },
+                        { name: "Vietnamese herbs", amount: "1", unit: "bunch", category: "herb" }
+                    ],
+                    substitutions: {
+                        "ground pork": ["minced mushrooms", "tofu"],
+                        "fish sauce": ["soy sauce", "coconut aminos"],
+                        "wood ear mushrooms": ["shiitake mushrooms"]
+                    },
+                    servingSize: 4,
+                    allergens: ["fish"],
+                    prepTime: "30 minutes",
+                    cookTime: "45 minutes",
+                    culturalNotes: "A beloved breakfast dish from Northern Vietnam, often served with nước chấm dipping sauce and chả lụa (Vietnamese pork sausage)",
+                    pairingSuggestions: ["Vietnamese coffee", "fresh herbs", "chili sauce"],
+                    dietaryInfo: ["dairy-free", "adaptable to vegan"],
+                    spiceLevel: "mild",
+                    nutrition: {
+                        calories: 280,
+                        protein: 15,
+                        carbs: 45,
+                        fat: 6,
+                        vitamins: ["B1", "B6"],
+                        minerals: ["Iron", "Zinc"]
+                    },
+                    season: ["all"],
+                    mealType: ["breakfast"],
+                    elementalProperties: {
+                        Water: 0.3,
+                        Earth: 0.3,
+                        Air: 0.3,
+                        Fire: 0.1
+                    }
+                }
+            ],
+            winter: [
+                {
+                    name: "Cháo",
+                    description: "Vietnamese rice porridge with chicken",
+                    cuisine: "Vietnamese",
+                    ingredients: [
+                        { name: "rice", amount: "1", unit: "cup", category: "grain" },
+                        { name: "chicken", amount: "200", unit: "g", category: "protein", swaps: ["tofu"] },
+                        { name: "ginger", amount: "30", unit: "g", category: "spice" },
+                        { name: "green onions", amount: "2", unit: "stalks", category: "vegetable" }
+                    ],
+                    nutrition: {
+                        calories: 350,
+                        protein: 25,
+                        carbs: 45,
+                        fat: 8,
+                        vitamins: ["B1", "B2"],
+                        minerals: ["Iron", "Zinc"]
+                    },
+                    timeToMake: "45 minutes",
+                    season: ["winter"],
+                    mealType: ["breakfast"]
+                }
+            ]
+        },
+        lunch: {
+            all: [
+                {
+                    name: "Bánh Mì Thịt",
+                    description: "Vietnamese sandwich with grilled pork and pickled vegetables",
+                    cuisine: "Vietnamese",
+                    cookingMethods: ["grilling", "pickling", "assembling"],
+                    tools: [
+                        "grill or grill pan",
+                        "knife",
+                        "cutting board",
+                        "mixing bowls",
+                        "mandoline"
+                    ],
+                    preparationSteps: [
+                        "Marinate pork",
+                        "Prepare pickled vegetables",
+                        "Grill pork",
+                        "Toast baguette",
+                        "Make spicy mayo",
+                        "Assemble sandwich"
+                    ],
+                    ingredients: [
+                        { name: "baguette", amount: "4", unit: "pieces", category: "grain", swaps: ["gluten-free baguette"] },
+                        { name: "pork belly", amount: "400", unit: "g", category: "protein", swaps: ["tofu", "seitan"] },
+                        { name: "daikon", amount: "200", unit: "g", category: "vegetable" },
+                        { name: "carrots", amount: "200", unit: "g", category: "vegetable" },
+                        { name: "cucumber", amount: "1", unit: "large", category: "vegetable" },
+                        { name: "cilantro", amount: "1", unit: "bunch", category: "herb" },
+                        { name: "pate", amount: "100", unit: "g", category: "spread", swaps: ["mushroom pate"] },
+                        { name: "mayonnaise", amount: "4", unit: "tbsp", category: "condiment" },
+                        { name: "sriracha", amount: "2", unit: "tbsp", category: "condiment" }
+                    ],
+                    substitutions: {
+                        "pork belly": ["chicken", "tofu", "mushrooms"],
+                        "pate": ["mushroom pate", "hummus"],
+                        "mayonnaise": ["vegan mayo"]
+                    },
+                    servingSize: 4,
+                    allergens: ["wheat", "eggs"],
+                    prepTime: "30 minutes",
+                    cookTime: "20 minutes",
+                    culturalNotes: "Bánh mì represents the French colonial influence on Vietnamese cuisine, combining French baguettes with Vietnamese flavors",
+                    pairingSuggestions: ["Vietnamese iced coffee", "pickled vegetables", "chili sauce"],
+                    dietaryInfo: ["adaptable to vegan"],
+                    spiceLevel: "mild to medium",
+                    nutrition: {
+                        calories: 550,
+                        protein: 28,
+                        carbs: 65,
+                        fat: 22,
+                        vitamins: ["A", "C"],
+                        minerals: ["Iron", "Calcium"]
+                    },
+                    season: ["all"],
+                    mealType: ["lunch"],
+                    elementalProperties: {
+                        Earth: 0.3,
+                        Air: 0.3,
+                        Fire: 0.2,
+                        Water: 0.2
+                    }
+                },
+                {
+                    name: "Bún Chả",
+                    description: "Grilled pork meatballs with rice noodles and herbs",
+                    cuisine: "Vietnamese",
+                    cookingMethods: ["grilling", "boiling"],
+                    tools: [
+                        "grill",
+                        "mixing bowls",
+                        "pot",
+                        "strainer",
+                        "serving bowls"
+                    ],
+                    preparationSteps: [
+                        "Form meatballs",
+                        "Make dipping sauce",
+                        "Grill meatballs",
+                        "Cook noodles",
+                        "Prepare herbs",
+                        "Assemble bowls"
+                    ],
+                    ingredients: [
+                        { name: "ground pork", amount: "500", unit: "g", category: "protein" },
+                        { name: "rice noodles", amount: "400", unit: "g", category: "grain" },
+                        { name: "fish sauce", amount: "4", unit: "tbsp", category: "seasoning" },
+                        { name: "garlic", amount: "6", unit: "cloves", category: "vegetable" },
+                        { name: "shallots", amount: "4", unit: "pieces", category: "vegetable" },
+                        { name: "lettuce", amount: "1", unit: "head", category: "vegetable" },
+                        { name: "herbs mix", amount: "2", unit: "cups", category: "herb" },
+                        { name: "green papaya", amount: "200", unit: "g", category: "vegetable" },
+                        { name: "lime", amount: "2", unit: "pieces", category: "fruit" }
+                    ],
+                    substitutions: {
+                        "ground pork": ["chicken", "turkey", "plant-based meat"],
+                        "fish sauce": ["soy sauce", "coconut aminos"],
+                        "green papaya": ["carrots", "daikon"]
+                    },
+                    servingSize: 4,
+                    allergens: ["fish"],
+                    prepTime: "45 minutes",
+                    cookTime: "20 minutes",
+                    culturalNotes: "A Hanoi specialty that gained international recognition when Anthony Bourdain and Barack Obama enjoyed it together",
+                    pairingSuggestions: ["Vietnamese beer", "pickled garlic", "chili"],
+                    dietaryInfo: ["dairy-free", "adaptable to gluten-free"],
+                    spiceLevel: "mild",
+                    nutrition: {
+                        calories: 480,
+                        protein: 32,
+                        carbs: 55,
+                        fat: 18,
+                        vitamins: ["B12", "C"],
+                        minerals: ["Iron", "Zinc"]
+                    },
+                    season: ["spring", "summer"],
+                    mealType: ["lunch", "dinner"],
+                    elementalProperties: {
+                        Fire: 0.3,
+                        Earth: 0.3,
+                        Air: 0.2,
+                        Water: 0.2
+                    }
+                },
+                {
+                    name: "Bún Bò Huế",
+                    description: "Spicy beef noodle soup from Hue",
+                    cuisine: "Vietnamese",
+                    cookingMethods: ["simmering", "boiling", "spice preparation"],
+                    tools: [
+                        "large stock pot",
+                        "strainer",
+                        "ladle",
+                        "serving bowls",
+                        "chopsticks"
+                    ],
+                    preparationSteps: [
+                        "Prepare lemongrass broth",
+                        "Cook beef and pork",
+                        "Make chili oil",
+                        "Cook noodles",
+                        "Assemble bowls",
+                        "Add garnishes"
+                    ],
+                    ingredients: [
+                        { name: "beef shank", amount: "500", unit: "g", category: "protein" },
+                        { name: "pork knuckles", amount: "300", unit: "g", category: "protein" },
+                        { name: "thick rice noodles", amount: "500", unit: "g", category: "grain" },
+                        { name: "lemongrass", amount: "4", unit: "stalks", category: "herb" },
+                        { name: "shrimp paste", amount: "2", unit: "tbsp", category: "seasoning" },
+                        { name: "annatto seeds", amount: "2", unit: "tbsp", category: "spice" },
+                        { name: "Vietnamese herbs", amount: "2", unit: "cups", category: "herb" },
+                        { name: "banana flower", amount: "1", unit: "whole", category: "vegetable", optional: true }
+                    ],
+                    substitutions: {
+                        "beef shank": ["brisket", "tofu"],
+                        "pork knuckles": ["pork belly", "mushrooms"],
+                        "shrimp paste": ["miso paste"]
+                    },
+                    servingSize: 6,
+                    allergens: ["shellfish"],
+                    prepTime: "40 minutes",
+                    cookTime: "3 hours",
+                    culturalNotes: "A regional specialty from the imperial city of Hue, known for its spicy broth and complex flavors",
+                    pairingSuggestions: ["lime wedges", "chili sauce", "fresh herbs"],
+                    dietaryInfo: ["dairy-free"],
+                    spiceLevel: "hot",
+                    nutrition: {
+                        calories: 520,
+                        protein: 35,
+                        carbs: 65,
+                        fat: 18,
+                        vitamins: ["B12", "C"],
+                        minerals: ["Iron", "Zinc"]
+                    },
+                    season: ["all"],
+                    mealType: ["lunch", "dinner"],
+                    elementalProperties: {
+                        Fire: 0.4,
+                        Water: 0.3,
+                        Earth: 0.2,
+                        Air: 0.1
+                    }
+                }
+            ]
+        },
+        dinner: {
+            all: [
+                {
+                    name: "Cá Kho Tộ",
+                    description: "Caramelized fish in clay pot",
+                    cuisine: "Vietnamese",
+                    cookingMethods: ["braising", "caramelizing"],
+                    tools: [
+                        "clay pot or heavy pot",
+                        "wooden spoon",
+                        "knife",
+                        "cutting board",
+                        "measuring spoons"
+                    ],
+                    preparationSteps: [
+                        "Clean and cut fish",
+                        "Make caramel sauce",
+                        "Layer ingredients",
+                        "Simmer fish",
+                        "Reduce sauce",
+                        "Garnish and serve"
+                    ],
+                    ingredients: [
+                        { name: "catfish steaks", amount: "800", unit: "g", category: "protein", swaps: ["salmon", "mackerel"] },
+                        { name: "sugar", amount: "3", unit: "tbsp", category: "sweetener" },
+                        { name: "fish sauce", amount: "4", unit: "tbsp", category: "seasoning" },
+                        { name: "coconut water", amount: "1", unit: "cup", category: "liquid" },
+                        { name: "shallots", amount: "4", unit: "whole", category: "vegetable" },
+                        { name: "garlic", amount: "4", unit: "cloves", category: "vegetable" },
+                        { name: "ginger", amount: "2", unit: "inches", category: "spice" },
+                        { name: "green onions", amount: "4", unit: "stalks", category: "vegetable" },
+                        { name: "black pepper", amount: "1", unit: "tsp", category: "spice" },
+                        { name: "chili", amount: "2", unit: "pieces", category: "spice", optional: true }
+                    ],
+                    substitutions: {
+                        "catfish": ["salmon", "mackerel", "tofu"],
+                        "fish sauce": ["soy sauce", "coconut aminos"],
+                        "coconut water": ["water", "stock"]
+                    },
+                    servingSize: 4,
+                    allergens: ["fish"],
+                    prepTime: "20 minutes",
+                    cookTime: "40 minutes",
+                    culturalNotes: "A homestyle dish that exemplifies the Vietnamese caramelization technique. The clay pot helps develop deep flavors and keeps the fish moist",
+                    pairingSuggestions: ["steamed rice", "water spinach", "soup"],
+                    dietaryInfo: ["dairy-free", "gluten-free"],
+                    spiceLevel: "mild to medium",
+                    nutrition: {
+                        calories: 420,
+                        protein: 35,
+                        carbs: 15,
+                        fat: 25,
+                        vitamins: ["D", "B12"],
+                        minerals: ["Omega-3", "Iron"]
+                    },
+                    season: ["all"],
+                    mealType: ["dinner"],
+                    elementalProperties: {
+                        Water: 0.3,
+                        Fire: 0.3,
+                        Earth: 0.3,
+                        Air: 0.1
+                    }
+                },
+                {
+                    name: "Cơm Tấm",
+                    description: "Broken rice with grilled pork chop and egg",
+                    cuisine: "Vietnamese",
+                    cookingMethods: ["grilling", "frying", "steaming"],
+                    tools: [
+                        "grill",
+                        "rice cooker",
+                        "frying pan",
+                        "mixing bowls",
+                        "serving plates"
+                    ],
+                    preparationSteps: [
+                        "Marinate pork chops",
+                        "Cook broken rice",
+                        "Grill pork chops",
+                        "Prepare bì (shredded pork)",
+                        "Fry eggs",
+                        "Assemble plate"
+                    ],
+                    ingredients: [
+                        { name: "broken rice", amount: "2", unit: "cups", category: "grain" },
+                        { name: "pork chops", amount: "4", unit: "pieces", category: "protein" },
+                        { name: "eggs", amount: "4", unit: "large", category: "protein" },
+                        { name: "green onions", amount: "4", unit: "stalks", category: "vegetable" },
+                        { name: "pickled vegetables", amount: "200", unit: "g", category: "vegetable" },
+                        { name: "fish sauce", amount: "4", unit: "tbsp", category: "seasoning" },
+                        { name: "lemongrass", amount: "2", unit: "stalks", category: "herb" },
+                        { name: "garlic", amount: "6", unit: "cloves", category: "vegetable" }
+                    ],
+                    substitutions: {
+                        "pork chops": ["chicken thighs", "tofu steaks"],
+                        "fish sauce": ["soy sauce", "coconut aminos"],
+                        "broken rice": ["jasmine rice", "brown rice"]
+                    },
+                    servingSize: 4,
+                    allergens: ["fish", "eggs"],
+                    prepTime: "30 minutes",
+                    cookTime: "45 minutes",
+                    culturalNotes: "A Saigon specialty that originated from using broken rice grains that couldn't be sold at full price. Now it's a beloved dish throughout Vietnam",
+                    pairingSuggestions: ["scallion oil", "chili sauce", "soup broth"],
+                    dietaryInfo: ["dairy-free"],
+                    spiceLevel: "mild",
+                    nutrition: {
+                        calories: 650,
+                        protein: 45,
+                        carbs: 70,
+                        fat: 25,
+                        vitamins: ["B12", "D"],
+                        minerals: ["Iron", "Zinc"]
+                    },
+                    season: ["all"],
+                    mealType: ["dinner"],
+                    elementalProperties: {
+                        Earth: 0.4,
+                        Fire: 0.3,
+                        Air: 0.2,
+                        Water: 0.1
+                    }
+                }
+            ]
+        },
+        dessert: {
+            all: [
+                {
+                    name: "Chè Ba Màu",
+                    description: "Three-color dessert with beans, jelly, and coconut milk",
+                    cuisine: "Vietnamese",
+                    cookingMethods: ["cooking beans", "layering"],
+                    tools: [
+                        "saucepans",
+                        "strainer",
+                        "tall glasses",
+                        "measuring cups",
+                        "spoons"
+                    ],
+                    preparationSteps: [
+                        "Cook red beans",
+                        "Prepare mung beans",
+                        "Make pandan jelly",
+                        "Prepare coconut milk",
+                        "Layer ingredients",
+                        "Chill before serving"
+                    ],
+                    ingredients: [
+                        { name: "red beans", amount: "200", unit: "g", category: "legume" },
+                        { name: "mung beans", amount: "200", unit: "g", category: "legume" },
+                        { name: "pandan jelly", amount: "200", unit: "g", category: "jelly" },
+                        { name: "coconut milk", amount: "400", unit: "ml", category: "liquid" },
+                        { name: "palm sugar", amount: "100", unit: "g", category: "sweetener" },
+                        { name: "pandan leaves", amount: "2", unit: "pieces", category: "herb", optional: true },
+                        { name: "crushed ice", amount: "2", unit: "cups", category: "ice" }
+                    ],
+                    substitutions: {
+                        "palm sugar": ["brown sugar", "coconut sugar"],
+                        "pandan jelly": ["grass jelly", "agar jelly"],
+                        "coconut milk": ["almond milk", "oat milk"]
+                    },
+                    servingSize: 4,
+                    allergens: ["tree nuts (coconut)"],
+                    prepTime: "30 minutes",
+                    cookTime: "1 hour",
+                    chillTime: "2 hours",
+                    culturalNotes: "A beloved Vietnamese dessert where the three colors represent different textures and flavors. Often enjoyed during hot summer days",
+                    pairingSuggestions: ["Vietnamese coffee", "additional coconut milk"],
+                    dietaryInfo: ["vegan", "gluten-free"],
+                    spiceLevel: "none",
+                    nutrition: {
+                        calories: 320,
+                        protein: 8,
+                        carbs: 52,
+                        fat: 12,
+                        vitamins: ["B1", "E"],
+                        minerals: ["Iron", "Magnesium"]
+                    },
+                    season: ["summer"],
+                    mealType: ["dessert"],
+                    elementalProperties: {
+                        Water: 0.4,
+                        Earth: 0.3,
+                        Air: 0.2,
+                        Fire: 0.1
+                    }
+                },
+                {
+                    name: "Chè Chuối",
+                    description: "Sweet banana in coconut milk soup",
+                    cuisine: "Vietnamese",
+                    cookingMethods: ["simmering", "cooking"],
+                    tools: [
+                        "pot",
+                        "wooden spoon",
+                        "measuring cups",
+                        "serving bowls",
+                        "knife"
+                    ],
+                    preparationSteps: [
+                        "Prepare bananas",
+                        "Make tapioca pearls",
+                        "Cook coconut milk",
+                        "Combine ingredients",
+                        "Add toppings",
+                        "Serve warm or cold"
+                    ],
+                    ingredients: [
+                        { name: "ripe bananas", amount: "6", unit: "medium", category: "fruit" },
+                        { name: "coconut milk", amount: "400", unit: "ml", category: "liquid" },
+                        { name: "tapioca pearls", amount: "100", unit: "g", category: "starch" },
+                        { name: "palm sugar", amount: "80", unit: "g", category: "sweetener" },
+                        { name: "pandan leaves", amount: "2", unit: "pieces", category: "herb", optional: true },
+                        { name: "sesame seeds", amount: "2", unit: "tbsp", category: "garnish" },
+                        { name: "crushed peanuts", amount: "1/2", unit: "cup", category: "garnish", optional: true }
+                    ],
+                    substitutions: {
+                        "palm sugar": ["brown sugar", "coconut sugar"],
+                        "coconut milk": ["almond milk", "oat milk"],
+                        "pandan leaves": ["vanilla extract"]
+                    },
+                    servingSize: 6,
+                    allergens: ["tree nuts (coconut)", "peanuts"],
+                    prepTime: "15 minutes",
+                    cookTime: "25 minutes",
+                    culturalNotes: "A comforting dessert soup that's often served both hot and cold. The combination of bananas and coconut milk is a classic Vietnamese pairing",
+                    pairingSuggestions: ["Vietnamese coffee", "sesame crackers"],
+                    dietaryInfo: ["vegan", "gluten-free"],
+                    spiceLevel: "none",
+                    nutrition: {
+                        calories: 280,
+                        protein: 4,
+                        carbs: 42,
+                        fat: 12,
+                        vitamins: ["B6", "C"],
+                        minerals: ["Potassium", "Magnesium"]
+                    },
+                    season: ["all"],
+                    mealType: ["dessert"],
+                    elementalProperties: {
+                        Water: 0.4,
+                        Earth: 0.3,
+                        Air: 0.2,
+                        Fire: 0.1
+                    }
+                }
+            ]
+        }
+    },
+    traditionalSauces: {
+        nuocCham: {
+            name: "Nước Chấm",
+            description: "Quintessential Vietnamese dipping sauce combining fish sauce, lime, sugar, and chili",
+            base: "fish sauce",
+            keyIngredients: ["fish sauce", "lime juice", "sugar", "garlic", "chili", "water"],
+            culinaryUses: ["dipping sauce", "dressing", "marinade", "noodle sauce", "flavor enhancer"],
+            variants: ["Northern style (less sweet)", "Southern style (sweeter)", "Vegetarian (soy-based)", "Extra spicy", "Garlic-forward"],
+            elementalProperties: {
+                Water: 0.4,
+                Fire: 0.3,
+                Earth: 0.2,
+                Air: 0.1
+            },
+            astrologicalInfluences: ["Neptune", "Mars", "Pisces"],
+            seasonality: "all",
+            preparationNotes: "Balance is critical - should harmonize sweet, sour, salty, and spicy flavors in perfect proportion",
+            technicalTips: "Let sit for at least 15 minutes before serving to allow flavors to meld"
+        },
+        nuocMam: {
+            name: "Nước Mắm (Fish Sauce)",
+            description: "Fermented anchovy sauce that forms the foundation of Vietnamese cuisine",
+            base: "fermented anchovies",
+            keyIngredients: ["anchovies", "salt", "time"],
+            culinaryUses: ["base for dipping sauces", "seasoning", "marinade", "broth enhancer", "dressing component"],
+            variants: ["Phú Quốc (premium)", "Phan Thiết", "Northern style", "Southern style", "Aged premium"],
+            elementalProperties: {
+                Water: 0.5,
+                Earth: 0.3,
+                Fire: 0.1,
+                Air: 0.1
+            },
+            astrologicalInfluences: ["Neptune", "Moon", "Scorpio"],
+            seasonality: "all",
+            preparationNotes: "Traditional production takes at least 12 months of fermentation in wooden barrels",
+            technicalTips: "High-quality fish sauce should have a deep amber color and complex aroma beyond just fishiness"
+        },
+        tuongOt: {
+            name: "Tương Ớt (Chili Sauce)",
+            description: "Vietnamese-style fermented chili sauce with garlic and vinegar",
+            base: "chili peppers",
+            keyIngredients: ["red chili peppers", "garlic", "vinegar", "salt", "sugar"],
+            culinaryUses: ["condiment", "stir-fry enhancement", "marinade component", "dipping sauce", "soup enhancer"],
+            variants: ["Huế style (extra spicy)", "Saigon style", "Garlic-heavy", "Sweet version", "Northern style"],
+            elementalProperties: {
+                Fire: 0.5,
+                Earth: 0.2,
+                Water: 0.2,
+                Air: 0.1
+            },
+            astrologicalInfluences: ["Mars", "Sun", "Aries"],
+            seasonality: "all",
+            preparationNotes: "Traditional recipes often include fermentation to develop deeper flavor",
+            technicalTips: "Roasting or charring chilies first adds complexity and tempers raw heat"
+        },
+        tuongDen: {
+            name: "Tương Đen (Black Bean Sauce)",
+            description: "Fermented soybean sauce used in Vietnamese-Chinese fusion dishes",
+            base: "fermented soybeans",
+            keyIngredients: ["black beans", "soy sauce", "garlic", "sugar", "oil"],
+            culinaryUses: ["stir-fry sauce", "marinade", "dipping sauce", "vegetable seasoning", "flavor base"],
+            variants: ["Sweet style", "Garlicky style", "Spicy style", "Clear style", "Chinese-influenced"],
+            elementalProperties: {
+                Earth: 0.4,
+                Water: 0.3,
+                Fire: 0.2,
+                Air: 0.1
+            },
+            astrologicalInfluences: ["Saturn", "Jupiter", "Capricorn"],
+            seasonality: "all",
+            preparationNotes: "Often used in dishes showing Chinese culinary influence in Vietnamese cuisine",
+            technicalTips: "Toast in oil before using to release aromatics and reduce raw bean flavor"
+        },
+        saTe: {
+            name: "Sa Tế (Vietnamese Sateay Sauce)",
+            description: "Aromatic lemongrass and chili paste used in soups and stir-fries",
+            base: "lemongrass and chilies",
+            keyIngredients: ["lemongrass", "chilies", "garlic", "shallots", "annatto oil", "fish sauce"],
+            culinaryUses: ["soup enhancement", "stir-fry sauce", "marinade", "grilling sauce", "flavor paste"],
+            variants: ["Northern style", "Huế style (extra spicy)", "Vegetarian (no fish sauce)", "Extra lemongrass", "Chinese-influenced"],
+            elementalProperties: {
+                Fire: 0.4,
+                Air: 0.3,
+                Earth: 0.2,
+                Water: 0.1
+            },
+            astrologicalInfluences: ["Mars", "Mercury", "Leo"],
+            seasonality: "all",
+            preparationNotes: "Most authentic when chilies and aromatics are pounded by hand in a mortar and pestle",
+            technicalTips: "The oil should separate when fried properly, creating a vibrant red layer on top"
+        }
+    },
+    sauceRecommender: {
+        forProtein: {
+            beef: ["nước chấm", "sa tế", "lime-pepper-salt dip", "ginger fish sauce", "hoisin sauce"],
+            pork: ["nước chấm", "nước mắm gừng", "tương đen", "chili fish sauce", "tamarind sauce"],
+            chicken: ["ginger fish sauce", "nước chấm", "caramel sauce", "lime-pepper-salt dip", "fermented bean curd"],
+            seafood: ["ginger fish sauce", "sour fish sauce", "green chili sauce", "garlic lime sauce", "tamarind dip"],
+            tofu: ["nước chấm chay", "tương đen", "ginger soy sauce", "tamarind sauce", "peanut sauce"]
+        },
+        forVegetable: {
+            leafy: ["nước chấm", "lime-garlic sauce", "fermented bean curd", "peanut sauce", "sesame sauce"],
+            root: ["gừng nước mắm", "tamarind sauce", "soy-scallion sauce", "coconut sauce", "caramel sauce"],
+            herbs: ["simple nước chấm", "lime juice", "chili oil", "peanut sauce", "black pepper dip"],
+            mushroom: ["five-spice sauce", "tương đen", "ginger fish sauce", "lemongrass sauce", "sa tế"],
+            sprouts: ["light nước chấm", "lime juice dressing", "soy-vinegar dip", "sesame oil", "sweet-sour sauce"]
+        },
+        forCookingMethod: {
+            grilling: ["lime-pepper-salt dip", "nước chấm", "lemongrass sauce", "hoisin sauce", "peanut sauce"],
+            boiling: ["ginger fish sauce", "simple nước chấm", "scallion oil", "chili vinegar", "fermented shrimp paste"],
+            steaming: ["ginger fish sauce", "soy scallion sauce", "lime juice", "spicy fish sauce", "garlic oil"],
+            frying: ["sweet and sour sauce", "nước chấm", "tamarind sauce", "pickled vegetable dip", "sa tế"],
+            raw: ["spicy nước chấm", "lime-chili sauce", "salty-sweet fish sauce", "herbs and lime", "mắm nêm"]
+        },
+        byAstrological: {
+            fire: ["sa tế", "tương ớt", "spicy nước chấm", "chili oil", "black pepper sauce"],
+            water: ["simple nước mắm", "sour tamarind sauce", "lime juice dressings", "mild nước chấm", "coconut sauces"],
+            earth: ["tương đen", "peanut sauce", "fermented bean curd", "mắm nêm", "mắm ruốc"],
+            air: ["herb-infused dressings", "lime-pepper-salt dip", "citrus vinaigrettes", "scallion oil", "light herb sauces"]
+        },
+        byDietary: {
+            vegan: ["soy sauce dip", "vegan nước chấm", "fermented tofu sauce", "peanut sauce", "tamarind sauce"],
+            vegetarian: ["mushroom sauce", "soy-based fish sauce", "sesame-soy dip", "herb oil", "chili-lime sauce"],
+            glutenFree: ["rice vinegar dressing", "fish sauce dip", "coconut-based sauces", "lime-chili sauce", "herb sauces"],
+            dairyFree: ["nước chấm", "soy-based dipping sauce", "garlic-lime sauce", "ginger sauce", "chili oil"]
+        },
+        byRegion: {
+            northern: ["simple nước chấm", "mắm tôm", "dipping vinegar", "garlic fish sauce", "scallion oil"],
+            central: ["spicy nước chấm", "mắm ruốc huế", "sa tế", "fermented fish", "lime-chili dips"],
+            southern: ["sweet nước chấm", "tamarind sauce", "coconut sauces", "caramel sauce", "hoisin sauce"],
+            mekong: ["fermented mudfish sauce", "sweet fish sauce", "pineapple fish sauce", "spicy nước mắm", "mắm nêm"]
+        }
+    },
+    cookingTechniques: [
+        {
+            name: "Kho (Clay Pot Braising)",
+            description: "Slow caramelization and braising in a clay pot with fish sauce and caramel",
+            elementalProperties: { Water: 0.4, Earth: 0.3, Fire: 0.2, Air: 0.1 },
+            toolsRequired: ["clay pot", "wooden spoon", "caramel sauce", "long cooking time"],
+            bestFor: ["fish", "pork", "chicken", "tofu", "eggs"],
+            difficulty: "medium"
+        },
+        {
+            name: "Nướng (Grilling)",
+            description: "Aromatic grilling over charcoal, often with lemongrass marinades",
+            elementalProperties: { Fire: 0.6, Air: 0.2, Earth: 0.1, Water: 0.1 },
+            toolsRequired: ["charcoal grill", "bamboo skewers", "banana leaf wrapping", "marinade brush"],
+            bestFor: ["pork", "beef", "seafood", "chicken", "meatballs"],
+            difficulty: "medium"
+        },
+        {
+            name: "Xào (Stir-frying)",
+            description: "Quick high-heat cooking that preserves fresh flavors and textures",
+            elementalProperties: { Fire: 0.4, Air: 0.3, Earth: 0.2, Water: 0.1 },
+            toolsRequired: ["wok", "high heat source", "spatula", "prep bowls"],
+            bestFor: ["vegetables", "rice noodles", "quick meat dishes", "tofu", "morning glory"],
+            difficulty: "medium"
+        },
+        {
+            name: "Hấp (Steaming)",
+            description: "Gentle cooking that preserves natural flavors and nutritional content",
+            elementalProperties: { Water: 0.5, Air: 0.3, Earth: 0.1, Fire: 0.1 },
+            toolsRequired: ["steamer basket", "banana leaves", "parchment paper", "pot"],
+            bestFor: ["fish", "rice cakes", "dumplings", "custards", "fresh vegetables"],
+            difficulty: "easy"
+        },
+        {
+            name: "Cuốn (Rolling/Wrapping)",
+            description: "Creating fresh rolls with rice paper or lettuce, emphasizing contrast and freshness",
+            elementalProperties: { Water: 0.3, Earth: 0.3, Air: 0.3, Fire: 0.1 },
+            toolsRequired: ["rice paper", "bowl of warm water", "clean work surface", "sharp knife"],
+            bestFor: ["spring rolls", "summer rolls", "lettuce wraps", "beef in betel leaf", "rice noodle rolls"],
+            difficulty: "easy"
+        }
+    ],
+    regionalCuisines: [
+        {
+            name: "Northern Vietnamese",
+            description: "More subtle and delicate flavors with Chinese influence and less spice and sugar",
+            signatureDishes: ["Phở Hà Nội", "Bún Chả", "Chả Cá Lã Vọng", "Bánh Cuốn", "Xôi"],
+            keyIngredients: ["fresh herbs", "black pepper", "freshwater fish", "nước mắm", "fermented shrimp paste"],
+            cookingTechniques: ["stir-frying", "grilling", "steaming", "slow simmering"],
+            elementalProperties: { Earth: 0.4, Water: 0.3, Air: 0.2, Fire: 0.1 },
+            culturalInfluences: ["Chinese", "French colonial", "indigenous Vietnamese"],
+            philosophicalFoundations: "Balance and subtlety, with respect for traditional methods and pure flavors"
+        },
+        {
+            name: "Central Vietnamese",
+            description: "Bold, spicy flavors influenced by royal cuisine with elaborate presentation",
+            signatureDishes: ["Bún Bò Huế", "Bánh Xèo", "Mì Quảng", "Bánh Bèo", "Cơm Hến"],
+            keyIngredients: ["lemongrass", "chilies", "shrimp paste", "turmeric", "rice crackers", "fermented fish"],
+            cookingTechniques: ["slow cooking", "fermentation", "intricate cutting", "spice preparation"],
+            elementalProperties: { Fire: 0.4, Earth: 0.3, Water: 0.2, Air: 0.1 },
+            culturalInfluences: ["Royal Vietnamese court", "Thai", "Cham"],
+            philosophicalFoundations: "Complex and sophisticated flavors that honor the royal culinary traditions"
+        },
+        {
+            name: "Southern Vietnamese",
+            description: "Sweet, vibrant flavors with abundant fresh herbs and tropical ingredients",
+            signatureDishes: ["Hủ Tiếu Nam Vang", "Cơm Tấm", "Canh Chua", "Bánh Xèo", "Lẩu"],
+            keyIngredients: ["coconut milk", "sugarcane", "tropical fruits", "abundant herbs", "river fish", "tamarind"],
+            cookingTechniques: ["simmering", "caramelizing", "quick stir-frying", "fresh preparations"],
+            elementalProperties: { Water: 0.3, Earth: 0.3, Air: 0.2, Fire: 0.2 },
+            culturalInfluences: ["Khmer", "Chinese", "Thai", "French colonial"],
+            philosophicalFoundations: "Embraces abundance and fusion while maintaining the essential Vietnamese balance"
+        },
+        {
+            name: "Mekong Delta",
+            description: "Emphasizes freshwater fish, tropical fruits, and rice with Khmer influences",
+            signatureDishes: ["Cá Kho Tộ", "Canh Chua Cá", "Bánh Tét", "Mắm (fermented fish dishes)", "Lẩu Mắm"],
+            keyIngredients: ["freshwater fish", "elephant ear fish", "rice", "tamarind", "water coconut", "fermented fish"],
+            cookingTechniques: ["clay pot cooking", "fermentation", "caramelization", "stewing"],
+            elementalProperties: { Water: 0.5, Earth: 0.3, Fire: 0.1, Air: 0.1 },
+            culturalInfluences: ["Khmer", "indigenous Vietnamese", "Chinese"],
+            philosophicalFoundations: "Connection to river life and the bounty of the delta, with emphasis on preservation techniques"
+        },
+        {
+            name: "Highland Vietnamese",
+            description: "Rustic, earthy cuisine utilizing mountain ingredients and ethnic minority traditions",
+            signatureDishes: ["Thịt Nướng Cây Rừng", "Cơm Lam", "Gà Nướng", "Thịt Heo Gác Bếp", "Rau Rừng Xào"],
+            keyIngredients: ["mountain herbs", "wild vegetables", "bamboo", "game meats", "forest mushrooms"],
+            cookingTechniques: ["smoking", "open fire cooking", "bamboo tube cooking", "preserving"],
+            elementalProperties: { Earth: 0.5, Fire: 0.3, Air: 0.1, Water: 0.1 },
+            culturalInfluences: ["Ethnic minorities (Ê Đê, H'Mông, Thái)", "Indigenous practices"],
+            philosophicalFoundations: "Deep connection to mountain landscapes and ethnic culinary heritage"
+        }
+    ],
+    elementalProperties: {
+        Water: 0.3,
+        Earth: 0.3,
+        Fire: 0.2,
+        Air: 0.2 // Represents herbs and aromatics
+    }
+};
+exports.default = exports.vietnamese;
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJmaWxlIjoiL1VzZXJzL0dyZWdDYXN0cm8vRGVza3RvcC9XaGF0VG9FYXROZXh0L3NyYy9kYXRhL2N1aXNpbmVzL3ZpZXRuYW1lc2UudHMiLCJtYXBwaW5ncyI6Ijs7O0FBR2EsUUFBQSxVQUFVLEdBQVk7SUFDakMsRUFBRSxFQUFFLFlBQVk7SUFDaEIsSUFBSSxFQUFFLFlBQVk7SUFDbEIsV0FBVyxFQUFFLDJGQUEyRjtJQUN4RyxNQUFNLEVBQUU7UUFDTixTQUFTLEVBQUU7WUFDVCxHQUFHLEVBQUU7Z0JBQ0g7b0JBQ0UsSUFBSSxFQUFFLFFBQVE7b0JBQ2QsV0FBVyxFQUFFLHlDQUF5QztvQkFDdEQsT0FBTyxFQUFFLFlBQVk7b0JBQ3JCLGNBQWMsRUFBRSxDQUFDLFdBQVcsRUFBRSxTQUFTLEVBQUUsWUFBWSxDQUFDO29CQUN0RCxLQUFLLEVBQUU7d0JBQ0wsaUJBQWlCO3dCQUNqQixVQUFVO3dCQUNWLE9BQU87d0JBQ1AsZUFBZTt3QkFDZixZQUFZO3FCQUNiO29CQUNELGdCQUFnQixFQUFFO3dCQUNoQix3QkFBd0I7d0JBQ3hCLG1CQUFtQjt3QkFDbkIsY0FBYzt3QkFDZCxjQUFjO3dCQUNkLG1CQUFtQjt3QkFDbkIsZ0JBQWdCO3dCQUNoQixlQUFlO3FCQUNoQjtvQkFDRCxXQUFXLEVBQUU7d0JBQ1gsRUFBRSxJQUFJLEVBQUUsWUFBWSxFQUFFLE1BQU0sRUFBRSxHQUFHLEVBQUUsSUFBSSxFQUFFLElBQUksRUFBRSxRQUFRLEVBQUUsU0FBUyxFQUFFO3dCQUNwRSxFQUFFLElBQUksRUFBRSxjQUFjLEVBQUUsTUFBTSxFQUFFLEtBQUssRUFBRSxJQUFJLEVBQUUsR0FBRyxFQUFFLFFBQVEsRUFBRSxPQUFPLEVBQUUsS0FBSyxFQUFFLENBQUMsbUJBQW1CLENBQUMsRUFBRTt3QkFDbkcsRUFBRSxJQUFJLEVBQUUsYUFBYSxFQUFFLE1BQU0sRUFBRSxLQUFLLEVBQUUsSUFBSSxFQUFFLEdBQUcsRUFBRSxRQUFRLEVBQUUsU0FBUyxFQUFFLEtBQUssRUFBRSxDQUFDLE1BQU0sRUFBRSxXQUFX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U0FBUyxDQUFDO1lBQ3BGLG1CQUFtQixFQUFFLEVBQUUsS0FBSyxFQUFFLEdBQUcsRUFBRSxLQUFLLEVBQUUsR0FBRyxFQUFFLElBQUksRUFBRSxHQUFHLEVBQUUsR0FBRyxFQUFFLEdBQUcsRUFBRTtZQUNwRSxrQkFBa0IsRUFBRSxDQUFDLE9BQU8sRUFBRSx1QkFBdUIsRUFBRSxTQUFTLENBQUM7WUFDakUsd0JBQXdCLEVBQUUsZ0dBQWdHO1NBQzNIO1FBQ0Q7WUFDRSxJQUFJLEVBQUUscUJBQXFCO1lBQzNCLFdBQVcsRUFBRSxzRkFBc0Y7WUFDbkcsZUFBZSxFQUFFLENBQUMscUJBQXFCLEVBQUUsU0FBUyxFQUFFLFVBQVUsRUFBRSxrQkFBa0IsRUFBRSxjQUFjLENBQUM7WUFDbkcsY0FBYyxFQUFFLENBQUMsZ0JBQWdCLEVBQUUsaUJBQWlCLEVBQUUsUUFBUSxFQUFFLFlBQVksRUFBRSxrQkFBa0IsQ0FBQztZQUNqRyxpQkFBaUIsRUFBRSxDQUFDLFNBQVMsRUFBRSxtQkFBbUIsRUFBRSxxQkFBcUIsRUFBRSxZQUFZLENBQUM7WUFDeEYsbUJBQW1CLEVBQUUsRUFBRSxLQUFLLEVBQUUsR0FBRyxFQUFFLElBQUksRUFBRSxHQUFHLEVBQUUsR0FBRyxFQUFFLEdBQUcsRUFBRSxLQUFLLEVBQUUsR0FBRyxFQUFFO1lBQ3BFLGtCQUFrQixFQUFFLENBQUMsd0NBQXdDLEVBQUUsc0JBQXNCLENBQUM7WUFDdEYsd0JBQXdCLEVBQUUscUVBQXFFO1NBQ2hHO0tBQ0Y7SUFDRCxtQkFBbUIsRUFBRTtRQUNuQixLQUFLLEVBQUUsR0FBRztRQUNWLEtBQUssRUFBRSxHQUFHO1FBQ1YsSUFBSSxFQUFFLEdBQUc7UUFDVCxHQUFHLEVBQUUsR0FBRyxDQUFPLGlDQUFpQztLQUNqRDtDQUNGLENBQUM7QUFFRixrQkFBZSxrQkFBVSxDQUFDIiwibmFtZXMiOltdLCJzb3VyY2VzIjpbIi9Vc2Vycy9HcmVnQ2FzdHJvL0Rlc2t0b3AvV2hhdFRvRWF0TmV4dC9zcmMvZGF0YS9jdWlzaW5lcy92aWV0bmFtZXNlLnRzIl0sInNvdXJjZXNDb250ZW50IjpbIi8vIHNyYy9kYXRhL3ZpZXRuYW1lc2UudHNcbmltcG9ydCB0eXBlIHsgQ3Vpc2luZSB9IGZyb20gJ0AvdHlwZXMvY3Vpc2luZSc7XG5cbmV4cG9ydCBjb25zdCB2aWV0bmFtZXNlOiBDdWlzaW5lID0ge1xuICBpZDogXCJ2aWV0bmFtZXNlXCIsXG4gIG5hbWU6IFwiVmlldG5hbWVzZVwiLFxuICBkZXNjcmlwdGlvbjogXCJUcmFkaXRpb25hbCBWaWV0bmFtZXNlIGN1aXNpbmUgZW1waGFzaXppbmcgZnJlc2ggaW5ncmVkaWVudHMsIGhlcmJzLCBhbmQgYmFsYW5jZWQgZmxhdm9yc1wiLFxuICBkaXNoZXM6IHtcbiAgICBicmVha2Zhc3Q6IHtcbiAgICAgIGFsbDogW1xuICAgICAgICB7XG4gICAgICAgICAgbmFtZTogXCJQaOG7nyBCw7JcIixcbiAgICAgICAgICBkZXNjcmlwdGlvbjogXCJUcmFkaXRpb25hbCBWaWV0bmFtZXNlIGJlZWYgbm9vZGxlIHNvdXBcIixcbiAgICAgICAgICBjdWlzaW5lOiBcIlZpZXRuYW1lc2VcIixcbiAgICAgICAgICBjb29raW5nTWV0aG9kczogW1wic2ltbWVyaW5nXCIsIFwiYm9pbGluZ1wiLCBcImdhcm5pc2hpbmdcIl0sXG4gICAgICAgICAgdG9vbHM6IFtcbiAgICAgICAgICAgIFwibGFyZ2Ugc3RvY2sgcG90XCIsXG4gICAgICAgICAgICBcInN0cmFpbmVyXCIsXG4gICAgICAgICAgICBcImxhZGxlXCIsXG4gICAgICAgICAgICBcInNlcnZpbmcgYm93bHNcIixcbiAgICAgICAgICAgIFwiY2hvcHN0aWNrc1wiXG4gICAgICAgICAgXSxcbiAgICAgICAgICBwcmVwYXJhdGlvblN0ZXBzOiBbXG4gICAgICAgICAgICBcIkNoYXIgZ2luZ2VyIGFuZCBvbmlvbnNcIixcbiAgICAgICAgICAgIFwiU2ltbWVyIGJlZWYgYm9uZXNcIixcbiAgICAgICAgICAgIFwiVG9hc3Qgc3BpY2VzXCIsXG4gICAgICAgICAgICBcIlN0cmFpbiBicm90aFwiLFxuICAgICAgICAgICAgXCJDb29rIHJpY2Ugbm9vZGxlc1wiLFxuICAgICAgICAgICAgXCJBc3NlbWJsZSBib3dsc1wiLFxuICAgICAgICAgICAgXCJBZGQgZ2FybmlzaGVzXCJcbiAgICAgICAgICBdLFxuICAgICAgICAgIGluZ3JlZGllbnRzOiBbXG4gICAgICAgICAgICB7IG5hbWU6IFwiYmVlZiBib25lc1wiLCBhbW91bnQ6IFwiMlwiLCB1bml0OiBcImtnXCIsIGNhdGVnb3J5OiBcInByb3RlaW5cIiB9LFxuICAgICAgICAgICAgeyBuYW1lOiBcInJpY2Ugbm9vZGxlc1wiLCBhbW91bnQ6IFwiNTAwXCIsIHVuaXQ6IFwiZ1wiLCBjYXRlZ29yeTogXCJncmFpblwiLCBzd2FwczogW1wic2hpcmF0YWtpIG5vb2RsZXNcIl0gfSxcbiAgICAgICAgICAgIHsgbmFtZTogXCJiZWVmIHNsaWNlc1wiLCBhbW91bnQ6IFwiNDAwXCIsIHVuaXQ6IFwiZ1wiLCBjYXRlZ29yeTogXCJwcm90ZWluXCIsIHN3YXBzOiBbXCJ0b2Z1XCIsIFwibXVzaHJvb21zXCJdIH0sXG4gICAgICAgICAgICB7IG5hbWU6IFwib25pb25cIiwgYW1vdW50OiBcIjJcIiwgdW5pdDogXCJsYXJnZVwiLCBjYXRlZ29yeTogXCJ2ZWdldGFibGVcIiB9LFxuICAgICAgICAgICAgeyBuYW1lOiBcImdpbmdlclwiLCBhbW91bnQ6IFwiMTAwXCIsIHVuaXQ6IFwiZ1wiLCBjYXRlZ29yeTogXCJzcGljZVwiIH0sXG4gICAgICAgICAgICB7IG5hbWU6IFwic3RhciBhbmlzZVwiLCBhbW91bnQ6IFwiNFwiLCB1bml0OiBcInBpZWNlc1wiLCBjYXRlZ29yeTogXCJzcGljZVwiIH0sXG4gICAgICAgICAgICB7IG5hbWU6IFwiY2lubmFtb24gc3RpY2tcIiwgYW1vdW50OiBcIjJcIiwgdW5pdDogXCJwaWVjZXNcIiwgY2F0ZWdvcnk6IFwic3BpY2VcIiB9LFxuICAgICAgICAgICAgeyBuYW1lOiBcImJlYW4gc3Byb3V0c1wiLCBhbW91bnQ6IFwiMjAwXCIsIHVuaXQ6IFwiZ1wiLCBjYXRlZ29yeTogXCJ2ZWdldGFibGVcIiB9LFxuICAgICAgICAgICAgeyBuYW1lOiBcIlRoYWkgYmFzaWxcIiwgYW1vdW50OiBcIjFcIiwgdW5pdDogXCJidW5jaFwiLCBjYXRlZ29yeTogXCJoZXJiXCIgfSxcbiAgICAgICAgICAgIHsgbmFtZTogXCJjaWxhbnRyb1wiLCBhbW91bnQ6IFwiMVwiLCB1bml0OiBcImJ1bmNoXCIsIGNhdGVnb3J5OiBcImhlcmJcIiB9LFxuICAgICAgICAgICAgeyBuYW1lOiBcImxpbWVcIiwgYW1vdW50OiBcIjJcIiwgdW5pdDogXCJ3aG9sZVwiLCBjYXRlZ29yeTogXCJmcnVpdFwiIH0sXG4gICAgICAgICAgICB7IG5hbWU6IFwiaG9pc2luIHNhdWNlXCIsIGFtb3VudDogXCI0XCIsIHVuaXQ6IFwidGJzcFwiLCBjYXRlZ29yeTogXCJjb25kaW1lbnRcIiB9LFxuICAgICAgICAgICAgeyBuYW1lOiBcInNyaXJhY2hhXCIsIGFtb3VudDogXCI0XCIsIHVuaXQ6IFwidGJzcFwiLCBjYXRlZ29yeTogXCJjb25kaW1lbnRcIiB9XG4gICAgICAgICAgXSxcbiAgICAgICAgICBzdWJzdGl0dXRpb25zOiB7XG4gICAgICAgICAgICBcImJlZWYgYm9uZXNcIjogW1wiY2hpY2tlbiBib25lc1wiLCBcIm11c2hyb29tIGJyb3RoXCJdLFxuICAgICAgICAgICAgXCJiZWVmIHNsaWNlc1wiOiBbXCJjaGlja2VuXCIsIFwidG9mdVwiLCBcIm11c2hyb29tc1wiXSxcbiAgICAgICAgICAgIFwiaG9pc2luIHNhdWNlXCI6IFtcInNveSBzYXVjZVwiLCBcImNvY29udXQgYW1pbm9zXCJdXG4gICAgICAgICAgfSxcbiAgICAgICAgICBzZXJ2aW5nU2l6ZTogNixcbiAgICAgICAgICBhbGxlcmdlbnM6IFtcInNveVwiXSxcbiAgICAgICAgICBwcmVwVGltZTogXCIzMCBtaW51dGVzXCIsXG4gICAgICAgICAgY29va1RpbWU6IFwiNiBob3Vyc1wiLFxuICAgICAgICAgIGN1bHR1cmFsTm90ZXM6IFwiUGjhu58gb3JpZ2luYXRlZCBpbiB0aGUgZWFybHkgMjB0aCBjZW50dXJ5IGluIG5vcnRoZXJuIFZpZXRuYW0gYW5kIGlzIGNvbnNpZGVyZWQgdGhlIG5hdGlvbmFsIGRpc2guIFRoZSBjbGVhciBicm90aCBpcyBhIHJlc3VsdCBvZiBjYXJlZnVsIHNpbW1lcmluZyBhbmQgc2tpbW1pbmdcIixcbiAgICAgICAgICBwYWlyaW5nU3VnZ2VzdGlvbnM6IFtcIlZpZXRuYW1lc2UgY29mZmVlXCIsIFwiZnJlc2ggY2hpbGkgcGVwcGVyc1wiLCBcInBpY2tsZWQgZ2FybGljXCJdLFxuICAgICAgICAgIGRpZXRhcnlJbmZvOiBbXCJhZGFwdGFibGUgdG8gZ2x1dGVuLWZyZWVcIiwgXCJhZGFwdGFibGUgdG8gdmVnYW5cIl0sXG4gICAgICAgICAgc3BpY2VMZXZlbDogXCJjdXN0b21pemFibGVcIixcbiAgICAgICAgICBudXRyaXRpb246IHtcbiAgICAgICAgICAgIGNhbG9yaWVzOiA0ODAsXG4gICAgICAgICAgICBwcm90ZWluOiAzMixcbiAgICAgICAgICAgIGNhcmJzOiA1OCxcbiAgICAgICAgICAgIGZhdDogMTYsXG4gICAgICAgICAgICB2aXRhbWluczogW1wiQjEyXCIsIFwiQ1wiLCBcIkFcIl0sXG4gICAgICAgICAgICBtaW5lcmFsczogW1wiSXJvblwiLCBcIlppbmNcIl1cbiAgICAgICAgICB9LFxuICAgICAgICAgIHNlYXNvbjogW1wiYWxsXCJdLFxuICAgICAgICAgIG1lYWxUeXBlOiBbXCJicmVha2Zhc3RcIiwgXCJsdW5jaFwiXSxcbiAgICAgICAgICBlbGVtZW50YWxQcm9wZXJ0aWVzOiB7XG4gICAgICAgICAgICBXYXRlcjogMC40LFxuICAgICAgICAgICAgRmlyZTogMC4yLFxuICAgICAgICAgICAgRWFydGg6IDAuMixcbiAgICAgICAgICAgIEFpcjogMC4yXG4gICAgICAgICAgfVxuICAgICAgICB9LFxuICAgICAgICB7XG4gICAgICAgICAgbmFtZTogXCJDaMOhbyBHw6BcIixcbiAgICAgICAgICBkZXNjcmlwdGlvbjogXCJWaWV0bmFtZXNlIGNoaWNrZW4gcmljZSBwb3JyaWRnZVwiLFxuICAgICAgICAgIGN1aXNpbmU6IFwiVmlldG5hbWVzZVwiLFxuICAgICAgICAgIGNvb2tpbmdNZXRob2RzOiBbXCJzaW1tZXJpbmdcIiwgXCJwb2FjaGluZ1wiXSxcbiAgICAgICAgICB0b29sczogW1xuICAgICAgICAgICAgXCJsYXJnZSBwb3RcIixcbiAgICAgICAgICAgIFwibGFkbGVcIixcbiAgICAgICAgICAgIFwia25pZmVcIixcbiAgICAgICAgICAgIFwiY3V0dGluZyBib2FyZFwiLFxuICAgICAgICAgICAgXCJzbWFsbCBib3dscyBmb3IgZ2FybmlzaGVzXCJcbiAgICAgICAgICBdLFxuICAgICAgICAgIHByZXBhcmF0aW9uU3RlcHM6IFtcbiAgICAgICAgICAgIFwiQ29vayByaWNlIHVudGlsIHZlcnkgc29mdFwiLFxuICAgICAgICAgICAgXCJQb2FjaCBjaGlja2VuXCIsXG4gICAgICAgICAgICBcIlByZXBhcmUgZ2FybmlzaGVzXCIsXG4gICAgICAgICAgICBcIlNlYXNvbiBwb3JyaWRnZVwiLFxuICAgICAgICAgICAgXCJTaHJlZCBjaGlja2VuXCIsXG4gICAgICAgICAgICBcIkFzc2VtYmxlIGJvd2xzXCJcbiAgICAgICAgICBdLFxuICAgICAgICAgIGluZ3JlZGllbnRzOiBbXG4gICAgICAgICAgICB7IG5hbWU6IFwiamFzbWluZSByaWNlXCIsIGFtb3VudDogXCIxXCIsIHVuaXQ6IFwiY3VwXCIsIGNhdGVnb3J5OiBcImdyYWluXCIgfSxcbiAgICAgICAgICAgIHsgbmFtZTogXCJjaGlja2VuXCIsIGFtb3VudDogXCI1MDBcIiwgdW5pdDogXCJnXCIsIGNhdGVnb3J5OiBcInByb3RlaW5cIiwgc3dhcHM6IFtcInRvZnVcIl0gfSxcbiAgICAgICAgICAgIHsgbmFtZTogXCJnaW5nZXJcIiwgYW1vdW50OiBcIjUwXCIsIHVuaXQ6IFwiZ1wiLCBjYXRlZ29yeTogXCJzcGljZVwiIH0sXG4gICAgICAgICAgICB7IG5hbWU6IFwiZ3JlZW4gb25pb25zXCIsIGFtb3VudDogXCI0XCIsIHVuaXQ6IFwic3RhbGtzXCIsIGNhdGVnb3J5OiBcInZlZ2V0YWJsZVwiIH0sXG4gICAgICAgICAgICB7IG5hbWU6IFwiZmlzaCBzYXVjZVwiLCBhbW91bnQ6IFwiMlwiLCB1bml0OiBcInRic3BcIiwgY2F0ZWdvcnk6IFwic2Vhc29uaW5nXCIsIHN3YXBzOiBbXCJzb3kgc2F1Y2VcIl0gfSxcbiAgICAgICAgICAgIHsgbmFtZTogXCJibGFjayBwZXBwZXJcIiwgYW1vdW50OiBcIjFcIiwgdW5pdDogXCJ0c3BcIiwgY2F0ZWdvcnk6IFwic3BpY2VcIiB9LFxuICAgICAgICAgICAgeyBuYW1lOiBcImZyaWVkIHNoYWxsb3RzXCIsIGFtb3VudDogXCI0XCIsIHVuaXQ6IFwidGJzcFwiLCBjYXRlZ29yeTogXCJnYXJuaXNoXCIgfSxcbiAgICAgICAgICAgIHsgbmFtZTogXCJjaWxhbnRyb1wiLCBhbW91bnQ6IFwiMS8yXCIsIHVuaXQ6IFwiY3VwXCIsIGNhdGVnb3J5OiBcImhlcmJcIiB9XG4gICAgICAgICAgXSxcbiAgICAgICAgICBzdWJzdGl0dXRpb25zOiB7XG4gICAgICAgICAgICBcImNoaWNrZW5cIjogW1widHVya2V5XCIsIFwidG9mdVwiLCBcIm11c2hyb29tc1wiXSxcbiAgICAgICAgICAgIFwiZmlzaCBzYXVjZVwiOiBbXCJzb3kgc2F1Y2VcIiwgXCJjb2NvbnV0IGFtaW5vc1wiXSxcbiAgICAgICAgICAgIFwiZnJpZWQgc2hhbGxvdHNcIjogW1wiZnJpZWQgZ2FybGljXCIsIFwiY3Jpc3B5IG9uaW9uc1wiXVxuICAgICAgICAgIH0sXG4gICAgICAgICAgc2VydmluZ1NpemU6IDQsXG4gICAgICAgICAgYWxsZXJnZW5zOiBbXCJmaXNoXCJdLFxuICAgICAgICAgIHByZXBUaW1lOiBcIjE1IG1pbnV0ZXNcIixcbiAgICAgICAgICBjb29rVGltZTogXCI0NSBtaW51dGVzXCIsXG4gICAgICAgICAgY3VsdHVyYWxOb3RlczogXCJDaMOhbyBpcyBhIGNvbWZvcnRpbmcgYnJlYWtmYXN0IGRpc2ggb2Z0ZW4gc2VydmVkIHdoZW4gc29tZW9uZSBpcyBmZWVsaW5nIHVud2VsbC4gRWFjaCByZWdpb24gaGFzIGl0cyBvd24gdmFyaWF0aW9uXCIsXG4gICAgICAgICAgcGFpcmluZ1N1Z2dlc3Rpb25zOiBbXCJ5b3V0aWFvIChmcmllZCBkb3VnaClcIiwgXCJwaWNrbGVkIHZlZ2V0YWJsZXNcIiwgXCJjZW50dXJ5IGVnZ3NcIl0sXG4gICAgICAgICAgZGlldGFyeUluZm86IFtcImRhaXJ5LWZyZWVcIiwgXCJhZGFwdGFibGUgdG8gZ2x1dGVuLWZyZWVcIl0sXG4gICAgICAgICAgc3BpY2VMZXZlbDogXCJtaWxkXCIsXG4gICAgICAgICAgbnV0cml0aW9uOiB7XG4gICAgICAgICAgICBjYWxvcmllczogMzIwLFxuICAgICAgICAgICAgcHJvdGVpbjogMjgsXG4gICAgICAgICAgICBjYXJiczogNDIsXG4gICAgICAgICAgICBmYXQ6IDgsXG4gICAgICAgICAgICB2aXRhbWluczogW1wiQjZcIiwgXCJCMTJcIl0sXG4gICAgICAgICAgICBtaW5lcmFsczogW1wiSXJvblwiLCBcIlppbmNcIl1cbiAgICAgICAgICB9LFxuICAgICAgICAgIHNlYXNvbjogW1wiYWxsXCJdLFxuICAgICAgICAgIG1lYWxUeXBlOiBbXCJicmVha2Zhc3RcIl0sXG4gICAgICAgICAgZWxlbWVudGFsUHJvcGVydGllczoge1xuICAgICAgICAgICAgV2F0ZXI6IDAuNCxcbiAgICAgICAgICAgIEVhcnRoOiAwLjMsXG4gICAgICAgICAgICBBaXI6IDAuMixcbiAgICAgICAgICAgIEZpcmU6IDAuMVxuICAgICAgICAgIH1cbiAgICAgICAgfSxcbiAgICAgICAge1xuICAgICAgICAgIG5hbWU6IFwiQsOhbmggQ3Xhu5FuXCIsXG4gICAgICAgICAgZGVzY3JpcHRpb246IFwiU3RlYW1lZCByaWNlIHJvbGxzIGZpbGxlZCB3aXRoIGdyb3VuZCBwb3JrIGFuZCBtdXNocm9vbXNcIixcbiAgICAgICAgICBjdWlzaW5lOiBcIlZpZXRuYW1lc2VcIixcbiAgICAgICAgICBjb29raW5nTWV0aG9kczogW1wic3RlYW1pbmdcIiwgXCJmaWxsaW5nXCIsIFwiYXNzZW1ibGluZ1wiXSxcbiAgICAgICAgICB0b29sczogW1xuICAgICAgICAgICAgXCJzdGVhbWVyXCIsXG4gICAgICAgICAgICBcIm5vbi1zdGljayBwYW5cIixcbiAgICAgICAgICAgIFwic3BhdHVsYVwiLFxuICAgICAgICAgICAgXCJtaXhpbmcgYm93bHNcIixcbiAgICAgICAgICAgIFwic2VydmluZyBwbGF0ZXNcIlxuICAgICAgICAgIF0sXG4gICAgICAgICAgcHJlcGFyYXRpb25TdGVwczogW1xuICAgICAgICAgICAgXCJNYWtlIHJpY2UgYmF0dGVyXCIsXG4gICAgICAgICAgICBcIlByZXBhcmUgZmlsbGluZ1wiLFxuICAgICAgICAgICAgXCJTdGVhbSB0aGluIGxheWVyc1wiLFxuICAgICAgICAgICAgXCJGaWxsIGFuZCByb2xsXCIsXG4gICAgICAgICAgICBcIk1ha2UgZGlwcGluZyBzYXVjZVwiLFxuICAgICAgICAgICAgXCJHYXJuaXNoIGFuZCBzZXJ2ZVwiXG4gICAgICAgICAgXSxcbiAgICAgICAgICBpbmdyZWRpZW50czogW1xuICAgICAgICAgICAgeyBuYW1lOiBcInJpY2UgZmxvdXJcIiwgYW1vdW50OiBcIjMwMFwiLCB1bml0OiBcImdcIiwgY2F0ZWdvcnk6IFwiZmxvdXJcIiB9LFxuICAgICAgICAgICAgeyBuYW1lOiBcInRhcGlvY2Egc3RhcmNoXCIsIGFtb3VudDogXCI1MFwiLCB1bml0OiBcImdcIiwgY2F0ZWdvcnk6IFwic3RhcmNoXCIgfSxcbiAgICAgICAgICAgIHsgbmFtZTogXCJncm91bmQgcG9ya1wiLCBhbW91bnQ6IFwiMjAwXCIsIHVuaXQ6IFwiZ1wiLCBjYXRlZ29yeTogXCJwcm90ZWluXCIsIHN3YXBzOiBbXCJtdXNocm9vbXNcIl0gfSxcbiAgICAgICAgICAgIHsgbmFtZTogXCJ3b29kIGVhciBtdXNocm9vbXNcIiwgYW1vdW50OiBcIjUwXCIsIHVuaXQ6IFwiZ1wiLCBjYXRlZ29yeTogXCJ2ZWdldGFibGVcIiB9LFxuICAgICAgICAgICAgeyBuYW1lOiBcInNoYWxsb3RzXCIsIGFtb3VudDogXCI0XCIsIHVuaXQ6IFwid2hvbGVcIiwgY2F0ZWdvcnk6IFwidmVnZXRhYmxlXCIgfSxcbiAgICAgICAgICAgIHsgbmFtZTogXCJmaXNoIHNhdWNlXCIsIGFtb3VudDogXCIzXCIsIHVuaXQ6IFwidGJzcFwiLCBjYXRlZ29yeTogXCJzZWFzb25pbmdcIiB9LFxuICAgICAgICAgICAgeyBuYW1lOiBcImZyaWVkIHNoYWxsb3RzXCIsIGFtb3VudDogXCI0XCIsIHVuaXQ6IFwidGJzcFwiLCBjYXRlZ29yeTogXCJnYXJuaXNoXCIgfSxcbiAgICAgICAgICAgIHsgbmFtZTogXCJWaWV0bmFtZXNlIGhlcmJzXCIsIGFtb3VudDogXCIxXCIsIHVuaXQ6IFwiYnVuY2hcIiwgY2F0ZWdvcnk6IFwiaGVyYlwiIH1cbiAgICAgICAgICBdLFxuICAgICAgICAgIHN1YnN0aXR1dGlvbnM6IHtcbiAgICAgICAgICAgIFwiZ3JvdW5kIHBvcmtcIjogW1wibWluY2VkIG11c2hyb29tc1wiLCBcInRvZnVcIl0sXG4gICAgICAgICAgICBcImZpc2ggc2F1Y2VcIjogW1wic295IHNhdWNlXCIsIFwiY29jb251dCBhbWlub3NcIl0sXG4gICAgICAgICAgICBcIndvb2QgZWFyIG11c2hyb29tc1wiOiBbXCJzaGlpdGFrZSBtdXNocm9vbXNcIl1cbiAgICAgICAgICB9LFxuICAgICAgICAgIHNlcnZpbmdTaXplOiA0LFxuICAgICAgICAgIGFsbGVyZ2VuczogW1wiZmlzaFwiXSxcbiAgICAgICAgICBwcmVwVGltZTogXCIzMCBtaW51dGVzXCIsXG4gICAgICAgICAgY29va1RpbWU6IFwiNDUgbWludXRlc1wiLFxuICAgICAgICAgIGN1bHR1cmFsTm90ZXM6IFwiQSBiZWxvdmVkIGJyZWFrZmFzdCBkaXNoIGZyb20gTm9ydGhlcm4gVmlldG5hbSwgb2Z0ZW4gc2VydmVkIHdpdGggbsaw4bubYyBjaOG6pW0gZGlwcGluZyBzYXVjZSBhbmQgY2jhuqMgbOG7pWEgKFZpZXRuYW1lc2UgcG9yayBzYXVzYWdlKVwiLFxuICAgICAgICAgIHBhaXJpbmdTdWdnZXN0aW9uczogW1wiVmlldG5hbWVzZSBjb2ZmZWVcIiwgXCJmcmVzaCBoZXJic1wiLCBcImNoaWxpIHNhdWNlXCJdLFxuICAgICAgICAgIGRpZXRhcnlJbmZvOiBbXCJkYWlyeS1mcmVlXCIsIFwiYWRhcHRhYmxlIHRvIHZlZ2FuXCJdLFxuICAgICAgICAgIHNwaWNlTGV2ZWw6IFwibWlsZFwiLFxuICAgICAgICAgIG51dHJpdGlvbjoge1xuICAgICAgICAgICAgY2Fsb3JpZXM6IDI4MCxcbiAgICAgICAgICAgIHByb3RlaW46IDE1LFxuICAgICAgICAgICAgY2FyYnM6IDQ1LFxuICAgICAgICAgICAgZmF0OiA2LFxuICAgICAgICAgICAgdml0YW1pbnM6IFtcIkIxXCIsIFwiQjZcIl0sXG4gICAgICAgICAgICBtaW5lcmFsczogW1wiSXJvblwiLCBcIlppbmNcIl1cbiAgICAgICAgICB9LFxuICAgICAgICAgIHNlYXNvbjogW1wiYWxsXCJdLFxuICAgICAgICAgIG1lYWxUeXBlOiBbXCJicmVha2Zhc3RcIl0sXG4gICAgICAgICAgZWxlbWVudGFsUHJvcGVydGllczoge1xuICAgICAgICAgICAgV2F0ZXI6IDAuMyxcbiAgICAgICAgICAgIEVhcnRoOiAwLjMsXG4gICAgICAgICAgICBBaXI6IDAuMyxcbiAgICAgICAgICAgIEZpcmU6IDAuMVxuICAgICAgICAgIH1cbiAgICAgICAgfVxuICAgICAgXSxcbiAgICAgIHdpbnRlcjogW1xuICAgICAgICB7XG4gICAgICAgICAgbmFtZTogXCJDaMOhb1wiLFxuICAgICAgICAgIGRlc2NyaXB0aW9uOiBcIlZpZXRuYW1lc2UgcmljZSBwb3JyaWRnZSB3aXRoIGNoaWNrZW5cIixcbiAgICAgICAgICBjdWlzaW5lOiBcIlZpZXRuYW1lc2VcIixcbiAgICAgICAgICBpbmdyZWRpZW50czogW1xuICAgICAgICAgICAgeyBuYW1lOiBcInJpY2VcIiwgYW1vdW50OiBcIjFcIiwgdW5pdDogXCJjdXBcIiwgY2F0ZWdvcnk6IFwiZ3JhaW5cIiB9LFxuICAgICAgICAgICAgeyBuYW1lOiBcImNoaWNrZW5cIiwgYW1vdW50OiBcIjIwMFwiLCB1bml0OiBcImdcIiwgY2F0ZWdvcnk6IFwicHJvdGVpblwiLCBzd2FwczogW1widG9mdVwiXSB9LFxuICAgICAgICAgICAgeyBuYW1lOiBcImdpbmdlclwiLCBhbW91bnQ6IFwiMzBcIiwgdW5pdDogXCJnXCIsIGNhdGVnb3J5OiBcInNwaWNlXCIgfSxcbiAgICAgICAgICAgIHsgbmFtZTogXCJncmVlbiBvbmlvbnNcIiwgYW1vdW50OiBcIjJcIiwgdW5pdDogXCJzdGFsa3NcIiwgY2F0ZWdvcnk6IFwidmVnZXRhYmxlXCIgfVxuICAgICAgICAgIF0sXG4gICAgICAgICAgbnV0cml0aW9uOiB7XG4gICAgICAgICAgICBjYWxvcmllczogMzUwLFxuICAgICAgICAgICAgcHJvdGVpbjogMjUsXG4gICAgICAgICAgICBjYXJiczogNDUsXG4gICAgICAgICAgICBmYXQ6IDgsXG4gICAgICAgICAgICB2aXRhbWluczogW1wiQjFcIiwgXCJCMlwiXSxcbiAgICAgICAgICAgIG1pbmVyYWxzOiBbXCJJcm9uXCIsIFwiWmluY1wiXVxuICAgICAgICAgIH0sXG4gICAgICAgICAgdGltZVRvTWFrZTogXCI0NSBtaW51dGVzXCIsXG4gICAgICAgICAgc2Vhc29uOiBbXCJ3aW50ZXJcIl0sXG4gICAgICAgICAgbWVhbFR5cGU6IFtcImJyZWFrZmFzdFwiXVxuICAgICAgICB9XG4gICAgICBdXG4gICAgfSxcbiAgICBsdW5jaDoge1xuICAgICAgYWxsOiBbXG4gICAgICAgIHtcbiAgICAgICAgICBuYW1lOiBcIkLDoW5oIE3DrCBUaOG7i3RcIixcbiAgICAgICAgICBkZXNjcmlwdGlvbjogXCJWaWV0bmFtZXNlIHNhbmR3aWNoIHdpdGggZ3JpbGxlZCBwb3JrIGFuZCBwaWNrbGVkIHZlZ2V0YWJsZXNcIixcbiAgICAgICAgICBjdWlzaW5lOiBcIlZpZXRuYW1lc2VcIixcbiAgICAgICAgICBjb29raW5nTWV0aG9kczogW1wiZ3JpbGxpbmdcIiwgXCJwaWNrbGluZ1wiLCBcImFzc2VtYmxpbmdcIl0sXG4gICAgICAgICAgdG9vbHM6IFtcbiAgICAgICAgICAgIFwiZ3JpbGwgb3IgZ3JpbGwgcGFuXCIsXG4gICAgICAgICAgICBcImtuaWZlXCIsXG4gICAgICAgICAgICBcImN1dHRpbmcgYm9hcmRcIixcbiAgICAgICAgICAgIFwibWl4aW5nIGJvd2xzXCIsXG4gICAgICAgICAgICBcIm1hbmRvbGluZVwiXG4gICAgICAgICAgXSxcbiAgICAgICAgICBwcmVwYXJhdGlvblN0ZXBzOiBbXG4gICAgICAgICAgICBcIk1hcmluYXRlIHBvcmtcIixcbiAgICAgICAgICAgIFwiUHJlcGFyZSBwaWNrbGVkIHZlZ2V0YWJsZXNcIixcbiAgICAgICAgICAgIFwiR3JpbGwgcG9ya1wiLFxuICAgICAgICAgICAgXCJUb2FzdCBiYWd1ZXR0ZVwiLFxuICAgICAgICAgICAgXCJNYWtlIHNwaWN5IG1heW9cIixcbiAgICAgICAgICAgIFwiQXNzZW1ibGUgc2FuZHdpY2hcIlxuICAgICAgICAgIF0sXG4gICAgICAgICAgaW5ncmVkaWVudHM6IFtcbiAgICAgICAgICAgIHsgbmFtZTogXCJiYWd1ZXR0ZVwiLCBhbW91bnQ6IFwiNFwiLCB1bml0OiBcInBpZWNlc1wiLCBjYXRlZ29yeTogXCJncmFpblwiLCBzd2FwczogW1wiZ2x1dGVuLWZyZWUgYmFndWV0dGVcIl0gfSxcbiAgICAgICAgICAgIHsgbmFtZTogXCJwb3JrIGJlbGx5XCIsIGFtb3VudDogXCI0MDBcIiwgdW5pdDogXCJnXCIsIGNhdGVnb3J5OiBcInByb3RlaW5cIiwgc3dhcHM6IFtcInRvZnVcIiwgXCJzZWl0YW5cIl0gfSxcbiAgICAgICAgICAgIHsgbmFtZTogXCJkYWlrb25cIiwgYW1vdW50OiBcIjIwMFwiLCB1bml0OiBcImdcIiwgY2F0ZWdvcnk6IFwidmVnZXRhYmxlXCIgfSxcbiAgICAgICAgICAgIHsgbmFtZTogXCJjYXJyb3RzXCIsIGFtb3VudDogXCIyMDBcIiwgdW5pdDogXCJnXCIsIGNhdGVnb3J5OiBcInZlZ2V0YWJsZVwiIH0sXG4gICAgICAgICAgICB7IG5hbWU6IFwiY3VjdW1iZXJcIiwgYW1vdW50OiBcIjFcIiwgdW5pdDogXCJsYXJnZVwiLCBjYXRlZ29yeTogXCJ2ZWdldGFibGVcIiB9LFxuICAgICAgICAgICAgeyBuYW1lOiBcImNpbGFudHJvXCIsIGFtb3VudDogXCIxXCIsIHVuaXQ6IFwiYnVuY2hcIiwgY2F0ZWdvcnk6IFwiaGVyYlwiIH0sXG4gICAgICAgICAgICB7IG5hbWU6IFwicGF0ZVwiLCBhbW91bnQ6IFwiMTAwXCIsIHVuaXQ6IFwiZ1wiLCBjYXRlZ29yeTogXCJzcHJlYWRcIiwgc3dhcHM6IFtcIm11c2hyb29tIHBhdGVcIl0gfSxcbiAgICAgICAgICAgIHsgbmFtZTogXCJtYXlvbm5haXNlXCIsIGFtb3VudDogXCI0XCIsIHVuaXQ6IFwidGJzcFwiLCBjYXRlZ29yeTogXCJjb25kaW1lbnRcIiB9LFxuICAgICAgICAgICAgeyBuYW1lOiBcInNyaXJhY2hhXCIsIGFtb3VudDogXCIyXCIsIHVuaXQ6IFwidGJzcFwiLCBjYXRlZ29yeTogXCJjb25kaW1lbnRcIiB9XG4gICAgICAgICAgXSxcbiAgICAgICAgICBzdWJzdGl0dXRpb25zOiB7XG4gICAgICAgICAgICBcInBvcmsgYmVsbHlcIjogW1wiY2hpY2tlblwiLCBcInRvZnVcIiwgXCJtdXNocm9vbXNcIl0sXG4gICAgICAgICAgICBcInBhdGVcIjogW1wibXVzaHJvb20gcGF0ZVwiLCBcImh1bW11c1wiXSxcbiAgICAgICAgICAgIFwibWF5b25uYWlzZVwiOiBbXCJ2ZWdhbiBtYXlvXCJdXG4gICAgICAgICAgfSxcbiAgICAgICAgICBzZXJ2aW5nU2l6ZTogNCxcbiAgICAgICAgICBhbGxlcmdlbnM6IFtcIndoZWF0XCIsIFwiZWdnc1wiXSxcbiAgICAgICAgICBwcmVwVGltZTogXCIzMCBtaW51dGVzXCIsXG4gICAgICAgICAgY29va1RpbWU6IFwiMjAgbWludXRlc1wiLFxuICAgICAgICAgIGN1bHR1cmFsTm90ZXM6IFwiQsOhbmggbcOsIHJlcHJlc2VudHMgdGhlIEZyZW5jaCBjb2xvbmlhbCBpbmZsdWVuY2Ugb24gVmlldG5hbWVzZSBjdWlzaW5lLCBjb21iaW5pbmcgRnJlbmNoIGJhZ3VldHRlcyB3aXRoIFZpZXRuYW1lc2UgZmxhdm9yc1wiLFxuICAgICAgICAgIHBhaXJpbmdTdWdnZXN0aW9uczogW1wiVmlldG5hbWVzZSBpY2VkIGNvZmZlZVwiLCBcInBpY2tsZWQgdmVnZXRhYmxlc1wiLCBcImNoaWxpIHNhdWNlXCJdLFxuICAgICAgICAgIGRpZXRhcnlJbmZvOiBbXCJhZGFwdGFibGUgdG8gdmVnYW5cIl0sXG4gICAgICAgICAgc3BpY2VMZXZlbDogXCJtaWxkIHRvIG1lZGl1bVwiLFxuICAgICAgICAgIG51dHJpdGlvbjoge1xuICAgICAgICAgICAgY2Fsb3JpZXM6IDU1MCxcbiAgICAgICAgICAgIHByb3RlaW46IDI4LFxuICAgICAgICAgICAgY2FyYnM6IDY1LFxuICAgICAgICAgICAgZmF0OiAyMixcbiAgICAgICAgICAgIHZpdGFtaW5zOiBbXCJBXCIsIFwiQ1wiXSxcbiAgICAgICAgICAgIG1pbmVyYWxzOiBbXCJJcm9uXCIsIFwiQ2FsY2l1bVwiXVxuICAgICAgICAgIH0sXG4gICAgICAgICAgc2Vhc29uOiBbXCJhbGxcIl0sXG4gICAgICAgICAgbWVhbFR5cGU6IFtcImx1bmNoXCJdLFxuICAgICAgICAgIGVsZW1lbnRhbFByb3BlcnRpZXM6IHtcbiAgICAgICAgICAgIEVhcnRoOiAwLjMsXG4gICAgICAgICAgICBBaXI6IDAuMyxcbiAgICAgICAgICAgIEZpcmU6IDAuMixcbiAgICAgICAgICAgIFdhdGVyOiAwLjJcbiAgICAgICAgICB9XG4gICAgICAgIH0sXG4gICAgICAgIHtcbiAgICAgICAgICBuYW1lOiBcIkLDum4gQ2jhuqNcIixcbiAgICAgICAgICBkZXNjcmlwdGlvbjogXCJHcmlsbGVkIHBvcmsgbWVhdGJhbGxzIHdpdGggcmljZSBub29kbGVzIGFuZCBoZXJic1wiLFxuICAgICAgICAgIGN1aXNpbmU6IFwiVmlldG5hbWVzZVwiLFxuICAgICAgICAgIGNvb2tpbmdNZXRob2RzOiBbXCJncmlsbGluZ1wiLCBcImJvaWxpbmdcIl0sXG4gICAgICAgICAgdG9vbHM6IFtcbiAgICAgICAgICAgIFwiZ3JpbGxcIixcbiAgICAgICAgICAgIFwibWl4aW5nIGJvd2xzXCIsXG4gICAgICAgICAgICBcInBvdFwiLFxuICAgICAgICAgICAgXCJzdHJhaW5lclwiLFxuICAgICAgICAgICAgXCJzZXJ2aW5nIGJvd2xzXCJcbiAgICAgICAgICBdLFxuICAgICAgICAgIHByZXBhcmF0aW9uU3RlcHM6IFtcbiAgICAgICAgICAgIFwiRm9ybSBtZWF0YmFsbHNcIixcbiAgICAgICAgICAgIFwiTWFrZSBkaXBwaW5nIHNhdWNlXCIsXG4gICAgICAgICAgICBcIkdyaWxsIG1lYXRiYWxsc1wiLFxuICAgICAgICAgICAgXCJDb29rIG5vb2RsZXNcIixcbiAgICAgICAgICAgIFwiUHJlcGFyZSBoZXJic1wiLFxuICAgICAgICAgICAgXCJBc3NlbWJsZSBib3dsc1wiXG4gICAgICAgICAgXSxcbiAgICAgICAgICBpbmdyZWRpZW50czogW1xuICAgICAgICAgICAgeyBuYW1lOiBcImdyb3VuZCBwb3JrXCIsIGFtb3VudDogXCI1MDBcIiwgdW5pdDogXCJnXCIsIGNhdGVnb3J5OiBcInByb3RlaW5cIiB9LFxuICAgICAgICAgICAgeyBuYW1lOiBcInJpY2Ugbm9vZGxlc1wiLCBhbW91bnQ6IFwiNDAwXCIsIHVuaXQ6IFwiZ1wiLCBjYXRlZ29yeTogXCJncmFpblwiIH0sXG4gICAgICAgICAgICB7IG5hbWU6IFwiZmlzaCBzYXVjZVwiLCBhbW91bnQ6IFwiNFwiLCB1bml0OiBcInRic3BcIiwgY2F0ZWdvcnk6IFwic2Vhc29uaW5nXCIgfSxcbiAgICAgICAgICAgIHsgbmFtZTogXCJnYXJsaWNcIiwgYW1vdW50OiBcIjZcIiwgdW5pdDogXCJjbG92ZXNcIiwgY2F0ZWdvcnk6IFwidmVnZXRhYmxlXCIgfSxcbiAgICAgICAgICAgIHsgbmFtZTogXCJzaGFsbG90c1wiLCBhbW91bnQ6IFwiNFwiLCB1bml0OiBcInBpZWNlc1wiLCBjYXRlZ29yeTogXCJ2ZWdldGFibGVcIiB9LFxuICAgICAgICAgICAgeyBuYW1lOiBcImxldHR1Y2VcIiwgYW1vdW50OiBcIjFcIiwgdW5pdDogXCJoZWFkXCIsIGNhdGVnb3J5OiBcInZlZ2V0YWJsZVwiIH0sXG4gICAgICAgICAgICB7IG5hbWU6IFwiaGVyYnMgbWl4XCIsIGFtb3VudDogXCIyXCIsIHVuaXQ6IFwiY3Vwc1wiLCBjYXRlZ29yeTogXCJoZXJiXCIgfSxcbiAgICAgICAgICAgIHsgbmFtZTogXCJncmVlbiBwYXBheWFcIiwgYW1vdW50OiBcIjIwMFwiLCB1bml0OiBcImdcIiwgY2F0ZWdvcnk6IFwidmVnZXRhYmxlXCIgfSxcbiAgICAgICAgICAgIHsgbmFtZTogXCJsaW1lXCIsIGFtb3VudDogXCIyXCIsIHVuaXQ6IFwicGllY2VzXCIsIGNhdGVnb3J5OiBcImZydWl0XCIgfVxuICAgICAgICAgIF0sXG4gICAgICAgICAgc3Vic3RpdHV0aW9uczoge1xuICAgICAgICAgICAgXCJncm91bmQgcG9ya1wiOiBbXCJjaGlja2VuXCIsIFwidHVya2V5XCIsIFwicGxhbnQtYmFzZWQgbWVhdFwiXSxcbiAgICAgICAgICAgIFwiZmlzaCBzYXVjZVwiOiBbXCJzb3kgc2F1Y2VcIiwgXCJjb2NvbnV0IGFtaW5vc1wiXSxcbiAgICAgICAgICAgIFwiZ3JlZW4gcGFwYXlhXCI6IFtcImNhcnJvdHNcIiwgXCJkYWlrb25cIl1cbiAgICAgICAgICB9LFxuICAgICAgICAgIHNlcnZpbmdTaXplOiA0LFxuICAgICAgICAgIGFsbGVyZ2VuczogW1wiZmlzaFwiXSxcbiAgICAgICAgICBwcmVwVGltZTogXCI0NSBtaW51dGVzXCIsXG4gICAgICAgICAgY29va1RpbWU6IFwiMjAgbWludXRlc1wiLFxuICAgICAgICAgIGN1bHR1cmFsTm90ZXM6IFwiQSBIYW5vaSBzcGVjaWFsdHkgdGhhdCBnYWluZWQgaW50ZXJuYXRpb25hbCByZWNvZ25pdGlvbiB3aGVuIEFudGhvbnkgQm91cmRhaW4gYW5kIEJhcmFjayBPYmFtYSBlbmpveWVkIGl0IHRvZ2V0aGVyXCIsXG4gICAgICAgICAgcGFpcmluZ1N1Z2dlc3Rpb25zOiBbXCJWaWV0bmFtZXNlIGJlZXJcIiwgXCJwaWNrbGVkIGdhcmxpY1wiLCBcImNoaWxpXCJdLFxuICAgICAgICAgIGRpZXRhcnlJbmZvOiBbXCJkYWlyeS1mcmVlXCIsIFwiYWRhcHRhYmxlIHRvIGdsdXRlbi1mcmVlXCJdLFxuICAgICAgICAgIHNwaWNlTGV2ZWw6IFwibWlsZFwiLFxuICAgICAgICAgIG51dHJpdGlvbjoge1xuICAgICAgICAgICAgY2Fsb3JpZXM6IDQ4MCxcbiAgICAgICAgICAgIHByb3RlaW46IDMyLFxuICAgICAgICAgICAgY2FyYnM6IDU1LFxuICAgICAgICAgICAgZmF0OiAxOCxcbiAgICAgICAgICAgIHZpdGFtaW5zOiBbXCJCMTJcIiwgXCJDXCJdLFxuICAgICAgICAgICAgbWluZXJhbHM6IFtcIklyb25cIiwgXCJaaW5jXCJdXG4gICAgICAgICAgfSxcbiAgICAgICAgICBzZWFzb246IFtcInNwcmluZ1wiLCBcInN1bW1lclwiXSxcbiAgICAgICAgICBtZWFsVHlwZTogW1wibHVuY2hcIiwgXCJkaW5uZXJcIl0sXG4gICAgICAgICAgZWxlbWVudGFsUHJvcGVydGllczoge1xuICAgICAgICAgICAgRmlyZTogMC4zLFxuICAgICAgICAgICAgRWFydGg6IDAuMyxcbiAgICAgICAgICAgIEFpcjogMC4yLFxuICAgICAgICAgICAgV2F0ZXI6IDAuMlxuICAgICAgICAgIH1cbiAgICAgICAgfSxcbiAgICAgICAge1xuICAgICAgICAgIG5hbWU6IFwiQsO6biBCw7IgSHXhur9cIixcbiAgICAgICAgICBkZXNjcmlwdGlvbjogXCJTcGljeSBiZWVmIG5vb2RsZSBzb3VwIGZyb20gSHVlXCIsXG4gICAgICAgICAgY3Vpc2luZTogXCJWaWV0bmFtZXNlXCIsXG4gICAgICAgICAgY29va2luZ01ldGhvZHM6IFtcInNpbW1lcmluZ1wiLCBcImJvaWxpbmdcIiwgXCJzcGljZSBwcmVwYXJhdGlvblwiXSxcbiAgICAgICAgICB0b29sczogW1xuICAgICAgICAgICAgXCJsYXJnZSBzdG9jayBwb3RcIixcbiAgICAgICAgICAgIFwic3RyYWluZXJcIixcbiAgICAgICAgICAgIFwibGFkbGVcIixcbiAgICAgICAgICAgIFwic2VydmluZyBib3dsc1wiLFxuICAgICAgICAgICAgXCJjaG9wc3RpY2tzXCJcbiAgICAgICAgICBdLFxuICAgICAgICAgIHByZXBhcmF0aW9uU3RlcHM6IFtcbiAgICAgICAgICAgIFwiUHJlcGFyZSBsZW1vbmdyYXNzIGJyb3RoXCIsXG4gICAgICAgICAgICBcIkNvb2sgYmVlZiBhbmQgcG9ya1wiLFxuICAgICAgICAgICAgXCJNYWtlIGNoaWxpIG9pbFwiLFxuICAgICAgICAgICAgXCJDb29rIG5vb2RsZXNcIixcbiAgICAgICAgICAgIFwiQXNzZW1ibGUgYm93bHNcIixcbiAgICAgICAgICAgIFwiQWRkIGdhcm5pc2hlc1wiXG4gICAgICAgICAgXSxcbiAgICAgICAgICBpbmdyZWRpZW50czogW1xuICAgICAgICAgICAgeyBuYW1lOiBcImJlZWYgc2hhbmtcIiwgYW1vdW50OiBcIjUwMFwiLCB1bml0OiBcImdcIiwgY2F0ZWdvcnk6IFwicHJvdGVpblwiIH0sXG4gICAgICAgICAgICB7IG5hbWU6IFwicG9yayBrbnVja2xlc1wiLCBhbW91bnQ6IFwiMzAwXCIsIHVuaXQ6IFwiZ1wiLCBjYXRlZ29yeTogXCJwcm90ZWluXCIgfSxcbiAgICAgICAgICAgIHsgbmFtZTogXCJ0aGljayByaWNlIG5vb2RsZXNcIiwgYW1vdW50OiBcIjUwMFwiLCB1bml0OiBcImdcIiwgY2F0ZWdvcnk6IFwiZ3JhaW5cIiB9LFxuICAgICAgICAgICAgeyBuYW1lOiBcImxlbW9uZ3Jhc3NcIiwgYW1vdW50OiBcIjRcIiwgdW5pdDogXCJzdGFsa3NcIiwgY2F0ZWdvcnk6IFwiaGVyYlwiIH0sXG4gICAgICAgICAgICB7IG5hbWU6IFwic2hyaW1wIHBhc3RlXCIsIGFtb3VudDogXCIyXCIsIHVuaXQ6IFwidGJzcFwiLCBjYXRlZ29yeTogXCJzZWFzb25pbmdcIiB9LFxuICAgICAgICAgICAgeyBuYW1lOiBcImFubmF0dG8gc2VlZHNcIiwgYW1vdW50OiBcIjJcIiwgdW5pdDogXCJ0YnNwXCIsIGNhdGVnb3J5OiBcInNwaWNlXCIgfSxcbiAgICAgICAgICAgIHsgbmFtZTogXCJWaWV0bmFtZXNlIGhlcmJzXCIsIGFtb3VudDogXCIyXCIsIHVuaXQ6IFwiY3Vwc1wiLCBjYXRlZ29yeTogXCJoZXJiXCIgfSxcbiAgICAgICAgICAgIHsgbmFtZTogXCJiYW5hbmEgZmxvd2VyXCIsIGFtb3VudDogXCIxXCIsIHVuaXQ6IFwid2hvbGVcIiwgY2F0ZWdvcnk6IFwidmVnZXRhYmxlXCIsIG9wdGlvbmFsOiB0cnVlIH1cbiAgICAgICAgICBdLFxuICAgICAgICAgIHN1YnN0aXR1dGlvbnM6IHtcbiAgICAgICAgICAgIFwiYmVlZiBzaGFua1wiOiBbXCJicmlza2V0XCIsIFwidG9mdVwiXSxcbiAgICAgICAgICAgIFwicG9yayBrbnVja2xlc1wiOiBbXCJwb3JrIGJlbGx5XCIsIFwibXVzaHJvb21zXCJdLFxuICAgICAgICAgICAgXCJzaHJpbXAgcGFzdGVcIjogW1wibWlzbyBwYXN0ZVwiXVxuICAgICAgICAgIH0sXG4gICAgICAgICAgc2VydmluZ1NpemU6IDYsXG4gICAgICAgICAgYWxsZXJnZW5zOiBbXCJzaGVsbGZpc2hcIl0sXG4gICAgICAgICAgcHJlcFRpbWU6IFwiNDAgbWludXRlc1wiLFxuICAgICAgICAgIGNvb2tUaW1lOiBcIjMgaG91cnNcIixcbiAgICAgICAgICBjdWx0dXJhbE5vdGVzOiBcIkEgcmVnaW9uYWwgc3BlY2lhbHR5IGZyb20gdGhlIGltcGVyaWFsIGNpdHkgb2YgSHVlLCBrbm93biBmb3IgaXRzIHNwaWN5IGJyb3RoIGFuZCBjb21wbGV4IGZsYXZvcnNcIixcbiAgICAgICAgICBwYWlyaW5nU3VnZ2VzdGlvbnM6IFtcImxpbWUgd2VkZ2VzXCIsIFwiY2hpbGkgc2F1Y2VcIiwgXCJmcmVzaCBoZXJic1wiXSxcbiAgICAgICAgICBkaWV0YXJ5SW5mbzogW1wiZGFpcnktZnJlZVwiXSxcbiAgICAgICAgICBzcGljZUxldmVsOiBcImhvdFwiLFxuICAgICAgICAgIG51dHJpdGlvbjoge1xuICAgICAgICAgICAgY2Fsb3JpZXM6IDUyMCxcbiAgICAgICAgICAgIHByb3RlaW46IDM1LFxuICAgICAgICAgICAgY2FyYnM6IDY1LFxuICAgICAgICAgICAgZmF0OiAxOCxcbiAgICAgICAgICAgIHZpdGFtaW5zOiBbXCJCMTJcIiwgXCJDXCJdLFxuICAgICAgICAgICAgbWluZXJhbHM6IFtcIklyb25cIiwgXCJaaW5jXCJdXG4gICAgICAgICAgfSxcbiAgICAgICAgICBzZWFzb246IFtcImFsbFwiXSxcbiAgICAgICAgICBtZWFsVHlwZTogW1wibHVuY2hcIiwgXCJkaW5uZXJcIl0sXG4gICAgICAgICAgZWxlbWVudGFsUHJvcGVydGllczoge1xuICAgICAgICAgICAgRmlyZTogMC40LFxuICAgICAgICAgICAgV2F0ZXI6IDAuMyxcbiAgICAgICAgICAgIEVhcnRoOiAwLjIsXG4gICAgICAgICAgICBBaXI6IDAuMVxuICAgICAgICAgIH1cbiAgICAgICAgfVxuICAgICAgXVxuICAgIH0sXG4gICAgZGlubmVyOiB7XG4gICAgICBhbGw6IFtcbiAgICAgICAge1xuICAgICAgICAgIG5hbWU6IFwiQ8OhIEtobyBU4buZXCIsXG4gICAgICAgICAgZGVzY3JpcHRpb246IFwiQ2FyYW1lbGl6ZWQgZmlzaCBpbiBjbGF5IHBvdFwiLFxuICAgICAgICAgIGN1aXNpbmU6IFwiVmlldG5hbWVzZVwiLFxuICAgICAgICAgIGNvb2tpbmdNZXRob2RzOiBbXCJicmFpc2luZ1wiLCBcImNhcmFtZWxpemluZ1wiXSxcbiAgICAgICAgICB0b29sczogW1xuICAgICAgICAgICAgXCJjbGF5IHBvdCBvciBoZWF2eSBwb3RcIixcbiAgICAgICAgICAgIFwid29vZGVuIHNwb29uXCIsXG4gICAgICAgICAgICBcImtuaWZlXCIsXG4gICAgICAgICAgICBcImN1dHRpbmcgYm9hcmRcIixcbiAgICAgICAgICAgIFwibWVhc3VyaW5nIHNwb29uc1wiXG4gICAgICAgICAgXSxcbiAgICAgICAgICBwcmVwYXJhdGlvblN0ZXBzOiBbXG4gICAgICAgICAgICBcIkNsZWFuIGFuZCBjdXQgZmlzaFwiLFxuICAgICAgICAgICAgXCJNYWtlIGNhcmFtZWwgc2F1Y2VcIixcbiAgICAgICAgICAgIFwiTGF5ZXIgaW5ncmVkaWVudHNcIixcbiAgICAgICAgICAgIFwiU2ltbWVyIGZpc2hcIixcbiAgICAgICAgICAgIFwiUmVkdWNlIHNhdWNlXCIsXG4gICAgICAgICAgICBcIkdhcm5pc2ggYW5kIHNlcnZlXCJcbiAgICAgICAgICBdLFxuICAgICAgICAgIGluZ3JlZGllbnRzOiBbXG4gICAgICAgICAgICB7IG5hbWU6IFwiY2F0ZmlzaCBzdGVha3NcIiwgYW1vdW50OiBcIjgwMFwiLCB1bml0OiBcImdcIiwgY2F0ZWdvcnk6IFwicHJvdGVpblwiLCBzd2FwczogW1wic2FsbW9uXCIsIFwibWFja2VyZWxcIl0gfSxcbiAgICAgICAgICAgIHsgbmFtZTogXCJzdWdhclwiLCBhbW91bnQ6IFwiM1wiLCB1bml0OiBcInRic3BcIiwgY2F0ZWdvcnk6IFwic3dlZXRlbmVyXCIgfSxcbiAgICAgICAgICAgIHsgbmFtZTogXCJmaXNoIHNhdWNlXCIsIGFtb3VudDogXCI0XCIsIHVuaXQ6IFwidGJzcFwiLCBjYXRlZ29yeTogXCJzZWFzb25pbmdcIiB9LFxuICAgICAgICAgICAgeyBuYW1lOiBcImNvY29udXQgd2F0ZXJcIiwgYW1vdW50OiBcIjFcIiwgdW5pdDogXCJjdXBcIiwgY2F0ZWdvcnk6IFwibGlxdWlkXCIgfSxcbiAgICAgICAgICAgIHsgbmFtZTogXCJzaGFsbG90c1wiLCBhbW91bnQ6IFwiNFwiLCB1bml0OiBcIndob2xlXCIsIGNhdGVnb3J5OiBcInZlZ2V0YWJsZVwiIH0sXG4gICAgICAgICAgICB7IG5hbWU6IFwiZ2FybGljXCIsIGFtb3VudDogXCI0XCIsIHVuaXQ6IFwiY2xvdmVzXCIsIGNhdGVnb3J5OiBcInZlZ2V0YWJsZVwiIH0sXG4gICAgICAgICAgICB7IG5hbWU6IFwiZ2luZ2VyXCIsIGFtb3VudDogXCIyXCIsIHVuaXQ6IFwiaW5jaGVzXCIsIGNhdGVnb3J5OiBcInNwaWNlXCIgfSxcbiAgICAgICAgICAgIHsgbmFtZTogXCJncmVlbiBvbmlvbnNcIiwgYW1vdW50OiBcIjRcIiwgdW5pdDogXCJzdGFsa3NcIiwgY2F0ZWdvcnk6IFwidmVnZXRhYmxlXCIgfSxcbiAgICAgICAgICAgIHsgbmFtZTogXCJibGFjayBwZXBwZXJcIiwgYW1vdW50OiBcIjFcIiwgdW5pdDogXCJ0c3BcIiwgY2F0ZWdvcnk6IFwic3BpY2VcIiB9LFxuICAgICAgICAgICAgeyBuYW1lOiBcImNoaWxpXCIsIGFtb3VudDogXCIyXCIsIHVuaXQ6IFwicGllY2VzXCIsIGNhdGVnb3J5OiBcInNwaWNlXCIsIG9wdGlvbmFsOiB0cnVlIH1cbiAgICAgICAgICBdLFxuICAgICAgICAgIHN1YnN0aXR1dGlvbnM6IHtcbiAgICAgICAgICAgIFwiY2F0ZmlzaFwiOiBbXCJzYWxtb25cIiwgXCJtYWNrZXJlbFwiLCBcInRvZnVcIl0sXG4gICAgICAgICAgICBcImZpc2ggc2F1Y2VcIjogW1wic295IHNhdWNlXCIsIFwiY29jb251dCBhbWlub3NcIl0sXG4gICAgICAgICAgICBcImNvY29udXQgd2F0ZXJcIjogW1wid2F0ZXJcIiwgXCJzdG9ja1wiXVxuICAgICAgICAgIH0sXG4gICAgICAgICAgc2VydmluZ1NpemU6IDQsXG4gICAgICAgICAgYWxsZXJnZW5zOiBbXCJmaXNoXCJdLFxuICAgICAgICAgIHByZXBUaW1lOiBcIjIwIG1pbnV0ZXNcIixcbiAgICAgICAgICBjb29rVGltZTogXCI0MCBtaW51dGVzXCIsXG4gICAgICAgICAgY3VsdHVyYWxOb3RlczogXCJBIGhvbWVzdHlsZSBkaXNoIHRoYXQgZXhlbXBsaWZpZXMgdGhlIFZpZXRuYW1lc2UgY2FyYW1lbGl6YXRpb24gdGVjaG5pcXVlLiBUaGUgY2xheSBwb3QgaGVscHMgZGV2ZWxvcCBkZWVwIGZsYXZvcnMgYW5kIGtlZXBzIHRoZSBmaXNoIG1vaXN0XCIsXG4gICAgICAgICAgcGFpcmluZ1N1Z2dlc3Rpb25zOiBbXCJzdGVhbWVkIHJpY2VcIiwgXCJ3YXRlciBzcGluYWNoXCIsIFwic291cFwiXSxcbiAgICAgICAgICBkaWV0YXJ5SW5mbzogW1wiZGFpcnktZnJlZVwiLCBcImdsdXRlbi1mcmVlXCJdLFxuICAgICAgICAgIHNwaWNlTGV2ZWw6IFwibWlsZCB0byBtZWRpdW1cIixcbiAgICAgICAgICBudXRyaXRpb246IHtcbiAgICAgICAgICAgIGNhbG9yaWVzOiA0MjAsXG4gICAgICAgICAgICBwcm90ZWluOiAzNSxcbiAgICAgICAgICAgIGNhcmJzOiAxNSxcbiAgICAgICAgICAgIGZhdDogMjUsXG4gICAgICAgICAgICB2aXRhbWluczogW1wiRFwiLCBcIkIxMlwiXSxcbiAgICAgICAgICAgIG1pbmVyYWxzOiBbXCJPbWVnYS0zXCIsIFwiSXJvblwiXVxuICAgICAgICAgIH0sXG4gICAgICAgICAgc2Vhc29uOiBbXCJhbGxcIl0sXG4gICAgICAgICAgbWVhbFR5cGU6IFtcImRpbm5lclwiXSxcbiAgICAgICAgICBlbGVtZW50YWxQcm9wZXJ0aWVzOiB7XG4gICAgICAgICAgICBXYXRlcjogMC4zLFxuICAgICAgICAgICAgRmlyZTogMC4zLFxuICAgICAgICAgICAgRWFydGg6IDAuMyxcbiAgICAgICAgICAgIEFpcjogMC4xXG4gICAgICAgICAgfVxuICAgICAgICB9LFxuICAgICAgICB7XG4gICAgICAgICAgbmFtZTogXCJDxqFtIFThuqVtXCIsXG4gICAgICAgICAgZGVzY3JpcHRpb246IFwiQnJva2VuIHJpY2Ugd2l0aCBncmlsbGVkIHBvcmsgY2hvcCBhbmQgZWdnXCIsXG4gICAgICAgICAgY3Vpc2luZTogXCJWaWV0bmFtZXNlXCIsXG4gICAgICAgICAgY29va2luZ01ldGhvZHM6IFtcImdyaWxsaW5nXCIsIFwiZnJ5aW5nXCIsIFwic3RlYW1pbmdcIl0sXG4gICAgICAgICAgdG9vbHM6IFtcbiAgICAgICAgICAgIFwiZ3JpbGxcIixcbiAgICAgICAgICAgIFwicmljZSBjb29rZXJcIixcbiAgICAgICAgICAgIFwiZnJ5aW5nIHBhblwiLFxuICAgICAgICAgICAgXCJtaXhpbmcgYm93bHNcIixcbiAgICAgICAgICAgIFwic2VydmluZyBwbGF0ZXNcIlxuICAgICAgICAgIF0sXG4gICAgICAgICAgcHJlcGFyYXRpb25TdGVwczogW1xuICAgICAgICAgICAgXCJNYXJpbmF0ZSBwb3JrIGNob3BzXCIsXG4gICAgICAgICAgICBcIkNvb2sgYnJva2VuIHJpY2VcIixcbiAgICAgICAgICAgIFwiR3JpbGwgcG9yayBjaG9wc1wiLFxuICAgICAgICAgICAgXCJQcmVwYXJlIGLDrCAoc2hyZWRkZWQgcG9yaylcIixcbiAgICAgICAgICAgIFwiRnJ5IGVnZ3NcIixcbiAgICAgICAgICAgIFwiQXNzZW1ibGUgcGxhdGVcIlxuICAgICAgICAgIF0sXG4gICAgICAgICAgaW5ncmVkaWVudHM6IFtcbiAgICAgICAgICAgIHsgbmFtZTogXCJicm9rZW4gcmljZVwiLCBhbW91bnQ6IFwiMlwiLCB1bml0OiBcImN1cHNcIiwgY2F0ZWdvcnk6IFwiZ3JhaW5cIiB9LFxuICAgICAgICAgICAgeyBuYW1lOiBcInBvcmsgY2hvcHNcIiwgYW1vdW50OiBcIjRcIiwgdW5pdDogXCJwaWVjZXNcIiwgY2F0ZWdvcnk6IFwicHJvdGVpblwiIH0sXG4gICAgICAgICAgICB7IG5hbWU6IFwiZWdnc1wiLCBhbW91bnQ6IFwiNFwiLCB1bml0OiBcImxhcmdlXCIsIGNhdGVnb3J5OiBcInByb3RlaW5cIiB9LFxuICAgICAgICAgICAgeyBuYW1lOiBcImdyZWVuIG9uaW9uc1wiLCBhbW91bnQ6IFwiNFwiLCB1bml0OiBcInN0YWxrc1wiLCBjYXRlZ29yeTogXCJ2ZWdldGFibGVcIiB9LFxuICAgICAgICAgICAgeyBuYW1lOiBcInBpY2tsZWQgdmVnZXRhYmxlc1wiLCBhbW91bnQ6IFwiMjAwXCIsIHVuaXQ6IFwiZ1wiLCBjYXRlZ29yeTogXCJ2ZWdldGFibGVcIiB9LFxuICAgICAgICAgICAgeyBuYW1lOiBcImZpc2ggc2F1Y2VcIiwgYW1vdW50OiBcIjRcIiwgdW5pdDogXCJ0YnNwXCIsIGNhdGVnb3J5OiBcInNlYXNvbmluZ1wiIH0sXG4gICAgICAgICAgICB7IG5hbWU6IFwibGVtb25ncmFzc1wiLCBhbW91bnQ6IFwiMlwiLCB1bml0OiBcInN0YWxrc1wiLCBjYXRlZ29yeTogXCJoZXJiXCIgfSxcbiAgICAgICAgICAgIHsgbmFtZTogXCJnYXJsaWNcIiwgYW1vdW50OiBcIjZcIiwgdW5pdDogXCJjbG92ZXNcIiwgY2F0ZWdvcnk6IFwidmVnZXRhYmxlXCIgfVxuICAgICAgICAgIF0sXG4gICAgICAgICAgc3Vic3RpdHV0aW9uczoge1xuICAgICAgICAgICAgXCJwb3JrIGNob3BzXCI6IFtcImNoaWNrZW4gdGhpZ2hzXCIsIFwidG9mdSBzdGVha3NcIl0sXG4gICAgICAgICAgICBcImZpc2ggc2F1Y2VcIjogW1wic295IHNhdWNlXCIsIFwiY29jb251dCBhbWlub3NcIl0sXG4gICAgICAgICAgICBcImJyb2tlbiByaWNlXCI6IFtcImphc21pbmUgcmljZVwiLCBcImJyb3duIHJpY2VcIl1cbiAgICAgICAgICB9LFxuICAgICAgICAgIHNlcnZpbmdTaXplOiA0LFxuICAgICAgICAgIGFsbGVyZ2VuczogW1wiZmlzaFwiLCBcImVnZ3NcIl0sXG4gICAgICAgICAgcHJlcFRpbWU6IFwiMzAgbWludXRlc1wiLFxuICAgICAgICAgIGNvb2tUaW1lOiBcIjQ1IG1pbnV0ZXNcIixcbiAgICAgICAgICBjdWx0dXJhbE5vdGVzOiBcIkEgU2FpZ29uIHNwZWNpYWx0eSB0aGF0IG9yaWdpbmF0ZWQgZnJvbSB1c2luZyBicm9rZW4gcmljZSBncmFpbnMgdGhhdCBjb3VsZG4ndCBiZSBzb2xkIGF0IGZ1bGwgcHJpY2UuIE5vdyBpdCdzIGEgYmVsb3ZlZCBkaXNoIHRocm91Z2hvdXQgVmlldG5hbVwiLFxuICAgICAgICAgIHBhaXJpbmdTdWdnZXN0aW9uczogW1wic2NhbGxpb24gb2lsXCIsIFwiY2hpbGkgc2F1Y2VcIiwgXCJzb3VwIGJyb3RoXCJdLFxuICAgICAgICAgIGRpZXRhcnlJbmZvOiBbXCJkYWlyeS1mcmVlXCJdLFxuICAgICAgICAgIHNwaWNlTGV2ZWw6IFwibWlsZFwiLFxuICAgICAgICAgIG51dHJpdGlvbjoge1xuICAgICAgICAgICAgY2Fsb3JpZXM6IDY1MCxcbiAgICAgICAgICAgIHByb3RlaW46IDQ1LFxuICAgICAgICAgICAgY2FyYnM6IDcwLFxuICAgICAgICAgICAgZmF0OiAyNSxcbiAgICAgICAgICAgIHZpdGFtaW5zOiBbXCJCMTJcIiwgXCJEXCJdLFxuICAgICAgICAgICAgbWluZXJhbHM6IFtcIklyb25cIiwgXCJaaW5jXCJdXG4gICAgICAgICAgfSxcbiAgICAgICAgICBzZWFzb246IFtcImFsbFwiXSxcbiAgICAgICAgICBtZWFsVHlwZTogW1wiZGlubmVyXCJdLFxuICAgICAgICAgIGVsZW1lbnRhbFByb3BlcnRpZXM6IHtcbiAgICAgICAgICAgIEVhcnRoOiAwLjQsXG4gICAgICAgICAgICBGaXJlOiAwLjMsXG4gICAgICAgICAgICBBaXI6IDAuMixcbiAgICAgICAgICAgIFdhdGVyOiAwLjFcbiAgICAgICAgICB9XG4gICAgICAgIH1cbiAgICAgIF1cbiAgICB9LFxuICAgIGRlc3NlcnQ6IHtcbiAgICAgIGFsbDogW1xuICAgICAgICB7XG4gICAgICAgICAgbmFtZTogXCJDaMOoIEJhIE3DoHVcIixcbiAgICAgICAgICBkZXNjcmlwdGlvbjogXCJUaHJlZS1jb2xvciBkZXNzZXJ0IHdpdGggYmVhbnMsIGplbGx5LCBhbmQgY29jb251dCBtaWxrXCIsXG4gICAgICAgICAgY3Vpc2luZTogXCJWaWV0bmFtZXNlXCIsXG4gICAgICAgICAgY29va2luZ01ldGhvZHM6IFtcImNvb2tpbmcgYmVhbnNcIiwgXCJsYXllcmluZ1wiXSxcbiAgICAgICAgICB0b29sczogW1xuICAgICAgICAgICAgXCJzYXVjZXBhbnNcIixcbiAgICAgICAgICAgIFwic3RyYWluZXJcIixcbiAgICAgICAgICAgIFwidGFsbCBnbGFzc2VzXCIsXG4gICAgICAgICAgICBcIm1lYXN1cmluZyBjdXBzXCIsXG4gICAgICAgICAgICBcInNwb29uc1wiXG4gICAgICAgICAgXSxcbiAgICAgICAgICBwcmVwYXJhdGlvblN0ZXBzOiBbXG4gICAgICAgICAgICBcIkNvb2sgcmVkIGJlYW5zXCIsXG4gICAgICAgICAgICBcIlByZXBhcmUgbXVuZyBiZWFuc1wiLFxuICAgICAgICAgICAgXCJNYWtlIHBhbmRhbiBqZWxseVwiLFxuICAgICAgICAgICAgXCJQcmVwYXJlIGNvY29udXQgbWlsa1wiLFxuICAgICAgICAgICAgXCJMYXllciBpbmdyZWRpZW50c1wiLFxuICAgICAgICAgICAgXCJDaGlsbCBiZWZvcmUgc2VydmluZ1wiXG4gICAgICAgICAgXSxcbiAgICAgICAgICBpbmdyZWRpZW50czogW1xuICAgICAgICAgICAgeyBuYW1lOiBcInJlZCBiZWFuc1wiLCBhbW91bnQ6IFwiMjAwXCIsIHVuaXQ6IFwiZ1wiLCBjYXRlZ29yeTogXCJsZWd1bWVcIiB9LFxuICAgICAgICAgICAgeyBuYW1lOiBcIm11bmcgYmVhbnNcIiwgYW1vdW50OiBcIjIwMFwiLCB1bml0OiBcImdcIiwgY2F0ZWdvcnk6IFwibGVndW1lXCIgfSxcbiAgICAgICAgICAgIHsgbmFtZTogXCJwYW5kYW4gamVsbHlcIiwgYW1vdW50OiBcIjIwMFwiLCB1bml0OiBcImdcIiwgY2F0ZWdvcnk6IFwiamVsbHlcIiB9LFxuICAgICAgICAgICAgeyBuYW1lOiBcImNvY29udXQgbWlsa1wiLCBhbW91bnQ6IFwiNDAwXCIsIHVuaXQ6IFwibWxcIiwgY2F0ZWdvcnk6IFwibGlxdWlkXCIgfSxcbiAgICAgICAgICAgIHsgbmFtZTogXCJwYWxtIHN1Z2FyXCIsIGFtb3VudDogXCIxMDBcIiwgdW5pdDogXCJnXCIsIGNhdGVnb3J5OiBcInN3ZWV0ZW5lclwiIH0sXG4gICAgICAgICAgICB7IG5hbWU6IFwicGFuZGFuIGxlYXZlc1wiLCBhbW91bnQ6IFwiMlwiLCB1bml0OiBcInBpZWNlc1wiLCBjYXRlZ29yeTogXCJoZXJiXCIsIG9wdGlvbmFsOiB0cnVlIH0sXG4gICAgICAgICAgICB7IG5hbWU6IFwiY3J1c2hlZCBpY2VcIiwgYW1vdW50OiBcIjJcIiwgdW5pdDogXCJjdXBzXCIsIGNhdGVnb3J5OiBcImljZVwiIH1cbiAgICAgICAgICBdLFxuICAgICAgICAgIHN1YnN0aXR1dGlvbnM6IHtcbiAgICAgICAgICAgIFwicGFsbSBzdWdhclwiOiBbXCJicm93biBzdWdhclwiLCBcImNvY29udXQgc3VnYXJcIl0sXG4gICAgICAgICAgICBcInBhbmRhbiBqZWxseVwiOiBbXCJncmFzcyBqZWxseVwiLCBcImFnYXIgamVsbHlcIl0sXG4gICAgICAgICAgICBcImNvY29udXQgbWlsa1wiOiBbXCJhbG1vbmQgbWlsa1wiLCBcIm9hdCBtaWxrXCJdXG4gICAgICAgICAgfSxcbiAgICAgICAgICBzZXJ2aW5nU2l6ZTogNCxcbiAgICAgICAgICBhbGxlcmdlbnM6IFtcInRyZWUgbnV0cyAoY29jb251dClcIl0sXG4gICAgICAgICAgcHJlcFRpbWU6IFwiMzAgbWludXRlc1wiLFxuICAgICAgICAgIGNvb2tUaW1lOiBcIjEgaG91clwiLFxuICAgICAgICAgIGNoaWxsVGltZTogXCIyIGhvdXJzXCIsXG4gICAgICAgICAgY3VsdHVyYWxOb3RlczogXCJBIGJlbG92ZWQgVmlldG5hbWVzZSBkZXNzZXJ0IHdoZXJlIHRoZSB0aHJlZSBjb2xvcnMgcmVwcmVzZW50IGRpZmZlcmVudCB0ZXh0dXJlcyBhbmQgZmxhdm9ycy4gT2Z0ZW4gZW5qb3llZCBkdXJpbmcgaG90IHN1bW1lciBkYXlzXCIsXG4gICAgICAgICAgcGFpcmluZ1N1Z2dlc3Rpb25zOiBbXCJWaWV0bmFtZXNlIGNvZmZlZVwiLCBcImFkZGl0aW9uYWwgY29jb251dCBtaWxrXCJdLFxuICAgICAgICAgIGRpZXRhcnlJbmZvOiBbXCJ2ZWdhblwiLCBcImdsdXRlbi1mcmVlXCJdLFxuICAgICAgICAgIHNwaWNlTGV2ZWw6IFwibm9uZVwiLFxuICAgICAgICAgIG51dHJpdGlvbjoge1xuICAgICAgICAgICAgY2Fsb3JpZXM6IDMyMCxcbiAgICAgICAgICAgIHByb3RlaW46IDgsXG4gICAgICAgICAgICBjYXJiczogNTIsXG4gICAgICAgICAgICBmYXQ6IDEyLFxuICAgICAgICAgICAgdml0YW1pbnM6IFtcIkIxXCIsIFwiRVwiXSxcbiAgICAgICAgICAgIG1pbmVyYWxzOiBbXCJJcm9uXCIsIFwiTWFnbmVzaXVtXCJdXG4gICAgICAgICAgfSxcbiAgICAgICAgICBzZWFzb246IFtcInN1bW1lclwiXSxcbiAgICAgICAgICBtZWFsVHlwZTogW1wiZGVzc2VydFwiXSxcbiAgICAgICAgICBlbGVtZW50YWxQcm9wZXJ0aWVzOiB7XG4gICAgICAgICAgICBXYXRlcjogMC40LFxuICAgICAgICAgICAgRWFydGg6IDAuMyxcbiAgICAgICAgICAgIEFpcjogMC4yLFxuICAgICAgICAgICAgRmlyZTogMC4xXG4gICAgICAgICAgfVxuICAgICAgICB9LFxuICAgICAgICB7XG4gICAgICAgICAgbmFtZTogXCJDaMOoIENodeG7kWlcIixcbiAgICAgICAgICBkZXNjcmlwdGlvbjogXCJTd2VldCBiYW5hbmEgaW4gY29jb251dCBtaWxrIHNvdXBcIixcbiAgICAgICAgICBjdWlzaW5lOiBcIlZpZXRuYW1lc2VcIixcbiAgICAgICAgICBjb29raW5nTWV0aG9kczogW1wic2ltbWVyaW5nXCIsIFwiY29va2luZ1wiXSxcbiAgICAgICAgICB0b29sczogW1xuICAgICAgICAgICAgXCJwb3RcIixcbiAgICAgICAgICAgIFwid29vZGVuIHNwb29uXCIsXG4gICAgICAgICAgICBcIm1lYXN1cmluZyBjdXBzXCIsXG4gICAgICAgICAgICBcInNlcnZpbmcgYm93bHNcIixcbiAgICAgICAgICAgIFwia25pZmVcIlxuICAgICAgICAgIF0sXG4gICAgICAgICAgcHJlcGFyYXRpb25TdGVwczogW1xuICAgICAgICAgICAgXCJQcmVwYXJlIGJhbmFuYXNcIixcbiAgICAgICAgICAgIFwiTWFrZSB0YXBpb2NhIHBlYXJsc1wiLFxuICAgICAgICAgICAgXCJDb29rIGNvY29udXQgbWlsa1wiLFxuICAgICAgICAgICAgXCJDb21iaW5lIGluZ3JlZGllbnRzXCIsXG4gICAgICAgICAgICBcIkFkZCB0b3BwaW5nc1wiLFxuICAgICAgICAgICAgXCJTZXJ2ZSB3YXJtIG9yIGNvbGRcIlxuICAgICAgICAgIF0sXG4gICAgICAgICAgaW5ncmVkaWVudHM6IFtcbiAgICAgICAgICAgIHsgbmFtZTogXCJyaXBlIGJhbmFuYXNcIiwgYW1vdW50OiBcIjZcIiwgdW5pdDogXCJtZWRpdW1cIiwgY2F0ZWdvcnk6IFwiZnJ1aXRcIiB9LFxuICAgICAgICAgICAgeyBuYW1lOiBcImNvY29udXQgbWlsa1wiLCBhbW91bnQ6IFwiNDAwXCIsIHVuaXQ6IFwibWxcIiwgY2F0ZWdvcnk6IFwibGlxdWlkXCIgfSxcbiAgICAgICAgICAgIHsgbmFtZTogXCJ0YXBpb2NhIHBlYXJsc1wiLCBhbW91bnQ6IFwiMTAwXCIsIHVuaXQ6IFwiZ1wiLCBjYXRlZ29yeTogXCJzdGFyY2hcIiB9LFxuICAgICAgICAgICAgeyBuYW1lOiBcInBhbG0gc3VnYXJcIiwgYW1vdW50OiBcIjgwXCIsIHVuaXQ6IFwiZ1wiLCBjYXRlZ29yeTogXCJzd2VldGVuZXJcIiB9LFxuICAgICAgICAgICAgeyBuYW1lOiBcInBhbmRhbiBsZWF2ZXNcIiwgYW1vdW50OiBcIjJcIiwgdW5pdDogXCJwaWVjZXNcIiwgY2F0ZWdvcnk6IFwiaGVyYlwiLCBvcHRpb25hbDogdHJ1ZSB9LFxuICAgICAgICAgICAgeyBuYW1lOiBcInNlc2FtZSBzZWVkc1wiLCBhbW91bnQ6IFwiMlwiLCB1bml0OiBcInRic3BcIiwgY2F0ZWdvcnk6IFwiZ2FybmlzaFwiIH0sXG4gICAgICAgICAgICB7IG5hbWU6IFwiY3J1c2hlZCBwZWFudXRzXCIsIGFtb3VudDogXCIxLzJcIiwgdW5pdDogXCJjdXBcIiwgY2F0ZWdvcnk6IFwiZ2FybmlzaFwiLCBvcHRpb25hbDogdHJ1ZSB9XG4gICAgICAgICAgXSxcbiAgICAgICAgICBzdWJzdGl0dXRpb25zOiB7XG4gICAgICAgICAgICBcInBhbG0gc3VnYXJcIjogW1wiYnJvd24gc3VnYXJcIiwgXCJjb2NvbnV0IHN1Z2FyXCJdLFxuICAgICAgICAgICAgXCJjb2NvbnV0IG1pbGtcIjogW1wiYWxtb25kIG1pbGtcIiwgXCJvYXQgbWlsa1wiXSxcbiAgICAgICAgICAgIFwicGFuZGFuIGxlYXZlc1wiOiBbXCJ2YW5pbGxhIGV4dHJhY3RcIl1cbiAgICAgICAgICB9LFxuICAgICAgICAgIHNlcnZpbmdTaXplOiA2LFxuICAgICAgICAgIGFsbGVyZ2VuczogW1widHJlZSBudXRzIChjb2NvbnV0KVwiLCBcInBlYW51dHNcIl0sXG4gICAgICAgICAgcHJlcFRpbWU6IFwiMTUgbWludXRlc1wiLFxuICAgICAgICAgIGNvb2tUaW1lOiBcIjI1IG1pbnV0ZXNcIixcbiAgICAgICAgICBjdWx0dXJhbE5vdGVzOiBcIkEgY29tZm9ydGluZyBkZXNzZXJ0IHNvdXAgdGhhdCdzIG9mdGVuIHNlcnZlZCBib3RoIGhvdCBhbmQgY29sZC4gVGhlIGNvbWJpbmF0aW9uIG9mIGJhbmFuYXMgYW5kIGNvY29udXQgbWlsayBpcyBhIGNsYXNzaWMgVmlldG5hbWVzZSBwYWlyaW5nXCIsXG4gICAgICAgICAgcGFpcmluZ1N1Z2dlc3Rpb25zOiBbXCJWaWV0bmFtZXNlIGNvZmZlZVwiLCBcInNlc2FtZSBjcmFja2Vyc1wiXSxcbiAgICAgICAgICBkaWV0YXJ5SW5mbzogW1widmVnYW5cIiwgXCJnbHV0ZW4tZnJlZVwiXSxcbiAgICAgICAgICBzcGljZUxldmVsOiBcIm5vbmVcIixcbiAgICAgICAgICBudXRyaXRpb246IHtcbiAgICAgICAgICAgIGNhbG9yaWVzOiAyODAsXG4gICAgICAgICAgICBwcm90ZWluOiA0LFxuICAgICAgICAgICAgY2FyYnM6IDQyLFxuICAgICAgICAgICAgZmF0OiAxMixcbiAgICAgICAgICAgIHZpdGFtaW5zOiBbXCJCNlwiLCBcIkNcIl0sXG4gICAgICAgICAgICBtaW5lcmFsczogW1wiUG90YXNzaXVtXCIsIFwiTWFnbmVzaXVtXCJdXG4gICAgICAgICAgfSxcbiAgICAgICAgICBzZWFzb246IFtcImFsbFwiXSxcbiAgICAgICAgICBtZWFsVHlwZTogW1wiZGVzc2VydFwiXSxcbiAgICAgICAgICBlbGVtZW50YWxQcm9wZXJ0aWVzOiB7XG4gICAgICAgICAgICBXYXRlcjogMC40LFxuICAgICAgICAgICAgRWFydGg6IDAuMyxcbiAgICAgICAgICAgIEFpcjogMC4yLFxuICAgICAgICAgICAgRmlyZTogMC4xXG4gICAgICAgICAgfVxuICAgICAgICB9XG4gICAgICBdXG4gICAgfVxuICB9LFxuICB0cmFkaXRpb25hbFNhdWNlczoge1xuICAgIG51b2NDaGFtOiB7XG4gICAgICBuYW1lOiBcIk7GsOG7m2MgQ2jhuqVtXCIsXG4gICAgICBkZXNjcmlwdGlvbjogXCJRdWludGVzc2VudGlhbCBWaWV0bmFtZXNlIGRpcHBpbmcgc2F1Y2UgY29tYmluaW5nIGZpc2ggc2F1Y2UsIGxpbWUsIHN1Z2FyLCBhbmQgY2hpbGlcIixcbiAgICAgIGJhc2U6IFwiZmlzaCBzYXVjZVwiLFxuICAgICAga2V5SW5ncmVkaWVudHM6IFtcImZpc2ggc2F1Y2VcIiwgXCJsaW1lIGp1aWNlXCIsIFwic3VnYXJcIiwgXCJnYXJsaWNcIiwgXCJjaGlsaVwiLCBcIndhdGVyXCJdLFxuICAgICAgY3VsaW5hcnlVc2VzOiBbXCJkaXBwaW5nIHNhdWNlXCIsIFwiZHJlc3NpbmdcIiwgXCJtYXJpbmFkZVwiLCBcIm5vb2RsZSBzYXVjZVwiLCBcImZsYXZvciBlbmhhbmNlclwiXSxcbiAgICAgIHZhcmlhbnRzOiBbXCJOb3J0aGVybiBzdHlsZSAobGVzcyBzd2VldClcIiwgXCJTb3V0aGVybiBzdHlsZSAoc3dlZXRlcilcIiwgXCJWZWdldGFyaWFuIChzb3ktYmFzZWQpXCIsIFwiRXh0cmEgc3BpY3lcIiwgXCJHYXJsaWMtZm9yd2FyZFwiXSxcbiAgICAgIGVsZW1lbnRhbFByb3BlcnRpZXM6IHtcbiAgICAgICAgV2F0ZXI6IDAuNCxcbiAgICAgICAgRmlyZTogMC4zLFxuICAgICAgICBFYXJ0aDogMC4yLFxuICAgICAgICBBaXI6IDAuMVxuICAgICAgfSxcbiAgICAgIGFzdHJvbG9naWNhbEluZmx1ZW5jZXM6IFtcIk5lcHR1bmVcIiwgXCJNYXJzXCIsIFwiUGlzY2VzXCJdLFxuICAgICAgc2Vhc29uYWxpdHk6IFwiYWxsXCIsXG4gICAgICBwcmVwYXJhdGlvbk5vdGVzOiBcIkJhbGFuY2UgaXMgY3JpdGljYWwgLSBzaG91bGQgaGFybW9uaXplIHN3ZWV0LCBzb3VyLCBzYWx0eSwgYW5kIHNwaWN5IGZsYXZvcnMgaW4gcGVyZmVjdCBwcm9wb3J0aW9uXCIsXG4gICAgICB0ZWNobmljYWxUaXBzOiBcIkxldCBzaXQgZm9yIGF0IGxlYXN0IDE1IG1pbnV0ZXMgYmVmb3JlIHNlcnZpbmcgdG8gYWxsb3cgZmxhdm9ycyB0byBtZWxkXCJcbiAgICB9LFxuICAgIG51b2NNYW06IHtcbiAgICAgIG5hbWU6IFwiTsaw4bubYyBN4bqvbSAoRmlzaCBTYXVjZSlcIixcbiAgICAgIGRlc2NyaXB0aW9uOiBcIkZlcm1lbnRlZCBhbmNob3Z5IHNhdWNlIHRoYXQgZm9ybXMgdGhlIGZvdW5kYXRpb24gb2YgVmlldG5hbWVzZSBjdWlzaW5lXCIsXG4gICAgICBiYXNlOiBcImZlcm1lbnRlZCBhbmNob3ZpZXNcIixcbiAgICAgIGtleUluZ3JlZGllbnRzOiBbXCJhbmNob3ZpZXNcIiwgXCJzYWx0XCIsIFwidGltZVwiXSxcbiAgICAgIGN1bGluYXJ5VXNlczogW1wiYmFzZSBmb3IgZGlwcGluZyBzYXVjZXNcIiwgXCJzZWFzb25pbmdcIiwgXCJtYXJpbmFkZVwiLCBcImJyb3RoIGVuaGFuY2VyXCIsIFwiZHJlc3NpbmcgY29tcG9uZW50XCJdLFxuICAgICAgdmFyaWFudHM6IFtcIlBow7ogUXXhu5FjIChwcmVtaXVtKVwiLCBcIlBoYW4gVGhp4bq/dFwiLCBcIk5vcnRoZXJuIHN0eWxlXCIsIFwiU291dGhlcm4gc3R5bGVcIiwgXCJBZ2VkIHByZW1pdW1cIl0sXG4gICAgICBlbGVtZW50YWxQcm9wZXJ0aWVzOiB7XG4gICAgICAgIFdhdGVyOiAwLjUsXG4gICAgICAgIEVhcnRoOiAwLjMsXG4gICAgICAgIEZpcmU6IDAuMSxcbiAgICAgICAgQWlyOiAwLjFcbiAgICAgIH0sXG4gICAgICBhc3Ryb2xvZ2ljYWxJbmZsdWVuY2VzOiBbXCJOZXB0dW5lXCIsIFwiTW9vblwiLCBcIlNjb3JwaW9cIl0sXG4gICAgICBzZWFzb25hbGl0eTogXCJhbGxcIixcbiAgICAgIHByZXBhcmF0aW9uTm90ZXM6IFwiVHJhZGl0aW9uYWwgcHJvZHVjdGlvbiB0YWtlcyBhdCBsZWFzdCAxMiBtb250aHMgb2YgZmVybWVudGF0aW9uIGluIHdvb2RlbiBiYXJyZWxzXCIsXG4gICAgICB0ZWNobmljYWxUaXBzOiBcIkhpZ2gtcXVhbGl0eSBmaXNoIHNhdWNlIHNob3VsZCBoYXZlIGEgZGVlcCBhbWJlciBjb2xvciBhbmQgY29tcGxleCBhcm9tYSBiZXlvbmQganVzdCBmaXNoaW5lc3NcIlxuICAgIH0sXG4gICAgdHVvbmdPdDoge1xuICAgICAgbmFtZTogXCJUxrDGoW5nIOG7mnQgKENoaWxpIFNhdWNlKVwiLFxuICAgICAgZGVzY3JpcHRpb246IFwiVmlldG5hbWVzZS1zdHlsZSBmZXJtZW50ZWQgY2hpbGkgc2F1Y2Ugd2l0aCBnYXJsaWMgYW5kIHZpbmVnYXJcIixcbiAgICAgIGJhc2U6IFwiY2hpbGkgcGVwcGVyc1wiLFxuICAgICAga2V5SW5ncmVkaWVudHM6IFtcInJlZCBjaGlsaSBwZXBwZXJzXCIsIFwiZ2FybGljXCIsIFwidmluZWdhclwiLCBcInNhbHRcIiwgXCJzdWdhclwiXSxcbiAgICAgIGN1bGluYXJ5VXNlczogW1wiY29uZGltZW50XCIsIFwic3Rpci1mcnkgZW5oYW5jZW1lbnRcIiwgXCJtYXJpbmFkZSBjb21wb25lbnRcIiwgXCJkaXBwaW5nIHNhdWNlXCIsIFwic291cCBlbmhhbmNlclwiXSxcbiAgICAgIHZhcmlhbnRzOiBbXCJIdeG6vyBzdHlsZSAoZXh0cmEgc3BpY3kpXCIsIFwiU2FpZ29uIHN0eWxlXCIsIFwiR2FybGljLWhlYXZ5XCIsIFwiU3dlZXQgdmVyc2lvblwiLCBcIk5vcnRoZXJuIHN0eWxlXCJdLFxuICAgICAgZWxlbWVudGFsUHJvcGVydGllczoge1xuICAgICAgICBGaXJlOiAwLjUsXG4gICAgICAgIEVhcnRoOiAwLjIsXG4gICAgICAgIFdhdGVyOiAwLjIsXG4gICAgICAgIEFpcjogMC4xXG4gICAgICB9LFxuICAgICAgYXN0cm9sb2dpY2FsSW5mbHVlbmNlczogW1wiTWFyc1wiLCBcIlN1blwiLCBcIkFyaWVzXCJdLFxuICAgICAgc2Vhc29uYWxpdHk6IFwiYWxsXCIsXG4gICAgICBwcmVwYXJhdGlvbk5vdGVzOiBcIlRyYWRpdGlvbmFsIHJlY2lwZXMgb2Z0ZW4gaW5jbHVkZSBmZXJtZW50YXRpb24gdG8gZGV2ZWxvcCBkZWVwZXIgZmxhdm9yXCIsXG4gICAgICB0ZWNobmljYWxUaXBzOiBcIlJvYXN0aW5nIG9yIGNoYXJyaW5nIGNoaWxpZXMgZmlyc3QgYWRkcyBjb21wbGV4aXR5IGFuZCB0ZW1wZXJzIHJhdyBoZWF0XCJcbiAgICB9LFxuICAgIHR1b25nRGVuOiB7XG4gICAgICBuYW1lOiBcIlTGsMahbmcgxJBlbiAoQmxhY2sgQmVhbiBTYXVjZSlcIixcbiAgICAgIGRlc2NyaXB0aW9uOiBcIkZlcm1lbnRlZCBzb3liZWFuIHNhdWNlIHVzZWQgaW4gVmlldG5hbWVzZS1DaGluZXNlIGZ1c2lvbiBkaXNoZXNcIixcbiAgICAgIGJhc2U6IFwiZmVybWVudGVkIHNveWJlYW5zXCIsXG4gICAgICBrZXlJbmdyZWRpZW50czogW1wiYmxhY2sgYmVhbnNcIiwgXCJzb3kgc2F1Y2VcIiwgXCJnYXJsaWNcIiwgXCJzdWdhclwiLCBcIm9pbFwiXSxcbiAgICAgIGN1bGluYXJ5VXNlczogW1wic3Rpci1mcnkgc2F1Y2VcIiwgXCJtYXJpbmFkZVwiLCBcImRpcHBpbmcgc2F1Y2VcIiwgXCJ2ZWdldGFibGUgc2Vhc29uaW5nXCIsIFwiZmxhdm9yIGJhc2VcIl0sXG4gICAgICB2YXJpYW50czogW1wiU3dlZXQgc3R5bGVcIiwgXCJHYXJsaWNreSBzdHlsZVwiLCBcIlNwaWN5IHN0eWxlXCIsIFwiQ2xlYXIgc3R5bGVcIiwgXCJDaGluZXNlLWluZmx1ZW5jZWRcIl0sXG4gICAgICBlbGVtZW50YWxQcm9wZXJ0aWVzOiB7XG4gICAgICAgIEVhcnRoOiAwLjQsXG4gICAgICAgIFdhdGVyOiAwLjMsXG4gICAgICAgIEZpcmU6IDAuMixcbiAgICAgICAgQWlyOiAwLjFcbiAgICAgIH0sXG4gICAgICBhc3Ryb2xvZ2ljYWxJbmZsdWVuY2VzOiBbXCJTYXR1cm5cIiwgXCJKdXBpdGVyXCIsIFwiQ2Fwcmljb3JuXCJdLFxuICAgICAgc2Vhc29uYWxpdHk6IFwiYWxsXCIsXG4gICAgICBwcmVwYXJhdGlvbk5vdGVzOiBcIk9mdGVuIHVzZWQgaW4gZGlzaGVzIHNob3dpbmcgQ2hpbmVzZSBjdWxpbmFyeSBpbmZsdWVuY2UgaW4gVmlldG5hbWVzZSBjdWlzaW5lXCIsXG4gICAgICB0ZWNobmljYWxUaXBzOiBcIlRvYXN0IGluIG9pbCBiZWZvcmUgdXNpbmcgdG8gcmVsZWFzZSBhcm9tYXRpY3MgYW5kIHJlZHVjZSByYXcgYmVhbiBmbGF2b3JcIlxuICAgIH0sXG4gICAgc2FUZToge1xuICAgICAgbmFtZTogXCJTYSBU4bq/IChWaWV0bmFtZXNlIFNhdGVheSBTYXVjZSlcIixcbiAgICAgIGRlc2NyaXB0aW9uOiBcIkFyb21hdGljIGxlbW9uZ3Jhc3MgYW5kIGNoaWxpIHBhc3RlIHVzZWQgaW4gc291cHMgYW5kIHN0aXItZnJpZXNcIixcbiAgICAgIGJhc2U6IFwibGVtb25ncmFzcyBhbmQgY2hpbGllc1wiLFxuICAgICAga2V5SW5ncmVkaWVudHM6IFtcImxlbW9uZ3Jhc3NcIiwgXCJjaGlsaWVzXCIsIFwiZ2FybGljXCIsIFwic2hhbGxvdHNcIiwgXCJhbm5hdHRvIG9pbFwiLCBcImZpc2ggc2F1Y2VcIl0sXG4gICAgICBjdWxpbmFyeVVzZXM6IFtcInNvdXAgZW5oYW5jZW1lbnRcIiwgXCJzdGlyLWZyeSBzYXVjZVwiLCBcIm1hcmluYWRlXCIsIFwiZ3JpbGxpbmcgc2F1Y2VcIiwgXCJmbGF2b3IgcGFzdGVcIl0sXG4gICAgICB2YXJpYW50czogW1wiTm9ydGhlcm4gc3R5bGVcIiwgXCJIdeG6vyBzdHlsZSAoZXh0cmEgc3BpY3kpXCIsIFwiVmVnZXRhcmlhbiAobm8gZmlzaCBzYXVjZSlcIiwgXCJFeHRyYSBsZW1vbmdyYXNzXCIsIFwiQ2hpbmVzZS1pbmZsdWVuY2VkXCJdLFxuICAgICAgZWxlbWVudGFsUHJvcGVydGllczoge1xuICAgICAgICBGaXJlOiAwLjQsXG4gICAgICAgIEFpcjogMC4zLFxuICAgICAgICBFYXJ0aDogMC4yLFxuICAgICAgICBXYXRlcjogMC4xXG4gICAgICB9LFxuICAgICAgYXN0cm9sb2dpY2FsSW5mbHVlbmNlczogW1wiTWFyc1wiLCBcIk1lcmN1cnlcIiwgXCJMZW9cIl0sXG4gICAgICBzZWFzb25hbGl0eTogXCJhbGxcIixcbiAgICAgIHByZXBhcmF0aW9uTm90ZXM6IFwiTW9zdCBhdXRoZW50aWMgd2hlbiBjaGlsaWVzIGFuZCBhcm9tYXRpY3MgYXJlIHBvdW5kZWQgYnkgaGFuZCBpbiBhIG1vcnRhciBhbmQgcGVzdGxlXCIsXG4gICAgICB0ZWNobmljYWxUaXBzOiBcIlRoZSBvaWwgc2hvdWxkIHNlcGFyYXRlIHdoZW4gZnJpZWQgcHJvcGVybHksIGNyZWF0aW5nIGEgdmlicmFudCByZWQgbGF5ZXIgb24gdG9wXCJcbiAgICB9XG4gIH0sXG4gIHNhdWNlUmVjb21tZW5kZXI6IHtcbiAgICBmb3JQcm90ZWluOiB7XG4gICAgICBiZWVmOiBbXCJuxrDhu5tjIGNo4bqlbVwiLCBcInNhIHThur9cIiwgXCJsaW1lLXBlcHBlci1zYWx0IGRpcFwiLCBcImdpbmdlciBmaXNoIHNhdWNlXCIsIFwiaG9pc2luIHNhdWNlXCJdLFxuICAgICAgcG9yazogW1wibsaw4bubYyBjaOG6pW1cIiwgXCJuxrDhu5tjIG3huq9tIGfhu6tuZ1wiLCBcInTGsMahbmcgxJFlblwiLCBcImNoaWxpIGZpc2ggc2F1Y2VcIiwgXCJ0YW1hcmluZCBzYXVjZVwiXSxcbiAgICAgIGNoaWNrZW46IFtcImdpbmdlciBmaXNoIHNhdWNlXCIsIFwibsaw4bubYyBjaOG6pW1cIiwgXCJjYXJhbWVsIHNhdWNlXCIsIFwibGltZS1wZXBwZXItc2FsdCBkaXBcIiwgXCJmZXJtZW50ZWQgYmVhbiBjdXJkXCJdLFxuICAgICAgc2VhZm9vZDogW1wiZ2luZ2VyIGZpc2ggc2F1Y2VcIiwgXCJzb3VyIGZpc2ggc2F1Y2VcIiwgXCJncmVlbiBjaGlsaSBzYXVjZVwiLCBcImdhcmxpYyBsaW1lIHNhdWNlXCIsIFwidGFtYXJpbmQgZGlwXCJdLFxuICAgICAgdG9mdTogW1wibsaw4bubYyBjaOG6pW0gY2hheVwiLCBcInTGsMahbmcgxJFlblwiLCBcImdpbmdlciBzb3kgc2F1Y2VcIiwgXCJ0YW1hcmluZCBzYXVjZVwiLCBcInBlYW51dCBzYXVjZVwiXVxuICAgIH0sXG4gICAgZm9yVmVnZXRhYmxlOiB7XG4gICAgICBsZWFmeTogW1wibsaw4bubYyBjaOG6pW1cIiwgXCJsaW1lLWdhcmxpYyBzYXVjZVwiLCBcImZlcm1lbnRlZCBiZWFuIGN1cmRcIiwgXCJwZWFudXQgc2F1Y2VcIiwgXCJzZXNhbWUgc2F1Y2VcIl0sXG4gICAgICByb290OiBbXCJn4burbmcgbsaw4bubYyBt4bqvbVwiLCBcInRhbWFyaW5kIHNhdWNlXCIsIFwic295LXNjYWxsaW9uIHNhdWNlXCIsIFwiY29jb251dCBzYXVjZVwiLCBcImNhcmFtZWwgc2F1Y2VcIl0sXG4gICAgICBoZXJiczogW1wic2ltcGxlIG7GsOG7m2MgY2jhuqVtXCIsIFwibGltZSBqdWljZVwiLCBcImNoaWxpIG9pbFwiLCBcInBlYW51dCBzYXVjZVwiLCBcImJsYWNrIHBlcHBlciBkaXBcIl0sXG4gICAgICBtdXNocm9vbTogW1wiZml2ZS1zcGljZSBzYXVjZVwiLCBcInTGsMahbmcgxJFlblwiLCBcImdpbmdlciBmaXNoIHNhdWNlXCIsIFwibGVtb25ncmFzcyBzYXVjZVwiLCBcInNhIHThur9cIl0sXG4gICAgICBzcHJvdXRzOiBbXCJsaWdodCBuxrDhu5tjIGNo4bqlbVwiLCBcImxpbWUganVpY2UgZHJlc3NpbmdcIiwgXCJzb3ktdmluZWdhciBkaXBcIiwgXCJzZXNhbWUgb2lsXCIsIFwic3dlZXQtc291ciBzYXVjZVwiXVxuICAgIH0sXG4gICAgZm9yQ29va2luZ01ldGhvZDoge1xuICAgICAgZ3JpbGxpbmc6IFtcImxpbWUtcGVwcGVyLXNhbHQgZGlwXCIsIFwibsaw4bubYyBjaOG6pW1cIiwgXCJsZW1vbmdyYXNzIHNhdWNlXCIsIFwiaG9pc2luIHNhdWNlXCIsIFwicGVhbnV0IHNhdWNlXCJdLFxuICAgICAgYm9pbGluZzogW1wiZ2luZ2VyIGZpc2ggc2F1Y2VcIiwgXCJzaW1wbGUgbsaw4bubYyBjaOG6pW1cIiwgXCJzY2FsbGlvbiBvaWxcIiwgXCJjaGlsaSB2aW5lZ2FyXCIsIFwiZmVybWVudGVkIHNocmltcCBwYXN0ZVwiXSxcbiAgICAgIHN0ZWFtaW5nOiBbXCJnaW5nZXIgZmlzaCBzYXVjZVwiLCBcInNveSBzY2FsbGlvbiBzYXVjZVwiLCBcImxpbWUganVpY2VcIiwgXCJzcGljeSBmaXNoIHNhdWNlXCIsIFwiZ2FybGljIG9pbFwiXSxcbiAgICAgIGZyeWluZzogW1wic3dlZXQgYW5kIHNvdXIgc2F1Y2VcIiwgXCJuxrDhu5tjIGNo4bqlbVwiLCBcInRhbWFyaW5kIHNhdWNlXCIsIFwicGlja2xlZCB2ZWdldGFibGUgZGlwXCIsIFwic2EgdOG6v1wiXSxcbiAgICAgIHJhdzogW1wic3BpY3kgbsaw4bubYyBjaOG6pW1cIiwgXCJsaW1lLWNoaWxpIHNhdWNlXCIsIFwic2FsdHktc3dlZXQgZmlzaCBzYXVjZVwiLCBcImhlcmJzIGFuZCBsaW1lXCIsIFwibeG6r20gbsOqbVwiXVxuICAgIH0sXG4gICAgYnlBc3Ryb2xvZ2ljYWw6IHtcbiAgICAgIGZpcmU6IFtcInNhIHThur9cIiwgXCJ0xrDGoW5nIOG7m3RcIiwgXCJzcGljeSBuxrDhu5tjIGNo4bqlbVwiLCBcImNoaWxpIG9pbFwiLCBcImJsYWNrIHBlcHBlciBzYXVjZVwiXSxcbiAgICAgIHdhdGVyOiBbXCJzaW1wbGUgbsaw4bubYyBt4bqvbVwiLCBcInNvdXIgdGFtYXJpbmQgc2F1Y2VcIiwgXCJsaW1lIGp1aWNlIGRyZXNzaW5nc1wiLCBcIm1pbGQgbsaw4bubYyBjaOG6pW1cIiwgXCJjb2NvbnV0IHNhdWNlc1wiXSxcbiAgICAgIGVhcnRoOiBbXCJ0xrDGoW5nIMSRZW5cIiwgXCJwZWFudXQgc2F1Y2VcIiwgXCJmZXJtZW50ZWQgYmVhbiBjdXJkXCIsIFwibeG6r20gbsOqbVwiLCBcIm3huq9tIHJ14buRY1wiXSxcbiAgICAgIGFpcjogW1wiaGVyYi1pbmZ1c2VkIGRyZXNzaW5nc1wiLCBcImxpbWUtcGVwcGVyLXNhbHQgZGlwXCIsIFwiY2l0cnVzIHZpbmFpZ3JldHRlc1wiLCBcInNjYWxsaW9uIG9pbFwiLCBcImxpZ2h0IGhlcmIgc2F1Y2VzXCJdXG4gICAgfSxcbiAgICBieURpZXRhcnk6IHtcbiAgICAgIHZlZ2FuOiBbXCJzb3kgc2F1Y2UgZGlwXCIsIFwidmVnYW4gbsaw4bubYyBjaOG6pW1cIiwgXCJmZXJtZW50ZWQgdG9mdSBzYXVjZVwiLCBcInBlYW51dCBzYXVjZVwiLCBcInRhbWFyaW5kIHNhdWNlXCJdLFxuICAgICAgdmVnZXRhcmlhbjogW1wibXVzaHJvb20gc2F1Y2VcIiwgXCJzb3ktYmFzZWQgZmlzaCBzYXVjZVwiLCBcInNlc2FtZS1zb3kgZGlwXCIsIFwiaGVyYiBvaWxcIiwgXCJjaGlsaS1saW1lIHNhdWNlXCJdLFxuICAgICAgZ2x1dGVuRnJlZTogW1wicmljZSB2aW5lZ2FyIGRyZXNzaW5nXCIsIFwiZmlzaCBzYXVjZSBkaXBcIiwgXCJjb2NvbnV0LWJhc2VkIHNhdWNlc1wiLCBcImxpbWUtY2hpbGkgc2F1Y2VcIiwgXCJoZXJiIHNhdWNlc1wiXSxcbiAgICAgIGRhaXJ5RnJlZTogW1wibsaw4bubYyBjaOG6pW1cIiwgXCJzb3ktYmFzZWQgZGlwcGluZyBzYXVjZVwiLCBcImdhcmxpYy1saW1lIHNhdWNlXCIsIFwiZ2luZ2VyIHNhdWNlXCIsIFwiY2hpbGkgb2lsXCJdXG4gICAgfSxcbiAgICBieVJlZ2lvbjoge1xuICAgICAgbm9ydGhlcm46IFtcInNpbXBsZSBuxrDhu5tjIGNo4bqlbVwiLCBcIm3huq9tIHTDtG1cIiwgXCJkaXBwaW5nIHZpbmVnYXJcIiwgXCJnYXJsaWMgZmlzaCBzYXVjZVwiLCBcInNjYWxsaW9uIG9pbFwiXSxcbiAgICAgIGNlbnRyYWw6IFtcInNwaWN5IG7GsOG7m2MgY2jhuqVtXCIsIFwibeG6r20gcnXhu5FjIGh14bq/XCIsIFwic2EgdOG6v1wiLCBcImZlcm1lbnRlZCBmaXNoXCIsIFwibGltZS1jaGlsaSBkaXBzXCJdLFxuICAgICAgc291dGhlcm46IFtcInN3ZWV0IG7GsOG7m2MgY2jhuqVtXCIsIFwidGFtYXJpbmQgc2F1Y2VcIiwgXCJjb2NvbnV0IHNhdWNlc1wiLCBcImNhcmFtZWwgc2F1Y2VcIiwgXCJob2lzaW4gc2F1Y2VcIl0sXG4gICAgICBtZWtvbmc6IFtcImZlcm1lbnRlZCBtdWRmaXNoIHNhdWNlXCIsIFwic3dlZXQgZmlzaCBzYXVjZVwiLCBcInBpbmVhcHBsZSBmaXNoIHNhdWNlXCIsIFwic3BpY3kgbsaw4bubYyBt4bqvbVwiLCBcIm3huq9tIG7Dqm1cIl1cbiAgICB9XG4gIH0sXG4gIGNvb2tpbmdUZWNobmlxdWVzOiBbXG4gICAge1xuICAgICAgbmFtZTogXCJLaG8gKENsYXkgUG90IEJyYWlzaW5nKVwiLFxuICAgICAgZGVzY3JpcHRpb246IFwiU2xvdyBjYXJhbWVsaXphdGlvbiBhbmQgYnJhaXNpbmcgaW4gYSBjbGF5IHBvdCB3aXRoIGZpc2ggc2F1Y2UgYW5kIGNhcmFtZWxcIixcbiAgICAgIGVsZW1lbnRhbFByb3BlcnRpZXM6IHsgV2F0ZXI6IDAuNCwgRWFydGg6IDAuMywgRmlyZTogMC4yLCBBaXI6IDAuMSB9LFxuICAgICAgdG9vbHNSZXF1aXJlZDogW1wiY2xheSBwb3RcIiwgXCJ3b29kZW4gc3Bvb25cIiwgXCJjYXJhbWVsIHNhdWNlXCIsIFwibG9uZyBjb29raW5nIHRpbWVcIl0sXG4gICAgICBiZXN0Rm9yOiBbXCJmaXNoXCIsIFwicG9ya1wiLCBcImNoaWNrZW5cIiwgXCJ0b2Z1XCIsIFwiZWdnc1wiXSxcbiAgICAgIGRpZmZpY3VsdHk6IFwibWVkaXVtXCJcbiAgICB9LFxuICAgIHtcbiAgICAgIG5hbWU6IFwiTsaw4bubbmcgKEdyaWxsaW5nKVwiLFxuICAgICAgZGVzY3JpcHRpb246IFwiQXJvbWF0aWMgZ3JpbGxpbmcgb3ZlciBjaGFyY29hbCwgb2Z0ZW4gd2l0aCBsZW1vbmdyYXNzIG1hcmluYWRlc1wiLFxuICAgICAgZWxlbWVudGFsUHJvcGVydGllczogeyBGaXJlOiAwLjYsIEFpcjogMC4yLCBFYXJ0aDogMC4xLCBXYXRlcjogMC4xIH0sXG4gICAgICB0b29sc1JlcXVpcmVkOiBbXCJjaGFyY29hbCBncmlsbFwiLCBcImJhbWJvbyBza2V3ZXJzXCIsIFwiYmFuYW5hIGxlYWYgd3JhcHBpbmdcIiwgXCJtYXJpbmFkZSBicnVzaFwiXSxcbiAgICAgIGJlc3RGb3I6IFtcInBvcmtcIiwgXCJiZWVmXCIsIFwic2VhZm9vZFwiLCBcImNoaWNrZW5cIiwgXCJtZWF0YmFsbHNcIl0sXG4gICAgICBkaWZmaWN1bHR5OiBcIm1lZGl1bVwiXG4gICAgfSxcbiAgICB7XG4gICAgICBuYW1lOiBcIljDoG8gKFN0aXItZnJ5aW5nKVwiLFxuICAgICAgZGVzY3JpcHRpb246IFwiUXVpY2sgaGlnaC1oZWF0IGNvb2tpbmcgdGhhdCBwcmVzZXJ2ZXMgZnJlc2ggZmxhdm9ycyBhbmQgdGV4dHVyZXNcIixcbiAgICAgIGVsZW1lbnRhbFByb3BlcnRpZXM6IHsgRmlyZTogMC40LCBBaXI6IDAuMywgRWFydGg6IDAuMiwgV2F0ZXI6IDAuMSB9LFxuICAgICAgdG9vbHNSZXF1aXJlZDogW1wid29rXCIsIFwiaGlnaCBoZWF0IHNvdXJjZVwiLCBcInNwYXR1bGFcIiwgXCJwcmVwIGJvd2xzXCJdLFxuICAgICAgYmVzdEZvcjogW1widmVnZXRhYmxlc1wiLCBcInJpY2Ugbm9vZGxlc1wiLCBcInF1aWNrIG1lYXQgZGlzaGVzXCIsIFwidG9mdVwiLCBcIm1vcm5pbmcgZ2xvcnlcIl0sXG4gICAgICBkaWZmaWN1bHR5OiBcIm1lZGl1bVwiXG4gICAgfSxcbiAgICB7XG4gICAgICBuYW1lOiBcIkjhuqVwIChTdGVhbWluZylcIixcbiAgICAgIGRlc2NyaXB0aW9uOiBcIkdlbnRsZSBjb29raW5nIHRoYXQgcHJlc2VydmVzIG5hdHVyYWwgZmxhdm9ycyBhbmQgbnV0cml0aW9uYWwgY29udGVudFwiLFxuICAgICAgZWxlbWVudGFsUHJvcGVydGllczogeyBXYXRlcjogMC41LCBBaXI6IDAuMywgRWFydGg6IDAuMSwgRmlyZTogMC4xIH0sXG4gICAgICB0b29sc1JlcXVpcmVkOiBbXCJzdGVhbWVyIGJhc2tldFwiLCBcImJhbmFuYSBsZWF2ZXNcIiwgXCJwYXJjaG1lbnQgcGFwZXJcIiwgXCJwb3RcIl0sXG4gICAgICBiZXN0Rm9yOiBbXCJmaXNoXCIsIFwicmljZSBjYWtlc1wiLCBcImR1bXBsaW5nc1wiLCBcImN1c3RhcmRzXCIsIFwiZnJlc2ggdmVnZXRhYmxlc1wiXSxcbiAgICAgIGRpZmZpY3VsdHk6IFwiZWFzeVwiXG4gICAgfSxcbiAgICB7XG4gICAgICBuYW1lOiBcIkN14buRbiAoUm9sbGluZy9XcmFwcGluZylcIixcbiAgICAgIGRlc2NyaXB0aW9uOiBcIkNyZWF0aW5nIGZyZXNoIHJvbGxzIHdpdGggcmljZSBwYXBlciBvciBsZXR0dWNlLCBlbXBoYXNpemluZyBjb250cmFzdCBhbmQgZnJlc2huZXNzXCIsXG4gICAgICBlbGVtZW50YWxQcm9wZXJ0aWVzOiB7IFdhdGVyOiAwLjMsIEVhcnRoOiAwLjMsIEFpcjogMC4zLCBGaXJlOiAwLjEgfSxcbiAgICAgIHRvb2xzUmVxdWlyZWQ6IFtcInJpY2UgcGFwZXJcIiwgXCJib3dsIG9mIHdhcm0gd2F0ZXJcIiwgXCJjbGVhbiB3b3JrIHN1cmZhY2VcIiwgXCJzaGFycCBrbmlmZVwiXSxcbiAgICAgIGJlc3RGb3I6IFtcInNwcmluZyByb2xsc1wiLCBcInN1bW1lciByb2xsc1wiLCBcImxldHR1Y2Ugd3JhcHNcIiwgXCJiZWVmIGluIGJldGVsIGxlYWZcIiwgXCJyaWNlIG5vb2RsZSByb2xsc1wiXSxcbiAgICAgIGRpZmZpY3VsdHk6IFwiZWFzeVwiXG4gICAgfVxuICBdLFxuICByZWdpb25hbEN1aXNpbmVzOiBbXG4gICAge1xuICAgICAgbmFtZTogXCJOb3J0aGVybiBWaWV0bmFtZXNlXCIsXG4gICAgICBkZXNjcmlwdGlvbjogXCJNb3JlIHN1YnRsZSBhbmQgZGVsaWNhdGUgZmxhdm9ycyB3aXRoIENoaW5lc2UgaW5mbHVlbmNlIGFuZCBsZXNzIHNwaWNlIGFuZCBzdWdhclwiLFxuICAgICAgc2lnbmF0dXJlRGlzaGVzOiBbXCJQaOG7nyBIw6AgTuG7mWlcIiwgXCJCw7puIENo4bqjXCIsIFwiQ2jhuqMgQ8OhIEzDoyBW4buNbmdcIiwgXCJCw6FuaCBDdeG7kW5cIiwgXCJYw7RpXCJdLFxuICAgICAga2V5SW5ncmVkaWVudHM6IFtcImZyZXNoIGhlcmJzXCIsIFwiYmxhY2sgcGVwcGVyXCIsIFwiZnJlc2h3YXRlciBmaXNoXCIsIFwibsaw4bubYyBt4bqvbVwiLCBcImZlcm1lbnRlZCBzaHJpbXAgcGFzdGVcIl0sXG4gICAgICBjb29raW5nVGVjaG5pcXVlczogW1wic3Rpci1mcnlpbmdcIiwgXCJncmlsbGluZ1wiLCBcInN0ZWFtaW5nXCIsIFwic2xvdyBzaW1tZXJpbmdcIl0sXG4gICAgICBlbGVtZW50YWxQcm9wZXJ0aWVzOiB7IEVhcnRoOiAwLjQsIFdhdGVyOiAwLjMsIEFpcjogMC4yLCBGaXJlOiAwLjEgfSxcbiAgICAgIGN1bHR1cmFsSW5mbHVlbmNlczogW1wiQ2hpbmVzZVwiLCBcIkZyZW5jaCBjb2xvbmlhbFwiLCBcImluZGlnZW5vdXMgVmlldG5hbWVzZVwiXSxcbiAgICAgIHBoaWxvc29waGljYWxGb3VuZGF0aW9uczogXCJCYWxhbmNlIGFuZCBzdWJ0bGV0eSwgd2l0aCByZXNwZWN0IGZvciB0cmFkaXRpb25hbCBtZXRob2RzIGFuZCBwdXJlIGZsYXZvcnNcIlxuICAgIH0sXG4gICAge1xuICAgICAgbmFtZTogXCJDZW50cmFsIFZpZXRuYW1lc2VcIixcbiAgICAgIGRlc2NyaXB0aW9uOiBcIkJvbGQsIHNwaWN5IGZsYXZvcnMgaW5mbHVlbmNlZCBieSByb3lhbCBjdWlzaW5lIHdpdGggZWxhYm9yYXRlIHByZXNlbnRhdGlvblwiLFxuICAgICAgc2lnbmF0dXJlRGlzaGVzOiBbXCJCw7puIELDsiBIdeG6v1wiLCBcIkLDoW5oIFjDqG9cIiwgXCJNw6wgUXXhuqNuZ1wiLCBcIkLDoW5oIELDqG9cIiwgXCJDxqFtIEjhur9uXCJdLFxuICAgICAga2V5SW5ncmVkaWVudHM6IFtcImxlbW9uZ3Jhc3NcIiwgXCJjaGlsaWVzXCIsIFwic2hyaW1wIHBhc3RlXCIsIFwidHVybWVyaWNcIiwgXCJyaWNlIGNyYWNrZXJzXCIsIFwiZmVybWVudGVkIGZpc2hcIl0sXG4gICAgICBjb29raW5nVGVjaG5pcXVlczogW1wic2xvdyBjb29raW5nXCIsIFwiZmVybWVudGF0aW9uXCIsIFwiaW50cmljYXRlIGN1dHRpbmdcIiwgXCJzcGljZSBwcmVwYXJhdGlvblwiXSxcbiAgICAgIGVsZW1lbnRhbFByb3BlcnRpZXM6IHsgRmlyZTogMC40LCBFYXJ0aDogMC4zLCBXYXRlcjogMC4yLCBBaXI6IDAuMSB9LFxuICAgICAgY3VsdHVyYWxJbmZsdWVuY2VzOiBbXCJSb3lhbCBWaWV0bmFtZXNlIGNvdXJ0XCIsIFwiVGhhaVwiLCBcIkNoYW1cIl0sXG4gICAgICBwaGlsb3NvcGhpY2FsRm91bmRhdGlvbnM6IFwiQ29tcGxleCBhbmQgc29waGlzdGljYXRlZCBmbGF2b3JzIHRoYXQgaG9ub3IgdGhlIHJveWFsIGN1bGluYXJ5IHRyYWRpdGlvbnNcIlxuICAgIH0sXG4gICAge1xuICAgICAgbmFtZTogXCJTb3V0aGVybiBWaWV0bmFtZXNlXCIsXG4gICAgICBkZXNjcmlwdGlvbjogXCJTd2VldCwgdmlicmFudCBmbGF2b3JzIHdpdGggYWJ1bmRhbnQgZnJlc2ggaGVyYnMgYW5kIHRyb3BpY2FsIGluZ3JlZGllbnRzXCIsXG4gICAgICBzaWduYXR1cmVEaXNoZXM6IFtcIkjhu6cgVGnhur91IE5hbSBWYW5nXCIsIFwiQ8ahbSBU4bqlbVwiLCBcIkNhbmggQ2h1YVwiLCBcIkLDoW5oIFjDqG9cIiwgXCJM4bqpdVwiXSxcbiAgICAgIGtleUluZ3JlZGllbnRzOiBbXCJjb2NvbnV0IG1pbGtcIiwgXCJzdWdhcmNhbmVcIiwgXCJ0cm9waWNhbCBmcnVpdHNcIiwgXCJhYnVuZGFudCBoZXJic1wiLCBcInJpdmVyIGZpc2hcIiwgXCJ0YW1hcmluZFwiXSxcbiAgICAgIGNvb2tpbmdUZWNobmlxdWVzOiBbXCJzaW1tZXJpbmdcIiwgXCJjYXJhbWVsaXppbmdcIiwgXCJxdWljayBzdGlyLWZyeWluZ1wiLCBcImZyZXNoIHByZXBhcmF0aW9uc1wiXSxcbiAgICAgIGVsZW1lbnRhbFByb3BlcnRpZXM6IHsgV2F0ZXI6IDAuMywgRWFydGg6IDAuMywgQWlyOiAwLjIsIEZpcmU6IDAuMiB9LFxuICAgICAgY3VsdHVyYWxJbmZsdWVuY2VzOiBbXCJLaG1lclwiLCBcIkNoaW5lc2VcIiwgXCJUaGFpXCIsIFwiRnJlbmNoIGNvbG9uaWFsXCJdLFxuICAgICAgcGhpbG9zb3BoaWNhbEZvdW5kYXRpb25zOiBcIkVtYnJhY2VzIGFidW5kYW5jZSBhbmQgZnVzaW9uIHdoaWxlIG1haW50YWluaW5nIHRoZSBlc3NlbnRpYWwgVmlldG5hbWVzZSBiYWxhbmNlXCJcbiAgICB9LFxuICAgIHtcbiAgICAgIG5hbWU6IFwiTWVrb25nIERlbHRhXCIsXG4gICAgICBkZXNjcmlwdGlvbjogXCJFbXBoYXNpemVzIGZyZXNod2F0ZXIgZmlzaCwgdHJvcGljYWwgZnJ1aXRzLCBhbmQgcmljZSB3aXRoIEtobWVyIGluZmx1ZW5jZXNcIixcbiAgICAgIHNpZ25hdHVyZURpc2hlczogW1wiQ8OhIEtobyBU4buZXCIsIFwiQ2FuaCBDaHVhIEPDoVwiLCBcIkLDoW5oIFTDqXRcIiwgXCJN4bqvbSAoZmVybWVudGVkIGZpc2ggZGlzaGVzKVwiLCBcIkzhuql1IE3huq9tXCJdLFxuICAgICAga2V5SW5ncmVkaWVudHM6IFtcImZyZXNod2F0ZXIgZmlzaFwiLCBcImVsZXBoYW50IGVhciBmaXNoXCIsIFwicmljZVwiLCBcInRhbWFyaW5kXCIsIFwid2F0ZXIgY29jb251dFwiLCBcImZlcm1lbnRlZCBmaXNoXCJdLFxuICAgICAgY29va2luZ1RlY2huaXF1ZXM6IFtcImNsYXkgcG90IGNvb2tpbmdcIiwgXCJmZXJtZW50YXRpb25cIiwgXCJjYXJhbWVsaXphdGlvblwiLCBcInN0ZXdpbmdcIl0sXG4gICAgICBlbGVtZW50YWxQcm9wZXJ0aWVzOiB7IFdhdGVyOiAwLjUsIEVhcnRoOiAwLjMsIEZpcmU6IDAuMSwgQWlyOiAwLjEgfSxcbiAgICAgIGN1bHR1cmFsSW5mbHVlbmNlczogW1wiS2htZXJcIiwgXCJpbmRpZ2Vub3VzIFZpZXRuYW1lc2VcIiwgXCJDaGluZXNlXCJdLFxuICAgICAgcGhpbG9zb3BoaWNhbEZvdW5kYXRpb25zOiBcIkNvbm5lY3Rpb24gdG8gcml2ZXIgbGlmZSBhbmQgdGhlIGJvdW50eSBvZiB0aGUgZGVsdGEsIHdpdGggZW1waGFzaXMgb24gcHJlc2VydmF0aW9uIHRlY2huaXF1ZXNcIlxuICAgIH0sXG4gICAge1xuICAgICAgbmFtZTogXCJIaWdobGFuZCBWaWV0bmFtZXNlXCIsXG4gICAgICBkZXNjcmlwdGlvbjogXCJSdXN0aWMsIGVhcnRoeSBjdWlzaW5lIHV0aWxpemluZyBtb3VudGFpbiBpbmdyZWRpZW50cyBhbmQgZXRobmljIG1pbm9yaXR5IHRyYWRpdGlvbnNcIixcbiAgICAgIHNpZ25hdHVyZURpc2hlczogW1wiVGjhu4t0IE7GsOG7m25nIEPDonkgUuG7q25nXCIsIFwiQ8ahbSBMYW1cIiwgXCJHw6AgTsaw4bubbmdcIiwgXCJUaOG7i3QgSGVvIEfDoWMgQuG6v3BcIiwgXCJSYXUgUuG7q25nIFjDoG9cIl0sXG4gICAgICBrZXlJbmdyZWRpZW50czogW1wibW91bnRhaW4gaGVyYnNcIiwgXCJ3aWxkIHZlZ2V0YWJsZXNcIiwgXCJiYW1ib29cIiwgXCJnYW1lIG1lYXRzXCIsIFwiZm9yZXN0IG11c2hyb29tc1wiXSxcbiAgICAgIGNvb2tpbmdUZWNobmlxdWVzOiBbXCJzbW9raW5nXCIsIFwib3BlbiBmaXJlIGNvb2tpbmdcIiwgXCJiYW1ib28gdHViZSBjb29raW5nXCIsIFwicHJlc2VydmluZ1wiXSxcbiAgICAgIGVsZW1lbnRhbFByb3BlcnRpZXM6IHsgRWFydGg6IDAuNSwgRmlyZTogMC4zLCBBaXI6IDAuMSwgV2F0ZXI6IDAuMSB9LFxuICAgICAgY3VsdHVyYWxJbmZsdWVuY2VzOiBbXCJFdGhuaWMgbWlub3JpdGllcyAow4ogxJDDqiwgSCdNw7RuZywgVGjDoWkpXCIsIFwiSW5kaWdlbm91cyBwcmFjdGljZXNcIl0sXG4gICAgICBwaGlsb3NvcGhpY2FsRm91bmRhdGlvbnM6IFwiRGVlcCBjb25uZWN0aW9uIHRvIG1vdW50YWluIGxhbmRzY2FwZXMgYW5kIGV0aG5pYyBjdWxpbmFyeSBoZXJpdGFnZVwiXG4gICAgfVxuICBdLFxuICBlbGVtZW50YWxQcm9wZXJ0aWVzOiB7XG4gICAgV2F0ZXI6IDAuMywgICAgLy8gUmVwcmVzZW50cyBzb3VwcyBhbmQgYnJvdGhzXG4gICAgRWFydGg6IDAuMywgICAgLy8gUmVwcmVzZW50cyByaWNlIGFuZCBwcm90ZWluc1xuICAgIEZpcmU6IDAuMiwgICAgIC8vIFJlcHJlc2VudHMgc3BpY3kgZWxlbWVudHMgYW5kIGdyaWxsaW5nXG4gICAgQWlyOiAwLjIgICAgICAgLy8gUmVwcmVzZW50cyBoZXJicyBhbmQgYXJvbWF0aWNzXG4gIH1cbn07XG5cbmV4cG9ydCBkZWZhdWx0IHZpZXRuYW1lc2U7Il0sInZlcnNpb24iOjN9

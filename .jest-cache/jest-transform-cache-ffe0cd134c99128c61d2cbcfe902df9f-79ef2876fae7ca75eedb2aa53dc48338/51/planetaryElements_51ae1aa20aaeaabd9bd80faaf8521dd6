@@ -1,0 +1,193 @@
+e7bf94235c1eaed2fcd8cebda1a3e3d7
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.getTarotCardPlanet = exports.getTarotCardQuantum = exports.getTarotCardElement = exports.getPlanetaryAlchemicalProperty = exports.getPlanetaryElement = exports.planetaryAlchemicalMap = exports.majorArcanaPlanetMap = exports.tarotCardQuantumValues = exports.tarotSuitElementMap = exports.planetaryElementMap = void 0;
+/**
+ * Maps planets to their elemental character
+ */
+exports.planetaryElementMap = {
+    Sun: 'Fire',
+    Moon: 'Water',
+    Mercury: 'Air',
+    Venus: 'Water',
+    Mars: 'Fire',
+    Jupiter: 'Air',
+    Saturn: 'Earth',
+    Neptune: 'Water',
+    Uranus: 'Air',
+    Pluto: 'Earth'
+};
+/**
+ * Maps tarot suits to their elemental character
+ */
+exports.tarotSuitElementMap = {
+    Wands: 'Fire',
+    Cups: 'Water',
+    Pentacles: 'Earth',
+    Swords: 'Air'
+};
+/**
+ * Maps tarot cards to their quantum values
+ * Court cards have the following values:
+ * Page = 1, Knight = 2, Queen = 3, King = 4
+ */
+exports.tarotCardQuantumValues = {
+    // Wands (Fire)
+    'Ace of Wands': 1,
+    'Two of Wands': 2,
+    'Three of Wands': 3,
+    'Four of Wands': 4,
+    'Five of Wands': 5,
+    'Six of Wands': 6,
+    'Seven of Wands': 7,
+    'Eight of Wands': 8,
+    'Nine of Wands': 9,
+    'Ten of Wands': 10,
+    'Page of Wands': 1,
+    'Knight of Wands': 2,
+    'Queen of Wands': 3,
+    'King of Wands': 4,
+    // Cups (Water)
+    'Ace of Cups': 1,
+    'Two of Cups': 2,
+    'Three of Cups': 3,
+    'Four of Cups': 4,
+    'Five of Cups': 5,
+    'Six of Cups': 6,
+    'Seven of Cups': 7,
+    'Eight of Cups': 8,
+    'Nine of Cups': 9,
+    'Ten of Cups': 10,
+    'Page of Cups': 1,
+    'Knight of Cups': 2,
+    'Queen of Cups': 3,
+    'King of Cups': 4,
+    // Pentacles (Earth)
+    'Ace of Pentacles': 1,
+    'Two of Pentacles': 2,
+    'Three of Pentacles': 3,
+    'Four of Pentacles': 4,
+    'Five of Pentacles': 5,
+    'Six of Pentacles': 6,
+    'Seven of Pentacles': 7,
+    'Eight of Pentacles': 8,
+    'Nine of Pentacles': 9,
+    'Ten of Pentacles': 10,
+    'Page of Pentacles': 1,
+    'Knight of Pentacles': 2,
+    'Queen of Pentacles': 3,
+    'King of Pentacles': 4,
+    // Swords (Air)
+    'Ace of Swords': 1,
+    'Two of Swords': 2,
+    'Three of Swords': 3,
+    'Four of Swords': 4,
+    'Five of Swords': 5,
+    'Six of Swords': 6,
+    'Seven of Swords': 7,
+    'Eight of Swords': 8,
+    'Nine of Swords': 9,
+    'Ten of Swords': 10,
+    'Page of Swords': 1,
+    'Knight of Swords': 2,
+    'Queen of Swords': 3,
+    'King of Swords': 4
+};
+/**
+ * Maps major arcana cards to their ruling planets
+ */
+exports.majorArcanaPlanetMap = {
+    'The Magician': 'Mercury',
+    'The High Priestess': 'Moon',
+    'The Empress': 'Venus',
+    'The Emperor': 'Mars',
+    'The Hierophant': 'Jupiter',
+    'The Lovers': 'Venus',
+    'The Chariot': 'Moon',
+    'Strength': 'Sun',
+    'The Hermit': 'Saturn',
+    'Wheel of Fortune': 'Jupiter',
+    'Justice': 'Venus',
+    'The Hanged Man': 'Neptune',
+    'Death': 'Pluto',
+    'Temperance': 'Jupiter',
+    'The Devil': 'Saturn',
+    'The Tower': 'Mars',
+    'The Star': 'Uranus',
+    'The Moon': 'Moon',
+    'The Sun': 'Sun',
+    'Judgement': 'Pluto',
+    'The World': 'Saturn'
+};
+/**
+ * Maps each planet to a corresponding alchemical property
+ */
+exports.planetaryAlchemicalMap = {
+    Sun: 'Spirit',
+    Moon: 'Essence',
+    Mercury: 'Substance',
+    Venus: 'Essence',
+    Mars: 'Spirit',
+    Jupiter: 'Substance',
+    Saturn: 'Matter',
+    Neptune: 'Essence',
+    Uranus: 'Substance',
+    Pluto: 'Matter'
+};
+/**
+ * Gets the elemental character associated with a planet
+ * @param planet Ruling planet
+ * @returns The associated elemental character
+ */
+const getPlanetaryElement = (planet) => {
+    return exports.planetaryElementMap[planet];
+};
+exports.getPlanetaryElement = getPlanetaryElement;
+/**
+ * Gets the alchemical property associated with a planet
+ * @param planet Ruling planet
+ * @returns The associated alchemical property
+ */
+const getPlanetaryAlchemicalProperty = (planet) => {
+    return exports.planetaryAlchemicalMap[planet];
+};
+exports.getPlanetaryAlchemicalProperty = getPlanetaryAlchemicalProperty;
+/**
+ * Gets the elemental character from a tarot card name
+ * @param cardName Tarot card name
+ * @returns The associated elemental character or null if not found
+ */
+const getTarotCardElement = (cardName) => {
+    // Check if it's a minor arcana card
+    for (const [suit, element] of Object.entries(exports.tarotSuitElementMap)) {
+        if (cardName.includes(suit)) {
+            return element;
+        }
+    }
+    // For major arcana, use the planetary association if available
+    const planet = exports.majorArcanaPlanetMap[cardName];
+    if (planet) {
+        return exports.planetaryElementMap[planet];
+    }
+    return null;
+};
+exports.getTarotCardElement = getTarotCardElement;
+/**
+ * Gets the quantum value for a tarot card (minor arcana only)
+ * @param cardName Tarot card name
+ * @returns The quantum value or 0 if not found
+ */
+const getTarotCardQuantum = (cardName) => {
+    return exports.tarotCardQuantumValues[cardName] || 0;
+};
+exports.getTarotCardQuantum = getTarotCardQuantum;
+/**
+ * Gets the ruling planet for a major arcana card
+ * @param cardName Major arcana card name
+ * @returns The ruling planet or null if not found
+ */
+const getTarotCardPlanet = (cardName) => {
+    return exports.majorArcanaPlanetMap[cardName] || null;
+};
+exports.getTarotCardPlanet = getTarotCardPlanet;
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJmaWxlIjoiL1VzZXJzL0dyZWdDYXN0cm8vRGVza3RvcC9XaGF0VG9FYXROZXh0L3NyYy9jb25zdGFudHMvcGxhbmV0YXJ5RWxlbWVudHMudHMiLCJtYXBwaW5ncyI6Ijs7O0FBWUE7O0dBRUc7QUFDVSxRQUFBLG1CQUFtQixHQUE2QztJQUMzRSxHQUFHLEVBQUUsTUFBTTtJQUNYLElBQUksRUFBRSxPQUFPO0lBQ2IsT0FBTyxFQUFFLEtBQUs7SUFDZCxLQUFLLEVBQUUsT0FBTztJQUNkLElBQUksRUFBRSxNQUFNO0lBQ1osT0FBTyxFQUFFLEtBQUs7SUFDZCxNQUFNLEVBQUUsT0FBTztJQUNmLE9BQU8sRUFBRSxPQUFPO0lBQ2hCLE1BQU0sRUFBRSxLQUFLO0lBQ2IsS0FBSyxFQUFFLE9BQU87Q0FDZixDQUFDO0FBRUY7O0dBRUc7QUFDVSxRQUFBLG1CQUFtQixHQUF1QztJQUNyRSxLQUFLLEVBQUUsTUFBTTtJQUNiLElBQUksRUFBRSxPQUFPO0lBQ2IsU0FBUyxFQUFFLE9BQU87SUFDbEIsTUFBTSxFQUFFLEtBQUs7Q0FDZCxDQUFDO0FBRUY7Ozs7R0FJRztBQUNVLFFBQUEsc0JBQXNCLEdBQTJCO0lBQzVELGVBQWU7SUFDZixjQUFjLEVBQUUsQ0FBQztJQUNqQixjQUFjLEVBQUUsQ0FBQztJQUNqQixnQkFBZ0IsRUFBRSxDQUFDO0lBQ25CLGVBQWUsRUFBRSxDQUFDO0lBQ2xCLGVBQWUsRUFBRSxDQUFDO0lBQ2xCLGNBQWMsRUFBRSxDQUFDO0lBQ2pCLGdCQUFnQixFQUFFLENBQUM7SUFDbkIsZ0JBQWdCLEVBQUUsQ0FBQztJQUNuQixlQUFlLEVBQUUsQ0FBQztJQUNsQixjQUFjLEVBQUUsRUFBRTtJQUNsQixlQUFlLEVBQUUsQ0FBQztJQUNsQixpQkFBaUIsRUFBRSxDQUFDO0lBQ3BCLGdCQUFnQixFQUFFLENBQUM7SUFDbkIsZUFBZSxFQUFFLENBQUM7SUFFbEIsZUFBZTtJQUNmLGFBQWEsRUFBRSxDQUFDO0lBQ2hCLGFBQWEsRUFBRSxDQUFDO0lBQ2hCLGVBQWUsRUFBRSxDQUFDO0lBQ2xC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TSw4QkFBOEIsR0FBRyxDQUFDLE1BQW9CLEVBQXNCLEVBQUU7SUFDekYsT0FBTyw4QkFBc0IsQ0FBQyxNQUFNLENBQUMsQ0FBQztBQUN4QyxDQUFDLENBQUM7QUFGVyxRQUFBLDhCQUE4QixrQ0FFekM7QUFFRjs7OztHQUlHO0FBQ0ksTUFBTSxtQkFBbUIsR0FBRyxDQUFDLFFBQWdCLEVBQTZCLEVBQUU7SUFDakYsb0NBQW9DO0lBQ3BDLEtBQUssTUFBTSxDQUFDLElBQUksRUFBRSxPQUFPLENBQUMsSUFBSSxNQUFNLENBQUMsT0FBTyxDQUFDLDJCQUFtQixDQUFDLEVBQUU7UUFDakUsSUFBSSxRQUFRLENBQUMsUUFBUSxDQUFDLElBQUksQ0FBQyxFQUFFO1lBQzNCLE9BQU8sT0FBTyxDQUFDO1NBQ2hCO0tBQ0Y7SUFFRCwrREFBK0Q7SUFDL0QsTUFBTSxNQUFNLEdBQUcsNEJBQW9CLENBQUMsUUFBUSxDQUFDLENBQUM7SUFDOUMsSUFBSSxNQUFNLEVBQUU7UUFDVixPQUFPLDJCQUFtQixDQUFDLE1BQU0sQ0FBQyxDQUFDO0tBQ3BDO0lBRUQsT0FBTyxJQUFJLENBQUM7QUFDZCxDQUFDLENBQUM7QUFmVyxRQUFBLG1CQUFtQix1QkFlOUI7QUFFRjs7OztHQUlHO0FBQ0ksTUFBTSxtQkFBbUIsR0FBRyxDQUFDLFFBQWdCLEVBQVUsRUFBRTtJQUM5RCxPQUFPLDhCQUFzQixDQUFDLFFBQVEsQ0FBQyxJQUFJLENBQUMsQ0FBQztBQUMvQyxDQUFDLENBQUM7QUFGVyxRQUFBLG1CQUFtQix1QkFFOUI7QUFFRjs7OztHQUlHO0FBQ0ksTUFBTSxrQkFBa0IsR0FBRyxDQUFDLFFBQWdCLEVBQXVCLEVBQUU7SUFDMUUsT0FBTyw0QkFBb0IsQ0FBQyxRQUFRLENBQUMsSUFBSSxJQUFJLENBQUM7QUFDaEQsQ0FBQyxDQUFDO0FBRlcsUUFBQSxrQkFBa0Isc0JBRTdCIiwibmFtZXMiOltdLCJzb3VyY2VzIjpbIi9Vc2Vycy9HcmVnQ2FzdHJvL0Rlc2t0b3AvV2hhdFRvRWF0TmV4dC9zcmMvY29uc3RhbnRzL3BsYW5ldGFyeUVsZW1lbnRzLnRzIl0sInNvdXJjZXNDb250ZW50IjpbImltcG9ydCB7IFJ1bGluZ1BsYW5ldCB9IGZyb20gJy4vcGxhbmV0cyc7XG5cbi8qKlxuICogVGhlIGZvdXIgZWxlbWVudGFsIGNoYXJhY3RlcnMgdXNlZCBpbiBhbGNoZW1pY2FsIGNhbGN1bGF0aW9uc1xuICovXG5leHBvcnQgdHlwZSBFbGVtZW50YWxDaGFyYWN0ZXIgPSAnRmlyZScgfCAnV2F0ZXInIHwgJ0VhcnRoJyB8ICdBaXInO1xuXG4vKipcbiAqIFRoZSBmb3VyIGFsY2hlbWljYWwgcHJvcGVydGllcyBkZXJpdmVkIGZyb20gZWxlbWVudGFsIGludGVyYWN0aW9uc1xuICovXG5leHBvcnQgdHlwZSBBbGNoZW1pY2FsUHJvcGVydHkgPSAnU3Bpcml0JyB8ICdFc3NlbmNlJyB8ICdNYXR0ZXInIHwgJ1N1YnN0YW5jZSc7XG5cbi8qKlxuICogTWFwcyBwbGFuZXRzIHRvIHRoZWlyIGVsZW1lbnRhbCBjaGFyYWN0ZXJcbiAqL1xuZXhwb3J0IGNvbnN0IHBsYW5ldGFyeUVsZW1lbnRNYXA6IFJlY29yZDxSdWxpbmdQbGFuZXQsIEVsZW1lbnRhbENoYXJhY3Rlcj4gPSB7XG4gIFN1bjogJ0ZpcmUnLFxuICBNb29uOiAnV2F0ZXInLFxuICBNZXJjdXJ5OiAnQWlyJyxcbiAgVmVudXM6ICdXYXRlcicsXG4gIE1hcnM6ICdGaXJlJyxcbiAgSnVwaXRlcjogJ0FpcicsXG4gIFNhdHVybjogJ0VhcnRoJyxcbiAgTmVwdHVuZTogJ1dhdGVyJyxcbiAgVXJhbnVzOiAnQWlyJyxcbiAgUGx1dG86ICdFYXJ0aCdcbn07XG5cbi8qKlxuICogTWFwcyB0YXJvdCBzdWl0cyB0byB0aGVpciBlbGVtZW50YWwgY2hhcmFjdGVyXG4gKi9cbmV4cG9ydCBjb25zdCB0YXJvdFN1aXRFbGVtZW50TWFwOiBSZWNvcmQ8c3RyaW5nLCBFbGVtZW50YWxDaGFyYWN0ZXI+ID0ge1xuICBXYW5kczogJ0ZpcmUnLFxuICBDdXBzOiAnV2F0ZXInLFxuICBQZW50YWNsZXM6ICdFYXJ0aCcsXG4gIFN3b3JkczogJ0Fpcidcbn07XG5cbi8qKlxuICogTWFwcyB0YXJvdCBjYXJkcyB0byB0aGVpciBxdWFudHVtIHZhbHVlc1xuICogQ291cnQgY2FyZHMgaGF2ZSB0aGUgZm9sbG93aW5nIHZhbHVlczpcbiAqIFBhZ2UgPSAxLCBLbmlnaHQgPSAyLCBRdWVlbiA9IDMsIEtpbmcgPSA0XG4gKi9cbmV4cG9ydCBjb25zdCB0YXJvdENhcmRRdWFudHVtVmFsdWVzOiBSZWNvcmQ8c3RyaW5nLCBudW1iZXI+ID0ge1xuICAvLyBXYW5kcyAoRmlyZSlcbiAgJ0FjZSBvZiBXYW5kcyc6IDEsXG4gICdUd28gb2YgV2FuZHMnOiAyLFxuICAnVGhyZWUgb2YgV2FuZHMnOiAzLFxuICAnRm91ciBvZiBXYW5kcyc6IDQsXG4gICdGaXZlIG9mIFdhbmRzJzogNSxcbiAgJ1NpeCBvZiBXYW5kcyc6IDYsXG4gICdTZXZlbiBvZiBXYW5kcyc6IDcsXG4gICdFaWdodCBvZiBXYW5kcyc6IDgsXG4gICdOaW5lIG9mIFdhbmRzJzogOSxcbiAgJ1RlbiBvZiBXYW5kcyc6IDEwLFxuICAnUGFnZSBvZiBXYW5kcyc6IDEsXG4gICdLbmlnaHQgb2YgV2FuZHMnOiAyLFxuICAnUXVlZW4gb2YgV2FuZHMnOiAzLFxuICAnS2luZyBvZiBXYW5kcyc6IDQsXG5cbiAgLy8gQ3VwcyAoV2F0ZXIpXG4gICdBY2Ugb2YgQ3Vwcyc6IDEsXG4gICdUd28gb2YgQ3Vwcyc6IDIsXG4gICdUaHJlZSBvZiBDdXBzJzogMyxcbiAgJ0ZvdXIgb2YgQ3Vwcyc6IDQsXG4gICdGaXZlIG9mIEN1cHMnOiA1LFxuICAnU2l4IG9mIEN1cHMnOiA2LFxuICAnU2V2ZW4gb2YgQ3Vwcyc6IDcsXG4gICdFaWdodCBvZiBDdXBzJzogOCxcbiAgJ05pbmUgb2YgQ3Vwcyc6IDksXG4gICdUZW4gb2YgQ3Vwcyc6IDEwLFxuICAnUGFnZSBvZiBDdXBzJzogMSxcbiAgJ0tuaWdodCBvZiBDdXBzJzogMixcbiAgJ1F1ZWVuIG9mIEN1cHMnOiAzLFxuICAnS2luZyBvZiBDdXBzJzogNCxcblxuICAvLyBQZW50YWNsZXMgKEVhcnRoKVxuICAnQWNlIG9mIFBlbnRhY2xlcyc6IDEsXG4gICdUd28gb2YgUGVudGFjbGVzJzogMixcbiAgJ1RocmVlIG9mIFBlbnRhY2xlcyc6IDMsXG4gICdGb3VyIG9mIFBlbnRhY2xlcyc6IDQsXG4gICdGaXZlIG9mIFBlbnRhY2xlcyc6IDUsXG4gICdTaXggb2YgUGVudGFjbGVzJzogNixcbiAgJ1NldmVuIG9mIFBlbnRhY2xlcyc6IDcsXG4gICdFaWdodCBvZiBQZW50YWNsZXMnOiA4LFxuICAnTmluZSBvZiBQZW50YWNsZXMnOiA5LFxuICAnVGVuIG9mIFBlbnRhY2xlcyc6IDEwLFxuICAnUGFnZSBvZiBQZW50YWNsZXMnOiAxLFxuICAnS25pZ2h0IG9mIFBlbnRhY2xlcyc6IDIsXG4gICdRdWVlbiBvZiBQZW50YWNsZXMnOiAzLFxuICAnS2luZyBvZiBQZW50YWNsZXMnOiA0LFxuXG4gIC8vIFN3b3JkcyAoQWlyKVxuICAnQWNlIG9mIFN3b3Jkcyc6IDEsXG4gICdUd28gb2YgU3dvcmRzJzogMixcbiAgJ1RocmVlIG9mIFN3b3Jkcyc6IDMsXG4gICdGb3VyIG9mIFN3b3Jkcyc6IDQsXG4gICdGaXZlIG9mIFN3b3Jkcyc6IDUsXG4gICdTaXggb2YgU3dvcmRzJzogNixcbiAgJ1NldmVuIG9mIFN3b3Jkcyc6IDcsXG4gICdFaWdodCBvZiBTd29yZHMnOiA4LFxuICAnTmluZSBvZiBTd29yZHMnOiA5LFxuICAnVGVuIG9mIFN3b3Jkcyc6IDEwLFxuICAnUGFnZSBvZiBTd29yZHMnOiAxLFxuICAnS25pZ2h0IG9mIFN3b3Jkcyc6IDIsXG4gICdRdWVlbiBvZiBTd29yZHMnOiAzLFxuICAnS2luZyBvZiBTd29yZHMnOiA0XG59O1xuXG4vKipcbiAqIE1hcHMgbWFqb3IgYXJjYW5hIGNhcmRzIHRvIHRoZWlyIHJ1bGluZyBwbGFuZXRzXG4gKi9cbmV4cG9ydCBjb25zdCBtYWpvckFyY2FuYVBsYW5ldE1hcDogUmVjb3JkPHN0cmluZywgUnVsaW5nUGxhbmV0PiA9IHtcbiAgJ1RoZSBNYWdpY2lhbic6ICdNZXJjdXJ5JyxcbiAgJ1RoZSBIaWdoIFByaWVzdGVzcyc6ICdNb29uJyxcbiAgJ1RoZSBFbXByZXNzJzogJ1ZlbnVzJyxcbiAgJ1RoZSBFbXBlcm9yJzogJ01hcnMnLFxuICAnVGhlIEhpZXJvcGhhbnQnOiAnSnVwaXRlcicsXG4gICdUaGUgTG92ZXJzJzogJ1ZlbnVzJyxcbiAgJ1RoZSBDaGFyaW90JzogJ01vb24nLFxuICAnU3RyZW5ndGgnOiAnU3VuJyxcbiAgJ1RoZSBIZXJtaXQnOiAnU2F0dXJuJyxcbiAgJ1doZWVsIG9mIEZvcnR1bmUnOiAnSnVwaXRlcicsXG4gICdKdXN0aWNlJzogJ1ZlbnVzJyxcbiAgJ1RoZSBIYW5nZWQgTWFuJzogJ05lcHR1bmUnLFxuICAnRGVhdGgnOiAnUGx1dG8nLFxuICAnVGVtcGVyYW5jZSc6ICdKdXBpdGVyJyxcbiAgJ1RoZSBEZXZpbCc6ICdTYXR1cm4nLFxuICAnVGhlIFRvd2VyJzogJ01hcnMnLFxuICAnVGhlIFN0YXInOiAnVXJhbnVzJyxcbiAgJ1RoZSBNb29uJzogJ01vb24nLFxuICAnVGhlIFN1bic6ICdTdW4nLFxuICAnSnVkZ2VtZW50JzogJ1BsdXRvJyxcbiAgJ1RoZSBXb3JsZCc6ICdTYXR1cm4nXG59O1xuXG4vKipcbiAqIE1hcHMgZWFjaCBwbGFuZXQgdG8gYSBjb3JyZXNwb25kaW5nIGFsY2hlbWljYWwgcHJvcGVydHlcbiAqL1xuZXhwb3J0IGNvbnN0IHBsYW5ldGFyeUFsY2hlbWljYWxNYXA6IFJlY29yZDxSdWxpbmdQbGFuZXQsIEFsY2hlbWljYWxQcm9wZXJ0eT4gPSB7XG4gIFN1bjogJ1NwaXJpdCcsXG4gIE1vb246ICdFc3NlbmNlJyxcbiAgTWVyY3VyeTogJ1N1YnN0YW5jZScsXG4gIFZlbnVzOiAnRXNzZW5jZScsXG4gIE1hcnM6ICdTcGlyaXQnLFxuICBKdXBpdGVyOiAnU3Vic3RhbmNlJyxcbiAgU2F0dXJuOiAnTWF0dGVyJyxcbiAgTmVwdHVuZTogJ0Vzc2VuY2UnLFxuICBVcmFudXM6ICdTdWJzdGFuY2UnLFxuICBQbHV0bzogJ01hdHRlcidcbn07XG5cbi8qKlxuICogR2V0cyB0aGUgZWxlbWVudGFsIGNoYXJhY3RlciBhc3NvY2lhdGVkIHdpdGggYSBwbGFuZXRcbiAqIEBwYXJhbSBwbGFuZXQgUnVsaW5nIHBsYW5ldFxuICogQHJldHVybnMgVGhlIGFzc29jaWF0ZWQgZWxlbWVudGFsIGNoYXJhY3RlclxuICovXG5leHBvcnQgY29uc3QgZ2V0UGxhbmV0YXJ5RWxlbWVudCA9IChwbGFuZXQ6IFJ1bGluZ1BsYW5ldCk6IEVsZW1lbnRhbENoYXJhY3RlciA9PiB7XG4gIHJldHVybiBwbGFuZXRhcnlFbGVtZW50TWFwW3BsYW5ldF07XG59O1xuXG4vKipcbiAqIEdldHMgdGhlIGFsY2hlbWljYWwgcHJvcGVydHkgYXNzb2NpYXRlZCB3aXRoIGEgcGxhbmV0XG4gKiBAcGFyYW0gcGxhbmV0IFJ1bGluZyBwbGFuZXRcbiAqIEByZXR1cm5zIFRoZSBhc3NvY2lhdGVkIGFsY2hlbWljYWwgcHJvcGVydHlcbiAqL1xuZXhwb3J0IGNvbnN0IGdldFBsYW5ldGFyeUFsY2hlbWljYWxQcm9wZXJ0eSA9IChwbGFuZXQ6IFJ1bGluZ1BsYW5ldCk6IEFsY2hlbWljYWxQcm9wZXJ0eSA9PiB7XG4gIHJldHVybiBwbGFuZXRhcnlBbGNoZW1pY2FsTWFwW3BsYW5ldF07XG59O1xuXG4vKipcbiAqIEdldHMgdGhlIGVsZW1lbnRhbCBjaGFyYWN0ZXIgZnJvbSBhIHRhcm90IGNhcmQgbmFtZVxuICogQHBhcmFtIGNhcmROYW1lIFRhcm90IGNhcmQgbmFtZVxuICogQHJldHVybnMgVGhlIGFzc29jaWF0ZWQgZWxlbWVudGFsIGNoYXJhY3RlciBvciBudWxsIGlmIG5vdCBmb3VuZFxuICovXG5leHBvcnQgY29uc3QgZ2V0VGFyb3RDYXJkRWxlbWVudCA9IChjYXJkTmFtZTogc3RyaW5nKTogRWxlbWVudGFsQ2hhcmFjdGVyIHwgbnVsbCA9PiB7XG4gIC8vIENoZWNrIGlmIGl0J3MgYSBtaW5vciBhcmNhbmEgY2FyZFxuICBmb3IgKGNvbnN0IFtzdWl0LCBlbGVtZW50XSBvZiBPYmplY3QuZW50cmllcyh0YXJvdFN1aXRFbGVtZW50TWFwKSkge1xuICAgIGlmIChjYXJkTmFtZS5pbmNsdWRlcyhzdWl0KSkge1xuICAgICAgcmV0dXJuIGVsZW1lbnQ7XG4gICAgfVxuICB9XG4gIFxuICAvLyBGb3IgbWFqb3IgYXJjYW5hLCB1c2UgdGhlIHBsYW5ldGFyeSBhc3NvY2lhdGlvbiBpZiBhdmFpbGFibGVcbiAgY29uc3QgcGxhbmV0ID0gbWFqb3JBcmNhbmFQbGFuZXRNYXBbY2FyZE5hbWVdO1xuICBpZiAocGxhbmV0KSB7XG4gICAgcmV0dXJuIHBsYW5ldGFyeUVsZW1lbnRNYXBbcGxhbmV0XTtcbiAgfVxuICBcbiAgcmV0dXJuIG51bGw7XG59O1xuXG4vKipcbiAqIEdldHMgdGhlIHF1YW50dW0gdmFsdWUgZm9yIGEgdGFyb3QgY2FyZCAobWlub3IgYXJjYW5hIG9ubHkpXG4gKiBAcGFyYW0gY2FyZE5hbWUgVGFyb3QgY2FyZCBuYW1lXG4gKiBAcmV0dXJucyBUaGUgcXVhbnR1bSB2YWx1ZSBvciAwIGlmIG5vdCBmb3VuZFxuICovXG5leHBvcnQgY29uc3QgZ2V0VGFyb3RDYXJkUXVhbnR1bSA9IChjYXJkTmFtZTogc3RyaW5nKTogbnVtYmVyID0+IHtcbiAgcmV0dXJuIHRhcm90Q2FyZFF1YW50dW1WYWx1ZXNbY2FyZE5hbWVdIHx8IDA7XG59O1xuXG4vKipcbiAqIEdldHMgdGhlIHJ1bGluZyBwbGFuZXQgZm9yIGEgbWFqb3IgYXJjYW5hIGNhcmRcbiAqIEBwYXJhbSBjYXJkTmFtZSBNYWpvciBhcmNhbmEgY2FyZCBuYW1lXG4gKiBAcmV0dXJucyBUaGUgcnVsaW5nIHBsYW5ldCBvciBudWxsIGlmIG5vdCBmb3VuZFxuICovXG5leHBvcnQgY29uc3QgZ2V0VGFyb3RDYXJkUGxhbmV0ID0gKGNhcmROYW1lOiBzdHJpbmcpOiBSdWxpbmdQbGFuZXQgfCBudWxsID0+IHtcbiAgcmV0dXJuIG1ham9yQXJjYW5hUGxhbmV0TWFwW2NhcmROYW1lXSB8fCBudWxsO1xufTsgIl0sInZlcnNpb24iOjN9

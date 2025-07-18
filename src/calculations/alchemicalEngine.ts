@@ -18,6 +18,7 @@ import type { Element } from '@/types/celestial';
 import { seasonalPatterns } from '@/data/integrations/seasonalPatterns';
 import { recipeElementalMappings } from '@/data/recipes/elementalMappings';
 import { PLANETARY_MODIFIERS, RulingPlanet } from '@/constants/planets';
+import { signInfo } from '@/data/astrology';
 import { getZodiacElementalInfluence } from '@/utils/zodiacUtils';
 import { recipeCalculations } from '@/utils/recipeCalculations';
 import { getAccuratePlanetaryPositions } from '@/utils/accurateAstronomy';
@@ -26,7 +27,7 @@ import { DEFAULT_ELEMENTAL_PROPERTIES } from '@/constants/defaults';
 import ErrorHandler from '@/services/errorHandler';
 
 // Import planetary and sign data for alchemical calculations
-import { planetInfo, signInfo, signs } from '@/calculations/core/alchemicalEngine';
+// Note: Removed circular import - these constants should be defined locally or in a separate constants file
 /**
  * A utility function for logging debug information
  * This is a safe replacement for console.log that can be disabled in production
@@ -332,7 +333,8 @@ export class AlchemicalEngineAdvanced {
       let compatibilityScore = 0.5; // Start with neutral
 
       // Season compatibility - safe property access
-      const seasonalVariations = (cuisineData as Record<string, unknown>)?.seasonalVariations;
+      const seasonalVariations = cuisineData && typeof cuisineData === 'object' && 'seasonalVariations' in cuisineData ? 
+        (cuisineData as any).seasonalVariations : null;
       if (season && seasonalVariations) {
         const seasonalData = seasonalVariations[season as keyof typeof seasonalVariations];
         if (seasonalData) {
@@ -341,12 +343,13 @@ export class AlchemicalEngineAdvanced {
       }
 
       // Astrological compatibility - safe property access
-      const elementalProperties = (cuisineData as Record<string, unknown>)?.elementalProperties;
+      const elementalProperties = cuisineData && typeof cuisineData === 'object' && 'elementalProperties' in cuisineData ? 
+        (cuisineData as any).elementalProperties : null;
       if (astroState && elementalProperties) {
         const astroElements = this.calculateAstrologicalInfluence(astroState);
         const elementCompatibility = this.calculateElementCompatibility(
           astroElements, 
-          elementalProperties
+          elementalProperties as ElementalProperties
         );
         compatibilityScore += (elementCompatibility - 0.5) * 0.3; // Scale the impact
       }
@@ -1034,11 +1037,11 @@ export function alchemize(
       // Use safe type casting for unknown property access
       const ascendantData = horoscope.Ascendant as Record<string, unknown>;
       const signData = ascendantData?.Sign;
-      const rising_sign = signData?.label || "Aries";
+      const rising_sign = (signData && typeof signData === 'object' && 'label' in signData ? (signData as any).label : null) || "Aries";
       
-      // SAFELY update planetInfo with correct typing
-      if (typeof planetInfo === 'object' && planetInfo && 'Ascendant' in planetInfo) {
-        const ascendantInfo = planetInfo['Ascendant'] as Record<string, unknown>;
+      // SAFELY update planet info with correct typing
+      if (alchmInfo && alchmInfo['Planets'] && 'Ascendant' in alchmInfo['Planets']) {
+        const ascendantInfo = alchmInfo['Planets']['Ascendant'] as Record<string, unknown>;
         if (typeof ascendantInfo === 'object') {
           ascendantInfo['Diurnal Element'] = signInfo[rising_sign]?.element || 'Air';
           ascendantInfo['Nocturnal Element'] = signInfo[rising_sign]?.element || 'Air';
@@ -1154,10 +1157,10 @@ export function alchemize(
         try {
           if (alchmInfo['Planets'] && alchmInfo['Planets'][planet]) {
             alchmInfo['Planets'][planet]['Diurnal Element'] = 
-              `${signInfo[sign]?.element || 'Air'} in ${planetInfo[planet]?.['Diurnal Element'] || 'Air'}`;
+              `${signInfo[sign]?.element || 'Air'} in ${alchmInfo['Planets'][planet]?.['Diurnal Element'] || 'Air'}`;
             
             alchmInfo['Planets'][planet]['Nocturnal Element'] = 
-              `${signInfo[sign]?.element || 'Air'} in ${planetInfo[planet]?.['Nocturnal Element'] || 'Air'}`;
+              `${signInfo[sign]?.element || 'Air'} in ${alchmInfo['Planets'][planet]?.['Nocturnal Element'] || 'Air'}`;
           }
         } catch (error) {
           console.error(`Error processing elements for ${planet}:`, error);
@@ -1209,10 +1212,11 @@ export function alchemize(
             try {
               const dignity_effect = createElementObject();
               
-              if (planetInfo[planet] && planetInfo[planet]["Dignity Effect"] && 
-                  planetInfo[planet]["Dignity Effect"][sign]) {
+              if (alchmInfo['Planets'] && alchmInfo['Planets'][planet] && 
+                  (alchmInfo['Planets'][planet] as any)["Dignity Effect"] && 
+                  (alchmInfo['Planets'][planet] as any)["Dignity Effect"][sign]) {
                 
-                const dignity_effect_value = planetInfo[planet]["Dignity Effect"][sign];
+                const dignity_effect_value = (alchmInfo['Planets'][planet] as any)["Dignity Effect"][sign];
                 
                 if (dignity_effect_value) {
                   if (Math.abs(dignity_effect_value) === 1 || Math.abs(dignity_effect_value) === 3) {
@@ -1221,15 +1225,17 @@ export function alchemize(
                   }
                   
                   if (Math.abs(dignity_effect_value) > 1) {
-                    if (planetInfo[planet]['Diurnal Element']) {
-                      dignity_effect[planetInfo[planet]['Diurnal Element']] = 
-                        (dignity_effect[planetInfo[planet]['Diurnal Element']] || 0) + 
+                    if ((alchmInfo['Planets'][planet] as any)['Diurnal Element']) {
+                      const diurnalElement = (alchmInfo['Planets'][planet] as any)['Diurnal Element'];
+                      dignity_effect[diurnalElement] = 
+                        (dignity_effect[diurnalElement] || 0) + 
                         (1 * (dignity_effect_value / Math.abs(dignity_effect_value)));
                     }
                     
-                    if (planetInfo[planet]['Nocturnal Element']) {
-                      dignity_effect[planetInfo[planet]['Nocturnal Element']] = 
-                        (dignity_effect[planetInfo[planet]['Nocturnal Element']] || 0) + 
+                    if ((alchmInfo['Planets'][planet] as any)['Nocturnal Element']) {
+                      const nocturnalElement = (alchmInfo['Planets'][planet] as any)['Nocturnal Element'];
+                      dignity_effect[nocturnalElement] = 
+                        (dignity_effect[nocturnalElement] || 0) + 
                         (1 * (dignity_effect_value / Math.abs(dignity_effect_value)));
                     }
                   }

@@ -88,7 +88,7 @@ export default function CookingMethodsPage() {
           // Create variations if they exist
           variations: (method as Record<string, unknown>).variations ? 
             (Array.isArray((method as Record<string, unknown>).variations) ? 
-              (method as CookingMethod[]).variations.map((v: string, i: number) => ({
+              ((method as Record<string, unknown>).variations as string[]).map((v: string, i: number) => ({
                 id: `${key}_var_${i}`,
                 name: v,
                 description: `Variation of ${capitalizeFirstLetter(key.replace(/_/g, ' '))}`,
@@ -108,10 +108,12 @@ export default function CookingMethodsPage() {
   };
 
   const handleSelectMethod = (method: unknown) => {
-    setSelectedMethodId((method as Record<string, unknown>).id);
+    const methodObj = method as Record<string, unknown>;
+    const methodId = String(methodObj.id || '');
+    setSelectedMethodId(methodId);
     // If it's a main method (not a variation), navigate to it
-    if (!(method as string).id.includes('_var_')) {
-      router.push(`/cooking-methods/${(method as Record<string, unknown>).id}`);
+    if (!methodId.includes('_var_')) {
+      router.push(`/cooking-methods/${methodId}`);
     }
   };
 

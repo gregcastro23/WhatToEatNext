@@ -29,6 +29,30 @@ Our system is based on the principle that all four elements (Fire, Water, Earth,
 - **Styling**: CSS Modules, Tailwind CSS
 - **Astrological Calculations**: Astronomia library with local ephemeris data
 - **Component Libraries**: Astro for astrological visualizations
+- **Build System**: Enhanced with automated repair and validation tools
+
+## Build System Management
+
+The project includes comprehensive build system repair and validation tools:
+
+### Quick Commands
+```bash
+make build-health        # Check build system status
+make build-validate      # Validate build integrity
+make build-repair        # Fix common build issues
+make build-comprehensive # Full system repair
+```
+
+### Available Build Commands
+- `make build-health` - Monitor build system health with detailed metrics
+- `make build-validate` - Validate manifest files and build artifacts
+- `make build-repair` - Repair missing or corrupted manifest files
+- `make build-comprehensive` - Complete build system repair and optimization
+- `make build-emergency` - Emergency recovery for critical build failures
+- `make build-workflow` - Automated build maintenance workflow
+- `make build-safe` - Production build with integrated safety checks
+
+For detailed documentation, see [Build System Repair Guide](docs/BUILD_SYSTEM_REPAIR.md) and [Makefile Commands Reference](docs/MAKEFILE_BUILD_SYSTEM_COMMANDS.md).
 
 ## Alchemical Pillars System
 

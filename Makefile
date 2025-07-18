@@ -1,7 +1,7 @@
 # WhatToEatNext Project Makefile
 # Streamlined commands for deployment, testing, and development
 
-.PHONY: help install dev build test lint clean deploy check errors scripts docker-build docker-dev docker-prod docker-clean
+.PHONY: help install dev build test lint clean deploy check errors scripts docker-build docker-dev docker-prod docker-clean build-validate build-repair build-health build-comprehensive build-quick build-rebuild build-emergency build-workflow build-status build-monitor build-safe ci-validate ci-build ci-test ci-deploy-check ci-quality-gate deploy-pipeline deploy-rollback
 
 # Default target
 help:
@@ -31,8 +31,26 @@ help:
 	@echo "  make docker-prod  - Start production container"
 	@echo "  make docker-clean - Clean Docker resources"
 	@echo ""
+	@echo "🔧 Build system repair commands:"
+	@echo "  make build-validate      - Validate build system health"
+	@echo "  make build-repair        - Repair missing manifest files"
+	@echo "  make build-health        - Check build system health status"
+	@echo "  make build-comprehensive - Full build system repair"
+	@echo "  make build-emergency     - Emergency build recovery"
+	@echo ""
+	@echo "🚀 CI/CD Pipeline commands:"
+	@echo "  make ci-validate         - Complete CI validation workflow"
+	@echo "  make ci-build            - CI-optimized build process"
+	@echo "  make ci-test             - CI test execution with coverage"
+	@echo "  make ci-deploy-check     - Pre-deployment validation"
+	@echo "  make ci-quality-gate     - Quality gate validation"
+	@echo "  make deploy-pipeline     - Complete deployment workflow"
+	@echo "  make deploy-rollback     - Emergency rollback procedures"
+	@echo ""
 	@echo "🔧 Development workflow:"
 	@echo "  make check → make build → make test → make deploy"
+	@echo "🚀 CI/CD workflow:"
+	@echo "  make ci-validate → make ci-build → make ci-test → make deploy-pipeline"
 	@echo "🐳 Docker workflow:"
 	@echo "  make docker-build → make docker-prod"
 
@@ -368,10 +386,185 @@ docker-deploy:
 	@make docker-health
 	@echo "✅ Docker deployment completed!"
 
+# Build System Repair Commands
+build-validate:
+	@echo "🔍 Validating build system..."
+	@yarn build:validate
+
+build-repair:
+	@echo "🔧 Repairing build system..."
+	@yarn build:repair
+
+build-health:
+	@echo "🏥 Checking build system health..."
+	@yarn build:health
+
+build-comprehensive:
+	@echo "🚀 Running comprehensive build system repair..."
+	@yarn build:comprehensive
+
+build-quick:
+	@echo "⚡ Running quick build repair..."
+	@yarn build:quick
+
+build-rebuild:
+	@echo "🏗️  Rebuilding with error recovery..."
+	@yarn build:rebuild
+
+build-emergency:
+	@echo "🚨 Running emergency build recovery..."
+	@yarn build:emergency
+
+# Build system workflow helpers
+build-workflow:
+	@echo "🔄 Running complete build system workflow..."
+	@echo "Step 1: Health check..."
+	@make build-health
+	@echo "Step 2: Validation..."
+	@make build-validate
+	@echo "Step 3: Repair if needed..."
+	@make build-repair
+	@echo "Step 4: Final validation..."
+	@make build-validate
+	@echo "✅ Build system workflow completed!"
+
+build-status:
+	@echo "📊 Build System Status Report:"
+	@echo "==================================="
+	@yarn build:health
+	@echo ""
+	@echo "🔍 Validation Results:"
+	@yarn build:validate
+	@echo ""
+	@echo "📈 Recent build activity:"
+	@ls -la .next/ 2>/dev/null | head -5 || echo "No build directory found"
+
+build-monitor:
+	@echo "👀 Monitoring build system health..."
+	@echo "Current status:"
+	@make build-health
+	@echo ""
+	@echo "💡 Tip: Run 'make build-comprehensive' if issues are detected"
+	@echo "💡 Tip: Run 'make build-emergency' for critical failures"
+
+# Enhanced build command with repair integration
+build-safe:
+	@echo "🛡️  Safe build with automatic repair..."
+	@echo "Step 1: Pre-build health check..."
+	@make build-health
+	@echo "Step 2: Validation..."
+	@make build-validate
+	@echo "Step 3: Repair if needed..."
+	@yarn build:quick
+	@echo "Step 4: TypeScript compilation check..."
+	@yarn tsc --noEmit --skipLibCheck
+	@echo "Step 5: Production build..."
+	@yarn build
+	@echo "Step 6: Post-build validation..."
+	@make build-validate
+	@echo "✅ Safe build completed successfully!"
+
+# CI/CD Pipeline Commands
+ci-validate:
+	@echo "🔍 Running complete CI validation workflow..."
+	@echo "Step 1: Build system health check..."
+	@make build-health
+	@echo "Step 2: TypeScript validation..."
+	@make check
+	@echo "Step 3: Linting validation..."
+	@make lint
+	@echo "Step 4: Build validation..."
+	@make build-safe
+	@echo "✅ CI validation completed successfully!"
+
+ci-build:
+	@echo "🏗️  Running CI-optimized build process..."
+	@echo "Step 1: Clean previous build..."
+	@make clean
+	@echo "Step 2: Install dependencies..."
+	@make install
+	@echo "Step 3: Build system repair..."
+	@make build-comprehensive
+	@echo "Step 4: Production build..."
+	@make build
+	@echo "✅ CI build completed successfully!"
+
+ci-test:
+	@echo "🧪 Running CI test execution with coverage..."
+	@echo "Step 1: Unit tests..."
+	@make test
+	@echo "Step 2: Test coverage..."
+	@make test-coverage
+	@echo "Step 3: Integration tests..."
+	@yarn test --testPathPattern="integration"
+	@echo "✅ CI testing completed successfully!"
+
+ci-deploy-check:
+	@echo "🚀 Running pre-deployment validation..."
+	@echo "Step 1: Final build validation..."
+	@make build-validate
+	@echo "Step 2: Error count check..."
+	@echo "Current TypeScript errors: $(shell yarn tsc --noEmit --skipLibCheck 2>&1 | grep -E "error TS" | wc -l || echo "0")"
+	@echo "Step 3: Git status check..."
+	@git status --porcelain
+	@echo "Step 4: Docker build test..."
+	@make docker-build
+	@echo "✅ Pre-deployment validation completed!"
+
+ci-quality-gate:
+	@echo "🎯 Running quality gate validation..."
+	@echo "Step 1: TypeScript error threshold check..."
+	@ERROR_COUNT=$$(yarn tsc --noEmit --skipLibCheck 2>&1 | grep -E "error TS" | wc -l || echo "0"); \
+	if [ $$ERROR_COUNT -gt 3000 ]; then \
+		echo "❌ Quality gate failed: $$ERROR_COUNT TypeScript errors (threshold: 3000)"; \
+		exit 1; \
+	else \
+		echo "✅ TypeScript errors within threshold: $$ERROR_COUNT/3000"; \
+	fi
+	@echo "Step 2: Build stability check..."
+	@yarn tsc --noEmit --skipLibCheck > /dev/null 2>&1 && echo "✅ Build stable" || (echo "❌ Build unstable" && exit 1)
+	@echo "Step 3: Test coverage check..."
+	@make test-coverage > /dev/null 2>&1 && echo "✅ Tests passing" || (echo "❌ Tests failing" && exit 1)
+	@echo "✅ Quality gate validation passed!"
+
+deploy-pipeline:
+	@echo "🚀 Running complete deployment pipeline..."
+	@echo "Step 1: CI validation..."
+	@make ci-validate
+	@echo "Step 2: CI build..."
+	@make ci-build
+	@echo "Step 3: CI testing..."
+	@make ci-test
+	@echo "Step 4: Quality gate..."
+	@make ci-quality-gate
+	@echo "Step 5: Pre-deployment check..."
+	@make ci-deploy-check
+	@echo "Step 6: Docker deployment..."
+	@make docker-deploy
+	@echo "✅ Deployment pipeline completed successfully!"
+
+deploy-rollback:
+	@echo "🚨 Running emergency rollback procedures..."
+	@echo "Step 1: Stop current deployment..."
+	@make docker-stop
+	@echo "Step 2: Check recent commits..."
+	@git log --oneline -5
+	@echo "Step 3: Create rollback branch..."
+	@git checkout -b rollback-$(shell date '+%Y%m%d-%H%M%S')
+	@echo "Step 4: Docker cleanup..."
+	@make docker-clean
+	@echo "⚠️  Manual intervention required:"
+	@echo "  1. Identify last stable commit: git log --oneline -10"
+	@echo "  2. Reset to stable state: git reset --hard <commit-hash>"
+	@echo "  3. Redeploy: make deploy-pipeline"
+	@echo "✅ Rollback preparation completed!"
+
 # Documentation
 docs:
 	@echo "📚 Project documentation:"
 	@echo "  Architecture: docs/architecture/"
 	@echo "  Build fixes: docs/build-fixes.md"
+	@echo "  Build system repair: docs/BUILD_SYSTEM_REPAIR.md"
+	@echo "  CI/CD pipeline: docs/CICD_PIPELINE.md"
 	@echo "  Scripts: scripts/QUICK_REFERENCE.md"
 	@echo "  Inventory: scripts/INVENTORY.md" 

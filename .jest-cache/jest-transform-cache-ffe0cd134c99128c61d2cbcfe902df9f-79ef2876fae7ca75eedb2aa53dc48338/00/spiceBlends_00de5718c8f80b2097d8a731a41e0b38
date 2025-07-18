@@ -1,0 +1,790 @@
+6cb73939022d75ba5783648b96a20f11
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.spiceBlends = void 0;
+const elementalUtils_1 = require("@/utils/elementalUtils");
+// Pattern AA: Ingredient Interface Restructuring
+// Proper type annotation for raw ingredients to ensure IngredientMapping compatibility
+const rawSpiceBlends = {
+    'garam_masala': {
+        name: 'Garam Masala',
+        elementalProperties: { Fire: 0.5, Air: 0.2, Earth: 0.2, Water: 0.1 },
+        astrologicalProfile: {
+            rulingPlanets: ['Sun', 'Jupiter'],
+            favorableZodiac: ['leo', 'sagittarius'],
+            elementalAffinity: {
+                base: 'Fire',
+                decanModifiers: {
+                    first: { element: 'Fire', planet: 'Sun' },
+                    second: { element: 'Air', planet: 'Jupiter' },
+                    third: { element: 'Earth', planet: 'Saturn' }
+                }
+            }
+        },
+        qualities: ['warming', 'aromatic', 'complex'],
+        origin: ['Indian Subcontinent'],
+        category: 'spice',
+        subCategory: 'blend',
+        baseIngredients: {
+            'cumin': 2,
+            'coriander': 2,
+            'cardamom': 1,
+            'cinnamon': 1,
+            'cloves': 0.5,
+            'black pepper': 1,
+            'nutmeg': 0.5
+        },
+        ratios: '2:2:1:1:0.5:1:0.5',
+        regionalVariations: {
+            'North Indian': {
+                name: 'North Indian',
+                'cumin': 2,
+                'coriander': 2,
+                'black cardamom': 1,
+                'cinnamon': 1,
+                'cloves': 0.5,
+                'black pepper': 1,
+                'nutmeg': 0.5
+            },
+            'South Indian': {
+                name: 'South Indian',
+                'cumin': 2,
+                'coriander': 2,
+                'cardamom': 1,
+                'curry leaves': 1,
+                'star anise': 0.5,
+                'black pepper': 1,
+                'nutmeg': 0.5
+            }
+        },
+        affinities: ['lentils', 'rice', 'meat', 'vegetables', 'yogurt'],
+        cookingMethods: ['bloomed in oil', 'added to sauces', 'marinades'],
+        preparation: {
+            toasting: 'individually before grinding',
+            grinding: 'just before use',
+            storage: 'airtight, dark container',
+            notes: 'Blend can be adjusted for heat preference'
+        },
+        medicinalProperties: {
+            actions: ['digestive aid', 'anti-inflammatory', 'warming'],
+            energetics: 'heating',
+            tastes: ['pungent', 'sweet', 'bitter']
+        },
+        sensoryProfile: {
+            taste: ['Mild'],
+            aroma: ['Fresh'],
+            texture: ['Standard'],
+            notes: 'Characteristic garam_masala profile'
+        },
+        culinaryProfile: {
+            flavorProfile: {
+                primary: ['balanced']
+            },
+            cookingMethods: ['versatile'],
+            cuisineAffinity: ['Global']
+        },
+        season: ['Year-round'],
+        nutritionalProfile: {
+            macronutrients: {},
+            micronutrients: {},
+            healthBenefits: ['Nutritious']
+        },
+        storage: {
+            temperature: 'Cool, dry place',
+            duration: '6-12 months',
+            container: 'Airtight'
+        },
+        varieties: {}
+    },
+    'ras_el_hanout': {
+        name: 'Ras El Hanout',
+        elementalProperties: { Fire: 0.4, Air: 0.3, Earth: 0.2, Water: 0.1 },
+        astrologicalProfile: {
+            rulingPlanets: ['Venus', 'Mars'],
+            favorableZodiac: ['taurus', 'scorpio'],
+            elementalAffinity: {
+                base: 'Fire',
+                decanModifiers: {
+                    first: { element: 'Fire', planet: 'Venus' },
+                    second: { element: 'Earth', planet: 'Mars' },
+                    third: { element: 'Air', planet: 'Mercury' }
+                }
+            }
+        },
+        qualities: ['warming', 'complex', 'aromatic'],
+        origin: ['North Africa'],
+        category: 'spice',
+        subCategory: 'blend',
+        baseIngredients: [
+            'cumin',
+            'coriander',
+            'cinnamon',
+            'ginger',
+            'black pepper',
+            'turmeric',
+            'paprika',
+            'allspice',
+            'rose petals'
+        ],
+        regionalVariations: {
+            'Moroccan': ['saffron', 'rose buds', 'grains of paradise'],
+            'Tunisian': ['dried mint', 'dried rose petals'],
+            'Algerian': ['cinnamon heavy', 'dried rosebuds']
+        },
+        affinities: ['lamb', 'chicken', 'couscous', 'vegetables', 'tagines'],
+        cookingMethods: ['marinades', 'rubs', 'stews'],
+        proportions: {
+            'cumin': 2,
+            'coriander': 2,
+            'cinnamon': 1,
+            'ginger': 1,
+            'black pepper': 1,
+            'turmeric': 1,
+            'paprika': 1,
+            'allspice': 0.5,
+            'rose petals': 0.5
+        },
+        preparation: {
+            toasting: 'light toasting of whole spices',
+            grinding: 'grind together just before use',
+            storage: 'airtight container away from light',
+            notes: 'Can contain up to 30 ingredients'
+        },
+        medicinalProperties: {
+            actions: ['digestive aid', 'anti-inflammatory'],
+            energetics: 'warming',
+            tastes: ['complex', 'floral', 'pungent']
+        },
+        sensoryProfile: {
+            taste: ['Mild'],
+            aroma: ['Fresh'],
+            texture: ['Standard'],
+            notes: 'Characteristic ras_el_hanout profile'
+        },
+        culinaryProfile: {
+            flavorProfile: {
+                primary: ['balanced']
+            },
+            cookingMethods: ['versatile'],
+            cuisineAffinity: ['Global']
+        },
+        season: ['Year-round'],
+        nutritionalProfile: {
+            macronutrients: {},
+            micronutrients: {},
+            healthBenefits: ['Nutritious']
+        },
+        storage: {
+            temperature: 'Cool, dry place',
+            duration: '6-12 months',
+            container: 'Airtight'
+        },
+        varieties: {}
+    },
+    'herbes_de_provence': {
+        name: 'Herbes De Provence',
+        elementalProperties: { Air: 0.4, Earth: 0.3, Fire: 0.2, Water: 0.1 },
+        qualities: ['aromatic', 'Mediterranean', 'savory'],
+        origin: ['Southern France'],
+        category: 'spice',
+        subCategory: 'blend',
+        baseIngredients: [
+            'thyme',
+            'basil',
+            'rosemary',
+            'tarragon',
+            'savory',
+            'marjoram',
+            'oregano',
+            'lavender'
+        ],
+        regionalVariations: {
+            'Traditional': ['no lavender'],
+            'Modern': ['includes lavender'],
+            'Commercial': ['may include fennel']
+        },
+        affinities: ['chicken', 'fish', 'vegetables', 'tomatoes', 'grilled meats'],
+        cookingMethods: ['roasting', 'grilling', 'sauce making'],
+        proportions: {
+            'thyme': 2,
+            'basil': 1,
+            'rosemary': 1,
+            'tarragon': 1,
+            'savory': 1,
+            'marjoram': 1,
+            'oregano': 1,
+            'lavender': 0.5
+        },
+        preparation: {
+            mixing: 'individually before grinding',
+            grinding: 'just before use',
+            storage: 'airtight, dark container',
+            notes: 'Blend can be adjusted for heat preference'
+        },
+        medicinalProperties: {
+            actions: ['digestive aid', 'anti-inflammatory', 'warming'],
+            energetics: 'heating',
+            tastes: ['pungent', 'sweet', 'bitter']
+        },
+        sensoryProfile: {
+            taste: ['Mild'],
+            aroma: ['Fresh'],
+            texture: ['Standard'],
+            notes: 'Characteristic herbes_de_provence profile'
+        },
+        culinaryProfile: {
+            flavorProfile: {
+                primary: ['balanced']
+            },
+            cookingMethods: ['versatile'],
+            cuisineAffinity: ['Global']
+        },
+        season: ['Year-round'],
+        nutritionalProfile: {
+            macronutrients: {},
+            micronutrients: {},
+            healthBenefits: ['Nutritious']
+        },
+        storage: {
+            temperature: 'Cool, dry place',
+            duration: '6-12 months',
+            container: 'Airtight'
+        },
+        varieties: {},
+        astrologicalProfile: {
+            rulingPlanets: [],
+            favorableZodiac: []
+        }
+    },
+    'chinese_five_spice': {
+        name: 'Chinese Five Spice',
+        elementalProperties: { Fire: 0.4, Water: 0.1, Earth: 0.1, Air: 0.1 },
+        qualities: ['warming', 'balanced', 'complex'],
+        origin: ['China'],
+        category: 'spice',
+        subCategory: 'blend',
+        baseIngredients: {
+            'star anise': 2,
+            'chinese cinnamon': 2,
+            'fennel seeds': 2,
+            'cloves': 1,
+            'sichuan pepper': 1
+        },
+        ratios: '2:2:2:1:1',
+        regionalVariations: {
+            'Northern': {
+                name: 'Northern',
+                'star anise': 2,
+                'chinese cinnamon': 3,
+                'fennel seeds': 2,
+                'cloves': 1,
+                'sichuan pepper': 1
+            },
+            'Southern': {
+                name: 'Southern',
+                'star anise': 2,
+                'chinese cinnamon': 2,
+                'fennel seeds': 2,
+                'cloves': 1,
+                'sichuan pepper': 1,
+                'licorice root': 0.5
+            }
+        },
+        affinities: ['pork', 'duck', 'chicken', 'seafood', 'vegetables'],
+        sensoryProfile: {
+            taste: ['Mild'],
+            aroma: ['Fresh'],
+            texture: ['Standard'],
+            notes: 'Characteristic chinese_five_spice profile'
+        },
+        culinaryProfile: {
+            flavorProfile: {
+                primary: ['balanced']
+            },
+            cookingMethods: ['versatile'],
+            cuisineAffinity: ['Global']
+        },
+        season: ['Year-round'],
+        preparation: {
+            methods: ['Standard'],
+            timing: 'As needed',
+            notes: 'Standard prep for chinese_five_spice'
+        },
+        nutritionalProfile: {
+            macronutrients: {},
+            micronutrients: {},
+            healthBenefits: ['Nutritious']
+        },
+        storage: {
+            temperature: 'Cool, dry place',
+            duration: '6-12 months',
+            container: 'Airtight'
+        },
+        varieties: {},
+        astrologicalProfile: {
+            rulingPlanets: [],
+            favorableZodiac: []
+        }
+    },
+    'za_atar': {
+        name: 'Za Atar',
+        elementalProperties: { Earth: 0.4, Air: 0.3, Fire: 0.2, Water: 0.1 },
+        qualities: ['earthy', 'tangy', 'aromatic'],
+        origin: ['Levant'],
+        category: 'spice',
+        subCategory: 'blend',
+        baseIngredients: {
+            'dried thyme': 2,
+            'sesame seeds': 2,
+            'sumac': 1,
+            'oregano': 1,
+            'marjoram': 1,
+            'salt': 0.5
+        },
+        ratios: '2:2:1:1:1:0.5',
+        regionalVariations: {
+            'Lebanese': {
+                name: 'Lebanese',
+                'dried thyme': 2,
+                'sesame seeds': 2,
+                'sumac': 2,
+                'oregano': 1,
+                'marjoram': 1,
+                'salt': 0.5
+            },
+            'Palestinian': {
+                name: 'Palestinian',
+                'dried thyme': 2,
+                'sesame seeds': 3,
+                'sumac': 1,
+                'oregano': 1,
+                'marjoram': 1,
+                'salt': 0.5
+            }
+        },
+        sensoryProfile: {
+            taste: ['Mild'],
+            aroma: ['Fresh'],
+            texture: ['Standard'],
+            notes: 'Characteristic za_atar profile'
+        },
+        culinaryProfile: {
+            flavorProfile: {
+                primary: ['balanced']
+            },
+            cookingMethods: ['versatile'],
+            cuisineAffinity: ['Global']
+        },
+        season: ['Year-round'],
+        preparation: {
+            methods: ['Standard'],
+            timing: 'As needed',
+            notes: 'Standard prep for za_atar'
+        },
+        nutritionalProfile: {
+            macronutrients: {},
+            micronutrients: {},
+            healthBenefits: ['Nutritious']
+        },
+        storage: {
+            temperature: 'Cool, dry place',
+            duration: '6-12 months',
+            container: 'Airtight'
+        },
+        varieties: {},
+        astrologicalProfile: {
+            rulingPlanets: [],
+            favorableZodiac: []
+        }
+    },
+    'curry_powder': {
+        name: 'Curry Powder',
+        elementalProperties: { Fire: 0.4, Air: 0.3, Earth: 0.2, Water: 0.1 },
+        qualities: ['warming', 'complex', 'pungent'],
+        origin: ['British-Indian'],
+        category: 'spice',
+        subCategory: 'blend',
+        baseIngredients: {
+            'turmeric': 3,
+            'coriander': 2,
+            'cumin': 2,
+            'ginger': 1,
+            'black pepper': 1,
+            'cinnamon': 0.5,
+            'cardamom': 0.5,
+            'cayenne': 0.5,
+            'fenugreek': 0.5
+        },
+        ratios: '3:2:2:1:1:0.5:0.5:0.5:0.5',
+        regionalVariations: {
+            'Madras': {
+                name: 'Madras',
+                'turmeric': 3,
+                'coriander': 2,
+                'cumin': 2,
+                'ginger': 1,
+                'black pepper': 1,
+                'cinnamon': 0.5,
+                'cardamom': 0.5,
+                'cayenne': 2,
+                'fenugreek': 0.5
+            }
+        },
+        sensoryProfile: {
+            taste: ['Mild'],
+            aroma: ['Fresh'],
+            texture: ['Standard'],
+            notes: 'Characteristic curry_powder profile'
+        },
+        culinaryProfile: {
+            flavorProfile: {
+                primary: ['balanced']
+            },
+            cookingMethods: ['versatile'],
+            cuisineAffinity: ['Global']
+        },
+        season: ['Year-round'],
+        preparation: {
+            methods: ['Standard'],
+            timing: 'As needed',
+            notes: 'Standard prep for curry_powder'
+        },
+        nutritionalProfile: {
+            macronutrients: {},
+            micronutrients: {},
+            healthBenefits: ['Nutritious']
+        },
+        storage: {
+            temperature: 'Cool, dry place',
+            duration: '6-12 months',
+            container: 'Airtight'
+        },
+        varieties: {},
+        astrologicalProfile: {
+            rulingPlanets: [],
+            favorableZodiac: []
+        }
+    },
+    'berbere': {
+        name: 'Berbere',
+        elementalProperties: { Fire: 0.6, Air: 0.2, Earth: 0.1, Water: 0.1 },
+        qualities: ['hot', 'complex', 'earthy'],
+        origin: ['Ethiopia'],
+        category: 'spice',
+        subCategory: 'blend',
+        baseIngredients: {
+            'dried chili peppers': 4,
+            'garlic': 2,
+            'ginger': 2,
+            'basil': 1,
+            'korarima': 1,
+            'white pepper': 1,
+            'black pepper': 1,
+            'fenugreek': 1,
+            'cloves': 0.5,
+            'cinnamon': 0.5,
+            'nutmeg': 0.5
+        },
+        ratios: '4:2:2:1:1:1:1:1:0.5:0.5:0.5',
+        regionalVariations: {
+            'Traditional': {
+                name: 'Traditional',
+                // includes additional fermentation process
+                'rue': 0.5 // additional ingredient
+            }
+        },
+        sensoryProfile: {
+            taste: ['Mild'],
+            aroma: ['Fresh'],
+            texture: ['Standard'],
+            notes: 'Characteristic berbere profile'
+        },
+        culinaryProfile: {
+            flavorProfile: {
+                primary: ['balanced']
+            },
+            cookingMethods: ['versatile'],
+            cuisineAffinity: ['Global']
+        },
+        season: ['Year-round'],
+        preparation: {
+            methods: ['Standard'],
+            timing: 'As needed',
+            notes: 'Standard prep for berbere'
+        },
+        nutritionalProfile: {
+            macronutrients: {},
+            micronutrients: {},
+            healthBenefits: ['Nutritious']
+        },
+        storage: {
+            temperature: 'Cool, dry place',
+            duration: '6-12 months',
+            container: 'Airtight'
+        },
+        varieties: {},
+        astrologicalProfile: {
+            rulingPlanets: [],
+            favorableZodiac: []
+        }
+    },
+    'dukkah': {
+        name: 'Dukkah',
+        elementalProperties: { Earth: 0.4, Air: 0.3, Fire: 0.2, Water: 0.1 },
+        qualities: ['nutty', 'aromatic', 'crunchy'],
+        origin: ['Egypt'],
+        category: 'spice',
+        subCategory: 'blend',
+        baseIngredients: {
+            'hazelnuts': 3,
+            'sesame seeds': 2,
+            'coriander': 1,
+            'cumin': 1,
+            'black pepper': 0.5,
+            'salt': 0.5
+        },
+        ratios: '3:2:1:1:0.5:0.5',
+        regionalVariations: {
+            'Alexandria': {
+                name: 'Alexandria',
+                'hazelnuts': 2,
+                'pine nuts': 1,
+                'sesame seeds': 3,
+                'coriander': 1,
+                'cumin': 1,
+                'black pepper': 0.5,
+                'salt': 0.5
+            }
+        },
+        sensoryProfile: {
+            taste: ['Mild'],
+            aroma: ['Fresh'],
+            texture: ['Standard'],
+            notes: 'Characteristic dukkah profile'
+        },
+        culinaryProfile: {
+            flavorProfile: {
+                primary: ['balanced']
+            },
+            cookingMethods: ['versatile'],
+            cuisineAffinity: ['Global']
+        },
+        season: ['Year-round'],
+        preparation: {
+            methods: ['Standard'],
+            timing: 'As needed',
+            notes: 'Standard prep for dukkah'
+        },
+        nutritionalProfile: {
+            macronutrients: {},
+            micronutrients: {},
+            healthBenefits: ['Nutritious']
+        },
+        storage: {
+            temperature: 'Cool, dry place',
+            duration: '6-12 months',
+            container: 'Airtight'
+        },
+        varieties: {},
+        astrologicalProfile: {
+            rulingPlanets: [],
+            favorableZodiac: []
+        }
+    },
+    'shichimi_togarashi': {
+        name: 'Shichimi Togarashi',
+        elementalProperties: { Fire: 0.5, Water: 0.1, Air: 0.1, Earth: 0.1 },
+        qualities: ['spicy', 'citrusy', 'nutty'],
+        origin: ['Japan'],
+        category: 'spice',
+        subCategory: 'blend',
+        baseIngredients: {
+            'dried red chili pepper': 3,
+            'sansho pepper': 1,
+            'orange peel': 1,
+            'black sesame': 1,
+            'white sesame': 1,
+            'hemp seeds': 0.5,
+            'nori': 0.5,
+            'ginger': 0.5
+        },
+        ratios: '3:1:1:1:1:0.5:0.5:0.5',
+        regionalVariations: {
+            'Tokyo': {
+                name: 'Tokyo',
+                'orange peel': 2 // more citrus
+            },
+            'Kyoto': {
+                name: 'Kyoto',
+                'black sesame': 2,
+                'white sesame': 2 // more sesame
+            }
+        },
+        sensoryProfile: {
+            taste: ['Mild'],
+            aroma: ['Fresh'],
+            texture: ['Standard'],
+            notes: 'Characteristic shichimi_togarashi profile'
+        },
+        culinaryProfile: {
+            flavorProfile: {
+                primary: ['balanced']
+            },
+            cookingMethods: ['versatile'],
+            cuisineAffinity: ['Global']
+        },
+        season: ['Year-round'],
+        preparation: {
+            methods: ['Standard'],
+            timing: 'As needed',
+            notes: 'Standard prep for shichimi_togarashi'
+        },
+        nutritionalProfile: {
+            macronutrients: {},
+            micronutrients: {},
+            healthBenefits: ['Nutritious']
+        },
+        storage: {
+            temperature: 'Cool, dry place',
+            duration: '6-12 months',
+            container: 'Airtight'
+        },
+        varieties: {},
+        astrologicalProfile: {
+            rulingPlanets: [],
+            favorableZodiac: []
+        }
+    },
+    'baharat': {
+        name: 'Baharat',
+        elementalProperties: { Fire: 0.4, Air: 0.3, Earth: 0.2, Water: 0.1 },
+        qualities: ['warming', 'aromatic', 'complex'],
+        origin: ['Middle East'],
+        category: 'spice',
+        subCategory: 'blend',
+        baseIngredients: {
+            'black pepper': 2,
+            'cumin': 2,
+            'coriander': 1,
+            'cinnamon': 1,
+            'cardamom': 1,
+            'paprika': 1,
+            'cloves': 0.5,
+            'nutmeg': 0.5
+        },
+        ratios: '2:2:1:1:1:1:0.5:0.5',
+        regionalVariations: {
+            'Turkish': {
+                name: 'Turkish',
+                'mint': 0.5 // additional
+            },
+            'Gulf': {
+                name: 'Gulf',
+                'lime powder': 1 // additional
+            }
+        },
+        sensoryProfile: {
+            taste: ['Mild'],
+            aroma: ['Fresh'],
+            texture: ['Standard'],
+            notes: 'Characteristic baharat profile'
+        },
+        culinaryProfile: {
+            flavorProfile: {
+                primary: ['balanced']
+            },
+            cookingMethods: ['versatile'],
+            cuisineAffinity: ['Global']
+        },
+        season: ['Year-round'],
+        preparation: {
+            methods: ['Standard'],
+            timing: 'As needed',
+            notes: 'Standard prep for baharat'
+        },
+        nutritionalProfile: {
+            macronutrients: {},
+            micronutrients: {},
+            healthBenefits: ['Nutritious']
+        },
+        storage: {
+            temperature: 'Cool, dry place',
+            duration: '6-12 months',
+            container: 'Airtight'
+        },
+        varieties: {},
+        astrologicalProfile: {
+            rulingPlanets: [],
+            favorableZodiac: []
+        }
+    },
+    'jerk_seasoning': {
+        name: 'Jerk Seasoning',
+        elementalProperties: { Fire: 0.5, Earth: 0.2, Air: 0.2, Water: 0.1 },
+        qualities: ['hot', 'pungent', 'aromatic'],
+        origin: ['Jamaica'],
+        category: 'spice',
+        subCategory: 'blend',
+        baseIngredients: {
+            'allspice': 3,
+            'scotch bonnet': 2,
+            'thyme': 2,
+            'garlic': 2,
+            'ginger': 1,
+            'black pepper': 1,
+            'brown sugar': 1,
+            'cinnamon': 0.5,
+            'nutmeg': 0.5
+        },
+        ratios: '3:2:2:2:1:1:1:0.5:0.5',
+        regionalVariations: {
+            'Traditional': {
+                name: 'Traditional',
+                // Wet paste version
+                'green onions': 2,
+                'soy sauce': 1
+            },
+            'Western': {
+                name: 'Western',
+                'scotch bonnet': 1 // reduced heat
+            }
+        },
+        sensoryProfile: {
+            taste: ['Mild'],
+            aroma: ['Fresh'],
+            texture: ['Standard'],
+            notes: 'Characteristic jerk_seasoning profile'
+        },
+        culinaryProfile: {
+            flavorProfile: {
+                primary: ['balanced']
+            },
+            cookingMethods: ['versatile'],
+            cuisineAffinity: ['Global']
+        },
+        season: ['Year-round'],
+        preparation: {
+            methods: ['Standard'],
+            timing: 'As needed',
+            notes: 'Standard prep for jerk_seasoning'
+        },
+        nutritionalProfile: {
+            macronutrients: {},
+            micronutrients: {},
+            healthBenefits: ['Nutritious']
+        },
+        storage: {
+            temperature: 'Cool, dry place',
+            duration: '6-12 months',
+            container: 'Airtight'
+        },
+        varieties: {},
+        astrologicalProfile: {
+            rulingPlanets: [],
+            favorableZodiac: []
+        }
+    }
+};
+// Fix the ingredient mappings to ensure they have all required properties
+exports.spiceBlends = (0, elementalUtils_1.fixIngredientMappings)(rawSpiceBlends);
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJmaWxlIjoiL1VzZXJzL0dyZWdDYXN0cm8vRGVza3RvcC9XaGF0VG9FYXROZXh0L3NyYy9kYXRhL2luZ3JlZGllbnRzL3NwaWNlcy9zcGljZUJsZW5kcy50cyIsIm1hcHBpbmdzIjoiOzs7QUFDQSwyREFBK0Q7QUFHL0QsaURBQWlEO0FBQ2pELHVGQUF1RjtBQUN2RixNQUFNLGNBQWMsR0FBK0M7SUFDakUsY0FBYyxFQUFFO1FBQ2QsSUFBSSxFQUFFLGNBQWM7UUFDcEIsbUJBQW1CLEVBQUUsRUFBRSxJQUFJLEVBQUUsR0FBRyxFQUFFLEdBQUcsRUFBRSxHQUFHLEVBQUUsS0FBSyxFQUFFLEdBQUcsRUFBRSxLQUFLLEVBQUUsR0FBRyxFQUFFO1FBRXBFLG1CQUFtQixFQUFFO1lBQ25CLGFBQWEsRUFBRSxDQUFDLEtBQUssRUFBRSxTQUFTLENBQUM7WUFDakMsZUFBZSxFQUFFLENBQUMsS0FBSyxFQUFFLGFBQWEsQ0FBQztZQUN2QyxpQkFBaUIsRUFBRTtnQkFDakIsSUFBSSxFQUFFLE1BQU07Z0JBQ1osY0FBYyxFQUFFO29CQUNkLEtBQUssRUFBRSxFQUFFLE9BQU8sRUFBRSxNQUFNLEVBQUUsTUFBTSxFQUFFLEtBQUssRUFBRTtvQkFDekMsTUFBTSxFQUFFLEVBQUUsT0FBTyxFQUFFLEtBQUssRUFBRSxNQUFNLEVBQUUsU0FBUyxFQUFFO29CQUM3QyxLQUFLLEVBQUUsRUFBRSxPQUFPLEVBQUUsT0FBTyxFQUFFLE1BQU0sRUFBRSxRQUFRLEVBQUU7aUJBQzlDO2FBQ0Y7U0FDRjtRQUVELFNBQVMsRUFBRSxDQUFDLFNBQVMsRUFBRSxVQUFVLEVBQUUsU0FBUyxDQUFDO1FBQzdDLE1BQU0sRUFBRSxDQUFDLHFCQUFxQixDQUFDO1FBQy9CLFFBQVEsRUFBRSxPQUFPO1FBQ2pCLFdBQVcsRUFBRSxPQUFPO1FBRXBCLGVBQWUsRUFBRTtZQUNmLE9BQU8sRUFBRSxDQUFDO1lBQ1YsV0FBVyxFQUFFLENBQUM7WUFDZCxVQUFVLEVBQUUsQ0FBQztZQUNiLFVBQVUsRUFBRSxDQUFDO1lBQ2IsUUFBUSxFQUFF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WUFDZCxLQUFLLEVBQUUsQ0FBQyxNQUFNLENBQUM7WUFDZixLQUFLLEVBQUUsQ0FBQyxPQUFPLENBQUM7WUFDaEIsT0FBTyxFQUFFLENBQUMsVUFBVSxDQUFDO1lBQ3JCLEtBQUssRUFBRSx1Q0FBdUM7U0FDL0M7UUFFRCxlQUFlLEVBQUU7WUFDZixhQUFhLEVBQUU7Z0JBQ2IsT0FBTyxFQUFFLENBQUMsVUFBVSxDQUFDO2FBQ3RCO1lBRUQsY0FBYyxFQUFFLENBQUMsV0FBVyxDQUFDO1lBQzdCLGVBQWUsRUFBRSxDQUFDLFFBQVEsQ0FBQztTQUM1QjtRQUVELE1BQU0sRUFBRSxDQUFDLFlBQVksQ0FBQztRQUV0QixXQUFXLEVBQUU7WUFDWCxPQUFPLEVBQUUsQ0FBQyxVQUFVLENBQUM7WUFDckIsTUFBTSxFQUFFLFdBQVc7WUFDbkIsS0FBSyxFQUFFLGtDQUFrQztTQUMxQztRQUVELGtCQUFrQixFQUFFO1lBQ2xCLGNBQWMsRUFBRSxFQUFFO1lBQ2xCLGNBQWMsRUFBRSxFQUFFO1lBQ2xCLGNBQWMsRUFBRSxDQUFDLFlBQVksQ0FBQztTQUMvQjtRQUVELE9BQU8sRUFBRTtZQUNQLFdBQVcsRUFBRSxpQkFBaUI7WUFDOUIsUUFBUSxFQUFFLGFBQWE7WUFDdkIsU0FBUyxFQUFFLFVBQVU7U0FDdEI7UUFFRCxTQUFTLEVBQUUsRUFBRTtRQUViLG1CQUFtQixFQUFFO1lBQ25CLGFBQWEsRUFBRSxFQUFFO1lBQ2pCLGVBQWUsRUFBRSxFQUFFO1NBQ3BCO0tBQ0Y7Q0FDRixDQUFDO0FBRUYsMEVBQTBFO0FBQzdELFFBQUEsV0FBVyxHQUFzQyxJQUFBLHNDQUFxQixFQUFDLGNBQWMsQ0FBQyxDQUFDIiwibmFtZXMiOltdLCJzb3VyY2VzIjpbIi9Vc2Vycy9HcmVnQ2FzdHJvL0Rlc2t0b3AvV2hhdFRvRWF0TmV4dC9zcmMvZGF0YS9pbmdyZWRpZW50cy9zcGljZXMvc3BpY2VCbGVuZHMudHMiXSwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IHR5cGUgeyBJbmdyZWRpZW50TWFwcGluZyB9IGZyb20gJ0AvZGF0YS9pbmdyZWRpZW50cy90eXBlcyc7XG5pbXBvcnQgeyBmaXhJbmdyZWRpZW50TWFwcGluZ3MgfSBmcm9tICdAL3V0aWxzL2VsZW1lbnRhbFV0aWxzJztcbmltcG9ydCB7IENVSVNJTkVfVFlQRVMgfSBmcm9tICdAL2NvbnN0YW50cy9jdWlzaW5lVHlwZXMnO1xuXG4vLyBQYXR0ZXJuIEFBOiBJbmdyZWRpZW50IEludGVyZmFjZSBSZXN0cnVjdHVyaW5nXG4vLyBQcm9wZXIgdHlwZSBhbm5vdGF0aW9uIGZvciByYXcgaW5ncmVkaWVudHMgdG8gZW5zdXJlIEluZ3JlZGllbnRNYXBwaW5nIGNvbXBhdGliaWxpdHlcbmNvbnN0IHJhd1NwaWNlQmxlbmRzOiBSZWNvcmQ8c3RyaW5nLCBQYXJ0aWFsPEluZ3JlZGllbnRNYXBwaW5nPj4gPSB7XG4gICdnYXJhbV9tYXNhbGEnOiB7XG4gICAgbmFtZTogJ0dhcmFtIE1hc2FsYScsXG4gICAgZWxlbWVudGFsUHJvcGVydGllczogeyBGaXJlOiAwLjUsIEFpcjogMC4yLCBFYXJ0aDogMC4yLCBXYXRlcjogMC4xIH0sXG5cbiAgICBhc3Ryb2xvZ2ljYWxQcm9maWxlOiB7XG4gICAgICBydWxpbmdQbGFuZXRzOiBbJ1N1bicsICdKdXBpdGVyJ10sXG4gICAgICBmYXZvcmFibGVab2RpYWM6IFsnbGVvJywgJ3NhZ2l0dGFyaXVzJ10sXG4gICAgICBlbGVtZW50YWxBZmZpbml0eToge1xuICAgICAgICBiYXNlOiAnRmlyZScsXG4gICAgICAgIGRlY2FuTW9kaWZpZXJzOiB7XG4gICAgICAgICAgZmlyc3Q6IHsgZWxlbWVudDogJ0ZpcmUnLCBwbGFuZXQ6ICdTdW4nIH0sXG4gICAgICAgICAgc2Vjb25kOiB7IGVsZW1lbnQ6ICdBaXInLCBwbGFuZXQ6ICdKdXBpdGVyJyB9LFxuICAgICAgICAgIHRoaXJkOiB7IGVsZW1lbnQ6ICdFYXJ0aCcsIHBsYW5ldDogJ1NhdHVybicgfVxuICAgICAgICB9XG4gICAgICB9XG4gICAgfSxcblxuICAgIHF1YWxpdGllczogWyd3YXJtaW5nJywgJ2Fyb21hdGljJywgJ2NvbXBsZXgnXSxcbiAgICBvcmlnaW46IFsnSW5kaWFuIFN1YmNvbnRpbmVudCddLFxuICAgIGNhdGVnb3J5OiAnc3BpY2UnLFxuICAgIHN1YkNhdGVnb3J5OiAnYmxlbmQnLFxuXG4gICAgYmFzZUluZ3JlZGllbnRzOiB7XG4gICAgICAnY3VtaW4nOiAyLFxuICAgICAgJ2NvcmlhbmRlcic6IDIsXG4gICAgICAnY2FyZGFtb20nOiAxLFxuICAgICAgJ2Npbm5hbW9uJzogMSxcbiAgICAgICdjbG92ZXMnOiAwLjUsXG4gICAgICAnYmxhY2sgcGVwcGVyJzogMSxcbiAgICAgICdudXRtZWcnOiAwLjVcbiAgICB9LFxuXG4gICAgcmF0aW9zOiAnMjoyOjE6MTowLjU6MTowLjUnLFxuXG4gICAgcmVnaW9uYWxWYXJpYXRpb25zOiB7XG4gICAgICAnTm9ydGggSW5kaWFuJzoge1xuICAgIG5hbWU6ICdOb3J0aCBJbmRpYW4nLFxuICAgICAgICAnY3VtaW4nOiAyLFxuICAgICAgICAnY29yaWFuZGVyJzogMixcbiAgICAgICAgJ2JsYWNrIGNhcmRhbW9tJzogMSxcbiAgICAgICAgJ2Npbm5hbW9uJzogMSxcbiAgICAgICAgJ2Nsb3Zlcyc6IDAuNSxcbiAgICAgICAgJ2JsYWNrIHBlcHBlcic6IDEsXG4gICAgICAgICdudXRtZWcnOiAwLjVcbiAgICAgIH0sXG4gICAgICAnU291dGggSW5kaWFuJzoge1xuICAgIG5hbWU6ICdTb3V0aCBJbmRpYW4nLFxuICAgICAgICAnY3VtaW4nOiAyLFxuICAgICAgICAnY29yaWFuZGVyJzogMixcbiAgICAgICAgJ2NhcmRhbW9tJzogMSxcbiAgICAgICAgJ2N1cnJ5IGxlYXZlcyc6IDEsXG4gICAgICAgICdzdGFyIGFuaXNlJzogMC41LFxuICAgICAgICAnYmxhY2sgcGVwcGVyJzogMSxcbiAgICAgICAgJ251dG1lZyc6IDAuNVxuICAgICAgfVxuICAgIH0sXG5cbiAgICBhZmZpbml0aWVzOiBbJ2xlbnRpbHMnLCAncmljZScsICdtZWF0JywgJ3ZlZ2V0YWJsZXMnLCAneW9ndXJ0J10sXG4gICAgY29va2luZ01ldGhvZHM6IFsnYmxvb21lZCBpbiBvaWwnLCAnYWRkZWQgdG8gc2F1Y2VzJywgJ21hcmluYWRlcyddLFxuXG4gICAgcHJlcGFyYXRpb246IHtcbiAgICAgIHRvYXN0aW5nOiAnaW5kaXZpZHVhbGx5IGJlZm9yZSBncmluZGluZycsXG4gICAgICBncmluZGluZzogJ2p1c3QgYmVmb3JlIHVzZScsXG4gICAgICBzdG9yYWdlOiAnYWlydGlnaHQsIGRhcmsgY29udGFpbmVyJyxcbiAgICAgIG5vdGVzOiAnQmxlbmQgY2FuIGJlIGFkanVzdGVkIGZvciBoZWF0IHByZWZlcmVuY2UnXG4gICAgfSxcblxuICAgIG1lZGljaW5hbFByb3BlcnRpZXM6IHtcbiAgICAgIGFjdGlvbnM6IFsnZGlnZXN0aXZlIGFpZCcsICdhbnRpLWluZmxhbW1hdG9yeScsICd3YXJtaW5nJ10sXG4gICAgICBlbmVyZ2V0aWNzOiAnaGVhdGluZycsXG4gICAgICB0YXN0ZXM6IFsncHVuZ2VudCcsICdzd2VldCcsICdiaXR0ZXInXVxuICAgIH0sXG5cbiAgICBzZW5zb3J5UHJvZmlsZToge1xuICAgICAgdGFzdGU6IFsnTWlsZCddLFxuICAgICAgYXJvbWE6IFsnRnJlc2gnXSxcbiAgICAgIHRleHR1cmU6IFsnU3RhbmRhcmQnXSxcbiAgICAgIG5vdGVzOiAnQ2hhcmFjdGVyaXN0aWMgZ2FyYW1fbWFzYWxhIHByb2ZpbGUnXG4gICAgfSxcblxuICAgIGN1bGluYXJ5UHJvZmlsZToge1xuICAgICAgZmxhdm9yUHJvZmlsZToge1xuICAgICAgICBwcmltYXJ5OiBbJ2JhbGFuY2VkJ11cbiAgICAgIH0sXG5cbiAgICAgIGNvb2tpbmdNZXRob2RzOiBbJ3ZlcnNhdGlsZSddLFxuICAgICAgY3Vpc2luZUFmZmluaXR5OiBbJ0dsb2JhbCddXG4gICAgfSxcblxuICAgIHNlYXNvbjogWydZZWFyLXJvdW5kJ10sXG5cbiAgICBudXRyaXRpb25hbFByb2ZpbGU6IHtcbiAgICAgIG1hY3JvbnV0cmllbnRzOiB7fSxcbiAgICAgIG1pY3JvbnV0cmllbnRzOiB7fSxcbiAgICAgIGhlYWx0aEJlbmVmaXRzOiBbJ051dHJpdGlvdXMnXVxuICAgIH0sXG5cbiAgICBzdG9yYWdlOiB7XG4gICAgICB0ZW1wZXJhdHVyZTogJ0Nvb2wsIGRyeSBwbGFjZScsXG4gICAgICBkdXJhdGlvbjogJzYtMTIgbW9udGhzJyxcbiAgICAgIGNvbnRhaW5lcjogJ0FpcnRpZ2h0J1xuICAgIH0sXG5cbiAgICB2YXJpZXRpZXM6IHt9XG4gIH0sXG5cbiAgJ3Jhc19lbF9oYW5vdXQnOiB7XG4gICAgbmFtZTogJ1JhcyBFbCBIYW5vdXQnLFxuICAgIGVsZW1lbnRhbFByb3BlcnRpZXM6IHsgRmlyZTogMC40LCBBaXI6IDAuMywgRWFydGg6IDAuMiwgV2F0ZXI6IDAuMSB9LFxuXG4gICAgYXN0cm9sb2dpY2FsUHJvZmlsZToge1xuICAgICAgcnVsaW5nUGxhbmV0czogWydWZW51cycsICdNYXJzJ10sXG4gICAgICBmYXZvcmFibGVab2RpYWM6IFsndGF1cnVzJywgJ3Njb3JwaW8nXSxcbiAgICAgIGVsZW1lbnRhbEFmZmluaXR5OiB7XG4gICAgICAgIGJhc2U6ICdGaXJlJyxcbiAgICAgICAgZGVjYW5Nb2RpZmllcnM6IHtcbiAgICAgICAgICBmaXJzdDogeyBlbGVtZW50OiAnRmlyZScsIHBsYW5ldDogJ1ZlbnVzJyB9LFxuICAgICAgICAgIHNlY29uZDogeyBlbGVtZW50OiAnRWFydGgnLCBwbGFuZXQ6ICdNYXJzJyB9LFxuICAgICAgICAgIHRoaXJkOiB7IGVsZW1lbnQ6ICdBaXInLCBwbGFuZXQ6ICdNZXJjdXJ5JyB9XG4gICAgICAgIH1cbiAgICAgIH1cbiAgICB9LFxuXG4gICAgcXVhbGl0aWVzOiBbJ3dhcm1pbmcnLCAnY29tcGxleCcsICdhcm9tYXRpYyddLFxuICAgIG9yaWdpbjogWydOb3J0aCBBZnJpY2EnXSxcbiAgICBjYXRlZ29yeTogJ3NwaWNlJyxcbiAgICBzdWJDYXRlZ29yeTogJ2JsZW5kJyxcblxuICAgIGJhc2VJbmdyZWRpZW50czogW1xuICAgICAgJ2N1bWluJyxcbiAgICAgICdjb3JpYW5kZXInLFxuICAgICAgJ2Npbm5hbW9uJyxcbiAgICAgICdnaW5nZXInLFxuICAgICAgJ2JsYWNrIHBlcHBlcicsXG4gICAgICAndHVybWVyaWMnLFxuICAgICAgJ3BhcHJpa2EnLFxuICAgICAgJ2FsbHNwaWNlJyxcbiAgICAgICdyb3NlIHBldGFscydcbiAgICBdLFxuXG4gICAgcmVnaW9uYWxWYXJpYXRpb25zOiB7XG4gICAgICAnTW9yb2NjYW4nOiBbJ3NhZmZyb24nLCAncm9zZSBidWRzJywgJ2dyYWlucyBvZiBwYXJhZGlzZSddLFxuICAgICAgJ1R1bmlzaWFuJzogWydkcmllZCBtaW50JywgJ2RyaWVkIHJvc2UgcGV0YWxzJ10sXG4gICAgICAnQWxnZXJpYW4nOiBbJ2Npbm5hbW9uIGhlYXZ5JywgJ2RyaWVkIHJvc2VidWRzJ11cbiAgICB9LFxuXG4gICAgYWZmaW5pdGllczogWydsYW1iJywgJ2NoaWNrZW4nLCAnY291c2NvdXMnLCAndmVnZXRhYmxlcycsICd0YWdpbmVzJ10sXG4gICAgY29va2luZ01ldGhvZHM6IFsnbWFyaW5hZGVzJywgJ3J1YnMnLCAnc3Rld3MnXSxcblxuICAgIHByb3BvcnRpb25zOiB7XG4gICAgICAnY3VtaW4nOiAyLFxuICAgICAgJ2NvcmlhbmRlcic6IDIsXG4gICAgICAnY2lubmFtb24nOiAxLFxuICAgICAgJ2dpbmdlcic6IDEsXG4gICAgICAnYmxhY2sgcGVwcGVyJzogMSxcbiAgICAgICd0dXJtZXJpYyc6IDEsXG4gICAgICAncGFwcmlrYSc6IDEsXG4gICAgICAnYWxsc3BpY2UnOiAwLjUsXG4gICAgICAncm9zZSBwZXRhbHMnOiAwLjVcbiAgICB9LFxuXG4gICAgcHJlcGFyYXRpb246IHtcbiAgICAgIHRvYXN0aW5nOiAnbGlnaHQgdG9hc3Rpbmcgb2Ygd2hvbGUgc3BpY2VzJyxcbiAgICAgIGdyaW5kaW5nOiAnZ3JpbmQgdG9nZXRoZXIganVzdCBiZWZvcmUgdXNlJyxcbiAgICAgIHN0b3JhZ2U6ICdhaXJ0aWdodCBjb250YWluZXIgYXdheSBmcm9tIGxpZ2h0JyxcbiAgICAgIG5vdGVzOiAnQ2FuIGNvbnRhaW4gdXAgdG8gMzAgaW5ncmVkaWVudHMnXG4gICAgfSxcblxuICAgIG1lZGljaW5hbFByb3BlcnRpZXM6IHtcbiAgICAgIGFjdGlvbnM6IFsnZGlnZXN0aXZlIGFpZCcsICdhbnRpLWluZmxhbW1hdG9yeSddLFxuICAgICAgZW5lcmdldGljczogJ3dhcm1pbmcnLFxuICAgICAgdGFzdGVzOiBbJ2NvbXBsZXgnLCAnZmxvcmFsJywgJ3B1bmdlbnQnXVxuICAgIH0sXG5cbiAgICBzZW5zb3J5UHJvZmlsZToge1xuICAgICAgdGFzdGU6IFsnTWlsZCddLFxuICAgICAgYXJvbWE6IFsnRnJlc2gnXSxcbiAgICAgIHRleHR1cmU6IFsnU3RhbmRhcmQnXSxcbiAgICAgIG5vdGVzOiAnQ2hhcmFjdGVyaXN0aWMgcmFzX2VsX2hhbm91dCBwcm9maWxlJ1xuICAgIH0sXG5cbiAgICBjdWxpbmFyeVByb2ZpbGU6IHtcbiAgICAgIGZsYXZvclByb2ZpbGU6IHtcbiAgICAgICAgcHJpbWFyeTogWydiYWxhbmNlZCddXG4gICAgICB9LFxuXG4gICAgICBjb29raW5nTWV0aG9kczogWyd2ZXJzYXRpbGUnXSxcbiAgICAgIGN1aXNpbmVBZmZpbml0eTogWydHbG9iYWwnXVxuICAgIH0sXG5cbiAgICBzZWFzb246IFsnWWVhci1yb3VuZCddLFxuXG4gICAgbnV0cml0aW9uYWxQcm9maWxlOiB7XG4gICAgICBtYWNyb251dHJpZW50czoge30sXG4gICAgICBtaWNyb251dHJpZW50czoge30sXG4gICAgICBoZWFsdGhCZW5lZml0czogWydOdXRyaXRpb3VzJ11cbiAgICB9LFxuXG4gICAgc3RvcmFnZToge1xuICAgICAgdGVtcGVyYXR1cmU6ICdDb29sLCBkcnkgcGxhY2UnLFxuICAgICAgZHVyYXRpb246ICc2LTEyIG1vbnRocycsXG4gICAgICBjb250YWluZXI6ICdBaXJ0aWdodCdcbiAgICB9LFxuXG4gICAgdmFyaWV0aWVzOiB7fVxuICB9LFxuXG4gICdoZXJiZXNfZGVfcHJvdmVuY2UnOiB7XG4gICAgbmFtZTogJ0hlcmJlcyBEZSBQcm92ZW5jZScsXG4gICAgZWxlbWVudGFsUHJvcGVydGllczogeyBBaXI6IDAuNCwgRWFydGg6IDAuMywgRmlyZTogMC4yLCBXYXRlcjogMC4xIH0sXG4gICAgcXVhbGl0aWVzOiBbJ2Fyb21hdGljJywgJ01lZGl0ZXJyYW5lYW4nLCAnc2F2b3J5J10sXG4gICAgb3JpZ2luOiBbJ1NvdXRoZXJuIEZyYW5jZSddLFxuICAgIGNhdGVnb3J5OiAnc3BpY2UnLFxuICAgIHN1YkNhdGVnb3J5OiAnYmxlbmQnLFxuXG4gICAgYmFzZUluZ3JlZGllbnRzOiBbXG4gICAgICAndGh5bWUnLFxuICAgICAgJ2Jhc2lsJyxcbiAgICAgICdyb3NlbWFyeScsXG4gICAgICAndGFycmFnb24nLFxuICAgICAgJ3Nhdm9yeScsXG4gICAgICAnbWFyam9yYW0nLFxuICAgICAgJ29yZWdhbm8nLFxuICAgICAgJ2xhdmVuZGVyJ1xuICAgIF0sXG5cbiAgICByZWdpb25hbFZhcmlhdGlvbnM6IHtcbiAgICAgICdUcmFkaXRpb25hbCc6IFsnbm8gbGF2ZW5kZXInXSxcbiAgICAgICdNb2Rlcm4nOiBbJ2luY2x1ZGVzIGxhdmVuZGVyJ10sXG4gICAgICAnQ29tbWVyY2lhbCc6IFsnbWF5IGluY2x1ZGUgZmVubmVsJ11cbiAgICB9LFxuXG4gICAgYWZmaW5pdGllczogWydjaGlja2VuJywgJ2Zpc2gnLCAndmVnZXRhYmxlcycsICd0b21hdG9lcycsICdncmlsbGVkIG1lYXRzJ10sXG4gICAgY29va2luZ01ldGhvZHM6IFsncm9hc3RpbmcnLCAnZ3JpbGxpbmcnLCAnc2F1Y2UgbWFraW5nJ10sXG5cbiAgICBwcm9wb3J0aW9uczoge1xuICAgICAgJ3RoeW1lJzogMixcbiAgICAgICdiYXNpbCc6IDEsXG4gICAgICAncm9zZW1hcnknOiAxLFxuICAgICAgJ3RhcnJhZ29uJzogMSxcbiAgICAgICdzYXZvcnknOiAxLFxuICAgICAgJ21hcmpvcmFtJzogMSxcbiAgICAgICdvcmVnYW5vJzogMSxcbiAgICAgICdsYXZlbmRlcic6IDAuNVxuICAgIH0sXG5cbiAgICBwcmVwYXJhdGlvbjoge1xuICAgICAgbWl4aW5nOiAnaW5kaXZpZHVhbGx5IGJlZm9yZSBncmluZGluZycsXG4gICAgICBncmluZGluZzogJ2p1c3QgYmVmb3JlIHVzZScsXG4gICAgICBzdG9yYWdlOiAnYWlydGlnaHQsIGRhcmsgY29udGFpbmVyJyxcbiAgICAgIG5vdGVzOiAnQmxlbmQgY2FuIGJlIGFkanVzdGVkIGZvciBoZWF0IHByZWZlcmVuY2UnXG4gICAgfSxcblxuICAgIG1lZGljaW5hbFByb3BlcnRpZXM6IHtcbiAgICAgIGFjdGlvbnM6IFsnZGlnZXN0aXZlIGFpZCcsICdhbnRpLWluZmxhbW1hdG9yeScsICd3YXJtaW5nJ10sXG4gICAgICBlbmVyZ2V0aWNzOiAnaGVhdGluZycsXG4gICAgICB0YXN0ZXM6IFsncHVuZ2VudCcsICdzd2VldCcsICdiaXR0ZXInXVxuICAgIH0sXG5cbiAgICBzZW5zb3J5UHJvZmlsZToge1xuICAgICAgdGFzdGU6IFsnTWlsZCddLFxuICAgICAgYXJvbWE6IFsnRnJlc2gnXSxcbiAgICAgIHRleHR1cmU6IFsnU3RhbmRhcmQnXSxcbiAgICAgIG5vdGVzOiAnQ2hhcmFjdGVyaXN0aWMgaGVyYmVzX2RlX3Byb3ZlbmNlIHByb2ZpbGUnXG4gICAgfSxcblxuICAgIGN1bGluYXJ5UHJvZmlsZToge1xuICAgICAgZmxhdm9yUHJvZmlsZToge1xuICAgICAgICBwcmltYXJ5OiBbJ2JhbGFuY2VkJ11cbiAgICAgIH0sXG5cbiAgICAgIGNvb2tpbmdNZXRob2RzOiBbJ3ZlcnNhdGlsZSddLFxuICAgICAgY3Vpc2luZUFmZmluaXR5OiBbJ0dsb2JhbCddXG4gICAgfSxcblxuICAgIHNlYXNvbjogWydZZWFyLXJvdW5kJ10sXG5cbiAgICBudXRyaXRpb25hbFByb2ZpbGU6IHtcbiAgICAgIG1hY3JvbnV0cmllbnRzOiB7fSxcbiAgICAgIG1pY3JvbnV0cmllbnRzOiB7fSxcbiAgICAgIGhlYWx0aEJlbmVmaXRzOiBbJ051dHJpdGlvdXMnXVxuICAgIH0sXG5cbiAgICBzdG9yYWdlOiB7XG4gICAgICB0ZW1wZXJhdHVyZTogJ0Nvb2wsIGRyeSBwbGFjZScsXG4gICAgICBkdXJhdGlvbjogJzYtMTIgbW9udGhzJyxcbiAgICAgIGNvbnRhaW5lcjogJ0FpcnRpZ2h0J1xuICAgIH0sXG5cbiAgICB2YXJpZXRpZXM6IHt9LFxuXG4gICAgYXN0cm9sb2dpY2FsUHJvZmlsZToge1xuICAgICAgcnVsaW5nUGxhbmV0czogW10sXG4gICAgICBmYXZvcmFibGVab2RpYWM6IFtdXG4gICAgfVxuICB9LFxuXG4gICdjaGluZXNlX2ZpdmVfc3BpY2UnOiB7XG4gICAgbmFtZTogJ0NoaW5lc2UgRml2ZSBTcGljZScsXG4gICAgZWxlbWVudGFsUHJvcGVydGllczogeyBGaXJlOiAwLjQsIFdhdGVyOiAwLjEsIEVhcnRoOiAwLjEgLCBBaXI6IDAuMX0sXG4gICAgcXVhbGl0aWVzOiBbJ3dhcm1pbmcnLCAnYmFsYW5jZWQnLCAnY29tcGxleCddLFxuICAgIG9yaWdpbjogWydDaGluYSddLFxuICAgIGNhdGVnb3J5OiAnc3BpY2UnLFxuICAgIHN1YkNhdGVnb3J5OiAnYmxlbmQnLFxuXG4gICAgYmFzZUluZ3JlZGllbnRzOiB7XG4gICAgICAnc3RhciBhbmlzZSc6IDIsXG4gICAgICAnY2hpbmVzZSBjaW5uYW1vbic6IDIsXG4gICAgICAnZmVubmVsIHNlZWRzJzogMixcbiAgICAgICdjbG92ZXMnOiAxLFxuICAgICAgJ3NpY2h1YW4gcGVwcGVyJzogMVxuICAgIH0sXG5cbiAgICByYXRpb3M6ICcyOjI6MjoxOjEnLFxuXG4gICAgcmVnaW9uYWxWYXJpYXRpb25zOiB7XG4gICAgICAnTm9ydGhlcm4nOiB7XG4gICAgbmFtZTogJ05vcnRoZXJuJyxcbiAgICAgICAgJ3N0YXIgYW5pc2UnOiAyLFxuICAgICAgICAnY2hpbmVzZSBjaW5uYW1vbic6IDMsXG4gICAgICAgICdmZW5uZWwgc2VlZHMnOiAyLFxuICAgICAgICAnY2xvdmVzJzogMSxcbiAgICAgICAgJ3NpY2h1YW4gcGVwcGVyJzogMVxuICAgICAgfSxcbiAgICAgICdTb3V0aGVybic6IHtcbiAgICBuYW1lOiAnU291dGhlcm4nLFxuICAgICAgICAnc3RhciBhbmlzZSc6IDIsXG4gICAgICAgICdjaGluZXNlIGNpbm5hbW9uJzogMixcbiAgICAgICAgJ2Zlbm5lbCBzZWVkcyc6IDIsXG4gICAgICAgICdjbG92ZXMnOiAxLFxuICAgICAgICAnc2ljaHVhbiBwZXBwZXInOiAxLFxuICAgICAgICAnbGljb3JpY2Ugcm9vdCc6IDAuNVxuICAgICAgfVxuICAgIH0sXG5cbiAgICBhZmZpbml0aWVzOiBbJ3BvcmsnLCAnZHVjaycsICdjaGlja2VuJywgJ3NlYWZvb2QnLCAndmVnZXRhYmxlcyddLFxuXG4gICAgc2Vuc29yeVByb2ZpbGU6IHtcbiAgICAgIHRhc3RlOiBbJ01pbGQnXSxcbiAgICAgIGFyb21hOiBbJ0ZyZXNoJ10sXG4gICAgICB0ZXh0dXJlOiBbJ1N0YW5kYXJkJ10sXG4gICAgICBub3RlczogJ0NoYXJhY3RlcmlzdGljIGNoaW5lc2VfZml2ZV9zcGljZSBwcm9maWxlJ1xuICAgIH0sXG5cbiAgICBjdWxpbmFyeVByb2ZpbGU6IHtcbiAgICAgIGZsYXZvclByb2ZpbGU6IHtcbiAgICAgICAgcHJpbWFyeTogWydiYWxhbmNlZCddXG4gICAgICB9LFxuXG4gICAgICBjb29raW5nTWV0aG9kczogWyd2ZXJzYXRpbGUnXSxcbiAgICAgIGN1aXNpbmVBZmZpbml0eTogWydHbG9iYWwnXVxuICAgIH0sXG5cbiAgICBzZWFzb246IFsnWWVhci1yb3VuZCddLFxuXG4gICAgcHJlcGFyYXRpb246IHtcbiAgICAgIG1ldGhvZHM6IFsnU3RhbmRhcmQnXSxcbiAgICAgIHRpbWluZzogJ0FzIG5lZWRlZCcsXG4gICAgICBub3RlczogJ1N0YW5kYXJkIHByZXAgZm9yIGNoaW5lc2VfZml2ZV9zcGljZSdcbiAgICB9LFxuXG4gICAgbnV0cml0aW9uYWxQcm9maWxlOiB7XG4gICAgICBtYWNyb251dHJpZW50czoge30sXG4gICAgICBtaWNyb251dHJpZW50czoge30sXG4gICAgICBoZWFsdGhCZW5lZml0czogWydOdXRyaXRpb3VzJ11cbiAgICB9LFxuXG4gICAgc3RvcmFnZToge1xuICAgICAgdGVtcGVyYXR1cmU6ICdDb29sLCBkcnkgcGxhY2UnLFxuICAgICAgZHVyYXRpb246ICc2LTEyIG1vbnRocycsXG4gICAgICBjb250YWluZXI6ICdBaXJ0aWdodCdcbiAgICB9LFxuXG4gICAgdmFyaWV0aWVzOiB7fSxcblxuICAgIGFzdHJvbG9naWNhbFByb2ZpbGU6IHtcbiAgICAgIHJ1bGluZ1BsYW5ldHM6IFtdLFxuICAgICAgZmF2b3JhYmxlWm9kaWFjOiBbXVxuICAgIH1cbiAgfSxcblxuICAnemFfYXRhcic6IHtcbiAgICBuYW1lOiAnWmEgQXRhcicsXG4gICAgZWxlbWVudGFsUHJvcGVydGllczogeyBFYXJ0aDogMC40LCBBaXI6IDAuMywgRmlyZTogMC4yLCBXYXRlcjogMC4xIH0sXG4gICAgcXVhbGl0aWVzOiBbJ2VhcnRoeScsICd0YW5neScsICdhcm9tYXRpYyddLFxuICAgIG9yaWdpbjogWydMZXZhbnQnXSxcbiAgICBjYXRlZ29yeTogJ3NwaWNlJyxcbiAgICBzdWJDYXRlZ29yeTogJ2JsZW5kJyxcblxuICAgIGJhc2VJbmdyZWRpZW50czoge1xuICAgICAgJ2RyaWVkIHRoeW1lJzogMixcbiAgICAgICdzZXNhbWUgc2VlZHMnOiAyLFxuICAgICAgJ3N1bWFjJzogMSxcbiAgICAgICdvcmVnYW5vJzogMSxcbiAgICAgICdtYXJqb3JhbSc6IDEsXG4gICAgICAnc2FsdCc6IDAuNVxuICAgIH0sXG5cbiAgICByYXRpb3M6ICcyOjI6MToxOjE6MC41JyxcblxuICAgIHJlZ2lvbmFsVmFyaWF0aW9uczoge1xuICAgICAgJ0xlYmFuZXNlJzoge1xuICAgIG5hbWU6ICdMZWJhbmVzZScsXG4gICAgICAgICdkcmllZCB0aHltZSc6IDIsXG4gICAgICAgICdzZXNhbWUgc2VlZHMnOiAyLFxuICAgICAgICAnc3VtYWMnOiAyLCAgLy8gbW9yZSBzdW1hY1xuICAgICAgICAnb3JlZ2Fubyc6IDEsXG4gICAgICAgICdtYXJqb3JhbSc6IDEsXG4gICAgICAgICdzYWx0JzogMC41XG4gICAgICB9LFxuICAgICAgJ1BhbGVzdGluaWFuJzoge1xuICAgIG5hbWU6ICdQYWxlc3RpbmlhbicsXG4gICAgICAgICdkcmllZCB0aHltZSc6IDIsXG4gICAgICAgICdzZXNhbWUgc2VlZHMnOiAzLCAgLy8gbW9yZSBzZXNhbWVcbiAgICAgICAgJ3N1bWFjJzogMSxcbiAgICAgICAgJ29yZWdhbm8nOiAxLFxuICAgICAgICAnbWFyam9yYW0nOiAxLFxuICAgICAgICAnc2FsdCc6IDAuNVxuICAgICAgfVxuICAgIH0sXG5cbiAgICBzZW5zb3J5UHJvZmlsZToge1xuICAgICAgdGFzdGU6IFsnTWlsZCddLFxuICAgICAgYXJvbWE6IFsnRnJlc2gnXSxcbiAgICAgIHRleHR1cmU6IFsnU3RhbmRhcmQnXSxcbiAgICAgIG5vdGVzOiAnQ2hhcmFjdGVyaXN0aWMgemFfYXRhciBwcm9maWxlJ1xuICAgIH0sXG5cbiAgICBjdWxpbmFyeVByb2ZpbGU6IHtcbiAgICAgIGZsYXZvclByb2ZpbGU6IHtcbiAgICAgICAgcHJpbWFyeTogWydiYWxhbmNlZCddXG4gICAgICB9LFxuXG4gICAgICBjb29raW5nTWV0aG9kczogWyd2ZXJzYXRpbGUnXSxcbiAgICAgIGN1aXNpbmVBZmZpbml0eTogWydHbG9iYWwnXVxuICAgIH0sXG5cbiAgICBzZWFzb246IFsnWWVhci1yb3VuZCddLFxuXG4gICAgcHJlcGFyYXRpb246IHtcbiAgICAgIG1ldGhvZHM6IFsnU3RhbmRhcmQnXSxcbiAgICAgIHRpbWluZzogJ0FzIG5lZWRlZCcsXG4gICAgICBub3RlczogJ1N0YW5kYXJkIHByZXAgZm9yIHphX2F0YXInXG4gICAgfSxcblxuICAgIG51dHJpdGlvbmFsUHJvZmlsZToge1xuICAgICAgbWFjcm9udXRyaWVudHM6IHt9LFxuICAgICAgbWljcm9udXRyaWVudHM6IHt9LFxuICAgICAgaGVhbHRoQmVuZWZpdHM6IFsnTnV0cml0aW91cyddXG4gICAgfSxcblxuICAgIHN0b3JhZ2U6IHtcbiAgICAgIHRlbXBlcmF0dXJlOiAnQ29vbCwgZHJ5IHBsYWNlJyxcbiAgICAgIGR1cmF0aW9uOiAnNi0xMiBtb250aHMnLFxuICAgICAgY29udGFpbmVyOiAnQWlydGlnaHQnXG4gICAgfSxcblxuICAgIHZhcmlldGllczoge30sXG5cbiAgICBhc3Ryb2xvZ2ljYWxQcm9maWxlOiB7XG4gICAgICBydWxpbmdQbGFuZXRzOiBbXSxcbiAgICAgIGZhdm9yYWJsZVpvZGlhYzogW11cbiAgICB9XG4gIH0sXG5cbiAgJ2N1cnJ5X3Bvd2Rlcic6IHtcbiAgICBuYW1lOiAnQ3VycnkgUG93ZGVyJyxcbiAgICBlbGVtZW50YWxQcm9wZXJ0aWVzOiB7IEZpcmU6IDAuNCwgQWlyOiAwLjMsIEVhcnRoOiAwLjIsIFdhdGVyOiAwLjEgfSxcbiAgICBxdWFsaXRpZXM6IFsnd2FybWluZycsICdjb21wbGV4JywgJ3B1bmdlbnQnXSxcbiAgICBvcmlnaW46IFsnQnJpdGlzaC1JbmRpYW4nXSxcbiAgICBjYXRlZ29yeTogJ3NwaWNlJyxcbiAgICBzdWJDYXRlZ29yeTogJ2JsZW5kJyxcblxuICAgIGJhc2VJbmdyZWRpZW50czoge1xuICAgICAgJ3R1cm1lcmljJzogMyxcbiAgICAgICdjb3JpYW5kZXInOiAyLFxuICAgICAgJ2N1bWluJzogMixcbiAgICAgICdnaW5nZXInOiAxLFxuICAgICAgJ2JsYWNrIHBlcHBlcic6IDEsXG4gICAgICAnY2lubmFtb24nOiAwLjUsXG4gICAgICAnY2FyZGFtb20nOiAwLjUsXG4gICAgICAnY2F5ZW5uZSc6IDAuNSxcbiAgICAgICdmZW51Z3JlZWsnOiAwLjVcbiAgICB9LFxuXG4gICAgcmF0aW9zOiAnMzoyOjI6MToxOjAuNTowLjU6MC41OjAuNScsXG5cbiAgICByZWdpb25hbFZhcmlhdGlvbnM6IHtcbiAgICAgICdNYWRyYXMnOiB7XG4gICAgbmFtZTogJ01hZHJhcycsXG4gICAgICAgICd0dXJtZXJpYyc6IDMsXG4gICAgICAgICdjb3JpYW5kZXInOiAyLFxuICAgICAgICAnY3VtaW4nOiAyLFxuICAgICAgICAnZ2luZ2VyJzogMSxcbiAgICAgICAgJ2JsYWNrIHBlcHBlcic6IDEsXG4gICAgICAgICdjaW5uYW1vbic6IDAuNSxcbiAgICAgICAgJ2NhcmRhbW9tJzogMC41LFxuICAgICAgICAnY2F5ZW5uZSc6IDIsICAvLyBleHRyYSBob3RcbiAgICAgICAgJ2ZlbnVncmVlayc6IDAuNVxuICAgICAgfVxuICAgIH0sXG5cbiAgICBzZW5zb3J5UHJvZmlsZToge1xuICAgICAgdGFzdGU6IFsnTWlsZCddLFxuICAgICAgYXJvbWE6IFsnRnJlc2gnXSxcbiAgICAgIHRleHR1cmU6IFsnU3RhbmRhcmQnXSxcbiAgICAgIG5vdGVzOiAnQ2hhcmFjdGVyaXN0aWMgY3VycnlfcG93ZGVyIHByb2ZpbGUnXG4gICAgfSxcblxuICAgIGN1bGluYXJ5UHJvZmlsZToge1xuICAgICAgZmxhdm9yUHJvZmlsZToge1xuICAgICAgICBwcmltYXJ5OiBbJ2JhbGFuY2VkJ11cbiAgICAgIH0sXG5cbiAgICAgIGNvb2tpbmdNZXRob2RzOiBbJ3ZlcnNhdGlsZSddLFxuICAgICAgY3Vpc2luZUFmZmluaXR5OiBbJ0dsb2JhbCddXG4gICAgfSxcblxuICAgIHNlYXNvbjogWydZZWFyLXJvdW5kJ10sXG5cbiAgICBwcmVwYXJhdGlvbjoge1xuICAgICAgbWV0aG9kczogWydTdGFuZGFyZCddLFxuICAgICAgdGltaW5nOiAnQXMgbmVlZGVkJyxcbiAgICAgIG5vdGVzOiAnU3RhbmRhcmQgcHJlcCBmb3IgY3VycnlfcG93ZGVyJ1xuICAgIH0sXG5cbiAgICBudXRyaXRpb25hbFByb2ZpbGU6IHtcbiAgICAgIG1hY3JvbnV0cmllbnRzOiB7fSxcbiAgICAgIG1pY3JvbnV0cmllbnRzOiB7fSxcbiAgICAgIGhlYWx0aEJlbmVmaXRzOiBbJ051dHJpdGlvdXMnXVxuICAgIH0sXG5cbiAgICBzdG9yYWdlOiB7XG4gICAgICB0ZW1wZXJhdHVyZTogJ0Nvb2wsIGRyeSBwbGFjZScsXG4gICAgICBkdXJhdGlvbjogJzYtMTIgbW9udGhzJyxcbiAgICAgIGNvbnRhaW5lcjogJ0FpcnRpZ2h0J1xuICAgIH0sXG5cbiAgICB2YXJpZXRpZXM6IHt9LFxuXG4gICAgYXN0cm9sb2dpY2FsUHJvZmlsZToge1xuICAgICAgcnVsaW5nUGxhbmV0czogW10sXG4gICAgICBmYXZvcmFibGVab2RpYWM6IFtdXG4gICAgfVxuICB9LFxuXG4gICdiZXJiZXJlJzoge1xuICAgIG5hbWU6ICdCZXJiZXJlJyxcbiAgICBlbGVtZW50YWxQcm9wZXJ0aWVzOiB7IEZpcmU6IDAuNiwgQWlyOiAwLjIsIEVhcnRoOiAwLjEsIFdhdGVyOiAwLjEgfSxcbiAgICBxdWFsaXRpZXM6IFsnaG90JywgJ2NvbXBsZXgnLCAnZWFydGh5J10sXG4gICAgb3JpZ2luOiBbJ0V0aGlvcGlhJ10sXG4gICAgY2F0ZWdvcnk6ICdzcGljZScsXG4gICAgc3ViQ2F0ZWdvcnk6ICdibGVuZCcsXG5cbiAgICBiYXNlSW5ncmVkaWVudHM6IHtcbiAgICAgICdkcmllZCBjaGlsaSBwZXBwZXJzJzogNCxcbiAgICAgICdnYXJsaWMnOiAyLFxuICAgICAgJ2dpbmdlcic6IDIsXG4gICAgICAnYmFzaWwnOiAxLFxuICAgICAgJ2tvcmFyaW1hJzogMSxcbiAgICAgICd3aGl0ZSBwZXBwZXInOiAxLFxuICAgICAgJ2JsYWNrIHBlcHBlcic6IDEsXG4gICAgICAnZmVudWdyZWVrJzogMSxcbiAgICAgICdjbG92ZXMnOiAwLjUsXG4gICAgICAnY2lubmFtb24nOiAwLjUsXG4gICAgICAnbnV0bWVnJzogMC41XG4gICAgfSxcblxuICAgIHJhdGlvczogJzQ6MjoyOjE6MToxOjE6MTowLjU6MC41OjAuNScsXG5cbiAgICByZWdpb25hbFZhcmlhdGlvbnM6IHtcbiAgICAgICdUcmFkaXRpb25hbCc6IHtcbiAgICBuYW1lOiAnVHJhZGl0aW9uYWwnLFxuICAgICAgICAvLyBpbmNsdWRlcyBhZGRpdGlvbmFsIGZlcm1lbnRhdGlvbiBwcm9jZXNzXG4gICAgICAgICdydWUnOiAwLjUgIC8vIGFkZGl0aW9uYWwgaW5ncmVkaWVudFxuICAgICAgfVxuICAgIH0sXG5cbiAgICBzZW5zb3J5UHJvZmlsZToge1xuICAgICAgdGFzdGU6IFsnTWlsZCddLFxuICAgICAgYXJvbWE6IFsnRnJlc2gnXSxcbiAgICAgIHRleHR1cmU6IFsnU3RhbmRhcmQnXSxcbiAgICAgIG5vdGVzOiAnQ2hhcmFjdGVyaXN0aWMgYmVyYmVyZSBwcm9maWxlJ1xuICAgIH0sXG5cbiAgICBjdWxpbmFyeVByb2ZpbGU6IHtcbiAgICAgIGZsYXZvclByb2ZpbGU6IHtcbiAgICAgICAgcHJpbWFyeTogWydiYWxhbmNlZCddXG4gICAgICB9LFxuXG4gICAgICBjb29raW5nTWV0aG9kczogWyd2ZXJzYXRpbGUnXSxcbiAgICAgIGN1aXNpbmVBZmZpbml0eTogWydHbG9iYWwnXVxuICAgIH0sXG5cbiAgICBzZWFzb246IFsnWWVhci1yb3VuZCddLFxuXG4gICAgcHJlcGFyYXRpb246IHtcbiAgICAgIG1ldGhvZHM6IFsnU3RhbmRhcmQnXSxcbiAgICAgIHRpbWluZzogJ0FzIG5lZWRlZCcsXG4gICAgICBub3RlczogJ1N0YW5kYXJkIHByZXAgZm9yIGJlcmJlcmUnXG4gICAgfSxcblxuICAgIG51dHJpdGlvbmFsUHJvZmlsZToge1xuICAgICAgbWFjcm9udXRyaWVudHM6IHt9LFxuICAgICAgbWljcm9udXRyaWVudHM6IHt9LFxuICAgICAgaGVhbHRoQmVuZWZpdHM6IFsnTnV0cml0aW91cyddXG4gICAgfSxcblxuICAgIHN0b3JhZ2U6IHtcbiAgICAgIHRlbXBlcmF0dXJlOiAnQ29vbCwgZHJ5IHBsYWNlJyxcbiAgICAgIGR1cmF0aW9uOiAnNi0xMiBtb250aHMnLFxuICAgICAgY29udGFpbmVyOiAnQWlydGlnaHQnXG4gICAgfSxcblxuICAgIHZhcmlldGllczoge30sXG5cbiAgICBhc3Ryb2xvZ2ljYWxQcm9maWxlOiB7XG4gICAgICBydWxpbmdQbGFuZXRzOiBbXSxcbiAgICAgIGZhdm9yYWJsZVpvZGlhYzogW11cbiAgICB9XG4gIH0sXG5cbiAgJ2R1a2thaCc6IHtcbiAgICBuYW1lOiAnRHVra2FoJyxcbiAgICBlbGVtZW50YWxQcm9wZXJ0aWVzOiB7IEVhcnRoOiAwLjQsIEFpcjogMC4zLCBGaXJlOiAwLjIsIFdhdGVyOiAwLjEgfSxcbiAgICBxdWFsaXRpZXM6IFsnbnV0dHknLCAnYXJvbWF0aWMnLCAnY3J1bmNoeSddLFxuICAgIG9yaWdpbjogWydFZ3lwdCddLFxuICAgIGNhdGVnb3J5OiAnc3BpY2UnLFxuICAgIHN1YkNhdGVnb3J5OiAnYmxlbmQnLFxuXG4gICAgYmFzZUluZ3JlZGllbnRzOiB7XG4gICAgICAnaGF6ZWxudXRzJzogMyxcbiAgICAgICdzZXNhbWUgc2VlZHMnOiAyLFxuICAgICAgJ2NvcmlhbmRlcic6IDEsXG4gICAgICAnY3VtaW4nOiAxLFxuICAgICAgJ2JsYWNrIHBlcHBlcic6IDAuNSxcbiAgICAgICdzYWx0JzogMC41XG4gICAgfSxcblxuICAgIHJhdGlvczogJzM6MjoxOjE6MC41OjAuNScsXG5cbiAgICByZWdpb25hbFZhcmlhdGlvbnM6IHtcbiAgICAgICdBbGV4YW5kcmlhJzoge1xuICAgIG5hbWU6ICdBbGV4YW5kcmlhJyxcbiAgICAgICAgJ2hhemVsbnV0cyc6IDIsXG4gICAgICAgICdwaW5lIG51dHMnOiAxLFxuICAgICAgICAnc2VzYW1lIHNlZWRzJzogMywgIC8vIG1vcmUgc2VzYW1lXG4gICAgICAgICdjb3JpYW5kZXInOiAxLFxuICAgICAgICAnY3VtaW4nOiAxLFxuICAgICAgICAnYmxhY2sgcGVwcGVyJzogMC41LFxuICAgICAgICAnc2FsdCc6IDAuNVxuICAgICAgfVxuICAgIH0sXG5cbiAgICBzZW5zb3J5UHJvZmlsZToge1xuICAgICAgdGFzdGU6IFsnTWlsZCddLFxuICAgICAgYXJvbWE6IFsnRnJlc2gnXSxcbiAgICAgIHRleHR1cmU6IFsnU3RhbmRhcmQnXSxcbiAgICAgIG5vdGVzOiAnQ2hhcmFjdGVyaXN0aWMgZHVra2FoIHByb2ZpbGUnXG4gICAgfSxcblxuICAgIGN1bGluYXJ5UHJvZmlsZToge1xuICAgICAgZmxhdm9yUHJvZmlsZToge1xuICAgICAgICBwcmltYXJ5OiBbJ2JhbGFuY2VkJ11cbiAgICAgIH0sXG5cbiAgICAgIGNvb2tpbmdNZXRob2RzOiBbJ3ZlcnNhdGlsZSddLFxuICAgICAgY3Vpc2luZUFmZmluaXR5OiBbJ0dsb2JhbCddXG4gICAgfSxcblxuICAgIHNlYXNvbjogWydZZWFyLXJvdW5kJ10sXG5cbiAgICBwcmVwYXJhdGlvbjoge1xuICAgICAgbWV0aG9kczogWydTdGFuZGFyZCddLFxuICAgICAgdGltaW5nOiAnQXMgbmVlZGVkJyxcbiAgICAgIG5vdGVzOiAnU3RhbmRhcmQgcHJlcCBmb3IgZHVra2FoJ1xuICAgIH0sXG5cbiAgICBudXRyaXRpb25hbFByb2ZpbGU6IHtcbiAgICAgIG1hY3JvbnV0cmllbnRzOiB7fSxcbiAgICAgIG1pY3JvbnV0cmllbnRzOiB7fSxcbiAgICAgIGhlYWx0aEJlbmVmaXRzOiBbJ051dHJpdGlvdXMnXVxuICAgIH0sXG5cbiAgICBzdG9yYWdlOiB7XG4gICAgICB0ZW1wZXJhdHVyZTogJ0Nvb2wsIGRyeSBwbGFjZScsXG4gICAgICBkdXJhdGlvbjogJzYtMTIgbW9udGhzJyxcbiAgICAgIGNvbnRhaW5lcjogJ0FpcnRpZ2h0J1xuICAgIH0sXG5cbiAgICB2YXJpZXRpZXM6IHt9LFxuXG4gICAgYXN0cm9sb2dpY2FsUHJvZmlsZToge1xuICAgICAgcnVsaW5nUGxhbmV0czogW10sXG4gICAgICBmYXZvcmFibGVab2RpYWM6IFtdXG4gICAgfVxuICB9LFxuXG4gICdzaGljaGltaV90b2dhcmFzaGknOiB7XG4gICAgbmFtZTogJ1NoaWNoaW1pIFRvZ2FyYXNoaScsXG4gICAgZWxlbWVudGFsUHJvcGVydGllczogeyBGaXJlOiAwLjUsIFdhdGVyOiAwLjEgLCBBaXI6IDAuMSwgRWFydGg6IDAuMX0sXG4gICAgcXVhbGl0aWVzOiBbJ3NwaWN5JywgJ2NpdHJ1c3knLCAnbnV0dHknXSxcbiAgICBvcmlnaW46IFsnSmFwYW4nXSxcbiAgICBjYXRlZ29yeTogJ3NwaWNlJyxcbiAgICBzdWJDYXRlZ29yeTogJ2JsZW5kJyxcblxuICAgIGJhc2VJbmdyZWRpZW50czoge1xuICAgICAgJ2RyaWVkIHJlZCBjaGlsaSBwZXBwZXInOiAzLFxuICAgICAgJ3NhbnNobyBwZXBwZXInOiAxLFxuICAgICAgJ29yYW5nZSBwZWVsJzogMSxcbiAgICAgICdibGFjayBzZXNhbWUnOiAxLFxuICAgICAgJ3doaXRlIHNlc2FtZSc6IDEsXG4gICAgICAnaGVtcCBzZWVkcyc6IDAuNSxcbiAgICAgICdub3JpJzogMC41LFxuICAgICAgJ2dpbmdlcic6IDAuNVxuICAgIH0sXG5cbiAgICByYXRpb3M6ICczOjE6MToxOjE6MC41OjAuNTowLjUnLFxuXG4gICAgcmVnaW9uYWxWYXJpYXRpb25zOiB7XG4gICAgICAnVG9reW8nOiB7XG4gICAgbmFtZTogJ1Rva3lvJyxcbiAgICAgICAgJ29yYW5nZSBwZWVsJzogMiAgLy8gbW9yZSBjaXRydXNcbiAgICAgIH0sXG4gICAgICAnS3lvdG8nOiB7XG4gICAgbmFtZTogJ0t5b3RvJyxcbiAgICAgICAgJ2JsYWNrIHNlc2FtZSc6IDIsXG4gICAgICAgICd3aGl0ZSBzZXNhbWUnOiAyICAvLyBtb3JlIHNlc2FtZVxuICAgICAgfVxuICAgIH0sXG5cbiAgICBzZW5zb3J5UHJvZmlsZToge1xuICAgICAgdGFzdGU6IFsnTWlsZCddLFxuICAgICAgYXJvbWE6IFsnRnJlc2gnXSxcbiAgICAgIHRleHR1cmU6IFsnU3RhbmRhcmQnXSxcbiAgICAgIG5vdGVzOiAnQ2hhcmFjdGVyaXN0aWMgc2hpY2hpbWlfdG9nYXJhc2hpIHByb2ZpbGUnXG4gICAgfSxcblxuICAgIGN1bGluYXJ5UHJvZmlsZToge1xuICAgICAgZmxhdm9yUHJvZmlsZToge1xuICAgICAgICBwcmltYXJ5OiBbJ2JhbGFuY2VkJ11cbiAgICAgIH0sXG5cbiAgICAgIGNvb2tpbmdNZXRob2RzOiBbJ3ZlcnNhdGlsZSddLFxuICAgICAgY3Vpc2luZUFmZmluaXR5OiBbJ0dsb2JhbCddXG4gICAgfSxcblxuICAgIHNlYXNvbjogWydZZWFyLXJvdW5kJ10sXG5cbiAgICBwcmVwYXJhdGlvbjoge1xuICAgICAgbWV0aG9kczogWydTdGFuZGFyZCddLFxuICAgICAgdGltaW5nOiAnQXMgbmVlZGVkJyxcbiAgICAgIG5vdGVzOiAnU3RhbmRhcmQgcHJlcCBmb3Igc2hpY2hpbWlfdG9nYXJhc2hpJ1xuICAgIH0sXG5cbiAgICBudXRyaXRpb25hbFByb2ZpbGU6IHtcbiAgICAgIG1hY3JvbnV0cmllbnRzOiB7fSxcbiAgICAgIG1pY3JvbnV0cmllbnRzOiB7fSxcbiAgICAgIGhlYWx0aEJlbmVmaXRzOiBbJ051dHJpdGlvdXMnXVxuICAgIH0sXG5cbiAgICBzdG9yYWdlOiB7XG4gICAgICB0ZW1wZXJhdHVyZTogJ0Nvb2wsIGRyeSBwbGFjZScsXG4gICAgICBkdXJhdGlvbjogJzYtMTIgbW9udGhzJyxcbiAgICAgIGNvbnRhaW5lcjogJ0FpcnRpZ2h0J1xuICAgIH0sXG5cbiAgICB2YXJpZXRpZXM6IHt9LFxuXG4gICAgYXN0cm9sb2dpY2FsUHJvZmlsZToge1xuICAgICAgcnVsaW5nUGxhbmV0czogW10sXG4gICAgICBmYXZvcmFibGVab2RpYWM6IFtdXG4gICAgfVxuICB9LFxuXG4gICdiYWhhcmF0Jzoge1xuICAgIG5hbWU6ICdCYWhhcmF0JyxcbiAgICBlbGVtZW50YWxQcm9wZXJ0aWVzOiB7IEZpcmU6IDAuNCwgQWlyOiAwLjMsIEVhcnRoOiAwLjIsIFdhdGVyOiAwLjEgfSxcbiAgICBxdWFsaXRpZXM6IFsnd2FybWluZycsICdhcm9tYXRpYycsICdjb21wbGV4J10sXG4gICAgb3JpZ2luOiBbJ01pZGRsZSBFYXN0J10sXG4gICAgY2F0ZWdvcnk6ICdzcGljZScsXG4gICAgc3ViQ2F0ZWdvcnk6ICdibGVuZCcsXG5cbiAgICBiYXNlSW5ncmVkaWVudHM6IHtcbiAgICAgICdibGFjayBwZXBwZXInOiAyLFxuICAgICAgJ2N1bWluJzogMixcbiAgICAgICdjb3JpYW5kZXInOiAxLFxuICAgICAgJ2Npbm5hbW9uJzogMSxcbiAgICAgICdjYXJkYW1vbSc6IDEsXG4gICAgICAncGFwcmlrYSc6IDEsXG4gICAgICAnY2xvdmVzJzogMC41LFxuICAgICAgJ251dG1lZyc6IDAuNVxuICAgIH0sXG5cbiAgICByYXRpb3M6ICcyOjI6MToxOjE6MTowLjU6MC41JyxcblxuICAgIHJlZ2lvbmFsVmFyaWF0aW9uczoge1xuICAgICAgJ1R1cmtpc2gnOiB7XG4gICAgbmFtZTogJ1R1cmtpc2gnLFxuICAgICAgICAnbWludCc6IDAuNSAgLy8gYWRkaXRpb25hbFxuICAgICAgfSxcbiAgICAgICdHdWxmJzoge1xuICAgIG5hbWU6ICdHdWxmJyxcbiAgICAgICAgJ2xpbWUgcG93ZGVyJzogMSAgLy8gYWRkaXRpb25hbFxuICAgICAgfVxuICAgIH0sXG5cbiAgICBzZW5zb3J5UHJvZmlsZToge1xuICAgICAgdGFzdGU6IFsnTWlsZCddLFxuICAgICAgYXJvbWE6IFsnRnJlc2gnXSxcbiAgICAgIHRleHR1cmU6IFsnU3RhbmRhcmQnXSxcbiAgICAgIG5vdGVzOiAnQ2hhcmFjdGVyaXN0aWMgYmFoYXJhdCBwcm9maWxlJ1xuICAgIH0sXG5cbiAgICBjdWxpbmFyeVByb2ZpbGU6IHtcbiAgICAgIGZsYXZvclByb2ZpbGU6IHtcbiAgICAgICAgcHJpbWFyeTogWydiYWxhbmNlZCddXG4gICAgICB9LFxuXG4gICAgICBjb29raW5nTWV0aG9kczogWyd2ZXJzYXRpbGUnXSxcbiAgICAgIGN1aXNpbmVBZmZpbml0eTogWydHbG9iYWwnXVxuICAgIH0sXG5cbiAgICBzZWFzb246IFsnWWVhci1yb3VuZCddLFxuXG4gICAgcHJlcGFyYXRpb246IHtcbiAgICAgIG1ldGhvZHM6IFsnU3RhbmRhcmQnXSxcbiAgICAgIHRpbWluZzogJ0FzIG5lZWRlZCcsXG4gICAgICBub3RlczogJ1N0YW5kYXJkIHByZXAgZm9yIGJhaGFyYXQnXG4gICAgfSxcblxuICAgIG51dHJpdGlvbmFsUHJvZmlsZToge1xuICAgICAgbWFjcm9udXRyaWVudHM6IHt9LFxuICAgICAgbWljcm9udXRyaWVudHM6IHt9LFxuICAgICAgaGVhbHRoQmVuZWZpdHM6IFsnTnV0cml0aW91cyddXG4gICAgfSxcblxuICAgIHN0b3JhZ2U6IHtcbiAgICAgIHRlbXBlcmF0dXJlOiAnQ29vbCwgZHJ5IHBsYWNlJyxcbiAgICAgIGR1cmF0aW9uOiAnNi0xMiBtb250aHMnLFxuICAgICAgY29udGFpbmVyOiAnQWlydGlnaHQnXG4gICAgfSxcblxuICAgIHZhcmlldGllczoge30sXG5cbiAgICBhc3Ryb2xvZ2ljYWxQcm9maWxlOiB7XG4gICAgICBydWxpbmdQbGFuZXRzOiBbXSxcbiAgICAgIGZhdm9yYWJsZVpvZGlhYzogW11cbiAgICB9XG4gIH0sXG5cbiAgJ2plcmtfc2Vhc29uaW5nJzoge1xuICAgIG5hbWU6ICdKZXJrIFNlYXNvbmluZycsXG4gICAgZWxlbWVudGFsUHJvcGVydGllczogeyBGaXJlOiAwLjUsIEVhcnRoOiAwLjIsIEFpcjogMC4yLCBXYXRlcjogMC4xIH0sXG4gICAgcXVhbGl0aWVzOiBbJ2hvdCcsICdwdW5nZW50JywgJ2Fyb21hdGljJ10sXG4gICAgb3JpZ2luOiBbJ0phbWFpY2EnXSxcbiAgICBjYXRlZ29yeTogJ3NwaWNlJyxcbiAgICBzdWJDYXRlZ29yeTogJ2JsZW5kJyxcblxuICAgIGJhc2VJbmdyZWRpZW50czoge1xuICAgICAgJ2FsbHNwaWNlJzogMyxcbiAgICAgICdzY290Y2ggYm9ubmV0JzogMixcbiAgICAgICd0aHltZSc6IDIsXG4gICAgICAnZ2FybGljJzogMixcbiAgICAgICdnaW5nZXInOiAxLFxuICAgICAgJ2JsYWNrIHBlcHBlcic6IDEsXG4gICAgICAnYnJvd24gc3VnYXInOiAxLFxuICAgICAgJ2Npbm5hbW9uJzogMC41LFxuICAgICAgJ251dG1lZyc6IDAuNVxuICAgIH0sXG5cbiAgICByYXRpb3M6ICczOjI6MjoyOjE6MToxOjAuNTowLjUnLFxuXG4gICAgcmVnaW9uYWxWYXJpYXRpb25zOiB7XG4gICAgICAnVHJhZGl0aW9uYWwnOiB7XG4gICAgbmFtZTogJ1RyYWRpdGlvbmFsJyxcbiAgICAgICAgLy8gV2V0IHBhc3RlIHZlcnNpb25cbiAgICAgICAgJ2dyZWVuIG9uaW9ucyc6IDIsXG4gICAgICAgICdzb3kgc2F1Y2UnOiAxXG4gICAgICB9LFxuICAgICAgJ1dlc3Rlcm4nOiB7XG4gICAgbmFtZTogJ1dlc3Rlcm4nLFxuICAgICAgICAnc2NvdGNoIGJvbm5ldCc6IDEgIC8vIHJlZHVjZWQgaGVhdFxuICAgICAgfVxuICAgIH0sXG5cbiAgICBzZW5zb3J5UHJvZmlsZToge1xuICAgICAgdGFzdGU6IFsnTWlsZCddLFxuICAgICAgYXJvbWE6IFsnRnJlc2gnXSxcbiAgICAgIHRleHR1cmU6IFsnU3RhbmRhcmQnXSxcbiAgICAgIG5vdGVzOiAnQ2hhcmFjdGVyaXN0aWMgamVya19zZWFzb25pbmcgcHJvZmlsZSdcbiAgICB9LFxuXG4gICAgY3VsaW5hcnlQcm9maWxlOiB7XG4gICAgICBmbGF2b3JQcm9maWxlOiB7XG4gICAgICAgIHByaW1hcnk6IFsnYmFsYW5jZWQnXVxuICAgICAgfSxcblxuICAgICAgY29va2luZ01ldGhvZHM6IFsndmVyc2F0aWxlJ10sXG4gICAgICBjdWlzaW5lQWZmaW5pdHk6IFsnR2xvYmFsJ11cbiAgICB9LFxuXG4gICAgc2Vhc29uOiBbJ1llYXItcm91bmQnXSxcblxuICAgIHByZXBhcmF0aW9uOiB7XG4gICAgICBtZXRob2RzOiBbJ1N0YW5kYXJkJ10sXG4gICAgICB0aW1pbmc6ICdBcyBuZWVkZWQnLFxuICAgICAgbm90ZXM6ICdTdGFuZGFyZCBwcmVwIGZvciBqZXJrX3NlYXNvbmluZydcbiAgICB9LFxuXG4gICAgbnV0cml0aW9uYWxQcm9maWxlOiB7XG4gICAgICBtYWNyb251dHJpZW50czoge30sXG4gICAgICBtaWNyb251dHJpZW50czoge30sXG4gICAgICBoZWFsdGhCZW5lZml0czogWydOdXRyaXRpb3VzJ11cbiAgICB9LFxuXG4gICAgc3RvcmFnZToge1xuICAgICAgdGVtcGVyYXR1cmU6ICdDb29sLCBkcnkgcGxhY2UnLFxuICAgICAgZHVyYXRpb246ICc2LTEyIG1vbnRocycsXG4gICAgICBjb250YWluZXI6ICdBaXJ0aWdodCdcbiAgICB9LFxuXG4gICAgdmFyaWV0aWVzOiB7fSxcblxuICAgIGFzdHJvbG9naWNhbFByb2ZpbGU6IHtcbiAgICAgIHJ1bGluZ1BsYW5ldHM6IFtdLFxuICAgICAgZmF2b3JhYmxlWm9kaWFjOiBbXVxuICAgIH1cbiAgfVxufTtcblxuLy8gRml4IHRoZSBpbmdyZWRpZW50IG1hcHBpbmdzIHRvIGVuc3VyZSB0aGV5IGhhdmUgYWxsIHJlcXVpcmVkIHByb3BlcnRpZXNcbmV4cG9ydCBjb25zdCBzcGljZUJsZW5kczogUmVjb3JkPHN0cmluZywgSW5ncmVkaWVudE1hcHBpbmc+ID0gZml4SW5ncmVkaWVudE1hcHBpbmdzKHJhd1NwaWNlQmxlbmRzKTtcbiJdLCJ2ZXJzaW9uIjozfQ==

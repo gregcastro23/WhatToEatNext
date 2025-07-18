@@ -1,0 +1,287 @@
+03a5fa8c0237f3ff306712b48262e9a2
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.boiling = void 0;
+/**
+ * Boiling cooking method
+ *
+ * Cooking food by immersing it in water or liquid that has reached its boiling point (212°F/100°C at sea level)
+ * One of the fundamental wet cooking techniques with applications across world cuisines
+ */
+exports.boiling = {
+    name: 'boiling',
+    description: 'Cooking food by immersing it in water or other liquid that has reached a rapid, rolling boil, quickly transferring heat and creating fast, even cooking. The rapid bubbling action and convection currents ensure consistent temperature throughout the cooking medium.',
+    elementalEffect: {
+        Water: 0.7,
+        Fire: 0.2,
+        Air: 0.1,
+        Earth: 0.0
+    },
+    duration: {
+        min: 3,
+        max: 120
+    },
+    suitable_for: [
+        'pasta',
+        'rice',
+        'grains',
+        'eggs',
+        'vegetables',
+        'potatoes',
+        'legumes',
+        'dumplings',
+        'seafood',
+        'stocks',
+        'broths',
+        'custards (water bath)',
+        'certain meat cuts',
+        'noodles',
+        'gnocchi',
+        'corn'
+    ],
+    benefits: [
+        'quick cooking',
+        'even heat distribution',
+        'precise timing',
+        'nutrient extraction into broth',
+        'sterilization',
+        'consistent results',
+        'requires minimal attention',
+        'ideal for hydrating dry ingredients',
+        'no added fat necessary',
+        'gelatinizes starches efficiently',
+        'removes astringency from certain ingredients',
+        'can concentrate flavors (reduction)',
+        'creates natural thickening agents through starch release'
+    ],
+    astrologicalInfluences: {
+        favorableZodiac: ['cancer', 'pisces', 'scorpio'],
+        unfavorableZodiac: ['leo', 'aries', 'sagittarius'],
+        dominantPlanets: ['Moon', 'Neptune', 'Jupiter'],
+        rulingPlanets: ['Moon', 'Neptune'],
+        lunarPhaseEffect: {
+            'full_moon': 1.3,
+            'new_moon': 0.8,
+            'waxing_gibbous': 1.1,
+            'waning_crescent': 0.9,
+            'first_quarter': 1.05,
+            'third_quarter': 0.95,
+            'waxing_crescent': 1.0,
+            'waning_gibbous': 1.0 // Neutral
+        }
+    },
+    toolsRequired: [
+        'Large pot or stockpot',
+        'Heat source',
+        'Strainer/colander',
+        'Slotted spoon',
+        'Timer',
+        'Lid',
+        'Thermometer (optional)',
+        'Spider strainer',
+        'Skimmer',
+        'Wooden spoon (to prevent boil-overs)',
+        'Heat-resistant gloves'
+    ],
+    commonMistakes: [
+        'overcooking vegetables',
+        'insufficient water volume',
+        'not salting pasta water',
+        'overcrowding the pot',
+        'boiling when simmering is better',
+        'not using a large enough pot',
+        'lifting lid unnecessarily (losing heat and extending cooking time)',
+        'not accounting for altitude adjustments',
+        'not skimming impurities from stocks and broths',
+        'stirring pasta too frequently',
+        'not shocking vegetables after blanching',
+        'starting with cold water for some items that require hot water start',
+        'adding food before water reaches full boil'
+    ],
+    pairingSuggestions: [
+        'Herb-infused finishing oils',
+        'Compound butters',
+        'Acidic dressings for balance',
+        'Roasted elements for textural contrast',
+        'Fresh herbs for color and aroma contrast',
+        'Cold sauces (like aioli) for temperature contrast',
+        'Crunchy toppings (breadcrumbs, nuts) for texture contrast',
+        'Fermented accompaniments for flavor complexity',
+        'Smoked ingredients for depth',
+        'Pickled elements for brightness'
+    ],
+    nutrientRetention: {
+        vitamins: 0.50,
+        minerals: 0.65,
+        proteins: 0.90,
+        carbohydrates: 0.95,
+        fat_soluble_vitamins: 0.85,
+        antioxidants: 0.40,
+        phytonutrients: 0.45,
+        fiber: 0.85
+    },
+    optimalTemperatures: {
+        'rolling_boil': 212,
+        'high_altitude_boil': 203,
+        'blanching': 212,
+        'eggs_soft_boiled': 212,
+        'eggs_hard_boiled': 212,
+        'pasta_al_dente': 212,
+        'rice': 212,
+        'legumes': 212,
+        'potato': 212,
+        'root_vegetables': 212,
+        'leafy_greens': 212,
+        'dumplings': 212,
+        'custard_water_bath': 180 // Gentle boil for water bath
+    },
+    regionalVariations: {
+        italian: [
+            'pasta al dente technique',
+            'risotto absorption method',
+            'salt concentration for pasta (as salty as the Mediterranean)',
+            'double boiler for zabaglione'
+        ],
+        asian: [
+            'quick blanching for vegetables',
+            'hot pot cooking',
+            'noodle cooking with cold shock',
+            'controlling doneness with ice baths',
+            'alkaline water for ramen noodles',
+            'rice washing and soaking before boiling'
+        ],
+        middle_eastern: [
+            'rice pilaf technique',
+            'legume cooking',
+            'grain absorption methods',
+            'aromatic broths for couscous'
+        ],
+        french: [
+            'blanch and shock method',
+            'court bouillon for seafood',
+            'bain-marie for delicate sauces',
+            'varying boiling temperatures for different custards'
+        ],
+        latin_american: [
+            'corn nixtamalization',
+            'sofrito base for bean cooking',
+            'yuca and plantain preparation'
+        ],
+        indian: [
+            'parallel spice infusion methods',
+            'layered cooking for biryanis',
+            'precise timing for various lentil types'
+        ],
+        african: [
+            'fufu preparation techniques',
+            'pounded yam methods',
+            'bean cake preparation'
+        ]
+    },
+    chemicalChanges: {
+        'starch_gelatinization': true,
+        'protein_denaturation': true,
+        'cell_wall_breakdown': true,
+        'pectin_softening': true,
+        'enzyme_deactivation': true,
+        'albumin_coagulation': true,
+        'leaching_of_water_soluble_compounds': true,
+        'hydrolysis': true,
+        'tannin_extraction': true,
+        'flavor_compound_volatilization': true,
+        'mineral_release': true,
+        'collagen_conversion': true
+    },
+    safetyFeatures: [
+        'Water boils at a consistent temperature (100°C at sea level)',
+        'Kills most pathogens and bacteria when held at full boil for sufficient time',
+        'Use handles and lids to prevent steam burns',
+        'Allow proper ventilation',
+        'Position pot handles away from edge of stove',
+        'Use splash guards when appropriate',
+        'Never leave boiling liquids unattended',
+        'Be cautious when adding ingredients to prevent splashing',
+        'Use proper lifting techniques for heavy stockpots',
+        'Keep flammable items away from boiling processes',
+        'Respect the capacity limits of pots (no more than 2/3 full)',
+        'Use timers to prevent overcooking and boil-overs',
+        'Have fire safety equipment nearby',
+        'Be aware of altitude effects on boiling point and cooking times'
+    ],
+    thermodynamicProperties: {
+        heat: 0.8,
+        entropy: 0.65,
+        reactivity: 0.45,
+        gregsEnergy: 0.8 - (0.65 * 0.45) // gregsEnergy = heat - (entropy * reactivity)
+    },
+    // Additional metadata
+    history: 'Boiling is one of humanity\'s oldest cooking methods, dating back to the discovery of fire-resistant containers around 5000 BCE. Evidence of boiling has been found in archaeological sites worldwide, with specialized pottery for boiling developed in many cultures. The advent of pottery and the hearth revolutionized human nutrition by making grains, legumes, and tough plant materials digestible. In ancient Rome, the "foculus" was specifically designed for boiling. Medieval cooking heavily relied on boiling, as evidenced in cookbooks like "The Forme of Cury." Industrial revolution brought standardized cooking equipment, and the development of pressure cooking in the 17th century by Denis Papin revolutionized boiling by raising the boiling point of water through pressure.',
+    scientificPrinciples: [
+        'Water maintains consistent 100°C temperature while boiling at sea level',
+        'Thermal energy transfer through conduction (water to food contact)',
+        'Convection currents distribute heat evenly throughout liquid',
+        'Pressure affects boiling point (lower at high altitudes)',
+        'Dissolved solutes raise boiling point (colligative properties)',
+        'Rapid protein denaturation and starch gelatinization',
+        'Phase transition energy requirements create thermal plateau',
+        'Evaporative cooling balances heat input at boiling point',
+        'Dissolved oxygen content decreases with continued boiling',
+        'Nucleation sites affect bubble formation dynamics',
+        'Surface tension changes with temperature and additives',
+        'Polarity of water enables dissolution of hydrophilic compounds',
+        'Boiling point elevation follows Raoult\'s law with dissolved solutes',
+        'Heat transfer efficiency varies with food surface area and composition'
+    ],
+    modernVariations: [
+        'Pressure cooking (higher temperature through increased pressure)',
+        'Flavored cooking liquids (stocks, broths, wine, milk)',
+        'Sous vide followed by quick boil finishing',
+        'Controlled temperature circulators for precise temperatures below boiling',
+        'Induction technology for precise boiling control',
+        'Smart pot sensors that detect boil and adjust heat automatically',
+        'Vacuum cooking to lower boiling point for delicate ingredients',
+        'Multi-layer boiling systems for simultaneous preparation',
+        'Herbal and aromatic infusions during boiling',
+        'Ultrasonic-assisted boiling for improved efficiency',
+        'Molecular gastronomy applications (spherification of boiled flavors)',
+        'Microwave-assisted boiling for energy efficiency'
+    ],
+    advancedTechniques: [
+        'Staged temperature progression for precise doneness',
+        'Double boiler method for temperature-sensitive preparations',
+        'Infusion boiling for flavor extraction',
+        'Aromatic lid-steaming for dual flavor incorporation',
+        'Cold-start vs. hot-start principles for different ingredients',
+        'Boil-and-steam combination techniques',
+        'Interval boiling for textural control',
+        'Mineral water boiling for subtle flavor enhancement',
+        'Pressure regulation for altitude compensation',
+        'Salt percentage gradients for different applications',
+        'Flavor stratification in stocks and broths'
+    ],
+    culturalSignificance: [
+        'Communal cooking traditions centered around boiling pots',
+        'Ceremonial significance of boiled offerings in many cultures',
+        'Medicinal broths and decoctions in traditional medicine systems',
+        'Symbol of hearth and home in many societies',
+        'Preservation of cultural heritage through specific boiling techniques',
+        'Foundational cooking method for many cultural staples and comfort foods'
+    ],
+    sustainabilityRating: 0.65,
+    equipmentComplexity: 0.20,
+    healthConsiderations: [
+        'Leaching of water-soluble vitamins (B, C) into cooking water',
+        'No added fat required for cooking',
+        'Softens fiber for easier digestion',
+        'Using cooking water captures leached nutrients',
+        'High temperatures destroy heat-sensitive compounds',
+        'Gelatinized starches offer different glycemic response than raw',
+        'Denatured proteins can be more bioavailable',
+        'Can reduce anti-nutrients in legumes and certain vegetables',
+        'May reduce oxalates in leafy greens',
+        'Cooking water from vegetables makes mineral-rich base for soups',
+        'Can reduce pesticide residues on produce surface',
+        'Blanching helps preserve nutrient content for freezing'
+    ]
+};
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJmaWxlIjoiL1VzZXJzL0dyZWdDYXN0cm8vRGVza3RvcC9XaGF0VG9FYXROZXh0L3NyYy9kYXRhL2Nvb2tpbmcvbWV0aG9kcy93ZXQvYm9pbGluZy50cyIsIm1hcHBpbmdzIjoiOzs7QUFPQTs7Ozs7R0FLRztBQUNVLFFBQUEsT0FBTyxHQUFzQjtJQUN4QyxJQUFJLEVBQUUsU0FBUztJQUNmLFdBQVcsRUFBRSx5UUFBeVE7SUFDdFIsZUFBZSxFQUFFO1FBQ2YsS0FBSyxFQUFFLEdBQUc7UUFDVixJQUFJLEVBQUUsR0FBRztRQUNULEdBQUcsRUFBRSxHQUFHO1FBQ1IsS0FBSyxFQUFFLEdBQUc7S0FDWDtJQUNELFFBQVEsRUFBRTtRQUNSLEdBQUcsRUFBRSxDQUFDO1FBQ04sR0FBRyxFQUFFLEdBQUc7S0FDVDtJQUNELFlBQVksRUFBRTtRQUNaLE9BQU87UUFDUCxNQUFNO1FBQ04sUUFBUTtRQUNSLE1BQU07UUFDTixZQUFZO1FBQ1osVUFBVTtRQUNWLFNBQVM7UUFDVCxXQUFXO1FBQ1gsU0FBUztRQUNULFFBQVE7UUFDUixRQUFRO1FBQ1IsdUJBQXVCO1FBQ3ZCLG1CQUFtQjtRQUNuQixTQUFTO1FBQ1QsU0FBUztRQUNULE1BQU07S0FDUDtJQUNELFFBQVEsRUFBRTtRQUNSLGVBQWU7UUFDZix3QkFBd0I7UUFDeEIsZ0JBQWdCO1FBQ2hCLGdDQUFnQztRQUNoQyxlQUFlO1FBQ2Ysb0JBQW9CO1FBQ3BCLDRCQUE0QjtRQUM1QixxQ0FBcUM7UUFDckMsd0JBQXdCO1FBQ3hCLGtDQUFrQztRQUNsQyw4Q0FBOEM7UUFDOUMscUNBQXFDO1FBQ3JDLDBEQUEwRDtLQUMzRDtJQUNELHNCQUFzQixFQUFFO1FBQ3RCLGVBQWUsRUFBRSxDQUFDLFFBQVEsRUFBRSxRQUFRLEVBQUUsU0FBUyxDQUFpQjtRQUNoRSxpQkFBaUIsRUFBRSxDQUFDLEtBQUssRUFBRSxPQUFPLEVBQUUsYUFBYSxDQUFpQjtRQUNsRSxlQUFlLEVBQUUsQ0FBQyxNQUFNLEVBQUUsU0FBUyxFQUFFLFNBQVMsQ0FBQztRQUMvQyxhQUFhLEVB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QywyRUFBMkU7UUFDM0Usa0RBQWtEO1FBQ2xELGtFQUFrRTtRQUNsRSxnRUFBZ0U7UUFDaEUsMERBQTBEO1FBQzFELDhDQUE4QztRQUM5QyxxREFBcUQ7UUFDckQsc0VBQXNFO1FBQ3RFLGtEQUFrRDtLQUNuRDtJQUVELGtCQUFrQixFQUFFO1FBQ2xCLHFEQUFxRDtRQUNyRCw2REFBNkQ7UUFDN0Qsd0NBQXdDO1FBQ3hDLHFEQUFxRDtRQUNyRCwrREFBK0Q7UUFDL0QsdUNBQXVDO1FBQ3ZDLHVDQUF1QztRQUN2QyxxREFBcUQ7UUFDckQsK0NBQStDO1FBQy9DLHNEQUFzRDtRQUN0RCw0Q0FBNEM7S0FDN0M7SUFFRCxvQkFBb0IsRUFBRTtRQUNwQiwwREFBMEQ7UUFDMUQsOERBQThEO1FBQzlELGlFQUFpRTtRQUNqRSw2Q0FBNkM7UUFDN0MsdUVBQXVFO1FBQ3ZFLHlFQUF5RTtLQUMxRTtJQUVELG9CQUFvQixFQUFFLElBQUk7SUFFMUIsbUJBQW1CLEVBQUUsSUFBSTtJQUV6QixvQkFBb0IsRUFBRTtRQUNwQiw4REFBOEQ7UUFDOUQsbUNBQW1DO1FBQ25DLG9DQUFvQztRQUNwQyxnREFBZ0Q7UUFDaEQsb0RBQW9EO1FBQ3BELGlFQUFpRTtRQUNqRSw2Q0FBNkM7UUFDN0MsNkRBQTZEO1FBQzdELHFDQUFxQztRQUNyQyxpRUFBaUU7UUFDakUsa0RBQWtEO1FBQ2xELHdEQUF3RDtLQUN6RDtDQUNtQixDQUFDIiwibmFtZXMiOltdLCJzb3VyY2VzIjpbIi9Vc2Vycy9HcmVnQ2FzdHJvL0Rlc2t0b3AvV2hhdFRvRWF0TmV4dC9zcmMvZGF0YS9jb29raW5nL21ldGhvZHMvd2V0L2JvaWxpbmcudHMiXSwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IHR5cGUgeyBcbiAgWm9kaWFjU2lnbiwgXG4gIFRoZXJtb2R5bmFtaWNQcm9wZXJ0aWVzXG59IGZyb20gJ0AvdHlwZXMvYWxjaGVteSc7XG5cbmltcG9ydCB0eXBlIHsgQ29va2luZ01ldGhvZERhdGEgfSBmcm9tICdAL3R5cGVzL2Nvb2tpbmdNZXRob2QnO1xuXG4vKipcbiAqIEJvaWxpbmcgY29va2luZyBtZXRob2RcbiAqIFxuICogQ29va2luZyBmb29kIGJ5IGltbWVyc2luZyBpdCBpbiB3YXRlciBvciBsaXF1aWQgdGhhdCBoYXMgcmVhY2hlZCBpdHMgYm9pbGluZyBwb2ludCAoMjEywrBGLzEwMMKwQyBhdCBzZWEgbGV2ZWwpXG4gKiBPbmUgb2YgdGhlIGZ1bmRhbWVudGFsIHdldCBjb29raW5nIHRlY2huaXF1ZXMgd2l0aCBhcHBsaWNhdGlvbnMgYWNyb3NzIHdvcmxkIGN1aXNpbmVzXG4gKi9cbmV4cG9ydCBjb25zdCBib2lsaW5nOiBDb29raW5nTWV0aG9kRGF0YSA9IHtcbiAgbmFtZTogJ2JvaWxpbmcnLFxuICBkZXNjcmlwdGlvbjogJ0Nvb2tpbmcgZm9vZCBieSBpbW1lcnNpbmcgaXQgaW4gd2F0ZXIgb3Igb3RoZXIgbGlxdWlkIHRoYXQgaGFzIHJlYWNoZWQgYSByYXBpZCwgcm9sbGluZyBib2lsLCBxdWlja2x5IHRyYW5zZmVycmluZyBoZWF0IGFuZCBjcmVhdGluZyBmYXN0LCBldmVuIGNvb2tpbmcuIFRoZSByYXBpZCBidWJibGluZyBhY3Rpb24gYW5kIGNvbnZlY3Rpb24gY3VycmVudHMgZW5zdXJlIGNvbnNpc3RlbnQgdGVtcGVyYXR1cmUgdGhyb3VnaG91dCB0aGUgY29va2luZyBtZWRpdW0uJyxcbiAgZWxlbWVudGFsRWZmZWN0OiB7XG4gICAgV2F0ZXI6IDAuNyxcbiAgICBGaXJlOiAwLjIsXG4gICAgQWlyOiAwLjEsXG4gICAgRWFydGg6IDAuMFxuICB9LFxuICBkdXJhdGlvbjoge1xuICAgIG1pbjogMyxcbiAgICBtYXg6IDEyMFxuICB9LFxuICBzdWl0YWJsZV9mb3I6IFtcbiAgICAncGFzdGEnLCBcbiAgICAncmljZScsIFxuICAgICdncmFpbnMnLCBcbiAgICAnZWdncycsIFxuICAgICd2ZWdldGFibGVzJywgXG4gICAgJ3BvdGF0b2VzJywgXG4gICAgJ2xlZ3VtZXMnLCBcbiAgICAnZHVtcGxpbmdzJywgXG4gICAgJ3NlYWZvb2QnLCBcbiAgICAnc3RvY2tzJywgXG4gICAgJ2Jyb3RocycsIFxuICAgICdjdXN0YXJkcyAod2F0ZXIgYmF0aCknLCBcbiAgICAnY2VydGFpbiBtZWF0IGN1dHMnLCBcbiAgICAnbm9vZGxlcycsIFxuICAgICdnbm9jY2hpJywgXG4gICAgJ2Nvcm4nXG4gIF0sXG4gIGJlbmVmaXRzOiBbXG4gICAgJ3F1aWNrIGNvb2tpbmcnLCBcbiAgICAnZXZlbiBoZWF0IGRpc3RyaWJ1dGlvbicsIFxuICAgICdwcmVjaXNlIHRpbWluZycsIFxuICAgICdudXRyaWVudCBleHRyYWN0aW9uIGludG8gYnJvdGgnLCBcbiAgICAnc3RlcmlsaXphdGlvbicsIFxuICAgICdjb25zaXN0ZW50IHJlc3VsdHMnLFxuICAgICdyZXF1aXJlcyBtaW5pbWFsIGF0dGVudGlvbicsXG4gICAgJ2lkZWFsIGZvciBoeWRyYXRpbmcgZHJ5IGluZ3JlZGllbnRzJyxcbiAgICAnbm8gYWRkZWQgZmF0IG5lY2Vzc2FyeScsXG4gICAgJ2dlbGF0aW5pemVzIHN0YXJjaGVzIGVmZmljaWVudGx5JyxcbiAgICAncmVtb3ZlcyBhc3RyaW5nZW5jeSBmcm9tIGNlcnRhaW4gaW5ncmVkaWVudHMnLFxuICAgICdjYW4gY29uY2VudHJhdGUgZmxhdm9ycyAocmVkdWN0aW9uKScsXG4gICAgJ2NyZWF0ZXMgbmF0dXJhbCB0aGlja2VuaW5nIGFnZW50cyB0aHJvdWdoIHN0YXJjaCByZWxlYXNlJ1xuICBdLFxuICBhc3Ryb2xvZ2ljYWxJbmZsdWVuY2VzOiB7XG4gICAgZmF2b3JhYmxlWm9kaWFjOiBbJ2NhbmNlcicsICdwaXNjZXMnLCAnc2NvcnBpbyddIGFzIFpvZGlhY1NpZ25bXSxcbiAgICB1bmZhdm9yYWJsZVpvZGlhYzogWydsZW8nLCAnYXJpZXMnLCAnc2FnaXR0YXJpdXMnXSBhcyBab2RpYWNTaWduW10sXG4gICAgZG9taW5hbnRQbGFuZXRzOiBbJ01vb24nLCAnTmVwdHVuZScsICdKdXBpdGVyJ10sXG4gICAgcnVsaW5nUGxhbmV0czogWydNb29uJywgJ05lcHR1bmUnXSxcbiAgICBsdW5hclBoYXNlRWZmZWN0OiB7XG4gICAgICAnZnVsbF9tb29uJzogMS4zLCAvLyBFbmhhbmNlZCB3YXRlciBlbmVyZ3lcbiAgICAgICduZXdfbW9vbic6IDAuOCwgIC8vIERpbWluaXNoZWQgd2F0ZXIgZW5lcmd5XG4gICAgICAnd2F4aW5nX2dpYmJvdXMnOiAxLjEsIC8vIE1vZGVyYXRlIGVuaGFuY2VtZW50XG4gICAgICAnd2FuaW5nX2NyZXNjZW50JzogMC45LCAvLyBTbGlnaHQgcmVkdWN0aW9uXG4gICAgICAnZmlyc3RfcXVhcnRlcic6IDEuMDUsIC8vIE1pbm9yIGVuaGFuY2VtZW50XG4gICAgICAndGhpcmRfcXVhcnRlcic6IDAuOTUsIC8vIE1pbm9yIHJlZHVjdGlvblxuICAgICAgJ3dheGluZ19jcmVzY2VudCc6IDEuMCwgLy8gTmV1dHJhbFxuICAgICAgJ3dhbmluZ19naWJib3VzJzogMS4wICAvLyBOZXV0cmFsXG4gICAgfVxuICB9LFxuICB0b29sc1JlcXVpcmVkOiBbXG4gICAgJ0xhcmdlIHBvdCBvciBzdG9ja3BvdCcsXG4gICAgJ0hlYXQgc291cmNlJyxcbiAgICAnU3RyYWluZXIvY29sYW5kZXInLFxuICAgICdTbG90dGVkIHNwb29uJyxcbiAgICAnVGltZXInLFxuICAgICdMaWQnLFxuICAgICdUaGVybW9tZXRlciAob3B0aW9uYWwpJyxcbiAgICAnU3BpZGVyIHN0cmFpbmVyJyxcbiAgICAnU2tpbW1lcicsXG4gICAgJ1dvb2RlbiBzcG9vbiAodG8gcHJldmVudCBib2lsLW92ZXJzKScsXG4gICAgJ0hlYXQtcmVzaXN0YW50IGdsb3ZlcydcbiAgXSxcbiAgY29tbW9uTWlzdGFrZXM6IFtcbiAgICAnb3ZlcmNvb2tpbmcgdmVnZXRhYmxlcycsXG4gICAgJ2luc3VmZmljaWVudCB3YXRlciB2b2x1bWUnLFxuICAgICdub3Qgc2FsdGluZyBwYXN0YSB3YXRlcicsXG4gICAgJ292ZXJjcm93ZGluZyB0aGUgcG90JyxcbiAgICAnYm9pbGluZyB3aGVuIHNpbW1lcmluZyBpcyBiZXR0ZXInLFxuICAgICdub3QgdXNpbmcgYSBsYXJnZSBlbm91Z2ggcG90JyxcbiAgICAnbGlmdGluZyBsaWQgdW5uZWNlc3NhcmlseSAobG9zaW5nIGhlYXQgYW5kIGV4dGVuZGluZyBjb29raW5nIHRpbWUpJyxcbiAgICAnbm90IGFjY291bnRpbmcgZm9yIGFsdGl0dWRlIGFkanVzdG1lbnRzJyxcbiAgICAnbm90IHNraW1taW5nIGltcHVyaXRpZXMgZnJvbSBzdG9ja3MgYW5kIGJyb3RocycsXG4gICAgJ3N0aXJyaW5nIHBhc3RhIHRvbyBmcmVxdWVudGx5JyxcbiAgICAnbm90IHNob2NraW5nIHZlZ2V0YWJsZXMgYWZ0ZXIgYmxhbmNoaW5nJyxcbiAgICAnc3RhcnRpbmcgd2l0aCBjb2xkIHdhdGVyIGZvciBzb21lIGl0ZW1zIHRoYXQgcmVxdWlyZSBob3Qgd2F0ZXIgc3RhcnQnLFxuICAgICdhZGRpbmcgZm9vZCBiZWZvcmUgd2F0ZXIgcmVhY2hlcyBmdWxsIGJvaWwnXG4gIF0sXG4gIHBhaXJpbmdTdWdnZXN0aW9uczogW1xuICAgICdIZXJiLWluZnVzZWQgZmluaXNoaW5nIG9pbHMnLFxuICAgICdDb21wb3VuZCBidXR0ZXJzJyxcbiAgICAnQWNpZGljIGRyZXNzaW5ncyBmb3IgYmFsYW5jZScsXG4gICAgJ1JvYXN0ZWQgZWxlbWVudHMgZm9yIHRleHR1cmFsIGNvbnRyYXN0JyxcbiAgICAnRnJlc2ggaGVyYnMgZm9yIGNvbG9yIGFuZCBhcm9tYSBjb250cmFzdCcsXG4gICAgJ0NvbGQgc2F1Y2VzIChsaWtlIGFpb2xpKSBmb3IgdGVtcGVyYXR1cmUgY29udHJhc3QnLFxuICAgICdDcnVuY2h5IHRvcHBpbmdzIChicmVhZGNydW1icywgbnV0cykgZm9yIHRleHR1cmUgY29udHJhc3QnLFxuICAgICdGZXJtZW50ZWQgYWNjb21wYW5pbWVudHMgZm9yIGZsYXZvciBjb21wbGV4aXR5JyxcbiAgICAnU21va2VkIGluZ3JlZGllbnRzIGZvciBkZXB0aCcsXG4gICAgJ1BpY2tsZWQgZWxlbWVudHMgZm9yIGJyaWdodG5lc3MnXG4gIF0sXG4gIG51dHJpZW50UmV0ZW50aW9uOiB7XG4gICAgdml0YW1pbnM6IDAuNTAsIC8vIFdhdGVyLXNvbHVibGUgdml0YW1pbnMgbGVhY2ggaW50byBjb29raW5nIHdhdGVyXG4gICAgbWluZXJhbHM6IDAuNjUsXG4gICAgcHJvdGVpbnM6IDAuOTAsXG4gICAgY2FyYm9oeWRyYXRlczogMC45NSxcbiAgICBmYXRfc29sdWJsZV92aXRhbWluczogMC44NSxcbiAgICBhbnRpb3hpZGFudHM6IDAuNDAsXG4gICAgcGh5dG9udXRyaWVudHM6IDAuNDUsXG4gICAgZmliZXI6IDAuODVcbiAgfSxcbiAgb3B0aW1hbFRlbXBlcmF0dXJlczoge1xuICAgICdyb2xsaW5nX2JvaWwnOiAyMTIsIC8vIDIxMsKwRi8xMDDCsEMgYXQgc2VhIGxldmVsXG4gICAgJ2hpZ2hfYWx0aXR1ZGVfYm9pbCc6IDIwMywgLy8gQXBwcm94aW1hdGUgZm9yIDUwMDBmdCBlbGV2YXRpb25cbiAgICAnYmxhbmNoaW5nJzogMjEyLFxuICAgICdlZ2dzX3NvZnRfYm9pbGVkJzogMjEyLFxuICAgICdlZ2dzX2hhcmRfYm9pbGVkJzogMjEyLFxuICAgICdwYXN0YV9hbF9kZW50ZSc6IDIxMixcbiAgICAncmljZSc6IDIxMixcbiAgICAnbGVndW1lcyc6IDIxMixcbiAgICAncG90YXRvJzogMjEyLFxuICAgICdyb290X3ZlZ2V0YWJsZXMnOiAyMTIsXG4gICAgJ2xlYWZ5X2dyZWVucyc6IDIxMixcbiAgICAnZHVtcGxpbmdzJzogMjEyLFxuICAgICdjdXN0YXJkX3dhdGVyX2JhdGgnOiAxODAgLy8gR2VudGxlIGJvaWwgZm9yIHdhdGVyIGJhdGhcbiAgfSxcbiAgcmVnaW9uYWxWYXJpYXRpb25zOiB7XG4gICAgaXRhbGlhbjogW1xuICAgICAgJ3Bhc3RhIGFsIGRlbnRlIHRlY2huaXF1ZScsIFxuICAgICAgJ3Jpc290dG8gYWJzb3JwdGlvbiBtZXRob2QnLFxuICAgICAgJ3NhbHQgY29uY2VudHJhdGlvbiBmb3IgcGFzdGEgKGFzIHNhbHR5IGFzIHRoZSBNZWRpdGVycmFuZWFuKScsXG4gICAgICAnZG91YmxlIGJvaWxlciBmb3IgemFiYWdsaW9uZSdcbiAgICBdLFxuICAgIGFzaWFuOiBbXG4gICAgICAncXVpY2sgYmxhbmNoaW5nIGZvciB2ZWdldGFibGVzJywgXG4gICAgICAnaG90IHBvdCBjb29raW5nJyxcbiAgICAgICdub29kbGUgY29va2luZyB3aXRoIGNvbGQgc2hvY2snLFxuICAgICAgJ2NvbnRyb2xsaW5nIGRvbmVuZXNzIHdpdGggaWNlIGJhdGhzJyxcbiAgICAgICdhbGthbGluZSB3YXRlciBmb3IgcmFtZW4gbm9vZGxlcycsXG4gICAgICAncmljZSB3YXNoaW5nIGFuZCBzb2FraW5nIGJlZm9yZSBib2lsaW5nJ1xuICAgIF0sXG4gICAgbWlkZGxlX2Vhc3Rlcm46IFtcbiAgICAgICdyaWNlIHBpbGFmIHRlY2huaXF1ZScsIFxuICAgICAgJ2xlZ3VtZSBjb29raW5nJyxcbiAgICAgICdncmFpbiBhYnNvcnB0aW9uIG1ldGhvZHMnLFxuICAgICAgJ2Fyb21hdGljIGJyb3RocyBmb3IgY291c2NvdXMnXG4gICAgXSxcbiAgICBmcmVuY2g6IFtcbiAgICAgICdibGFuY2ggYW5kIHNob2NrIG1ldGhvZCcsXG4gICAgICAnY291cnQgYm91aWxsb24gZm9yIHNlYWZvb2QnLFxuICAgICAgJ2JhaW4tbWFyaWUgZm9yIGRlbGljYXRlIHNhdWNlcycsXG4gICAgICAndmFyeWluZyBib2lsaW5nIHRlbXBlcmF0dXJlcyBmb3IgZGlmZmVyZW50IGN1c3RhcmRzJ1xuICAgIF0sXG4gICAgbGF0aW5fYW1lcmljYW46IFtcbiAgICAgICdjb3JuIG5peHRhbWFsaXphdGlvbicsXG4gICAgICAnc29mcml0byBiYXNlIGZvciBiZWFuIGNvb2tpbmcnLFxuICAgICAgJ3l1Y2EgYW5kIHBsYW50YWluIHByZXBhcmF0aW9uJ1xuICAgIF0sXG4gICAgaW5kaWFuOiBbXG4gICAgICAncGFyYWxsZWwgc3BpY2UgaW5mdXNpb24gbWV0aG9kcycsXG4gICAgICAnbGF5ZXJlZCBjb29raW5nIGZvciBiaXJ5YW5pcycsXG4gICAgICAncHJlY2lzZSB0aW1pbmcgZm9yIHZhcmlvdXMgbGVudGlsIHR5cGVzJ1xuICAgIF0sXG4gICAgYWZyaWNhbjogW1xuICAgICAgJ2Z1ZnUgcHJlcGFyYXRpb24gdGVjaG5pcXVlcycsXG4gICAgICAncG91bmRlZCB5YW0gbWV0aG9kcycsXG4gICAgICAnYmVhbiBjYWtlIHByZXBhcmF0aW9uJ1xuICAgIF1cbiAgfSxcbiAgY2hlbWljYWxDaGFuZ2VzOiB7XG4gICAgJ3N0YXJjaF9nZWxhdGluaXphdGlvbic6IHRydWUsXG4gICAgJ3Byb3RlaW5fZGVuYXR1cmF0aW9uJzogdHJ1ZSxcbiAgICAnY2VsbF93YWxsX2JyZWFrZG93bic6IHRydWUsXG4gICAgJ3BlY3Rpbl9zb2Z0ZW5pbmcnOiB0cnVlLFxuICAgICdlbnp5bWVfZGVhY3RpdmF0aW9uJzogdHJ1ZSxcbiAgICAnYWxidW1pbl9jb2FndWxhdGlvbic6IHRydWUsXG4gICAgJ2xlYWNoaW5nX29mX3dhdGVyX3NvbHVibGVfY29tcG91bmRzJzogdHJ1ZSxcbiAgICAnaHlkcm9seXNpcyc6IHRydWUsXG4gICAgJ3Rhbm5pbl9leHRyYWN0aW9uJzogdHJ1ZSxcbiAgICAnZmxhdm9yX2NvbXBvdW5kX3ZvbGF0aWxpemF0aW9uJzogdHJ1ZSxcbiAgICAnbWluZXJhbF9yZWxlYXNlJzogdHJ1ZSxcbiAgICAnY29sbGFnZW5fY29udmVyc2lvbic6IHRydWVcbiAgfSxcbiAgc2FmZXR5RmVhdHVyZXM6IFtcbiAgICAnV2F0ZXIgYm9pbHMgYXQgYSBjb25zaXN0ZW50IHRlbXBlcmF0dXJlICgxMDDCsEMgYXQgc2VhIGxldmVsKScsXG4gICAgJ0tpbGxzIG1vc3QgcGF0aG9nZW5zIGFuZCBiYWN0ZXJpYSB3aGVuIGhlbGQgYXQgZnVsbCBib2lsIGZvciBzdWZmaWNpZW50IHRpbWUnLFxuICAgICdVc2UgaGFuZGxlcyBhbmQgbGlkcyB0byBwcmV2ZW50IHN0ZWFtIGJ1cm5zJyxcbiAgICAnQWxsb3cgcHJvcGVyIHZlbnRpbGF0aW9uJyxcbiAgICAnUG9zaXRpb24gcG90IGhhbmRsZXMgYXdheSBmcm9tIGVkZ2Ugb2Ygc3RvdmUnLFxuICAgICdVc2Ugc3BsYXNoIGd1YXJkcyB3aGVuIGFwcHJvcHJpYXRlJyxcbiAgICAnTmV2ZXIgbGVhdmUgYm9pbGluZyBsaXF1aWRzIHVuYXR0ZW5kZWQnLFxuICAgICdCZSBjYXV0aW91cyB3aGVuIGFkZGluZyBpbmdyZWRpZW50cyB0byBwcmV2ZW50IHNwbGFzaGluZycsXG4gICAgJ1VzZSBwcm9wZXIgbGlmdGluZyB0ZWNobmlxdWVzIGZvciBoZWF2eSBzdG9ja3BvdHMnLFxuICAgICdLZWVwIGZsYW1tYWJsZSBpdGVtcyBhd2F5IGZyb20gYm9pbGluZyBwcm9jZXNzZXMnLFxuICAgICdSZXNwZWN0IHRoZSBjYXBhY2l0eSBsaW1pdHMgb2YgcG90cyAobm8gbW9yZSB0aGFuIDIvMyBmdWxsKScsXG4gICAgJ1VzZSB0aW1lcnMgdG8gcHJldmVudCBvdmVyY29va2luZyBhbmQgYm9pbC1vdmVycycsXG4gICAgJ0hhdmUgZmlyZSBzYWZldHkgZXF1aXBtZW50IG5lYXJieScsXG4gICAgJ0JlIGF3YXJlIG9mIGFsdGl0dWRlIGVmZmVjdHMgb24gYm9pbGluZyBwb2ludCBhbmQgY29va2luZyB0aW1lcydcbiAgXSxcbiAgdGhlcm1vZHluYW1pY1Byb3BlcnRpZXM6IHtcbiAgICBoZWF0OiAwLjgsICAgICAgICAvLyBIaWdoIGhlYXQgdHJhbnNmZXIgcmF0ZVxuICAgIGVudHJvcHk6IDAuNjUsICAgIC8vIE1vZGVyYXRlLWhpZ2ggc3RydWN0dXJhbCBkaXNydXB0aW9uXG4gICAgcmVhY3Rpdml0eTogMC40NSwgLy8gTW9kZXJhdGUgY2hlbWljYWwgcmVhY3Rpb25zIChubyBNYWlsbGFyZClcbiAgICBncmVnc0VuZXJneTogMC44IC0gKDAuNjUgKiAwLjQ1KSAgICAgIC8vIGdyZWdzRW5lcmd5ID0gaGVhdCAtIChlbnRyb3B5ICogcmVhY3Rpdml0eSlcbiAgfSBhcyBUaGVybW9keW5hbWljUHJvcGVydGllcyxcbiAgXG4gIC8vIEFkZGl0aW9uYWwgbWV0YWRhdGFcbiAgaGlzdG9yeTogJ0JvaWxpbmcgaXMgb25lIG9mIGh1bWFuaXR5XFwncyBvbGRlc3QgY29va2luZyBtZXRob2RzLCBkYXRpbmcgYmFjayB0byB0aGUgZGlzY292ZXJ5IG9mIGZpcmUtcmVzaXN0YW50IGNvbnRhaW5lcnMgYXJvdW5kIDUwMDAgQkNFLiBFdmlkZW5jZSBvZiBib2lsaW5nIGhhcyBiZWVuIGZvdW5kIGluIGFyY2hhZW9sb2dpY2FsIHNpdGVzIHdvcmxkd2lkZSwgd2l0aCBzcGVjaWFsaXplZCBwb3R0ZXJ5IGZvciBib2lsaW5nIGRldmVsb3BlZCBpbiBtYW55IGN1bHR1cmVzLiBUaGUgYWR2ZW50IG9mIHBvdHRlcnkgYW5kIHRoZSBoZWFydGggcmV2b2x1dGlvbml6ZWQgaHVtYW4gbnV0cml0aW9uIGJ5IG1ha2luZyBncmFpbnMsIGxlZ3VtZXMsIGFuZCB0b3VnaCBwbGFudCBtYXRlcmlhbHMgZGlnZXN0aWJsZS4gSW4gYW5jaWVudCBSb21lLCB0aGUgXCJmb2N1bHVzXCIgd2FzIHNwZWNpZmljYWxseSBkZXNpZ25lZCBmb3IgYm9pbGluZy4gTWVkaWV2YWwgY29va2luZyBoZWF2aWx5IHJlbGllZCBvbiBib2lsaW5nLCBhcyBldmlkZW5jZWQgaW4gY29va2Jvb2tzIGxpa2UgXCJUaGUgRm9ybWUgb2YgQ3VyeS5cIiBJbmR1c3RyaWFsIHJldm9sdXRpb24gYnJvdWdodCBzdGFuZGFyZGl6ZWQgY29va2luZyBlcXVpcG1lbnQsIGFuZCB0aGUgZGV2ZWxvcG1lbnQgb2YgcHJlc3N1cmUgY29va2luZyBpbiB0aGUgMTd0aCBjZW50dXJ5IGJ5IERlbmlzIFBhcGluIHJldm9sdXRpb25pemVkIGJvaWxpbmcgYnkgcmFpc2luZyB0aGUgYm9pbGluZyBwb2ludCBvZiB3YXRlciB0aHJvdWdoIHByZXNzdXJlLicsXG4gIFxuICBzY2llbnRpZmljUHJpbmNpcGxlczogW1xuICAgICdXYXRlciBtYWludGFpbnMgY29uc2lzdGVudCAxMDDCsEMgdGVtcGVyYXR1cmUgd2hpbGUgYm9pbGluZyBhdCBzZWEgbGV2ZWwnLFxuICAgICdUaGVybWFsIGVuZXJneSB0cmFuc2ZlciB0aHJvdWdoIGNvbmR1Y3Rpb24gKHdhdGVyIHRvIGZvb2QgY29udGFjdCknLFxuICAgICdDb252ZWN0aW9uIGN1cnJlbnRzIGRpc3RyaWJ1dGUgaGVhdCBldmVubHkgdGhyb3VnaG91dCBsaXF1aWQnLFxuICAgICdQcmVzc3VyZSBhZmZlY3RzIGJvaWxpbmcgcG9pbnQgKGxvd2VyIGF0IGhpZ2ggYWx0aXR1ZGVzKScsXG4gICAgJ0Rpc3NvbHZlZCBzb2x1dGVzIHJhaXNlIGJvaWxpbmcgcG9pbnQgKGNvbGxpZ2F0aXZlIHByb3BlcnRpZXMpJyxcbiAgICAnUmFwaWQgcHJvdGVpbiBkZW5hdHVyYXRpb24gYW5kIHN0YXJjaCBnZWxhdGluaXphdGlvbicsXG4gICAgJ1BoYXNlIHRyYW5zaXRpb24gZW5lcmd5IHJlcXVpcmVtZW50cyBjcmVhdGUgdGhlcm1hbCBwbGF0ZWF1JyxcbiAgICAnRXZhcG9yYXRpdmUgY29vbGluZyBiYWxhbmNlcyBoZWF0IGlucHV0IGF0IGJvaWxpbmcgcG9pbnQnLFxuICAgICdEaXNzb2x2ZWQgb3h5Z2VuIGNvbnRlbnQgZGVjcmVhc2VzIHdpdGggY29udGludWVkIGJvaWxpbmcnLFxuICAgICdOdWNsZWF0aW9uIHNpdGVzIGFmZmVjdCBidWJibGUgZm9ybWF0aW9uIGR5bmFtaWNzJyxcbiAgICAnU3VyZmFjZSB0ZW5zaW9uIGNoYW5nZXMgd2l0aCB0ZW1wZXJhdHVyZSBhbmQgYWRkaXRpdmVzJyxcbiAgICAnUG9sYXJpdHkgb2Ygd2F0ZXIgZW5hYmxlcyBkaXNzb2x1dGlvbiBvZiBoeWRyb3BoaWxpYyBjb21wb3VuZHMnLFxuICAgICdCb2lsaW5nIHBvaW50IGVsZXZhdGlvbiBmb2xsb3dzIFJhb3VsdFxcJ3MgbGF3IHdpdGggZGlzc29sdmVkIHNvbHV0ZXMnLFxuICAgICdIZWF0IHRyYW5zZmVyIGVmZmljaWVuY3kgdmFyaWVzIHdpdGggZm9vZCBzdXJmYWNlIGFyZWEgYW5kIGNvbXBvc2l0aW9uJ1xuICBdLFxuICBcbiAgbW9kZXJuVmFyaWF0aW9uczogW1xuICAgICdQcmVzc3VyZSBjb29raW5nIChoaWdoZXIgdGVtcGVyYXR1cmUgdGhyb3VnaCBpbmNyZWFzZWQgcHJlc3N1cmUpJyxcbiAgICAnRmxhdm9yZWQgY29va2luZyBsaXF1aWRzIChzdG9ja3MsIGJyb3Rocywgd2luZSwgbWlsayknLFxuICAgICdTb3VzIHZpZGUgZm9sbG93ZWQgYnkgcXVpY2sgYm9pbCBmaW5pc2hpbmcnLFxuICAgICdDb250cm9sbGVkIHRlbXBlcmF0dXJlIGNpcmN1bGF0b3JzIGZvciBwcmVjaXNlIHRlbXBlcmF0dXJlcyBiZWxvdyBib2lsaW5nJyxcbiAgICAnSW5kdWN0aW9uIHRlY2hub2xvZ3kgZm9yIHByZWNpc2UgYm9pbGluZyBjb250cm9sJyxcbiAgICAnU21hcnQgcG90IHNlbnNvcnMgdGhhdCBkZXRlY3QgYm9pbCBhbmQgYWRqdXN0IGhlYXQgYXV0b21hdGljYWxseScsXG4gICAgJ1ZhY3V1bSBjb29raW5nIHRvIGxvd2VyIGJvaWxpbmcgcG9pbnQgZm9yIGRlbGljYXRlIGluZ3JlZGllbnRzJyxcbiAgICAnTXVsdGktbGF5ZXIgYm9pbGluZyBzeXN0ZW1zIGZvciBzaW11bHRhbmVvdXMgcHJlcGFyYXRpb24nLFxuICAgICdIZXJiYWwgYW5kIGFyb21hdGljIGluZnVzaW9ucyBkdXJpbmcgYm9pbGluZycsXG4gICAgJ1VsdHJhc29uaWMtYXNzaXN0ZWQgYm9pbGluZyBmb3IgaW1wcm92ZWQgZWZmaWNpZW5jeScsXG4gICAgJ01vbGVjdWxhciBnYXN0cm9ub215IGFwcGxpY2F0aW9ucyAoc3BoZXJpZmljYXRpb24gb2YgYm9pbGVkIGZsYXZvcnMpJyxcbiAgICAnTWljcm93YXZlLWFzc2lzdGVkIGJvaWxpbmcgZm9yIGVuZXJneSBlZmZpY2llbmN5J1xuICBdLFxuICBcbiAgYWR2YW5jZWRUZWNobmlxdWVzOiBbXG4gICAgJ1N0YWdlZCB0ZW1wZXJhdHVyZSBwcm9ncmVzc2lvbiBmb3IgcHJlY2lzZSBkb25lbmVzcycsXG4gICAgJ0RvdWJsZSBib2lsZXIgbWV0aG9kIGZvciB0ZW1wZXJhdHVyZS1zZW5zaXRpdmUgcHJlcGFyYXRpb25zJyxcbiAgICAnSW5mdXNpb24gYm9pbGluZyBmb3IgZmxhdm9yIGV4dHJhY3Rpb24nLFxuICAgICdBcm9tYXRpYyBsaWQtc3RlYW1pbmcgZm9yIGR1YWwgZmxhdm9yIGluY29ycG9yYXRpb24nLFxuICAgICdDb2xkLXN0YXJ0IHZzLiBob3Qtc3RhcnQgcHJpbmNpcGxlcyBmb3IgZGlmZmVyZW50IGluZ3JlZGllbnRzJyxcbiAgICAnQm9pbC1hbmQtc3RlYW0gY29tYmluYXRpb24gdGVjaG5pcXVlcycsXG4gICAgJ0ludGVydmFsIGJvaWxpbmcgZm9yIHRleHR1cmFsIGNvbnRyb2wnLFxuICAgICdNaW5lcmFsIHdhdGVyIGJvaWxpbmcgZm9yIHN1YnRsZSBmbGF2b3IgZW5oYW5jZW1lbnQnLFxuICAgICdQcmVzc3VyZSByZWd1bGF0aW9uIGZvciBhbHRpdHVkZSBjb21wZW5zYXRpb24nLFxuICAgICdTYWx0IHBlcmNlbnRhZ2UgZ3JhZGllbnRzIGZvciBkaWZmZXJlbnQgYXBwbGljYXRpb25zJyxcbiAgICAnRmxhdm9yIHN0cmF0aWZpY2F0aW9uIGluIHN0b2NrcyBhbmQgYnJvdGhzJ1xuICBdLFxuICBcbiAgY3VsdHVyYWxTaWduaWZpY2FuY2U6IFtcbiAgICAnQ29tbXVuYWwgY29va2luZyB0cmFkaXRpb25zIGNlbnRlcmVkIGFyb3VuZCBib2lsaW5nIHBvdHMnLFxuICAgICdDZXJlbW9uaWFsIHNpZ25pZmljYW5jZSBvZiBib2lsZWQgb2ZmZXJpbmdzIGluIG1hbnkgY3VsdHVyZXMnLFxuICAgICdNZWRpY2luYWwgYnJvdGhzIGFuZCBkZWNvY3Rpb25zIGluIHRyYWRpdGlvbmFsIG1lZGljaW5lIHN5c3RlbXMnLFxuICAgICdTeW1ib2wgb2YgaGVhcnRoIGFuZCBob21lIGluIG1hbnkgc29jaWV0aWVzJyxcbiAgICAnUHJlc2VydmF0aW9uIG9mIGN1bHR1cmFsIGhlcml0YWdlIHRocm91Z2ggc3BlY2lmaWMgYm9pbGluZyB0ZWNobmlxdWVzJyxcbiAgICAnRm91bmRhdGlvbmFsIGNvb2tpbmcgbWV0aG9kIGZvciBtYW55IGN1bHR1cmFsIHN0YXBsZXMgYW5kIGNvbWZvcnQgZm9vZHMnXG4gIF0sXG4gIFxuICBzdXN0YWluYWJpbGl0eVJhdGluZzogMC42NSwgLy8gTW9kZXJhdGUgZW5lcmd5IHVzYWdlLCBidXQgY2FuIGJlIGVmZmljaWVudCB3aXRoIGxpZCB1c2VcbiAgXG4gIGVxdWlwbWVudENvbXBsZXhpdHk6IDAuMjAsIC8vIFNpbXBsZSBlcXVpcG1lbnQgcmVxdWlyZW1lbnRzXG4gIFxuICBoZWFsdGhDb25zaWRlcmF0aW9uczogW1xuICAgICdMZWFjaGluZyBvZiB3YXRlci1zb2x1YmxlIHZpdGFtaW5zIChCLCBDKSBpbnRvIGNvb2tpbmcgd2F0ZXInLFxuICAgICdObyBhZGRlZCBmYXQgcmVxdWlyZWQgZm9yIGNvb2tpbmcnLFxuICAgICdTb2Z0ZW5zIGZpYmVyIGZvciBlYXNpZXIgZGlnZXN0aW9uJyxcbiAgICAnVXNpbmcgY29va2luZyB3YXRlciBjYXB0dXJlcyBsZWFjaGVkIG51dHJpZW50cycsXG4gICAgJ0hpZ2ggdGVtcGVyYXR1cmVzIGRlc3Ryb3kgaGVhdC1zZW5zaXRpdmUgY29tcG91bmRzJyxcbiAgICAnR2VsYXRpbml6ZWQgc3RhcmNoZXMgb2ZmZXIgZGlmZmVyZW50IGdseWNlbWljIHJlc3BvbnNlIHRoYW4gcmF3JyxcbiAgICAnRGVuYXR1cmVkIHByb3RlaW5zIGNhbiBiZSBtb3JlIGJpb2F2YWlsYWJsZScsXG4gICAgJ0NhbiByZWR1Y2UgYW50aS1udXRyaWVudHMgaW4gbGVndW1lcyBhbmQgY2VydGFpbiB2ZWdldGFibGVzJyxcbiAgICAnTWF5IHJlZHVjZSBveGFsYXRlcyBpbiBsZWFmeSBncmVlbnMnLFxuICAgICdDb29raW5nIHdhdGVyIGZyb20gdmVnZXRhYmxlcyBtYWtlcyBtaW5lcmFsLXJpY2ggYmFzZSBmb3Igc291cHMnLFxuICAgICdDYW4gcmVkdWNlIHBlc3RpY2lkZSByZXNpZHVlcyBvbiBwcm9kdWNlIHN1cmZhY2UnLFxuICAgICdCbGFuY2hpbmcgaGVscHMgcHJlc2VydmUgbnV0cmllbnQgY29udGVudCBmb3IgZnJlZXppbmcnXG4gIF1cbn0gYXMgQ29va2luZ01ldGhvZERhdGE7ICJdLCJ2ZXJzaW9uIjozfQ==

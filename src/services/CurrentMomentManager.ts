@@ -582,7 +582,7 @@ class CurrentMomentManager {
 export const currentMomentManager = new CurrentMomentManager();
 
 // Export convenience functions
-export const getCurrentMoment = () => currentMomentManager.getCurrentMoment();
+export const getCurrentMoment = (forceRefresh = false) => currentMomentManager.getCurrentMoment(forceRefresh);
 export const updateCurrentMoment = (date?: Date, location?: { latitude: number; longitude: number }) => 
   currentMomentManager.updateCurrentMoment(date, location);
 export const onAlchemizeApiCall = (positions?: Record<string, PlanetPosition>) => 

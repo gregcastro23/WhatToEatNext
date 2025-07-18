@@ -1,0 +1,61 @@
+ab44f50709614d6d7cfeecd5935a32ed
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.useAstroTarotElementalState = exports.useElementalState = exports.useIngredientMapping = void 0;
+// Export hooks for easy importing
+var useIngredientMapping_1 = require("./useIngredientMapping");
+Object.defineProperty(exports, "useIngredientMapping", { enumerable: true, get: function () { return useIngredientMapping_1.useIngredientMapping; } });
+// ========== MISSING HOOK EXPORTS FOR TS2305 FIXES ==========
+// useElementalState (causing error in CuisineRecommender.tsx)
+var useElementalState_1 = require("./useElementalState");
+Object.defineProperty(exports, "useElementalState", { enumerable: true, get: function () { return useElementalState_1.useElementalState; } });
+// useAstroTarotElementalState (causing error in CuisineRecommender.tsx)
+// Combined astrological and tarot elemental state hook
+const react_1 = require("react");
+const useElementalState_2 = require("./useElementalState");
+function useAstroTarotElementalState() {
+    const { Fire, Water, Earth, Air, isLoading: astroLoading } = (0, useElementalState_2.useElementalState)();
+    const [tarotInfluence, setTarotInfluence] = (0, react_1.useState)({
+        Fire: 0.25,
+        Water: 0.25,
+        Earth: 0.25,
+        Air: 0.25
+    });
+    const [isLoading, setIsLoading] = (0, react_1.useState)(true);
+    (0, react_1.useEffect)(() => {
+        // Simulate tarot reading influence (could be replaced with actual tarot API)
+        const generateTarotInfluence = () => {
+            // Simple randomization for tarot influence (replace with actual tarot logic)
+            const random = Math.random();
+            if (random < 0.25) {
+                return { Fire: 0.4, Water: 0.2, Earth: 0.2, Air: 0.2 };
+            }
+            else if (random < 0.5) {
+                return { Fire: 0.2, Water: 0.4, Earth: 0.2, Air: 0.2 };
+            }
+            else if (random < 0.75) {
+                return { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 };
+            }
+            else {
+                return { Fire: 0.2, Water: 0.2, Earth: 0.2, Air: 0.4 };
+            }
+        };
+        setTarotInfluence(generateTarotInfluence());
+        setIsLoading(false);
+    }, []);
+    // Combine astrological and tarot influences
+    const combinedState = {
+        Fire: (Fire * 0.7) + (tarotInfluence.Fire * 0.3),
+        Water: (Water * 0.7) + (tarotInfluence.Water * 0.3),
+        Earth: (Earth * 0.7) + (tarotInfluence.Earth * 0.3),
+        Air: (Air * 0.7) + (tarotInfluence.Air * 0.3)
+    };
+    return {
+        ...combinedState,
+        tarotInfluence,
+        astrologicalState: { Fire, Water, Earth, Air },
+        isLoading: astroLoading || isLoading
+    };
+}
+exports.useAstroTarotElementalState = useAstroTarotElementalState;
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJmaWxlIjoiL1VzZXJzL0dyZWdDYXN0cm8vRGVza3RvcC9XaGF0VG9FYXROZXh0L3NyYy9ob29rcy9pbmRleC50cyIsIm1hcHBpbmdzIjoiOzs7QUFBQSxrQ0FBa0M7QUFDbEMsK0RBQThEO0FBQXJELDRIQUFBLG9CQUFvQixPQUFBO0FBRTdCLDhEQUE4RDtBQUU5RCw4REFBOEQ7QUFDOUQseURBQXdEO0FBQS9DLHNIQUFBLGlCQUFpQixPQUFBO0FBRTFCLHdFQUF3RTtBQUN4RSx1REFBdUQ7QUFDdkQsaUNBQTRDO0FBRTVDLDJEQUF3RDtBQUV4RCxTQUFnQiwyQkFBMkI7SUFDekMsTUFBTSxFQUFFLElBQUksRUFBRSxLQUFLLEVBQUUsS0FBSyxFQUFFLEdBQUcsRUFBRSxTQUFTLEVBQUUsWUFBWSxFQUFFLEdBQUcsSUFBQSxxQ0FBaUIsR0FBRSxDQUFDO0lBQ2pGLE1BQU0sQ0FBQyxjQUFjLEVBQUUsaUJBQWlCLENBQUMsR0FBRyxJQUFBLGdCQUFRLEVBQXNCO1FBQ3hFLElBQUksRUFBRSxJQUFJO1FBQ1YsS0FBSyxFQUFFLElBQUk7UUFDWCxLQUFLLEVBQUUsSUFBSTtRQUNYLEdBQUcsRUFBRSxJQUFJO0tBQ1YsQ0FBQyxDQUFDO0lBQ0gsTUFBTSxDQUFDLFNBQVMsRUFBRSxZQUFZLENBQUMsR0FBRyxJQUFBLGdCQUFRLEVBQUMsSUFBSSxDQUFDLENBQUM7SUFFakQsSUFBQSxpQkFBUyxFQUFDLEdBQUcsRUFBRTtRQUNiLDZFQUE2RTtRQUM3RSxNQUFNLHNCQUFzQixHQUFHLEdBQUcsRUFBRTtZQUNsQyw2RUFBNkU7WUFDN0UsTUFBTSxNQUFNLEdBQUcsSUFBSSxDQUFDLE1BQU0sRUFBRSxDQUFDO1lBQzdCLElBQUksTUFBTSxHQUFHLElBQUksRUFBRTtnQkFDakIsT0FBTyxFQUFFLElBQUksRUFBRSxHQUFHLEVBQUUsS0FBSyxFQUFFLEdBQUcsRUFBRSxLQUFLLEVBQUUsR0FBRyxFQUFFLEdBQUcsRUFBRSxHQUFHLEVBQUUsQ0FBQzthQUN4RDtpQkFBTSxJQUFJLE1BQU0sR0FBRyxHQUFHLEVBQUU7Z0JBQ3ZCLE9BQU8sRUFBRSxJQUFJLEVBQUUsR0FBRyxFQUFFLEtBQUssRUFBRSxHQUFHLEVBQUUsS0FBSyxFQUFFLEdBQUcsRUFBRSxHQUFHLEVBQUUsR0FBRyxFQUFFLENBQUM7YUFDeEQ7aUJBQU0sSUFBSSxNQUFNLEdBQUcsSUFBSSxFQUFFO2dCQUN4QixPQUFPLEVBQUUsSUFBSSxFQUFFLEdBQUcsRUFBRSxLQUFLLEVBQUUsR0FBRyxFQUFFLEtBQUssRUFBRSxHQUFHLEVBQUUsR0FBRyxFQUFFLEdBQUcsRUFBRSxDQUFDO2FBQ3hEO2lCQUFNO2dCQUNMLE9BQU8sRUFBRSxJQUFJLEVBQUUsR0FBRyxFQUFFLEtBQUssRUFBRSxHQUFHLEVBQUUsS0FBSyxFQUFFLEdBQUcsRUFBRSxHQUFHLEVBQUUsR0FBRyxFQUFFLENBQUM7YUFDeEQ7UUFDSCxDQUFDLENBQUM7UUFFRixpQkFBaUIsQ0FBQyxzQkFBc0IsRUFBRSxDQUFDLENBQUM7UUFDNUMsWUFBWSxDQUFDLEtBQUssQ0FBQyxDQUFDO0lBQ3RCLENBQUMsRUFBRSxFQUFFLENBQUMsQ0FBQztJQUVQLDRDQUE0QztJQUM1QyxNQUFNLGFBQWEsR0FBd0I7UUFDekMsSUFBSSxFQUFFLENBQUMsSUFBSSxHQUFHLEdBQUcsQ0FBQyxHQUFHLENBQUMsY0FBYyxDQUFDLElBQUksR0FBRyxHQUFHLENBQUM7UUFDaEQsS0FBSyxFQUFFLENBQUMsS0FBSyxHQUFHLEdBQUcsQ0FBQyxHQUFHLENBQUMsY0FBYyxDQUFDLEtBQUssR0FBRyxHQUFHLENBQUM7UUFDbkQsS0FBSyxFQUFFLENBQUMsS0FBSyxHQUFHLEdBQUcsQ0FBQyxHQUFHLENBQUMsY0FBYyxDQUFDLEtBQUssR0FBRyxHQUFHLENBQUM7UUFDbkQsR0FBRyxFQUFFLENBQUMsR0FBRyxHQUFHLEdBQUcsQ0FBQyxHQUFHLENBQUMsY0FBYyxDQUFDLEdBQUcsR0FBRyxHQUFHLENBQUM7S0FDOUMsQ0FBQztJQUVGLE9BQU87UUFDTCxHQUFHLGFBQWE7UUFDaEIsY0FBYztRQUNkLGlCQUFpQixFQUFFLEVBQUUsSUFBSSxFQUFFLEtBQUssRUFBRSxLQUFLLEVBQUUsR0FBRyxFQUFFO1FBQzlDLFNBQVMsRUFBRSxZQUFZLElBQUksU0FBUztLQUNyQyxDQUFDO0FBQ0osQ0FBQztBQTVDRCxrRUE0Q0MiLCJuYW1lcyI6W10sInNvdXJjZXMiOlsiL1VzZXJzL0dyZWdDYXN0cm8vRGVza3RvcC9XaGF0VG9FYXROZXh0L3NyYy9ob29rcy9pbmRleC50cyJdLCJzb3VyY2VzQ29udGVudCI6WyIvLyBFeHBvcnQgaG9va3MgZm9yIGVhc3kgaW1wb3J0aW5nXG5leHBvcnQgeyB1c2VJbmdyZWRpZW50TWFwcGluZyB9IGZyb20gJy4vdXNlSW5ncmVkaWVudE1hcHBpbmcnOyBcblxuLy8gPT09PT09PT09PSBNSVNTSU5HIEhPT0sgRVhQT1JUUyBGT1IgVFMyMzA1IEZJWEVTID09PT09PT09PT1cblxuLy8gdXNlRWxlbWVudGFsU3RhdGUgKGNhdXNpbmcgZXJyb3IgaW4gQ3Vpc2luZVJlY29tbWVuZGVyLnRzeClcbmV4cG9ydCB7IHVzZUVsZW1lbnRhbFN0YXRlIH0gZnJvbSAnLi91c2VFbGVtZW50YWxTdGF0ZSc7XG5cbi8vIHVzZUFzdHJvVGFyb3RFbGVtZW50YWxTdGF0ZSAoY2F1c2luZyBlcnJvciBpbiBDdWlzaW5lUmVjb21tZW5kZXIudHN4KVxuLy8gQ29tYmluZWQgYXN0cm9sb2dpY2FsIGFuZCB0YXJvdCBlbGVtZW50YWwgc3RhdGUgaG9va1xuaW1wb3J0IHsgdXNlU3RhdGUsIHVzZUVmZmVjdCB9IGZyb20gJ3JlYWN0JztcbmltcG9ydCB7IEVsZW1lbnRhbFByb3BlcnRpZXMgfSBmcm9tICdAL3R5cGVzL2FsY2hlbXknO1xuaW1wb3J0IHsgdXNlRWxlbWVudGFsU3RhdGUgfSBmcm9tICcuL3VzZUVsZW1lbnRhbFN0YXRlJztcblxuZXhwb3J0IGZ1bmN0aW9uIHVzZUFzdHJvVGFyb3RFbGVtZW50YWxTdGF0ZSgpIHtcbiAgY29uc3QgeyBGaXJlLCBXYXRlciwgRWFydGgsIEFpciwgaXNMb2FkaW5nOiBhc3Ryb0xvYWRpbmcgfSA9IHVzZUVsZW1lbnRhbFN0YXRlKCk7XG4gIGNvbnN0IFt0YXJvdEluZmx1ZW5jZSwgc2V0VGFyb3RJbmZsdWVuY2VdID0gdXNlU3RhdGU8RWxlbWVudGFsUHJvcGVydGllcz4oe1xuICAgIEZpcmU6IDAuMjUsXG4gICAgV2F0ZXI6IDAuMjUsXG4gICAgRWFydGg6IDAuMjUsXG4gICAgQWlyOiAwLjI1XG4gIH0pO1xuICBjb25zdCBbaXNMb2FkaW5nLCBzZXRJc0xvYWRpbmddID0gdXNlU3RhdGUodHJ1ZSk7XG5cbiAgdXNlRWZmZWN0KCgpID0+IHtcbiAgICAvLyBTaW11bGF0ZSB0YXJvdCByZWFkaW5nIGluZmx1ZW5jZSAoY291bGQgYmUgcmVwbGFjZWQgd2l0aCBhY3R1YWwgdGFyb3QgQVBJKVxuICAgIGNvbnN0IGdlbmVyYXRlVGFyb3RJbmZsdWVuY2UgPSAoKSA9PiB7XG4gICAgICAvLyBTaW1wbGUgcmFuZG9taXphdGlvbiBmb3IgdGFyb3QgaW5mbHVlbmNlIChyZXBsYWNlIHdpdGggYWN0dWFsIHRhcm90IGxvZ2ljKVxuICAgICAgY29uc3QgcmFuZG9tID0gTWF0aC5yYW5kb20oKTtcbiAgICAgIGlmIChyYW5kb20gPCAwLjI1KSB7XG4gICAgICAgIHJldHVybiB7IEZpcmU6IDAuNCwgV2F0ZXI6IDAuMiwgRWFydGg6IDAuMiwgQWlyOiAwLjIgfTtcbiAgICAgIH0gZWxzZSBpZiAocmFuZG9tIDwgMC41KSB7XG4gICAgICAgIHJldHVybiB7IEZpcmU6IDAuMiwgV2F0ZXI6IDAuNCwgRWFydGg6IDAuMiwgQWlyOiAwLjIgfTtcbiAgICAgIH0gZWxzZSBpZiAocmFuZG9tIDwgMC43NSkge1xuICAgICAgICByZXR1cm4geyBGaXJlOiAwLjIsIFdhdGVyOiAwLjIsIEVhcnRoOiAwLjQsIEFpcjogMC4yIH07XG4gICAgICB9IGVsc2Uge1xuICAgICAgICByZXR1cm4geyBGaXJlOiAwLjIsIFdhdGVyOiAwLjIsIEVhcnRoOiAwLjIsIEFpcjogMC40IH07XG4gICAgICB9XG4gICAgfTtcblxuICAgIHNldFRhcm90SW5mbHVlbmNlKGdlbmVyYXRlVGFyb3RJbmZsdWVuY2UoKSk7XG4gICAgc2V0SXNMb2FkaW5nKGZhbHNlKTtcbiAgfSwgW10pO1xuXG4gIC8vIENvbWJpbmUgYXN0cm9sb2dpY2FsIGFuZCB0YXJvdCBpbmZsdWVuY2VzXG4gIGNvbnN0IGNvbWJpbmVkU3RhdGU6IEVsZW1lbnRhbFByb3BlcnRpZXMgPSB7XG4gICAgRmlyZTogKEZpcmUgKiAwLjcpICsgKHRhcm90SW5mbHVlbmNlLkZpcmUgKiAwLjMpLFxuICAgIFdhdGVyOiAoV2F0ZXIgKiAwLjcpICsgKHRhcm90SW5mbHVlbmNlLldhdGVyICogMC4zKSxcbiAgICBFYXJ0aDogKEVhcnRoICogMC43KSArICh0YXJvdEluZmx1ZW5jZS5FYXJ0aCAqIDAuMyksXG4gICAgQWlyOiAoQWlyICogMC43KSArICh0YXJvdEluZmx1ZW5jZS5BaXIgKiAwLjMpXG4gIH07XG5cbiAgcmV0dXJuIHtcbiAgICAuLi5jb21iaW5lZFN0YXRlLFxuICAgIHRhcm90SW5mbHVlbmNlLFxuICAgIGFzdHJvbG9naWNhbFN0YXRlOiB7IEZpcmUsIFdhdGVyLCBFYXJ0aCwgQWlyIH0sXG4gICAgaXNMb2FkaW5nOiBhc3Ryb0xvYWRpbmcgfHwgaXNMb2FkaW5nXG4gIH07XG59ICJdLCJ2ZXJzaW9uIjozfQ==

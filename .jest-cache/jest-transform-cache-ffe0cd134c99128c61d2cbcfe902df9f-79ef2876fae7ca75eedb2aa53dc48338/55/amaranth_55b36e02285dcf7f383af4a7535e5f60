@@ -1,0 +1,56 @@
+d616776d858baeda5176e1f6112aa373
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.amaranth = void 0;
+const elementalUtils_1 = require("@/utils/elementalUtils");
+const rawAmaranth = {
+    'amaranth': {
+        name: 'Amaranth',
+        elementalProperties: { Earth: 0.3, Fire: 0.3, Air: 0.2, Water: 0.2 },
+        astrologicalProfile: {
+            rulingPlanets: ['Mars', 'Venus'],
+            elementalAffinity: {
+                base: 'Earth',
+                secondary: 'Fire'
+            }
+        },
+        qualities: ['nutty', 'earthy', 'gelatinous', 'gluten-free', 'protein-rich'],
+        category: 'pseudo_grain',
+        origin: ['Central America', 'Mexico', 'South America'],
+        varieties: {
+            'regular': {
+                appearance: 'Tiny cream-colored seeds',
+                texture: 'Sticky when cooked, gelatinous',
+                flavor: 'Earthy, nutty, slightly peppery',
+                uses: 'Porridges, binding agent in dishes, flour for baking'
+            }
+        },
+        preparation: {
+            fresh: {
+                duration: '20-25 minutes',
+                storage: 'Refrigerate in sealed container for 2-3 days',
+                tips: [
+                    'Use 1:3 amaranth to liquid ratio',
+                    'Simmer until liquid is absorbed',
+                    'Consider mixing with other grains as it can be sticky on its own'
+                ]
+            },
+            methods: [
+                'boiled', 'simmered', 'popped (dry in pan)', 'ground into flour'
+            ]
+        },
+        storage: {
+            container: 'Airtight container',
+            duration: 'Up to 6 months (dry), 2-3 days (cooked)',
+            temperature: 'Cool, dark place (dry), refrigerated (cooked)',
+            notes: 'High oil content makes it spoil faster than other grains'
+        },
+        pairingRecommendations: {
+            complementary: ['cinnamon', 'honey', 'fruits', 'mild cheeses', 'vegetables'],
+            contrasting: ['herbs', 'light citrus'],
+            toAvoid: ['strong acidic ingredients that might prevent proper cooking']
+        }
+    }
+};
+exports.amaranth = (0, elementalUtils_1.fixIngredientMappings)(rawAmaranth);
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJmaWxlIjoiL1VzZXJzL0dyZWdDYXN0cm8vRGVza3RvcC9XaGF0VG9FYXROZXh0L3NyYy9kYXRhL2luZ3JlZGllbnRzL2dyYWlucy9wc2V1ZG9HcmFpbnMvYW1hcmFudGgudHMiLCJtYXBwaW5ncyI6Ijs7O0FBQ0EsMkRBQStEO0FBRS9ELE1BQU0sV0FBVyxHQUFHO0lBQ2xCLFVBQVUsRUFBRTtRQUNWLElBQUksRUFBRSxVQUFVO1FBQ2hCLG1CQUFtQixFQUFFLEVBQUUsS0FBSyxFQUFFLEdBQUcsRUFBRSxJQUFJLEVBQUUsR0FBRyxFQUFFLEdBQUcsRUFBRSxHQUFHLEVBQUUsS0FBSyxFQUFFLEdBQUcsRUFBRTtRQUNwRSxtQkFBbUIsRUFBRTtZQUNuQixhQUFhLEVBQUUsQ0FBQyxNQUFNLEVBQUUsT0FBTyxDQUFDO1lBQ2hDLGlCQUFpQixFQUFFO2dCQUNqQixJQUFJLEVBQUUsT0FBTztnQkFDYixTQUFTLEVBQUUsTUFBTTthQUNsQjtTQUNGO1FBQ0QsU0FBUyxFQUFFLENBQUMsT0FBTyxFQUFFLFFBQVEsRUFBRSxZQUFZLEVBQUUsYUFBYSxFQUFFLGNBQWMsQ0FBQztRQUMzRSxRQUFRLEVBQUUsY0FBYztRQUN4QixNQUFNLEVBQUUsQ0FBQyxpQkFBaUIsRUFBRSxRQUFRLEVBQUUsZUFBZSxDQUFDO1FBQ3RELFNBQVMsRUFBRTtZQUNULFNBQVMsRUFBRTtnQkFDVCxVQUFVLEVBQUUsMEJBQTBCO2dCQUN0QyxPQUFPLEVBQUUsZ0NBQWdDO2dCQUN6QyxNQUFNLEVBQUUsaUNBQWlDO2dCQUN6QyxJQUFJLEVBQUUsc0RBQXNEO2FBQzdEO1NBQ047UUFDRyxXQUFXLEVBQUU7WUFDWCxLQUFLLEVBQUU7Z0JBQ0wsUUFBUSxFQUFFLGVBQWU7Z0JBQ3pCLE9BQU8sRUFBRSw4Q0FBOEM7Z0JBQ3ZELElBQUksRUFBRTtvQkFDSixrQ0FBa0M7b0JBQ2xDLGlDQUFpQztvQkFDakMsa0VBQWtFO2lCQUNuRTthQUNGO1lBQ0QsT0FBTyxFQUFFO2dCQUNQLFFBQVEsRUFBRSxVQUFVLEVBQUUscUJBQXFCLEVBQUUsbUJBQW1CO2FBQ2pFO1NBQ0Y7UUFDRCxPQUFPLEVBQUU7WUFDUCxTQUFTLEVBQUUsb0JBQW9CO1lBQy9CLFFBQVEsRUFBRSx5Q0FBeUM7WUFDbkQsV0FBVyxFQUFFLCtDQUErQztZQUM1RCxLQUFLLEVBQUUsMERBQTBEO1NBQ2xFO1FBQ0Qsc0JBQXNCLEVBQUU7WUFDdEIsYUFBYSxFQUFFLENBQUMsVUFBVSxFQUFFLE9BQU8sRUFBRSxRQUFRLEVBQUUsY0FBYyxFQUFFLFlBQVksQ0FBQztZQUM1RSxXQUFXLEVBQUUsQ0FBQyxPQUFPLEVBQUUsY0FBYyxDQUFDO1lBQ3RDLE9BQU8sRUFBRSxDQUFDLDZEQUE2RCxDQUFDO1NBQ3pFO0tBQ0Y7Q0FDRixDQUFDO0FBRVcsUUFBQSxRQUFRLEdBQXNDLElBQUEsc0NBQXFCLEVBQUMsV0FBVyxDQUFDLENBQUMiLCJuYW1lcyI6W10sInNvdXJjZXMiOlsiL1VzZXJzL0dyZWdDYXN0cm8vRGVza3RvcC9XaGF0VG9FYXROZXh0L3NyYy9kYXRhL2luZ3JlZGllbnRzL2dyYWlucy9wc2V1ZG9HcmFpbnMvYW1hcmFudGgudHMiXSwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IHR5cGUgeyBJbmdyZWRpZW50TWFwcGluZyB9IGZyb20gJ0AvZGF0YS9pbmdyZWRpZW50cy90eXBlcyc7XG5pbXBvcnQgeyBmaXhJbmdyZWRpZW50TWFwcGluZ3MgfSBmcm9tICdAL3V0aWxzL2VsZW1lbnRhbFV0aWxzJztcblxuY29uc3QgcmF3QW1hcmFudGggPSB7XG4gICdhbWFyYW50aCc6IHtcbiAgICBuYW1lOiAnQW1hcmFudGgnLFxuICAgIGVsZW1lbnRhbFByb3BlcnRpZXM6IHsgRWFydGg6IDAuMywgRmlyZTogMC4zLCBBaXI6IDAuMiwgV2F0ZXI6IDAuMiB9LFxuICAgIGFzdHJvbG9naWNhbFByb2ZpbGU6IHtcbiAgICAgIHJ1bGluZ1BsYW5ldHM6IFsnTWFycycsICdWZW51cyddLFxuICAgICAgZWxlbWVudGFsQWZmaW5pdHk6IHtcbiAgICAgICAgYmFzZTogJ0VhcnRoJyxcbiAgICAgICAgc2Vjb25kYXJ5OiAnRmlyZSdcbiAgICAgIH1cbiAgICB9LFxuICAgIHF1YWxpdGllczogWydudXR0eScsICdlYXJ0aHknLCAnZ2VsYXRpbm91cycsICdnbHV0ZW4tZnJlZScsICdwcm90ZWluLXJpY2gnXSxcbiAgICBjYXRlZ29yeTogJ3BzZXVkb19ncmFpbicsXG4gICAgb3JpZ2luOiBbJ0NlbnRyYWwgQW1lcmljYScsICdNZXhpY28nLCAnU291dGggQW1lcmljYSddLFxuICAgIHZhcmlldGllczoge1xuICAgICAgJ3JlZ3VsYXInOiB7XG4gICAgICAgIGFwcGVhcmFuY2U6ICdUaW55IGNyZWFtLWNvbG9yZWQgc2VlZHMnLFxuICAgICAgICB0ZXh0dXJlOiAnU3RpY2t5IHdoZW4gY29va2VkLCBnZWxhdGlub3VzJyxcbiAgICAgICAgZmxhdm9yOiAnRWFydGh5LCBudXR0eSwgc2xpZ2h0bHkgcGVwcGVyeScsXG4gICAgICAgIHVzZXM6ICdQb3JyaWRnZXMsIGJpbmRpbmcgYWdlbnQgaW4gZGlzaGVzLCBmbG91ciBmb3IgYmFraW5nJ1xuICAgICAgfVxufSxcbiAgICBwcmVwYXJhdGlvbjoge1xuICAgICAgZnJlc2g6IHtcbiAgICAgICAgZHVyYXRpb246ICcyMC0yNSBtaW51dGVzJyxcbiAgICAgICAgc3RvcmFnZTogJ1JlZnJpZ2VyYXRlIGluIHNlYWxlZCBjb250YWluZXIgZm9yIDItMyBkYXlzJyxcbiAgICAgICAgdGlwczogW1xuICAgICAgICAgICdVc2UgMTozIGFtYXJhbnRoIHRvIGxpcXVpZCByYXRpbycsXG4gICAgICAgICAgJ1NpbW1lciB1bnRpbCBsaXF1aWQgaXMgYWJzb3JiZWQnLFxuICAgICAgICAgICdDb25zaWRlciBtaXhpbmcgd2l0aCBvdGhlciBncmFpbnMgYXMgaXQgY2FuIGJlIHN0aWNreSBvbiBpdHMgb3duJ1xuICAgICAgICBdXG4gICAgICB9LFxuICAgICAgbWV0aG9kczogW1xuICAgICAgICAnYm9pbGVkJywgJ3NpbW1lcmVkJywgJ3BvcHBlZCAoZHJ5IGluIHBhbiknLCAnZ3JvdW5kIGludG8gZmxvdXInXG4gICAgICBdXG4gICAgfSxcbiAgICBzdG9yYWdlOiB7XG4gICAgICBjb250YWluZXI6ICdBaXJ0aWdodCBjb250YWluZXInLFxuICAgICAgZHVyYXRpb246ICdVcCB0byA2IG1vbnRocyAoZHJ5KSwgMi0zIGRheXMgKGNvb2tlZCknLFxuICAgICAgdGVtcGVyYXR1cmU6ICdDb29sLCBkYXJrIHBsYWNlIChkcnkpLCByZWZyaWdlcmF0ZWQgKGNvb2tlZCknLFxuICAgICAgbm90ZXM6ICdIaWdoIG9pbCBjb250ZW50IG1ha2VzIGl0IHNwb2lsIGZhc3RlciB0aGFuIG90aGVyIGdyYWlucydcbiAgICB9LFxuICAgIHBhaXJpbmdSZWNvbW1lbmRhdGlvbnM6IHtcbiAgICAgIGNvbXBsZW1lbnRhcnk6IFsnY2lubmFtb24nLCAnaG9uZXknLCAnZnJ1aXRzJywgJ21pbGQgY2hlZXNlcycsICd2ZWdldGFibGVzJ10sXG4gICAgICBjb250cmFzdGluZzogWydoZXJicycsICdsaWdodCBjaXRydXMnXSxcbiAgICAgIHRvQXZvaWQ6IFsnc3Ryb25nIGFjaWRpYyBpbmdyZWRpZW50cyB0aGF0IG1pZ2h0IHByZXZlbnQgcHJvcGVyIGNvb2tpbmcnXVxuICAgIH1cbiAgfVxufTtcblxuZXhwb3J0IGNvbnN0IGFtYXJhbnRoOiBSZWNvcmQ8c3RyaW5nLCBJbmdyZWRpZW50TWFwcGluZz4gPSBmaXhJbmdyZWRpZW50TWFwcGluZ3MocmF3QW1hcmFudGgpOyAiXSwidmVyc2lvbiI6M30=

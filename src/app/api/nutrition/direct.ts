@@ -201,7 +201,7 @@ export async function GET(request: Request) {
 // Count the number of vitamin entries in a foodNutrients array
 function countVitamins(nutrients: NutrientData[]): number {
   return nutrients.filter(n => {
-    const name = ((n as string).nutrient?.name || (n as string).nutrientName || (n as string).name || '').toLowerCase();
+    const name = (n.nutrient?.name || n.nutrientName || (n as any).name || '').toLowerCase();
     return name.includes('vitamin');
   }).length;
 }
@@ -212,8 +212,10 @@ function getBestEndpoint(results: Record<string, unknown>): string {
   let maxVitamins = 0;
   
   for (const [endpoint, data] of Object.entries(results)) {
-    if ((data as Record<string, unknown>).vitaminCount && (data as Record<string, unknown>).vitaminCount > maxVitamins) {
-      maxVitamins = (data as Record<string, unknown>).vitaminCount;
+    const dataObj = data as Record<string, unknown>;
+    const vitaminCount = dataObj.vitaminCount as number;
+    if (vitaminCount && typeof vitaminCount === 'number' && vitaminCount > maxVitamins) {
+      maxVitamins = vitaminCount;
       bestEndpoint = endpoint;
     }
   }
@@ -227,10 +229,11 @@ function getTotalVitaminsFound(results: Record<string, unknown>): number {
   
   for (const data of Object.values(results)) {
     if ((data as Record<string, unknown>).data) {
-      const nutrients = Array.isArray((data as Record<string, unknown>).data) ? (data as Record<string, unknown>).data[0]?.foodNutrients : (data as Record<string, unknown>).data.foodNutrients;
-      if (nutrients) {
-        nutrients.forEach((n: unknown) => {
-          const name = ((n as string).nutrient?.name || (n as string).nutrientName || (n as string).name || '').toLowerCase();
+      const dataObj = (data as Record<string, unknown>).data as any;
+      const nutrients = Array.isArray(dataObj) ? dataObj[0]?.foodNutrients : dataObj?.foodNutrients;
+      if (nutrients && Array.isArray(nutrients)) {
+        nutrients.forEach((n: any) => {
+          const name = (n.nutrient?.name || n.nutrientName || n.name || '').toLowerCase();
           if (name.includes('vitamin')) {
             vitamins.add(name);
           }

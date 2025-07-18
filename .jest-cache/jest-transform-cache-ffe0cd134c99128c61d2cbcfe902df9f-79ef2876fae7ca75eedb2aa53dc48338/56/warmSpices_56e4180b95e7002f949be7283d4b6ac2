@@ -1,0 +1,65 @@
+a4335ec1780b5227bd63f172496c482b
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.allWarmSpices = exports.warmSpices = void 0;
+const elementalUtils_1 = require("@/utils/elementalUtils");
+const rawWarmSpices = {
+    'cinnamon': {
+        name: 'Cinnamon',
+        elementalProperties: { Fire: 0.7, Water: 0.0, Earth: 0.2, Air: 0.1 },
+        astrologicalProfile: {
+            planetaryRuler: 'Sun',
+            zodiacRuler: 'Leo',
+            element: 'Fire',
+            energyType: 'Restorative',
+            seasonalPeak: {
+                northern: [9, 10, 11, 12, 1, 2],
+                southern: [3, 4, 5, 6, 7, 8],
+            }
+        },
+        qualities: ['warming', 'sweet', 'pungent', 'aromatic', 'drying', 'carminative'],
+        origin: ['Sri Lanka', 'India', 'Southeast Asia'],
+        category: 'spice',
+        subcategory: 'warm spice',
+        affinities: ['apple', 'pear', 'citrus', 'chocolate', 'coffee', 'honey', 'nuts', 'cardamom', 'ginger'],
+        season: 'winter',
+        nutritionalProfile: {
+            serving_size: "1 tsp ground",
+            calories: 6,
+            macros: {
+                protein: 0.1,
+                carbs: 2.1,
+                fat: 0.1,
+                fiber: 1.4
+            },
+            vitamins: {
+                K: 0.01,
+                B6: 0.01,
+                E: 0.01
+            },
+            minerals: {
+                calcium: 0.26,
+                manganese: 0.22,
+                iron: 0.08,
+                potassium: 0.01,
+                magnesium: 0.02
+            },
+            antioxidants: {
+                cinnamaldehyde: 0.65,
+                eugenol: 0.42,
+                cinnamyl_acetate: 0.38,
+                coumarin: 0.15
+            },
+            benefits: ['blood sugar regulation', 'anti-inflammatory', 'antimicrobial'],
+            source: "USDA FoodData Central"
+        },
+        // ... rest of cinnamon properties
+    },
+    // ... other warm spices
+};
+// Fix the ingredient mappings to ensure they have all required properties
+exports.warmSpices = (0, elementalUtils_1.fixIngredientMappings)(rawWarmSpices);
+// Create a collection of all warm spices
+exports.allWarmSpices = Object.values(exports.warmSpices);
+exports.default = exports.warmSpices;
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJmaWxlIjoiL1VzZXJzL0dyZWdDYXN0cm8vRGVza3RvcC9XaGF0VG9FYXROZXh0L3NyYy9kYXRhL2luZ3JlZGllbnRzL3NwaWNlcy93YXJtU3BpY2VzLnRzIiwibWFwcGluZ3MiOiI7OztBQUNBLDJEQUErRDtBQUUvRCxNQUFNLGFBQWEsR0FBK0M7SUFDaEUsVUFBVSxFQUFFO1FBQ1YsSUFBSSxFQUFFLFVBQVU7UUFDaEIsbUJBQW1CLEVBQUUsRUFBRSxJQUFJLEVBQUUsR0FBRyxFQUFFLEtBQUssRUFBRSxHQUFHLEVBQUUsS0FBSyxFQUFFLEdBQUcsRUFBRSxHQUFHLEVBQUUsR0FBRyxFQUFFO1FBQ3BFLG1CQUFtQixFQUFFO1lBQ25CLGNBQWMsRUFBRSxLQUFLO1lBQ3JCLFdBQVcsRUFBRSxLQUFLO1lBQ2xCLE9BQU8sRUFBRSxNQUFNO1lBQ2YsVUFBVSxFQUFFLGFBQWE7WUFDekIsWUFBWSxFQUFFO2dCQUNaLFFBQVEsRUFBRSxDQUFDLENBQUMsRUFBRSxFQUFFLEVBQUUsRUFBRSxFQUFFLEVBQUUsRUFBRSxDQUFDLEVBQUUsQ0FBQyxDQUFDO2dCQUMvQixRQUFRLEVBQUUsQ0FBQyxDQUFDLEVBQUUsQ0FBQyxFQUFFLENBQUMsRUFBRSxDQUFDLEVBQUUsQ0FBQyxFQUFFLENBQUMsQ0FBQzthQUM3QjtTQUNLO1FBQ1IsU0FBUyxFQUFFLENBQUMsU0FBUyxFQUFFLE9BQU8sRUFBRSxTQUFTLEVBQUUsVUFBVSxFQUFFLFFBQVEsRUFBRSxhQUFhLENBQUM7UUFDL0UsTUFBTSxFQUFFLENBQUMsV0FBVyxFQUFFLE9BQU8sRUFBRSxnQkFBZ0IsQ0FBQztRQUNoRCxRQUFRLEVBQUUsT0FBTztRQUNqQixXQUFXLEVBQUUsWUFBWTtRQUN6QixVQUFVLEVBQUUsQ0FBQyxPQUFPLEVBQUUsTUFBTSxFQUFFLFFBQVEsRUFBRSxXQUFXLEVBQUUsUUFBUSxFQUFFLE9BQU8sRUFBRSxNQUFNLEVBQUUsVUFBVSxFQUFFLFFBQVEsQ0FBQztRQUNyRyxNQUFNLEVBQUUsUUFBUTtRQUNoQixrQkFBa0IsRUFBRTtZQUNsQixZQUFZLEVBQUUsY0FBYztZQUM1QixRQUFRLEVBQUUsQ0FBQztZQUNYLE1BQU0sRUFBRTtnQkFDTixPQUFPLEVBQUUsR0FBRztnQkFDWixLQUFLLEVBQUUsR0FBRztnQkFDVixHQUFHLEVBQUUsR0FBRztnQkFDUixLQUFLLEVBQUUsR0FBRzthQUNYO1lBQ0QsUUFBUSxFQUFFO2dCQUNSLENBQUMsRUFBRSxJQUFJO2dCQUNQLEVBQUUsRUFBRSxJQUFJO2dCQUNSLENBQUMsRUFBRSxJQUFJO2FBQ1I7WUFDRCxRQUFRLEVBQUU7Z0JBQ1IsT0FBTyxFQUFFLElBQUk7Z0JBQ2IsU0FBUyxFQUFFLElBQUk7Z0JBQ2YsSUFBSSxFQUFFLElBQUk7Z0JBQ1YsU0FBUyxFQUFFLElBQUk7Z0JBQ2YsU0FBUyxFQUFFLElBQUk7YUFDaEI7WUFDRCxZQUFZLEVBQUU7Z0JBQ1osY0FBYyxFQUFFLElBQUk7Z0JBQ3BCLE9BQU8sRUFBRSxJQUFJO2dCQUNiLGdCQUFnQixFQUFFLElBQUk7Z0JBQ3RCLFFBQVEsRUFBRSxJQUFJO2FBQ2Y7WUFDRCxRQUFRLEVBQUUsQ0FBQyx3QkFBd0IsRUFBRSxtQkFBbUIsRUFBRSxlQUFlLENBQUM7WUFDMUUsTUFBTSxFQUFFLHVCQUF1QjtTQUNoQztRQUNELGtDQUFrQztLQUNuQztJQUNELHdCQUF3QjtDQUN6QixDQUFDO0FBRUYsMEVBQTBFO0FBQzdELFFBQUEsVUFBVSxHQUFzQyxJQUFBLHNDQUFxQixFQUFDLGFBQWEsQ0FBQyxDQUFDO0FBRWxHLHlDQUF5QztBQUM1QixRQUFBLGFBQWEsR0FBRyxNQUFNLENBQUMsTUFBTSxDQUFDLGtCQUFVLENBQUMsQ0FBQztBQUV2RCxrQkFBZSxrQkFBVSxDQUFDIiwibmFtZXMiOltdLCJzb3VyY2VzIjpbIi9Vc2Vycy9HcmVnQ2FzdHJvL0Rlc2t0b3AvV2hhdFRvRWF0TmV4dC9zcmMvZGF0YS9pbmdyZWRpZW50cy9zcGljZXMvd2FybVNwaWNlcy50cyJdLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQgdHlwZSB7IEluZ3JlZGllbnRNYXBwaW5nIH0gZnJvbSAnQC9kYXRhL2luZ3JlZGllbnRzL3R5cGVzJztcbmltcG9ydCB7IGZpeEluZ3JlZGllbnRNYXBwaW5ncyB9IGZyb20gJ0AvdXRpbHMvZWxlbWVudGFsVXRpbHMnO1xuXG5jb25zdCByYXdXYXJtU3BpY2VzOiBSZWNvcmQ8c3RyaW5nLCBQYXJ0aWFsPEluZ3JlZGllbnRNYXBwaW5nPj4gPSB7XG4gICdjaW5uYW1vbic6IHtcbiAgICBuYW1lOiAnQ2lubmFtb24nLFxuICAgIGVsZW1lbnRhbFByb3BlcnRpZXM6IHsgRmlyZTogMC43LCBXYXRlcjogMC4wLCBFYXJ0aDogMC4yLCBBaXI6IDAuMSB9LCAvLyDihpAgUGF0dGVybiBHRy01OiBBZGRlZCBtaXNzaW5nIFdhdGVyIHByb3BlcnR5XG4gICAgYXN0cm9sb2dpY2FsUHJvZmlsZToge1xuICAgICAgcGxhbmV0YXJ5UnVsZXI6ICdTdW4nLFxuICAgICAgem9kaWFjUnVsZXI6ICdMZW8nLFxuICAgICAgZWxlbWVudDogJ0ZpcmUnLFxuICAgICAgZW5lcmd5VHlwZTogJ1Jlc3RvcmF0aXZlJyxcbiAgICAgIHNlYXNvbmFsUGVhazoge1xuICAgICAgICBub3J0aGVybjogWzksIDEwLCAxMSwgMTIsIDEsIDJdLFxuICAgICAgICBzb3V0aGVybjogWzMsIDQsIDUsIDYsIDcsIDhdLFxuICAgICAgfVxuICAgIH0gYXMgYW55LFxuICAgIHF1YWxpdGllczogWyd3YXJtaW5nJywgJ3N3ZWV0JywgJ3B1bmdlbnQnLCAnYXJvbWF0aWMnLCAnZHJ5aW5nJywgJ2Nhcm1pbmF0aXZlJ10sXG4gICAgb3JpZ2luOiBbJ1NyaSBMYW5rYScsICdJbmRpYScsICdTb3V0aGVhc3QgQXNpYSddLFxuICAgIGNhdGVnb3J5OiAnc3BpY2UnLFxuICAgIHN1YmNhdGVnb3J5OiAnd2FybSBzcGljZScsXG4gICAgYWZmaW5pdGllczogWydhcHBsZScsICdwZWFyJywgJ2NpdHJ1cycsICdjaG9jb2xhdGUnLCAnY29mZmVlJywgJ2hvbmV5JywgJ251dHMnLCAnY2FyZGFtb20nLCAnZ2luZ2VyJ10sXG4gICAgc2Vhc29uOiAnd2ludGVyJyxcbiAgICBudXRyaXRpb25hbFByb2ZpbGU6IHtcbiAgICAgIHNlcnZpbmdfc2l6ZTogXCIxIHRzcCBncm91bmRcIixcbiAgICAgIGNhbG9yaWVzOiA2LFxuICAgICAgbWFjcm9zOiB7XG4gICAgICAgIHByb3RlaW46IDAuMSxcbiAgICAgICAgY2FyYnM6IDIuMSxcbiAgICAgICAgZmF0OiAwLjEsXG4gICAgICAgIGZpYmVyOiAxLjRcbiAgICAgIH0sXG4gICAgICB2aXRhbWluczoge1xuICAgICAgICBLOiAwLjAxLFxuICAgICAgICBCNjogMC4wMSxcbiAgICAgICAgRTogMC4wMVxuICAgICAgfSxcbiAgICAgIG1pbmVyYWxzOiB7XG4gICAgICAgIGNhbGNpdW06IDAuMjYsXG4gICAgICAgIG1hbmdhbmVzZTogMC4yMixcbiAgICAgICAgaXJvbjogMC4wOCxcbiAgICAgICAgcG90YXNzaXVtOiAwLjAxLFxuICAgICAgICBtYWduZXNpdW06IDAuMDJcbiAgICAgIH0sXG4gICAgICBhbnRpb3hpZGFudHM6IHtcbiAgICAgICAgY2lubmFtYWxkZWh5ZGU6IDAuNjUsXG4gICAgICAgIGV1Z2Vub2w6IDAuNDIsXG4gICAgICAgIGNpbm5hbXlsX2FjZXRhdGU6IDAuMzgsXG4gICAgICAgIGNvdW1hcmluOiAwLjE1XG4gICAgICB9LFxuICAgICAgYmVuZWZpdHM6IFsnYmxvb2Qgc3VnYXIgcmVndWxhdGlvbicsICdhbnRpLWluZmxhbW1hdG9yeScsICdhbnRpbWljcm9iaWFsJ10sXG4gICAgICBzb3VyY2U6IFwiVVNEQSBGb29kRGF0YSBDZW50cmFsXCJcbiAgICB9LFxuICAgIC8vIC4uLiByZXN0IG9mIGNpbm5hbW9uIHByb3BlcnRpZXNcbiAgfSxcbiAgLy8gLi4uIG90aGVyIHdhcm0gc3BpY2VzXG59O1xuXG4vLyBGaXggdGhlIGluZ3JlZGllbnQgbWFwcGluZ3MgdG8gZW5zdXJlIHRoZXkgaGF2ZSBhbGwgcmVxdWlyZWQgcHJvcGVydGllc1xuZXhwb3J0IGNvbnN0IHdhcm1TcGljZXM6IFJlY29yZDxzdHJpbmcsIEluZ3JlZGllbnRNYXBwaW5nPiA9IGZpeEluZ3JlZGllbnRNYXBwaW5ncyhyYXdXYXJtU3BpY2VzKTtcblxuLy8gQ3JlYXRlIGEgY29sbGVjdGlvbiBvZiBhbGwgd2FybSBzcGljZXNcbmV4cG9ydCBjb25zdCBhbGxXYXJtU3BpY2VzID0gT2JqZWN0LnZhbHVlcyh3YXJtU3BpY2VzKTtcblxuZXhwb3J0IGRlZmF1bHQgd2FybVNwaWNlczsgIl0sInZlcnNpb24iOjN9

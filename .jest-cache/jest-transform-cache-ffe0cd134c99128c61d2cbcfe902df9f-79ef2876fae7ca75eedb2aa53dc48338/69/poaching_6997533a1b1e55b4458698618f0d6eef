@@ -1,0 +1,398 @@
+174be6ccec300c859450c80b4ec1926b
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.poaching = void 0;
+/**
+ * Poaching cooking method
+ *
+ * Gentle cooking technique using liquid heated to just below simmering point (160°F-180°F/71°C-82°C).
+ * Associated with the alchemical pillar of Coagulation - transforming delicate substances
+ * with minimal disruption while preserving their essence.
+ */
+exports.poaching = {
+    name: 'poaching',
+    description: 'Gentle cooking method where food is submerged in liquid heated to just below simmering point (160°F-180°F/71°C-82°C), characterized by small bubbles forming on the bottom of the pan without breaking the surface. This technique delicately cooks food while preserving moisture, texture, and shape, ideal for proteins that might toughen at higher temperatures and delicate ingredients that require subtle flavor infusion.',
+    elementalEffect: {
+        Water: 0.8,
+        Air: 0.1,
+        Fire: 0.1,
+        Earth: 0.0 // Minimal earth element
+    },
+    duration: {
+        min: 3,
+        max: 45
+    },
+    suitable_for: [
+        'fish fillets',
+        'shellfish',
+        'poultry',
+        'eggs',
+        'fruits',
+        'delicate vegetables',
+        'tender cuts of meat',
+        'custards',
+        'dumplings',
+        'whole fish',
+        'chicken breasts',
+        'pears',
+        'apples',
+        'quince',
+        'peaches',
+        'asparagus',
+        'fennel',
+        'meatballs',
+        'quenelles',
+        'terrines'
+    ],
+    benefits: [
+        'preserves delicate textures',
+        'gentle flavor infusion',
+        'minimizes toughening of proteins',
+        'retains moisture',
+        'reduces shrinkage',
+        'preserves shape and integrity',
+        'extracts flavor into cooking medium',
+        'reduces risk of overcooking',
+        'no added fat necessary',
+        'clean, pure flavors',
+        'promotes tender results',
+        'facilitates subtle flavor absorption',
+        'creates natural sauces',
+        'maintains nutritional value',
+        'prevents food from drying out'
+    ],
+    astrologicalInfluences: {
+        favorableZodiac: ['pisces', 'cancer', 'scorpio', 'libra'],
+        unfavorableZodiac: ['aries', 'leo', 'sagittarius'],
+        dominantPlanets: ['Venus', 'Neptune', 'Moon'],
+        rulingPlanets: ['Venus', 'Neptune'],
+        lunarPhaseEffect: {
+            'full_moon': 1.2,
+            'new_moon': 0.9,
+            'waxing_gibbous': 1.15,
+            'waning_crescent': 0.95,
+            'first_quarter': 1.05,
+            'third_quarter': 0.98,
+            'waxing_crescent': 1.0,
+            'waning_gibbous': 1.05 // Moderate enhancement
+        }
+    },
+    toolsRequired: [
+        'Wide, shallow pan with lid',
+        'Slotted spoon or spider',
+        'Instant-read thermometer',
+        'Kitchen timer',
+        'Parchment paper lid (cartouche)',
+        'Fine mesh strainer',
+        'Fish spatula (for delicate items)',
+        'Poaching liquid (court bouillon, stock, wine, milk, water)',
+        'Aromatics (herbs, spices, vegetables)',
+        'Ladle',
+        'Paper towels for draining',
+        'Shallow serving dish',
+        'Heat diffuser (optional)'
+    ],
+    commonMistakes: [
+        'liquid too hot (causes toughening and shrinkage)',
+        'liquid too cool (extends cooking time, safety concerns)',
+        'insufficient liquid (uneven cooking)',
+        'overcrowding the pan (temperature drops, uneven cooking)',
+        'not using acidulated liquid for eggs (whites spread)',
+        'boiling instead of poaching (rough texture)',
+        'insufficient aromatics (bland result)',
+        'not straining poaching liquid (cloudy appearance)',
+        'overcooking (dry, tough texture)',
+        'not using cartouche when appropriate (evaporation, skin formation)',
+        'poaching frozen items without thawing (temperature inconsistency)',
+        'not resting proteins after poaching (moisture loss)',
+        'incorrect liquid selection for ingredient (flavor clash)',
+        'not saving poaching liquid for sauce (flavor waste)'
+    ],
+    pairingSuggestions: [
+        'Beurre blanc sauce (classic with fish)',
+        'Hollandaise (traditional with eggs Benedict)',
+        'Infused oils (herb, citrus, chili)',
+        'Light vinaigrettes (champagne, white wine)',
+        'Herb salads (parsley, chervil, tarragon)',
+        'Crisp vegetables for texture contrast',
+        'Poaching liquid reduced as natural sauce',
+        'Light cream sauces (velouté base)',
+        'Citrus segments and zest',
+        'Pickled components (quick-pickled shallots, cucumbers)',
+        'Microgreens and edible flowers',
+        'Compound butters (dill, tarragon, lemon)',
+        'Crisp toast points or crostini',
+        'Salsas verde or mild fruit salsas',
+        'Minimally dressed greens (contrasting bitterness)'
+    ],
+    nutrientRetention: {
+        vitamins: 0.85,
+        minerals: 0.75,
+        proteins: 0.95,
+        fats: 0.80,
+        antioxidants: 0.90,
+        water_soluble_vitamins: 0.75,
+        fat_soluble_vitamins: 0.90,
+        phytonutrients: 0.85,
+        flavor_compounds: 0.75 // Some transfer to poaching liquid
+    },
+    optimalTemperatures: {
+        'delicate_fish': 170,
+        'fatty_fish': 175,
+        'shellfish': 165,
+        'chicken_breast': 175,
+        'eggs': 165,
+        'fruits': 160,
+        'vegetables': 180,
+        'whole_fish': 170,
+        'custards': 170,
+        'average_temperature': 170,
+        'maximum_safe': 180,
+        'minimum_safe': 160,
+        'milk_poaching': 165,
+        'wine_poaching': 175,
+        'court_bouillon': 175 // °F - Classic aromatic poaching liquid
+    },
+    regionalVariations: {
+        french: [
+            'poached eggs with meurette sauce (Burgundy)',
+            'fish quenelles (Lyon)',
+            'poule au pot (classic poached chicken)',
+            'pears poached in wine (poires au vin)',
+            'court bouillon with white wine and herbs',
+            'oeufs en meurette (eggs poached in red wine)',
+            'poisson au court-bouillon (fish in aromatic broth)'
+        ],
+        chinese: [
+            'Cantonese steamed fish (subtle poaching)',
+            'white-cooked chicken (bai qie ji)',
+            'rice wine poached seafood',
+            'ginger-scallion fish poaching',
+            'chrysanthemum fish (chrysanthemum-infused poaching)',
+            'tea-poached fish'
+        ],
+        italian: [
+            'poached seafood for insalata di mare',
+            'pesce in carpione (poached then marinated fish)',
+            'white wine and herb poaching for branzino',
+            'fruit in moscato (peaches, apricots)',
+            'uova in camicia (poached eggs Italian style)'
+        ],
+        nordic: [
+            'dill-poached salmon',
+            'aquavit-infused poaching liquids',
+            'cucumber poaching court bouillon',
+            'buttermilk poached cod',
+            'spruce tip poaching liquid'
+        ],
+        japanese: [
+            'nimono (simmered/poached dishes)',
+            'sakamushi (sake-poached seafood)',
+            'yudofu (hot-pot poached tofu)',
+            'tamago onsen (hot spring eggs)',
+            'kombu-dashi poaching liquid'
+        ],
+        mexican: [
+            'huevos ahogados (drowned eggs)',
+            'pescado a la veracruzana (poached fish)',
+            'poached fruit in cinnamon and piloncillo',
+            'chile-infused poaching liquids',
+            'hibiscus flower fruit poaching'
+        ],
+        indian: [
+            'coconut milk poached fish (South Indian)',
+            'saffron and cardamom poached chicken',
+            'poached fruit in chai tea',
+            'yogurt-poached fish (Bengali tradition)',
+            'fragrant poaching with whole spices'
+        ]
+    },
+    chemicalChanges: {
+        'gentle_protein_denaturation': true,
+        'collagen_hydration': true,
+        'flavor_infusion': true,
+        'pectin_softening': true,
+        'starch_hydration': true,
+        'minimal_maillard_reaction': false,
+        'enzyme_inactivation': true,
+        'fat_preservation': true,
+        'nutrient_migration': true,
+        'albumin_coagulation': true,
+        'vitamin_preservation': true,
+        'aromatic_compound_extraction': true,
+        'mineral_transfer': true,
+        'anthocyanin_preservation': true // Color compounds in fruits maintained
+    },
+    safetyFeatures: [
+        'Temperature control crucial (use thermometer)',
+        'Maintain 160°F minimum for food safety (killing pathogens)',
+        'Keep poached items refrigerated if not serving immediately',
+        'Use clean, fresh ingredients (especially for seafood)',
+        'Acidulated water for eggs helps denature surface proteins (safer)',
+        'Avoid cross-contamination between raw and poached items',
+        'Cool poaching liquid properly before refrigerating',
+        'Handle hot poaching liquid carefully to avoid burns',
+        'Ensure proper internal temperature for poultry (165°F)',
+        'Use dedicated tools for raw and cooked items',
+        'Monitor poaching liquid levels to prevent drying/burning',
+        'Follow time guidelines for different ingredients',
+        'Cool poached items quickly if not serving immediately',
+        'Strain and reuse poaching liquid only once or twice (safety)',
+        'Be aware of allergens in aromatic poaching liquids'
+    ],
+    thermodynamicProperties: {
+        heat: 0.40,
+        entropy: 0.30,
+        reactivity: 0.25,
+        gregsEnergy: 0.40 - (0.30 * 0.25) // Calculated gregsEnergy: heat - (entropy * reactivity)
+    },
+    // Additional metadata
+    history: 'Poaching dates back to ancient times, with written records of gentle liquid cooking in Roman texts from the 1st century AD. The technique was refined in medieval European courts, particularly in France where it became a cornerstone of delicate fish cookery by the 15th century. The 17th century saw the development of court bouillon (short broth) specifically for poaching. In 19th century France, Chef Marie-Antoine Carême standardized poaching techniques and elevated them in haute cuisine, creating elaborate presentations like poached salmon in aspic. In Asian traditions, particularly Chinese cuisine, gentle poaching techniques developed independently with a focus on delicate flavors and textures, as seen in white-cut chicken (bai qie ji). Modern professional kitchens still rely on poaching as the preferred method for delicate ingredients and precision cooking.',
+    scientificPrinciples: [
+        'Heat transfer primarily through convection in liquid medium',
+        'Protein denaturation occurs gradually at 140°F-160°F without contracting/toughening',
+        'Osmosis facilitates flavor exchange between poaching liquid and food',
+        'Gentle temperature prevents rapid protein coagulation that causes toughening',
+        'Constant temperature environment provides even cooking throughout food',
+        'Water\'s high specific heat capacity creates stable cooking environment',
+        'Aromatic compounds dissolve in poaching liquid creating flavor infusion',
+        'Convection currents in liquid distribute heat evenly around food',
+        'Acidic poaching liquids denature proteins more readily than neutral liquids',
+        'Proteins unfold and coagulate at different temperatures (eggs: 145°F, fish: 140°F)',
+        'Poaching below 180°F prevents violent bubbling that can damage delicate foods',
+        'Submersion ensures even heat distribution without temperature gradients',
+        'Low temperature prevents excessive moisture loss from protein contraction',
+        'Fat-soluble flavors remain in food while water-soluble flavors can migrate to liquid',
+        'Hydrophilic and hydrophobic interactions influence flavor transfer dynamics'
+    ],
+    modernVariations: [
+        'Temperature-controlled water baths for precise poaching',
+        'Vacuum-sealed poaching (sous vide technique)',
+        'Oil-poaching (confit) at low temperatures',
+        'Flavored poaching liquids (teas, broths, juices, wines)',
+        'Smoke-infused poaching liquids',
+        'Double-poaching techniques (two different liquids sequentially)',
+        'Microwave poaching for rapid results',
+        'Pressure cooker poaching (elevated temperature)',
+        'Induction-controlled precise poaching',
+        'Carbonated liquid poaching for textural effects',
+        'Cryoconcentrated flavor infusions for poaching media',
+        'Ultra-filtration of poaching liquids for reuse',
+        'Centrifuged clarified poaching media',
+        'Enzyme-modified poaching liquids for tenderization',
+        'Ultrasonic-assisted flavor infusion during poaching'
+    ],
+    sustainabilityRating: 0.80,
+    equipmentComplexity: 0.25,
+    healthConsiderations: [
+        'No added fat required for cooking method',
+        'Excellent retention of nutrients due to gentle temperatures',
+        'Poaching liquid can be consumed for additional nutrition (vitamins, minerals)',
+        'Lower risk of harmful compound formation compared to high-heat methods',
+        'Gentle on digestive system (ideal for therapeutic diets)',
+        'Can be used with minimal salt for sodium-restricted diets',
+        'Preserves omega fatty acids in fish better than high-heat methods',
+        'Reduces formation of AGEs (Advanced Glycation End-products)',
+        'Ideal for special diets requiring gentle foods',
+        'Little to no oxidation of fats during cooking',
+        'Helps preserve heat-sensitive nutrients like B vitamins',
+        'Allows natural flavors to predominate without additives',
+        'Can incorporate aromatic herbs with medicinal properties',
+        'Facilitates precise control of sodium and other additives',
+        'Creates easily digestible proteins for therapeutic nutrition'
+    ],
+    /**
+     * Alchemical aspect - Coagulation Pillar (#5)
+     *
+     * Poaching is associated with the Coagulation pillar in alchemy,
+     * which involves the solidification of dissolved elements in a gentle medium.
+     *
+     * Alchemical Effects: Increases Spirit and Essence, balances Matter and Substance
+     * Planetary associations: Venus (harmony, beauty) and Moon (fluidity, cycles)
+     * Tarot associations: The Empress (nurturing), Queen of Cups (emotional depth)
+     * Elemental associations: Primary - Water, Secondary - Air
+     */
+    alchemicalAspects: {
+        pillarName: 'Coagulation',
+        pillarNumber: 5,
+        alchemicalProcess: 'Gentle transformation of substances through submersion in nurturing liquid',
+        effects: {
+            spirit: 1,
+            essence: 1,
+            matter: 0,
+            substance: 0 // Neutral effect on substantive qualities
+        },
+        symbolicMeaning: 'Represents the nurturing transformation of ingredients through gentle care and patience, preserving their essential nature while refining their form',
+        associatedElements: {
+            primary: 'Water',
+            secondary: 'Air' // Subtlety, refinement, delicacy
+        }
+    },
+    /**
+     * Extended cooking notes
+     */
+    expertTips: [
+        'For perfectly poached eggs, create a vortex in acidulated water before adding egg',
+        'When poaching fish, measure thickness and calculate 10 minutes per inch',
+        'Always let poached meats rest before slicing to retain juices',
+        'Save and reduce poaching liquid for natural, flavorful sauces',
+        'Use a cartouche (parchment paper lid) to prevent surface discoloration',
+        'The wider and shallower the poaching vessel, the more even the cooking',
+        'For fruit, poach until just tender when pierced (avoid mushiness)',
+        'Control poaching temperature precisely with an instant-read thermometer',
+        'Add a splash of vinegar to poaching liquid for eggs (1 Tbsp per quart)',
+        'For chicken breasts, start in cold liquid and slowly bring to temperature',
+        'When poaching fish, a court bouillon with acid helps maintain firmness',
+        'Let delicate items like fish rest in turned-off poaching liquid for 1-2 minutes',
+        'Butter-baste poached items just before serving for added richness',
+        'Strain and freeze poaching liquid for future use (label with date and ingredients)'
+    ],
+    timingConsiderations: {
+        'eggs': 'Just barely simmering water: 3 minutes for soft yolk, 4-5 minutes for medium',
+        'fish_fillets': '8-10 minutes per inch of thickness at 170°F',
+        'chicken_breasts': 'Start in cold liquid, 15-20 minutes at 170°F until 165°F internal',
+        'shellfish': 'Shrimp: 2-3 minutes; Scallops: 3-5 minutes until just opaque',
+        'pears': '15-25 minutes depending on ripeness (test with knife)',
+        'apples': '10-15 minutes for slices, 20-30 minutes for whole',
+        'stone_fruits': '8-12 minutes depending on ripeness',
+        'whole_fish': '8-10 minutes per pound at 170°F',
+        'rest_period': 'Fish: 2-3 minutes in liquid; Chicken: 5-10 minutes in liquid',
+        'custards': '25-35 minutes at 170°F (verify with jiggle test or thermometer)',
+        'vegetables': 'Asparagus: 3-5 minutes; Artichokes: 20-30 minutes; test with knife'
+    },
+    doneness_indicators: {
+        'fish': 'Turns from translucent to opaque; flesh flakes easily with fork but remains moist',
+        'chicken': 'No pink remains; internal temperature of 165°F; juices run clear',
+        'eggs': 'Whites fully set but yolk remains soft and runny (or to preference)',
+        'shellfish': 'Shrimp turn pink and curl into C-shape (not tight O); scallops turn opaque but remain tender',
+        'pears': 'Knife pierces easily without resistance but fruit maintains shape',
+        'delicate_vegetables': 'Bright color, tender-crisp texture; slight resistance when bitten',
+        'custards': 'Set around edges but slight jiggle in center; knife inserted comes out clean',
+        'meat': 'Reaches target internal temperature but remains juicy and tender'
+    },
+    poaching_liquids: {
+        'court_bouillon': 'Classic aromatic liquid with wine/vinegar, mirepoix, herbs, and spices',
+        'milk': 'Rich, mild poaching medium that adds creaminess to fish and chicken',
+        'stock': 'Adds depth of flavor while maintaining clean taste profile',
+        'wine': 'Adds acidity and complex flavor; often diluted 50/50 with water',
+        'water': 'Pure, clean medium that preserves natural flavor of delicate ingredients',
+        'fruit_juice': 'Sweet medium for fruit poaching; often mixed with wine or water',
+        'tea': 'Adds tannins and aromatics; excellent for fish and fruit',
+        'infused_water': 'Simple water base enhanced with aromatics (herbs, citrus, spices)',
+        'coconut_milk': 'Rich tropical medium for seafood and fruit',
+        'oil': 'Low-temperature poaching in oil (confit method) for rich results'
+    },
+    presentation_techniques: {
+        'chilled_presentation': 'Poached items served cold with complementary sauces (fish, poultry, eggs)',
+        'natural_sauce': 'Reduced poaching liquid served as sauce or jus',
+        'layered_composition': 'Building vertical presentations with poached item as centerpiece',
+        'nage_service': 'Serving poached item in small amount of its aromatic cooking liquid',
+        'aspic_presentation': 'Traditional preparation using clarified, gelled poaching liquid',
+        'sauce_mirror': 'Refined poaching liquid as base for plated presentation',
+        'fluid_gel_technique': 'Modern application using poaching liquid as textural element',
+        'paired_temperatures': 'Contrasting warm poached item with cool accompaniments',
+        'negative_space': 'Contemporary plating with poached item as focal point',
+        'herb_garnish': 'Fresh herbs that echo poaching aromatics for visual and flavor connection'
+    }
+};
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJmaWxlIjoiL1VzZXJzL0dyZWdDYXN0cm8vRGVza3RvcC9XaGF0VG9FYXROZXh0L3NyYy9kYXRhL2Nvb2tpbmcvbWV0aG9kcy93ZXQvcG9hY2hpbmcudHMiLCJtYXBwaW5ncyI6Ijs7O0FBT0E7Ozs7OztHQU1HO0FBQ1UsUUFBQSxRQUFRLEdBQXNCO0lBQ3pDLElBQUksRUFBRSxVQUFVO0lBQ2hCLFdBQVcsRUFBRSxvYUFBb2E7SUFDamIsZUFBZSxFQUFFO1FBQ2YsS0FBSyxFQUFFLEdBQUc7UUFDVixHQUFHLEVBQUUsR0FBRztRQUNSLElBQUksRUFBRSxHQUFHO1FBQ1QsS0FBSyxFQUFFLEdBQUcsQ0FBRyx3QkFBd0I7S0FDdEM7SUFDRCxRQUFRLEVBQUU7UUFDUixHQUFHLEVBQUUsQ0FBQztRQUNOLEdBQUcsRUFBRSxFQUFFO0tBQ1I7SUFDRCxZQUFZLEVBQUU7UUFDWixjQUFjO1FBQ2QsV0FBVztRQUNYLFNBQVM7UUFDVCxNQUFNO1FBQ04sUUFBUTtRQUNSLHFCQUFxQjtRQUNyQixxQkFBcUI7UUFDckIsVUFBVTtRQUNWLFdBQVc7UUFDWCxZQUFZO1FBQ1osaUJBQWlCO1FBQ2pCLE9BQU87UUFDUCxRQUFRO1FBQ1IsUUFBUTtRQUNSLFNBQVM7UUFDVCxXQUFXO1FBQ1gsUUFBUTtRQUNSLFdBQVc7UUFDWCxXQUFXO1FBQ1gsVUFBVTtLQUNYO0lBQ0QsUUFBUSxFQUFFO1FBQ1IsNkJBQTZCO1FBQzdCLHdCQUF3QjtRQUN4QixrQ0FBa0M7UUFDbEMsa0JBQWtCO1FBQ2xCLG1CQUFtQjtRQUNuQiwrQkFBK0I7UUFDL0IscUNBQXFDO1FBQ3JDLDZCQUE2QjtRQUM3Qix3QkFBd0I7UUFDeEIscUJBQXFCO1FBQ3JCLHlCQUF5QjtRQUN6QixzQ0FBc0M7UUFDdEMsd0JBQXdCO1FBQ3hCLDZCQUE2QjtRQUM3QiwrQkFBK0I7S0FDaEM7SUFDRCxzQkFBc0IsRUFBRTtRQUN0QixlQUFlLEVBQUUsQ0FBQyxRQUFRLEVBQUUsUUFBUSxFQUFFLFNBQVMsRUFBRSxPQUFPLENBQWlCO1FBQ3pFLGlCQUFpQixFQUFF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QVMsRUFBRSxrRUFBa0U7UUFDN0UsTUFBTSxFQUFFLHFFQUFxRTtRQUM3RSxXQUFXLEVBQUUsOEZBQThGO1FBQzNHLE9BQU8sRUFBRSxtRUFBbUU7UUFDNUUscUJBQXFCLEVBQUUsbUVBQW1FO1FBQzFGLFVBQVUsRUFBRSw4RUFBOEU7UUFDMUYsTUFBTSxFQUFFLGtFQUFrRTtLQUMzRTtJQUVELGdCQUFnQixFQUFFO1FBQ2hCLGdCQUFnQixFQUFFLHdFQUF3RTtRQUMxRixNQUFNLEVBQUUscUVBQXFFO1FBQzdFLE9BQU8sRUFBRSw0REFBNEQ7UUFDckUsTUFBTSxFQUFFLGlFQUFpRTtRQUN6RSxPQUFPLEVBQUUsMEVBQTBFO1FBQ25GLGFBQWEsRUFBRSxpRUFBaUU7UUFDaEYsS0FBSyxFQUFFLDBEQUEwRDtRQUNqRSxlQUFlLEVBQUUsbUVBQW1FO1FBQ3BGLGNBQWMsRUFBRSw0Q0FBNEM7UUFDNUQsS0FBSyxFQUFFLGtFQUFrRTtLQUMxRTtJQUVELHVCQUF1QixFQUFFO1FBQ3ZCLHNCQUFzQixFQUFFLDJFQUEyRTtRQUNuRyxlQUFlLEVBQUUsZ0RBQWdEO1FBQ2pFLHFCQUFxQixFQUFFLGtFQUFrRTtRQUN6RixjQUFjLEVBQUUscUVBQXFFO1FBQ3JGLG9CQUFvQixFQUFFLGlFQUFpRTtRQUN2RixjQUFjLEVBQUUseURBQXlEO1FBQ3pFLHFCQUFxQixFQUFFLDhEQUE4RDtRQUNyRixxQkFBcUIsRUFBRSx3REFBd0Q7UUFDL0UsZ0JBQWdCLEVBQUUsdURBQXVEO1FBQ3pFLGNBQWMsRUFBRSwyRUFBMkU7S0FDNUY7Q0FDOEIsQ0FBQyIsIm5hbWVzIjpbXSwic291cmNlcyI6WyIvVXNlcnMvR3JlZ0Nhc3Ryby9EZXNrdG9wL1doYXRUb0VhdE5leHQvc3JjL2RhdGEvY29va2luZy9tZXRob2RzL3dldC9wb2FjaGluZy50cyJdLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQgdHlwZSB7IFxuICBab2RpYWNTaWduLCBcbiAgVGhlcm1vZHluYW1pY1Byb3BlcnRpZXNcbn0gZnJvbSAnQC90eXBlcy9hbGNoZW15JztcblxuaW1wb3J0IHR5cGUgeyBDb29raW5nTWV0aG9kRGF0YSB9IGZyb20gJ0AvdHlwZXMvY29va2luZ01ldGhvZCc7XG5cbi8qKlxuICogUG9hY2hpbmcgY29va2luZyBtZXRob2RcbiAqIFxuICogR2VudGxlIGNvb2tpbmcgdGVjaG5pcXVlIHVzaW5nIGxpcXVpZCBoZWF0ZWQgdG8ganVzdCBiZWxvdyBzaW1tZXJpbmcgcG9pbnQgKDE2MMKwRi0xODDCsEYvNzHCsEMtODLCsEMpLlxuICogQXNzb2NpYXRlZCB3aXRoIHRoZSBhbGNoZW1pY2FsIHBpbGxhciBvZiBDb2FndWxhdGlvbiAtIHRyYW5zZm9ybWluZyBkZWxpY2F0ZSBzdWJzdGFuY2VzIFxuICogd2l0aCBtaW5pbWFsIGRpc3J1cHRpb24gd2hpbGUgcHJlc2VydmluZyB0aGVpciBlc3NlbmNlLlxuICovXG5leHBvcnQgY29uc3QgcG9hY2hpbmc6IENvb2tpbmdNZXRob2REYXRhID0ge1xuICBuYW1lOiAncG9hY2hpbmcnLFxuICBkZXNjcmlwdGlvbjogJ0dlbnRsZSBjb29raW5nIG1ldGhvZCB3aGVyZSBmb29kIGlzIHN1Ym1lcmdlZCBpbiBsaXF1aWQgaGVhdGVkIHRvIGp1c3QgYmVsb3cgc2ltbWVyaW5nIHBvaW50ICgxNjDCsEYtMTgwwrBGLzcxwrBDLTgywrBDKSwgY2hhcmFjdGVyaXplZCBieSBzbWFsbCBidWJibGVzIGZvcm1pbmcgb24gdGhlIGJvdHRvbSBvZiB0aGUgcGFuIHdpdGhvdXQgYnJlYWtpbmcgdGhlIHN1cmZhY2UuIFRoaXMgdGVjaG5pcXVlIGRlbGljYXRlbHkgY29va3MgZm9vZCB3aGlsZSBwcmVzZXJ2aW5nIG1vaXN0dXJlLCB0ZXh0dXJlLCBhbmQgc2hhcGUsIGlkZWFsIGZvciBwcm90ZWlucyB0aGF0IG1pZ2h0IHRvdWdoZW4gYXQgaGlnaGVyIHRlbXBlcmF0dXJlcyBhbmQgZGVsaWNhdGUgaW5ncmVkaWVudHMgdGhhdCByZXF1aXJlIHN1YnRsZSBmbGF2b3IgaW5mdXNpb24uJyxcbiAgZWxlbWVudGFsRWZmZWN0OiB7XG4gICAgV2F0ZXI6IDAuOCwgIC8vIFByaW1hcnkgZWxlbWVudCAtIGdlbnRsZSwgc3VibWVyc2l2ZSBjb29raW5nIG1lZGl1bVxuICAgIEFpcjogMC4xLCAgICAvLyBNaW5vciBlbGVtZW50IC0gc3VidGxlIGNvbnZlY3Rpb24gY3VycmVudHNcbiAgICBGaXJlOiAwLjEsICAgLy8gTWlub3IgZWxlbWVudCAtIHZlcnkgZ2VudGxlIGhlYXQgYXBwbGljYXRpb25cbiAgICBFYXJ0aDogMC4wICAgLy8gTWluaW1hbCBlYXJ0aCBlbGVtZW50XG4gIH0sXG4gIGR1cmF0aW9uOiB7XG4gICAgbWluOiAzLFxuICAgIG1heDogNDVcbiAgfSxcbiAgc3VpdGFibGVfZm9yOiBbXG4gICAgJ2Zpc2ggZmlsbGV0cycsIFxuICAgICdzaGVsbGZpc2gnLCBcbiAgICAncG91bHRyeScsIFxuICAgICdlZ2dzJywgXG4gICAgJ2ZydWl0cycsIFxuICAgICdkZWxpY2F0ZSB2ZWdldGFibGVzJyxcbiAgICAndGVuZGVyIGN1dHMgb2YgbWVhdCcsXG4gICAgJ2N1c3RhcmRzJyxcbiAgICAnZHVtcGxpbmdzJyxcbiAgICAnd2hvbGUgZmlzaCcsXG4gICAgJ2NoaWNrZW4gYnJlYXN0cycsXG4gICAgJ3BlYXJzJyxcbiAgICAnYXBwbGVzJyxcbiAgICAncXVpbmNlJyxcbiAgICAncGVhY2hlcycsXG4gICAgJ2FzcGFyYWd1cycsXG4gICAgJ2Zlbm5lbCcsXG4gICAgJ21lYXRiYWxscycsXG4gICAgJ3F1ZW5lbGxlcycsXG4gICAgJ3RlcnJpbmVzJ1xuICBdLFxuICBiZW5lZml0czogW1xuICAgICdwcmVzZXJ2ZXMgZGVsaWNhdGUgdGV4dHVyZXMnLCBcbiAgICAnZ2VudGxlIGZsYXZvciBpbmZ1c2lvbicsIFxuICAgICdtaW5pbWl6ZXMgdG91Z2hlbmluZyBvZiBwcm90ZWlucycsIFxuICAgICdyZXRhaW5zIG1vaXN0dXJlJyxcbiAgICAncmVkdWNlcyBzaHJpbmthZ2UnLFxuICAgICdwcmVzZXJ2ZXMgc2hhcGUgYW5kIGludGVncml0eScsXG4gICAgJ2V4dHJhY3RzIGZsYXZvciBpbnRvIGNvb2tpbmcgbWVkaXVtJyxcbiAgICAncmVkdWNlcyByaXNrIG9mIG92ZXJjb29raW5nJyxcbiAgICAnbm8gYWRkZWQgZmF0IG5lY2Vzc2FyeScsXG4gICAgJ2NsZWFuLCBwdXJlIGZsYXZvcnMnLFxuICAgICdwcm9tb3RlcyB0ZW5kZXIgcmVzdWx0cycsXG4gICAgJ2ZhY2lsaXRhdGVzIHN1YnRsZSBmbGF2b3IgYWJzb3JwdGlvbicsXG4gICAgJ2NyZWF0ZXMgbmF0dXJhbCBzYXVjZXMnLFxuICAgICdtYWludGFpbnMgbnV0cml0aW9uYWwgdmFsdWUnLFxuICAgICdwcmV2ZW50cyBmb29kIGZyb20gZHJ5aW5nIG91dCdcbiAgXSxcbiAgYXN0cm9sb2dpY2FsSW5mbHVlbmNlczoge1xuICAgIGZhdm9yYWJsZVpvZGlhYzogWydwaXNjZXMnLCAnY2FuY2VyJywgJ3Njb3JwaW8nLCAnbGlicmEnXSBhcyBab2RpYWNTaWduW10sIC8vIFdhdGVyIHNpZ25zIGFuZCBiYWxhbmNlZCBMaWJyYVxuICAgIHVuZmF2b3JhYmxlWm9kaWFjOiBbJ2FyaWVzJywgJ2xlbycsICdzYWdpdHRhcml1cyddIGFzIFpvZGlhY1NpZ25bXSwgLy8gRmlyZSBzaWducyBwcmVmZXIgbW9yZSBkeW5hbWljIGNvb2tpbmcgbWV0aG9kc1xuICAgIGRvbWluYW50UGxhbmV0czogWydWZW51cycsICdOZXB0dW5lJywgJ01vb24nXSwgLy8gVmVudXMgKGhhcm1vbnkpLCBOZXB0dW5lIChzdWJ0bGV0eSksIE1vb24gKGZsdWlkaXR5KVxuICAgIHJ1bGluZ1BsYW5ldHM6IFsnVmVudXMnLCAnTmVwdHVuZSddLCAvLyBQcmltYXJ5IHJ1bGVycyAtIGdlbnRsZW5lc3MgYW5kIHN1YnRsZXR5XG4gICAgbHVuYXJQaGFzZUVmZmVjdDoge1xuICAgICAgJ2Z1bGxfbW9vbic6IDEuMiwgIC8vIEVuaGFuY2VkIHN1YnRsZXR5IGFuZCBtb2lzdHVyZSByZXRlbnRpb25cbiAgICAgICduZXdfbW9vbic6IDAuOSwgICAvLyBTbGlnaHRseSBkaW1pbmlzaGVkIGVmZmVjdHNcbiAgICAgICd3YXhpbmdfZ2liYm91cyc6IDEuMTUsIC8vIEdvb2QgYmFsYW5jZSBhbmQgZmxhdm9yIGluZnVzaW9uXG4gICAgICAnd2FuaW5nX2NyZXNjZW50JzogMC45NSwgLy8gU2xpZ2h0bHkgcmVkdWNlZCBlZmZlY3RpdmVuZXNzXG4gICAgICAnZmlyc3RfcXVhcnRlcic6IDEuMDUsIC8vIE1vZGVyYXRlIGVuaGFuY2VtZW50XG4gICAgICAndGhpcmRfcXVhcnRlcic6IDAuOTgsIC8vIFNsaWdodCByZWR1Y3Rpb25cbiAgICAgICd3YXhpbmdfY3Jlc2NlbnQnOiAxLjAsIC8vIE5ldXRyYWxcbiAgICAgICd3YW5pbmdfZ2liYm91cyc6IDEuMDUgIC8vIE1vZGVyYXRlIGVuaGFuY2VtZW50XG4gICAgfVxuICB9LFxuICB0b29sc1JlcXVpcmVkOiBbXG4gICAgJ1dpZGUsIHNoYWxsb3cgcGFuIHdpdGggbGlkJyxcbiAgICAnU2xvdHRlZCBzcG9vbiBvciBzcGlkZXInLFxuICAgICdJbnN0YW50LXJlYWQgdGhlcm1vbWV0ZXInLFxuICAgICdLaXRjaGVuIHRpbWVyJyxcbiAgICAnUGFyY2htZW50IHBhcGVyIGxpZCAoY2FydG91Y2hlKScsXG4gICAgJ0ZpbmUgbWVzaCBzdHJhaW5lcicsXG4gICAgJ0Zpc2ggc3BhdHVsYSAoZm9yIGRlbGljYXRlIGl0ZW1zKScsXG4gICAgJ1BvYWNoaW5nIGxpcXVpZCAoY291cnQgYm91aWxsb24sIHN0b2NrLCB3aW5lLCBtaWxrLCB3YXRlciknLFxuICAgICdBcm9tYXRpY3MgKGhlcmJzLCBzcGljZXMsIHZlZ2V0YWJsZXMpJyxcbiAgICAnTGFkbGUnLFxuICAgICdQYXBlciB0b3dlbHMgZm9yIGRyYWluaW5nJyxcbiAgICAnU2hhbGxvdyBzZXJ2aW5nIGRpc2gnLFxuICAgICdIZWF0IGRpZmZ1c2VyIChvcHRpb25hbCknXG4gIF0sXG4gIGNvbW1vbk1pc3Rha2VzOiBbXG4gICAgJ2xpcXVpZCB0b28gaG90IChjYXVzZXMgdG91Z2hlbmluZyBhbmQgc2hyaW5rYWdlKScsXG4gICAgJ2xpcXVpZCB0b28gY29vbCAoZXh0ZW5kcyBjb29raW5nIHRpbWUsIHNhZmV0eSBjb25jZXJucyknLFxuICAgICdpbnN1ZmZpY2llbnQgbGlxdWlkICh1bmV2ZW4gY29va2luZyknLFxuICAgICdvdmVyY3Jvd2RpbmcgdGhlIHBhbiAodGVtcGVyYXR1cmUgZHJvcHMsIHVuZXZlbiBjb29raW5nKScsXG4gICAgJ25vdCB1c2luZyBhY2lkdWxhdGVkIGxpcXVpZCBmb3IgZWdncyAod2hpdGVzIHNwcmVhZCknLFxuICAgICdib2lsaW5nIGluc3RlYWQgb2YgcG9hY2hpbmcgKHJvdWdoIHRleHR1cmUpJyxcbiAgICAnaW5zdWZmaWNpZW50IGFyb21hdGljcyAoYmxhbmQgcmVzdWx0KScsXG4gICAgJ25vdCBzdHJhaW5pbmcgcG9hY2hpbmcgbGlxdWlkIChjbG91ZHkgYXBwZWFyYW5jZSknLFxuICAgICdvdmVyY29va2luZyAoZHJ5LCB0b3VnaCB0ZXh0dXJlKScsXG4gICAgJ25vdCB1c2luZyBjYXJ0b3VjaGUgd2hlbiBhcHByb3ByaWF0ZSAoZXZhcG9yYXRpb24sIHNraW4gZm9ybWF0aW9uKScsXG4gICAgJ3BvYWNoaW5nIGZyb3plbiBpdGVtcyB3aXRob3V0IHRoYXdpbmcgKHRlbXBlcmF0dXJlIGluY29uc2lzdGVuY3kpJyxcbiAgICAnbm90IHJlc3RpbmcgcHJvdGVpbnMgYWZ0ZXIgcG9hY2hpbmcgKG1vaXN0dXJlIGxvc3MpJyxcbiAgICAnaW5jb3JyZWN0IGxpcXVpZCBzZWxlY3Rpb24gZm9yIGluZ3JlZGllbnQgKGZsYXZvciBjbGFzaCknLFxuICAgICdub3Qgc2F2aW5nIHBvYWNoaW5nIGxpcXVpZCBmb3Igc2F1Y2UgKGZsYXZvciB3YXN0ZSknXG4gIF0sXG4gIHBhaXJpbmdTdWdnZXN0aW9uczogW1xuICAgICdCZXVycmUgYmxhbmMgc2F1Y2UgKGNsYXNzaWMgd2l0aCBmaXNoKScsXG4gICAgJ0hvbGxhbmRhaXNlICh0cmFkaXRpb25hbCB3aXRoIGVnZ3MgQmVuZWRpY3QpJyxcbiAgICAnSW5mdXNlZCBvaWxzIChoZXJiLCBjaXRydXMsIGNoaWxpKScsXG4gICAgJ0xpZ2h0IHZpbmFpZ3JldHRlcyAoY2hhbXBhZ25lLCB3aGl0ZSB3aW5lKScsXG4gICAgJ0hlcmIgc2FsYWRzIChwYXJzbGV5LCBjaGVydmlsLCB0YXJyYWdvbiknLFxuICAgICdDcmlzcCB2ZWdldGFibGVzIGZvciB0ZXh0dXJlIGNvbnRyYXN0JyxcbiAgICAnUG9hY2hpbmcgbGlxdWlkIHJlZHVjZWQgYXMgbmF0dXJhbCBzYXVjZScsXG4gICAgJ0xpZ2h0IGNyZWFtIHNhdWNlcyAodmVsb3V0w6kgYmFzZSknLFxuICAgICdDaXRydXMgc2VnbWVudHMgYW5kIHplc3QnLFxuICAgICdQaWNrbGVkIGNvbXBvbmVudHMgKHF1aWNrLXBpY2tsZWQgc2hhbGxvdHMsIGN1Y3VtYmVycyknLFxuICAgICdNaWNyb2dyZWVucyBhbmQgZWRpYmxlIGZsb3dlcnMnLFxuICAgICdDb21wb3VuZCBidXR0ZXJzIChkaWxsLCB0YXJyYWdvbiwgbGVtb24pJyxcbiAgICAnQ3Jpc3AgdG9hc3QgcG9pbnRzIG9yIGNyb3N0aW5pJyxcbiAgICAnU2Fsc2FzIHZlcmRlIG9yIG1pbGQgZnJ1aXQgc2Fsc2FzJyxcbiAgICAnTWluaW1hbGx5IGRyZXNzZWQgZ3JlZW5zIChjb250cmFzdGluZyBiaXR0ZXJuZXNzKSdcbiAgXSxcbiAgbnV0cmllbnRSZXRlbnRpb246IHtcbiAgICB2aXRhbWluczogMC44NSwgLy8gRXhjZWxsZW50IHByZXNlcnZhdGlvbiBvZiBoZWF0LXNlbnNpdGl2ZSB2aXRhbWluc1xuICAgIG1pbmVyYWxzOiAwLjc1LCAvLyBTb21lIG1pZ3JhdGlvbiB0byBwb2FjaGluZyBsaXF1aWRcbiAgICBwcm90ZWluczogMC45NSwgLy8gVmVyeSBtaW5pbWFsIHByb3RlaW4gbG9zc1xuICAgIGZhdHM6IDAuODAsICAgICAvLyBTb21lIGZhdCByZW5kZXJlZCBpbnRvIGxpcXVpZCBidXQgbWFqb3JpdHkgcmV0YWluZWRcbiAgICBhbnRpb3hpZGFudHM6IDAuOTAsIC8vIFdlbGwgcHJlc2VydmVkIGR1ZSB0byBsb3cgdGVtcGVyYXR1cmVcbiAgICB3YXRlcl9zb2x1YmxlX3ZpdGFtaW5zOiAwLjc1LCAvLyBTb21lIEIgYW5kIEMgdml0YW1pbnMgbWlncmF0ZSB0byBsaXF1aWRcbiAgICBmYXRfc29sdWJsZV92aXRhbWluczogMC45MCwgLy8gRXhjZWxsZW50IEEsIEQsIEUsIEsgcmV0ZW50aW9uXG4gICAgcGh5dG9udXRyaWVudHM6IDAuODUsIC8vIEdvb2QgcHJlc2VydmF0aW9uIG9mIGJlbmVmaWNpYWwgcGxhbnQgY29tcG91bmRzXG4gICAgZmxhdm9yX2NvbXBvdW5kczogMC43NSAvLyBTb21lIHRyYW5zZmVyIHRvIHBvYWNoaW5nIGxpcXVpZFxuICB9LFxuICBvcHRpbWFsVGVtcGVyYXR1cmVzOiB7XG4gICAgJ2RlbGljYXRlX2Zpc2gnOiAxNzAsIC8vIMKwRiAtIFBlcmZlY3QgZm9yIHNvbGUsIGZsb3VuZGVyLCBzbmFwcGVyXG4gICAgJ2ZhdHR5X2Zpc2gnOiAxNzUsICAgIC8vIMKwRiAtIFNhbG1vbiwgdHJvdXRcbiAgICAnc2hlbGxmaXNoJzogMTY1LCAgICAgLy8gwrBGIC0gU2hyaW1wLCBzY2FsbG9wc1xuICAgICdjaGlja2VuX2JyZWFzdCc6IDE3NSwgLy8gwrBGIC0gUG91bHRyeSB3aGl0ZSBtZWF0XG4gICAgJ2VnZ3MnOiAxNjUsICAgICAgICAgLy8gwrBGIC0gUG9hY2hlZCBlZ2dzXG4gICAgJ2ZydWl0cyc6IDE2MCwgICAgICAgLy8gwrBGIC0gUGVhcnMsIGFwcGxlcywgc3RvbmUgZnJ1aXRzXG4gICAgJ3ZlZ2V0YWJsZXMnOiAxODAsICAgLy8gwrBGIC0gQXNwYXJhZ3VzLCBhcnRpY2hva2VzXG4gICAgJ3dob2xlX2Zpc2gnOiAxNzAsICAgLy8gwrBGIC0gU21hbGwgd2hvbGUgZmlzaCBvciBmaWxsZXRzIHdpdGggc2tpblxuICAgICdjdXN0YXJkcyc6IDE3MCwgICAgIC8vIMKwRiAtIFNhdm9yeSBvciBzd2VldCBjdXN0YXJkc1xuICAgICdhdmVyYWdlX3RlbXBlcmF0dXJlJzogMTcwLCAvLyDCsEYgLSBHZW5lcmFsIHBvYWNoaW5nIHRlbXBlcmF0dXJlXG4gICAgJ21heGltdW1fc2FmZSc6IDE4MCwgLy8gwrBGIC0gVXBwZXIgbGltaXQgYmVmb3JlIHNpbW1lcmluZyBiZWdpbnNcbiAgICAnbWluaW11bV9zYWZlJzogMTYwLCAvLyDCsEYgLSBMb3dlciBsaW1pdCBmb3IgZm9vZCBzYWZldHlcbiAgICAnbWlsa19wb2FjaGluZyc6IDE2NSwgLy8gwrBGIC0gRm9yIG1pbGstYmFzZWQgcG9hY2hpbmcgKGZpc2gsIGNoaWNrZW4pXG4gICAgJ3dpbmVfcG9hY2hpbmcnOiAxNzUsIC8vIMKwRiAtIFdpbmUtYmFzZWQgcG9hY2hpbmcgbGlxdWlkc1xuICAgICdjb3VydF9ib3VpbGxvbic6IDE3NSAvLyDCsEYgLSBDbGFzc2ljIGFyb21hdGljIHBvYWNoaW5nIGxpcXVpZFxuICB9LFxuICByZWdpb25hbFZhcmlhdGlvbnM6IHtcbiAgICBmcmVuY2g6IFtcbiAgICAgICdwb2FjaGVkIGVnZ3Mgd2l0aCBtZXVyZXR0ZSBzYXVjZSAoQnVyZ3VuZHkpJyxcbiAgICAgICdmaXNoIHF1ZW5lbGxlcyAoTHlvbiknLFxuICAgICAgJ3BvdWxlIGF1IHBvdCAoY2xhc3NpYyBwb2FjaGVkIGNoaWNrZW4pJyxcbiAgICAgICdwZWFycyBwb2FjaGVkIGluIHdpbmUgKHBvaXJlcyBhdSB2aW4pJyxcbiAgICAgICdjb3VydCBib3VpbGxvbiB3aXRoIHdoaXRlIHdpbmUgYW5kIGhlcmJzJyxcbiAgICAgICdvZXVmcyBlbiBtZXVyZXR0ZSAoZWdncyBwb2FjaGVkIGluIHJlZCB3aW5lKScsXG4gICAgICAncG9pc3NvbiBhdSBjb3VydC1ib3VpbGxvbiAoZmlzaCBpbiBhcm9tYXRpYyBicm90aCknXG4gICAgXSxcbiAgICBjaGluZXNlOiBbXG4gICAgICAnQ2FudG9uZXNlIHN0ZWFtZWQgZmlzaCAoc3VidGxlIHBvYWNoaW5nKScsXG4gICAgICAnd2hpdGUtY29va2VkIGNoaWNrZW4gKGJhaSBxaWUgamkpJyxcbiAgICAgICdyaWNlIHdpbmUgcG9hY2hlZCBzZWFmb29kJyxcbiAgICAgICdnaW5nZXItc2NhbGxpb24gZmlzaCBwb2FjaGluZycsXG4gICAgICAnY2hyeXNhbnRoZW11bSBmaXNoIChjaHJ5c2FudGhlbXVtLWluZnVzZWQgcG9hY2hpbmcpJyxcbiAgICAgICd0ZWEtcG9hY2hlZCBmaXNoJ1xuICAgIF0sXG4gICAgaXRhbGlhbjogW1xuICAgICAgJ3BvYWNoZWQgc2VhZm9vZCBmb3IgaW5zYWxhdGEgZGkgbWFyZScsXG4gICAgICAncGVzY2UgaW4gY2FycGlvbmUgKHBvYWNoZWQgdGhlbiBtYXJpbmF0ZWQgZmlzaCknLFxuICAgICAgJ3doaXRlIHdpbmUgYW5kIGhlcmIgcG9hY2hpbmcgZm9yIGJyYW56aW5vJyxcbiAgICAgICdmcnVpdCBpbiBtb3NjYXRvIChwZWFjaGVzLCBhcHJpY290cyknLFxuICAgICAgJ3VvdmEgaW4gY2FtaWNpYSAocG9hY2hlZCBlZ2dzIEl0YWxpYW4gc3R5bGUpJ1xuICAgIF0sXG4gICAgbm9yZGljOiBbXG4gICAgICAnZGlsbC1wb2FjaGVkIHNhbG1vbicsXG4gICAgICAnYXF1YXZpdC1pbmZ1c2VkIHBvYWNoaW5nIGxpcXVpZHMnLFxuICAgICAgJ2N1Y3VtYmVyIHBvYWNoaW5nIGNvdXJ0IGJvdWlsbG9uJyxcbiAgICAgICdidXR0ZXJtaWxrIHBvYWNoZWQgY29kJyxcbiAgICAgICdzcHJ1Y2UgdGlwIHBvYWNoaW5nIGxpcXVpZCdcbiAgICBdLFxuICAgIGphcGFuZXNlOiBbXG4gICAgICAnbmltb25vIChzaW1tZXJlZC9wb2FjaGVkIGRpc2hlcyknLFxuICAgICAgJ3Nha2FtdXNoaSAoc2FrZS1wb2FjaGVkIHNlYWZvb2QpJyxcbiAgICAgICd5dWRvZnUgKGhvdC1wb3QgcG9hY2hlZCB0b2Z1KScsXG4gICAgICAndGFtYWdvIG9uc2VuIChob3Qgc3ByaW5nIGVnZ3MpJyxcbiAgICAgICdrb21idS1kYXNoaSBwb2FjaGluZyBsaXF1aWQnXG4gICAgXSxcbiAgICBtZXhpY2FuOiBbXG4gICAgICAnaHVldm9zIGFob2dhZG9zIChkcm93bmVkIGVnZ3MpJyxcbiAgICAgICdwZXNjYWRvIGEgbGEgdmVyYWNydXphbmEgKHBvYWNoZWQgZmlzaCknLFxuICAgICAgJ3BvYWNoZWQgZnJ1aXQgaW4gY2lubmFtb24gYW5kIHBpbG9uY2lsbG8nLFxuICAgICAgJ2NoaWxlLWluZnVzZWQgcG9hY2hpbmcgbGlxdWlkcycsXG4gICAgICAnaGliaXNjdXMgZmxvd2VyIGZydWl0IHBvYWNoaW5nJ1xuICAgIF0sXG4gICAgaW5kaWFuOiBbXG4gICAgICAnY29jb251dCBtaWxrIHBvYWNoZWQgZmlzaCAoU291dGggSW5kaWFuKScsXG4gICAgICAnc2FmZnJvbiBhbmQgY2FyZGFtb20gcG9hY2hlZCBjaGlja2VuJyxcbiAgICAgICdwb2FjaGVkIGZydWl0IGluIGNoYWkgdGVhJyxcbiAgICAgICd5b2d1cnQtcG9hY2hlZCBmaXNoIChCZW5nYWxpIHRyYWRpdGlvbiknLFxuICAgICAgJ2ZyYWdyYW50IHBvYWNoaW5nIHdpdGggd2hvbGUgc3BpY2VzJ1xuICAgIF1cbiAgfSxcbiAgY2hlbWljYWxDaGFuZ2VzOiB7XG4gICAgJ2dlbnRsZV9wcm90ZWluX2RlbmF0dXJhdGlvbic6IHRydWUsIC8vIFByb3RlaW5zIHVuZm9sZCB3aXRob3V0IHRvdWdoZW5pbmdcbiAgICAnY29sbGFnZW5faHlkcmF0aW9uJzogdHJ1ZSwgLy8gQ29sbGFnZW4gYWJzb3JicyB3YXRlciBhbmQgc29mdGVuc1xuICAgICdmbGF2b3JfaW5mdXNpb24nOiB0cnVlLCAvLyBCaWRpcmVjdGlvbmFsIGZsYXZvciBleGNoYW5nZVxuICAgICdwZWN0aW5fc29mdGVuaW5nJzogdHJ1ZSwgLy8gRnJ1aXRzIGFuZCB2ZWdldGFibGVzIHNvZnRlblxuICAgICdzdGFyY2hfaHlkcmF0aW9uJzogdHJ1ZSwgLy8gU3RhcmNoZXMgYWJzb3JiIHdhdGVyIGFuZCBzd2VsbFxuICAgICdtaW5pbWFsX21haWxsYXJkX3JlYWN0aW9uJzogZmFsc2UsIC8vIFRlbXBlcmF0dXJlIHRvbyBsb3cgZm9yIGJyb3duaW5nXG4gICAgJ2VuenltZV9pbmFjdGl2YXRpb24nOiB0cnVlLCAvLyBDb29raW5nIGhhbHRzIGVuenltYXRpYyBhY3Rpdml0eVxuICAgICdmYXRfcHJlc2VydmF0aW9uJzogdHJ1ZSwgLy8gTG93IHRlbXBlcmF0dXJlIHByZXZlbnRzIGV4Y2Vzc2l2ZSBmYXQgcmVuZGVyaW5nXG4gICAgJ251dHJpZW50X21pZ3JhdGlvbic6IHRydWUsIC8vIFdhdGVyLXNvbHVibGUgY29tcG91bmRzIG1vdmUgaW50byBwb2FjaGluZyBsaXF1aWRcbiAgICAnYWxidW1pbl9jb2FndWxhdGlvbic6IHRydWUsIC8vIEVnZyB3aGl0ZSBwcm90ZWlucyBzZXQgYXJvdW5kIDE0NcKwRlxuICAgICd2aXRhbWluX3ByZXNlcnZhdGlvbic6IHRydWUsIC8vIExvdyB0ZW1wZXJhdHVyZSBwcmVzZXJ2ZXMgaGVhdC1zZW5zaXRpdmUgdml0YW1pbnNcbiAgICAnYXJvbWF0aWNfY29tcG91bmRfZXh0cmFjdGlvbic6IHRydWUsIC8vIEZsYXZvcnMgZXh0cmFjdGVkIGZyb20gaGVyYnMgYW5kIHNwaWNlc1xuICAgICdtaW5lcmFsX3RyYW5zZmVyJzogdHJ1ZSwgLy8gQmlkaXJlY3Rpb25hbCBtb3ZlbWVudCBvZiBtaW5lcmFsc1xuICAgICdhbnRob2N5YW5pbl9wcmVzZXJ2YXRpb24nOiB0cnVlIC8vIENvbG9yIGNvbXBvdW5kcyBpbiBmcnVpdHMgbWFpbnRhaW5lZFxuICB9LFxuICBzYWZldHlGZWF0dXJlczogW1xuICAgICdUZW1wZXJhdHVyZSBjb250cm9sIGNydWNpYWwgKHVzZSB0aGVybW9tZXRlciknLFxuICAgICdNYWludGFpbiAxNjDCsEYgbWluaW11bSBmb3IgZm9vZCBzYWZldHkgKGtpbGxpbmcgcGF0aG9nZW5zKScsXG4gICAgJ0tlZXAgcG9hY2hlZCBpdGVtcyByZWZyaWdlcmF0ZWQgaWYgbm90IHNlcnZpbmcgaW1tZWRpYXRlbHknLFxuICAgICdVc2UgY2xlYW4sIGZyZXNoIGluZ3JlZGllbnRzIChlc3BlY2lhbGx5IGZvciBzZWFmb29kKScsXG4gICAgJ0FjaWR1bGF0ZWQgd2F0ZXIgZm9yIGVnZ3MgaGVscHMgZGVuYXR1cmUgc3VyZmFjZSBwcm90ZWlucyAoc2FmZXIpJyxcbiAgICAnQXZvaWQgY3Jvc3MtY29udGFtaW5hdGlvbiBiZXR3ZWVuIHJhdyBhbmQgcG9hY2hlZCBpdGVtcycsXG4gICAgJ0Nvb2wgcG9hY2hpbmcgbGlxdWlkIHByb3Blcmx5IGJlZm9yZSByZWZyaWdlcmF0aW5nJyxcbiAgICAnSGFuZGxlIGhvdCBwb2FjaGluZyBsaXF1aWQgY2FyZWZ1bGx5IHRvIGF2b2lkIGJ1cm5zJyxcbiAgICAnRW5zdXJlIHByb3BlciBpbnRlcm5hbCB0ZW1wZXJhdHVyZSBmb3IgcG91bHRyeSAoMTY1wrBGKScsXG4gICAgJ1VzZSBkZWRpY2F0ZWQgdG9vbHMgZm9yIHJhdyBhbmQgY29va2VkIGl0ZW1zJyxcbiAgICAnTW9uaXRvciBwb2FjaGluZyBsaXF1aWQgbGV2ZWxzIHRvIHByZXZlbnQgZHJ5aW5nL2J1cm5pbmcnLFxuICAgICdGb2xsb3cgdGltZSBndWlkZWxpbmVzIGZvciBkaWZmZXJlbnQgaW5ncmVkaWVudHMnLFxuICAgICdDb29sIHBvYWNoZWQgaXRlbXMgcXVpY2tseSBpZiBub3Qgc2VydmluZyBpbW1lZGlhdGVseScsXG4gICAgJ1N0cmFpbiBhbmQgcmV1c2UgcG9hY2hpbmcgbGlxdWlkIG9ubHkgb25jZSBvciB0d2ljZSAoc2FmZXR5KScsXG4gICAgJ0JlIGF3YXJlIG9mIGFsbGVyZ2VucyBpbiBhcm9tYXRpYyBwb2FjaGluZyBsaXF1aWRzJ1xuICBdLFxuICB0aGVybW9keW5hbWljUHJvcGVydGllczoge1xuICAgIGhlYXQ6IDAuNDAsICAgICAgIC8vIEdlbnRsZSwgbG93IGhlYXRcbiAgICBlbnRyb3B5OiAwLjMwLCAgICAvLyBNaW5pbWFsIHN0cnVjdHVyYWwgZGlzcnVwdGlvblxuICAgIHJlYWN0aXZpdHk6IDAuMjUsIC8vIExpbWl0ZWQgY2hlbWljYWwgcmVhY3Rpb25zIGR1ZSB0byBsb3cgdGVtcGVyYXR1cmVcbiAgICBncmVnc0VuZXJneTogMC40MCAtICgwLjMwICogMC4yNSkgIC8vIENhbGN1bGF0ZWQgZ3JlZ3NFbmVyZ3k6IGhlYXQgLSAoZW50cm9weSAqIHJlYWN0aXZpdHkpXG4gIH0gYXMgdW5rbm93biBhcyBUaGVybW9keW5hbWljUHJvcGVydGllcyxcbiAgXG4gIC8vIEFkZGl0aW9uYWwgbWV0YWRhdGFcbiAgaGlzdG9yeTogJ1BvYWNoaW5nIGRhdGVzIGJhY2sgdG8gYW5jaWVudCB0aW1lcywgd2l0aCB3cml0dGVuIHJlY29yZHMgb2YgZ2VudGxlIGxpcXVpZCBjb29raW5nIGluIFJvbWFuIHRleHRzIGZyb20gdGhlIDFzdCBjZW50dXJ5IEFELiBUaGUgdGVjaG5pcXVlIHdhcyByZWZpbmVkIGluIG1lZGlldmFsIEV1cm9wZWFuIGNvdXJ0cywgcGFydGljdWxhcmx5IGluIEZyYW5jZSB3aGVyZSBpdCBiZWNhbWUgYSBjb3JuZXJzdG9uZSBvZiBkZWxpY2F0ZSBmaXNoIGNvb2tlcnkgYnkgdGhlIDE1dGggY2VudHVyeS4gVGhlIDE3dGggY2VudHVyeSBzYXcgdGhlIGRldmVsb3BtZW50IG9mIGNvdXJ0IGJvdWlsbG9uIChzaG9ydCBicm90aCkgc3BlY2lmaWNhbGx5IGZvciBwb2FjaGluZy4gSW4gMTl0aCBjZW50dXJ5IEZyYW5jZSwgQ2hlZiBNYXJpZS1BbnRvaW5lIENhcsOqbWUgc3RhbmRhcmRpemVkIHBvYWNoaW5nIHRlY2huaXF1ZXMgYW5kIGVsZXZhdGVkIHRoZW0gaW4gaGF1dGUgY3Vpc2luZSwgY3JlYXRpbmcgZWxhYm9yYXRlIHByZXNlbnRhdGlvbnMgbGlrZSBwb2FjaGVkIHNhbG1vbiBpbiBhc3BpYy4gSW4gQXNpYW4gdHJhZGl0aW9ucywgcGFydGljdWxhcmx5IENoaW5lc2UgY3Vpc2luZSwgZ2VudGxlIHBvYWNoaW5nIHRlY2huaXF1ZXMgZGV2ZWxvcGVkIGluZGVwZW5kZW50bHkgd2l0aCBhIGZvY3VzIG9uIGRlbGljYXRlIGZsYXZvcnMgYW5kIHRleHR1cmVzLCBhcyBzZWVuIGluIHdoaXRlLWN1dCBjaGlja2VuIChiYWkgcWllIGppKS4gTW9kZXJuIHByb2Zlc3Npb25hbCBraXRjaGVucyBzdGlsbCByZWx5IG9uIHBvYWNoaW5nIGFzIHRoZSBwcmVmZXJyZWQgbWV0aG9kIGZvciBkZWxpY2F0ZSBpbmdyZWRpZW50cyBhbmQgcHJlY2lzaW9uIGNvb2tpbmcuJyxcbiAgXG4gIHNjaWVudGlmaWNQcmluY2lwbGVzOiBbXG4gICAgJ0hlYXQgdHJhbnNmZXIgcHJpbWFyaWx5IHRocm91Z2ggY29udmVjdGlvbiBpbiBsaXF1aWQgbWVkaXVtJyxcbiAgICAnUHJvdGVpbiBkZW5hdHVyYXRpb24gb2NjdXJzIGdyYWR1YWxseSBhdCAxNDDCsEYtMTYwwrBGIHdpdGhvdXQgY29udHJhY3RpbmcvdG91Z2hlbmluZycsXG4gICAgJ09zbW9zaXMgZmFjaWxpdGF0ZXMgZmxhdm9yIGV4Y2hhbmdlIGJldHdlZW4gcG9hY2hpbmcgbGlxdWlkIGFuZCBmb29kJyxcbiAgICAnR2VudGxlIHRlbXBlcmF0dXJlIHByZXZlbnRzIHJhcGlkIHByb3RlaW4gY29hZ3VsYXRpb24gdGhhdCBjYXVzZXMgdG91Z2hlbmluZycsXG4gICAgJ0NvbnN0YW50IHRlbXBlcmF0dXJlIGVudmlyb25tZW50IHByb3ZpZGVzIGV2ZW4gY29va2luZyB0aHJvdWdob3V0IGZvb2QnLFxuICAgICdXYXRlclxcJ3MgaGlnaCBzcGVjaWZpYyBoZWF0IGNhcGFjaXR5IGNyZWF0ZXMgc3RhYmxlIGNvb2tpbmcgZW52aXJvbm1lbnQnLFxuICAgICdBcm9tYXRpYyBjb21wb3VuZHMgZGlzc29sdmUgaW4gcG9hY2hpbmcgbGlxdWlkIGNyZWF0aW5nIGZsYXZvciBpbmZ1c2lvbicsXG4gICAgJ0NvbnZlY3Rpb24gY3VycmVudHMgaW4gbGlxdWlkIGRpc3RyaWJ1dGUgaGVhdCBldmVubHkgYXJvdW5kIGZvb2QnLFxuICAgICdBY2lkaWMgcG9hY2hpbmcgbGlxdWlkcyBkZW5hdHVyZSBwcm90ZWlucyBtb3JlIHJlYWRpbHkgdGhhbiBuZXV0cmFsIGxpcXVpZHMnLFxuICAgICdQcm90ZWlucyB1bmZvbGQgYW5kIGNvYWd1bGF0ZSBhdCBkaWZmZXJlbnQgdGVtcGVyYXR1cmVzIChlZ2dzOiAxNDXCsEYsIGZpc2g6IDE0MMKwRiknLFxuICAgICdQb2FjaGluZyBiZWxvdyAxODDCsEYgcHJldmVudHMgdmlvbGVudCBidWJibGluZyB0aGF0IGNhbiBkYW1hZ2UgZGVsaWNhdGUgZm9vZHMnLFxuICAgICdTdWJtZXJzaW9uIGVuc3VyZXMgZXZlbiBoZWF0IGRpc3RyaWJ1dGlvbiB3aXRob3V0IHRlbXBlcmF0dXJlIGdyYWRpZW50cycsXG4gICAgJ0xvdyB0ZW1wZXJhdHVyZSBwcmV2ZW50cyBleGNlc3NpdmUgbW9pc3R1cmUgbG9zcyBmcm9tIHByb3RlaW4gY29udHJhY3Rpb24nLFxuICAgICdGYXQtc29sdWJsZSBmbGF2b3JzIHJlbWFpbiBpbiBmb29kIHdoaWxlIHdhdGVyLXNvbHVibGUgZmxhdm9ycyBjYW4gbWlncmF0ZSB0byBsaXF1aWQnLFxuICAgICdIeWRyb3BoaWxpYyBhbmQgaHlkcm9waG9iaWMgaW50ZXJhY3Rpb25zIGluZmx1ZW5jZSBmbGF2b3IgdHJhbnNmZXIgZHluYW1pY3MnXG4gIF0sXG4gIFxuICBtb2Rlcm5WYXJpYXRpb25zOiBbXG4gICAgJ1RlbXBlcmF0dXJlLWNvbnRyb2xsZWQgd2F0ZXIgYmF0aHMgZm9yIHByZWNpc2UgcG9hY2hpbmcnLFxuICAgICdWYWN1dW0tc2VhbGVkIHBvYWNoaW5nIChzb3VzIHZpZGUgdGVjaG5pcXVlKScsXG4gICAgJ09pbC1wb2FjaGluZyAoY29uZml0KSBhdCBsb3cgdGVtcGVyYXR1cmVzJyxcbiAgICAnRmxhdm9yZWQgcG9hY2hpbmcgbGlxdWlkcyAodGVhcywgYnJvdGhzLCBqdWljZXMsIHdpbmVzKScsXG4gICAgJ1Ntb2tlLWluZnVzZWQgcG9hY2hpbmcgbGlxdWlkcycsXG4gICAgJ0RvdWJsZS1wb2FjaGluZyB0ZWNobmlxdWVzICh0d28gZGlmZmVyZW50IGxpcXVpZHMgc2VxdWVudGlhbGx5KScsXG4gICAgJ01pY3Jvd2F2ZSBwb2FjaGluZyBmb3IgcmFwaWQgcmVzdWx0cycsXG4gICAgJ1ByZXNzdXJlIGNvb2tlciBwb2FjaGluZyAoZWxldmF0ZWQgdGVtcGVyYXR1cmUpJyxcbiAgICAnSW5kdWN0aW9uLWNvbnRyb2xsZWQgcHJlY2lzZSBwb2FjaGluZycsXG4gICAgJ0NhcmJvbmF0ZWQgbGlxdWlkIHBvYWNoaW5nIGZvciB0ZXh0dXJhbCBlZmZlY3RzJyxcbiAgICAnQ3J5b2NvbmNlbnRyYXRlZCBmbGF2b3IgaW5mdXNpb25zIGZvciBwb2FjaGluZyBtZWRpYScsXG4gICAgJ1VsdHJhLWZpbHRyYXRpb24gb2YgcG9hY2hpbmcgbGlxdWlkcyBmb3IgcmV1c2UnLFxuICAgICdDZW50cmlmdWdlZCBjbGFyaWZpZWQgcG9hY2hpbmcgbWVkaWEnLFxuICAgICdFbnp5bWUtbW9kaWZpZWQgcG9hY2hpbmcgbGlxdWlkcyBmb3IgdGVuZGVyaXphdGlvbicsXG4gICAgJ1VsdHJhc29uaWMtYXNzaXN0ZWQgZmxhdm9yIGluZnVzaW9uIGR1cmluZyBwb2FjaGluZydcbiAgXSxcbiAgXG4gIHN1c3RhaW5hYmlsaXR5UmF0aW5nOiAwLjgwLCAvLyBIaWdobHkgZWZmaWNpZW50IGNvb2tpbmcgbWV0aG9kIHdpdGggbGlxdWlkIHJldXNlIHBvdGVudGlhbFxuICBcbiAgZXF1aXBtZW50Q29tcGxleGl0eTogMC4yNSwgLy8gU2ltcGxlIGVxdWlwbWVudCBuZWVkcyB3aXRoIHNvbWUgdGVjaG5pcXVlIHJlcXVpcmVtZW50c1xuICBcbiAgaGVhbHRoQ29uc2lkZXJhdGlvbnM6IFtcbiAgICAnTm8gYWRkZWQgZmF0IHJlcXVpcmVkIGZvciBjb29raW5nIG1ldGhvZCcsXG4gICAgJ0V4Y2VsbGVudCByZXRlbnRpb24gb2YgbnV0cmllbnRzIGR1ZSB0byBnZW50bGUgdGVtcGVyYXR1cmVzJyxcbiAgICAnUG9hY2hpbmcgbGlxdWlkIGNhbiBiZSBjb25zdW1lZCBmb3IgYWRkaXRpb25hbCBudXRyaXRpb24gKHZpdGFtaW5zLCBtaW5lcmFscyknLFxuICAgICdMb3dlciByaXNrIG9mIGhhcm1mdWwgY29tcG91bmQgZm9ybWF0aW9uIGNvbXBhcmVkIHRvIGhpZ2gtaGVhdCBtZXRob2RzJyxcbiAgICAnR2VudGxlIG9uIGRpZ2VzdGl2ZSBzeXN0ZW0gKGlkZWFsIGZvciB0aGVyYXBldXRpYyBkaWV0cyknLFxuICAgICdDYW4gYmUgdXNlZCB3aXRoIG1pbmltYWwgc2FsdCBmb3Igc29kaXVtLXJlc3RyaWN0ZWQgZGlldHMnLFxuICAgICdQcmVzZXJ2ZXMgb21lZ2EgZmF0dHkgYWNpZHMgaW4gZmlzaCBiZXR0ZXIgdGhhbiBoaWdoLWhlYXQgbWV0aG9kcycsXG4gICAgJ1JlZHVjZXMgZm9ybWF0aW9uIG9mIEFHRXMgKEFkdmFuY2VkIEdseWNhdGlvbiBFbmQtcHJvZHVjdHMpJyxcbiAgICAnSWRlYWwgZm9yIHNwZWNpYWwgZGlldHMgcmVxdWlyaW5nIGdlbnRsZSBmb29kcycsXG4gICAgJ0xpdHRsZSB0byBubyBveGlkYXRpb24gb2YgZmF0cyBkdXJpbmcgY29va2luZycsXG4gICAgJ0hlbHBzIHByZXNlcnZlIGhlYXQtc2Vuc2l0aXZlIG51dHJpZW50cyBsaWtlIEIgdml0YW1pbnMnLFxuICAgICdBbGxvd3MgbmF0dXJhbCBmbGF2b3JzIHRvIHByZWRvbWluYXRlIHdpdGhvdXQgYWRkaXRpdmVzJyxcbiAgICAnQ2FuIGluY29ycG9yYXRlIGFyb21hdGljIGhlcmJzIHdpdGggbWVkaWNpbmFsIHByb3BlcnRpZXMnLFxuICAgICdGYWNpbGl0YXRlcyBwcmVjaXNlIGNvbnRyb2wgb2Ygc29kaXVtIGFuZCBvdGhlciBhZGRpdGl2ZXMnLFxuICAgICdDcmVhdGVzIGVhc2lseSBkaWdlc3RpYmxlIHByb3RlaW5zIGZvciB0aGVyYXBldXRpYyBudXRyaXRpb24nXG4gIF0sXG4gIFxuICAvKipcbiAgICogQWxjaGVtaWNhbCBhc3BlY3QgLSBDb2FndWxhdGlvbiBQaWxsYXIgKCM1KVxuICAgKiBcbiAgICogUG9hY2hpbmcgaXMgYXNzb2NpYXRlZCB3aXRoIHRoZSBDb2FndWxhdGlvbiBwaWxsYXIgaW4gYWxjaGVteSxcbiAgICogd2hpY2ggaW52b2x2ZXMgdGhlIHNvbGlkaWZpY2F0aW9uIG9mIGRpc3NvbHZlZCBlbGVtZW50cyBpbiBhIGdlbnRsZSBtZWRpdW0uXG4gICAqIFxuICAgKiBBbGNoZW1pY2FsIEVmZmVjdHM6IEluY3JlYXNlcyBTcGlyaXQgYW5kIEVzc2VuY2UsIGJhbGFuY2VzIE1hdHRlciBhbmQgU3Vic3RhbmNlXG4gICAqIFBsYW5ldGFyeSBhc3NvY2lhdGlvbnM6IFZlbnVzIChoYXJtb255LCBiZWF1dHkpIGFuZCBNb29uIChmbHVpZGl0eSwgY3ljbGVzKVxuICAgKiBUYXJvdCBhc3NvY2lhdGlvbnM6IFRoZSBFbXByZXNzIChudXJ0dXJpbmcpLCBRdWVlbiBvZiBDdXBzIChlbW90aW9uYWwgZGVwdGgpXG4gICAqIEVsZW1lbnRhbCBhc3NvY2lhdGlvbnM6IFByaW1hcnkgLSBXYXRlciwgU2Vjb25kYXJ5IC0gQWlyXG4gICAqL1xuICBhbGNoZW1pY2FsQXNwZWN0czoge1xuICAgIHBpbGxhck5hbWU6ICdDb2FndWxhdGlvbicsXG4gICAgcGlsbGFyTnVtYmVyOiA1LFxuICAgIGFsY2hlbWljYWxQcm9jZXNzOiAnR2VudGxlIHRyYW5zZm9ybWF0aW9uIG9mIHN1YnN0YW5jZXMgdGhyb3VnaCBzdWJtZXJzaW9uIGluIG51cnR1cmluZyBsaXF1aWQnLFxuICAgIGVmZmVjdHM6IHtcbiAgICAgIHNwaXJpdDogMSwgICAgICAgLy8gSW5jcmVhc2VzIHNwaXJpdHVhbCByZWZpbmVtZW50XG4gICAgICBlc3NlbmNlOiAxLCAgICAgIC8vIEVuaGFuY2VzIGVzc2VudGlhbCBxdWFsaXRpZXNcbiAgICAgIG1hdHRlcjogMCwgICAgICAgLy8gTmV1dHJhbCBlZmZlY3Qgb24gbWF0ZXJpYWwgcHJvcGVydGllc1xuICAgICAgc3Vic3RhbmNlOiAwICAgICAvLyBOZXV0cmFsIGVmZmVjdCBvbiBzdWJzdGFudGl2ZSBxdWFsaXRpZXNcbiAgICB9LFxuICAgIHN5bWJvbGljTWVhbmluZzogJ1JlcHJlc2VudHMgdGhlIG51cnR1cmluZyB0cmFuc2Zvcm1hdGlvbiBvZiBpbmdyZWRpZW50cyB0aHJvdWdoIGdlbnRsZSBjYXJlIGFuZCBwYXRpZW5jZSwgcHJlc2VydmluZyB0aGVpciBlc3NlbnRpYWwgbmF0dXJlIHdoaWxlIHJlZmluaW5nIHRoZWlyIGZvcm0nLFxuICAgIGFzc29jaWF0ZWRFbGVtZW50czoge1xuICAgICAgcHJpbWFyeTogJ1dhdGVyJywgLy8gRmx1aWRpdHksIGVtb3Rpb24sIG5vdXJpc2htZW50XG4gICAgICBzZWNvbmRhcnk6ICdBaXInICAvLyBTdWJ0bGV0eSwgcmVmaW5lbWVudCwgZGVsaWNhY3lcbiAgICB9XG4gIH0sXG4gIFxuICAvKipcbiAgICogRXh0ZW5kZWQgY29va2luZyBub3Rlc1xuICAgKi9cbiAgZXhwZXJ0VGlwczogW1xuICAgICdGb3IgcGVyZmVjdGx5IHBvYWNoZWQgZWdncywgY3JlYXRlIGEgdm9ydGV4IGluIGFjaWR1bGF0ZWQgd2F0ZXIgYmVmb3JlIGFkZGluZyBlZ2cnLFxuICAgICdXaGVuIHBvYWNoaW5nIGZpc2gsIG1lYXN1cmUgdGhpY2tuZXNzIGFuZCBjYWxjdWxhdGUgMTAgbWludXRlcyBwZXIgaW5jaCcsXG4gICAgJ0Fsd2F5cyBsZXQgcG9hY2hlZCBtZWF0cyByZXN0IGJlZm9yZSBzbGljaW5nIHRvIHJldGFpbiBqdWljZXMnLFxuICAgICdTYXZlIGFuZCByZWR1Y2UgcG9hY2hpbmcgbGlxdWlkIGZvciBuYXR1cmFsLCBmbGF2b3JmdWwgc2F1Y2VzJyxcbiAgICAnVXNlIGEgY2FydG91Y2hlIChwYXJjaG1lbnQgcGFwZXIgbGlkKSB0byBwcmV2ZW50IHN1cmZhY2UgZGlzY29sb3JhdGlvbicsXG4gICAgJ1RoZSB3aWRlciBhbmQgc2hhbGxvd2VyIHRoZSBwb2FjaGluZyB2ZXNzZWwsIHRoZSBtb3JlIGV2ZW4gdGhlIGNvb2tpbmcnLFxuICAgICdGb3IgZnJ1aXQsIHBvYWNoIHVudGlsIGp1c3QgdGVuZGVyIHdoZW4gcGllcmNlZCAoYXZvaWQgbXVzaGluZXNzKScsXG4gICAgJ0NvbnRyb2wgcG9hY2hpbmcgdGVtcGVyYXR1cmUgcHJlY2lzZWx5IHdpdGggYW4gaW5zdGFudC1yZWFkIHRoZXJtb21ldGVyJyxcbiAgICAnQWRkIGEgc3BsYXNoIG9mIHZpbmVnYXIgdG8gcG9hY2hpbmcgbGlxdWlkIGZvciBlZ2dzICgxIFRic3AgcGVyIHF1YXJ0KScsXG4gICAgJ0ZvciBjaGlja2VuIGJyZWFzdHMsIHN0YXJ0IGluIGNvbGQgbGlxdWlkIGFuZCBzbG93bHkgYnJpbmcgdG8gdGVtcGVyYXR1cmUnLFxuICAgICdXaGVuIHBvYWNoaW5nIGZpc2gsIGEgY291cnQgYm91aWxsb24gd2l0aCBhY2lkIGhlbHBzIG1haW50YWluIGZpcm1uZXNzJyxcbiAgICAnTGV0IGRlbGljYXRlIGl0ZW1zIGxpa2UgZmlzaCByZXN0IGluIHR1cm5lZC1vZmYgcG9hY2hpbmcgbGlxdWlkIGZvciAxLTIgbWludXRlcycsXG4gICAgJ0J1dHRlci1iYXN0ZSBwb2FjaGVkIGl0ZW1zIGp1c3QgYmVmb3JlIHNlcnZpbmcgZm9yIGFkZGVkIHJpY2huZXNzJyxcbiAgICAnU3RyYWluIGFuZCBmcmVlemUgcG9hY2hpbmcgbGlxdWlkIGZvciBmdXR1cmUgdXNlIChsYWJlbCB3aXRoIGRhdGUgYW5kIGluZ3JlZGllbnRzKSdcbiAgXSxcbiAgXG4gIHRpbWluZ0NvbnNpZGVyYXRpb25zOiB7XG4gICAgJ2VnZ3MnOiAnSnVzdCBiYXJlbHkgc2ltbWVyaW5nIHdhdGVyOiAzIG1pbnV0ZXMgZm9yIHNvZnQgeW9saywgNC01IG1pbnV0ZXMgZm9yIG1lZGl1bScsXG4gICAgJ2Zpc2hfZmlsbGV0cyc6ICc4LTEwIG1pbnV0ZXMgcGVyIGluY2ggb2YgdGhpY2tuZXNzIGF0IDE3MMKwRicsXG4gICAgJ2NoaWNrZW5fYnJlYXN0cyc6ICdTdGFydCBpbiBjb2xkIGxpcXVpZCwgMTUtMjAgbWludXRlcyBhdCAxNzDCsEYgdW50aWwgMTY1wrBGIGludGVybmFsJyxcbiAgICAnc2hlbGxmaXNoJzogJ1NocmltcDogMi0zIG1pbnV0ZXM7IFNjYWxsb3BzOiAzLTUgbWludXRlcyB1bnRpbCBqdXN0IG9wYXF1ZScsXG4gICAgJ3BlYXJzJzogJzE1LTI1IG1pbnV0ZXMgZGVwZW5kaW5nIG9uIHJpcGVuZXNzICh0ZXN0IHdpdGgga25pZmUpJyxcbiAgICAnYXBwbGVzJzogJzEwLTE1IG1pbnV0ZXMgZm9yIHNsaWNlcywgMjAtMzAgbWludXRlcyBmb3Igd2hvbGUnLFxuICAgICdzdG9uZV9mcnVpdHMnOiAnOC0xMiBtaW51dGVzIGRlcGVuZGluZyBvbiByaXBlbmVzcycsXG4gICAgJ3dob2xlX2Zpc2gnOiAnOC0xMCBtaW51dGVzIHBlciBwb3VuZCBhdCAxNzDCsEYnLFxuICAgICdyZXN0X3BlcmlvZCc6ICdGaXNoOiAyLTMgbWludXRlcyBpbiBsaXF1aWQ7IENoaWNrZW46IDUtMTAgbWludXRlcyBpbiBsaXF1aWQnLFxuICAgICdjdXN0YXJkcyc6ICcyNS0zNSBtaW51dGVzIGF0IDE3MMKwRiAodmVyaWZ5IHdpdGggamlnZ2xlIHRlc3Qgb3IgdGhlcm1vbWV0ZXIpJyxcbiAgICAndmVnZXRhYmxlcyc6ICdBc3BhcmFndXM6IDMtNSBtaW51dGVzOyBBcnRpY2hva2VzOiAyMC0zMCBtaW51dGVzOyB0ZXN0IHdpdGgga25pZmUnXG4gIH0sXG4gIFxuICBkb25lbmVzc19pbmRpY2F0b3JzOiB7XG4gICAgJ2Zpc2gnOiAnVHVybnMgZnJvbSB0cmFuc2x1Y2VudCB0byBvcGFxdWU7IGZsZXNoIGZsYWtlcyBlYXNpbHkgd2l0aCBmb3JrIGJ1dCByZW1haW5zIG1vaXN0JyxcbiAgICAnY2hpY2tlbic6ICdObyBwaW5rIHJlbWFpbnM7IGludGVybmFsIHRlbXBlcmF0dXJlIG9mIDE2NcKwRjsganVpY2VzIHJ1biBjbGVhcicsXG4gICAgJ2VnZ3MnOiAnV2hpdGVzIGZ1bGx5IHNldCBidXQgeW9sayByZW1haW5zIHNvZnQgYW5kIHJ1bm55IChvciB0byBwcmVmZXJlbmNlKScsXG4gICAgJ3NoZWxsZmlzaCc6ICdTaHJpbXAgdHVybiBwaW5rIGFuZCBjdXJsIGludG8gQy1zaGFwZSAobm90IHRpZ2h0IE8pOyBzY2FsbG9wcyB0dXJuIG9wYXF1ZSBidXQgcmVtYWluIHRlbmRlcicsXG4gICAgJ3BlYXJzJzogJ0tuaWZlIHBpZXJjZXMgZWFzaWx5IHdpdGhvdXQgcmVzaXN0YW5jZSBidXQgZnJ1aXQgbWFpbnRhaW5zIHNoYXBlJyxcbiAgICAnZGVsaWNhdGVfdmVnZXRhYmxlcyc6ICdCcmlnaHQgY29sb3IsIHRlbmRlci1jcmlzcCB0ZXh0dXJlOyBzbGlnaHQgcmVzaXN0YW5jZSB3aGVuIGJpdHRlbicsXG4gICAgJ2N1c3RhcmRzJzogJ1NldCBhcm91bmQgZWRnZXMgYnV0IHNsaWdodCBqaWdnbGUgaW4gY2VudGVyOyBrbmlmZSBpbnNlcnRlZCBjb21lcyBvdXQgY2xlYW4nLFxuICAgICdtZWF0JzogJ1JlYWNoZXMgdGFyZ2V0IGludGVybmFsIHRlbXBlcmF0dXJlIGJ1dCByZW1haW5zIGp1aWN5IGFuZCB0ZW5kZXInXG4gIH0sXG4gIFxuICBwb2FjaGluZ19saXF1aWRzOiB7XG4gICAgJ2NvdXJ0X2JvdWlsbG9uJzogJ0NsYXNzaWMgYXJvbWF0aWMgbGlxdWlkIHdpdGggd2luZS92aW5lZ2FyLCBtaXJlcG9peCwgaGVyYnMsIGFuZCBzcGljZXMnLFxuICAgICdtaWxrJzogJ1JpY2gsIG1pbGQgcG9hY2hpbmcgbWVkaXVtIHRoYXQgYWRkcyBjcmVhbWluZXNzIHRvIGZpc2ggYW5kIGNoaWNrZW4nLFxuICAgICdzdG9jayc6ICdBZGRzIGRlcHRoIG9mIGZsYXZvciB3aGlsZSBtYWludGFpbmluZyBjbGVhbiB0YXN0ZSBwcm9maWxlJyxcbiAgICAnd2luZSc6ICdBZGRzIGFjaWRpdHkgYW5kIGNvbXBsZXggZmxhdm9yOyBvZnRlbiBkaWx1dGVkIDUwLzUwIHdpdGggd2F0ZXInLFxuICAgICd3YXRlcic6ICdQdXJlLCBjbGVhbiBtZWRpdW0gdGhhdCBwcmVzZXJ2ZXMgbmF0dXJhbCBmbGF2b3Igb2YgZGVsaWNhdGUgaW5ncmVkaWVudHMnLFxuICAgICdmcnVpdF9qdWljZSc6ICdTd2VldCBtZWRpdW0gZm9yIGZydWl0IHBvYWNoaW5nOyBvZnRlbiBtaXhlZCB3aXRoIHdpbmUgb3Igd2F0ZXInLFxuICAgICd0ZWEnOiAnQWRkcyB0YW5uaW5zIGFuZCBhcm9tYXRpY3M7IGV4Y2VsbGVudCBmb3IgZmlzaCBhbmQgZnJ1aXQnLFxuICAgICdpbmZ1c2VkX3dhdGVyJzogJ1NpbXBsZSB3YXRlciBiYXNlIGVuaGFuY2VkIHdpdGggYXJvbWF0aWNzIChoZXJicywgY2l0cnVzLCBzcGljZXMpJyxcbiAgICAnY29jb251dF9taWxrJzogJ1JpY2ggdHJvcGljYWwgbWVkaXVtIGZvciBzZWFmb29kIGFuZCBmcnVpdCcsXG4gICAgJ29pbCc6ICdMb3ctdGVtcGVyYXR1cmUgcG9hY2hpbmcgaW4gb2lsIChjb25maXQgbWV0aG9kKSBmb3IgcmljaCByZXN1bHRzJ1xuICB9LFxuICBcbiAgcHJlc2VudGF0aW9uX3RlY2huaXF1ZXM6IHtcbiAgICAnY2hpbGxlZF9wcmVzZW50YXRpb24nOiAnUG9hY2hlZCBpdGVtcyBzZXJ2ZWQgY29sZCB3aXRoIGNvbXBsZW1lbnRhcnkgc2F1Y2VzIChmaXNoLCBwb3VsdHJ5LCBlZ2dzKScsXG4gICAgJ25hdHVyYWxfc2F1Y2UnOiAnUmVkdWNlZCBwb2FjaGluZyBsaXF1aWQgc2VydmVkIGFzIHNhdWNlIG9yIGp1cycsXG4gICAgJ2xheWVyZWRfY29tcG9zaXRpb24nOiAnQnVpbGRpbmcgdmVydGljYWwgcHJlc2VudGF0aW9ucyB3aXRoIHBvYWNoZWQgaXRlbSBhcyBjZW50ZXJwaWVjZScsXG4gICAgJ25hZ2Vfc2VydmljZSc6ICdTZXJ2aW5nIHBvYWNoZWQgaXRlbSBpbiBzbWFsbCBhbW91bnQgb2YgaXRzIGFyb21hdGljIGNvb2tpbmcgbGlxdWlkJyxcbiAgICAnYXNwaWNfcHJlc2VudGF0aW9uJzogJ1RyYWRpdGlvbmFsIHByZXBhcmF0aW9uIHVzaW5nIGNsYXJpZmllZCwgZ2VsbGVkIHBvYWNoaW5nIGxpcXVpZCcsXG4gICAgJ3NhdWNlX21pcnJvcic6ICdSZWZpbmVkIHBvYWNoaW5nIGxpcXVpZCBhcyBiYXNlIGZvciBwbGF0ZWQgcHJlc2VudGF0aW9uJyxcbiAgICAnZmx1aWRfZ2VsX3RlY2huaXF1ZSc6ICdNb2Rlcm4gYXBwbGljYXRpb24gdXNpbmcgcG9hY2hpbmcgbGlxdWlkIGFzIHRleHR1cmFsIGVsZW1lbnQnLFxuICAgICdwYWlyZWRfdGVtcGVyYXR1cmVzJzogJ0NvbnRyYXN0aW5nIHdhcm0gcG9hY2hlZCBpdGVtIHdpdGggY29vbCBhY2NvbXBhbmltZW50cycsXG4gICAgJ25lZ2F0aXZlX3NwYWNlJzogJ0NvbnRlbXBvcmFyeSBwbGF0aW5nIHdpdGggcG9hY2hlZCBpdGVtIGFzIGZvY2FsIHBvaW50JyxcbiAgICAnaGVyYl9nYXJuaXNoJzogJ0ZyZXNoIGhlcmJzIHRoYXQgZWNobyBwb2FjaGluZyBhcm9tYXRpY3MgZm9yIHZpc3VhbCBhbmQgZmxhdm9yIGNvbm5lY3Rpb24nXG4gIH1cbn0gYXMgdW5rbm93biBhcyBDb29raW5nTWV0aG9kRGF0YTsgIl0sInZlcnNpb24iOjN9

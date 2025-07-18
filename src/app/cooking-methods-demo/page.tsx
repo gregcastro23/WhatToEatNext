@@ -8,6 +8,7 @@ import {
   wetCookingMethods, 
   molecularCookingMethods
 } from '@/data/cooking/methods';
+import type { CookingMethod } from '@/types/alchemy';
 
 export default function CookingMethodsDemoPage() {
   const [methods, setMethods] = useState<any[]>([]);
@@ -55,7 +56,7 @@ export default function CookingMethodsDemoPage() {
         // Create variations if they exist
         variations: (method as Record<string, unknown>).variations ? 
           (Array.isArray((method as Record<string, unknown>).variations) ? 
-            (method as CookingMethod[]).variations.map((v: string, i: number) => ({
+            ((method as Record<string, unknown>).variations as string[]).map((v: string, i: number) => ({
               id: `${prefix}_${key}_var_${i}`,
               name: v,
               description: `A variation of ${name} with different characteristics.`,
@@ -91,7 +92,7 @@ export default function CookingMethodsDemoPage() {
           <CookingMethodsSection 
             methods={methods} 
             onSelectMethod={handleSelectMethod}
-            selectedMethodId={(selectedMethod as Record<string, unknown>)?.id || null}
+            selectedMethodId={selectedMethod && typeof selectedMethod === 'object' && 'id' in selectedMethod ? (selectedMethod as any).id : null}
             initiallyExpanded={true}
           />
         </Box>
@@ -102,10 +103,10 @@ export default function CookingMethodsDemoPage() {
       {selectedMethod && (
         <Box sx={{ mt: 4, p: 3, bgcolor: 'background.paper', borderRadius: 2, boxShadow: 2 }}>
           <Typography variant="h5" gutterBottom>
-            Selected Method: {(selectedMethod as Record<string, unknown>).name}
+            Selected Method: {selectedMethod && typeof selectedMethod === 'object' && 'name' in selectedMethod ? String((selectedMethod as any).name) : 'Unknown'}
           </Typography>
           <Typography variant="body1" paragraph>
-            {(selectedMethod as Record<string, unknown>).description}
+            {selectedMethod && typeof selectedMethod === 'object' && 'description' in selectedMethod ? String((selectedMethod as any).description) : 'No description available'}
           </Typography>
           <Box component="pre" sx={{ 
             p: 2, 

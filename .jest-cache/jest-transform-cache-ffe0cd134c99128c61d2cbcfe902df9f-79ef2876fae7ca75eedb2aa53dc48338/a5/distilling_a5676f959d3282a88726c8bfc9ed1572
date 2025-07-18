@@ -1,0 +1,63 @@
+f3ee9a1cb7abf2beff721b31c058c612
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.distilling = void 0;
+/**
+ * Distilling: A process that separates and concentrates flavors, aromas, and other
+ * compounds through evaporation and condensation
+ */
+exports.distilling = {
+    name: 'Distilling',
+    description: 'A process that separates and concentrates volatile compounds by vaporizing them and then recondensing the vapor, used to extract essential flavors, aromas, and alcohols.',
+    elementalEffect: {
+        Fire: 0.8,
+        Water: 0.3,
+        Earth: 0.1,
+        Air: 0.6
+    },
+    duration: {
+        min: 60,
+        max: 480 // 8 hours
+    },
+    suitable_for: [
+        'Herbs',
+        'Flowers',
+        'Fruits',
+        'Grains',
+        'Spices',
+        'Fermented liquids'
+    ],
+    benefits: [
+        'Creates concentrated extracts with medicinal properties',
+        'Removes impurities from volatile compounds',
+        'Preserves delicate aromas that might be lost in other extraction methods'
+    ],
+    history: 'Distillation has ancient origins, with evidence of the technique dating back to at least 3000 BCE in Mesopotamia. It was further developed by alchemists and has been crucial in perfumery, medicine, and spirits production throughout history.',
+    modernVariations: [
+        'Simple distillation (single vaporization and condensation)',
+        'Fractional distillation (multiple vaporization-condensation cycles)',
+        'Steam distillation (for heat-sensitive plant materials)',
+        'Vacuum distillation (at lower temperatures)',
+        'Molecular distillation (for specific compounds at very low pressures)'
+    ],
+    optimalTemperatures: {
+        ethanol: 78,
+        essential: 200 // °C (for higher boiling point compounds)
+    },
+    toolsRequired: [
+        'Still (pot still or column still)',
+        'Condenser',
+        'Collection vessel',
+        'Heat source',
+        'Thermometer',
+        'Cooling system',
+        'Hydrometer (for measuring alcohol content)'
+    ],
+    healthConsiderations: [
+        'Home distillation of alcohol is illegal in many places',
+        'Improperly distilled spirits can contain harmful compounds like methanol',
+        'Concentrated plant compounds can be toxic if not properly identified',
+        'High proof spirits should be consumed in moderation'
+    ]
+};
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJmaWxlIjoiL1VzZXJzL0dyZWdDYXN0cm8vRGVza3RvcC9XaGF0VG9FYXROZXh0L3NyYy9kYXRhL2Nvb2tpbmcvbWV0aG9kcy90cmFuc2Zvcm1hdGlvbi9kaXN0aWxsaW5nLnRzIiwibWFwcGluZ3MiOiI7OztBQUdBOzs7R0FHRztBQUNVLFFBQUEsVUFBVSxHQUFzQjtJQUMzQyxJQUFJLEVBQUUsWUFBNkI7SUFDbkMsV0FBVyxFQUFFLDJLQUEySztJQUN4TCxlQUFlLEVBQUU7UUFDZixJQUFJLEVBQUUsR0FBRztRQUNULEtBQUssRUFBRSxHQUFHO1FBQ1YsS0FBSyxFQUFFLEdBQUc7UUFDVixHQUFHLEVBQUUsR0FBRztLQUNUO0lBQ0QsUUFBUSxFQUFFO1FBQ1IsR0FBRyxFQUFFLEVBQUU7UUFDUCxHQUFHLEVBQUUsR0FBRyxDQUFDLFVBQVU7S0FDcEI7SUFDRCxZQUFZLEVBQUU7UUFDWixPQUFPO1FBQ1AsU0FBUztRQUNULFFBQVE7UUFDUixRQUFRO1FBQ1IsUUFBUTtRQUNSLG1CQUFtQjtLQUNwQjtJQUNELFFBQVEsRUFBRTtRQUNSLHlEQUF5RDtRQUN6RCw0Q0FBNEM7UUFDNUMsMEVBQTBFO0tBQzNFO0lBQ0QsT0FBTyxFQUFFLGtQQUFrUDtJQUMzUCxnQkFBZ0IsRUFBRTtRQUNoQiw0REFBNEQ7UUFDNUQscUVBQXFFO1FBQ3JFLHlEQUF5RDtRQUN6RCw2Q0FBNkM7UUFDN0MsdUVBQXVFO0tBQ3hFO0lBQ0QsbUJBQW1CLEVBQUU7UUFDbkIsT0FBTyxFQUFFLEVBQUU7UUFDWCxTQUFTLEVBQUUsR0FBRyxDQUFDLDBDQUEwQztLQUMxRDtJQUNELGFBQWEsRUFBRTtRQUNiLG1DQUFtQztRQUNuQyxXQUFXO1FBQ1gsbUJBQW1CO1FBQ25CLGFBQWE7UUFDYixhQUFhO1FBQ2IsZ0JBQWdCO1FBQ2hCLDRDQUE0QztLQUM3QztJQUNELG9CQUFvQixFQUFFO1FBQ3BCLHdEQUF3RDtRQUN4RCwwRUFBMEU7UUFDMUUsc0VBQXNFO1FBQ3RFLHFEQUFxRDtLQUN0RDtDQUNGLENBQUMiLCJuYW1lcyI6W10sInNvdXJjZXMiOlsiL1VzZXJzL0dyZWdDYXN0cm8vRGVza3RvcC9XaGF0VG9FYXROZXh0L3NyYy9kYXRhL2Nvb2tpbmcvbWV0aG9kcy90cmFuc2Zvcm1hdGlvbi9kaXN0aWxsaW5nLnRzIl0sInNvdXJjZXNDb250ZW50IjpbImltcG9ydCB0eXBlIHsgQ29va2luZ01ldGhvZERhdGEgfSBmcm9tICdAL3R5cGVzL2Nvb2tpbmdNZXRob2QnO1xuaW1wb3J0IHR5cGUgeyBDb29raW5nTWV0aG9kIH0gZnJvbSAnQC90eXBlcy9zaGFyZWQnO1xuXG4vKipcbiAqIERpc3RpbGxpbmc6IEEgcHJvY2VzcyB0aGF0IHNlcGFyYXRlcyBhbmQgY29uY2VudHJhdGVzIGZsYXZvcnMsIGFyb21hcywgYW5kIG90aGVyXG4gKiBjb21wb3VuZHMgdGhyb3VnaCBldmFwb3JhdGlvbiBhbmQgY29uZGVuc2F0aW9uXG4gKi9cbmV4cG9ydCBjb25zdCBkaXN0aWxsaW5nOiBDb29raW5nTWV0aG9kRGF0YSA9IHtcbiAgbmFtZTogJ0Rpc3RpbGxpbmcnIGFzIENvb2tpbmdNZXRob2QsXG4gIGRlc2NyaXB0aW9uOiAnQSBwcm9jZXNzIHRoYXQgc2VwYXJhdGVzIGFuZCBjb25jZW50cmF0ZXMgdm9sYXRpbGUgY29tcG91bmRzIGJ5IHZhcG9yaXppbmcgdGhlbSBhbmQgdGhlbiByZWNvbmRlbnNpbmcgdGhlIHZhcG9yLCB1c2VkIHRvIGV4dHJhY3QgZXNzZW50aWFsIGZsYXZvcnMsIGFyb21hcywgYW5kIGFsY29ob2xzLicsXG4gIGVsZW1lbnRhbEVmZmVjdDoge1xuICAgIEZpcmU6IDAuOCxcbiAgICBXYXRlcjogMC4zLFxuICAgIEVhcnRoOiAwLjEsXG4gICAgQWlyOiAwLjZcbiAgfSxcbiAgZHVyYXRpb246IHtcbiAgICBtaW46IDYwLCAvLyAxIGhvdXJcbiAgICBtYXg6IDQ4MCAvLyA4IGhvdXJzXG4gIH0sXG4gIHN1aXRhYmxlX2ZvcjogW1xuICAgICdIZXJicycsXG4gICAgJ0Zsb3dlcnMnLFxuICAgICdGcnVpdHMnLFxuICAgICdHcmFpbnMnLFxuICAgICdTcGljZXMnLFxuICAgICdGZXJtZW50ZWQgbGlxdWlkcydcbiAgXSxcbiAgYmVuZWZpdHM6IFtcbiAgICAnQ3JlYXRlcyBjb25jZW50cmF0ZWQgZXh0cmFjdHMgd2l0aCBtZWRpY2luYWwgcHJvcGVydGllcycsXG4gICAgJ1JlbW92ZXMgaW1wdXJpdGllcyBmcm9tIHZvbGF0aWxlIGNvbXBvdW5kcycsXG4gICAgJ1ByZXNlcnZlcyBkZWxpY2F0ZSBhcm9tYXMgdGhhdCBtaWdodCBiZSBsb3N0IGluIG90aGVyIGV4dHJhY3Rpb24gbWV0aG9kcydcbiAgXSxcbiAgaGlzdG9yeTogJ0Rpc3RpbGxhdGlvbiBoYXMgYW5jaWVudCBvcmlnaW5zLCB3aXRoIGV2aWRlbmNlIG9mIHRoZSB0ZWNobmlxdWUgZGF0aW5nIGJhY2sgdG8gYXQgbGVhc3QgMzAwMCBCQ0UgaW4gTWVzb3BvdGFtaWEuIEl0IHdhcyBmdXJ0aGVyIGRldmVsb3BlZCBieSBhbGNoZW1pc3RzIGFuZCBoYXMgYmVlbiBjcnVjaWFsIGluIHBlcmZ1bWVyeSwgbWVkaWNpbmUsIGFuZCBzcGlyaXRzIHByb2R1Y3Rpb24gdGhyb3VnaG91dCBoaXN0b3J5LicsXG4gIG1vZGVyblZhcmlhdGlvbnM6IFtcbiAgICAnU2ltcGxlIGRpc3RpbGxhdGlvbiAoc2luZ2xlIHZhcG9yaXphdGlvbiBhbmQgY29uZGVuc2F0aW9uKScsXG4gICAgJ0ZyYWN0aW9uYWwgZGlzdGlsbGF0aW9uIChtdWx0aXBsZSB2YXBvcml6YXRpb24tY29uZGVuc2F0aW9uIGN5Y2xlcyknLFxuICAgICdTdGVhbSBkaXN0aWxsYXRpb24gKGZvciBoZWF0LXNlbnNpdGl2ZSBwbGFudCBtYXRlcmlhbHMpJyxcbiAgICAnVmFjdXVtIGRpc3RpbGxhdGlvbiAoYXQgbG93ZXIgdGVtcGVyYXR1cmVzKScsXG4gICAgJ01vbGVjdWxhciBkaXN0aWxsYXRpb24gKGZvciBzcGVjaWZpYyBjb21wb3VuZHMgYXQgdmVyeSBsb3cgcHJlc3N1cmVzKSdcbiAgXSxcbiAgb3B0aW1hbFRlbXBlcmF0dXJlczoge1xuICAgIGV0aGFub2w6IDc4LCAvLyDCsEMgKGV0aGFub2wgYm9pbGluZyBwb2ludClcbiAgICBlc3NlbnRpYWw6IDIwMCAvLyDCsEMgKGZvciBoaWdoZXIgYm9pbGluZyBwb2ludCBjb21wb3VuZHMpXG4gIH0sXG4gIHRvb2xzUmVxdWlyZWQ6IFtcbiAgICAnU3RpbGwgKHBvdCBzdGlsbCBvciBjb2x1bW4gc3RpbGwpJyxcbiAgICAnQ29uZGVuc2VyJyxcbiAgICAnQ29sbGVjdGlvbiB2ZXNzZWwnLFxuICAgICdIZWF0IHNvdXJjZScsXG4gICAgJ1RoZXJtb21ldGVyJyxcbiAgICAnQ29vbGluZyBzeXN0ZW0nLFxuICAgICdIeWRyb21ldGVyIChmb3IgbWVhc3VyaW5nIGFsY29ob2wgY29udGVudCknXG4gIF0sXG4gIGhlYWx0aENvbnNpZGVyYXRpb25zOiBbXG4gICAgJ0hvbWUgZGlzdGlsbGF0aW9uIG9mIGFsY29ob2wgaXMgaWxsZWdhbCBpbiBtYW55IHBsYWNlcycsXG4gICAgJ0ltcHJvcGVybHkgZGlzdGlsbGVkIHNwaXJpdHMgY2FuIGNvbnRhaW4gaGFybWZ1bCBjb21wb3VuZHMgbGlrZSBtZXRoYW5vbCcsXG4gICAgJ0NvbmNlbnRyYXRlZCBwbGFudCBjb21wb3VuZHMgY2FuIGJlIHRveGljIGlmIG5vdCBwcm9wZXJseSBpZGVudGlmaWVkJyxcbiAgICAnSGlnaCBwcm9vZiBzcGlyaXRzIHNob3VsZCBiZSBjb25zdW1lZCBpbiBtb2RlcmF0aW9uJ1xuICBdXG59OyAiXSwidmVyc2lvbiI6M30=

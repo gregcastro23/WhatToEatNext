@@ -28,6 +28,15 @@ make errors-detail    # Detailed error analysis
 make errors-by-file   # Errors grouped by file
 make errors-by-type   # Errors grouped by type
 
+# Build System Repair & Validation (NEW)
+make build-health        # Check build system health status
+make build-validate      # Validate build system integrity
+make build-repair        # Repair missing manifest files
+make build-comprehensive # Full build system repair
+make build-emergency     # Emergency build recovery
+make build-workflow      # Complete build maintenance workflow
+make build-safe          # Safe build with integrated repair
+
 # Advanced Error Resolution (PRODUCTION-READY)
 node scripts/typescript-fixes/fix-typescript-errors-enhanced-v3.js --dry-run
 node scripts/typescript-fixes/fix-typescript-errors-enhanced-v3.js --max-files=15 --auto-fix
@@ -47,13 +56,13 @@ make commit-phase     # Create phase-specific commit
 ### Quick Development Check
 ```bash
 # Get baseline error count
-yarn tsc --noEmit --skipLibCheck 2>&1 | grep -c "error TS"
+make check 2>&1 | grep -c "error TS"
 
 # Build validation
-yarn build
+make build
 
 # Error breakdown
-yarn tsc --noEmit --skipLibCheck 2>&1 | grep -E "error TS" | sed 's/.*error //' | cut -d':' -f1 | sort | uniq -c | sort -nr
+make errors-by-type
 ```
 
 ## 🏆 Project Goals & Achievements
@@ -203,6 +212,26 @@ make docker-prod     # Production container
 make docker-clean    # Clean Docker resources
 ```
 
+### CI/CD Pipeline Integration
+```bash
+# Pre-commit validation
+make build-health        # Validate build system health
+make check              # TypeScript error checking
+make lint               # Code quality checks
+make test               # Run test suite
+
+# CI/CD Pipeline Commands
+make ci-validate        # Complete CI validation workflow
+make ci-build           # CI-optimized build process
+make ci-test            # CI test execution with coverage
+make ci-deploy-check    # Pre-deployment validation
+make ci-quality-gate    # Quality gate validation
+
+# Production deployment pipeline
+make deploy-pipeline    # Complete deployment workflow
+make deploy-rollback    # Emergency rollback procedures
+```
+
 ## 📋 Essential Information for Development
 
 ### Key Directories
@@ -264,13 +293,71 @@ make backup             # Create backup branch
 - **Scripts:** `scripts/QUICK_REFERENCE.md`
 - **Inventory:** `scripts/INVENTORY.md`
 
+## 🚀 CI/CD Pipeline Integration
+
+### Complete CI/CD Workflow
+```bash
+# Full pipeline execution
+make deploy-pipeline
+
+# Individual pipeline stages
+make ci-validate         # Complete CI validation
+make ci-build           # CI-optimized build
+make ci-test            # Test execution with coverage
+make ci-quality-gate    # Quality gate validation
+make ci-deploy-check    # Pre-deployment validation
+```
+
+### Quality Gates & Thresholds
+```bash
+# Current quality thresholds
+TypeScript Errors: < 100 (configurable)
+Build Stability: Required
+Test Coverage: Required
+
+# Quality gate validation
+make ci-quality-gate
+```
+
+### Pre-commit Integration
+```bash
+# Recommended pre-commit workflow
+make build-health       # Check build system health
+make ci-validate        # Full CI validation
+make ci-quality-gate    # Quality gate check
+```
+
+### GitHub Actions Integration
+```yaml
+# .github/workflows/ci-cd.yml
+name: CI/CD Pipeline
+on: [push, pull_request]
+jobs:
+  ci-validation:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: CI Validation
+        run: make ci-validate
+      - name: Quality Gate
+        run: make ci-quality-gate
+```
+
 ## 🚨 Emergency Procedures
 
 ### Build Failures
 ```bash
 make clean          # Clean build artifacts
 make install        # Reinstall dependencies
-make build          # Attempt rebuild
+make build-safe     # Safe build with repair
+```
+
+### CI/CD Pipeline Failures
+```bash
+# Pipeline failure recovery
+make deploy-rollback    # Emergency rollback
+make build-emergency    # Emergency build recovery
+make ci-validate        # Re-validate after recovery
 ```
 
 ### Git Issues
@@ -288,7 +375,7 @@ git stash apply stash^{/typescript-errors-fix-LATEST}
 git stash apply stash^{/explicit-any-fix-LATEST}
 
 # If build fails after script run
-yarn build  # Check specific error
+make build  # Check specific error
 git restore <corrupted-file>  # Restore individual files
 
 # If import corruption detected
@@ -314,8 +401,8 @@ make quick-check         # Quick development check
 make lint 2>&1 | grep -c "@typescript-eslint/no-explicit-any"
 
 # Advanced error analysis
-yarn tsc --noEmit --skipLibCheck 2>&1 | grep -E "error TS" | head -20
-yarn tsc --noEmit --skipLibCheck 2>&1 | grep -E "error TS" | sed 's/.*error //' | cut -d':' -f1 | sort | uniq -c | sort -nr
+make errors-detail        # Show detailed error analysis
+make errors-by-type       # Show errors grouped by type
 ```
 
 ### Deployment Emergency Procedures
@@ -329,8 +416,8 @@ git log --oneline -10
 git reset --hard <last-clean-commit>
 
 # Production build validation
-NODE_ENV=production yarn build
-yarn start  # Test production server locally
+NODE_ENV=production make build
+make start  # Test production server locally
 ```
 
 ---

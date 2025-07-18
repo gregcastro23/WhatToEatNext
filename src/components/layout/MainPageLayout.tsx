@@ -138,6 +138,10 @@ const MainPageLayout: React.FC<MainPageLayoutProps> = memo(function MainPageLayo
   // });
 
   // const { validationResult: planetaryValidation, validatePlanetaryData } = usePlanetaryDataValidationHook(true);
+  
+  // Temporary placeholders for disabled hooks
+  const agentHookState = null;
+  const planetaryValidation = null;
   const { validationResult: ingredientValidation, validateIngredients } = useIngredientConsistencyHook();
   const { campaignTrigger: typescriptTrigger, checkErrorThreshold } = useTypeScriptCampaignHook(true);
   const { qualityResult: buildQuality, monitorBuildQuality } = useBuildQualityMonitoringHook();
@@ -222,26 +226,26 @@ const MainPageLayout: React.FC<MainPageLayoutProps> = memo(function MainPageLayo
         const guidance = await steeringIntelligence.getGuidance();
         setAstrologicalGuidance(guidance);
         
-        // Apply architectural guidance for component optimization
-        const archGuidance = getArchitecturalGuidance();
-        logger.debug('Applied architectural guidance from steering files:', archGuidance);
+        // Apply architectural guidance for component optimization - temporarily disabled
+        // const archGuidance = getArchitecturalGuidance();
+        // logger.debug('Applied architectural guidance from steering files:', archGuidance);
         
-        // Validate cultural content if we have any
-        if (selectedCuisine || selectedIngredients.length > 0) {
-          const validation = validateCulturalContent({
-            ingredientNames: selectedIngredients,
-            cuisineDescriptions: selectedCuisine ? [selectedCuisine] : []
-          });
-          setCulturalValidation(validation);
-          
-          if (!validation.isCompliant) {
-            logger.warn('Cultural sensitivity issues detected:', validation.issues);
-          }
-        }
+        // Validate cultural content if we have any - temporarily disabled
+        // if (selectedCuisine || selectedIngredients.length > 0) {
+        //   const validation = validateCulturalContent({
+        //     ingredientNames: selectedIngredients,
+        //     cuisineDescriptions: selectedCuisine ? [selectedCuisine] : []
+        //   });
+        //   setCulturalValidation(validation);
+        //   
+        //   if (!validation.isCompliant) {
+        //     logger.warn('Cultural sensitivity issues detected:', validation.issues);
+        //   }
+        // }
         
-        // Get performance optimization recommendations
-        const perfRecommendations = getOptimizationRecommendations('main-page-layout');
-        logger.debug('Performance optimization recommendations:', perfRecommendations);
+        // Get performance optimization recommendations - temporarily disabled
+        // const perfRecommendations = getOptimizationRecommendations('main-page-layout');
+        // logger.debug('Performance optimization recommendations:', perfRecommendations);
         
       } catch (error) {
         logger.error('Error initializing steering file intelligence:', error);
@@ -268,16 +272,16 @@ const MainPageLayout: React.FC<MainPageLayoutProps> = memo(function MainPageLayo
       
       setPerformanceMetrics(metrics);
       
-      // Validate performance against steering file thresholds
-      const validation = validatePerformanceMetrics({
-        renderTime,
-        memoryUsage
-      });
-      
-      if (!validation.isOptimal) {
-        logger.warn('Performance issues detected:', validation.issues);
-        logger.info('Performance recommendations:', validation.recommendations);
-      }
+      // Validate performance against steering file thresholds - temporarily disabled
+      // const validation = validatePerformanceMetrics({
+      //   renderTime,
+      //   memoryUsage
+      // });
+      // 
+      // if (!validation.isOptimal) {
+      //   logger.warn('Performance issues detected:', validation.issues);
+      //   logger.info('Performance recommendations:', validation.recommendations);
+      // }
     };
 
     // Measure performance after component mounts and updates

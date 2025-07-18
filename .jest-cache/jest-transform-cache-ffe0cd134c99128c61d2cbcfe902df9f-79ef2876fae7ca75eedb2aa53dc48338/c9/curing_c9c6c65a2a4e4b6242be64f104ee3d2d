@@ -1,0 +1,61 @@
+1a4db5830f20e748f077b60270d12b3c
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.curing = void 0;
+/**
+ * Curing: A food preservation method that removes moisture and enhances flavor
+ * through the addition of salt, sugar, nitrates, or other compounds
+ */
+exports.curing = {
+    name: 'Curing',
+    description: 'A preservation technique that draws moisture out of food through the use of salt, sugar, nitrates, or other compounds, thereby inhibiting bacterial growth and enhancing flavor.',
+    elementalEffect: {
+        Fire: 0.1,
+        Water: 0.2,
+        Earth: 0.8,
+        Air: 0.3
+    },
+    duration: {
+        min: 180,
+        max: 8640 // 6 months (in minutes)
+    },
+    suitable_for: [
+        'Meats',
+        'Fish',
+        'Vegetables',
+        'Eggs',
+        'Citrus peels'
+    ],
+    benefits: [
+        'Preservation without artificial additives',
+        'Enhanced flavor development',
+        'Some fermented cured products contain beneficial probiotics'
+    ],
+    history: 'Curing dates back to ancient civilizations where salt was used to preserve meat and fish. It was essential for food preservation before refrigeration and allowed food to be stored and transported over long distances.',
+    modernVariations: [
+        'Dry curing (with salt and spices)',
+        'Wet curing/brining (submerged in salt solution)',
+        'Equilibrium curing (precise salt percentage)',
+        'Sugar curing (using sugar as primary agent)',
+        'Nitrate/nitrite curing (using pink salt)'
+    ],
+    optimalTemperatures: {
+        refrigeration: 1,
+        cool: 18 // °C (cool room temperature)
+    },
+    toolsRequired: [
+        'Salt',
+        'Curing salts',
+        'Airtight containers',
+        'Cheesecloth',
+        'Hooks for hanging',
+        'Weights for pressing',
+        'Refrigerator or cool storage'
+    ],
+    healthConsiderations: [
+        'High sodium content',
+        'Nitrates and nitrites used in some curing may form nitrosamines',
+        'Proper technique is essential to prevent harmful bacterial growth'
+    ]
+};
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJmaWxlIjoiL1VzZXJzL0dyZWdDYXN0cm8vRGVza3RvcC9XaGF0VG9FYXROZXh0L3NyYy9kYXRhL2Nvb2tpbmcvbWV0aG9kcy90cmFuc2Zvcm1hdGlvbi9jdXJpbmcudHMiLCJtYXBwaW5ncyI6Ijs7O0FBR0E7OztHQUdHO0FBQ1UsUUFBQSxNQUFNLEdBQXNCO0lBQ3ZDLElBQUksRUFBRSxRQUF5QjtJQUMvQixXQUFXLEVBQUUsa0xBQWtMO0lBQy9MLGVBQWUsRUFBRTtRQUNmLElBQUksRUFBRSxHQUFHO1FBQ1QsS0FBSyxFQUFFLEdBQUc7UUFDVixLQUFLLEVBQUUsR0FBRztRQUNWLEdBQUcsRUFBRSxHQUFHO0tBQ1Q7SUFDRCxRQUFRLEVBQUU7UUFDUixHQUFHLEVBQUUsR0FBRztRQUNSLEdBQUcsRUFBRSxJQUFJLENBQUMsd0JBQXdCO0tBQ25DO0lBQ0QsWUFBWSxFQUFFO1FBQ1osT0FBTztRQUNQLE1BQU07UUFDTixZQUFZO1FBQ1osTUFBTTtRQUNOLGNBQWM7S0FDZjtJQUNELFFBQVEsRUFBRTtRQUNSLDJDQUEyQztRQUMzQyw2QkFBNkI7UUFDN0IsNkRBQTZEO0tBQzlEO0lBQ0QsT0FBTyxFQUFFLDBOQUEwTjtJQUNuTyxnQkFBZ0IsRUFBRTtRQUNoQixtQ0FBbUM7UUFDbkMsaURBQWlEO1FBQ2pELDhDQUE4QztRQUM5Qyw2Q0FBNkM7UUFDN0MsMENBQTBDO0tBQzNDO0lBQ0QsbUJBQW1CLEVBQUU7UUFDbkIsYUFBYSxFQUFFLENBQUM7UUFDaEIsSUFBSSxFQUFFLEVBQUUsQ0FBQyw2QkFBNkI7S0FDdkM7SUFDRCxhQUFhLEVBQUU7UUFDYixNQUFNO1FBQ04sY0FBYztRQUNkLHFCQUFxQjtRQUNyQixhQUFhO1FBQ2IsbUJBQW1CO1FBQ25CLHNCQUFzQjtRQUN0Qiw4QkFBOEI7S0FDL0I7SUFDRCxvQkFBb0IsRUFBRTtRQUNwQixxQkFBcUI7UUFDckIsaUVBQWlFO1FBQ2pFLG1FQUFtRTtLQUNwRTtDQUNGLENBQUMiLCJuYW1lcyI6W10sInNvdXJjZXMiOlsiL1VzZXJzL0dyZWdDYXN0cm8vRGVza3RvcC9XaGF0VG9FYXROZXh0L3NyYy9kYXRhL2Nvb2tpbmcvbWV0aG9kcy90cmFuc2Zvcm1hdGlvbi9jdXJpbmcudHMiXSwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IHR5cGUgeyBDb29raW5nTWV0aG9kRGF0YSB9IGZyb20gJ0AvdHlwZXMvY29va2luZ01ldGhvZCc7XG5pbXBvcnQgdHlwZSB7IENvb2tpbmdNZXRob2QgfSBmcm9tICdAL3R5cGVzL3NoYXJlZCc7XG5cbi8qKlxuICogQ3VyaW5nOiBBIGZvb2QgcHJlc2VydmF0aW9uIG1ldGhvZCB0aGF0IHJlbW92ZXMgbW9pc3R1cmUgYW5kIGVuaGFuY2VzIGZsYXZvclxuICogdGhyb3VnaCB0aGUgYWRkaXRpb24gb2Ygc2FsdCwgc3VnYXIsIG5pdHJhdGVzLCBvciBvdGhlciBjb21wb3VuZHNcbiAqL1xuZXhwb3J0IGNvbnN0IGN1cmluZzogQ29va2luZ01ldGhvZERhdGEgPSB7XG4gIG5hbWU6ICdDdXJpbmcnIGFzIENvb2tpbmdNZXRob2QsXG4gIGRlc2NyaXB0aW9uOiAnQSBwcmVzZXJ2YXRpb24gdGVjaG5pcXVlIHRoYXQgZHJhd3MgbW9pc3R1cmUgb3V0IG9mIGZvb2QgdGhyb3VnaCB0aGUgdXNlIG9mIHNhbHQsIHN1Z2FyLCBuaXRyYXRlcywgb3Igb3RoZXIgY29tcG91bmRzLCB0aGVyZWJ5IGluaGliaXRpbmcgYmFjdGVyaWFsIGdyb3d0aCBhbmQgZW5oYW5jaW5nIGZsYXZvci4nLFxuICBlbGVtZW50YWxFZmZlY3Q6IHtcbiAgICBGaXJlOiAwLjEsXG4gICAgV2F0ZXI6IDAuMixcbiAgICBFYXJ0aDogMC44LFxuICAgIEFpcjogMC4zXG4gIH0sXG4gIGR1cmF0aW9uOiB7XG4gICAgbWluOiAxODAsIC8vIDMgaG91cnNcbiAgICBtYXg6IDg2NDAgLy8gNiBtb250aHMgKGluIG1pbnV0ZXMpXG4gIH0sXG4gIHN1aXRhYmxlX2ZvcjogW1xuICAgICdNZWF0cycsXG4gICAgJ0Zpc2gnLFxuICAgICdWZWdldGFibGVzJyxcbiAgICAnRWdncycsXG4gICAgJ0NpdHJ1cyBwZWVscydcbiAgXSxcbiAgYmVuZWZpdHM6IFtcbiAgICAnUHJlc2VydmF0aW9uIHdpdGhvdXQgYXJ0aWZpY2lhbCBhZGRpdGl2ZXMnLFxuICAgICdFbmhhbmNlZCBmbGF2b3IgZGV2ZWxvcG1lbnQnLFxuICAgICdTb21lIGZlcm1lbnRlZCBjdXJlZCBwcm9kdWN0cyBjb250YWluIGJlbmVmaWNpYWwgcHJvYmlvdGljcydcbiAgXSxcbiAgaGlzdG9yeTogJ0N1cmluZyBkYXRlcyBiYWNrIHRvIGFuY2llbnQgY2l2aWxpemF0aW9ucyB3aGVyZSBzYWx0IHdhcyB1c2VkIHRvIHByZXNlcnZlIG1lYXQgYW5kIGZpc2guIEl0IHdhcyBlc3NlbnRpYWwgZm9yIGZvb2QgcHJlc2VydmF0aW9uIGJlZm9yZSByZWZyaWdlcmF0aW9uIGFuZCBhbGxvd2VkIGZvb2QgdG8gYmUgc3RvcmVkIGFuZCB0cmFuc3BvcnRlZCBvdmVyIGxvbmcgZGlzdGFuY2VzLicsXG4gIG1vZGVyblZhcmlhdGlvbnM6IFtcbiAgICAnRHJ5IGN1cmluZyAod2l0aCBzYWx0IGFuZCBzcGljZXMpJyxcbiAgICAnV2V0IGN1cmluZy9icmluaW5nIChzdWJtZXJnZWQgaW4gc2FsdCBzb2x1dGlvbiknLFxuICAgICdFcXVpbGlicml1bSBjdXJpbmcgKHByZWNpc2Ugc2FsdCBwZXJjZW50YWdlKScsXG4gICAgJ1N1Z2FyIGN1cmluZyAodXNpbmcgc3VnYXIgYXMgcHJpbWFyeSBhZ2VudCknLFxuICAgICdOaXRyYXRlL25pdHJpdGUgY3VyaW5nICh1c2luZyBwaW5rIHNhbHQpJ1xuICBdLFxuICBvcHRpbWFsVGVtcGVyYXR1cmVzOiB7XG4gICAgcmVmcmlnZXJhdGlvbjogMSwgLy8gwrBDIChyZWZyaWdlcmF0aW9uIHRlbXBlcmF0dXJlKVxuICAgIGNvb2w6IDE4IC8vIMKwQyAoY29vbCByb29tIHRlbXBlcmF0dXJlKVxuICB9LFxuICB0b29sc1JlcXVpcmVkOiBbXG4gICAgJ1NhbHQnLFxuICAgICdDdXJpbmcgc2FsdHMnLFxuICAgICdBaXJ0aWdodCBjb250YWluZXJzJyxcbiAgICAnQ2hlZXNlY2xvdGgnLFxuICAgICdIb29rcyBmb3IgaGFuZ2luZycsXG4gICAgJ1dlaWdodHMgZm9yIHByZXNzaW5nJyxcbiAgICAnUmVmcmlnZXJhdG9yIG9yIGNvb2wgc3RvcmFnZSdcbiAgXSxcbiAgaGVhbHRoQ29uc2lkZXJhdGlvbnM6IFtcbiAgICAnSGlnaCBzb2RpdW0gY29udGVudCcsXG4gICAgJ05pdHJhdGVzIGFuZCBuaXRyaXRlcyB1c2VkIGluIHNvbWUgY3VyaW5nIG1heSBmb3JtIG5pdHJvc2FtaW5lcycsXG4gICAgJ1Byb3BlciB0ZWNobmlxdWUgaXMgZXNzZW50aWFsIHRvIHByZXZlbnQgaGFybWZ1bCBiYWN0ZXJpYWwgZ3Jvd3RoJ1xuICBdXG59OyAiXSwidmVyc2lvbiI6M30=
