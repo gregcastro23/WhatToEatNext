@@ -3,8 +3,8 @@
 // Import needed from ./flavorProfiles.ts
 import type { ElementalProperties, AlchemicalProperties, AlchemicalValues, Season, PlanetName } from "@/types/alchemy";
 import type { CookingMethod } from "@/types/constants";
-import { cuisineFlavorProfiles } from '../cuisineFlavorProfiles';
-import { planetaryFlavorProfiles } from '../planetaryFlavorProfiles';
+import { cuisineFlavorProfiles, type CuisineFlavorProfile } from '../cuisineFlavorProfiles';
+import { planetaryFlavorProfiles, type PlanetaryFlavorProfile } from '../planetaryFlavorProfiles';
 import { flavorProfiles as integrationFlavorProfiles } from '../integrations/flavorProfiles';
 // ingredientFlavorMap import disabled - not exported
 // import { ingredientFlavorMap } from '../ingredients/flavorProfiles';
@@ -171,28 +171,29 @@ export class FlavorProfileMigration {
   }
 
   private convertUnifiedProfile(id: string, profile: unknown): UnifiedFlavorProfile {
+    const profileData = profile as Record<string, unknown>;
     return {
-      id: profile.id || id,
-      name: profile.name || id,
-      category: this.mapCategory(profile.category || profile.type),
+      id: profileData?.id as string || id,
+      name: profileData?.name as string || id,
+      category: this.mapCategory(profileData?.category as string || profileData?.type as string),
       
       baseNotes: this.extractBaseNotes(profile),
       elementalFlavors: this.extractElementalFlavors(profile),
-      intensity: profile.intensity || 0.5,
-      complexity: profile.complexity || 0.5,
+      intensity: Number(profileData?.intensity) || 0.5,
+      complexity: Number(profileData?.complexity) || 0.5,
       
-      kalchm: profile.kalchm || 0,
-      monicaOptimization: profile.monicaOptimization || 1.0,
+      kalchm: Number(profileData?.kalchm) || 0,
+      monicaOptimization: Number(profileData?.monicaOptimization) || 1.0,
       alchemicalProperties: this.extractAlchemicalProperties(profile),
       
       seasonalPeak: this.extractSeasonalPeak(profile),
       seasonalModifiers: this.extractSeasonalModifiers(profile),
       culturalOrigins: this.extractCulturalOrigins(profile),
-      pAiringRecommendations: this.extractPairingRecommendations(profile),
+      pairingRecommendations: this.extractPairingRecommendations(profile),
       
-      nutritionalSynergy: profile.nutritionalSynergy || 0.7,
+      nutritionalSynergy: Number(profileData?.nutritionalSynergy) || 0.7,
       
-      description: profile.description || `${profile.name || id} flavor profile`,
+      description: profileData?.description as string || `${profileData?.name || id} flavor profile`,
       
       // Required properties missing from original interface
       planetaryResonance: this.getDefaultPlanetaryResonance(),
@@ -234,7 +235,7 @@ export class FlavorProfileMigration {
     console.log(`✅ Migrated ${Object.keys(cuisineFlavorProfiles || {}).length} cuisine profiles`);
   }
 
-  private convertCuisineProfile(cuisineName: string, cuisineData: CuisineType): UnifiedFlavorProfile {
+  private convertCuisineProfile(cuisineName: string, cuisineData: CuisineFlavorProfile): UnifiedFlavorProfile {
     const id = `cuisine-${cuisineName?.toLowerCase()?.replace(/\s+/g, '-')}`;
     
     return {
@@ -243,7 +244,7 @@ export class FlavorProfileMigration {
       category: 'cuisine',
       
       baseNotes: this.extractCuisineBaseNotes(cuisineData),
-      elementalFlavors: cuisineData.elementalState || getCurrentElementalState(),
+      elementalFlavors: (cuisineData as unknown as Record<string, unknown>)?.elementalState as ElementalProperties || getCurrentElementalState(),
       intensity: this.calculateCuisineIntensity(cuisineData),
       complexity: this.calculateCuisineComplexity(cuisineData),
       
@@ -254,7 +255,7 @@ export class FlavorProfileMigration {
       seasonalPeak: this.extractCuisineSeasonalPeak(cuisineData),
       seasonalModifiers: this.getDefaultSeasonalModifiers(),
       culturalOrigins: [cuisineName],
-      pAiringRecommendations: cuisineData.signatureIngredients || [],
+      pairingRecommendations: cuisineData.signatureIngredients || [],
       
       nutritionalSynergy: 0.7,
       
@@ -283,7 +284,7 @@ export class FlavorProfileMigration {
     
     for (const [planetName, planetData] of Object.entries(planetaryFlavorProfiles)) {
       try {
-        const migratedProfile = this.convertPlanetaryProfile(planetName, planetData);
+        const migratedProfile = this.convertPlanetaryProfile(planetName, planetData as unknown as Record<string, unknown>);
         this.migratedProfiles.set(migratedProfile.id, migratedProfile);
       } catch (error) {
         this.migrationErrors?.push(`Failed to migrate planetary profile ${planetName}: ${error}`);
@@ -293,7 +294,7 @@ export class FlavorProfileMigration {
     console.log(`✅ Migrated ${Object.keys(planetaryFlavorProfiles || {}).length} planetary profiles`);
   }
 
-  private convertPlanetaryProfile(planetName: string, planetData: Planet): UnifiedFlavorProfile {
+  private convertPlanetaryProfile(planetName: string, planetData: Record<string, unknown>): UnifiedFlavorProfile {
     const id = `planetary-${planetName?.toLowerCase()}`;
     
     return {
@@ -301,23 +302,23 @@ export class FlavorProfileMigration {
       name: `${planetName} Influence`,
       category: 'planetary',
       
-      baseNotes: this.extractPlanetaryBaseNotes(planetData),
-      elementalFlavors: planetData.elementalInfluence || getCurrentElementalState(),
-      intensity: planetData.intensity || 0.5,
-      complexity: planetData.complexity || 0.5,
+              baseNotes: this.extractPlanetaryBaseNotes(planetData as unknown as Planet),
+      elementalFlavors: (planetData.elementalInfluence as ElementalProperties) || getCurrentElementalState(),
+      intensity: (planetData.intensity as number) || 0.5,
+      complexity: (planetData.complexity as number) || 0.5,
       
       kalchm: 0, // Will be calculated
       monicaOptimization: 1.0,
       alchemicalProperties: this.extractAlchemicalProperties(planetData),
       
-      seasonalPeak: this.extractPlanetarySeasonalPeak(planetData),
+              seasonalPeak: this.extractPlanetarySeasonalPeak(planetData as unknown as Planet),
       seasonalModifiers: this.getDefaultSeasonalModifiers(),
       culturalOrigins: ['Universal'],
-      pAiringRecommendations: [],
+      pairingRecommendations: [],
       
       nutritionalSynergy: 0.7,
       
-      description: planetData.description || `${planetName} planetary influence on flavor`,
+      description: String(planetData.description || `${planetName} planetary influence on flavor`),
       
       // Required properties missing from original interface
       planetaryResonance: this.getDefaultPlanetaryResonance(),
@@ -342,7 +343,7 @@ export class FlavorProfileMigration {
     
     for (const [flavorName, flavorData] of Object.entries(integrationFlavorProfiles)) {
       try {
-        const migratedProfile = this.convertIntegrationProfile(flavorName, flavorData);
+        const migratedProfile = this.convertIntegrationProfile(flavorName, flavorData as unknown as Record<string, unknown>);
         this.migratedProfiles.set(migratedProfile.id, migratedProfile);
       } catch (error) {
         this.migrationErrors?.push(`Failed to migrate integration profile ${flavorName}: ${error}`);
@@ -361,22 +362,22 @@ export class FlavorProfileMigration {
       category: 'elemental',
       
       baseNotes: this.extractIntegrationBaseNotes(flavorName, flavorData),
-      elementalFlavors: flavorData.elementalState || getCurrentElementalState(),
-      intensity: flavorData.intensity || 0.5,
+      elementalFlavors: (flavorData.elementalState as ElementalProperties) || getCurrentElementalState(),
+      intensity: Number(flavorData.intensity) || 0.5,
       complexity: 0.5,
       
       kalchm: 0, // Will be calculated
       monicaOptimization: 1.0,
       alchemicalProperties: this.getDefaultAlchemicalProperties(),
       
-      seasonalPeak: flavorData.seasonalPeak || ['spring', 'summer', 'autumn', 'winter'],
+      seasonalPeak: (flavorData.seasonalPeak as Season[]) || ['spring', 'summer', 'autumn', 'winter'],
       seasonalModifiers: this.getDefaultSeasonalModifiers(),
-      culturalOrigins: ['Universal'],
-      pAiringRecommendations: flavorData.pairings || [],
+      culturalOrigins: ['Universal'] as string[],
+      pairingRecommendations: (flavorData.pairings as string[]) || [],
       
       nutritionalSynergy: 0.7,
       
-      description: flavorData.description || `${flavorName} elemental flavor profile`,
+      description: String(flavorData.description || `${flavorName} elemental flavor profile`),
       
       // Required properties missing from original interface
       planetaryResonance: this.getDefaultPlanetaryResonance(),
@@ -432,7 +433,7 @@ export class FlavorProfileMigration {
       seasonalPeak: ['spring', 'summer', 'autumn', 'winter'], // Default to all seasons
       seasonalModifiers: this.getDefaultSeasonalModifiers(),
       culturalOrigins: ['Universal'],
-      pAiringRecommendations: [],
+      pairingRecommendations: [],
       
       nutritionalSynergy: 0.7,
       
@@ -450,54 +451,62 @@ export class FlavorProfileMigration {
   // ===== DATA EXTRACTION HELPERS =====
   
   private extractBaseNotes(profile: unknown): BaseFlavorNotes {
-    if (profile.baseNotes) return profile.baseNotes;
+    const profileData = profile as Record<string, unknown>;
+    if (profileData?.baseNotes) return profileData.baseNotes as BaseFlavorNotes;
     
     // Try to extract from various formats
+    const flavorProfiles = profileData?.flavorProfiles as Record<string, unknown>;
     const baseNotes: BaseFlavorNotes = {
-      sweet: profile.sweet || profile.flavorProfiles?.sweet || 0,
-      sour: profile.sour || profile.flavorProfiles?.sour || 0,
-      salty: profile.salty || profile.flavorProfiles?.salty || 0,
-      bitter: profile.bitter || profile.flavorProfiles?.bitter || 0,
-      umami: profile.umami || profile.flavorProfiles?.umami || 0,
-      spicy: profile.spicy || profile.flavorProfiles?.spicy || 0
+      sweet: Number(profileData?.sweet) || Number(flavorProfiles?.sweet) || 0,
+      sour: Number(profileData?.sour) || Number(flavorProfiles?.sour) || 0,
+      salty: Number(profileData?.salty) || Number(flavorProfiles?.salty) || 0,
+      bitter: Number(profileData?.bitter) || Number(flavorProfiles?.bitter) || 0,
+      umami: Number(profileData?.umami) || Number(flavorProfiles?.umami) || 0,
+      spicy: Number(profileData?.spicy) || Number(flavorProfiles?.spicy) || 0
     };
     
     return baseNotes;
   }
 
   private extractElementalFlavors(profile: unknown): ElementalProperties {
-    if (profile.elementalFlavors) return profile.elementalFlavors;
-    if (profile.elementalState) return profile.elementalState;
+    const profileData = profile as Record<string, unknown>;
+    if (profileData?.elementalFlavors) return profileData.elementalFlavors as ElementalProperties;
+    if (profileData?.elementalState) return profileData.elementalState as ElementalProperties;
     
     return getCurrentElementalState();
   }
 
   private extractAlchemicalProperties(profile: unknown): AlchemicalProperties {
-    if (profile.alchemicalProperties) return profile.alchemicalProperties;
+    const profileData = profile as Record<string, unknown>;
+    if (profileData?.alchemicalProperties) return profileData.alchemicalProperties as AlchemicalProperties;
     
     return this.getDefaultAlchemicalProperties();
   }
 
   private extractSeasonalPeak(profile: unknown): Season[] {
-    if (profile.seasonalPeak) return profile.seasonalPeak;
+    const profileData = profile as Record<string, unknown>;
+    if (profileData?.seasonalPeak) return profileData.seasonalPeak as Season[];
     
     return ['spring', 'summer', 'autumn', 'winter'];
   }
 
   private extractSeasonalModifiers(profile: unknown): Record<Season, number> {
-    return profile.seasonalModifiers || this.getDefaultSeasonalModifiers();
+    const profileData = profile as Record<string, unknown>;
+    return (profileData?.seasonalModifiers as Record<Season, number>) || this.getDefaultSeasonalModifiers();
   }
 
   private extractCulturalOrigins(profile: unknown): string[] {
-    if (profile.culturalOrigins) return profile.culturalOrigins;
-    if (profile.origins) return profile.origins;
+    const profileData = profile as Record<string, unknown>;
+    if (profileData?.culturalOrigins) return profileData.culturalOrigins as string[];
+    if (profileData?.origins) return profileData.origins as string[];
     
     return ['Universal'];
   }
 
   private extractPairingRecommendations(profile: unknown): string[] {
-    if (profile.pairingRecommendations) return profile.pairingRecommendations;
-    if (profile.pairings) return profile.pairings;
+    const profileData = profile as Record<string, unknown>;
+    if (profileData?.pairingRecommendations) return profileData.pairingRecommendations as string[];
+    if (profileData?.pairings) return profileData.pairings as string[];
     
     return [];
   }
@@ -505,7 +514,7 @@ export class FlavorProfileMigration {
 
   // ===== CUISINE-SPECIFIC HELPERS =====
   
-  private extractCuisineBaseNotes(cuisineData: CuisineType): BaseFlavorNotes {
+  private extractCuisineBaseNotes(cuisineData: CuisineFlavorProfile): BaseFlavorNotes {
     if (cuisineData.flavorProfiles) {
       return {
         sweet: cuisineData.flavorProfiles.sweet || 0,
@@ -531,8 +540,10 @@ export class FlavorProfileMigration {
     return this.getDefaultBaseNotes();
   }
 
-  private calculateCuisineIntensity(cuisineData: CuisineType): number {
-    if (cuisineData.intensity) return cuisineData.intensity;
+  private calculateCuisineIntensity(cuisineData: CuisineFlavorProfile): number {
+    const cuisineRecord = cuisineData as unknown as Record<string, unknown>;
+    const intensity = cuisineRecord.intensity as number;
+    if (intensity) return intensity;
     
     // Calculate from flavor intensities
     if (cuisineData.flavorIntensities) {
@@ -543,8 +554,10 @@ export class FlavorProfileMigration {
     return 0.5;
   }
 
-  private calculateCuisineComplexity(cuisineData: CuisineType): number {
-    if (cuisineData.complexity) return cuisineData.complexity;
+  private calculateCuisineComplexity(cuisineData: CuisineFlavorProfile): number {
+    const cuisineRecord = cuisineData as unknown as Record<string, unknown>;
+    const complexity = cuisineRecord.complexity as number;
+    if (complexity) return complexity;
     
     // Estimate based on number of signature ingredients and techniques
     const ingredientCount = (cuisineData.signatureIngredients || []).length || 0;
@@ -553,8 +566,10 @@ export class FlavorProfileMigration {
     return Math.min(1, (ingredientCount + techniqueCount) / 20);
   }
 
-  private extractCuisineSeasonalPeak(cuisineData: CuisineType): Season[] {
-    if (cuisineData.seasonalPeak) return cuisineData.seasonalPeak;
+  private extractCuisineSeasonalPeak(cuisineData: CuisineFlavorProfile): Season[] {
+    const cuisineRecord = cuisineData as unknown as Record<string, unknown>;
+    const seasonalPeak = cuisineRecord.seasonalPeak as Season[];
+    if (seasonalPeak) return seasonalPeak;
     
     // Default based on cuisine characteristics
     return ['spring', 'summer', 'autumn', 'winter'];
@@ -563,14 +578,16 @@ export class FlavorProfileMigration {
   // ===== PLANETARY-SPECIFIC HELPERS =====
   
   private extractPlanetaryBaseNotes(planetData: Planet): BaseFlavorNotes {
-    if (planetData.flavorProfiles) {
+    const planetRecord = planetData as unknown as Record<string, unknown>;
+    const flavorProfiles = planetRecord.flavorProfiles as Record<string, unknown>;
+    if (flavorProfiles) {
       return {
-        sweet: planetData.flavorProfiles.sweet || 0,
-        sour: planetData.flavorProfiles.sour || 0,
-        salty: planetData.flavorProfiles.salty || 0,
-        bitter: planetData.flavorProfiles.bitter || 0,
-        umami: planetData.flavorProfiles.umami || 0,
-        spicy: planetData.flavorProfiles.spicy || 0
+        sweet: Number(flavorProfiles.sweet) || 0,
+        sour: Number(flavorProfiles.sour) || 0,
+        salty: Number(flavorProfiles.salty) || 0,
+        bitter: Number(flavorProfiles.bitter) || 0,
+        umami: Number(flavorProfiles.umami) || 0,
+        spicy: Number(flavorProfiles.spicy) || 0
       };
     }
     
@@ -578,7 +595,9 @@ export class FlavorProfileMigration {
   }
 
   private extractPlanetarySeasonalPeak(planetData: Planet): Season[] {
-    if (planetData.seasonalPeak) return planetData.seasonalPeak;
+    const planetRecord = planetData as unknown as Record<string, unknown>;
+    const seasonalPeak = planetRecord.seasonalPeak as Season[];
+    if (seasonalPeak) return seasonalPeak;
     
     return ['spring', 'summer', 'autumn', 'winter'];
   }
@@ -600,7 +619,7 @@ export class FlavorProfileMigration {
     
     const mappedFlavor = flavorMap[flavorName?.toLowerCase()];
     if (mappedFlavor) {
-      baseNotes[mappedFlavor] = flavorData.intensity || 0.8;
+      baseNotes[mappedFlavor] = Number(flavorData.intensity) || 0.8;
     }
     
     return baseNotes;
@@ -610,12 +629,12 @@ export class FlavorProfileMigration {
   
   private extractIngredientBaseNotes(flavorData: Record<string, unknown>): BaseFlavorNotes {
     return {
-      sweet: flavorData.sweet || 0,
-      sour: flavorData.sour || 0,
-      salty: flavorData.salty || 0,
-      bitter: flavorData.bitter || 0,
-      umami: flavorData.umami || 0,
-      spicy: flavorData.spicy || 0
+      sweet: Number(flavorData.sweet) || 0,
+      sour: Number(flavorData.sour) || 0,
+      salty: Number(flavorData.salty) || 0,
+      bitter: Number(flavorData.bitter) || 0,
+      umami: Number(flavorData.umami) || 0,
+      spicy: Number(flavorData.spicy) || 0
     };
   }
 
@@ -725,14 +744,14 @@ export class FlavorProfileMigration {
     return categoryMap[category] || 'elemental';
   }
 
-  private mergeCuisineData(profileId: string, cuisineData: CuisineType): void {
+  private mergeCuisineData(profileId: string, cuisineData: CuisineFlavorProfile): void {
     const existingProfile = this.migratedProfiles.get(profileId);
     if (!existingProfile) return;
     
     // Merge additional cuisine-specific data
     if (cuisineData.signatureIngredients) {
-      existingProfile.pAiringRecommendations = [
-        ...new Set([...existingProfile.pAiringRecommendations, ...cuisineData.signatureIngredients])
+      existingProfile.pairingRecommendations = [
+        ...new Set([...existingProfile.pairingRecommendations, ...cuisineData.signatureIngredients])
       ];
     }
     

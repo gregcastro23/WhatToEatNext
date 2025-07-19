@@ -1490,8 +1490,8 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
    */
   analyzeRecipeIngredients(recipe: Recipe): {
     overallHarmony: number;flavorProfile: { [key: string]: number };
-    strongPAirings: Array<{ ingredients: string[]; score: number }>;
-    weakPAirings: Array<{ ingredients: string[]; score: number }>;
+    strongPairings: Array<{ ingredients: string[]; score: number }>;
+    weakPairings: Array<{ ingredients: string[]; score: number }>;
   } {
     try {
       // Extract ingredient names from the recipe
@@ -1507,8 +1507,8 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
       // Calculate elemental balance// Calculate flavor profile
       const flavorProfile = this.calculateRecipeFlavorProfile(ingredients);
       
-      // Analyze pAirings
-      const pAirings: Array<{ pAir: string[]; score: number }> = [];
+      // Analyze pairings
+      const pairings: Array<{ pair: string[]; score: number }> = [];
       
       // Check all possible pAirs
       for (let i = 0; i < (ingredients || []).length; i++) {
@@ -1518,41 +1518,41 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
           
           const compatibility = this.calculateIngredientCompatibility(ing1, ing2);
           
-          pAirings?.push({
-            pAir: [ing1.name, ing2.name],
+          pairings?.push({
+            pair: [ing1.name, ing2.name],
             score: compatibility.score
           });
         }
       }
       
-      // Sort pAirings by score
-      pAirings.sort((a, b) => (a as ScoredItem).score - (b as ScoredItem).score);
+      // Sort pairings by score
+      pairings.sort((a, b) => (a as ScoredItem).score - (b as ScoredItem).score);
       
-      // Get strong and weak pAirings
-      const strongPAirings = pAirings
+      // Get strong and weak pairings
+      const strongPairings = pairings
         .filter(p => p.score >= 0.7)
         .slice(0, 5)
-        .map(p => ({ ingredients: p.pAir, score: p.score }));
+        .map(p => ({ ingredients: p.pair, score: p.score }));
       
-      const weakPAirings = pAirings
+      const weakPairings = pairings
         .filter(p => p.score < 0.4)
         .slice(0, 5)
-        .map(p => ({ ingredients: p.pAir, score: p.score }));
+        .map(p => ({ ingredients: p.pair, score: p.score }));
       
       // Calculate overall harmony
-      // Average of all pAiring scores, weighted by elemental balance
-      const avgPAiringScore = pAirings.reduce((sum, p) => sum + p.score, 0) / 
-                             Math.max(1, (pAirings || []).length);
+      // Average of all pairing scores, weighted by elemental balance
+      const avgPairingScore = pairings.reduce((sum, p) => sum + p.score, 0) / 
+                             Math.max(1, (pairings || []).length);
       
       const consolidatedScore = 0.7;
       
-      const overallHarmony = (avgPAiringScore * 0.7) + (consolidatedScore * 0.3);
+      const overallHarmony = (avgPairingScore * 0.7) + (consolidatedScore * 0.3);
       
       return {
         overallHarmony,
         flavorProfile,
-        strongPAirings,
-        weakPAirings
+        strongPairings,
+        weakPairings
       };
     } catch (error) {
       errorHandler.logError(error, {
@@ -1569,8 +1569,8 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
       return {
         overallHarmony: 0.5,
         flavorProfile: { sweet: 0.5, savory: 0.5 },
-        strongPAirings: [],
-        weakPAirings: []
+        strongPairings: [],
+        weakPairings: []
       };
     }
   }

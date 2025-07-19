@@ -5,6 +5,8 @@ import { calculateMethodScore } from '@/utils/cookingMethodRecommender';
 import { ChevronDown, ChevronUp, Flame, Droplets, Wind, Mountain, Info } from 'lucide-react';
 import styles from './CookingMethods.module.css';
 import { getTechnicalTips, getIdealIngredients } from '@/utils/cookingMethodTips';
+import type { CookingMethod } from '@/types/cookingMethod';
+import type { Element } from '@/types/alchemy';
 
 // Define proper types for the methods with scores
 interface CookingMethodWithScore {
@@ -17,19 +19,19 @@ interface CookingMethodWithScore {
     Water: number;
     Earth: number;
     Air: number;
-  };
+  } | unknown;
   duration?: {
     min: number;
     max: number;
-  };
-  suitable_for?: string[];
-  benefits?: string[];
+  } | unknown;
+  suitable_for?: string[] | unknown[];
+  benefits?: string[] | unknown[];
   astrologicalInfluences?: {
     favorableZodiac?: string[];
     unfavorableZodiac?: string[];
     dominantPlanets?: string[];
-  };
-  toolsRequired?: string[];
+  } | unknown;
+  toolsRequired?: string[] | unknown;
 }
 
 export default function MethodsRecommender() {
@@ -46,18 +48,23 @@ export default function MethodsRecommender() {
   useEffect(() => {
     if (!loading && currentPlanetaryAlignment) {
       // Convert currentPlanetaryAlignment to AstrologicalState format
-      // Use safe type casting for celestial position access
-      const moonData = currentPlanetaryAlignment.Moon as Record<string, unknown>;
-      const sunData = currentPlanetaryAlignment.Sun as Record<string, unknown>;
+      // Apply Pattern MM-1: Safe type assertions
+      const alignmentData = currentPlanetaryAlignment as unknown as Record<string, unknown>;
+      const moonData = alignmentData?.Moon as Record<string, unknown>;
+      const sunData = alignmentData?.Sun as Record<string, unknown>;
+      
+      // Apply Pattern GG-6: Enhanced property access with type guards
+      const sunSign = typeof sunData?.sign === 'string' ? sunData.sign : 'Aries';
+      const moonPhase = typeof moonData?.phase === 'string' ? moonData.phase : 'New Moon';
       
       const astroState = {
-        zodiacSign: sunData?.sign || 'Aries',
-        lunarPhase: moonData?.phase || 'New Moon',
+        zodiacSign: sunSign,
+        lunarPhase: moonPhase,
         elementalState: {
-          Fire: ['Aries', 'Leo', 'Sagittarius'].includes(sunData?.sign || '') ? 0.8 : 0.2,
-          Water: ['Cancer', 'Scorpio', 'Pisces'].includes(sunData?.sign || '') ? 0.8 : 0.2,
-          Earth: ['Taurus', 'Virgo', 'Capricorn'].includes(sunData?.sign || '') ? 0.8 : 0.2,
-          Air: ['Gemini', 'Libra', 'Aquarius'].includes(sunData?.sign || '') ? 0.8 : 0.2
+          Fire: ['Aries', 'Leo', 'Sagittarius'].includes(sunSign) ? 0.8 : 0.2,
+          Water: ['Cancer', 'Scorpio', 'Pisces'].includes(sunSign) ? 0.8 : 0.2,
+          Earth: ['Taurus', 'Virgo', 'Capricorn'].includes(sunSign) ? 0.8 : 0.2,
+          Air: ['Gemini', 'Libra', 'Aquarius'].includes(sunSign) ? 0.8 : 0.2
         },
         planets: currentPlanetaryAlignment
       };
@@ -65,19 +72,21 @@ export default function MethodsRecommender() {
       // Calculate scores for each cooking method and transform into our format
       const methodsWithScores: CookingMethodWithScore[] = Object.entries(allCookingMethods)
         .map(([methodName, methodData]) => {
-          // Use safe type casting for methodData property access
-          const methodInfo = methodData as CookingMethod;
+          // Apply Pattern MM-1: Safe type assertions
+          const methodInfo = methodData as unknown as CookingMethod;
           
           // Calculate base score from the recommender utils
-          // Safe type cast for methodData to CookingMethodModifier with defaults
+          // Apply Pattern GG-6: Enhanced property access with type guards
+          const methodDataObj = methodData as unknown as Record<string, unknown>;
+          // Apply Pattern MM-1: Safe type assertions for CookingMethodModifier
           const safeMethodData = (methodData && typeof methodData === 'object') ? {
-            element: (methodData as Record<string, unknown>)?.element || 'Fire',
-            intensity: (methodData as Record<string, unknown>)?.intensity || 0.5,
-            effect: (methodData as Record<string, unknown>)?.effect || 'enhance',
-            applicableTo: (methodData as Record<string, unknown>)?.applicableTo || ['all'],
-            ...(methodData as Record<string, unknown>)
+            element: (typeof methodDataObj?.element === 'string' ? methodDataObj.element : 'Fire') as Element,
+            intensity: typeof methodDataObj?.intensity === 'number' ? methodDataObj.intensity : 0.5,
+            effect: (typeof methodDataObj?.effect === 'string' ? methodDataObj.effect : 'enhance') as 'enhance' | 'transmute' | 'diminish' | 'balance',
+            applicableTo: Array.isArray(methodDataObj?.applicableTo) ? methodDataObj.applicableTo : ['all'],
+            ...methodDataObj
           } : {
-            element: 'Fire' as const,
+            element: 'Fire' as Element,
             intensity: 0.5,
             effect: 'enhance' as const,
             applicableTo: ['all']
@@ -98,17 +107,20 @@ export default function MethodsRecommender() {
           // Final adjusted score with variance (capped between 0.35 and 0.95)
           const adjustedScore = Math.min(0.95, Math.max(0.35, baseScore - totalVariance));
           
+          // Apply Pattern GG-6: Enhanced property access with type guards
+          const methodInfoData = methodInfo as unknown as Record<string, unknown>;
+          
           return {
             id: methodName,
             name: methodName.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase()), // Capitalize words
-            description: methodInfo?.description || 'A cooking method that transforms food with heat, moisture, or chemical processes.',
+            description: typeof methodInfoData?.description === 'string' ? methodInfoData.description : 'A cooking method that transforms food with heat, moisture, or chemical processes.',
             score: adjustedScore,
-            elementalEffect: methodInfo?.elementalEffect || methodInfo?.elementalProperties,
-            duration: methodInfo?.duration,
-            suitable_for: methodInfo?.suitable_for || [],
-            benefits: methodInfo?.benefits || [],
-            astrologicalInfluences: methodInfo?.astrologicalInfluences,
-            toolsRequired: methodInfo?.toolsRequired
+            elementalEffect: methodInfoData?.elementalEffect || methodInfoData?.elementalProperties,
+            duration: methodInfoData?.duration,
+            suitable_for: Array.isArray(methodInfoData?.suitable_for) ? methodInfoData.suitable_for : [],
+            benefits: Array.isArray(methodInfoData?.benefits) ? methodInfoData.benefits : [],
+            astrologicalInfluences: methodInfoData?.astrologicalInfluences,
+            toolsRequired: methodInfoData?.toolsRequired
           };
         })
         .sort((a, b) => b.score - a.score);

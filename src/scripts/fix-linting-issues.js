@@ -33,7 +33,7 @@ const isTestMode = args.includes('--test');
 
 // Safe logging
 function log(message) {
-  console.log(message);
+  // console.log(message);
   fs.appendFileSync(LOG_FILE, message + '\n');
 }
 
@@ -284,7 +284,7 @@ function fixDuplicateImports(content) {
   
   // Second pass to remove duplicates
   let updatedContent = content;
-  uniqueImports.forEach((lines, _source) => {
+  uniqueImports.forEach((lines, source) => {
     if (lines.length > 1) {
       // Keep only the first import line
       for (const i = 1; i < lines.length; i++) {

@@ -127,13 +127,15 @@ export function CuisineSectionMigrated({
           const response = await recipeService.getRecipesByCuisine(cuisine);
           
           // Apply Pattern PP-3: Safe response handling for array or object response
-          const responseData = response as Record<string, unknown>;
-          if (responseData?.success && responseData?.data) {
-            setCuisineRecipesFromService(responseData.data);
-          } else if (Array.isArray(response)) {
+          if (Array.isArray(response)) {
             setCuisineRecipesFromService(response);
           } else {
-            setCuisineRecipesFromService([]);
+            const responseData = response as Record<string, unknown>;
+            if (responseData?.success && responseData?.data) {
+              setCuisineRecipesFromService(responseData.data as any[]);
+            } else {
+              setCuisineRecipesFromService([]);
+            }
           }
         }
         
@@ -171,8 +173,8 @@ export function CuisineSectionMigrated({
         if (!recipe) return false;
         
         // Apply surgical type casting with variable extraction
-        const cuisineStringMatch = cuisine as Record<string, unknown>;
-        const cuisineLowerMatch = cuisineStringMatch?.toLowerCase?.();
+        const cuisineStringMatch = String(cuisine || '');
+        const cuisineLowerMatch = cuisineStringMatch?.toLowerCase();
         
         // Direct cuisine match
         if (recipe.cuisine?.toLowerCase() === cuisineLowerMatch) return true;
@@ -193,8 +195,8 @@ export function CuisineSectionMigrated({
         
         // If match scores are equal, prioritize direct cuisine matches
         // Apply surgical type casting with variable extraction
-        const cuisineStringSort = cuisine as Record<string, unknown>;
-        const cuisineLowerSort = (cuisineStringSort as string)?.toLowerCase?.();
+        const cuisineStringSort = String(cuisine || '');
+        const cuisineLowerSort = cuisineStringSort?.toLowerCase();
         
         const directMatchA = a.cuisine?.toLowerCase() === cuisineLowerSort;
         const directMatchB = b.cuisine?.toLowerCase() === cuisineLowerSort;
@@ -340,7 +342,7 @@ export function CuisineSectionMigrated({
         <div className="flex justify-between items-start mb-2">
           <h3 className="text-lg font-semibold">{recipe.name}</h3>
           {recipe.matchScore !== undefined && (
-            renderScoreBadge(recipe.matchScore as Record<string, unknown>, !!recipe.dualMatch)
+            renderScoreBadge(Number(recipe.matchScore) || 0, !!recipe.dualMatch)
           )}
         </div>
         

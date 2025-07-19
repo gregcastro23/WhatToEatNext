@@ -1220,9 +1220,9 @@ export class IngredientService implements IngredientServiceInterface {
   public analyzeRecipeIngredients(recipe: Recipe): {
       overallHarmony: number;
       flavorProfile: { [key: string]: number };
-      strongPAirings: Array<{ ingredients: string[];
+      strongPairings: Array<{ ingredients: string[];
       score: number }>;
-      weakPAirings: Array<{ ingredients: string[];
+      weakPairings: Array<{ ingredients: string[];
       score: number }>;
   } {
     try {
@@ -1240,9 +1240,9 @@ export class IngredientService implements IngredientServiceInterface {
       const result = {
         overallHarmony: 0,
         flavorProfile: {} as Record<string, number>,
-        strongPAirings: [] as Array<{ ingredients: string[];
+        strongPairings: [] as Array<{ ingredients: string[];
       score: number }>,
-        weakPAirings: [] as Array<{ ingredients: string[];
+        weakPairings: [] as Array<{ ingredients: string[];
       score: number }>
       };
       
@@ -1289,8 +1289,8 @@ export class IngredientService implements IngredientServiceInterface {
         });
       }
       
-      // Calculate pAirings
-      const pAirings: Array<{
+      // Calculate pairings
+      const pairings: Array<{
         ingredients: string[];
         score: number;
       }> = [];
@@ -1303,29 +1303,29 @@ export class IngredientService implements IngredientServiceInterface {
           
           const { score } = this.calculateIngredientCompatibility(ing1, ing2);
           
-          pAirings?.push({
+          pairings?.push({
             ingredients: [ing1.name, ing2.name],
             score
           });
         }
       }
       
-      // Sort pAirings by score
-      pAirings.sort((a, b) => (a as ScoredItem).score - (b as ScoredItem).score);
+      // Sort pairings by score
+      pairings.sort((a, b) => (a as ScoredItem).score - (b as ScoredItem).score);
       
-      // Get strong and weak pAirings
-      result.strongPAirings = pAirings
-        .filter(pAir => pAir.score >= 0.7)
+      // Get strong and weak pairings
+      result.strongPairings = pairings
+        .filter(pair => pair.score >= 0.7)
         .slice(0, 5);
       
-      result.weakPAirings = pAirings
-        .filter(pAir => pAir.score <= 0.4)
+      result.weakPairings = pairings
+        .filter(pair => pair.score <= 0.4)
         .slice(0, 5);
       
       // Calculate overall harmony
-      if ((pAirings  || []).length > 0) {
-        const totalScore = pAirings.reduce((sum, pAir) => sum + pAir.score, 0);
-        result.overallHarmony = totalScore / (pAirings || []).length;
+      if ((pairings  || []).length > 0) {
+        const totalScore = pairings.reduce((sum, pair) => sum + pair.score, 0);
+        result.overallHarmony = totalScore / (pairings || []).length;
       }
       
       return result;
@@ -1334,8 +1334,8 @@ export class IngredientService implements IngredientServiceInterface {
       return {
         overallHarmony: 0,
         flavorProfile: {},
-        strongPAirings: [],
-        weakPAirings: []
+        strongPairings: [],
+        weakPairings: []
       };
     }
   }

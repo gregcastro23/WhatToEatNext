@@ -288,10 +288,16 @@ export class UnifiedNutritionalSystem {
       const nutrients = profileData?.elementalNutrients;
       
       if (nutrients) {
-        totalElementalValues.Fire += nutrients.Fire?.totalElementalValue || 0;
-        totalElementalValues.Water += nutrients.Water?.totalElementalValue || 0;
-        totalElementalValues.Earth += nutrients.Earth?.totalElementalValue || 0;
-        totalElementalValues.Air += nutrients.Air?.totalElementalValue || 0;
+        const nutrientData = nutrients as Record<string, unknown>;
+        const fireNutrients = nutrientData?.Fire as Record<string, unknown>;
+        const waterNutrients = nutrientData?.Water as Record<string, unknown>;
+        const earthNutrients = nutrientData?.Earth as Record<string, unknown>;
+        const airNutrients = nutrientData?.Air as Record<string, unknown>;
+        
+        totalElementalValues.Fire += Number(fireNutrients?.totalElementalValue || 0);
+        totalElementalValues.Water += Number(waterNutrients?.totalElementalValue || 0);
+        totalElementalValues.Earth += Number(earthNutrients?.totalElementalValue || 0);
+        totalElementalValues.Air += Number(airNutrients?.totalElementalValue || 0);
       }
     });
     
@@ -315,9 +321,10 @@ export class UnifiedNutritionalSystem {
       const profileData = profile as Record<string, unknown>;
       const astroProfile = profileData?.astrologicalProfile;
       
-      if (astroProfile && astroProfile.seasonalPeak) {
+      const astroData = astroProfile as Record<string, unknown>;
+      if (astroData && astroData.seasonalPeak) {
         validProfiles++;
-        if (astroProfile.seasonalPeak.includes(season)) {
+        if (Array.isArray(astroData.seasonalPeak) && astroData.seasonalPeak.includes(season)) {
           totalAlignment += 1.0;
         } else {
           totalAlignment += 0.3; // Partial alignment
@@ -338,9 +345,10 @@ export class UnifiedNutritionalSystem {
       const profileData = profile as Record<string, unknown>;
       const astroProfile = profileData?.astrologicalProfile;
       
-      if (astroProfile && astroProfile.rulingPlanets) {
+      const astroData = astroProfile as Record<string, unknown>;
+      if (astroData && astroData.rulingPlanets) {
         validProfiles++;
-        if (astroProfile.rulingPlanets.includes(planet)) {
+        if (Array.isArray(astroData.rulingPlanets) && astroData.rulingPlanets.includes(planet)) {
           totalResonance += 1.0;
         } else {
           totalResonance += 0.2; // Minimal resonance
@@ -418,7 +426,8 @@ export class UnifiedNutritionalSystem {
     // Calculate Kalchm harmony
     const kalchmHarmony = profiles.reduce((sum, profile) => {
       const profileData = profile as Record<string, unknown>;
-      return sum + (profileData?.kalchm || 0.5);
+      const kalchmValue = typeof profileData?.kalchm === 'number' ? profileData.kalchm : 0.5;
+      return sum + kalchmValue;
     }, 0) / profiles.length;
     
     // Calculate elemental balance
@@ -464,10 +473,10 @@ export class UnifiedNutritionalSystem {
     
     // Calculate alchemical properties from nutritional data
     const alchemicalProperties: AlchemicalProperties = {
-      Spirit: baseData?.volatileCompounds || 0.2,
-      Essence: baseData?.activeCompounds || 0.3,
-      Matter: baseData?.structuralNutrients || 0.3,
-      Substance: baseData?.stableNutrients || 0.2
+      Spirit: Number(baseData?.volatileCompounds || 0.2),
+      Essence: Number(baseData?.activeCompounds || 0.3),
+      Matter: Number(baseData?.structuralNutrients || 0.3),
+      Substance: Number(baseData?.stableNutrients || 0.2)
     };
     
     // Calculate Kalchm value
@@ -529,14 +538,15 @@ export const calculateNutritionalBalance = (_ingredients: unknown[]): Nutritiona
     const ingredientData = ingredient as Record<string, unknown>;
     const nutrition = ingredientData?.nutrition || {};
     
+    const nutritionData = nutrition as Record<string, unknown>;
     return {
-      calories: acc.calories + (nutrition.calories || 0),
-      protein: acc.protein + (nutrition.protein || 0),
-      carbohydrates: acc.carbohydrates + (nutrition.carbohydrates || 0),
-      fat: acc.fat + (nutrition.fat || 0),
-      fiber: acc.fiber + (nutrition.fiber || 0),
-      vitamins: { ...acc.vitamins, ...nutrition.vitamins },
-      minerals: { ...acc.minerals, ...nutrition.minerals }
+      calories: acc.calories + Number(nutritionData?.calories || 0),
+      protein: acc.protein + Number(nutritionData?.protein || 0),
+      carbohydrates: acc.carbohydrates + Number(nutritionData?.carbohydrates || 0),
+      fat: acc.fat + Number(nutritionData?.fat || 0),
+      fiber: acc.fiber + Number(nutritionData?.fiber || 0),
+      vitamins: { ...acc.vitamins, ...(nutritionData?.vitamins as Record<string, unknown> || {}) },
+      minerals: { ...acc.minerals, ...(nutritionData?.minerals as Record<string, unknown> || {}) }
     };
   }, {
     calories: 0,
@@ -555,19 +565,19 @@ export const nutritionalToElemental = (profile: NutritionalProfile): ElementalPr
   const profileData = profile as Record<string, unknown>;
   
   // Map nutritional components to elemental properties
-  const protein = profileData?.protein || 0;
-  const carbs = profileData?.carbohydrates || 0;
-  const fat = profileData?.fat || 0;
-  const fiber = profileData?.fiber || 0;
+  const protein = Number(profileData?.protein || 0);
+  const carbs = Number(profileData?.carbohydrates || 0);
+  const fat = Number(profileData?.fat || 0);
+  const fiber = Number(profileData?.fiber || 0);
   
   // Normalize to total of 1.0
   const total = protein + carbs + fat + fiber || 1;
   
   return {
     Fire: (protein * 0.6 + carbs * 0.4) / total,     // Energizing nutrients
-    Water: (profileData?.waterContent || 0.3) / total, // Hydrating elements
+    Water: Number(profileData?.waterContent || 0.3) / total, // Hydrating elements
     Earth: (fiber * 0.8 + fat * 0.2) / total,        // Grounding nutrients
-    Air: (profileData?.volatiles || 0.1) / total      // Light, dispersing elements
+    Air: Number(profileData?.volatiles || 0.1) / total      // Light, dispersing elements
   };
 };
 

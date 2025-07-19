@@ -60,7 +60,7 @@ export const CuisineSection: React.FC<CuisineSectionProps> = ({
               ...(sauce as Record<string, unknown> || {})
             })
           );
-          setTraditionalSauces(saucesArray);
+          setTraditionalSauces(saucesArray as any);
         } else {
           setTraditionalSauces([]);
         }
@@ -116,8 +116,8 @@ export const CuisineSection: React.FC<CuisineSectionProps> = ({
         
         // Match regional cuisine if specified
         // Apply surgical type casting with variable extraction
-        const cuisineString = cuisine as Record<string, unknown>;
-        const cuisineLower = cuisineString?.toLowerCase?.();
+        const cuisineString = (cuisine || '').toString();
+        const cuisineLower = cuisineString.toLowerCase();
         
         if ((recipe.regionalCuisine as string)?.toLowerCase?.() === cuisineLower) return true;
         
@@ -126,8 +126,8 @@ export const CuisineSection: React.FC<CuisineSectionProps> = ({
           const relatedCuisines = getRelatedCuisines(cuisine || '');
           if ((relatedCuisines || []).some(rc => {
             // Apply surgical type casting with variable extraction
-            const rcData = rc as Record<string, unknown>;
-            const rcLower = rcData?.toLowerCase?.();
+            const rcData = (rc || '').toString();
+            const rcLower = rcData.toLowerCase();
             return (
               recipe.cuisine?.toLowerCase() === rcLower ||
               (recipe.regionalCuisine as string)?.toLowerCase?.() === rcLower
@@ -152,8 +152,8 @@ export const CuisineSection: React.FC<CuisineSectionProps> = ({
         
         // If match scores are equal, prioritize direct cuisine matches
         // Apply surgical type casting with variable extraction
-        const cuisineStringForSort = cuisine as Record<string, unknown>;
-        const cuisineLowerForSort = cuisineStringForSort?.toLowerCase?.();
+        const cuisineStringForSort = (cuisine || '').toString();
+        const cuisineLowerForSort = cuisineStringForSort.toLowerCase();
         
         const directMatchA = a.cuisine?.toLowerCase() === cuisineLowerForSort;
         const directMatchB = b.cuisine?.toLowerCase() === cuisineLowerForSort;
@@ -185,8 +185,10 @@ export const CuisineSection: React.FC<CuisineSectionProps> = ({
           
           // Try to extract some recipes directly
           Object.entries(importedCuisine.dishes || {}).forEach(([_mealType, seasonalDishes]) => {
-            if (seasonalDishes && (seasonalDishes as Record<string, unknown>).all && Array.isArray((seasonalDishes as Record<string, unknown>).all)) {
-              specialRecipes?.push(...(seasonalDishes as Record<string, unknown>).all?.slice(0, 4));
+            const dishesData = seasonalDishes as Record<string, unknown>;
+            if (dishesData && Array.isArray(dishesData?.all)) {
+              const recipesToAdd = dishesData.all.slice(0, 4);
+              specialRecipes?.push(...recipesToAdd);
             }
           });
           
@@ -284,8 +286,8 @@ export const CuisineSection: React.FC<CuisineSectionProps> = ({
   const isRegionalVariant = (cuisineRecipes || []).some(r => {
     // Apply surgical type casting with variable extraction
     const recipeData = r as Record<string, unknown>;
-    const cuisineStringForRegional = cuisine as Record<string, unknown>;
-    const cuisineLowerForRegional = cuisineStringForRegional?.toLowerCase?.();
+    const cuisineStringForRegional = (cuisine || '').toString();
+    const cuisineLowerForRegional = cuisineStringForRegional.toLowerCase();
     
     return recipeData?.regionalCuisine?.toLowerCase() === cuisineLowerForRegional;
   });
@@ -372,7 +374,7 @@ export const CuisineSection: React.FC<CuisineSectionProps> = ({
         <div className="flex justify-between items-start mb-2">
           <h3 className="text-lg font-semibold">{recipe.name}</h3>
           {recipe.matchScore !== undefined && (
-            renderScoreBadge(recipe.matchScore as Record<string, unknown>, !!recipe.dualMatch)
+            renderScoreBadge(Number(recipe.matchScore) || 0, !!recipe.dualMatch)
           )}
         </div>
         

@@ -162,7 +162,7 @@ main()
     // console.log('All ingredient files have been processed.');
     process.exit(0);
   })
-  .catch((_error) => {
+  .catch((error) => {
     // console.error('Error during processing:', error);
     process.exit(1);
   });

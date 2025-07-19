@@ -2,6 +2,8 @@ import { useAstrologicalState } from '@/hooks/useAstrologicalState';
 import { useEffect, useState, useMemo } from 'react';
 import { ElementalCalculator } from '@/services/ElementalCalculator';
 import { ElementalProperties } from '@/types/alchemy';
+import type { Ingredient, UnifiedIngredient } from '@/types/ingredient';
+import type { CookingMethod } from '@/types/cooking';
 import { getChakraBasedRecommendations, GroupedIngredientRecommendations, getIngredientRecommendations, IngredientRecommendation } from '@/utils/ingredientRecommender';
 import { Flame, Droplets, Mountain, Wind, Info, Clock, Tag, Leaf, X, ChevronDown, ChevronUp, Beaker } from 'lucide-react';
 import { useChakraInfluencedFood } from '@/hooks/useChakraInfluencedFood';
@@ -141,7 +143,7 @@ export default function IngredientRecommender() {
     
     setSelectedIngredient(prevSelected => {
       // If the same item is clicked, toggle it off (set to null)
-      if (prevSelected?.name === item.name) {
+      if (prevSelected?.name === (item as ExtendedIngredientRecommendation).name) {
         return null;
       }
       // Otherwise, select the new item
@@ -195,7 +197,7 @@ export default function IngredientRecommender() {
     const _category = ingredient.category?.toLowerCase() || '';
     if (_category === 'oil' || _category === 'oils') return true;
     
-    const name = ingredient.name.toLowerCase();
+    const name = String(ingredient.name).toLowerCase();
     return oilTypes.some(oil => name.includes(oil.toLowerCase()));
   };
   
@@ -204,7 +206,7 @@ export default function IngredientRecommender() {
     const _category = ingredient.category?.toLowerCase() || '';
     if (_category === 'vinegar' || _category === 'vinegars') return true;
     
-    const name = ingredient.name.toLowerCase();
+    const name = String(ingredient.name).toLowerCase();
     return vinegarTypes.some(vinegar => name.includes(vinegar.toLowerCase()));
   };
   
@@ -243,8 +245,8 @@ export default function IngredientRecommender() {
     
     // First pass - identify spices/seasonings and group them by base name
     recommendations.forEach(item => {
-      const _category = categorizeIngredient(item);
-      const normalizedName = item.name.toLowerCase().trim();
+      const _category = categorizeIngredient(item as unknown as Ingredient | UnifiedIngredient);
+      const normalizedName = String(item.name).toLowerCase().trim();
       
       // Special handling for spices and seasonings
       if (_category === 'spices' || _category === 'seasonings') {
@@ -274,7 +276,7 @@ export default function IngredientRecommender() {
       } else {
         // For non-spice categories, keep only the highest scoring duplicate
         const existingItem = uniqueMap.get(normalizedName);
-        if (!existingItem || existingItem.matchScore < item.matchScore) {
+        if (!existingItem || (existingItem as IngredientRecommendation).matchScore < (item as IngredientRecommendation).matchScore) {
           uniqueMap.set(normalizedName, item);
         }
       }
@@ -303,7 +305,7 @@ export default function IngredientRecommender() {
   // Improved: Ensure all ingredients are categorized properly
   const categorizeIngredient = (ingredient: Ingredient | UnifiedIngredient): string => {
     // Normalize the name for consistent checking
-    const name = ingredient.name.toLowerCase().trim();
+    const name = String(ingredient.name).toLowerCase().trim();
     
     // First check for explicit category
     if (ingredient.category) {
@@ -531,13 +533,13 @@ export default function IngredientRecommender() {
         
         // Add chakra items first (higher priority)
         chakraItems.forEach(item => {
-          uniqueItems.set(item.name, item);
+          uniqueItems.set(String(item.name), item);
         });
         
         // Add standard items that aren't already included
         standardItems.forEach(item => {
           if (!uniqueItems.has(item.name)) {
-            uniqueItems.set(item.name, item);
+            uniqueItems.set(String(item.name), item);
           }
         });
         
@@ -676,7 +678,7 @@ export default function IngredientRecommender() {
     // Add food recommendations first (they are already categorized)
     if (foodRecommendations && foodRecommendations.length > 0) {
       foodRecommendations.forEach(ingredient => {
-        const name = ingredient.name.toLowerCase();
+        const name = String(ingredient.name).toLowerCase();
         
         // For seafood proteins - check first to prevent miscategorization
         if (
@@ -733,14 +735,14 @@ export default function IngredientRecommender() {
           });
         }
         // Oils
-        else if (isOil(ingredient)) {
+        else if (isOil(ingredient as UnifiedIngredient | Ingredient)) {
           categories.oils.push({
             ...ingredient,
             matchScore: ingredient.score || 0.5
           });
         }
         // Vinegars
-        else if (isVinegar(ingredient)) {
+        else if (isVinegar(ingredient as UnifiedIngredient | Ingredient)) {
           categories.vinegars.push({
             ...ingredient,
             matchScore: ingredient.score || 0.5
@@ -755,7 +757,7 @@ export default function IngredientRecommender() {
         }
         // For other ingredients, use explicit category if available
         else {
-          const _category = getNormalizedCategory(ingredient as Record<string, unknown>);
+          const _category = getNormalizedCategory(ingredient as unknown as Ingredient | UnifiedIngredient);
           if (categories[_category]) {
             categories[_category].push({
               ...ingredient,
@@ -800,18 +802,18 @@ export default function IngredientRecommender() {
     // Now add the astrological recommendations
     Object.entries(astroRecommendations).forEach(([_category, items]) => {
       items.forEach(item => {
-        const normalizedCategory = getNormalizedCategory(item as Record<string, unknown>);
-        const targetCategory = normalizedCategory === 'other' ? determineCategory(item.name) : normalizedCategory;
+        const normalizedCategory = getNormalizedCategory(item as unknown as Ingredient | UnifiedIngredient);
+        const targetCategory = normalizedCategory === 'other' ? determineCategory(String(item.name)) : normalizedCategory;
         
         if (categories[targetCategory]) {
           // Check if this item already exists in the category
           const existingItemIndex = categories[targetCategory].findIndex(
-            existing => existing.name.toLowerCase() === item.name.toLowerCase()
+            existing => String(existing.name).toLowerCase() === String(item.name).toLowerCase()
           );
           
           if (existingItemIndex >= 0) {
             // Update the existing item with better score if needed
-            if (item.matchScore > categories[targetCategory][existingItemIndex].matchScore) {
+            if ((item as IngredientRecommendation).matchScore > categories[targetCategory][existingItemIndex].matchScore) {
               categories[targetCategory][existingItemIndex] = {
                 ...item,
                 category: targetCategory
@@ -843,7 +845,7 @@ export default function IngredientRecommender() {
             Air: 0.2, 
             Fire: 0.1 
           },
-          qualities: (vinegarData as Record<string, unknown>).qualities || ['acidic', 'tangy', 'flavorful'],
+          qualities: (vinegarData as unknown as Record<string, unknown>).qualities as string[] || ['acidic', 'tangy', 'flavorful'],
           description: `${displayName} - A versatile acidic component for your culinary creations.`
         } as IngredientRecommendation;
       });
@@ -869,8 +871,8 @@ export default function IngredientRecommender() {
               Earth: 0.3, 
               Air: 0.2 
             },
-            qualities: (oilData as Record<string, unknown>).qualities || ['cooking', 'flavoring'],
-            description: `${oilData.name || key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())} - ${(oilData as string).description || "A versatile cooking oil with various applications."}`
+            qualities: (oilData as unknown as Record<string, unknown>).qualities as string[] || ['cooking', 'flavoring'],
+            description: `${oilData.name || key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())} - ${(oilData as unknown as Record<string, unknown>).description as string || "A versatile cooking oil with various applications."}`
           } as IngredientRecommendation;
         });
       
@@ -886,13 +888,13 @@ export default function IngredientRecommender() {
       
       // Then apply the unique filter if needed
       if (category === 'spices' || category === 'seasonings') {
-        categories[category] = getUniqueRecommendations(categories[category] as Record<string, unknown>);
+        categories[category] = getUniqueRecommendations(categories[category] as IngredientRecommendation[]);
       } else {
         // For other categories, filter duplicates by name
-        const uniqueMap = new Map<string, Map<string, unknown>>();
+        const uniqueMap = new Map<string, IngredientRecommendation>();
         categories[category].forEach(item => {
-          const normalizedName = item.name.toLowerCase().trim();
-          if (!uniqueMap.has(normalizedName) || item.matchScore > uniqueMap.get(normalizedName).matchScore) {
+          const normalizedName = String(item.name).toLowerCase().trim();
+          if (!uniqueMap.has(normalizedName) || item.matchScore > (uniqueMap.get(normalizedName)?.matchScore || 0)) {
             uniqueMap.set(normalizedName, item);
           }
         });
@@ -911,13 +913,14 @@ export default function IngredientRecommender() {
   
   // Render ingredient details when selected
   const renderIngredientDetails = (item: unknown) => {
+    const itemData = item as Record<string, unknown>;
     return (
       <div className={styles.ingredientDetails}>
         {/* Description if available */}
-        {item.description && (
+        {itemData.description && (
           <div className={styles.detailSection}>
             <h4 className={styles.detailTitle}>
-              About {item.name}:
+              About {String(itemData.name)}:
             </h4>
             <p style={{ 
               margin: '0 0 0.75rem 0',
@@ -925,19 +928,19 @@ export default function IngredientRecommender() {
               lineHeight: '1.5',
               color: '#4b5563'
             }}>
-              {item.description}
+              {String(itemData.description)}
             </p>
           </div>
         )}
         
         {/* Elemental Properties with improved visualization */}
-        {item.elementalProperties && (
+        {itemData.elementalProperties && (
           <div className={styles.detailSection}>
             <h4 className={styles.detailTitle}>
               <Beaker size={16} /> Elemental Properties
             </h4>
             <div className={styles.elementPropertiesGrid}>
-              {Object.entries(item.elementalProperties)
+              {Object.entries(itemData.elementalProperties as Record<string, unknown>)
                 .sort(([, a], [, b]) => {
                   // Pattern KK-1: Safe arithmetic comparison with type validation
                   const numericA = typeof a === 'number' ? a : 0;
@@ -992,7 +995,7 @@ export default function IngredientRecommender() {
               gap: '0.75rem'
             }}>
               {Object.entries((item as ExtendedIngredientRecommendation).culinaryApplications || {}).map(([method, details]) => {
-                const detailsData = details as CookingMethod;
+                const detailsData = details as Record<string, unknown>;
                 return (
                   <div key={method} style={{
                     border: '1px solid rgba(229, 231, 235, 0.8)',
@@ -1058,7 +1061,7 @@ export default function IngredientRecommender() {
                       {pairing}
                     </span>
                   ))
-                : Object.keys((item as ExtendedIngredientRecommendation).pairings as Record<string, Record<string, string>> || {}).slice(0, 10).map(pairing => (
+                : Object.keys(((item as ExtendedIngredientRecommendation).pairings as unknown as Record<string, unknown>) || {}).slice(0, 10).map(pairing => (
                     <span key={pairing} style={{ 
                       backgroundColor: 'rgba(167, 139, 250, 0.1)',
                       padding: '0.35rem 0.65rem',
@@ -1112,7 +1115,7 @@ export default function IngredientRecommender() {
         )}
         
         {/* Astrological Profile with improved styling */}
-        {item.astrologicalProfile && (
+        {(item as Record<string, unknown>).astrologicalProfile && (
           <div className={styles.detailSection}>
             <h4 className={styles.detailTitle}>
               <Clock size={16} /> Astrological Influence
@@ -1124,20 +1127,20 @@ export default function IngredientRecommender() {
               padding: '0.75rem 1rem',
               border: '1px solid rgba(229, 231, 235, 0.8)'
             }}>
-              {item.astrologicalProfile.rulingPlanets && (
+              {((item as Record<string, unknown>).astrologicalProfile as Record<string, unknown>)?.rulingPlanets && (
                 <div style={{ fontSize: '0.85rem', marginBottom: '0.5rem', display: 'flex', alignItems: 'center' }}>
                   <span style={{ fontWeight: '600', width: '140px', color: '#4b5563' }}>Planetary influence: </span>
                   <span style={{ fontWeight: '500', color: '#1f2937' }}>
-                    {item.astrologicalProfile.rulingPlanets.join(', ')}
+                    {(((item as Record<string, unknown>).astrologicalProfile as Record<string, unknown>)?.rulingPlanets as string[])?.join(', ')}
                   </span>
                 </div>
               )}
               
-              {item.astrologicalProfile.favorableZodiac && (
+              {((item as Record<string, unknown>).astrologicalProfile as Record<string, unknown>)?.favorableZodiac && (
                 <div style={{ fontSize: '0.85rem', display: 'flex', alignItems: 'center' }}>
                   <span style={{ fontWeight: '600', width: '140px', color: '#4b5563' }}>Favorable zodiac: </span>
                   <span style={{ fontWeight: '500', color: '#1f2937' }}>
-                    {item.astrologicalProfile.favorableZodiac.map(sign => 
+                    {(((item as Record<string, unknown>).astrologicalProfile as Record<string, unknown>)?.favorableZodiac as string[])?.map((sign: string) => 
                       sign.charAt(0).toUpperCase() + sign.slice(1)
                     ).join(', ')}
                   </span>
@@ -1152,21 +1155,23 @@ export default function IngredientRecommender() {
   
   // Modified ingredient card rendering function to use in both views
   const renderIngredientCard = (item: unknown) => {
+    const itemData = item as Record<string, unknown>;
+    
     // Get dominant element for styling
     // Pattern KK-9: Cross-Module Arithmetic Safety for sort operations
-    const dominantElement = Object.entries(item.elementalProperties || {})
+    const dominantElement = Object.entries((itemData.elementalProperties as Record<string, unknown>) || {})
       .sort(([, a], [, b]) => {
         const numericA = Number(a) || 0;
         const numericB = Number(b) || 0;
         return numericB - numericA;
-      })[0][0];
+      })[0]?.[0] || 'Fire';
     
     // Check if this card is selected
-    const isSelected = selectedIngredient?.name === item.name;
+    const isSelected = selectedIngredient?.name === String(itemData.name);
     
     return (
       <div
-        key={item.name}
+        key={String(itemData.name)}
         className={styles.ingredientCard}
         style={{
           borderTop: `3px solid ${getElementBorderColor(dominantElement)}`,
@@ -1180,19 +1185,19 @@ export default function IngredientRecommender() {
           <div className={styles.nameRow}>
             {getElementIcon(dominantElement)}
             <h3 className={styles.ingredientName}>
-              {item.name}
+              {String(itemData.name)}
             </h3>
           </div>
           
           <div className={styles.matchScore}>
-            Match: {Math.round((Number(item.matchScore) || 0) * 100)}%
+            Match: {Math.round((Number(itemData.matchScore) || 0) * 100)}%
           </div>
           
-          {item.qualities && item.qualities.length > 0 && (
+          {itemData.qualities && (itemData.qualities as unknown[]).length > 0 && (
             <div className={styles.qualitiesList}>
-              {item.qualities.slice(0, 3).map((quality) => (
-                <span key={quality} className={styles.qualityTag}>
-                  {quality}
+              {(itemData.qualities as unknown[]).slice(0, 3).map((quality) => (
+                <span key={String(quality)} className={styles.qualityTag}>
+                  {String(quality)}
                 </span>
               ))}
             </div>

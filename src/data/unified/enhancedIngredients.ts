@@ -54,7 +54,7 @@ export interface EnhancedIngredient {
   // Enhanced Culinary Properties
   culinaryProperties: {
     cookingMethods: string[];
-    pAirings: string[];
+    pairings: string[];
     substitutions: string[];
     storage: {
       temperature: string;
@@ -681,7 +681,7 @@ export class EnhancedIngredientsSystem {
     
     return {
       cookingMethods: this.getCookingMethodsForCategory(category, elementalProps),
-      pAirings: ingredient.pAiringRecommendations || [],
+      pairings: ingredient.pairingRecommendations || [],
       substitutions: ingredient.swaps || [],
       storage: this.getStorageForCategory(category),
       seasonality: this.getSeasonalityForIngredient(ingredient),
@@ -769,7 +769,7 @@ export class EnhancedIngredientsSystem {
     if ((ingredient.astrologicalPropertiesProfile?.rulingPlanets || []).length) qualityPoints += 1;
     if ((ingredient.qualities || []).length) qualityPoints += 1;
     if ((ingredient.seasonality || []).length) qualityPoints += 1;
-    if ((ingredient.pAiringRecommendations || []).length) qualityPoints += 1;
+    if ((ingredient.pairingRecommendations || []).length) qualityPoints += 1;
     if (ingredient.description) qualityPoints += 1;
     if (ingredient.kalchm) qualityPoints += 1;
     if (ingredient.monica) qualityPoints += 1;

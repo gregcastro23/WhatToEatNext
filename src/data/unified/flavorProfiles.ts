@@ -107,7 +107,7 @@ export interface UnifiedFlavorProfile {
   // Integration properties
   cookingMethodAffinity: Record<string, number>;
   temperatureRange: { min: number; max: number };
-  pAiringRecommendations: string[];
+  pairingRecommendations: string[];
   avoidCombinations: string[];
   
   // Dynamic properties

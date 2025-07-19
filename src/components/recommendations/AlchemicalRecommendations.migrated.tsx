@@ -83,7 +83,8 @@ import { determineIngredientModality } from '@/utils/ingredientUtils';
 import { createElementalProperties } from '@/utils/elemental/elementalUtils';
 
 import type { Ingredient, Modality } from "@/data/ingredients/types";
-
+import type { UnifiedIngredient } from "@/data/unified/unifiedTypes";
+import type { CookingMethod } from "@/types/alchemy";
 
 import { PlanetaryPosition } from "@/types/celestial";
 // Import interfaces and types from alchemical transformation
@@ -213,7 +214,7 @@ const AlchemicalRecommendationsMigrated: React.FC<AlchemicalRecommendationsProps
         }
         
         // Set other resolved values with safe property access
-        const astroData = astrologyService as Record<string, unknown>;
+        const astroData = astrologyService as unknown as Record<string, unknown>;
         setResolvedIsDaytime(isDaytime !== undefined ? isDaytime : await astrologyService.isDaytime());
         setResolvedCurrentZodiac(currentZodiac || await astrologyService.getCurrentZodiacSign() || null);
         
@@ -269,7 +270,7 @@ const AlchemicalRecommendationsMigrated: React.FC<AlchemicalRecommendationsProps
             } else if (category.includes('grain') || category === 'grain') {
               elementalProps.Earth += 0.5;
               elementalProps.Air += 0.2;
-            } else if (category.includes('herb') || category === 'herb' || category.includes('spice') || category === 'spice') {
+            } else if (category.includes('herb') || category.includes('spice') || category === 'spice') {
               elementalProps.Fire += 0.3;
               elementalProps.Air += 0.4;
             }
@@ -346,7 +347,7 @@ const AlchemicalRecommendationsMigrated: React.FC<AlchemicalRecommendationsProps
     const loadCookingAndCuisineData = async () => {
       try {
         // Safe access to getAllCookingMethods
-        const serviceData = recommendationService as Record<string, unknown>;
+        const serviceData = recommendationService as unknown as Record<string, unknown>;
         const getAllCookingMethodsMethod = serviceData?.getAllCookingMethods;
         
         let cookingMethods = [];
@@ -482,8 +483,8 @@ const AlchemicalRecommendationsMigrated: React.FC<AlchemicalRecommendationsProps
     return ingredientsArray.filter(ingredient => {
       const elementalProps = ingredient.elementalPropertiesState;
       const qualities = Array.isArray(ingredient.qualities) ? ingredient.qualities : [];
-      const modality = ingredient.modality as Modality | undefined || 
-        determineIngredientModality(qualities as unknown, elementalProps as ElementalProperties);
+              const modality = ingredient.modality as Modality | undefined || 
+          determineIngredientModality(Array.isArray(qualities) ? qualities : [], elementalProps as ElementalProperties);
       return modality === modalityFilter;
     });
   }, [ingredientsArray, modalityFilter]);
@@ -507,27 +508,29 @@ const AlchemicalRecommendationsMigrated: React.FC<AlchemicalRecommendationsProps
         setLoading(true);
         
         // Create recommendation adapter using the alchemical recommendation service
-        const serviceAny = alchemicalRecommendationService as CookingMethod;
-        const transformedData = await (serviceAny?.transformData ||
-          (() => ({ ingredients: [], cookingMethods: [], cuisines: [] })))(
-          filteredIngredientsArray,
-          cookingMethodsArray,
-          cuisinesArray,
-          resolvedPlanetaryPositions,
-          resolvedIsDaytime,
-          resolvedCurrentZodiac,
-          resolvedLunarPhase,
-          tarotElementBoosts,
-          tarotPlanetaryBoosts,
-          aspects
-        );
+        const serviceAny = alchemicalRecommendationService as unknown as Record<string, unknown>;
+        const transformDataMethod = serviceAny?.transformData as Function;
+        const transformedData = transformDataMethod ? 
+          await transformDataMethod(
+            filteredIngredientsArray,
+            cookingMethodsArray,
+            cuisinesArray,
+            resolvedPlanetaryPositions,
+            resolvedIsDaytime,
+            resolvedCurrentZodiac,
+            resolvedLunarPhase,
+            tarotElementBoosts,
+            tarotPlanetaryBoosts,
+            aspects
+          ) : 
+          { ingredients: [], cookingMethods: [], cuisines: [] };
         
         // ✅ Pattern MM-1: generateRecommendations expects (planetaryPositions, ingredients, cookingMethods)
         const planetaryPositions = resolvedPlanetaryPositions || {};
         const recs = await alchemicalRecommendationService.generateRecommendations(
-          planetaryPositions as unknown,
-          (filteredIngredientsArray || []) as unknown,
-          (cookingMethodsArray || []) as unknown
+          planetaryPositions as Record<string, ZodiacSign>,
+          (filteredIngredientsArray || []) as unknown as UnifiedIngredient[],
+          (cookingMethodsArray || []) as unknown as CookingMethod[]
         );
         
         // Set recommendations and transformed data
@@ -537,7 +540,7 @@ const AlchemicalRecommendationsMigrated: React.FC<AlchemicalRecommendationsProps
         setTransformedCuisines(transformedData.cuisines);
         
         // Create energetic profile
-        const recsData = recs as Record<string, unknown>;
+        const recsData = recs as unknown as Record<string, unknown>;
         const profile = {
           dominantElement: recsData?.dominantElement || 'Fire',
           dominantAlchemicalProperty: recsData?.dominantAlchemicalProperty || 'Spirit',
@@ -560,22 +563,25 @@ const AlchemicalRecommendationsMigrated: React.FC<AlchemicalRecommendationsProps
         };
         
         // Calculate average elemental values from top ingredients
-        const topIngredients = recsData?.topIngredients || [];
+        const topIngredients = Array.isArray(recsData?.topIngredients) ? recsData?.topIngredients : [];
         if (topIngredients.length > 0) {
           topIngredients.forEach((item: unknown) => {
-            if (item.elementalState) {
-              profile.elementalState.Fire += (item.elementalState.Fire || 0) / topIngredients.length;
-              profile.elementalState.Water += (item.elementalState.Water || 0) / topIngredients.length;
-              profile.elementalState.Earth += (item.elementalState.Earth || 0) / topIngredients.length;
-              profile.elementalState.Air += (item.elementalState.Air || 0) / topIngredients.length;
+            const itemData = item as Record<string, unknown>;
+            if (itemData?.elementalState) {
+              const elementalState = itemData.elementalState as Record<string, number>;
+              profile.elementalState.Fire += Number(elementalState?.Fire || 0) / topIngredients.length;
+              profile.elementalState.Water += Number(elementalState?.Water || 0) / topIngredients.length;
+              profile.elementalState.Earth += Number(elementalState?.Earth || 0) / topIngredients.length;
+              profile.elementalState.Air += Number(elementalState?.Air || 0) / topIngredients.length;
             }
             
             // Extract alchemical properties if available
-            if (item.alchemicalProperties) {
-              profile.alchemicalProperties.Spirit += (item.alchemicalProperties.Spirit || 0) / topIngredients.length;
-              profile.alchemicalProperties.Essence += (item.alchemicalProperties.Essence || 0) / topIngredients.length;
-              profile.alchemicalProperties.Matter += (item.alchemicalProperties.Matter || 0) / topIngredients.length;
-              profile.alchemicalProperties.Substance += (item.alchemicalProperties.Substance || 0) / topIngredients.length;
+            if (itemData?.alchemicalProperties) {
+              const alchemicalProperties = itemData.alchemicalProperties as Record<string, number>;
+              profile.alchemicalProperties.Spirit += Number(alchemicalProperties?.Spirit || 0) / topIngredients.length;
+              profile.alchemicalProperties.Essence += Number(alchemicalProperties?.Essence || 0) / topIngredients.length;
+              profile.alchemicalProperties.Matter += Number(alchemicalProperties?.Matter || 0) / topIngredients.length;
+              profile.alchemicalProperties.Substance += Number(alchemicalProperties?.Substance || 0) / topIngredients.length;
             }
           });
         }
@@ -645,11 +651,11 @@ const AlchemicalRecommendationsMigrated: React.FC<AlchemicalRecommendationsProps
             <div className="stat-grid">
               <div className="stat">
                 <span className="label">Dominant Element:</span>
-                <span className="value">{(recommendations as Record<string, unknown>)?.dominantElement || 'Fire'}</span>
+                <span className="value">{String((recommendations as Record<string, unknown>)?.dominantElement || 'Fire')}</span>
               </div>
               <div className="stat">
                 <span className="label">Dominant Alchemical Property:</span>
-                <span className="value">{(recommendations as Record<string, unknown>)?.dominantAlchemicalProperty || 'Spirit'}</span>
+                <span className="value">{String((recommendations as Record<string, unknown>)?.dominantAlchemicalProperty || 'Spirit')}</span>
               </div>
               {resolvedCurrentZodiac && (
                 <div className="stat">
@@ -669,19 +675,19 @@ const AlchemicalRecommendationsMigrated: React.FC<AlchemicalRecommendationsProps
             <div className="stat-grid">
               <div className="stat">
                 <span className="label">Heat:</span>
-                <span className="value">{((recommendations as BasicThermodynamicProperties)?.heat || 0).toFixed(2)}</span>
+                <span className="value">{(Number((recommendations as Record<string, unknown>)?.heat || 0)).toFixed(2)}</span>
               </div>
               <div className="stat">
                 <span className="label">Entropy:</span>
-                <span className="value">{((recommendations as BasicThermodynamicProperties)?.entropy || 0).toFixed(2)}</span>
+                <span className="value">{(Number((recommendations as Record<string, unknown>)?.entropy || 0)).toFixed(2)}</span>
               </div>
               <div className="stat">
                 <span className="label">Reactivity:</span>
-                <span className="value">{((recommendations as BasicThermodynamicProperties)?.reactivity || 0).toFixed(2)}</span>
+                <span className="value">{(Number((recommendations as Record<string, unknown>)?.reactivity || 0)).toFixed(2)}</span>
               </div>
               <div className="stat">
                 <span className="label">Greg's Energy:</span>
-                <span className="value">{((recommendations as Record<string, unknown>)?.gregsEnergy || 0).toFixed(2)}</span>
+                <span className="value">{(Number((recommendations as Record<string, unknown>)?.gregsEnergy || 0)).toFixed(2)}</span>
               </div>
             </div>
           </div>
@@ -734,91 +740,104 @@ const AlchemicalRecommendationsMigrated: React.FC<AlchemicalRecommendationsProps
             <div className="recommendation-section">
               <h3>Recommended Ingredients</h3>
               <ul className="recommendation-list">
-                {(recommendations?.topIngredients || []).map((item: AlchemicalItem, index: number) => {
-                  const elementalState = item.elementalState as Record<string, unknown>;
-                  return (
-                    <li key={`ingredient-${index}`} className="recommendation-item">
-                      <h4>{item.name}</h4>
-                      <div className="item-details">
-                        <div className="detail">
-                          <strong>fire:</strong> {Math.round((elementalState?.Fire || 0) * 100)}%
+                {(() => {
+                  const topIngredients = (recommendations as Record<string, unknown>)?.topIngredients;
+                  const ingredientsArray = Array.isArray(topIngredients) ? topIngredients : [];
+                  return ingredientsArray.map((item: unknown, index: number) => {
+                    const itemData = item as Record<string, unknown>;
+                    const elementalState = itemData?.elementalState as Record<string, unknown>;
+                    return (
+                      <li key={`ingredient-${index}`} className="recommendation-item">
+                        <h4>{String(itemData?.name || 'Unknown')}</h4>
+                        <div className="item-details">
+                          <div className="detail">
+                            <strong>fire:</strong> {Math.round(Number(elementalState?.Fire || 0) * 100)}%
+                          </div>
+                          <div className="detail">
+                            <strong>water:</strong> {Math.round(Number(elementalState?.Water || 0) * 100)}%
+                          </div>
+                          <div className="detail">
+                            <strong>earth:</strong> {Math.round(Number(elementalState?.Earth || 0) * 100)}%
+                          </div>
+                          <div className="detail">
+                            <strong>Air:</strong> {Math.round(Number(elementalState?.Air || 0) * 100)}%
+                          </div>
                         </div>
-                        <div className="detail">
-                          <strong>water:</strong> {Math.round((elementalState?.Water || 0) * 100)}%
-                        </div>
-                        <div className="detail">
-                          <strong>earth:</strong> {Math.round((elementalState?.Earth || 0) * 100)}%
-                        </div>
-                        <div className="detail">
-                          <strong>Air:</strong> {Math.round((elementalState?.Air || 0) * 100)}%
-                        </div>
-                      </div>
-                      {item.modality && (
-                        <div className="item-modality">
-                          <span className={`modality-badge ${(item.modality as string)?.toLowerCase?.() || ''}`}>
-                            {item.modality as string}
-                          </span>
-                        </div>
-                      )}
-                    </li>
-                  );
-                })}
+                        {itemData?.modality && (
+                          <div className="item-modality">
+                            <span className={`modality-badge ${(String(itemData?.modality || '')).toLowerCase()}`}>
+                              {String(itemData?.modality || '')}
+                            </span>
+                          </div>
+                        )}
+                      </li>
+                    );
+                  });
+                })()}
               </ul>
             </div>
             
             <div className="recommendation-section">
               <h3>Recommended Cooking Methods</h3>
               <ul className="recommendation-list">
-                {(recommendations?.topMethods || []).map((item: AlchemicalItem, index: number) => {
-                  const elementalState = item.elementalState as Record<string, unknown>;
-                  return (
-                    <li key={`method-${index}`} className="recommendation-item">
-                      <h4>{item.name}</h4>
-                      <div className="item-details">
-                        <div className="detail">
-                          <strong>fire:</strong> {Math.round((elementalState?.Fire || 0) * 100)}%
+                {(() => {
+                  const topMethods = (recommendations as Record<string, unknown>)?.topMethods;
+                  const methodsArray = Array.isArray(topMethods) ? topMethods : [];
+                  return methodsArray.map((item: AlchemicalItem, index: number) => {
+                    const elementalState = item.elementalState as Record<string, unknown>;
+                    return (
+                      <li key={`method-${index}`} className="recommendation-item">
+                        <h4>{item.name}</h4>
+                        <div className="item-details">
+                          <div className="detail">
+                            <strong>fire:</strong> {Math.round(Number(elementalState?.Fire || 0) * 100)}%
+                          </div>
+                          <div className="detail">
+                            <strong>water:</strong> {Math.round(Number(elementalState?.Water || 0) * 100)}%
+                          </div>
+                          <div className="detail">
+                            <strong>earth:</strong> {Math.round(Number(elementalState?.Earth || 0) * 100)}%
+                          </div>
+                          <div className="detail">
+                            <strong>Air:</strong> {Math.round(Number(elementalState?.Air || 0) * 100)}%
+                          </div>
                         </div>
-                        <div className="detail">
-                          <strong>water:</strong> {Math.round((elementalState?.Water || 0) * 100)}%
-                        </div>
-                        <div className="detail">
-                          <strong>earth:</strong> {Math.round((elementalState?.Earth || 0) * 100)}%
-                        </div>
-                        <div className="detail">
-                          <strong>Air:</strong> {Math.round((elementalState?.Air || 0) * 100)}%
-                        </div>
-                      </div>
-                    </li>
-                  );
-                })}
+                      </li>
+                    );
+                  });
+                })()}
               </ul>
             </div>
             
             <div className="recommendation-section">
               <h3>Recommended Cuisines</h3>
               <ul className="recommendation-list">
-                {(recommendations?.topCuisines || []).map((item: AlchemicalItem, index: number) => {
-                  const elementalState = item.elementalState as Record<string, unknown>;
-                  return (
-                    <li key={`cuisine-${index}`} className="recommendation-item">
-                      <h4>{item.name}</h4>
-                      <div className="item-details">
-                        <div className="detail">
-                          <strong>fire:</strong> {Math.round((elementalState?.Fire || 0) * 100)}%
+                {(() => {
+                  const topCuisines = (recommendations as Record<string, unknown>)?.topCuisines;
+                  const cuisinesArray = Array.isArray(topCuisines) ? topCuisines : [];
+                  return cuisinesArray.map((item: AlchemicalItem, index: number) => {
+                    const elementalState = item.elementalState as Record<string, unknown>;
+                    return (
+                      <li key={`cuisine-${index}`} className="recommendation-item">
+                        <h4>{item.name}</h4>
+                        <div className="item-details">
+                          <div className="detail">
+                            <strong>fire:</strong> {Math.round(Number(elementalState?.Fire || 0) * 100)}%
+                          </div>
+                          <div className="detail">
+                            <strong>water:</strong> {Math.round(Number(elementalState?.Water || 0) * 100)}%
+                          </div>
+                          <div className="detail">
+                            <strong>earth:</strong> {Math.round(Number(elementalState?.Earth || 0) * 100)}%
+                          </div>
+                          <div className="detail">
+                            <strong>Air:</strong> {Math.round(Number(elementalState?.Air || 0) * 100)}%
+                          </div>
                         </div>
-                        <div className="detail">
-                          <strong>water:</strong> {Math.round((elementalState?.Water || 0) * 100)}%
-                        </div>
-                        <div className="detail">
-                          <strong>earth:</strong> {Math.round((elementalState?.Earth || 0) * 100)}%
-                        </div>
-                        <div className="detail">
-                          <strong>Air:</strong> {Math.round((elementalState?.Air || 0) * 100)}%
-                        </div>
-                      </div>
-                    </li>
-                  );
-                })}
+                      </li>
+                    );
+                  });
+                })()}
               </ul>
             </div>
           </div>
@@ -880,7 +899,7 @@ const AlchemicalRecommendationsMigrated: React.FC<AlchemicalRecommendationsProps
                     <Divider sx={{ my: 1 }} />
                     
                     <Typography variant="body2">
-                      {explainRecommendation(_recipe, energeticProfile)}
+                      {explainRecommendation(_recipe, energeticProfile as Record<string, unknown>)}
                     </Typography>
                   </CardContent>
                 </Card>

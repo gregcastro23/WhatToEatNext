@@ -314,7 +314,8 @@ export const spices: Record<string, IngredientMapping> = fixIngredientMappings({
 
 // Validate spice heat levels
 Object.values(spices).forEach((spice) => {
-  if ((spice as BasicThermodynamicProperties)?.heatLevel > 5 && (spice as BasicThermodynamicProperties)?.elementalProperties?.Fire < 0.3) {
+  const spiceData = spice as Record<string, unknown>;
+  if (Number(spiceData?.heatLevel) > 5 && Number((spiceData?.elementalProperties as Record<string, unknown>)?.Fire) < 0.3) {
     // console.error(`Fire element too low for heat in ${spice.name}`);
   }
 });
@@ -327,7 +328,7 @@ export const getSpicesBySubCategory = (
   subCategory: string
 ): Record<string, IngredientMapping> => {
   return Object.entries(spices)
-    .filter(([_, value]) => (value as unknown[])?.subCategory === subCategory)
+    .filter(([_, value]) => (value as Record<string, unknown>)?.subCategory === subCategory)
     .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
 };
 
@@ -335,11 +336,12 @@ export const getSpicesByOrigin = (
   origin: string
 ): Record<string, IngredientMapping> => {
   return Object.entries(spices)
-    .filter(([_, value]) =>
-      Array.isArray((value as Record<string, unknown>)?.origin)
-        ? (value as string).origin.includes(origin)
-        : (value as Record<string, unknown>)?.origin === origin
-    )
+    .filter(([_, value]) => {
+      const valueData = value as Record<string, unknown>;
+      return Array.isArray(valueData?.origin)
+        ? (valueData.origin as string[]).includes(origin)
+        : valueData?.origin === origin;
+    })
     .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
 };
 
@@ -361,15 +363,18 @@ export const getCompatibleSpices = (spiceName: string): string[] => {
   const spice = spices[spiceName];
   if (!spice) return [];
 
+  const spiceData = spice as Record<string, unknown>;
   return Object.entries(spices)
     .filter(
-      ([key, value]) =>
-        key !== spiceName &&
-        Array.isArray((value as Record<string, unknown>)?.affinities) &&
-        Array.isArray((spice as Record<string, unknown>)?.affinities) &&
-        (value as Record<string, unknown>).affinities.some((affinity: string) =>
-          (spice as string).affinities.includes(affinity)
-        )
+      ([key, value]) => {
+        const valueData = value as Record<string, unknown>;
+        return key !== spiceName &&
+          Array.isArray(valueData?.affinities) &&
+          Array.isArray(spiceData?.affinities) &&
+          (valueData.affinities as string[]).some((affinity: string) =>
+            (spiceData.affinities as string[]).includes(affinity)
+          );
+      }
     )
     .map(([key, _]) => key);
 };
@@ -378,18 +383,19 @@ export const getSubstitutions = (spiceName: string): string[] => {
   const spice = spices[spiceName];
   if (!spice) return [];
 
+  const spiceData = spice as Record<string, unknown>;
   return Object.entries(spices)
     .filter(
-      ([key, value]) =>
-        key !== spiceName &&
-        Array.isArray((value as Record<string, unknown>)?.qualities) &&
-        Array.isArray((spice as Record<string, unknown>)?.qualities) &&
-        (value as Record<string, unknown>).qualities.some((quality: string) =>
-          (spice as string).qualities.includes(quality)
-        ) &&
-        value.elementalProperties?.[
-          Object.keys(spice.elementalProperties)[0]
-        ] >= 0.3
+      ([key, value]) => {
+        const valueData = value as Record<string, unknown>;
+        return key !== spiceName &&
+          Array.isArray(valueData?.qualities) &&
+          Array.isArray(spiceData?.qualities) &&
+          (valueData.qualities as string[]).some((quality: string) =>
+            (spiceData.qualities as string[]).includes(quality)
+          ) &&
+          Number(((value as Record<string, unknown>).elementalProperties as Record<string, unknown>)?.[Object.keys(spice.elementalProperties)[0]]) >= 0.3;
+      }
     )
     .map(([key, _]) => key);
 };
@@ -399,8 +405,10 @@ export const getSpicesByPreparationMethod = (
 ): Record<string, IngredientMapping> => {
   return Object.entries(spices)
     .filter(
-      ([_, value]) =>
-        (value as string)?.preparation && Object.keys((value as string).preparation).includes(method)
+      ([_, value]) => {
+        const valueData = value as Record<string, unknown>;
+        return valueData?.preparation && Object.keys(valueData.preparation as Record<string, unknown>).includes(method);
+      }
     )
     .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
 };

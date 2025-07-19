@@ -10,14 +10,14 @@ import { toZodiacSign } from '@/utils/zodiacUtils';
 import type { Modality } from '@/data/ingredients/types';
 
 // Helper function to adapt the elemental properties for the recommender system
-function getRecommendations(
+async function getRecommendations(
   elementalProps: ElementalProperties | undefined,
   options: RecommendationOptions
-): GroupedIngredientRecommendations {
+): Promise<GroupedIngredientRecommendations> {
   const astroData = useAstrologicalState();
   
-  // Apply safe type casting for astrological data access
-  const astroState = astroData as Record<string, unknown>;
+  // ✅ Pattern MM-1: Safe type assertion for astrological data access
+  const astroState = (astroData as unknown) as Record<string, unknown>;
   const planetaryPositions = astroState?.planetaryPositions;
   const moonPhase = astroState?.moonPhase;
   const aspects = astroState?.aspects;
@@ -34,22 +34,22 @@ function getRecommendations(
     timestamp: new Date(),
     currentStability: 1.0,
     // Use actual planetary alignment data from astrological context
-    planetaryAlignment: planetaryPositions || {},
+    planetaryAlignment: (planetaryPositions as Record<string, unknown>) || {},
     dominantElement: Object.entries(elementalProps || {})
-      .sort((a, b) => b[1] - a[1])
+      .sort((a, b) => Number(b[1]) - Number(a[1]))
       .map(([element]) => element)[0] || 'Fire',
-    zodiacSign: options.currentZodiac || currentZodiac || 'aries',
+    zodiacSign: String(options.currentZodiac || currentZodiac || 'aries'),
     // Use actual active planets from planetary positions
-    activePlanets: planetaryPositions ? Object.keys(planetaryPositions) : 
+    activePlanets: planetaryPositions ? Object.keys(planetaryPositions as Record<string, unknown>) : 
       ['Sun', 'Moon', 'Mercury', 'Venus', 'Mars', 'Jupiter', 'Saturn', 'Uranus', 'Neptune', 'Pluto'],
     // Use actual moon phase
-    lunarPhase: moonPhase || 'full moon',
+    lunarPhase: String(moonPhase || 'full moon'),
     // Add aspects for additional context
-    aspects: aspects || []
+    aspects: Array.isArray(aspects) ? aspects : []
   };
   
-  // Use the proper utility function with the actual data
-  return getIngredientRecommendations(astroStateData as unknown, options);
+  // ✅ Pattern MM-1: Safe type assertion for ingredient recommendations
+  return await getIngredientRecommendations(astroStateData as Record<string, unknown>, options);
 }
 
 interface IngredientRecommendationsProps {
@@ -86,11 +86,20 @@ export default function IngredientRecommendations({
       limit: 48 // Doubled from 24 to show more recommendations
     };
     
-    // Use our adapter function with modality filtering
-    const recommendedIngredients = getRecommendations(targetElements, options);
+    // ✅ Pattern GG-6: Safe async function call with proper error handling
+    const loadRecommendations = async () => {
+      try {
+        const recommendedIngredients = await getRecommendations(targetElements, options);
+        setRecommendations(recommendedIngredients);
+      } catch (error) {
+        console.error('Error loading recommendations:', error);
+        setRecommendations({});
+      } finally {
+        setLoading(false);
+      }
+    };
     
-    setRecommendations(recommendedIngredients);
-    setLoading(false);
+    loadRecommendations();
   }, [targetElements, currentZodiac, selectedSeason, dietaryFilter, modalityFilter, zodiacSign]);
   
   const getElementIcon = (element: string) => {
@@ -135,9 +144,11 @@ export default function IngredientRecommendations({
       energy: elementalProps.Fire * 0.9 + elementalProps.Air * 0.8
     };
     
-    // Format the match percentage from score
-    const matchPercentage = (ingredient as Record<string, unknown>)?.score !== undefined && !isNaN((ingredient as Record<string, unknown>)?.score) 
-      ? `${Math.round((ingredient as Record<string, unknown>)?.score * 100)}%`
+    // ✅ Pattern MM-1: Safe type assertion for ingredient score
+    const ingredientData = (ingredient as unknown) as Record<string, unknown>;
+    const score = Number(ingredientData?.score) || 0;
+    const matchPercentage = !isNaN(score) 
+      ? `${Math.round(score * 100)}%`
       : '50%';
     
     return (
@@ -145,7 +156,7 @@ export default function IngredientRecommendations({
         <div className={styles.header}>
           <h3 className={styles.ingredientName}>{ingredient.name}</h3>
           <div className={styles.category}>{ingredient.category}</div>
-          {(ingredient as Record<string, unknown>)?.score && (
+          {score > 0 && (
             <div className={styles.matchScore}>
               Match: <span className={styles.scoreValue}>{matchPercentage}</span>
             </div>
@@ -202,14 +213,14 @@ export default function IngredientRecommendations({
         {/* Flavor Profile */}
         <div className="flavor-profile">
           <h4>Flavor Profile</h4>
-          {(ingredient as Record<string, unknown>)?.sensoryProfile && (
+          {ingredientData?.sensoryProfile && (
             <div className={styles.sensoryHighlights}>
-              {Object.entries((ingredient as Record<string, unknown>)?.sensoryProfile?.taste || {})
-                .filter(([_, value]) => (value as number) > 0.6)
+              {Object.entries(((ingredientData?.sensoryProfile as Record<string, unknown>)?.taste as Record<string, unknown>) || {})
+                .filter(([_, value]) => Number(value || 0) > 0.6)
                 .slice(0, 3)
                 .map(([type, value]) => (
                   <span key={type} className={styles.flavorTag}>
-                    {type}: {Math.round((value as number) * 100)}%
+                    {type}: {Math.round(Number(value) * 100)}%
                   </span>
                 ))}
             </div>
@@ -269,17 +280,17 @@ export default function IngredientRecommendations({
   
   // Display a compact ingredient card
   const renderCompactIngredientCard = (ingredient: IngredientRecommendation) => {
-    // Apply safe type casting for ingredient access
-    const ingredientData = ingredient as Record<string, unknown>;
-    const score = ingredientData?.score;
+    // ✅ Pattern MM-1: Safe type assertion for ingredient access
+    const ingredientData = (ingredient as unknown) as Record<string, unknown>;
+    const score = Number(ingredientData?.score) || 0;
     
     // Get elemental properties
     const elementalProps = ingredient.elementalProperties || {
       Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
     };
     
-    // Format the match percentage from score with enhanced safety
-    const matchPercentage = score !== undefined && !isNaN(score)
+    // ✅ Pattern KK-1: Safe number conversion for match percentage
+    const matchPercentage = !isNaN(score)
       ? `${Math.round(score * 100)}%`
       : '50%';
     

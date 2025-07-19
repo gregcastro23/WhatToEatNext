@@ -20,6 +20,9 @@ import {
   ValidationResult
 } from '../types/campaign';
 
+// Re-export required types for external components
+export { CampaignPhase, ValidationResult } from '../types/campaign';
+
 // ========== KIRO INTEGRATION TYPES ==========
 
 export interface KiroCampaignStatus {

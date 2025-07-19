@@ -5,6 +5,7 @@ import {
   PlanetaryAspect,
   AlchemicalProperties,
   LunarPhase,
+  PlanetaryPosition,
 } from '../types/alchemy';
 
 // Type alias for backward compatibility
@@ -145,7 +146,7 @@ export class RecommendationAdapter {
       const lunarPhase = await calculateLunarPhase(new Date());
       
       // Convert to format expected by adapter
-      const lunarPhaseFormatted = convertToLunarPhase(lunarPhase as LunarPhase);
+      const lunarPhaseFormatted = convertToLunarPhase(lunarPhase as unknown as LunarPhase);
       
       // Calculate if it's currently daytime
       const now = new Date();
@@ -213,7 +214,7 @@ export class RecommendationAdapter {
     try {
       // Get alchemical results from the positions
       const result = alchemize(
-        this.convertedPositions as unknown as Record<string, Record<string, string>>, 
+        this.convertedPositions as unknown as Record<string, PlanetaryPosition>, 
         this.isDaytime,
         this.lunarPhase || undefined,
         this.retrogradeStatus
@@ -226,10 +227,10 @@ export class RecommendationAdapter {
       
       // Prepare alchemical properties
       const alchemicalProperties = {
-        Spirit: resultData.spirit || 0,
-        Essence: resultData.essence || 0,
-        Matter: resultData.matter || 0,
-        Substance: resultData.substance || 0
+        Spirit: this.safeGetNumber(resultData.spirit),
+        Essence: this.safeGetNumber(resultData.essence),
+        Matter: this.safeGetNumber(resultData.matter),
+        Substance: this.safeGetNumber(resultData.substance)
       };
       
       // Prepare elemental properties, converting to uppercase keys - safe property access
@@ -257,40 +258,40 @@ export class RecommendationAdapter {
           // Apply boost to corresponding alchemical property based on planet
           switch (planet.toLowerCase()) {
             case 'sun':
-              alchemicalProperties.Spirit = (alchemicalProperties.Spirit || 0) + boost;
+              alchemicalProperties.Spirit = alchemicalProperties.Spirit + boost;
               break;
             case 'moon':
-              alchemicalProperties.Essence = (alchemicalProperties.Essence || 0) + boost;
+              alchemicalProperties.Essence = alchemicalProperties.Essence + boost;
               break;
             case 'mercury':
-              alchemicalProperties.Substance = (alchemicalProperties.Substance || 0) + boost * 0.6;
-              alchemicalProperties.Spirit = (alchemicalProperties.Spirit || 0) + boost * 0.4;
+              alchemicalProperties.Substance = alchemicalProperties.Substance + boost * 0.6;
+              alchemicalProperties.Spirit = alchemicalProperties.Spirit + boost * 0.4;
               break;
             case 'venus':
-              alchemicalProperties.Essence = (alchemicalProperties.Essence || 0) + boost;
+              alchemicalProperties.Essence = alchemicalProperties.Essence + boost;
               break;
             case 'mars':
-              alchemicalProperties.Matter = (alchemicalProperties.Matter || 0) + boost * 0.6;
-              alchemicalProperties.Essence = (alchemicalProperties.Essence || 0) + boost * 0.4;
+              alchemicalProperties.Matter = alchemicalProperties.Matter + boost * 0.6;
+              alchemicalProperties.Essence = alchemicalProperties.Essence + boost * 0.4;
               break;
             case 'jupiter':
-              alchemicalProperties.Spirit = (alchemicalProperties.Spirit || 0) + boost * 0.5;
-              alchemicalProperties.Essence = (alchemicalProperties.Essence || 0) + boost * 0.5;
+              alchemicalProperties.Spirit = alchemicalProperties.Spirit + boost * 0.5;
+              alchemicalProperties.Essence = alchemicalProperties.Essence + boost * 0.5;
               break;
             case 'saturn':
-              alchemicalProperties.Matter = (alchemicalProperties.Matter || 0) + boost;
+              alchemicalProperties.Matter = alchemicalProperties.Matter + boost;
               break;
             case 'uranus':
-              alchemicalProperties.Spirit = (alchemicalProperties.Spirit || 0) + boost * 0.3;
-              alchemicalProperties.Substance = (alchemicalProperties.Substance || 0) + boost * 0.7;
+              alchemicalProperties.Spirit = alchemicalProperties.Spirit + boost * 0.3;
+              alchemicalProperties.Substance = alchemicalProperties.Substance + boost * 0.7;
               break;
             case 'neptune':
-              alchemicalProperties.Essence = (alchemicalProperties.Essence || 0) + boost * 0.6;
-              alchemicalProperties.Substance = (alchemicalProperties.Substance || 0) + boost * 0.4;
+              alchemicalProperties.Essence = alchemicalProperties.Essence + boost * 0.6;
+              alchemicalProperties.Substance = alchemicalProperties.Substance + boost * 0.4;
               break;
             case 'pluto':
-              alchemicalProperties.Matter = (alchemicalProperties.Matter || 0) + boost * 0.7;
-              alchemicalProperties.Essence = (alchemicalProperties.Essence || 0) + boost * 0.3;
+              alchemicalProperties.Matter = alchemicalProperties.Matter + boost * 0.7;
+              alchemicalProperties.Essence = alchemicalProperties.Essence + boost * 0.3;
               break;
           }
         });
@@ -305,9 +306,9 @@ export class RecommendationAdapter {
           const body2 = aspectData?.body2;
           const aspectType = aspectData?.aspectType;
           
-          // Lookup planet data for both bodies
-          const planet1 = body1?.toLowerCase();
-          const planet2 = body2?.toLowerCase();
+          // Lookup planet data for both bodies with safe string conversion
+          const planet1 = typeof body1 === 'string' ? body1.toLowerCase() : undefined;
+          const planet2 = typeof body2 === 'string' ? body2.toLowerCase() : undefined;
           
           if (!planet1 || !planet2 || !aspectType) return;
           
@@ -328,10 +329,10 @@ export class RecommendationAdapter {
               const matter1 = this.safeGetNumber(alchemyData1?.Matter);
               const substance1 = this.safeGetNumber(alchemyData1?.Substance);
               
-              alchemicalProperties.Spirit = (alchemicalProperties.Spirit || 0) + spirit1 * boost;
-              alchemicalProperties.Essence = (alchemicalProperties.Essence || 0) + essence1 * boost;
-              alchemicalProperties.Matter = (alchemicalProperties.Matter || 0) + matter1 * boost;
-              alchemicalProperties.Substance = (alchemicalProperties.Substance || 0) + substance1 * boost;
+              alchemicalProperties.Spirit = alchemicalProperties.Spirit + spirit1 * boost;
+              alchemicalProperties.Essence = alchemicalProperties.Essence + essence1 * boost;
+              alchemicalProperties.Matter = alchemicalProperties.Matter + matter1 * boost;
+              alchemicalProperties.Substance = alchemicalProperties.Substance + substance1 * boost;
             }
           }
           
@@ -347,10 +348,10 @@ export class RecommendationAdapter {
               const matter2 = this.safeGetNumber(alchemyData2?.Matter);
               const substance2 = this.safeGetNumber(alchemyData2?.Substance);
               
-              alchemicalProperties.Spirit = (alchemicalProperties.Spirit || 0) + spirit2 * boost;
-              alchemicalProperties.Essence = (alchemicalProperties.Essence || 0) + essence2 * boost;
-              alchemicalProperties.Matter = (alchemicalProperties.Matter || 0) + matter2 * boost;
-              alchemicalProperties.Substance = (alchemicalProperties.Substance || 0) + substance2 * boost;
+              alchemicalProperties.Spirit = alchemicalProperties.Spirit + spirit2 * boost;
+              alchemicalProperties.Essence = alchemicalProperties.Essence + essence2 * boost;
+              alchemicalProperties.Matter = alchemicalProperties.Matter + matter2 * boost;
+              alchemicalProperties.Substance = alchemicalProperties.Substance + substance2 * boost;
             }
           }
         });
@@ -498,10 +499,14 @@ export class RecommendationAdapter {
         const minerals = nutritionData?.minerals;
         
         if (macros && vitamins && minerals) {
+          const macrosData = macros as Record<string, unknown>;
+          const vitaminsData = vitamins as Record<string, unknown>;
+          const mineralsData = minerals as Record<string, unknown>;
+          
           acc[ingredient.id] = Math.sqrt(
-            (macros.protein || 0) * 0.4 +
-            (vitamins.vitaminC || 0) * 0.3 +
-            (minerals.iron || 0) * 0.3
+            (this.safeGetNumber(macrosData.protein) * 0.4) +
+            (this.safeGetNumber(vitaminsData.vitaminC) * 0.3) +
+            (this.safeGetNumber(mineralsData.iron) * 0.3)
           );
         } else {
           acc[ingredient.id] = 1; // Default multiplier if no nutrition data
@@ -536,10 +541,11 @@ export class RecommendationAdapter {
     // - Essence is related to Water (fluidity)
     // - Matter is related to Earth (stability)
     // - Substance is related to Air (connection)
-    const calculatedSpirit = (ingredient as Record<string, unknown>).spirit || (elementalProps.Fire * 0.6 + elementalProps.Air * 0.4);
-    const calculatedEssence = (ingredient as Record<string, unknown>).essence || (elementalProps.Water * 0.6 + elementalProps.Fire * 0.4);
-    const calculatedMatter = (ingredient as Record<string, unknown>).matter || (elementalProps.Earth * 0.7 + elementalProps.Water * 0.3);
-    const calculatedSubstance = (ingredient as Record<string, unknown>).substance || (elementalProps.Air * 0.6 + elementalProps.Earth * 0.4);
+    const ingredientData = ingredient as Record<string, unknown>;
+    const calculatedSpirit = this.safeGetNumber(ingredientData.spirit) || (elementalProps.Fire * 0.6 + elementalProps.Air * 0.4);
+    const calculatedEssence = this.safeGetNumber(ingredientData.essence) || (elementalProps.Water * 0.6 + elementalProps.Fire * 0.4);
+    const calculatedMatter = this.safeGetNumber(ingredientData.matter) || (elementalProps.Earth * 0.7 + elementalProps.Water * 0.3);
+    const calculatedSubstance = this.safeGetNumber(ingredientData.substance) || (elementalProps.Air * 0.6 + elementalProps.Earth * 0.4);
     
     // Apply tarot boosts to calculated values
     const boostedSpirit = Math.min(Math.max(calculatedSpirit * (tarotEnergyBoosts.Spirit || 1.0), 0.1), 1.0);

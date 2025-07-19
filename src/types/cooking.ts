@@ -14,7 +14,7 @@ export interface CookingMethod {
   benefits?: string[];
   variations?: string[];
   commonMistakes?: string[] | string;
-  pAiringSuggestions?: string[] | string;
+  pairingSuggestions?: string[] | string;
   scientificPrinciples?: string[] | string;
   history?: string;
   science?: string;

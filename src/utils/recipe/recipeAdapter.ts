@@ -28,7 +28,7 @@ export function adaptRecipeData(recipeData: RecipeData): Recipe {
     name: recipeData.name || 'Unnamed Recipe',
     ingredients,
     instructions: recipeData.instructions || ['Combine ingredients and cook as desired.'],
-    elementalProperties: (recipeData as Record<string, unknown>)?.elementalState || {
+    elementalProperties: (recipeData as unknown as Record<string, unknown>)?.elementalState as ElementalProperties || {
       Fire: 0.25,
       Water: 0.25,
       Earth: 0.25,
@@ -50,43 +50,43 @@ export function adaptRecipeData(recipeData: RecipeData): Recipe {
   }
 
   // Handle time-related properties
-  const recipeDataAny = recipeData as Record<string, unknown>;
+  const recipeDataAny = recipeData as unknown as Record<string, unknown>;
   if (recipeDataAny?.timeToMake !== undefined) {
-    recipe.timeToMake = recipeDataAny.timeToMake;
+    recipe.timeToMake = String(recipeDataAny.timeToMake);
   }
 
   // Handle serving-related properties
   if (recipeDataAny?.servingSize !== undefined) {
-    recipe.servings = recipeDataAny.servingSize;
+    recipe.servings = recipeDataAny.servingSize as string;
   }
 
   // Handle elemental properties
   if (recipeDataAny?.elementalState) {
-    recipe.elementalState = recipeDataAny.elementalState;
+    recipe.elementalState = recipeDataAny.elementalState as ElementalProperties;
   } else {
     // Create default elemental properties
     recipe.elementalState = createElementalProperties({ Fire: 0, Water: 0, Earth: 0, Air: 0 });
   }
 
   // Handle season
-  const energyProfile = recipeDataAny?.energyProfile;
+  const energyProfile = recipeDataAny?.energyProfile as Record<string, unknown>;
   if (energyProfile?.season) {
-    recipe.currentSeason = energyProfile.currentSeason;
+    recipe.currentSeason = energyProfile.currentSeason as string;
   }
 
   // Handle astrological properties
   if (energyProfile) {
     if (energyProfile.zodiac) {
-      recipe.zodiacInfluences = energyProfile.zodiac;
+      recipe.zodiacInfluences = Array.isArray(energyProfile.zodiac) ? energyProfile.zodiac.map(z => String(z)) as any : [String(energyProfile.zodiac)] as any;
     }
     
     if (energyProfile.lunar) {
-      recipe.lunarPhaseInfluences = energyProfile.lunar;
+      recipe.lunarPhaseInfluences = Array.isArray(energyProfile.lunar) ? energyProfile.lunar.map(l => String(l)) as any : [String(energyProfile.lunar)] as any;
     }
     
     if (energyProfile.planetary) {
       recipe.planetaryInfluences = {
-        favorable: energyProfile.planetary,
+        favorable: energyProfile.planetary as string[],
         unfavorable: [] // ← Pattern GG-6: Added missing unfavorable property
       };
     }
@@ -133,13 +133,15 @@ export function adaptRecipeData(recipeData: RecipeData): Recipe {
   // Handle nutrition information
   if (recipeData.nutrition) {
     const nutritionData = recipeData.nutrition as Record<string, unknown>;
+    const macronutrients = nutritionData?.macronutrients as Record<string, unknown> || {};
+    const micronutrients = nutritionData?.micronutrients as Record<string, unknown> || {};
     recipe.nutrition = {
-      calories: nutritionData?.calories || 0, 
-      protein: nutritionData?.protein || nutritionData?.macronutrients?.protein || 0, 
-      carbs: nutritionData?.carbs || nutritionData?.macronutrients?.carbs || 0, 
-      fat: nutritionData?.fat || nutritionData?.macronutrients?.fat || 0, 
-      vitamins: nutritionData?.vitamins || nutritionData?.micronutrients?.vitamins || {}, 
-      minerals: nutritionData?.minerals || nutritionData?.micronutrients?.minerals || {} 
+      calories: Number(nutritionData?.calories) || 0, 
+      protein: Number(nutritionData?.protein) || Number(macronutrients?.protein) || 0, 
+      carbs: Number(nutritionData?.carbs) || Number(macronutrients?.carbs) || 0, 
+      fat: Number(nutritionData?.fat) || Number(macronutrients?.fat) || 0, 
+      vitamins: (nutritionData?.vitamins as string[]) || (micronutrients?.vitamins as string[]) || [], 
+      minerals: (nutritionData?.minerals as string[]) || (micronutrients?.minerals as string[]) || [] 
     };
   }
 
@@ -155,12 +157,12 @@ export function adaptRecipeData(recipeData: RecipeData): Recipe {
 
   // Handle spice level
   if (recipeDataAny?.spiceLevel !== undefined) {
-    recipe.spiceLevel = recipeDataAny.spiceLevel;
+    recipe.spiceLevel = String(recipeDataAny.spiceLevel) as any;
   }
 
   // Handle preparation notes
   if (recipeDataAny?.preparationNotes) {
-    recipe.preparationNotes = recipeDataAny.preparationNotes;
+    recipe.preparationNotes = String(recipeDataAny.preparationNotes);
   }
 
   // Handle technical tips
@@ -185,13 +187,13 @@ export function adaptRecipeData(recipeData: RecipeData): Recipe {
 function adaptIngredients(ingredients: Recipe[]): RecipeIngredient[] {
   return (ingredients || []).map(ingredient => {
     const recipeIngredient: RecipeIngredient = {
-      name: ingredient.name || 'Unknown Ingredient', 
-      amount: ingredient.amount, 
-      unit: ingredient.unit || '' 
+      name: String(ingredient.name) || 'Unknown Ingredient', 
+      amount: Number(ingredient.amount), 
+      unit: String(ingredient.unit) || '' 
     };
 
     if (ingredient.optional !== undefined) {
-      recipeIngredient.optional = ingredient.optional;
+      recipeIngredient.optional = Boolean(ingredient.optional);
     }
 
     if (ingredient.preparation) {
@@ -199,7 +201,7 @@ function adaptIngredients(ingredients: Recipe[]): RecipeIngredient[] {
     }
 
     if (ingredient.category) {
-      recipeIngredient.category = ingredient.category;
+      recipeIngredient.category = String(ingredient.category);
     }
 
     return recipeIngredient;
@@ -267,9 +269,9 @@ export function adaptAllRecipes(recipeDataArray: RecipeData[]): Recipe[] {
  * @returns ElementalProperties object
  */
 export function extractElementalProperties(recipeData: RecipeData): ElementalProperties {
-  const recipeDataAny = recipeData as Record<string, unknown>;
+  const recipeDataAny = (recipeData as unknown) as Record<string, unknown>;
   if (recipeDataAny?.elementalState) {
-    return recipeDataAny.elementalState;
+    return recipeDataAny.elementalState as ElementalProperties;
   }
   
   return createElementalProperties({ Fire: 0, Water: 0, Earth: 0, Air: 0 });

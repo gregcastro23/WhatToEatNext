@@ -768,73 +768,33 @@ export function getRecipesForCuisineMatch(
   recipes: unknown[],
   limit = 8
 ): unknown[] {
-  if (!cuisineName) {
-    console.warn('getRecipesForCuisineMatch called with empty cuisineName');
-    return [];
-  }
-
-  console.log(`getRecipesForCuisineMatch called for "${cuisineName}" with ${recipes?.length || 0} recipes`);
-
-  // Normalize the cuisine name to ensure case-insensitive matching
-  const normalizedCuisineName = cuisineName.toLowerCase().trim();
-
-  // Create a mock recipe generator for fallback if needed
-  const createMockRecipes = (count = 3) => {
-    console.log(`Creating ${count} mock recipes for "${cuisineName}"`);
-    const mockRecipes = [];
-    
-    // Common dishes by cuisine - add more as needed
-    const cuisineDishes = {
-      'italian': ['Spaghetti Carbonara', 'Margherita Pizza', 'Risotto', 'Lasagna', 'Tiramisu'],
-      'french': ['Coq au Vin', 'Beef Bourguignon', 'Ratatouille', 'Quiche Lorraine', 'Crème Brûlée'],
-      'japanese': ['Sushi', 'Ramen', 'Tempura', 'Yakitori', 'Miso Soup'],
-      'chinese': ['Kung Pao Chicken', 'Dim Sum', 'Mapo Tofu', 'Peking Duck', 'Hot Pot'],
-      'indian': ['Butter Chicken', 'Biryani', 'Tikka Masala', 'Samosas', 'Naan'],
-      'mexican': ['Tacos', 'Enchiladas', 'Guacamole', 'Mole Poblano', 'Chiles Rellenos'],
-      'thai': ['Pad Thai', 'Green Curry', 'Tom Yum Soup', 'Mango Sticky Rice', 'Som Tam'],
-      'greek': ['Moussaka', 'Souvlaki', 'Greek Salad', 'Spanakopita', 'Baklava'],
-      'american': ['Burger', 'BBQ Ribs', 'Mac and Cheese', 'Apple Pie', 'Fried Chicken'],
-      'african': ['Jollof Rice', 'Bobotie', 'Tagine', 'Piri Piri Chicken', 'Injera'],
-    };
-    
-    // Get dishes specific to this cuisine or use general names
-    const dishNames = cuisineDishes[normalizedCuisineName] || 
-      [`${cuisineName} Specialty`, `Traditional ${cuisineName} Dish`, `${cuisineName} Delight`];
-    
-    // Common ingredients for each dish
-    const commonIngredients = [
-      { name: "Salt", amount: 1, unit: "tsp" },
-      { name: "Pepper", amount: 0.5, unit: "tsp" },
-      { name: "Olive Oil", amount: 2, unit: "tbsp" },
-    ];
-    
-    // Generate mock recipes
-    for (let i = 0; i < Math.min(count, dishNames.length); i++) {
-      mockRecipes.push({
-        id: `mock-${normalizedCuisineName}-${i}`,
-        name: dishNames[i],
-        description: `A traditional ${cuisineName} recipe featuring local ingredients and authentic flavors.`,
-        cuisine: cuisineName,
-        ingredients: [...commonIngredients],
-        instructions: ["Prepare ingredients", "Cook according to traditional methods", "Serve and enjoy!"],
-        timeToMake: "30 minutes",
-        servingSize: 4,
-        matchScore: 0.85 + (Math.random() * 0.15),
-        matchPercentage: Math.round((0.85 + Math.random() * 0.15) * 100),
-        elementalProperties: {
-          Fire: 0.25,
-          Water: 0.25,
-          Earth: 0.25,
-          Air: 0.25
-        },
-        isMockData: true
-      });
-    }
-    
-    return mockRecipes;
-  };
-
   try {
+    // Apply safe type conversion for string operations
+    const normalizedCuisineName = String(cuisineName || '').toLowerCase();
+    
+    // Filter recipes that match the cuisine
+    const matchingRecipes = (recipes || []).filter((recipe: unknown) => {
+      const recipeData = recipe as Record<string, unknown>;
+      
+      // Check recipe name
+      const recipeName = String(recipeData?.name || '').toLowerCase();
+      if (recipeName.includes(normalizedCuisineName)) return true;
+      
+      // Check recipe cuisine
+      const recipeCuisine = String(recipeData?.cuisine || '').toLowerCase();
+      if (recipeCuisine.includes(normalizedCuisineName)) return true;
+      
+      // Check recipe tags
+      const recipeTags = recipeData?.tags as unknown[];
+      if (Array.isArray(recipeTags)) {
+        return recipeTags.some((tag: unknown) => 
+          String(tag || '').toLowerCase().includes(normalizedCuisineName)
+        );
+      }
+      
+      return false;
+    });
+
     // Special handling for American and African cuisines that have been problematic
     if (
       normalizedCuisineName === 'american' ||
@@ -965,11 +925,11 @@ export function getRecipesForCuisineMatch(
             .slice(0, limit);
         } else {
           console.log(`LocalRecipeService returned no recipes for ${cuisineName}, using mock data`);
-          return createMockRecipes(limit);
+          return [];
         }
       } catch (error) {
         console.error(`Error fetching recipes from LocalRecipeService for ${cuisineName}:`, error);
-        return createMockRecipes(limit);
+        return [];
       }
     }
 
@@ -986,9 +946,10 @@ export function getRecipesForCuisineMatch(
     const exactCuisineMatches = recipes.filter(
       (recipe) => {
         const recipeData = recipe as Record<string, unknown>;
-        return recipeData?.cuisine?.toLowerCase() === normalizedCuisineName ||
-               recipeData?.cuisine?.toLowerCase()?.includes(normalizedCuisineName) ||
-               normalizedCuisineName.includes(recipeData?.cuisine?.toLowerCase());
+        const cuisine = String(recipeData?.cuisine || '');
+        return cuisine.toLowerCase() === normalizedCuisineName ||
+               cuisine.toLowerCase().includes(normalizedCuisineName) ||
+               normalizedCuisineName.includes(cuisine.toLowerCase());
       }
     );
 
@@ -998,10 +959,11 @@ export function getRecipesForCuisineMatch(
     const regionalMatches = recipes.filter(
       (recipe) => {
         const recipeData = recipe as Record<string, unknown>;
+        const regionalCuisine = String(recipeData?.regionalCuisine || '');
         return !exactCuisineMatches.includes(recipe) && (
-                 recipeData?.regionalCuisine?.toLowerCase() === normalizedCuisineName ||
-                 recipeData?.regionalCuisine?.toLowerCase()?.includes(normalizedCuisineName) ||
-                 normalizedCuisineName.includes(recipeData?.regionalCuisine?.toLowerCase())
+                 regionalCuisine.toLowerCase() === normalizedCuisineName ||
+                 regionalCuisine.toLowerCase().includes(normalizedCuisineName) ||
+                 normalizedCuisineName.includes(regionalCuisine.toLowerCase())
                );
       }
     );
@@ -1037,9 +999,10 @@ export function getRecipesForCuisineMatch(
 
             // Ingredient similarity (weight: 0.3)
             if (cuisineProfile.signatureIngredients && recipeData?.ingredients) {
-              const recipeIngredientNames = recipeData.ingredients.map((ing: unknown) => {
+              const ingredients = recipeData.ingredients as unknown[];
+              const recipeIngredientNames = ingredients.map((ing: unknown) => {
                 const ingData = ing as Record<string, unknown>;
-                return typeof ing === 'string' ? ing.toLowerCase() : ingData?.name?.toLowerCase() || '';
+                return typeof ing === 'string' ? ing.toLowerCase() : String(ingData?.name || '').toLowerCase();
               });
 
               const commonIngredients = cuisineProfile.signatureIngredients.filter(
@@ -1057,9 +1020,10 @@ export function getRecipesForCuisineMatch(
 
             // Technique similarity (weight: 0.2)
             if (cuisineProfile.signatureTechniques && recipeData?.cookingMethods) {
-              const recipeTechniques = Array.isArray(recipeData.cookingMethods)
-                ? recipeData.cookingMethods.map((tech: string) => tech?.toLowerCase() || '')
-                : [recipeData.cookingMethods?.toLowerCase() || ''];
+              const cookingMethods = recipeData.cookingMethods as unknown;
+              const recipeTechniques = Array.isArray(cookingMethods)
+                ? (cookingMethods as string[]).map((tech: string) => String(tech || '').toLowerCase())
+                : [String(cookingMethods || '').toLowerCase()];
 
               const commonTechniques = cuisineProfile.signatureTechniques.filter(
                 (tech) => recipeTechniques.some((rt) => rt?.includes(tech.toLowerCase()))
@@ -1146,16 +1110,15 @@ export function getRecipesForCuisineMatch(
     
     console.log(`Returning ${sortedMatches.length} sorted matches for ${cuisineName}`);
     
-    // Use mock data if we didn't find enough recipes
+    // Use empty array if we didn't find enough recipes
     if (sortedMatches.length < Math.min(3, limit)) {
-      const mockRecipes = createMockRecipes(limit - sortedMatches.length);
-      return [...sortedMatches, ...mockRecipes].slice(0, limit);
+      return sortedMatches.slice(0, limit);
     }
     
     return sortedMatches.slice(0, limit);
   } catch (error) {
     console.error(`Error in getRecipesForCuisineMatch for ${cuisineName}:`, error);
-    return createMockRecipes(limit);
+    return [];
   }
 }
 
@@ -1164,59 +1127,64 @@ function calculateFlavorProfileMatch(
   recipeProfile: unknown,
   cuisineProfile: unknown
 ): number {
-  let similarity = 0;
-  let count = 0;
-
-  const recipeData = recipeProfile as Record<string, unknown>;
-  const cuisineData = cuisineProfile as Record<string, unknown>;
-
-  // Compare common flavor dimensions
-  const flavors = ['spicy', 'sweet', 'sour', 'bitter', 'salty', 'umami'];
-
-  flavors.forEach((flavor) => {
-    if (
-      recipeData?.[flavor] !== undefined &&
-      cuisineData?.[flavor] !== undefined
-    ) {
-      similarity +=
-        1 - Math.abs(recipeData[flavor] - cuisineData[flavor]);
-      count++;
-    }
-  });
-
-  return count > 0 ? similarity / count : 0.5;
+  try {
+    // Apply safe type conversion for property access
+    const recipeData = recipeProfile as Record<string, unknown>;
+    const cuisineData = cuisineProfile as Record<string, unknown>;
+    
+    const recipeFlavors = recipeData?.flavorProfiles as Record<string, unknown>;
+    const cuisineFlavors = cuisineData?.flavorProfiles as Record<string, unknown>;
+    
+    if (!recipeFlavors || !cuisineFlavors) return 0;
+    
+    // Calculate match score
+    const flavorKeys = ['spicy', 'sweet', 'sour', 'bitter', 'salty', 'umami'];
+    let totalMatch = 0;
+    
+    flavorKeys.forEach((key) => {
+      const recipeValue = Number(recipeFlavors[key] || 0);
+      const cuisineValue = Number(cuisineFlavors[key] || 0);
+      const difference = Math.abs(recipeValue - cuisineValue);
+      totalMatch += 1 - difference; // Higher score for smaller differences
+    });
+    
+    return totalMatch / flavorKeys.length;
+  } catch (error) {
+    console.error('Error calculating flavor profile match:', error);
+    return 0;
+  }
 }
 
 export const getCuisineElementalMatch = (
   cuisineName: string,
   elementalProps: ElementalProperties
 ): number => {
-  let matchScore = 0;
-  let totalWeight = 0;
-
-  // Get the cuisine profile
-  const cuisine = cuisineFlavorProfiles[cuisineName.toLowerCase()];
-  if (!cuisine) return 0.5; // Default neutral match if cuisine not found
-
-  // Compare elemental compatibility
-  if (cuisine.elementalProperties) {
-    Object.keys(elementalProps).forEach((element) => {
-      const elementKey = element as keyof ElementalProperties;
-      const cuisineValue = cuisine.elementalProperties?.[elementKey] || 0;
-      const targetValue = elementalProps[elementKey] || 0;
-
-      // Calculate similarity - the closer the values, the better the match
-      const similarity = 1 - Math.abs(cuisineValue - targetValue);
-      
-      // Weight important elements more heavily
-      const weight = Math.max(cuisineValue, targetValue) * 2;
-      
-      matchScore += similarity * weight;
-      totalWeight += weight;
+  try {
+    // Apply safe type conversion for string operations
+    const normalizedCuisineName = String(cuisineName || '').toLowerCase();
+    const cuisineProfile = cuisineFlavorProfiles[normalizedCuisineName];
+    
+    if (!cuisineProfile) return 0;
+    
+    // Calculate elemental compatibility
+    const cuisineElemental = cuisineProfile.elementalAlignment;
+    const recipeElemental = elementalProps as ElementalProperties;
+    
+    const elements = ['Fire', 'Water', 'Earth', 'Air'];
+    let totalMatch = 0;
+    
+    elements.forEach((element) => {
+      const cuisineValue = Number(cuisineElemental[element as keyof ElementalProperties] || 0);
+      const recipeValue = Number(recipeElemental[element as keyof ElementalProperties] || 0);
+      const difference = Math.abs(cuisineValue - recipeValue);
+      totalMatch += 1 - difference;
     });
+    
+    return totalMatch / elements.length;
+  } catch (error) {
+    console.error('Error calculating cuisine elemental match:', error);
+    return 0;
   }
-
-  return totalWeight > 0 ? matchScore / totalWeight : 0.5;
 };
 
 export const calculateCuisineSimilarity = (

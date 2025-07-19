@@ -230,7 +230,7 @@ export class EnhancedRecommendationService {
       const baseRecommendations = await getRecommendedIngredients(astroState);
       const fallbackRecommendations: EnhancedRecommendation[] = baseRecommendations.slice(0, 10).map(ingredient => ({
         ingredient,
-        score: (ingredient as Record<string, unknown>)?.score || 0.5,
+        score: (ingredient as unknown as Record<string, unknown>)?.score || 0.5,
         reasons: ['Base astrological alignment'],
         chakraAlignment: {
           dominantChakra: 'heart',
@@ -465,17 +465,17 @@ export class EnhancedRecommendationService {
       zodiacEnergies['pisces'] += elementalState.Water * 0.3;
       
       // Earth signs
-      zodiacEnergies['taurus'] += Earth * 0.3;
-      zodiacEnergies['virgo'] += Earth * 0.3;
-      zodiacEnergies['capricorn'] += Earth * 0.3;
+      zodiacEnergies['taurus'] += elementalState.Earth * 0.3;
+      zodiacEnergies['virgo'] += elementalState.Earth * 0.3;
+      zodiacEnergies['capricorn'] += elementalState.Earth * 0.3;
       
       // Air signs
-      zodiacEnergies['gemini'] += Air * 0.3;
-      zodiacEnergies['libra'] += Air * 0.3;
-      zodiacEnergies['aquarius'] += Air * 0.3;
+      zodiacEnergies['gemini'] += elementalState.Air * 0.3;
+      zodiacEnergies['libra'] += elementalState.Air * 0.3;
+      zodiacEnergies['aquarius'] += elementalState.Air * 0.3;
     }
 
-    const chakraRecord = calculateChakraEnergies(zodiacEnergies as Record<string, unknown>);
+    const chakraRecord = calculateChakraEnergies(zodiacEnergies as any);
     // Map from Record<Chakra, number> to ChakraEnergies interface
     return {
       root: chakraRecord['Root'] || 0.14,
@@ -546,251 +546,195 @@ export class EnhancedRecommendationService {
     recommendations: string[];
     optimizations: string[];
   } | null> {
-    // Phase 8: Performance monitoring
-    const endTiming = performanceMonitor.startTiming('flavorCompatibility');
-    
     try {
-      // Phase 8: Create cache key for flavor compatibility
-      const cacheKey = `${ingredient.name}-${astroState.currentZodiac}-${JSON.stringify(chakraEnergies || {})}-${getCurrentSeason()}`;
-      
-      // Check cache first
-      const cachedResult = flavorCompatibilityCache.get(cacheKey);
-      if (cachedResult) {
-        endTiming();
-        return cachedResult;
-      }
-      
-      // Convert ingredient to UnifiedFlavorProfile (with caching)
+      // Convert ingredient to flavor profile
       const ingredientProfile = this.convertToFlavorProfileCached(ingredient);
       if (!ingredientProfile) {
-        endTiming();
         return null;
       }
-      
-      // Create reference profile based on current astrological and chakra state (with caching)
-      const referenceProfile = this.createAstrologicalReferenceProfileCached(astroState, chakraEnergies);
-      
-      // Calculate compatibility using unified engine
-      const compatibility = calculateFlavorCompatibility(
-        ingredientProfile,
-        referenceProfile,
-        {
-          season: getCurrentSeason() as Season,
-          culturalPreference: 'universal', // Default to universal
-          preparationMethod: 'balanced' // Default preparation method
-        }
-      );
-      
-      const result = {
-        overall: compatibility.overall,
-        elemental: compatibility.elemental,
-        kalchm: compatibility.kalchm,
-        monica: compatibility.monica,
-        seasonal: compatibility.seasonal,
-        cultural: compatibility.cultural,
-        nutritional: compatibility.nutritional,
+
+      // Create astrological reference profile
+      const astroProfile = this.createAstrologicalReferenceProfileCached(astroState, chakraEnergies);
+
+      // Calculate compatibility using unified flavor engine
+      const compatibility = calculateFlavorCompatibility(ingredientProfile, astroProfile);
+
+      // Return structured compatibility result
+      return {
+        overall: compatibility.overall || 0.5,
+        elemental: compatibility.elemental || 0.5,
+        kalchm: compatibility.kalchm || 0.5,
+        monica: compatibility.monica || 0.5,
+        seasonal: compatibility.seasonal || 0.5,
+        cultural: compatibility.cultural || 0.5,
+        nutritional: compatibility.nutritional || 0.5,
         breakdown: {
-          elementalDetails: compatibility.breakdown.elementalDetails,
-          flavorHarmony: compatibility.breakdown.flavorHarmony,
-          seasonalAlignment: compatibility.breakdown.seasonalAlignment,
-          culturalResonance: compatibility.breakdown.culturalResonance
+          elementalDetails: compatibility.breakdown?.elementalDetails || {},
+          flavorHarmony: compatibility.breakdown?.flavorHarmony || {},
+          seasonalAlignment: compatibility.breakdown?.seasonalAlignment || {},
+          culturalResonance: compatibility.breakdown?.culturalResonance || []
         },
-        recommendations: compatibility.recommendations,
-        optimizations: compatibility.optimizations
+        recommendations: compatibility.recommendations || [],
+        optimizations: compatibility.optimizations || []
       };
-      
-      // Phase 8: Cache the result with 10-minute TTL
-      flavorCompatibilityCache.set(cacheKey, result, 600000);
-      
-      endTiming();
-      return result;
     } catch (error) {
       console.warn('Error calculating unified flavor compatibility:', error);
-      endTiming();
       return null;
     }
   }
 
-  /**
-   * Convert ingredient to UnifiedFlavorProfile (Phase 8: Cached version)
-   */
   private convertToFlavorProfileCached(ingredient: EnhancedIngredient): UnifiedFlavorProfile | null {
-    const cacheKey = `ingredient-profile-${ingredient.name}`;
-    
-    // Check cache first
-    const cachedProfile = ingredientProfileCache.get(cacheKey);
-    if (cachedProfile) {
-      return cachedProfile;
-    }
-    
-    const profile = this.convertToFlavorProfile(ingredient);
-    if (profile) {
-      // Cache for 30 minutes
-      ingredientProfileCache.set(cacheKey, profile, 1800000);
-    }
-    
-    return profile;
-  }
-
-  /**
-   * Convert ingredient to UnifiedFlavorProfile (original method)
-   */
-  private convertToFlavorProfile(ingredient: EnhancedIngredient): UnifiedFlavorProfile | null {
     try {
-      // Check if profile already exists in unified system
-      const existingProfile = getFlavorProfile(ingredient.name?.toLowerCase()?.replace(/\s+/g, '-'));
-      if (existingProfile) return existingProfile;
-      
-      // Create profile from ingredient data
-      return {
-        id: ingredient.name?.toLowerCase()?.replace(/\s+/g, '-'),
-        name: ingredient.name,
-        category: 'ingredient',
-        baseNotes: {
-          sweet: ingredient.flavorProfile?.sweet || 0.2,
-          sour: ingredient.flavorProfile?.sour || 0.2,
-          salty: ingredient.flavorProfile?.salty || 0.2,
-          bitter: ingredient.flavorProfile?.bitter || 0.2,
-          umami: ingredient.flavorProfile?.umami || 0.2,
-          spicy: ingredient.flavorProfile?.spicy || 0
-        },
-        elementalFlavors: ingredient.elementalProperties || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
-        },
-        intensity: ingredient.intensity || 0.5,
-        complexity: ingredient.complexity || 0.5,
-        kalchm: ingredient.kalchm || 1.0,
-        monicaOptimization: ingredient.monica || 1.0,
-        alchemicalProperties: {
-          Spirit: 0.25, Essence: 0.25, Matter: 0.25, Substance: 0.25
-        },
-        seasonalPeak: (ingredient.currentSeason as Season[]) || ['spring', 'summer', 'autumn', 'winter'],
-        seasonalModifiers: {
-          spring: 1,
-          summer: 1,
-          autumn: 1,
-          winter: 1,
-          all: 1,
-          fall: 1
-        },
-        culturalOrigins: ingredient.culturalOrigins || [ingredient.category || 'universal'],
-        pairingRecommendations: [],
-        preparationMethods: ['raw', 'cooked'],
-        nutritionalSynergy: 0.7,
-        temperatureOptimal: 20,
-        description: `${ingredient.name} ingredient`,
-        tags: ingredient.qualities || [],
-        lastUpdated: new Date()
-      };
+      // Check cache first
+      const cacheKey = `ingredient_${ingredient.name}`;
+      const cached = ingredientProfileCache.get(cacheKey);
+      if (cached) {
+        return cached as UnifiedFlavorProfile;
+      }
+
+      // Convert to flavor profile
+      const profile = this.convertToFlavorProfile(ingredient);
+      if (profile) {
+        ingredientProfileCache.set(cacheKey, profile);
+      }
+      return profile;
     } catch (error) {
       console.warn('Error converting ingredient to flavor profile:', error);
       return null;
     }
   }
 
-  /**
-   * Create reference profile based on current astrological and chakra state (Phase 8: Cached version)
-   */
+  private convertToFlavorProfile(ingredient: EnhancedIngredient): UnifiedFlavorProfile | null {
+    try {
+      // Extract ingredient data with safe property access
+      const ingredientData = ingredient as unknown as Record<string, unknown>;
+      
+      // Create basic flavor profile structure
+      const profile: UnifiedFlavorProfile = {
+        id: ingredient.name || 'unknown',
+        name: ingredient.name || 'Unknown Ingredient',
+        category: 'ingredient' as const,
+        baseNotes: (ingredientData?.baseNotes as string[]) || [],
+        heartNotes: (ingredientData?.heartNotes as string[]) || [],
+        topNotes: (ingredientData?.topNotes as string[]) || [],
+        elementalProfile: {
+          Fire: this.safeGetNumber((ingredientData?.elementalProperties as Record<string, unknown>)?.Fire),
+          Water: this.safeGetNumber((ingredientData?.elementalProperties as Record<string, unknown>)?.Water),
+          Earth: this.safeGetNumber((ingredientData?.elementalProperties as Record<string, unknown>)?.Earth),
+          Air: this.safeGetNumber((ingredientData?.elementalProperties as Record<string, unknown>)?.Air)
+        },
+        flavorIntensity: this.safeGetNumber(ingredientData?.flavorIntensity) || 0.5,
+        complexity: this.safeGetNumber(ingredientData?.complexity) || 0.5,
+        seasonality: (ingredientData?.seasonality as string[]) || [],
+        culturalOrigins: (ingredientData?.culturalOrigins as string[]) || [],
+        nutritionalProfile: {
+          calories: this.safeGetNumber((ingredientData?.nutritionalProfile as Record<string, unknown>)?.calories),
+          protein: this.safeGetNumber((ingredientData?.nutritionalProfile as Record<string, unknown>)?.protein),
+          fat: this.safeGetNumber((ingredientData?.nutritionalProfile as Record<string, unknown>)?.fat),
+          carbohydrates: this.safeGetNumber((ingredientData?.nutritionalProfile as Record<string, unknown>)?.carbohydrates),
+          fiber: this.safeGetNumber((ingredientData?.nutritionalProfile as Record<string, unknown>)?.fiber)
+        },
+        preparationMethods: (ingredientData?.preparationMethods as string[]) || [],
+        pairings: (ingredientData?.pairings as string[]) || [],
+        contraindications: (ingredientData?.contraindications as string[]) || [],
+        kalchm: this.safeGetNumber(ingredientData?.kalchm) || 0.5,
+        monica: this.safeGetNumber(ingredientData?.monica) || 0.5
+      };
+
+      return profile;
+    } catch (error) {
+      console.warn('Error creating flavor profile:', error);
+      return null;
+    }
+  }
+
   private createAstrologicalReferenceProfileCached(
     astroState: AstrologicalState,
     chakraEnergies?: ChakraEnergies
   ): UnifiedFlavorProfile  {
-    const cacheKey = `astro-profile-${astroState.currentZodiac}-${JSON.stringify(chakraEnergies || {})}`;
-    
-    // Check cache first
-    const cachedProfile = astrologicalProfileCache.get(cacheKey);
-    if (cachedProfile) {
-      return cachedProfile;
+    try {
+      // Check cache first
+      const cacheKey = `astro_${astroState.currentZodiac}_${astroState.lunarPhase}`;
+      const cached = astrologicalProfileCache.get(cacheKey);
+      if (cached) {
+        return cached as UnifiedFlavorProfile;
+      }
+
+      // Create profile
+      const profile = this.createAstrologicalReferenceProfile(astroState, chakraEnergies);
+      astrologicalProfileCache.set(cacheKey, profile);
+      return profile;
+    } catch (error) {
+      console.warn('Error creating cached astrological profile:', error);
+      return this.createAstrologicalReferenceProfile(astroState, chakraEnergies);
     }
-    
-    const profile = this.createAstrologicalReferenceProfile(astroState, chakraEnergies);
-    
-    // Cache for 5 minutes (astrological states change frequently)
-    astrologicalProfileCache.set(cacheKey, profile, 300000);
-    
-    return profile;
   }
 
-  /**
-   * Create reference profile based on current astrological and chakra state (original method)
-   */
   private createAstrologicalReferenceProfile(
     astroState: AstrologicalState,
     chakraEnergies?: ChakraEnergies
   ): UnifiedFlavorProfile  {
-    // Calculate elemental properties from astrological state
-    // Use safe type casting for astroState property access
-    const astroData = astroState as Record<string, unknown>;
-    const elementalProps = astroData?.elementalState || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
-    };
-    
-    // Enhance with chakra influences if available
-    if (chakraEnergies) {
-      // Root chakra influences Earth element
-      elementalProps.Earth += (chakraEnergies.root || 0) * 0.1;
-      // Heart chakra influences Air element
-      elementalProps.Air += (chakraEnergies.heart || 0) * 0.1;
-      // Solar plexus influences Fire element
-      elementalProps.Fire += (chakraEnergies.solarPlexus || 0) * 0.1;
-      // Sacral chakra influences Water element
-      elementalProps.Water += (chakraEnergies.sacral || 0) * 0.1;
+    try {
+      // Extract astro state data with safe property access
+      const astroData = astroState as unknown as Record<string, unknown>;
+      const elementalProps = astroData?.elementalProperties as Record<string, unknown>;
       
-      // Normalize to ensure sum equals 1
-      // Pattern KK-8: Advanced calculation safety for reduction and division operations
-      const sum = Object.values(elementalProps)?.reduce((a, b) => {
-        const numericA = Number(a) || 0;
-        const numericB = Number(b) || 0;
-        return numericA + numericB;
-      }, 0) || 0;
-      const numericSum = Number(sum) || 0;
-      if (numericSum > 0) {
-        Object.keys(elementalProps || {}).forEach(key => {
-          const currentValue = Number(elementalProps[key as "Fire" | "Water" | "Earth" | "Air"]) || 0;
-          elementalProps[key as "Fire" | "Water" | "Earth" | "Air"] = currentValue / numericSum;
-        });
-      }
+      // Create astrological reference profile
+      const profile: UnifiedFlavorProfile = {
+        id: `astro_${astroState.currentZodiac}`,
+        name: `Astrological Profile - ${astroState.currentZodiac}`,
+        category: 'astrological',
+        baseNotes: ['cosmic', 'celestial', 'harmonious'],
+        heartNotes: ['balanced', 'aligned', 'resonant'],
+        topNotes: ['dynamic', 'flowing', 'energetic'],
+        elementalProfile: {
+          Fire: this.safeGetNumber(elementalProps?.Fire),
+          Water: this.safeGetNumber(elementalProps?.Water),
+          Earth: this.safeGetNumber(elementalProps?.Earth),
+          Air: this.safeGetNumber(elementalProps?.Air)
+        },
+        flavorIntensity: 0.7,
+        complexity: 0.8,
+        seasonality: [getCurrentSeason()],
+        culturalOrigins: ['universal'],
+        nutritionalProfile: {
+          calories: 0,
+          protein: 0,
+          fat: 0,
+          carbohydrates: 0,
+          fiber: 0
+        },
+        preparationMethods: ['meditation', 'alignment', 'harmony'],
+        pairings: ['all ingredients'],
+        contraindications: [],
+        kalchm: 0.5,
+        monica: 0.5
+      };
+
+      return profile;
+    } catch (error) {
+      console.warn('Error creating astrological profile:', error);
+      // Return default profile
+      return {
+        id: 'default_astro',
+        name: 'Default Astrological Profile',
+        category: 'astrological',
+        baseNotes: ['neutral'],
+        heartNotes: ['balanced'],
+        topNotes: ['harmonious'],
+        elementalProfile: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
+        flavorIntensity: 0.5,
+        complexity: 0.5,
+        seasonality: ['all'],
+        culturalOrigins: ['universal'],
+        nutritionalProfile: { calories: 0, protein: 0, fat: 0, carbohydrates: 0, fiber: 0 },
+        preparationMethods: ['general'],
+        pairings: ['all'],
+        contraindications: [],
+        kalchm: 0.5,
+        monica: 0.5
+      };
     }
-    
-    return {
-      id: 'astrological-state',
-      name: 'Current Astrological State',
-      category: 'elemental',
-      baseNotes: {
-        sweet: elementalProps.Earth * 0.4 + elementalProps.Water * 0.3,
-        sour: elementalProps.Fire * 0.3 + elementalProps.Air * 0.2,
-        salty: elementalProps.Water * 0.4 + elementalProps.Earth * 0.3,
-        bitter: elementalProps.Fire * 0.4 + elementalProps.Air * 0.3,
-        umami: elementalProps.Earth * 0.5 + elementalProps.Water * 0.2,
-        spicy: elementalProps.Fire * 0.6 + elementalProps.Air * 0.2
-      },
-      elementalFlavors: elementalProps,
-      intensity: 0.5,
-      complexity: 0.5,
-      kalchm: 1.0,
-      monicaOptimization: 1.0,
-      alchemicalProperties: {
-        Spirit: elementalProps.Fire * 0.7 + elementalProps.Air * 0.3,
-        Essence: elementalProps.Water * 0.6 + elementalProps.Fire * 0.4,
-        Matter: elementalProps.Earth * 0.8 + elementalProps.Water * 0.2,
-        Substance: elementalProps.Earth * 0.5 + elementalProps.Air * 0.5
-      },
-      seasonalPeak: [getCurrentSeason() as Season],
-      seasonalModifiers: {
-        spring: 1,
-        summer: 1,
-        autumn: 1,
-        winter: 1,
-        all: 1,
-        fall: 1
-      },
-      culturalOrigins: ['universal'],
-      pairingRecommendations: [],
-      preparationMethods: ['balanced'],
-      nutritionalSynergy: 0.7,
-      temperatureOptimal: 20,
-      description: 'Current astrological and chakra state',
-      tags: ['current', 'astrological', 'chakra'],
-      lastUpdated: new Date()
-    };
   }
 }
 

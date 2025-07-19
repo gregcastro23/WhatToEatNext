@@ -238,7 +238,7 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
       // Get cooking method elemental effect or calculate it
       let elementalEffect: ElementalPropertiesType;
       if ((method as Record<string, unknown>).elementalEffect) {
-        elementalEffect = (method as Record<string, unknown>).elementalEffect;
+        elementalEffect = (method as Record<string, unknown>).elementalEffect as ElementalPropertiesType;
       } else {
         // Calculate based on cooking method characteristics
         elementalEffect = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
@@ -304,13 +304,13 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
       // Get cuisine elemental state or calculate it
       let elementalState: ElementalPropertiesType;
       if ((cuisine as Record<string, unknown>).elementalState) {
-        elementalState = (cuisine as Record<string, unknown>).elementalState;
+        elementalState = (cuisine as Record<string, unknown>).elementalState as ElementalPropertiesType;
       } else {
         // Calculate based on cuisine characteristics
         elementalState = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
         
-        const cuisineName = (cuisine?.name || key).toLowerCase();
-        const region = (cuisine?.region || '').toLowerCase();
+        const cuisineName = ((cuisine as Record<string, unknown>)?.name || key).toString().toLowerCase();
+        const region = ((cuisine as Record<string, unknown>)?.region || '').toString().toLowerCase();
         
         // Adjust by cuisine type/region
         if (cuisineName.includes('indian') || cuisineName.includes('thai') || 
@@ -379,7 +379,7 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
       const elementalProps = ingredient.elementalProperties;
       const qualities = ingredient.qualities || [];
       const modality = ingredient.modality || 
-        determineIngredientModality(qualities as unknown, elementalProps);
+        determineIngredientModality(qualities as string[], elementalProps);
       return modality === modalityFilter;
     });
   }, [ingredientsArray, modalityFilter]);
@@ -404,7 +404,7 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
     count: maxRecommendations,
     currentZodiac: resolvedCurrentZodiac,
     lunarPhase: resolvedLunarPhase,
-    tarotElementBoosts: tarotElementBoosts as unknown,
+    tarotElementBoosts: tarotElementBoosts as Record<ElementalCharacter, number>,
     tarotPlanetaryBoosts,
     aspects
   });
@@ -466,7 +466,7 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
           <div className="elemental-balance">
             <h3>Elemental Balance</h3>
             <div className="balance-bars">
-              {Object.entries(energeticProfile.elementalBalance as Element[]).map(([element, value]: [string, any]) => (
+              {Object.entries(energeticProfile.elementalBalance as Record<string, number>).map(([element, value]: [string, number]) => (
                 <div key={element} className="balance-bar">
                   <span className="element-label">{element}</span>
                   <div className="bar-container">
@@ -571,8 +571,8 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
                   </div>
                   <div className="item-modality">
                     <span className={`modality-badge ${(() => {
-                      const modalityData = ingredient.modality as Record<string, unknown>;
-                      const modalityStr = modalityData?.toLowerCase ? modalityData.toLowerCase() : (modalityData || '').toString().toLowerCase();
+                      const modalityData = ingredient.modality;
+                      const modalityStr = typeof modalityData === 'string' ? modalityData.toLowerCase() : (modalityData || '').toString().toLowerCase();
                       return modalityStr;
                     })()}`}>
                       {(ingredient.modality as React.ReactNode) || 'Unknown'}
@@ -606,8 +606,8 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
                   </div>
                   <div className="item-modality">
                     <span className={`modality-badge ${(() => {
-                      const modalityData = method.modality as Record<string, unknown>;
-                      const modalityStr = modalityData?.toLowerCase ? modalityData.toLowerCase() : (modalityData || '').toString().toLowerCase();
+                      const modalityData = method.modality;
+                      const modalityStr = typeof modalityData === 'string' ? modalityData.toLowerCase() : (modalityData || '').toString().toLowerCase();
                       return modalityStr;
                     })()}`}>
                       {(method.modality as React.ReactNode) || 'Unknown'}
@@ -641,8 +641,8 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
                   </div>
                   <div className="item-modality">
                     <span className={`modality-badge ${(() => {
-                      const modalityData = cuisine.modality as Record<string, unknown>;
-                      const modalityStr = modalityData?.toLowerCase ? modalityData.toLowerCase() : (modalityData || '').toString().toLowerCase();
+                      const modalityData = cuisine.modality;
+                      const modalityStr = typeof modalityData === 'string' ? modalityData.toLowerCase() : (modalityData || '').toString().toLowerCase();
                       return modalityStr;
                     })()}`}>
                       {(cuisine.modality as React.ReactNode) || 'Unknown'}

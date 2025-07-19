@@ -48,24 +48,24 @@ const ALL_CATEGORIES = [
  * @returns {Promise<void>}
  */
 async function updateCategories(categories) {
-  console.log(`Starting update for categories: ${categories.join(', ')}`);
+  // console.log(`Starting update for categories: ${categories.join(', ')}`);
   
   for (const category of categories) {
     const updater = categoryUpdaters[category];
     if (!updater) {
-      console.warn(`No updater found for category: ${category}`);
+      // console.warn(`No updater found for category: ${category}`);
       continue;
     }
     
-    console.log(`\n========== UPDATING ${category.toUpperCase()} ==========\n`);
+    // console.log(`\n========== UPDATING ${category.toUpperCase()} ==========\n`);
     try {
       await updater();
     } catch (error) {
-      console.error(`Error updating ${category}:`, error);
+      // console.error(`Error updating ${category}:`, error);
     }
   }
   
-  console.log('\nAll specified categories have been processed.');
+  // console.log('\nAll specified categories have been processed.');
 }
 
 // Main function
@@ -82,7 +82,7 @@ async function main() {
     );
     
     if (validCategories.length === 0) {
-      console.error(`No valid categories specified. Available categories: ${ALL_CATEGORIES.join(', ')}`);
+      // console.error(`No valid categories specified. Available categories: ${ALL_CATEGORIES.join(', ')}`);
       process.exit(1);
     }
     
@@ -95,7 +95,7 @@ async function main() {
 // Run the main function
 if (require.main === module) {
   main().catch(error => {
-    console.error('Error in main process:', error);
+    // console.error('Error in main process:', error);
     process.exit(1);
   });
 }

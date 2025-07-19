@@ -575,25 +575,25 @@ export function transformItemsWithPlanetaryPositions(
     const earth = scaledElements.Earth;
 
     // Ensure we have non-zero values for denominator
-    const safeValue = (val: number) => Math.max(val, 0.01);
+    const safeValueForHeat = (val: number) => Math.max(val, 0.01);
 
     // Heat formula: (spirit^2 + fire^2) / ((substance || 1) + essence + matter + water + air + earth)^2
     const heat =
-      (Math.pow(safeValue(boostedSpirit), 2) + Math.pow(safeValue(fire), 2)) / 
-      Math.pow(safeValue(boostedSubstance + boostedEssence + boostedMatter + water + air + earth), 2);
+      (Math.pow(safeValueForHeat(boostedSpirit), 2) + Math.pow(safeValueForHeat(fire), 2)) / 
+      Math.pow(safeValueForHeat(boostedSubstance + boostedEssence + boostedMatter + water + air + earth), 2);
 
     // Entropy formula: (spirit^2 + substance^2 + fire^2 + air^2) / ((essence || 1) + matter + earth + water)^2
     const entropy =
-      (Math.pow(safeValue(boostedSpirit), 2) + Math.pow(safeValue(boostedSubstance), 2) + 
-      Math.pow(safeValue(fire), 2) + Math.pow(safeValue(air), 2)) / 
-      Math.pow(safeValue(boostedEssence + boostedMatter + earth + water), 2);
+      (Math.pow(safeValueForHeat(boostedSpirit), 2) + Math.pow(safeValueForHeat(boostedSubstance), 2) + 
+      Math.pow(safeValueForHeat(fire), 2) + Math.pow(safeValueForHeat(air), 2)) / 
+      Math.pow(safeValueForHeat(boostedEssence + boostedMatter + earth + water), 2);
 
     // Reactivity formula: (spirit^2 + substance^2 + essence^2 + fire^2 + air^2 + water^2) / ((matter || 1) + earth)^2
     const reactivity =
-      (Math.pow(safeValue(boostedSpirit), 2) + Math.pow(safeValue(boostedSubstance), 2) + 
-      Math.pow(safeValue(boostedEssence), 2) + Math.pow(safeValue(fire), 2) + 
-      Math.pow(safeValue(air), 2) + Math.pow(safeValue(water), 2)) / 
-      Math.pow(safeValue(boostedMatter + earth), 2);
+      (Math.pow(safeValueForHeat(boostedSpirit), 2) + Math.pow(safeValueForHeat(boostedSubstance), 2) + 
+      Math.pow(safeValueForHeat(boostedEssence), 2) + Math.pow(safeValueForHeat(fire), 2) + 
+      Math.pow(safeValueForHeat(air), 2) + Math.pow(safeValueForHeat(water), 2)) / 
+      Math.pow(safeValueForHeat(boostedMatter + earth), 2);
 
     // Greg's Energy formula with consistent scaling
     const rawGregsEnergy = heat - reactivity * entropy;
@@ -638,8 +638,8 @@ export function transformItemsWithPlanetaryPositions(
           if (typeof valA === 'object' && typeof valB === 'object') {
             const dataA = valA as Record<string, unknown>;
             const dataB = valB as Record<string, unknown>;
-            const strengthA = dataA?.strength || 0;
-            const strengthB = dataB?.strength || 0;
+            const strengthA = Number(dataA?.strength) || 0;
+            const strengthB = Number(dataB?.strength) || 0;
             return strengthB - strengthA;
           }
           // Default sort for simple numeric values
@@ -657,6 +657,11 @@ export function transformItemsWithPlanetaryPositions(
       if (isNaN(val) || !isFinite(val)) return 0.2;
       return val;
     };
+
+    // Apply safe arithmetic operations with proper type checking
+    const safeValueForArithmetic = (val: number) => Math.max(val, 0.01);
+    const safeAdd = (a: number, b: number) => safeValueForArithmetic(a) + safeValueForArithmetic(b);
+    const safeMultiply = (a: number, b: number) => safeValueForArithmetic(a) * safeValueForArithmetic(b);
 
     return {
       id: item.id,
@@ -718,10 +723,10 @@ export function normalizeElementalValues(
 
   // Normalize values to sum to 1.0
   return {
-    Fire: values.Fire /total,
-    Water: values.Water /total,
-    Earth: values.Earth /total,
-    Air: values.Air /total,
+    Fire: values.Fire / total,
+    Water: values.Water / total,
+    Earth: values.Earth / total,
+    Air: values.Air / total,
   };
 }
 
@@ -729,18 +734,19 @@ export function normalizeElementalValues(
 export function getPrimaryElement(
   elementalAffinity: ElementalAffinity
 ): string {
-  const affinityData = elementalAffinity as Record<string, unknown>;
+  const affinityData = elementalAffinity as unknown as Record<string, unknown>;
   return (
     affinityData?.base || affinityData?.element || 'Fire'
-  );
+  ) as string;
 }
 
 // Get element strength if available
 export function getElementStrength(
   elementalAffinity: ElementalAffinity
 ): number {
-  const affinityData = elementalAffinity as Record<string, unknown>;
-  return affinityData?.strength || 1;
+  const affinityData = elementalAffinity as unknown as Record<string, unknown>;
+  const strength = affinityData?.strength as number;
+  return typeof strength === 'number' ? strength : 1;
 }
 
 /**
@@ -829,8 +835,8 @@ export function getStrengtheningElement(element: Element): Element {
  * @returns Enhanced vegetables with complete transformation properties
  */
 export function enhanceVegetableTransformations(
-  vegetables: Record<string, Record<string, string>>
-): Record<string, Record<string, string>> {
+  vegetables: Record<string, Record<string, unknown>>
+): Record<string, Record<string, unknown>> {
   return Object.entries(vegetables).reduce((acc, [key, vegetable]) => {
     // Skip if not an object
     if (typeof vegetable !== 'object' || vegetable === null) {
@@ -868,11 +874,12 @@ export function enhanceVegetableTransformations(
     }
 
     // Add thermodynamic changes if they don't exist
+    const transformation = enhanced.elementalTransformation as Record<string, unknown>;
     if (
-      enhanced.elementalTransformation &&
-      !enhanced.elementalTransformation.thermodynamicChanges
+      transformation &&
+      !transformation.thermodynamicChanges
     ) {
-      enhanced.elementalTransformation.thermodynamicChanges = {
+      transformation.thermodynamicChanges = {
         cooked: {
           heat: 0.1,
           entropy: 0.05,
@@ -1130,7 +1137,7 @@ export function enhanceVegetableTransformations(
       };
 
       // Select appropriate profile or use default
-      const profile = profiles[subCategory] || {
+      const profile = profiles[String(subCategory)] || {
         taste: {
           sweet: 0.25,
           bitter: 0.25,
@@ -1178,16 +1185,16 @@ export function enhanceOilProperties(
     const enhancedOil = { ...oil };
 
     // Ensure basic properties exist
-    enhancedOil.category = enhancedOil.category || 'oil';
-    enhancedOil.elementalProperties = enhancedOil.elementalProperties || {
+    enhancedOil.category = String(enhancedOil.category || 'oil');
+    enhancedOil.elementalProperties = String(JSON.stringify(enhancedOil.elementalProperties || {
       Fire: 0.3,
       Water: 0.2,
       Earth: 0.3,
       Air: 0.2,
-    };
-    enhancedOil.qualities = Array.isArray(enhancedOil.qualities)
-      ? enhancedOil.qualities
-      : [];
+    }));
+    enhancedOil.qualities = String(Array.isArray(enhancedOil.qualities)
+      ? JSON.stringify(enhancedOil.qualities)
+      : JSON.stringify([]));
 
     // Create default sensory profile if none exists
     if (!enhancedOil.sensoryProfile) {
@@ -1208,7 +1215,7 @@ export function enhanceOilProperties(
       const isTropical =
         oilType.includes('coconut') || oilType.includes('palm');
 
-      enhancedOil.sensoryProfile = {
+      enhancedOil.sensoryProfile = String(JSON.stringify({
         taste: {
           sweet: isFruity || isTropical ? 0.6 : 0.2,
           bitter: isNutty ? 0.4 : 0.1,
@@ -1227,7 +1234,7 @@ export function enhanceOilProperties(
           mouthfeel: isFruity || isNutty ? 0.8 : 0.5,
           richness: isFruity || isNutty || isTropical ? 0.7 : 0.4,
         },
-      };
+      }));
     }
 
     // Enhance culinary applications if present
@@ -1237,8 +1244,8 @@ export function enhanceOilProperties(
         ([appType, application]) => {
           if (application && typeof application === 'object') {
             const appData = application as Record<string, unknown>;
-            enhancedOil.culinaryApplications[appType] = {
-              ...application,
+            enhancedOil.culinaryApplications[appType] = String(JSON.stringify({
+              ...(application as Record<string, unknown>),
               elementalEffect: appData?.elementalEffect || {
                 Fire:
                   appType === 'frying' ||
@@ -1263,13 +1270,14 @@ export function enhanceOilProperties(
                 substance:
                   appType === 'frying' || appType === 'highHeat' ? 0.2 : 0.1,
               },
-            };
+            }));
           }
         }
       );
     } else {
       // Create default culinary applications based on smoke point and oil type
-      const smokePoint = enhancedOil.smokePoint?.fahrenheit || 0;
+      const smokePointData = (enhancedOil.smokePoint as unknown) as Record<string, unknown>;
+      const smokePoint = Number(smokePointData?.fahrenheit) || 0;
       const isHighHeat = smokePoint > 400;
       const isMediumHeat = smokePoint > 325 && smokePoint <= 400;
       const isLowHeat = smokePoint <= 325;
@@ -1279,7 +1287,7 @@ export function enhanceOilProperties(
         key.toLowerCase().includes('sesame') ||
         key.toLowerCase().includes('pumpkin');
 
-      enhancedOil.culinaryApplications = {
+      enhancedOil.culinaryApplications = String(JSON.stringify({
         ...(isHighHeat
           ? {
               frying: {
@@ -1321,12 +1329,12 @@ export function enhanceOilProperties(
               },
             }
           : {}),
-      };
+      }));
     }
 
     // Add cooking transformations if they don't exist
     if (!enhancedOil.elementalTransformation) {
-      enhancedOil.elementalTransformation = {
+      enhancedOil.elementalTransformation = String(JSON.stringify({
         whenHeated: {
           Fire: 0.2,
           Air: 0.1,
@@ -1351,27 +1359,29 @@ export function enhanceOilProperties(
           Earth: -0.05,
           Water: -0.05,
         },
-      };
+      }));
     }
 
     // Add thermodynamic properties if they don't exist
     if (!enhancedOil.thermodynamicProperties) {
       // Base on smoke point if available
-      const smokePoint = enhancedOil.smokePoint?.fahrenheit || 350;
+      const smokePointData = (enhancedOil.smokePoint as unknown) as Record<string, unknown>;
+      const smokePoint = Number(smokePointData?.fahrenheit) || 350;
       const normalizedSmokePoint = (smokePoint - 300) / 250; // Normalize between 300-550°F
       const heatValue = 0.5 + normalizedSmokePoint * 0.4; // Scale 0.5-0.9
 
-      enhancedOil.thermodynamicProperties = {
+      enhancedOil.thermodynamicProperties = String(JSON.stringify({
         heat: Math.min(Math.max(heatValue, 0.3), 0.9),
         entropy: 0.4,
         reactivity: 0.6,
         energy: 0.7,
-      };
+      }));
     }
 
     // Add recommended cooking methods if they don't exist
     if (!enhancedOil.recommendedCookingMethods) {
-      const smokePoint = enhancedOil.smokePoint?.fahrenheit || 0;
+      const smokePointData = (enhancedOil.smokePoint as unknown) as Record<string, unknown>;
+      const smokePoint = Number(smokePointData?.fahrenheit) || 0;
       const methods = [];
 
       if (smokePoint > 400) {
@@ -1391,7 +1401,7 @@ export function enhanceOilProperties(
         methods.push({ name: 'drizzling', potency: 1.0 });
       }
 
-      enhancedOil.recommendedCookingMethods = methods;
+      enhancedOil.recommendedCookingMethods = String(JSON.stringify(methods));
     }
 
     acc[key] = enhancedOil;
@@ -1497,11 +1507,11 @@ export function fixRawIngredientMappings(
     const valueData = value as Record<string, unknown>;
     // Ensure elemental properties are normalized
     const elementalProperties = normalizeProperties(
-      valueData?.elementalProperties || {}
+      (valueData?.elementalProperties as Partial<ElementalProperties>) || {}
     );
 
     // Create a standardized astrological profile if one doesn't exist
-    const astroProfile = valueData?.astrologicalProfile || {};
+    const astroProfile = (valueData?.astrologicalProfile as Record<string, unknown>) || {};
 
     // Determine base elemental affinity if not provided
     if (!astroProfile.elementalAffinity) {

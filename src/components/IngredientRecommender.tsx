@@ -150,11 +150,14 @@ export default function IngredientRecommender({
   const handleIngredientSelect = (item: unknown, e: React.MouseEvent) => {
     e.stopPropagation();
     
+    // ✅ Pattern MM-1: Safe type assertion for ingredient data
+    const itemData = (item as unknown) as Record<string, unknown>;
+    
     // Toggle selected ingredient
-    if (selectedIngredient?.name === item.name) {
+    if (selectedIngredient?.name === String(itemData?.name || '')) {
       setSelectedIngredient(null);
     } else {
-      setSelectedIngredient(item);
+      setSelectedIngredient(item as IngredientRecommendation);
       
       // Call prop callback if provided
       if (onIngredientSelect) {
@@ -164,8 +167,8 @@ export default function IngredientRecommender({
       // Store selection in session storage for context preservation
       try {
         sessionStorage.setItem('selectedIngredient', JSON.stringify({
-          name: (item as any).name,
-          category: (item as any).category,
+          name: String(itemData?.name || ''),
+          category: String(itemData?.category || ''),
           timestamp: Date.now()
         }));
       } catch (error) {
@@ -337,24 +340,24 @@ export default function IngredientRecommender({
   
   // Helper function to check if an ingredient is a vinegar
   const isVinegar = (ingredient: unknown): boolean => {
-    // Extract ingredient data with safe property access
-    const ingredientData = ingredient as Record<string, unknown>;
-    const _category = ingredientData?.category?.toLowerCase() || '';
+    // ✅ Pattern MM-1: Safe type assertion for ingredient data
+    const ingredientData = (ingredient as unknown) as Record<string, unknown>;
+    const _category = String(ingredientData?.category || '').toLowerCase();
     if (_category === 'vinegar' || _category === 'vinegars') return true;
     
-    const name = ingredientData?.name?.toLowerCase() || '';
+    const name = String(ingredientData?.name || '').toLowerCase();
     return vinegarTypes.some(vinegar => name.includes(vinegar.toLowerCase()));
   };
   
   // Helper function to get normalized category
   const getNormalizedCategory = (ingredient: unknown): string => {
-    // Extract ingredient data with safe property access
-    const ingredientData = ingredient as Record<string, unknown>;
+    // ✅ Pattern MM-1: Safe type assertion for ingredient data
+    const ingredientData = (ingredient as unknown) as Record<string, unknown>;
     const categoryProperty = ingredientData?.category;
     
     if (!categoryProperty) return 'other';
     
-    const _category = categoryProperty.toLowerCase();
+    const _category = String(categoryProperty || '').toLowerCase();
     
     // Map categories to our standard ones
     if (['vegetable', 'vegetables'].includes(_category)) return 'vegetables';
@@ -609,7 +612,10 @@ export default function IngredientRecommender({
             Air: 0.2, 
             Fire: 0.1 
           },
-          qualities: (vinegarData as Record<string, unknown>).qualities || ['acidic', 'tangy', 'flavorful'],
+          // ✅ Pattern GG-6: Safe property access for vinegar qualities
+          qualities: Array.isArray(((vinegarData as unknown) as Record<string, unknown>)?.qualities) ? 
+            ((vinegarData as unknown) as Record<string, unknown>)?.qualities as string[] : 
+            ['acidic', 'tangy', 'flavorful'],
           description: `${displayName} - A versatile acidic component for your culinary creations.`
         } as IngredientRecommendation;
       });
@@ -635,8 +641,12 @@ export default function IngredientRecommender({
               Earth: 0.3, 
               Air: 0.2 
             },
-            qualities: (oilData as Record<string, unknown>).qualities || ['cooking', 'flavoring'],
-            description: `${oilData.name || key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())} - ${(oilData as string).description || "A versatile cooking oil with various applications."}`
+            // ✅ Pattern GG-6: Safe property access for oil qualities
+            qualities: Array.isArray(((oilData as unknown) as Record<string, unknown>)?.qualities) ? 
+              ((oilData as unknown) as Record<string, unknown>)?.qualities as string[] : 
+              ['cooking', 'flavoring'],
+            // ✅ Pattern MM-1: Safe type assertion for oil description
+            description: `${oilData.name || key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())} - ${String(((oilData as unknown) as Record<string, unknown>)?.description || "A versatile cooking oil with various applications.")}`
           } as IngredientRecommendation;
         });
       

@@ -1,9 +1,0 @@
-{
-  "name": "typescript-fixes",
-  "version": "1.0.0",
-  "description": "Scripts to fix TypeScript issues in WhatToEatNext",
-  "type": "module",
-  "scripts": {
-    "replace-ingredients": "node replace-unified-ingredients.js"
-  }
-} 

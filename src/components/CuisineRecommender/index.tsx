@@ -125,16 +125,21 @@ export const CuisineRecommender: React.FC<CuisineRecommenderProps> = ({
             </div>
             <div className="dominant-planets">
               <strong>Dominant Planets:</strong>
-              {(celestialData?.dominantPlanets || []).map(planet => (
-                <span key={(planet as Record<string, unknown>).name} className="planet-tag">
-                  {(planet as Record<string, unknown>).name} ({((planet as Record<string, unknown>).influence * 100)?.toFixed(0)}%)
-                </span>
-              ))}
+              {(celestialData?.dominantPlanets || []).map((planet, index) => {
+                const planetData = planet as Record<string, unknown>;
+                const planetName = String(planetData?.name || `Planet ${index}`);
+                const planetInfluence = Number(planetData?.influence || 0);
+                return (
+                  <span key={planetName} className="planet-tag">
+                    {planetName} ({(planetInfluence * 100)?.toFixed(0)}%)
+                  </span>
+                );
+              })}
             </div>
             <div className="elemental-balance">
               <strong>Elemental Balance:</strong>
               <div className="elements">
-                {Object.entries((celestialData as Element[])?.elementalState || {}).map(([element, value]) => (
+                {Object.entries((celestialData as Record<string, unknown>)?.elementalState as Record<string, number> || {}).map(([element, value]) => (
                   <div key={element} className="element-bar">
                     <span className="element-name">{element}:</span>
                     <div className="bar">

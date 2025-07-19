@@ -84,14 +84,16 @@ export class LegacyRecipeAdapter {
     options: RecipeRecommendationOptions = {}
   ): Promise<Recipe[]> {
     try {
-      // ✅ Pattern MM-1: Convert criteria object to string for searchRecipes
-      const searchQuery = (criteria as Record<string, unknown>)?.query || JSON.stringify(criteria);
+      // ✅ Pattern MM-1: Safe type conversion for search criteria
+      const criteriaData = (criteria as unknown) as Record<string, unknown>;
+      const searchQuery = String(criteriaData?.query || JSON.stringify(criteria));
       const recipes = await unifiedRecipeService.searchRecipes(searchQuery);
       return recipes as unknown as Recipe[];
     } catch (error) {
       logger.error('Error in searchRecipes:', error);
       // ✅ Pattern MM-1: Safe argument type conversion for string parameter
-      const queryValue = (criteria as Record<string, unknown>)?.query;
+      const criteriaData = (criteria as unknown) as Record<string, unknown>;
+      const queryValue = criteriaData?.query;
       if (queryValue && typeof queryValue === 'string') {
         const recipes = await LocalRecipeService.searchRecipes(queryValue);
         return recipes as unknown as Recipe[];
@@ -126,8 +128,8 @@ export class LegacyRecipeAdapter {
    */
   public async getRecipesByZodiac(zodiacSign: ZodiacSign): Promise<Recipe[]> {
     try {
-      // ✅ Pattern MM-1: Convert object argument to string for searchRecipes
-      const searchQuery = `zodiac:${zodiacSign}`;
+      // ✅ Pattern MM-1: Safe string conversion for zodiac search
+      const searchQuery = `zodiac:${String(zodiacSign || '')}`;
       const recipes = await unifiedRecipeService.searchRecipes(searchQuery);
       return recipes as unknown as Recipe[];
     } catch (error) {
@@ -148,14 +150,16 @@ export class LegacyRecipeAdapter {
    */
   public async getRecipesBySeason(season: Season): Promise<Recipe[]> {
     try {
-      // Apply safe type casting for service access
-      const serviceData = unifiedRecipeService as Record<string, unknown>;
-      if (serviceData?.getRecipesBySeason) {
-        const recipes = await serviceData.getRecipesBySeason(season);
+      // ✅ Pattern MM-1: Safe type assertion for service access
+      const serviceData = (unifiedRecipeService as unknown) as Record<string, unknown>;
+      // ✅ Pattern GG-6: Safe method call with proper typing
+      const methodCall = serviceData.getRecipesBySeason as ((season: Season) => Promise<Recipe[]>) | undefined;
+      if (methodCall) {
+        const recipes = await methodCall(season);
         return recipes as unknown as Recipe[];
       }
-      // ✅ Pattern MM-1: Convert object argument to string for searchRecipes
-      const searchQuery = `season:${season}`;
+      // ✅ Pattern MM-1: Safe string conversion for season search
+      const searchQuery = `season:${String(season || '')}`;
       const recipes = await unifiedRecipeService.searchRecipes(searchQuery);
       return recipes as unknown as Recipe[];
     } catch (error) {
@@ -171,14 +175,16 @@ export class LegacyRecipeAdapter {
    */
   public async getRecipesByLunarPhase(lunarPhase: LunarPhase): Promise<Recipe[]> {
     try {
-      // Apply safe type casting for service access
-      const serviceData = unifiedRecipeService as LunarPhase;
-      if (serviceData?.getRecipesByLunarPhase) {
-        const recipes = await serviceData.getRecipesByLunarPhase(lunarPhase);
+      // ✅ Pattern MM-1: Safe type assertion for service access (fixed type)
+      const serviceData = (unifiedRecipeService as unknown) as Record<string, unknown>;
+      // ✅ Pattern GG-6: Safe method call with proper typing
+      const lunarMethod = serviceData.getRecipesByLunarPhase as ((phase: LunarPhase) => Promise<Recipe[]>) | undefined;
+      if (lunarMethod) {
+        const recipes = await lunarMethod(lunarPhase);
         return recipes as unknown as Recipe[];
       }
-      // ✅ Pattern MM-1: Convert object argument to string for searchRecipes
-      const searchQuery = `lunar:${lunarPhase.replace(' ', '-')}`;
+      // ✅ Pattern MM-1: Safe string conversion for lunar search
+      const searchQuery = `lunar:${String(lunarPhase || '').replace(' ', '-')}`;
       const recipes = await unifiedRecipeService.searchRecipes(searchQuery);
       return recipes as unknown as Recipe[];
     } catch (error) {
@@ -199,14 +205,16 @@ export class LegacyRecipeAdapter {
    */
   public async getRecipesByMealType(mealType: string): Promise<Recipe[]> {
     try {
-      // Apply safe type casting for service access
-      const serviceData = unifiedRecipeService as Record<string, unknown>;
-      if (serviceData?.getRecipesByMealType) {
-        const recipes = await serviceData.getRecipesByMealType(mealType);
+      // ✅ Pattern MM-1: Safe type assertion for service access
+      const serviceData = (unifiedRecipeService as unknown) as Record<string, unknown>;
+      // ✅ Pattern GG-6: Safe method call with proper typing
+      const mealMethod = serviceData.getRecipesByMealType as ((mealType: string) => Promise<Recipe[]>) | undefined;
+      if (mealMethod) {
+        const recipes = await mealMethod(mealType);
         return recipes as unknown as Recipe[];
       }
-      // ✅ Pattern MM-1: Convert object argument to string for searchRecipes
-      const searchQuery = `meal:${mealType}`;
+      // ✅ Pattern MM-1: Safe string conversion for meal search
+      const searchQuery = `meal:${String(mealType || '')}`;
       const recipes = await unifiedRecipeService.searchRecipes(searchQuery);
       return recipes as unknown as Recipe[];
     } catch (error) {
@@ -249,13 +257,16 @@ export class LegacyRecipeAdapter {
    */
   public async generateRecipe(criteria: RecipeSearchCriteria): Promise<Recipe> {
     try {
-      // Apply safe type casting for service access
-      const serviceData = unifiedRecipeService as Record<string, unknown>;
-      if (serviceData?.generateRecipe) {
-        return await serviceData.generateRecipe(criteria);
+      // ✅ Pattern MM-1: Safe type assertion for service access
+      const serviceData = (unifiedRecipeService as unknown) as Record<string, unknown>;
+      // ✅ Pattern GG-6: Safe method call with proper typing
+      const generateMethod = serviceData.generateRecipe as ((criteria: RecipeSearchCriteria) => Promise<Recipe>) | undefined;
+      if (generateMethod) {
+        return await generateMethod(criteria);
       }
-      // ✅ Pattern MM-1: Convert criteria object to string for searchRecipes  
-      const searchQuery = (criteria as Record<string, unknown>)?.query || JSON.stringify(criteria);
+      // ✅ Pattern MM-1: Safe type conversion for criteria search
+      const criteriaData = (criteria as unknown) as Record<string, unknown>;
+      const searchQuery = String(criteriaData?.query || JSON.stringify(criteria));
       const searchResults = await unifiedRecipeService.searchRecipes(searchQuery) as Recipe[];
       if (searchResults.length > 0) {
         return searchResults[0];
@@ -272,10 +283,12 @@ export class LegacyRecipeAdapter {
    */
   public calculateElementalProperties(recipe: Partial<Recipe>): ElementalProperties {
     try {
-      // Apply safe type casting for service access
-      const serviceData = unifiedRecipeService as Record<string, unknown>;
-      if (serviceData?.calculateElementalProperties) {
-        return serviceData.calculateElementalProperties(recipe) as unknown as ElementalProperties;
+      // ✅ Pattern MM-1: Safe type assertion for service access
+      const serviceData = (unifiedRecipeService as unknown) as Record<string, unknown>;
+      // ✅ Pattern GG-6: Safe method call with proper typing
+      const calculateMethod = serviceData.calculateElementalProperties as ((recipe: Partial<Recipe>) => ElementalProperties) | undefined;
+      if (calculateMethod) {
+        return calculateMethod(recipe);
       }
       // Enhanced fallback - calculate based on available recipe data
       const defaultProperties = { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
@@ -302,10 +315,12 @@ export class LegacyRecipeAdapter {
    */
   public clearCache(): void {
     try {
-      // Apply safe type casting for service access
-      const serviceData = unifiedRecipeService as Record<string, unknown>;
-      if (serviceData?.clearCache) {
-        serviceData.clearCache();
+      // ✅ Pattern MM-1: Safe type assertion for service access
+      const serviceData = (unifiedRecipeService as unknown) as Record<string, unknown>;
+      // ✅ Pattern GG-6: Safe method call with proper typing
+      const clearMethod = serviceData.clearCache as (() => void) | undefined;
+      if (clearMethod) {
+        clearMethod();
       }
       logger.info('Recipe cache cleared (or not available)');
     } catch (error) {

@@ -72,8 +72,8 @@ export default function TarotFoodDisplay({ onTarotLoaded }: TarotFoodDisplayProp
       if (hasSunPosition(currentPlanetaryAlignment as unknown as Record<string, unknown>)) {
         const sunData = currentPlanetaryAlignment.Sun as Record<string, unknown>;
         sunPosition = {
-          sign: sunData?.sign || '',
-          degree: sunData?.degree || 0
+          sign: String(sunData?.sign || ''),
+          degree: Number(sunData?.degree || 0)
         };
       }
       
@@ -123,8 +123,8 @@ export default function TarotFoodDisplay({ onTarotLoaded }: TarotFoodDisplayProp
     if (!card) return { Spirit: 0, Essence: 0, Matter: 0, Substance: 0 };
     
     const cardData = card as Record<string, unknown>;
-    const suit = cardData?.name?.split(' of ')[1];
-    const number = cardData?.number || 0;
+    const suit = String(cardData?.name || '').split(' of ')[1];
+    const number = Number(cardData?.number || 0);
     
     // Create base object with all values at 0
     const values = { Spirit: 0, Essence: 0, Matter: 0, Substance: 0 };
@@ -163,10 +163,10 @@ export default function TarotFoodDisplay({ onTarotLoaded }: TarotFoodDisplayProp
 
   // Safe access to tarot card properties
   const minorCardData = tarotCards.minorCard as Record<string, unknown>;
-  const suit = minorCardData?.name?.split(' ')[2];
+  const suit = String(minorCardData?.name || '').split(' ')[2];
   const element = suit ? (SUIT_TO_ELEMENT[suit as keyof typeof SUIT_TO_ELEMENT] || 'Unknown') : 'Unknown';
   const token = suit ? (SUIT_TO_TOKEN[suit as keyof typeof SUIT_TO_TOKEN] || 'Quantum') : 'Quantum';
-  const value = minorCardData?.number || 0;
+  const value = Number(minorCardData?.number || 0);
 
   return (
     <div className="mb-6 mt-2">
@@ -179,7 +179,7 @@ export default function TarotFoodDisplay({ onTarotLoaded }: TarotFoodDisplayProp
         <span>Updated daily with planetary positions</span>
         {hasSunPosition(currentPlanetaryAlignment as unknown as Record<string, unknown>) && (
           <span className="ml-3">
-            • Sun: {(currentPlanetaryAlignment.Sun as Record<string, unknown>)?.sign} {Math.floor((currentPlanetaryAlignment.Sun as Record<string, unknown>)?.degree || 0)}°
+            • Sun: {String((currentPlanetaryAlignment.Sun as Record<string, unknown>)?.sign)} {Math.floor(Number((currentPlanetaryAlignment.Sun as Record<string, unknown>)?.degree || 0))}°
           </span>
         )}
       </div>

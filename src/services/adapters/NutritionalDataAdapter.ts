@@ -88,12 +88,15 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
       return await fetchNutritionalData(foodName) as unknown as import('@/types/alchemy').NutritionalProfile;
     } catch (error) {
       // Use safe type casting for errorHandler service access
-      const errorHandlerService = errorHandler as Record<string, unknown>;
-      errorHandlerService?.logError?.(error, {
-        context: 'NutritionalDataAdapter',
-        action: 'getNutritionalData',
-        foodName
-      });
+      const errorHandlerService = (errorHandler as unknown) as Record<string, unknown>;
+      const logError = errorHandlerService?.logError as Function;
+      if (typeof logError === 'function') {
+        logError(error, {
+          context: 'NutritionalDataAdapter',
+          action: 'getNutritionalData',
+          foodName
+        });
+      }
       return null;
     }
   }
@@ -103,14 +106,17 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
    */
   calculateNutritionalBalance(ingredients: unknown[]): NutritionalProfile {
     try {
-      return calculateNutritionalBalance(ingredients) as unknown as import('@/types/alchemy').NutritionalProfile;
+      return calculateNutritionalBalance(ingredients as any) as unknown as import('@/types/alchemy').NutritionalProfile;
     } catch (error) {
       // Use safe type casting for errorHandler service access
-      const errorHandlerService = errorHandler as Record<string, unknown>;
-      errorHandlerService?.logError?.(error, {
-        context: 'NutritionalDataAdapter',
-        action: 'calculateNutritionalBalance'
-      });
+      const errorHandlerService = (errorHandler as unknown) as Record<string, unknown>;
+      const logError = errorHandlerService?.logError as Function;
+      if (typeof logError === 'function') {
+        logError(error, {
+          context: 'NutritionalDataAdapter',
+          action: 'calculateNutritionalBalance'
+        });
+      }
       return {
         calories: 0,
         macros: {
@@ -141,11 +147,14 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
       }) as ElementalProperties;
     } catch (error) {
       // Use safe type casting for errorHandler service access
-      const errorHandlerService = errorHandler as Record<string, unknown>;
-      errorHandlerService?.logError?.(error, {
-        context: 'NutritionalDataAdapter',
-        action: 'convertNutritionalToElemental'
-      });
+      const errorHandlerService = (errorHandler as unknown) as Record<string, unknown>;
+      const logError = errorHandlerService?.logError as Function;
+      if (typeof logError === 'function') {
+        logError(error, {
+          context: 'NutritionalDataAdapter',
+          action: 'convertNutritionalToElemental'
+        });
+      }
       return createElementalProperties({ Fire: 0, Water: 0, Earth: 0, Air: 0 }) as ElementalProperties;
     }
   }
@@ -160,8 +169,7 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
   } {
     try {
       // Convert sign to string for the original function with safe type casting
-      const signData = sign as Record<string, unknown>;
-      const signStr = typeof sign === 'string' ? signData?.toLowerCase() : String(signData)?.toLowerCase();
+      const signStr = typeof sign === 'string' ? sign.toLowerCase() : String(sign).toLowerCase();
       
       // Get recommendations
       const result = getZodiacNutritionalRecommendations(signStr);
@@ -174,12 +182,15 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
       };
     } catch (error) {
       // Use safe type casting for errorHandler service access
-      const errorHandlerService = errorHandler as Record<string, unknown>;
-      errorHandlerService?.logError?.(error, {
-        context: 'NutritionalDataAdapter',
-        action: 'getZodiacNutritionalRecommendations',
-        sign: String(sign)
-      });
+      const errorHandlerService = (errorHandler as unknown) as Record<string, unknown>;
+      const logError = errorHandlerService?.logError as Function;
+      if (typeof logError === 'function') {
+        logError(error, {
+          context: 'NutritionalDataAdapter',
+          action: 'getZodiacNutritionalRecommendations',
+          sign: String(sign)
+        });
+      }
       return {
         focusNutrients: [],
         recommendedFoods: [],
@@ -203,11 +214,14 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
       return getPlanetaryNutritionalRecommendations(planetStrings);
     } catch (error) {
       // Use safe type casting for errorHandler service access
-      const errorHandlerService = errorHandler as Record<string, unknown>;
-      errorHandlerService?.logError?.(error, {
-        context: 'NutritionalDataAdapter',
-        action: 'getPlanetaryNutritionalRecommendations'
-      });
+      const errorHandlerService = (errorHandler as unknown) as Record<string, unknown>;
+      const logError = errorHandlerService?.logError as Function;
+      if (typeof logError === 'function') {
+        logError(error, {
+          context: 'NutritionalDataAdapter',
+          action: 'getPlanetaryNutritionalRecommendations'
+        });
+      }
       return {
         focusNutrients: [],
         healthAreas: [],
@@ -253,13 +267,16 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
       };
     } catch (error) {
       // Use safe type casting for errorHandler service access
-      const errorHandlerService = errorHandler as Record<string, unknown>;
-      errorHandlerService?.logError?.(error, {
-        context: 'NutritionalDataAdapter',
-        action: 'getEnhancedPlanetaryNutritionalRecommendations',
-        planetaryDay: String(planetaryDay),
-        planetaryHour: String(planetaryHour)
-      });
+      const errorHandlerService = (errorHandler as unknown) as Record<string, unknown>;
+      const logError = errorHandlerService?.logError as Function;
+      if (typeof logError === 'function') {
+        logError(error, {
+          context: 'NutritionalDataAdapter',
+          action: 'getEnhancedPlanetaryNutritionalRecommendations',
+          planetaryDay: String(planetaryDay),
+          planetaryHour: String(planetaryHour)
+        });
+      }
       return {
         elements: createElementalProperties({ Fire: 0, Water: 0, Earth: 0, Air: 0 }),
         focusNutrients: [],
@@ -323,11 +340,14 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
       return evaluateNutritionalElementalBalance(profile as unknown, legacyTargetElements);
     } catch (error) {
       // Use safe type casting for errorHandler service access
-      const errorHandlerService = errorHandler as Record<string, unknown>;
-      errorHandlerService?.logError?.(error, {
-        context: 'NutritionalDataAdapter',
-        action: 'evaluateNutritionalElementalBalance'
-      });
+      const errorHandlerService = (errorHandler as unknown) as Record<string, unknown>;
+      const logError = errorHandlerService?.logError as Function;
+      if (typeof logError === 'function') {
+        logError(error, {
+          context: 'NutritionalDataAdapter',
+          action: 'evaluateNutritionalElementalBalance'
+        });
+      }
       return {
         score: 0.5, // Default moderate score
         imbalances: [],

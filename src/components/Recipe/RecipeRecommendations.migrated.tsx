@@ -328,9 +328,9 @@ const RecipeRecommendationsMigrated: React.FC<RecipeRecommendationsProps> = ({ f
 
   // Load astrological data when services are available
   useEffect(() => {
-    // Fix TS2339: Property 'elementalCalculator' does not exist on type
-    const servicesData = useServices() as Record<string, unknown>;
-    const elementalCalculatorService = (servicesData as Record<string, unknown>)?.elementalCalculator;
+    // ✅ Pattern MM-1: Safe type assertion for service access
+    const servicesData = (useServices() as unknown) as Record<string, unknown>;
+    const elementalCalculatorService = servicesData?.elementalCalculator as { calculateElementalProperties: (positions: Record<string, number>, daytime: boolean) => Promise<ElementalProperties> } | undefined;
     
     if (servicesLoading || !astrologyService || !elementalCalculatorService) {
       return;
@@ -345,9 +345,11 @@ const RecipeRecommendationsMigrated: React.FC<RecipeRecommendationsProps> = ({ f
         const formattedPositions: { [key: string]: number } = {};
         
         // Convert positions to degree values with proper error handling
+        // ✅ Pattern GG-6: Safe property access for planetary positions
         Object.entries(positions || {}).forEach(([planet, data]) => {
-          if (typeof data === 'object' && data !== null && 'exactLongitude' in data) {
-            formattedPositions[planet] = (data as Record<string, unknown>).exactLongitude;
+          const positionData = (data as unknown) as Record<string, unknown>;
+          if (positionData && typeof positionData === 'object' && positionData.exactLongitude !== undefined) {
+            formattedPositions[planet] = Number(positionData.exactLongitude || 0);
           }
         });
         
@@ -358,21 +360,31 @@ const RecipeRecommendationsMigrated: React.FC<RecipeRecommendationsProps> = ({ f
         setIsDaytime(daytime);
         
         // Get zodiac sign
-        // Fix TS2339: Property 'getChartData' does not exist on type 'AstrologyService'
-        const astrologyServiceData = astrologyService as Record<string, unknown>;
-        const chartData = await astrologyServiceData?.getChartData?.();
-        if (chartData && chartData.Sun && chartData.Sun.sign) {
-          setZodiacSign(chartData.Sun.sign as ZodiacSign);
+        // ✅ Pattern MM-1: Safe type assertion for service access
+        const astrologyServiceData = (astrologyService as unknown) as Record<string, unknown>;
+        // ✅ Pattern GG-6: Safe method call with proper typing
+        const chartMethod = astrologyServiceData?.getChartData as (() => Promise<Record<string, unknown>>) | undefined;
+        if (chartMethod) {
+          const chartData = await chartMethod();
+          const sunData = (chartData?.Sun as unknown) as Record<string, unknown>;
+          if (sunData?.sign) {
+            setZodiacSign(String(sunData.sign) as ZodiacSign);
+          }
         }
         
         // Get lunar phase
-        // Fix TS2339: Property 'getCurrentLunarPhase' does not exist on type 'AstrologyService'
-        const phase = await astrologyServiceData?.getCurrentLunarPhase?.();
-        setLunarPhase(phase);
+        // ✅ Pattern GG-6: Safe method call with proper typing
+        const lunarMethod = astrologyServiceData?.getCurrentLunarPhase as (() => Promise<string>) | undefined;
+        if (lunarMethod) {
+          const phase = await lunarMethod();
+          setLunarPhase(String(phase || ''));
+        }
         
         // Calculate elemental properties based on planetary positions
-        const properties = await elementalCalculatorService.calculateElementalProperties(formattedPositions, daytime);
-        setElementalState(properties);
+        if (elementalCalculatorService) {
+          const properties = await elementalCalculatorService.calculateElementalProperties(formattedPositions, daytime);
+          setElementalState(properties);
+        }
       } catch (err) {
         const errorMessage = err instanceof Error ? err.message : 'Unknown error';
         setError(`Failed to load astrological data: ${errorMessage}`);
@@ -392,10 +404,16 @@ const RecipeRecommendationsMigrated: React.FC<RecipeRecommendationsProps> = ({ f
     const loadCuisinesData = async () => {
       try {
         setError(null);
-        // Fix TS2339: Property 'getAllCuisines' does not exist on type 'UnifiedRecipeService'
-        const recipeServiceData = recipeService as Record<string, unknown>;
-        const cuisinesData = await recipeServiceData?.getAllCuisines?.() || {};
-        setCuisines(cuisinesData);
+        // ✅ Pattern MM-1: Safe type assertion for service access
+        const recipeServiceData = (recipeService as unknown) as Record<string, unknown>;
+        // ✅ Pattern GG-6: Safe method call with proper typing
+        const cuisinesMethod = recipeServiceData?.getAllCuisines as (() => Promise<Record<string, CuisineData>>) | undefined;
+        if (cuisinesMethod) {
+          const cuisinesData = await cuisinesMethod();
+          setCuisines(cuisinesData || {});
+        } else {
+          setCuisines({});
+        }
       } catch (err) {
         const errorMessage = err instanceof Error ? err.message : 'Unknown error';
         setError(`Failed to load cuisines data: ${errorMessage}`);
@@ -430,8 +448,8 @@ const RecipeRecommendationsMigrated: React.FC<RecipeRecommendationsProps> = ({ f
       setIsLoading(true);
       try {
         setError(null);
-        const recipesData = await recipeService.searchRecipes(filters.dietaryPreference as Record<string, unknown>);
-        setRecipes(recipesData as unknown);
+        const recipesData = await recipeService.searchRecipes(String(filters.dietaryPreference));
+        setRecipes((recipesData as unknown) as RecipeType[]);
       } catch (err) {
         const errorMessage = err instanceof Error ? err.message : 'Unknown error';
         setError(`Failed to fetch recipes: ${errorMessage}`);
@@ -482,10 +500,12 @@ const RecipeRecommendationsMigrated: React.FC<RecipeRecommendationsProps> = ({ f
 
   // Multi-factor scoring system
   const calculateRecommendationScore = (item: unknown, astroData: Record<string, unknown>): RecommendationScore => {
-    const elementalMatch = calculateElementalMatch(item.elementalProperties, astroData?.dominantElements) * 0.4;
-    const planetaryInfluence = calculatePlanetaryInfluence(item.planetaryRulers, astroData?.activePlanets) * 0.3;
-    const seasonalAlignment = calculateSeasonalAlignment(item.seasonality, astroData?.currentSeason) * 0.2;
-    const lunarPhaseBonus = calculateLunarPhaseBonus(item.lunarAffinities, astroData?.lunarPhase) * 0.1;
+    // ✅ Pattern MM-1: Safe type assertion for item properties
+    const itemData = (item as unknown) as Record<string, unknown>;
+    const elementalMatch = calculateElementalMatch(itemData?.elementalProperties as ElementalProperties, astroData?.dominantElements as ElementalProperties) * 0.4;
+    const planetaryInfluence = calculatePlanetaryInfluence(itemData?.planetaryRulers as string[], astroData?.activePlanets as string[]) * 0.3;
+    const seasonalAlignment = calculateSeasonalAlignment(itemData?.seasonality as Record<string, number>, String(astroData?.currentSeason || '')) * 0.2;
+    const lunarPhaseBonus = calculateLunarPhaseBonus(itemData?.lunarAffinities as Record<string, number>, String(astroData?.lunarPhase || '')) * 0.1;
     
     const total = elementalMatch + planetaryInfluence + seasonalAlignment + lunarPhaseBonus;
     
@@ -521,14 +541,14 @@ const RecipeRecommendationsMigrated: React.FC<RecipeRecommendationsProps> = ({ f
     return matches.length / Math.max(rulers.length, 1);
   };
 
-  const calculateSeasonalAlignment = (seasonality?: any, currentSeason?: string): number => {
+  const calculateSeasonalAlignment = (seasonality?: Record<string, number>, currentSeason?: string): number => {
     if (!seasonality || !currentSeason) return 0.5;
-    return seasonality[currentSeason] || 0.3;
+    return Number(seasonality[currentSeason]) || 0.3;
   };
 
-  const calculateLunarPhaseBonus = (affinities?: any, phase?: string): number => {
+  const calculateLunarPhaseBonus = (affinities?: Record<string, number>, phase?: string): number => {
     if (!affinities || !phase) return 0;
-    return affinities[phase] || 0;
+    return Number(affinities[phase]) || 0;
   };
 
   // Use the alchemical recommendation service to get optimized recipes
@@ -572,21 +592,23 @@ const RecipeRecommendationsMigrated: React.FC<RecipeRecommendationsProps> = ({ f
           },
         }));
 
-        // Get optimized recipes
-        const serviceData = alchemicalRecommendationService as Record<string, unknown>;
-        const optimizeMethod = serviceData?.getOptimizedRecipes || serviceData?.getRecommendations;
-        const optimized = await optimizeMethod(
-          preparedRecipes,
-          planetaryPositions,
-          isDaytime,
-          {
-            currentZodiacSign: zodiacSign,
-            lunarPhase: lunarPhase ? (normalizeLunarPhase(lunarPhase) as LunarPhaseWithSpaces) : undefined,
-            count: 6
-          }
-        );
-        
-        setOptimizedRecipes(optimized);
+        // ✅ Pattern MM-1: Safe type assertion for service access
+        const serviceData = (alchemicalRecommendationService as unknown) as Record<string, unknown>;
+        // ✅ Pattern GG-6: Safe method call with proper typing
+        const optimizeMethod = serviceData?.getOptimizedRecipes as ((recipes: unknown[], positions: unknown, daytime: boolean, options: unknown) => Promise<unknown[]>) | undefined;
+        if (optimizeMethod) {
+          const optimized = await optimizeMethod(
+            preparedRecipes,
+            planetaryPositions,
+            isDaytime,
+            {
+              currentZodiacSign: zodiacSign,
+              lunarPhase: lunarPhase ? (normalizeLunarPhase(lunarPhase) as LunarPhaseWithSpaces) : undefined,
+              count: 6
+            }
+          );
+          setOptimizedRecipes((optimized as unknown) as OptimizedRecipeResult[]);
+        }
       } catch (err) {
         const errorMessage = err instanceof Error ? err.message : 'Unknown error';
         setError(`Failed to get optimized recipes: ${errorMessage}`);
@@ -643,7 +665,7 @@ const RecipeRecommendationsMigrated: React.FC<RecipeRecommendationsProps> = ({ f
       {/* Planetary Time Information */}
       <Card sx={{ mb: 3 }}>
         <CardContent>
-          <PlanetaryTimeDisplay {...{ timeFactors } as Record<string, unknown>} />
+          <PlanetaryTimeDisplay {...(timeFactors as Record<string, unknown>)} />
         </CardContent>
       </Card>
 

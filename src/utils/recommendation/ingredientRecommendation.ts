@@ -1,5 +1,5 @@
 import { AstrologicalState, ElementalProperties, ChakraEnergies, AstrologicalProfile, ElementalAffinity, PlanetName, Element } from "@/types/alchemy";
-import type { Modality, Ingredient, SensoryProfile, CookingMethod } from '../../data/ingredients/types';
+import type { Modality, Ingredient, SensoryProfile, CookingMethod, UnifiedIngredient } from '../../data/ingredients/types';
 
 
 // Phase 10: Calculation Type Interfaces
@@ -413,12 +413,12 @@ export const getIngredientsFromCategories = async (
 };
 
 // Phase 8: Cached ingredient data for performance
-const cachedAllIngredientsData: Ingredient | UnifiedIngredient[] | null = null;
+const cachedAllIngredientsData: Ingredient[] | null = null;
 const cacheTimestamp: number = 0;
 const CACHE_TTL = 300000; // 5 minutes
 
 export const getAllIngredientsData = async (): Promise<any[]> => {
-  const allData: Ingredient | UnifiedIngredient[] = [];
+  const allData: Ingredient[] = [];
   try {
     // Collect data from each category
     const vegData = await loadVegetables();
@@ -432,15 +432,15 @@ export const getAllIngredientsData = async (): Promise<any[]> => {
     const vinegarData = await loadVinegars();
 
     // Add each category's data to the result array
-    Object.values(vegData || {}).forEach(data => allData.push({ ...data }));
-    Object.values(fruitData || {}).forEach(data => allData.push({ ...data }));
-    Object.values(herbData || {}).forEach(data => allData.push({ ...data }));
-    Object.values(spiceData || {}).forEach(data => allData.push({ ...data }));
-    Object.values(proteinData || {}).forEach(data => allData.push({ ...data }));
-    Object.values(grainData || {}).forEach(data => allData.push({ ...data }));
-    Object.values(seasoningData || {}).forEach(data => allData.push({ ...data }));
-    Object.values(oilData || {}).forEach(data => allData.push({ ...data }));
-    Object.values(vinegarData || {}).forEach(data => allData.push({ ...data }));
+    Object.values(vegData || {}).forEach(data => allData.push(data as Ingredient));
+    Object.values(fruitData || {}).forEach(data => allData.push(data as Ingredient));
+    Object.values(herbData || {}).forEach(data => allData.push(data as Ingredient));
+    Object.values(spiceData || {}).forEach(data => allData.push(data as Ingredient));
+    Object.values(proteinData || {}).forEach(data => allData.push(data as Ingredient));
+    Object.values(grainData || {}).forEach(data => allData.push(data as Ingredient));
+    Object.values(seasoningData || {}).forEach(data => allData.push(data as Ingredient));
+    Object.values(oilData || {}).forEach(data => allData.push(data as Ingredient));
+    Object.values(vinegarData || {}).forEach(data => allData.push(data as Ingredient));
 
     return allData;
   } catch (error) {

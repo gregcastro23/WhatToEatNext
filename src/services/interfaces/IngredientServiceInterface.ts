@@ -244,8 +244,8 @@ export interface IngredientServiceInterface {
    */
   analyzeRecipeIngredients(recipe: Recipe): {
     overallHarmony: number;flavorProfile: { [key: string]: number };
-    strongPAirings: Array<{ ingredients: string[]; score: number }>;
-    weakPAirings: Array<{ ingredients: string[]; score: number }>;
+    strongPairings: Array<{ ingredients: string[]; score: number }>;
+    weakPairings: Array<{ ingredients: string[]; score: number }>;
   };
   
   /**

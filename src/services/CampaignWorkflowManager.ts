@@ -19,6 +19,9 @@ import {
   ToolConfiguration
 } from '../types/campaign';
 
+// Re-export required types for external components
+export { ValidationResult, DryRunResult } from '../types/campaign';
+
 // ========== WORKFLOW TYPES ==========
 
 export interface CampaignTemplate {

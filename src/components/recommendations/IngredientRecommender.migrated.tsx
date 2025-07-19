@@ -180,23 +180,35 @@ const IngredientRecommenderMigrated: React.FC = () => {
     const loadAstrologicalData = async () => {
       try {
         // Get planetary positions
-        const positions = await astrologyService.getCurrentPlanetaryPositions();
-        setPlanetaryPositions(positions);
+        // Apply Pattern GG-6: Enhanced property access with type guards
+        const astrologyServiceData = astrologyService as Record<string, unknown>;
+        if (typeof astrologyServiceData?.getCurrentPlanetaryPositions === 'function') {
+          const positions = await astrologyServiceData.getCurrentPlanetaryPositions();
+          setPlanetaryPositions(positions);
+        }
         
         // Get daytime status
-        const daytime = await astrologyService.isDaytime();
-        setIsDaytime(daytime);
+        if (typeof astrologyServiceData?.isDaytime === 'function') {
+          const daytime = await astrologyServiceData.isDaytime();
+          setIsDaytime(daytime);
+        }
         
         // Get current zodiac
-        const astrologyServiceData = astrologyService as Record<string, unknown>;
-        const chartData = await astrologyServiceData?.getChartData?.();
-        if (chartData && chartData.Sun && chartData.Sun.sign) {
-          setCurrentZodiac(chartData.Sun.sign);
+        if (typeof astrologyServiceData?.getChartData === 'function') {
+          const chartData = await astrologyServiceData.getChartData();
+          const chartDataObj = chartData as Record<string, unknown>;
+          const sunData = chartDataObj?.Sun as Record<string, unknown>;
+          if (sunData?.sign) {
+            setCurrentZodiac(sunData.sign as string);
+          }
         }
         
         // Get chakra energies
-        const energies = await chakraService.getChakraEnergies();
-        setChakraEnergies(energies as ChakraEnergies);
+        const chakraServiceData = chakraService as Record<string, unknown>;
+        if (typeof chakraServiceData?.getChakraEnergies === 'function') {
+          const energies = await chakraServiceData.getChakraEnergies();
+          setChakraEnergies(energies as ChakraEnergies);
+        }
       } catch (err) {
         console.error('Error loading astrological data:', err);
       }
@@ -214,16 +226,32 @@ const IngredientRecommenderMigrated: React.FC = () => {
     const loadIngredientData = async () => {
       try {
         // Get herbs collection
-        const herbs = await ingredientService.getAllIngredientsByCategory('herbs');
-        setHerbNames((herbs || []).map((herb: unknown) => herb?.name || ''));
-        
-        // Get oils collection
-        const oils = await ingredientService.getAllIngredientsByCategory('oils');
-        setOilTypes((oils || []).map((oil: unknown) => oil?.name || ''));
-        
-        // Get vinegars collection
-        const vinegars = await ingredientService.getAllIngredientsByCategory('vinegars');
-        setVinegarTypes((vinegars || []).map((vinegar: unknown) => vinegar?.name || ''));
+        // Apply Pattern GG-6: Enhanced property access with type guards
+        const ingredientServiceData = ingredientService as Record<string, unknown>;
+        if (typeof ingredientServiceData?.getAllIngredientsByCategory === 'function') {
+          const herbs = await ingredientServiceData.getAllIngredientsByCategory('herbs');
+          const herbsArray = Array.isArray(herbs) ? herbs : [];
+          setHerbNames(herbsArray.map((herb: unknown) => {
+            const herbData = herb as Record<string, unknown>;
+            return typeof herbData?.name === 'string' ? herbData.name : '';
+          }));
+          
+          // Get oils collection
+          const oils = await ingredientServiceData.getAllIngredientsByCategory('oils');
+          const oilsArray = Array.isArray(oils) ? oils : [];
+          setOilTypes(oilsArray.map((oil: unknown) => {
+            const oilData = oil as Record<string, unknown>;
+            return typeof oilData?.name === 'string' ? oilData.name : '';
+          }));
+          
+          // Get vinegars collection
+          const vinegars = await ingredientServiceData.getAllIngredientsByCategory('vinegars');
+          const vinegarsArray = Array.isArray(vinegars) ? vinegars : [];
+          setVinegarTypes(vinegarsArray.map((vinegar: unknown) => {
+            const vinegarData = vinegar as Record<string, unknown>;
+            return typeof vinegarData?.name === 'string' ? vinegarData.name : '';
+          }));
+        }
       } catch (err) {
         console.error('Error loading ingredient data:', err);
       }
@@ -248,16 +276,26 @@ const IngredientRecommenderMigrated: React.FC = () => {
       try {
         // Get ingredient recommendations based on astrological data
         const recommendationServiceData = recommendationService as Record<string, unknown>;
-        const recommendations = await recommendationServiceData?.getIngredientRecommendations?.({
-          elementalProperties: await elementalCalculator?.calculateElementalProperties?.(
-            planetaryPositions,
-            isDaytime
-          ),
+        if (typeof recommendationServiceData?.getIngredientRecommendations === 'function') {
+          // Apply Pattern GG-6: Enhanced property access with type guards
+          const elementalCalculatorData = elementalCalculator as Record<string, unknown>;
+          let elementalProperties = null;
+          
+          if (typeof elementalCalculatorData?.calculateElementalProperties === 'function') {
+            elementalProperties = await elementalCalculatorData.calculateElementalProperties(
+              planetaryPositions,
+              isDaytime
+            );
+          }
+          
+          const recommendations = await recommendationServiceData.getIngredientRecommendations({
+            elementalProperties: elementalProperties,
           chakraEnergies: chakraEnergies,
           limit: 300
-        });
-        
-        setFoodRecommendations(recommendations as EnhancedIngredientRecommendation[]);
+          });
+          
+          setFoodRecommendations(recommendations as EnhancedIngredientRecommendation[]);
+        }
         setIsComponentLoading(false);
       } catch (err) {
         console.error('Error loading ingredient recommendations:', err);
@@ -571,7 +609,7 @@ const IngredientRecommenderMigrated: React.FC = () => {
                         key={element} 
                         className="flex items-center text-xs bg-gray-50 px-1.5 py-0.5 rounded"
                       >
-                        {getElementIcon(element?.toLowerCase() as string)}
+                        {getElementIcon(element as Element)}
                         {Math.round((Number(value) || 0) * 100)}%
                       </span>
                     ))}

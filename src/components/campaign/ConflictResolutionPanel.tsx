@@ -15,7 +15,9 @@ import type {
   CampaignDependency,
   ConflictType,
   ConflictSeverity,
-  ConflictStatus,
+  ConflictStatus
+} from '../../services/CampaignConflictResolver';
+import {
   ResolutionAction
 } from '../../services/CampaignConflictResolver';
 
@@ -559,7 +561,7 @@ const ManualOverrideForm: React.FC<{
         </select>
       </div>
 
-      {selectedAction === 'PAUSE_CAMPAIGN' && (
+      {selectedAction === ResolutionAction.PAUSE_CAMPAIGN && (
         <div className="form-group">
           <label htmlFor="campaignId">Campaign to Pause:</label>
           <select

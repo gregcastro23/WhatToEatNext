@@ -7,6 +7,7 @@ import {
   type RecipeRecommendation,
 } from '@/services/IngredientFilterService';
 import { ElementalProperties } from '@/types/alchemy';
+import type { Ingredient, UnifiedIngredient } from '@/types/ingredient';
 
 // Define IngredientMapping interface for nutritional recommendations
 interface IngredientMapping {
@@ -454,10 +455,11 @@ const NutritionalRecommender: React.FC<NutritionalRecommenderProps> = ({
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 {(recommendations[category] as Ingredient[]).map(
-                  (value: unknown, _index: number, _array: Ingredient | UnifiedIngredient[]): any => {
+                  (value: Ingredient, _index: number, _array: Ingredient[]): React.ReactElement => {
                     // Extract ingredient data with safe property access
-                    const ingredientData = value as Record<string, unknown>;
-                    const ingredientName = ingredientData?.name || ingredientData?.ingredient || '';
+                    // ✅ Pattern MM-1: Safe type assertion for ingredient data
+                    const ingredientData = (value as unknown) as Record<string, unknown>;
+                    const ingredientName = String(ingredientData?.name || ingredientData?.ingredient || '');
                     
                     return (
                       <IngredientCard
@@ -494,9 +496,11 @@ const NutritionalRecommender: React.FC<NutritionalRecommenderProps> = ({
 // Recipe card subcomponent
 const RecipeCard: React.FC<{ recipe: RecipeRecommendation }> = ({ recipe }) => {
   // Find key nutrients
+  // ✅ Pattern GG-6: Safe property access for nutrition data
   const getKeyNutrient = (name: string) => {
-    return recipe.nutrition.nutrients.find(
-      (n) => n.name.toLowerCase() === name.toLowerCase()
+    const nutrients = Array.isArray(recipe.nutrition?.nutrients) ? recipe.nutrition.nutrients : [];
+    return nutrients.find(
+      (n: Record<string, unknown>) => String(n?.name || '').toLowerCase() === name.toLowerCase()
     );
   };
 
@@ -521,7 +525,7 @@ const RecipeCard: React.FC<{ recipe: RecipeRecommendation }> = ({ recipe }) => {
         <div className="grid grid-cols-2 gap-2 mb-3 text-sm">
           <div className="flex items-center">
             <svg
-              xmlns="http://www.w3.org / (2000 || 1) / (svg || 1)"
+              xmlns="http://www.w3.org/2000/svg"
               className="h-4 w-4 mr-1 text-gray-500"
               fill="none"
               viewBox="0 0 24 24"
@@ -538,7 +542,7 @@ const RecipeCard: React.FC<{ recipe: RecipeRecommendation }> = ({ recipe }) => {
           </div>
           <div className="flex items-center">
             <svg
-              xmlns="http://www.w3.org / (2000 || 1) / (svg || 1)"
+              xmlns="http://www.w3.org/2000/svg"
               className="h-4 w-4 mr-1 text-gray-500"
               fill="none"
               viewBox="0 0 24 24"
@@ -560,25 +564,25 @@ const RecipeCard: React.FC<{ recipe: RecipeRecommendation }> = ({ recipe }) => {
           {calories && (
             <div className="bg-gray-50 p-1 rounded text-center">
               <div className="text-xs text-gray-500">Calories</div>
-              <div className="font-medium">{Math.round(calories.amount)}</div>
+              <div className="font-medium">{Math.round(Number((calories as Record<string, unknown>)?.amount || 0))}</div>
             </div>
           )}
           {protein && (
             <div className="bg-gray-50 p-1 rounded text-center">
               <div className="text-xs text-gray-500">Protein</div>
-              <div className="font-medium">{Math.round(protein.amount)}g</div>
+              <div className="font-medium">{Math.round(Number((protein as Record<string, unknown>)?.amount || 0))}g</div>
             </div>
           )}
           {carbs && (
             <div className="bg-gray-50 p-1 rounded text-center">
               <div className="text-xs text-gray-500">Carbs</div>
-              <div className="font-medium">{Math.round(carbs.amount)}g</div>
+              <div className="font-medium">{Math.round(Number((carbs as Record<string, unknown>)?.amount || 0))}g</div>
             </div>
           )}
           {fat && (
             <div className="bg-gray-50 p-1 rounded text-center">
               <div className="text-xs text-gray-500">Fat</div>
-              <div className="font-medium">{Math.round(fat.amount)}g</div>
+              <div className="font-medium">{Math.round(Number((fat as Record<string, unknown>)?.amount || 0))}g</div>
             </div>
           )}
         </div>
@@ -587,7 +591,8 @@ const RecipeCard: React.FC<{ recipe: RecipeRecommendation }> = ({ recipe }) => {
         <div className="mt-3 text-sm">
           <div className="font-medium mb-1">Ingredients:</div>
           <div className="flex flex-wrap gap-1">
-            {recipe.usedIngredients.map((ingredient, idx) => (
+            {/* ✅ Pattern GG-6: Safe property access for used ingredients */}
+            {Array.isArray(recipe.usedIngredients) && recipe.usedIngredients.map((ingredient, idx) => (
               <span
                 key={idx}
                 className="bg-green-100 text-green-800 text-xs font-medium px-2 py-0.5 rounded"
@@ -604,7 +609,7 @@ const RecipeCard: React.FC<{ recipe: RecipeRecommendation }> = ({ recipe }) => {
 
 // Ingredient card subcomponent
 interface IngredientCardProps {
-  ingredient: IngredientMapping;
+  ingredient: Ingredient;
   isSelected: boolean;
   onToggleSelection: (name: string) => void;
   enhancedData?: unknown;
@@ -625,10 +630,11 @@ const IngredientCard: React.FC<IngredientCardProps> = ({
   onToggleExpand,
 }) => {
   // Extract ingredient data with safe property access
-  const ingredientData = ingredient as Record<string, unknown>;
-  const nutritionalProfile = ingredientData?.nutritionalProfile || {};
-  const ingredientName = ingredientData?.name || ingredientData?.ingredient || '';
-  const qualities = ingredientData?.qualities;
+  // ✅ Pattern MM-1: Safe type assertion for ingredient data
+  const ingredientData = (ingredient as unknown) as Record<string, unknown>;
+  const nutritionalProfile = (ingredientData?.nutritionalProfile as Record<string, unknown>) || {};
+  const ingredientName = String(ingredientData?.name || ingredientData?.ingredient || '');
+  const qualities = Array.isArray(ingredientData?.qualities) ? ingredientData.qualities as string[] : undefined;
 
   return (
     <div
@@ -650,7 +656,7 @@ const IngredientCard: React.FC<IngredientCardProps> = ({
 
       {qualities && qualities.length > 0 && (
         <div className="mb-2 flex flex-wrap gap-1">
-          {qualities.map((quality) => (
+          {qualities.map((quality: string) => (
             <span
               key={quality}
               className="text-xs bg-purple-100 text-purple-800 px-1.5 py-0.5 rounded"
@@ -701,42 +707,45 @@ const IngredientCard: React.FC<IngredientCardProps> = ({
         </div>
 
         <div className="grid grid-cols-2 gap-x-2 text-xs">
-          {nutritionalProfile.calories !== undefined && (
-            <div>Calories: {nutritionalProfile.calories}</div>
+          {/* ✅ Pattern GG-6: Safe property access for nutritional profile */}
+          {(nutritionalProfile as Record<string, unknown>)?.calories !== undefined && (
+            <div>Calories: {String((nutritionalProfile as Record<string, unknown>)?.calories)}</div>
           )}
 
-          {nutritionalProfile.protein_g !== undefined && (
-            <div>Protein: {nutritionalProfile.protein_g}g</div>
+          {(nutritionalProfile as Record<string, unknown>)?.protein_g !== undefined && (
+            <div>Protein: {String((nutritionalProfile as Record<string, unknown>)?.protein_g)}g</div>
           )}
 
-          {nutritionalProfile.fiber_g !== undefined && (
-            <div>Fiber: {nutritionalProfile.fiber_g}g</div>
+          {(nutritionalProfile as Record<string, unknown>)?.fiber_g !== undefined && (
+            <div>Fiber: {String((nutritionalProfile as Record<string, unknown>)?.fiber_g)}g</div>
           )}
 
-          {nutritionalProfile.vitamin_density !== undefined && (
+          {(nutritionalProfile as Record<string, unknown>)?.vitamin_density !== undefined && (
             <div>
-              Vitamin Density: {nutritionalProfile.vitamin_density.toFixed(1)}
+              Vitamin Density: {Number((nutritionalProfile as Record<string, unknown>)?.vitamin_density).toFixed(1)}
             </div>
           )}
         </div>
 
-        {/* Vitamins & Minerals */}
-        {(nutritionalProfile.vitamins || nutritionalProfile.minerals) && (
+        {/* ✅ Pattern GG-6: Safe property access for vitamins and minerals */}
+        {((nutritionalProfile as Record<string, unknown>)?.vitamins || (nutritionalProfile as Record<string, unknown>)?.minerals) && (
           <div className="grid grid-cols-1 gap-1 mt-1">
-            {nutritionalProfile.vitamins &&
-              nutritionalProfile.vitamins.length > 0 && (
+            {(nutritionalProfile as Record<string, unknown>)?.vitamins &&
+              Array.isArray((nutritionalProfile as Record<string, unknown>)?.vitamins) &&
+              ((nutritionalProfile as Record<string, unknown>)?.vitamins as string[]).length > 0 && (
                 <div className="text-xs">
                   Vitamins:{' '}
-                  {nutritionalProfile.vitamins
+                  {((nutritionalProfile as Record<string, unknown>)?.vitamins as string[])
                     .map((v: string) => v.toUpperCase())
                     .join(', ')}
                 </div>
               )}
 
-            {nutritionalProfile.minerals &&
-              nutritionalProfile.minerals.length > 0 && (
+            {(nutritionalProfile as Record<string, unknown>)?.minerals &&
+              Array.isArray((nutritionalProfile as Record<string, unknown>)?.minerals) &&
+              ((nutritionalProfile as Record<string, unknown>)?.minerals as string[]).length > 0 && (
                 <div className="text-xs">
-                  Minerals: {nutritionalProfile.minerals.join(', ')}
+                  Minerals: {((nutritionalProfile as Record<string, unknown>)?.minerals as string[]).join(', ')}
                 </div>
               )}
           </div>
@@ -769,18 +778,19 @@ const IngredientCard: React.FC<IngredientCardProps> = ({
               {/* Display enhanced nutrition data with safe property access */}
               {(() => {
                 const enhancedDataObj = enhancedData as Record<string, unknown>;
-                const nutrition = enhancedDataObj?.nutrition;
+                const nutrition = enhancedDataObj?.nutrition as Record<string, unknown>;
                 const nutrients = nutrition?.nutrients;
                 
-                return nutrients && (
+                // ✅ Pattern GG-6: Safe property access for nutrients array
+                return nutrients && Array.isArray(nutrients) && (
                   <div className="grid grid-cols-2 gap-x-2 gap-y-1 text-xs">
-                    {nutrients
+                    {(nutrients as unknown[])
                       .slice(0, 8)
                       .map((nutrient: unknown) => {
                         const nutrientData = nutrient as Record<string, unknown>;
-                        const name = nutrientData?.name || '';
-                        const amount = nutrientData?.amount || 0;
-                        const unit = nutrientData?.unit || '';
+                        const name = String(nutrientData?.name || '');
+                        const amount = Number(nutrientData?.amount || 0);
+                        const unit = String(nutrientData?.unit || '');
                         
                         return (
                           <div key={name} className="flex justify-between">
@@ -800,10 +810,11 @@ const IngredientCard: React.FC<IngredientCardProps> = ({
                 const enhancedDataObj = enhancedData as Record<string, unknown>;
                 const categoryPath = enhancedDataObj?.categoryPath;
                 
-                return categoryPath && (
+                // ✅ Pattern GG-6: Safe property access for category path
+                return categoryPath && Array.isArray(categoryPath) && (
                   <div className="text-xs mt-2">
                     <span className="font-medium">Category:</span>{' '}
-                    {categoryPath.join(' > ')}
+                    {(categoryPath as string[]).join(' > ')}
                   </div>
                 );
               })()}
@@ -813,10 +824,11 @@ const IngredientCard: React.FC<IngredientCardProps> = ({
                 const enhancedDataObj = enhancedData as Record<string, unknown>;
                 const possibleSubstitutes = enhancedDataObj?.possibleSubstitutes;
                 
+                // ✅ Pattern GG-6: Safe property access for possible substitutes
                 return possibleSubstitutes && (
                   <div className="text-xs mt-1">
                     <span className="font-medium">Substitutes:</span>{' '}
-                    {possibleSubstitutes}
+                    {String(possibleSubstitutes)}
                   </div>
                 );
               })()}

@@ -87,7 +87,7 @@ export interface ExtendedRecipe extends Recipe {
   traditionalOccasion?: string[];
   regionalVariations?: string[];
   
-  pAiringRecommendations?: {
+  pairingRecommendations?: {
     wines?: string[];
     beverages?: string[];
     sides?: string[];

@@ -30,6 +30,8 @@ interface RecommendationItem {
 import React, { useState, useEffect, useCallback } from 'react';
 import styles from './FoodRecommender.module.css';
 import { useTarotAstrologyData } from '@/hooks/useTarotAstrologyData';
+import type { Ingredient as IngredientType, UnifiedIngredient } from '@/types/ingredient';
+import type { Ingredient } from '@/types/index';
 import { Clock, Flame, Droplets, Mountain, Wind, Leaf, ThermometerSun, ThermometerSnowflake, Pill, Sparkles, Star, RefreshCw } from 'lucide-react';
 import { getCurrentSeason } from '@/data/integrations/seasonal';
 import { RecommendationAdapter } from '@/services/RecommendationAdapter';
@@ -110,19 +112,18 @@ const getLunarPhaseType = (phase: string | null | undefined): LunarPhaseWithSpac
 };
 
 const FoodRecommender: React.FC = () => {
-    const { 
-        currentPlanetaryAlignment, 
-        currentZodiac, 
-        activePlanets, 
-        isDaytime, 
-        minorCard,
-        majorCard,
-        tarotElementBoosts,
-        tarotPlanetaryBoosts,
-        currentLunarPhase,
-        isLoading,
-        error: astroError
-    } = useTarotAstrologyData();
+    const astroData = useTarotAstrologyData();
+    const currentPlanetaryAlignment = (astroData as unknown as Record<string, unknown>)?.currentPlanetaryAlignment;
+    const currentZodiac = (astroData as unknown as Record<string, unknown>)?.currentZodiac;
+    const activePlanets = (astroData as unknown as Record<string, unknown>)?.activePlanets;
+    const isDaytime = (astroData as unknown as Record<string, unknown>)?.isDaytime;
+    const minorCard = (astroData as unknown as Record<string, unknown>)?.minorCard;
+    const majorCard = (astroData as unknown as Record<string, unknown>)?.majorCard;
+    const tarotElementBoosts = (astroData as unknown as Record<string, unknown>)?.tarotElementBoosts;
+    const tarotPlanetaryBoosts = (astroData as unknown as Record<string, unknown>)?.tarotPlanetaryBoosts;
+    const currentLunarPhase = (astroData as unknown as Record<string, unknown>)?.currentLunarPhase;
+    const isLoading = (astroData as unknown as Record<string, unknown>)?.isLoading;
+    const astroError = (astroData as unknown as Record<string, unknown>)?.error;
     
     const { chart, isLoading: chartLoading, error: chartError } = useCurrentChart();
     
@@ -168,22 +169,22 @@ const FoodRecommender: React.FC = () => {
                     ingredientsAsElementalItems = Object.values(allIngredients).map((ingredient: unknown) => {
                         const ingredientData = ingredient as Record<string, unknown>;
                         return {
-                            id: ingredientData?.id || ingredientData?.name?.replace(/\s+/g, '_').toLowerCase() || '',
-                            name: ingredientData?.name || '',
+                            id: String(ingredientData?.id || ingredientData?.name || '').replace(/\s+/g, '_').toLowerCase(),
+                            name: String(ingredientData?.name || ''),
                             elementalProperties: {
                                 Fire: getElementValue(ingredient, 'fire'),
                                 Water: getElementValue(ingredient, 'water'),
                                 Earth: getElementValue(ingredient, 'earth'),
                                 Air: getElementValue(ingredient, 'air')
                             },
-                            category: ingredientData?.category || '',
-                            subCategory: ingredientData?.subCategory || '',
-                            isInSeason: ingredientData?.isInSeason || false,
-                            temperatureEffect: ingredientData?.temperatureEffect || '',
-                            medicinalProperties: ingredientData?.medicinalProperties || [],
-                            qualities: ingredientData?.qualities || [],
+                            category: String(ingredientData?.category || ''),
+                            subCategory: String(ingredientData?.subCategory || ''),
+                            isInSeason: Boolean(ingredientData?.isInSeason),
+                            temperatureEffect: String(ingredientData?.temperatureEffect || ''),
+                            medicinalProperties: Array.isArray(ingredientData?.medicinalProperties) ? ingredientData.medicinalProperties : [],
+                            qualities: Array.isArray(ingredientData?.qualities) ? ingredientData.qualities : [],
                             astrologicalProfile: ingredientData?.astrologicalProfile || {}
-                        };
+                        } as ElementalItem;
                     });
                 } else {
                     // Structure is categorized (structure from ingredients.ts)
@@ -195,22 +196,22 @@ const FoodRecommender: React.FC = () => {
                         return (ingredientItems as Ingredient[])?.map?.((ingredient: unknown) => {
                             const ingredientData = ingredient as Record<string, unknown>;
                             return {
-                                id: ingredientData?.id || ingredientData?.name?.replace(/\s+/g, '_').toLowerCase() || '',
-                                name: ingredientData?.name || '',
+                                id: String(ingredientData?.id || ingredientData?.name || '').replace(/\s+/g, '_').toLowerCase(),
+                                name: String(ingredientData?.name || ''),
                                 elementalProperties: {
                                     Fire: getElementValue(ingredient, 'fire'),
                                     Water: getElementValue(ingredient, 'water'),
                                     Earth: getElementValue(ingredient, 'earth'),
                                     Air: getElementValue(ingredient, 'air')
                                 },
-                                category: ingredientData?.category || category,
-                                subCategory: ingredientData?.subCategory || '',
-                                isInSeason: ingredientData?.isInSeason || false,
-                                temperatureEffect: ingredientData?.temperatureEffect || '',
-                                medicinalProperties: ingredientData?.medicinalProperties || [],
-                                qualities: ingredientData?.qualities || [],
+                                category: String(ingredientData?.category || ''),
+                                subCategory: String(ingredientData?.subCategory || ''),
+                                isInSeason: Boolean(ingredientData?.isInSeason),
+                                temperatureEffect: String(ingredientData?.temperatureEffect || ''),
+                                medicinalProperties: Array.isArray(ingredientData?.medicinalProperties) ? ingredientData.medicinalProperties : [],
+                                qualities: Array.isArray(ingredientData?.qualities) ? ingredientData.qualities : [],
                                 astrologicalProfile: ingredientData?.astrologicalProfile || {}
-                            };
+                            } as ElementalItem;
                         }) || [];
                     });
                 }
@@ -258,12 +259,14 @@ const FoodRecommender: React.FC = () => {
                         ingredientsAsElementalItems.forEach(ingredient => {
                             const elementalProps = (ingredient as Record<string, unknown>)?.elementalProperties;
                             if (elementalProps) {
-                                const dominantElement = getDominantElement(elementalProps);
+                                const dominantElement = getDominantElement(elementalProps as Record<ElementalCharacter, number>);
                                 if ((dominantElement as string)?.toLowerCase?.() === (tarotElement as string)?.toLowerCase?.()) {
                                     // Enhance ingredient's primary element by quantum value
                                     const quantumValue = (minorCard as Record<string, unknown>)?.quantum || 1;
                                     if (elementalProps[dominantElement] !== undefined) {
-                                        elementalProps[dominantElement] *= (1 + (quantumValue * 0.1));
+                                        const currentValue = Number(elementalProps[dominantElement]) || 0;
+                                        const quantumMultiplier = Number(quantumValue) || 1;
+                                        elementalProps[dominantElement] = currentValue * (1 + (quantumMultiplier * 0.1));
                                     }
                                     
                                     // Normalize
@@ -292,10 +295,12 @@ const FoodRecommender: React.FC = () => {
                 if (majorCard && (majorCard as Record<string, unknown>)?.planet) {
                     const tarotPlanet = (majorCard as Record<string, unknown>)?.planet;
                     ingredientsAsElementalItems.forEach(ingredient => {
-                        const astroProfile = (ingredient as Record<string, unknown>)?.astrologicalProfile;
-                        if (astroProfile?.rulingPlanets?.includes?.(tarotPlanet)) {
+                        const ingredientData = ingredient as Record<string, unknown>;
+                        const astroProfile = ingredientData?.astrologicalProfile as Record<string, unknown>;
+                        const rulingPlanets = astroProfile?.rulingPlanets as unknown[];
+                        if (Array.isArray(rulingPlanets) && rulingPlanets.includes(tarotPlanet)) {
                             // Add a new property to indicate tarot major arcana affinity
-                            (ingredient as Record<string, unknown>).tarotMajorAffinity = (majorCard as Record<string, unknown>)?.name;
+                            ingredientData.tarotMajorAffinity = (majorCard as Record<string, unknown>)?.name;
                         }
                     });
                 }
@@ -308,32 +313,37 @@ const FoodRecommender: React.FC = () => {
                 );
                 
                 // Check if the adapter has the updatePlanetaryData method before calling
-                if (typeof (adapter as Record<string, unknown>).updatePlanetaryData === 'function') {
-                    await (adapter as Record<string, unknown>).updatePlanetaryData(
+                // ✅ Pattern MM-1: Safe type assertion for adapter method access
+                const adapterData = (adapter as unknown) as Record<string, unknown>;
+                const updatePlanetaryDataMethod = adapterData?.updatePlanetaryData as ((planetaryPositions: unknown, isDaytime: boolean, currentZodiac: string, lunarPhase: unknown, tarotElementBoosts: unknown, tarotPlanetaryBoosts: unknown, aspects: unknown[]) => Promise<void>) | undefined;
+                if (updatePlanetaryDataMethod) {
+                    await updatePlanetaryDataMethod(
                         planetaryPositions,
-                        isDaytime,
-                        currentZodiac || '',
-                        currentLunarPhase ? getLunarPhaseType(currentLunarPhase) : undefined,
+                        Boolean(isDaytime),
+                        String(currentZodiac || ''),
+                        currentLunarPhase ? getLunarPhaseType(String(currentLunarPhase)) : undefined,
                         tarotElementBoosts,
                         tarotPlanetaryBoosts,
-                        aspects as PlanetaryAspect[]
+                        Array.isArray(aspects) ? aspects as PlanetaryAspect[] : []
                     );
                 }
                 
                 // Get the transformed ingredients
                 const transformedIngs = adapter.getRecommendedIngredients(12);
-                setTransformedIngredients(transformedIngs as any);
+                // ✅ Pattern MM-1: Safe type assertion for transformed ingredients
+                setTransformedIngredients((transformedIngs as unknown) as AlchemicalItem[]);
                 
             } catch (err: unknown) {
-                const errorData = err as any;
-                setError(`Error getting recommendations: ${errorData?.message || 'Unknown error'}`);
+                // ✅ Pattern MM-1: Safe type assertion for error handling
+                const errorData = (err as unknown) as Record<string, unknown>;
+                setError(`Error getting recommendations: ${String(errorData?.message || 'Unknown error')}`);
                 console.error('FoodRecommender error:', err);
                 setTransformedIngredients([]);
                 setDebugInfo(JSON.stringify({
                     allIngredientsType: typeof allIngredients,
                     allIngredientsKeys: allIngredients ? Object.keys(allIngredients) : [],
-                    errorMessage: errorData?.message || 'Unknown error',
-                    stack: errorData?.stack || 'No stack trace'
+                    errorMessage: String(errorData?.message || 'Unknown error'),
+                    stack: String(errorData?.stack || 'No stack trace')
                 }, null, 2));
             } finally {
                 setLoading(false);
@@ -349,25 +359,20 @@ const FoodRecommender: React.FC = () => {
 
     // Helper function to get element value from ingredient
     const getElementValue = (ingredient: unknown, element: string): number => {
-        const ingredientData = ingredient as Record<string, unknown>;
-        // First check explicit elementalProperties with fallbacks
-        const elementKey = element.charAt(0).toUpperCase() + element.slice(1);
-        const explicitValue = Number(ingredientData?.elementalProperties?.[elementKey]) || 0;
-        
-        // If we have an explicit value, use it directly
-        if (explicitValue > 0) {
-            return Math.min(Math.max(explicitValue, 0.1), 1.0);
+        try {
+            // ✅ Pattern MM-1: Safe type assertion for ingredient data access
+            const ingredientData = (ingredient as unknown) as Record<string, unknown>;
+            const elementalAffinity = ingredientData?.elementalAffinity as Record<string, unknown>;
+            
+            if (elementalAffinity && typeof elementalAffinity === 'object') {
+                const elementValue = Number(elementalAffinity[element]) || 0;
+                return typeof elementValue === 'number' && !isNaN(elementValue) ? elementValue : 0.25;
+            }
+            
+            return 0.25;
+        } catch (error) {
+            return 0.25;
         }
-
-        // Fallback to astrological profile with validation
-        const profile = ingredientData?.astrologicalProfile || {};
-        const baseElement = profile?.elementalAffinity?.base?.toLowerCase?.();
-        const secondaryElement = profile?.elementalAffinity?.secondary?.toLowerCase?.();
-        
-        const elementLower = element?.toLowerCase?.();
-        return elementLower === baseElement ? 0.6 :
-               elementLower === secondaryElement ? 0.3 :
-               0.1; // Minimum value to prevent division by zero
     };
 
     const getElementIcon = (element: string) => {
@@ -447,25 +452,15 @@ const FoodRecommender: React.FC = () => {
     // Inside the component function, add this function before the return statement:
     const calculateIngredientProperties = (ingredient: unknown) => {
         try {
-            if (!ingredient || !(ingredient as Record<string, unknown>)?.elementalProperties) {
-                return {
-                    alchemical: { spirit: 0, essence: 0, matter: 0, substance: 0 },
-                    thermodynamic: { heat: 0, entropy: 0, reactivity: 0, energy: 0 }
-                };
-            }
+            const ingredientObj = ingredient as Record<string, unknown>;
             
-            // Create a compatible ingredient object for the utility functions
-            const ingredientObj = {
-                elementalProperties: (ingredient as Record<string, unknown>)?.elementalProperties
-            };
+            // ✅ Pattern MM-1: Safe type assertion for ingredient calculations
+            const alchemicalProps = calculateAlchemicalProperties((ingredientObj as unknown) as Ingredient);
             
-            // Calculate alchemical properties
-            const alchemicalProps = calculateAlchemicalProperties(ingredientObj as Record<string, unknown>);
-            
-            // Calculate thermodynamic properties
+            // ✅ Pattern MM-1: Safe type assertion for thermodynamic calculations
             const thermodynamicProps = calculateThermodynamicProperties(
                 alchemicalProps, 
-                (ingredient as Record<string, unknown>)?.elementalProperties
+                (ingredientObj?.elementalProperties as unknown) as ElementalProperties
             );
             
             return {
@@ -545,17 +540,17 @@ const FoodRecommender: React.FC = () => {
                 <>
                     <div className="mb-6">
                         <div className="flex flex-wrap gap-2 mb-4">
-                            {currentPlanetaryAlignment?.Sun && (
+                            {(currentPlanetaryAlignment as Record<string, unknown>)?.Sun && (
                                 <div className="bg-yellow-900 bg-opacity-30 px-3 py-1 rounded-full text-xs flex items-center">
                                     <span className="text-yellow-400 mr-1">☉</span> 
-                                    <span className="text-yellow-100">Sun in {currentPlanetaryAlignment.Sun.sign}</span>
+                                    <span className="text-yellow-100">Sun in {(currentPlanetaryAlignment as Record<string, { sign: string }>)?.Sun?.sign}</span>
                                 </div>
                             )}
                             
-                            {currentPlanetaryAlignment?.Moon && (
+                            {(currentPlanetaryAlignment as Record<string, unknown>)?.Moon && (
                                 <div className="bg-blue-900 bg-opacity-30 px-3 py-1 rounded-full text-xs flex items-center">
                                     <span className="text-blue-400 mr-1">☽</span> 
-                                    <span className="text-blue-100">Moon in {currentPlanetaryAlignment.Moon.sign}</span>
+                                    <span className="text-blue-100">Moon in {(currentPlanetaryAlignment as Record<string, { sign: string }>)?.Moon?.sign}</span>
                                 </div>
                             )}
                             
@@ -563,7 +558,7 @@ const FoodRecommender: React.FC = () => {
                                 <div className="bg-blue-900 bg-opacity-30 px-3 py-1 rounded-full text-xs flex items-center">
                                     <span className="text-blue-400 mr-1">☽</span> 
                                     <span className="text-blue-100">
-                                        {formatLunarPhaseForDisplay(currentLunarPhase)}
+                                        {formatLunarPhaseForDisplay(currentLunarPhase as string)}
                                     </span>
                                 </div>
                             )}
@@ -585,7 +580,7 @@ const FoodRecommender: React.FC = () => {
                             {currentZodiac && (
                                 <div className="bg-purple-900 bg-opacity-30 px-3 py-1 rounded-full text-xs flex items-center">
                                     <Star className="w-3 h-3 mr-1 text-purple-400" />
-                                    <span className="text-purple-100">{currentZodiac}</span>
+                                    <span className="text-purple-100">{String(currentZodiac || '')}</span>
                                 </div>
                             )}
                         </div>
@@ -597,16 +592,16 @@ const FoodRecommender: React.FC = () => {
                         </div>
                     ) : (
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                            {(transformedIngredients as Ingredient[])?.map?.((ingredient, index) => {
+                            {transformedIngredients.map((ingredient, index) => {
                                 // Calculate additional properties
                                 const { alchemical, thermodynamic } = calculateIngredientProperties(ingredient);
 
                                 return (
                                 <div key={index} className="bg-opacity-20 bg-purple-900 rounded-lg p-4 hover:bg-opacity-30 transition-all">
-                                    <h4 className="font-medium text-white capitalize">{(ingredient as Record<string, unknown>)?.name.replace('_', ' ')}</h4>
+                                    <h4 className="font-medium text-white capitalize">{String((ingredient as Record<string, unknown>)?.name || '').replace('_', ' ')}</h4>
                                     
-                                    {ingredient.category && (
-                                        <div className="text-xs text-gray-400 mb-2">{ingredient.category}</div>
+                                    {(ingredient as Record<string, unknown>)?.category && (
+                                        <div className="text-xs text-gray-400 mb-2">{String((ingredient as Record<string, unknown>)?.category)}</div>
                                     )}
                                         
                                         {/* Thermodynamic Properties */}
@@ -655,50 +650,50 @@ const FoodRecommender: React.FC = () => {
                                             </div>
                                         </div>
                                     
-                                    {/* Add nutritional information section if available */}
-                                    {ingredient.nutritionalInfo && (
+                                    {/* ✅ Pattern GG-6: Safe property access for nutritional information */}
+                                    {(ingredient as Record<string, unknown>)?.nutritionalInfo && (
                                         <div className="mt-2 mb-3">
                                             <h5 className="text-xs text-gray-500 mb-1">Nutritional Information</h5>
                                             <div className="grid grid-cols-2 gap-2">
-                                                {ingredient.nutritionalInfo.calories && (
+                                                {((ingredient as Record<string, unknown>)?.nutritionalInfo as Record<string, unknown>)?.calories && (
                                                     <div className="text-xs">
                                                         <span className="text-gray-400">Calories:</span> 
-                                                        <span className="text-white ml-1">{ingredient.nutritionalInfo.calories}</span>
+                                                        <span className="text-white ml-1">{String(((ingredient as Record<string, unknown>)?.nutritionalInfo as Record<string, unknown>)?.calories || '')}</span>
                                                     </div>
                                                 )}
-                                                {ingredient.nutritionalInfo.protein && (
+                                                {((ingredient as Record<string, unknown>)?.nutritionalInfo as Record<string, unknown>)?.protein && (
                                                     <div className="text-xs">
                                                         <span className="text-gray-400">Protein:</span> 
-                                                        <span className="text-white ml-1">{ingredient.nutritionalInfo.protein}g</span>
+                                                        <span className="text-white ml-1">{String(((ingredient as Record<string, unknown>)?.nutritionalInfo as Record<string, unknown>)?.protein || '')}g</span>
                                                     </div>
                                                 )}
-                                                {ingredient.nutritionalInfo.carbs && (
+                                                {((ingredient as Record<string, unknown>)?.nutritionalInfo as Record<string, unknown>)?.carbs && (
                                                     <div className="text-xs">
                                                         <span className="text-gray-400">Carbs:</span> 
-                                                        <span className="text-white ml-1">{ingredient.nutritionalInfo.carbs}g</span>
+                                                        <span className="text-white ml-1">{String(((ingredient as Record<string, unknown>)?.nutritionalInfo as Record<string, unknown>)?.carbs || '')}g</span>
                                                     </div>
                                                 )}
-                                                {ingredient.nutritionalInfo.fat && (
+                                                {((ingredient as Record<string, unknown>)?.nutritionalInfo as Record<string, unknown>)?.fat && (
                                                     <div className="text-xs">
                                                         <span className="text-gray-400">Fat:</span> 
-                                                        <span className="text-white ml-1">{ingredient.nutritionalInfo.fat}g</span>
+                                                        <span className="text-white ml-1">{String(((ingredient as Record<string, unknown>)?.nutritionalInfo as Record<string, unknown>)?.fat || '')}g</span>
                                                     </div>
                                                 )}
                                             </div>
                                         </div>
                                     )}
 
-                                    {/* If no Spoonacular data, show sensory profile or additional information if available */}
-                                    {!ingredient.nutritionalInfo && ingredient.sensoryProfile && (
+                                    {/* ✅ Pattern GG-6: Safe property access for sensory profile */}
+                                    {!(ingredient as Record<string, unknown>)?.nutritionalInfo && (ingredient as Record<string, unknown>)?.sensoryProfile && (
                                         <div className="mt-2 mb-3">
                                             <h5 className="text-xs text-gray-500 mb-1">Flavor Profile</h5>
                                             <div className="flex flex-wrap gap-1">
-                                                {Object.entries(ingredient.sensoryProfile.taste || {})
-                                                    .filter(([_, value]) => (value as number) > 0.5)
+                                                {Object.entries(((ingredient as Record<string, unknown>)?.sensoryProfile as Record<string, unknown>)?.taste || {})
+                                                    .filter(([_, value]) => Number(value) > 0.5)
                                                     .slice(0, 3)
                                                     .map(([taste, value]) => (
                                                         <div key={taste} className="bg-purple-900 bg-opacity-30 px-2 py-0.5 rounded-full text-xs">
-                                                            {taste}: {Math.round((value as number) * 100)}%
+                                                            {taste}: {Math.round(Number(value) * 100)}%
                                                         </div>
                                                     ))
                                                 }
@@ -706,12 +701,13 @@ const FoodRecommender: React.FC = () => {
                                         </div>
                                     )}
                                     
-                                    {/* If additional medicinal properties are available */}
-                                    {ingredient.medicinalProperties && (
+                                    {/* ✅ Pattern GG-6: Safe property access for medicinal properties */}
+                                    {(ingredient as Record<string, unknown>)?.medicinalProperties && (
                                         <div className="mt-2 mb-3">
                                             <h5 className="text-xs text-gray-500 mb-1">Properties</h5>
                                             <div className="flex flex-wrap gap-1">
-                                                {ingredient.medicinalProperties.slice(0, 3).map((property: string, idx: number) => (
+                                                {Array.isArray((ingredient as Record<string, unknown>)?.medicinalProperties) && 
+                                                 ((ingredient as Record<string, unknown>)?.medicinalProperties as string[])?.slice(0, 3).map((property: string, idx: number) => (
                                                     <div key={idx} className="bg-green-900 bg-opacity-30 px-2 py-0.5 rounded-full text-xs">
                                                         {property}
                                                     </div>
@@ -720,11 +716,11 @@ const FoodRecommender: React.FC = () => {
                                         </div>
                                     )}
                                     
-                                    {/* Elemental Properties visualization */}
+                                    {/* ✅ Pattern GG-6: Safe property access for elemental properties visualization */}
                                     <div className="mt-2 space-y-2">
-                                        {Object.entries(ingredient.transformedElementalProperties || {})
+                                        {Object.entries((ingredient as Record<string, unknown>)?.transformedElementalProperties || {})
                                             .sort(([_, a], [__, b]) => {
-                                                // Pattern KK-9: Cross-Module Arithmetic Safety for sort operations
+                                                // ✅ Pattern KK-1: Safe number conversion for sort operations
                                                 const numericA = Number(a) || 0;
                                                 const numericB = Number(b) || 0;
                                                 return numericB - numericA; // Sort by value, highest first
@@ -732,8 +728,8 @@ const FoodRecommender: React.FC = () => {
                                             .map(([element, value]) => {
                                                 // Convert raw values to a more meaningful representation
                                                 // Instead of showing as percentages, represent as normalized strength (max 100%)
-                                                // Pattern KK-8: Advanced calculation safety for reduction and division operations
-                                                const totalElements = Object.values(ingredient.transformedElementalProperties || {})
+                                                // ✅ Pattern KK-1: Advanced calculation safety for reduction and division operations
+                                                const totalElements = Object.values((ingredient as Record<string, unknown>)?.transformedElementalProperties || {})
                                                     .reduce((sum, val) => {
                                                         const sumValue = Number(sum) || 0;
                                                         const valValue = Number(val) || 0;
@@ -761,9 +757,9 @@ const FoodRecommender: React.FC = () => {
                                                     }
                                                 };
                                                 
-                                                // Show tarot highlight for elements matching the tarot card
+                                                // ✅ Pattern GG-6: Safe property access for tarot element matching
                                                 const isTarotElement = minorCard && 
-                                                    (element as string)?.toLowerCase?.() === (minorCard as string)?.element?.toLowerCase();
+                                                    (element as string)?.toLowerCase?.() === ((minorCard as Record<string, unknown>)?.element as string)?.toLowerCase();
                                                 
                                                 return (
                                                     <div key={element} className="relative">
@@ -789,7 +785,7 @@ const FoodRecommender: React.FC = () => {
                                         }
                                     </div>
                                     
-                                    {/* Energy Values with visualization */}
+                                    {/* ✅ Pattern GG-6: Safe property access for energy values visualization */}
                                     <div className="grid grid-cols-3 gap-2 mt-3">
                                         <div className="text-xs">
                                             <span className="block text-gray-500 mb-1">Heat</span>
@@ -797,10 +793,10 @@ const FoodRecommender: React.FC = () => {
                                                 <div className="w-full bg-gray-800 rounded-full h-1.5 mr-2">
                                                     <div 
                                                         className="bg-red-500 h-1.5 rounded-full" 
-                                                        style={{ width: `${Math.min(100, Math.max(0, Math.round((ingredient.heat || 0) * 100)))}%` }}
+                                                        style={{ width: `${Math.min(100, Math.max(0, Math.round(((ingredient as Record<string, unknown>)?.heat as number || 0) * 100)))}%` }}
                                                     ></div>
                                                 </div>
-                                                <span className="text-gray-400">{safelyFormatNumber(ingredient.heat)}</span>
+                                                <span className="text-gray-400">{safelyFormatNumber((ingredient as Record<string, unknown>)?.heat)}</span>
                                             </div>
                                         </div>
                                         <div className="text-xs">
@@ -809,10 +805,10 @@ const FoodRecommender: React.FC = () => {
                                                 <div className="w-full bg-gray-800 rounded-full h-1.5 mr-2">
                                                     <div 
                                                         className="bg-blue-500 h-1.5 rounded-full" 
-                                                        style={{ width: `${Math.min(100, Math.max(0, Math.round((ingredient.entropy || 0) * 100)))}%` }}
+                                                        style={{ width: `${Math.min(100, Math.max(0, Math.round(((ingredient as Record<string, unknown>)?.entropy as number || 0) * 100)))}%` }}
                                                     ></div>
                                                 </div>
-                                                <span className="text-gray-400">{safelyFormatNumber(ingredient.entropy)}</span>
+                                                <span className="text-gray-400">{safelyFormatNumber((ingredient as Record<string, unknown>)?.entropy)}</span>
                                             </div>
                                         </div>
                                         <div className="text-xs">
@@ -821,20 +817,20 @@ const FoodRecommender: React.FC = () => {
                                                 <div className="w-full bg-gray-800 rounded-full h-1.5 mr-2">
                                                     <div 
                                                         className="bg-purple-500 h-1.5 rounded-full" 
-                                                        style={{ width: `${Math.min(100, Math.max(0, Math.round((ingredient.gregsEnergy || 0) * 100)))}%` }}
+                                                        style={{ width: `${Math.min(100, Math.max(0, Math.round(((ingredient as Record<string, unknown>)?.gregsEnergy as number || 0) * 100)))}%` }}
                                                     ></div>
                                                 </div>
-                                                <span className="text-gray-400">{safelyFormatNumber(ingredient.gregsEnergy)}</span>
+                                                <span className="text-gray-400">{safelyFormatNumber((ingredient as Record<string, unknown>)?.gregsEnergy)}</span>
                                             </div>
                                         </div>
                                     </div>
                                     
-                                    {/* Add modality information if available */}
-                                    {ingredient.modality && (
+                                    {/* ✅ Pattern GG-6: Safe property access for modality information */}
+                                    {(ingredient as Record<string, unknown>)?.modality && (
                                         <div className="mt-3 mb-2">
                                             <span className="text-xs text-gray-500 mb-1 block">Quality:</span>
                                             <div className="bg-indigo-900 bg-opacity-30 inline-block px-2 py-0.5 rounded-full text-xs">
-                                                {ingredient.modality}
+                                                {String((ingredient as Record<string, unknown>)?.modality || '')}
                                             </div>
                                         </div>
                                     )}

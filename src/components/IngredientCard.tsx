@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Ingredient, RecipeIngredient } from '@/types';
 import { isRecipeIngredient, getDominantElement } from '@/utils/ingredientUtils';
 import { Flame, Droplets, Mountain, Wind, ChevronDown, ChevronUp, Beaker, Tag, Clock, Info } from 'lucide-react';
-import styles from './IngredientCard.module.css';
+import ingredientCardStyles from './IngredientCard.module.css';
 
 interface IngredientCardProps {
   ingredient: Ingredient | RecipeIngredient;
@@ -83,7 +83,7 @@ export const IngredientCard: React.FC<IngredientCardProps> = ({
 
   return (
     <div 
-      className={`${styles.ingredientCard} ${styles[`element${dominantElement}`]} ${isSelected ? styles.selected : ''}`}
+      className={`${ingredientCardStyles.ingredientCard} ${ingredientCardStyles[`element${dominantElement}`]} ${isSelected ? ingredientCardStyles.selected : ''}`}
       onClick={handleClick}
       style={{
         cursor: isExpandable ? 'pointer' : 'default',
@@ -167,7 +167,7 @@ export const IngredientCard: React.FC<IngredientCardProps> = ({
           <strong>{ingredient.amount} {ingredient.unit}</strong>
           {ingredient.preparation && <span style={{ fontStyle: 'italic' }}> ({ingredient.preparation})</span>}
           {ingredient.optional && (
-            <span className={styles.optionalBadge}>Optional</span>
+            <span className={ingredientCardStyles.optionalBadge}>Optional</span>
           )}
         </div>
       )}
@@ -250,7 +250,7 @@ export const IngredientCard: React.FC<IngredientCardProps> = ({
                 
                 return qualities && qualities.length > 0 && (
                   <div style={{ marginBottom: '12px' }}>
-                    <div className={styles.sectionHeader}>
+                    <div className={ingredientCardStyles.sectionHeader}>
                       <Tag size={14} />
                       Qualities
                     </div>
@@ -260,7 +260,7 @@ export const IngredientCard: React.FC<IngredientCardProps> = ({
                       gap: '4px'
                     }}>
                       {qualities.map((quality: string, index: number) => (
-                        <span key={index} className={styles.tagQuality}>
+                        <span key={index} className={ingredientCardStyles.tagQuality}>
                           {quality}
                         </span>
                       ))}
@@ -276,7 +276,7 @@ export const IngredientCard: React.FC<IngredientCardProps> = ({
                 
                 return seasonality && seasonality.length > 0 && (
                   <div style={{ marginBottom: '12px' }}>
-                    <div className={styles.sectionHeader}>
+                    <div className={ingredientCardStyles.sectionHeader}>
                       <Clock size={14} />
                       Seasonality
                     </div>
@@ -286,7 +286,7 @@ export const IngredientCard: React.FC<IngredientCardProps> = ({
                       gap: '4px'
                     }}>
                       {seasonality.map((season: string, index: number) => (
-                        <span key={index} className={styles.tagSeason}>
+                        <span key={index} className={ingredientCardStyles.tagSeason}>
                           {season}
                         </span>
                       ))}
@@ -333,7 +333,7 @@ export const IngredientCard: React.FC<IngredientCardProps> = ({
 
           {/* Recipe Ingredient Details */}
           {isRecipeIngredient(ingredient) && (
-            <div className={styles.recipeDetails}>
+            <div className={ingredientCardStyles.recipeDetails}>
               {ingredient.notes && (
                 <div style={{
                   fontSize: '14px',

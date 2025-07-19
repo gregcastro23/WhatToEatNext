@@ -65,10 +65,10 @@ export const IngredientDisplay = ({ ingredient, showDetails = false }: Ingredien
       
       {/* Show description if available with safe property access */}
       {(() => {
-        const ingredientData = ingredient as Record<string, unknown>;
+        const ingredientData = ingredient as unknown as Record<string, unknown>;
         const description = ingredientData?.description;
         return description ? (
-          <p className="text-sm text-gray-600 mt-2 italic">{description}</p>
+          <p className="text-sm text-gray-600 mt-2 italic">{String(description)}</p>
         ) : null;
       })()}
       
@@ -112,8 +112,8 @@ export const IngredientDisplay = ({ ingredient, showDetails = false }: Ingredien
           
           {/* Energy Profile Section with safe property access */}
           {(() => {
-            const ingredientData = ingredient as Record<string, unknown>;
-            const energyProfile = ingredientData?.energyProfile;
+            const ingredientData = ingredient as unknown as Record<string, unknown>;
+            const energyProfile = ingredientData?.energyProfile as Record<string, unknown>;
             
             if (!energyProfile) return null;
             
@@ -125,36 +125,36 @@ export const IngredientDisplay = ({ ingredient, showDetails = false }: Ingredien
                 </div>
                 <div className="text-xs space-y-1">
                   {(() => {
-                    const zodiac = energyProfile?.zodiac;
+                    const zodiac = energyProfile?.zodiac as unknown[];
                     return zodiac?.length > 0 ? (
                       <div className="flex flex-wrap gap-1">
                         <span className="font-medium">Zodiac:</span>
-                        {zodiac.map((sign: string) => (
-                          <span key={sign} className="px-2 py-0.5 bg-amber-100 text-amber-800 rounded-full">{sign}</span>
+                        {zodiac.map((sign: unknown) => (
+                          <span key={String(sign)} className="px-2 py-0.5 bg-amber-100 text-amber-800 rounded-full">{String(sign)}</span>
                         ))}
                       </div>
                     ) : null;
                   })()}
                   
                   {(() => {
-                    const lunar = energyProfile?.lunar;
+                    const lunar = energyProfile?.lunar as unknown[];
                     return lunar?.length > 0 ? (
                       <div className="flex flex-wrap gap-1">
                         <span className="font-medium">Lunar:</span>
-                        {lunar.map((phase: string) => (
-                          <span key={phase} className="px-2 py-0.5 bg-indigo-100 text-indigo-800 rounded-full">{phase}</span>
+                        {lunar.map((phase: unknown) => (
+                          <span key={String(phase)} className="px-2 py-0.5 bg-indigo-100 text-indigo-800 rounded-full">{String(phase)}</span>
                         ))}
                       </div>
                     ) : null;
                   })()}
                   
                   {(() => {
-                    const planetary = energyProfile?.planetary;
+                    const planetary = energyProfile?.planetary as unknown[];
                     return planetary?.length > 0 ? (
                       <div className="flex flex-wrap gap-1">
                         <span className="font-medium">Planetary:</span>
-                        {planetary.map((alignment: string) => (
-                          <span key={alignment} className="px-2 py-0.5 bg-violet-100 text-violet-800 rounded-full">{alignment}</span>
+                        {planetary.map((alignment: unknown) => (
+                          <span key={String(alignment)} className="px-2 py-0.5 bg-violet-100 text-violet-800 rounded-full">{String(alignment)}</span>
                         ))}
                       </div>
                     ) : null;
@@ -166,8 +166,8 @@ export const IngredientDisplay = ({ ingredient, showDetails = false }: Ingredien
           
           {/* Sensory Profile Section with safe property access */}
           {(() => {
-            const ingredientData = ingredient as Record<string, unknown>;
-            const sensoryProfile = ingredientData?.sensoryProfile;
+            const ingredientData = ingredient as unknown as Record<string, unknown>;
+            const sensoryProfile = ingredientData?.sensoryProfile as Record<string, unknown>;
             
             if (!sensoryProfile) return null;
             
@@ -178,7 +178,7 @@ export const IngredientDisplay = ({ ingredient, showDetails = false }: Ingredien
                   <h4 className="text-sm font-medium">Sensory Profile</h4>
                 </div>
                 {(() => {
-                  const taste = sensoryProfile?.taste;
+                  const taste = sensoryProfile?.taste as Record<string, unknown>;
                   return taste ? (
                     <div>
                       <h5 className="text-xs font-medium mb-1">Taste</h5>
@@ -189,7 +189,7 @@ export const IngredientDisplay = ({ ingredient, showDetails = false }: Ingredien
                             <div className="relative w-20 h-2 bg-gray-200 rounded-full overflow-hidden">
                               <div 
                                 className="absolute h-full bg-gradient-to-r from-orange-300 to-orange-500 rounded-full"
-                                style={{ width: `${Math.min(100, (value as number * 100) || 0)}%` }}
+                                style={{ width: `${Math.min(100, (Number(value) * 100) || 0)}%` }}
                               ></div>
                             </div>
                           </div>
@@ -200,13 +200,13 @@ export const IngredientDisplay = ({ ingredient, showDetails = false }: Ingredien
                 })()}
                 
                 {(() => {
-                  const aroma = sensoryProfile?.aroma;
+                  const aroma = sensoryProfile?.aroma as Record<string, unknown>;
                   return aroma ? (
                     <div className="mt-2">
                       <h5 className="text-xs font-medium mb-1">Aroma</h5>
                       <div className="flex flex-wrap gap-1">
                         {Object.entries(aroma)
-                          .filter(([_, value]) => (value as number) > 0.3) // Only show significant aromas
+                          .filter(([_, value]) => (Number(value) || 0) > 0.3) // Only show significant aromas
                           .map(([aromaName, _]) => (
                             <span key={aromaName} className="px-2 py-0.5 bg-orange-100 text-orange-800 rounded-full text-xs">
                               {aromaName}
@@ -223,19 +223,19 @@ export const IngredientDisplay = ({ ingredient, showDetails = false }: Ingredien
           
           {/* Cooking Methods Section with safe property access */}
           {(() => {
-            const ingredientData = ingredient as Record<string, unknown>;
-            const recommendedCookingMethods = ingredientData?.recommendedCookingMethods;
+            const ingredientData = ingredient as unknown as Record<string, unknown>;
+            const recommendedCookingMethods = ingredientData?.recommendedCookingMethods as unknown[];
             
-            return recommendedCookingMethods?.length > 0 ? (
+            return Array.isArray(recommendedCookingMethods) && recommendedCookingMethods.length > 0 ? (
               <div className="bg-white/60 rounded-md p-3 shadow-sm">
                 <div className="flex items-center mb-2">
                   <ChefHat className="w-4 h-4 mr-2 text-emerald-600" />
                   <h4 className="text-sm font-medium">Cooking Methods</h4>
                 </div>
                 <div className="flex flex-wrap gap-1">
-                  {recommendedCookingMethods.map((method: string) => (
-                    <span key={method} className="text-xs px-2 py-1 bg-emerald-100 text-emerald-800 rounded-full">
-                      {method}
+                  {recommendedCookingMethods.map((method: unknown) => (
+                    <span key={String(method)} className="text-xs px-2 py-1 bg-emerald-100 text-emerald-800 rounded-full">
+                      {String(method)}
                     </span>
                   ))}
                 </div>
@@ -245,8 +245,8 @@ export const IngredientDisplay = ({ ingredient, showDetails = false }: Ingredien
           
           {/* Pairing Recommendations with safe property access */}
           {(() => {
-            const ingredientData = ingredient as Record<string, unknown>;
-            const pairingRecommendations = ingredientData?.pairingRecommendations;
+            const ingredientData = ingredient as unknown as Record<string, unknown>;
+            const pairingRecommendations = ingredientData?.pairingRecommendations as Record<string, unknown>;
             
             if (!pairingRecommendations) return null;
             
@@ -255,14 +255,14 @@ export const IngredientDisplay = ({ ingredient, showDetails = false }: Ingredien
                 <h4 className="text-sm font-medium mb-2">Pairing Recommendations</h4>
                 
                 {(() => {
-                  const complementary = pairingRecommendations?.complementary;
-                  return complementary?.length > 0 ? (
+                  const complementary = pairingRecommendations?.complementary as unknown[];
+                  return Array.isArray(complementary) && complementary.length > 0 ? (
                     <div className="mb-2">
                       <h5 className="text-xs font-medium text-green-600 mb-1">Complementary</h5>
                       <div className="flex flex-wrap gap-1">
-                        {complementary.map((item: string) => (
-                          <span key={item} className="text-xs px-2 py-0.5 bg-green-100 text-green-800 rounded-full">
-                            {item}
+                        {complementary.map((item: unknown) => (
+                          <span key={String(item)} className="text-xs px-2 py-0.5 bg-green-100 text-green-800 rounded-full">
+                            {String(item)}
                           </span>
                         ))}
                       </div>
@@ -271,14 +271,14 @@ export const IngredientDisplay = ({ ingredient, showDetails = false }: Ingredien
                 })()}
                 
                 {(() => {
-                  const contrasting = pairingRecommendations?.contrasting;
-                  return contrasting?.length > 0 ? (
+                  const contrasting = pairingRecommendations?.contrasting as unknown[];
+                  return Array.isArray(contrasting) && contrasting.length > 0 ? (
                     <div className="mb-2">
                       <h5 className="text-xs font-medium text-amber-600 mb-1">Contrasting</h5>
                       <div className="flex flex-wrap gap-1">
-                        {contrasting.map((item: string) => (
-                          <span key={item} className="text-xs px-2 py-0.5 bg-amber-100 text-amber-800 rounded-full">
-                            {item}
+                        {contrasting.map((item: unknown) => (
+                          <span key={String(item)} className="text-xs px-2 py-0.5 bg-amber-100 text-amber-800 rounded-full">
+                            {String(item)}
                           </span>
                         ))}
                       </div>
@@ -287,14 +287,14 @@ export const IngredientDisplay = ({ ingredient, showDetails = false }: Ingredien
                 })()}
                 
                 {(() => {
-                  const toAvoid = pairingRecommendations?.toAvoid;
-                  return toAvoid?.length > 0 ? (
+                  const toAvoid = pairingRecommendations?.toAvoid as unknown[];
+                  return Array.isArray(toAvoid) && toAvoid.length > 0 ? (
                     <div>
                       <h5 className="text-xs font-medium text-red-600 mb-1">To Avoid</h5>
                       <div className="flex flex-wrap gap-1">
-                        {toAvoid.map((item: string) => (
-                          <span key={item} className="text-xs px-2 py-0.5 bg-red-100 text-red-800 rounded-full">
-                            {item}
+                        {toAvoid.map((item: unknown) => (
+                          <span key={String(item)} className="text-xs px-2 py-0.5 bg-red-100 text-red-800 rounded-full">
+                            {String(item)}
                           </span>
                         ))}
                       </div>
@@ -307,8 +307,8 @@ export const IngredientDisplay = ({ ingredient, showDetails = false }: Ingredien
           
           {/* Nutrition Details with safe property access */}
           {(() => {
-            const ingredientData = ingredient as Record<string, unknown>;
-            const nutrition = ingredientData?.nutrition;
+            const ingredientData = ingredient as unknown as Record<string, unknown>;
+            const nutrition = ingredientData?.nutrition as Record<string, unknown>;
             
             return nutrition ? (
               <div className="bg-white/60 rounded-md p-3 shadow-sm">

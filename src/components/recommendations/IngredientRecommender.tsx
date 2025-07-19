@@ -193,11 +193,11 @@ export default function IngredientRecommender() {
     mode: 'standard',
     limit: 300 
   } as any);
-  const foodRecommendations = (alchemicalHookResult as Record<string, unknown>)?.enhancedRecommendations;
-  const chakraEnergies = (alchemicalHookResult as Record<string, unknown>)?.chakraEnergies;
-  const foodLoading = (alchemicalHookResult as Record<string, unknown>)?.loading || false;
-  const foodError = (alchemicalHookResult as Record<string, unknown>)?.error;
-  const refreshRecommendations = (alchemicalHookResult as Record<string, unknown>)?.refreshRecommendations;
+  const foodRecommendations = (alchemicalHookResult as unknown as Record<string, unknown>)?.enhancedRecommendations;
+  const chakraEnergies = (alchemicalHookResult as unknown as Record<string, unknown>)?.chakraEnergies;
+  const foodLoading = (alchemicalHookResult as unknown as Record<string, unknown>)?.loading || false;
+  const foodError = (alchemicalHookResult as unknown as Record<string, unknown>)?.error;
+  const refreshRecommendations = (alchemicalHookResult as unknown as Record<string, unknown>)?.refreshRecommendations;
 
   // Add timeout for loading state
   useEffect(() => {
@@ -371,7 +371,10 @@ export default function IngredientRecommender() {
         const herbData = herb as Record<string, unknown>;
         return herbData?.name;
       }) : 
-      Object.values(herbsCollection || {}).map((herb: unknown) => herb.name);
+      Object.values(herbsCollection || {}).map((herb: unknown) => {
+        const herbData = herb as Record<string, unknown>;
+        return herbData?.name;
+      });
   }, []);
 
   // Define oil types array for checking oil categories
@@ -382,7 +385,10 @@ export default function IngredientRecommender() {
         const oilData = oil as Record<string, unknown>;
         return oilData?.name?.toLowerCase();
       }) : 
-      Object.values(oilsCollection || {}).map((oil: unknown) => oil.name?.toLowerCase());
+      Object.values(oilsCollection || {}).map((oil: unknown) => {
+        const oilData = oil as Record<string, unknown>;
+        return String(oilData?.name || '').toLowerCase();
+      });
   }, []);
 
   // Define vinegar types array for checking vinegar categories
@@ -393,7 +399,10 @@ export default function IngredientRecommender() {
         const vinegarData = vinegar as Record<string, unknown>;
         return vinegarData?.name?.toLowerCase();
       }) : 
-      Object.values(vinegarsCollection || {}).map((vinegar: unknown) => vinegar.name?.toLowerCase());
+      Object.values(vinegarsCollection || {}).map((vinegar: unknown) => {
+        const vinegarData = vinegar as Record<string, unknown>;
+        return String(vinegarData?.name || '').toLowerCase();
+      });
   }, []);
   
   // Helper function to check if an ingredient is an oil

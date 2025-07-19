@@ -91,10 +91,10 @@ const validateElementalProperties = (props: Record<string, unknown>): ElementalP
   if (!props || typeof props !== 'object') return defaultProps;
   
   return {
-    Fire: Math.max(0, Math.min(1, props.Fire || 0)),
-    Water: Math.max(0, Math.min(1, props.Water || 0)),
-    Earth: Math.max(0, Math.min(1, props.Earth || 0)),
-    Air: Math.max(0, Math.min(1, props.Air || 0))
+    Fire: Math.max(0, Math.min(1, Number(props.Fire) || 0)),
+    Water: Math.max(0, Math.min(1, Number(props.Water) || 0)),
+    Earth: Math.max(0, Math.min(1, Number(props.Earth) || 0)),
+    Air: Math.max(0, Math.min(1, Number(props.Air) || 0))
   };
 };
 
@@ -261,7 +261,7 @@ export default function AlchemicalRecommendations({
       
       Object.entries(alchemicalContext.planetaryPositions || {}).forEach(([planet, data]) => {
         if (planet in positions && data && typeof data === 'object' && 'degree' in data) {
-          positions[planet as RulingPlanet] = (data as Record<string, unknown>).degree || 0;
+          positions[planet as RulingPlanet] = Number((data as Record<string, unknown>).degree) || 0;
         }
       });
       
@@ -535,23 +535,17 @@ export default function AlchemicalRecommendations({
 
   // Render expandable card helper
   const renderExpandableCard = (item: unknown, index: number, _type: 'ingredient' | 'method' | 'cuisine') => (
-    <Card 
-      key={item.id || index}
-      sx={{ 
-        mb: 2, 
-        border: expandedItems[item.id] ? '2px solid #1976d2' : '1px solid #e0e0e0',
-        transition: 'all 0.3s ease'
-      }}
-    >
+    <Card key={index} sx={{ mb: 2, backgroundColor: 'rgba(255, 255, 255, 0.05)' }}>
       <CardContent>
         <Box display="flex" justifyContent="space-between" alignItems="center">
-          <Typography variant="h6">{item.name}</Typography>
+          <Typography variant="h6" color="primary">
+            {(item as Record<string, unknown>)?.id || `Item ${index}`}
+          </Typography>
           <Button
-            onClick={() => toggleExpansion(item.id)}
-            startIcon={expandedItems[item.id] ? <ExpandLess /> : <ExpandMore />}
-            size="small"
+            onClick={() => toggleExpansion((item as Record<string, unknown>)?.id as string || `item-${index}`)}
+            endIcon={expandedItems[(item as Record<string, unknown>)?.id as string || `item-${index}`] ? <ExpandLess /> : <ExpandMore />}
           >
-            {expandedItems[item.id] ? 'Less' : 'More'}
+            {expandedItems[(item as Record<string, unknown>)?.id as string || `item-${index}`] ? 'Less' : 'More'}
           </Button>
         </Box>
 
@@ -572,7 +566,7 @@ export default function AlchemicalRecommendations({
         </Box>
 
         {/* Expandable content */}
-        {expandedItems[item.id] && (
+        {expandedItems[(item as Record<string, unknown>)?.id as string || `item-${index}`] && (
           <Box sx={{ mt: 2 }}>
             <Divider sx={{ mb: 2 }} />
             {item.modality && (

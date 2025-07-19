@@ -79,28 +79,28 @@ export default function NutritionalDisplay({
 
       {nutritionalData ? (
         <div>
-          <h3 className="text-lg font-semibold mb-2">{(nutritionalData as Record<string, unknown>)?.name || selectedIngredient}</h3>
+          <h3 className="text-lg font-semibold mb-2">{String((nutritionalData as Record<string, unknown>)?.name || selectedIngredient)}</h3>
           
           {/* Macronutrients Section */}
           <div className="mb-4">
             <h4 className="font-medium text-gray-700">Macronutrients</h4>
             <div className="grid grid-cols-2 gap-2">
-              <div className="text-sm">Calories: {(nutritionalData as Record<string, unknown>)?.calories || 0}</div>
-              <div className="text-sm">Protein: {(nutritionalData as Record<string, unknown>)?.macros?.protein || 0}g</div>
-              <div className="text-sm">Carbs: {(nutritionalData as Record<string, unknown>)?.macros?.carbs || 0}g</div>
-              <div className="text-sm">Fat: {(nutritionalData as Record<string, unknown>)?.macros?.fat || 0}g</div>
-              <div className="text-sm">Fiber: {(nutritionalData as Record<string, unknown>)?.macros?.fiber || 0}g</div>
+              <div className="text-sm">Calories: {Number((nutritionalData as Record<string, unknown>)?.calories || 0)}</div>
+              <div className="text-sm">Protein: {Number((nutritionalData as Record<string, unknown>)?.macros?.protein || 0)}g</div>
+              <div className="text-sm">Carbs: {Number((nutritionalData as Record<string, unknown>)?.macros?.carbs || 0)}g</div>
+              <div className="text-sm">Fat: {Number((nutritionalData as Record<string, unknown>)?.macros?.fat || 0)}g</div>
+              <div className="text-sm">Fiber: {Number((nutritionalData as Record<string, unknown>)?.macros?.fiber || 0)}g</div>
             </div>
           </div>
 
           {!compact && (
             <>
               {/* Vitamins Section */}
-              {(nutritionalData as unknown[])?.vitamins && Object.keys((nutritionalData as unknown[])?.vitamins || {}).length > 0 && (
+              {(nutritionalData as Record<string, unknown>)?.vitamins && Object.keys((nutritionalData as Record<string, unknown>)?.vitamins as Record<string, unknown> || {}).length > 0 && (
                 <div className="mb-4">
                   <h4 className="font-medium text-gray-700">Vitamins (% Daily Value)</h4>
                   <div className="grid grid-cols-3 gap-1">
-                    {Object.entries((nutritionalData as unknown[])?.vitamins || {}).map(([vitamin, value]) => (
+                    {Object.entries((nutritionalData as Record<string, unknown>)?.vitamins as Record<string, unknown> || {}).map(([vitamin, value]) => (
                       <div key={vitamin} className="text-sm">
                         {vitamin}: {formatPercent(value as number)}
                       </div>
@@ -110,11 +110,11 @@ export default function NutritionalDisplay({
               )}
 
               {/* Minerals Section */}
-              {(nutritionalData as unknown[])?.minerals && Object.keys((nutritionalData as unknown[])?.minerals || {}).length > 0 && (
+              {(nutritionalData as Record<string, unknown>)?.minerals && Object.keys((nutritionalData as Record<string, unknown>)?.minerals as Record<string, unknown> || {}).length > 0 && (
                 <div className="mb-4">
                   <h4 className="font-medium text-gray-700">Minerals (% Daily Value)</h4>
                   <div className="grid grid-cols-3 gap-1">
-                    {Object.entries((nutritionalData as unknown[])?.minerals || {}).map(([mineral, value]) => (
+                    {Object.entries((nutritionalData as Record<string, unknown>)?.minerals as Record<string, unknown> || {}).map(([mineral, value]) => (
                       <div key={mineral} className="text-sm">
                         {mineral}: {formatPercent(value as number)}
                       </div>
@@ -126,8 +126,8 @@ export default function NutritionalDisplay({
               {/* Data Source */}
               {(nutritionalData as Record<string, unknown>)?.source && (
                 <div className="text-xs text-gray-500 mt-2">
-                  Source: {(nutritionalData as Record<string, unknown>)?.source} 
-                  {(nutritionalData as Record<string, unknown>)?.fdcId ? ` (ID: ${(nutritionalData as Record<string, unknown>)?.fdcId})` : ''}
+                  Source: {String((nutritionalData as Record<string, unknown>)?.source)} 
+                  {(nutritionalData as Record<string, unknown>)?.fdcId ? ` (ID: ${String((nutritionalData as Record<string, unknown>)?.fdcId)})` : ''}
                 </div>
               )}
             </>

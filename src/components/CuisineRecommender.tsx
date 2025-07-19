@@ -705,7 +705,7 @@ export default function CuisineRecommender() {
       // Enhanced recommendations with Monica/Kalchm integration
       const enhancedRecommendations = recommendations.map(cuisine => {
         // Ensure elemental properties are properly typed
-        const cuisineElemental: ElementalProperties = cuisine.elementalProperties || 
+        const cuisineElemental: ElementalProperties = (cuisine.elementalProperties as ElementalProperties) || 
           { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
         
         // Perform comprehensive enhanced analysis
@@ -858,9 +858,9 @@ export default function CuisineRecommender() {
           recipes: enhancedRecipes
         };
       });
-      setCuisineRecommendations(cuisinesWithRecipes);
-      setOriginalCuisines(cuisinesWithRecipes);
-      setFilteredCuisines(cuisinesWithRecipes);
+      setCuisineRecommendations(cuisinesWithRecipes as unknown as CuisineData[]);
+      setOriginalCuisines(cuisinesWithRecipes as unknown as CuisineData[]);
+      setFilteredCuisines(cuisinesWithRecipes as unknown as CuisineData[]);
 
       setLoadingState({ isLoading: true, step: 'Analyzing cultural intelligence...', progress: 80 });
       
@@ -870,7 +870,7 @@ export default function CuisineRecommender() {
         try {
           const analytics = CulturalAnalyticsService.generateCulturalAnalytics(
             cuisine.name.toLowerCase(),
-            cuisine.elementalProperties || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
+            (cuisine.elementalProperties as ElementalProperties) || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
             astrologicalStateForRecommendations
           );
           culturalAnalyticsData[cuisine.id] = analytics;
@@ -915,7 +915,7 @@ export default function CuisineRecommender() {
       const cacheData = {
         cuisines: cuisinesWithRecipes,
         culturalAnalytics: culturalAnalyticsData,
-        fusionRecommendations: fusionRecs,
+        fusionRecommendations: fusionRecommendations,
         sauces: topSauces
       };
       
@@ -1299,7 +1299,7 @@ export default function CuisineRecommender() {
           <SauceRecommendations
             sauces={sauceRecommendations}
             currentElementalProfile={currentMomentElementalProfile}
-            currentZodiac={currentZodiac}
+            currentZodiac={currentZodiac as string}
             lunarPhase={lunarPhase}
             currentSeason={getCurrentSeason()}
             maxDisplayed={6}
@@ -1958,7 +1958,7 @@ export default function CuisineRecommender() {
                   cuisineName={selectedCuisineData.name}
                   selectedRecipe={selectedRecipe}
                   currentElementalProfile={currentMomentElementalProfile}
-                  currentZodiac={currentZodiac}
+                  currentZodiac={currentZodiac as string}
                   lunarPhase={lunarPhase}
                   currentSeason={getCurrentSeason()}
                   maxDisplayed={4}

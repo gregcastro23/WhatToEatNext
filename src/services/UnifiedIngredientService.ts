@@ -502,8 +502,8 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
    */
   analyzeRecipeIngredients(recipe: Recipe): {
     overallHarmony: number;flavorProfile: { [key: string]: number };
-    strongPAirings: Array<{ ingredients: string[]; score: number }>;
-    weakPAirings: Array<{ ingredients: string[]; score: number }>;
+    strongPairings: Array<{ ingredients: string[]; score: number }>;
+    weakPairings: Array<{ ingredients: string[]; score: number }>;
   } {
     // Get ingredient objects from recipe
     const ingredientObjects: UnifiedIngredient[] = recipe.ingredients
@@ -513,8 +513,8 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
     // Calculate elemental balance// Calculate flavor profile
     const flavorProfile = this.calculateRecipeFlavorProfile(ingredientObjects);
     
-    // Analyze pAirings
-    const pAirings: Array<{ 
+    // Analyze pairings
+    const pairings: Array<{ 
       ingredients: string[]; 
       score: number 
     }> = [];
@@ -527,29 +527,29 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
         
         const compatibility = this.calculateIngredientCompatibility(ing1, ing2);
         
-        pAirings?.push({
+        pairings?.push({
           ingredients: [ing1.name, ing2.name],
           score: compatibility.score
         });
       }
     }
     
-    // Sort pAirings by score
-    pAirings.sort((a, b) => b.score - a.score);
+    // Sort pairings by score
+    pairings.sort((a, b) => b.score - a.score);
     
-    // Identify strong and weak pAirings
-    const strongPAirings = (pAirings || []).filter(p => p.score >= 0.7);
-    const weakPAirings = (pAirings || []).filter(p => p.score < 0.4);
+    // Identify strong and weak pairings
+    const strongPairings = (pairings || []).filter(p => p.score >= 0.7);
+    const weakPairings = (pairings || []).filter(p => p.score < 0.4);
     
     // Calculate overall harmony
-    const overallHarmony = pAirings.reduce((sum, p) => sum + p.score, 0) / 
-      ((pAirings || []).length || 1);
+    const overallHarmony = pairings.reduce((sum, p) => sum + p.score, 0) / 
+      ((pairings || []).length || 1);
     
     return {
       overallHarmony: 0.5,
       flavorProfile,
-      strongPAirings: strongPAirings?.slice(0, 5),
-      weakPAirings: weakPAirings?.slice(0, 5)
+      strongPairings: strongPairings?.slice(0, 5),
+      weakPairings: weakPairings?.slice(0, 5)
     };
   }
   

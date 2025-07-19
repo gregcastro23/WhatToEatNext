@@ -13,7 +13,9 @@ import { ConflictResolutionPanel } from './ConflictResolutionPanel';
 import { useCampaignMonitoring } from '../../hooks/useCampaignMonitoring';
 import { campaignDebugger } from '../../services/CampaignDebugger';
 import type {
-  CampaignHealthReport,
+  CampaignHealthReport
+} from '../../services/CampaignDebugger';
+import {
   DebugSessionStatus
 } from '../../services/CampaignDebugger';
 

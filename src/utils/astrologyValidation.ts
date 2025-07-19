@@ -81,10 +81,10 @@ export async function validatePlanetaryPositions(positions?: Record<string, unkn
       
       // Convert our formatting to match reference format
       const formattedCalculated: PlanetaryPosition = {
-        sign: (calculatedData?.sign || '').toLowerCase(),
-        degree: Math.floor(calculatedData?.degree || 0),
-        minute: Math.floor(((calculatedData?.degree || 0) % 1) * 60),
-        isRetrograde: calculatedData?.isRetrograde
+        sign: String(calculatedData?.sign || '').toLowerCase(),
+        degree: Math.floor(Number(calculatedData?.degree || 0)),
+        minute: Math.floor((Number(calculatedData?.degree || 0) % 1) * 60),
+        isRetrograde: Boolean(calculatedData?.isRetrograde)
       };
       
       // Calculate difference
@@ -156,15 +156,15 @@ export async function getValidationSummary(): Promise<string> {
     const planetAccurate = planetData?.accurate;
     
     summary += `${planet.padEnd(10)}: ${planetAccurate ? '✓' : '✗'} `;
-    summary += `Calculated: ${calculated?.sign} ${calculated?.degree}°${calculated?.minute}' `;
+    summary += `Calculated: ${(calculated as Record<string, unknown>)?.sign} ${(calculated as Record<string, unknown>)?.degree}°${(calculated as Record<string, unknown>)?.minute}' `;
     
-    if (calculated?.isRetrograde) {
+    if ((calculated as Record<string, unknown>)?.isRetrograde) {
       summary += 'R ';
     }
     
-    summary += `| Reference: ${reference?.sign} ${reference?.degree}°${reference?.minute}' `;
+    summary += `| Reference: ${(reference as Record<string, unknown>)?.sign} ${(reference as Record<string, unknown>)?.degree}°${(reference as Record<string, unknown>)?.minute}' `;
     
-    if (reference?.isRetrograde) {
+    if ((reference as Record<string, unknown>)?.isRetrograde) {
       summary += 'R';
     }
     
@@ -220,10 +220,10 @@ export async function validateAgainstAPI(): Promise<{ accurate: boolean, differe
     const positionData = calculatedPosition as Record<string, unknown>;
     
     const formattedCalculated: PlanetaryPosition = {
-      sign: (positionData?.sign || '').toLowerCase(),
-      degree: Math.floor(positionData?.degree || 0),
-      minute: Math.floor(((positionData?.degree || 0) % 1) * 60),
-      isRetrograde: positionData?.isRetrograde
+      sign: String(positionData?.sign || '').toLowerCase(),
+      degree: Math.floor(Number(positionData?.degree || 0)),
+      minute: Math.floor((Number(positionData?.degree || 0) % 1) * 60),
+      isRetrograde: Boolean(positionData?.isRetrograde)
     };
     
     // Calculate differences

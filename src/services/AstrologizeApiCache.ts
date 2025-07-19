@@ -70,9 +70,12 @@ class AstrologizeApiCache {
    * Calculate elemental absolute and relative values
    */
   private calculateElementalValues(alchemicalResult: StandardizedAlchemicalResult) {
-    const resultData = alchemicalResult as Record<string, unknown>;
-    const elementalBalance = resultData?.elementalBalance || {};
-    const { Fire = 0, Water = 0, Earth = 0, Air = 0 } = elementalBalance;
+    const resultData = (alchemicalResult as unknown) as Record<string, unknown>;
+    const elementalBalance = (resultData?.elementalBalance as Record<string, unknown>) || {};
+    const Fire = Number(elementalBalance.Fire) || 0;
+    const Water = Number(elementalBalance.Water) || 0;
+    const Earth = Number(elementalBalance.Earth) || 0;
+    const Air = Number(elementalBalance.Air) || 0;
 
     // Absolute values (direct from alchemical result)
     const elementalAbsolutes = {
@@ -109,7 +112,7 @@ class AstrologizeApiCache {
     const { elementalAbsolutes, elementalRelatives } = this.calculateElementalValues(alchemicalResult);
     
     // Safe access to alchemical result properties
-    const resultData = alchemicalResult as Record<string, unknown>;
+    const resultData = (alchemicalResult as unknown) as Record<string, unknown>;
     
     const cachedData: CachedAstrologicalData = {
       timestamp: Date.now(),
@@ -121,12 +124,12 @@ class AstrologizeApiCache {
       elementalAbsolutes,
       elementalRelatives,
       thermodynamics: {
-        heat: resultData?.heat || 0,
-        entropy: resultData?.entropy || 0,
-        reactivity: resultData?.reactivity || 0,
-        gregsEnergy: resultData?.energy || 0,
-        kalchm: resultData?.kalchm || 1,
-        monica: resultData?.monica || 1
+        heat: Number(resultData?.heat) || 0,
+        entropy: Number(resultData?.entropy) || 0,
+        reactivity: Number(resultData?.reactivity) || 0,
+        gregsEnergy: Number(resultData?.energy) || 0,
+        kalchm: Number(resultData?.kalchm) || 1,
+        monica: Number(resultData?.monica) || 1
       },
       quality: this.assessDataQuality(alchemicalResult)
     };
@@ -211,11 +214,11 @@ class AstrologizeApiCache {
     
     // For each planet, predict its position
     for (const [planet, position] of Object.entries(baseData.planetaryPositions)) {
-      const planetData = position as Record<string, unknown>;
+      const planetData = (position as unknown) as Record<string, unknown>;
       predictedPositions[planet] = {
-        sign: planetData?.sign || '',
-        degree: planetData?.degree || 0,
-        isRetrograde: planetData?.isRetrograde || false
+        sign: (String(planetData?.sign) || 'aries') as any,
+        degree: Number(planetData?.degree) || 0,
+        isRetrograde: Boolean(planetData?.isRetrograde) || false
       };
       sources.push(`${planet}:${baseData.date.toISOString()}`);
     }

@@ -37,8 +37,8 @@ export class UnifiedNutritionalService {
   
   private constructor() {
     // Apply Pattern PP-1: Safe service initialization
-    const NutritionServiceData = NutritionService as Record<string, unknown>;
-    this.legacyNutritionService = NutritionServiceData?.getInstance?.() || new NutritionService();
+    const NutritionServiceData = NutritionService as unknown as Record<string, unknown>;
+    this.legacyNutritionService = (NutritionServiceData?.getInstance as unknown as () => NutritionService)?.() || new NutritionService();
   }
   
   /**
@@ -118,11 +118,11 @@ export class UnifiedNutritionalService {
       }
       
       // Apply surgical type casting with variable extraction
-      const systemData = unifiedNutritionalSystem as Record<string, unknown>;
-      const enhanceMethod = systemData?.enhanceNutritionalProfile;
+      const systemData = unifiedNutritionalSystem as unknown as Record<string, unknown>;
+      const enhanceMethod = systemData?.enhanceNutritionalProfile as unknown as (profile: NutritionalProfile, context?: unknown) => AlchemicalNutritionalProfile;
       
       // Enhance with alchemical properties
-      const enhanced = enhanceMethod ? enhanceMethod(nutritionalProfile, context) as unknown as AlchemicalNutritionalProfile : nutritionalProfile as unknown as AlchemicalNutritionalProfile;
+      const enhanced = enhanceMethod ? enhanceMethod(nutritionalProfile, context) : nutritionalProfile as unknown as AlchemicalNutritionalProfile;
       
       // Convert to AlchemicalNutritionalProfile format to resolve import conflicts
       const alchemicalProfile: AlchemicalNutritionalProfile = {
@@ -152,8 +152,8 @@ export class UnifiedNutritionalService {
    */
   calculateNutritionalKalchm(profile: NutritionalProfile): number {
     // Apply surgical type casting with variable extraction
-    const systemData = unifiedNutritionalSystem as Record<string, unknown>;
-    const calculateKalchmMethod = systemData?.calculateNutritionalKalchm;
+    const systemData = unifiedNutritionalSystem as unknown as Record<string, unknown>;
+    const calculateKalchmMethod = systemData?.calculateNutritionalKalchm as unknown as (profile: NutritionalProfile) => number;
     
     return calculateKalchmMethod ? calculateKalchmMethod(profile) : 0;
   }
@@ -179,7 +179,7 @@ export class UnifiedNutritionalService {
         }
       }
       
-      return unifiedNutritionalSystem.analyzeNutritionalCompatibility(profiles, context) as Record<string, unknown>;
+      return unifiedNutritionalSystem.analyzeNutritionalCompatibility(profiles, context) as NutritionalCompatibilityAnalysis;
       
     } catch (error) {
       logger.error('Error analyzing nutritional compatibility:', error);
@@ -296,46 +296,43 @@ export class UnifiedNutritionalService {
     ingredients: UnifiedIngredient[],
     filter: NutritionalFilter
   ): UnifiedIngredient[] {
-    return (ingredients || []).filter(ingredient => {
-      const nutritionalProfile = ingredient.nutritionalPropertiesProfile;
-      if (!nutritionalProfile) return false;
+    return ingredients.filter(ingredient => {
+      const ingredientData = ingredient as Record<string, unknown>;
+      const nutritionalProfile = ingredientData?.nutritionalPropertiesProfile as Record<string, unknown>;
       
+      // Apply safe type conversion for property access
+      const protein = Number(nutritionalProfile?.protein || 0);
+      const carbs = Number(nutritionalProfile?.carbs || 0);
+      const fat = Number(nutritionalProfile?.fat || 0);
+
       // Check protein range
       if (filter.minProtein !== undefined || filter.maxProtein !== undefined) {
-        const profileData = nutritionalProfile as Record<string, unknown>;
-        const protein = profileData.protein || profileData.macros?.protein || 0;
         if (filter.minProtein !== undefined && protein < filter.minProtein) return false;
         if (filter.maxProtein !== undefined && protein > filter.maxProtein) return false;
       }
       
       // Check fiber range
       if (filter.minFiber !== undefined || filter.maxFiber !== undefined) {
-        const profileData = nutritionalProfile as Record<string, unknown>;
-        const fiber = profileData.fiber || profileData.macros?.fiber || 0;
+        const fiber = Number(nutritionalProfile?.fiber || 0);
         if (filter.minFiber !== undefined && fiber < filter.minFiber) return false;
         if (filter.maxFiber !== undefined && fiber > filter.maxFiber) return false;
       }
       
       // Check calorie range
       if (filter.minCalories !== undefined || filter.maxCalories !== undefined) {
-        const profileData = nutritionalProfile as Record<string, unknown>;
-        const calories = profileData.calories || 0;
+        const calories = Number(nutritionalProfile?.calories || 0);
         if (filter.minCalories !== undefined && calories < filter.minCalories) return false;
         if (filter.maxCalories !== undefined && calories > filter.maxCalories) return false;
       }
       
       // Check carb range
       if (filter.minCarbs !== undefined || filter.maxCarbs !== undefined) {
-        const profileData = nutritionalProfile as Record<string, unknown>;
-        const carbs = profileData.carbs || profileData.macros?.carbs || 0;
         if (filter.minCarbs !== undefined && carbs < filter.minCarbs) return false;
         if (filter.maxCarbs !== undefined && carbs > filter.maxCarbs) return false;
       }
       
       // Check fat range
       if (filter.minFat !== undefined || filter.maxFat !== undefined) {
-        const profileData = nutritionalProfile as Record<string, unknown>;
-        const fat = profileData.fat || profileData.macros?.fat || 0;
         if (filter.minFat !== undefined && fat < filter.minFat) return false;
         if (filter.maxFat !== undefined && fat > filter.maxFat) return false;
       }
@@ -368,22 +365,16 @@ export class UnifiedNutritionalService {
       
       // Check high protein flag
       if (filter.highProtein) {
-        const profileData = nutritionalProfile as Record<string, unknown>;
-        const protein = profileData.protein || profileData.macros?.protein || 0;
         if (protein < 10) return false; // Threshold for high protein
       }
       
       // Check low carb flag
       if (filter.lowCarb) {
-        const profileData = nutritionalProfile as Record<string, unknown>;
-        const carbs = profileData.carbs || profileData.macros?.carbs || 0;
         if (carbs > 20) return false; // Threshold for low carb
       }
       
       // Check low fat flag
       if (filter.lowFat) {
-        const profileData = nutritionalProfile as Record<string, unknown>;
-        const fat = profileData.fat || profileData.macros?.fat || 0;
         if (fat > 10) return false; // Threshold for low fat
       }
       

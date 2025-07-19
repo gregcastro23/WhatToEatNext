@@ -5,18 +5,34 @@
  * provide consistent interfaces across the application.
  */
 
-// Re-export commonly used types from other modules
+// Import and re-export commonly used types from other modules
+import type { 
+  ElementalProperties,
+  AlchemicalProperties,
+  ZodiacSign,
+  Element,
+  AstrologicalState,
+  StandardizedAlchemicalResult,
+  Season,
+  LunarPhase,
+  AlchemicalResult
+} from '@/types/alchemy';
+
+import type { CookingMethod } from '@/types/cooking';
+
+// Re-export for convenience
 export type { 
   ElementalProperties,
   AlchemicalProperties,
   ZodiacSign,
   Element,
-  PlanetaryPosition,
   AstrologicalState,
-  StandardizedAlchemicalResult
-} from '@/types/alchemy';
-
-export type { CookingMethod } from '@/types/cooking';
+  StandardizedAlchemicalResult,
+  Season,
+  LunarPhase,
+  AlchemicalResult,
+  CookingMethod
+};
 
 // Ingredient types - Unified interface consolidating all ingredient definitions
 export interface Ingredient {

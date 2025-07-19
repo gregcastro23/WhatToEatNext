@@ -77,7 +77,7 @@ export interface UnifiedIngredient {
     secondary?: string;
   };
   tags?: string[];
-  pAiringRecommendations?: string[];
+  pairingRecommendations?: string[];
   preparationMethods?: string[];
   description?: string;
   planetaryRuler?: PlanetName;

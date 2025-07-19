@@ -4,7 +4,7 @@ import React, { useState, useMemo, useEffect } from 'react';
 import { useServices } from '@/hooks/useServices';
 import type { Recipe } from '@/types/recipe';
 import type { Ingredient, Modality } from "@/data/ingredients/types";
-import { ZodiacSign, LunarPhaseWithSpaces, Element } from '@/types/alchemy';
+import { ZodiacSign, LunarPhaseWithSpaces, Element, CuisineType } from '@/types/alchemy';
 import { determineModalityFromElements } from '@/utils/cuisineUtils';
 import { ElementalItem } from '@/calculations/alchemicalTransformation';
 import { PlanetaryDignityDetails } from '@/constants/planetaryFoodAssociations';

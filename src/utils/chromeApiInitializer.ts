@@ -26,12 +26,12 @@ export function initializeChromeApis(): void {
 
     // Initialize chrome object if it doesn't exist
     if (!window.chrome) {
-      (window as Record<string, unknown>).chrome = {};
+      (window as unknown as Record<string, unknown>).chrome = {};
     }
 
     // Initialize tabs API with safe methods
-    if (!(window as Record<string, unknown>).chrome.tabs) {
-      (window as Record<string, unknown>).chrome.tabs = {
+    if (!(window as unknown as Record<string, unknown>).chrome?.tabs) {
+      (window as unknown as Record<string, unknown>).chrome.tabs = {
         create: function(options: { url?: string }) {
           console.log('[ChromeAPI] Mocked chrome.tabs.create called with:', options);
           
@@ -62,8 +62,8 @@ export function initializeChromeApis(): void {
     }
 
     // Initialize runtime API
-    if (!(window as Record<string, unknown>).chrome.runtime) {
-      (window as Record<string, unknown>).chrome.runtime = {
+    if (!(window as unknown as Record<string, unknown>).chrome?.runtime) {
+      (window as unknown as Record<string, unknown>).chrome.runtime = {
         lastError: null,
         getURL: function(path: string) {
           return window.location.origin + '/' + path;
@@ -80,8 +80,8 @@ export function initializeChromeApis(): void {
     }
 
     // Initialize extension API
-    if (!(window as Record<string, unknown>).chrome.extension) {
-      (window as Record<string, unknown>).chrome.extension = {
+    if (!(window as unknown as Record<string, unknown>).chrome?.extension) {
+      (window as unknown as Record<string, unknown>).chrome.extension = {
         getURL: function(path: string) {
           return window.location.origin + '/' + path;
         },
@@ -92,10 +92,10 @@ export function initializeChromeApis(): void {
     }
 
     // Initialize storage API
-    if (!(window as Record<string, unknown>).chrome.storage) {
+    if (!(window as unknown as Record<string, unknown>).chrome?.storage) {
       const mockStorage: Record<string, Record<string, string>> = {};
       
-      (window as Record<string, unknown>).chrome.storage = {
+      (window as unknown as Record<string, unknown>).chrome.storage = {
         local: {
           get: function(keys: string | string[] | null, callback?: (items: Record<string, string[]>) => void) {
             let result: Record<string, Record<string, string>> = {};
