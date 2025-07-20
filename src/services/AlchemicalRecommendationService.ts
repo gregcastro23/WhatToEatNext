@@ -2,7 +2,8 @@ import type { ElementalProperties,
   ThermodynamicProperties,
   CookingMethod,
   ZodiacSign,
-  Recipe } from '@/types/alchemy';
+  Recipe,
+  BasicThermodynamicProperties } from '@/types/alchemy';
 import type { Planet } from '@/types/celestial';
 import type { UnifiedIngredient } from '@/types/ingredient';
 import { getCurrentSeason } from '@/types/seasons';

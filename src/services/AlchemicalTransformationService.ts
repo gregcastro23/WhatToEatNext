@@ -12,7 +12,7 @@ import {
   filterByAlchemicalCompatibility,
   getTopCompatibleItems
 } from '../utils/alchemicalTransformationUtils';
-import { ZodiacSign, LunarPhase, PlanetaryAspect, LunarPhaseWithSpaces } from '../types/alchemy';
+import { ZodiacSign, LunarPhase, PlanetaryAspect, LunarPhaseWithSpaces, CookingMethod } from '../types/alchemy';
 import type { Recipe } from '../types/recipe';
 
 /**

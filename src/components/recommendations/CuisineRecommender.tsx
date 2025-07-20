@@ -13,6 +13,7 @@ import { Recipe } from '@/types/unified';
 import {
   ElementalProperties,
   Element } from "@/types/alchemy";
+import { cuisineFlavorProfiles } from '@/data/cuisineFlavorProfiles';
 import type { ZodiacSign } from '@/types/zodiac';
 import { useAlchemical } from '../../contexts/AlchemicalContext/hooks';
 import { SauceRecommendation,

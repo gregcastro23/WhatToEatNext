@@ -17,6 +17,7 @@ import {
 } from '@mui/icons-material';
 
 import { Recipe } from '@/types/unified';
+import { AlchemyRecipe } from '@/types/recipe';
 import { useServices } from '@/hooks/useServices';
 import * as astrologize from '@/services/astrologizeApi';
 import type { CuisineType, DietaryRestriction, ElementalProperties } from '@/types/alchemy';

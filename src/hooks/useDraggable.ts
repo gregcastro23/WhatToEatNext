@@ -88,10 +88,10 @@ export const useDraggable = (options: DraggableOptions = {}) => {
     }
 
     // Apply position
-    element.style.left = `${newX}px`;
-    element.style.top = `${newY}px`;
-    element.style.right = 'auto';
-    element.style.bottom = 'auto';
+    elementRef.current.style.left = `${newX}px`;
+    elementRef.current.style.top = `${newY}px`;
+    elementRef.current.style.right = 'auto';
+    elementRef.current.style.bottom = 'auto';
 
     options.onDrag?.(newX, newY, deltaX, deltaY);
   }, [options]);
@@ -177,10 +177,10 @@ export const useDraggable = (options: DraggableOptions = {}) => {
     }
 
     // Apply position
-    element.style.left = `${newX}px`;
-    element.style.top = `${newY}px`;
-    element.style.right = 'auto';
-    element.style.bottom = 'auto';
+    elementRef.current.style.left = `${newX}px`;
+    elementRef.current.style.top = `${newY}px`;
+    elementRef.current.style.right = 'auto';
+    elementRef.current.style.bottom = 'auto';
 
     options.onDrag?.(newX, newY, deltaX, deltaY);
   }, [options]);

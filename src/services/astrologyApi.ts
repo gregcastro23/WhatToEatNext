@@ -1,7 +1,7 @@
 import { elementalUtils , getCurrentElementalState } from '../utils/elementalUtils';
 import { AstrologicalService , getLatestAstrologicalState } from './AstrologicalService';
 import { calculatePlanetaryPositions, calculateSunSign, calculateLunarPhase } from '../utils/astrologyUtils';
-import type { ElementalProperties } from '@/types/alchemy';
+import type { ElementalProperties, CookingMethod } from '@/types/alchemy';
 
 type CelestialPosition = {
     sunSign: string;

@@ -4,7 +4,7 @@ import { useAstrologicalState } from '@/hooks/useAstrologicalState';
 import { ChakraAlchemyService } from '@/lib/ChakraAlchemyService';
 import { PlanetaryHourCalculator } from '@/lib/PlanetaryHourCalculator';
 import { getRecommendedIngredients, EnhancedIngredient } from '@/utils/foodRecommender';
-import type { ChakraEnergies, AstrologicalState, Planet } from '@/types/alchemy';
+import type { ChakraEnergies, AstrologicalState, Planet, BasicThermodynamicProperties } from '@/types/alchemy';
 
 /**
  * Interface for the chakra-influenced food recommendations

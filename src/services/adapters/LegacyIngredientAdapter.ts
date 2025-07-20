@@ -13,6 +13,7 @@ import { RecipeIngredient } from '@/types/recipe';
 import { unifiedIngredientService } from '../UnifiedIngredientService';
 import { createLogger } from '../../utils/logger';
 import type { UnifiedIngredient } from '@/data/unified/unifiedTypes';
+import { Ingredient } from '@/types/unified';
 import type { 
   ElementalProperties, 
   Season,

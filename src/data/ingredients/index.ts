@@ -3,6 +3,7 @@ import { refinedGrains } from './grains/refinedGrains';
 import { allGrains, grainNames } from './grains';
 import { medicinalHerbs } from './herbs/medicinalHerbs';
 import type { Ingredient } from '@/types/alchemy';
+import { UnifiedIngredient } from '@/types/unified';
 import { seafood , seafood as seafoodData } from './proteins/seafood';
 import { poultry , poultry as poultryData } from './proteins/poultry';
 import { plantBased , plantBased as plantBasedData } from './proteins/plantBased';

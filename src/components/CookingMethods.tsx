@@ -42,6 +42,7 @@ import { getLunarMultiplier } from '@/utils/lunarMultiplier';
 import { useTarotContext } from '@/contexts/TarotContext';
 import type { Modality } from '@/data/ingredients/types';
 import { staticAlchemize } from '@/utils/alchemyInitializer';
+import { ZodiacSign, Ingredient, UnifiedIngredient } from '@/types/unified';
 
 // TODO: Implement comprehensive alchemical transformation engine
 // TODO: Add advanced thermodynamic property calculation
@@ -1301,7 +1302,7 @@ export default function CookingMethods() {
   // Add this function to run our test
   const runDebugTest = useCallback(() => {
     console.log("Running cooking method recommendations test...");
-    testCookingMethodRecommendations();
+    // testCookingMethodRecommendations(); // TODO: Implement or remove
   }, []);
   
   // Update the fetchMethods function to use isMountedRef

@@ -1,4 +1,5 @@
 import type { ElementalProperties } from '@/types/alchemy';
+import { Recipe } from '@/types/unified';
 
 export interface CuisineFlavorProfile {
   id: string;
