@@ -8,7 +8,7 @@ import { execSync } from 'child_process';
  */
 describe('Build System Integration', () => {
   const buildDir = '.next';
-  const serverDir = path.join(buildDir, 'server');
+  const _serverDir = path.join(buildDir, 'server');
 
   beforeAll(() => {
     // Ensure we have a clean test environment

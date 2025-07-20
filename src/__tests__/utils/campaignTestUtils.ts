@@ -20,9 +20,7 @@ import {
   SafetyEvent,
   SafetyEventType,
   SafetyEventSeverity,
-  PhaseResult,
-  ValidationResult,
-  ProgressReport
+  PhaseResult
 } from '../../types/campaign';
 
 /**
@@ -497,17 +495,4 @@ export const campaignTestData = {
   })
 };
 
-// Export all utilities
-export {
-  setupCampaignTest,
-  cleanupCampaignTest,
-  createMockCampaignConfig,
-  createMockProgressMetrics,
-  createMockSafetyEvent,
-  simulateCampaignPhase,
-  simulateProgressTracking,
-  validateCampaignTestIsolation,
-  executeCampaignTestScenario,
-  withCampaignTestIsolation,
-  validateCampaignMemoryUsage
-};
+// Functions are already exported at their declarations above

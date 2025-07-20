@@ -7,6 +7,7 @@
  */
 
 import { logger } from '@/utils/logger';
+import { Recipe, Ingredient, ZodiacSign } from '@/types/unified';
 import { 
   AdvancedAnalyticsIntelligenceResult,
   AdvancedRecipeAnalyticsAnalysis,
@@ -16,10 +17,6 @@ import {
   AdvancedIntelligenceConfig,
   AdvancedIntelligenceMetrics
 } from '@/types/advancedIntelligence';
-import type { ElementalProperties, ZodiacSign, LunarPhase } from '@/types/alchemy';
-import type { Recipe } from '@/types/recipe';
-import type { Ingredient } from '@/types/ingredient';
-import { calculateElementalCompatibility } from '@/calculations/index';
 
 // Note: These functions are not yet implemented in calculations/index
 // Using placeholder implementations for now
@@ -33,7 +30,6 @@ const calculateAstrologicalAlignment = (recipe: any, zodiacSign: string, lunarPh
   // Placeholder implementation - would integrate with actual astrological calculations
   return 0.75 + (Math.random() * 0.2); // 75-95% range
 };
-import { getCurrentSeason } from '@/utils/timeUtils';
 
 // ========== ADVANCED ANALYTICS INTELLIGENCE SERVICE ==========
 
@@ -164,7 +160,7 @@ export class AdvancedAnalyticsIntelligenceService {
       elementalProperties: ElementalProperties;
       planetaryPositions?: Record<string, any>;
     }
-  ): Promise<AdvancedAnalyticsIntelligenceResult['recipeAnalytics']> {
+  ): Promise<AdvancedRecipeAnalyticsAnalysis> {
     try {
       // Calculate multi-dimensional score
       const multiDimensionalScore = this.calculateMultiDimensionalScore(recipe, astrologicalContext);
@@ -200,7 +196,7 @@ export class AdvancedAnalyticsIntelligenceService {
       lunarPhase: LunarPhase;
       elementalProperties: ElementalProperties;
     }
-  ): Promise<AdvancedAnalyticsIntelligenceResult['ingredientAnalytics']> {
+  ): Promise<AdvancedIngredientAnalyticsAnalysis> {
     try {
       // Generate interaction matrix
       const interactionMatrix = this.generateIngredientInteractionMatrix(ingredients, astrologicalContext);
@@ -236,10 +232,10 @@ export class AdvancedAnalyticsIntelligenceService {
       lunarPhase: LunarPhase;
       elementalProperties: ElementalProperties;
     }
-  ): Promise<AdvancedAnalyticsIntelligenceResult['cuisineAnalytics']> {
+  ): Promise<AdvancedCuisineAnalyticsAnalysis> {
     try {
       // Analyze cultural correlations
-      const culturalCorrelationAnalysis = this.analyzeCulturalCorrelations(cuisineData, astrologicalContext);
+      const culturalCorrelations = this.analyzeCulturalCorrelations(cuisineData, astrologicalContext);
 
       // Analyze fusion analytics
       const fusionAnalytics = this.analyzeFusionAnalytics(cuisineData, astrologicalContext);
@@ -248,7 +244,7 @@ export class AdvancedAnalyticsIntelligenceService {
       const optimizationMetrics = this.calculateCuisineOptimizationMetrics(cuisineData, astrologicalContext);
 
       return {
-        culturalCorrelationAnalysis,
+        culturalCorrelations,
         fusionAnalytics,
         optimizationMetrics
       };
@@ -273,20 +269,20 @@ export class AdvancedAnalyticsIntelligenceService {
       ingredients?: Ingredient[];
       cuisine?: any;
     }
-  ): Promise<AdvancedAnalyticsIntelligenceResult['astrologicalAnalytics']> {
+  ): Promise<AdvancedAstrologicalAnalyticsAnalysis> {
     try {
       // Recognize patterns
-      const patternRecognition = this.recognizeAstrologicalPatterns(astrologicalContext, culinaryContext);
+      const patterns = this.recognizeAstrologicalPatterns(astrologicalContext, culinaryContext);
 
       // Analyze correlations
-      const correlationAnalysis = this.analyzeAstrologicalCorrelations(astrologicalContext, culinaryContext);
+      const correlations = this.analyzeAstrologicalCorrelations(astrologicalContext, culinaryContext);
 
       // Generate predictive modeling
       const predictiveModeling = this.generateAstrologicalPredictiveModeling(astrologicalContext, culinaryContext);
 
       return {
-        patternRecognition,
-        correlationAnalysis,
+        patterns,
+        correlations,
         predictiveModeling
       };
     } catch (error) {
@@ -630,6 +626,7 @@ export class AdvancedAnalyticsIntelligenceService {
   }
 
   // ========== HELPER CALCULATION METHODS ==========
+  // TODO: Implement comprehensive analytics algorithms
 
   private calculateComplexityDimension(recipe: Recipe): number {
     const complexityFactors = { easy: 0.3, medium: 0.6, hard: 0.9 };
@@ -637,18 +634,18 @@ export class AdvancedAnalyticsIntelligenceService {
   }
 
   private calculateCulturalDimension(recipe: Recipe, astrologicalContext: any): number {
-    // Simplified cultural dimension calculation
-    return 0.7; // Default moderate cultural relevance
+    // TODO: Implement cultural dimension analysis based on recipe origins and cultural significance
+    return 0.7;
   }
 
   private calculateInnovationDimension(recipe: Recipe, astrologicalContext: any): number {
-    // Simplified innovation dimension calculation
-    return 0.6; // Default moderate innovation
+    // TODO: Implement innovation scoring based on unique ingredient combinations and techniques
+    return 0.6;
   }
 
   private calculateTemporalDimension(recipe: Recipe, astrologicalContext: any): number {
-    // Simplified temporal dimension calculation
-    return 0.8; // Default good temporal alignment
+    // TODO: Implement temporal alignment scoring based on seasonal and astrological timing
+    return 0.8;
   }
 
   private calculateIngredientComplexity(recipe: Recipe): number {
@@ -671,39 +668,41 @@ export class AdvancedAnalyticsIntelligenceService {
     return complexityFactors[recipe.difficulty as keyof typeof complexityFactors] || 0.5;
   }
 
+  // Recipe optimization calculations - TODO: Implement advanced optimization algorithms
   private calculateFlavorOptimization(recipe: Recipe, astrologicalContext: any): number {
-    // Simplified flavor optimization calculation
-    return 0.75; // Default good optimization
+    // TODO: Analyze flavor profiles, elemental balances, and astrological influences
+    return 0.75;
   }
 
   private calculateNutritionalOptimization(recipe: Recipe, astrologicalContext: any): number {
-    // Simplified nutritional optimization calculation
-    return 0.7; // Default moderate optimization
+    // TODO: Analyze nutritional content against astrological and seasonal needs
+    return 0.7;
   }
 
   private calculateCulturalOptimization(recipe: Recipe, astrologicalContext: any): number {
-    // Simplified cultural optimization calculation
-    return 0.8; // Default good optimization
+    // TODO: Analyze cultural authenticity and regional appropriateness
+    return 0.8;
   }
 
   private calculateSeasonalOptimization(recipe: Recipe, astrologicalContext: any): number {
-    // Simplified seasonal optimization calculation
-    return 0.75; // Default good optimization
+    // TODO: Analyze seasonal ingredient availability and energetic alignment
+    return 0.75;
   }
 
+  // Recipe prediction calculations - TODO: Implement predictive modeling
   private calculateRecipeSuccessProbability(recipe: Recipe, astrologicalContext: any): number {
-    // Simplified success probability calculation
-    return 0.8; // Default good probability
+    // TODO: Implement ML-based success prediction using historical data
+    return 0.8;
   }
 
   private calculateUserSatisfactionPrediction(recipe: Recipe, astrologicalContext: any): number {
-    // Simplified user satisfaction prediction calculation
-    return 0.75; // Default good satisfaction
+    // TODO: Implement user preference analysis and satisfaction modeling
+    return 0.75;
   }
 
   private calculateAdaptationPotential(recipe: Recipe, astrologicalContext: any): number {
-    // Simplified adaptation potential calculation
-    return 0.7; // Default moderate adaptation
+    // TODO: Analyze recipe flexibility and modification possibilities
+    return 0.7;
   }
 
   private calculateIngredientInteraction(ing1: Ingredient, ing2: Ingredient, astrologicalContext: any): number {
@@ -714,170 +713,178 @@ export class AdvancedAnalyticsIntelligenceService {
     return Math.max(0, Math.min(1, elementalCompatibility));
   }
 
+  // Ingredient synergy calculations - TODO: Implement comprehensive synergy analysis
   private calculateFlavorSynergy(ingredients: Ingredient[], astrologicalContext: any): number {
-    // Simplified flavor synergy calculation
-    return 0.8; // Default good synergy
+    // TODO: Analyze flavor interactions, complementary profiles, and enhancement effects
+    return 0.8;
   }
 
   private calculateNutritionalSynergy(ingredients: Ingredient[], astrologicalContext: any): number {
-    // Simplified nutritional synergy calculation
-    return 0.75; // Default good synergy
+    // TODO: Analyze nutritional interactions, bioavailability, and absorption synergies
+    return 0.75;
   }
 
   private calculateCulturalSynergy(ingredients: Ingredient[], astrologicalContext: any): number {
-    // Simplified cultural synergy calculation
-    return 0.7; // Default moderate synergy
+    // TODO: Analyze cultural compatibility and traditional ingredient pairings
+    return 0.7;
   }
 
   private calculateSeasonalSynergy(ingredients: Ingredient[], astrologicalContext: any): number {
-    // Simplified seasonal synergy calculation
-    return 0.8; // Default good synergy
+    // TODO: Analyze seasonal compatibility and energetic harmony
+    return 0.8;
   }
 
+  // Ingredient analysis methods - TODO: Implement advanced ingredient analytics
   private findAdvancedSubstitutions(ingredient: Ingredient, astrologicalContext: any): string[] {
-    // Simplified advanced substitution finding
-    const substitutions: Record<string, string[]> = {
+    // TODO: Implement ML-based substitution analysis with astrological compatibility
+    const basicSubstitutions: Record<string, string[]> = {
       'tomato': ['bell pepper', 'paprika', 'tomatillo'],
       'onion': ['shallot', 'leek', 'scallion'],
       'garlic': ['garlic powder', 'shallot', 'chive']
     };
-    
-    return substitutions[ingredient.name.toLowerCase()] || [];
+    return basicSubstitutions[ingredient.name.toLowerCase()] || [];
   }
 
   private calculateIngredientSynergyScore(ingredient: Ingredient, astrologicalContext: any): number {
-    // Simplified ingredient synergy score calculation
-    return 0.75; // Default good synergy
+    // TODO: Calculate comprehensive synergy scores based on elemental and astrological properties
+    return 0.75;
   }
 
   private calculateIngredientDiversityScore(ingredients: Ingredient[]): number {
+    // Calculate diversity based on ingredient categories and types
     const uniqueTypes = new Set(ingredients.map(ing => ing.category || ing.type)).size;
     return Math.min(1, uniqueTypes / Math.max(1, ingredients.length));
   }
 
   private calculateAstrologicalOptimization(ingredients: Ingredient[], astrologicalContext: any): number {
-    // Simplified astrological optimization calculation
-    return 0.7; // Default moderate optimization
+    // TODO: Implement astrological optimization scoring for ingredient combinations
+    return 0.7;
   }
 
+  // Cuisine correlation calculations - TODO: Implement comprehensive correlation analysis
   private calculateHistoricalCorrelation(cuisineData: any, astrologicalContext: any): number {
-    // Simplified historical correlation calculation
-    return 0.8; // Default good correlation
+    // TODO: Analyze historical culinary traditions and astrological influences
+    return 0.8;
   }
 
   private calculateRegionalCorrelation(cuisineData: any, astrologicalContext: any): number {
-    // Simplified regional correlation calculation
-    return 0.75; // Default good correlation
+    // TODO: Analyze regional culinary patterns and geographic influences
+    return 0.75;
   }
 
   private calculateSeasonalCorrelation(cuisineData: any, astrologicalContext: any): number {
-    // Simplified seasonal correlation calculation
-    return 0.8; // Default good correlation
+    // TODO: Analyze seasonal culinary traditions and ingredient availability
+    return 0.8;
   }
 
   private calculateAstrologicalCorrelation(cuisineData: any, astrologicalContext: any): number {
-    // Simplified astrological correlation calculation
-    return 0.75; // Default good correlation
+    // TODO: Analyze astrological influences on culinary development
+    return 0.75;
   }
 
   private generateCuisineCompatibilityMatrix(cuisineData: any, astrologicalContext: any): Record<string, Record<string, number>> {
-    // Simplified cuisine compatibility matrix generation
+    // TODO: Generate comprehensive compatibility matrix for cuisine fusion analysis
     return {};
   }
 
+  // Cuisine analysis calculations - TODO: Implement comprehensive cuisine analytics
   private calculateCuisineInnovationPotential(cuisineData: any, astrologicalContext: any): number {
-    // Simplified cuisine innovation potential calculation
-    return 0.7; // Default moderate potential
+    // TODO: Analyze fusion possibilities and innovation opportunities
+    return 0.7;
   }
 
   private calculateCuisineCulturalAcceptance(cuisineData: any, astrologicalContext: any): number {
-    // Simplified cuisine cultural acceptance calculation
-    return 0.8; // Default good acceptance
+    // TODO: Analyze cultural acceptance patterns and adaptation potential
+    return 0.8;
   }
 
   private calculateCuisineSeasonalRelevance(cuisineData: any, astrologicalContext: any): number {
-    // Simplified cuisine seasonal relevance calculation
-    return 0.75; // Default good relevance
+    // TODO: Analyze seasonal appropriateness and ingredient alignment
+    return 0.75;
   }
 
+  // Cuisine optimization calculations - TODO: Implement optimization algorithms
   private calculateCuisineCulturalOptimization(cuisineData: any, astrologicalContext: any): number {
-    // Simplified cuisine cultural optimization calculation
-    return 0.8; // Default good optimization
+    // TODO: Optimize for cultural authenticity and regional preferences
+    return 0.8;
   }
 
   private calculateCuisineSeasonalOptimization(cuisineData: any, astrologicalContext: any): number {
-    // Simplified cuisine seasonal optimization calculation
-    return 0.75; // Default good optimization
+    // TODO: Optimize for seasonal ingredients and energetic balance
+    return 0.75;
   }
 
   private calculateCuisineAstrologicalOptimization(cuisineData: any, astrologicalContext: any): number {
-    // Simplified cuisine astrological optimization calculation
-    return 0.7; // Default moderate optimization
+    // TODO: Optimize for astrological harmony and planetary influences
+    return 0.7;
   }
 
   private calculateCuisineInnovationOptimization(cuisineData: any, astrologicalContext: any): number {
-    // Simplified cuisine innovation optimization calculation
-    return 0.6; // Default moderate optimization
+    // TODO: Optimize for creative expression and innovative combinations
+    return 0.6;
   }
 
+  // Pattern recognition methods - TODO: Implement advanced pattern recognition algorithms
   private recognizePlanetaryPatterns(astrologicalContext: any, culinaryContext: any): Record<string, number> {
-    // Simplified planetary pattern recognition
+    // TODO: Implement ML-based planetary pattern recognition in culinary preferences
     return { 'Sun': 0.8, 'Moon': 0.75, 'Mercury': 0.7 };
   }
 
   private recognizeZodiacPatterns(astrologicalContext: any, culinaryContext: any): Record<string, number> {
-    // Simplified zodiac pattern recognition
+    // TODO: Implement zodiac element pattern recognition in cooking styles
     return { 'Fire': 0.8, 'Earth': 0.75, 'Air': 0.7, 'Water': 0.75 };
   }
 
   private recognizeLunarPatterns(astrologicalContext: any, culinaryContext: any): Record<string, number> {
-    // Simplified lunar pattern recognition
+    // TODO: Implement lunar phase pattern analysis for optimal cooking times
     return { 'new moon': 0.7, 'full moon': 0.8, 'waxing': 0.75, 'waning': 0.7 };
   }
 
   private recognizeSeasonalPatterns(astrologicalContext: any, culinaryContext: any): Record<string, number> {
-    // Simplified seasonal pattern recognition
+    // TODO: Implement seasonal pattern analysis for ingredient and technique preferences
     return { 'spring': 0.8, 'summer': 0.75, 'autumn': 0.8, 'winter': 0.7 };
   }
 
+  // Astrological correlation calculations - TODO: Implement comprehensive astrological analysis
   private calculateAstrologicalCulinaryCorrelation(astrologicalContext: any, culinaryContext: any): number {
-    // Simplified astrological culinary correlation calculation
-    return 0.8; // Default good correlation
+    // TODO: Analyze correlation between astrological factors and culinary preferences
+    return 0.8;
   }
 
   private calculateAstrologicalCulturalCorrelation(astrologicalContext: any, culinaryContext: any): number {
-    // Simplified astrological cultural correlation calculation
-    return 0.75; // Default good correlation
+    // TODO: Analyze correlation between astrological and cultural culinary patterns
+    return 0.75;
   }
 
   private calculateAstrologicalSeasonalCorrelation(astrologicalContext: any, culinaryContext: any): number {
-    // Simplified astrological seasonal correlation calculation
-    return 0.8; // Default good correlation
+    // TODO: Analyze correlation between astrological cycles and seasonal culinary trends
+    return 0.8;
   }
 
   private calculateAstrologicalTemporalCorrelation(astrologicalContext: any, culinaryContext: any): number {
-    // Simplified astrological temporal correlation calculation
-    return 0.7; // Default moderate correlation
+    // TODO: Analyze temporal patterns in astrological and culinary relationships
+    return 0.7;
   }
 
+  // Astrological prediction calculations - TODO: Implement predictive astrological modeling
   private calculateAstrologicalAlignmentPrediction(astrologicalContext: any, culinaryContext: any): number {
-    // Simplified astrological alignment prediction calculation
-    return 0.8; // Default good prediction
+    // TODO: Predict optimal astrological alignments for culinary activities
+    return 0.8;
   }
 
   private calculateAstrologicalTimingOptimization(astrologicalContext: any, culinaryContext: any): number {
-    // Simplified astrological timing optimization calculation
-    return 0.75; // Default good optimization
+    // TODO: Optimize timing based on astrological factors
+    return 0.75;
   }
 
   private calculateAstrologicalInfluencePrediction(astrologicalContext: any, culinaryContext: any): number {
-    // Simplified astrological influence prediction calculation
-    return 0.7; // Default moderate prediction
+    // TODO: Predict astrological influences on culinary outcomes
+    return 0.7;
   }
 
   private calculateAstrologicalHarmonyPrediction(astrologicalContext: any, culinaryContext: any): number {
-    // Simplified astrological harmony prediction calculation
-    return 0.8; // Default good prediction
+    // TODO: Predict harmonic relationships between astrological and culinary elements
+    return 0.8;
   }
 
   // ========== UTILITY METHODS ==========
@@ -956,7 +963,7 @@ export class AdvancedAnalyticsIntelligenceService {
 
   // ========== DEFAULT RESULTS ==========
 
-  private getDefaultRecipeAnalytics(): AdvancedAnalyticsIntelligenceResult['recipeAnalytics'] {
+  private getDefaultRecipeAnalytics(): AdvancedRecipeAnalyticsAnalysis {
     return {
       multiDimensionalScore: 0.75,
       complexityAnalysis: {
@@ -979,7 +986,7 @@ export class AdvancedAnalyticsIntelligenceService {
     };
   }
 
-  private getDefaultIngredientAnalytics(): AdvancedAnalyticsIntelligenceResult['ingredientAnalytics'] {
+  private getDefaultIngredientAnalytics(): AdvancedIngredientAnalyticsAnalysis {
     return {
       interactionMatrix: {},
       synergyAnalysis: {
@@ -993,9 +1000,9 @@ export class AdvancedAnalyticsIntelligenceService {
     };
   }
 
-  private getDefaultCuisineAnalytics(): AdvancedAnalyticsIntelligenceResult['cuisineAnalytics'] {
+  private getDefaultCuisineAnalytics(): AdvancedCuisineAnalyticsAnalysis {
     return {
-      culturalCorrelationAnalysis: {
+      culturalCorrelations: {
         historicalCorrelation: 0.8,
         regionalCorrelation: 0.75,
         seasonalCorrelation: 0.8,
@@ -1016,15 +1023,15 @@ export class AdvancedAnalyticsIntelligenceService {
     };
   }
 
-  private getDefaultAstrologicalAnalytics(): AdvancedAnalyticsIntelligenceResult['astrologicalAnalytics'] {
+  private getDefaultAstrologicalAnalytics(): AdvancedAstrologicalAnalyticsAnalysis {
     return {
-      patternRecognition: {
+      patterns: {
         planetaryPatterns: { 'Sun': 0.8, 'Moon': 0.75 },
         zodiacPatterns: { 'Fire': 0.8, 'Earth': 0.75 },
         lunarPatterns: { 'full moon': 0.8, 'new moon': 0.7 },
         seasonalPatterns: { 'spring': 0.8, 'summer': 0.75 }
       },
-      correlationAnalysis: {
+      correlations: {
         culinaryCorrelation: 0.8,
         culturalCorrelation: 0.75,
         seasonalCorrelation: 0.8,
@@ -1094,33 +1101,34 @@ export class AdvancedAnalyticsIntelligenceService {
 }
 
 // ========== EXPORT INSTANCES ==========
+// TODO: Consider consolidating these wrapper exports into a single factory pattern
 
 export const AdvancedRecipeAnalyticsIntelligence = {
-  generateAdvancedRecipeAnalytics: async (recipe: Recipe, context: any) => {
+  generateAdvancedRecipeAnalytics: async (recipe: Recipe, _context: any) => {
     const service = new AdvancedAnalyticsIntelligenceService();
-    const result = await service.generateAdvancedAnalyticsIntelligence(recipe, [], {}, context);
+    const result = await service.generateAdvancedAnalyticsIntelligence(recipe, [], {}, _context);
     return result.recipeAnalytics;
   }
 };
 
 export const AdvancedIngredientAnalyticsIntelligence = {
-  generateAdvancedIngredientAnalytics: async (ingredients: Ingredient[], context: any) => {
+  generateAdvancedIngredientAnalytics: async (ingredients: Ingredient[], _context: any) => {
     const service = new AdvancedAnalyticsIntelligenceService();
-    const result = await service.generateAdvancedAnalyticsIntelligence({} as Recipe, ingredients, {}, context);
+    const result = await service.generateAdvancedAnalyticsIntelligence({} as Recipe, ingredients, {}, _context);
     return result.ingredientAnalytics;
   }
 };
 
 export const AdvancedCuisineAnalyticsIntelligence = {
-  generateAdvancedCuisineAnalytics: async (cuisine: any, context: any) => {
+  generateAdvancedCuisineAnalytics: async (cuisine: any, _context: any) => {
     const service = new AdvancedAnalyticsIntelligenceService();
-    const result = await service.generateAdvancedAnalyticsIntelligence({} as Recipe, [], cuisine, context);
+    const result = await service.generateAdvancedAnalyticsIntelligence({} as Recipe, [], cuisine, _context);
     return result.cuisineAnalytics;
   }
 };
 
 export const AdvancedAstrologicalAnalyticsIntelligence = {
-  generateAdvancedAstrologicalAnalytics: async (astrologicalState: any, culinaryContext: any) => {
+  generateAdvancedAstrologicalAnalytics: async (astrologicalState: any, _culinaryContext: any) => {
     const service = new AdvancedAnalyticsIntelligenceService();
     const result = await service.generateAdvancedAnalyticsIntelligence({} as Recipe, [], {}, astrologicalState);
     return result.astrologicalAnalytics;

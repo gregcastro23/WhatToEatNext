@@ -421,7 +421,7 @@ describe('Campaign System Test Integration', () => {
       const scenario = campaignTestData.typeScriptErrorReduction();
       const config = createMockCampaignConfig();
 
-      const { context, results, finalMetrics, safetyEvents } = await executeCampaignTestScenario(scenario, config);
+      const { context: _context, results, finalMetrics, safetyEvents: _safetyEvents } = await executeCampaignTestScenario(scenario, config);
 
       try {
         // Verify phase execution
@@ -432,7 +432,7 @@ describe('Campaign System Test Integration', () => {
         campaignTestAssertions.progressImproved(scenario.initialMetrics, finalMetrics);
 
         // Verify safety events
-        campaignTestAssertions.safetyEventsRecorded(safetyEvents, scenario.expectedSafetyEvents);
+        campaignTestAssertions.safetyEventsRecorded(_safetyEvents, scenario.expectedSafetyEvents);
 
         // Verify final state
         expect(finalMetrics.typeScriptErrors.current).toBeLessThanOrEqual(scenario.initialMetrics.typeScriptErrors.current);
@@ -446,7 +446,7 @@ describe('Campaign System Test Integration', () => {
       const scenario = campaignTestData.lintingWarningCleanup();
       const config = createMockCampaignConfig();
 
-      const { context, results, finalMetrics, safetyEvents } = await executeCampaignTestScenario(scenario, config);
+      const { context: _context, results, finalMetrics, safetyEvents: _safetyEvents } = await executeCampaignTestScenario(scenario, config);
 
       try {
         // Verify phase execution

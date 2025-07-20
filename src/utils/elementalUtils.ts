@@ -30,8 +30,6 @@ import {
   isElementalPropertyKey, 
   logUnexpectedValue 
 } from '@/utils/validation';
-import { ErrorHandler } from '@/services/errorHandler';
-import { getLatestAstrologicalState } from '@/services/AstrologicalService';
 
 // Missing ELEMENTAL_CHARACTERISTICS constant
 const ELEMENTAL_CHARACTERISTICS = {

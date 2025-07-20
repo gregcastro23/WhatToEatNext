@@ -22,18 +22,55 @@
   - Implement validation and rollback mechanisms for automated fixes
   - _Requirements: 2.3, 2.4, 3.2, 5.4_
 
-- [-] 4. Resolve critical import resolution errors
+- [x] 4. Resolve critical import resolution errors
   - Fix TypeScript path mapping issues in eslint configuration
   - Resolve module resolution problems for @/ path aliases
   - Update import resolver settings for proper Next.js and React integration
   - Fix import/export statement inconsistencies across the codebase
   - _Requirements: 2.1, 2.5, 6.3_
 
-- [ ] 5. Systematically eliminate unused variable warnings
-  - Run automated unused variable detection and safe removal
-  - Prefix intentionally unused variables with underscore
-  - Preserve critical astrological calculation variables and constants
-  - Update function parameters to use underscore prefix for unused args
+- [-] 5. Systematically eliminate unused variable warnings
+- [x] 5.1 Analyze and categorize all unused variable warnings across the codebase
+  - Run comprehensive unused variable detection scan
+  - Categorize unused variables by type (imports, local variables, function parameters)
+  - Identify critical astrological calculation variables that must be preserved
+  - Create priority list focusing on high-impact files and frequently used modules
+  - _Requirements: 3.2, 4.1_
+
+- [ ] 5.2 Implement safe unused import removal system
+  - Remove unused import statements that are clearly not needed
+  - Preserve imports that may be used in type annotations or JSX
+  - Handle dynamic imports and conditional imports carefully
+  - Update import organization to follow established patterns
+  - _Requirements: 3.2, 4.1_
+
+- [ ] 5.3 Handle unused local variables and constants
+  - Remove unused local variables that serve no purpose
+  - Prefix intentionally unused variables with underscore (_variable)
+  - Preserve mathematical constants and fallback values for astrological calculations
+  - Handle destructured variables and array elements appropriately
+  - _Requirements: 3.2, 4.1, 4.2_
+
+- [ ] 5.4 Fix unused function parameters across the codebase
+  - Prefix unused function parameters with underscore (_param)
+  - Remove unused parameters where function signature allows
+  - Handle callback functions and event handlers appropriately
+  - Preserve parameter structure for API consistency and future use
+  - _Requirements: 3.2, 4.1, 4.2_
+
+- [ ] 5.5 Address unused variables in React components and hooks
+  - Handle unused props in React components appropriately
+  - Fix unused variables in useEffect, useMemo, and useCallback hooks
+  - Preserve state variables that may be used conditionally
+  - Update component interfaces to reflect actual usage patterns
+  - _Requirements: 3.2, 4.1, 4.2_
+
+- [ ] 5.6 Validate and test unused variable elimination
+  - Run comprehensive testing after unused variable removal
+  - Verify that astrological calculations still function correctly
+  - Test campaign system functionality remains intact
+  - Ensure no runtime errors introduced by variable removal
+  - Create regression tests for critical functionality
   - _Requirements: 3.2, 4.1, 4.2_
 
 - [ ] 6. Replace explicit 'any' types with proper TypeScript types

@@ -20,8 +20,7 @@ import {
   PredictiveIntelligenceResult,
   MLIntelligenceResult,
   AdvancedAnalyticsIntelligenceResult,
-  IntegratedAdvancedIntelligenceResult,
-  AdvancedIntelligenceConfig
+  IntegratedAdvancedIntelligenceResult
 } from '@/types/advancedIntelligence';
 import { 
   PredictiveIntelligenceService,

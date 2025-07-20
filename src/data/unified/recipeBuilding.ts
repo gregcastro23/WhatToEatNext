@@ -283,29 +283,29 @@ export class UnifiedRecipeBuildingSystem {
     recipe: EnhancedRecipe, 
     criteria: RecipeBuildingCriteria
   ): MonicaOptimizedRecipe['monicaOptimization'] {
-    const _originalMonica = recipe.alchemicalProperties?.monicaConstant || null;
-    const _targetMonica = criteria.targetMonica || this.calculateOptimalMonica(recipe, criteria);
+    const originalMonica = recipe.alchemicalProperties?.monicaConstant || null;
+    const targetMonica = criteria.targetMonica || this.calculateOptimalMonica(recipe, criteria);
     
     // Calculate optimization adjustments
-    const _temperatureAdjustments = this.calculateTemperatureAdjustments(_originalMonica, _targetMonica);
-    const _timingAdjustments = this.calculateTimingAdjustments(_originalMonica, _targetMonica);
-    const intensityModifications = this.calculateIntensityModifications(_originalMonica, _targetMonica);
-    const planetaryTimingRecommendations = this.calculatePlanetaryTiming(_targetMonica, criteria);
+    const temperatureAdjustments = this.calculateTemperatureAdjustments(originalMonica, targetMonica);
+    const timingAdjustments = this.calculateTimingAdjustments(originalMonica, targetMonica);
+    const intensityModifications = this.calculateIntensityModifications(originalMonica, targetMonica);
+    const planetaryTimingRecommendations = this.calculatePlanetaryTiming(targetMonica, criteria);
     
     // Calculate optimization score
     const optimizationScore = this.calculateOptimizationScore(
-      _originalMonica, 
-      _targetMonica, 
-      _temperatureAdjustments,
-      _timingAdjustments
+      originalMonica, 
+      targetMonica, 
+      temperatureAdjustments,
+      timingAdjustments
     );
     
     return {
-      originalMonica: _originalMonica,
-      optimizedMonica: _targetMonica,
+      originalMonica,
+      optimizedMonica: targetMonica,
       optimizationScore,
-      temperatureAdjustments: _temperatureAdjustments,
-      timingAdjustments: _timingAdjustments,
+      temperatureAdjustments,
+      timingAdjustments,
       intensityModifications,
       planetaryTimingRecommendations
     };
@@ -319,7 +319,7 @@ export class UnifiedRecipeBuildingSystem {
     season?: Season
   ): MonicaOptimizedRecipe['seasonalAdaptation'] {
     const currentSeason = season || this.seasonalSystem.getCurrentSeason();
-    const _seasonalRecommendations = this.seasonalSystem.getSeasonalRecommendations(currentSeason) as unknown as SeasonalRecommendations;
+    const seasonalRecommendations = this.seasonalSystem.getSeasonalRecommendations(currentSeason) as unknown as SeasonalRecommendations;
     
     // Calculate seasonal score
     const seasonalScore = this.calculateSeasonalScore(recipe, currentSeason);
@@ -328,14 +328,14 @@ export class UnifiedRecipeBuildingSystem {
     const seasonalIngredientSubstitutions = this.generateSeasonalIngredientSubstitutions(
       recipe, 
       currentSeason, 
-      _seasonalRecommendations
+      seasonalRecommendations
     );
     
     // Generate cooking method adjustments
     const seasonalCookingMethodAdjustments = this.generateSeasonalCookingMethodAdjustments(
       recipe, 
       currentSeason, 
-      _seasonalRecommendations
+      seasonalRecommendations
     );
     
     return {
@@ -364,10 +364,10 @@ export class UnifiedRecipeBuildingSystem {
     }
     
     // Analyze cuisine ingredients
-    const _cuisineAnalysis = this.cuisineSystem.analyzeCuisineIngredients(cuisine);
+    const cuisineAnalysis = this.cuisineSystem.analyzeCuisineIngredients(cuisine);
     
     // Calculate authenticity
-    const authenticity = this.calculateCuisineAuthenticity(recipe, cuisine, _cuisineAnalysis);
+    const authenticity = this.calculateCuisineAuthenticity(recipe, cuisine, cuisineAnalysis);
     
     // Calculate fusion potential
     const fusionPotential = this.calculateFusionPotential(recipe, cuisine);
@@ -421,35 +421,35 @@ export class UnifiedRecipeBuildingSystem {
     const originalRecipe = recipe;
     
     // Get seasonal recommendations
-    const _seasonalRecommendations = this.seasonalSystem.getSeasonalRecommendations(targetSeason) as unknown as SeasonalRecommendations;
+    const seasonalRecommendations = this.seasonalSystem.getSeasonalRecommendations(targetSeason) as unknown as SeasonalRecommendations;
     
     // Generate ingredient substitutions
     const ingredientSubstitutions = this.generateDetailedIngredientSubstitutions(
       recipe, 
       targetSeason, 
-      _seasonalRecommendations
+      seasonalRecommendations
     );
     
     // Generate cooking method adjustments
     const cookingMethodAdjustments = this.generateDetailedCookingMethodAdjustments(
       recipe, 
       targetSeason, 
-      _seasonalRecommendations
+      seasonalRecommendations
     );
     
     // Generate timing adjustments
-    const _timingAdjustments = this.generateSeasonalTimingAdjustments(recipe, targetSeason);
+    const timingAdjustments = this.generateSeasonalTimingAdjustments(recipe, targetSeason);
     
     // Generate temperature adjustments
-    const _temperatureAdjustments = this.generateSeasonalTemperatureAdjustments(recipe, targetSeason);
+    const temperatureAdjustments = this.generateSeasonalTemperatureAdjustments(recipe, targetSeason);
     
     // Apply all adaptations to create adapted recipe
     const adaptedRecipe = this.applyAdaptationsToRecipe(
       recipe, 
       ingredientSubstitutions,
       cookingMethodAdjustments,
-      _timingAdjustments,
-      _temperatureAdjustments,
+      timingAdjustments,
+      temperatureAdjustments,
       targetSeason
     );
     
@@ -464,8 +464,8 @@ export class UnifiedRecipeBuildingSystem {
       adaptationChanges: {
         ingredientSubstitutions,
         cookingMethodAdjustments,
-        timingAdjustments: _timingAdjustments,
-        temperatureAdjustments: _temperatureAdjustments
+        timingAdjustments,
+        temperatureAdjustments
       },
       seasonalScore,
       kalchmImprovement,
@@ -634,8 +634,8 @@ export class UnifiedRecipeBuildingSystem {
     
     // Adjust for cuisine
     if (criteria.cuisine) {
-      const _cuisineAnalysis = this.cuisineSystem.analyzeCuisineIngredients(criteria.cuisine);
-      optimalMonica *= _cuisineAnalysis.kalchmProfile.averageKalchm;
+      const cuisineAnalysis = this.cuisineSystem.analyzeCuisineIngredients(criteria.cuisine);
+      optimalMonica *= cuisineAnalysis.kalchmProfile.averageKalchm;
     }
     
     // Adjust for cooking methods
@@ -794,44 +794,158 @@ export class UnifiedRecipeBuildingSystem {
   }
   
   // Additional placeholder methods for comprehensive functionality...
-  private selectIngredientsFromCriteria(_criteria: RecipeBuildingCriteria): unknown[] { return []; } // TODO: Implement
-  private selectCookingMethodsFromCriteria(_criteria: RecipeBuildingCriteria): string[] { return []; }
-  private generateBaseInstructions(_ingredients: Recipe[], _methods: string[]): string[] { return []; }
-  private generateRecipeName(_criteria: RecipeBuildingCriteria): string { return 'Generated Recipe'; }
-  private generateRecipeDescription(_criteria: RecipeBuildingCriteria): string { return 'A delicious recipe'; }
-  private estimatePrepTime(_ingredients: ElementalProperties[], _methods: string[]): string { return '15 minutes'; }
-  private estimateCookTime(_methods: string[]): string { return '30 minutes'; }
-  private calculateBaseElementalProperties(_ingredients: ElementalProperties[]): ElementalProperties { 
+  private selectIngredientsFromCriteria(_criteria: RecipeBuildingCriteria): unknown[] { 
+    // TODO: Implement ingredient selection based on criteria
+    return []; 
+  }
+  
+  private selectCookingMethodsFromCriteria(_criteria: RecipeBuildingCriteria): string[] { 
+    // TODO: Implement cooking method selection
+    return []; 
+  }
+  
+  private generateBaseInstructions(_ingredients: unknown[], _methods: string[]): string[] { 
+    // TODO: Implement instruction generation
+    return []; 
+  }
+  
+  private generateRecipeName(_criteria: RecipeBuildingCriteria): string { 
+    // TODO: Generate dynamic recipe names based on criteria
+    return 'Generated Recipe'; 
+  }
+  
+  private generateRecipeDescription(_criteria: RecipeBuildingCriteria): string { 
+    // TODO: Generate dynamic recipe descriptions
+    return 'A delicious recipe'; 
+  }
+  
+  private estimatePrepTime(_ingredients: unknown[], _methods: string[]): string { 
+    // TODO: Calculate prep time based on ingredients and methods
+    return '15 minutes'; 
+  }
+  
+  private estimateCookTime(_methods: string[]): string { 
+    // TODO: Calculate cook time based on methods
+    return '30 minutes'; 
+  }
+  
+  private calculateBaseElementalProperties(_ingredients: unknown[]): ElementalProperties { 
+    // TODO: Calculate elemental properties from ingredients
     return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }; 
   }
-  private calculateCookingMethodMonicaModifier(_methods: string[]): number { return 1.0; }
   
-  // Seasonal adaptation methods
-  private generateDetailedIngredientSubstitutions(_recipe: EnhancedRecipe, _season: Season, _recommendations: SeasonalRecommendations): Season[] { return []; }
-  private generateDetailedCookingMethodAdjustments(_recipe: EnhancedRecipe, _season: Season, _recommendations: SeasonalRecommendations): Season[] { return []; }
-  private generateSeasonalTimingAdjustments(_recipe: EnhancedRecipe, _season: Season): any { return {}; }
-  private generateSeasonalTemperatureAdjustments(_recipe: EnhancedRecipe, _season: Season): any { return {}; }
-  private applyAdaptationsToRecipe(recipe: EnhancedRecipe, ..._adaptations: Season[]): MonicaOptimizedRecipe { return recipe as MonicaOptimizedRecipe; }
-  private calculateKalchmImprovement(_original: EnhancedRecipe, _adapted: MonicaOptimizedRecipe): number { return 0.1; }
-  private calculateMonicaImprovement(_original: EnhancedRecipe, _adapted: MonicaOptimizedRecipe): number { return 0.1; }
+  private calculateCookingMethodMonicaModifier(_methods: string[]): number { 
+    // TODO: Calculate Monica modifier from cooking methods
+    return 1.0; 
+  }
   
-  // Fusion recipe methods
-  private generateMultiCuisineFusion(cuisines: string[]): any { return {}; }
-  private createFusionBaseRecipe(fusion: unknown, criteria: RecipeBuildingCriteria): Partial<EnhancedRecipe> { return {}; }
-  private calculateFusionMonicaOptimization(recipe: EnhancedRecipe, cuisines: string[]): any { return {}; }
-  private applyFusionCuisineIntegration(recipe: EnhancedRecipe, cuisines: string[]): any { return {}; }
-  private calculateFusionRatio(cuisines: string[]): { [key: string]: number } { return {}; }
-  private categorizeFusionIngredients(recipe: MonicaOptimizedRecipe, cuisines: string[]): Recipe[] { return []; }
-  private categorizeFusionCookingMethods(recipe: MonicaOptimizedRecipe, cuisines: string[]): Recipe[] { return []; }
-  private calculateCulturalHarmony(cuisines: string[]): number { return 0.8; }
-  private calculateKalchmFusionBalance(recipe: MonicaOptimizedRecipe, cuisines: string[]): number { return 0.8; }
-  private calculateMonicaFusionOptimization(recipe: MonicaOptimizedRecipe, cuisines: string[]): number { return 0.8; }
-  private calculateInnovationScore(recipe: MonicaOptimizedRecipe, cuisines: string[]): number { return 0.7; }
+  // Seasonal adaptation methods - TODO: Implement comprehensive seasonal adaptations
+  private generateDetailedIngredientSubstitutions(_recipe: EnhancedRecipe, _season: Season, _recommendations: SeasonalRecommendations): any[] { 
+    // TODO: Generate seasonal ingredient substitutions
+    return []; 
+  }
   
-  // Planetary recipe methods
-  private calculatePlanetaryAlignment(recipe: MonicaOptimizedRecipe, hour: PlanetName, phase: LunarPhase, sign?: ZodiacSign): any { return {}; }
-  private calculateOptimalCookingTime(recipe: MonicaOptimizedRecipe, hour: PlanetName, phase: LunarPhase): any { return {}; }
-  private calculateEnergeticProfile(recipe: MonicaOptimizedRecipe, alignment: {}): any { return {}; }
+  private generateDetailedCookingMethodAdjustments(_recipe: EnhancedRecipe, _season: Season, _recommendations: SeasonalRecommendations): any[] { 
+    // TODO: Generate seasonal cooking method adjustments
+    return []; 
+  }
+  
+  private generateSeasonalTimingAdjustments(_recipe: EnhancedRecipe, _season: Season): any { 
+    // TODO: Calculate seasonal timing adjustments
+    return {}; 
+  }
+  
+  private generateSeasonalTemperatureAdjustments(_recipe: EnhancedRecipe, _season: Season): any { 
+    // TODO: Calculate seasonal temperature adjustments
+    return {}; 
+  }
+  
+  private applyAdaptationsToRecipe(recipe: EnhancedRecipe, ..._adaptations: any[]): MonicaOptimizedRecipe { 
+    // TODO: Apply seasonal adaptations to recipe
+    return recipe as MonicaOptimizedRecipe; 
+  }
+  
+  private calculateKalchmImprovement(_original: EnhancedRecipe, _adapted: MonicaOptimizedRecipe): number { 
+    // TODO: Calculate Kalchm improvement between original and adapted recipes
+    return 0.1; 
+  }
+  
+  private calculateMonicaImprovement(_original: EnhancedRecipe, _adapted: MonicaOptimizedRecipe): number { 
+    // TODO: Calculate Monica improvement between original and adapted recipes
+    return 0.1; 
+  }
+  
+  // Fusion recipe methods - TODO: Implement comprehensive fusion recipe capabilities
+  private generateMultiCuisineFusion(cuisines: string[]): any { 
+    // TODO: Generate fusion profile from multiple cuisines
+    return {}; 
+  }
+  
+  private createFusionBaseRecipe(fusion: unknown, criteria: RecipeBuildingCriteria): Partial<EnhancedRecipe> { 
+    // TODO: Create base recipe for fusion cuisine
+    return {}; 
+  }
+  
+  private calculateFusionMonicaOptimization(recipe: EnhancedRecipe, cuisines: string[]): any { 
+    // TODO: Calculate Monica optimization for fusion recipes
+    return {}; 
+  }
+  
+  private applyFusionCuisineIntegration(recipe: EnhancedRecipe, cuisines: string[]): any { 
+    // TODO: Apply cuisine integration for fusion recipes
+    return {}; 
+  }
+  
+  private calculateFusionRatio(cuisines: string[]): { [key: string]: number } { 
+    // TODO: Calculate fusion ratios between cuisines
+    return {}; 
+  }
+  
+  private categorizeFusionIngredients(recipe: MonicaOptimizedRecipe, cuisines: string[]): any[] { 
+    // TODO: Categorize ingredients by fusion role
+    return []; 
+  }
+  
+  private categorizeFusionCookingMethods(recipe: MonicaOptimizedRecipe, cuisines: string[]): any[] { 
+    // TODO: Categorize cooking methods by fusion application
+    return []; 
+  }
+  
+  private calculateCulturalHarmony(cuisines: string[]): number { 
+    // TODO: Calculate cultural harmony between cuisines
+    return 0.8; 
+  }
+  
+  private calculateKalchmFusionBalance(recipe: MonicaOptimizedRecipe, cuisines: string[]): number { 
+    // TODO: Calculate Kalchm balance for fusion recipe
+    return 0.8; 
+  }
+  
+  private calculateMonicaFusionOptimization(recipe: MonicaOptimizedRecipe, cuisines: string[]): number { 
+    // TODO: Calculate Monica optimization for fusion
+    return 0.8; 
+  }
+  
+  private calculateInnovationScore(recipe: MonicaOptimizedRecipe, cuisines: string[]): number { 
+    // TODO: Calculate innovation score for fusion recipe
+    return 0.7; 
+  }
+  
+  // Planetary recipe methods - TODO: Implement astrological recipe recommendations
+  private calculatePlanetaryAlignment(recipe: MonicaOptimizedRecipe, hour: PlanetName, phase: LunarPhase, sign?: ZodiacSign): any { 
+    // TODO: Calculate planetary alignment scores
+    return {}; 
+  }
+  
+  private calculateOptimalCookingTime(recipe: MonicaOptimizedRecipe, hour: PlanetName, phase: LunarPhase): any { 
+    // TODO: Calculate optimal cooking time based on planetary conditions
+    return {}; 
+  }
+  
+  private calculateEnergeticProfile(recipe: MonicaOptimizedRecipe, alignment: any): any { 
+    // TODO: Calculate energetic profile from planetary alignment
+    return {}; 
+  }
 }
 
 // ===== SINGLETON INSTANCE =====
@@ -848,9 +962,6 @@ export function adaptRecipeForSeason(_recipe: EnhancedRecipe, _season: Season): 
   return unifiedRecipeBuildingSystem.adaptRecipeForSeason(_recipe, _season);
 }
 
-export function adaptRecipeForSeasonExport(_recipe: EnhancedRecipe, _season: Season): SeasonalRecipeAdaptation {
-  return unifiedRecipeBuildingSystem.adaptRecipeForSeason(_recipe, _season);
-}
 
 export function generateFusionRecipe(_cuisines: string[], _criteria: RecipeBuildingCriteria): any {
   return unifiedRecipeBuildingSystem.generateFusionRecipe(_cuisines, _criteria);

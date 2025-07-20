@@ -1,13 +1,6 @@
 import { NextResponse } from 'next/server';
 import type { Recipe } from '@/types/recipe';
 
-// Basic elemental properties type for simplification
-interface ElementalProperties {
-  Fire: number;
-  Water: number;
-  Earth: number;
-  Air: number;
-}
 
 // Basic fallback recipe that will work without dependencies
 const fallbackRecipe: Recipe = {

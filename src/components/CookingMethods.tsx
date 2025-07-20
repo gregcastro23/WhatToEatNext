@@ -31,49 +31,27 @@ interface CookingMethodData {
 
 import React, { useState, useEffect, useMemo, useCallback, useRef } from 'react';
 import { useAstrologicalState } from '@/hooks/useAstrologicalState';
-import { 
-  ChevronDown, ChevronUp
-} from 'lucide-react';
+import { ChevronDown, ChevronUp } from 'lucide-react';
 import styles from './CookingMethods.module.css';
 import { AlchemicalItem } from '@/calculations/alchemicalTransformation';
-import { planetaryFoodAssociations, Planet } from '@/constants/planetaryFoodAssociations';
 import type { LunarPhase } from '@/constants/lunarPhases';
-import type { ElementalProperties, ZodiacSign, CookingMethod, BasicThermodynamicProperties } from '@/types/alchemy';
-import type { Ingredient, UnifiedIngredient } from '@/types/ingredient';
+import type { ElementalProperties, CookingMethod, BasicThermodynamicProperties } from '@/types/alchemy';
 import { COOKING_METHOD_THERMODYNAMICS } from '@/types/alchemy';
-import { getCachedCalculation } from '@/utils/calculationCache';
-import { useCurrentChart } from '@/hooks/useCurrentChart';
-import { testCookingMethodRecommendations } from '../utils/testRecommendations';
-
-// Import cooking methods from both traditional and cultural sources
 import { cookingMethods } from '@/data/cooking/cookingMethods';
-import { culturalCookingMethods, getCulturalVariations } from '@/utils/culturalMethodsAggregator';
-import { allCookingMethods } from '@/data/cooking';
-import { molecularCookingMethods } from '@/data/cooking/molecularMethods';
-
-// Add this import at the top with the other imports
-import { getCurrentSeason } from '@/data/integrations/seasonal';
 import { getLunarMultiplier } from '@/utils/lunarMultiplier';
-
-// Add these imports or declarations at the top of the component
-import { useTarotContext } from '@/contexts/TarotContext'; // If this exists in your app
-
-// Add import for modality type and utils
+import { useTarotContext } from '@/contexts/TarotContext';
 import type { Modality } from '@/data/ingredients/types';
-import { determineIngredientModality } from '@/utils/ingredientUtils';
-
-// Utility functions for alchemical calculations
-// Simple placeholder implementations if actual implementations aren't accessible
 import { staticAlchemize } from '@/utils/alchemyInitializer';
 
-// Implement the alchemize function using staticAlchemize
+// TODO: Implement comprehensive alchemical transformation engine
+// TODO: Add advanced thermodynamic property calculation
+// TODO: Integrate with astrological state processing
 const alchemize = async (
   elements: ElementalProperties | Record<string, number>,
   astroState: unknown,
   thermodynamics: unknown
 ): Promise<unknown> => {
   try {
-    // Create a simplified birthInfo object
     const birthInfo = {
       hour: new Date().getHours(),
       minute: new Date().getMinutes(),
@@ -82,7 +60,6 @@ const alchemize = async (
       year: new Date().getFullYear()
     };
 
-    // Create a simplified horoscope object
     const horoscopeDict = {
       tropical: {
         CelestialBodies: {},
@@ -91,9 +68,7 @@ const alchemize = async (
       }
     };
 
-    // If astroState contains planetary positions, add them to the horoscope
     if (astroState && (astroState as { planetaryPositions?: Record<string, unknown> })?.planetaryPositions) {
-      // Convert astroState planetary positions to the format expected by the alchemizer
       Object.entries((astroState as { planetaryPositions?: Record<string, unknown> })?.planetaryPositions || {}).forEach(([planet, position]: [string, unknown]) => {
         if (position && (position as { sign?: string }).sign) {
           horoscopeDict.tropical.CelestialBodies[planet] = {
@@ -108,10 +83,8 @@ const alchemize = async (
       });
     }
 
-    // Use the static alchemize function to get the full result
     const alchemicalResult = staticAlchemize(birthInfo, horoscopeDict);
 
-    // Combine the result with the input elements and thermodynamics
     return {
       ...alchemicalResult,
       elementalProperties: elements,
@@ -121,7 +94,6 @@ const alchemize = async (
         Earth: (alchemicalResult as { elementalBalance?: { fire?: number; water?: number; earth?: number; air?: number } })?.elementalBalance?.earth || 0,
         Air: (alchemicalResult as { elementalBalance?: { fire?: number; water?: number; earth?: number; air?: number } })?.elementalBalance?.air || 0
       },
-      // Extract thermodynamic properties with safe property access
       heat: (thermodynamics as { heat?: number })?.heat || (alchemicalResult as { heat?: number })?.heat || 0.5,
       entropy: (thermodynamics as { entropy?: number })?.entropy || (alchemicalResult as { entropy?: number })?.entropy || 0.5,
       reactivity: (thermodynamics as { reactivity?: number })?.reactivity || (alchemicalResult as { reactivity?: number })?.reactivity || 0.5,
@@ -129,7 +101,6 @@ const alchemize = async (
     };
   } catch (error) {
     console.error('Error in alchemize function:', error);
-    // Fallback to simple implementation if there's an error
     return {
       ...elements,
       alchemicalProperties: {},
@@ -172,24 +143,21 @@ interface ThermodynamicProperties {
   [key: string]: number;
 }
 
-// Define an interface for the astrologicalInfluences to fix the property access issue
+// TODO: Implement enhanced astrological influence calculation
 interface AstrologicalInfluence {
   favorableZodiac?: ZodiacSign[];
   unfavorableZodiac?: ZodiacSign[];
   lunarPhaseEffect?: Record<string, number>;
   dominantPlanets?: string[];
-  rulingPlanets?: string[] | string; // Allow both string and string array types
+  rulingPlanets?: string[] | string;
 }
 
-// Extend the AlchemicalItem interface to include astrologicalInfluences and culturalOrigin
+// TODO: Extend for comprehensive alchemical transformation system
 interface ExtendedAlchemicalItem extends AlchemicalItem {
   astrologicalInfluences?: AstrologicalInfluence;
   culturalOrigin?: string;
   bestFor?: string[];
-  duration?: {
-    min: number;
-    max: number;
-  };
+  duration?: { min: number; max: number; };
   optimalTemperatures?: Record<string, number>;
   thermodynamicProperties?: ThermodynamicProperties;
   score?: number;
@@ -206,137 +174,23 @@ interface ExtendedAlchemicalItem extends AlchemicalItem {
   };
 }
 
-// Define cooking time recommendations by ingredient class
-interface CookingTimeRecommendation {
-  ingredientClass: string;
-  timeRange: string;
-  tips: string;
-}
-
-// Add this new interface for molecular gastronomy details
-interface MolecularGastronomyDetails {
-  chemicalProcess: string;
-  precisionRequirements: string;
-  commonErrors: string[];
-  advancedEquipment: string[];
-  texturalOutcomes: string[];
-}
-
-// At the top level of your component file, before your component function
-// Define the types if needed
-
-// Add these methods if they're missing from your COOKING_METHOD_THERMODYNAMICS constant
-const ADDITIONAL_THERMODYNAMICS = Object.entries(allCookingMethods)
-  .reduce((acc, [methodName, methodData]) => {
-    // Extract method data with safe property access
-    const methodDataObj = methodData as unknown as Record<string, unknown>;
-    const thermodynamicProperties = methodDataObj?.thermodynamicProperties as Record<string, unknown>;
-    
-    if (methodData && thermodynamicProperties) {
-      acc[methodName] = thermodynamicProperties as unknown as ThermodynamicProperties;
-    }
-    return acc;
-  }, {} as Record<string, ThermodynamicProperties>);
-
-// Merge with your existing COOKING_METHOD_THERMODYNAMICS constant
-
-// Add this utility function to provide fallback information for any method
-const generateMethodInfo = (methodName: string): {
-  description: string;
-  technicalTips: string[];
-  idealIngredients: string[];
-  timing: {duration: string, temperature?: string};
-  impact: {impact: string, benefits: string[], considerations: string[]};
-} => {
-  // Convert method name to human-readable form
-  const readableName = methodName
-    .replace(/_/g, ' ')
-    .split(' ')
-    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(' ');
+// TODO: Implement comprehensive method information generation system
+// TODO: Add specialized method descriptions for traditional and molecular techniques
+// TODO: Create dynamic timing and temperature calculations based on ingredient profiles
+const generateMethodInfo = (methodName: string) => {
+  // TODO: Replace with comprehensive cooking method database integration
+  const readableName = methodName.replace(/_/g, ' ').split(' ')
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
   
-  // Special case for hand pounding
-  if (methodName === 'hand_pounding' || methodName === 'hand pounding') {
-    return {
-      description: "Hand pounding is an ancient culinary technique utilizing a mortar and pestle to crush, grind, and blend ingredients through direct mechanical force. This method releases aromatic compounds and creates unique textures that modern electric processors cannot replicate. Hand pounding preserves traditional knowledge and produces superior textural and flavor profiles in many global cuisines.",
-      
-      technicalTips: [
-        "Use the weight of the pestle rather than excessive force - let gravity do the work",
-        "Maintain proper grip to prevent fatigue and ensure control over the pounding motion",
-        "Start with a gentle crushing motion before progressing to more forceful pounding",
-        "Work in small batches for consistency and better control over the final texture",
-        "Consider temperature - some ingredients release flavors better at room temperature"
-      ],
-      
-      idealIngredients: [
-        "Fresh herbs like basil, cilantro, and mint for vibrant pastes and sauces",
-        "Whole spices requiring crushing (peppercorns, coriander, cumin)",
-        "Fibrous aromatics such as lemongrass, galangal, and ginger",
-        "Nuts and seeds for pastes and spreads (pine nuts, sesame)",
-        "Starchy foods like boiled yams, plantains, and cassava for African fufu"
-      ],
-      
-      timing: {
-        duration: "2-15 minutes depending on desired texture and ingredient hardness",
-        temperature: "Ambient temperature (most effective between 65-75°F/18-24°C)"
-      },
-      
-      impact: {
-        impact: "Significantly enhances flavor extraction and creates unique textures impossible with machine processing",
-        benefits: [
-          "Releases natural oils and aromatics through cell wall rupture",
-          "Creates varied textural dimensions with both smooth and coarse elements",
-          "Preserves heat-sensitive compounds that might be damaged by mechanical processing",
-          "Develops complex emulsions through gradual ingredient incorporation",
-          "Allows precise control over final consistency"
-        ],
-        considerations: [
-          "Labor-intensive nature requires proper technique to prevent strain",
-          "Small batch processing may extend overall preparation time for large quantities",
-          "Different mortar materials (stone, wood, ceramic) interact differently with ingredients",
-          "Requires washing between batches to prevent flavor contamination"
-        ]
-      }
-    };
-  }
-  
-  // Default values that make sense for most cooking methods
   return {
-    description: `${readableName} is a cooking technique that transforms ingredients through specific application of heat, pressure, or chemical processes. It's characterized by its unique approach to food preparation that affects texture, flavor, and nutritional properties.`,
-    
-    technicalTips: [
-      "Research proper temperature and timing for specific ingredients",
-      "Ensure proper preparation of ingredients before cooking",
-      "Monitor the cooking process regularly for best results",
-      "Allow appropriate resting or cooling time after cooking",
-      "Consider how this method interacts with your specific ingredients"
-    ],
-    
-    idealIngredients: [
-      "Ingredients suited to this specific cooking method",
-      "Foods that benefit from this method's unique properties",
-      "Items traditionally prepared with this technique",
-      "Refer to specific recipes for best ingredient pairings"
-    ],
-    
-    timing: {
-      duration: "Varies by specific recipe and ingredient",
-      temperature: "Refer to specific recipe for precise temperatures"
-    },
-    
-    impact: {
-      impact: "Variable impact depending on specific application",
-      benefits: [
-        "May enhance certain flavors or textures",
-        "Could preserve specific nutrients depending on application",
-        "Might improve digestibility of certain ingredients",
-        "Often develops unique flavor compounds"
-      ],
-      considerations: [
-        "Effects vary based on specific ingredients and timing",
-        "Consider researching specific nutritional impacts for your ingredients",
-        "Balance this cooking method with others for dietary variety"
-      ]
+    description: `${readableName} cooking technique - requires enterprise intelligence implementation`,
+    technicalTips: ["Placeholder - implement comprehensive technique guidance"],
+    idealIngredients: ["Placeholder - implement ingredient compatibility analysis"],
+    timing: { duration: "Variable", temperature: "Method-specific" },
+    impact: { 
+      impact: "Requires implementation", 
+      benefits: ["Placeholder"], 
+      considerations: ["Placeholder"] 
     }
   };
 };
@@ -440,7 +294,7 @@ function determineMatchReason(_ingredient: Ingredient | UnifiedIngredient, _meth
   return "Compatible elemental properties";
 }
 
-// Missing variable declarations
+// TODO: Implement comprehensive planetary association mapping
 const planets = {
   Sun: "sun",
   Moon: "moon",
@@ -452,22 +306,17 @@ const planets = {
 };
 
 export default function CookingMethods() {
-  // Add renderCount ref for debugging
+  // TODO: Remove debug-specific refs after enterprise intelligence implementation
   const renderCount = useRef(0);
-  // Use ref for tracking component mounted state
   const isMountedRef = useRef(false);
   const [isMounted, setIsMounted] = useState(false);
   
-  // Increment render count on each render for debugging
+  // TODO: Consolidate mount state management
   useEffect(() => {
     renderCount.current += 1;
   });
   
-  // Set mounted state when component mounts
   useEffect(() => {
-    isMountedRef.current = true;
-    setIsMounted(true);
-    
     isMountedRef.current = true;
     setIsMounted(true);
     
@@ -477,7 +326,7 @@ export default function CookingMethods() {
     };
   }, []);
   
-  // Get astrological state
+  // TODO: Integrate with enhanced astrological state processing
   const {
     isReady,
     currentZodiac,
@@ -487,8 +336,6 @@ export default function CookingMethods() {
     domElements,
     isDaytime
   } = useAstrologicalState();
-  
-  const { chart } = useCurrentChart();
   
   // Define the list of 14 common cooking methods to prioritize
   const commonCookingMethods = useMemo(() => [
@@ -555,28 +402,21 @@ export default function CookingMethods() {
     return { heat, entropy, reactivity, gregsEnergy: heat - (entropy * reactivity) };
   };
 
+  // TODO: Consolidate state management for enterprise intelligence system
   const [loading, setLoading] = useState(true);
   const [recommendedMethods, setRecommendedMethods] = useState<ExtendedAlchemicalItem[]>([]);
   const [planetaryCookingMethods, setPlanetaryCookingMethods] = useState<Record<string, string[]>>({});
-  const [selectedCulture, setSelectedCulture] = useState<string>(''); // For culture filtering
+  const [selectedCulture, setSelectedCulture] = useState<string>('');
   const [showAllMethods, setShowAllMethods] = useState(false);
-  const [expandedMolecular, setExpandedMolecular] = useState<Record<string, boolean>>({});
   const [expandedMethods, setExpandedMethods] = useState<Record<string, boolean>>({});
-  // Add a new state to store the initial scores
   const [methodScores, setMethodScores] = useState<Record<string, number>>({});
-
-  // Add this simple fallback 
-  const [tarotData] = useState(DEFAULT_TAROT_DATA);
-  // Add a new state to control the display of score details
   const [showScoreDetails, setShowScoreDetails] = useState<Record<string, boolean>>({});
-  const { tarotCard, tarotElementalInfluences } = useTarotContext();
-
-  // Add state for modality filtering
   const [modalityFilter, setModalityFilter] = useState<string>('all');
-
-  // Add these near the top with other state variables
   const [searchIngredient, setSearchIngredient] = useState<string>('');
   const [ingredientCompatibility, setIngredientCompatibility] = useState<Record<string, number>>({});
+  
+  // TODO: Integrate with enhanced tarot context system
+  const { tarotCard, tarotElementalInfluences } = useTarotContext();
 
   // Add this function to calculate ingredient compatibility with methods
   const calculateIngredientCompatibility = (ingredient: string) => {
@@ -608,50 +448,23 @@ export default function CookingMethods() {
     setIngredientCompatibility(compatibilityMap);
   };
 
-  // Toggle molecular details expansion
-  const toggleMolecular = useCallback((methodId: string) => {
-    setExpandedMolecular(prev => ({
+  // TODO: Implement comprehensive method expansion system
+  const toggleMethodExpansion = useCallback((methodId: string) => {
+    setExpandedMethods(prev => ({
       ...prev,
       [methodId]: !prev[methodId]
     }));
   }, []);
 
-  // Toggle method expansion
-  const toggleMethodExpansion = useCallback((methodId: string) => {
-    // Only toggle the expanded state without recalculating any scores
-    setExpandedMethods(prev => {
-      const newExpandedMethods = { ...prev };
-      // Toggle the expanded state for this method
-      newExpandedMethods[methodId] = !prev[methodId];
-      return newExpandedMethods;
-    });
-    // No other state updates or calculations should happen here
-  }, []);
-
-  // Toggle show all methods
+  // TODO: Add filtering and display controls
   const toggleShowAllMethods = useCallback(() => {
     setShowAllMethods(prev => !prev);
   }, []);
 
-  // Initialize a culturalCookingMap for filtering
+  // TODO: Implement cultural cooking method mapping system
   const culturalCookingMap = useMemo(() => {
-    // Create a map of culture -> method IDs
-    const map: Record<string, string[]> = { 'Traditional': [] };
-    
-    try {
-      culturalCookingMethods.forEach(method => {
-        const culture = method.culturalOrigin || 'Traditional';
-        if (!map[culture]) {
-          map[culture] = [];
-        }
-        map[culture].push((method as unknown as Record<string, unknown>)?.id as string);
-      });
-      
-      return map;
-    } catch (error) {
-      console.error("Error initializing culture map:", error);
-      return map;
-    }
+    // TODO: Replace with comprehensive cultural analysis
+    return { 'Traditional': [] };
   }, []);
 
   // Get global astrological adjustment info
@@ -777,103 +590,24 @@ export default function CookingMethods() {
     return 0.5; // Default medium value
   };
 
-  const getMolecularDetails = (method: ExtendedAlchemicalItem): MolecularGastronomyDetails | null => {
-    const methodName = ((method as Record<string, unknown>)?.name || '').toString().toLowerCase();
-    
-    // Only return molecular details for molecular gastronomy methods
-    if (
-      methodName.includes('spher') || 
-      methodName.includes('molecular') || 
-      methodName.includes('gelif') || 
-      methodName.includes('emulsif') || 
-      methodName.includes('cryo') ||
-      (methodName as string)?.includes?.('foam')
-    ) {
-      return {
-        chemicalProcess: 'Manipulation of food structure at molecular level',
-        precisionRequirements: 'High precision in temperature, timing, and ingredient ratios',
-        commonErrors: [
-          'Incorrect calcium bath concentration',
-          'Improper pH balance',
-          'Temperature fluctuations',
-          'Inconsistent spherification timing'
-        ],
-        advancedEquipment: [
-          'Precision scale',
-          'pH meter',
-          'Digital thermometer',
-          'Immersion circulator',
-          'Syringe or pipette set'
-        ],
-        texturalOutcomes: [
-          'Gel-like exterior with liquid interior',
-          'Stable foam structure',
-          'Modified viscosity',
-          'Controlled denaturation'
-        ]
-      };
-    }
-    
-    // Return null for non-molecular cooking methods
+  // TODO: Implement molecular gastronomy analysis system
+  const getMolecularDetails = (method: ExtendedAlchemicalItem) => {
+    // TODO: Add comprehensive molecular technique detection and analysis
     return null;
   };
 
-  // Add this function to extract additional properties from source data
+  // TODO: Implement comprehensive method data extraction system
   const getMethodSpecificData = (method: ExtendedAlchemicalItem) => {
-    const methodRecord = method as unknown as Record<string, unknown>;
-    const methodId = methodRecord?.id as string;
-    const cookingMethodsRecord = cookingMethods as unknown as Record<string, Record<string, unknown>>;
-    
-    if (methodId && cookingMethodsRecord[methodId]) {
-      const sourceData = cookingMethodsRecord[methodId];
-      
-      return {
-        benefits: sourceData?.benefits || [],
-        chemicalChanges: sourceData?.chemicalChanges || {},
-        safetyFeatures: sourceData?.safetyFeatures || [],
-        nutrientRetention: sourceData?.nutrientRetention || {},
-        regionalVariations: sourceData?.regionalVariations || {},
-        astrologicalInfluences: sourceData?.astrologicalInfluences || {}
-      };
-    }
-    
-    // Check if it's a molecular method
-    const methodName = ((method as Record<string, unknown>)?.name || '').toString().toLowerCase();
-    if (
-      methodName.includes('spher') || 
-      methodName.includes('gel') || 
-      (methodName as string)?.includes?.('emuls') || 
-      (methodName as string)?.includes?.('cryo')
-    ) {
-      // Try to find in molecular methods
-      const molecularKey = Object.keys(molecularCookingMethods).find(
-        key => key.toLowerCase().includes(methodName.split(' ')[0].toLowerCase())
-      );
-      
-      const molecularMethodsRecord = molecularCookingMethods as unknown as Record<string, Record<string, unknown>>;
-      if (molecularKey && molecularMethodsRecord[molecularKey]) {
-        const sourceData = molecularMethodsRecord[molecularKey];
-        // Extract data with safe property access
-        const sourceDataObj = sourceData as Record<string, unknown>;
-        
-        return {
-          benefits: sourceDataObj?.benefits || [],
-          chemicalChanges: sourceDataObj?.chemicalChanges || {},
-          toolsRequired: sourceDataObj?.toolsRequired || [],
-          optimalTemperatures: sourceDataObj?.optimalTemperatures || {}
-        };
-      }
-    }
-    
+    // TODO: Add integration with cooking method database
+    // TODO: Include molecular method detection and data extraction
     return null;
-  }
+  };
 
-  // First, add this new helper function to get detailed examples for each cooking method
+  // TODO: Implement comprehensive method details system
   const getMethodDetails = (method: ExtendedAlchemicalItem): { examples: string[], fullDefinition: string } => {
+    // TODO: Replace with database-driven method information system
     const methodName = ((method as Record<string, unknown>)?.name || '').toString().toLowerCase();
-
-  // Missing description variable for cooking methods
-  const description = method?.description || method?.name || "No description available";
+    const description = method?.description || method?.name || "No description available";
 
     
     // Default values

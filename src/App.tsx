@@ -1,18 +1,18 @@
+import dynamic from 'next/dynamic';
 import React, { useState, useEffect } from 'react';
-import { AlchemicalProvider } from '@/contexts/AlchemicalContext/provider';
-import ElementalEnergyDisplay from '@/components/ElementalEnergyDisplay';
+
+import AstrologicalClock from '@/components/AstrologicalClock';
 import CookingMethods from '@/components/CookingMethods';
 import CuisineRecommender from '@/components/CuisineRecommender';
-import PlanetaryPositionInitializer from '@/components/PlanetaryPositionInitializer';
-import MoonDisplay from '@/components/MoonDisplay';
-import AstrologicalClock from '@/components/AstrologicalClock';
-import dynamic from 'next/dynamic';
-import SunDisplay from '@/components/SunDisplay';
-import { initializeAlchemicalEngine } from '@/utils/alchemyInitializer';
-import GlobalErrorBoundary from '@/components/errors/GlobalErrorBoundary';
+import ElementalEnergyDisplay from '@/components/ElementalEnergyDisplay';
 import ErrorFallback from '@/components/errors/ErrorFallback';
+import GlobalErrorBoundary from '@/components/errors/GlobalErrorBoundary';
+import MoonDisplay from '@/components/MoonDisplay';
+import PlanetaryPositionInitializer from '@/components/PlanetaryPositionInitializer';
+import SunDisplay from '@/components/SunDisplay';
+import { AlchemicalProvider } from '@/contexts/AlchemicalContext/provider';
 import ErrorHandler from '@/services/errorHandler';
-import { ElementalCalculator } from '@/services/ElementalCalculator';
+import { initializeAlchemicalEngine } from '@/utils/alchemyInitializer';
 import './styles/expandable.css';  // Import our expandable component styles
 
 // Dynamically import FoodRecommender with loading state

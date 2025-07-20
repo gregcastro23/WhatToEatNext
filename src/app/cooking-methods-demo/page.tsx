@@ -8,7 +8,6 @@ import {
   wetCookingMethods, 
   molecularCookingMethods
 } from '@/data/cooking/methods';
-import type { CookingMethod } from '@/types/alchemy';
 
 export default function CookingMethodsDemoPage() {
   const [methods, setMethods] = useState<any[]>([]);

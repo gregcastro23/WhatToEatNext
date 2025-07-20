@@ -35,8 +35,8 @@ export class MockCampaignController {
   private config: CampaignConfig;
   private currentPhase: CampaignPhase | null = null;
   private safetyEvents: SafetyEvent[] = [];
-  private isPaused: boolean = false;
-  private isRunning: boolean = false;
+  private _isPaused: boolean = false;
+  private _isRunning: boolean = false;
   private mockMetrics: ProgressMetrics;
   private mockStashes: Map<string, GitStash> = new Map();
 
@@ -54,7 +54,7 @@ export class MockCampaignController {
       throw new Error('Campaign is paused');
     }
 
-    this.isRunning = true;
+    this._isRunning = true;
     this.currentPhase = phase;
     
     const startTime = Date.now();
@@ -72,7 +72,7 @@ export class MockCampaignController {
     const mockResult = await this.simulatePhaseExecution(phase);
     
     const executionTime = Date.now() - startTime;
-    this.isRunning = false;
+    this._isRunning = false;
 
     return {
       phaseId: phase.id,
@@ -187,7 +187,7 @@ export class MockCampaignController {
    * Pause campaign execution
    */
   pauseCampaign(): void {
-    this.isPaused = true;
+    this._isPaused = true;
     this.addSafetyEvent({
       type: SafetyEventType.CHECKPOINT_CREATED,
       timestamp: new Date(),
@@ -201,7 +201,7 @@ export class MockCampaignController {
    * Resume campaign execution
    */
   resumeCampaign(): void {
-    this.isPaused = false;
+    this._isPaused = false;
     this.addSafetyEvent({
       type: SafetyEventType.CHECKPOINT_CREATED,
       timestamp: new Date(),
@@ -215,14 +215,14 @@ export class MockCampaignController {
    * Check if campaign is paused
    */
   isPaused(): boolean {
-    return this.isPaused;
+    return this._isPaused;
   }
 
   /**
    * Check if campaign is running
    */
   isRunning(): boolean {
-    return this.isRunning;
+    return this._isRunning;
   }
 
   /**
@@ -251,8 +251,8 @@ export class MockCampaignController {
    */
   resetMockState(): void {
     this.safetyEvents = [];
-    this.isPaused = false;
-    this.isRunning = false;
+    this._isPaused = false;
+    this._isRunning = false;
     this.currentPhase = null;
     this.mockMetrics = this.createMockMetrics();
     this.mockStashes.clear();
@@ -861,7 +861,7 @@ export class CampaignTestIsolationManager {
     this.originalProcessEnv = { ...process.env };
 
     // Set test environment flags to prevent actual operations
-    process.env.NODE_ENV = 'test';
+    Object.defineProperty(process.env, 'NODE_ENV', { value: 'test', writable: true });
     process.env.CAMPAIGN_TEST_MODE = 'true';
     process.env.DISABLE_ACTUAL_BUILDS = 'true';
     process.env.DISABLE_GIT_OPERATIONS = 'true';
@@ -900,10 +900,4 @@ export class CampaignTestIsolationManager {
 // Export singleton instance for easy access
 export const campaignTestIsolation = CampaignTestIsolationManager.getInstance();
 
-// Export mock instances for direct use in tests
-export {
-  MockCampaignController,
-  MockProgressTracker,
-  MockSafetyProtocol,
-  CampaignTestIsolationManager
-};
+// Classes are already exported at their declarations above

@@ -7,6 +7,7 @@
  */
 
 import { logger } from '@/utils/logger';
+import { Recipe, Ingredient, ZodiacSign } from '@/types/unified';
 import { 
   MLIntelligenceResult,
   MLRecipeOptimizationAnalysis,
@@ -16,10 +17,6 @@ import {
   AdvancedIntelligenceConfig,
   AdvancedIntelligenceMetrics
 } from '@/types/advancedIntelligence';
-import type { ElementalProperties, ZodiacSign, LunarPhase } from '@/types/alchemy';
-import type { Recipe } from '@/types/recipe';
-import type { Ingredient } from '@/types/ingredient';
-import { calculateElementalCompatibility } from '@/calculations/index';
 
 // Note: These functions are not yet implemented in calculations/index
 // Using placeholder implementations for now
@@ -33,7 +30,6 @@ const calculateAstrologicalAlignment = (recipe: any, zodiacSign: string, lunarPh
   // Placeholder implementation - would integrate with actual astrological calculations
   return 0.75 + (Math.random() * 0.2); // 75-95% range
 };
-import { getCurrentSeason } from '@/utils/timeUtils';
 
 // ========== MACHINE LEARNING INTELLIGENCE SERVICE ==========
 
@@ -650,6 +646,7 @@ export class MLIntelligenceService {
   }
 
   // ========== HELPER CALCULATION METHODS ==========
+  // TODO: Implement comprehensive ML calculation algorithms
 
   private getLearningAdjustment(type: string, key: string): number {
     const learningMap = this.learningData[`${type}Optimizations` as keyof typeof this.learningData] as Map<string, number>;
@@ -662,194 +659,197 @@ export class MLIntelligenceService {
   }
 
   private calculateInnovationFactor(recipe: Recipe, astrologicalContext: any): number {
-    // Simplified innovation factor calculation
-    return 0.7; // Default moderate innovation
+    // TODO: Implement ML-based innovation factor calculation
+    return 0.7;
   }
 
+  // ML optimization helper methods - TODO: Implement advanced ML algorithms
   private findOptimalSubstitution(ingredient: any, astrologicalContext: any): string | null {
-    // Simplified substitution finding
-    const substitutions: Record<string, string[]> = {
+    // TODO: Implement ML-based optimal substitution analysis
+    const basicSubstitutions: Record<string, string[]> = {
       'tomato': ['bell pepper', 'paprika'],
       'onion': ['shallot', 'leek'],
       'garlic': ['garlic powder', 'shallot']
     };
-    
-    const subs = substitutions[ingredient.name.toLowerCase()];
+    const subs = basicSubstitutions[ingredient.name.toLowerCase()];
     return subs ? subs[0] : null;
   }
 
   private generateElementalSubstitutionRecommendations(recipe: Recipe, astrologicalContext: any): string[] {
-    // Simplified elemental substitution recommendations
+    // TODO: Implement ML-based elemental substitution recommendations
     return ['Consider Fire-element ingredients for enhanced energy', 'Add Water-element ingredients for balance'];
   }
 
   private findCookingMethodOptimization(method: string, astrologicalContext: any): string | null {
-    // Simplified cooking method optimization
-    const optimizations: Record<string, string> = {
+    // TODO: Implement ML-based cooking method optimization
+    const basicOptimizations: Record<string, string> = {
       'grilling': 'Consider longer marination for enhanced flavor',
       'baking': 'Adjust temperature for optimal astrological timing',
       'frying': 'Use high smoke point oils for better results'
     };
-    
-    return optimizations[method.toLowerCase()] || null;
+    return basicOptimizations[method.toLowerCase()] || null;
   }
 
   private generateTimingOptimization(recipe: Recipe, astrologicalContext: any): string | null {
-    // Simplified timing optimization
+    // TODO: Implement ML-based timing optimization analysis
     return 'Consider cooking during peak planetary alignment for enhanced results';
   }
 
   private generateElementalCookingOptimizations(recipe: Recipe, astrologicalContext: any): string[] {
-    // Simplified elemental cooking optimizations
+    // TODO: Implement ML-based elemental cooking optimization
     return ['Use Fire-element cooking methods for energy enhancement', 'Incorporate Water-element techniques for balance'];
   }
 
+  // Flavor and nutrition analysis methods - TODO: Implement advanced ML analysis
   private analyzeFlavorEnhancements(flavorProfile: any, astrologicalContext: any): string[] {
-    // Simplified flavor enhancement analysis
+    // TODO: Implement ML-based flavor enhancement analysis
     return ['Add citrus for brightness', 'Incorporate herbs for complexity'];
   }
 
   private generateAstrologicalFlavorEnhancements(recipe: Recipe, astrologicalContext: any): string[] {
-    // Simplified astrological flavor enhancements
+    // TODO: Implement astrological flavor enhancement ML algorithms
     return ['Enhance with Fire-element spices for energy', 'Add Water-element herbs for balance'];
   }
 
   private generateSeasonalFlavorSuggestions(recipe: Recipe, astrologicalContext: any): string[] {
-    // Simplified seasonal flavor suggestions
+    // TODO: Implement seasonal flavor suggestion ML models
     return ['Incorporate seasonal herbs for freshness', 'Use seasonal vegetables for optimal flavor'];
   }
 
   private analyzeNutritionalOptimizations(nutrition: any, astrologicalContext: any): string[] {
-    // Simplified nutritional optimization analysis
+    // TODO: Implement ML-based nutritional optimization analysis
     return ['Increase protein content for energy', 'Add fiber for balance'];
   }
 
   private generateAstrologicalNutritionalOptimizations(recipe: Recipe, astrologicalContext: any): string[] {
-    // Simplified astrological nutritional optimizations
+    // TODO: Implement astrological nutritional optimization ML algorithms
     return ['Enhance with Fire-element nutrients for energy', 'Add Water-element nutrients for balance'];
   }
 
+  // Ingredient analysis methods - TODO: Implement comprehensive ML ingredient analysis
   private calculatePairwiseCompatibility(ing1: Ingredient, ing2: Ingredient, astrologicalContext: any): number {
-    // Simplified pairwise compatibility calculation
+    // TODO: Implement ML-based pairwise compatibility analysis
     const elementalCompatibility = ing1.elementalProperties && ing2.elementalProperties ?
       calculateElementalCompatibility(ing1.elementalProperties, ing2.elementalProperties) : 0.7;
-    
     return Math.max(0, Math.min(1, elementalCompatibility));
   }
 
   private findSubstitutions(ingredient: Ingredient, astrologicalContext: any): string[] {
-    // Simplified substitution finding
-    const substitutions: Record<string, string[]> = {
+    // TODO: Implement ML-based substitution recommendations
+    const basicSubstitutions: Record<string, string[]> = {
       'tomato': ['bell pepper', 'paprika'],
       'onion': ['shallot', 'leek'],
       'garlic': ['garlic powder', 'shallot']
     };
-    
-    return substitutions[ingredient.name.toLowerCase()] || [];
+    return basicSubstitutions[ingredient.name.toLowerCase()] || [];
   }
 
   private calculateFlavorSynergy(ing1: Ingredient, ing2: Ingredient, astrologicalContext: any): number {
-    // Simplified flavor synergy calculation
-    return 0.75; // Default good synergy
+    // TODO: Implement ML-based flavor synergy prediction
+    return 0.75;
   }
 
+  // Cuisine analysis calculations - TODO: Implement comprehensive ML cuisine analysis
   private calculateCulturalCompatibility(cuisineData: any): number {
-    // Simplified cultural compatibility calculation
-    return 0.8; // Default good compatibility
+    // TODO: Implement ML-based cultural compatibility analysis
+    return 0.8;
   }
 
   private calculateElementalHarmony(cuisineData: any, astrologicalContext: any): number {
-    // Simplified elemental harmony calculation
-    return 0.75; // Default good harmony
+    // TODO: Implement ML-based elemental harmony calculation
+    return 0.75;
   }
 
   private calculateSeasonalRelevance(cuisineData: any, astrologicalContext: any): number {
-    // Simplified seasonal relevance calculation
-    return 0.8; // Default good relevance
+    // TODO: Implement ML-based seasonal relevance analysis
+    return 0.8;
   }
 
   private calculateMarketAcceptance(cuisineData: any): number {
-    // Simplified market acceptance calculation
-    return 0.7; // Default moderate acceptance
+    // TODO: Implement ML-based market acceptance prediction
+    return 0.7;
   }
 
   private calculateCulturalRelevance(cuisineData: any): number {
-    // Simplified cultural relevance calculation
-    return 0.8; // Default good relevance
+    // TODO: Implement ML-based cultural relevance analysis
+    return 0.8;
   }
 
   private calculateAstrologicalCulturalAlignment(astrologicalContext: any): number {
-    // Simplified astrological cultural alignment calculation
-    return 0.75; // Default good alignment
+    // TODO: Implement ML-based astrological cultural alignment
+    return 0.75;
   }
 
   private calculateRegionalAcceptance(cuisineData: any): number {
-    // Simplified regional acceptance calculation
-    return 0.7; // Default moderate acceptance
+    // TODO: Implement ML-based regional acceptance analysis
+    return 0.7;
   }
 
   private calculateCreativityFactor(cuisineData: any): number {
-    // Simplified creativity factor calculation
-    return 0.7; // Default moderate creativity
+    // TODO: Implement ML-based creativity factor analysis
+    return 0.7;
   }
 
   private calculateAstrologicalInnovationSupport(astrologicalContext: any): number {
-    // Simplified astrological innovation support calculation
-    return 0.7; // Default moderate support
+    // TODO: Implement ML-based astrological innovation support
+    return 0.7;
   }
 
   private calculateMarketInnovationReadiness(cuisineData: any): number {
-    // Simplified market innovation readiness calculation
-    return 0.6; // Default moderate readiness
+    // TODO: Implement ML-based market innovation readiness
+    return 0.6;
   }
 
+  // Fusion technique methods - TODO: Implement ML-based fusion analysis
   private analyzeFusionTechniques(cuisineData: any, astrologicalContext: any): string[] {
-    // Simplified fusion techniques analysis
+    // TODO: Implement ML-based fusion technique analysis
     return ['Blend cooking methods for innovation', 'Combine flavor profiles for harmony'];
   }
 
   private generateAstrologicalFusionTechniques(cuisineData: any, astrologicalContext: any): string[] {
-    // Simplified astrological fusion techniques
+    // TODO: Implement ML-based astrological fusion techniques
     return ['Use Fire-element techniques for energy', 'Incorporate Water-element methods for balance'];
   }
 
+  // Astrological calculation methods - TODO: Implement comprehensive ML astrological analysis
   private calculatePlanetaryAlignment(astrologicalContext: any): number {
-    // Simplified planetary alignment calculation
-    return 0.75; // Default good alignment
+    // TODO: Implement ML-based planetary alignment calculation
+    return 0.75;
   }
 
   private calculateLunarAlignment(astrologicalContext: any): number {
-    // Simplified lunar alignment calculation
-    return 0.8; // Default good alignment
+    // TODO: Implement ML-based lunar alignment calculation
+    return 0.8;
   }
 
   private calculateZodiacAlignment(astrologicalContext: any, culinaryContext: any): number {
-    // Simplified zodiac alignment calculation
-    return 0.75; // Default good alignment
+    // TODO: Implement ML-based zodiac alignment calculation
+    return 0.75;
   }
 
   private calculateTemporalOptimization(astrologicalContext: any, culinaryContext: any): number {
-    // Simplified temporal optimization calculation
-    return 0.7; // Default moderate optimization
+    // TODO: Implement ML-based temporal optimization
+    return 0.7;
   }
 
   private calculatePlanetaryInfluence(position: any, culinaryContext: any): number {
-    // Simplified planetary influence calculation
-    return 0.7; // Default moderate influence
+    // TODO: Implement ML-based planetary influence calculation
+    return 0.7;
   }
 
   private calculateMLPlanetaryOptimization(astrologicalContext: any, culinaryContext: any): number {
-    // Simplified ML planetary optimization calculation
-    return 0.1; // Default small optimization
+    // TODO: Implement advanced ML planetary optimization
+    return 0.1;
   }
 
+  // Cosmic harmony methods - TODO: Implement ML-based cosmic analysis
   private analyzeCosmicHarmonyEnhancements(astrologicalContext: any, culinaryContext: any): string[] {
-    // Simplified cosmic harmony enhancements analysis
+    // TODO: Implement ML-based cosmic harmony enhancement analysis
     return ['Enhance with cosmic alignment techniques', 'Incorporate celestial timing methods'];
   }
 
   private generateMLCosmicEnhancements(astrologicalContext: any, culinaryContext: any): string[] {
-    // Simplified ML cosmic enhancements
+    // TODO: Implement advanced ML cosmic enhancement algorithms
     return ['Apply ML-optimized cosmic techniques', 'Use AI-enhanced celestial methods'];
   }
 
@@ -1020,6 +1020,7 @@ export class MLIntelligenceService {
 }
 
 // ========== EXPORT INSTANCES ==========
+// TODO: Consider consolidating these wrapper exports into a unified ML service interface
 
 export const MLRecipeOptimizationIntelligence = {
   optimizeRecipeWithML: async (recipe: Recipe, context: any) => {

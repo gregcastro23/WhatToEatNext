@@ -19,9 +19,7 @@ import { execSync } from 'child_process';
 import fs from 'fs';
 import path from 'path';
 import { EventEmitter } from 'events';
-import { TypeScriptError } from './campaign/TypeScriptErrorAnalyzer';
 import { PerformanceMetrics } from './PerformanceMetricsAnalytics';
-import { DetectionResult } from './UnusedVariableDetector';
 
 // ========== QUALITY GATES INTERFACES ==========
 

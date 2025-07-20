@@ -1,27 +1,19 @@
-import type { ElementalProperties, IngredientMapping, ThermodynamicMetrics, NutritionalProfile, PlanetName } from '@/types/alchemy';
-import { connectIngredientsToMappings } from '../utils/recipe/recipeMatching';
-import kalchmEngine from '@/calculations/core/kalchmEngine';
-import { RecipeIngredient } from '@/types/recipe';
-import { filterRecipesByIngredientMappings } from '../utils/recipe/recipeFiltering';
-import { ingredientsMap } from '../data/ingredients';
-import { cuisinesMap } from '../data/cuisines';
+import type { ElementalProperties, IngredientMapping, ThermodynamicMetrics, NutritionalProfile as _NutritionalProfile, PlanetName as _PlanetName } from '@/types/alchemy';
+import { connectIngredientsToMappings as _connectIngredientsToMappings } from '../utils/recipe/recipeMatching';
+import { filterRecipesByIngredientMappings as _filterRecipesByIngredientMappings } from '../utils/recipe/recipeFiltering';
+import { cuisinesMap as _cuisinesMap } from '../data/cuisines';
 import { herbs } from '../data/ingredients/herbs';
 import { spices } from '../data/ingredients/spices';
 import { vegetables } from '../data/ingredients/vegetables';
 import { proteins } from '../data/ingredients/proteins';
 import { grains } from '../data/ingredients/grains';
-import { oils, processedOils } from '../data/ingredients/oils';
+import { oils } from '../data/ingredients/oils';
 import { fruits } from '../data/ingredients/fruits';
 import { logger } from '../utils/logger';
-import type { Recipe } from '../types/recipe';
+import type { Recipe as _Recipe } from '../types/recipe';
 
 
 // Phase 10: Calculation Type Interfaces
-interface CalculationData {
-  value: number;
-  weight?: number;
-  score?: number;
-}
 
 interface ScoredItem {
   score: number;
@@ -36,41 +28,16 @@ interface ElementalData {
   [key: string]: unknown;
 }
 
-interface CuisineData {
-  id: string;
-  name: string;
-  zodiacInfluences?: string[];
-  planetaryDignities?: Record<string, unknown>;
-  elementalState?: ElementalData;
-  elementalProperties?: ElementalData;
-  modality?: string;
-  gregsEnergy?: number;
-  [key: string]: unknown;
-}
-
-interface NutrientData {
-  nutrient?: { name?: string };
-  nutrientName?: string;
-  name?: string;
-  vitaminCount?: number;
-  data?: unknown;
-  [key: string]: unknown;
-}
-
-interface MatchingResult {
-  score: number;
-  elements: ElementalData;
-  recipe?: unknown;
-  [key: string]: unknown;
-}
 
 
-import type { Season } from '@/types/seasons';
-import type { ZodiacSign } from '../types/zodiac';
+
+
+import type { Season as _Season } from '@/types/seasons';
+import type { ZodiacSign as _ZodiacSign } from '../types/zodiac';
 import type { ElementalFilter } from '../types/elemental';
 import type { NutritionalFilter, NutritionData } from '../types/nutrition';
-import type { SpoonacularRecipe, SpoonacularNutritionData } from '../types/spoonacular';
-import { UnifiedIngredient, createUnifiedIngredient, isUnifiedIngredient } from '@/data/unified/unifiedTypes';
+import type { SpoonacularNutritionData } from '../types/spoonacular';
+import { UnifiedIngredient } from '@/data/unified/unifiedTypes';
 import { 
   IngredientServiceInterface,
   DietaryFilter, 
@@ -78,9 +45,8 @@ import {
   IngredientRecommendationOptions 
 } from './interfaces/IngredientServiceInterface';
 import { createElementalProperties, isElementalProperties, mergeElementalProperties } from '../utils/elemental/elementalUtils';
-import { isArray, isNonEmptyArray, safeSome, safeFilter, safeMap, toArray } from '../utils/common/arrayUtils';
+import { isNonEmptyArray, safeSome, safeMap, toArray } from '../utils/common/arrayUtils';
 
-import { Element } from "@/types/alchemy";
 
 // Structure for recipe recommendations
 export interface RecipeRecommendation {
