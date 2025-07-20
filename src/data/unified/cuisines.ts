@@ -106,14 +106,15 @@ export class CuisineEnhancer {
         const unifiedIngredient = RecipeEnhancer.findUnifiedIngredient(ingredientName);
         if (unifiedIngredient) {
           ingredientKalchms.set(ingredientName, unifiedIngredient.kalchm);
-        } else if (ingredient.element) {
-          ingredientKalchms.set(ingredientName, RecipeEnhancer.estimateKalchmFromElement(ingredient.element));
+        } else if (((ingredient as unknown) as Record<string, unknown>)?.element) {
+          ingredientKalchms.set(ingredientName, RecipeEnhancer.estimateKalchmFromElement(((ingredient as unknown) as Record<string, unknown>)?.element as unknown as Element));
         }
       }
       
       // Track cooking methods
-      if (recipe.cookingMethods && Array.isArray(recipe.cookingMethods)) {
-        for (const method of recipe.cookingMethods) {
+      const recipeData = (recipe as unknown) as Record<string, unknown>;
+      if (recipeData?.cookingMethods && Array.isArray(recipeData.cookingMethods)) {
+        for (const method of recipeData.cookingMethods as string[]) {
           cookingMethods.set(method, (cookingMethods.get(method) || 0) + 1);
         }
       }
@@ -300,11 +301,13 @@ export class CuisineEnhancer {
     let validRecipes = 0;
     
     for (const recipe of recipes) {
-      if (recipe.elementalState) {
-        totalFire += recipe.elementalState.Fire || 0;
-        totalWater += recipe.elementalState.Water || 0;
-        totalEarth += recipe.elementalState.Earth || 0;
-        totalAir += recipe.elementalState.Air || 0;
+      const recipeData = (recipe as unknown) as Record<string, unknown>;
+      if (recipeData?.elementalState) {
+        const elementalData = recipeData.elementalState as ElementalProperties;
+        totalFire += elementalData.Fire || 0;
+        totalWater += elementalData.Water || 0;
+        totalEarth += elementalData.Earth || 0;
+        totalAir += elementalData.Air || 0;
         validRecipes++;
       }
     }
@@ -365,8 +368,9 @@ export class CuisineEnhancer {
     
     for (const recipe of recipes) {
       // Count seasons
-      if (recipe.currentSeason && Array.isArray(recipe.currentSeason)) {
-        for (const season of recipe.currentSeason) {
+      const recipeSeasonData = (recipe as unknown) as Record<string, unknown>;
+      if (recipeSeasonData?.currentSeason && Array.isArray(recipeSeasonData.currentSeason)) {
+        for (const season of recipeSeasonData.currentSeason as string[]) {
           if (season !== 'all') {
             seasonFrequency.set(season, (seasonFrequency.get(season) || 0) + 1);
           }
@@ -374,8 +378,9 @@ export class CuisineEnhancer {
       }
       
       // Collect planetary affinities
-      if (recipe.astrologicalAffinities?.planets) {
-        for (const planet of recipe.astrologicalAffinities.planets) {
+      const astroData = (recipe as unknown) as Record<string, unknown>;
+      if ((astroData?.astrologicalAffinities as Record<string, unknown>)?.planets) {
+        for (const planet of ((astroData.astrologicalAffinities as Record<string, unknown>).planets as string[])) {
           planetaryAffinities.add(planet);
         }
       }

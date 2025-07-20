@@ -29,8 +29,15 @@ interface ElementalData {
 
 import type { ElementalProperties, 
   ThermodynamicMetrics,
-  PlanetName } from '@/types/alchemy';
+  PlanetName,
+  BasicThermodynamicProperties } from '@/types/alchemy';
 import { unifiedIngredients } from '@/data/unified/ingredients';
+import { Ingredient } from '@/types/unified';
+
+// Define ErrorWithMessage for error handling
+interface ErrorWithMessage {
+  message: string;
+}
 import { createElementalProperties, calculateElementalCompatibility } from '../utils/elemental/elementalUtils';
 import { isNonEmptyArray, safeSome } from '../utils/common/arrayUtils';
 import { logger } from '../utils/logger';
@@ -130,7 +137,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
       
       return result;
     } catch (error) {
-      errorHandler.logError(error, {
+      errorHandler.logError(error as ErrorWithMessage, {
         type: ErrorType.DATA,
         severity: ErrorSeverity.ERROR,
         context: 'ConsolidatedIngredientService',
@@ -147,7 +154,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
     try {
       return Object.values(unifiedIngredients);
     } catch (error) {
-      errorHandler.logError(error, {
+      errorHandler.logError(error as ErrorWithMessage, {
         type: ErrorType.DATA,
         severity: ErrorSeverity.ERROR,
         context: 'ConsolidatedIngredientService',
@@ -173,7 +180,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
         ingredient => ingredient.name?.toLowerCase() === normalizedName
       );
     } catch (error) {
-      errorHandler.logError(error, {
+      errorHandler.logError(error as ErrorWithMessage, {
         type: ErrorType.DATA,
         severity: ErrorSeverity.ERROR,
         context: 'ConsolidatedIngredientService',
@@ -191,7 +198,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
       return Object.values(unifiedIngredients || {}).filter(ingredient => ingredient.category?.toLowerCase() === category?.toLowerCase()
       );
     } catch (error) {
-      errorHandler.logError(error, {
+      errorHandler.logError(error as ErrorWithMessage, {
         type: ErrorType.DATA,
         severity: ErrorSeverity.ERROR,
         context: 'ConsolidatedIngredientService',
@@ -209,7 +216,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
       return Object.values(unifiedIngredients || {}).filter(ingredient => ingredient.subCategory?.toLowerCase() === subcategory?.toLowerCase()
       );
     } catch (error) {
-      errorHandler.logError(error, {
+      errorHandler.logError(error as ErrorWithMessage, {
         type: ErrorType.DATA,
         severity: ErrorSeverity.ERROR,
         context: 'ConsolidatedIngredientService',
@@ -259,7 +266,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
         const filterData = filter as Record<string, unknown>;
         const currentSeason = filterData?.currentSeason || filterData?.season;
         if (currentSeason) {
-          filtered = this.applySeasonalFilter(filtered, currentSeason);
+          filtered = this.applySeasonalFilter(filtered, currentSeason as Season[] | string[]);
         }
         
         // Apply search query if specified
@@ -290,7 +297,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
       
       return filteredResults;
     } catch (error) {
-      errorHandler.logError(error, {
+      errorHandler.logError(error as ErrorWithMessage, {
         type: ErrorType.DATA,
         severity: ErrorSeverity.ERROR,
         context: 'ConsolidatedIngredientService',
@@ -307,7 +314,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
     try {
       return this.applyElementalFilter(this.getAllIngredientsFlat(), elementalFilter);
     } catch (error) {
-      errorHandler.logError(error, {
+      errorHandler.logError(error as ErrorWithMessage, {
         type: ErrorType.DATA,
         severity: ErrorSeverity.ERROR,
         context: 'ConsolidatedIngredientService',
@@ -326,7 +333,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
         .filter(ingredient => ingredient.kalchm > threshold)
         .sort((a, b) => b.kalchm - a.kalchm);
     } catch (error) {
-      errorHandler.logError(error, {
+      errorHandler.logError(error as ErrorWithMessage, {
         type: ErrorType.DATA,
         severity: ErrorSeverity.ERROR,
         context: 'ConsolidatedIngredientService',
@@ -370,7 +377,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
         .slice(0, maxResults)
         .map(result => result.ingredient);
     } catch (error) {
-      errorHandler.logError(error, {
+      errorHandler.logError(error as ErrorWithMessage, {
         type: ErrorType.DATA,
         severity: ErrorSeverity.ERROR,
         context: 'ConsolidatedIngredientService',
@@ -405,7 +412,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
       // Return default empty properties if no element information available
       return createElementalProperties({ Fire: 0, Water: 0, Earth: 0, Air: 0 });
     } catch (error) {
-      errorHandler.logError(error, {
+      errorHandler.logError(error as ErrorWithMessage, {
         type: ErrorType.DATA,
         severity: ErrorSeverity.ERROR,
         context: 'ConsolidatedIngredientService',
@@ -452,7 +459,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
       // Return just the ingredients, maintaining the sorted order
       return (results || []).map(result => result.ingredient);
     } catch (error) {
-      errorHandler.logError(error, {
+      errorHandler.logError(error as ErrorWithMessage, {
         type: ErrorType.DATA,
         severity: ErrorSeverity.ERROR,
         context: 'ConsolidatedIngredientService',
@@ -555,14 +562,14 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
         .sort((a, b) => sortByScore ? b.score - a.score : 0);
       
       // Return top results
-      const results = filtered?.slice(0, maxResults || 10).map(item => ({
+      const results = filtered?.slice(0, (maxResults as number) || 10).map(item => ({
         ...item.ingredient,
         score: item.score
       }));
       
       return results;
     } catch (error) {
-      errorHandler.logError(error, {
+      errorHandler.logError(error as ErrorWithMessage, {
         type: ErrorType.DATA,
         severity: ErrorSeverity.ERROR,
         context: 'ConsolidatedIngredientService',
@@ -595,13 +602,13 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
         // Convert energyValues to ThermodynamicMetrics format with safe property access
         const energyData = ingredient.energyValues as BasicThermodynamicProperties;
         const { heat, entropy, reactivity } = energyData;
-        const gregsEnergy = energyData?.gregsEnergy || energyData?.energy || 0;
+        const gregsEnergy = ((energyData as unknown) as Record<string, unknown>)?.gregsEnergy || ((energyData as unknown) as Record<string, unknown>)?.energy || 0;
         
         return {
           heat,
           entropy,
           reactivity,
-          gregsEnergy, // Correctly map to gregsEnergy property
+          gregsEnergy: gregsEnergy as number, // Correctly map to gregsEnergy property
           // Pattern JJ-5: ThermodynamicMetrics Completion - Add missing alchemical properties
           kalchm: 1.0, // Default kalchm value
           monica: 0.5  // Default monica constant
@@ -618,7 +625,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
         monica: 0.5
       };
     } catch (error) {
-      errorHandler.logError(error, {
+      errorHandler.logError(error as ErrorWithMessage, {
         type: ErrorType.DATA,
         severity: ErrorSeverity.ERROR,
         context: 'ConsolidatedIngredientService',
@@ -1112,7 +1119,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
         );
       });
     } catch (error) {
-      errorHandler.logError(error, {
+      errorHandler.logError(error as ErrorWithMessage, {
         type: ErrorType.DATA,
         severity: ErrorSeverity.ERROR,
         context: 'ConsolidatedIngredientService',
@@ -1153,7 +1160,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
         return false;
       });
     } catch (error) {
-      errorHandler.logError(error, {
+      errorHandler.logError(error as ErrorWithMessage, {
         type: ErrorType.DATA,
         severity: ErrorSeverity.ERROR,
         context: 'ConsolidatedIngredientService',
@@ -1194,7 +1201,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
         return false;
       });
     } catch (error) {
-      errorHandler.logError(error, {
+      errorHandler.logError(error as ErrorWithMessage, {
         type: ErrorType.DATA,
         severity: ErrorSeverity.ERROR,
         context: 'ConsolidatedIngredientService',
@@ -1271,7 +1278,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
         energeticCompatibility
       };
     } catch (error) {
-      errorHandler.logError(error, {
+      errorHandler.logError(error as ErrorWithMessage, {
         type: ErrorType.DATA,
         severity: ErrorSeverity.ERROR,
         context: 'ConsolidatedIngredientService',
@@ -1430,7 +1437,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
       
       return baseIngredient;
     } catch (error) {
-      errorHandler.logError(error, {
+      errorHandler.logError(error as ErrorWithMessage, {
         type: ErrorType.DATA,
         severity: ErrorSeverity.ERROR,
         context: 'ConsolidatedIngredientService',
@@ -1525,7 +1532,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
         weakPairings
       };
     } catch (error) {
-      errorHandler.logError(error, {
+      errorHandler.logError(error as ErrorWithMessage, {
         type: ErrorType.DATA,
         severity: ErrorSeverity.ERROR,
         context: 'ConsolidatedIngredientService',
@@ -1736,7 +1743,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
         .sort((a, b) => b.similarityScore - a.similarityScore)
         .slice(0, maxResults);
     } catch (error) {
-      errorHandler.logError(error, {
+      errorHandler.logError(error as ErrorWithMessage, {
         type: ErrorType.DATA,
         severity: ErrorSeverity.ERROR,
         context: 'ConsolidatedIngredientService',

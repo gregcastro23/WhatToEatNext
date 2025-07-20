@@ -11,6 +11,9 @@ import { oils } from '../data/ingredients/oils';
 import { fruits } from '../data/ingredients/fruits';
 import { logger } from '../utils/logger';
 import type { Recipe as _Recipe } from '../types/recipe';
+import type { ZodiacSign } from '@/types/unified';
+import type { Recipe } from '@/types/unified';
+import { connectIngredientsToMappings } from '../utils/recipe/recipeMatching';
 
 
 // Phase 10: Calculation Type Interfaces
@@ -136,10 +139,10 @@ export class IngredientService implements IngredientServiceInterface {
               Fire: 0, Water: 0, Earth: 0, Air: 0 
             })) as ElementalProperties,
             alchemicalProperties: {
-              Spirit: (data as Record<string, unknown>)?.alchemicalProperties?.Spirit || (data as Record<string, unknown>)?.Spirit || 0,
-              Essence: (data as Record<string, unknown>)?.alchemicalProperties?.Essence || (data as Record<string, unknown>)?.Essence || 0,
-              Matter: (data as Record<string, unknown>)?.alchemicalProperties?.Matter || (data as Record<string, unknown>)?.Matter || 0,
-              Substance: (data as Record<string, unknown>)?.alchemicalProperties?.Substance || (data as Record<string, unknown>)?.Substance || 0
+              Spirit: Number(((data as Record<string, unknown>)?.alchemicalProperties as Record<string, unknown>)?.Spirit || (data as Record<string, unknown>)?.Spirit || 0),
+              Essence: Number(((data as Record<string, unknown>)?.alchemicalProperties as Record<string, unknown>)?.Essence || (data as Record<string, unknown>)?.Essence || 0),
+              Matter: Number(((data as Record<string, unknown>)?.alchemicalProperties as Record<string, unknown>)?.Matter || (data as Record<string, unknown>)?.Matter || 0),
+              Substance: Number(((data as Record<string, unknown>)?.alchemicalProperties as Record<string, unknown>)?.Substance || (data as Record<string, unknown>)?.Substance || 0)
             }
           });
         });
@@ -284,7 +287,7 @@ export class IngredientService implements IngredientServiceInterface {
         // Apply seasonal filter if specified
         const filterData = filter as Record<string, unknown>;
         if (isNonEmptyArray(filterData?.currentSeason)) {
-          filtered = this.applySeasonalFilterUnified(filtered, filterData.currentSeason);
+          filtered = this.applySeasonalFilterUnified(filtered, filterData.currentSeason as string[] | Season[]);
         }
 
         // Apply search query filter if specified
