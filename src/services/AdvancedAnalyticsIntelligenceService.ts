@@ -8,6 +8,8 @@
 
 import { logger } from '@/utils/logger';
 import { Recipe, Ingredient, ZodiacSign } from '@/types/unified';
+import { calculateElementalCompatibility } from '@/utils/elemental/elementalUtils';
+import { getCurrentSeason } from '@/utils/dateUtils';
 import { 
   AdvancedAnalyticsIntelligenceResult,
   AdvancedRecipeAnalyticsAnalysis,
@@ -114,14 +116,14 @@ export class AdvancedAnalyticsIntelligenceService {
 
       // Generate comprehensive advanced analytics analysis
       const result: AdvancedAnalyticsIntelligenceResult = {
-        recipeAnalytics: await this.generateRecipeAnalytics(recipeData, astrologicalContext),
-        ingredientAnalytics: await this.generateIngredientAnalytics(ingredientData, astrologicalContext),
-        cuisineAnalytics: await this.generateCuisineAnalytics(cuisineData, astrologicalContext),
-        astrologicalAnalytics: await this.generateAstrologicalAnalytics(astrologicalContext, {
+        recipeAnalytics: (await this.generateRecipeAnalytics(recipeData, astrologicalContext)) as AdvancedRecipeAnalyticsAnalysis,
+        ingredientAnalytics: (await this.generateIngredientAnalytics(ingredientData, astrologicalContext)) as AdvancedIngredientAnalyticsAnalysis,
+        cuisineAnalytics: (await this.generateCuisineAnalytics(cuisineData, astrologicalContext)) as AdvancedCuisineAnalyticsAnalysis,
+        astrologicalAnalytics: (await this.generateAstrologicalAnalytics(astrologicalContext, {
           recipe: recipeData,
           ingredients: ingredientData,
           cuisine: cuisineData
-        }),
+        })) as AdvancedAstrologicalAnalyticsAnalysis,
         confidence: 0, // Will be calculated
         timestamp: new Date().toISOString()
       };
@@ -298,7 +300,11 @@ export class AdvancedAnalyticsIntelligenceService {
     const elementalDimension = recipe.elementalProperties ? 
       calculateElementalCompatibility(recipe.elementalProperties, astrologicalContext.elementalProperties) : 0.5;
 
-    const seasonalDimension = calculateSeasonalOptimization(recipe.seasonality || 'all', getCurrentSeason());
+    const recipeData = (recipe as unknown) as Record<string, unknown>;
+    const seasonalDimension = calculateSeasonalOptimization(
+      (recipeData?.seasonality as string) || 'all', 
+      getCurrentSeason()
+    );
     const astrologicalDimension = calculateAstrologicalAlignment(
       recipe,
       astrologicalContext.zodiacSign,
@@ -654,7 +660,9 @@ export class AdvancedAnalyticsIntelligenceService {
   }
 
   private calculateTechniqueComplexity(recipe: Recipe): number {
-    const techniqueCount = recipe.cookingMethods?.length || 0;
+    const recipeData = (recipe as unknown) as Record<string, unknown>;
+    const cookingMethods = recipeData?.cookingMethod as string[] || recipeData?.cookingMethods as string[] || [];
+    const techniqueCount = cookingMethods.length;
     return Math.min(1, techniqueCount / 10); // Normalize to 0-1 scale
   }
 
@@ -752,7 +760,10 @@ export class AdvancedAnalyticsIntelligenceService {
 
   private calculateIngredientDiversityScore(ingredients: Ingredient[]): number {
     // Calculate diversity based on ingredient categories and types
-    const uniqueTypes = new Set(ingredients.map(ing => ing.category || ing.type)).size;
+    const uniqueTypes = new Set(ingredients.map(ing => {
+      const ingData = (ing as unknown) as Record<string, unknown>;
+      return ingData?.category as string || ingData?.type as string || 'unknown';
+    })).size;
     return Math.min(1, uniqueTypes / Math.max(1, ingredients.length));
   }
 
@@ -950,7 +961,7 @@ export class AdvancedAnalyticsIntelligenceService {
 
   private log(level: string, message: string, data?: any): void {
     if (this.shouldLog(level)) {
-      logger[level as keyof typeof logger]?.(`[AdvancedAnalytics] ${message}`, data);
+      (logger as any)[level]?.(`[AdvancedAnalytics] ${message}`, data);
     }
   }
 

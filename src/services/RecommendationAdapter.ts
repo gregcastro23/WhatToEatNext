@@ -301,7 +301,7 @@ export class RecommendationAdapter {
       if (this.aspects && this.aspects.length > 0) {
         this.aspects.forEach(aspect => {
           // Extract aspect data with safe property access
-          const aspectData = aspect as Record<string, unknown>;
+          const aspectData = (aspect as unknown) as Record<string, unknown>;
           const body1 = aspectData?.body1;
           const body2 = aspectData?.body2;
           const aspectType = aspectData?.aspectType;
@@ -657,12 +657,12 @@ export class RecommendationAdapter {
     if (this.alchemicalResult) {
       // Extract elemental balance with safe property access
       const alchemicalData = this.alchemicalResult as Record<string, unknown>;
-      const elementalBalance = alchemicalData?.elementalBalance;
-      const fire = elementalBalance?.Fire || 0;
+      const elementalBalance = (alchemicalData?.elementalBalance as any) || {};
+      const fire = Number(elementalBalance?.Fire) || 0;
       const spirit = alchemicalData?.spirit || 0;
       
       // Heat is primarily influenced by Fire element and Spirit property
-      return (fire * 0.6 + spirit * 0.4) / 2;
+      return (Number(fire) * 0.6 + Number(spirit) * 0.4) / 2;
     }
     
     return null;
@@ -681,12 +681,12 @@ export class RecommendationAdapter {
     if (this.alchemicalResult) {
       // Extract elemental balance with safe property access
       const alchemicalData = this.alchemicalResult as Record<string, unknown>;
-      const elementalBalance = alchemicalData?.elementalBalance;
-      const air = elementalBalance?.Air || 0;
+      const elementalBalance = (alchemicalData?.elementalBalance as any) || {};
+      const air = Number(elementalBalance?.Air) || 0;
       const substance = alchemicalData?.substance || 0;
       
       // Entropy is primarily influenced by Air element and Substance property
-      return (air * 0.7 + substance * 0.3) / 2;
+      return (Number(air) * 0.7 + Number(substance) * 0.3) / 2;
     }
     
     return null;
@@ -705,12 +705,12 @@ export class RecommendationAdapter {
     if (this.alchemicalResult) {
       // Extract elemental balance with safe property access
       const alchemicalData = this.alchemicalResult as Record<string, unknown>;
-      const elementalBalance = alchemicalData?.elementalBalance;
-      const essence = alchemicalData?.essence || 0;
-      const water = elementalBalance?.Water || 0;
+      const elementalBalance = (alchemicalData?.elementalBalance as any) || {};
+      const essence = Number(alchemicalData?.essence) || 0;
+      const water = Number(elementalBalance?.Water) || 0;
       
       // Reactivity is primarily influenced by Water element and Essence property
-      return (water * 0.5 + essence * 0.5) / 2;
+      return (Number(water) * 0.5 + Number(essence) * 0.5) / 2;
     }
     
     return null;
@@ -729,21 +729,21 @@ export class RecommendationAdapter {
     if (this.alchemicalResult) {
       // Extract data with safe property access
       const alchemicalData = this.alchemicalResult as Record<string, unknown>;
-      const elementalBalanceData = alchemicalData?.elementalBalance;
+      const elementalBalanceData = (alchemicalData?.elementalBalance as any) || {};
       
-      const Fire = elementalBalanceData?.Fire || 0;
-      const Water = elementalBalanceData?.Water || 0;
-      const Earth = elementalBalanceData?.Earth || 0;
-      const Air = elementalBalanceData?.Air || 0;
+      const Fire = Number(elementalBalanceData?.Fire) || 0;
+      const Water = Number(elementalBalanceData?.Water) || 0;
+      const Earth = Number(elementalBalanceData?.Earth) || 0;
+      const Air = Number(elementalBalanceData?.Air) || 0;
       
-      const spirit = alchemicalData?.spirit || 0;
-      const essence = alchemicalData?.essence || 0;
-      const matter = alchemicalData?.matter || 0;
-      const substance = alchemicalData?.substance || 0;
+      const spirit = Number(alchemicalData?.spirit) || 0;
+      const essence = Number(alchemicalData?.essence) || 0;
+      const matter = Number(alchemicalData?.matter) || 0;
+      const substance = Number(alchemicalData?.substance) || 0;
       
       // Weighted combination of all elements and properties
-      const elementalBalance = (Fire + Water + Earth + Air) / 4;
-      const propertyBalance = (spirit + essence + matter + substance) / 4;
+      const elementalBalance = (Number(Fire) + Number(Water) + Number(Earth) + Number(Air)) / 4;
+      const propertyBalance = (Number(spirit) + Number(essence) + Number(matter) + Number(substance)) / 4;
       
       return (elementalBalance * 0.4 + propertyBalance * 0.6);
     }

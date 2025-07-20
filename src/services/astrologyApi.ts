@@ -89,7 +89,7 @@ const getCachedCelestialPositions = async (): Promise<CelestialPosition> => {
         // Use AstrologicalService to get accurate positions for current date
         const currentDate = new Date();
         // Apply safe type casting for service method access
-        const astroService = AstrologicalService as CookingMethod;
+        const astroService = AstrologicalService as unknown as any;
         const astroState = await (astroService?.getStateForDate ? 
             astroService.getStateForDate(currentDate) : 
             astroService.getCurrentState?.(currentDate));
@@ -119,7 +119,7 @@ const getFallbackPositions = (date: Date = new Date()): CelestialPosition => {
     // Get fallback data from AstrologicalService for the specified date
     try {
         // Apply safe type casting for service method access
-        const astroService = AstrologicalService as CookingMethod;
+        const astroService = AstrologicalService as unknown as any;
         const fallbackStatePromise = astroService?.getStateForDate ? 
             astroService.getStateForDate(date) : 
             astroService.getCurrentState?.(date);
@@ -191,7 +191,7 @@ export const getElementalInfluence = async (): Promise<ElementalProperties> => {
     // Use the zodiac to element mapping if available
     try {
         // Apply safe type casting for service method access
-        const astroService = AstrologicalService as CookingMethod;
+        const astroService = AstrologicalService as unknown as any;
         const astroState = await (astroService?.getCurrentState ? 
             astroService.getCurrentState() : 
             astroService.getStateForDate?.(new Date()));
@@ -328,7 +328,7 @@ export function calculateElementalBalanceFromPositions(positions: Record<string,
         
         const planetKey = planet.toLowerCase();
         const weight = planetaryWeights[planetKey as keyof typeof planetaryWeights] || 0.05;
-        const element = getElementFromZodiac(planetData.sign);
+        const element = getElementFromZodiac((planetData as any)?.sign as string);
         
         elementalBalance[element as keyof typeof elementalBalance] += weight;
         totalInfluence += weight;

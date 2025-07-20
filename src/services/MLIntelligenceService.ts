@@ -7,6 +7,8 @@
  */
 
 import { logger } from '@/utils/logger';
+import { calculateElementalCompatibility } from '@/utils/elemental/elementalUtils';
+import { getCurrentSeason } from '@/types/seasons';
 import { Recipe, Ingredient, ZodiacSign } from '@/types/unified';
 import { 
   MLIntelligenceResult,
@@ -335,7 +337,8 @@ export class MLIntelligenceService {
     const elementalAlignment = recipe.elementalProperties ? 
       calculateElementalCompatibility(recipe.elementalProperties, astrologicalContext.elementalProperties) : 0.5;
 
-    const seasonalOptimization = calculateSeasonalOptimization(recipe.seasonality || 'all', getCurrentSeason());
+    const recipeData = (recipe as unknown) as Record<string, unknown>;
+    const seasonalOptimization = calculateSeasonalOptimization(recipeData?.seasonality as string || 'all', getCurrentSeason());
     const astrologicalAlignment = calculateAstrologicalAlignment(
       recipe,
       astrologicalContext.zodiacSign,
@@ -375,7 +378,8 @@ export class MLIntelligenceService {
 
     // Add seasonal substitution recommendations
     const currentSeason = getCurrentSeason();
-    if (recipe.seasonality && recipe.seasonality !== 'all' && !recipe.seasonality.toLowerCase().includes(currentSeason.toLowerCase())) {
+    const recipeSeason = (recipe as unknown) as Record<string, unknown>;
+    if (recipeSeason?.seasonality && recipeSeason.seasonality !== 'all' && !(recipeSeason.seasonality as string).toLowerCase().includes(currentSeason.toLowerCase())) {
       recommendations.push(`Consider seasonal ingredient adjustments for ${currentSeason} optimization`);
     }
 
@@ -392,8 +396,9 @@ export class MLIntelligenceService {
     const optimizations: string[] = [];
     
     // Analyze current cooking methods
-    if (recipe.cookingMethods) {
-      recipe.cookingMethods.forEach(method => {
+    const recipeMethodData = (recipe as unknown) as Record<string, unknown>;
+    if (recipeMethodData?.cookingMethods) {
+      (recipeMethodData.cookingMethods as string[]).forEach(method => {
         const optimization = this.findCookingMethodOptimization(method, astrologicalContext);
         if (optimization) {
           optimizations.push(optimization);
@@ -418,8 +423,9 @@ export class MLIntelligenceService {
     const suggestions: string[] = [];
     
     // Analyze flavor profile for enhancements
-    if (recipe.flavorProfile) {
-      const flavorEnhancements = this.analyzeFlavorEnhancements(recipe.flavorProfile, astrologicalContext);
+    const recipeFlavorData = (recipe as unknown) as Record<string, unknown>;
+    if (recipeFlavorData?.flavorProfile) {
+      const flavorEnhancements = this.analyzeFlavorEnhancements(recipeFlavorData.flavorProfile as Record<string, unknown>, astrologicalContext);
       suggestions.push(...flavorEnhancements);
     }
 
@@ -438,8 +444,9 @@ export class MLIntelligenceService {
     const optimizations: string[] = [];
     
     // Analyze nutritional balance
-    if (recipe.nutrition) {
-      const nutritionalOptimizations = this.analyzeNutritionalOptimizations(recipe.nutrition, astrologicalContext);
+    const recipeNutritionData = (recipe as unknown) as Record<string, unknown>;
+    if (recipeNutritionData?.nutrition) {
+      const nutritionalOptimizations = this.analyzeNutritionalOptimizations(recipeNutritionData.nutrition as Record<string, unknown>, astrologicalContext);
       optimizations.push(...nutritionalOptimizations);
     }
 
