@@ -122,22 +122,74 @@ This implementation plan addresses critical test failures, memory issues, and bu
     - _Status: COMPLETED - 4 batches processed, 130+ errors eliminated (1,000+ → 870), 20 files fixed with enterprise intelligence patterns, build stability maintained 100%_
     - _Achievement: Successfully broke below 1,000 TypeScript errors milestone_
 
-  - [-] 3.12. Remaining TypeScript Error Elimination Campaign
+  - [-] 3.12. TypeScript Error Elimination Campaign - Batch 5-10
     - **Priority**: Critical - Continue systematic error reduction
-    - **Target**: 870 → <500 errors (43% reduction goal)
-    - **Strategy**: Continue systematic batch processing (Batches 5-10)
-    - **Scope**: 30 additional files requiring fixes
-    - **Focus Areas**: 
-      - Calculation engines with complex arithmetic operations
-      - Component type safety and prop interface definitions
-      - Service layer integration and API response handling
-      - Data transformation utilities and type conversions
+    - **Current Status**: 771 TypeScript errors detected
+    - **Target**: 771 → <400 errors (48% reduction goal)
+    - **Strategy**: Continue systematic batch processing with proven enterprise intelligence patterns
+    - **Scope**: Focus on high-impact files with concentrated errors
     - **Proven Patterns**: MM-1 (safe type assertions), GG-6 (enhanced property access), KK-9 (safe arithmetic), KK-10 (advanced filtering/sorting)
-    - **Next Steps**: Batch 5 targeting next 5 files with 12-13 errors each
     - _Status: PENDING - Ready to launch Phase 3.12 campaign_
-    - _Target: <500 TypeScript errors with continued build stability_
+    - _Requirements: 3.6, 3.7, 3.8, 3.9, 3.10, 3.11_
 
-- [ ] 4. Test Infrastructure Hardening
+  - [-] 3.13. Component Type Safety Enhancement Phase
+    - **Priority**: High - UI component type safety
+    - **Target**: Fix remaining component prop type mismatches and React integration issues
+    - **Focus Areas**: Recipe components, recommendation displays, astrological charts
+    - **Strategy**: Implement proper TypeScript interfaces for all component props
+    - _Requirements: 3.6, 3.7, 3.8_
+
+  - [-] 3.14. API Route and Service Integration Type Safety Phase
+    - **Priority**: High - Backend integration type safety
+    - **Target**: Resolve API route parameter validation and service layer type mismatches
+    - **Focus Areas**: Next.js API routes, external service integrations, data transformation
+    - **Strategy**: Implement runtime type validation and proper error handling
+    - _Requirements: 3.6, 3.7, 3.8_
+
+  - [-] 3.15. Data Layer Type Consistency Phase
+    - **Priority**: Medium - Data model standardization
+    - **Target**: Standardize ingredient, recipe, and astrological data type definitions
+    - **Focus Areas**: Database models, API response types, data transformation utilities
+    - **Strategy**: Create unified type definitions and validation schemas
+    - _Requirements: 3.6, 3.7, 3.8_
+
+  - [-] 3.16. Calculation Engine Type Safety Phase
+    - **Priority**: High - Core business logic type safety
+    - **Target**: Ensure all astrological and alchemical calculations are type-safe
+    - **Focus Areas**: Planetary calculations, elemental properties, recipe compatibility
+    - **Strategy**: Implement proper type guards and validation for calculation inputs
+    - _Requirements: 3.6, 3.7, 3.8_
+
+  - [-] 3.17. Import Resolution and Module Type Safety Phase
+    - **Priority**: Critical - Module system integrity
+    - **Target**: Fix all import/export type mismatches and missing module declarations
+    - **Focus Areas**: Barrel exports, circular dependencies, missing type definitions
+    - **Strategy**: Audit and fix all module boundaries and type exports
+    - _Requirements: 2.1, 2.2, 2.3, 8.1, 8.2_
+
+  - [-] 3.18. Test Type Safety and Mock Integration Phase
+    - **Priority**: High - Test infrastructure type safety
+    - **Target**: Ensure all test files have proper type safety and mock implementations
+    - **Focus Areas**: Jest configuration, mock types, test utility functions
+    - **Strategy**: Implement type-safe mocks and test utilities
+    - _Requirements: 5.1, 5.2, 5.3_
+
+  - [-] 3.19. Build System Type Integration Phase
+    - **Priority**: Critical - Build process type safety
+    - **Target**: Resolve build-time type checking and Next.js integration issues
+    - **Focus Areas**: Next.js configuration, webpack integration, build optimization
+    - **Strategy**: Configure proper TypeScript build pipeline with error reporting
+    - _Requirements: 3.1, 3.2, 3.3, 3.4, 3.5_
+
+  - [-] 3.20. Final TypeScript Error Elimination and Validation Phase
+    - **Priority**: Critical - Zero errors goal achievement
+    - **Target**: <100 TypeScript errors (enterprise readiness threshold)
+    - **Strategy**: Final systematic cleanup with comprehensive validation
+    - **Scope**: Address remaining edge cases and ensure long-term maintainability
+    - **Validation**: Implement pre-commit hooks and continuous type checking
+    - _Requirements: 3.6, 3.7, 3.8, 3.9, 3.10, 3.11_
+
+- [x] 4. Test Infrastructure Hardening
   - Implement comprehensive mocking strategy for external dependencies
   - Add timeout management with appropriate limits per test type
   - Create TestIsolationManager for proper test environment isolation

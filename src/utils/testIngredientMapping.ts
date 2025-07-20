@@ -30,12 +30,14 @@ export function findMatchedItalianDinnerRecipes() {
     const mappedIngredients = connectIngredientsToMappings(recipe as Record<string, unknown>);
     
     // Calculate mapping score (percentage of ingredients with a mapping)
-    // Apply surgical type casting with variable extraction
+    // Apply Pattern GG-6: Enhanced property access with type guards
     const recipeData = recipe as Record<string, unknown>;
     const ingredients = recipeData?.ingredients || [];
     
+    // Apply Pattern GG-6: Safe property access with type guard
+    const ingredientsArray = Array.isArray(ingredients) ? ingredients : [];
     const mappingScore = mappedIngredients.filter(i => i.matchedTo).length / 
-                         Math.max(1, ingredients.length);
+                         Math.max(1, ingredientsArray.length);
     
     return {
       recipe,

@@ -216,6 +216,135 @@ const scriptMock = {
   })
 };
 
+// Campaign system mocks - comprehensive implementation
+const campaignMock: any = {};
+
+// Initialize controller
+campaignMock.controller = {
+  executePhase: jest.fn().mockResolvedValue({
+    phaseId: 'mock-phase',
+    success: true,
+    metricsImprovement: { typeScriptErrorsReduced: 5, lintingWarningsReduced: 10, buildTimeImproved: 0.5, enterpriseSystemsAdded: 2 },
+    filesProcessed: 15,
+    errorsFixed: 5,
+    warningsFixed: 10,
+    executionTime: 1000,
+    safetyEvents: []
+  }),
+  validatePhaseCompletion: jest.fn().mockResolvedValue({ success: true, errors: [], warnings: [] }),
+  createSafetyCheckpoint: jest.fn().mockResolvedValue('mock-checkpoint-id'),
+  rollbackToCheckpoint: jest.fn().mockResolvedValue(undefined),
+  getProgressMetrics: jest.fn().mockResolvedValue({
+    typeScriptErrors: { current: 50, target: 0, reduction: 36, percentage: 42 },
+    lintingWarnings: { current: 2000, target: 0, reduction: 2506, percentage: 56 },
+    buildPerformance: { currentTime: 8.5, targetTime: 10, cacheHitRate: 0.8, memoryUsage: 45 },
+    enterpriseSystems: { current: 50, target: 200, transformedExports: 50 }
+  }),
+  pauseCampaign: jest.fn(),
+  resumeCampaign: jest.fn(),
+  isPaused: jest.fn().mockReturnValue(false),
+  isRunning: jest.fn().mockReturnValue(false),
+  getSafetyEvents: jest.fn().mockReturnValue([]),
+  updateMockMetrics: jest.fn(),
+  resetMockState: jest.fn()
+};
+
+// Initialize tracker
+campaignMock.tracker = {
+  getTypeScriptErrorCount: jest.fn().mockResolvedValue(50),
+  getTypeScriptErrorBreakdown: jest.fn().mockResolvedValue({ 'TS2352': 15, 'TS2339': 20, 'TS2304': 10, 'TS2345': 5 }),
+  getLintingWarningCount: jest.fn().mockResolvedValue(2000),
+  getLintingWarningBreakdown: jest.fn().mockResolvedValue({ '@typescript-eslint/no-explicit-any': 800, '@typescript-eslint/no-unused-vars': 600, 'no-console': 400, 'prefer-const': 200 }),
+  getBuildTime: jest.fn().mockResolvedValue(8.5),
+  getEnterpriseSystemCount: jest.fn().mockResolvedValue(50),
+  getCacheHitRate: jest.fn().mockResolvedValue(0.8),
+  getMemoryUsage: jest.fn().mockResolvedValue(45),
+  getProgressMetrics: jest.fn().mockResolvedValue({
+    typeScriptErrors: { current: 50, target: 0, reduction: 36, percentage: 42 },
+    lintingWarnings: { current: 2000, target: 0, reduction: 2506, percentage: 56 },
+    buildPerformance: { currentTime: 8.5, targetTime: 10, cacheHitRate: 0.8, memoryUsage: 45 },
+    enterpriseSystems: { current: 50, target: 200, transformedExports: 50 }
+  }),
+  generateProgressReport: jest.fn().mockResolvedValue({
+    campaignId: 'mock-campaign',
+    overallProgress: 65,
+    phases: [],
+    currentMetrics: {},
+    targetMetrics: {},
+    estimatedCompletion: new Date(Date.now() + 3600000)
+  }),
+  startTracking: jest.fn(),
+  stopTracking: jest.fn(),
+  isTrackingActive: jest.fn().mockReturnValue(false),
+  updateMockMetrics: jest.fn(),
+  resetMockState: jest.fn()
+};
+
+// Initialize safety
+campaignMock.safety = {
+  createStash: jest.fn().mockResolvedValue('mock-stash-id'),
+  applyStash: jest.fn().mockResolvedValue(undefined),
+  detectCorruption: jest.fn().mockResolvedValue({
+    detectedFiles: [],
+    corruptionPatterns: [],
+    severity: 'LOW',
+    recommendedAction: 'CONTINUE'
+  }),
+  validateGitState: jest.fn().mockResolvedValue({ success: true, errors: [], warnings: [] }),
+  emergencyRollback: jest.fn().mockResolvedValue(undefined),
+  listStashes: jest.fn().mockResolvedValue([]),
+  getSafetyEvents: jest.fn().mockReturnValue([]),
+  resetMockState: jest.fn()
+};
+
+// Initialize testController
+campaignMock.testController = {
+  initializeForTest: jest.fn().mockResolvedValue(undefined),
+  pauseCampaignForTest: jest.fn().mockResolvedValue(undefined),
+  resumeCampaignAfterTest: jest.fn().mockResolvedValue(undefined),
+  cleanupAfterTest: jest.fn().mockResolvedValue(undefined),
+  isPaused: jest.fn().mockReturnValue(false),
+  isIsolated: jest.fn().mockReturnValue(false),
+  getTestState: jest.fn().mockReturnValue({ isPaused: false, isIsolated: false, pausedAt: null, resumedAt: null, testName: null, originalState: null }),
+  simulateProgress: jest.fn().mockResolvedValue(undefined),
+  updateMockMetrics: jest.fn(),
+  validateTestIsolation: jest.fn().mockReturnValue({ isValid: true, issues: [], warnings: [] }),
+  getMockInstances: jest.fn().mockReturnValue({ controller: null, tracker: null, safety: null }),
+  getTestSafeTracker: jest.fn().mockReturnValue(null)
+};
+
+// Initialize isolation (now that other components are defined)
+campaignMock.isolation = {
+  initializeMockCampaignSystem: jest.fn().mockReturnValue({
+    controller: campaignMock.controller,
+    tracker: campaignMock.tracker,
+    safety: campaignMock.safety
+  }),
+  pauseCampaignOperations: jest.fn(),
+  resumeCampaignOperations: jest.fn(),
+  resetAllMockStates: jest.fn(),
+  restoreEnvironment: jest.fn()
+};
+
+// Initialize resetAllMocks
+campaignMock.resetAllMocks = jest.fn(() => {
+  Object.values(campaignMock.controller).forEach(mock => {
+    if (jest.isMockFunction(mock)) mock.mockClear();
+  });
+  Object.values(campaignMock.tracker).forEach(mock => {
+    if (jest.isMockFunction(mock)) mock.mockClear();
+  });
+  Object.values(campaignMock.safety).forEach(mock => {
+    if (jest.isMockFunction(mock)) mock.mockClear();
+  });
+  Object.values(campaignMock.testController).forEach(mock => {
+    if (jest.isMockFunction(mock)) mock.mockClear();
+  });
+  Object.values(campaignMock.isolation).forEach(mock => {
+    if (jest.isMockFunction(mock)) mock.mockClear();
+  });
+});
+
 // Global test utilities with extended interface
 global.testUtils = {
   // Git operations mock
@@ -223,6 +352,9 @@ global.testUtils = {
   
   // Script execution mock
   scriptMock,
+  
+  // Campaign system mock
+  campaignMock,
   
   // Helper to wait for async operations
   waitForAsync: (ms = 0) => new Promise(resolve => setTimeout(resolve, ms)),
@@ -290,12 +422,29 @@ global.testUtils = {
   },
   
   createMockProgressMetrics: (overrides: any = {}) => ({
-    typeScriptErrors: 0,
-    lintingWarnings: 0,
-    buildTime: 5000,
-    memoryUsage: 100,
+    typeScriptErrors: { current: 50, target: 0, reduction: 36, percentage: 42 },
+    lintingWarnings: { current: 2000, target: 0, reduction: 2506, percentage: 56 },
+    buildPerformance: { currentTime: 8.5, targetTime: 10, cacheHitRate: 0.8, memoryUsage: 45 },
+    enterpriseSystems: { current: 50, target: 200, transformedExports: 50 },
     ...overrides
-  })
+  }),
+  
+  // Campaign test utilities
+  setupCampaignTest: async (testName: string, config: any = {}) => {
+    await campaignMock.testController.initializeForTest(testName, config);
+    await campaignMock.testController.pauseCampaignForTest(testName);
+    return {
+      controller: campaignMock.controller,
+      tracker: campaignMock.tracker,
+      safety: campaignMock.safety,
+      testController: campaignMock.testController,
+      testSafeTracker: campaignMock.testController.getTestSafeTracker()
+    };
+  },
+  
+  cleanupCampaignTest: async (testName: string) => {
+    await campaignMock.testController.cleanupAfterTest(testName);
+  }
 };
 
 // Extend Jest matchers

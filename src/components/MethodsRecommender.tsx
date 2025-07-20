@@ -8,7 +8,7 @@ import { getTechnicalTips, getIdealIngredients } from '@/utils/cookingMethodTips
 import type { CookingMethod } from '@/types/cookingMethod';
 import type { Element } from '@/types/alchemy';
 
-// Define proper types for the methods with scores
+// Define proper types for the methods with scores - Phase 3.16A Pattern MM-1
 interface CookingMethodWithScore {
   id: string;
   name: string;
@@ -19,19 +19,19 @@ interface CookingMethodWithScore {
     Water: number;
     Earth: number;
     Air: number;
-  } | unknown;
+  };
   duration?: {
     min: number;
     max: number;
-  } | unknown;
-  suitable_for?: string[] | unknown[];
-  benefits?: string[] | unknown[];
+  };
+  suitable_for?: string[];
+  benefits?: string[];
   astrologicalInfluences?: {
     favorableZodiac?: string[];
     unfavorableZodiac?: string[];
     dominantPlanets?: string[];
-  } | unknown;
-  toolsRequired?: string[] | unknown;
+  };
+  toolsRequired?: string[];
 }
 
 export default function MethodsRecommender() {
@@ -91,7 +91,8 @@ export default function MethodsRecommender() {
             effect: 'enhance' as const,
             applicableTo: ['all']
           };
-          const baseScore = calculateMethodScore(safeMethodData, astroState);
+          // Phase 3.16A Pattern MM-1: Safe type assertion for AstrologicalState
+          const baseScore = calculateMethodScore(safeMethodData, astroState as any);
           
           // Add additional variance factors
           // 1. Use method name length to create a pseudorandom variance
@@ -205,31 +206,31 @@ export default function MethodsRecommender() {
               
               <p className={styles['method-description']}>{method.description}</p>
               
-              {/* Show elemental balance */}
+              {/* Show elemental balance - Phase 3.16A Pattern GG-6 */}
               {method.elementalEffect && (
                 <div className={styles['elemental-balance']}>
-                  {method.elementalEffect.Fire > 0.2 && (
-                    <div className={`${styles.element} ${styles.fire}`} title={`Fire: ${Math.round(method.elementalEffect.Fire * 100)}%`}>
+                  {(method.elementalEffect.Fire || 0) > 0.2 && (
+                    <div className={`${styles.element} ${styles.fire}`} title={`Fire: ${Math.round((method.elementalEffect.Fire || 0) * 100)}%`}>
                       <Flame size={14} />
-                      <span>{Math.round(method.elementalEffect.Fire * 100)}%</span>
+                      <span>{Math.round((method.elementalEffect.Fire || 0) * 100)}%</span>
                     </div>
                   )}
-                  {method.elementalEffect.Water > 0.2 && (
-                    <div className={`${styles.element} ${styles.water}`} title={`Water: ${Math.round(method.elementalEffect.Water * 100)}%`}>
+                  {(method.elementalEffect.Water || 0) > 0.2 && (
+                    <div className={`${styles.element} ${styles.water}`} title={`Water: ${Math.round((method.elementalEffect.Water || 0) * 100)}%`}>
                       <Droplets size={14} />
-                      <span>{Math.round(method.elementalEffect.Water * 100)}%</span>
+                      <span>{Math.round((method.elementalEffect.Water || 0) * 100)}%</span>
                     </div>
                   )}
-                  {method.elementalEffect.Air > 0.2 && (
-                    <div className={`${styles.element} ${styles.air}`} title={`Air: ${Math.round(method.elementalEffect.Air * 100)}%`}>
+                  {(method.elementalEffect.Air || 0) > 0.2 && (
+                    <div className={`${styles.element} ${styles.air}`} title={`Air: ${Math.round((method.elementalEffect.Air || 0) * 100)}%`}>
                       <Wind size={14} />
-                      <span>{Math.round(method.elementalEffect.Air * 100)}%</span>
+                      <span>{Math.round((method.elementalEffect.Air || 0) * 100)}%</span>
                     </div>
                   )}
-                  {method.elementalEffect.Earth > 0.2 && (
-                    <div className={`${styles.element} ${styles.earth}`} title={`Earth: ${Math.round(method.elementalEffect.Earth * 100)}%`}>
+                  {(method.elementalEffect.Earth || 0) > 0.2 && (
+                    <div className={`${styles.element} ${styles.earth}`} title={`Earth: ${Math.round((method.elementalEffect.Earth || 0) * 100)}%`}>
                       <Mountain size={14} />
-                      <span>{Math.round(method.elementalEffect.Earth * 100)}%</span>
+                      <span>{Math.round((method.elementalEffect.Earth || 0) * 100)}%</span>
                     </div>
                   )}
                 </div>
@@ -240,7 +241,7 @@ export default function MethodsRecommender() {
                 {method.duration && (
                   <div className={styles.duration}>
                     <span className={styles['detail-label']}>Duration:</span> 
-                    {method.duration.min}-{method.duration.max} min
+                    {(method.duration as any)?.min || 0}-{(method.duration as any)?.max || 0} min
                   </div>
                 )}
                 {method.suitable_for && method.suitable_for.length > 0 && (

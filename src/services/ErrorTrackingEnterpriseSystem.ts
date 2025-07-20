@@ -13,8 +13,8 @@
  * - Predictive error analysis
  */
 
-import { TypeScriptErrorAnalyzer, ErrorCategory, ErrorSeverity, TypeScriptError } from '../campaign/TypeScriptErrorAnalyzer';
-import { CAMPAIGN_ENTERPRISE_INTELLIGENCE } from '../campaign/CampaignIntelligenceSystem';
+import { TypeScriptErrorAnalyzer, ErrorCategory, ErrorSeverity, TypeScriptError } from './campaign/TypeScriptErrorAnalyzer';
+import { CAMPAIGN_ENTERPRISE_INTELLIGENCE } from './campaign/CampaignIntelligenceSystem';
 import { execSync } from 'child_process';
 import fs from 'fs';
 import path from 'path';

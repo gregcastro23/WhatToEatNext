@@ -34,21 +34,18 @@
     "types": ["node", "jest", "@testing-library/jest-dom"],
     "paths": {
       "@/*": ["./src/*"],
-      "@components/*": [
-        "./src/components/*"
-      ],
-      "@styles/*": [
-        "./src/styles/*"
-      ],
-      "@utils/*": [
-        "./src/utils/*"
-      ],
-      "@types/*": [
-        "./src/types/*"
-      ],
-      "@providers/*": [
-        "./src/providers/*"
-      ]
+      "@components/*": ["./src/components/*"],
+      "@styles/*": ["./src/styles/*"],
+      "@utils/*": ["./src/utils/*"],
+      "@types/*": ["./src/types/*"],
+      "@providers/*": ["./src/providers/*"],
+      "@services/*": ["./src/services/*"],
+      "@data/*": ["./src/data/*"],
+      "@constants/*": ["./src/constants/*"],
+      "@contexts/*": ["./src/contexts/*"],
+      "@hooks/*": ["./src/hooks/*"],
+      "@lib/*": ["./src/lib/*"],
+      "@calculations/*": ["./src/calculations/*"]
     },
     "plugins": [
       {

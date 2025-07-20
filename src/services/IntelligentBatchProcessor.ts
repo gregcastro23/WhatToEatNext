@@ -14,7 +14,7 @@
  * - Automated quality validation
  */
 
-import { TypeScriptError, ErrorCategory } from '../campaign/TypeScriptErrorAnalyzer';
+import { TypeScriptError, ErrorCategory } from './campaign/TypeScriptErrorAnalyzer';
 import { ErrorPattern, ErrorTrackingSnapshot } from './ErrorTrackingEnterpriseSystem';
 import { PatternSignature, PatternCluster } from './IntelligentPatternRecognition';
 import { execSync } from 'child_process';

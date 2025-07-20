@@ -13,7 +13,7 @@
  * - Evolutionary pattern adaptation
  */
 
-import { TypeScriptError, ErrorCategory, ErrorSeverity } from '../campaign/TypeScriptErrorAnalyzer';
+import { TypeScriptError, ErrorCategory, ErrorSeverity } from './campaign/TypeScriptErrorAnalyzer';
 import { ErrorPattern, ErrorTrend } from './ErrorTrackingEnterpriseSystem';
 
 // ========== PATTERN RECOGNITION INTERFACES ==========

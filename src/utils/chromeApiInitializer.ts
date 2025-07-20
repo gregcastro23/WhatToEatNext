@@ -30,8 +30,10 @@ export function initializeChromeApis(): void {
     }
 
     // Initialize tabs API with safe methods
-    if (!(window as unknown as Record<string, unknown>).chrome?.tabs) {
-      (window as unknown as Record<string, unknown>).chrome.tabs = {
+    // Apply Pattern GG-6: Enhanced property access with type guards
+    const chromeObj = (window as unknown as Record<string, unknown>).chrome as Record<string, unknown>;
+    if (!chromeObj?.tabs) {
+      chromeObj.tabs = {
         create: function(options: { url?: string }) {
           console.log('[ChromeAPI] Mocked chrome.tabs.create called with:', options);
           
@@ -62,8 +64,9 @@ export function initializeChromeApis(): void {
     }
 
     // Initialize runtime API
-    if (!(window as unknown as Record<string, unknown>).chrome?.runtime) {
-      (window as unknown as Record<string, unknown>).chrome.runtime = {
+    // Apply Pattern GG-6: Enhanced property access with type guards
+    if (!chromeObj?.runtime) {
+      chromeObj.runtime = {
         lastError: null,
         getURL: function(path: string) {
           return window.location.origin + '/' + path;
@@ -80,8 +83,9 @@ export function initializeChromeApis(): void {
     }
 
     // Initialize extension API
-    if (!(window as unknown as Record<string, unknown>).chrome?.extension) {
-      (window as unknown as Record<string, unknown>).chrome.extension = {
+    // Apply Pattern GG-6: Enhanced property access with type guards
+    if (!chromeObj?.extension) {
+      chromeObj.extension = {
         getURL: function(path: string) {
           return window.location.origin + '/' + path;
         },
@@ -92,10 +96,11 @@ export function initializeChromeApis(): void {
     }
 
     // Initialize storage API
-    if (!(window as unknown as Record<string, unknown>).chrome?.storage) {
+    // Apply Pattern GG-6: Enhanced property access with type guards
+    if (!chromeObj?.storage) {
       const mockStorage: Record<string, Record<string, string>> = {};
       
-      (window as unknown as Record<string, unknown>).chrome.storage = {
+      chromeObj.storage = {
         local: {
           get: function(keys: string | string[] | null, callback?: (items: Record<string, string[]>) => void) {
             let result: Record<string, Record<string, string>> = {};

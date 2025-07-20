@@ -21,7 +21,7 @@ import { IntelligentBatchProcessor, BatchJob } from './IntelligentBatchProcessor
 import { UnusedVariableDetector, DetectionResult } from './UnusedVariableDetector';
 import { QualityGatesValidation, QualityReport } from './QualityGatesValidation';
 import { EnterpriseIntelligenceIntegration } from './EnterpriseIntelligenceIntegration';
-import { TypeScriptErrorAnalyzer } from '../campaign/TypeScriptErrorAnalyzer';
+import { TypeScriptErrorAnalyzer } from './campaign/TypeScriptErrorAnalyzer';
 import { EventEmitter } from 'events';
 import fs from 'fs';
 import path from 'path';

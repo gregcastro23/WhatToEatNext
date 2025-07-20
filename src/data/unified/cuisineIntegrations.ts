@@ -1318,15 +1318,18 @@ export class UnifiedCuisineIntegrationSystem {
         seasonalModifiers: {
           temperatureAdjustment: (() => {
             const profileData = unifiedSeasonalProfiles[season] as Record<string, unknown>;
-            return profileData?.monicaModifiers?.temperatureAdjustment || 0;
+            const monicaModifiers = profileData?.monicaModifiers as Record<string, unknown>;
+            return monicaModifiers?.temperatureAdjustment || 0;
           })(),
           timingAdjustment: (() => {
             const profileData = unifiedSeasonalProfiles[season] as Record<string, unknown>;
-            return profileData?.monicaModifiers?.timingAdjustment || 0;
+            const monicaModifiers = profileData?.monicaModifiers as Record<string, unknown>;
+            return monicaModifiers?.timingAdjustment || 0;
           })(),
           intensityModifier: (() => {
             const profileData = unifiedSeasonalProfiles[season] as Record<string, unknown>;
-            return profileData?.monicaModifiers?.intensityModifier || 'normal';
+            const monicaModifiers = profileData?.monicaModifiers as Record<string, unknown>;
+            return monicaModifiers?.intensityModifier || 'normal';
           })()
         },
         traditionalSeasonalDishes: this.getTraditionalSeasonalDishes(cuisine1, cuisine2, season),
@@ -1510,9 +1513,9 @@ export class UnifiedCuisineIntegrationSystem {
     const monicaModifiers = seasonalProfileData?.monicaModifiers;
     
     const seasonalModifiers = {
-      temperatureAdjustment: monicaModifiers?.temperatureAdjustment || 0,
-      timingAdjustment: monicaModifiers?.timingAdjustment || 0,
-      intensityModifier: monicaModifiers?.intensityModifier || 'normal'
+      temperatureAdjustment: (monicaModifiers as Record<string, unknown>)?.temperatureAdjustment || 0,
+      timingAdjustment: (monicaModifiers as Record<string, unknown>)?.timingAdjustment || 0,
+      intensityModifier: (monicaModifiers as Record<string, unknown>)?.intensityModifier || 'normal'
     };
     
     // Get traditional seasonal dishes
@@ -1546,7 +1549,9 @@ export class UnifiedCuisineIntegrationSystem {
     // Safe property access for kalchmRange
     const profileData = seasonalProfile as Record<string, unknown>;
     const kalchmRange = profileData?.kalchmRange || { min: 0.8, max: 1.5 }; // Default range
-    const { min, max } = kalchmRange;
+    const kalchmData = kalchmRange as Record<string, unknown>;
+    const min = kalchmData?.min || 0.8;
+    const max = kalchmData?.max || 1.5;
     
     let totalHarmony = 0;
     
