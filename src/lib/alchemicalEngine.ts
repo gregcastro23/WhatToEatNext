@@ -6,6 +6,7 @@ import type {
   Recipe,
   Ingredient,
 } from "@/types/alchemy";
+import type { SpoonacularRecipe } from "@/types/spoonacular";
 import { ElementalCalculator } from "@/services/ElementalCalculator";
 import { SpoonacularElementalMapper } from "@/services/SpoonacularElementalMapper";
 import { proteins } from "@/data/ingredients";
@@ -245,7 +246,7 @@ export class AlchemicalEngineBase {
     };
 
     const astroStateData = astrologicalState as Record<string, unknown>;
-    const sunDegree = astroStateData?.sunDegree || 15;
+    const sunDegree = Number(astroStateData?.sunDegree) || 15;
     const currentDecan = getCurrentDecan(sunDegree);
 
     if (
@@ -350,7 +351,7 @@ export class AlchemicalEngineBase {
 
     const dominantElements = this.getDominantElements(recipe);
     const interactions = this.calculateIngredientInteractions(
-      recipe.ingredients as Record<string, unknown> // Pattern VVV: Array Type Interface Resolution (RecipeIngredient[] to Ingredient[])
+      (recipe.ingredients as unknown) as Ingredient[] // Pattern VVV: Array Type Interface Resolution (RecipeIngredient[] to Ingredient[])
     );
 
     // Use our own calculation instead of calling ElementalCalculator.calculateHarmony
@@ -375,7 +376,7 @@ export class AlchemicalEngineBase {
   ): Array<{ element: string; strength: number }> {
     const elements =
       recipe.elementalProperties ||
-      SpoonacularElementalMapper.mapRecipeToElemental(recipe as Recipe[]); // Pattern VVV: Array Type Interface Resolution
+      SpoonacularElementalMapper.mapRecipeToElemental((recipe as unknown) as SpoonacularRecipe); // Pattern VVV: Array Type Interface Resolution
 
     return Object.entries(elements)
       .map(([element, value]) => ({
@@ -392,9 +393,11 @@ export class AlchemicalEngineBase {
 
     for (let i = 0; i < ingredients.length; i++) {
       for (let j = i + 1; j < ingredients.length; j++) {
+        const ingA = (ingredients[i] as unknown) as any;
+        const ingB = (ingredients[j] as unknown) as any;
         const harmony = this.calculateHarmonyBetween(
-          (ingredients[i] as Record<string, unknown>).elementalProperties, // Pattern VVV: Array Type Interface Resolution
-          (ingredients[j] as Record<string, unknown>).elementalProperties  // Pattern VVV: Array Type Interface Resolution
+          ingA?.elementalProperties, // Pattern VVV: Array Type Interface Resolution
+          ingB?.elementalProperties  // Pattern VVV: Array Type Interface Resolution
         );
 
         if (harmony > 0.7) {
@@ -438,7 +441,7 @@ export class AlchemicalEngineBase {
       .map((_recipe) => ({
         ..._recipe,
         seasonalScore: (() => {
-          const calculatorData = ElementalCalculator as Record<string, unknown>;
+          const calculatorData = (ElementalCalculator as unknown) as any;
           if (calculatorData?.calculateSeasonalEffectiveness) {
             return calculatorData.calculateSeasonalEffectiveness(_recipe, season);
           }
@@ -493,7 +496,7 @@ export class AlchemicalEngineBase {
       return recipe.elementalProperties;
     }
 
-    return SpoonacularElementalMapper.mapRecipeToElemental(recipe as Recipe[]); // Pattern VVV: Array Type Interface Resolution
+    return SpoonacularElementalMapper.mapRecipeToElemental((recipe as unknown) as SpoonacularRecipe); // Pattern VVV: Array Type Interface Resolution
   }
 
   private calculateHarmonyScore(elements: ElementalProperties): number {

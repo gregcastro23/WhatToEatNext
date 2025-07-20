@@ -79,13 +79,14 @@ class InitializationService {
       const elementalPreference = this.convertToElementalProperties(celestialData);
       
       // Update the state with the elemental preference - safe method access
-      if (typeof (manager as Record<string, unknown>).updateState === 'function') {
-        await (manager as Record<string, unknown>).updateState({
+      const managerObj = (manager as unknown) as any;
+      if (typeof managerObj.updateState === 'function') {
+        await managerObj.updateState({
           elementalPreference,
           lastUpdated: new Date()
         });
-      } else if (typeof (manager as Record<string, unknown>).setState === 'function') {
-        await (manager as Record<string, unknown>).setState({
+      } else if (typeof managerObj.setState === 'function') {
+        await managerObj.setState({
           elementalPreference,
           lastUpdated: new Date()
         });
@@ -187,13 +188,14 @@ class InitializationService {
       const alignment = celestialCalculator.calculateCurrentInfluences();
       
       // Convert CelestialAlignment to CelestialData format with safe property access
+      const alignmentData = (alignment as unknown) as any;
       return {
-        sun: (alignment as Record<string, unknown>)?.sun || { sign: '', degree: 0, exactLongitude: 0 },
-        moon: (alignment as Record<string, unknown>)?.moon || { sign: '', degree: 0, exactLongitude: 0 },
-        Fire: (alignment as Record<string, unknown>)?.Fire || 0.25,
-        Water: (alignment as Record<string, unknown>)?.Water || 0.25,
-        Earth: (alignment as Record<string, unknown>)?.Earth || 0.25,
-        Air: (alignment as Record<string, unknown>)?.Air || 0.25
+        sun: alignmentData?.sun || { sign: '', degree: 0, exactLongitude: 0 },
+        moon: alignmentData?.moon || { sign: '', degree: 0, exactLongitude: 0 },
+        Fire: alignmentData?.Fire || 0.25,
+        Water: alignmentData?.Water || 0.25,
+        Earth: alignmentData?.Earth || 0.25,
+        Air: alignmentData?.Air || 0.25
       } as CelestialData;
     } catch (error) {
       logger.error('Failed to calculate celestial influences:', error)

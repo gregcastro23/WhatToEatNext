@@ -96,10 +96,14 @@ export class ConsolidatedRecipeService {
   ): Promise<Recipe[]> {
     try {
       // Convert our criteria to UnifiedRecipeService format
-      const unifiedResults = await (unifiedRecipeService as Record<string, unknown>).searchRecipes(criteria as Record<string, unknown>);
+      const serviceObj = (unifiedRecipeService as unknown) as any;
+      const unifiedResults = await serviceObj.searchRecipes(criteria as Record<string, unknown>);
       
       // Extract just the Recipe objects from the results
-      return (unifiedResults || []).map((result: unknown) => result.recipe || result) as unknown as Recipe[];
+      return (unifiedResults || []).map((result: unknown) => {
+        const resultData = (result as any);
+        return resultData?.recipe || resultData;
+      }) as unknown as Recipe[];
     } catch (error) {
       ErrorHandler.log((error as unknown as Error), {
         component: 'ConsolidatedRecipeService',
@@ -130,7 +134,7 @@ export class ConsolidatedRecipeService {
   async getRecipesByZodiac(currentZodiacSign: ZodiacSign): Promise<Recipe[]> {
     try {
       const recipeData = await getRecipesForZodiac(currentZodiacSign);
-      return recipeData as Recipe[];
+      return (recipeData as unknown) as Recipe[];
     } catch (error) {
       ErrorHandler.log((error as unknown as Error), {
         component: 'ConsolidatedRecipeService',
@@ -146,7 +150,7 @@ export class ConsolidatedRecipeService {
   async getRecipesBySeason(season: Season): Promise<Recipe[]> {
     try {
       const recipeData = await getRecipesForSeason(season);
-      return recipeData as Recipe[];
+      return (recipeData as unknown) as Recipe[];
     } catch (error) {
       ErrorHandler.log((error as unknown as Error), {
         component: 'ConsolidatedRecipeService',
@@ -162,7 +166,7 @@ export class ConsolidatedRecipeService {
   async getRecipesByLunarPhase(lunarPhase: LunarPhase): Promise<Recipe[]> {
     try {
       const recipeData = await getRecipesForLunarPhase(lunarPhase);
-      return recipeData as Recipe[];
+      return (recipeData as unknown) as Recipe[];
     } catch (error) {
       ErrorHandler.log((error as unknown as Error), {
         component: 'ConsolidatedRecipeService',
@@ -256,7 +260,7 @@ export class ConsolidatedRecipeService {
   async generateRecipe(criteria: RecipeSearchCriteria): Promise<Recipe> {
     try {
       // Apply surgical type casting with variable extraction
-      const serviceData = unifiedRecipeService as Record<string, unknown>;
+      const serviceData = (unifiedRecipeService as unknown) as any;
       const generateRecipeMethod = serviceData?.generateRecipe;
       const unifiedResult = generateRecipeMethod ? await generateRecipeMethod(criteria) : null;
       return unifiedResult?.recipe || null;
@@ -278,7 +282,7 @@ export class ConsolidatedRecipeService {
   ): Promise<Recipe> {
     try {
       // Apply surgical type casting with variable extraction
-      const serviceData = unifiedRecipeService as Record<string, unknown>;
+      const serviceData = (unifiedRecipeService as unknown) as any;
       const generateFusionRecipeMethod = serviceData?.generateFusionRecipe;
       const unifiedResult = generateFusionRecipeMethod ? await generateFusionRecipeMethod(cuisines, criteria) : null;
       return unifiedResult?.recipe || null;
@@ -300,7 +304,7 @@ export class ConsolidatedRecipeService {
   ): Promise<Recipe> {
     try {
       // Apply surgical type casting with variable extraction
-      const serviceData = unifiedRecipeService as Record<string, unknown>;
+      const serviceData = (unifiedRecipeService as unknown) as any;
       const adaptRecipeMethod = serviceData?.adaptRecipeForCurrentSeason;
       const unifiedResult = adaptRecipeMethod ? await adaptRecipeMethod(recipe) : null;
       return unifiedResult?.recipe || recipe;
