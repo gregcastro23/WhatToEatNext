@@ -13,6 +13,9 @@ help:
 	@echo "  make build       - Build for production"
 	@echo "  make test        - Run all tests"
 	@echo "  make lint        - Run linting checks"
+	@echo "  make lint-fix    - Fix linting issues"
+	@echo "  make lint-fast   - Fast incremental linting (changed files only)"
+	@echo "  make lint-summary - Quick error count and summary"
 	@echo "  make deploy      - Full deployment pipeline"
 	@echo "  make check       - TypeScript error checking"
 	@echo "  make errors      - Analyze current TypeScript errors"
@@ -37,6 +40,20 @@ help:
 	@echo "  make build-health        - Check build system health status"
 	@echo "  make build-comprehensive - Full build system repair"
 	@echo "  make build-emergency     - Emergency build recovery"
+	@echo ""
+	@echo "🔍 Advanced linting commands:"
+	@echo "  make lint-performance    - Linting with performance metrics"
+	@echo "  make lint-fix-safe       - Safe automated fixing with backups"
+	@echo "  make lint-auto-fix       - Comprehensive automated fixes"
+	@echo "  make lint-domain-astro   - Domain-specific astrological linting"
+	@echo "  make lint-domain-campaign - Domain-specific campaign linting"
+	@echo "  make lint-watch          - Continuous linting with auto-fix"
+	@echo "  make lint-cache-clear    - Clear ESLint cache"
+	@echo ""
+	@echo "🚀 Comprehensive workflow commands:"
+	@echo "  make lint-workflow       - Full comprehensive workflow"
+	@echo "  make lint-workflow-auto  - Automated comprehensive workflow"
+	@echo "  make lint-integration    - Integrated error reduction workflow"
 	@echo ""
 	@echo "🚀 CI/CD Pipeline commands:"
 	@echo "  make ci-validate         - Complete CI validation workflow"
@@ -101,7 +118,103 @@ lint:
 
 lint-fix:
 	@echo "🔧 Fixing linting issues..."
-	yarn lint --fix
+	yarn lint:fix
+
+# Advanced linting commands
+lint-fast:
+	@echo "⚡ Running fast incremental linting on changed files..."
+	@CHANGED_FILES=$$(git diff --name-only --diff-filter=ACMR HEAD | grep -E '\.(ts|tsx|js|jsx)$$' | tr '\n' ' '); \
+	if [ -n "$$CHANGED_FILES" ]; then \
+		echo "Linting changed files: $$CHANGED_FILES"; \
+		yarn eslint --config eslint.config.cjs --cache --cache-location .eslintcache $$CHANGED_FILES; \
+	else \
+		echo "No changed TypeScript/JavaScript files to lint"; \
+	fi
+
+lint-performance:
+	@echo "📊 Running linting with performance metrics..."
+	@echo "Starting lint performance analysis..."
+	@time yarn lint --format=json --output-file=.eslint-results.json 2>/dev/null || true
+	@echo "Results saved to .eslint-results.json"
+	@echo "Error summary:"
+	@yarn lint 2>&1 | tail -5 || echo "No issues found"
+
+lint-summary:
+	@echo "📋 Quick linting summary..."
+	@ERROR_COUNT=$$(yarn lint --format=json 2>/dev/null | jq '.[] | select(.errorCount > 0 or .warningCount > 0) | .errorCount + .warningCount' | awk '{sum += $$1} END {print sum+0}' 2>/dev/null || echo "0"); \
+	WARNING_COUNT=$$(yarn lint --format=json 2>/dev/null | jq '.[] | select(.errorCount > 0 or .warningCount > 0) | .warningCount' | awk '{sum += $$1} END {print sum+0}' 2>/dev/null || echo "0"); \
+	FILE_COUNT=$$(yarn lint --format=json 2>/dev/null | jq '.[] | select(.errorCount > 0 or .warningCount > 0) | .filePath' | wc -l 2>/dev/null || echo "0"); \
+	echo "📊 Linting Summary:"; \
+	echo "  Errors: $$ERROR_COUNT"; \
+	echo "  Warnings: $$WARNING_COUNT"; \
+	echo "  Files with issues: $$FILE_COUNT"
+
+lint-fix-safe:
+	@echo "🛡️ Running safe automated linting fixes..."
+	@echo "Step 1: Creating backup..."
+	@cp -r src .lint-backup-$$(date +%s) 2>/dev/null || true
+	@echo "Step 2: Running safe fixes (import organization)..."
+	@yarn lint:fix --fix-type suggestion,layout || true
+	@echo "Step 3: Validating fixes..."
+	@make build-health > /dev/null 2>&1 && echo "✅ Safe fixes applied successfully" || echo "⚠️ Build validation needed"
+
+lint-auto-fix:
+	@echo "🤖 Running comprehensive automated linting fixes..."
+	@echo "Step 1: Import organization..."
+	@yarn lint:fix --rule import/order || true
+	@echo "Step 2: Unused variable cleanup..."
+	@yarn lint:unused-vars || true
+	@echo "Step 3: Safe TypeScript fixes..."
+	@yarn lint:fix --rule @typescript-eslint/no-unused-vars || true
+	@echo "Step 4: Final validation..."
+	@make lint-summary
+
+lint-domain-astro:
+	@echo "🌟 Running domain-specific linting for astrological calculations..."
+	@yarn eslint --config eslint.config.cjs 'src/calculations/**/*.{ts,tsx}' 'src/data/planets/**/*.{ts,tsx}' 'src/utils/reliableAstronomy.ts' 'src/utils/planetaryConsistencyCheck.ts' 'src/services/*Astrological*.ts' 'src/services/*Alchemical*.ts' --format=compact
+
+lint-domain-campaign:
+	@echo "📈 Running domain-specific linting for campaign system..."
+	@yarn eslint --config eslint.config.cjs 'src/services/campaign/**/*.{ts,tsx}' 'src/types/campaign.ts' 'src/utils/*Campaign*.ts' 'src/utils/*Progress*.ts' --format=compact
+
+lint-watch:
+	@echo "👀 Starting linting watch mode..."
+	@yarn eslint --config eslint.config.cjs src --watch --cache --fix
+
+lint-cache-clear:
+	@echo "🧹 Clearing ESLint cache..."
+	@rm -f .eslintcache .eslint-results.json
+	@echo "✅ ESLint cache cleared"
+
+# Comprehensive linting workflow integration
+lint-workflow:
+	@echo "🚀 Running comprehensive linting workflow..."
+	yarn lint:workflow
+
+lint-workflow-dry:
+	@echo "🔍 Running comprehensive workflow (dry run)..."
+	yarn lint:workflow-dry
+
+lint-workflow-auto:
+	@echo "🤖 Running automated comprehensive workflow..."
+	yarn lint:workflow-auto
+
+lint-workflow-safe:
+	@echo "🛡️ Running safe comprehensive workflow..."
+	yarn lint:workflow-safe
+
+lint-integration:
+	@echo "🔗 Running integrated error reduction workflow..."
+	@echo "Step 1: Import organization..."
+	@make lint-fix-safe
+	@echo "Step 2: TypeScript error reduction..."
+	@node scripts/typescript-fixes/fix-typescript-errors-enhanced-v3.js --max-files=15 --auto-fix || true
+	@echo "Step 3: Explicit-any elimination..."
+	@node scripts/typescript-fixes/fix-explicit-any-systematic.js --max-files=20 --auto-fix || true
+	@echo "Step 4: Final validation..."
+	@make lint-summary
+	@make check
+	@echo "✅ Integrated workflow completed"
 
 # TypeScript error checking
 check:

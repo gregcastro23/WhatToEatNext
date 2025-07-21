@@ -14,8 +14,6 @@ import { getCurrentPlanetaryPositions } from '@/services/astrologizeApi';
 import type { ElementalProperties, 
   PlanetaryPosition, 
   ZodiacSign} from '@/types/alchemy';
-
-// lation modules
 import { Element } from "@/types/alchemy";
 
 import elementalCalculationsModule, {

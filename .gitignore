@@ -79,3 +79,12 @@ eslint-fix-backups/push_script.sh
 # SWC binaries (large files)
 .yarn/unplugged/@next-swc-*
 node_modules/@next/swc-*
+
+# ESLint cache and performance files
+.eslintcache
+.eslint-results.json
+.eslint-ts-cache/
+.lint-backup-*/
+lint-fix-log.txt
+.typescript-errors-metrics.json
+.explicit-any-metrics.json

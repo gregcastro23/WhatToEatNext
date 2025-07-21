@@ -357,6 +357,10 @@ module.exports = [
       "*.config.cjs",
       ".transformation-backups/",
       ".jest-cache/",
+      ".eslintcache",
+      ".eslint-results.json",
+      ".eslint-ts-cache/",
+      ".lint-backup-*/",
       "yarn.lock",
       "package-lock.json"
     ]
@@ -442,20 +446,55 @@ module.exports = [
       reportUnusedDisableDirectives: true
     },
     settings: {
-      // Cache settings for improved performance
+      // Enhanced cache settings for improved performance
       'import/cache': {
-        lifetime: 5 * 60 // 5 minutes
+        lifetime: 10 * 60, // 10 minutes for longer cache retention
+        max: 1000 // Maximum cache entries
       },
-      // Optimize TypeScript project references
+      // Optimized TypeScript project references
       'import/resolver': {
         typescript: {
           alwaysTryTypes: true,
           project: ['./tsconfig.json'],
-          // Enable caching for better performance
+          // Enhanced caching configuration
           cache: true,
-          // Limit memory usage
-          memoryLimit: 2048
+          cacheDir: '.eslint-ts-cache',
+          // Optimized memory usage for large codebase
+          memoryLimit: 4096, // Increased for better performance
+          // Parallel processing optimization
+          maxParallelFilesPerProcess: 30,
+          // Skip type checking for performance (ESLint focuses on linting)
+          transpileOnly: true
+        },
+        // Fallback resolver for faster resolution
+        node: {
+          extensions: ['.js', '.jsx', '.ts', '.tsx', '.json'],
+          moduleDirectory: ['node_modules', 'src']
         }
+      },
+      // React optimization for large component trees
+      react: {
+        version: '19.1.0',
+        // Enable flow support for better performance
+        flowVersion: '0.53',
+        // Component wrapper detection optimization
+        pragma: 'React',
+        pragmaFrag: 'React.Fragment'
+      },
+      // ESLint performance tuning
+      'import/external-module-folders': ['node_modules', 'node_modules/@types'],
+      'import/parsers': {
+        '@typescript-eslint/parser': ['.ts', '.tsx']
+      },
+      // Optimize import resolution paths
+      'import/resolver-alias': {
+        '@': './src',
+        '@components': './src/components',
+        '@utils': './src/utils',
+        '@types': './src/types',
+        '@services': './src/services',
+        '@data': './src/data',
+        '@calculations': './src/calculations'
       }
     }
   },
