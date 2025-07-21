@@ -1,13 +1,16 @@
-import React from 'react';
-import type { Recipe } from '@/types/recipe';
-import type { Ingredient, UnifiedIngredient } from '@/types/ingredient';
-import styles from './CuisineSection.module.css';
-import { getRelatedCuisines, getRecipesForCuisineMatch } from '@/data/cuisineFlavorProfiles';
-import { getBestRecipeMatches } from '@/data/recipes';
 import Link from 'next/link';
+import React from 'react';
+
+import { getRelatedCuisines, getRecipesForCuisineMatch } from '@/data/cuisineFlavorProfiles';
+import cuisinesMap from '@/data/cuisines';
+import { getBestRecipeMatches } from '@/data/recipes';
+import type { Ingredient, UnifiedIngredient } from '@/types/ingredient';
+import type { Recipe } from '@/types/recipe';
+
+import styles from './CuisineSection.module.css';
+
 
 // Import cuisinesMap to access sauce data
-import cuisinesMap from '@/data/cuisines';
 
 // Define SauceInfo interface
 interface SauceInfo {

@@ -1,7 +1,7 @@
 'use client';
 
-import React, { useState, useCallback, useMemo } from 'react';
 import { Search, Filter, X, Clock, ChefHat, Utensils, Globe } from 'lucide-react';
+import React, { useState, useCallback, useMemo } from 'react';
 
 // ========== INTERFACES ==========
 

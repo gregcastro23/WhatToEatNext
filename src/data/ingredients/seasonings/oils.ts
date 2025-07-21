@@ -1,6 +1,6 @@
-import { fixIngredientMappings } from '@/utils/elementalUtils';
-import type { Season } from '@/types/seasons';
 import type { IngredientMapping } from '@/data/ingredients/types';
+import type { Season } from '@/types/seasons';
+import { fixIngredientMappings } from '@/utils/elementalUtils';
 
 // Pattern AA: Ingredient Interface Restructuring
 // Proper type annotation for raw ingredients to ensure IngredientMapping compatibility

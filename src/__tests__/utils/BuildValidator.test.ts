@@ -1,6 +1,7 @@
-import { BuildValidator, BuildValidationResult } from '../../utils/BuildValidator';
 import fs from 'fs';
 import path from 'path';
+
+import { BuildValidator, BuildValidationResult } from '../../utils/BuildValidator';
 
 // Mock fs module
 jest.mock('fs');

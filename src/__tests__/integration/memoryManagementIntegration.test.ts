@@ -5,8 +5,8 @@
  * with the existing test infrastructure and provides the expected functionality.
  */
 
-import { TestMemoryMonitor } from '../utils/TestMemoryMonitor';
 import { itWithMemoryCleanup, TEST_TIMEOUTS } from '../utils/memoryTestHelpers';
+import { TestMemoryMonitor } from '../utils/TestMemoryMonitor';
 
 describe('Memory Management Integration', () => {
   it('should have reduced test timeout from 30s to 15s', () => {

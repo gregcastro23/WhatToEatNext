@@ -2,9 +2,10 @@
  * Tests for Makefile Integration System
  */
 
-import { MakefileIntegration, MakeTarget } from './MakefileIntegration';
-import fs from 'fs';
 import { execSync } from 'child_process';
+import fs from 'fs';
+
+import { MakefileIntegration, MakeTarget } from './MakefileIntegration';
 
 // Mock fs and execSync
 jest.mock('fs');

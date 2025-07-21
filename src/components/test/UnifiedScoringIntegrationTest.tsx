@@ -1,10 +1,11 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+
 import { getRecommendedIngredients, ScoredItem } from '@/services/UnifiedScoringAdapter';
-import type { UnifiedIngredient } from '@/types/ingredient';
 import type { Season } from '@/types/alchemy';
 import type { Planet } from '@/types/celestial';
+import type { UnifiedIngredient } from '@/types/ingredient';
 
 // Sample ingredients for testing
 const SAMPLE_INGREDIENTS: UnifiedIngredient[] = [

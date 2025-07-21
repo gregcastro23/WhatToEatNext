@@ -3,8 +3,9 @@
  * Main Page Restoration - Task 3.8 Implementation
  */
 
-import { EnterpriseIntelligenceIntegration } from '../EnterpriseIntelligenceIntegration';
 import type { ElementalProperties, ZodiacSign, LunarPhase } from '@/types/alchemy';
+
+import { EnterpriseIntelligenceIntegration } from '../EnterpriseIntelligenceIntegration';
 
 // Mock the logger to avoid initialization issues in tests
 jest.mock('@/utils/logger', () => ({

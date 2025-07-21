@@ -1,10 +1,11 @@
 'use client';
 
-import React, { useState, useEffect, useMemo } from 'react';
 import { Moon, ArrowDown, Sunrise, Sunset, Navigation } from 'lucide-react';
+import React, { useState, useEffect, useMemo } from 'react';
+
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
-import { getSignFromLongitude } from '@/utils/astrologyUtils';
 import { AstrologicalService } from '@/services/AstrologicalService';
+import { getSignFromLongitude } from '@/utils/astrologyUtils';
 import { safeImportAndExecute, safeImportFunction } from '@/utils/dynamicImport';
 
 /**

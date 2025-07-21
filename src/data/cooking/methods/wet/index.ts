@@ -1,11 +1,11 @@
-import { sousVide } from './sous-vide';
 import { boiling } from './boiling';
-import { steaming } from './steaming';
 import { braising } from './braising';
 // Import other wet cooking methods as they are added
 import { poaching } from './poaching';
-import { simmering } from './simmering';
 import { pressureCooking } from './pressure-cooking';
+import { simmering } from './simmering';
+import { sousVide } from './sous-vide';
+import { steaming } from './steaming';
 
 /**
  * Collection of wet cooking methods

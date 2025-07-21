@@ -1,6 +1,6 @@
+import type { CuisineType } from './alchemy';
 import type { CookingMethod } from './cookingMethod';
 import type { PrimaryCuisineType } from './cuisineAliases';
-import type { CuisineType } from './alchemy';
 
 /**
  * Comprehensive CulinaryProfile interface for all ingredients

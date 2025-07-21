@@ -1,8 +1,9 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
-import { useServices } from '@/hooks/useServices';
 import { Filter, Search, SlidersHorizontal, X } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+
+import { useServices } from '@/hooks/useServices';
 import type { CuisineType, DietaryRestriction } from '@/types/alchemy';
 import { logger } from '@/utils/logger';
 

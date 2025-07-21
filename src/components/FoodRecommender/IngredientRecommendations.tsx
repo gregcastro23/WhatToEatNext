@@ -1,6 +1,8 @@
 import React, { useMemo } from 'react';
-import { getTopIngredientMatches } from '@/utils/foodRecommender';
+
 import type { AstrologicalState } from '@/types';
+import { getTopIngredientMatches } from '@/utils/foodRecommender';
+
 import styles from './IngredientRecommendations.module.css';
 
 interface IngredientRecommendationsProps {

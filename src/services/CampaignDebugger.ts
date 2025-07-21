@@ -6,15 +6,16 @@
  * campaign health monitoring within Kiro.
  */
 
-import { CampaignController } from './campaign/CampaignController';
-import { ProgressTracker } from './campaign/ProgressTracker';
-import { kiroCampaignIntegration } from './KiroCampaignIntegration';
-import { campaignConflictResolver } from './CampaignConflictResolver';
 import type {
   CampaignConfig,
   SafetyEvent,
   ProgressMetrics
 } from '../types/campaign';
+
+import { CampaignController } from './campaign/CampaignController';
+import { ProgressTracker } from './campaign/ProgressTracker';
+import { campaignConflictResolver } from './CampaignConflictResolver';
+import { kiroCampaignIntegration } from './KiroCampaignIntegration';
 import type {
   KiroCampaignStatus
 } from './KiroCampaignIntegration';

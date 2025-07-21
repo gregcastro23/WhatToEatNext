@@ -1,9 +1,10 @@
 'use client';
 
+import { AlertTriangle, RefreshCw, X, ChevronDown, ChevronUp, Utensils, Zap, Compass } from 'lucide-react';
 import React, { Component, ErrorInfo, ReactNode } from 'react';
+
 import { ErrorHandler } from '@/services/errorHandler';
 import { createLogger } from '@/utils/logger';
-import { AlertTriangle, RefreshCw, X, ChevronDown, ChevronUp, Utensils, Zap, Compass } from 'lucide-react';
 
 const logger = createLogger('ComponentErrorBoundary');
 

@@ -1,14 +1,13 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import type { 
-  ElementalProperties, 
-  Element, 
-  Recipe,
-  Ingredient,
-  CookingMethod,
-  CustomRecipe,
-  RecipeIngredient
-} from '@/types/alchemy';
-
+import { 
+  Add as AddIcon,
+  Delete as DeleteIcon,
+  DragIndicator as DragIcon,
+  ExpandMore as ExpandMoreIcon,
+  Restaurant as RestaurantIcon,
+  Timer as TimerIcon,
+  Save as SaveIcon,
+  Share as ShareIcon
+} from '@mui/icons-material';
 import { 
   Box, 
   Card, 
@@ -36,20 +35,22 @@ import {
   MenuItem,
   Slider
 } from '@mui/material';
-import { 
-  Add as AddIcon,
-  Delete as DeleteIcon,
-  DragIndicator as DragIcon,
-  ExpandMore as ExpandMoreIcon,
-  Restaurant as RestaurantIcon,
-  Timer as TimerIcon,
-  Save as SaveIcon,
-  Share as ShareIcon
-} from '@mui/icons-material';
+import React, { useState, useEffect, useCallback } from 'react';
+
+import { getAllEnhancedCookingMethods, type EnhancedCookingMethod } from '@/constants/alchemicalPillars';
+import type { 
+  ElementalProperties, 
+  Element, 
+  Recipe,
+  Ingredient,
+  CookingMethod,
+  CustomRecipe,
+  RecipeIngredient
+} from '@/types/alchemy';
+
 
 // Data and Utils
 import { getAllIngredients } from '@/utils/foodRecommender';
-import { getAllEnhancedCookingMethods, type EnhancedCookingMethod } from '@/constants/alchemicalPillars';
 
 // Recipe Builder specific interfaces
 interface RecipeBuilderProps {

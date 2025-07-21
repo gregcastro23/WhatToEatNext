@@ -1,10 +1,11 @@
 "use client"
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { calculatePlanetaryPositions, calculateAspects, longitudeToZodiacPosition, getPlanetaryDignity } from '@/utils/astrologyUtils';
-import { getCurrentSeason } from '@/data/integrations/seasonal';
+
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
+import { getCurrentSeason } from '@/data/integrations/seasonal';
 import { getLatestAstrologicalState } from '@/services/AstrologicalService';
+import { calculatePlanetaryPositions, calculateAspects, longitudeToZodiacPosition, getPlanetaryDignity } from '@/utils/astrologyUtils';
 
 interface PlanetaryAspect {
   planet1: string;

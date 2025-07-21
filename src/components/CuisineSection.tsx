@@ -1,10 +1,12 @@
+import Link from 'next/link';
 import React from 'react';
+
 import type { Recipe } from '@/types/recipe';
+
 // TODO: Fix CSS module import - was: import from "./CuisineSection.module.css.ts"
 import { getRelatedCuisines, getRecipesForCuisineMatch } from '../data/cuisineFlavorProfiles';
-import { getBestRecipeMatches } from '../data/recipes';
-import Link from 'next/link';
 import cuisinesMap from '../data/cuisines';
+import { getBestRecipeMatches } from '../data/recipes';
 
 // Import cuisinesMap to access sauce data
 
@@ -170,7 +172,7 @@ export const CuisineSection: React.FC<CuisineSectionProps> = ({
   if (!(cuisineRecipes || []).length) {
     // Special case for African and American cuisines
     // Use safe type casting for string methods
-    const cuisineString = cuisine as string;
+    const cuisineString = cuisine ;
     const isSpecialCase = cuisineString?.toLowerCase() === 'african' || cuisineString?.toLowerCase() === 'american';
     if (isSpecialCase) {
       // Last-ditch effort to find recipes for these problematic cuisines

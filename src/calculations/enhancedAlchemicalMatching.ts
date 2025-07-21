@@ -3,6 +3,7 @@ import {
   ZodiacSign, 
   AlchemicalResult,
   PlanetaryPosition} from '@/types/alchemy';
+
 import { signs } from '../data/astroData';
 /**
  * Enhanced matithm to calculate astrological affinity between two signs
@@ -787,7 +788,7 @@ function getSeasonalAdjustments(
   
   // Add elemental-seasonal adjustments
   const elementKey = dominantElement as keyof typeof elementalAdjustment;
-  const seasonKeyTyped = seasonKey as keyof (typeof elementalAdjustment)[typeof elementKey];
+  const seasonKeyTyped = seasonKey ;
   
   const elementAdjust = elementalAdjustment[elementKey] && 
                        elementalAdjustment[elementKey][seasonKeyTyped]

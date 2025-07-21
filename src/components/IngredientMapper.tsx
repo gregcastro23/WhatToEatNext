@@ -1,8 +1,9 @@
 'use client';
 
 import React, { useState } from 'react';
-import { useIngredientMapping } from '@/hooks/useIngredientMapping';
+
 import { cuisinesMap } from '@/data/cuisines';
+import { useIngredientMapping } from '@/hooks/useIngredientMapping';
 
 /**
  * Component that demonstrates the universal ingredient mapping functionality

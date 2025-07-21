@@ -152,11 +152,11 @@ export async function safeImportFunctionKnown<T extends (...args: unknown[]) => 
 // import * as astronomia from 'astronomia';
 
 // Add back specific module imports for known paths instead of using dynamic imports
-import * as astrologyUtils from '@/utils/astrologyUtils';
-import * as accurateAstronomy from '@/utils/accurateAstronomy';
-import * as safeAstrology from '@/utils/safeAstrology';
 import * as alchemicalCalculations from '@/calculations/alchemicalCalculations';
 import * as gregsEnergy from '@/calculations/gregsEnergy';
+import * as accurateAstronomy from '@/utils/accurateAstronomy';
+import * as astrologyUtils from '@/utils/astrologyUtils';
+import * as safeAstrology from '@/utils/safeAstrology';
 
 // Get astronomia module dynamically to prevent build issues
 const getAstronomiaModule = async () => {

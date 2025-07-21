@@ -12,13 +12,13 @@
  * This ensures we never need to fall back to made-up default values.
  */
 
+import { Element } from "@/types/alchemy";
 import type { CelestialPosition, ZodiacSign } from '@/types/celestial';
+import { PlanetaryPosition } from "@/types/celestial";
 import { createLogger } from '@/utils/logger';
 import * as safeAstrology from '@/utils/safeAstrology';
 
 
-import { Element } from "@/types/alchemy";
-import { PlanetaryPosition } from "@/types/celestial";
 
 // Create a component-specific logger
 const logger = createLogger('AstrologyDataProvider');

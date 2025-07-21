@@ -1,18 +1,10 @@
-import React, { useState, useMemo, useEffect } from 'react';
-import type { 
-  ElementalProperties, 
-  ThermodynamicMetrics, 
-  ZodiacSign, 
-  LunarPhase,
-  LunarPhaseWithSpaces,
-  PlanetaryAspect,
-  AstrologicalState,
-  Element,
-  Recipe
-} from '@/types/alchemy';
-import type { TimeFactors } from '@/types/time';
-import { getTimeFactors } from '@/types/time';
-
+import { 
+  AccessTime, 
+  Restaurant, 
+  WbSunny, 
+  ExpandMore, 
+  ExpandLess 
+} from '@mui/icons-material';
 import { 
   Box, 
   Card, 
@@ -28,34 +20,43 @@ import {
   Alert,
   Button
 } from '@mui/material';
-import { 
-  AccessTime, 
-  Restaurant, 
-  WbSunny, 
-  ExpandMore, 
-  ExpandLess 
-} from '@mui/icons-material';
+import React, { useState, useMemo, useEffect } from 'react';
+
+import { ElementalItem, AlchemicalItem } from '@/calculations/alchemicalTransformation';
+import { ElementalCharacter, AlchemicalProperty } from '@/constants/planetaryElements';
+import { RulingPlanet } from '@/constants/planets';
+import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
+import { cookingMethods } from '@/data/cooking/cookingMethods';
+import { cuisines } from '@/data/cuisines';
+import allIngredients from '@/data/ingredients';
+import type { Ingredient, Modality } from '@/data/ingredients/types';
+import type { 
+  ElementalProperties, 
+  ThermodynamicMetrics, 
+  ZodiacSign, 
+  LunarPhase,
+  LunarPhaseWithSpaces,
+  PlanetaryAspect,
+  AstrologicalState,
+  Element,
+  Recipe
+} from '@/types/alchemy';
+import type { TimeFactors } from '@/types/time';
+import { getTimeFactors } from '@/types/time';
+
 
 // Core Types and Constants
-import { RulingPlanet } from '@/constants/planets';
-import { ElementalCharacter, AlchemicalProperty } from '@/constants/planetaryElements';
-import type { Ingredient, Modality } from '@/data/ingredients/types';
 
 // Hooks and Context
 import { useAlchemicalRecommendations } from '@/hooks/useAlchemicalRecommendations';
-import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 
 // Data Sources
-import allIngredients from '@/data/ingredients';
-import { cookingMethods } from '@/data/cooking/cookingMethods';
-import { cuisines } from '@/data/cuisines';
 
 // Utils
-import { determineIngredientModality } from '@/utils/ingredientUtils';
 import { createElementalProperties } from '@/utils/elemental/elementalUtils';
+import { determineIngredientModality } from '@/utils/ingredientUtils';
 
 // Transformation Types
-import { ElementalItem, AlchemicalItem } from '@/calculations/alchemicalTransformation';
 
 interface AlchemicalRecommendationsProps {
   planetPositions?: Record<RulingPlanet, number>;
@@ -552,7 +553,7 @@ export default function AlchemicalRecommendations({
         {/* Elemental Properties Display */}
         <Box sx={{ mt: 1 }}>
           <Grid container spacing={1}>
-            {Object.entries((item as unknown as Record<string, unknown>)?.elementalProperties || (item as unknown as Record<string, unknown>)?.elementalState || {}).map(([element, value]) => (
+            {Object.entries((item  as Record<string, unknown>)?.elementalProperties || (item  as Record<string, unknown>)?.elementalState || {}).map(([element, value]) => (
               <Grid item xs={3} key={element}>
                 <Chip 
                   label={`${element}: ${Math.round((value as number) * 100)}%`}
@@ -569,14 +570,14 @@ export default function AlchemicalRecommendations({
         {expandedItems[(item as Record<string, unknown>)?.id as string || `item-${index}`] && (
           <Box sx={{ mt: 2 }}>
             <Divider sx={{ mb: 2 }} />
-            {(item as unknown as Record<string, unknown>)?.modality && (
+            {(item  as Record<string, unknown>)?.modality && (
               <Typography variant="body2">
-                <strong>Modality:</strong> {String((item as unknown as Record<string, unknown>)?.modality)}
+                <strong>Modality:</strong> {String((item  as Record<string, unknown>)?.modality)}
               </Typography>
             )}
-            {(item as unknown as Record<string, unknown>)?.qualities && (
+            {(item  as Record<string, unknown>)?.qualities && (
               <Typography variant="body2">
-                <strong>Qualities:</strong> {((item as unknown as Record<string, unknown>)?.qualities as string[])?.join(', ')}
+                <strong>Qualities:</strong> {((item  as Record<string, unknown>)?.qualities as string[])?.join(', ')}
               </Typography>
             )}
           </Box>

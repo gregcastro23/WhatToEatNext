@@ -3,7 +3,9 @@
  * Perfect Codebase Campaign - Safety Protocol Testing
  */
 
-import { SafetyProtocol } from '../SafetyProtocol';
+import { execSync } from 'child_process';
+import * as fs from 'fs';
+
 import {
   SafetySettings,
   CorruptionReport,
@@ -14,8 +16,7 @@ import {
   SafetyEventType,
   SafetyEventSeverity
 } from '../../../types/campaign';
-import { execSync } from 'child_process';
-import * as fs from 'fs';
+import { SafetyProtocol } from '../SafetyProtocol';
 
 // Mock dependencies
 jest.mock('child_process');

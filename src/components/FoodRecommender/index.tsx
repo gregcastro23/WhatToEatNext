@@ -3,8 +3,10 @@ import '../../utils/foodRecommenderFix';
 // Import the fix first before anything else
 import '../../utils/fixAssignmentError';
 // Import the IngredientDisplay component which has more detailed information
-import IngredientDisplay from './IngredientDisplay';
-// Import our fixed alchemical functions
+import { useMemo } from 'react';
+
+import { useAstrologicalState } from '@/context/AstrologicalContext';
+
 import { 
   calculateElementalScore,
   getElementRanking, 
@@ -13,8 +15,10 @@ import {
   combineElementObjects, 
   getAbsoluteElementValue 
 } from '../../utils/alchemicalFunctions';
-import { useAstrologicalState } from '@/context/AstrologicalContext';
-import { useMemo } from 'react';
+
+import IngredientDisplay from './IngredientDisplay';
+// Import our fixed alchemical functions
+
 // Import getAllIngredients from our utils
 // Import ingredient data types
 

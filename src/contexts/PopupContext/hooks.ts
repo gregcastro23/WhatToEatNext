@@ -1,6 +1,7 @@
 'use client';
 
 import { useContext } from 'react';
+
 import { PopupContext } from './context';
 import type { PopupContextType } from './types';
 

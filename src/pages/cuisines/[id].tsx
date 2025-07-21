@@ -1,14 +1,15 @@
-import React from 'react';
-import { useRouter } from 'next/router';
 import { NextPage } from 'next';
+import { useRouter } from 'next/router';
+import React from 'react';
+
 import { CuisineSection } from '@/components/CuisineSection';
+import { getRecipesForCuisineMatch } from '@/data/cuisineFlavorProfiles';
 import { cuisines } from '@/data/cuisines';
 import { allRecipes, getBestRecipeMatches } from '@/data/recipes';
-import { getRecipesForCuisineMatch } from '@/data/cuisineFlavorProfiles';
-import { getCurrentElementalState } from '@/utils/elementalUtils';
-import type { Recipe } from '@/types/recipe';
-import type { Season } from '@/types/common';
 import type { Cuisine } from '@/types/alchemy';
+import type { Season } from '@/types/common';
+import type { Recipe } from '@/types/recipe';
+import { getCurrentElementalState } from '@/utils/elementalUtils';
 
 const CuisineDetailsPage: NextPage = () => {
   const router = useRouter();
@@ -36,7 +37,7 @@ const CuisineDetailsPage: NextPage = () => {
   // Memoize the cuisine data with safe property access
   const cuisine = React.useMemo(() => {
     if (!id) return null;
-    const cuisineData = cuisines[id as string] as Cuisine;
+    const cuisineData = cuisines[id as string] ;
     return cuisineData || null;
   }, [id]);
 
@@ -71,7 +72,7 @@ const CuisineDetailsPage: NextPage = () => {
       const recipe1Data = recipe1 as any;
       const matchingRecipe = elementalMatchedRecipes.find((r: any) => r?.name === recipe1Data?.name);
       if (matchingRecipe) {
-        const matchingRecipeData = matchingRecipe as any;
+        const matchingRecipeData = matchingRecipe ;
         const baseScore = Math.max(Number(recipe1Data?.matchScore) || 0, Number(matchingRecipeData?.matchScore) || 0);
         const secondScore = Math.min(Number(recipe1Data?.matchScore) || 0, Number(matchingRecipeData?.matchScore) || 0);
         const randomFactor = 0.95 + (Math.random() * 0.1);
@@ -105,7 +106,7 @@ const CuisineDetailsPage: NextPage = () => {
     
     // Add remaining elemental-matched recipes
     for (const recipe of elementalMatchedRecipes) {
-      const recipeData = recipe as any;
+      const recipeData = recipe ;
       if (!recipeIds.has(recipeData?.name)) {
         const baseScore = Number(recipeData?.matchScore) || 0;
         const sigmoidScore = baseScore < 0.5 

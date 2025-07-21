@@ -1,14 +1,5 @@
 // TODO: Fix import - add what to import from "./unifiedTypes.ts"
 // TODO: Fix import - add what to import from "./ingredients.ts"
-import { 
-// ===== ENHANCED UNIFIED INGREDIENTS SYSTEM =====
-// Phase 5 of WhatToEatNext Data Consolidation
-// Integrates with unified flavor profile system and adds comprehensive functionality
-
-  createElementalProperties, 
-  isElementalProperties, 
-  calculateElementalCompatibility 
-} from '../../utils/elemental/elementalUtils';
 import type { ElementalProperties, 
   Season, 
   PlanetName, 
@@ -20,22 +11,32 @@ import type { ElementalProperties,
   LunarPhase,
   Element
 } from "@/types/alchemy";
+
+import { 
+// ===== ENHANCED UNIFIED INGREDIENTS SYSTEM =====
+// Phase 5 of WhatToEatNext Data Consolidation
+// Integrates with unified flavor profile system and adds comprehensive functionality
+
+  createElementalProperties, 
+  isElementalProperties, 
+  calculateElementalCompatibility 
+} from '../../utils/elemental/elementalUtils';
 // TODO: Fix import - add what to import from "./flavorProfiles.ts"
 // TODO: Fix import - add what to import from "./seasonal.ts"
 // TODO: Fix import - add what to import from "./cuisineIntegrations.ts"
 // TODO: Fix import - add what to import from "./nutritional.ts"
 
-import type { UnifiedIngredient } from "./unifiedTypes";
+import { unifiedCuisineIntegrationSystem } from "./cuisineIntegrations";
 import type { UnifiedFlavorProfile } from "./flavorProfiles";
 
 // Import unified systems
 import { unifiedFlavorProfileSystem } from "./flavorProfiles";
-import { unifiedSeasonalSystem } from "./seasonal";
-import { unifiedCuisineIntegrationSystem } from "./cuisineIntegrations";
+import { unifiedIngredients } from "./ingredients";
 import { unifiedNutritionalSystem } from "./nutritional";
+import { unifiedSeasonalSystem } from "./seasonal";
 
 // Import unified ingredients
-import { unifiedIngredients } from "./ingredients";
+import type { UnifiedIngredient } from "./unifiedTypes";
 
 // Enhanced ingredient interface with flavor profile integration
 export interface EnhancedIngredient {
@@ -632,7 +633,7 @@ export class EnhancedIngredientsSystem {
     
     // Enhance each ingredient from the unified ingredients system
     Object.values(unifiedIngredients || {}).forEach(ingredient => {
-      const enhancedIngredient = this.enhanceIngredient(ingredient as UnifiedIngredient);
+      const enhancedIngredient = this.enhanceIngredient(ingredient );
       enhanced[enhancedIngredient.name] = enhancedIngredient;
     });
     

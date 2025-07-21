@@ -4,8 +4,10 @@
  */
 
 import { renderHook, act } from '@testing-library/react';
-import { useEnterpriseIntelligence } from '../useEnterpriseIntelligence';
+
 import type { ElementalProperties, ZodiacSign, LunarPhase } from '@/types/alchemy';
+
+import { useEnterpriseIntelligence } from '../useEnterpriseIntelligence';
 
 // Mock the logger to avoid initialization issues in tests
 jest.mock('@/utils/logger', () => ({

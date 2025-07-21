@@ -54,7 +54,7 @@ export class CampaignController {
       // Execute phase tools in sequence
       let filesProcessed = 0;
       let errorsFixed = 0;
-      let warningsFixed = 0;
+      const warningsFixed = 0;
 
       for (const tool of phase.tools) {
         const toolResult = await this.executeTool(tool);

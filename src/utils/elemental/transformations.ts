@@ -5,22 +5,21 @@
  * for ingredients, cooking methods, and cuisines.
  */
 
+import { AlchemicalProperties } from "@/types/alchemy";
 import type { ElementalProperties, 
   Element, 
   ElementalCharacter,
   LunarPhase,
   LunarPhaseWithSpaces,
-  ZodiacSign } from "@/types/alchemy";
+  ZodiacSign , 
+  ElementalItem,
+  AlchemicalItem 
+} from "@/types/alchemy";
 
 import { normalizeProperties, calculateDominantElement } from './core';
 
-import { AlchemicalProperties } from "@/types/alchemy";
 
 // Import elemental and alchemical item types from correct location
-import type { 
-  ElementalItem,
-  AlchemicalItem 
-} from '@/types/alchemy';
 
 
 // --- Types ---

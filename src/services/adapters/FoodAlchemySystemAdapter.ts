@@ -6,22 +6,22 @@
  * modern service architecture.
  */
 
-import type { ElementalProperties, Season, ZodiacSign, LunarPhase, Recipe } from "@/types/alchemy";
-import { consolidatedRecipeService } from '../ConsolidatedRecipeService';
-
-import { FoodAlchemySystem } from '../FoodAlchemySystem';
-import type { FoodCompatibility, SystemState } from '../../lib/FoodAlchemySystem';
-
-import { logger } from '../../utils/logger';
-
-// Add missing imports for TS2304 fixes
-import type { ScoredRecipe } from '@/types/recipe';
 import { enhancedIngredientSystem } from '@/services/adapters/IngredientServiceAdapter';
-
-import type { UnifiedIngredient } from '../../data/unified/unifiedTypes';
-
+import type { ElementalProperties, Season, ZodiacSign, LunarPhase, Recipe } from "@/types/alchemy";
 import { Element } from "@/types/alchemy";
 import { PlanetaryAlignment } from "@/types/celestial";
+import type { ScoredRecipe } from '@/types/recipe';
+
+import type { UnifiedIngredient } from '../../data/unified/unifiedTypes';
+import type { FoodCompatibility, SystemState } from '../../lib/FoodAlchemySystem';
+import { logger } from '../../utils/logger';
+import { consolidatedRecipeService } from '../ConsolidatedRecipeService';
+import { FoodAlchemySystem } from '../FoodAlchemySystem';
+
+
+// Add missing imports for TS2304 fixes
+
+
 
 /**
  * Enhanced food alchemy system that uses modern service architecture

@@ -1,6 +1,7 @@
 import React from 'react';
-import { logger } from '@/utils/logger';
+
 import ErrorBoundary from '@/components/error-boundaries/ErrorBoundary';
+import { logger } from '@/utils/logger';
 
 // Error types for better categorization
 export enum ErrorType {
@@ -163,7 +164,7 @@ export class ErrorHandler {
     let enhancedError: EnhancedError;
     
     if ('type' in error && 'severity' in error) {
-      enhancedError = error as EnhancedError;
+      enhancedError = error ;
     } else {
       const type = classifyError(error);
       const severity = this.determineSeverity(type);

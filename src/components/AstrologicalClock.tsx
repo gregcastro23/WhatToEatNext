@@ -1,9 +1,10 @@
 'use client';
 
+import { Loader2, Info } from 'lucide-react';
 import React, { useEffect, useRef, useState } from 'react';
+
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 import { useCurrentChart } from '@/hooks/useCurrentChart';
-import { Loader2, Info } from 'lucide-react';
 import type { ZodiacSign } from '@/types/alchemy';
 import { getPlanetaryDignity } from '@/utils/astrologyUtils';
 

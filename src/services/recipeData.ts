@@ -9,18 +9,19 @@ export interface RecipeDataEnhanced {
   season?: string | string[];
   mealType?: string | string[];
 }
-import type { Recipe } from '../types/recipe'
-import { logger } from '../utils/logger'
-import { errorHandler } from './errorHandler'
-import { recipeElementalMappings } from '../data/recipes/elementalMappings'
-import { spices } from '../data/ingredients/spices'
-import { herbs } from '../data/ingredients/herbs'
 import { fruits } from '../data/ingredients/fruits'
-import { vegetables } from '../data/ingredients/vegetables'
+import { herbs } from '../data/ingredients/herbs'
 import { seasonings } from '../data/ingredients/seasonings'
-import { cache } from '../utils/cache'
+import { spices } from '../data/ingredients/spices'
+import { vegetables } from '../data/ingredients/vegetables'
+import { recipeElementalMappings } from '../data/recipes/elementalMappings'
+import type { Recipe } from '../types/recipe'
 import { validateElementalProperties } from '../types/recipe'
 import { RecipeIngredient } from '../types/recipeIngredient'
+import { cache } from '../utils/cache'
+import { logger } from '../utils/logger'
+
+import { errorHandler } from './errorHandler'
 import { recipeElementalService } from './RecipeElementalService'
 
 // Define interface for nutrition data
@@ -502,7 +503,7 @@ class RecipeData {
       if (this.initPromise) {
         await this.initPromise;
       }
-      const lowercaseQuery = (query as string)?.toLowerCase?.();
+      const lowercaseQuery = (query )?.toLowerCase?.();
       const recipes = await this.getAllRecipes();
       return recipes.filter(recipe => {
         const recipeData = recipe as unknown as Record<string, unknown>;

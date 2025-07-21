@@ -1,6 +1,7 @@
 'use client';
 
 import { createContext } from 'react';
+
 import { AlchemicalState, AlchemicalContextType, PlanetaryPositionsType } from './types';
 
 // Define default state

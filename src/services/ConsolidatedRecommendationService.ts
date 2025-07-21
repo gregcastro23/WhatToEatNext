@@ -1,5 +1,20 @@
 import { ElementalProperties, ThermodynamicMetrics, Planet , Element } from '@/types/alchemy';
+import { PlanetaryAlignment } from "@/types/celestial";
 import type { CookingMethod } from '@/types/cooking';
+
+
+import { Ingredient } from '../types/ingredient';
+import { Recipe } from '../types/recipe';
+
+// Import utility functions
+import { getCuisineRecommendations } from '../utils/cuisineRecommender';
+import { calculateElementalCompatibility } from '../utils/elemental/elementalUtils';
+import { getIngredientRecommendations } from '../utils/recommendation/foodRecommendation';
+import { getCookingMethodRecommendations } from '../utils/recommendation/methodRecommendation';
+
+// Import consolidated services
+import { ConsolidatedIngredientService } from './ConsolidatedIngredientService';
+import { ConsolidatedRecipeService } from './ConsolidatedRecipeService';
 import { 
   RecommendationServiceInterface,
   RecipeRecommendationCriteria,
@@ -9,20 +24,6 @@ import {
   RecommendationResult
 } from './interfaces/RecommendationServiceInterface';
 
-import { Recipe } from '../types/recipe';
-import { Ingredient } from '../types/ingredient';
-
-// Import utility functions
-import { calculateElementalCompatibility } from '../utils/elemental/elementalUtils';
-import { getIngredientRecommendations } from '../utils/recommendation/foodRecommendation';
-import { getCookingMethodRecommendations } from '../utils/recommendation/methodRecommendation';
-import { getCuisineRecommendations } from '../utils/cuisineRecommender';
-
-// Import consolidated services
-import { ConsolidatedRecipeService } from './ConsolidatedRecipeService';
-import { ConsolidatedIngredientService } from './ConsolidatedIngredientService';
-
-import { PlanetaryAlignment } from "@/types/celestial";
 
 /**
  * Consolidated Recommendation Service 

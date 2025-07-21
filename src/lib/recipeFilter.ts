@@ -1,6 +1,6 @@
+import { getLatestAstrologicalState } from '@/services/AstrologicalService';
 import type { Recipe, ElementalProperties } from '@/types/recipe';
 import { elementalUtils , getCurrentElementalState } from '@/utils/elementalUtils';
-import { getLatestAstrologicalState } from '@/services/AstrologicalService';
 
 // Calculate elemental harmony between two sets of elemental properties
 const calculateElementalHarmony = (
@@ -52,7 +52,7 @@ export const recipeFilter = {
         if (Array.isArray(recipe.mealType)) {
           return recipe.mealType.some(type => filters.mealType?.includes(type));
         }
-        return recipe.mealType && filters.mealType?.includes(recipe.mealType as string);
+        return recipe.mealType && filters.mealType?.includes(recipe.mealType );
       });
     }
 

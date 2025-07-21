@@ -1,20 +1,22 @@
 // Import needed from ./unifiedFlavorEngine.ts
 
 // Import needed from ./flavorProfiles.ts
-import type { ElementalProperties, AlchemicalProperties, AlchemicalValues, Season, PlanetName } from "@/types/alchemy";
-import type { CookingMethod } from "@/types/constants";
-import { cuisineFlavorProfiles, type CuisineFlavorProfile } from '../cuisineFlavorProfiles';
-import { planetaryFlavorProfiles, type PlanetaryFlavorProfile } from '../planetaryFlavorProfiles';
-import { flavorProfiles as integrationFlavorProfiles } from '../integrations/flavorProfiles';
-// ingredientFlavorMap import disabled - not exported
-// import { ingredientFlavorMap } from '../ingredients/flavorProfiles';
-import { Element } from "@/types/alchemy";
-
-// Missing unified system type imports
 import type { 
   UnifiedFlavorProfile, 
   BaseFlavorNotes
 } from '@/types';
+import type { ElementalProperties, AlchemicalProperties, AlchemicalValues, Season, PlanetName } from "@/types/alchemy";
+import { Element } from "@/types/alchemy";
+import type { CookingMethod } from "@/types/constants";
+import { getCurrentElementalState } from '@/utils/elementalUtils';
+
+import { cuisineFlavorProfiles, type CuisineFlavorProfile } from '../cuisineFlavorProfiles';
+import { flavorProfiles as integrationFlavorProfiles } from '../integrations/flavorProfiles';
+import { planetaryFlavorProfiles, type PlanetaryFlavorProfile } from '../planetaryFlavorProfiles';
+// ingredientFlavorMap import disabled - not exported
+// import { ingredientFlavorMap } from '../ingredients/flavorProfiles';
+
+// Missing unified system type imports
 
 // Import local types (not available in main types)
 type PlanetaryFlavorInfluence = any;
@@ -22,8 +24,8 @@ type CuisineFlavorCompatibility = any;
 
 // Missing unified data imports
 import { unifiedFlavorProfiles } from './data/unifiedFlavorProfiles';
+
 import { getLatestAstrologicalState } from '@/services/AstrologicalService';
-import { getCurrentElementalState } from '@/utils/elementalUtils';
 
 
 // ===== FLAVOR PROFILE MIGRATION UTILITY - PHASE 4 =====
@@ -547,7 +549,7 @@ export class FlavorProfileMigration {
     
     // Calculate from flavor intensities
     if (cuisineData.flavorIntensities) {
-      const values = Object.values(cuisineData.flavorIntensities) as number[];
+      const values = Object.values(cuisineData.flavorIntensities) ;
       return values.reduce((sum, val) => sum + val, 0) / (values || []).length;
     }
     

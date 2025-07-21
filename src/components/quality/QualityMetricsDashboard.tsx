@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+
 import { buildPerformanceMonitor } from '@/services/BuildPerformanceMonitor';
 import { errorTrackingSystem } from '@/services/ErrorTrackingSystem';
 

@@ -6,6 +6,12 @@
  */
 
 import {
+  SafetyEventType,
+  SafetyEventSeverity,
+  PhaseStatus
+} from '../../types/campaign';
+import { campaignTestController } from '../utils/CampaignTestController';
+import {
   setupCampaignTest,
   cleanupCampaignTest,
   createMockCampaignConfig,
@@ -19,12 +25,6 @@ import {
   campaignTestData,
   CampaignTestContext
 } from '../utils/campaignTestUtils';
-import { campaignTestController } from '../utils/CampaignTestController';
-import {
-  SafetyEventType,
-  SafetyEventSeverity,
-  PhaseStatus
-} from '../../types/campaign';
 
 describe('Campaign System Test Integration', () => {
   // Test isolation and cleanup

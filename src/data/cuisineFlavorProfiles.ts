@@ -1169,7 +1169,7 @@ export const getCuisineElementalMatch = (
     
     // Calculate elemental compatibility
     const cuisineElemental = cuisineProfile.elementalAlignment;
-    const recipeElemental = elementalProps as ElementalProperties;
+    const recipeElemental = elementalProps ;
     
     const elements = ['Fire', 'Water', 'Earth', 'Air'];
     let totalMatch = 0;

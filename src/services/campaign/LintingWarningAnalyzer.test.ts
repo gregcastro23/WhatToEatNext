@@ -5,9 +5,10 @@
  * Validates warning distribution analysis and categorization
  */
 
-import { LintingWarningAnalyzer, WarningCategory, type LintingWarning } from './LintingWarningAnalyzer';
 import * as fs from 'fs';
 import * as path from 'path';
+
+import { LintingWarningAnalyzer, WarningCategory, type LintingWarning } from './LintingWarningAnalyzer';
 
 // Mock fs module
 jest.mock('fs');

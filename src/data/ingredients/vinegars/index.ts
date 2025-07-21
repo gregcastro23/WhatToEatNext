@@ -1,6 +1,7 @@
-import { vinegars } from './vinegars';
-import { fixIngredientMappings } from '@/utils/elementalUtils';
 import type { IngredientMapping } from '@/data/ingredients/types';
+import { fixIngredientMappings } from '@/utils/elementalUtils';
+
+import { vinegars } from './vinegars';
 
 export { vinegars };
 export default vinegars;
@@ -10,18 +11,18 @@ export default vinegars;
 export const processedVinegars: Record<string, IngredientMapping> = fixIngredientMappings(vinegars);
 
 export const wineVinegars: Record<string, IngredientMapping> = Object.entries(processedVinegars)
-  .filter(([_, value]) => (value as IngredientMapping).subCategory === 'wine')
+  .filter(([_, value]) => (value ).subCategory === 'wine')
   .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
 
 export const fruitVinegars: Record<string, IngredientMapping> = Object.entries(processedVinegars)
-  .filter(([_, value]) => (value as IngredientMapping).subCategory === 'fruit')
+  .filter(([_, value]) => (value ).subCategory === 'fruit')
   .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
 
 export const grainVinegars: Record<string, IngredientMapping> = Object.entries(processedVinegars)
-  .filter(([_, value]) => (value as IngredientMapping).subCategory === 'grain')
+  .filter(([_, value]) => (value ).subCategory === 'grain')
   .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
 
 export const specialtyVinegars: Record<string, IngredientMapping> = Object.entries(processedVinegars)
-  .filter(([_, value]) => (value as IngredientMapping).subCategory === 'specialty' || 
-    ((value as IngredientMapping).subCategory !== 'wine' && (value as IngredientMapping).subCategory !== 'fruit' && (value as IngredientMapping).subCategory !== 'grain'))
+  .filter(([_, value]) => (value ).subCategory === 'specialty' || 
+    ((value ).subCategory !== 'wine' && (value ).subCategory !== 'fruit' && (value ).subCategory !== 'grain'))
   .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {}); 

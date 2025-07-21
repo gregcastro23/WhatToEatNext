@@ -1,6 +1,11 @@
 // This file provides compatibility for code that was importing from the deleted ingredients.ts file
 // It imports types from their actual locations
 
+import type {
+  SensoryProfile,
+  LunarPhaseModifier
+} from '../data/ingredients/types';
+
 import type { 
   Ingredient,
   IngredientMapping,
@@ -11,10 +16,6 @@ import type {
   Modality
 } from './alchemy';
 
-import type {
-  SensoryProfile,
-  LunarPhaseModifier
-} from '../data/ingredients/types';
 
 // Re-export types
 export type {

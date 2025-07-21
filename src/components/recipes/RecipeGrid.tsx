@@ -1,15 +1,5 @@
 'use client';
 
-import React, { useState, useMemo, useEffect } from 'react';
-import { Recipe } from '@/types/recipe';
-import { ElementalProperties, ThermodynamicMetrics, TimeFactors } from '@/types/alchemy';
-import { getTimeFactors } from '@/utils/time';
-
-import { seasonalData } from '../../data/seasons';
-import { cuisines } from '../../data/cuisines';
-import { enrichRecipeData } from '../../utils/recipe/recipeEnrichment';
-import { filterRecipesByIngredientMappings } from '../../utils/recipe/recipeFiltering';
-import { useAstrologicalState } from '../../hooks/useAstrologicalState';
 import { 
   SlidersHorizontal, 
   Flame, 
@@ -35,11 +25,21 @@ import {
   SortAsc, 
   SortDesc 
 } from 'lucide-react';
+import React, { useState, useMemo, useEffect } from 'react';
+
+import { ElementalProperties, ThermodynamicMetrics, TimeFactors } from '@/types/alchemy';
+import { Recipe } from '@/types/recipe';
+import { getTimeFactors } from '@/utils/time';
 
 import { useAlchemical } from '../../contexts/AlchemicalContext';
+import { cuisines } from '../../data/cuisines';
+import { seasonalData } from '../../data/seasons';
+import { zodiacSeasons } from '../../data/zodiacSeasons';
+import { useAstrologicalState } from '../../hooks/useAstrologicalState';
 import { RecipeElementalService } from '../../services/RecipeElementalService';
 import { logger } from '../../utils/logger';
-import { zodiacSeasons } from '../../data/zodiacSeasons';
+import { enrichRecipeData } from '../../utils/recipe/recipeEnrichment';
+import { filterRecipesByIngredientMappings } from '../../utils/recipe/recipeFiltering';
 
 // Enhanced interfaces
 interface ScoredRecipe extends Recipe {
@@ -487,7 +487,7 @@ export const RecipeGrid: React.FC<RecipeGridProps> = ({
             recipe.description?.toLowerCase().includes(query) ||
             recipe.cuisine?.toLowerCase().includes(query) ||
             (recipe.ingredients || []).some((ing: unknown) => 
-              typeof ing === 'string' ? ing.toLowerCase().includes(query) : String((ing as unknown as Record<string, unknown>)?.name || '').toLowerCase().includes(query)
+              typeof ing === 'string' ? ing.toLowerCase().includes(query) : String((ing  as Record<string, unknown>)?.name || '').toLowerCase().includes(query)
             );
           if (!matchesSearch) return false;
         }

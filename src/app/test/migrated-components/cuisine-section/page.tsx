@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+
 import { CuisineSection } from '@/components/CuisineSection';
 import { CuisineSectionMigrated } from '@/components/CuisineSection/CuisineSection.migrated';
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';

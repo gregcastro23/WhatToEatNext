@@ -1,8 +1,9 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
-import { useServices } from '@/hooks/useServices';
 import { Loader2 } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+
+import { useServices } from '@/hooks/useServices';
 
 export default function SimplePlanetaryDisplayMigrated() {
   const { isLoading, error: serviceError, astrologyService } = useServices();

@@ -1,6 +1,7 @@
 'use client';
 
 import { useContext } from 'react';
+
 import { ChartContext } from './context';
 import type { ChartContextType } from './types';
 

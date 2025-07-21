@@ -3,6 +3,7 @@
 // Consolidates seasonal.ts, seasonalPatterns.ts, and seasonalUsage.ts
 // Integrates Monica constants and Kalchm values from the existing systems.
 
+import type { UnifiedIngredient } from '@/data/unified/unifiedTypes';
 import type { 
   Season, 
   Element, 
@@ -12,12 +13,13 @@ import type {
   LunarPhase,
   CookingMethod 
 } from "@/types/alchemy";
+
 import { 
   getAllEnhancedCookingMethods, 
   getMonicaCompatibleCookingMethods,
   type EnhancedCookingMethod 
 } from '../../constants/alchemicalPillars';
-import type { UnifiedIngredient } from '@/data/unified/unifiedTypes';
+
 import { unifiedIngredients } from './ingredients';
 
 // ===== ENHANCED SEASONAL INTERFACES =====

@@ -1,10 +1,10 @@
+import type { IngredientMapping } from '@/data/ingredients/types';
 import type {
   ElementalProperties,
   Ingredient,
   ZodiacSign,
 } from '@/types/alchemy';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
-import type { IngredientMapping } from '@/data/ingredients/types';
 
 // Helper function to standardize ingredient mappings
 function createIngredientMapping(
@@ -1616,7 +1616,7 @@ const mappedPlantBased: Record<string, IngredientMapping> = fixIngredientMapping
 export const plantBased: Record<string, IngredientMapping> = mappedPlantBased;
 
 // Add validation for elemental sums
-(Object.entries(plantBased) as [string, IngredientMapping][]).forEach(([_id, ingredient]) => {
+(Object.entries(plantBased) ).forEach(([_id, ingredient]) => {
   if (!ingredient.elementalProperties) return;
 
   const sum = Object.values(ingredient.elementalProperties).reduce(

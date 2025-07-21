@@ -1,3 +1,7 @@
+import { proteins } from "@/data/ingredients";
+import { getLatestAstrologicalState } from '@/services/AstrologicalService';
+import { ElementalCalculator } from "@/services/ElementalCalculator";
+import { SpoonacularElementalMapper } from "@/services/SpoonacularElementalMapper";
 import type {
   ElementalProperties,
   LunarPhase,
@@ -7,11 +11,7 @@ import type {
   Ingredient,
 } from "@/types/alchemy";
 import type { SpoonacularRecipe } from "@/types/spoonacular";
-import { ElementalCalculator } from "@/services/ElementalCalculator";
-import { SpoonacularElementalMapper } from "@/services/SpoonacularElementalMapper";
-import { proteins } from "@/data/ingredients";
 import { getAccuratePlanetaryPositions } from "@/utils/accurateAstronomy";
-import { getLatestAstrologicalState } from '@/services/AstrologicalService';
 import { getCurrentElementalState } from '@/utils/elementalUtils';
 
 /**

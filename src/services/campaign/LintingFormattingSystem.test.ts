@@ -3,10 +3,11 @@
  * Comprehensive test suite for automated linting and formatting functionality
  */
 
-import { LintingFormattingSystem, DEFAULT_LINTING_FORMATTING_CONFIG, LintingFormattingConfig } from './LintingFormattingSystem';
+import { execSync } from 'child_process';
 import * as fs from 'fs';
 import * as path from 'path';
-import { execSync } from 'child_process';
+
+import { LintingFormattingSystem, DEFAULT_LINTING_FORMATTING_CONFIG, LintingFormattingConfig } from './LintingFormattingSystem';
 
 // Mock dependencies
 jest.mock('fs');

@@ -5,9 +5,9 @@
  * error analysis, classification, domain detection, and resolution strategy generation.
  */
 
-import { LintingErrorAnalyzer, CategorizedErrors, LintingIssue } from './LintingErrorAnalyzer';
-import { ErrorClassificationSystem, ErrorClassification } from './ErrorClassificationSystem';
 import { DomainContextDetector, FileAnalysis, DomainContext } from './DomainContextDetector';
+import { ErrorClassificationSystem, ErrorClassification } from './ErrorClassificationSystem';
+import { LintingErrorAnalyzer, CategorizedErrors, LintingIssue } from './LintingErrorAnalyzer';
 import { 
   ResolutionStrategyGenerator, 
   ResolutionStrategy, 

@@ -1,10 +1,11 @@
-import React from 'react';
-import { useRouter } from 'next/router';
 import { NextPage } from 'next';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
+import React from 'react';
+
+import RecipeComponent from '@/components/Recipe';
 import { allRecipes } from '@/data/recipes';
 import type { Recipe } from '@/types/recipe';
-import RecipeComponent from '@/components/Recipe';
 import { getCurrentElementalState } from '@/utils/elementalUtils';
 
 // Define proper interfaces for ingredient types

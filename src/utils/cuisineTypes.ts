@@ -1,3 +1,4 @@
+import type { PrimaryCuisineType } from '@/types/cuisineAliases';
 import type { 
   CompleteCuisineType, 
   ContinentalCuisineType, 
@@ -10,7 +11,6 @@ import type {
   CuisinePairing
 } from '@/types/culinary';
 import { CUISINE_CATEGORY_MAP } from '@/types/culinary';
-import type { PrimaryCuisineType } from '@/types/cuisineAliases';
 
 /**
  * Cuisine Type Utilities

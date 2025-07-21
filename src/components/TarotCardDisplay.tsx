@@ -1,7 +1,9 @@
 "use client";
 
 import { useEffect, useState } from 'react';
+
 import { getTarotCardsForDate } from '@/lib/tarotCalculations';
+
 import styles from './TarotCardDisplay.module.css';
 
 interface TarotTokenValues {

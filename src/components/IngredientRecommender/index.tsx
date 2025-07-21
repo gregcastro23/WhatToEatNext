@@ -1,14 +1,18 @@
-import { useAstrologicalState } from '@/hooks/useAstrologicalState';
-import { useEffect, useState, useMemo } from 'react';
-import { ElementalCalculator } from '@/services/ElementalCalculator';
-import { ElementalProperties } from '@/types/alchemy';
-import type { Ingredient, UnifiedIngredient } from '@/types/ingredient';
-import type { CookingMethod } from '@/types/cooking';
-import { getChakraBasedRecommendations, GroupedIngredientRecommendations, getIngredientRecommendations, IngredientRecommendation } from '@/utils/ingredientRecommender';
 import { Flame, Droplets, Mountain, Wind, Info, Clock, Tag, Leaf, X, ChevronDown, ChevronUp, Beaker } from 'lucide-react';
-import { useChakraInfluencedFood } from '@/hooks/useChakraInfluencedFood';
+import { useEffect, useState, useMemo } from 'react';
+
 import { normalizeChakraKey } from '@/constants/chakraSymbols';
 import { herbsCollection, oilsCollection, vinegarsCollection, grainsCollection, spicesCollection } from '@/data/ingredients';
+import { useAstrologicalState } from '@/hooks/useAstrologicalState';
+import { useChakraInfluencedFood } from '@/hooks/useChakraInfluencedFood';
+import { ElementalCalculator } from '@/services/ElementalCalculator';
+import { ElementalProperties } from '@/types/alchemy';
+import type { CookingMethod } from '@/types/cooking';
+import type { Ingredient, UnifiedIngredient } from '@/types/ingredient';
+import { getChakraBasedRecommendations, GroupedIngredientRecommendations, getIngredientRecommendations, IngredientRecommendation } from '@/utils/ingredientRecommender';
+
+
+
 import styles from './IngredientRecommender.module.css';
 
 // Extended IngredientRecommendation interface to handle missing properties
@@ -276,7 +280,7 @@ export default function IngredientRecommender() {
       } else {
         // For non-spice categories, keep only the highest scoring duplicate
         const existingItem = uniqueMap.get(normalizedName);
-        if (!existingItem || (existingItem as IngredientRecommendation).matchScore < (item as IngredientRecommendation).matchScore) {
+        if (!existingItem || (existingItem ).matchScore < (item ).matchScore) {
           uniqueMap.set(normalizedName, item);
         }
       }
@@ -813,7 +817,7 @@ export default function IngredientRecommender() {
           
           if (existingItemIndex >= 0) {
             // Update the existing item with better score if needed
-            if ((item as IngredientRecommendation).matchScore > categories[targetCategory][existingItemIndex].matchScore) {
+            if ((item ).matchScore > categories[targetCategory][existingItemIndex].matchScore) {
               categories[targetCategory][existingItemIndex] = {
                 ...item,
                 category: targetCategory

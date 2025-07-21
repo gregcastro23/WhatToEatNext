@@ -1,9 +1,6 @@
 // src/components/layout/Header.tsx
 "use client";
 
-import React, { useState, useEffect } from 'react';
-import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
-import { getCurrentCelestialPositions } from '@/services/astrologyApi';
 import { 
   Sun, 
   Moon, 
@@ -12,6 +9,10 @@ import {
   Clock,
   CalendarDays
 } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+
+import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
+import { getCurrentCelestialPositions } from '@/services/astrologyApi';
 
 interface HeaderProps {
   setNumberOfPeople: (num: number) => void;

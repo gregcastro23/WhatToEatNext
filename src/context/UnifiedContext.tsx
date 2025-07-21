@@ -8,18 +8,19 @@ import {
   useCallback,
   ReactNode,
 } from 'react'
+
+import cookingMethods from '@/data/cooking/cookingMethods'
+import ingredients from '@/data/ingredients'
+import {
+  AlchemicalRecommendationService,
+  AlchemicalRecommendation,
+} from '@/services/AlchemicalRecommendationService'
 import {
   fetchPlanetaryPositions,
   AstrologizeResult,
 } from '@/services/astrologizeApi'
 import { alchemize, StandardizedAlchemicalResult } from '@/services/RealAlchemizeService'
-import {
-  AlchemicalRecommendationService,
-  AlchemicalRecommendation,
-} from '@/services/AlchemicalRecommendationService'
 import { logger } from '@/utils/logger'
-import ingredients from '@/data/ingredients'
-import cookingMethods from '@/data/cooking/cookingMethods'
 
 // Define the shape of our unified state
 interface UnifiedState {
@@ -79,7 +80,7 @@ export const UnifiedStateProvider = ({ children }: { children: ReactNode }) => {
       };
 
       Object.entries(planetMap).forEach(([dataKey, planetName]) => {
-        const planetData = astroData[dataKey as keyof typeof astroData];
+        const planetData = astroData[dataKey ];
         if (planetData && typeof planetData === 'object' && 'sign' in planetData) {
           planetaryPositions[planetName] = {
             sign: planetData.sign,
@@ -104,7 +105,7 @@ export const UnifiedStateProvider = ({ children }: { children: ReactNode }) => {
       
       // Handle the actual astrologicalData structure for recommendations
       Object.entries(planetMap).forEach(([dataKey, planetName]) => {
-        const planetData = astroData[dataKey as keyof typeof astroData];
+        const planetData = astroData[dataKey ];
         if (planetData && typeof planetData === 'object' && 'sign' in planetData) {
           positionsForRecs[planetName] = planetData.sign;
         }

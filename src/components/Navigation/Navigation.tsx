@@ -1,12 +1,5 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-
-import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
-import { stateManager } from '@/utils/stateManager';
-import { themeManager } from '@/utils/theme';
 import { 
   Home, 
   Book, 
@@ -22,6 +15,14 @@ import {
   Filter,
   Utensils
 } from 'lucide-react';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import React, { useState, useEffect } from 'react';
+
+import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
+import { stateManager } from '@/utils/stateManager';
+import { themeManager } from '@/utils/theme';
+
 
 const NAV_ITEMS = [
   { path: '/', label: 'Home', icon: Home },

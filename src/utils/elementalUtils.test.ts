@@ -1,7 +1,7 @@
 // src/__tests__/utils/elementalUtils.test.ts
 
-import { elementalUtils } from '@/utils/elementalUtils';
 import type { ElementalProperties } from '@/types/alchemy';
+import { elementalUtils } from '@/utils/elementalUtils';
 
 describe('elementalUtils', () => {
   const validProps: ElementalProperties = {
@@ -31,7 +31,7 @@ describe('elementalUtils', () => {
   describe('normalizeProperties', () => {
     it('should normalize properties to sum to 1', () => {
       const normalized = elementalUtils.normalizeProperties(invalidProps);
-      const sum = Object.values(normalized).reduce((acc, val) => acc + (val as number), 0);
+      const sum = Object.values(normalized).reduce((acc, val) => acc + (val ), 0);
       expect(Math.abs(sum - 1)).toBeLessThan(0.000001);
     });
 

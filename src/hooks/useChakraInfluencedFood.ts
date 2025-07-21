@@ -1,10 +1,11 @@
 import { useState, useEffect, useMemo } from 'react';
+
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 import { useAstrologicalState } from '@/hooks/useAstrologicalState';
 import { ChakraAlchemyService } from '@/lib/ChakraAlchemyService';
 import { PlanetaryHourCalculator } from '@/lib/PlanetaryHourCalculator';
-import { getRecommendedIngredients, EnhancedIngredient } from '@/utils/foodRecommender';
 import type { ChakraEnergies, AstrologicalState, Planet, BasicThermodynamicProperties, ZodiacSign } from '@/types/alchemy';
+import { getRecommendedIngredients, EnhancedIngredient } from '@/utils/foodRecommender';
 
 /**
  * Interface for the chakra-influenced food recommendations
@@ -113,7 +114,7 @@ export const useChakraInfluencedFood = (options?: {
       // Calculate chakra energies
       const energies = chakraService.calculateChakraEnergies(
         currentZodiac || 'aries',
-        ((planetaryPositions?.moon as unknown as Record<string, unknown>)?.sign || 'taurus') as ZodiacSign,
+        ((planetaryPositions?.moon  as Record<string, unknown>)?.sign || 'taurus') as ZodiacSign,
         // Pattern Y: Safe Planet array casting with validation and null checking
         (activePlanets ? activePlanets.slice(0, 3).map(p => typeof p === 'string' ? p.toLowerCase() : p) : ['sun', 'moon', 'mercury']) as unknown as Planet[],
         planetaryHour
@@ -316,7 +317,7 @@ export const useChakraInfluencedFood = (options?: {
       // Recalculate chakra energies
       const energies = chakraService.calculateChakraEnergies(
         currentZodiac || 'aries',
-        ((planetaryPositions?.moon as unknown as Record<string, unknown>)?.sign || 'taurus') as ZodiacSign,
+        ((planetaryPositions?.moon  as Record<string, unknown>)?.sign || 'taurus') as ZodiacSign,
         // Pattern Z: Safe Planet array casting with validation and null checking for refresh function
         (activePlanets ? activePlanets.slice(0, 3).map(p => typeof p === 'string' ? p.toLowerCase() : p) : ['sun', 'moon', 'mercury']) as unknown as Planet[],
         planetaryHour

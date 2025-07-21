@@ -1,11 +1,12 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
-import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
-import { formatSunTime } from '@/utils/sunTimes';
 import { Sun, Clock, ArrowDown, Sunrise, Sunset } from 'lucide-react';
+import React, { useEffect, useState } from 'react';
+
+import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 import { AstrologicalService } from '@/services/AstrologicalService';
 import { safeImportAndExecute } from '@/utils/dynamicImport';
+import { formatSunTime } from '@/utils/sunTimes';
 
 const SunDisplay: React.FC = () => {
   const { planetaryPositions } = useAlchemical();

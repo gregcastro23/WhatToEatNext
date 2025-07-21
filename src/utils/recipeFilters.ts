@@ -1,17 +1,18 @@
-import { logger } from './logger';
-import { Recipe, RecipeFilters } from '@/types/recipe';
-import type { ScoredRecipe } from '@/types/recipe';
+import { cuisines } from '@/data/cuisines';
 import type {
   ElementalProperties,
   DietaryRestriction,
   IngredientMapping,
 } from "@/types/alchemy";
 import { CuisineType } from '@/types/cuisine';
+import type { Cuisine } from '@/types/cuisine';
+import { Recipe, RecipeFilters } from '@/types/recipe';
+import type { ScoredRecipe } from '@/types/recipe';
+
+import { logger } from './logger';
 import { connectIngredientsToMappings } from './recipeMatching';
 
 // Add missing imports for TS2304 fixes
-import type { Cuisine } from '@/types/cuisine';
-import { cuisines } from '@/data/cuisines';
 
 interface FilterOptions {
   season?: string;

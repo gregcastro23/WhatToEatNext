@@ -1,4 +1,5 @@
 import { getLatestAstrologicalState } from '@/services/AstrologicalService';
+
 import type { PlanetPosition } from './astrologyUtils';
 
 // Add a more specific interface for the reference positions
@@ -208,7 +209,7 @@ export async function validateAgainstAPI(): Promise<{ accurate: boolean, differe
   
   // Compare each planet
   Object.entries(REFERENCE_POSITIONS).forEach(([planet, refPosition]) => {
-    const calculatedPosition = (calculatedPositions as Record<string, unknown>)?.[planet];
+    const calculatedPosition = (calculatedPositions )?.[planet];
     
     if (!calculatedPosition) {
       differences[planet] = { status: 'missing' };

@@ -6,8 +6,9 @@
  */
 
 import { useEffect, useState } from 'react';
-import { createLogger } from '../utils/logger';
+
 import { servicesManager, InitializationStatus } from '../services';
+import { createLogger } from '../utils/logger';
 
 // Initialize logger
 const logger = createLogger('useServices');

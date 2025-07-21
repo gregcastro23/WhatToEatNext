@@ -15,9 +15,9 @@
  */
 
 import { execSync } from 'child_process';
+import { EventEmitter } from 'events';
 import fs from 'fs';
 import path from 'path';
-import { EventEmitter } from 'events';
 
 // ========== PERFORMANCE METRICS INTERFACES ==========
 
@@ -554,7 +554,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
     warnings: number;
   } {
     const lines = output.split('\n');
-    let buildSize = 0;
+    const buildSize = 0;
     let bundleSize = 0;
     let chunks = 0;
     let assets = 0;
@@ -782,7 +782,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
     let passedTests = 0;
     let failedTests = 0;
     let skippedTests = 0;
-    let coverage = { lines: 0, branches: 0, functions: 0, statements: 0 };
+    const coverage = { lines: 0, branches: 0, functions: 0, statements: 0 };
 
     for (const line of lines) {
       // Jest output parsing

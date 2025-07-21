@@ -1,9 +1,10 @@
 'use client';
 
+import { AlertTriangle, RefreshCw, Bug, Home } from 'lucide-react';
 import React, { Component, ErrorInfo, ReactNode } from 'react';
+
 import { ErrorHandler } from '@/services/errorHandler';
 import { createLogger } from '@/utils/logger';
-import { AlertTriangle, RefreshCw, Bug, Home } from 'lucide-react';
 
 const logger = createLogger('GlobalErrorBoundary');
 

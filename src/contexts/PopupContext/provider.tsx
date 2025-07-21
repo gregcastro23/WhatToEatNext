@@ -1,10 +1,12 @@
 'use client';
 
 import React, { useState } from 'react';
-import { PopupContext } from './context';
-import { Popup, PopupOptions, ElementalInfluence, PopupProviderProps } from './types';
+
 import { ZODIAC_ELEMENTS, ELEMENT_AFFINITIES } from '@/constants/elementalConstants';
 import type { Element } from '@/types/alchemy';
+
+import { PopupContext } from './context';
+import { Popup, PopupOptions, ElementalInfluence, PopupProviderProps } from './types';
 import '@/styles/popup.css';
 
 export const PopupProvider = ({ children }: PopupProviderProps): React.ReactElement => {
@@ -17,7 +19,7 @@ export const PopupProvider = ({ children }: PopupProviderProps): React.ReactElem
     const moonElement = ZODIAC_ELEMENTS[moonSign.toLowerCase() as keyof typeof ZODIAC_ELEMENTS];
 
     const isHarmonious = sunElement && moonElement ? 
-      ELEMENT_AFFINITIES[sunElement as Element]?.includes(moonElement as Element) : 
+      ELEMENT_AFFINITIES[sunElement ]?.includes(moonElement ) : 
       false;
     
     return {

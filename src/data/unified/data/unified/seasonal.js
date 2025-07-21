@@ -5,8 +5,8 @@
 // Integrates Monica constants and Kalchm values from the existing systems.
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getMajorArcanaForSeason = exports.getMinorArcanaForSeason = exports.getTarotRecommendationsForSeason = exports.getSeasonalUsageData = exports.getRecommendedCookingMethodByTarotCard = exports.getSeasonalIngredientsByTarotCard = exports.getTarotInfluenceForSeason = exports.seasonalUsage = exports.seasonalPatterns = exports.getSeasonalRecommendations = exports.isInSeason = exports.getSeasonalData = exports.getSeasonalScore = exports.getCurrentSeason = exports.unifiedSeasonalSystem = exports.UnifiedSeasonalSystem = exports.unifiedSeasonalProfiles = void 0;
-const ingredients_js_1 = require("./ingredients.js");
 const alchemicalPillars_js_1 = require("../../constants/alchemicalPillars.js");
+const ingredients_js_1 = require("./ingredients.js");
 // ===== CONSOLIDATED SEASONAL DATA =====
 exports.unifiedSeasonalProfiles = {
     spring: {

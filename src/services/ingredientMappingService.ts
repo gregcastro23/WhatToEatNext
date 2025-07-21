@@ -5,12 +5,12 @@
  * to their corresponding ingredient database entries.
  */
 
-import { connectIngredientsToMappings } from '@/utils/recipeMatching';
-import { filterRecipesByIngredientMappings } from '@/utils/recipeFilters';
-import { ingredientsMap } from '@/data/ingredients';
 import { cuisinesMap } from '@/data/cuisines';
-import type { Recipe } from '@/types/recipe';
+import { ingredientsMap } from '@/data/ingredients';
 import type { ElementalProperties, IngredientMapping } from '@/types/alchemy';
+import type { Recipe } from '@/types/recipe';
+import { filterRecipesByIngredientMappings } from '@/utils/recipeFilters';
+import { connectIngredientsToMappings } from '@/utils/recipeMatching';
 
 /**
  * Unified service for ingredient mapping operations
@@ -54,7 +54,7 @@ class IngredientMappingService {
       // Define which meal types to include
       const mealTypes = options.mealType
         ? [options.mealType as keyof typeof cuisine.dishes].filter(mealType => 
-            cuisine.dishes[mealType as keyof typeof cuisine.dishes]
+            cuisine.dishes[mealType ]
           )
         : ['breakfast', 'lunch', 'dinner', 'dessert'];
       

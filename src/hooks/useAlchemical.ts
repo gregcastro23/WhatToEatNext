@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
-import { PlanetPosition } from '@/utils/astrologyUtils';
+
 import { PlanetaryPosition } from "@/types/celestial";
+import { PlanetPosition } from '@/utils/astrologyUtils';
 
 export interface AlchemicalState {
   planetaryPositions: { [key: string]: PlanetPosition };

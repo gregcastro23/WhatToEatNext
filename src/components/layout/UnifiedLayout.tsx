@@ -1,11 +1,13 @@
 'use client'
 
-import React from 'react';
-import { ErrorBoundary } from '../error-handling/ErrorBoundary';
-import { StateDebugger } from '../debug/StateDebugger';
 import { Filter } from 'lucide-react';
+import React from 'react';
 
 import { Element } from "@/types/alchemy";
+
+import { StateDebugger } from '../debug/StateDebugger';
+import { ErrorBoundary } from '../error-handling/ErrorBoundary';
+
 interface UnifiedLayoutProps {
   children: React.ReactNode;
   mode?: 'full' | 'simple' | 'sidebar';

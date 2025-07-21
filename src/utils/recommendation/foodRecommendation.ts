@@ -1,3 +1,5 @@
+import type { Recipe } from "@/types/recipe";
+
 import type { 
   ElementalProperties, 
   ZodiacSign, 
@@ -7,7 +9,6 @@ import type {
   AstrologicalState,
   PlanetName
 } from '../../types';
-import type { Recipe } from "@/types/recipe";
 
 // Re-export types and functions from ingredient recommendation
 export type { 

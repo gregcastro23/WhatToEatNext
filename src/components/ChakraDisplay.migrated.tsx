@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { useServices } from '@/hooks/useServices';
+
 import { 
   CHAKRA_SYMBOLS, 
   CHAKRA_BG_COLORS, 
@@ -11,6 +11,7 @@ import {
   getChakraDisplayName,
   CHAKRA_ORDER
  } from '@/constants/chakraSymbols';
+import { useServices } from '@/hooks/useServices';
 import { isChakraKey } from '@/utils/typeGuards';
 
 // Enhanced chakra symbols with more recognizable unicode characters

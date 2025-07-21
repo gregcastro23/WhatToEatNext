@@ -1,18 +1,18 @@
 import type { ElementalProperties, IngredientMapping, ThermodynamicMetrics, NutritionalProfile as _NutritionalProfile, PlanetName as _PlanetName } from '@/types/alchemy';
-import { connectIngredientsToMappings as _connectIngredientsToMappings } from '../utils/recipe/recipeMatching';
-import { filterRecipesByIngredientMappings as _filterRecipesByIngredientMappings } from '../utils/recipe/recipeFiltering';
+import type { ZodiacSign , Recipe } from '@/types/unified';
+
 import { cuisinesMap as _cuisinesMap } from '../data/cuisines';
+import { fruits } from '../data/ingredients/fruits';
+import { grains } from '../data/ingredients/grains';
 import { herbs } from '../data/ingredients/herbs';
+import { oils } from '../data/ingredients/oils';
+import { proteins } from '../data/ingredients/proteins';
 import { spices } from '../data/ingredients/spices';
 import { vegetables } from '../data/ingredients/vegetables';
-import { proteins } from '../data/ingredients/proteins';
-import { grains } from '../data/ingredients/grains';
-import { oils } from '../data/ingredients/oils';
-import { fruits } from '../data/ingredients/fruits';
+import { filterRecipesByIngredientMappings as _filterRecipesByIngredientMappings } from '../utils/recipe/recipeFiltering';
+import { connectIngredientsToMappings as _connectIngredientsToMappings } from '../utils/recipe/recipeMatching';
 import { logger } from '../utils/logger';
 import type { Recipe as _Recipe } from '../types/recipe';
-import type { ZodiacSign } from '@/types/unified';
-import type { Recipe } from '@/types/unified';
 import { connectIngredientsToMappings } from '../utils/recipe/recipeMatching';
 
 
@@ -36,17 +36,21 @@ interface ElementalData {
 
 
 import type { Season as _Season } from '@/types/seasons';
+
 import type { ZodiacSign as _ZodiacSign } from '../types/zodiac';
 import type { ElementalFilter } from '../types/elemental';
 import type { NutritionalFilter, NutritionData } from '../types/nutrition';
 import type { SpoonacularNutritionData } from '../types/spoonacular';
+
 import { UnifiedIngredient } from '@/data/unified/unifiedTypes';
+
 import { 
   IngredientServiceInterface,
   DietaryFilter, 
   IngredientFilter, 
   IngredientRecommendationOptions 
 } from './interfaces/IngredientServiceInterface';
+
 import { createElementalProperties, isElementalProperties, mergeElementalProperties } from '../utils/elemental/elementalUtils';
 import { isNonEmptyArray, safeSome, safeMap, toArray } from '../utils/common/arrayUtils';
 

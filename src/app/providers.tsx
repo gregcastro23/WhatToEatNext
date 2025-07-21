@@ -1,8 +1,8 @@
 'use client'
 
-import { ThemeProvider } from '@/contexts/ThemeContext'
-import { AlchemicalProvider } from '@/contexts/AlchemicalContext/provider'
 import { ErrorBoundary } from '@/components/ErrorBoundary'
+import { AlchemicalProvider } from '@/contexts/AlchemicalContext/provider'
+import { ThemeProvider } from '@/contexts/ThemeContext'
 
 export default function Providers({ children }: { children: React.ReactNode }) {
   return (

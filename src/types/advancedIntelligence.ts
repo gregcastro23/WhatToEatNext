@@ -7,8 +7,8 @@
  */
 
 import type { ElementalProperties, ZodiacSign, LunarPhase } from './alchemy';
-import type { Recipe } from './recipe';
 import type { Ingredient } from './ingredient';
+import type { Recipe } from './recipe';
 
 // ========== PREDICTIVE INTELLIGENCE TYPES ==========
 

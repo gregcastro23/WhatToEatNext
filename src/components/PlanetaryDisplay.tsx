@@ -1,6 +1,7 @@
 import React, { useMemo, useCallback } from 'react';
-import { getTimeFactors, TimeFactors } from '@/types/time';
+
 import { PlanetaryPosition } from '@/types/celestial';
+import { getTimeFactors, TimeFactors } from '@/types/time';
 
 // Planet symbols lookup
 const PLANET_SYMBOLS: { [key: string]: string } = {

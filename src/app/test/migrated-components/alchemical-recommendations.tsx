@@ -1,7 +1,8 @@
 'use client';
 
-import React from 'react';
 import { Grid, Card, CardContent, Typography, Divider } from '@mui/material';
+import React from 'react';
+
 import AlchemicalRecommendations from '@/components/recommendations/AlchemicalRecommendations';
 import AlchemicalRecommendationsMigrated from '@/components/recommendations/AlchemicalRecommendations.migrated';
 

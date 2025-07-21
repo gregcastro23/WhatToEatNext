@@ -1,7 +1,7 @@
 // src/components/layout/Sidebar.tsx
 
-import React from 'react';
 import { Filter } from 'lucide-react';
+import React from 'react';
 
 export default function Sidebar() {
   return (

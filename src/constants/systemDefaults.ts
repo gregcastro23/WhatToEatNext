@@ -1,4 +1,4 @@
-import { Recipe } from '@/types/recipe';
+import { CHAKRA_NUTRITIONAL_CORRELATIONS, CHAKRA_HERBS } from "@/constants/chakraSymbols";
 import { Element , ElementalProperties ,
   AlchemicalValues,
   ChakraEnergies,
@@ -8,7 +8,7 @@ import { Element , ElementalProperties ,
   LunarPhaseWithSpaces 
 } from "@/types/alchemy";
 import { PlanetaryAlignment , AstrologicalState , PlanetaryPosition, CelestialPosition, AlchemicalProperties } from "@/types/celestial";
-import { CHAKRA_NUTRITIONAL_CORRELATIONS, CHAKRA_HERBS } from "@/constants/chakraSymbols";
+import { Recipe } from '@/types/recipe';
 
 /**
  * System defaults - consolidated from multiple files
@@ -772,7 +772,7 @@ export function getDefaultAstrologicalState(): AstrologicalState {
  * Get default planetary positions
  */
 export function getDefaultPlanetaryPositions(): Record<string, CelestialPosition> {
-  return cloneDefault(DEFAULT_PLANETARY_POSITIONS) as Record<string, CelestialPosition>;
+  return cloneDefault(DEFAULT_PLANETARY_POSITIONS) ;
 }
 
 /**

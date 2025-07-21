@@ -1,9 +1,11 @@
 import { useState, useEffect, useMemo } from 'react';
-import { useAlchemical } from './useAlchemical';
+
 // TODO: Fix import - add what to import from "./useAlchemical.ts"
-import { getCurrentAstrologicalState } from '@/utils/astrologyUtils';
 import { Element } from "@/types/alchemy";
 import { AstrologicalState } from "@/types/celestial";
+import { getCurrentAstrologicalState } from '@/utils/astrologyUtils';
+
+import { useAlchemical } from './useAlchemical';
 
 export interface AstrologicalInfluence {
   planetaryDay: string;

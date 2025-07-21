@@ -1,8 +1,9 @@
-import { celestialCalculator } from './celestialCalculations';
-import { logger } from '../utils/logger';
-import { createError } from '../utils/errorHandling';
-import type { Recipe, ScoredRecipe } from '../types/recipe';
 import type { ElementalProperties, Ingredient } from '../types/alchemy';
+import type { Recipe, ScoredRecipe } from '../types/recipe';
+import { createError } from '../utils/errorHandling';
+import { logger } from '../utils/logger';
+
+import { celestialCalculator } from './celestialCalculations';
 import { SpoonacularService } from './SpoonacularService';
 
 interface RecommendationCriteria {
@@ -305,7 +306,7 @@ export class RecipeRecommender {
         cuisine: criteria.cuisine,
         diet: criteria.dietaryRestrictions?.join(','),
         maxReadyTime: 60
-      }) as Recipe[];
+      }) ;
     } catch (error) {
       logger.error('Failed to fetch Spoonacular recommendations:', error);
       return [];

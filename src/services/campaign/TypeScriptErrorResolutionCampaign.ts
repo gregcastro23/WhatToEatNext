@@ -6,8 +6,8 @@
  */
 
 import { CampaignController } from './CampaignController';
-import { ProgressTracker } from './ProgressTracker';
 import { CampaignIntelligenceSystem } from './CampaignIntelligenceSystem';
+import { ProgressTracker } from './ProgressTracker';
 import { SafetyProtocol } from './SafetyProtocol';
 
 export interface TypeScriptErrorMetrics {

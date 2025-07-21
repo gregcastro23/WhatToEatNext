@@ -1,13 +1,11 @@
 'use client';
 
-import { ElementalProperties } from '@/types';
-import { Element } from '@/types/elemental';
 import React, { useState, useEffect, useMemo } from 'react';
+
 import { useServices } from '@/hooks/useServices';
-
-
-
+import { ElementalProperties } from '@/types';
 import { PlanetaryPosition } from "@/types/celestial";
+import { Element } from '@/types/elemental';
 interface ElementalRecommendation {
   element: Element;
   recommendation: string;

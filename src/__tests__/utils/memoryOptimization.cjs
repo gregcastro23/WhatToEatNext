@@ -162,7 +162,7 @@ class MemoryOptimizer {
 
     try {
       // Read current config
-      let configContent = fs.readFileSync(jestConfigPath, 'utf8');
+      const configContent = fs.readFileSync(jestConfigPath, 'utf8');
       
       // Check if already optimized
       if (configContent.includes('workerIdleMemoryLimit') && 

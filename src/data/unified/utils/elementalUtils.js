@@ -5,8 +5,8 @@ exports.fixIngredientMappings = exports.enhanceOilProperties = exports.enhanceVe
 const elementalCore_1 = require("../constants/elementalCore");
 const ElementalCalculator_1 = require("../services/ElementalCalculator");
 const planetaryFoodAssociations_1 = require("../constants/planetaryFoodAssociations");
-const validation_1 = require("./validation");
 const errorHandler_1 = require("../services/errorHandler");
+const validation_1 = require("./validation");
 /**
  * Validates that elemental properties contain valid values
  * @param properties The elemental properties to validate

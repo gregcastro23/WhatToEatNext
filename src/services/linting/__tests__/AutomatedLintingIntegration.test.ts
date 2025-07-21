@@ -4,9 +4,9 @@
  * Comprehensive test suite for the automated linting integration service
  */
 
+import { AutomatedLintingFixer } from '../AutomatedLintingFixer';
 import { AutomatedLintingIntegration, AutomatedLintingWorkflowOptions, AutomatedLintingWorkflowResult } from '../AutomatedLintingIntegration';
 import { LintingAnalysisService } from '../LintingAnalysisService';
-import { AutomatedLintingFixer } from '../AutomatedLintingFixer';
 
 // Mock the dependencies
 jest.mock('../LintingAnalysisService');

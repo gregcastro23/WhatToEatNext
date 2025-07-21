@@ -1,24 +1,12 @@
 import { ElementalCharacter, AlchemicalProperty } from '@/constants/planetaryElements';
-import { Recipe } from '@/types/recipe';
 import { RulingPlanet } from '@/constants/planets';
-import { 
-  ElementalItem, 
-  AlchemicalItem 
-} from '../calculations/alchemicalTransformation';
 import {
-  transformIngredients,
-  transformCookingMethods,
-  transformCuisines,
-  sortByAlchemicalCompatibility,
-  filterByAlchemicalCompatibility,
-  getTopCompatibleItems
-} from '../utils/alchemicalTransformationUtils';
-import { elementalUtils } from '../utils/elementalUtils';
-import { calculateLunarPhase , calculatePlanetaryPositions } from '../utils/astrologyUtils';
-import { convertToLunarPhase } from '@/utils/lunarPhaseUtils';
-import { logger } from '../utils/logger';
-
-// ========== PHASE 3: UPDATED IMPORTS TO USE TYPE ALIASES ==========
+  DefaultElementalProperties,
+  DefaultAlchemicalProperties,
+  DefaultThermodynamicMetrics,
+  createSuccessResponse,
+  createErrorResponse
+} from '@/constants/typeDefaults';
 import type {
   ElementalPropertiesType,
   AlchemicalPropertiesType,
@@ -29,31 +17,43 @@ import type {
   ServiceResponseType,
   AlchemicalTransformationResultType,
   PlanetaryInfluenceResultType
-} from '@/types/alchemy';
-import type {
-  IngredientRecommendationResponse,
-  AlchemicalRecommendationResponse
-} from '@/types/apiResponses';
-import {
-  DefaultElementalProperties,
-  DefaultAlchemicalProperties,
-  DefaultThermodynamicMetrics,
-  createSuccessResponse,
-  createErrorResponse
-} from '@/constants/typeDefaults';
-
-import type {
-  ScoredRecipe
-} from '../types/recipe';
-import type { ElementalProperties, 
+, ElementalProperties, 
   ZodiacSign, 
   LunarPhase, 
   LunarPhaseWithSpaces, 
   PlanetaryAspect,
   IngredientMapping,
   PlanetaryPosition } from '@/types/alchemy';
+import type {
+  IngredientRecommendationResponse,
+  AlchemicalRecommendationResponse
+} from '@/types/apiResponses';
+import { Recipe } from '@/types/recipe';
+import { convertToLunarPhase } from '@/utils/lunarPhaseUtils';
+
+import { 
+  ElementalItem, 
+  AlchemicalItem 
+} from '../calculations/alchemicalTransformation';
 import type { ThermodynamicMetrics } from '../calculations/gregsEnergy';
 import type { BirthChart } from '../types/astrology';
+import type {
+  ScoredRecipe
+} from '../types/recipe';
+import {
+  transformIngredients,
+  transformCookingMethods,
+  transformCuisines,
+  sortByAlchemicalCompatibility,
+  filterByAlchemicalCompatibility,
+  getTopCompatibleItems
+} from '../utils/alchemicalTransformationUtils';
+import { calculateLunarPhase , calculatePlanetaryPositions } from '../utils/astrologyUtils';
+import { elementalUtils } from '../utils/elementalUtils';
+import { logger } from '../utils/logger';
+
+// ========== PHASE 3: UPDATED IMPORTS TO USE TYPE ALIASES ==========
+
 
 // ========== PHASE 3: UPDATED INTERFACES USING TYPE ALIASES ==========
 
@@ -455,12 +455,12 @@ export class AlchemicalService {
       elementalProfile: DefaultElementalProperties,
       cookingTechniques: [], // elementalUtils.getSuggestedCookingTechniques(properties),
       complementaryIngredients: [], // elementalUtils.getComplementaryElement(properties),
-      flavorProfiles: ((profileData?.characteristics as unknown as Record<string, unknown>)?.flavorProfiles as string[]) || [],
-      healthBenefits: ((profileData?.characteristics as unknown as Record<string, unknown>)?.healthBenefits as string[]) || [],
-      timeOfDay: ((profileData?.characteristics as unknown as Record<string, unknown>)?.timeOfDay as string[]) || [],
+      flavorProfiles: ((profileData?.characteristics  as Record<string, unknown>)?.flavorProfiles as string[]) || [],
+      healthBenefits: ((profileData?.characteristics  as Record<string, unknown>)?.healthBenefits as string[]) || [],
+      timeOfDay: ((profileData?.characteristics  as Record<string, unknown>)?.timeOfDay as string[]) || [],
       seasonalBest: this.getSeasonalRecommendations(dominantElement as unknown as Element),
-      moodEffects: ((profileData?.characteristics as unknown as Record<string, unknown>)?.moodEffects as string[]) || [],
-      culinaryHerbs: ((profileData?.characteristics as unknown as Record<string, unknown>)?.culinaryHerbs as string[]) || [],
+      moodEffects: ((profileData?.characteristics  as Record<string, unknown>)?.moodEffects as string[]) || [],
+      culinaryHerbs: ((profileData?.characteristics  as Record<string, unknown>)?.culinaryHerbs as string[]) || [],
       compatibility: 0.5
     };
   }

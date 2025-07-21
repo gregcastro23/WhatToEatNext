@@ -1,7 +1,8 @@
 import { Chakra } from '../constants/chakraMappings';
-import { ChakraService, ChakraEnergyState } from '../services/ChakraService';
-import { getFoodRecommendationsFromChakras } from '../utils/chakraFoodUtils';
 import type { Recipe } from '../types/recipe';
+import { getFoodRecommendationsFromChakras } from '../utils/chakraFoodUtils';
+
+import { ChakraService, ChakraEnergyState } from "./ChakraService";
 
 export class RecipeChakraService {
   private chakraService: ChakraService;

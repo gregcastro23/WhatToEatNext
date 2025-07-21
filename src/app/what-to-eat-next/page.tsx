@@ -1,4 +1,5 @@
 import React from 'react';
+
 import KalchmRecommender from '@/components/FoodRecommender/KalchmRecommender';
 import { AlchemicalProvider } from '@/contexts/AlchemicalContext';
 

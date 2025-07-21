@@ -1,11 +1,14 @@
 'use client';
 
 import React, { ReactNode, useState } from 'react';
-import { GlobalErrorBoundary } from './GlobalErrorBoundary';
-import { ErrorLoggerProvider } from './ErrorLogger';
-import { ErrorRecoverySystem } from './ErrorRecoverySystem';
-import { ErrorMonitoringDashboard } from './ErrorMonitoringDashboard';
+
 import { createLogger } from '@/utils/logger';
+
+import { ErrorLoggerProvider } from './ErrorLogger';
+import { ErrorMonitoringDashboard } from './ErrorMonitoringDashboard';
+import { ErrorRecoverySystem } from './ErrorRecoverySystem';
+import { GlobalErrorBoundary } from './GlobalErrorBoundary';
+
 
 const logger = createLogger('SafetyInfrastructure');
 

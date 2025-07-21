@@ -3,6 +3,8 @@
  * Perfect Codebase Campaign - Phase 3 Implementation
  */
 
+import * as fs from 'fs';
+
 import { 
   EnterpriseIntelligenceGenerator, 
   CapabilityComplexity, 
@@ -16,7 +18,6 @@ import {
   FileCategory, 
   TransformationComplexity 
 } from './UnusedExportAnalyzer';
-import * as fs from 'fs';
 
 // Mock fs
 jest.mock('fs');

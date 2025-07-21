@@ -3,15 +3,16 @@
  * Perfect Codebase Campaign - Bundle Size Performance Testing
  */
 
-import { ProgressTracker } from '../../ProgressTracker';
-import { CampaignController } from '../../CampaignController';
+import { execSync } from 'child_process';
+import * as fs from 'fs';
+
 import {
   CampaignConfig,
   SafetySettings,
   SafetyLevel
 } from '../../../../types/campaign';
-import { execSync } from 'child_process';
-import * as fs from 'fs';
+import { CampaignController } from '../../CampaignController';
+import { ProgressTracker } from '../../ProgressTracker';
 
 // Mock dependencies
 jest.mock('child_process');

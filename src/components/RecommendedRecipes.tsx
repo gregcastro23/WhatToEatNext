@@ -1,10 +1,11 @@
+import { AccessTime, Restaurant, WbSunny } from '@mui/icons-material';
+import { Box, Card, CardContent, CardMedia, Typography, Grid, Chip, Divider } from '@mui/material';
 import React, { useEffect, useState } from 'react';
-import { Recipe } from '../types/recipe';
+
 import { AstrologicalState } from '../types/alchemy';
+import { Recipe } from '../types/recipe';
 import { getTimeFactors } from '../types/time';
 import { getRecommendedRecipes, explainRecommendation } from '../utils/recommendationEngine';
-import { Box, Card, CardContent, CardMedia, Typography, Grid, Chip, Divider } from '@mui/material';
-import { AccessTime, Restaurant, WbSunny } from '@mui/icons-material';
 
 interface RecommendedRecipesProps {
   recipes: Recipe[];

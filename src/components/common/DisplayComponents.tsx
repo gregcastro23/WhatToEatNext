@@ -1,11 +1,13 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
-import { useAlchemical } from '../../contexts/AlchemicalContext/hooks';
 import { Flame, Droplets, Mountain, Wind, RefreshCw, Sparkles } from 'lucide-react';
-import styles from '../ElementalEnergyDisplay.module.css';
+import React, { useState, useEffect } from 'react';
 
 import { AlchemicalProperties } from "@/types/alchemy";
+
+import { useAlchemical } from '../../contexts/AlchemicalContext/hooks';
+import styles from '../ElementalEnergyDisplay.module.css';
+
 // Types
 interface AlchemicalPropertiesDisplayProps {
   showDebug?: boolean;
@@ -231,10 +233,10 @@ export const ElementalEnergyDisplay: React.FC<ElementalEnergyDisplayProps> = ({ 
               <div className={styles.barContainer}>
                 <div 
                   className={`${styles.barFill} ${styles[`${element?.toLowerCase()}Fill`]}`}
-                  style={{ width: formatPercentage(value as number) }}
+                  style={{ width: formatPercentage(value ) }}
                 />
               </div>
-              <span className={styles.percentage}>{formatPercentage(value as number)}</span>
+              <span className={styles.percentage}>{formatPercentage(value )}</span>
             </div>
           ))}
         </div>
@@ -253,10 +255,10 @@ export const ElementalEnergyDisplay: React.FC<ElementalEnergyDisplayProps> = ({ 
                 <div className={styles.barContainer}>
                   <div 
                     className={`${styles.barFill} ${styles[`${property?.toLowerCase()}Fill`]}`}
-                    style={{ width: formatPercentage(value as number) }}
+                    style={{ width: formatPercentage(value ) }}
                   />
                 </div>
-                <span className={styles.percentage}>{formatPercentage(value as number)}</span>
+                <span className={styles.percentage}>{formatPercentage(value )}</span>
               </div>
             ))}
           </div>

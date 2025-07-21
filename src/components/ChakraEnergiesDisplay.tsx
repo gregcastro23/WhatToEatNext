@@ -1,9 +1,7 @@
 'use client';
 
 import React from 'react';
-import { useAstrologicalState } from '@/context/AstrologicalContext';
-import { useChakraInfluencedFood } from '@/hooks/useChakraInfluencedFood';
-import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
+
 import { 
   CHAKRA_SYMBOLS, 
   CHAKRA_BG_COLORS, 
@@ -12,6 +10,9 @@ import {
   normalizeChakraKey,
   getChakraDisplayName
 } from '@/constants/chakraSymbols';
+import { useAstrologicalState } from '@/context/AstrologicalContext';
+import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
+import { useChakraInfluencedFood } from '@/hooks/useChakraInfluencedFood';
 import { isChakraKey } from '@/utils/typeGuards';
 
 interface ChakraEnergiesDisplayProps {

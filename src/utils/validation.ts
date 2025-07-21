@@ -1,4 +1,5 @@
 import { z } from 'zod';
+
 import type { Recipe } from '@/types/recipe';
 
 export const recipeSchema = z.object({

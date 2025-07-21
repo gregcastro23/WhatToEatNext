@@ -1,8 +1,9 @@
+import fs from 'fs';
+import path from 'path';
+
 import { buildPerformanceMonitor } from './BuildPerformanceMonitor';
 import { errorTrackingSystem } from './ErrorTrackingSystem';
 import { qualityMetricsService } from './QualityMetricsService';
-import fs from 'fs';
-import path from 'path';
 
 export interface Alert {
   id: string;

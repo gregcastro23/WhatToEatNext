@@ -1,16 +1,15 @@
-import { PlanetData } from './types';
-
-import sunData from './sun';
-import moonData from './moon';
-import mercuryData from './mercury';
-import venusData from './venus';
-import marsData from './mars';
+import ascendantData from './ascendant';
 import jupiterData from './jupiter';
-import saturnData from './saturn';
-import uranusData from './uranus';
+import marsData from './mars';
+import mercuryData from './mercury';
+import moonData from './moon';
 import neptuneData from './neptune';
 import plutoData from './pluto';
-import ascendantData from './ascendant';
+import saturnData from './saturn';
+import sunData from './sun';
+import { PlanetData } from './types';
+import uranusData from './uranus';
+import venusData from './venus';
 
 export const planetInfo: Record<string, PlanetData> = {
   'Sun': sunData,

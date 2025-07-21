@@ -1,8 +1,9 @@
 import type { ElementalProperties } from '../types/alchemy';
 import type { Recipe } from '../types/recipe';
 import { elementalUtils } from '../utils/elementalUtils';
-import { ElementalCalculator } from './ElementalCalculator';
 import { logger } from '../utils/logger';
+
+import { ElementalCalculator } from './ElementalCalculator';
 
 /**
  * Service responsible for handling elemental properties of recipes

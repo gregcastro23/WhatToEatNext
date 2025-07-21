@@ -1,9 +1,9 @@
 import { baking } from './baking';
-import { roasting } from './roasting';
-import { frying } from './frying';
-import { stirFrying } from './stir-frying';
-import { grilling } from './grilling';
 import { broiling } from './broiling';
+import { frying } from './frying';
+import { grilling } from './grilling';
+import { roasting } from './roasting';
+import { stirFrying } from './stir-frying';
 // Import other dry cooking methods as they are added
 // Removed duplicate: // Removed duplicate: // import { broiling } from './broiling';
 

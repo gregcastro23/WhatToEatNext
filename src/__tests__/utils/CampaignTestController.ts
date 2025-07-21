@@ -5,13 +5,6 @@
  * Ensures that campaign operations don't interfere with test execution.
  */
 
-import { TestSafeProgressTracker } from './TestSafeProgressTracker';
-import {
-  MockCampaignController,
-  MockProgressTracker,
-  MockSafetyProtocol,
-  campaignTestIsolation
-} from '../mocks/CampaignSystemMocks';
 import {
   CampaignConfig,
   CampaignPhase,
@@ -20,6 +13,14 @@ import {
   SafetyEventType,
   SafetyEventSeverity
 } from '../../types/campaign';
+import {
+  MockCampaignController,
+  MockProgressTracker,
+  MockSafetyProtocol,
+  campaignTestIsolation
+} from '../mocks/CampaignSystemMocks';
+
+import { TestSafeProgressTracker } from './TestSafeProgressTracker';
 
 interface CampaignTestState {
   isPaused: boolean;

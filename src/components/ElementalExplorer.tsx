@@ -1,4 +1,5 @@
 import { useState } from 'react';
+
 import type { Modality } from '@/data/ingredients/types';
 import { determineIngredientModality } from '@/utils/ingredientUtils';
 

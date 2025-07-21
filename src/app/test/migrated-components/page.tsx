@@ -1,13 +1,15 @@
 'use client';
 
+import dynamic from 'next/dynamic';
+import Link from 'next/link';
 import React from 'react';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+
 import ChakraDisplay from '@/components/ChakraDisplay';
 import ChakraDisplayMigrated from '@/components/ChakraDisplay.migrated';
-import dynamic from 'next/dynamic';
 import ElementalRecommendations from '@/components/ElementalDisplay/ElementalEnergyDisplay';
 import ElementalRecommendationsMigrated from '@/components/ElementalRecommendations.migrated';
-import Link from 'next/link';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+
 
 const AstrologyChart = dynamic(
   () => import('@/components/AstrologyChart/AstrologyChart.migrated')?.then(mod => {

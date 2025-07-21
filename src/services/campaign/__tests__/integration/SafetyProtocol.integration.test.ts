@@ -3,9 +3,9 @@
  * Perfect Codebase Campaign - Safety Protocol Integration Testing
  */
 
-import { SafetyProtocol } from '../../SafetyProtocol';
-import { CampaignController } from '../../CampaignController';
-import { ProgressTracker } from '../../ProgressTracker';
+import { execSync } from 'child_process';
+import * as fs from 'fs';
+
 import {
   SafetySettings,
   CorruptionSeverity,
@@ -15,8 +15,9 @@ import {
   CampaignConfig,
   SafetyLevel
 } from '../../../../types/campaign';
-import { execSync } from 'child_process';
-import * as fs from 'fs';
+import { CampaignController } from '../../CampaignController';
+import { ProgressTracker } from '../../ProgressTracker';
+import { SafetyProtocol } from '../../SafetyProtocol';
 
 // Mock dependencies
 jest.mock('child_process');

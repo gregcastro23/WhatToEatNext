@@ -1,4 +1,5 @@
 import { Metadata } from 'next';
+
 import AstrologizeDemo from '@/components/demo/AstrologizeDemo';
 
 export const metadata: Metadata = { title: 'Astrologize API Demo',

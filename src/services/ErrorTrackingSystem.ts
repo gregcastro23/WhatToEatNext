@@ -392,7 +392,7 @@ class ErrorTrackingSystem {
           files: [error.file],
           suggestedFix: this.getSuggestedFix(error.code),
           automatable: this.isAutomatable(error.code),
-          priority: (this.PRIORITY_MAPPING[error.code] || 'medium') as any
+          priority: (this.PRIORITY_MAPPING[error.code] || 'medium')
         });
       }
     }

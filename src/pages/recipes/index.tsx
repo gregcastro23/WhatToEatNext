@@ -1,8 +1,9 @@
-import React from 'react';
 import { NextPage } from 'next';
 import Link from 'next/link';
-import { allRecipes } from '@/data/recipes';
+import React from 'react';
+
 import { cuisines } from '@/data/cuisines';
+import { allRecipes } from '@/data/recipes';
 import { getCurrentElementalState } from '@/utils/elementalUtils';
 
 const RecipesPage: NextPage = () => {

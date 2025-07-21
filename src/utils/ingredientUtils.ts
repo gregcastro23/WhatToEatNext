@@ -1,13 +1,13 @@
 // Create or update a utility function to calculate proper alchemical properties
 
 import type { AlchemicalProperties, ThermodynamicProperties, Modality , IngredientCategory } from '@/data/ingredients/types';
-import type { ElementalProperties } from '@/types/alchemy';
-import { FlavorProfile } from '@/types/alchemy';
 import type { 
   Ingredient,
   RecipeIngredient, 
   IngredientMapping
 } from '@/types';
+import type { ElementalProperties } from '@/types/alchemy';
+import { FlavorProfile } from '@/types/alchemy';
 import type { SimpleIngredient } from '@/types/recipeIngredient';
 
 /**
@@ -404,7 +404,7 @@ export function ingredientToRecipeIngredient(
     name: ingredient.name,
     amount,
     unit,
-    category: (ingredient.category as string) || 'culinary_herb',
+    category: (ingredient.category ) || 'culinary_herb',
     elementalProperties: ingredient.elementalProperties as Record<string, unknown>,
     qualities: (ingredient as Record<string, unknown>)?.qualities || [],
     astrologicalProfile: ingredient.astrologicalProfile,

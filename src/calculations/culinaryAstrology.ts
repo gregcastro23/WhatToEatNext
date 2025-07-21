@@ -1,6 +1,6 @@
 import { cookingMethods } from '@/data/cooking/cookingMethods';
-import { meats } from '@/data/ingredients/proteins/meat';
 import { culinaryTraditions } from '@/data/cuisines/culinaryTraditions';
+import { meats } from '@/data/ingredients/proteins/meat';
 import { recipeElementalMappings } from '@/data/recipes/elementalMappings';
 import { AstrologicalState, Season } from '@/types/alchemy';
 import type { RecipeElementalMapping } from '@/types/recipes';

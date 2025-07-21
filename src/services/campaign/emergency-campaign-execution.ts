@@ -8,11 +8,13 @@
  * Target: Reduce from 1,136 to <100 errors (91% reduction)
  */
 
+import { execSync } from 'child_process';
+
+import { SafetyLevel, CampaignConfig, CampaignPhase } from '../../types/campaign';
+
 import { CampaignController } from './CampaignController';
 import { EnhancedErrorFixerIntegration } from './EnhancedErrorFixerIntegration';
 import { ProgressTracker } from './ProgressTracker';
-import { SafetyLevel, CampaignConfig, CampaignPhase } from '../../types/campaign';
-import { execSync } from 'child_process';
 
 export class EmergencyTypeScriptCampaign {
   private campaignController: CampaignController;

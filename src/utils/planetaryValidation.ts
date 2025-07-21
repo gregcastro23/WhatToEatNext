@@ -5,8 +5,8 @@
  * transit date accuracy, and astronomical calculation consistency.
  */
 
-import { getReliablePlanetaryPositions } from './reliableAstronomy';
 import { logger } from './logger';
+import { getReliablePlanetaryPositions } from './reliableAstronomy';
 
 // Validation result interfaces
 export interface ValidationResult {
@@ -790,7 +790,7 @@ function analyzeTestResults(testResults: TestResult[]): { errors: ValidationErro
       
       errors.push({
         type: 'TEST_FAILURE',
-        severity: severity as 'HIGH' | 'MEDIUM',
+        severity: severity ,
         message: `Test failed: ${test.testName}${test.error ? ` - ${test.error}` : ''}`,
         timestamp: new Date()
       });

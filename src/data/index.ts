@@ -1,23 +1,23 @@
-import { cuisines } from './cuisines';
 import { allCookingMethods, cookingMethods } from './cooking';
-import { allRecipes, getAllRecipes, getBestRecipeMatches } from './recipes/index';
+import { cuisines } from './cuisines';
 import { 
   seasonalPatterns,
   flavorProfiles,
   textureProfiles,
   temperatureEffects 
 } from './integrations';
+import nutritional, {
+  baseNutritionalProfiles,
+  calculateNutritionalBalance,
+  nutritionalToElemental
+} from './nutritional';
+import { allRecipes, getAllRecipes, getBestRecipeMatches } from './recipes/index';
 import sauces, { 
   allSauces, 
   sauceRecommendations, 
   italianSauces, 
   mexicanSauces 
 } from './sauces';
-import nutritional, {
-  baseNutritionalProfiles,
-  calculateNutritionalBalance,
-  nutritionalToElemental
-} from './nutritional';
 
 export const FoodData = {
   cuisines,

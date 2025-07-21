@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+
 import { AstrologicalService } from '@/services/AstrologicalService';
 
 interface AstrologizeOptions {

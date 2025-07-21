@@ -1,5 +1,5 @@
-import { getPlanetaryDignityInfo, calculateAspects } from '@/utils/astrologyUtils';
 import { PLANET_TO_MAJOR_ARCANA, MAJOR_ARCANA } from '@/constants/tarotCards';
+import { getPlanetaryDignityInfo, calculateAspects } from '@/utils/astrologyUtils';
 import { planetaryModifiers } from '@/utils/planetaryCycles';
 
 /**

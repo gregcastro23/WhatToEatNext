@@ -1,7 +1,8 @@
 // Keep this file focused on seasonal data only, removing any elemental balance references
+import type { Season } from '@/types/alchemy';
+
 import { seasonalPatterns } from './seasonalPatterns';
 import { seasonalUsage } from './seasonalUsage';
-import type { Season } from '@/types/alchemy';
 
 export interface SeasonalData {
   availability: number; // 0-1 scale for ingredient availability

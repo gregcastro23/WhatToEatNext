@@ -9,7 +9,7 @@
 import { execSync } from 'child_process';
 import * as fs from 'fs';
 import * as path from 'path';
-import { SafetyProtocol } from './SafetyProtocol';
+
 import {
   SafetySettings,
   ValidationResult,
@@ -21,6 +21,8 @@ import {
   GitStash,
   ProgressMetrics
 } from '../../types/campaign';
+
+import { SafetyProtocol } from './SafetyProtocol';
 
 export interface EmergencyRecoveryOptions {
   preserveStashes?: boolean;

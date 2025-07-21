@@ -1,27 +1,27 @@
 'use client';
 
-import React, { useEffect, useState, useMemo, useCallback } from 'react';
-import { useServices } from '@/hooks/useServices';
 import { Flame, Droplets, Mountain, Wind, Info, Clock, Tag, Leaf, X, ChevronDown, ChevronUp, Beaker, Settings } from 'lucide-react';
+import React, { useEffect, useState, useMemo, useCallback } from 'react';
+import { ErrorBoundary } from 'react-error-boundary';
+
 import { normalizeChakraKey } from '@/constants/chakraSymbols';
+import { useServices } from '@/hooks/useServices';
 import type { 
   ElementalProperties, 
   Element, 
   ChakraEnergies, 
   AstrologicalState 
 } from '@/types/alchemy';
-
+import { AlchemicalProperties } from "@/types/alchemy";
+import { PlanetaryPosition } from "@/types/celestial";
 import type { 
   GroupedIngredientRecommendations,
   IngredientRecommendation,
   EnhancedIngredientRecommendation 
 } from '@/utils/recommendation/ingredientRecommendation';
 
-import { ErrorBoundary } from 'react-error-boundary';
-// TODO: Fix CSS module import - was: import from "./IngredientRecommender.module.css.ts"
-import { AlchemicalProperties } from "@/types/alchemy";
 
-import { PlanetaryPosition } from "@/types/celestial";
+// TODO: Fix CSS module import - was: import from "./IngredientRecommender.module.css.ts"
 /**
  * Maps planets to their elemental influences (diurnal and nocturnal elements)
  */

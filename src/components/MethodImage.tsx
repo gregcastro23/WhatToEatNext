@@ -1,9 +1,9 @@
 "use client";
 
-import { useState, useEffect } from 'react';
-import Image from 'next/image';
-import { Box } from '@mui/material';
 import { Science } from '@mui/icons-material';
+import { Box } from '@mui/material';
+import Image from 'next/image';
+import { useState, useEffect } from 'react';
 
 interface MethodImageProps {
   method: string;

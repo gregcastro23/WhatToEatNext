@@ -6,18 +6,19 @@
  */
 
 import React, { useState, useEffect } from 'react';
-import { CampaignControlPanel } from './CampaignControlPanel';
-import { CampaignWorkflowBuilder } from './CampaignWorkflowBuilder';
-import { CampaignScheduler } from './CampaignScheduler';
-import { ConflictResolutionPanel } from './ConflictResolutionPanel';
+
 import { useCampaignMonitoring } from '../../hooks/useCampaignMonitoring';
-import { campaignDebugger } from '../../services/CampaignDebugger';
+import { campaignDebugger ,
+  DebugSessionStatus
+} from '../../services/CampaignDebugger';
 import type {
   CampaignHealthReport
 } from '../../services/CampaignDebugger';
-import {
-  DebugSessionStatus
-} from '../../services/CampaignDebugger';
+
+import { CampaignControlPanel } from './CampaignControlPanel';
+import { CampaignScheduler } from './CampaignScheduler';
+import { CampaignWorkflowBuilder } from './CampaignWorkflowBuilder';
+import { ConflictResolutionPanel } from './ConflictResolutionPanel';
 
 interface CampaignIntegrationDashboardProps {
   className?: string;

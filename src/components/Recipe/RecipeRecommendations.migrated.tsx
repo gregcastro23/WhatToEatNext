@@ -1,6 +1,9 @@
 'use client';
 
-import React, { useState, useEffect, useMemo } from 'react';
+import AccessTimeIcon from '@mui/icons-material/AccessTime';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import PeopleIcon from '@mui/icons-material/People';
+import RestaurantIcon from '@mui/icons-material/Restaurant';
 import {
   Card, CardContent, CardActions,
   Typography, Button, Chip, Grid,
@@ -8,16 +11,12 @@ import {
   Accordion, AccordionSummary, AccordionDetails,
   LinearProgress
 } from '@mui/material';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import RestaurantIcon from '@mui/icons-material/Restaurant';
-import AccessTimeIcon from '@mui/icons-material/AccessTime';
-import PeopleIcon from '@mui/icons-material/People';
+import React, { useState, useEffect, useMemo } from 'react';
 
+import type { ElementalItem } from '@/calculations/alchemicalTransformation';
 import { useServices } from '@/hooks/useServices';
+import type { OptimizedRecipeResult } from '@/services/AlchemicalTransformationService';
 import * as astrologize from '@/services/astrologizeApi';
-import PlanetaryTimeDisplay from '../PlanetaryTimeDisplay';
-import { getTimeFactors } from '@/utils/time';
-import { normalizeLunarPhase } from '@/utils/lunarPhaseUtils';
 import type { 
   ElementalProperties,
   LunarPhaseWithSpaces,
@@ -25,8 +24,11 @@ import type {
   Element 
 } from '@/types/alchemy';
 import type { Recipe as RecipeType } from '@/types/recipe';
-import type { ElementalItem } from '@/calculations/alchemicalTransformation';
-import type { OptimizedRecipeResult } from '@/services/AlchemicalTransformationService';
+import { normalizeLunarPhase } from '@/utils/lunarPhaseUtils';
+import { getTimeFactors } from '@/utils/time';
+
+import PlanetaryTimeDisplay from '../PlanetaryTimeDisplay';
+
 
 // Comprehensive interfaces following TypeScript standards
 interface Dish {
@@ -366,7 +368,7 @@ const RecipeRecommendationsMigrated: React.FC<RecipeRecommendationsProps> = ({ f
         const chartMethod = astrologyServiceData?.getChartData as (() => Promise<Record<string, unknown>>) | undefined;
         if (chartMethod) {
           const chartData = await chartMethod();
-          const sunData = (chartData?.Sun as unknown) as Record<string, unknown>;
+          const sunData = (chartData?.Sun ) as Record<string, unknown>;
           if (sunData?.sign) {
             setZodiacSign(String(sunData.sign) as ZodiacSign);
           }
@@ -501,7 +503,7 @@ const RecipeRecommendationsMigrated: React.FC<RecipeRecommendationsProps> = ({ f
   // Multi-factor scoring system
   const calculateRecommendationScore = (item: unknown, astroData: Record<string, unknown>): RecommendationScore => {
     // ✅ Pattern MM-1: Safe type assertion for item properties
-    const itemData = (item as unknown) as Record<string, unknown>;
+    const itemData = (item ) as Record<string, unknown>;
     const elementalMatch = calculateElementalMatch(itemData?.elementalProperties as ElementalProperties, astroData?.dominantElements as ElementalProperties) * 0.4;
     const planetaryInfluence = calculatePlanetaryInfluence(itemData?.planetaryRulers as string[], astroData?.activePlanets as string[]) * 0.3;
     const seasonalAlignment = calculateSeasonalAlignment(itemData?.seasonality as Record<string, number>, String(astroData?.currentSeason || '')) * 0.2;

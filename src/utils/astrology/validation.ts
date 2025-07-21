@@ -8,7 +8,6 @@ import type {
   PlanetaryPosition,
   PlanetName 
 } from "@/types/alchemy";
-
 import { CelestialPosition } from '@/types/celestial';
 /**
  * A utility function for logging debug information

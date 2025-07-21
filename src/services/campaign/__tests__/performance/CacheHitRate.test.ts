@@ -3,13 +3,13 @@
  * Perfect Codebase Campaign - Cache Performance Testing
  */
 
-import { ProgressTracker } from '../../ProgressTracker';
-import { CampaignController } from '../../CampaignController';
 import {
   CampaignConfig,
   SafetySettings,
   SafetyLevel
 } from '../../../../types/campaign';
+import { CampaignController } from '../../CampaignController';
+import { ProgressTracker } from '../../ProgressTracker';
 
 describe('Cache Hit Rate Performance Tests', () => {
   let progressTracker: ProgressTracker;

@@ -1,6 +1,7 @@
 'use client'
 
 import { createContext, useContext, useEffect, useState } from 'react'
+
 import { ErrorBoundary } from '@/components/errors/ErrorBoundary'
 import { ErrorFallback } from '@/components/errors/ErrorFallback'
 import { logger } from '@/utils/logger'

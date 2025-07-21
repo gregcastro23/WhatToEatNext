@@ -1,5 +1,6 @@
-import { allIngredients } from './index';
 import type { Ingredient } from '@/types/alchemy';
+
+import { allIngredients } from './index';
 
 export interface IngredientFlavorProfile {
   spicy: number;

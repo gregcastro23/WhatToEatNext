@@ -1,23 +1,23 @@
-import type { ElementalProperties, ZodiacSign, LunarPhase, Season, Element, AstrologicalState } from '@/types';
-import type { Planet, Modality } from '@/types/celestial';
-import type { IngredientMapping } from '@/data/ingredients/types';
-import { spices } from '@/data/ingredients/spices';
-import { herbs } from '@/data/ingredients/herbs';
 import { fruits } from '@/data/ingredients/fruits';
 import { grains } from '@/data/ingredients/grains';
-import { vegetables } from '@/data/ingredients/vegetables';
+import { herbs } from '@/data/ingredients/herbs';
 import { oils } from '@/data/ingredients/oils';
-import { vinegars } from '@/data/ingredients/vinegars';
-import { seasonings } from '@/data/ingredients/seasonings';
 import { proteins, meats, poultry, seafood, legumes, plantBased } from '@/data/ingredients/proteins';
+import { seasonings } from '@/data/ingredients/seasonings';
+import { spices } from '@/data/ingredients/spices';
+import type { IngredientMapping } from '@/data/ingredients/types';
+import { vegetables } from '@/data/ingredients/vegetables';
+import { vinegars } from '@/data/ingredients/vinegars';
 import { getCurrentSeason } from '@/data/integrations/seasonal';
+import type { ElementalProperties, ZodiacSign, LunarPhase, Season, Element, AstrologicalState } from '@/types';
+import type { Planet, Modality } from '@/types/celestial';
 
 // Create eggs and dairy from proteins by filtering category
-const eggs = (Object.entries(proteins) as [string, IngredientMapping][])
+const eggs = (Object.entries(proteins) )
   .filter(([_, value]) => value.category === 'egg')
   .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
 
-const dairy = (Object.entries(proteins) as [string, IngredientMapping][])
+const dairy = (Object.entries(proteins) )
   .filter(([_, value]) => value.category === 'dairy')
   .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
 

@@ -6,13 +6,14 @@
  * enterprise intelligence systems with comprehensive safety protocols.
  */
 
+import { execSync } from 'child_process';
 import * as fs from 'fs';
 import * as path from 'path';
-import { execSync } from 'child_process';
-import { UnusedExportAnalyzer, FileAnalysis, AnalysisResult } from './UnusedExportAnalyzer';
+
 import { EnterpriseIntelligenceGenerator, GenerationResult, GenerationSummary } from './EnterpriseIntelligenceGenerator';
-import { SafetyProtocol } from './SafetyProtocol';
 import { ProgressTracker } from './ProgressTracker';
+import { SafetyProtocol } from './SafetyProtocol';
+import { UnusedExportAnalyzer, FileAnalysis, AnalysisResult } from './UnusedExportAnalyzer';
 
 export interface TransformationConfig {
   batchSize: number;

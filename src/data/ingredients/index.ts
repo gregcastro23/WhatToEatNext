@@ -1,32 +1,34 @@
-import { wholeGrains } from './grains/wholeGrains';
-import { refinedGrains } from './grains/refinedGrains';
-import { allGrains, grainNames } from './grains';
-import { medicinalHerbs } from './herbs/medicinalHerbs';
-import type { Ingredient } from '@/types';
-import { UnifiedIngredient } from '@/types/unified';
 import { seafood , seafood as seafoodData } from './proteins/seafood';
 import { poultry , poultry as poultryData } from './proteins/poultry';
 import { plantBased , plantBased as plantBasedData } from './proteins/plantBased';
-import { meats } from './proteins/meat';
-import { herbs, allHerbs } from './herbs';
-import { processedOils, allOils } from './oils';
 import { spices } from './spices';
-import { warmSpices } from './spices/warmSpices';
 import { vinegars, allVinegars, artisanalVinegars } from './vinegars/vinegars';
 import { french } from '@/data/cuisines/french';
 import { italian } from '@/data/cuisines/italian';
 import { middleEastern } from '@/data/cuisines/middle-eastern';
 import { thai } from '@/data/cuisines/thai';
+import type { Ingredient } from '@/types';
+import { UnifiedIngredient } from '@/types/unified';
 import {
   calculateAlchemicalProperties,
   calculateThermodynamicProperties,
   determineIngredientModality,
 } from '@/utils/ingredientUtils';
-import { fruits } from './fruits';
+
 import { enhancedVegetables, standardizedVegetables } from './vegetables';
 import { seasonings } from './seasonings';
+
 import { standardizeIngredient } from '@/utils/dataStandardization';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
+
+import { fruits } from './fruits';
+import { allGrains, grainNames } from './grains';
+import { refinedGrains } from './grains/refinedGrains';
+import { wholeGrains } from './grains/wholeGrains';
+import { herbs, allHerbs } from './herbs';
+import { medicinalHerbs } from './herbs/medicinalHerbs';
+import { processedOils, allOils } from './oils';
+import { meats } from './proteins/meat';
 
 // Add explicit exports needed by imports elsewhere in the codebase
 export { fruits } from './fruits';
@@ -41,6 +43,7 @@ export { meats, poultry, seafood, plantBased } from './proteins/index';
 
 // Create a combined proteins object for easier imports
 import { meats as meatsData } from './proteins/meat';
+import { warmSpices } from './spices/warmSpices';
 
 export const proteins = {
   ...meatsData,
@@ -154,7 +157,7 @@ function calculateElementalPropertiesFromCategory(category: string): Record<stri
   };
   
   return categoryElements[category] || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
-};
+}
 
 // Process and validate a single ingredient
 const processIngredient = (ingredient: unknown, name: string): Ingredient => {
@@ -201,7 +204,7 @@ const processIngredientCollection = (
 ): Record<string, Ingredient> => {
   return Object.entries(collection).reduce((acc, [key, value]) => {
     try {
-      const processedIngredient = processIngredient(value as unknown as Record<string, unknown>, key);
+      const processedIngredient = processIngredient(value  as Record<string, unknown>, key);
 
       // Add alchemical and thermodynamic properties
       const alchemicalProps =

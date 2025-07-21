@@ -7,7 +7,7 @@
  */
 
 import { useState, useEffect, useCallback, useMemo } from 'react';
-import { logger } from '@/utils/logger';
+
 import { 
   EnterpriseIntelligenceIntegration,
   EnterpriseIntelligenceConfig,
@@ -15,6 +15,7 @@ import {
   enterpriseIntelligenceIntegration
 } from '@/services/EnterpriseIntelligenceIntegration';
 import type { ElementalProperties, ZodiacSign, LunarPhase } from '@/types/alchemy';
+import { logger } from '@/utils/logger';
 
 // ========== INTERFACES ==========
 

@@ -1,8 +1,10 @@
 'use client';
 
 import React, { useState, useEffect, useCallback, ReactNode } from 'react';
-import { useErrorLogger, ErrorLogEntry } from './ErrorLogger';
+
 import { createLogger } from '@/utils/logger';
+
+import { useErrorLogger, ErrorLogEntry } from './ErrorLogger';
 
 const logger = createLogger('ErrorRecoverySystem');
 

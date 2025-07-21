@@ -3,14 +3,15 @@ import {
   ZodiacSign,
   LunarPhaseWithSpaces
 } from '@/types/alchemy';
-import { AlchemicalProperty } from '@/types/celestial';
-import { AlchemicalResults, calculateAlchemicalProperties } from './alchemicalCalculations';
+import { AlchemicalProperty , CelestialPosition } from '@/types/celestial';
+import { createLogger } from '@/utils/logger';
+
 import {
   calculatePlanetaryBoost,
   PlanetaryDignityDetails
 } from '../constants/planetaryFoodAssociations';
-import { createLogger } from '@/utils/logger';
-import { CelestialPosition } from '@/types/celestial';
+
+import { AlchemicalResults, calculateAlchemicalProperties } from './alchemicalCalculations';
 
 // Create a component-specific logger
 const logger = createLogger('AlchemicalTransformation');

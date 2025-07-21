@@ -1,10 +1,11 @@
+import { ZodiacSign } from '@/types/alchemy';
+
 import { 
   calculateAstrologicalAffinity, 
   calculateAlchemicalCompatibility,
   generateEnhancedRecommendation,
   validateAlgorithms
 } from './enhancedAlchemicalMatching';
-import { ZodiacSign } from '@/types/alchemy';
 
 describe('Enhanced Alchemical Matching Algorithms', () => {
   describe('calculateAstrologicalAffinity', () => {

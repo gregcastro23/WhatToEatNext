@@ -820,8 +820,8 @@ export function getEnhancedPlanetaryNutritionalRecommendations(
   recommendedFoods: string[]
 } {
   // Normalize planet names to lowercase
-  const dayPlanet = (planetaryDay as string)?.toLowerCase?.();
-  const hourPlanet = (planetaryHour as string)?.toLowerCase?.();
+  const dayPlanet = (planetaryDay )?.toLowerCase?.();
+  const hourPlanet = (planetaryHour )?.toLowerCase?.();
   
   // Initialize results
   const focusNutrients: string[] = [];
@@ -930,7 +930,7 @@ export function getSeasonalNutritionalRecommendations(season: string): {
   seasonalFoods: string[]
 } {
   // Normalize season name
-  const normalizedSeason = (season as string)?.toLowerCase?.();
+  const normalizedSeason = (season )?.toLowerCase?.();
   
   // Handle both "autumn" and "fall"
   const seasonKey = (normalizedSeason === 'fall' || normalizedSeason === 'autumn') 

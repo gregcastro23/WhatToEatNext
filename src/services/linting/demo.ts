@@ -5,11 +5,11 @@
  * analysis and categorization system without running actual ESLint.
  */
 
-import { LintingErrorAnalyzer, LintingIssue, CategorizedErrors } from './LintingErrorAnalyzer';
-import { ErrorClassificationSystem } from './ErrorClassificationSystem';
 import { DomainContextDetector } from './DomainContextDetector';
-import { ResolutionStrategyGenerator } from './ResolutionStrategyGenerator';
+import { ErrorClassificationSystem } from './ErrorClassificationSystem';
 import { LintingAnalysisService } from './LintingAnalysisService';
+import { LintingErrorAnalyzer, LintingIssue, CategorizedErrors } from './LintingErrorAnalyzer';
+import { ResolutionStrategyGenerator } from './ResolutionStrategyGenerator';
 
 // Mock ESLint output for demonstration
 const mockESLintOutput = [

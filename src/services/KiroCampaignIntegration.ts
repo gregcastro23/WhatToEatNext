@@ -6,9 +6,6 @@
  * through Kiro's interface.
  */
 
-import { CampaignController } from './campaign/CampaignController';
-import { ProgressTracker } from './campaign/ProgressTracker';
-import { CampaignIntelligenceSystem } from './campaign/CampaignIntelligenceSystem';
 import {
   CampaignConfig,
   CampaignPhase,
@@ -19,6 +16,10 @@ import {
   ProgressReport,
   ValidationResult
 } from '../types/campaign';
+
+import { CampaignController } from './campaign/CampaignController';
+import { CampaignIntelligenceSystem } from './campaign/CampaignIntelligenceSystem';
+import { ProgressTracker } from './campaign/ProgressTracker';
 
 // Re-export required types for external components
 export { CampaignPhase, ValidationResult } from '../types/campaign';

@@ -1,7 +1,9 @@
 'use client';
 
 import React, { useMemo } from 'react';
+
 import { useServices } from '@/hooks/useServices';
+import { Element } from "@/types/alchemy";
 import { 
   calculateElementalScore,
   getElementRanking, 
@@ -12,7 +14,6 @@ import {
 } from '@/utils/alchemicalFunctions';
 // TODO: Fix import - add what to import from "./IngredientDisplay.migrated.ts"
 
-import { Element } from "@/types/alchemy";
 /**
  * FoodRecommender Component - Migrated Version
  * 

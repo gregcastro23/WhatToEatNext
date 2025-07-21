@@ -1,5 +1,5 @@
-import { NutritionalProfile } from '@/types/alchemy';
 import { usdaNutritionalData } from '@/data/usdaNutritionalData';
+import { NutritionalProfile } from '@/types/alchemy';
 
 /**
  * Normalizes an ingredient name for lookup in the nutritional data

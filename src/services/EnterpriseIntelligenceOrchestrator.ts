@@ -14,16 +14,17 @@
  * - Automated recovery mechanisms
  */
 
-import { ErrorTrackingEnterpriseSystem, ErrorTrackingSnapshot } from './ErrorTrackingEnterpriseSystem';
-import { IntelligentPatternRecognition } from './IntelligentPatternRecognition';
-import { PerformanceMetricsAnalytics, PerformanceSnapshot } from './PerformanceMetricsAnalytics';
-import { IntelligentBatchProcessor, BatchJob } from './IntelligentBatchProcessor';
-import { UnusedVariableDetector } from './UnusedVariableDetector';
-import { QualityGatesValidation, QualityReport } from './QualityGatesValidation';
-import { EnterpriseIntelligenceIntegration } from './EnterpriseIntelligenceIntegration';
 import { EventEmitter } from 'events';
 import fs from 'fs';
 import path from 'path';
+
+import { EnterpriseIntelligenceIntegration } from './EnterpriseIntelligenceIntegration';
+import { ErrorTrackingEnterpriseSystem, ErrorTrackingSnapshot } from './ErrorTrackingEnterpriseSystem';
+import { IntelligentBatchProcessor, BatchJob } from './IntelligentBatchProcessor';
+import { IntelligentPatternRecognition } from './IntelligentPatternRecognition';
+import { PerformanceMetricsAnalytics, PerformanceSnapshot } from './PerformanceMetricsAnalytics';
+import { QualityGatesValidation, QualityReport } from './QualityGatesValidation';
+import { UnusedVariableDetector } from './UnusedVariableDetector';
 
 // ========== ORCHESTRATOR INTERFACES ==========
 

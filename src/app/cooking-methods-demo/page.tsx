@@ -1,7 +1,8 @@
 'use client';
 
-import { useState, useEffect } from 'react';
 import { Container, Typography, Box } from '@mui/material';
+import { useState, useEffect } from 'react';
+
 import { CookingMethodsSection } from '@/components/CookingMethodsSection';
 import { 
   dryCookingMethods, 
@@ -91,7 +92,7 @@ export default function CookingMethodsDemoPage() {
           <CookingMethodsSection 
             methods={methods} 
             onSelectMethod={handleSelectMethod}
-            selectedMethodId={selectedMethod && typeof selectedMethod === 'object' && 'id' in selectedMethod ? (selectedMethod as any).id : null}
+            selectedMethodId={selectedMethod && typeof selectedMethod === 'object' && 'id' in selectedMethod ? (selectedMethod ).id : null}
             initiallyExpanded={true}
           />
         </Box>
@@ -102,10 +103,10 @@ export default function CookingMethodsDemoPage() {
       {selectedMethod && (
         <Box sx={{ mt: 4, p: 3, bgcolor: 'background.paper', borderRadius: 2, boxShadow: 2 }}>
           <Typography variant="h5" gutterBottom>
-            Selected Method: {selectedMethod && typeof selectedMethod === 'object' && 'name' in selectedMethod ? String((selectedMethod as any).name) : 'Unknown'}
+            Selected Method: {selectedMethod && typeof selectedMethod === 'object' && 'name' in selectedMethod ? String((selectedMethod ).name) : 'Unknown'}
           </Typography>
           <Typography variant="body1" paragraph>
-            {selectedMethod && typeof selectedMethod === 'object' && 'description' in selectedMethod ? String((selectedMethod as any).description) : 'No description available'}
+            {selectedMethod && typeof selectedMethod === 'object' && 'description' in selectedMethod ? String((selectedMethod ).description) : 'No description available'}
           </Typography>
           <Box component="pre" sx={{ 
             p: 2, 

@@ -129,7 +129,7 @@ export const celestialNumerology = {
     
     Object.entries(elementalProperties).forEach(([element, value]) => {
       if (typeof value === 'number' && value > maxValue) {
-        maxValue = value as number;
+        maxValue = value ;
         maxElement = element;
       }
     });

@@ -1,14 +1,18 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { AccessTime, ThermostatAuto, LocalFireDepartment, Science, Warning, Kitchen, Whatshot } from '@mui/icons-material';
+import { Box, Card, CardContent, Container, Grid, Typography, Chip, List, ListItem, ListItemText, Divider, Paper, useTheme } from '@mui/material';
+import Link from 'next/link';
 import { useParams } from 'next/navigation';
+import { useState, useEffect } from 'react';
+
+import MethodImage from '@/components/MethodImage';
+import { ZodiacSign } from '@/components/ZodiacSign';
 import { allCookingMethods } from '@/data/cooking/methods';
 import { CookingMethodInfo } from '@/types/cooking';
-import { Box, Card, CardContent, Container, Grid, Typography, Chip, List, ListItem, ListItemText, Divider, Paper, useTheme } from '@mui/material';
-import { AccessTime, ThermostatAuto, LocalFireDepartment, Science, Warning, Kitchen, Whatshot } from '@mui/icons-material';
-import { ZodiacSign } from '@/components/ZodiacSign';
-import MethodImage from '@/components/MethodImage';
-import Link from 'next/link';
+
+
+
 
 export default function CookingMethodPage() {
   const params = useParams();

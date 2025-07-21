@@ -1,7 +1,8 @@
 'use client';
 
-import React, { useState, useEffect, useMemo } from 'react';
 import { ArrowDown, Sunrise, Sunset, Navigation } from 'lucide-react';
+import React, { useState, useEffect, useMemo } from 'react';
+
 import { useServices } from '@/hooks/useServices';
 
 /**
@@ -167,8 +168,8 @@ const MoonDisplayMigrated: React.FC = () => {
           const location = await getUserLocation?.();
           if (location) {
             setCoordinates({
-              latitude: (location as any).latitude,
-              longitude: (location as any).longitude
+              latitude: (location ).latitude,
+              longitude: (location ).longitude
             });
           }
         } catch (error) {
@@ -191,8 +192,8 @@ const MoonDisplayMigrated: React.FC = () => {
           
           if (times) {
             setMoonTimes({
-              rise: (times as any).rise,
-              set: (times as any).set,
+              rise: (times ).rise,
+              set: (times ).set,
               calculating: false
             });
           } else {

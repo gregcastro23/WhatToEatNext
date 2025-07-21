@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef, memo } from 'react';
+
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 
 const DebugInfo = memo(function DebugInfo() {

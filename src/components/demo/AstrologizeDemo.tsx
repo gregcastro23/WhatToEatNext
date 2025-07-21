@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+
 import { useAstrologize } from '@/hooks/useAstrologize';
 
 // Default coordinates (New York City)

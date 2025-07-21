@@ -1,4 +1,5 @@
 import { AstrologicalState, ElementalProperties, ChakraEnergies, AstrologicalProfile, ElementalAffinity, PlanetName, Element } from "@/types/alchemy";
+
 import type { Modality, Ingredient, SensoryProfile, CookingMethod } from '../../data/ingredients/types';
 
 
@@ -479,11 +480,11 @@ export const getAllIngredients = async (): Promise<EnhancedIngredient[]> => {
   
   // Create eggs and dairy from proteins by filtering category
   const eggs = Object.entries(proteinsData || {})
-    .filter(([_, value]) => (value as unknown as Record<string, unknown>)?.category === 'egg')
+    .filter(([_, value]) => (value  as Record<string, unknown>)?.category === 'egg')
     .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
   
   const dairy = Object.entries(proteinsData || {})
-    .filter(([_, value]) => (value as unknown as Record<string, unknown>)?.category === 'dairy')
+    .filter(([_, value]) => (value  as Record<string, unknown>)?.category === 'dairy')
     .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
   
   // Define all categories with loaded data

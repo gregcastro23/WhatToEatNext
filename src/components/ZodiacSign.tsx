@@ -1,5 +1,6 @@
-import React from 'react';
 import { Box, Tooltip } from '@mui/material';
+import React from 'react';
+
 import { ZodiacSign as ZodiacSignType } from '@/types/alchemy';
 
 interface ZodiacSignProps {

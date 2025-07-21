@@ -4,15 +4,17 @@ import {
   StandardizedAlchemicalResult,
   PlanetaryPosition,
   ElementalProperties} from '@/types/alchemy';
+
+import { getPlanetaryElement } from '../constants/planetaryElements';
+import { RulingPlanet } from '../constants/planets';
+import { planetInfo } from '../data/astroData';
+
 import {
   calculateHeat, 
   calculateEntropy, 
   calculateReactivity,
   calculateGregsEnergy
 } from './gregsEnergy';
-import { planetInfo } from '../data/astroData';
-import { RulingPlanet } from '../constants/planets';
-import { getPlanetaryElement } from '../constants/planetaryElements';
 
 /**
  * Calculate elemental balance based on properties
@@ -271,7 +273,7 @@ export const calculateAlchemicalProperties = (
     
     // Use the day/night specific element map
     if (planetLower in elementMap) {
-      planetElement = elementMap[planetLower] as ElementalCharacter;
+      planetElement = elementMap[planetLower] ;
       
       // If planet is in its own element sign, give extra weight to that element
       if (signElement && signElement === planetElement) {
@@ -304,7 +306,7 @@ export const calculateAlchemicalProperties = (
     // Use the day/night specific property map
     let property: keyof AlchemicalProperties;
     if (planetLower in propertyMap) {
-      property = propertyMap[planetLower] as keyof AlchemicalProperties;
+      property = propertyMap[planetLower] ;
     } else {
       // Derive property from element if planet not in map
       const element = signElement || 'Fire' as ElementalCharacter;
@@ -663,7 +665,7 @@ const calculateDecanEffects = (
   const decanString = getDecanString(decanNumber);
   
   // Get sign element
-  const signElement = getElementFromSign(sign) as ElementalCharacter;
+  const signElement = getElementFromSign(sign) ;
   
   // Normalize planet name for comparison
   const normalizedPlanet = planet.charAt(0).toUpperCase() + planet.slice(1).toLowerCase();
@@ -748,8 +750,8 @@ const calculateAspectEffects = (
       
       if (aspectType) {
         // Get elements of the signs
-        const element1 = getElementFromSign(pos1.sign) as ElementalCharacter;
-        const element2 = getElementFromSign(pos2.sign) as ElementalCharacter;
+        const element1 = getElementFromSign(pos1.sign) ;
+        const element2 = getElementFromSign(pos2.sign) ;
         
         // Apply different effects based on aspect type
         switch (aspectType) {
@@ -838,13 +840,13 @@ export function alchemize(planetaryPositions: Record<string, PlanetaryPosition>,
     const planetKey = planet.charAt(0).toUpperCase() + planet.slice(1).toLowerCase();
     
     // Check if planet exists in planetInfo
-    if (!planetInfo[planetKey as keyof typeof planetInfo]) continue;
+    if (!planetInfo[planetKey ]) continue;
     
     // Get the sign the planet is in
     const sign = (position as any).sign?.toLowerCase() || '';
     
     // Get the planet's alchemical properties
-    const planetData = planetInfo[planetKey as keyof typeof planetInfo];
+    const planetData = planetInfo[planetKey ];
     
     // Check if planet is retrograde
     const isRetrograde = retrogrades?.[planet] || false;
@@ -871,7 +873,7 @@ export function alchemize(planetaryPositions: Record<string, PlanetaryPosition>,
     const element = planetData[elementKey]?.toLowerCase() || '';
     
     if (element && (element === 'fire' || element === 'earth' || element === 'air' || element === 'water')) {
-      _elementalBalance[element as keyof typeof _elementalBalance] += 1;
+      _elementalBalance[element ] += 1;
     }
     
     // Apply dignity effects if planet is in a sign with dignity effect
@@ -940,7 +942,7 @@ export function alchemize(planetaryPositions: Record<string, PlanetaryPosition>,
           if (elem && (elem === 'fire' || elem === 'earth' || elem === 'air' || elem === 'water')) {
             // Pattern KK-1: Safe arithmetic with type validation
             const numericValue = typeof value === 'number' ? value : 0;
-            _elementalBalance[elem as keyof typeof _elementalBalance] += numericValue * 0.5;
+            _elementalBalance[elem ] += numericValue * 0.5;
           }
         });
       }
@@ -1028,7 +1030,7 @@ function getPlanetElement(
 ): ElementalCharacter | null {
   // First try the element map
   if (planetLower in elementMap) {
-    return elementMap[planetLower] as ElementalCharacter;
+    return elementMap[planetLower] ;
   }
   
   // If not in map, try to derive from sign

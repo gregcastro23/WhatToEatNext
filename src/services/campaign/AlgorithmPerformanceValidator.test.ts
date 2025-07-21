@@ -3,6 +3,8 @@
  * Perfect Codebase Campaign - Phase 4 Implementation Tests
  */
 
+import * as fs from 'fs';
+
 import { 
   AlgorithmPerformanceValidator, 
   PerformanceBenchmark, 
@@ -10,7 +12,6 @@ import {
   RegressionTestResult,
   AlgorithmPerformanceReport
 } from './AlgorithmPerformanceValidator';
-import * as fs from 'fs';
 
 // Mock external dependencies
 jest.mock('fs');

@@ -3,9 +3,9 @@
 import '../utils/foodRecommenderFix';
 import '../utils/scriptReplacer';
 
+import dynamic from 'next/dynamic';
 import React, { useEffect, useState, Suspense } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
-import dynamic from 'next/dynamic';
 
 // Dynamically import the FoodRecommender core with SSR disabled to avoid hydration issues
 const FoodRecommenderCore = dynamic(

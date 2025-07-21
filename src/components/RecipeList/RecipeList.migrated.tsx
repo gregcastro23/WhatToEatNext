@@ -1,6 +1,9 @@
 'use client';
 
-import React, { useState, useEffect, useMemo } from 'react';
+import {
+  Search, ExpandMore, Restaurant, AccessTime, 
+  People, FilterList, Clear
+} from '@mui/icons-material';
 import {
   Card, CardContent, CardActions,
   Typography, Button, Chip, Grid,
@@ -11,15 +14,12 @@ import {
   Pagination, IconButton, InputAdornment,
   Rating, LinearProgress
 } from '@mui/material';
-import {
-  Search, ExpandMore, Restaurant, AccessTime, 
-  People, FilterList, Clear
-} from '@mui/icons-material';
+import React, { useState, useEffect, useMemo } from 'react';
 
-import { Recipe } from '@/types/unified';
 import { useServices } from '@/hooks/useServices';
 import * as astrologize from '@/services/astrologizeApi';
 import type { CuisineType, DietaryRestriction, ElementalProperties } from '@/types/alchemy';
+import { Recipe } from '@/types/unified';
 
 // Comprehensive interfaces
 interface FilterState {
@@ -103,7 +103,7 @@ const RecipeCard: React.FC<RecipeCardProps> = ({ recipe, isExpanded, onToggle })
       <CardContent sx={{ flexGrow: 1 }}>
         <Box display="flex" justifyContent="space-between" alignItems="flex-start" mb={2}>
           <Typography variant="h6" component="h3" gutterBottom>
-            {recipe.name as string}
+            {recipe.name }
           </Typography>
           {recipe.matchPercentage && (
             <Chip 
@@ -122,7 +122,7 @@ const RecipeCard: React.FC<RecipeCardProps> = ({ recipe, isExpanded, onToggle })
           {recipe.cuisine && (
             <Chip 
               icon={<Restaurant />}
-              label={recipe.cuisine as string}
+              label={recipe.cuisine }
               size="small"
               variant="outlined"
             />
@@ -200,7 +200,7 @@ const RecipeCard: React.FC<RecipeCardProps> = ({ recipe, isExpanded, onToggle })
                     </Typography>
                     <LinearProgress 
                       variant="determinate" 
-                      value={(value as number) * 100}
+                      value={(value ) * 100}
                       sx={{ 
                         flexGrow: 1, 
                         height: 4, 
@@ -698,7 +698,7 @@ export default function RecipeListMigrated() {
                     onChange={(e) => handleFilterChange('cuisineTypes', e.target.value)}
                     renderValue={(selected) => (
                       <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-                        {(selected as CuisineType[]).map((value) => (
+                        {(selected ).map((value) => (
                           <Chip key={value} label={value} size="small" />
                         ))}
                       </Box>
@@ -765,11 +765,11 @@ export default function RecipeListMigrated() {
         <>
           <Grid container spacing={3}>
             {filteredRecipes.map((recipe) => (
-              <Grid item xs={12} md={6} lg={4} key={recipe.id as string}>
+              <Grid item xs={12} md={6} lg={4} key={recipe.id }>
                 <RecipeCard
                   recipe={recipe}
                   isExpanded={expandedRecipeId === recipe.id}
-                  onToggle={() => toggleRecipe(recipe.id as string)}
+                  onToggle={() => toggleRecipe(recipe.id )}
                 />
               </Grid>
             ))}

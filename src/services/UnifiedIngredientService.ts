@@ -1,3 +1,6 @@
+import { getCurrentSeason } from '@/data/integrations/seasonal';
+import { UnifiedIngredient } from '@/data/unified/unifiedTypes';
+import type { IngredientRecommendationOptions } from '@/services/interfaces/IngredientServiceInterface';
 import { 
   ElementalProperties, 
   AlchemicalProperties, 
@@ -8,13 +11,11 @@ import {
   Element,
   RecipeIngredient
 } from '@/types/alchemy';
-
-import { UnifiedIngredient } from '@/data/unified/unifiedTypes';
-import { Recipe } from '../types/recipe';
-// Fix import - getCurrentSeason is likely in a different location
-import { getCurrentSeason } from '@/data/integrations/seasonal';
 import { alchemicalEngine } from '@/utils/alchemyInitializer';
-import type { IngredientRecommendationOptions } from '@/services/interfaces/IngredientServiceInterface';
+
+import { Recipe } from '../types/recipe';
+
+// Fix import - getCurrentSeason is likely in a different location
 
 /**
  * UnifiedIngredientService
@@ -337,7 +338,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
       
       return (seasons || []).some(s => 
         Array.isArray(_ingredient.seasonality) 
-          ? _ingredient.seasonality.includes(s as Season) 
+          ? _ingredient.seasonality.includes(s ) 
           : _ingredient.seasonality === (s as unknown as Record<string, unknown>)
       );
     });
@@ -859,7 +860,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
       
       return (seasons || []).some(season => 
         Array.isArray(_ingredient.seasonality) 
-          ? _ingredient.seasonality.includes(season as Season) 
+          ? _ingredient.seasonality.includes(season ) 
           : _ingredient.seasonality === (season as unknown as Record<string, unknown>)
       );
     });
@@ -965,7 +966,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
    * Get the current season
    */
   private getCurrentSeason(): Season {
-    return getCurrentSeason() as Season;
+    return getCurrentSeason() ;
   }
   
   /**

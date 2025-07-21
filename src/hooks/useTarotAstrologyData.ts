@@ -1,22 +1,24 @@
 import { useState, useEffect, useMemo } from 'react';
-import { useAstrologicalState } from './useAstrologicalState';
-import { getTarotCardsForDate } from '@/lib/tarotCalculations';
+
 import { ElementalCharacter } from '@/constants/planetaryElements';
-import { LunarPhase as AlchemyLunarPhase, PlanetaryAspect, LunarPhaseWithSpaces } from '@/types/alchemy';
 import { LunarPhase as FoodAssociationsLunarPhase } from '@/constants/planetaryFoodAssociations';
-import { PLANET_TO_MAJOR_ARCANA } from '@/constants/tarotCards';
 import { calculateSignEnergyStates, SignEnergyState } from '@/constants/signEnergyStates';
+import { PLANET_TO_MAJOR_ARCANA } from '@/constants/tarotCards';
+import { getTarotCardsForDate } from '@/lib/tarotCalculations';
+import { LunarPhase as AlchemyLunarPhase, PlanetaryAspect, LunarPhaseWithSpaces } from '@/types/alchemy';
 import { calculateAspects } from '@/utils/astrologyUtils';
 
 // Import all lunar phase utilities from the centralized utility file
+
+// Import the logger utility
+import { createLogger } from '@/utils/logger';
 import {
   LUNAR_PHASES,
   normalizeLunarPhase,
   REVERSE_LUNAR_PHASE_MAP
 } from '@/utils/lunarPhaseUtils';
 
-// Import the logger utility
-import { createLogger } from '@/utils/logger';
+import { useAstrologicalState } from './useAstrologicalState';
 
 // Create a component-specific logger
 const logger = createLogger('TarotAstrology');

@@ -380,7 +380,7 @@ class RegexCorruptionFixer {
    * Fix issues in a specific file
    */
   async fixFileIssues(filePath, content, issues) {
-    let lines = content.split('\n');
+    const lines = content.split('\n');
     let changesMade = false;
 
     try {

@@ -2,11 +2,11 @@
 // Bridges the extensive cuisine database with the recipe builder system
 // Enables import, search, and optimization of existing recipes
 
-import type { Recipe } from '@/types/recipe';
-import type { Cuisine, CuisineDishes, SeasonalDishes } from '@/types/cuisine';
-import type { Season, ElementalProperties } from '@/types/alchemy';
 import cuisinesMap from '@/data/cuisines';
 import { generateMonicaOptimizedRecipe } from '@/data/unified/recipeBuilding';
+import type { Season, ElementalProperties } from '@/types/alchemy';
+import type { Cuisine, CuisineDishes, SeasonalDishes } from '@/types/cuisine';
+import type { Recipe } from '@/types/recipe';
 
 // Interface for cuisine recipe with builder compatibility
 export interface CuisineRecipe {

@@ -3,11 +3,11 @@
  * Provides a unified interface for recipe operations
  */
 
+import { errorHandler } from '@/services/errorHandler';
+import type { RecipeSearchCriteria } from '@/services/interfaces/RecipeServiceInterface';
 import type { Recipe } from '@/types/alchemy';
 // Add missing imports for TS2304 fixes
-import { errorHandler } from '@/services/errorHandler';
 import type { ExtendedRecipe } from '@/types/ExtendedRecipe';
-import type { RecipeSearchCriteria } from '@/services/interfaces/RecipeServiceInterface';
 // Using local error handler implementation
 
 export class UnifiedRecipeService {

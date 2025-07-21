@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+
 import { InteractiveHelpSystem, Tooltip, useContextualHelp } from './index';
 
 // Example component showing help system integration

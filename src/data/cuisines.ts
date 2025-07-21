@@ -1,22 +1,23 @@
 // src/data/cuisines.ts
-import { cuisinesMap as importedCuisinesMap, CUISINES } from './cuisines/index';
+import type { Recipe, ElementalProperties, CuisineType, Cuisine as AlchemyCuisine } from '@/types/alchemy';
+
 import { african } from './cuisines/african';
 import { american } from './cuisines/american';
 import { chinese } from './cuisines/chinese';
 import { french } from './cuisines/french';
 import { greek } from './cuisines/greek';
+import { cuisinesMap as importedCuisinesMap, CUISINES } from './cuisines/index';
 import { indian } from './cuisines/indian';
 import { italian } from './cuisines/italian';
 import { japanese } from './cuisines/japanese';
 import { korean } from './cuisines/korean';
 import { mexican } from './cuisines/mexican';
 import { middleEastern } from './cuisines/middle-eastern';
+import { russian } from './cuisines/russian';
 import { thai } from './cuisines/thai';
 import { vietnamese } from './cuisines/vietnamese';
-import { russian } from './cuisines/russian';
 
 // Import types
-import type { Recipe, ElementalProperties, CuisineType, Cuisine as AlchemyCuisine } from '@/types/alchemy';
 
 // Example recipe type for reference
 const exampleRecipe: Recipe = {

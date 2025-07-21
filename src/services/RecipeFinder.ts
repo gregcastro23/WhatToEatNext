@@ -1,4 +1,3 @@
-import type { Recipe, ScoredRecipe } from '@/types/recipe';
 import type { ElementalProperties , 
   Element, 
   Season, 
@@ -6,6 +5,7 @@ import type { ElementalProperties ,
   LunarPhase, 
   PlanetName 
 } from '@/types/alchemy';
+import type { Recipe, ScoredRecipe } from '@/types/recipe';
 
 /**
  * RecipeFinder.ts
@@ -22,12 +22,9 @@ import type { ElementalProperties ,
 
 
 
-import type {
-  RecipeSearchCriteria, 
-  RecipeRecommendationOptions,
-  RecipeServiceInterface
-} from './interfaces/RecipeServiceInterface';
+import { errorHandler } from '@/utils/errorHandler';
 
+import { ConsolidatedRecipeService } from './ConsolidatedRecipeService';
 import type {
   ApiResponse,
   GetRecipeByIdParams,
@@ -44,10 +41,15 @@ import type {
   GenerateFusionRecipeParams,
   AdaptRecipeForSeasonParams
 } from './interfaces/RecipeApiInterfaces';
+import type {
+  RecipeSearchCriteria, 
+  RecipeRecommendationOptions,
+  RecipeServiceInterface
+} from './interfaces/RecipeServiceInterface';
+
 
 // Missing service imports
-import { ConsolidatedRecipeService } from './ConsolidatedRecipeService';
-import { errorHandler } from '@/utils/errorHandler';
+
 
 
 /**

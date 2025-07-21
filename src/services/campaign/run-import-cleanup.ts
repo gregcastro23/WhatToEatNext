@@ -5,10 +5,12 @@
  * Command-line interface for the automated import cleanup system
  */
 
-import { ImportCleanupSystem, DEFAULT_IMPORT_CLEANUP_CONFIG, ImportCleanupConfig } from './ImportCleanupSystem';
-import { logger } from '../../utils/logger';
 import * as fs from 'fs';
 import * as path from 'path';
+
+import { logger } from '../../utils/logger';
+
+import { ImportCleanupSystem, DEFAULT_IMPORT_CLEANUP_CONFIG, ImportCleanupConfig } from './ImportCleanupSystem';
 
 interface CLIOptions {
   files?: string[];

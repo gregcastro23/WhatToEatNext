@@ -7,6 +7,7 @@
 import { execSync } from 'child_process';
 import * as fs from 'fs';
 import * as path from 'path';
+
 import { logger } from '../../utils/logger';
 
 export interface LintingFormattingConfig {
@@ -149,7 +150,7 @@ export class LintingFormattingSystem {
         formattingIssuesFixed: 0,
         patternBasedFixesApplied: 0,
         buildValidationPassed: false,
-        errors: [(error as unknown as Record<string, unknown>)?.message as string || 'Unknown error'],
+        errors: [(error  as Record<string, unknown>)?.message as string || 'Unknown error'],
         warnings: [],
         violationBreakdown: {
           typeScriptErrors: 0,
@@ -297,21 +298,21 @@ export class LintingFormattingSystem {
       result.lintingViolationsFixed = await this.fixLintingViolations(filePaths);
       result.violationBreakdown = await this.getViolationBreakdown(filePaths);
     } catch (error) {
-      result.errors.push(`Linting fixes failed: ${(error as unknown as Record<string, unknown>)?.message || 'Unknown error'}`);
+      result.errors.push(`Linting fixes failed: ${(error  as Record<string, unknown>)?.message || 'Unknown error'}`);
     }
 
     // Step 2: Format code
     try {
       result.formattingIssuesFixed = await this.formatCode(filePaths);
     } catch (error) {
-      result.errors.push(`Code formatting failed: ${(error as unknown as Record<string, unknown>)?.message || 'Unknown error'}`);
+      result.errors.push(`Code formatting failed: ${(error  as Record<string, unknown>)?.message || 'Unknown error'}`);
     }
 
     // Step 3: Apply pattern-based fixes
     try {
       result.patternBasedFixesApplied = await this.applyPatternBasedFixes(filePaths);
     } catch (error) {
-      result.errors.push(`Pattern-based fixes failed: ${(error as unknown as Record<string, unknown>)?.message || 'Unknown error'}`);
+      result.errors.push(`Pattern-based fixes failed: ${(error  as Record<string, unknown>)?.message || 'Unknown error'}`);
     }
 
     // Step 4: Enforce style guide compliance
@@ -319,7 +320,7 @@ export class LintingFormattingSystem {
       const complianceFixed = await this.enforceStyleGuideCompliance(filePaths);
       result.formattingIssuesFixed += complianceFixed;
     } catch (error) {
-      result.errors.push(`Style guide enforcement failed: ${(error as unknown as Record<string, unknown>)?.message || 'Unknown error'}`);
+      result.errors.push(`Style guide enforcement failed: ${(error  as Record<string, unknown>)?.message || 'Unknown error'}`);
     }
 
     result.filesProcessed = Array.from(this.processedFiles);
@@ -339,7 +340,7 @@ export class LintingFormattingSystem {
       });
     } catch (error) {
       // ESLint returns non-zero exit code when violations are found
-      const errorData = error as unknown as Record<string, unknown>;
+      const errorData = error  as Record<string, unknown>;
       if (errorData?.stdout) {
         return errorData.stdout as string;
       }
@@ -421,7 +422,7 @@ export class LintingFormattingSystem {
   private async enforceStyleGuideInFile(filePath: string): Promise<number> {
     const content = fs.readFileSync(filePath, 'utf8');
     const lines = content.split('\n');
-    let modifiedLines = [...lines];
+    const modifiedLines = [...lines];
     let fixesApplied = 0;
 
     const { formattingRules } = this.config;

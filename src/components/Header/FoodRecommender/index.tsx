@@ -27,37 +27,39 @@ interface RecommendationItem {
 }
 "use client"
 
-import React, { useState, useEffect, useCallback } from 'react';
-import styles from './FoodRecommender.module.css';
-import { useTarotAstrologyData } from '@/hooks/useTarotAstrologyData';
-import type { Ingredient as IngredientType, UnifiedIngredient } from '@/types/ingredient';
-import type { Ingredient } from '@/types/index';
 import { Clock, Flame, Droplets, Mountain, Wind, Leaf, ThermometerSun, ThermometerSnowflake, Pill, Sparkles, Star, RefreshCw } from 'lucide-react';
-import { getCurrentSeason } from '@/data/integrations/seasonal';
-import { RecommendationAdapter } from '@/services/RecommendationAdapter';
+import React, { useState, useEffect, useCallback } from 'react';
+
 import { ElementalItem, AlchemicalItem } from '@/calculations/alchemicalTransformation';
+import TarotFoodDisplay from '@/components/TarotFoodDisplay';
 import { AlchemicalProperty, ElementalCharacter } from '@/constants/planetaryElements';
 import { PlanetaryDignity } from '@/constants/planetaryFoodAssociations';
-import { LunarPhase, LunarPhaseWithSpaces, PlanetaryAspect } from '@/types/alchemy';
-import TarotFoodDisplay from '@/components/TarotFoodDisplay';
-import { calculateAspects, calculatePlanetaryPositions } from '@/utils/astrologyUtils';
-import { useCurrentChart } from '@/hooks/useCurrentChart';
-import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 
 import { logger } from '@/utils/logger';
 
 // Import ingredient data
 import allIngredients from '@/data/ingredients';
 import { TAROT_CARDS } from '@/constants/tarotCards';
+import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
+import { getCurrentSeason } from '@/data/integrations/seasonal';
+import { useCurrentChart } from '@/hooks/useCurrentChart';
+import { useTarotAstrologyData } from '@/hooks/useTarotAstrologyData';
+import { RecommendationAdapter } from '@/services/RecommendationAdapter';
+import { LunarPhase, LunarPhaseWithSpaces, PlanetaryAspect } from '@/types/alchemy';
+import type { Ingredient } from '@/types/index';
+import type { Ingredient as IngredientType, UnifiedIngredient } from '@/types/ingredient';
+import { calculateAspects, calculatePlanetaryPositions } from '@/utils/astrologyUtils';
 
 // Import the standardized lunar phase constants and helper function
+
+// Import the ingredient utility functions
+import { calculateAlchemicalProperties, calculateThermodynamicProperties } from '@/utils/ingredientUtils';
 import { 
   LUNAR_PHASE_MAP,
   formatLunarPhaseForDisplay
 } from '@/utils/lunarPhaseUtils';
 
-// Import the ingredient utility functions
-import { calculateAlchemicalProperties, calculateThermodynamicProperties } from '@/utils/ingredientUtils';
+import styles from './FoodRecommender.module.css';
 
 // Convert lunar phase strings to the proper LunarPhaseWithSpaces type format (lowercase with spaces)
 const getLunarPhaseType = (phase: string | null | undefined): LunarPhaseWithSpaces | undefined => {
@@ -94,7 +96,7 @@ const getLunarPhaseType = (phase: string | null | undefined): LunarPhaseWithSpac
   };
   
   // Normalize the input phase to handle case differences
-  const normalizedPhase = (phase as string)?.toLowerCase?.();
+  const normalizedPhase = (phase )?.toLowerCase?.();
   
   // Try direct lookup first
   if (normalizedPhase in phaseMap) {
@@ -335,7 +337,7 @@ const FoodRecommender: React.FC = () => {
                 
             } catch (err: unknown) {
                 // ✅ Pattern MM-1: Safe type assertion for error handling
-                const errorData = (err as unknown) as Record<string, unknown>;
+                const errorData = (err ) as Record<string, unknown>;
                 setError(`Error getting recommendations: ${String(errorData?.message || 'Unknown error')}`);
                 console.error('FoodRecommender error:', err);
                 setTransformedIngredients([]);
@@ -361,7 +363,7 @@ const FoodRecommender: React.FC = () => {
     const getElementValue = (ingredient: unknown, element: string): number => {
         try {
             // ✅ Pattern MM-1: Safe type assertion for ingredient data access
-            const ingredientData = (ingredient as unknown) as Record<string, unknown>;
+            const ingredientData = (ingredient ) as Record<string, unknown>;
             const elementalAffinity = ingredientData?.elementalAffinity as Record<string, unknown>;
             
             if (elementalAffinity && typeof elementalAffinity === 'object') {
@@ -392,10 +394,10 @@ const FoodRecommender: React.FC = () => {
             return <ThermometerSun className="w-4 h-4 text-gray-400" />;
         }
         
-        if ((effect as string)?.includes?.('warm') || (effect as string)?.includes?.('hot')) {
+        if ((effect )?.includes?.('warm') || (effect )?.includes?.('hot')) {
             return <ThermometerSun className="w-4 h-4 text-orange-300" />;
         }
-        if ((effect as string)?.includes?.('cool') || (effect as string)?.includes?.('cold')) {
+        if ((effect )?.includes?.('cool') || (effect )?.includes?.('cold')) {
             return <ThermometerSnowflake className="w-4 h-4 text-blue-300" />;
         }
         
@@ -460,7 +462,7 @@ const FoodRecommender: React.FC = () => {
             // ✅ Pattern MM-1: Safe type assertion for thermodynamic calculations
             const thermodynamicProps = calculateThermodynamicProperties(
                 alchemicalProps, 
-                (ingredientObj?.elementalProperties as unknown) as ElementalProperties
+                (ingredientObj?.elementalProperties ) as ElementalProperties
             );
             
             return {
@@ -748,7 +750,7 @@ const FoodRecommender: React.FC = () => {
                                                 
                                                 // Get color based on element
                                                 const getElementColor = (elem: string) => {
-                                                    switch((elem as string)?.toLowerCase?.()) {
+                                                    switch((elem )?.toLowerCase?.()) {
                                                         case 'fire': return 'bg-orange-500';
                                                         case 'water': return 'bg-blue-500';
                                                         case 'earth': return 'bg-green-500';
@@ -759,7 +761,7 @@ const FoodRecommender: React.FC = () => {
                                                 
                                                 // ✅ Pattern GG-6: Safe property access for tarot element matching
                                                 const isTarotElement = minorCard && 
-                                                    (element as string)?.toLowerCase?.() === ((minorCard as Record<string, unknown>)?.element as string)?.toLowerCase();
+                                                    (element )?.toLowerCase?.() === ((minorCard as Record<string, unknown>)?.element as string)?.toLowerCase();
                                                 
                                                 return (
                                                     <div key={element} className="relative">

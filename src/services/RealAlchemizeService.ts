@@ -6,6 +6,7 @@
  */
 
 import fs from 'fs';
+
 import { ZodiacSign, Element, ElementalProperties } from '@/types/celestial';
 
 // Types

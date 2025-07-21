@@ -1,15 +1,15 @@
 'use client';
 
 import React, { useState, useMemo, useEffect } from 'react';
-import { useServices } from '@/hooks/useServices';
-import type { Recipe } from '@/types/recipe';
-import type { Ingredient, Modality } from "@/data/ingredients/types";
-import { ZodiacSign, LunarPhaseWithSpaces, Element, CuisineType } from '@/types/alchemy';
-import { determineModalityFromElements } from '@/utils/cuisineUtils';
+
 import { ElementalItem } from '@/calculations/alchemicalTransformation';
 import { PlanetaryDignityDetails } from '@/constants/planetaryFoodAssociations';
-
+import type { Ingredient, Modality } from "@/data/ingredients/types";
+import { useServices } from '@/hooks/useServices';
+import { ZodiacSign, LunarPhaseWithSpaces, Element, CuisineType } from '@/types/alchemy';
 import { PlanetaryPosition } from "@/types/celestial";
+import type { Recipe } from '@/types/recipe';
+import { determineModalityFromElements } from '@/utils/cuisineUtils';
 interface CuisineSelectorProps {
   onRecipesChange: (recipes: Recipe[]) => void;
   selectedCuisine: string | null;

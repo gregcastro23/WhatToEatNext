@@ -1,7 +1,7 @@
-import { ElementalEnergy, ElementType, signElementMap } from '@/types/elements';
 import { DEFAULT_ELEMENTAL_PROPERTIES } from '@/constants/elementalConstants';
 import type {
   Season} from '@/types/alchemy';
+import { ElementalEnergy, ElementType, signElementMap } from '@/types/elements';
 
 // Define the types needed for ElementalCalculator
 interface ElementalProperties {

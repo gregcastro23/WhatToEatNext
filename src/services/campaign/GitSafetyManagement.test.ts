@@ -3,10 +3,12 @@
  * Perfect Codebase Campaign - Task 6.1 Implementation Tests
  */
 
-import { SafetyProtocol } from './SafetyProtocol';
-import { SafetySettings } from '../../types/campaign';
 import * as fs from 'fs';
 import * as path from 'path';
+
+import { SafetySettings } from '../../types/campaign';
+
+import { SafetyProtocol } from './SafetyProtocol';
 
 // Mock child_process for testing
 jest.mock('child_process', () => ({

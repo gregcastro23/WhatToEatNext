@@ -1,13 +1,15 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { getIngredientRecommendations, IngredientRecommendation, RecommendationOptions, GroupedIngredientRecommendations } from '@/utils/ingredientRecommender';
-import styles from './IngredientRecommendations.module.css';
-import type { ElementalProperties, Season, Ingredient } from '@/types/alchemy';
-import { useAstrologicalState } from '@/hooks/useAstrologicalState';
 import { Flame, Droplets, Mountain, Wind } from 'lucide-react';
-import { toZodiacSign } from '@/utils/zodiacUtils';
+import { useState, useEffect } from 'react';
+
 import type { Modality } from '@/data/ingredients/types';
+import { useAstrologicalState } from '@/hooks/useAstrologicalState';
+import type { ElementalProperties, Season, Ingredient } from '@/types/alchemy';
+import { getIngredientRecommendations, IngredientRecommendation, RecommendationOptions, GroupedIngredientRecommendations } from '@/utils/ingredientRecommender';
+import { toZodiacSign } from '@/utils/zodiacUtils';
+
+import styles from './IngredientRecommendations.module.css';
 
 // Helper function to adapt the elemental properties for the recommender system
 async function getRecommendations(

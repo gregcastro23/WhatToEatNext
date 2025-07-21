@@ -3,9 +3,11 @@
  * Perfect Codebase Campaign - Task 6.3 Implementation Tests
  */
 
-import { EmergencyRecoverySystem, EmergencyRecoveryOptions } from './EmergencyRecoverySystem';
-import { SafetySettings, SafetyEventSeverity, RecoveryAction } from '../../types/campaign';
 import * as fs from 'fs';
+
+import { SafetySettings, SafetyEventSeverity, RecoveryAction } from '../../types/campaign';
+
+import { EmergencyRecoverySystem, EmergencyRecoveryOptions } from './EmergencyRecoverySystem';
 
 // Mock child_process for testing
 jest.mock('child_process', () => ({

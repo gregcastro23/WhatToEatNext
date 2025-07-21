@@ -1,6 +1,7 @@
 'use client';
 
 import { createContext } from 'react';
+
 import { ChartContextType, CurrentChart } from './types';
 
 // Create default chart

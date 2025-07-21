@@ -4,9 +4,10 @@
  * Verifies batch processing, campaign progress tracking, and 75.5% reduction target
  */
 
-import { ExplicitAnyEliminationSystem, ExplicitAnyOptions } from './ExplicitAnyEliminationSystem';
 import { execSync, spawn } from 'child_process';
 import fs from 'fs';
+
+import { ExplicitAnyEliminationSystem, ExplicitAnyOptions } from './ExplicitAnyEliminationSystem';
 
 // Mock child_process and fs
 jest.mock('child_process');

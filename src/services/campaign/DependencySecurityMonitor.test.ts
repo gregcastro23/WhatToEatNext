@@ -3,9 +3,10 @@
  * Comprehensive test suite for dependency and security monitoring functionality
  */
 
-import { DependencySecurityMonitor, DEFAULT_DEPENDENCY_SECURITY_CONFIG, DependencySecurityConfig } from './DependencySecurityMonitor';
-import * as fs from 'fs';
 import { execSync } from 'child_process';
+import * as fs from 'fs';
+
+import { DependencySecurityMonitor, DEFAULT_DEPENDENCY_SECURITY_CONFIG, DependencySecurityConfig } from './DependencySecurityMonitor';
 
 // Mock dependencies
 jest.mock('fs');

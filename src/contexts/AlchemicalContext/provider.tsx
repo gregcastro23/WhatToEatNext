@@ -1,11 +1,13 @@
 'use client';
 
 import React, { useReducer, useState, useCallback, useEffect } from 'react';
+
+import { createLogger } from '@/utils/logger';
+import * as safeAstrology from '@/utils/safeAstrology';
+
 import { AlchemicalContext, defaultState } from './context';
 import { alchemicalReducer } from './reducer';
 import { PlanetaryPositionsType, AstrologicalState, AlchemicalState } from './types';
-import * as safeAstrology from '@/utils/safeAstrology';
-import { createLogger } from '@/utils/logger';
 
 // Phase 5: Type-safe conversion interfaces for alchemical calculations
 interface CalculationCompatiblePosition {

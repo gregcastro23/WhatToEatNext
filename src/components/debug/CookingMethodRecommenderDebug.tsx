@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+
 import CookingMethodsSection from '@/components/CookingMethodsSection';
 
 export function CookingMethodRecommenderDebug() {

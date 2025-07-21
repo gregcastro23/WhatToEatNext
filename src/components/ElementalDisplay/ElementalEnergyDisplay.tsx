@@ -1,11 +1,13 @@
 'use client';
 
+import { isEqual } from 'lodash';
 import React, { useEffect, useState, useMemo, useCallback } from 'react';
+
+import { calculateElementalEnergies } from '@/calculations/elementalcalculations';
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 import { ElementType, ElementalEnergy } from '@/types/elements';
-import { calculateElementalEnergies } from '@/calculations/elementalcalculations';
 import { getCachedCalculation } from '@/utils/calculationCache';
-import { isEqual } from 'lodash';
+
 import { OptimizedComponentWrapper } from '../OptimizedComponentWrapper';
 
 interface ElementalEnergyDisplayProps {

@@ -8,9 +8,6 @@
  * The adapter implements legacy methods but delegates to modern services.
  */
 
-import { unifiedRecipeService } from '../UnifiedRecipeService';
-import { createLogger } from '../../utils/logger';
-import { LocalRecipeService } from '../LocalRecipeService';
 
 // ← Pattern HH-2: Unified Recipe type imports from primary source (@/types/alchemy)
 import type {
@@ -29,7 +26,10 @@ import type { ScoredRecipe } from '@/types/recipe';
 // Import recipe search criteria from recipe types if needed
 import type { RecipeSearchCriteria } from '@/types/recipe';
 
+import { createLogger } from '../../utils/logger';
 import { RecipeRecommendationOptions } from '../interfaces/RecipeServiceInterface';
+import { LocalRecipeService } from '../LocalRecipeService';
+import { unifiedRecipeService } from '../UnifiedRecipeService';
 
 // Initialize logger
 const logger = createLogger('LegacyRecipeAdapter');
@@ -267,7 +267,7 @@ export class LegacyRecipeAdapter {
       // ✅ Pattern MM-1: Safe type conversion for criteria search
       const criteriaData = (criteria as unknown) as Record<string, unknown>;
       const searchQuery = String(criteriaData?.query || JSON.stringify(criteria));
-      const searchResults = await unifiedRecipeService.searchRecipes(searchQuery) as Recipe[];
+      const searchResults = await unifiedRecipeService.searchRecipes(searchQuery) ;
       if (searchResults.length > 0) {
         return searchResults[0];
       }

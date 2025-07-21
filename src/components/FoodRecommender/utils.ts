@@ -39,12 +39,14 @@ export const mockIngredients = {
 };
 
 // IngredientRecommendations Component
-import type { AstrologicalState, ElementalProperties, ThermodynamicMetrics } from "@/types/alchemy";
 import React, { useMemo } from 'react';
+
+import type { AstrologicalState, ElementalProperties, ThermodynamicMetrics } from "@/types/alchemy";
+import { Element } from "@/types/alchemy";
+
 import { getTopIngredientMatches } from '../../utils/recommendation/foodRecommendation';
 
 
-import { Element } from "@/types/alchemy";
 
 
 interface IngredientRecommendationsProps {

@@ -1,15 +1,17 @@
 "use client";
 
-import { useEffect, useState, useCallback, useRef } from 'react';
-import { Recipe } from '@/types/recipe';
-import { getTarotCardsForDate } from '../lib/tarotCalculations';
-import { SUIT_TO_ELEMENT, SUIT_TO_TOKEN } from '../utils/tarotMappings';
 import { Flame, Droplets, Mountain, Wind, Sparkles, Clock, Calendar } from 'lucide-react';
-import { useAstrologicalState } from '../hooks/useAstrologicalState';
-import type { PlanetaryPosition } from '@/types/alchemy';
+import { useEffect, useState, useCallback, useRef } from 'react';
 
+import type { PlanetaryPosition } from '@/types/alchemy';
 import { Element } from "@/types/alchemy";
 import { PlanetaryAlignment , AstrologicalState } from "@/types/celestial";
+import { Recipe } from '@/types/recipe';
+
+import { useAstrologicalState } from '../hooks/useAstrologicalState';
+import { getTarotCardsForDate } from '../lib/tarotCalculations';
+import { SUIT_TO_ELEMENT, SUIT_TO_TOKEN } from '../utils/tarotMappings';
+
 
 export interface AlchemicalValues {
   Spirit: number;

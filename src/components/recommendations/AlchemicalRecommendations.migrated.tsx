@@ -48,9 +48,7 @@ interface MatchingResult {
 
 'use client';
 
-import React, { useState, useMemo, useEffect } from 'react';
-import { Recipe } from '@/types/recipe';
-import { useServices } from '@/hooks/useServices';
+import { AccessTime, Restaurant, WbSunny } from '@mui/icons-material';
 import { 
   Box, 
   Card, 
@@ -63,35 +61,36 @@ import {
   Tabs, 
   Tab 
 } from '@mui/material';
-import { AccessTime, Restaurant, WbSunny } from '@mui/icons-material';
+import React, { useState, useMemo, useEffect } from 'react';
 
-// Import constants and types
-import { RulingPlanet } from '@/constants/planets';
+import { 
+  ElementalItem, 
+  AlchemicalItem 
+} from '@/calculations/alchemicalTransformation';
 import { 
   ElementalCharacter, 
   AlchemicalProperty 
 } from '@/constants/planetaryElements';
+import { RulingPlanet } from '@/constants/planets';
+import type { Ingredient, Modality } from "@/data/ingredients/types";
+import type { UnifiedIngredient } from "@/data/unified/unifiedTypes";
+import { useServices } from '@/hooks/useServices';
 import { 
   ZodiacSign, 
   LunarPhaseWithSpaces,
   PlanetaryAspect,
   ElementalProperties
 , Element } from '@/types/alchemy';
+import type { CookingMethod } from "@/types/alchemy";
+import { Recipe } from '@/types/recipe';
+
+// Import constants and types
 
 // Import utils
-import { determineIngredientModality } from '@/utils/ingredientUtils';
 import { createElementalProperties } from '@/utils/elemental/elementalUtils';
-
-import type { Ingredient, Modality } from "@/data/ingredients/types";
-import type { UnifiedIngredient } from "@/data/unified/unifiedTypes";
-import type { CookingMethod } from "@/types/alchemy";
-
+import { determineIngredientModality } from '@/utils/ingredientUtils';
 import { PlanetaryPosition } from "@/types/celestial";
 // Import interfaces and types from alchemical transformation
-import { 
-  ElementalItem, 
-  AlchemicalItem 
-} from '@/calculations/alchemicalTransformation';
 
 interface AlchemicalRecommendationsProps {
   // If these aren't passed, the component will use current astronomical conditions

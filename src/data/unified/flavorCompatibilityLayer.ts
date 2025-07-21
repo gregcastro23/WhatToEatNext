@@ -1,4 +1,6 @@
 import type { ElementalProperties, Season } from "@/types/alchemy";
+import { Element } from "@/types/alchemy";
+
 import { 
 // ===== BACKWARD COMPATIBILITY LAYER - PHASE 4 =====
 // Provides the same API as old fragmented systems while using unified engine
@@ -16,7 +18,6 @@ import {
 
 
 
-import { Element } from "@/types/alchemy";
 
 // ===== LEGACY INTERFACES (for backward compatibility) =====
 

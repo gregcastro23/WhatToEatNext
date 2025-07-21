@@ -4,16 +4,18 @@ const axios = {
   post: async (_url: string, _data?: any, _config?: any) => ({ data: {} as Record<string, unknown> })
 };
 import type { ElementalProperties } from '@/types/alchemy';
+
 import type { NutritionalProfile } from '../types/nutrition';
+import type { Recipe } from '../types/recipe';
 import type {
   SpoonacularNutrient,
   SpoonacularNutrition,
   SpoonacularIngredient,
   SpoonacularRecipe
 } from '../types/spoonacular';
-import type { Recipe } from '../types/recipe';
-import { SpoonacularElementalMapper } from './SpoonacularElementalMapper';
+
 import { LocalRecipeService } from './LocalRecipeService';
+import { SpoonacularElementalMapper } from './SpoonacularElementalMapper';
 
 const API_KEY = 'c91fb9d66d284351929fff78e51cedf0';
 const BASE_URL = 'https://api.spoonacular.com/recipes';

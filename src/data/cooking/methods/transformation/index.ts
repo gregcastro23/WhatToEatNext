@@ -1,9 +1,9 @@
-import { smoking } from './smoking';
 import { curing } from './curing';
 import { dehydrating } from './dehydrating';
-import { infusing } from './infusing';
 import { distilling } from './distilling';
+import { infusing } from './infusing';
 import { marinating } from './marinating';
+import { smoking } from './smoking';
 
 /**
  * Collection of transformation cooking methods

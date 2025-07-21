@@ -1,7 +1,8 @@
 'use client';
 
-import React from 'react';
 import { Grid, Card, CardContent, Typography, Divider } from '@mui/material';
+import React from 'react';
+
 import FoodRecommender from '@/components/FoodRecommender';
 import FoodRecommenderMigrated from '@/components/FoodRecommender/FoodRecommender.migrated';
 

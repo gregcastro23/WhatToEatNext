@@ -1,7 +1,8 @@
-import styles from './CookingMethods.module.css';
-import { useAstrologicalState } from '../../hooks/useAstrologicalState';
+import { Flame, Droplets, Mountain, Wind, Info, Clock, Tag, Leaf, X, ChevronDown, ChevronUp, Beaker, Settings } from 'lucide-react';
 import { useEffect, useState, useMemo, useCallback } from 'react';
-import { ElementalCalculator } from '../../services/ElementalCalculator';
+import { ErrorBoundary } from 'react-error-boundary';
+
+import { ingredientCategories } from "@/data/ingredientCategories";
 import type { 
   ElementalProperties, 
   Element, 
@@ -9,6 +10,16 @@ import type {
   ChakraEnergies,
   AlchemicalProperties 
 } from "@/types/alchemy";
+
+import { normalizeChakraKey } from '../../constants/chakraSymbols';
+import { useFlavorEngine } from '../../contexts/FlavorEngineContext';
+import { herbsCollection, oilsCollection, vinegarsCollection, grainsCollection } from '../../data/ingredients';
+import { useAlchemicalRecommendations } from '../../hooks/useAlchemicalRecommendations';
+import { useAstrologicalState } from '../../hooks/useAstrologicalState';
+import { ElementalCalculator } from '../../services/ElementalCalculator';
+
+
+import { enhancedRecommendationService, EnhancedRecommendationResult } from '../../services/EnhancedRecommendationService';
 import { 
   getChakraBasedRecommendations, 
   GroupedIngredientRecommendations, 
@@ -16,18 +27,14 @@ import {
   IngredientRecommendation,
   EnhancedIngredientRecommendation 
 } from '../../utils/ingredientRecommender';
-import { Flame, Droplets, Mountain, Wind, Info, Clock, Tag, Leaf, X, ChevronDown, ChevronUp, Beaker, Settings } from 'lucide-react';
 import { IngredientCard } from '../IngredientCard';
-import { useAlchemicalRecommendations } from '../../hooks/useAlchemicalRecommendations';
-import { normalizeChakraKey } from '../../constants/chakraSymbols';
-import { herbsCollection, oilsCollection, vinegarsCollection, grainsCollection } from '../../data/ingredients';
-import { enhancedRecommendationService, EnhancedRecommendationResult } from '../../services/EnhancedRecommendationService';
-import { ErrorBoundary } from 'react-error-boundary';
+
+
 // Import the useFlavorEngine hook from our new context
-import { useFlavorEngine } from '../../contexts/FlavorEngineContext';
 // TODO: Fix CSS module import - was: import from "./IngredientRecommender.module.css.ts"
 
-import { ingredientCategories } from "@/data/ingredientCategories";
+
+import styles from './CookingMethods.module.css';
 /**
  * Maps planets to their elemental influences (diurnal and nocturnal elements)
  */

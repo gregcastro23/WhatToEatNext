@@ -1,7 +1,7 @@
 import { execSync } from 'child_process';
-import { performance } from 'perf_hooks';
 import fs from 'fs';
 import path from 'path';
+import { performance } from 'perf_hooks';
 
 export interface BuildMetrics {
   typeScriptCompilationTime: number;

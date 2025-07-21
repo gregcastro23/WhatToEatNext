@@ -1,10 +1,10 @@
+import { CHAKRA_NUTRITIONAL_CORRELATIONS, CHAKRA_HERBS } from "@/constants/chakraSymbols";
+import { ChakraService, ChakraEnergyState } from '@/services/ChakraService';
+import { WiccanCorrespondenceService } from '@/services/WiccanCorrespondenceService';
 import { AstrologicalState, ElementalProperties, ChakraEnergies, Season , Element } from '@/types/alchemy';
-import { getTarotCardsForDate, getTarotFoodRecommendations } from '../lib/tarotCalculations';
-import { getRecommendedIngredients } from '../utils/recommendation/foodRecommendation';
 
-import { SignEnergyState, ZodiacSign } from '../constants/signEnergyStates';
 import { CHAKRA_BALANCING_FOODS, calculateChakraEnergies } from '../constants/chakraMappings';
-import { EnhancedIngredient } from '../utils/recommendation/ingredientRecommendation';
+import { SignEnergyState, ZodiacSign } from '../constants/signEnergyStates';
 import { 
 // NEW: Phase 7 unified flavor system integration
   calculateFlavorCompatibility,
@@ -12,12 +12,11 @@ import {
   getFlavorProfile,
   unifiedFlavorEngine
 } from '../data/unified/unifiedFlavorEngine';
+import { getTarotCardsForDate, getTarotFoodRecommendations } from '../lib/tarotCalculations';
 import { getCurrentSeason } from '../utils/dateUtils';
-import { ChakraService, ChakraEnergyState } from '@/services/ChakraService';
-import { WiccanCorrespondenceService } from '@/services/WiccanCorrespondenceService';
+import { getRecommendedIngredients } from '../utils/recommendation/foodRecommendation';
+import { EnhancedIngredient } from '../utils/recommendation/ingredientRecommendation';
 
-
-import { CHAKRA_NUTRITIONAL_CORRELATIONS, CHAKRA_HERBS } from "@/constants/chakraSymbols";
 // Phase 8: Performance optimization imports
 import { 
   flavorCompatibilityCache, 

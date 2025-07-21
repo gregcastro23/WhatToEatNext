@@ -1,10 +1,14 @@
+import { CUISINE_TYPES } from '@/constants/cuisineTypes';
 import type { IngredientMapping } from '@/types/alchemy';
-import { wholeSpices } from './wholespices';
+import { fixIngredientMappings } from '@/utils/elementalUtils';
+
+import type { Ingredient } from '../types';
+
 import { groundSpices } from './groundspices';
 import { spiceBlends } from './spiceBlends';
-import { CUISINE_TYPES } from '@/constants/cuisineTypes';
-import type { Ingredient } from '../types';
-import { fixIngredientMappings } from '@/utils/elementalUtils';
+import { wholeSpices } from './wholespices';
+
+
 
 // Normalize elemental properties to sum to 1
 const normalizeElementalProperties = (

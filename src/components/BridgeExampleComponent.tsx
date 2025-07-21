@@ -1,8 +1,9 @@
 'use client';
 
-import React, { useState } from 'react';
-import { useAlchemicalBridge } from '@/hooks/useContextServiceBridge';
 import { Loader2 } from 'lucide-react';
+import React, { useState } from 'react';
+
+import { useAlchemicalBridge } from '@/hooks/useContextServiceBridge';
 
 /**
  * Example component demonstrating the use of bridge hooks

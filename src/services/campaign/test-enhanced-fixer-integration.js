@@ -146,7 +146,7 @@ class EnhancedErrorFixerIntegration {
     
     let filesProcessed = 0;
     let errorsFixed = 0;
-    let errorsRemaining = 0;
+    const errorsRemaining = 0;
     let safetyScore;
     
     // Parse files processed

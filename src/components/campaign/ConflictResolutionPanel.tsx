@@ -6,7 +6,7 @@
  */
 
 import React, { useState, useEffect } from 'react';
-import { campaignConflictResolver } from '../../services/CampaignConflictResolver';
+
 import type {
   CampaignConflict,
   ConflictResolutionStrategy,
@@ -17,7 +17,7 @@ import type {
   ConflictSeverity,
   ConflictStatus
 } from '../../services/CampaignConflictResolver';
-import {
+import { campaignConflictResolver ,
   ResolutionAction
 } from '../../services/CampaignConflictResolver';
 

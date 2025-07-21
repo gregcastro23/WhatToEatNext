@@ -1,11 +1,12 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
-import { initializeAlchemicalEngine } from '@/utils/alchemyInitializer';
 import { AlertTriangle, RefreshCw } from 'lucide-react';
-import { createLogger } from '@/utils/logger';
+import { useEffect, useState } from 'react';
+
+import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 import { CelestialPosition } from '@/types/celestial';
+import { initializeAlchemicalEngine } from '@/utils/alchemyInitializer';
+import { createLogger } from '@/utils/logger';
 
 // Create a component-specific logger
 const logger = createLogger('PlanetaryPositions');

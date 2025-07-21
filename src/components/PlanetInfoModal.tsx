@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useCallback } from 'react';
+
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 import { getPlanetInfo, getDignityDescription, getAspectDescription, PlanetInfo } from '@/utils/planetInfoUtils';
 

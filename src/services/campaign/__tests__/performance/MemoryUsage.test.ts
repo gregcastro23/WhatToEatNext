@@ -3,15 +3,15 @@
  * Perfect Codebase Campaign - Memory Performance Testing
  */
 
-import { ProgressTracker } from '../../ProgressTracker';
-import { CampaignController } from '../../CampaignController';
-import { SafetyProtocol } from '../../SafetyProtocol';
 import {
   CampaignConfig,
   SafetySettings,
   SafetyLevel,
   ProgressMetrics
 } from '../../../../types/campaign';
+import { CampaignController } from '../../CampaignController';
+import { ProgressTracker } from '../../ProgressTracker';
+import { SafetyProtocol } from '../../SafetyProtocol';
 
 describe('Memory Usage Performance Tests', () => {
   let progressTracker: ProgressTracker;
@@ -188,7 +188,7 @@ describe('Memory Usage Performance Tests', () => {
 
     it('should validate memory cleanup in safety protocol', async () => {
       const originalMemoryUsage = process.memoryUsage;
-      let memoryUsage = 35; // Start at 35MB
+      const memoryUsage = 35; // Start at 35MB
 
       process.memoryUsage = jest.fn().mockImplementation(() => {
         return {
@@ -225,7 +225,7 @@ describe('Memory Usage Performance Tests', () => {
 
     it('should validate memory cleanup in progress tracker', async () => {
       const originalMemoryUsage = process.memoryUsage;
-      let memoryUsage = 30; // Start at 30MB
+      const memoryUsage = 30; // Start at 30MB
 
       process.memoryUsage = jest.fn().mockImplementation(() => {
         return {
@@ -268,7 +268,7 @@ describe('Memory Usage Performance Tests', () => {
   describe('Memory Efficiency Testing', () => {
     it('should efficiently handle large file processing', async () => {
       const originalMemoryUsage = process.memoryUsage;
-      let baseMemory = 35;
+      const baseMemory = 35;
 
       process.memoryUsage = jest.fn().mockImplementation(() => {
         // Memory should not increase significantly with large file counts
@@ -307,7 +307,7 @@ describe('Memory Usage Performance Tests', () => {
 
     it('should efficiently manage concurrent operations', async () => {
       const originalMemoryUsage = process.memoryUsage;
-      let baseMemory = 30;
+      const baseMemory = 30;
 
       process.memoryUsage = jest.fn().mockImplementation(() => {
         // Memory should remain stable during concurrent operations

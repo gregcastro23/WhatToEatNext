@@ -12,7 +12,6 @@
  */
 
 import { GeographicCoordinates, PlanetaryLocationService } from '../data/planets/locationService';
-import { getCurrentAlchemicalState } from './RealAlchemizeService';
 import type { 
   ElementalProperties, 
   ZodiacSign, 
@@ -29,6 +28,8 @@ import type {
   PlanetaryPosition,
   PlanetaryAspect
 } from '../types/celestial';
+
+import { getCurrentAlchemicalState } from './RealAlchemizeService';
 
 // Add missing ScoringWeights type
 interface ScoringWeights {

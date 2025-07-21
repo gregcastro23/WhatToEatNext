@@ -1,9 +1,9 @@
+import type { CookingMethodData } from '@/types/cookingMethod';
 import type { 
   ZodiacSign, 
   ThermodynamicProperties
 } from '@/types/shared';
 
-import type { CookingMethodData } from '@/types/cookingMethod';
 
 /**
  * Frying cooking method

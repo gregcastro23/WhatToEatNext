@@ -6,6 +6,7 @@
  */
 
 import { PlanetData } from './types';
+
 import { planetInfo } from './index';
 
 /**

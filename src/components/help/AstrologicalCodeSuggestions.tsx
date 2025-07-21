@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+
 import { Tooltip } from './ContextualHelp';
 
 // Astrological pattern suggestions based on established casing conventions

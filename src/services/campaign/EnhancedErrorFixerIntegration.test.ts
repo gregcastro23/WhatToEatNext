@@ -4,8 +4,9 @@
  * Verifies wrapper functionality, batch processing, and build validation
  */
 
-import { EnhancedErrorFixerIntegration, FixerOptions, BatchProcessingOptions } from './EnhancedErrorFixerIntegration';
 import { execSync, spawn } from 'child_process';
+
+import { EnhancedErrorFixerIntegration, FixerOptions, BatchProcessingOptions } from './EnhancedErrorFixerIntegration';
 
 // Mock child_process
 jest.mock('child_process');

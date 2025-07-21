@@ -5,6 +5,7 @@
  */
 
 import React from 'react';
+
 import SwissEphemerisDemo from '@/components/SwissEphemerisDemo';
 
 export default function SwissEphemerisDemoPage() {

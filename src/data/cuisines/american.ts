@@ -1,5 +1,5 @@
-import type { Cuisine } from '@/types/cuisine';
 import type { LunarPhase, ZodiacSign } from '@/types/alchemy';
+import type { Cuisine } from '@/types/cuisine';
 
 export const american: Cuisine = {
   id: "american",

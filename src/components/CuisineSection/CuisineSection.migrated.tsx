@@ -48,9 +48,10 @@ interface MatchingResult {
 
 'use client';
 
-import React, { useState, useEffect, useMemo } from 'react';
-import { useServices } from '@/hooks/useServices';
 import Link from 'next/link';
+import React, { useState, useEffect, useMemo } from 'react';
+
+import { useServices } from '@/hooks/useServices';
 import type { Recipe } from '@/types/recipe';
 // TODO: Fix CSS module import - was: import from "./CuisineSection.module.css.ts"
 import { logger } from '@/utils/logger';
@@ -211,8 +212,8 @@ export function CuisineSectionMigrated({
   }, [recipes, cuisineRecipesFromService, cuisine, viewAllRecipes]);
 
   // Check for regional variations to add information about cuisine relationships
-  const isRegionalVariant = (cuisineRecipes || []).some(r => (r.regionalCuisine as string)?.toLowerCase?.() === (cuisine as string)?.toLowerCase?.());
-  const parentCuisineName = isRegionalVariant ? cuisineRecipes.find(r => (r.regionalCuisine as string)?.toLowerCase?.() === (cuisine as string)?.toLowerCase?.())?.cuisine : null;
+  const isRegionalVariant = (cuisineRecipes || []).some(r => (r.regionalCuisine as string)?.toLowerCase?.() === (cuisine )?.toLowerCase?.());
+  const parentCuisineName = isRegionalVariant ? cuisineRecipes.find(r => (r.regionalCuisine as string)?.toLowerCase?.() === (cuisine )?.toLowerCase?.())?.cuisine : null;
   
   // Check if this is a parent cuisine with regional variants shown
   const hasRegionalVariants = (cuisineRecipes || []).some(r => r.regionalCuisine && r.cuisine?.toLowerCase() === cuisine?.toLowerCase());

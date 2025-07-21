@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
+
 import { errorHandler } from '@/services/errorHandler';
 
 export default function Error({

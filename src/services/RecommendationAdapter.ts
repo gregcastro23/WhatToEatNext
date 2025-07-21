@@ -1,5 +1,6 @@
 import { ElementalItem, AlchemicalItem } from '../calculations/alchemicalTransformation';
 import { ElementalCharacter } from '../constants/planetaryElements';
+import { planetInfo } from '../data/planets/planetaryInfo';
 import { 
   LunarPhaseWithSpaces,
   PlanetaryAspect,
@@ -10,13 +11,15 @@ import {
 
 // Type alias for backward compatibility
 type AlchemicalProperty = keyof AlchemicalProperties;
-import { transformItemsWithPlanetaryPositions } from '../utils/elementalUtils';
-import { calculatePlanetaryPositions, calculateLunarPhase } from '../utils/astrologyUtils';
-import { convertToLunarPhase } from '../utils/lunarUtils';
-import { logger } from '@/utils/logger';
-import { alchemize } from '../calculations/core/alchemicalCalculations';
-import { planetInfo } from '../data/planets/planetaryInfo';
 import { transformIngredients, transformCookingMethods, transformCuisines } from '../utils/alchemicalTransformationUtils';
+import { calculatePlanetaryPositions, calculateLunarPhase } from '../utils/astrologyUtils';
+import { transformItemsWithPlanetaryPositions } from '../utils/elementalUtils';
+import { convertToLunarPhase } from '../utils/lunarUtils';
+
+import { logger } from '@/utils/logger';
+
+import { alchemize } from '../calculations/core/alchemicalCalculations';
+
 import type { RecommendationResult } from './interfaces/RecommendationServiceInterface';
 
 // Define PlanetData interface to replace all 'any' types
@@ -425,7 +428,7 @@ export class RecommendationAdapter {
    */
   private getPlanetData(planet: string): Record<string, unknown> {
     const planetKey = planet.charAt(0).toUpperCase() + planet.slice(1).toLowerCase();
-    return (planetInfo[planetKey as keyof typeof planetInfo] || {}) as unknown as Record<string, unknown>;
+    return (planetInfo[planetKey ] || {}) as unknown as Record<string, unknown>;
   }
   
   /**

@@ -2,9 +2,10 @@
  * Tests for Validation Framework
  */
 
-import { ValidationFramework, ValidationResult, MilestoneValidationResult } from './ValidationFramework';
 import { execSync } from 'child_process';
 import fs from 'fs';
+
+import { ValidationFramework, ValidationResult, MilestoneValidationResult } from './ValidationFramework';
 
 // Mock execSync and fs
 jest.mock('child_process');

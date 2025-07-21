@@ -3,6 +3,8 @@
 // Enhances recipe building with Monica/Kalchm optimization, seasonal adaptation,
 // cuisine integration, and enhanced recipe intelligence
 
+import { unifiedSeasonalSystem } from '@/data/integrations/seasonal';
+import { UnifiedIngredient } from '@/data/unified/unifiedTypes';
 import type { 
   Season, 
   ElementalProperties, 
@@ -11,9 +13,11 @@ import type {
   LunarPhase
 } from "@/types/alchemy";
 
-import { UnifiedIngredient } from '@/data/unified/unifiedTypes';
-import { SeasonalRecommendations } from './seasonal';
-import { unifiedSeasonalSystem } from '@/data/integrations/seasonal';
+import { 
+  getAllEnhancedCookingMethods, 
+  type EnhancedCookingMethod 
+} from '../../constants/alchemicalPillars';
+
 import { 
   unifiedCuisineIntegrationSystem, 
   type CuisineIngredientAnalysis
@@ -22,10 +26,10 @@ import {
   RecipeEnhancer, 
   type EnhancedRecipe 
 } from './recipes';
-import { 
-  getAllEnhancedCookingMethods, 
-  type EnhancedCookingMethod 
-} from '../../constants/alchemicalPillars';
+import { SeasonalRecommendations } from './seasonal';
+
+
+
 
 // ===== ENHANCED RECIPE BUILDING INTERFACES =====
 

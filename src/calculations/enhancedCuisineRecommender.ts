@@ -1,9 +1,9 @@
-import type { Cuisine } from '@/types/cuisine';
+import { cuisinesMap } from '@/data/cuisines';
 import type {
   AstrologicalState,
   ElementalProperties,
   ZodiacSign} from '@/types/alchemy';
-import { cuisinesMap } from '@/data/cuisines';
+import type { Cuisine } from '@/types/cuisine';
 
 // Recipe interface for internal use in enhanced recommender
 interface RecipeData {
@@ -621,7 +621,7 @@ export class EnhancedCuisineRecommender {
       pisces: 'Water'};
 
     return astroState.sunSign
-      ? elementMap[astroState.sunSign as ZodiacSign] || 'Fire'
+      ? elementMap[astroState.sunSign ] || 'Fire'
       : 'Fire';
   }
 

@@ -1,21 +1,11 @@
 'use client';
 
-import React, { useState, useEffect, useCallback, createContext, useContext, useMemo, memo, lazy, Suspense } from 'react';
 import { useRouter } from 'next/navigation';
-import { logger } from '@/utils/logger';
-import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
+import React, { useState, useEffect, useCallback, createContext, useContext, useMemo, memo, lazy, Suspense } from 'react';
+
 import ErrorBoundary from '@/components/error-boundaries/ErrorBoundary';
-import { 
-  useNavigationState, 
-  useScrollPreservation, 
-  useAutoStateCleanup,
-  useAstrologicalStatePreservation,
-  useCulturalSensitivityGuidance,
-  usePerformanceOptimizationGuidance
-} from '@/hooks/useStatePreservation';
-import { useErrorHandler } from '@/utils/errorHandling';
 import { ComponentFallbacks } from '@/components/fallbacks/ComponentFallbacks';
-import { useSteeringFileIntelligence, ElementalProperties } from '@/utils/steeringFileIntelligence';
+import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 import { 
   useAgentHooks,
   usePlanetaryDataValidationHook,
@@ -24,8 +14,19 @@ import {
   useBuildQualityMonitoringHook,
   useQualityMetricsHook
 } from '@/hooks/useAgentHooks';
-import { useMCPServerIntegration } from '@/utils/mcpServerIntegration';
+import { 
+  useNavigationState, 
+  useScrollPreservation, 
+  useAutoStateCleanup,
+  useAstrologicalStatePreservation,
+  useCulturalSensitivityGuidance,
+  usePerformanceOptimizationGuidance
+} from '@/hooks/useStatePreservation';
 import { useDevelopmentExperienceOptimizations } from '@/utils/developmentExperienceOptimizations';
+import { useErrorHandler } from '@/utils/errorHandling';
+import { logger } from '@/utils/logger';
+import { useMCPServerIntegration } from '@/utils/mcpServerIntegration';
+import { useSteeringFileIntelligence, ElementalProperties } from '@/utils/steeringFileIntelligence';
 
 // Lazy load non-critical components for better performance
 const ConsolidatedDebugInfo = lazy(() => import('@/components/debug/ConsolidatedDebugInfo'));

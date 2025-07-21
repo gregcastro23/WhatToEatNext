@@ -7,6 +7,7 @@
 import { execSync } from 'child_process';
 import * as fs from 'fs';
 import * as path from 'path';
+
 import {
   ProgressMetrics,
   ErrorCategory,
@@ -85,7 +86,7 @@ export class MetricsCollectionSystem {
       try {
         await this.collectSnapshot();
       } catch (error) {
-        console.error('❌ Error during metrics collection:', (error as unknown as Record<string, unknown>)?.message || 'Unknown error');
+        console.error('❌ Error during metrics collection:', (error  as Record<string, unknown>)?.message || 'Unknown error');
       }
     }, intervalMs);
 
@@ -205,7 +206,7 @@ export class MetricsCollectionSystem {
       const count = parseInt(countOutput.trim()) || 0;
 
       // Get detailed breakdown by error type
-      let breakdown: Record<string, number> = {};
+      const breakdown: Record<string, number> = {};
       
       if (count > 0) {
         try {
@@ -224,14 +225,14 @@ export class MetricsCollectionSystem {
             }
           }
         } catch (error) {
-          console.warn('Could not get TypeScript error breakdown:', (error as unknown as Record<string, unknown>)?.message || 'Unknown error');
+          console.warn('Could not get TypeScript error breakdown:', (error  as Record<string, unknown>)?.message || 'Unknown error');
         }
       }
 
       return { count, breakdown };
 
     } catch (error) {
-      console.warn('Could not collect TypeScript metrics:', (error as unknown as Record<string, unknown>)?.message || 'Unknown error');
+      console.warn('Could not collect TypeScript metrics:', (error  as Record<string, unknown>)?.message || 'Unknown error');
       return { count: -1, breakdown: {} };
     }
   }
@@ -250,7 +251,7 @@ export class MetricsCollectionSystem {
       const count = parseInt(countOutput.trim()) || 0;
 
       // Get detailed breakdown by warning type
-      let breakdown: Record<string, number> = {};
+      const breakdown: Record<string, number> = {};
       
       if (count > 0) {
         try {
@@ -269,14 +270,14 @@ export class MetricsCollectionSystem {
             }
           }
         } catch (error) {
-          console.warn('Could not get linting warning breakdown:', (error as unknown as Record<string, unknown>)?.message || 'Unknown error');
+          console.warn('Could not get linting warning breakdown:', (error  as Record<string, unknown>)?.message || 'Unknown error');
         }
       }
 
       return { count, breakdown };
 
     } catch (error) {
-      console.warn('Could not collect linting metrics:', (error as unknown as Record<string, unknown>)?.message || 'Unknown error');
+      console.warn('Could not collect linting metrics:', (error  as Record<string, unknown>)?.message || 'Unknown error');
       return { count: -1, breakdown: {} };
     }
   }
@@ -304,14 +305,14 @@ export class MetricsCollectionSystem {
       compilationSpeed = sourceFiles / buildTime;
 
     } catch (error) {
-      console.warn('Build failed during metrics collection:', (error as unknown as Record<string, unknown>)?.message || 'Unknown error');
+      console.warn('Build failed during metrics collection:', (error  as Record<string, unknown>)?.message || 'Unknown error');
     }
 
     try {
       // Get bundle size
       bundleSize = await this.getBundleSize();
     } catch (error) {
-      console.warn('Could not measure bundle size:', (error as unknown as Record<string, unknown>)?.message || 'Unknown error');
+      console.warn('Could not measure bundle size:', (error  as Record<string, unknown>)?.message || 'Unknown error');
     }
 
     return {

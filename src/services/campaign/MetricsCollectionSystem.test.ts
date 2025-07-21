@@ -3,9 +3,10 @@
  * Perfect Codebase Campaign - Comprehensive Testing
  */
 
-import { MetricsCollectionSystem, DetailedMetrics, MetricsSnapshot } from './MetricsCollectionSystem';
 import { execSync } from 'child_process';
 import * as fs from 'fs';
+
+import { MetricsCollectionSystem, DetailedMetrics, MetricsSnapshot } from './MetricsCollectionSystem';
 
 // Mock child_process and fs
 jest.mock('child_process');

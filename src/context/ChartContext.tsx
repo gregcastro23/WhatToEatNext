@@ -1,6 +1,7 @@
 'use client';
 
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+
 import { AstrologicalState } from '@/types/alchemy';
 
 interface ChartContextType {

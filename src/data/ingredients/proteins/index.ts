@@ -1,19 +1,21 @@
 import type { IngredientMapping } from '@/data/ingredients/types';
-import { meats } from './meat';
-import { seafood } from './seafood';
-import { poultry } from './poultry';
-import { eggs } from './eggs';
-import { legumes } from './legumes';
-import { dairy } from './dairy';
-import { plantBased } from './plantBased';
 import type { Ingredient } from '@/types/alchemy';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
+
+import { dairy } from './dairy';
+import { eggs } from './eggs';
+import { legumes } from './legumes';
+import { meats } from './meat';
+import { plantBased } from './plantBased';
+import { poultry } from './poultry';
+import { seafood } from './seafood';
+
 
 // Combine all protein categories and ensure type safety
 export const _proteins: Record<string, IngredientMapping> = fixIngredientMappings({
   ...seafood,
   ...poultry,
-  ...(plantBased as Record<string, IngredientMapping>),
+  ...(plantBased ),
   ...meats,
   ...legumes,
   ...eggs,
@@ -39,32 +41,32 @@ export type Doneness = 'rare' | 'medium_rare' | 'medium' | 'medium_well' | 'well
 
 // Implemented helper functions
 export const getProteinsBySeasonality = (season: string): IngredientMapping => {
-  return (Object.entries(_proteins) as [string, IngredientMapping][])
+  return (Object.entries(_proteins) )
     .filter(([_, value]) => Array.isArray(value.season) && value.season.includes(season))
     .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {} as IngredientMapping);
 };
 
 export const getProteinsBySustainability = (minScore: number): IngredientMapping => {
-  return (Object.entries(_proteins) as [string, IngredientMapping][])
+  return (Object.entries(_proteins) )
     .filter(([_, value]) => Number(value.sustainabilityScore) >= Number(minScore))
     .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {} as IngredientMapping);
 };
 
 export const getProteinsByRegionalCuisine = (region: string): IngredientMapping => {
-  return (Object.entries(_proteins) as [string, IngredientMapping][])
+  return (Object.entries(_proteins) )
     .filter(([_, value]) => Array.isArray(value.regionalOrigins) && value.regionalOrigins.includes(region))
     .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {} as IngredientMapping);
 };
 
 // Helper functions
 export const getProteinsByCategory = (category: ProteinCategory): IngredientMapping => {
-  return (Object.entries(_proteins) as [string, IngredientMapping][])
+  return (Object.entries(_proteins) )
     .filter(([_, value]) => value.category === category)
     .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {} as IngredientMapping);
 };
 
 export const getProteinsByCookingMethod = (_method: string): IngredientMapping => {
-  return (Object.entries(_proteins) as [string, IngredientMapping][])
+  return (Object.entries(_proteins) )
     .filter(([_, value]) => Array.isArray(value.cookingMethods) && value.cookingMethods.includes(_method))
     .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {} as IngredientMapping);
 };
@@ -73,7 +75,7 @@ export const getProteinsByNutrition = (
   minProtein = 0,
   maxFat?: number
 ): IngredientMapping => {
-  return (Object.entries(_proteins) as [string, IngredientMapping][])
+  return (Object.entries(_proteins) )
     .filter(([_, value]) => {
       const meetsProtein = (value.nutritionalContent as any)?.protein >= minProtein;
       const meetsFat = maxFat ? (value.nutritionalContent as any)?.fat <= maxFat : true;
@@ -83,10 +85,10 @@ export const getProteinsByNutrition = (
 };
 
 export const getCompatibleProteins = (_proteinName: string): string[] => {
-  const protein = _proteins[_proteinName] as IngredientMapping;
+  const protein = _proteins[_proteinName] ;
   if (!protein) return [];
   
-  return (Object.entries(_proteins) as [string, IngredientMapping][])
+  return (Object.entries(_proteins) )
     .filter(([key, value]) => 
       key !== _proteinName && 
       Array.isArray(value.affinities) && Array.isArray(protein.affinities) &&
@@ -98,12 +100,12 @@ export const getCompatibleProteins = (_proteinName: string): string[] => {
 };
 
 export const getProteinSubstitutes = (_proteinName: string): Record<string, number> => {
-  const protein = _proteins[_proteinName] as IngredientMapping;
+  const protein = _proteins[_proteinName] ;
   if (!protein || !protein.qualities) return {};
   
   const substitutes: Record<string, number> = {};
   
-  (Object.entries(_proteins) as [string, IngredientMapping][])
+  (Object.entries(_proteins) )
     .filter(([key, _]) => key !== _proteinName)
     .forEach(([key, value]) => {
       // Calculate similarity score based on cooking methods, nutrition, and texture
@@ -365,13 +367,13 @@ export interface SeasonalAdjustment {
 
 // Helper functions
 export const getProteinsBySubCategory = (subCategory: string): IngredientMapping => {
-  return (Object.entries(_proteins) as [string, IngredientMapping][])
+  return (Object.entries(_proteins) )
     .filter(([_, value]) => value.subCategory === subCategory)
     .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {} as IngredientMapping);
 };
 
 export const getVeganProteins = (): IngredientMapping => {
-  return (Object.entries(_proteins) as [string, IngredientMapping][])
+  return (Object.entries(_proteins) )
     .filter(([_, value]) => Array.isArray(value.dietaryInfo) && value.dietaryInfo.includes('vegan'))
     .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {} as IngredientMapping);
 };

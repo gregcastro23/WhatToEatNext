@@ -1,5 +1,5 @@
-import { PlanetaryAlignment, AstrologicalState, CelestialPosition, ZodiacSign, Planet, LunarPhase } from "@/types/celestial";
 import { getCurrentPlanetaryPositions, getPlanetaryPositionsForDateTime } from '@/services/astrologizeApi';
+import { PlanetaryAlignment, AstrologicalState, CelestialPosition, ZodiacSign, Planet, LunarPhase } from "@/types/celestial";
 import { normalizePlanetaryPositions } from '@/utils/astrology/core';
 
 /**

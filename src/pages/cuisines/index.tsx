@@ -1,12 +1,13 @@
-import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useAlchemical } from '@/hooks/useAlchemical';
-import { cuisines } from '@/data/cuisines';
-import { getCurrentElementalState } from '@/utils/elementalUtils';
+import React, { useState, useEffect } from 'react';
+
 import CuisineRecommender from '@/components/CuisineRecommender';
 import { cuisineFlavorProfiles } from '@/data/cuisineFlavorProfiles';
+import { cuisines } from '@/data/cuisines';
+import { useAlchemical } from '@/hooks/useAlchemical';
 import { ElementalProperties } from '@/types/alchemy';
+import { getCurrentElementalState } from '@/utils/elementalUtils';
 
 interface ExtendedElementalState {
   Fire: number;

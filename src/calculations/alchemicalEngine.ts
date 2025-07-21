@@ -1,4 +1,11 @@
+import { DEFAULT_ELEMENTAL_PROPERTIES } from '@/constants/defaults';
+import { planetInfo } from '@/constants/planetInfo';
+import { PLANETARY_MODIFIERS, RulingPlanet } from '@/constants/planets';
+import signs, { signInfo } from '@/data/astrology';
 import { culinaryTraditions } from '@/data/cuisines/culinaryTraditions';
+import { seasonalPatterns } from '@/data/integrations/seasonalPatterns';
+import { recipeElementalMappings } from '@/data/recipes/elementalMappings';
+import ErrorHandler from '@/services/errorHandler';
 import type {
   ElementalProperties,
   LunarPhase,
@@ -12,22 +19,15 @@ import type {
   LunarPhaseWithSpaces,
   StandardizedAlchemicalResult} from '@/types/alchemy';
 // Import ChakraEnergies from the more complete chakra.ts that includes 'brow'
+import type { BirthInfo as UnifiedBirthInfo } from '@/types/alchemy';
+import type { Element } from '@/types/celestial';
 import type { ChakraEnergies, ChakraPosition } from '@/types/chakra';
 // Import Element from celestial for consistency (4 elements, no Aether)
-import type { Element } from '@/types/celestial';
 import type { PlanetPosition } from '@/types/unified';
-import { seasonalPatterns } from '@/data/integrations/seasonalPatterns';
-import { recipeElementalMappings } from '@/data/recipes/elementalMappings';
-import { PLANETARY_MODIFIERS, RulingPlanet } from '@/constants/planets';
-import { signInfo } from '@/data/astrology';
-import { getZodiacElementalInfluence } from '@/utils/zodiacUtils';
-import { recipeCalculations } from '@/utils/recipeCalculations';
 import { getAccuratePlanetaryPositions } from '@/utils/accurateAstronomy';
 import { logger } from '@/utils/logger';
-import { DEFAULT_ELEMENTAL_PROPERTIES } from '@/constants/defaults';
-import ErrorHandler from '@/services/errorHandler';
-import { planetInfo } from '@/constants/planetInfo';
-import signs from '@/data/astrology';
+import { recipeCalculations } from '@/utils/recipeCalculations';
+import { getZodiacElementalInfluence } from '@/utils/zodiacUtils';
 
 // Import planetary and sign data for alchemical calculations
 // Note: Removed circular import - these constants should be defined locally or in a separate constants file
@@ -63,7 +63,6 @@ interface PlanetaryInfluence {
 }
 
 // Use the unified BirthInfo from types/alchemy.ts
-import type { BirthInfo as UnifiedBirthInfo } from '@/types/alchemy';
 
 // Interface for horoscope data passed to alchemize
 interface HoroscopeData {
@@ -326,7 +325,7 @@ export class AlchemicalEngineAdvanced {
       debugLog('Getting cuisine compatibility for', cuisine, season);
       
       // Get cuisine data from culinaryTraditions
-      const cuisineData = culinaryTraditions[cuisine as keyof typeof culinaryTraditions];
+      const cuisineData = culinaryTraditions[cuisine ];
       if (!cuisineData) {
         debugLog('No cuisine data found for', cuisine);
         return 0.5; // Neutral compatibility
@@ -1038,7 +1037,7 @@ export function alchemize(
     // CRITICAL: Safely get the Ascendant sign
     try {
       // Use safe type casting for unknown property access
-      const ascendantData = horoscope.Ascendant as Record<string, unknown>;
+      const ascendantData = horoscope.Ascendant ;
       const signData = ascendantData?.Sign;
       const rising_sign = (signData && typeof signData === 'object' && 'label' in signData ? (signData as any).label : null) || "Aries";
       

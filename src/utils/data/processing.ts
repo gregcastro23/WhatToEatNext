@@ -1,9 +1,9 @@
-import { RecipeIngredient , Recipe ,
-  Ingredient, 
-  IngredientMapping} from '@/types/recipe';
 import { Element , ElementalProperties ,
   ElementalAffinity,
   AstrologicalProfile } from "@/types/alchemy";
+import { RecipeIngredient , Recipe ,
+  Ingredient, 
+  IngredientMapping} from '@/types/recipe';
 
 /**
  * Data Processing Module

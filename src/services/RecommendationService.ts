@@ -1,14 +1,9 @@
 // Celestial calculations service not yet implemented
-import { Recipe } from '@/types/recipe';
+import { calculateRecipeCompatibility } from '@/calculations/culinary/recipeMatching';
+import { ElementalCharacter } from '@/constants/planetaryElements';
 import { getCurrentPlanetaryPositions } from '@/services/astrologizeApi';
-import { logger } from '../utils/logger';
-import { createError } from '../utils/errorHandling';
-import { calculateLunarPhase , transformItemsWithPlanetaryPositions } from '../utils/astrologyUtils';
-import { calculatePlanetaryPositions , normalizePlanetaryPositions } from '../utils/astrology/core';
-import { ScoredRecipe } from '@/types/recipe';
+import astrologizeCache from '@/services/AstrologizeApiCache';
 import { AstrologicalState , Element } from '@/types/alchemy';
-import { convertToLunarPhase } from '@/utils/lunarPhaseUtils';
-
 import type { ElementalProperties, 
   ElementalItem, 
   AlchemicalItem,
@@ -16,9 +11,14 @@ import type { ElementalProperties,
   PlanetaryAspect,
   StandardizedAlchemicalResult,
   PlanetaryPosition } from '@/types/alchemy';
-import { ElementalCharacter } from '@/constants/planetaryElements';
-import astrologizeCache from '@/services/AstrologizeApiCache';
-import { calculateRecipeCompatibility } from '@/calculations/culinary/recipeMatching';
+import { Recipe , ScoredRecipe } from '@/types/recipe';
+
+import { calculatePlanetaryPositions , normalizePlanetaryPositions } from '../utils/astrology/core';
+import { calculateLunarPhase , transformItemsWithPlanetaryPositions } from '../utils/astrologyUtils';
+import { createError } from '../utils/errorHandling';
+import { logger } from '../utils/logger';
+
+import { convertToLunarPhase } from '@/utils/lunarPhaseUtils';
 
 /**
  * Interface for recommendation criteria

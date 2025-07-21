@@ -230,7 +230,7 @@ export function getCookingMethodsByTemperature(
 export function getCookingMethodsBySustainability(
   descending = true
 ): CookingMethodData[] {
-  return (Object.values(allCookingMethods) as CookingMethodData[])
+  return (Object.values(allCookingMethods) )
     .filter((method) => {
       // Apply safe type casting for method property access
       const methodData = method as any;

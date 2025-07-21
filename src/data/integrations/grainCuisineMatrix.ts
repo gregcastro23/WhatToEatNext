@@ -1,5 +1,6 @@
-import { grains } from '../ingredients/grains';
 import type { IngredientMapping } from '@/types/alchemy';
+
+import { grains } from '../ingredients/grains';
 
 export const grainCuisineMatrix: Record<string, string[]> = {
   'white_rice': ['japanese', 'chinese', 'korean', 'indian', 'thai'],

@@ -7,9 +7,9 @@
  * Requirements: Enterprise Intelligence Integration, Technical Debt Elimination
  */
 
-import { TypeScriptErrorAnalyzer, ErrorCategory, ErrorSeverity } from './TypeScriptErrorAnalyzer';
 import { EnhancedErrorFixerIntegration, FixerResult } from './EnhancedErrorFixerIntegration';
 import { ExplicitAnyEliminationSystem, CampaignProgress } from './ExplicitAnyEliminationSystem';
+import { TypeScriptErrorAnalyzer, ErrorCategory, ErrorSeverity } from './TypeScriptErrorAnalyzer';
 
 // ========== ENTERPRISE INTELLIGENCE TYPE DEFINITIONS ==========
 

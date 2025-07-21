@@ -1,6 +1,8 @@
 import type { Cuisine } from '@/types/cuisine';
 
 // Import all cuisines
+import { african } from './african';
+import { american } from './american';
 import { chinese } from './chinese';
 import { french } from './french';
 import { greek } from './greek';
@@ -13,8 +15,6 @@ import { middleEastern } from './middle-eastern';
 import { russian } from './russian';
 import { thai } from './thai';
 import { vietnamese } from './vietnamese';
-import { african } from './african';
-import { american } from './american';
 
 // Create a base cuisine structure
 const baseCuisine: Cuisine = {

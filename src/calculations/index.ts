@@ -10,11 +10,21 @@
  * - Seasonal Adjustments
  */
 
+import { getCurrentPlanetaryPositions } from '@/services/astrologizeApi';
 import type { ElementalProperties, 
   PlanetaryPosition, 
   ZodiacSign} from '@/types/alchemy';
 
 // lation modules
+import { Element } from "@/types/alchemy";
+
+import elementalCalculationsModule, {
+  calculateComprehensiveElementalProperties,
+  calculateElementalCompatibility,
+  getDominantElement,
+  getElementalRecommendations,
+  ZODIAC_ELEMENTS
+} from './core/elementalCalculations';
 import kalchmEngine, { 
   type KalchmResult, 
   type AlchemicalProperties, 
@@ -23,15 +33,6 @@ import kalchmEngine, {
   calculateKalchmResults,
   toElementalProperties
 } from './core/kalchmEngine';
-
-import {
-  calculateComprehensiveElementalProperties,
-  calculateElementalCompatibility,
-  getDominantElement,
-  getElementalRecommendations,
-  ZODIAC_ELEMENTS
-} from './core/elementalCalculations';
-
 import planetaryInfluences, {
   calculatePlanetaryInfluences,
   getPlanetaryCulinaryRecommendations
@@ -42,10 +43,8 @@ import planetaryInfluences, {
 // TODO: Fix import - add what to import from "./culinary/cuisineRecommendations.ts"
 // TODO: Fix import - add what to import from "./culinary/seasonalAdjustments.ts"
 
-import { Element } from "@/types/alchemy";
 
 // Import the missing function
-import { getCurrentPlanetaryPositions } from '@/services/astrologizeApi';
 
 // === PHASE 46: COMPREHENSIVE CALCULATION INTELLIGENCE SYSTEMS ===
 // Transformed unused variables into sophisticated enterprise intelligence systems
@@ -835,7 +834,6 @@ const recipeMatching = {
 // Note: These are now exported individually below to avoid conflicts
 
 // Import and export elementalCalculations from the core module
-import elementalCalculationsModule from './core/elementalCalculations';
 export { default as elementalCalculations } from './core/elementalCalculations';
 
 // Also export the ElementalCalculator class from the main elementalcalculations.ts file

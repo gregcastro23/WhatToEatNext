@@ -1,4 +1,3 @@
-import { Recipe } from '@/types/recipe';
 
 /**
  * RecipeApiInterfaces.ts
@@ -9,6 +8,7 @@ import { Recipe } from '@/types/recipe';
 
 import { Element, Season, ZodiacSign, LunarPhase, PlanetName , ElementalProperties } from "@/types/alchemy";
 import { PlanetaryAlignment } from "@/types/celestial";
+import { Recipe } from '@/types/recipe';
 
 /**
  * Standard API Response interface for all recipe endpoints

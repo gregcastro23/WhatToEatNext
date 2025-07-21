@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
+
 import { enhancedCuisineRecommender } from '@/calculations/enhancedCuisineRecommender';
-import { useAstrologicalState } from '@/hooks/useAstrologicalState';
 import { cuisinesMap } from '@/data/cuisines';
+import { useAstrologicalState } from '@/hooks/useAstrologicalState';
 import { getTimeFactors } from '@/types/time';
+
 import PlanetaryTimeDisplay from './PlanetaryTimeDisplay';
 
 interface CuisineSpecificRecommendationsProps {

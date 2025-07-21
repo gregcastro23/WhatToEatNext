@@ -1,13 +1,14 @@
+import type { ZodiacSign, AstrologicalState, Element } from '@/types/alchemy';
+import type { CookingMethodData } from '@/types/cookingMethod';
+
 import { dryCookingMethods } from './dry';
-import { wetCookingMethods } from './wet';
 import { molecularCookingMethods } from './molecular';
-import { traditionalCookingMethods } from './traditional';
 import { rawCookingMethods } from './raw';
+import { traditionalCookingMethods } from './traditional';
 // Import other method categories as they are added
 import { transformationMethods } from './transformation';
+import { wetCookingMethods } from './wet';
 
-import type { CookingMethodData } from '@/types/cookingMethod';
-import type { ZodiacSign, AstrologicalState, Element } from '@/types/alchemy';
 
 /**
  * Collection of all cooking methods from all categories

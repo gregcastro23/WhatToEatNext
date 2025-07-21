@@ -6,10 +6,10 @@
  * astrological and alchemical data.
  */
 
-import { UnifiedScoringService, scoreRecommendation, ScoringContext, ScoringResult } from '../UnifiedScoringService';
-import type { ElementalProperties } from '../../types/alchemy';
+import type { Season , ElementalProperties } from '@/types/alchemy';
 import type { Planet } from '@/types/celestial';
-import type { Season } from '@/types/alchemy';
+
+import { UnifiedScoringService, scoreRecommendation, ScoringContext, ScoringResult } from '../UnifiedScoringService';
 
 // Example usage scenarios
 export class UnifiedScoringExample {

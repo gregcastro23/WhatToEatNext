@@ -16,9 +16,10 @@
  */
 
 import { execSync } from 'child_process';
+import { EventEmitter } from 'events';
 import fs from 'fs';
 import path from 'path';
-import { EventEmitter } from 'events';
+
 import { PerformanceMetrics } from './PerformanceMetricsAnalytics';
 
 // ========== QUALITY GATES INTERFACES ==========

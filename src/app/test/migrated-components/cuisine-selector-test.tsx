@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+
 import CuisineSelector from '@/components/CuisineSelector';
 import CuisineSelectorMigrated from '@/components/CuisineSelector.migrated';
 import { Recipe } from '@/types/recipe';

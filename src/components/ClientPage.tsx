@@ -1,16 +1,17 @@
 'use client';
 
+import dynamic from 'next/dynamic';
 import React, { useEffect, useState } from 'react';
-import Loading from '@/components/ui/Loading';
+
+import AstrologicalClock from '@/components/AstrologicalClock';
 import CookingMethods from '@/components/CookingMethods';
 import CuisineRecommender from '@/components/CuisineRecommender';
 import ElementalEnergyDisplay from '@/components/ElementalEnergyDisplay';
-import PlanetaryPositionInitializer from '@/components/PlanetaryPositionInitializer';
 import MoonDisplay from '@/components/MoonDisplay';
-import AstrologicalClock from '@/components/AstrologicalClock';
-import dynamic from 'next/dynamic';
-import SunDisplay from '@/components/SunDisplay';
 import OptimizedComponentWrapper from '@/components/OptimizedComponentWrapper';
+import PlanetaryPositionInitializer from '@/components/PlanetaryPositionInitializer';
+import SunDisplay from '@/components/SunDisplay';
+import Loading from '@/components/ui/Loading';
 
 // Wrap components with optimization
 const OptimizedElementalEnergyDisplay = React.memo(ElementalEnergyDisplay);

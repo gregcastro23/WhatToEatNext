@@ -1,5 +1,5 @@
-import type { CookingMethodData } from '@/types/cookingMethod';
 import type { ThermodynamicProperties } from '@/types/alchemy';
+import type { CookingMethodData } from '@/types/cookingMethod';
 import type { CookingMethod } from '@/types/shared';
 
 /**

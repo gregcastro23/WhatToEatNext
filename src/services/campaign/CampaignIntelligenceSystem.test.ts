@@ -13,9 +13,9 @@ import {
   ErrorPatternIntelligence,
   CampaignProgressIntelligence
 } from './CampaignIntelligenceSystem';
-import { ErrorCategory } from './TypeScriptErrorAnalyzer';
 import { FixerResult } from './EnhancedErrorFixerIntegration';
 import { CampaignProgress } from './ExplicitAnyEliminationSystem';
+import { ErrorCategory } from './TypeScriptErrorAnalyzer';
 
 describe('Campaign Intelligence System', () => {
   describe('ERROR_PATTERN_INTELLIGENCE', () => {

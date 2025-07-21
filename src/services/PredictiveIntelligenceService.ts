@@ -6,7 +6,7 @@
  * with advanced prediction algorithms and real-time optimization capabilities.
  */
 
-import { logger } from '@/utils/logger';
+import { calculateElementalCompatibility } from '@/calculations/index';
 import { 
   PredictiveIntelligenceResult,
   PredictiveRecipeAnalysis,
@@ -17,9 +17,9 @@ import {
   AdvancedIntelligenceMetrics
 } from '@/types/advancedIntelligence';
 import type { ElementalProperties, ZodiacSign, LunarPhase } from '@/types/alchemy';
-import type { Recipe } from '@/types/recipe';
 import type { Ingredient } from '@/types/ingredient';
-import { calculateElementalCompatibility } from '@/calculations/index';
+import type { Recipe } from '@/types/recipe';
+import { logger } from '@/utils/logger';
 
 // Note: These functions are not yet implemented in calculations/index
 // Using placeholder implementations for now

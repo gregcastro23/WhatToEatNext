@@ -1,4 +1,5 @@
 import * as Astronomy from 'astronomy-engine';
+
 import type { PlanetaryPosition, ZodiacSign } from '@/types/alchemy';
 
 /**
@@ -398,7 +399,7 @@ export async function getAccuratePlanetaryPositions(date: Date = new Date()): Pr
         // Use fallback for this specific planet
         const fallbackPositions = getFallbackPlanetaryPositions(date);
         if (fallbackPositions[planet]) {
-          positions[planet] = fallbackPositions[planet] as PlanetPositionData;
+          positions[planet] = fallbackPositions[planet] ;
         }
       }
     }

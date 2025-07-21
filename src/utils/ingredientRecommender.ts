@@ -72,10 +72,14 @@ interface EnhancedIngredient {
   timing?: unknown;
   duration?: unknown;
 }
+import { CHAKRA_NUTRITIONAL_CORRELATIONS, CHAKRA_HERBS } from '@/constants/chakraSymbols';
+import { LUNAR_PHASES } from '@/constants/lunar';
+import { ingredientCategories } from '@/data/ingredientCategories';
+import { fruits } from '@/data/ingredients/fruits';
+import type { Modality, Ingredient } from '@/data/ingredients/types';
 import { AstrologicalState } from '@/types';
 import { ElementalProperties, ChakraEnergies, Season, ZodiacSign, LunarPhase } from '@/types/alchemy';
 import { ElementalState } from '@/types/elemental';
-import type { Modality, Ingredient } from '@/data/ingredients/types';
 
 // AstrologicalInfluences interface
 export interface AstrologicalInfluences {
@@ -88,7 +92,6 @@ export interface AstrologicalInfluences {
 
 // Import actual ingredient data
 import { vegetables } from '@/data/ingredients/vegetables';
-import { fruits } from '@/data/ingredients/fruits';
 import { herbs } from '@/data/ingredients/herbs';
 import { spices } from '@/data/ingredients/spices';
 import { proteins } from '@/data/ingredients/proteins';
@@ -102,10 +105,6 @@ import marsData from '@/data/planets/mars';
 import mercuryData from '@/data/planets/mercury';
 import jupiterData from '@/data/planets/jupiter';
 import saturnData from '@/data/planets/saturn';
-
-import { CHAKRA_NUTRITIONAL_CORRELATIONS, CHAKRA_HERBS } from '@/constants/chakraSymbols';
-import { LUNAR_PHASES } from '@/constants/lunar';
-import { ingredientCategories } from '@/data/ingredientCategories';
 import { calculateLunarPhase, calculatePlanetaryPositions } from '@/utils/astrologyUtils';
 
 // Enterprise Intelligence Integration - Phase 27 Ingredient Intelligence Systems
@@ -329,7 +328,7 @@ export function getRecommendedIngredients(astroState: AstrologicalState): Enhanc
     });
   }
   
-  return filteredIngredients as EnhancedIngredient[];
+  return filteredIngredients ;
 }
 
 /**

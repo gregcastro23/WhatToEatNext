@@ -1,6 +1,7 @@
 import type { ElementalProperties, Element, AlchemicalProperties, ThermodynamicMetrics, CuisineType } from "@/types/alchemy";
 import { FlavorProfileType } from "@/types/flavor";
 import { Recipe, Ingredient, UnifiedIngredient } from '@/types/unified';
+
 import { 
 // ===== UNIFIED CUISINE SYSTEM - PHASE 3 ENHANCEMENT =====
 // Adds Kalchm values to cuisines based on ingredient compositions and cooking methods
@@ -107,7 +108,7 @@ export class CuisineEnhancer {
         if (unifiedIngredient) {
           ingredientKalchms.set(ingredientName, unifiedIngredient.kalchm);
         } else if (((ingredient as unknown) as Record<string, unknown>)?.element) {
-          ingredientKalchms.set(ingredientName, RecipeEnhancer.estimateKalchmFromElement(((ingredient as unknown) as Record<string, unknown>)?.element as unknown as Element));
+          ingredientKalchms.set(ingredientName, RecipeEnhancer.estimateKalchmFromElement(((ingredient as unknown) as Record<string, unknown>)?.element  as Element));
         }
       }
       

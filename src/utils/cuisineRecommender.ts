@@ -1,3 +1,14 @@
+import { LUNAR_PHASES } from '@/constants/lunar';
+import { cuisineFlavorProfiles } from '@/data/cuisineFlavorProfiles';
+import { allIngredients } from '@/data/ingredients';
+import { planetaryFlavorProfiles, PlanetaryFlavorProfile } from '@/data/planetaryFlavorProfiles';
+import jupiterData from '@/data/planets/jupiter';
+import marsData from '@/data/planets/mars';
+import mercuryData from '@/data/planets/mercury';
+import venusData from '@/data/planets/venus';
+import { Sauce } from '@/data/sauces';
+// Import the planet data
+import { LunarPhase, ZodiacSign, PlanetaryAspect, ElementalProperties, PlanetName } from '@/types/alchemy';
 import { AstrologicalState } from '@/types/celestial';
 import type { 
   CompleteCuisineType, 
@@ -11,22 +22,11 @@ import type {
   CuisineCompatibility,
   CulinaryProfile
 } from "@/types/culinary";
-import { LunarPhase, ZodiacSign, PlanetaryAspect, ElementalProperties, PlanetName } from '@/types/alchemy';
-import { LUNAR_PHASES } from '@/constants/lunar';
-import { cuisineFlavorProfiles } from '@/data/cuisineFlavorProfiles';
-import { planetaryFlavorProfiles, PlanetaryFlavorProfile } from '@/data/planetaryFlavorProfiles';
-import { allIngredients } from '@/data/ingredients';
-import { Sauce } from '@/data/sauces';
 import {
   calculateLunarPhase,
   calculatePlanetaryPositions,
   calculatePlanetaryAspects,
 } from "@/utils/astrologyUtils";
-// Import the planet data
-import venusData from '@/data/planets/venus';
-import marsData from '@/data/planets/mars';
-import mercuryData from '@/data/planets/mercury';
-import jupiterData from '@/data/planets/jupiter';
 
 // Mock planetary data for calculations
 const mockPlanetaryData = {
@@ -101,7 +101,7 @@ export function generateTopSauceRecommendations(
     
     // Use key ingredients for flavor matching
     if (sauce.keyIngredients && sauce.keyIngredients.length > 0) {
-      const planetaryFlavors = planetaryFlavorProfiles[currentPlanetaryDay] as PlanetaryFlavorProfile;
+      const planetaryFlavors = planetaryFlavorProfiles[currentPlanetaryDay] ;
       
       // Simple flavor matching based on ingredients
       if (planetaryFlavors?.flavorProfiles) {
@@ -184,14 +184,14 @@ export function getCuisineRecommendations(
     if (astrologicalState) {
       // Zodiac Match Score (30% weight) - safe property access
       const zodiacInfluences = (cuisine as Record<string, unknown>).zodiacInfluences;
-      if (astrologicalState.zodiacSign && (zodiacInfluences as unknown as string[])?.includes(astrologicalState.zodiacSign as string)) {
+      if (astrologicalState.zodiacSign && (zodiacInfluences  as string[])?.includes(astrologicalState.zodiacSign as string)) {
         score += 0.3;
         reasoning.push(`Favorable for ${astrologicalState.zodiacSign}`);
       }
       
       // Lunar Phase Match Score (20% weight) - safe property access
       const lunarPhaseInfluences = (cuisine as Record<string, unknown>).lunarPhaseInfluences;
-      if (astrologicalState.lunarPhase && (lunarPhaseInfluences as unknown as string[])?.includes(astrologicalState.lunarPhase as string)) {
+      if (astrologicalState.lunarPhase && (lunarPhaseInfluences  as string[])?.includes(astrologicalState.lunarPhase as string)) {
         score += 0.2;
         reasoning.push(`Harmonizes with the ${astrologicalState.lunarPhase}`);
       }
@@ -200,7 +200,7 @@ export function getCuisineRecommendations(
       const planetaryRulers = (cuisine as Record<string, unknown>).planetaryRulers;
       if (planetaryRulers && astrologicalState.planetaryPositions) {
         const planetScore = Object.entries(astrologicalState.planetaryPositions).reduce((acc, [planet, position]) => {
-          if ((planetaryRulers as unknown as string[])?.includes(planet as string)) {
+          if ((planetaryRulers as unknown as string[])?.includes(planet )) {
             return acc + 0.05; // Small bonus for each ruling planet present
           }
           return acc;

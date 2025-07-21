@@ -3,6 +3,10 @@
  */
 
 // Import standardized types from alchemy
+import { ZodiacSign, LunarPhase, Planet, PlanetName } from "@/types/alchemy";
+
+import { ElementalCharacter } from '../constants/planetaryElements';
+
 import { 
   PlanetaryPositionsType, 
   ZodiacSignType, 
@@ -10,8 +14,6 @@ import {
   ElementalPropertiesType,
   AstrologicalStateType
 } from './alchemy';
-import { ElementalCharacter } from '../constants/planetaryElements';
-import { ZodiacSign, LunarPhase, Planet, PlanetName } from "@/types/alchemy";
 
 // ========== PHASE 1: ASTROLOGICAL TYPE ALIASES ==========
 

@@ -1,11 +1,13 @@
-import React, { useState, useEffect, useMemo } from 'react';
 import { ChevronDown, ChevronUp, Globe, Flame, Droplets, Wind, Mountain, Search, ArrowUp, ArrowDown, Zap, Sparkles, Minus, Info, List, ThumbsUp, Clock, ExternalLink } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import React, { useState, useEffect, useMemo } from 'react';
+
+import { cookingMethods } from '@/data/cooking/cookingMethods';
 import { useIngredientMapping } from '@/hooks';
 import { useAstrologicalState } from '@/hooks/useAstrologicalState';
-import styles from './CookingMethods.module.css';
 import { getTechnicalTips, getIdealIngredients } from '@/utils/cookingMethodTips';
-import { cookingMethods } from '@/data/cooking/cookingMethods';
+
+import styles from './CookingMethods.module.css';
 
 // Define proper types for the methods
 interface CookingMethod {
@@ -657,7 +659,7 @@ export const CookingMethodsSection: React.FC<CookingMethodsSectionProps> = ({
                           <span className={styles['timing-label']}>Lunar Phase:</span>
                           <span className={styles['timing-value']}>
                             {Object.entries(method.astrologicalInfluences.lunarPhaseEffect)
-                              .sort(([,a], [,b]) => (b as number) - (a as number))
+                              .sort(([,a], [,b]) => (b ) - (a ))
                               .slice(0, 1)
                               .map(([phase]) => phase.replace('_', ' '))
                               .join(', ')}

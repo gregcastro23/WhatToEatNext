@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
+
 import {
   ingredientFilterService,
   INGREDIENT_GROUPS,
@@ -708,44 +709,44 @@ const IngredientCard: React.FC<IngredientCardProps> = ({
 
         <div className="grid grid-cols-2 gap-x-2 text-xs">
           {/* ✅ Pattern GG-6: Safe property access for nutritional profile */}
-          {(nutritionalProfile as Record<string, unknown>)?.calories !== undefined && (
-            <div>Calories: {String((nutritionalProfile as Record<string, unknown>)?.calories)}</div>
+          {(nutritionalProfile )?.calories !== undefined && (
+            <div>Calories: {String((nutritionalProfile )?.calories)}</div>
           )}
 
-          {(nutritionalProfile as Record<string, unknown>)?.protein_g !== undefined && (
-            <div>Protein: {String((nutritionalProfile as Record<string, unknown>)?.protein_g)}g</div>
+          {(nutritionalProfile )?.protein_g !== undefined && (
+            <div>Protein: {String((nutritionalProfile )?.protein_g)}g</div>
           )}
 
-          {(nutritionalProfile as Record<string, unknown>)?.fiber_g !== undefined && (
-            <div>Fiber: {String((nutritionalProfile as Record<string, unknown>)?.fiber_g)}g</div>
+          {(nutritionalProfile )?.fiber_g !== undefined && (
+            <div>Fiber: {String((nutritionalProfile )?.fiber_g)}g</div>
           )}
 
-          {(nutritionalProfile as Record<string, unknown>)?.vitamin_density !== undefined && (
+          {(nutritionalProfile )?.vitamin_density !== undefined && (
             <div>
-              Vitamin Density: {Number((nutritionalProfile as Record<string, unknown>)?.vitamin_density).toFixed(1)}
+              Vitamin Density: {Number((nutritionalProfile )?.vitamin_density).toFixed(1)}
             </div>
           )}
         </div>
 
         {/* ✅ Pattern GG-6: Safe property access for vitamins and minerals */}
-        {((nutritionalProfile as Record<string, unknown>)?.vitamins || (nutritionalProfile as Record<string, unknown>)?.minerals) && (
+        {((nutritionalProfile )?.vitamins || (nutritionalProfile )?.minerals) && (
           <div className="grid grid-cols-1 gap-1 mt-1">
-            {(nutritionalProfile as Record<string, unknown>)?.vitamins &&
-              Array.isArray((nutritionalProfile as Record<string, unknown>)?.vitamins) &&
-              ((nutritionalProfile as Record<string, unknown>)?.vitamins as string[]).length > 0 && (
+            {(nutritionalProfile )?.vitamins &&
+              Array.isArray((nutritionalProfile )?.vitamins) &&
+              ((nutritionalProfile )?.vitamins as string[]).length > 0 && (
                 <div className="text-xs">
                   Vitamins:{' '}
-                  {((nutritionalProfile as Record<string, unknown>)?.vitamins as string[])
+                  {((nutritionalProfile )?.vitamins as string[])
                     .map((v: string) => v.toUpperCase())
                     .join(', ')}
                 </div>
               )}
 
-            {(nutritionalProfile as Record<string, unknown>)?.minerals &&
-              Array.isArray((nutritionalProfile as Record<string, unknown>)?.minerals) &&
-              ((nutritionalProfile as Record<string, unknown>)?.minerals as string[]).length > 0 && (
+            {(nutritionalProfile )?.minerals &&
+              Array.isArray((nutritionalProfile )?.minerals) &&
+              ((nutritionalProfile )?.minerals as string[]).length > 0 && (
                 <div className="text-xs">
-                  Minerals: {((nutritionalProfile as Record<string, unknown>)?.minerals as string[]).join(', ')}
+                  Minerals: {((nutritionalProfile )?.minerals as string[]).join(', ')}
                 </div>
               )}
           </div>

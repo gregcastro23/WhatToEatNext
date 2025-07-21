@@ -1,6 +1,5 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
 import { Flame,
   Droplets,
   Wind,
@@ -8,30 +7,33 @@ import { Flame,
   Info,
   ChevronDown,
   ChevronUp } from 'lucide-react';
-import { recommendationService } from '../../services/ConsolidatedRecommendationService';
-import { Recipe } from '@/types/unified';
-import {
-  ElementalProperties,
-  Element } from "@/types/alchemy";
-import { cuisineFlavorProfiles } from '@/data/cuisineFlavorProfiles';
-import type { ZodiacSign } from '@/types/zodiac';
-import { useAlchemical } from '../../contexts/AlchemicalContext/hooks';
-import { SauceRecommendation,
-  allSauces } from '../../data/sauces';
-import { getMatchScoreClass,
-  calculateElementalProfileFromZodiac } from '../../utils/recommendation/cuisineRecommendation';
+import { useState, useEffect, useRef } from 'react';
 
-// Phase 2D: Advanced Intelligence Systems Integration
+import { cuisineFlavorProfiles } from '@/data/cuisineFlavorProfiles';
+import { 
+  enterpriseIntelligenceIntegration,
+  EnterpriseIntelligenceAnalysis 
+} from '@/services/EnterpriseIntelligenceIntegration';
 import { 
   PredictiveIntelligenceResult,
   MLIntelligenceResult,
   AdvancedAnalyticsIntelligenceResult,
   IntegratedAdvancedIntelligenceResult
 } from '@/types/advancedIntelligence';
-import { 
-  enterpriseIntelligenceIntegration,
-  EnterpriseIntelligenceAnalysis 
-} from '@/services/EnterpriseIntelligenceIntegration';
+import {
+  ElementalProperties,
+  Element } from "@/types/alchemy";
+import { Recipe } from '@/types/unified';
+import type { ZodiacSign } from '@/types/zodiac';
+
+import { useAlchemical } from '../../contexts/AlchemicalContext/hooks';
+import { SauceRecommendation,
+  allSauces } from '../../data/sauces';
+import { recommendationService } from '../../services/ConsolidatedRecommendationService';
+import { getMatchScoreClass,
+  calculateElementalProfileFromZodiac } from '../../utils/recommendation/cuisineRecommendation';
+
+// Phase 2D: Advanced Intelligence Systems Integration
 
 // Define AlchemicalItem interface for cuisine recommendations
 interface AlchemicalItem {
@@ -355,7 +357,7 @@ export default function CuisineRecommender() {
       
       // Use the recommendation service instead of direct utility function
       const result = await recommendationService.getRecommendedCuisines({
-        elementalProperties: elementalProperties as ElementalProperties,
+        elementalProperties: elementalProperties ,
         planetaryPositions: planetaryPositions as Record<string, { sign: string; degree: number; }>,
         limit: 20
       });
@@ -1055,11 +1057,11 @@ export default function CuisineRecommender() {
                           </div>
 
                           {/* Show ingredients with proper type casting */}
-                          {(recipe as unknown as Record<string, unknown>)?.ingredients && Array.isArray((recipe as unknown as Record<string, unknown>).ingredients) && ((recipe as unknown as Record<string, unknown>).ingredients as unknown[]).length > 0 && (
+                          {(recipe  as Record<string, unknown>)?.ingredients && Array.isArray((recipe  as Record<string, unknown>).ingredients) && ((recipe  as Record<string, unknown>).ingredients as unknown[]).length > 0 && (
                             <div className="mt-1">
                               <h6 className="text-xs font-semibold mb-1">Ingredients:</h6>
                               <ul className="pl-4 list-disc text-xs">
-                                {Array.isArray((recipe as unknown as Record<string, unknown>).ingredients) ? ((recipe as unknown as Record<string, unknown>).ingredients as unknown[] || []).map((ingredient, i) => (
+                                {Array.isArray((recipe  as Record<string, unknown>).ingredients) ? ((recipe  as Record<string, unknown>).ingredients as unknown[] || []).map((ingredient, i) => (
                                   <li key={i} className="mb-0.5">
                                     {typeof ingredient === 'string'
                                       ? ingredient

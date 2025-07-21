@@ -1,7 +1,8 @@
-import React from 'react';
-import { useRouter } from 'next/router';
 import { NextPage } from 'next';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
+import React from 'react';
+
 import cuisinesMap from '@/data/cuisines';
 import { getCurrentElementalState } from '@/utils/elementalUtils';
 

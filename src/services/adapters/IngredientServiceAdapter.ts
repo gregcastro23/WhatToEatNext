@@ -7,16 +7,15 @@
  */
 
 import type { ElementalProperties, Season, ZodiacSign, PlanetName } from "@/types/alchemy";
-import { consolidatedIngredientService } from '../ConsolidatedIngredientService';
-import { FoodAlchemySystem, type SystemState } from '../FoodAlchemySystem';
-import { createElementalProperties } from '../../utils/elemental/elementalUtils';
-import { logger } from '../../utils/logger';
-
+import { Element } from "@/types/alchemy";
 
 import type { UnifiedIngredient } from '../../data/unified/unifiedTypes';
+import { createElementalProperties } from '../../utils/elemental/elementalUtils';
+import { logger } from '../../utils/logger';
+import { consolidatedIngredientService } from '../ConsolidatedIngredientService';
+import { FoodAlchemySystem, type SystemState } from '../FoodAlchemySystem';
 import type { IngredientFilter } from '../interfaces/IngredientServiceInterface';
 
-import { Element } from "@/types/alchemy";
 
 /**
  * Enhanced food alchemy system that uses modern ingredient service

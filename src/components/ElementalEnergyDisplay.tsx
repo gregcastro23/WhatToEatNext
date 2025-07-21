@@ -1,21 +1,18 @@
 'use client';
 
-import React, { useState, useEffect, useMemo, FC, ReactNode, useRef } from 'react';
-import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
-import { ElementalCharacter } from '@/constants/planetaryElements';
-import { useAstrologicalState } from '@/hooks/useAstrologicalState';
-import styles from './ElementalEnergyDisplay.module.css';
 import { Flame, Droplets, Mountain, Wind, Shield, CornerUpRight, Shuffle } from 'lucide-react';
-import { ElementalCalculator } from '@/services/ElementalCalculator';
-import { safeImportAndExecute } from '@/utils/dynamicImport';
-import { getCachedCalculation } from '@/utils/calculationCache';
+import React, { useState, useEffect, useMemo, FC, ReactNode, useRef } from 'react';
+
 import { 
   calculateAlchemicalDistribution, 
   convertToElementalProperties, 
   calculateThermodynamicProperties 
 } from '@/constants/alchemicalEnergyMapping';
+import { ElementalCharacter } from '@/constants/planetaryElements';
 import { AlchemicalContextType } from '@/contexts/AlchemicalContext/context';
-import { createLogger } from '@/utils/logger';
+import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
+import { useAstrologicalState } from '@/hooks/useAstrologicalState';
+import { ElementalCalculator } from '@/services/ElementalCalculator';
 import { 
   CelestialPosition, 
   PlanetaryAlignment, 
@@ -25,6 +22,11 @@ import {
   ElementalProperties, 
   ThermodynamicProperties 
 } from '@/types/celestial';
+import { getCachedCalculation } from '@/utils/calculationCache';
+import { safeImportAndExecute } from '@/utils/dynamicImport';
+import { createLogger } from '@/utils/logger';
+
+import styles from './ElementalEnergyDisplay.module.css';
 
 // Create a component-specific logger
 const logger = createLogger('ElementalEnergyDisplay');
@@ -347,7 +349,7 @@ const ElementalEnergyDisplay: FC = (): ReactNode => {
         // Only run this calculation when there's actually a change in alignment
         const positionKey = Object.entries(currentPlanetaryAlignment)
           .filter(([_k, v]) => typeof v === 'object' && v !== null && 'sign' in v)
-          .map(([k, v]) => `${k}:${(v as any).sign}:${(v as any).degree || 0}`)
+          .map(([k, v]) => `${k}:${(v ).sign}:${(v ).degree || 0}`)
           .join('|');
         
         // Skip calculation if we've already calculated for this exact alignment

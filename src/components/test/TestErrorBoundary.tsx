@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+
 import { ErrorBoundary } from '@/components/errors/ErrorBoundary';
 import { ErrorDisplay } from '@/components/errors/ErrorDisplay';
 

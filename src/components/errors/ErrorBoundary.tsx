@@ -1,8 +1,10 @@
 'use client'
 
 import React, { Component, ErrorInfo } from 'react'
-import { createLogger } from '@/utils/logger' 
+
 import { ErrorHandler } from '@/utils/errorHandler'
+import { createLogger } from '@/utils/logger'
+ 
 import ErrorFallback from './ErrorFallback'
 
 interface Props {

@@ -8,8 +8,9 @@
  * - Intelligent caching for recommendations
  */
 
-import { PerformanceCache, PerformanceMonitor } from './PerformanceCache';
 import { logger } from '@/utils/logger';
+
+import { PerformanceCache, PerformanceMonitor } from './PerformanceCache';
 
 // ========== INTERFACES ==========
 

@@ -6,6 +6,7 @@
  */
 
 import React, { useState, useEffect } from 'react';
+
 import { campaignWorkflowManager } from '../../services/CampaignWorkflowManager';
 import type {
   CampaignTemplate,

@@ -3,22 +3,13 @@
  * Task 11.2: Validate all requirements and perform final testing
  */
 
-import React from 'react';
-import { render, screen, fireEvent, act } from '@testing-library/react';
 import { jest } from '@jest/globals';
-import App from '../../../App';
-import { AlchemicalProvider } from '../../contexts/AlchemicalContext';
-import MainPageLayout from '../../components/layout/MainPageLayout';
-import type { MainPageLayoutProps, AlchemicalProviderProps } from '../types/testUtils.d';
-import { 
-  MockAlchemicalProvider, 
-  MockMainPageLayout, 
-  renderWithProviders,
-  AsyncTestWrapper,
-  TestErrorBoundary
-} from '../utils/testComponentHelpers';
+import { render, screen, fireEvent, act } from '@testing-library/react';
+import React from 'react';
 
-// Import comprehensive mocks
+import App from '../../../App';
+import MainPageLayout from '../../components/layout/MainPageLayout';
+import { AlchemicalProvider } from '../../contexts/AlchemicalContext';
 import {
   mockRouter,
   mockLogger,
@@ -32,6 +23,16 @@ import {
   mockSteeringFileIntelligence,
   mockAlchemicalContext
 } from '../mocks/externalDependencies';
+import type { MainPageLayoutProps, AlchemicalProviderProps } from '../types/testUtils.d';
+import { 
+  MockAlchemicalProvider, 
+  MockMainPageLayout, 
+  renderWithProviders,
+  AsyncTestWrapper,
+  TestErrorBoundary
+} from '../utils/testComponentHelpers';
+
+// Import comprehensive mocks
 
 // Mock external dependencies with proper type safety
 jest.mock('next/navigation', () => ({

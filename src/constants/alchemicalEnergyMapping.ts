@@ -1,10 +1,10 @@
 import type { ElementalProperties } from '@/types/alchemy';
-import { createLogger } from '@/utils/logger';
 import { 
   CelestialPosition, 
   AlchemicalProperties, 
   ThermodynamicProperties 
 } from '@/types/celestial';
+import { createLogger } from '@/utils/logger';
 
 export interface AlchemicalEnergyState {
   name: 'Spirit' | 'Substance' | 'Essence' | 'Matter';

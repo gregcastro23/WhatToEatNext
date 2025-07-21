@@ -1,3 +1,9 @@
+import SunCalc from 'suncalc';
+
+import { DignityType as AlchemicalDignityType } from "@/calculations/alchemicalCalculations";
+import type { AlchemicalProperty } from '@/constants/planetaryElements';
+import { ElementalCharacter } from '@/constants/planetaryElements';
+import { PlanetaryHourCalculator } from '@/lib/PlanetaryHourCalculator';
 import type { 
   LunarPhase, 
   ZodiacSign, 
@@ -18,18 +24,16 @@ import type {
   ElementalInteraction,
   Season
 } from '@/types/alchemy';
-import type { AlchemicalProperty } from '@/constants/planetaryElements';
 import type { TimeFactors } from '@/types/time';
 import { getCurrentSeason, getTimeOfDay } from '@/utils/dateUtils';
-import { PlanetaryHourCalculator } from '@/lib/PlanetaryHourCalculator';
+import { calculatePlanetaryAspects as safeCalculatePlanetaryAspects } from '@/utils/safeAstrology';
+
 import { solar, moon } from 'astronomia';
+
 import { getAccuratePlanetaryPositions } from './accurateAstronomy';
 import { calculateAllHouseEffects } from './houseEffects';
-import { ElementalCharacter } from '@/constants/planetaryElements';
-import { DignityType as AlchemicalDignityType } from "@/calculations/alchemicalCalculations";
+
 // Import calculatePlanetaryAspects from safeAstrology
-import { calculatePlanetaryAspects as safeCalculatePlanetaryAspects } from '@/utils/safeAstrology';
-import SunCalc from 'suncalc';
 
 /**
  * A utility function for logging debug information
@@ -313,7 +317,7 @@ export async function calculateMoonSign(date: Date = new Date()): Promise<Zodiac
     
     // Check if we have Moon position data
     if (positions && positions.Moon && positions.Moon.sign) {
-      return positions.Moon.sign as ZodiacSign;
+      return positions.Moon.sign ;
     }
     
     // Fallback to simplified calculation
@@ -1431,8 +1435,8 @@ export async function getCurrentAstrologicalState(date: Date = new Date()): Prom
       currentPlanetaryAlignment,
       planetaryPositions,
       activePlanets,
-      planetaryHour: planetaryHour as Planet,
-      aspects: aspects as PlanetaryAspect[], // Type assertion to avoid compatibility issues
+      planetaryHour: planetaryHour ,
+      aspects: aspects , // Type assertion to avoid compatibility issues
       tarotElementBoosts: { Fire: 0, Water: 0, Earth: 0, Air: 0 },
       tarotPlanetaryBoosts: {}
     };

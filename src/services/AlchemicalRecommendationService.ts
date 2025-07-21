@@ -1,3 +1,4 @@
+import { AlchemicalEngine } from '@/calculations/core/alchemicalEngine';
 import type { ElementalProperties, 
   ThermodynamicProperties,
   CookingMethod,
@@ -8,7 +9,6 @@ import type { Planet } from '@/types/celestial';
 import type { UnifiedIngredient } from '@/types/ingredient';
 import { getCurrentSeason } from '@/types/seasons';
 
-import { AlchemicalEngine } from '@/calculations/core/alchemicalEngine';
 
 /**
  * AlchemicalRecommendation interface for providing structured recommendations
@@ -317,7 +317,7 @@ export class AlchemicalRecommendationService {
     const currentElementalProperties = this.deriveElementalProperties(_thermodynamics);
     
     // Get recipe's elemental properties (or use default if not present)
-    const recipeElementalProperties = (recipe.elementalState as unknown as ElementalProperties) || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
+    const recipeElementalProperties = (recipe.elementalState  as ElementalProperties) || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
     };
     
     // Calculate compatibility

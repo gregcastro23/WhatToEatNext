@@ -5,10 +5,12 @@
  * Command-line interface for automated dependency and security monitoring
  */
 
-import { DependencySecurityMonitor, DEFAULT_DEPENDENCY_SECURITY_CONFIG, DependencySecurityConfig } from './DependencySecurityMonitor';
-import { logger } from '../../utils/logger';
 import * as fs from 'fs';
 import * as path from 'path';
+
+import { logger } from '../../utils/logger';
+
+import { DependencySecurityMonitor, DEFAULT_DEPENDENCY_SECURITY_CONFIG, DependencySecurityConfig } from './DependencySecurityMonitor';
 
 interface CLIOptions {
   config?: string;

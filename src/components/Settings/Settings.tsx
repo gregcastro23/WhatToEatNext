@@ -1,12 +1,5 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
-
-import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
-import { stateManager } from '@/utils/stateManager';
-import { themeManager } from '@/utils/theme';
-import { logger } from '@/utils/logger';
-import { DietaryRestriction } from '@/types/constants';
 import { 
   Settings as SettingsIcon,
   Moon,
@@ -19,6 +12,13 @@ import {
   Save,
   RotateCcw
 } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+
+import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
+import { DietaryRestriction } from '@/types/constants';
+import { logger } from '@/utils/logger';
+import { stateManager } from '@/utils/stateManager';
+import { themeManager } from '@/utils/theme';
 
 interface SettingsSection {
   id: string;

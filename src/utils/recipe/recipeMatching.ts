@@ -1,11 +1,12 @@
+import { calculatePlanetaryAlignment } from '@/calculations/index';
+import { LocalRecipeService } from '@/services/LocalRecipeService';
 import type { AstrologicalState , IngredientMapping , Season } from "@/types/alchemy";
+import { Element } from "@/types/alchemy";
 import type { Recipe,
   ElementalProperties,
   nutritionInfo } from "@/types/recipe";
 
 // Add missing imports for TS2304 fixes
-import { LocalRecipeService } from '@/services/LocalRecipeService';
-import { calculatePlanetaryAlignment } from '@/calculations/index';
 
 // Phase 10: Calculation Type Interfaces
 interface CalculationData {
@@ -56,13 +57,12 @@ interface MatchingResult {
 }
 
 
-import { elementalUtils , getCurrentElementalState } from '../elementalUtils';
 import { allIngredients } from '../../data/ingredients';
-import { calculateMatchScore } from '../ElementalCalculator';
-
 import { isNonEmptyArray, safeFilter, safeSome, toArray } from '../common/arrayUtils';
 import { createElementalProperties, getElementalProperty } from '../elemental/elementalUtils';
-import { Element } from "@/types/alchemy";
+import { calculateMatchScore } from '../ElementalCalculator';
+import { elementalUtils , getCurrentElementalState } from '../elementalUtils';
+
 
 
 
@@ -358,7 +358,7 @@ export async function findBestMatches(
       const influences = await getRecipeAstrologicalInfluences(recipe);
       // Boost score if recipe has astrological influence matching current Sun sign
       // Apply safe type casting for astrological state access
-      const astroData = enhancedCurrentEnergy as any;
+      const astroData = enhancedCurrentEnergy ;
       const currentSign = astroData?.sign || astroData?.zodiacSign;
       if (currentSign && (influences || []).some(influence => influence?.toLowerCase()?.includes(currentSign?.toLowerCase())
       )) {
@@ -463,7 +463,7 @@ async function applyMatchFilters(recipes: Recipe[], filters: MatchFilters): Prom
     if (filters.excludeIngredients && filters.excludeIngredients.length > 0) {
       // Pattern DD: Fix string vs string[] parameter mismatch for recipeHasIngredient
       const hasExcludedIngredient = (await filters.excludeIngredients || []).some(async (excluded) => 
-        recipeHasIngredient(recipe, excluded as string)
+        recipeHasIngredient(recipe, excluded )
       );
       if (hasExcludedIngredient) return false;
     }
@@ -492,7 +492,7 @@ const calculateDominantElements = async (
 ): Promise<[string, number][]> => {
   const entries = Object.entries(elements);
   // Sort by value in descending order
-  return entries.sort((a, b) => b[1] - a[1]) as [string, number][];
+  return entries.sort((a, b) => b[1] - a[1]) ;
 };
 
 function calculateRecipeEnergyMatch(

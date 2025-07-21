@@ -5,8 +5,8 @@ import type {
   LunarPhase
 } from '@/types/alchemy';
 import type { Element } from '@/types/celestial';
-import { ingredientMappings } from '@/utils/elementalMappings/ingredients';
 import { ELEMENT_COMBINATIONS } from '@/utils/constants/elements';
+import { ingredientMappings } from '@/utils/elementalMappings/ingredients';
 
 type CookingMethod = 'simmered' | 'infused' | 'raw' | 'baked' | 'fried' | 'grilled';
 type Season = 'spring' | 'summer' | 'fall' | 'winter' | 'all';

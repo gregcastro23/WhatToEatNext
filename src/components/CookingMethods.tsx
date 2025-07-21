@@ -29,20 +29,23 @@ interface CookingMethodData {
 }
 'use client';
 
-import React, { useState, useEffect, useMemo, useCallback, useRef } from 'react';
-import { useAstrologicalState } from '@/hooks/useAstrologicalState';
 import { ChevronDown, ChevronUp } from 'lucide-react';
-import styles from './CookingMethods.module.css';
+import React, { useState, useEffect, useMemo, useCallback, useRef } from 'react';
+
+
 import { AlchemicalItem } from '@/calculations/alchemicalTransformation';
 import type { LunarPhase } from '@/constants/lunarPhases';
-import type { ElementalProperties, CookingMethod, BasicThermodynamicProperties } from '@/types/alchemy';
-import { COOKING_METHOD_THERMODYNAMICS } from '@/types/alchemy';
-import { cookingMethods } from '@/data/cooking/cookingMethods';
-import { getLunarMultiplier } from '@/utils/lunarMultiplier';
 import { useTarotContext } from '@/contexts/TarotContext';
+import { cookingMethods } from '@/data/cooking/cookingMethods';
 import type { Modality } from '@/data/ingredients/types';
-import { staticAlchemize } from '@/utils/alchemyInitializer';
+import { useAstrologicalState } from '@/hooks/useAstrologicalState';
+import { COOKING_METHOD_THERMODYNAMICS } from '@/types/alchemy';
+import type { ElementalProperties, CookingMethod, BasicThermodynamicProperties } from '@/types/alchemy';
 import { ZodiacSign, Ingredient, UnifiedIngredient } from '@/types/unified';
+import { staticAlchemize } from '@/utils/alchemyInitializer';
+import { getLunarMultiplier } from '@/utils/lunarMultiplier';
+
+import styles from './CookingMethods.module.css';
 
 // TODO: Implement comprehensive alchemical transformation engine
 // TODO: Add advanced thermodynamic property calculation
@@ -245,30 +248,30 @@ const normalizeLunarPhase = (phase: string | null | undefined): LunarPhase | und
   }
   
   // Try to convert by looking for matching patterns
-  const phaseLower = (phase as string)?.toLowerCase?.();
+  const phaseLower = (phase )?.toLowerCase?.();
   
-  if ((phaseLower as string)?.includes?.('full') && (phaseLower as string)?.includes?.('moon')) {
+  if ((phaseLower )?.includes?.('full') && (phaseLower )?.includes?.('moon')) {
     return 'FULL_MOON';
   }
-  if ((phaseLower as string)?.includes?.('new') && (phaseLower as string)?.includes?.('moon')) {
+  if ((phaseLower )?.includes?.('new') && (phaseLower )?.includes?.('moon')) {
     return 'NEW_MOON';
   }
-  if ((phaseLower as string)?.includes?.('waxing') && (phaseLower as string)?.includes?.('crescent')) {
+  if ((phaseLower )?.includes?.('waxing') && (phaseLower )?.includes?.('crescent')) {
     return 'WAXING_CRESCENT';
   }
-  if ((phaseLower as string)?.includes?.('first') && (phaseLower as string)?.includes?.('quarter')) {
+  if ((phaseLower )?.includes?.('first') && (phaseLower )?.includes?.('quarter')) {
     return 'FIRST_QUARTER';
   }
-  if ((phaseLower as string)?.includes?.('waxing') && (phaseLower as string)?.includes?.('gibbous')) {
+  if ((phaseLower )?.includes?.('waxing') && (phaseLower )?.includes?.('gibbous')) {
     return 'WAXING_GIBBOUS';
   }
-  if ((phaseLower as string)?.includes?.('waning') && (phaseLower as string)?.includes?.('gibbous')) {
+  if ((phaseLower )?.includes?.('waning') && (phaseLower )?.includes?.('gibbous')) {
     return 'WANING_GIBBOUS';
   }
-  if ((phaseLower as string)?.includes?.('last') && (phaseLower as string)?.includes?.('quarter')) {
+  if ((phaseLower )?.includes?.('last') && (phaseLower )?.includes?.('quarter')) {
     return 'LAST_QUARTER';
   }
-  if ((phaseLower as string)?.includes?.('waning') && (phaseLower as string)?.includes?.('crescent')) {
+  if ((phaseLower )?.includes?.('waning') && (phaseLower )?.includes?.('crescent')) {
     return 'WANING_CRESCENT';
   }
   
@@ -375,7 +378,7 @@ export default function CookingMethods() {
     
     // Look for the method in the COOKING_METHOD_THERMODYNAMICS constant
     for (const knownMethod of Object.keys(COOKING_METHOD_THERMODYNAMICS)) {
-      if ((methodName as string)?.includes?.(knownMethod)) {
+      if ((methodName )?.includes?.(knownMethod)) {
         const thermodynamicData = (COOKING_METHOD_THERMODYNAMICS as Record<string, Record<string, unknown>>)[knownMethod];
         return {
           heat: Number(thermodynamicData.heat) || 0.5,
@@ -435,7 +438,7 @@ export default function CookingMethods() {
         // Check if ingredient is in the method's suitable_for list with safe array access
         const suitableFor = method.suitable_for;
         if (suitableFor && Array.isArray(suitableFor) && suitableFor.some(item => 
-          (item as string)?.toLowerCase?.().includes((ingredient as string)?.toLowerCase?.())
+          (item as string)?.toLowerCase?.().includes((ingredient )?.toLowerCase?.())
         )) {
           compatibilityScore += 0.3; // Big boost for explicitly suitable ingredients
         }
@@ -623,14 +626,14 @@ export default function CookingMethods() {
     if (methodId && cookingMethodsRecord[methodId]) {
       const sourceMethod = cookingMethodsRecord[methodId];
       // Expand definition if needed
-      const sourceDescription = (sourceMethod as Record<string, unknown>)?.description as string;
+      const sourceDescription = (sourceMethod )?.description as string;
       const methodDescription = (method as Record<string, unknown>)?.description as string;
       if (sourceDescription && sourceDescription.length > methodDescription.length) {
         fullDefinition = sourceDescription;
       }
       
       // Use existing suitable_for as examples if available
-      const suitableFor = (sourceMethod as Record<string, unknown>)?.suitable_for as unknown[];
+      const suitableFor = (sourceMethod )?.suitable_for as unknown[];
       if (suitableFor && Array.isArray(suitableFor) && suitableFor.length > 0) {
         examples = suitableFor.map(item => {
           const itemStr = String(item || '');
@@ -1192,7 +1195,7 @@ export default function CookingMethods() {
       
       default:
         // Make the default case less generic by analyzing the method name
-        if ((methodName as string)?.includes?.('fry')) {
+        if ((methodName )?.includes?.('fry')) {
           compatibility = "Best for foods that benefit from crisp exterior and quick cooking";
           idealCharacteristics = [
             "Items with natural structure that can withstand hot oil",
@@ -1200,7 +1203,7 @@ export default function CookingMethods() {
             "Ingredients that cook quickly and evenly",
             "Battered or breaded items requiring rapid setting"
           ];
-        } else if ((methodName as string)?.includes?.('roast')) {
+        } else if ((methodName )?.includes?.('roast')) {
           compatibility = "Ideal for items needing even browning and slow moisture release";
           idealCharacteristics = [
             "Larger cuts of meat that benefit from even heat penetration",
@@ -1240,22 +1243,22 @@ export default function CookingMethods() {
       Air: 0
     };
     
-    if ((methodName as string)?.includes?.('solenije') || (methodName as string)?.includes?.('pickle')) {
+    if ((methodName )?.includes?.('solenije') || (methodName )?.includes?.('pickle')) {
       properties.Water = 0.5;
       properties.Earth = 0.3;
       properties.Air = 0.1;
       properties.Fire = 0.1;
-    } else if ((methodName as string)?.includes?.('confit')) {
+    } else if ((methodName )?.includes?.('confit')) {
       properties.Fire = 0.4;
       properties.Earth = 0.4;
       properties.Water = 0.1;
       properties.Air = 0.1;
-    } else if ((methodName as string)?.includes?.('tagine')) {
+    } else if ((methodName )?.includes?.('tagine')) {
       properties.Earth = 0.4;
       properties.Water = 0.3;
       properties.Fire = 0.2;
       properties.Air = 0.1;
-    } else if ((methodName as string)?.includes?.('nixtamal')) {
+    } else if ((methodName )?.includes?.('nixtamal')) {
       properties.Water = 0.4;
       properties.Earth = 0.3;
       properties.Fire = 0.2;
@@ -1421,7 +1424,7 @@ export default function CookingMethods() {
               .map(method => String((method as Record<string, unknown>)?.name || ''));
             
             if (Array.isArray(methodsForPlanet) && methodsForPlanet?.length > 0) {
-              planetaryCookingMethodsMap[planet] = methodsForPlanet as string[];
+              planetaryCookingMethodsMap[planet] = methodsForPlanet ;
             }
           });
         }

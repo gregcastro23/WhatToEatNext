@@ -7,8 +7,8 @@
  * for the WhatToEatNext test infrastructure.
  */
 
-import { TestMemoryMonitor } from './TestMemoryMonitor';
 import MemoryLeakDetector from './MemoryLeakDetector';
+import { TestMemoryMonitor } from './TestMemoryMonitor';
 
 interface OptimizationResult {
   success: boolean;

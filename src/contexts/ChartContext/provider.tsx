@@ -1,12 +1,14 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+
+import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
+import { getCurrentSeason } from '@/data/integrations/seasonal';
+import { getLatestAstrologicalState } from '@/services/AstrologicalService';
+import { calculatePlanetaryPositions, calculateAspects } from '@/utils/astrologyUtils';
+
 import { ChartContext } from './context';
 import { CurrentChart } from './types';
-import { calculatePlanetaryPositions, calculateAspects } from '@/utils/astrologyUtils';
-import { getCurrentSeason } from '@/data/integrations/seasonal';
-import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
-import { getLatestAstrologicalState } from '@/services/AstrologicalService';
 
 // Phase 5: Type-safe interfaces for planetary data access
 interface SafePlanetaryData {

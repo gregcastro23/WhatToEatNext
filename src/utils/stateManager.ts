@@ -1,9 +1,11 @@
+import { celestialCalculator } from '@/services/celestialCalculations';
+import type { ElementalProperties } from '@/types/alchemy';
+import type { Recipe } from '@/types/recipe';
+
 import { cache } from './cache';
 import { logger } from './logger';
 import { themeManager } from './theme';
-import { celestialCalculator } from '@/services/celestialCalculations';
-import type { Recipe } from '@/types/recipe';
-import type { ElementalProperties } from '@/types/alchemy';
+
 
 // Add the missing type definitions
 interface ScoredRecipe extends Recipe {
@@ -135,7 +137,7 @@ class StateManager {
         if (cached.ui && Array.isArray((cached.ui as any).activeFilters)) {
           cached.ui.activeFilters = new Set((cached.ui as any).activeFilters);
         }
-        return cached as AppState;
+        return cached ;
       }
 
       const stored = typeof window !== 'undefined' 
@@ -149,7 +151,7 @@ class StateManager {
           parsed.ui.activeFilters = new Set(parsed.ui.activeFilters);
         }
         if (this.isValidAppState(parsed)) {
-          return parsed as AppState;
+          return parsed ;
         }
       }
       return this.getDefaultState();

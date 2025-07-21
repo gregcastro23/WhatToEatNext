@@ -1,8 +1,5 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
-import { useErrorLogger, ErrorLogEntry, ErrorRecoveryMetrics } from './ErrorLogger';
-import { useErrorRecovery } from './ErrorRecoverySystem';
 import { 
   AlertTriangle, 
   CheckCircle, 
@@ -16,6 +13,10 @@ import {
   Eye,
   EyeOff
 } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+
+import { useErrorLogger, ErrorLogEntry, ErrorRecoveryMetrics } from './ErrorLogger';
+import { useErrorRecovery } from './ErrorRecoverySystem';
 
 interface ErrorMonitoringDashboardProps {
   isVisible?: boolean;

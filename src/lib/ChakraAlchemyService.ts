@@ -1,3 +1,4 @@
+import { Planet, ZodiacSign, Element, TarotSuit, ChakraPosition, ChakraEnergies, EnergyStateProperties } from '@/types/alchemy';
 import { 
   CHAKRAS, 
   MAJOR_ARCANA_CHAKRAS, 
@@ -9,7 +10,6 @@ import {
   SuitChakraMapping,
   KeyCardChakraMapping
 } from '@/types/chakra';
-import { Planet, ZodiacSign, Element, TarotSuit, ChakraPosition, ChakraEnergies, EnergyStateProperties } from '@/types/alchemy';
 
 /**
  * ChakraAlchemyService provides utilities for working with chakra-tarot associations

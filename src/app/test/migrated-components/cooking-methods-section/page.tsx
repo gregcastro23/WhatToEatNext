@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+
 import { CookingMethodsSection } from '@/components/CookingMethodsSection';
 import { CookingMethodsSectionMigrated } from '@/components/CookingMethodsSection.migrated';
 import { useServices } from '@/hooks/useServices';

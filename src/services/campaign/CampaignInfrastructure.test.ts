@@ -3,10 +3,11 @@
  * Perfect Codebase Campaign - Infrastructure Validation
  */
 
-import { CampaignController } from './CampaignController';
-import { SafetyProtocol } from './SafetyProtocol';
-import { ProgressTracker } from './ProgressTracker';
 import { SafetyLevel, PhaseStatus } from '../../types/campaign';
+
+import { CampaignController } from './CampaignController';
+import { ProgressTracker } from './ProgressTracker';
+import { SafetyProtocol } from './SafetyProtocol';
 
 describe('Campaign Infrastructure', () => {
   describe('CampaignController', () => {

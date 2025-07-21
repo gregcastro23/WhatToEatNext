@@ -1,18 +1,19 @@
 'use client';
 
-import React, { useState, useEffect, useMemo } from 'react';
-import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
-import { stateManager } from '@/utils/stateManager';
-import { recipeFilter } from '@/utils/recipeFilters';
-import { logger } from '@/utils/logger';
-import Recipe from '@/components/Recipe/Recipe';
 import { Filter, Search, SlidersHorizontal, X } from 'lucide-react';
-import type { ScoredRecipe } from '@/types/recipe';
-import type { Recipe as RecipeType } from '@/types/unified';
-import type { CuisineType, DietaryRestriction } from '@/types/alchemy';
-import { recipeData } from '@/services/recipeData';
+import React, { useState, useEffect, useMemo } from 'react';
+
+import Recipe from '@/components/Recipe/Recipe';
+import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 import { cuisines } from '@/data/cuisines';
 import { foodTypes } from '@/data/foodTypes';
+import { recipeData } from '@/services/recipeData';
+import type { CuisineType, DietaryRestriction } from '@/types/alchemy';
+import type { ScoredRecipe } from '@/types/recipe';
+import type { Recipe as RecipeType } from '@/types/unified';
+import { logger } from '@/utils/logger';
+import { recipeFilter } from '@/utils/recipeFilters';
+import { stateManager } from '@/utils/stateManager';
 
 // Use actual cuisine data from imports instead of mock data
 const cuisineTypes = cuisines ? Object.keys(cuisines).reduce((acc, cuisine) => {
@@ -84,7 +85,7 @@ export default function RecipeList() {
   const ensureScoredRecipes = (recipes: (RecipeType | ScoredRecipe)[]): ScoredRecipe[] => {
     return recipes.map(recipe => {
       if ('score' in recipe) {
-        return recipe as ScoredRecipe;
+        return recipe ;
       }
       // Convert Recipe to ScoredRecipe with default score
       return { 

@@ -7,6 +7,7 @@
  */
 
 import { useEffect, useCallback, useState, useRef } from 'react';
+
 import { 
   getAutomatedQualityAssurance, 
   ValidationResult, 
@@ -14,8 +15,8 @@ import {
   QualityMetrics,
   QualityAssuranceConfig 
 } from '@/utils/automatedQualityAssurance';
-import { ElementalProperties } from '@/utils/steeringFileIntelligence';
 import { logger } from '@/utils/logger';
+import { ElementalProperties } from '@/utils/steeringFileIntelligence';
 
 export interface AgentHookConfig {
   enablePlanetaryValidation: boolean;

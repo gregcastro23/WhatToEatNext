@@ -1,13 +1,13 @@
+import { Element } from "@/types/alchemy";
+import type { Ingredient, UnifiedIngredient } from "@/types/ingredient";
 import type { Recipe, 
   RecipeIngredient, 
   ElementalProperties, 
   ScoredRecipe } from "@/types/recipe";
-import type { Ingredient, UnifiedIngredient } from "@/types/ingredient";
 
-import { createElementalProperties, isElementalProperties } from '../elemental/elementalUtils';
 import { isNonEmptyArray, safeSome, toArray } from '../common/arrayUtils';
+import { createElementalProperties, isElementalProperties } from '../elemental/elementalUtils';
 
-import { Element } from "@/types/alchemy";
 
 /**
  * Type guard to check if an object is a Recipe

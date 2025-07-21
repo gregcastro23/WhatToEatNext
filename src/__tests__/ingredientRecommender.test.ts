@@ -1,6 +1,6 @@
-import { getRecommendedIngredients } from '@/utils/ingredientRecommender';
 import { AstrologicalState } from '@/types/alchemy';
 import { Ingredient } from '@/types/ingredient';
+import { getRecommendedIngredients } from '@/utils/ingredientRecommender';
 
 // Mock implementation of getRecommendedIngredients
 jest.mock('@/utils/ingredientRecommender', () => {

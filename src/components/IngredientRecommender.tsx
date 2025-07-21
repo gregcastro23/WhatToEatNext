@@ -1,16 +1,16 @@
-import { useAstrologicalState } from '@/hooks/useAstrologicalState';
-import { useEffect, useState, useMemo } from 'react';
-import { useRouter } from 'next/navigation';
-import { ElementalCalculator } from '@/services/ElementalCalculator';
-import { ElementalProperties } from '@/types/alchemy';
-import { getChakraBasedRecommendations, GroupedIngredientRecommendations, getIngredientRecommendations, IngredientRecommendation } from '@/utils/ingredientRecommender';
 import { Flame, Droplets, Mountain, Wind, Info, Clock, Tag, Leaf, X, ChevronDown, ChevronUp, Beaker, Brain, ExternalLink, ArrowRight } from 'lucide-react';
-import { useChakraInfluencedFood } from '@/hooks/useChakraInfluencedFood';
+import { useRouter } from 'next/navigation';
+import { useEffect, useState, useMemo } from 'react';
+
+import EnterpriseIntelligencePanel from '@/components/intelligence/EnterpriseIntelligencePanel';
 import { normalizeChakraKey } from '@/constants/chakraSymbols';
 import { herbsCollection, oilsCollection, vinegarsCollection, grainsCollection } from '@/data/ingredients';
-import type { Ingredient } from '@/types/ingredient';
-import type { UnifiedIngredient } from '@/types/ingredient';
-import EnterpriseIntelligencePanel from '@/components/intelligence/EnterpriseIntelligencePanel';
+import { useAstrologicalState } from '@/hooks/useAstrologicalState';
+import { useChakraInfluencedFood } from '@/hooks/useChakraInfluencedFood';
+import { ElementalCalculator } from '@/services/ElementalCalculator';
+import { ElementalProperties } from '@/types/alchemy';
+import type { Ingredient , UnifiedIngredient } from '@/types/ingredient';
+import { getChakraBasedRecommendations, GroupedIngredientRecommendations, getIngredientRecommendations, IngredientRecommendation } from '@/utils/ingredientRecommender';
 
 // Props interface for IngredientRecommender
 interface IngredientRecommenderProps {
@@ -151,7 +151,7 @@ export default function IngredientRecommender({
     e.stopPropagation();
     
     // ✅ Pattern MM-1: Safe type assertion for ingredient data
-    const itemData = (item as unknown) as Record<string, unknown>;
+    const itemData = (item ) as Record<string, unknown>;
     
     // Toggle selected ingredient
     if (selectedIngredient?.name === String(itemData?.name || '')) {
@@ -341,7 +341,7 @@ export default function IngredientRecommender({
   // Helper function to check if an ingredient is a vinegar
   const isVinegar = (ingredient: unknown): boolean => {
     // ✅ Pattern MM-1: Safe type assertion for ingredient data
-    const ingredientData = (ingredient as unknown) as Record<string, unknown>;
+    const ingredientData = (ingredient ) as Record<string, unknown>;
     const _category = String(ingredientData?.category || '').toLowerCase();
     if (_category === 'vinegar' || _category === 'vinegars') return true;
     
@@ -352,7 +352,7 @@ export default function IngredientRecommender({
   // Helper function to get normalized category
   const getNormalizedCategory = (ingredient: unknown): string => {
     // ✅ Pattern MM-1: Safe type assertion for ingredient data
-    const ingredientData = (ingredient as unknown) as Record<string, unknown>;
+    const ingredientData = (ingredient ) as Record<string, unknown>;
     const categoryProperty = ingredientData?.category;
     
     if (!categoryProperty) return 'other';

@@ -1,7 +1,10 @@
+import { 
+  cuisineFlavorProfiles, 
+  calculateCuisineFlavorMatch, 
+  getCuisineProfile,
+  getRelatedCuisines 
+} from '@/data/cuisineFlavorProfiles';
 import cuisinesMap from '@/data/cuisines/index';
-import { logger } from '@/utils/logger';
-import type { ZodiacSign, LunarPhase, Season, ElementalProperties } from '@/types/alchemy';
-import type { UnifiedIngredient } from '@/types/ingredient';
 import { 
   planetaryFlavorProfiles, 
   calculateFlavorProfile, 
@@ -9,13 +12,10 @@ import {
   getDominantFlavor, 
   calculatePlanetaryFlavorMatch 
 } from '@/data/planetaryFlavorProfiles';
-import { 
-  cuisineFlavorProfiles, 
-  calculateCuisineFlavorMatch, 
-  getCuisineProfile,
-  getRelatedCuisines 
-} from '@/data/cuisineFlavorProfiles';
+import type { ZodiacSign, LunarPhase, Season, ElementalProperties } from '@/types/alchemy';
+import type { UnifiedIngredient } from '@/types/ingredient';
 import type { Recipe } from '@/types/recipe';
+import { logger } from '@/utils/logger';
 
 // Log what was imported
 logger.debug("cuisinesMap keys:", Object.keys(cuisinesMap));
@@ -375,7 +375,7 @@ export const getDominantPlanetaryInfluence = (recipe: RecipeData): string | null
   const entries = Object.entries(recipe.planetaryInfluences);
   if (!entries.length) return null;
   
-  return entries.sort(([, valueA], [, valueB]) => (valueB as number) - (valueA as number))[0][0];
+  return entries.sort(([, valueA], [, valueB]) => (valueB ) - (valueA ))[0][0];
 };
 
 /**
@@ -397,13 +397,13 @@ export const getRecommendedCookingTechniques = (recipe: RecipeData): string[] =>
     if (planetaryFlavorProfiles[planet]) {
       planetaryFlavorProfiles[planet].cookingTechniques.forEach(technique => {
         if (!techniques[technique]) techniques[technique] = 0;
-        techniques[technique] += weight as number;
+        techniques[technique] += weight ;
       });
     }
   });
   
   return Object.entries(techniques)
-    .sort(([, scoreA], [, scoreB]) => (scoreB as number) - (scoreA as number))
+    .sort(([, scoreA], [, scoreB]) => (scoreB ) - (scoreA ))
     .slice(0, 3)
     .map(([technique]) => technique);
 };
@@ -1009,7 +1009,7 @@ export const getAllRecipes = async (): Promise<Recipe[]> => {
 };
 
 // Export recipes array for backward compatibility
-export const recipes = transformCuisineData() as Promise<RecipeData[]>;
+export const recipes = transformCuisineData() ;
 
 // At the end of the file, add the re-exports
 export { allRecipes } from './recipes/index';

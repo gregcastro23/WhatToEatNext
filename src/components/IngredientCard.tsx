@@ -1,7 +1,9 @@
+import { Flame, Droplets, Mountain, Wind, ChevronDown, ChevronUp, Beaker, Tag, Clock, Info } from 'lucide-react';
 import React, { useState } from 'react';
+
 import { Ingredient, RecipeIngredient } from '@/types';
 import { isRecipeIngredient, getDominantElement } from '@/utils/ingredientUtils';
-import { Flame, Droplets, Mountain, Wind, ChevronDown, ChevronUp, Beaker, Tag, Clock, Info } from 'lucide-react';
+
 import ingredientCardStyles from './IngredientCard.module.css';
 
 interface IngredientCardProps {

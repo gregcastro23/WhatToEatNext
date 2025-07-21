@@ -1,10 +1,11 @@
 'use client';
 
-import { AstrologicalState } from '@/types/celestial';
-import { ZodiacSign , ChakraEnergies } from '@/types/alchemy';
 
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+
 import alchemicalEngine from '@/calculations/alchemicalEngine';
+import { ZodiacSign , ChakraEnergies } from '@/types/alchemy';
+import { AstrologicalState } from '@/types/celestial';
 import { isChakraEnergies } from '@/utils/typeGuards';
 
 // ========== COMPLETE ASTROLOGICAL CONTEXT IMPLEMENTATION ==========

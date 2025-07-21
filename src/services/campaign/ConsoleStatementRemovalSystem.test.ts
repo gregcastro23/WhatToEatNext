@@ -5,9 +5,10 @@
  * Validates selective removal and critical statement preservation
  */
 
-import { ConsoleStatementRemovalSystem, type ConsoleRemovalConfig, type ConsoleRemovalResult, type ConsoleStatement } from './ConsoleStatementRemovalSystem';
 import { execSync } from 'child_process';
 import * as fs from 'fs';
+
+import { ConsoleStatementRemovalSystem, type ConsoleRemovalConfig, type ConsoleRemovalResult, type ConsoleStatement } from './ConsoleStatementRemovalSystem';
 
 // Mock dependencies
 jest.mock('child_process');

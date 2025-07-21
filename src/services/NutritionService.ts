@@ -1,5 +1,6 @@
-import { FoodDataCentral } from './apiClients';
 import { NutritionalProfile, FoodDataCentralFood } from '../types/nutrition';
+
+import { FoodDataCentral } from './apiClients';
 
 export class NutritionService {
   async getNutritionalProfile(fdcId: string): Promise<NutritionalProfile> {

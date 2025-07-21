@@ -1,6 +1,7 @@
-import React from 'react';
 import { NextPage } from 'next';
 import Link from 'next/link';
+import React from 'react';
+
 import cuisinesMap from '@/data/cuisines';
 import { getCurrentElementalState } from '@/utils/elementalUtils';
 
@@ -47,7 +48,7 @@ const SaucesPage: NextPage = () => {
       if (cuisineData.traditionalSauces) {
         Object.entries(cuisineData.traditionalSauces).forEach(([sauceId, sauceData]) => {
           // Apply safe type casting for sauce data property access
-          const sauceInfo = sauceData as any;
+          const sauceInfo = sauceData ;
           sauces.push({
             id: sauceId,
             name: sauceInfo?.name || sauceId,

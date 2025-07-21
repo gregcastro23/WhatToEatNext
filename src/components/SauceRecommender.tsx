@@ -1,7 +1,8 @@
+import { ChevronDown, ChevronUp, Info, Check, Droplet, Flame, Wind, Mountain } from 'lucide-react';
 import React, { useState, useEffect } from 'react';
+
 import { Sauce } from '@/data/sauces';
 import { ElementalProperties } from '@/types/alchemy';
-import { ChevronDown, ChevronUp, Info, Check, Droplet, Flame, Wind, Mountain } from 'lucide-react';
 
 interface SauceRecommenderProps {
   currentElementalProfile?: ElementalProperties;

@@ -1,8 +1,8 @@
-import { setupGlobalErrorHandlers } from './globalErrorHandler';
-import { validateEnv } from './env';
-import { logger } from './logger';
 import { Cache } from './cache';
 import { initializeDatabaseIntegrity } from './databaseCleanup';
+import { validateEnv } from './env';
+import { setupGlobalErrorHandlers } from './globalErrorHandler';
+import { logger } from './logger';
 
 export function initializeApp() {
   // Validate environment variables

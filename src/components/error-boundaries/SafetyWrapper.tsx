@@ -1,6 +1,7 @@
 'use client';
 
 import React, { ReactNode } from 'react';
+
 import { ComponentErrorBoundary, ComponentErrorBoundaryProps } from './ComponentErrorBoundary';
 import { useComponentErrorLogger } from './ErrorLogger';
 

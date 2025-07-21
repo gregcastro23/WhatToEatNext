@@ -1,13 +1,18 @@
-import { logger } from '../logger';
-import { Recipe } from '@/types/recipe';
-import type { Ingredient, UnifiedIngredient } from '@/types/ingredient';
 import type { ElementalProperties,
   DietaryRestriction,
   IngredientMapping } from "@/types/alchemy";
-import { cuisinesMap } from '../../data/cuisines';
-import { CuisineType } from "@/types/cuisine";
-import { calculateMatchScore } from './recipeMatching';
 import { Element } from "@/types/alchemy";
+import { CuisineType } from "@/types/cuisine";
+import type { Ingredient, UnifiedIngredient } from '@/types/ingredient';
+import { Recipe } from '@/types/recipe';
+
+import { cuisinesMap } from '../../data/cuisines';
+import { logger } from '../logger';
+
+
+
+import { calculateMatchScore } from './recipeMatching';
+
 
 // ===== INTERFACES =====
 
@@ -462,7 +467,7 @@ export class RecipeFilter {
 
     try {
       const recipeElementsData = recipeElements as Record<string, unknown>;
-      const targetElementsData = targetElements as ElementalProperties;
+      const targetElementsData = targetElements ;
       
       const elements = ['Fire', 'Water', 'Earth', 'Air'];
       let totalScore = 0;

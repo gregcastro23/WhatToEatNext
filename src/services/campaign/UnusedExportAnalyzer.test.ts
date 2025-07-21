@@ -3,9 +3,10 @@
  * Perfect Codebase Campaign - Phase 3 Implementation
  */
 
-import { UnusedExportAnalyzer, FilePriority, FileCategory, TransformationComplexity } from './UnusedExportAnalyzer';
 import * as fs from 'fs';
 import * as path from 'path';
+
+import { UnusedExportAnalyzer, FilePriority, FileCategory, TransformationComplexity } from './UnusedExportAnalyzer';
 
 // Mock fs and glob
 jest.mock('fs');

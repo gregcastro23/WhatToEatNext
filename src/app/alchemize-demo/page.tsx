@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+
 import { getCurrentAlchemicalState, type StandardizedAlchemicalResult } from '@/services/RealAlchemizeService';
 
 export default function AlchemizeDemoPage() {

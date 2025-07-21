@@ -1,5 +1,6 @@
-import React from 'react';
 import { Flame, Droplets, Mountain, Wind, Beaker, ChefHat, Star, Thermometer } from 'lucide-react';
+import React from 'react';
+
 import { Ingredient } from '@/types';
 
 interface IngredientDisplayProps {
@@ -102,7 +103,7 @@ export const IngredientDisplay = ({ ingredient, showDetails = false }: Ingredien
                         element === 'Earth' ? 'bg-gradient-to-r from-green-400 to-green-600' :
                         element === 'Air' ? 'bg-gradient-to-r from-purple-400 to-purple-600' : 'bg-gray-500'
                       }`}
-                      style={{ width: `${Math.min(100, (value as number * 100) || 0)}%` }}
+                      style={{ width: `${Math.min(100, (value  * 100) || 0)}%` }}
                     ></div>
                   </div>
                 </div>

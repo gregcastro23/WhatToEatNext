@@ -3,15 +3,16 @@
  * Perfect Codebase Campaign - Progress Tracking Testing
  */
 
-import { ProgressTracker } from '../ProgressTracker';
+import { execSync } from 'child_process';
+import * as fs from 'fs';
+
 import {
   ProgressMetrics,
   Milestone,
   ProgressReport,
   PhaseStatus
 } from '../../../types/campaign';
-import { execSync } from 'child_process';
-import * as fs from 'fs';
+import { ProgressTracker } from '../ProgressTracker';
 
 // Mock dependencies
 jest.mock('child_process');

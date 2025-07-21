@@ -6,12 +6,14 @@
 
 import * as fs from 'fs';
 import * as path from 'path';
+
 import {
   ProgressMetrics,
   PhaseReport,
   ProgressReport,
   PhaseStatus
 } from '../../types/campaign';
+
 import { MetricsCollectionSystem, DetailedMetrics, MetricsSnapshot } from './MetricsCollectionSystem';
 import { MilestoneValidationSystem, PhaseValidationResult } from './MilestoneValidationSystem';
 

@@ -1,9 +1,9 @@
-import type { RecipeElementalMapping } from '@/types/recipes';
+import { ELEMENTAL_CHARACTERISTICS } from '@/constants/elementalConstants';
 import { cookingMethods } from '@/data/cooking';
 import { culinaryTraditions } from '@/data/cuisines/culinaryTraditions';
-import { ELEMENTAL_CHARACTERISTICS } from '@/constants/elementalConstants';
 import { ElementalRecommendationService } from '@/services/ElementalRecommendationService';
 import { AstrologicalInfluence, ZodiacSign, Element } from '@/types/alchemy';
+import type { RecipeElementalMapping } from '@/types/recipes';
 
 export { ELEMENTAL_CHARACTERISTICS };
 

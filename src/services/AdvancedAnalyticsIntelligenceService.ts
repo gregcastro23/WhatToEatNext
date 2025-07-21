@@ -6,10 +6,6 @@
  * complex pattern recognition, and real-time optimization algorithms for culinary and astrological correlations.
  */
 
-import { logger } from '@/utils/logger';
-import { Recipe, Ingredient, ZodiacSign } from '@/types/unified';
-import { calculateElementalCompatibility } from '@/utils/elemental/elementalUtils';
-import { getCurrentSeason } from '@/utils/dateUtils';
 import { 
   AdvancedAnalyticsIntelligenceResult,
   AdvancedRecipeAnalyticsAnalysis,
@@ -19,6 +15,10 @@ import {
   AdvancedIntelligenceConfig,
   AdvancedIntelligenceMetrics
 } from '@/types/advancedIntelligence';
+import { Recipe, Ingredient, ZodiacSign } from '@/types/unified';
+import { getCurrentSeason } from '@/utils/dateUtils';
+import { calculateElementalCompatibility } from '@/utils/elemental/elementalUtils';
+import { logger } from '@/utils/logger';
 
 // Note: These functions are not yet implemented in calculations/index
 // Using placeholder implementations for now

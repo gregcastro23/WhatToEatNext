@@ -430,7 +430,7 @@ export class LintingWarningAnalyzer {
   generateReport(result: LintingAnalysisResult): string {
     const { distribution, prioritizedFiles, recommendations } = result;
     
-    let report = `
+    const report = `
 # Linting Warning Analysis Report
 Generated: ${new Date().toISOString()}
 

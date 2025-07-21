@@ -1,3 +1,5 @@
+import { getLatestAstrologicalState } from '@/services/AstrologicalService';
+import { ElementalProperties } from '@/types';
 import type { LunarPhase, 
   ZodiacSign, 
   DignityType,
@@ -5,20 +7,20 @@ import type { LunarPhase,
   PlanetaryAspect as ImportedPlanetaryAspect,
   AspectType as ImportedAspectType,
   PlanetName } from "@/types/alchemy";
+import { AstrologicalState, Element , PlanetaryPosition } from "@/types/celestial";
+import type { CelestialPosition } from "@/types/celestial";
 import type { TimeFactors, Season, TimeOfDay } from "@/types/time";
-import { getCurrentSeason, getTimeOfDay } from '../dateUtils';
-import { PlanetaryHourCalculator } from '../../lib/PlanetaryHourCalculator';
-import { ElementalCharacter } from '../../constants/planetaryElements';
+
 
 // Add missing imports for TS2304 fixes
-import { calculatePlanetaryAspects as safeCalculatePlanetaryAspects } from '@/utils/safeAstrology';
 import { getAccuratePlanetaryPositions } from '@/utils/accurateAstronomy';
 import { getPlanetaryPositions } from '@/utils/astrologyDataProvider';
+import { calculatePlanetaryAspects as safeCalculatePlanetaryAspects } from '@/utils/safeAstrology';
 
-import { AstrologicalState, Element , PlanetaryPosition } from "@/types/celestial";
-import { ElementalProperties } from '@/types';
-import { getLatestAstrologicalState } from '@/services/AstrologicalService';
-import type { CelestialPosition } from "@/types/celestial";
+import { ElementalCharacter } from '../../constants/planetaryElements';
+import { PlanetaryHourCalculator } from '../../lib/PlanetaryHourCalculator';
+import { getCurrentSeason, getTimeOfDay } from '../dateUtils';
+
 
 // Robust debug logger: logs in development, silent in production
 const debugLog = (_message: string, ..._args: unknown[]): void => {
@@ -334,7 +336,7 @@ export async function calculatemoonSign(date: Date = new Date()): Promise<Zodiac
     const rawPositions = await getAccuratePlanetaryPositions(date);
     const positions = normalizePlanetaryPositions(rawPositions);
     if (positions.Moon && positions.Moon.sign) {
-      return positions.Moon.sign as ZodiacSign;
+      return positions.Moon.sign ;
     }
     throw new Error('Moon position not available');
   } catch (error) {

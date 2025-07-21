@@ -1,6 +1,6 @@
 import type { IngredientMapping } from '@/data/ingredients/types';
-import { fixIngredientMappings } from '@/utils/elementalUtils';
 import type { ZodiacSign } from '@/types/celestial';
+import { fixIngredientMappings } from '@/utils/elementalUtils';
 
 const rawRefinedGrains = {
   'white_rice': {

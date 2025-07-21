@@ -3,9 +3,10 @@
  * Perfect Codebase Campaign - Phase 4 Implementation Tests
  */
 
-import { BundleSizeOptimizer, BundleAnalysis, LazyLoadingValidation } from './BundleSizeOptimizer';
-import * as fs from 'fs';
 import { execSync } from 'child_process';
+import * as fs from 'fs';
+
+import { BundleSizeOptimizer, BundleAnalysis, LazyLoadingValidation } from './BundleSizeOptimizer';
 
 // Mock external dependencies
 jest.mock('child_process');

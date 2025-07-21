@@ -2,16 +2,18 @@
 
 'use client';
 
-import React, { useState, useEffect, useMemo } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
 import { Clock, Users, ChefHat, Star, Heart, Flame, Droplets, Mountain, Wind } from 'lucide-react';
-import { getTimeFactors } from '@/utils/time';
-import type { ExtendedRecipe } from '@/types/ExtendedRecipe';
+import React, { useState, useEffect, useMemo } from 'react';
+
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import type { Element } from '@/types/alchemy';
+import type { ExtendedRecipe } from '@/types/ExtendedRecipe';
 import type { TimeFactors } from '@/types/time';
 import { logger } from '@/utils/logger';
+import { getTimeFactors } from '@/utils/time';
+
 import styles from './RecipeCard.module.css';
 
 type ViewOption = 'grid' | 'list' | 'compact';

@@ -1,12 +1,12 @@
 'use client';
 
+import { Star, Wind, Droplets, Flame, Mountain } from 'lucide-react';
 import React, { useEffect, useRef } from 'react';
+
+import PlanetaryHoursDisplay from '@/components/PlanetaryHours';
 import { useAstrologicalState } from '@/hooks/useAstrologicalState';
 import { CelestialPosition, PlanetaryAlignment } from '@/types/celestial';
-
-import { Star, Wind, Droplets, Flame, Mountain } from 'lucide-react';
 import { logger } from '@/utils/logger';
-import PlanetaryHoursDisplay from '@/components/PlanetaryHours';
 
 const ELEMENT_COLORS = {
   Fire: '#ef4444',

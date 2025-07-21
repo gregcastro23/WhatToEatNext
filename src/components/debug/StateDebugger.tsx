@@ -1,8 +1,10 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+
 import { useUnifiedState } from '@/context/UnifiedContext'
 import { logger } from '@/utils/logger'
+
 import MoonInfoDisplay from './MoonInfoDisplay'
 
 // Helper to format the timestamp

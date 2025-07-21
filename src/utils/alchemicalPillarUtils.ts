@@ -673,7 +673,7 @@ export const getHolisticCookingRecommendations = async (
 async function getCookingMethods(): Promise<Record<string, number>> {
   // Import from constants to avoid circular reference
   const alchemicalPillars = await import('../constants/alchemicalPillars');
-  return alchemicalPillars.COOKING_METHOD_PILLAR_MAPPING as Record<string, number>;
+  return alchemicalPillars.COOKING_METHOD_PILLAR_MAPPING ;
 }
 
 /**

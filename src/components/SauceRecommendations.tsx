@@ -1,6 +1,5 @@
 'use client';
 
-import React, { useState, useCallback, useMemo } from 'react';
 import { 
   ChevronDown, 
   ChevronUp, 
@@ -12,6 +11,8 @@ import {
   Wind,
   Mountain
 } from 'lucide-react';
+import React, { useState, useCallback, useMemo } from 'react';
+
 import { ElementalProperties } from '@/types/alchemy';
 import { calculateElementalMatch, getMatchScoreClass } from '@/utils/cuisineRecommender';
 

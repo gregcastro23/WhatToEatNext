@@ -5,9 +5,10 @@
  * Validates batch processing and safety protocols
  */
 
-import { UnusedVariablesCleanupSystem, type UnusedVariablesConfig, type UnusedVariablesResult } from './UnusedVariablesCleanupSystem';
 import { execSync } from 'child_process';
 import * as fs from 'fs';
+
+import { UnusedVariablesCleanupSystem, type UnusedVariablesConfig, type UnusedVariablesResult } from './UnusedVariablesCleanupSystem';
 
 // Mock dependencies
 jest.mock('child_process');

@@ -3,12 +3,13 @@
  * Shows how to use the mapping between ingredient data and recipe ingredients
  */
 
-import { connectIngredientsToMappings } from './recipeMatching';
-import { filterRecipesByIngredientMappings } from './recipeFilters';
 import { cuisinesMap } from '@/data/cuisines';
 import { ingredientsMap } from '@/data/ingredients';
-import type { Recipe } from '@/types/recipe';
 import type { ElementalProperties } from '@/types/alchemy';
+import type { Recipe } from '@/types/recipe';
+
+import { filterRecipesByIngredientMappings } from './recipeFilters';
+import { connectIngredientsToMappings } from './recipeMatching';
 
 /**
  * Example function showing how to use the ingredient mapping feature
@@ -27,7 +28,7 @@ export function findMatchedItalianDinnerRecipes() {
   
   // Map all ingredients to our ingredient database
   const mappedRecipes = allDinnerRecipes.map(recipe => {
-    const mappedIngredients = connectIngredientsToMappings(recipe as unknown as import('@/types/alchemy').Recipe);
+    const mappedIngredients = connectIngredientsToMappings(recipe  as import('@/types/alchemy').Recipe);
     
     // Calculate mapping score (percentage of ingredients with a mapping)
     // Apply Pattern GG-6: Enhanced property access with type guards
@@ -146,7 +147,7 @@ export function suggestIngredientSubstitutions(
       
       // Check elemental similarity
       const similarity = calculateElementalSimilarity(
-        elementalProperties as unknown as ElementalProperties,
+        elementalProperties  as ElementalProperties,
         mapping.elementalProperties
       );
       
@@ -154,7 +155,7 @@ export function suggestIngredientSubstitutions(
     })
     .map(([name, mapping]) => ({
       name,
-      similarity: calculateElementalSimilarity(elementalProperties as unknown as ElementalProperties, mapping.elementalProperties),
+      similarity: calculateElementalSimilarity(elementalProperties  as ElementalProperties, mapping.elementalProperties),
       mapping
     }))
     .sort((a, b) => b.similarity - a.similarity)

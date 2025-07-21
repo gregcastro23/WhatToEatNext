@@ -5,11 +5,13 @@
  * elemental properties consistency, and alchemical mapping accuracy.
  */
 
-import { allIngredients } from '../data/ingredients';
-import { calculateElementalAffinity } from './elementalUtils';
-import { logger } from './logger';
 import type { Ingredient } from '@/types';
 import type { ElementalProperties } from '@/types/elemental';
+
+import { allIngredients } from '../data/ingredients';
+
+import { calculateElementalAffinity } from './elementalUtils';
+import { logger } from './logger';
 
 // Validation result interfaces
 export interface IngredientValidationResult {
@@ -873,7 +875,7 @@ function analyzeIngredientTestResults(testResults: IngredientTestResult[]): { er
       
       errors.push({
         type: 'DATA_INCOMPLETE',
-        severity: severity as 'HIGH' | 'MEDIUM',
+        severity: severity ,
         message: `Test failed: ${test.testName}${test.error ? ` - ${test.error}` : ''}`,
         timestamp: new Date()
       });

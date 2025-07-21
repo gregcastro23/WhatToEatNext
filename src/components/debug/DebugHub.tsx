@@ -1,10 +1,11 @@
 'use client';
 
 import React, { useState } from 'react';
-import { StateInspector } from './StateInspector';
+
+import { CookingMethodRecommenderDebug } from './CookingMethodRecommenderDebug';
 import { CuisineRecommenderDebug } from './CuisineRecommenderDebug';
 import { IngredientRecommenderDebug } from './IngredientRecommenderDebug';
-import { CookingMethodRecommenderDebug } from './CookingMethodRecommenderDebug';
+import { StateInspector } from './StateInspector';
 
 type Tab = 'State' | 'Cuisine' | 'Ingredient' | 'Cooking';
 

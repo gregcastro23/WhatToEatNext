@@ -226,7 +226,7 @@ module.exports = [
       '@typescript-eslint/no-non-null-assertion': 'warn',
       '@typescript-eslint/no-unnecessary-type-assertion': 'warn',
       '@typescript-eslint/prefer-optional-chain': 'warn',
-      '@typescript-eslint/prefer-nullish-coalescing': 'warn',
+      '@typescript-eslint/prefer-nullish-coalescing': 'off', // Temporarily disabled due to plugin bug
       'no-undef': 'off', // TypeScript handles this
       
       // React Hooks rules with enhanced configuration

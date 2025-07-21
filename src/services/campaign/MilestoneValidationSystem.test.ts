@@ -3,10 +3,11 @@
  * Perfect Codebase Campaign - Comprehensive Testing
  */
 
-import { MilestoneValidationSystem, MilestoneValidation, PhaseValidationResult } from './MilestoneValidationSystem';
-import { MetricsCollectionSystem } from './MetricsCollectionSystem';
 import { execSync } from 'child_process';
 import * as fs from 'fs';
+
+import { MetricsCollectionSystem } from './MetricsCollectionSystem';
+import { MilestoneValidationSystem, MilestoneValidation, PhaseValidationResult } from './MilestoneValidationSystem';
 
 // Mock dependencies
 jest.mock('./MetricsCollectionSystem');

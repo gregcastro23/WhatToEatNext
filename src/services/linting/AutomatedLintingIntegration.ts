@@ -6,8 +6,8 @@
  * safety protocols and validation mechanisms.
  */
 
-import { LintingAnalysisService, ComprehensiveAnalysisResult } from './LintingAnalysisService';
 import { AutomatedLintingFixer, AutomatedFixResult, BatchProcessingOptions, SafetyProtocols } from './AutomatedLintingFixer';
+import { LintingAnalysisService, ComprehensiveAnalysisResult } from './LintingAnalysisService';
 import { LintingIssue, CategorizedErrors } from './LintingErrorAnalyzer';
 import { ResolutionStrategy } from './ResolutionStrategyGenerator';
 

@@ -1,9 +1,10 @@
-import { medicinalHerbs } from './medicinalHerbs';
-import { freshHerbs } from './freshHerbs';
-import { driedHerbs } from './driedHerbs';
-import { aromaticHerbs } from './aromatic';
 import type { IngredientMapping } from '@/data/ingredients/types';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
+
+import { aromaticHerbs } from './aromatic';
+import { driedHerbs } from './driedHerbs';
+import { freshHerbs } from './freshHerbs';
+import { medicinalHerbs } from './medicinalHerbs';
 
 // Define cuisine types as string literals
 const CUISINE_TYPES = {

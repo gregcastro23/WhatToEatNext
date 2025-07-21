@@ -6,11 +6,11 @@
  */
 
 import { 
-  COMPREHENSIVE_TRANSIT_DATABASE, 
-  TransitAnalysisService,
-  type TransitSeason 
-} from '@/data/transits/comprehensiveTransitDatabase';
-import type { PlanetaryAspect } from '@/types/celestial';
+  PLANETARY_DIGNITIES,
+  calculatePlanetaryDignity,
+  calculatePlanetaryStrength 
+} from '@/calculations/core/planetaryInfluences';
+import planetInfo from '@/data/planets';
 import { 
   PlanetaryLocationService,
   AstronomicalCalculations,
@@ -18,11 +18,11 @@ import {
   type LocationPlanetaryInfluence 
 } from '@/data/planets/locationService';
 import { 
-  PLANETARY_DIGNITIES,
-  calculatePlanetaryDignity,
-  calculatePlanetaryStrength 
-} from '@/calculations/core/planetaryInfluences';
-import planetInfo from '@/data/planets';
+  COMPREHENSIVE_TRANSIT_DATABASE, 
+  TransitAnalysisService,
+  type TransitSeason 
+} from '@/data/transits/comprehensiveTransitDatabase';
+import type { PlanetaryAspect } from '@/types/celestial';
 
 /**
  * Enhanced planetary position with dignity and location modifiers

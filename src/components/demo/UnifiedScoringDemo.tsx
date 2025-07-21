@@ -1,8 +1,10 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { scoreRecommendation, ScoringContext, ScoringResult } from '../../services/UnifiedScoringService';
+
 import type { Season, Planet } from '@/types/shared';
+
+import { scoreRecommendation, ScoringContext, ScoringResult } from '../../services/UnifiedScoringService';
 
 interface ScoringTestItem {
   name: string;

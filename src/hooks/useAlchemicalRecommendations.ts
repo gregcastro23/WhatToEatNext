@@ -1,10 +1,11 @@
 import { useState, useEffect, useMemo } from 'react';
-import { RulingPlanet } from '../constants/planets';
-import { ElementalCharacter, AlchemicalProperty } from '../constants/planetaryElements';
+
 import { ElementalItem } from '../calculations/alchemicalTransformation';
-import { AlchemicalItem , LunarPhase, LunarPhaseWithSpaces, ZodiacSign, PlanetaryAspect } from '../types/alchemy';
-import { RecommendationAdapter } from '../services/RecommendationAdapter';
+import { ElementalCharacter, AlchemicalProperty } from '../constants/planetaryElements';
+import { RulingPlanet } from '../constants/planets';
 import { AlchemicalRecommendations } from '../services/AlchemicalTransformationService';
+import { RecommendationAdapter } from '../services/RecommendationAdapter';
+import { AlchemicalItem , LunarPhase, LunarPhaseWithSpaces, ZodiacSign, PlanetaryAspect } from '../types/alchemy';
 
 interface UseAlchemicalRecommendationsProps {
   ingredients: ElementalItem[];
@@ -93,7 +94,7 @@ export const useAlchemicalRecommendations = ({
           topIngredients: adapter.getRecommendedIngredients(count || 5).items,
           topMethods: adapter.getRecommendedCookingMethods(count || 3).items,
           topCuisines: adapter.getRecommendedCuisines(count || 3).items,
-          dominantElement: (adapter.getDominantElement() || 'Fire') as ElementalCharacter,
+          dominantElement: (adapter.getDominantElement() || 'Fire'),
           dominantAlchemicalProperty: (adapter.getDominantAlchemicalProperty() || 'Spirit') as AlchemicalProperty,
           heat: adapter.getHeatIndex() || 0.5,
           entropy: adapter.getEntropyIndex() || 0.5,

@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
+
 import DirectRecipeService from '@/services/DirectRecipeService';
-import { ScoredRecipe } from '@/types/recipe';
 import { Element } from "@/types/alchemy";
+import { ScoredRecipe } from '@/types/recipe';
 
 // Define CelestialAlignment locally since it doesn't exist in alchemy types
 interface CelestialAlignment {
@@ -145,10 +146,10 @@ export const CuisineRecommender: React.FC<CuisineRecommenderProps> = ({
                     <div className="bar">
                       <div 
                         className={`fill ${element?.toLowerCase()}`}
-                        style={{ width: `${(value as number) * 100}%` }}
+                        style={{ width: `${(value ) * 100}%` }}
                       />
                     </div>
-                    <span className="percentage">{((value as number) * 100).toFixed(1)}%</span>
+                    <span className="percentage">{((value ) * 100).toFixed(1)}%</span>
                   </div>
                 ))}
               </div>

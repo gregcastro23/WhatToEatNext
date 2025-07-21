@@ -1,6 +1,7 @@
-import type { ElementalProperties } from '@/types/alchemy';
-import { elementalUtils } from './elementalUtils';
 import { culinaryTraditions } from '@/data/cuisines/culinaryTraditions';
+import type { ElementalProperties } from '@/types/alchemy';
+
+import { elementalUtils } from './elementalUtils';
 
 // Define TimingResult interface
 interface TimingResult {

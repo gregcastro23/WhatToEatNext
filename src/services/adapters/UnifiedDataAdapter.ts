@@ -6,14 +6,14 @@
  * the unified data system and the application's services.
  */
 
+import { UnifiedIngredient } from '@/data/unified/unifiedTypes';
 import type { ElementalProperties, Season, PlanetName, IngredientSearchCriteria } from "@/types/alchemy";
+import { Element } from "@/types/alchemy";
+
 import { EnhancedIngredient, getEnhancedIngredient, searchIngredients, getIngredientsByCategory, generateIngredientRecommendations } from '../../data/unified/enhancedIngredients';
 import { UnifiedFlavorProfile, unifiedFlavorProfileSystem, getFlavorProfile } from '../../data/unified/flavorProfiles';
-import { UnifiedIngredient } from '@/data/unified/unifiedTypes';
-
 import { createElementalProperties, calculateElementalCompatibility } from '../../utils/elemental/elementalUtils';
 
-import { Element } from "@/types/alchemy";
 
 /**
  * Interface for the UnifiedDataAdapter 

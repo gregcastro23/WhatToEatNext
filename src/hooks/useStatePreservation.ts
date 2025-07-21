@@ -1,4 +1,6 @@
 import { useEffect, useCallback, useRef, useMemo } from 'react';
+
+import { logger } from '@/utils/logger';
 import { 
   saveNavigationState, 
   getNavigationState, 
@@ -10,7 +12,6 @@ import {
   NavigationState 
 } from '@/utils/statePreservation';
 import { useSteeringFileIntelligence, ElementalProperties } from '@/utils/steeringFileIntelligence';
-import { logger } from '@/utils/logger';
 
 /**
  * Hook for preserving and restoring navigation state with performance optimizations

@@ -1,6 +1,17 @@
 // src/utils/elementalUtils.ts
 
+import { AlchemicalItem } from '@/calculations/alchemicalTransformation';
 import { DEFAULT_ELEMENTAL_PROPERTIES } from '@/constants/elementalConstants';
+import { ElementalCharacter, AlchemicalProperty } from '@/constants/planetaryElements';
+import {
+  LunarPhase,
+  calculatePlanetaryBoost,
+} from '@/constants/planetaryFoodAssociations';
+import type { IngredientMapping } from '@/data/ingredients/types';
+import { ElementalCalculator } from '@/services/ElementalCalculator';
+import {
+  ElementalItem,
+} from '@/types/alchemy';
 import type {
   ElementalProperties,
   Recipe,
@@ -9,27 +20,17 @@ import type {
   Element,
   ElementalProfile,
 } from '@/types/alchemy';
-import type { IngredientMapping } from '@/data/ingredients/types';
-import { ElementalCalculator } from '@/services/ElementalCalculator';
-import {
-  elements,
-  elementalInteractions,
-  elementalFunctions,
-} from './elementalMappings';
-import {
-  ElementalItem,
-} from '@/types/alchemy';
-import { AlchemicalItem } from '@/calculations/alchemicalTransformation';
-import { ElementalCharacter, AlchemicalProperty } from '@/constants/planetaryElements';
-import {
-  LunarPhase,
-  calculatePlanetaryBoost,
-} from '@/constants/planetaryFoodAssociations';
 import { 
   isElementalProperties, 
   isElementalPropertyKey, 
   logUnexpectedValue 
 } from '@/utils/validation';
+
+import {
+  elements,
+  elementalInteractions,
+  elementalFunctions,
+} from './elementalMappings';
 
 // Missing ELEMENTAL_CHARACTERISTICS constant
 const ELEMENTAL_CHARACTERISTICS = {
@@ -363,7 +364,7 @@ export const elementalUtils = {
     return {
       dominant: dominantElement as 'Fire' | 'Water' | 'Earth' | 'Air',
       balance: properties,
-      characteristics: [this.getElementalCharacteristics(dominantElement as Element)],
+      characteristics: [this.getElementalCharacteristics(dominantElement )],
     };
   },
 

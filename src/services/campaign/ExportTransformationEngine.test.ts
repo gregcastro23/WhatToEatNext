@@ -3,16 +3,16 @@
  * Perfect Codebase Campaign - Phase 3 Implementation
  */
 
+import { EnterpriseIntelligenceGenerator } from './EnterpriseIntelligenceGenerator';
 import { 
   ExportTransformationEngine, 
   BatchPriority, 
   TransformationErrorType, 
   ErrorSeverity 
 } from './ExportTransformationEngine';
-import { UnusedExportAnalyzer } from './UnusedExportAnalyzer';
-import { EnterpriseIntelligenceGenerator } from './EnterpriseIntelligenceGenerator';
-import { SafetyProtocol } from './SafetyProtocol';
 import { ProgressTracker } from './ProgressTracker';
+import { SafetyProtocol } from './SafetyProtocol';
+import { UnusedExportAnalyzer } from './UnusedExportAnalyzer';
 
 // Mock dependencies
 jest.mock('./UnusedExportAnalyzer');

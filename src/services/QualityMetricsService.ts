@@ -1,7 +1,8 @@
-import { buildPerformanceMonitor } from './BuildPerformanceMonitor';
-import { errorTrackingSystem } from './ErrorTrackingSystem';
 import fs from 'fs';
 import path from 'path';
+
+import { buildPerformanceMonitor } from './BuildPerformanceMonitor';
+import { errorTrackingSystem } from './ErrorTrackingSystem';
 
 export interface QualityInsight {
   type: 'trend' | 'prediction' | 'recommendation' | 'alert';

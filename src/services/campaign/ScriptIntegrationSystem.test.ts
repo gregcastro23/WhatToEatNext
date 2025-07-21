@@ -2,9 +2,10 @@
  * Tests for Script Integration System
  */
 
-import { ScriptIntegrationSystem, ScriptExecutionOptions } from './ScriptIntegrationSystem';
-import fs from 'fs';
 import { execSync } from 'child_process';
+import fs from 'fs';
+
+import { ScriptIntegrationSystem, ScriptExecutionOptions } from './ScriptIntegrationSystem';
 
 // Mock fs and execSync
 jest.mock('fs');

@@ -7,7 +7,6 @@
 
 'use client';
 
-import React, { useState } from 'react';
 import { 
   BarChart3, 
   Clock, 
@@ -20,6 +19,8 @@ import {
   Info,
   RefreshCw
 } from 'lucide-react';
+import React, { useState } from 'react';
+
 import { useRecommendationAnalytics } from '@/hooks/useRecommendationAnalytics';
 
 // ========== INTERFACES ==========

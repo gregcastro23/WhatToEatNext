@@ -5,8 +5,6 @@
 // Integrates with unified seasonal system for dynamic cuisine recommendations
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.adaptCuisineForSeason = exports.getSeasonalCuisineRecommendations = exports.generateCuisineFusion = exports.getCuisineCompatibility = exports.getIngredientsForCuisine = exports.getCuisinePAirings = exports.unifiedCuisineIntegrationSystem = exports.UnifiedCuisineIntegrationSystem = exports.cuisineMonicaConstants = exports.enhancedCuisineMatrix = void 0;
-const ingredients_1 = require("./ingredients");
-const seasonal_1 = require("./seasonal");
 const alchemicalPillars_1 = require("../../constants/alchemicalPillars");
 const flavor_1 = require("../../types/flavor");
 const elementalUtils_1 = require("../../utils/elemental/elementalUtils");
@@ -17,6 +15,8 @@ Object.defineProperty(exports, "getIngredientsForCuisine", { enumerable: true, g
 // Import existing cuisine data
 const grainCuisineMatrix_1 = require("../integrations/grainCuisineMatrix");
 const herbCuisineMatrix_1 = require("../integrations/herbCuisineMatrix");
+const seasonal_1 = require("./seasonal");
+const ingredients_1 = require("./ingredients");
 // ===== CONSOLIDATED CUISINE DATA =====
 // Enhanced cuisine matrix that includes all ingredient categories
 exports.enhancedCuisineMatrix = {

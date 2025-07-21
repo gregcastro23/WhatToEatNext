@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useMemo } from 'react';
+
 import { useServices } from '@/hooks/useServices';
 // TODO: Fix CSS module import - was: import from "./AstrologyChart.module.css.ts"
 
@@ -340,7 +341,7 @@ const AstrologyChartMigrated: React.FC<AstrologyChartProps> = ({
                   <div className="elementBarContainer">
                     <div 
                       className="elementBar" 
-                      style={{ width: `${percentage}%`, backgroundColor: elementColors[element as keyof typeof elementColors] }}
+                      style={{ width: `${percentage}%`, backgroundColor: elementColors[element ] }}
                     />
                     <span className="elementPercentage">{percentage}%</span>
                   </div>

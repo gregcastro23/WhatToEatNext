@@ -1,8 +1,9 @@
 // Test utility for cooking method recommendations
 
 import { AlchemicalItem } from '../calculations/alchemicalTransformation';
-import { getRecommendedCookingMethodsForIngredient } from './alchemicalTransformationUtils';
+
 import { getHolisticCookingRecommendations } from './alchemicalPillarUtils';
+import { getRecommendedCookingMethodsForIngredient } from './alchemicalTransformationUtils';
 
 /**
  * Run a test for cooking method recommendations with sample data

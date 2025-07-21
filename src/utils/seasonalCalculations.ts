@@ -1,3 +1,5 @@
+import { DEFAULT_ELEMENTAL_PROPERTIES } from '@/constants/elementalConstants';
+import { getLatestAstrologicalState } from '@/services/AstrologicalService';
 import type { 
   Recipe, 
   Season, 
@@ -7,11 +9,12 @@ import type {
   LunarPhaseWithSpaces,
   AstrologicalProfile
 } from '@/types/alchemy';
+
 // import { SEASONAL_PROPERTIES } from '@/constants/seasons'; // Commented out as unused
-import { DEFAULT_ELEMENTAL_PROPERTIES } from '@/constants/elementalConstants';
-import { elementalUtils , getCurrentElementalState } from './elementalUtils';
 import { validateElementalProperties, normalizeElementalProperties } from '@/types/validators';
-import { getLatestAstrologicalState } from '@/services/AstrologicalService';
+
+import { elementalUtils , getCurrentElementalState } from './elementalUtils';
+
 
 type Rating = 'optimal' | 'favorable' | 'neutral' | 'suboptimal';
 type Element = 'Fire' | 'Water' | 'Earth' | 'Air';

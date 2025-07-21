@@ -1,13 +1,15 @@
 'use client'
 
 import React, { useEffect, useState } from 'react';
-import { useAlchemical } from '../../contexts/AlchemicalContext/hooks';
-import { logger } from '../../utils/logger';
-import { PlanetaryHourCalculator } from '../../lib/PlanetaryHourCalculator';
-import { calculateLunarPhase, getLunarPhaseName } from '../../utils/astrology/core';
-import { testCookingMethodRecommendations } from '../../utils/testRecommendations';
 
 import { Element } from "@/types/alchemy";
+
+import { useAlchemical } from '../../contexts/AlchemicalContext/hooks';
+import { PlanetaryHourCalculator } from '../../lib/PlanetaryHourCalculator';
+import { calculateLunarPhase, getLunarPhaseName } from '../../utils/astrology/core';
+import { logger } from '../../utils/logger';
+import { testCookingMethodRecommendations } from '../../utils/testRecommendations';
+
 interface TestResult {
   ingredient: { name: string; dominantElement?: string; [key: string]: any };
   holisticRecommendations: Array<{ method: string, compatibility: number, reason?: string }>;
@@ -138,7 +140,7 @@ export function UnifiedDebug({ mode = 'compact', showTabs = true }: UnifiedDebug
       <div className="space-y-1">
         <p>Mounted: {String(mounted)}</p>
         <p>Renders: {renderCount}</p>
-        <p>Current Sign: {(state.astrologicalState?.currentZodiacSign as string) || (state.astrologicalState?.sunSign as string) || 'unknown'}</p>
+        <p>Current Sign: {(state.astrologicalState?.currentZodiacSign as string) || (state.astrologicalState?.sunSign ) || 'unknown'}</p>
         <p>Planetary Hour: {planetaryHour}</p>
         <p>Lunar Phase: {lunarPhase}</p>
         <div>

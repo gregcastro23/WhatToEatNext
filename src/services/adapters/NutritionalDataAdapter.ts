@@ -5,6 +5,13 @@
  * in the WhatToEatNext system with proper error handling and type safety.
  */
 
+import { Element } from "@/types/alchemy";
+import type { NutritionalProfile, 
+  ElementalProperties, 
+  ZodiacSign,
+  PlanetName,
+  Season } from "@/types/alchemy";
+
 import { 
   fetchNutritionalData, 
   calculateNutritionalBalance, 
@@ -15,16 +22,10 @@ import {
   evaluateNutritionalElementalBalance,
   getEnhancedPlanetaryNutritionalRecommendations
 } from '../../data/nutritional';
-import { errorHandler } from '../errorHandler';
 import { createElementalProperties } from '../../utils/elemental/elementalUtils';
+import { errorHandler } from '../errorHandler';
 
-import { Element } from "@/types/alchemy";
 
-import type { NutritionalProfile, 
-  ElementalProperties, 
-  ZodiacSign,
-  PlanetName,
-  Season } from "@/types/alchemy";
 
 /**
  * Interface for the NutritionalDataAdapter 
@@ -144,7 +145,7 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
         Water: result.Water, 
         Earth: result.Earth, 
         Air: result.Air
-      }) as ElementalProperties;
+      }) ;
     } catch (error) {
       // Use safe type casting for errorHandler service access
       const errorHandlerService = (errorHandler as unknown) as Record<string, unknown>;
@@ -155,7 +156,7 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
           action: 'convertNutritionalToElemental'
         });
       }
-      return createElementalProperties({ Fire: 0, Water: 0, Earth: 0, Air: 0 }) as ElementalProperties;
+      return createElementalProperties({ Fire: 0, Water: 0, Earth: 0, Air: 0 }) ;
     }
   }
   
@@ -257,7 +258,7 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
         Water: result.elements.Water || 0, 
         Earth: result.elements.Earth || 0, 
         Air: result.elements.Air || 0
-      }) as ElementalProperties;
+      }) ;
       
       return {
         elements,

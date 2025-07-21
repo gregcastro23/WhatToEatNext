@@ -1,9 +1,10 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
-import { useSearchParams, useRouter } from 'next/navigation';
-import IngredientRecommender from '@/components/IngredientRecommender';
 import { ArrowLeft, Home } from 'lucide-react';
+import { useSearchParams, useRouter } from 'next/navigation';
+import React, { useEffect, useState } from 'react';
+
+import IngredientRecommender from '@/components/IngredientRecommender';
 import { useNavigationContext, useScrollPreservation } from '@/hooks/useStatePreservation';
 
 export default function IngredientsPage() {

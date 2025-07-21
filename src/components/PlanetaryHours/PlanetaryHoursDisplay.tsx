@@ -1,10 +1,8 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
-import { PlanetaryHourCalculator } from '@/lib/PlanetaryHourCalculator';
-import { ChakraAlchemyService } from '@/lib/ChakraAlchemyService';
-import { Planet as AlchemyPlanet } from '@/types/alchemy';
 import { Clock, Sun, Moon, Star, Calendar, Timer, ChevronDown, ChevronUp } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+
 import { 
   planetElementMap, 
   planetPropertyMap 
@@ -14,6 +12,9 @@ import {
   normalizeChakraKey, 
   getChakraDisplayName 
 } from '@/constants/chakraSymbols';
+import { ChakraAlchemyService } from '@/lib/ChakraAlchemyService';
+import { PlanetaryHourCalculator } from '@/lib/PlanetaryHourCalculator';
+import { Planet as AlchemyPlanet } from '@/types/alchemy';
 
 // Define a type for capitalized planet names as used in PlanetaryHourCalculator
 type CapitalizedPlanet = 'Sun' | 'Moon' | 'Mercury' | 'Venus' | 'Mars' | 'Jupiter' | 'Saturn';
@@ -87,7 +88,7 @@ const PlanetaryHoursDisplay: React.FC<PlanetaryHoursDisplayProps> = ({ compact =
           const planetLowerCase = hourInfo.planet.toLowerCase();
           if (isValidPlanetName(planetLowerCase)) {
             // Get associated chakras from the planet's alchemical property
-            const property = planetPropertyMap(isDay)[planetLowerCase as keyof ReturnType<typeof planetPropertyMap>];
+            const property = planetPropertyMap(isDay)[planetLowerCase ];
             setAlchemicalProperty(property);
             
             // Get associated chakras from the energy state mapping

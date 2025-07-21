@@ -1,6 +1,8 @@
-import { getZodiacElement } from './astrologyUtils';
-import type { ElementalCharacter } from '../constants/planetaryElements';
 import type { ZodiacSign } from '@/types/alchemy';
+
+import type { ElementalCharacter } from '../constants/planetaryElements';
+
+import { getZodiacElement } from './astrologyUtils';
 
 /**
  * A utility function for logging debug information
@@ -175,7 +177,7 @@ export function calculateHouseEffect(
   }
   
   // Get sign element
-  const signElement = getZodiacElement(sign) as ElementalCharacter;
+  const signElement = getZodiacElement(sign) ;
   
   // Calculate house-based elemental effect
   const houseElement = houseData.element;

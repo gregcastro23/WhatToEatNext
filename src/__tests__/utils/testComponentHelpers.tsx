@@ -5,6 +5,7 @@
  */
 
 import React from 'react';
+
 import type { AlchemicalProviderProps, MainPageLayoutProps } from '../types/testUtils.d';
 
 // Mock AlchemicalProvider that accepts children

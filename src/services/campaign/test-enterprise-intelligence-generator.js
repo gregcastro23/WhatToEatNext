@@ -5,9 +5,9 @@
  * Perfect Codebase Campaign - Phase 3 Implementation
  */
 
+import fs from 'fs';
 import { EnterpriseIntelligenceGenerator } from './EnterpriseIntelligenceGenerator';
 import { UnusedExportAnalyzer } from './UnusedExportAnalyzer';
-import fs from 'fs';
 
 async function testEnterpriseIntelligenceGenerator() {
   console.log('🧠 Testing Enterprise Intelligence Generator...\n');

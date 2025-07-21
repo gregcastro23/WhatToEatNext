@@ -1,12 +1,13 @@
 'use client';
 
+import { isEqual } from 'lodash';
 import React, { useEffect, useState, useMemo, useCallback } from 'react';
+
 import { useServices } from '@/hooks/useServices';
+import { PlanetaryPosition } from "@/types/celestial";
 import { ElementType, ElementalEnergy } from '@/types/elements';
 import { getCachedCalculation } from '@/utils/calculationCache';
-import { isEqual } from 'lodash';
 
-import { PlanetaryPosition } from "@/types/celestial";
 interface ElementalEnergyDisplayProps {
   showDebug?: boolean;
 }

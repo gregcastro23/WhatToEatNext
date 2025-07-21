@@ -1,6 +1,6 @@
-import type { LunarPhaseWithSpaces, Season } from '@/types/alchemy';
 import { cuisines } from "@/data/cuisines";
 import type { Dish } from "@/types";
+import type { LunarPhaseWithSpaces, Season } from '@/types/alchemy';
 
 /**
  * A utility function for logging debug information

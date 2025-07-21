@@ -1,5 +1,5 @@
-import { planetaryModifiers } from './planetaryCycles';
 import { logger } from './logger';
+import { planetaryModifiers } from './planetaryCycles';
 
 /**
  * Validates the consistency of planetary modifiers

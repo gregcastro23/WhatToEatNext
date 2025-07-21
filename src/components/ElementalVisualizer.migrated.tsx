@@ -1,7 +1,8 @@
 'use client';
-import { ElementalProperties } from '@/types';
 import React, { useMemo, useState, useCallback, useRef } from 'react';
+
 import { useServices } from '@/hooks/useServices';
+import { ElementalProperties } from '@/types';
 
 
 
@@ -213,9 +214,9 @@ const ElementalVisualizerMigrated: React.FC<ElementalVisualizerProps> = ({
       
       // Get recommendations based on dominant element
       recommendations = {
-        flavorProfile: flavorProfiles[dominantElement?.toLowerCase() as keyof typeof flavorProfiles] || [],
-        cuisineAffinity: cuisineAffinities[dominantElement?.toLowerCase() as keyof typeof cuisineAffinities] || [],
-        wellnessProperties: wellnessProperties[dominantElement?.toLowerCase() as keyof typeof wellnessProperties] || []
+        flavorProfile: flavorProfiles[dominantElement?.toLowerCase() ] || [],
+        cuisineAffinity: cuisineAffinities[dominantElement?.toLowerCase() ] || [],
+        wellnessProperties: wellnessProperties[dominantElement?.toLowerCase() ] || []
       };
     }
     

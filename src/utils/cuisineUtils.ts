@@ -1,5 +1,5 @@
-import type { ElementalProperties } from '@/types/alchemy';
 import type { Modality } from '@/data/ingredients/types';
+import type { ElementalProperties } from '@/types/alchemy';
 import { getDominantElement } from '@/utils/elemental/elementalUtils';
 
 /**

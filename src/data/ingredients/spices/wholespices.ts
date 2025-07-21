@@ -1,7 +1,7 @@
+import { CUISINE_TYPES } from '@/constants/cuisineTypes';
 import type { IngredientMapping } from '@/data/ingredients/types';
 import type { ZodiacSign } from '@/types/celestial';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
-import { CUISINE_TYPES } from '@/constants/cuisineTypes';
 
 const rawWholeSpices = {
   'star_anise': {

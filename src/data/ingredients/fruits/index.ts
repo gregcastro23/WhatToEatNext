@@ -1,11 +1,13 @@
 import type { IngredientMapping } from '@/data/ingredients/types';
-import { citrus } from './citrus';
-import { berries } from './berries';
-import { tropical } from './tropical';
-import { stoneFruit } from './stoneFruit';
-import { pome } from './pome';
-import { melons } from './melons';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
+
+import { berries } from './berries';
+import { citrus } from './citrus';
+import { melons } from './melons';
+import { pome } from './pome';
+import { stoneFruit } from './stoneFruit';
+import { tropical } from './tropical';
+
 
 // Combine all fruit categories
 export const fruits: Record<string, IngredientMapping> = fixIngredientMappings({

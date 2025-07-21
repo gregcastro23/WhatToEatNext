@@ -1,5 +1,5 @@
-import { calculateElementalCompatibility } from '@/utils/elementalCompatibility';
 import type { ElementalProperties } from '@/types/alchemy';
+import { calculateElementalCompatibility } from '@/utils/elementalCompatibility';
 
 describe('Food Recommendation Engine', () => {
   it('should calculate compatibility correctly for identical elemental profiles', async () => {

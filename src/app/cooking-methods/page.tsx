@@ -1,8 +1,10 @@
 'use client';
 
-import { useState, useEffect } from 'react';
 import { Box, Container, Typography, Tabs, Tab } from '@mui/material';
 import { useRouter } from 'next/navigation';
+import { useState, useEffect } from 'react';
+
+import { CookingMethodsSection } from '@/components/CookingMethodsSection';
 import { 
   dryCookingMethods, 
   wetCookingMethods, 
@@ -12,7 +14,6 @@ import {
   transformationMethods
 } from '@/data/cooking/methods';
 import { capitalizeFirstLetter } from '@/utils/stringUtils';
-import { CookingMethodsSection } from '@/components/CookingMethodsSection';
 
 type MethodCategory = {
   name: string;

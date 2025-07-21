@@ -1,10 +1,11 @@
 'use client';
 
 import React, { useEffect, useState, useMemo } from 'react';
-import { useAlchemical } from '@/contexts/AlchemicalContext';
+
 import { calculateKalchmResults } from '@/calculations/core/kalchmEngine';
-import { IngredientService } from '@/services/IngredientService';
+import { useAlchemical } from '@/contexts/AlchemicalContext';
 import { UnifiedIngredient } from '@/data/unified/unifiedTypes';
+import { IngredientService } from '@/services/IngredientService';
 import { ElementalProperties } from '@/types/alchemy';
 
 interface KalchmRecommenderProps {

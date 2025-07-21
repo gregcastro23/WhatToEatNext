@@ -1,13 +1,14 @@
 import React, { useState, useMemo, useEffect } from 'react';
-import { getRecipesForCuisine } from '@/utils/recipeFilters';
-import type { Recipe } from '@/types/recipe';
+
+import { ElementalItem } from '@/calculations/alchemicalTransformation';
+import { PlanetaryDignityDetails } from '@/constants/planetaryFoodAssociations';
+import cuisines from '@/data/cuisines';
 import type { Modality } from '@/data/ingredients/types';
 import { ZodiacSign, LunarPhase, LunarPhaseWithSpaces } from '@/types/alchemy';
-import { determineModalityFromElements } from '@/utils/cuisineUtils';
+import type { Recipe } from '@/types/recipe';
 import { transformCuisines } from '@/utils/alchemicalTransformationUtils';
-import { ElementalItem } from '@/calculations/alchemicalTransformation';
-import cuisines from '@/data/cuisines';
-import { PlanetaryDignityDetails } from '@/constants/planetaryFoodAssociations';
+import { determineModalityFromElements } from '@/utils/cuisineUtils';
+import { getRecipesForCuisine } from '@/utils/recipeFilters';
 
 
 // Phase 10: Calculation Type Interfaces
@@ -153,10 +154,10 @@ function CuisineSelector({
   // Function to determine cuisine modality
   const getCuisineModality = (cuisine: CuisineData): Modality => {
     // If cuisine already has modality defined, use it
-    if ((cuisine as CuisineData).modality) return (cuisine as CuisineData).modality as Modality;
+    if ((cuisine ).modality) return (cuisine ).modality as Modality;
     
     // Otherwise determine from elemental state
-    return determineModalityFromElements((cuisine as CuisineData).elementalState as any || (cuisine as CuisineData).elementalProperties as any || {
+    return determineModalityFromElements((cuisine ).elementalState as any || (cuisine ).elementalProperties as any || {
       Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
     });
   };

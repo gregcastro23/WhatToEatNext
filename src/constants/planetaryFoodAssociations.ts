@@ -1,6 +1,7 @@
+import { LunarPhaseWithSpaces } from '../types/alchemy';
+
 import { ElementalCharacter } from './planetaryElements';
 import { ZodiacSign } from './zodiac';
-import { LunarPhaseWithSpaces } from '../types/alchemy';
 
 /**
  * Enhanced planet type incorporating multiple astrological traditions
@@ -276,7 +277,7 @@ export const getZodiacBoost = (zodiacSign: string, item: unknown): number => {
 
   // Normalize zodiac sign to lowercase for lookup
   const normalizedSign = zodiacSign.toLowerCase();
-  const zodiacElement = zodiacElements[normalizedSign as keyof typeof zodiacElements] || 'Fire';
+  const zodiacElement = zodiacElements[normalizedSign ] || 'Fire';
   
   // Check if item has elemental properties
   const itemData = item as any;
@@ -392,7 +393,7 @@ export const getFlavorBoost = (
   const ingredientData = _ingredient as any;
   const elementBoost = planetaryFoodAssociations[_planet].elementalBoost || {};
   return Object.entries(elementBoost).reduce((acc, [element, boost]) => {
-    return acc + (ingredientData.elementalProperties?.[element] || 0) * (boost as number || 0);
+    return acc + (ingredientData.elementalProperties?.[element] || 0) * (boost  || 0);
   }, 0);
 };
 

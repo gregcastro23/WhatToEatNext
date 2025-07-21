@@ -1,3 +1,8 @@
+import { getLatestAstrologicalState } from '@/services/AstrologicalService';
+import { createLogger } from '@/utils/logger';
+
+import { DEFAULT_ELEMENTAL_PROPERTIES } from '../constants/elementalConstants';
+import { planetInfo, signInfo } from '../data/astrology';
 import {
   ElementalProperties,
   Recipe,
@@ -8,10 +13,8 @@ import {
   AstrologicalState,
 } from '../types/alchemy';
 import { normalizeProperties } from '../utils/elementalUtils';
-import { DEFAULT_ELEMENTAL_PROPERTIES } from '../constants/elementalConstants';
-import { createLogger } from '@/utils/logger';
-import { planetInfo, signInfo } from '../data/astrology';
-import { getLatestAstrologicalState } from '@/services/AstrologicalService';
+
+
 
 interface ElementalSummary {
   totalFire: number;
@@ -210,7 +213,7 @@ export class ElementalCalculator {
       // Process planets if available in various formats
       if (hasPlanets) {
         // Direct planets object
-        this.processPlanetsObject(positions.planets as unknown as Planet, elementalValues);
+        this.processPlanetsObject(positions.planets  as Planet, elementalValues);
       } else if (hasCelestialBodies) {
         // Celestial bodies from API
         const positionsData = positions as Record<string, unknown>;

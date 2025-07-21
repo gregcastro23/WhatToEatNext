@@ -1,6 +1,14 @@
 import { useState, useEffect, useMemo, useCallback } from 'react';
-import { AstrologicalService } from '@/services/AstrologicalService';
+
 import { LunarPhase } from '@/constants/planetaryFoodAssociations';
+import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
+import { PlanetaryHourCalculator } from '@/lib/PlanetaryHourCalculator';
+import { AstrologicalService } from '@/services/AstrologicalService';
+import {
+  CelestialPosition,
+  AstrologicalState
+} from '@/types/celestial';
+import { ZodiacSign, PlanetaryAlignment } from '@/types/common';
 import { 
   calculatePlanetaryPositions, 
   calculateSunSign, 
@@ -10,14 +18,7 @@ import {
   getLunarPhaseName,
   calculateAspects
 } from '@/utils/astrologyUtils';
-import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
-import { PlanetaryHourCalculator } from '@/lib/PlanetaryHourCalculator';
 import { logger } from '@/utils/logger';
-import {
-  CelestialPosition,
-  AstrologicalState
-} from '@/types/celestial';
-import { ZodiacSign, PlanetaryAlignment } from '@/types/common';
 
 // Interface for hook return value
 export interface AstrologyHookData {
@@ -264,11 +265,11 @@ export function useAstrologicalState(): AstrologyHookData {
   return {
     ...astroState,
     isReady,
-    isDaytime: isDaytime as boolean,
+    isDaytime: isDaytime ,
     renderCount,
     currentPlanetaryHour: currentPlanetaryHour || 'sun',
     currentZodiac: (astroState.currentZodiac || 'aries') as ZodiacSign,
     currentPlanetaryAlignment: astroState.currentPlanetaryAlignment as unknown as PlanetaryAlignment,
-    lunarPhase: astroState.lunarPhase as LunarPhase
+    lunarPhase: astroState.lunarPhase 
   } as AstrologyHookData;
 } 

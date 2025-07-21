@@ -1,8 +1,9 @@
 import React, { useMemo } from 'react';
-import { ElementalCalculator } from '@/services/ElementalCalculator';
-import type { IngredientCategory } from '@/types/ingredients';
-import { Ingredient, NutritionalProfile, ElementalProperties } from '@/types/alchemy';
+
 import { VALID_CATEGORIES } from '@/data/ingredients';
+import { ElementalCalculator } from '@/services/ElementalCalculator';
+import { Ingredient, NutritionalProfile, ElementalProperties } from '@/types/alchemy';
+import type { IngredientCategory } from '@/types/ingredients';
 
 interface ExtendedIngredient extends Ingredient {
     nutritionalProfile?: NutritionalProfile;
@@ -216,7 +217,7 @@ export const IngredientRecommendations: React.FC<IngredientRecommendationsProps>
                                             key={element}
                                             data-testid={`${element.toLowerCase()}-value`}
                                         >
-                                            {element}: {((value as number) * 100).toFixed(0)}%
+                                            {element}: {((value ) * 100).toFixed(0)}%
                                         </div>
                                     ))}
                                 </div>

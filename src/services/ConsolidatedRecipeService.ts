@@ -10,14 +10,16 @@
  */
 
 
-import {
+import { 
+  getRecipesForZodiac,
+  getRecipesForSeason, 
+  getRecipesForLunarPhase,
+  getAllRecipes
+,
          getRecipesForPlanetaryAlignment, 
          getRecipesForFlavorProfile, 
          getBestRecipeMatches 
-} from '../data/recipes';
-import { logger } from '../utils/logger';
-
-
+} from '@/data/recipes';
 import type { 
   Element, 
   Season, 
@@ -25,25 +27,25 @@ import type {
   LunarPhase, 
   PlanetName 
 , ElementalProperties } from '@/types/alchemy';
+import type { Recipe } from '@/types/recipe';
+import { ErrorHandler } from '@/utils/errorHandler';
+
+import { logger } from '../utils/logger';
+
+
 
 // Missing service and interface imports
-import type { Recipe } from '@/types/recipe';
+
 import type { RecipeServiceInterface ,
   RecipeSearchCriteria, 
   RecipeRecommendationOptions 
 } from './interfaces/RecipeServiceInterface';
 import { LocalRecipeService } from './LocalRecipeService';
-import { UnifiedRecipeService , unifiedRecipeService } from './UnifiedRecipeService';
-import { ErrorHandler } from '@/utils/errorHandler';
 import { recipeElementalService } from './RecipeElementalService';
+import { UnifiedRecipeService , unifiedRecipeService } from './UnifiedRecipeService';
+
 
 // Missing unified system imports
-import { 
-  getRecipesForZodiac,
-  getRecipesForSeason, 
-  getRecipesForLunarPhase,
-  getAllRecipes
-} from '@/data/recipes';
 
 
 
@@ -79,7 +81,7 @@ export class ConsolidatedRecipeService {
     try {
       return await LocalRecipeService.getAllRecipes();
     } catch (error) {
-      ErrorHandler.log((error as unknown as Error), {
+      ErrorHandler.log((error  as Error), {
         component: 'ConsolidatedRecipeService',
         context: { action: 'getAllRecipes' }
       });
@@ -105,7 +107,7 @@ export class ConsolidatedRecipeService {
         return resultData?.recipe || resultData;
       }) as unknown as Recipe[];
     } catch (error) {
-      ErrorHandler.log((error as unknown as Error), {
+      ErrorHandler.log((error  as Error), {
         component: 'ConsolidatedRecipeService',
         context: { action: 'searchRecipes', criteria }
       });
@@ -120,7 +122,7 @@ export class ConsolidatedRecipeService {
     try {
       return await LocalRecipeService.getRecipesByCuisine(cuisine);
     } catch (error) {
-      ErrorHandler.log((error as unknown as Error), {
+      ErrorHandler.log((error  as Error), {
         component: 'ConsolidatedRecipeService',
         context: { action: 'getRecipesByCuisine', cuisine }
       });
@@ -136,7 +138,7 @@ export class ConsolidatedRecipeService {
       const recipeData = await getRecipesForZodiac(currentZodiacSign);
       return (recipeData as unknown) as Recipe[];
     } catch (error) {
-      ErrorHandler.log((error as unknown as Error), {
+      ErrorHandler.log((error  as Error), {
         component: 'ConsolidatedRecipeService',
         context: { action: 'getRecipesByZodiac', currentZodiacSign }
       });
@@ -152,7 +154,7 @@ export class ConsolidatedRecipeService {
       const recipeData = await getRecipesForSeason(season);
       return (recipeData as unknown) as Recipe[];
     } catch (error) {
-      ErrorHandler.log((error as unknown as Error), {
+      ErrorHandler.log((error  as Error), {
         component: 'ConsolidatedRecipeService',
         context: { action: 'getRecipesBySeason', season }
       });
@@ -168,7 +170,7 @@ export class ConsolidatedRecipeService {
       const recipeData = await getRecipesForLunarPhase(lunarPhase);
       return (recipeData as unknown) as Recipe[];
     } catch (error) {
-      ErrorHandler.log((error as unknown as Error), {
+      ErrorHandler.log((error  as Error), {
         component: 'ConsolidatedRecipeService',
         context: { action: 'getRecipesByLunarPhase', lunarPhase }
       });
@@ -183,7 +185,7 @@ export class ConsolidatedRecipeService {
     try {
       return await LocalRecipeService.getRecipesByMealType(mealType);
     } catch (error) {
-      ErrorHandler.log((error as unknown as Error), {
+      ErrorHandler.log((error  as Error), {
         component: 'ConsolidatedRecipeService',
         context: { action: 'getRecipesByMealType', mealType }
       });
@@ -201,7 +203,7 @@ export class ConsolidatedRecipeService {
     try {
       return await getRecipesForPlanetaryAlignment(planetaryInfluences, minMatchScore) as unknown as Recipe[];
     } catch (error) {
-      ErrorHandler.log((error as unknown as Error), {
+      ErrorHandler.log((error  as Error), {
         component: 'ConsolidatedRecipeService',
         context: { action: 'getRecipesForPlanetaryAlignment' }
       });
@@ -219,7 +221,7 @@ export class ConsolidatedRecipeService {
     try {
       return await getRecipesForFlavorProfile(flavorProfile, minMatchScore) as unknown as Recipe[];
     } catch (error) {
-      ErrorHandler.log((error as unknown as Error), {
+      ErrorHandler.log((error  as Error), {
         component: 'ConsolidatedRecipeService',
         context: { action: 'getRecipesForFlavorProfile' }
       });
@@ -246,7 +248,7 @@ export class ConsolidatedRecipeService {
     try {
       return await getBestRecipeMatches(criteria, limit) as unknown as Recipe[];
     } catch (error) {
-      ErrorHandler.log((error as unknown as Error), {
+      ErrorHandler.log((error  as Error), {
         component: 'ConsolidatedRecipeService',
         context: { action: 'getBestRecipeMatches', criteria }
       });
@@ -265,7 +267,7 @@ export class ConsolidatedRecipeService {
       const unifiedResult = generateRecipeMethod ? await generateRecipeMethod(criteria) : null;
       return unifiedResult?.recipe || null;
     } catch (error) {
-      ErrorHandler.log((error as unknown as Error), {
+      ErrorHandler.log((error  as Error), {
         component: 'ConsolidatedRecipeService',
         context: { action: 'generateRecipe', criteria }
       });
@@ -287,7 +289,7 @@ export class ConsolidatedRecipeService {
       const unifiedResult = generateFusionRecipeMethod ? await generateFusionRecipeMethod(cuisines, criteria) : null;
       return unifiedResult?.recipe || null;
     } catch (error) {
-      ErrorHandler.log((error as unknown as Error), {
+      ErrorHandler.log((error  as Error), {
         component: 'ConsolidatedRecipeService',
         context: { action: 'generateFusionRecipe', cuisines, criteria }
       });
@@ -309,7 +311,7 @@ export class ConsolidatedRecipeService {
       const unifiedResult = adaptRecipeMethod ? await adaptRecipeMethod(recipe) : null;
       return unifiedResult?.recipe || recipe;
     } catch (error) {
-      ErrorHandler.log((error as unknown as Error), {
+      ErrorHandler.log((error  as Error), {
         component: 'ConsolidatedRecipeService',
         context: { action: 'adaptRecipeForSeason', recipe, season }
       });
@@ -353,8 +355,8 @@ export class ConsolidatedRecipeService {
       const elementalProps2 = recipeElementalService.standardizeRecipe(recipe2)?.elementalState;
       
       return recipeElementalService.calculateSimilarity(
-        elementalProps1 as unknown as ElementalProperties, 
-        elementalProps2 as unknown as ElementalProperties
+        elementalProps1  as ElementalProperties, 
+        elementalProps2  as ElementalProperties
       );
     } catch (error) {
       logger.error('Error calculating recipe similarity', error);

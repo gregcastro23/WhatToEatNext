@@ -1,7 +1,8 @@
-import { getCurrentTransitSign, validatePlanetaryPositions, getCurrentTransitPositions } from './validatePlanetaryPositions';
-import { PlanetPosition } from './astrologyUtils';
 import marsData from '@/data/planets/mars';
 import type { ZodiacSign } from '@/types';
+
+import { PlanetPosition } from './astrologyUtils';
+import { getCurrentTransitSign, validatePlanetaryPositions, getCurrentTransitPositions } from './validatePlanetaryPositions';
 
 // Mock the planet data files
 jest.mock('@/data/planets/mars', () => ({

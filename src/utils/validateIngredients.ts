@@ -1,5 +1,5 @@
-import type { RecipeIngredient } from '@/types/recipe';
 import type { ElementalProperties } from '@/types/alchemy';
+import type { RecipeIngredient } from '@/types/recipe';
 
 export function validateIngredientData(
   recipes: { ingredients: RecipeIngredient[] }[]

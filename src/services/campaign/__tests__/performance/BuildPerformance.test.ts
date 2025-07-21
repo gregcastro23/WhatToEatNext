@@ -3,17 +3,19 @@
  * Perfect Codebase Campaign - Build Performance Testing
  */
 
-import { ProgressTracker } from '../../ProgressTracker';
-import { CampaignController } from '../../CampaignController';
-import { SafetyProtocol } from '../../SafetyProtocol';
+import { execSync } from 'child_process';
+import * as fs from 'fs';
+
 import {
   CampaignConfig,
   SafetySettings,
   SafetyLevel,
   ProgressMetrics
 } from '../../../../types/campaign';
-import { execSync } from 'child_process';
-import * as fs from 'fs';
+import { CampaignController } from '../../CampaignController';
+import { ProgressTracker } from '../../ProgressTracker';
+import { SafetyProtocol } from '../../SafetyProtocol';
+
 
 // Mock dependencies
 jest.mock('child_process');

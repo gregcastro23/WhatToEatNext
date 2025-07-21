@@ -1,6 +1,6 @@
 import { allIngredients } from '@/data/ingredients';
-import { logger } from '@/utils/logger';
 import type { ElementalProperties, Ingredient, AstrologicalProfile } from '@/types/alchemy';
+import { logger } from '@/utils/logger';
 
 // Extended ingredient type for our cleanup function
 interface IngredientWithAstrology extends Ingredient {

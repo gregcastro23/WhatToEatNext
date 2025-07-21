@@ -5,7 +5,6 @@
  * Prevents memory leaks and provides controlled progress simulation.
  */
 
-import { TestMemoryMonitor } from './TestMemoryMonitor';
 import {
   ProgressMetrics,
   ProgressReport,
@@ -13,6 +12,8 @@ import {
   PhaseStatus,
   ValidationResult
 } from '../../types/campaign';
+
+import { TestMemoryMonitor } from './TestMemoryMonitor';
 
 interface TestProgressConfig {
   maxHistorySize: number;

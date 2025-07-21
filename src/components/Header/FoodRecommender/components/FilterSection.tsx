@@ -2,13 +2,14 @@
 
 "use client"
 
-import React, { useEffect, useState } from 'react';
 import { Timer, Flame, Droplet, Wind, Mountain } from 'lucide-react';
-import type { FilterOptions, NutritionPreferences, ElementalProperties, ZodiacSign } from '@/types/alchemy';
-import { cuisines } from '@/data/cuisines';
-import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
+import React, { useEffect, useState } from 'react';
+
 import { AlchemicalEngineAdvanced as AlchemicalEngine } from '@/calculations/alchemicalEngine';
 import { calculateSeasonalElements } from '@/calculations/seasonalCalculations';
+import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
+import { cuisines } from '@/data/cuisines';
+import type { FilterOptions, NutritionPreferences, ElementalProperties, ZodiacSign } from '@/types/alchemy';
 import { getCurrentSeason, getDayOfYear, getMoonPhase, getTimeOfDay } from '@/utils/dateUtils';
 import { logger } from '@/utils/logger';
 

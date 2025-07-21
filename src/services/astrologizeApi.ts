@@ -1,7 +1,7 @@
-import { PlanetPosition } from '@/utils/astrologyUtils';
 import type { ZodiacSign } from '@/types/alchemy';
 import { PlanetaryPosition } from "@/types/celestial";
 import { astrologizeApiCircuitBreaker } from '@/utils/apiCircuitBreaker';
+import { PlanetPosition } from '@/utils/astrologyUtils';
 
 // Use local API endpoint instead of external
 const LOCAL_ASTROLOGIZE_API_URL = '/api/astrologize';

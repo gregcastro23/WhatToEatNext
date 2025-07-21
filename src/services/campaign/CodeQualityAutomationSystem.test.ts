@@ -4,9 +4,9 @@
  */
 
 import { CodeQualityAutomationSystem, DEFAULT_CODE_QUALITY_AUTOMATION_CONFIG, CodeQualityAutomationConfig } from './CodeQualityAutomationSystem';
+import { DependencySecurityMonitor } from './DependencySecurityMonitor';
 import { ImportCleanupSystem } from './ImportCleanupSystem';
 import { LintingFormattingSystem } from './LintingFormattingSystem';
-import { DependencySecurityMonitor } from './DependencySecurityMonitor';
 
 // Mock the subsystems
 jest.mock('./ImportCleanupSystem');

@@ -1,6 +1,7 @@
 import type { IngredientMapping } from '@/data/ingredients/types';
-import { oils } from './oils';
 import { enhanceOilProperties, fixIngredientMappings } from '@/utils/elementalUtils';
+
+import { oils } from './oils';
 
 export { oils };
 

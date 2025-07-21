@@ -1,11 +1,11 @@
 // import { celestialBodies } from '../data/celestial/bodies';
-import { celestialNumerology } from '../utils/numerology';
-import { logger } from '../utils/logger';
-import { cache } from '../utils/cache';
+import type { TarotCard } from '../contexts/TarotContext/types';
 import type { CelestialAlignment, ElementalProperties, EnergyStateProperties, ChakraEnergies, ZodiacSign, AspectType, PlanetaryAspect, CelestialBody } from '../types/alchemy';
 import type { LunarPhase } from '../types/shared';
-import type { TarotCard } from '../contexts/TarotContext/types';
 import * as astronomiaCalculator from '../utils/astronomiaCalculator';
+import { cache } from '../utils/cache';
+import { logger } from '../utils/logger';
+import { celestialNumerology } from '../utils/numerology';
 
 // Tarot elemental correspondences
 const TAROT_ELEMENTAL_MAPPING: Record<string, { Element: string; Spirit: number; Essence: number; Matter: number; Substance: number }> = {
@@ -391,7 +391,7 @@ class CelestialCalculator {
     }
     
     if (typeof alignment.zodiacSign === 'string') {
-      safeAlignment.zodiacSign = alignment.zodiacSign as ZodiacSign;
+      safeAlignment.zodiacSign = alignment.zodiacSign ;
     }
     
     if (alignment.dominantPlanets && Array.isArray(alignment.dominantPlanets)) {

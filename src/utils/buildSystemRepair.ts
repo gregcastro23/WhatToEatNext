@@ -1,7 +1,8 @@
-import { BuildValidator, BuildValidationResult, BuildHealthReport } from './BuildValidator';
-import { NextConfigOptimizer } from './nextConfigOptimizer';
 import { execSync } from 'child_process';
 import fs from 'fs';
+
+import { BuildValidator, BuildValidationResult, BuildHealthReport } from './BuildValidator';
+import { NextConfigOptimizer } from './nextConfigOptimizer';
 
 /**
  * Comprehensive Build System Repair Utility

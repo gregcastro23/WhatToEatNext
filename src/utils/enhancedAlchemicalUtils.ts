@@ -1,10 +1,12 @@
+import { AlchemicalResult, ElementalProperties, ZodiacSign } from '@/types/alchemy';
+
 import { 
   calculateAstrologicalAffinity, 
   calculateAlchemicalCompatibility,
   generateEnhancedRecommendation,
   validateAlgorithms
 } from '../calculations/enhancedAlchemicalMatching';
-import { AlchemicalResult, ElementalProperties, ZodiacSign } from '@/types/alchemy';
+
 import { getZodiacElementalInfluence } from './zodiacUtils';
 
 /**

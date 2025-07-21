@@ -1,3 +1,5 @@
+import { unifiedIngredients } from '@/data/unified/ingredients';
+import { UnifiedIngredient } from '@/data/unified/unifiedTypes';
 import type { // ===== UNIFIED NUTRITIONAL SERVICE =====
 // Phase 3 Step 4 of WhatToEatNext Data Consolidation
 // Service layer for unified nutritional system with comprehensive API
@@ -9,8 +11,8 @@ import type { // ===== UNIFIED NUTRITIONAL SERVICE =====
   PlanetName,
   Season,
   CookingMethod } from '@/types/alchemy';
-import type { NutritionalProfile, NutritionalFilter } from '../types/nutrition';
-import { NutritionService } from './NutritionService';
+
+import { allIngredients } from '../data/ingredients';
 import { 
   unifiedNutritionalSystem,
   type AlchemicalNutritionalProfile,
@@ -20,11 +22,12 @@ import {
   type PlanetaryNutritionalProfile,
   type ZodiacNutritionalProfile
 } from '../data/unified/nutritional';
-import { unifiedIngredients } from '@/data/unified/ingredients';
-import { UnifiedIngredient } from '@/data/unified/unifiedTypes';
 import { unifiedSeasonalSystem } from '../data/unified/seasonal.js';
+import type { NutritionalProfile, NutritionalFilter } from '../types/nutrition';
 import { logger } from '../utils/logger';
-import { allIngredients } from '../data/ingredients';
+
+import { NutritionService } from './NutritionService';
+
 
 
 
@@ -38,7 +41,7 @@ export class UnifiedNutritionalService {
   private constructor() {
     // Apply Pattern PP-1: Safe service initialization
     const NutritionServiceData = NutritionService as unknown as Record<string, unknown>;
-    this.legacyNutritionService = (NutritionServiceData?.getInstance as unknown as () => NutritionService)?.() || new NutritionService();
+    this.legacyNutritionService = (NutritionServiceData?.getInstance  as () => NutritionService)?.() || new NutritionService();
   }
   
   /**
@@ -119,7 +122,7 @@ export class UnifiedNutritionalService {
       
       // Apply surgical type casting with variable extraction
       const systemData = unifiedNutritionalSystem as unknown as Record<string, unknown>;
-      const enhanceMethod = systemData?.enhanceNutritionalProfile as unknown as (profile: NutritionalProfile, context?: unknown) => AlchemicalNutritionalProfile;
+      const enhanceMethod = systemData?.enhanceNutritionalProfile  as (profile: NutritionalProfile, context?: unknown) => AlchemicalNutritionalProfile;
       
       // Enhance with alchemical properties
       const enhanced = enhanceMethod ? enhanceMethod(nutritionalProfile, context) : nutritionalProfile as unknown as AlchemicalNutritionalProfile;
@@ -153,7 +156,7 @@ export class UnifiedNutritionalService {
   calculateNutritionalKalchm(profile: NutritionalProfile): number {
     // Apply surgical type casting with variable extraction
     const systemData = unifiedNutritionalSystem as unknown as Record<string, unknown>;
-    const calculateKalchmMethod = systemData?.calculateNutritionalKalchm as unknown as (profile: NutritionalProfile) => number;
+    const calculateKalchmMethod = systemData?.calculateNutritionalKalchm  as (profile: NutritionalProfile) => number;
     
     return calculateKalchmMethod ? calculateKalchmMethod(profile) : 0;
   }
@@ -179,7 +182,7 @@ export class UnifiedNutritionalService {
         }
       }
       
-      return unifiedNutritionalSystem.analyzeNutritionalCompatibility(profiles, context) as NutritionalCompatibilityAnalysis;
+      return unifiedNutritionalSystem.analyzeNutritionalCompatibility(profiles, context) ;
       
     } catch (error) {
       logger.error('Error analyzing nutritional compatibility:', error);

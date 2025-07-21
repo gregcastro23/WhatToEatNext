@@ -1,7 +1,5 @@
 'use client';
 
-import React, { useState, useEffect, useCallback, useMemo } from 'react';
-import { logger } from '@/utils/logger';
 import {
   Sparkles,
   Star,
@@ -13,50 +11,55 @@ import {
   Brain,
   Leaf
 } from 'lucide-react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
+
+import { calculateRecipeCompatibility } from '@/calculations/index';
+import PerformanceAnalyticsDashboard from '@/components/analytics/PerformanceAnalyticsDashboard';
+import EnterpriseIntelligencePanel from '@/components/intelligence/EnterpriseIntelligencePanel';
+import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
+import { getAllRecipes } from '@/data/recipes';
 import { 
-  getCuisineRecommendations,
-  generateTopSauceRecommendations,
-  getMatchScoreClass,
-  calculateElementalProfileFromZodiac,
-} from '@/utils/cuisineRecommender';
+  CulturalAnalyticsService,
+  CulturalAnalytics,
+  FusionCuisineRecommendation 
+} from '@/services/CulturalAnalyticsService';
+import { EnterpriseIntelligenceIntegration } from '@/services/EnterpriseIntelligenceIntegration';
 import { 
   RecipeAnalysisIntelligence,
   RecipeMetadataIntelligence,
   RecipeTimingIntelligence,
   RecipeSafetyIntelligence 
 } from '@/services/RecipeIntelligenceService';
-import { EnterpriseIntelligenceIntegration } from '@/services/EnterpriseIntelligenceIntegration';
+import { 
+  getCuisineRecommendations,
+  generateTopSauceRecommendations,
+  getMatchScoreClass,
+  calculateElementalProfileFromZodiac,
+} from '@/utils/cuisineRecommender';
+import { logger } from '@/utils/logger';
 import { 
   calculateMomentMonicaConstant,
   performEnhancedAnalysis,
   calculateMonicaKalchmCompatibility,
 } from '@/utils/monicaKalchmCalculations';
-import { 
-  CulturalAnalyticsService,
-  CulturalAnalytics,
-  FusionCuisineRecommendation 
-} from '@/services/CulturalAnalyticsService';
 import {
   ElementalProperties,
   ZodiacSign,
   LunarPhase,
 } from '@/types/alchemy';
-import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
-import { getAllRecipes } from '@/data/recipes';
 import { Recipe } from '@/types/recipe';
-import RecipeRecommendations from './RecipeRecommendations';
-import SauceRecommendations from './SauceRecommendations';
-import AdvancedSearchFilters, { SearchFilters } from './AdvancedSearchFilters';
 import { 
   processNaturalLanguageQuery, 
   enhancedSearch, 
   applyFilters,
   SearchIntent 
 } from '@/utils/naturalLanguageProcessor';
+
+import AdvancedSearchFilters, { SearchFilters } from './AdvancedSearchFilters';
+import RecipeRecommendations from './RecipeRecommendations';
+import SauceRecommendations from './SauceRecommendations';
+
 import { useRecommendationAnalytics, useInteractionTracking } from '@/hooks/useRecommendationAnalytics';
-import PerformanceAnalyticsDashboard from '@/components/analytics/PerformanceAnalyticsDashboard';
-import EnterpriseIntelligencePanel from '@/components/intelligence/EnterpriseIntelligencePanel';
-import { calculateRecipeCompatibility } from '@/calculations/index';
 
 // ========== INTERFACES ==========
 

@@ -1,14 +1,15 @@
-import { ZodiacSign } from '@/types';
-import sunData from '@/data/planets/sun';
-import moonData from '@/data/planets/moon';
-import mercuryData from '@/data/planets/mercury';
-import venusData from '@/data/planets/venus';
-import marsData from '@/data/planets/mars';
 import jupiterData from '@/data/planets/jupiter';
-import saturnData from '@/data/planets/saturn';
-import uranusData from '@/data/planets/uranus';
+import marsData from '@/data/planets/mars';
+import mercuryData from '@/data/planets/mercury';
+import moonData from '@/data/planets/moon';
 import neptuneData from '@/data/planets/neptune';
 import plutoData from '@/data/planets/pluto';
+import saturnData from '@/data/planets/saturn';
+import sunData from '@/data/planets/sun';
+import uranusData from '@/data/planets/uranus';
+import venusData from '@/data/planets/venus';
+import { ZodiacSign } from '@/types';
+
 import { PlanetPosition } from './astrologyUtils';
 
 interface TransitDate {

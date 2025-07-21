@@ -2,8 +2,8 @@
 // Implements cross-cultural compatibility analysis, cultural synergy scoring,
 // and fusion cuisine recommendations for the CuisineRecommender component
 
-import { culturalRules, getCulturalRecommendations } from '@/data/culturalrules';
 import { culinaryTraditions, CuisineProfile } from '@/data/cuisines/culinaryTraditions';
+import { culturalRules, getCulturalRecommendations } from '@/data/culturalrules';
 import { ElementalProperties, ZodiacSign, LunarPhase } from '@/types/alchemy';
 import { logger } from '@/utils/logger';
 
@@ -434,7 +434,7 @@ export class CulturalAnalyticsService {
     
     let fusionScore = 0.7; // Base fusion potential
     let culturalHarmony = 0.7;
-    let blendRatio = 0.5; // Default 50/50
+    const blendRatio = 0.5; // Default 50/50
     
     // Same cultural group - high harmony, moderate fusion potential
     if (group1 === group2) {

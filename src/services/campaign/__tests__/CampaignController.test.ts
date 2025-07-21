@@ -3,7 +3,6 @@
  * Perfect Codebase Campaign - Testing Infrastructure
  */
 
-import { CampaignController } from '../CampaignController';
 import {
   CampaignConfig,
   CampaignPhase,
@@ -16,6 +15,7 @@ import {
   SafetyLevel,
   PhaseStatus
 } from '../../../types/campaign';
+import { CampaignController } from '../CampaignController';
 
 // Mock dependencies
 jest.mock('child_process');

@@ -8,7 +8,6 @@
 
 'use client';
 
-import React, { useState, useMemo } from 'react';
 import { 
   Brain, 
   TrendingUp, 
@@ -22,6 +21,8 @@ import {
   Eye,
   EyeOff
 } from 'lucide-react';
+import React, { useState, useMemo } from 'react';
+
 import { 
   useEnterpriseIntelligence,
   useEnterpriseIntelligenceHealth,

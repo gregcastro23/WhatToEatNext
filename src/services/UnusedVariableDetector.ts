@@ -14,10 +14,10 @@
  * - Automated cleanup capabilities
  */
 
-import fs from 'fs';
-import path from 'path';
 import { execSync } from 'child_process';
 import { EventEmitter } from 'events';
+import fs from 'fs';
+import path from 'path';
 
 // ========== UNUSED VARIABLE INTERFACES ==========
 
@@ -1253,7 +1253,7 @@ export class UnusedVariableDetector extends EventEmitter {
 
     try {
       const content = fs.readFileSync(filePath, 'utf8');
-      let modifiedContent = content;
+      const modifiedContent = content;
       const lines = content.split('\n');
 
       // Process recommendations in reverse order to avoid line number shifts

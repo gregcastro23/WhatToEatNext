@@ -5,10 +5,12 @@
  * Command-line interface for the automated linting and formatting system
  */
 
-import { LintingFormattingSystem, DEFAULT_LINTING_FORMATTING_CONFIG, LintingFormattingConfig } from './LintingFormattingSystem';
-import { logger } from '../../utils/logger';
 import * as fs from 'fs';
 import * as path from 'path';
+
+import { logger } from '../../utils/logger';
+
+import { LintingFormattingSystem, DEFAULT_LINTING_FORMATTING_CONFIG, LintingFormattingConfig } from './LintingFormattingSystem';
 
 interface CLIOptions {
   files?: string[];

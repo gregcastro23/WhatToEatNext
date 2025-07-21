@@ -1,7 +1,8 @@
-import React from 'react';
 import { render, screen } from '@testing-library/react';
-import { GlobalErrorBoundary } from '../GlobalErrorBoundary';
+import React from 'react';
+
 import { ComponentErrorBoundary } from '../ComponentErrorBoundary';
+import { GlobalErrorBoundary } from '../GlobalErrorBoundary';
 import { SafetyInfrastructureProvider } from '../SafetyInfrastructureProvider';
 
 // Mock component that throws an error

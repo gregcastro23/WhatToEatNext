@@ -1,3 +1,5 @@
+import alchemicalEngine from '@/calculations/core/alchemicalEngine';
+import { recipeDataService } from '@/services/recipeData';
 import { 
   Planet, 
   ZodiacSign, 
@@ -6,10 +8,12 @@ import {
   Element,
   ElementalProperties
 } from '@/types/alchemy';
+import { PlanetaryAlignment } from "@/types/celestial";
 
-import { Recipe } from '../types/recipe';
-import { Ingredient , UnifiedIngredient } from '../types/ingredient';
 import { CookingMethod } from '../types/cooking';
+import { Ingredient , UnifiedIngredient } from '../types/ingredient';
+import { Recipe } from '../types/recipe';
+
 import { 
   RecommendationServiceInterface, 
   RecipeRecommendationCriteria, 
@@ -18,10 +22,7 @@ import {
   CookingMethodRecommendationCriteria,
   RecommendationResult
 } from './interfaces/RecommendationServiceInterface';
-import { PlanetaryAlignment } from "@/types/celestial";
 import { unifiedIngredientService } from './UnifiedIngredientService';
-import alchemicalEngine from '@/calculations/core/alchemicalEngine';
-import { recipeDataService } from '@/services/recipeData';
 /**
  * UnifiedRecommendationService
  * 
@@ -398,7 +399,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
     if (criteria.excludeMethods && (criteria.excludeMethods || []).length > 0) {
       const excludedSet = new Set((criteria?.excludeMethods || []).map(m => m?.toLowerCase()));
       availableMethods = (cookingMethods || []).filter(method => {
-        const methodData = method as CookingMethod;
+        const methodData = method ;
         return !excludedSet.has(methodData?.name?.toLowerCase() || '');
       });
     }
@@ -412,7 +413,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
       const elementalState = criteriaData?.elementalState || criteriaData?.elementalProperties;
       
       // Calculate elemental compatibility if criteria includes elemental properties
-      const methodData = method as CookingMethod;
+      const methodData = method ;
       if (elementalState && methodData?.elementalEffect) {
         const elementalScore = this.calculateElementalCompatibility(
           elementalState as ElementalProperties,

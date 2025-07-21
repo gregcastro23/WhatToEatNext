@@ -1,8 +1,8 @@
-import { spherification } from './spherification';
-import { gelification } from './gelification';
-// Import other molecular cooking methods as they are added
-import { emulsification } from './emulsification';
 import { cryoCooking } from './cryo-cooking';
+import { emulsification } from './emulsification';
+import { gelification } from './gelification';
+import { spherification } from './spherification';
+// Import other molecular cooking methods as they are added
 
 /**
  * Collection of molecular gastronomy cooking methods

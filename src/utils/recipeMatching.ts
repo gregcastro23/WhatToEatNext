@@ -1,3 +1,4 @@
+import { LocalRecipeService } from '@/services/LocalRecipeService';
 import type {
   Recipe,
   ElementalProperties,
@@ -5,7 +6,6 @@ import type {
   Season,
 } from "@/types/alchemy";
 import type { CookingMethod } from "@/types/cookingMethod";
-import { LocalRecipeService } from '@/services/LocalRecipeService';
 
 // Define IngredientMapping locally since it's not exported from alchemy
 interface IngredientMapping {
@@ -25,9 +25,10 @@ interface IngredientMapping {
   matchScore?: number;
   mealType?: string;
 }
-import { elementalUtils , getCurrentElementalState } from './elementalUtils';
-import { ingredientsMap } from '@/data/ingredients';
 import { calculateMatchScore } from './ElementalCalculator';
+import { elementalUtils , getCurrentElementalState } from './elementalUtils';
+
+import { ingredientsMap } from '@/data/ingredients';
 // Import from correct location
 import { getRecipes } from '@/data/recipes';
 import { getLatestAstrologicalState } from '@/services/AstrologicalService';
@@ -316,7 +317,7 @@ const calculateBaseElements = async (recipe: Recipe): Promise<ElementalPropertie
     const ingredientMapping = ingredientsMap[ingredientName.toLowerCase()];
     
     if (ingredientMapping?.elementalProperties) {
-      const properties = ingredientMapping.elementalProperties as ElementalProperties;
+      const properties = ingredientMapping.elementalProperties ;
       baseElements.Fire += properties.Fire || 0;
       baseElements.Water += properties.Water || 0;
       baseElements.Earth += properties.Earth || 0;
@@ -1481,7 +1482,7 @@ function calculateComplexityMatch(
         normalizedRecipeComplexity = 3; // Default to moderate if unknown term
     }
   } else {
-    normalizedRecipeComplexity = recipeComplexity as number;
+    normalizedRecipeComplexity = recipeComplexity ;
   }
 
   // Normalize recipe complexity to 0-1 scale

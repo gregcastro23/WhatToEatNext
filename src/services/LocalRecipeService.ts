@@ -1,7 +1,7 @@
 import { cuisinesMap } from '@/data/cuisines';
-import type { Recipe } from '@/types/recipe';
-import type { Cuisine, SeasonalDishes } from '@/types/cuisine';
 import type { ZodiacSign, LunarPhase, ElementalProperties } from '@/types/alchemy';
+import type { Cuisine, SeasonalDishes } from '@/types/cuisine';
+import type { Recipe } from '@/types/recipe';
 import { logger } from '@/utils/logger';
 
 // Define a more specific type for dish objects
@@ -508,7 +508,7 @@ export class LocalRecipeService {
         elementalProperties = dish.elementalProperties as ElementalProperties;
       } else if (dish.elementalState && typeof dish.elementalState === 'object') {
         // Convert Record<string, number> to ElementalProperties
-        const state = dish.elementalState as Record<string, number>;
+        const state = dish.elementalState ;
         elementalProperties = {
           Fire: state.Fire || state.fire || 0.25,
           Water: state.Water || state.water || 0.25,
@@ -577,7 +577,7 @@ export class LocalRecipeService {
         // Convert from {ingredient: [alternatives]} format
         substitutions = Object.entries(dish.substitutions).map(([original, alternatives]) => ({
           original,
-          alternatives: Array.isArray(alternatives) ? alternatives : [alternatives as string]
+          alternatives: Array.isArray(alternatives) ? alternatives : [alternatives ]
         }));
       }
       

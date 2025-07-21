@@ -6,8 +6,8 @@
  * complex API calls and calculations that might fail.
  */
 
-import { ZodiacSign, PlanetaryAspect, CelestialPosition, AspectType } from '@/types/celestial';
 import { AstrologicalState, type LunarPhase } from '@/types/alchemy';
+import { ZodiacSign, PlanetaryAspect, CelestialPosition, AspectType } from '@/types/celestial';
 import { createLogger } from '@/utils/logger';
 
 // Create a component-specific logger
@@ -296,7 +296,7 @@ export function getCurrentAstrologicalState(): AstrologicalState {
     lunarPhase: phaseName as LunarPhase,
     activePlanets,
     dominantElement: dominantElementCapitalized,
-    dominantPlanets: activePlanets as string[]
+    dominantPlanets: activePlanets 
   };
   
   // Update cache

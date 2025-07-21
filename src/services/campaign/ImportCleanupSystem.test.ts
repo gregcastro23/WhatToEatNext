@@ -3,10 +3,11 @@
  * Comprehensive test suite for automated import cleanup functionality
  */
 
-import { ImportCleanupSystem, DEFAULT_IMPORT_CLEANUP_CONFIG, ImportCleanupConfig } from './ImportCleanupSystem';
+import { execSync } from 'child_process';
 import * as fs from 'fs';
 import * as path from 'path';
-import { execSync } from 'child_process';
+
+import { ImportCleanupSystem, DEFAULT_IMPORT_CLEANUP_CONFIG, ImportCleanupConfig } from './ImportCleanupSystem';
 
 // Mock dependencies
 jest.mock('fs');

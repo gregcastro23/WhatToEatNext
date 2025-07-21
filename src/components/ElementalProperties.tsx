@@ -1,6 +1,8 @@
 import React from 'react';
-import { Element } from '../utils/elemental/elementCompatibility';
+
 import type { ElementalProperties } from "@/types/alchemy";
+
+import { Element } from '../utils/elemental/elementCompatibility';
 
 interface ElementalPropertiesProps {
   properties: Record<Element, number>;

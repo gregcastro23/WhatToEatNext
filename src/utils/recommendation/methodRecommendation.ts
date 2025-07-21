@@ -11,21 +11,7 @@ function getAstrologicalElementalProfile(astroState: unknown): ElementalProperti
 function createElementalProperties(props: { Fire: number; Water: number; Earth: number; Air: number } = { Fire: 0, Water: 0, Earth: 0, Air: 0 }): ElementalProperties {
   return { Fire: props.Fire || 0, Water: props.Water || 0, Earth: props.Earth || 0, Air: props.Air || 0 };
 }
-import { allCookingMethods, cookingMethods as detailedCookingMethods } from '../../data/cooking';
-import { culturalCookingMethods, getCulturalVariations, CulturalCookingMethod } from '../culturalMethodsAggregator';
-import type { ZodiacSign } from '../../types';
 import type { CookingMethod, CookingMethod as CookingMethodEnum } from "@/types/alchemy";
-import type { Ingredient, UnifiedIngredient } from "@/types/ingredient";
-import { getCurrentSeason } from '../../data/integrations/seasonal';
-import venusData from '../../data/planets/venus';
-import marsData from '../../data/planets/mars';
-import mercuryData from '../../data/planets/mercury';
-import jupiterData from '../../data/planets/jupiter';
-import saturnData from '../../data/planets/saturn';
-import uranusData from '../../data/planets/uranus';
-import neptuneData from '../../data/planets/neptune';
-import plutoData from '../../data/planets/pluto';
-import { calculateLunarPhase } from '../astrologyUtils';
 import { 
   PlanetaryAspect, 
   LunarPhase, 
@@ -37,6 +23,21 @@ import {
   ElementalProperties
 , Element } from "@/types/alchemy";
 import type { AstrologicalState } from "@/types/celestial";
+import type { Ingredient, UnifiedIngredient } from "@/types/ingredient";
+
+import { allCookingMethods, cookingMethods as detailedCookingMethods } from '../../data/cooking';
+import { getCurrentSeason } from '../../data/integrations/seasonal';
+import jupiterData from '../../data/planets/jupiter';
+import marsData from '../../data/planets/mars';
+import mercuryData from '../../data/planets/mercury';
+import neptuneData from '../../data/planets/neptune';
+import plutoData from '../../data/planets/pluto';
+import saturnData from '../../data/planets/saturn';
+import uranusData from '../../data/planets/uranus';
+import venusData from '../../data/planets/venus';
+import type { ZodiacSign } from '../../types';
+import { calculateLunarPhase } from '../astrologyUtils';
+import { culturalCookingMethods, getCulturalVariations, CulturalCookingMethod } from '../culturalMethodsAggregator';
 import { createElementalProperties as createElementalPropertiesFromUtils, isElementalProperties } from '../elemental/elementalUtils';
 
 // Type guard for FlavorProperties

@@ -1,13 +1,15 @@
 import type { IngredientMapping } from '@/data/ingredients/types';
-import { leafyGreens } from './leafyGreens';
-import { roots } from './roots';
-import { cruciferous } from './cruciferous';
-import { nightshades } from './nightshades';
+import { fixIngredientMappings } from '@/utils/elementalUtils';
+
 import { alliums } from './alliums';
+import { cruciferous } from './cruciferous';
+import { leafyGreens } from './leafyGreens';
+import { legumes } from './legumes';
+import { nightshades } from './nightshades';
+import { roots } from './roots';
 import { squash } from './squash';
 import { starchyVegetables } from './starchy';
-import { legumes } from './legumes';
-import { fixIngredientMappings } from '@/utils/elementalUtils';
+
 
 // Combine all vegetable categories
 export const vegetables: Record<string, IngredientMapping> = fixIngredientMappings({

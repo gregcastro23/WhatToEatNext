@@ -1,6 +1,6 @@
-import { Recipe } from '@/types/recipe';
 import type { ElementalProperties } from "@/types/alchemy";
 import { Element } from "@/types/alchemy";
+import { Recipe } from '@/types/recipe';
 
 /**
  * Elemental Utils Index

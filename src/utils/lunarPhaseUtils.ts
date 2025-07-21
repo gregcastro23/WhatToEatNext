@@ -1,7 +1,8 @@
+import type { ElementalState } from '@/types/elemental';
+
 import type { ElementalProperties, LunarPhase, LunarPhaseWithSpaces, LunarPhaseWithUnderscores } from '../types/alchemy';
 import { LUNAR_PHASE_MAPPING, LUNAR_PHASE_REVERSE_MAPPING } from '../types/alchemy';
 import type { LunarPhaseModifier } from '../types/lunar';
-import type { ElementalState } from '@/types/elemental';
 
 // Define missing types
 export type FoodAssociationsLunarPhase = 'New Moon' | 'Waxing Crescent' | 'First Quarter' | 'Waxing Gibbous' | 'Full Moon' | 'Waning Gibbous' | 'Last Quarter' | 'Waning Crescent';
@@ -94,10 +95,10 @@ export function generateDefaultLunarPhaseModifiers(
 ): Record<string, LunarPhaseModifier> {
   // Find dominant element
   const dominantElement = Object.entries(elementalProps)
-    .sort(([_, a], [__, b]) => (b as number) - (a as number))[0][0];
+    .sort(([_, a], [__, b]) => (b ) - (a ))[0][0];
   
   const secondaryElement = Object.entries(elementalProps)
-    .sort(([_, a], [__, b]) => (b as number) - (a as number))[1][0];
+    .sort(([_, a], [__, b]) => (b ) - (a ))[1][0];
   
   // Base modifiers on dominant element
   const lunarModifiers: Record<string, LunarPhaseModifier> = {

@@ -3,11 +3,15 @@
  * Perfect Codebase Campaign - Comprehensive Testing
  */
 
-import { ProgressReportingSystem, CampaignSummaryReport, CampaignStatus } from './ProgressReportingSystem';
+import * as fs from 'fs';
+
+import { PhaseStatus } from '../../types/campaign';
+
 import { MetricsCollectionSystem } from './MetricsCollectionSystem';
 import { MilestoneValidationSystem } from './MilestoneValidationSystem';
-import { PhaseStatus } from '../../types/campaign';
-import * as fs from 'fs';
+import { ProgressReportingSystem, CampaignSummaryReport, CampaignStatus } from './ProgressReportingSystem';
+
+
 
 // Mock dependencies
 jest.mock('./MetricsCollectionSystem');

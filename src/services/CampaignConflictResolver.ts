@@ -6,15 +6,16 @@
  * for campaign coordination within Kiro.
  */
 
-import { CampaignController } from './campaign/CampaignController';
-import { ProgressTracker } from './campaign/ProgressTracker';
-import { kiroCampaignIntegration } from './KiroCampaignIntegration';
 import type {
   CampaignConfig,
   CampaignPhase,
   SafetyEvent,
   ProgressMetrics
 } from '../types/campaign';
+
+import { CampaignController } from './campaign/CampaignController';
+import { ProgressTracker } from './campaign/ProgressTracker';
+import { kiroCampaignIntegration } from './KiroCampaignIntegration';
 import type {
   KiroCampaignStatus,
   CampaignExecutionRequest

@@ -8,19 +8,7 @@
  * The adapter implements legacy methods but delegates to modern services.
  */
 
-import { unifiedRecommendationService } from '../UnifiedRecommendationService';
-import { Recipe } from '@/types/recipe';
-import { alchemicalRecommendationService } from '../AlchemicalRecommendationService';
-import { createLogger } from '../../utils/logger';
 import { Element , ElementalProperties } from "@/types/alchemy";
-import { PlanetaryAlignment } from "@/types/celestial";
-import { UnifiedIngredient } from '@/types/ingredient';
-import { CookingMethod } from '@/types/cooking';
-
-import type {
-  ScoredRecipe 
-} from "@/types/recipe";
-
 import type {
   ThermodynamicProperties,
   Planet,
@@ -29,11 +17,22 @@ import type {
   LunarPhase,
   PlanetName
 } from '@/types/alchemy';
+import { PlanetaryAlignment } from "@/types/celestial";
+import { CookingMethod } from '@/types/cooking';
+import { UnifiedIngredient } from '@/types/ingredient';
+import { Recipe } from '@/types/recipe';
+import type {
+  ScoredRecipe 
+} from "@/types/recipe";
+
+import { createLogger } from '../../utils/logger';
+import { alchemicalRecommendationService } from '../AlchemicalRecommendationService';
 import type { RecommendationResult, 
   RecipeRecommendationCriteria,
   IngredientRecommendationCriteria,
   CuisineRecommendationCriteria,
   CookingMethodRecommendationCriteria } from '../interfaces/RecommendationServiceInterface';
+import { unifiedRecommendationService } from '../UnifiedRecommendationService';
 
 // Initialize logger
 const logger = createLogger('LegacyRecommendationAdapter');

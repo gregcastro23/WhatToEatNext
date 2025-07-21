@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
-import { PlanetPosition } from '@/utils/astrologyUtils';
+
 import { getCurrentPlanetaryPositions, getPlanetaryPositionsForDateTime, testAstrologizeApi } from '@/services/astrologizeApi';
+import { PlanetPosition } from '@/utils/astrologyUtils';
 
 interface PlanetaryPositionsState {
   positions: { [key: string]: PlanetPosition } | null;

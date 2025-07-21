@@ -14,13 +14,14 @@
  * - Automated quality validation
  */
 
+import { execSync } from 'child_process';
+import { EventEmitter } from 'events';
+import fs from 'fs';
+import path from 'path';
+
 import { TypeScriptError, ErrorCategory } from './campaign/TypeScriptErrorAnalyzer';
 import { ErrorPattern, ErrorTrackingSnapshot } from './ErrorTrackingEnterpriseSystem';
 import { PatternSignature, PatternCluster } from './IntelligentPatternRecognition';
-import { execSync } from 'child_process';
-import fs from 'fs';
-import path from 'path';
-import { EventEmitter } from 'events';
 
 // ========== BATCH PROCESSING INTERFACES ==========
 
@@ -715,7 +716,7 @@ export class IntelligentBatchProcessor extends EventEmitter {
         job.status = 'completed';
         job.result = result;
         job.completedAt = new Date();
-        job.actualTime = job.completedAt.getTime() - job.startedAt!.getTime();
+        job.actualTime = job.completedAt.getTime() - job.startedAt.getTime();
         
         queue.completed.push(job);
         queue.totalCompleted++;
@@ -785,7 +786,7 @@ export class IntelligentBatchProcessor extends EventEmitter {
     let errorsRemaining = 0;
     let filesModified: string[] = [];
     let buildValidationPassed = true;
-    let testValidationPassed = true;
+    const testValidationPassed = true;
     let safetyScore = 0.8;
     const warnings: string[] = [];
     const errors: string[] = [];

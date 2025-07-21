@@ -3,9 +3,10 @@
  * Perfect Codebase Campaign - Phase 4 Implementation Tests
  */
 
-import { PerformanceMonitoringSystem, PerformanceMetrics, PerformanceAlert } from './PerformanceMonitoringSystem';
-import * as fs from 'fs';
 import { execSync } from 'child_process';
+import * as fs from 'fs';
+
+import { PerformanceMonitoringSystem, PerformanceMetrics, PerformanceAlert } from './PerformanceMonitoringSystem';
 
 // Mock external dependencies
 jest.mock('child_process');

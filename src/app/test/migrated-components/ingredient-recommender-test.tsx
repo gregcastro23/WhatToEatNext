@@ -1,9 +1,10 @@
 'use client';
 
 import React from 'react';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+
 import IngredientRecommender from '@/components/recommendations/IngredientRecommender';
 import IngredientRecommenderMigrated from '@/components/recommendations/IngredientRecommender.migrated';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 export default function IngredientRecommenderTestPage() {
   return (

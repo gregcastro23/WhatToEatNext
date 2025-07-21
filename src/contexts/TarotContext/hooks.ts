@@ -1,6 +1,7 @@
 'use client';
 
 import { useContext } from 'react';
+
 import { TarotContext } from './context';
 import type { TarotContextType } from './types';
 

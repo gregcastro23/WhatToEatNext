@@ -1,3 +1,9 @@
+import { DECANS } from '@/constants/elementalConstants';
+import { 
+  tarotCardQuantumValues, 
+  getTarotCardElement, 
+  getTarotCardPlanet 
+} from '@/constants/planetaryElements';
 import { 
   TAROT_CARDS, 
   DECAN_TO_TAROT, 
@@ -6,12 +12,6 @@ import {
   DECAN_RULERS 
 } from '@/constants/tarotCards';
 import { ZodiacSign, Decan, Element } from '@/types/alchemy';
-import { DECANS } from '@/constants/elementalConstants';
-import { 
-  tarotCardQuantumValues, 
-  getTarotCardElement, 
-  getTarotCardPlanet 
-} from '@/constants/planetaryElements';
 
 // Type definitions for the imported constants to improve type safety
 type DecanKey = keyof typeof DECAN_TO_TAROT;
@@ -345,7 +345,7 @@ export const getTarotCardsForDate = (date: Date, sunPosition?: { sign: string, d
     name: majorArcanaName,
     planet: decanRuler || 'Sun', // Default to Sun if no planet found
     keywords: majorArcanaKeywords[majorArcanaName] || [],
-    element: MAJOR_ARCANA[majorArcanaName as MajorArcanaKey]?.element || '' // Extract element from MAJOR_ARCANA
+    element: MAJOR_ARCANA[majorArcanaName ]?.element || '' // Extract element from MAJOR_ARCANA
   };
   
   return { minorCard, majorCard };
@@ -433,7 +433,7 @@ export const getTarotFoodRecommendations = (date: Date): {
 } => {
   const tarotCards = getTarotCardsForDate(date);
   const decan = getCurrentDecan(date);
-  const decanRuler = DECAN_RULERS[decan as DecanKey] as PlanetKey;
+  const decanRuler = DECAN_RULERS[decan ] as PlanetKey;
   
   // Extract element from tarot cards
   const element = tarotCards.minorCard.element;

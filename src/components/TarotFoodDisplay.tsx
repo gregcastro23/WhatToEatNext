@@ -1,11 +1,12 @@
 "use client";
 
-import { useEffect, useState, useCallback, useRef } from 'react';
-import { getTarotCardsForDate } from '@/lib/tarotCalculations';
-import { SUIT_TO_ELEMENT, SUIT_TO_TOKEN } from '@/utils/tarotMappings';
 import { Flame, Droplets, Mountain, Wind, Sparkles, Clock, Calendar } from 'lucide-react';
+import { useEffect, useState, useCallback, useRef } from 'react';
+
 import { useAstrologicalState } from '@/hooks/useAstrologicalState';
+import { getTarotCardsForDate } from '@/lib/tarotCalculations';
 import type { PlanetaryPosition } from '@/types/alchemy';
+import { SUIT_TO_ELEMENT, SUIT_TO_TOKEN } from '@/utils/tarotMappings';
 
 export interface AlchemicalValues {
   Spirit: number;
@@ -210,20 +211,20 @@ export default function TarotFoodDisplay({ onTarotLoaded }: TarotFoodDisplayProp
         <div className="rounded-lg p-4 bg-gradient-to-br from-purple-900 to-indigo-900 text-white bg-opacity-10">
           <div className="flex justify-between items-start">
             <div>
-              <h4 className="font-bold text-white text-lg drop-shadow-md">{String((tarotCards.majorCard as unknown as Record<string, unknown>)?.name || 'Major Arcana')}</h4>
+              <h4 className="font-bold text-white text-lg drop-shadow-md">{String((tarotCards.majorCard  as Record<string, unknown>)?.name || 'Major Arcana')}</h4>
               <div className="flex items-center mt-1 bg-black bg-opacity-20 rounded px-2 py-1 inline-block">
                 <Sparkles className="w-4 h-4 text-yellow-300" />
                 <span className="ml-1 text-sm font-medium">Archetypal</span>
               </div>
             </div>
             <div className="flex items-center bg-black bg-opacity-50 px-3 py-1.5 rounded-full shadow">
-              <span className="text-sm text-white font-medium">#{Number((tarotCards.majorCard as unknown as Record<string, unknown>)?.number || 0)}</span>
+              <span className="text-sm text-white font-medium">#{Number((tarotCards.majorCard  as Record<string, unknown>)?.number || 0)}</span>
             </div>
           </div>
           
           <div className="mt-4 text-sm">
                           <div className="italic font-medium text-white bg-black bg-opacity-30 p-2 rounded-md">
-                {String((tarotCards.majorCard as unknown as Record<string, unknown>)?.meaning || 'The path reveals itself')}
+                {String((tarotCards.majorCard  as Record<string, unknown>)?.meaning || 'The path reveals itself')}
               </div>
           </div>
         </div>

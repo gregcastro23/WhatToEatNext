@@ -6,6 +6,7 @@
  */
 
 import { execSync } from 'child_process';
+
 import { logger } from './logger';
 
 // Campaign trigger interfaces

@@ -1,10 +1,10 @@
+import { fruits } from '../data/ingredients/fruits';
+import { grains } from '../data/ingredients/grains';
 import { herbs } from '../data/ingredients/herbs';
+import { oils } from '../data/ingredients/oils';
+import { proteins } from '../data/ingredients/proteins';
 import { spices } from '../data/ingredients/spices';
 import { vegetables } from '../data/ingredients/vegetables';
-import { proteins } from '../data/ingredients/proteins';
-import { grains } from '../data/ingredients/grains';
-import { oils } from '../data/ingredients/oils';
-import { fruits } from '../data/ingredients/fruits';
 import type { IngredientMapping, ElementalProperties } from '../types/alchemy';
 import { ElementalFilter } from '../types/elemental';
 import { 
@@ -82,7 +82,7 @@ export class IngredientFilterService {
       [INGREDIENT_GROUPS.VEGETABLES]: vegetables as Record<string, IngredientMapping>,
       [INGREDIENT_GROUPS.FRUITS]: fruits as Record<string, IngredientMapping>,
       [INGREDIENT_GROUPS.HERBS]: herbs as Record<string, IngredientMapping>,
-      [INGREDIENT_GROUPS.SPICES]: spices as Record<string, IngredientMapping>,
+      [INGREDIENT_GROUPS.SPICES]: spices ,
       [INGREDIENT_GROUPS.GRAINS]: grains as Record<string, IngredientMapping>,
       [INGREDIENT_GROUPS.OILS]: oils as Record<string, IngredientMapping>
     };
@@ -201,7 +201,7 @@ export class IngredientFilterService {
       // Check for required vitamins
       if (filter.vitamins && filter.vitamins.length > 0 && nutrition.vitamins) {
         const hasAllVitamins = filter.vitamins.every(vitamin => 
-          nutrition.vitamins && (nutrition.vitamins as string[]).includes(vitamin)
+          nutrition.vitamins && (nutrition.vitamins ).includes(vitamin)
         );
         if (!hasAllVitamins) return false;
       }
@@ -209,7 +209,7 @@ export class IngredientFilterService {
       // Check for required minerals
       if (filter.minerals && filter.minerals.length > 0 && nutrition.minerals) {
         const hasAllMinerals = filter.minerals.every(mineral => 
-          nutrition.minerals && (nutrition.minerals as string[]).includes(mineral)
+          nutrition.minerals && (nutrition.minerals ).includes(mineral)
         );
         if (!hasAllMinerals) return false;
       }
@@ -291,7 +291,7 @@ export class IngredientFilterService {
         
         const dominantElement = Object.entries(elementalProps)
           .filter(([key]) => ['Fire', 'Water', 'Earth', 'Air'].includes(key))
-          .sort(([, a], [, b]) => (b as number) - (a as number))[0]?.[0];
+          .sort(([, a], [, b]) => (b ) - (a ))[0]?.[0];
         
         if (dominantElement !== filter.dominantElement) return false;
       }

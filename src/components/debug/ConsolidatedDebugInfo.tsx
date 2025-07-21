@@ -1,11 +1,12 @@
 'use client';
 
 import React, { useState, useEffect, useRef, memo, useCallback } from 'react';
+
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
-import { usePerformanceMetrics } from '@/hooks/usePerformanceMetrics';
-import { performanceMonitor } from '@/services/PerformanceMonitoringService';
 import { useDebugSettings } from '@/hooks/useDebugSettings';
 import { useDraggable } from '@/hooks/useDraggable';
+import { usePerformanceMetrics } from '@/hooks/usePerformanceMetrics';
+import { performanceMonitor } from '@/services/PerformanceMonitoringService';
 
 interface DebugInfoProps {
   position?: 'bottom-right' | 'bottom-left' | 'top-right';
@@ -223,7 +224,7 @@ const ConsolidatedDebugInfo = memo(function ConsolidatedDebugInfo({
                 {Object.entries(state.elementalState).map(([element, value]) => (
                   <div key={element} className="flex justify-between">
                     <span>{element}:</span>
-                    <span>{((value as number) * 100).toFixed(1)}%</span>
+                    <span>{((value ) * 100).toFixed(1)}%</span>
                   </div>
                 ))}
               </div>
@@ -238,7 +239,7 @@ const ConsolidatedDebugInfo = memo(function ConsolidatedDebugInfo({
                 {Object.entries(state.alchemicalValues).map(([token, value]) => (
                   <div key={token} className="flex justify-between">
                     <span>⦿ {token}:</span>
-                    <span>{(value as number).toFixed(4)}</span>
+                    <span>{(value ).toFixed(4)}</span>
                   </div>
                 ))}
               </div>

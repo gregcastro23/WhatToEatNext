@@ -6,10 +6,6 @@
  * intelligent ingredient pairing, advanced cuisine fusion algorithms, and predictive astrological modeling.
  */
 
-import { logger } from '@/utils/logger';
-import { calculateElementalCompatibility } from '@/utils/elemental/elementalUtils';
-import { getCurrentSeason } from '@/types/seasons';
-import { Recipe, Ingredient, ZodiacSign } from '@/types/unified';
 import { 
   MLIntelligenceResult,
   MLRecipeOptimizationAnalysis,
@@ -19,6 +15,10 @@ import {
   AdvancedIntelligenceConfig,
   AdvancedIntelligenceMetrics
 } from '@/types/advancedIntelligence';
+import { getCurrentSeason } from '@/types/seasons';
+import { Recipe, Ingredient, ZodiacSign } from '@/types/unified';
+import { calculateElementalCompatibility } from '@/utils/elemental/elementalUtils';
+import { logger } from '@/utils/logger';
 
 // Note: These functions are not yet implemented in calculations/index
 // Using placeholder implementations for now
@@ -656,7 +656,7 @@ export class MLIntelligenceService {
   // TODO: Implement comprehensive ML calculation algorithms
 
   private getLearningAdjustment(type: string, key: string): number {
-    const learningMap = this.learningData[`${type}Optimizations` as keyof typeof this.learningData] as Map<string, number>;
+    const learningMap = this.learningData[`${type}Optimizations` as keyof typeof this.learningData] ;
     return learningMap.get(key) || 0;
   }
 

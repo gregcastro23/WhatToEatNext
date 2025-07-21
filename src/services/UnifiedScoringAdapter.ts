@@ -6,7 +6,6 @@
  * data structures to the format expected by the UnifiedScoringService.
  */
 
-import { scoreRecommendation, ScoringContext, ScoringResult } from './UnifiedScoringService';
 import type { 
   ElementalProperties, 
   Season, 
@@ -14,9 +13,11 @@ import type {
   DietaryRestriction 
 } from '../types/alchemy';
 import type { Planet } from '../types/celestial';
+import type { CookingMethod } from '../types/cooking';
 import type { UnifiedIngredient } from '../types/ingredient';
 import type { Recipe } from '../types/recipe';
-import type { CookingMethod } from '../types/cooking';
+
+import { scoreRecommendation, ScoringContext, ScoringResult } from './UnifiedScoringService';
 
 // ==================== INTERFACES ====================
 

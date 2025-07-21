@@ -4,6 +4,14 @@ export type MealTime = typeof MEAL_TIMES[number];
 
 // Import fundamental types
 import { Recipe as AlchemyRecipe, ZodiacSign, Season, ElementalProperties } from './alchemy';
+import { 
+  AlchemicalProperties, 
+  ThermodynamicProperties, 
+  Element, 
+  PlanetName, 
+  LunarPhase, 
+  PlanetaryAlignment 
+} from './alchemy';
 import { Recipe } from './unified';
 
 // Define zodiac signs as seasons
@@ -174,14 +182,6 @@ export interface AppState {
 }
 
 // Instead, import and export only from './alchemy' for these types:
-import { 
-  AlchemicalProperties, 
-  ThermodynamicProperties, 
-  Element, 
-  PlanetName, 
-  LunarPhase, 
-  PlanetaryAlignment 
-} from './alchemy';
 
 export type { 
   AlchemicalProperties, 

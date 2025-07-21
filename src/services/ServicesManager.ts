@@ -1,13 +1,14 @@
-import { Recipe } from '@/types/recipe';
-import { createLogger } from '../utils/logger';
-import { Element } from "@/types/alchemy";
-import { PlanetaryPosition } from "@/types/celestial";
 import alchemicalEngine from '@/calculations/core/alchemicalEngine';
+import { alchemicalRecommendationService } from '@/services/AlchemicalRecommendationService';
 import { astrologyService } from '@/services/AstrologyService';
 import { unifiedIngredientService } from '@/services/UnifiedIngredientService';
 import { unifiedRecipeService } from '@/services/UnifiedRecipeService';
 import { unifiedRecommendationService } from '@/services/UnifiedRecommendationService';
-import { alchemicalRecommendationService } from '@/services/AlchemicalRecommendationService';
+import { Element } from "@/types/alchemy";
+import { PlanetaryPosition } from "@/types/celestial";
+import { Recipe } from '@/types/recipe';
+
+import { createLogger } from '../utils/logger';
 
 // Initialize logger
 const logger = createLogger('ServicesManager');

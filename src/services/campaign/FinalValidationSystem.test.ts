@@ -4,9 +4,10 @@
  * Comprehensive test suite for the Final Validation System
  */
 
-import { FinalValidationSystem } from './FinalValidationSystem';
 import { execSync } from 'child_process';
 import * as fs from 'fs';
+
+import { FinalValidationSystem } from './FinalValidationSystem';
 
 // Mock external dependencies
 jest.mock('child_process');

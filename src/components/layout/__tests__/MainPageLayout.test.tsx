@@ -1,9 +1,12 @@
-import React from 'react';
 import { render, screen, fireEvent, waitFor, act } from '@testing-library/react';
 import { useRouter } from 'next/navigation';
-import MainPageLayout, { useMainPageContext } from '../MainPageLayout';
+import React from 'react';
+
+
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 import { useNavigationState, useScrollPreservation, useAutoStateCleanup } from '@/hooks/useStatePreservation';
+
+import MainPageLayout, { useMainPageContext } from '../MainPageLayout';
 
 // Mock dependencies
 jest.mock('next/navigation', () => ({

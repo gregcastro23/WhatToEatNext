@@ -1,12 +1,15 @@
-import React, { useEffect, useState, useRef } from 'react';
-import { useAstrologicalState } from '@/hooks/useAstrologicalState';
-import { allCookingMethods } from '@/data/cooking';
-import { calculateMethodScore } from '@/utils/cookingMethodRecommender';
 import { ChevronDown, ChevronUp, Flame, Droplets, Wind, Mountain, Info } from 'lucide-react';
-import styles from './CookingMethods.module.css';
-import { getTechnicalTips, getIdealIngredients } from '@/utils/cookingMethodTips';
-import type { CookingMethod } from '@/types/cookingMethod';
+import React, { useEffect, useState, useRef } from 'react';
+
+import { allCookingMethods } from '@/data/cooking';
+import { useAstrologicalState } from '@/hooks/useAstrologicalState';
 import type { Element } from '@/types/alchemy';
+import type { CookingMethod } from '@/types/cookingMethod';
+import { calculateMethodScore } from '@/utils/cookingMethodRecommender';
+import { getTechnicalTips, getIdealIngredients } from '@/utils/cookingMethodTips';
+
+import styles from './CookingMethods.module.css';
+
 
 // Define proper types for the methods with scores - Phase 3.16A Pattern MM-1
 interface CookingMethodWithScore {

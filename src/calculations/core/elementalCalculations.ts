@@ -6,6 +6,7 @@
  */
 
 import type { Element, ElementalProperties, PlanetaryPosition, ZodiacSign, LunarPhase } from "@/types/alchemy";
+
 import { getCachedCalculation } from '../../utils/calculationCache';
 
 // === PHASE 45: ELEMENTAL INTELLIGENCE SYSTEMS ===

@@ -1,4 +1,5 @@
 import SunCalc from 'suncalc';
+
 import { calculateMoonTimes } from './moonTimes';
 import { calculateSunTimes } from './sunTimes';
 

@@ -39,21 +39,21 @@ interface SignArrays {
 }
 
 import { allCookingMethods, cookingMethods as detailedCookingMethods } from '@/data/cooking';
-import { culturalCookingMethods, getCulturalVariations } from '@/utils/culturalMethodsAggregator';
-import type { ZodiacSign, ElementalProperties } from '@/types';
-import type { CookingMethod as CookingMethodEnum } from '@/types/alchemy';
 import { getCurrentSeason } from '@/data/integrations/seasonal';
-import venusData from '@/data/planets/venus';
+import jupiterData from '@/data/planets/jupiter';
 import marsData from '@/data/planets/mars';
 import mercuryData from '@/data/planets/mercury';
-import jupiterData from '@/data/planets/jupiter';
-import saturnData from '@/data/planets/saturn';
-import uranusData from '@/data/planets/uranus';
 import neptuneData from '@/data/planets/neptune';
 import plutoData from '@/data/planets/pluto';
+import saturnData from '@/data/planets/saturn';
+import uranusData from '@/data/planets/uranus';
+import venusData from '@/data/planets/venus';
+import type { ZodiacSign, ElementalProperties } from '@/types';
+import type { CookingMethod as CookingMethodEnum } from '@/types/alchemy';
 import { PlanetaryAspect, LunarPhase, AstrologicalState, BasicThermodynamicProperties, CookingMethodProfile, MethodRecommendationOptions, MethodRecommendation, COOKING_METHOD_THERMODYNAMICS } from '@/types/alchemy';
 import type { CookingMethod } from '@/types/cooking';
 import { calculateLunarPhase, getLunarPhaseName } from '@/utils/astrologyUtils';
+import { culturalCookingMethods, getCulturalVariations } from '@/utils/culturalMethodsAggregator';
 
 // Define interfaces for the various method types we work with
 interface BaseCookingMethod {
@@ -924,7 +924,7 @@ export async function getRecommendedCookingMethods(
       for (const pref of dietaryPreferences) {
         // Direct matches
         if (method.suitable_for.some(suitable => 
-          (suitable as string)?.toLowerCase?.().includes((pref as string)?.toLowerCase?.())
+          (suitable )?.toLowerCase?.().includes((pref )?.toLowerCase?.())
         )) {
           matchStrength += 1.0;
           continue;
@@ -970,35 +970,35 @@ export async function getRecommendedCookingMethods(
         if (methodNameLower.includes('prep') || 
             methodNameLower.includes('marinate') || 
             methodNameLower.includes('ferment') || 
-            (methodNameLower as string)?.includes?.('cure')) {
+            (methodNameLower )?.includes?.('cure')) {
           lunarScore += 0.03;
         }
       }
       // Full moon favors completion methods, preservation methods
       else if (lunarPhase === 'full moon') {
-        if ((methodNameLower as string)?.includes?.('preserve') || 
-            (methodNameLower as string)?.includes?.('smoke') || 
-            (methodNameLower as string)?.includes?.('dry') || 
-            (methodNameLower as string)?.includes?.('can') ||
-            (methodNameLower as string)?.includes?.('finish')) {
+        if ((methodNameLower )?.includes?.('preserve') || 
+            (methodNameLower )?.includes?.('smoke') || 
+            (methodNameLower )?.includes?.('dry') || 
+            (methodNameLower )?.includes?.('can') ||
+            (methodNameLower )?.includes?.('finish')) {
           lunarScore += 0.03;
         }
       }
       // Waxing moon favors building methods, long-cooking methods
       else if (lunarPhase === 'waxing crescent' || lunarPhase === 'waxing gibbous') {
-        if ((methodNameLower as string)?.includes?.('slow') || 
-            (methodNameLower as string)?.includes?.('brais') || 
-            (methodNameLower as string)?.includes?.('roast') || 
-            (methodNameLower as string)?.includes?.('stew')) {
+        if ((methodNameLower )?.includes?.('slow') || 
+            (methodNameLower )?.includes?.('brais') || 
+            (methodNameLower )?.includes?.('roast') || 
+            (methodNameLower )?.includes?.('stew')) {
           lunarScore += 0.03;
         }
       }
       // Waning moon favors reduction methods, quick methods
       else if (lunarPhase === 'waning gibbous' || lunarPhase === 'waning crescent') {
-        if ((methodNameLower as string)?.includes?.('reduce') || 
-            (methodNameLower as string)?.includes?.('quick') || 
-            (methodNameLower as string)?.includes?.('flash') || 
-            (methodNameLower as string)?.includes?.('blanch')) {
+        if ((methodNameLower )?.includes?.('reduce') || 
+            (methodNameLower )?.includes?.('quick') || 
+            (methodNameLower )?.includes?.('flash') || 
+            (methodNameLower )?.includes?.('blanch')) {
           lunarScore += 0.03;
         }
       }
@@ -1020,30 +1020,30 @@ export async function getRecommendedCookingMethods(
         }
         
         // Check for aroma techniques
-        if (((methodNameLower as string)?.includes?.('aroma') || (methodNameLower as string)?.includes?.('infuse') ||
-           (methodDescLower as string)?.includes?.('fragrant') || (methodDescLower as string)?.includes?.('scent')) &&
+        if (((methodNameLower )?.includes?.('aroma') || (methodNameLower )?.includes?.('infuse') ||
+           (methodDescLower )?.includes?.('fragrant') || (methodDescLower )?.includes?.('scent')) &&
            venusData.PlanetSpecific.CulinaryTechniques['Aroma Infusion']) {
           venusScore += venusData.PlanetSpecific.CulinaryTechniques['Aroma Infusion'] * 1.5;
         }
         
         // Check for flavor balancing techniques
-        if (((methodNameLower as string)?.includes?.('balance') || (methodNameLower as string)?.includes?.('harmonize') ||
-           (methodDescLower as string)?.includes?.('balanced') || (methodDescLower as string)?.includes?.('harmony')) &&
+        if (((methodNameLower )?.includes?.('balance') || (methodNameLower )?.includes?.('harmonize') ||
+           (methodDescLower )?.includes?.('balanced') || (methodDescLower )?.includes?.('harmony')) &&
            venusData.PlanetSpecific.CulinaryTechniques['Flavor Balancing']) {
           venusScore += venusData.PlanetSpecific.CulinaryTechniques['Flavor Balancing'] * 1.8;
         }
         
         // Check for textural contrast techniques
-        if (((methodNameLower as string)?.includes?.('texture') || (methodNameLower as string)?.includes?.('contrast') ||
-           (methodDescLower as string)?.includes?.('textural') || (methodDescLower as string)?.includes?.('crispy') ||
-           (methodDescLower as string)?.includes?.('crunchy')) &&
+        if (((methodNameLower )?.includes?.('texture') || (methodNameLower )?.includes?.('contrast') ||
+           (methodDescLower )?.includes?.('textural') || (methodDescLower )?.includes?.('crispy') ||
+           (methodDescLower )?.includes?.('crunchy')) &&
            venusData.PlanetSpecific.CulinaryTechniques['Textural Contrast']) {
           venusScore += venusData.PlanetSpecific.CulinaryTechniques['Textural Contrast'] * 1.6;
         }
         
         // Check for sensory harmony techniques
-        if (((methodNameLower as string)?.includes?.('sensory') || (methodNameLower as string)?.includes?.('harmony') ||
-           (methodDescLower as string)?.includes?.('sensory') || (methodDescLower as string)?.includes?.('experience')) &&
+        if (((methodNameLower )?.includes?.('sensory') || (methodNameLower )?.includes?.('harmony') ||
+           (methodDescLower )?.includes?.('sensory') || (methodDescLower )?.includes?.('experience')) &&
            venusData.PlanetSpecific.CulinaryTechniques['Sensory Harmony']) {
           venusScore += venusData.PlanetSpecific.CulinaryTechniques['Sensory Harmony'] * 1.7;
         }

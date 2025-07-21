@@ -386,7 +386,7 @@ export const calculatePlanetaryFlavorMatch = (
       const planetData = planetaryFlavorProfiles[planet];
       if (planetData && planetData.elementalInfluence) {
         Object.entries(planetData.elementalInfluence).forEach(([element, value]) => {
-          elementalProfile[element as keyof typeof elementalProfile] += (value as number) * strength;
+          elementalProfile[element as keyof typeof elementalProfile] += (value ) * strength;
         });
       }
     });

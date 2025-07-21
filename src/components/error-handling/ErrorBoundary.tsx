@@ -1,9 +1,10 @@
 'use client';
 
-import React, { Component, ErrorInfo, ReactNode, useEffect, useState } from 'react';
-import { createLogger } from '../../utils/logger';
-import { ErrorHandler, ErrorType, ErrorSeverity } from '../../services/errorHandler';
 import { AlertTriangle, RefreshCw, X, ChevronDown, ChevronUp, Bug, Zap, Utensils } from 'lucide-react';
+import React, { Component, ErrorInfo, ReactNode, useEffect, useState } from 'react';
+
+import { ErrorHandler, ErrorType, ErrorSeverity } from '../../services/errorHandler';
+import { createLogger } from '../../utils/logger';
 
 const logger = createLogger('ErrorBoundary');
 

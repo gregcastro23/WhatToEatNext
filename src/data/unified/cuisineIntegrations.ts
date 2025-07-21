@@ -1,7 +1,5 @@
 // Import unified types for cuisine integrations
 import type { UnifiedIngredient } from '@/types';
-import type { EnhancedCookingMethod } from '@/types/cooking';
-
 import type { // ===== UNIFIED CUISINE INTEGRATION SYSTEM =====
 // Phase 3 Step 2 of WhatToEatNext Data Consolidation
 // Consolidates cuisineMatrix.ts and related files with Monica/Kalchm integration
@@ -12,24 +10,26 @@ import type { // ===== UNIFIED CUISINE INTEGRATION SYSTEM =====
   PlanetName,
   LunarPhase,
   CookingMethod } from "@/types/alchemy";
+import type { EnhancedCookingMethod } from '@/types/cooking';
+import { FlavorProfileType } from "@/types/flavor";
 import type { Season } from "@/types/seasons";
 import type { ZodiacSign } from "@/types/zodiac";
 // TODO: Fix import - add what to import from './ingredients'
 // TODO: Fix import - add what to import from './unifiedTypes'
 // TODO: Fix import - add what to import from './seasonal'
 // Import removed - function not yet implemented
-import { FlavorProfileType } from "@/types/flavor";
-// Fixed import path
-import { createElementalProperties } from '../../utils/elemental/elementalUtils';
-// Cache import removed - not available
-// import { cache } from '../utils/cache';
 
-// Import shared utility functions
+// Fixed import path
 import { 
   getCuisinePAirings, 
   getIngredientsForCuisine,
   getSharedIngredients
 } from '../../utils/cuisine/cuisineUtils';
+import { createElementalProperties } from '../../utils/elemental/elementalUtils';
+// Cache import removed - not available
+// import { cache } from '../utils/cache';
+
+// Import shared utility functions
 
 // Missing unified seasonal system variables
 const unifiedSeasonalSystem = {

@@ -4,10 +4,11 @@
  * Comprehensive test suite for the automated linting fixer with safety protocols
  */
 
-import { AutomatedLintingFixer, AutomatedFixResult, BatchProcessingOptions, SafetyProtocols } from '../AutomatedLintingFixer';
-import { LintingIssue, CategorizedErrors } from '../LintingErrorAnalyzer';
 import { execSync } from 'child_process';
 import * as fs from 'fs';
+
+import { AutomatedLintingFixer, AutomatedFixResult, BatchProcessingOptions, SafetyProtocols } from '../AutomatedLintingFixer';
+import { LintingIssue, CategorizedErrors } from '../LintingErrorAnalyzer';
 
 // Mock external dependencies
 jest.mock('child_process');

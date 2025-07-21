@@ -1,9 +1,10 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+
 import RecipeRecommendations from '@/components/Recipe/RecipeRecommendations';
 import RecipeRecommendationsMigrated from '@/components/Recipe/RecipeRecommendations.migrated';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 export default function RecipeRecommendationsTestPage() {
   const [filters, setFilters] = useState({

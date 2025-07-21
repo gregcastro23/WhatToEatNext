@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Tooltip, HelpOverlay } from './ContextualHelp';
+
 import { AstrologicalCodeSuggestions } from './AstrologicalCodeSuggestions';
 import { CodeTemplates } from './CodeTemplates';
+import { Tooltip, HelpOverlay } from './ContextualHelp';
 import { GuidedWorkflows } from './GuidedWorkflows';
 
 interface HelpSystemProps {

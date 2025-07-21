@@ -1,5 +1,5 @@
-import { ZodiacSign, LunarPhase, Modality, AlchemicalProperties, PlanetName } from '@/types/celestial';
 import { TarotCard } from '@/contexts/TarotContext/types';
+import { ZodiacSign, LunarPhase, Modality, AlchemicalProperties, PlanetName } from '@/types/celestial';
 
 // src/types/alchemy.ts
 

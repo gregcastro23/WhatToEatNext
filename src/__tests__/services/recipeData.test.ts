@@ -1,7 +1,7 @@
-import { RecipeIngredient, validateIngredient } from '@/types/recipeIngredient';
-import { Recipe } from '@/types/recipe';
 import { recipeData } from '@/services/recipeData';
 import { recipeElementalService } from '@/services/RecipeElementalService';
+import { Recipe } from '@/types/recipe';
+import { RecipeIngredient, validateIngredient } from '@/types/recipeIngredient';
 
 // Mock cache and other dependencies to avoid side effects
 jest.mock('@/utils/cache', () => ({

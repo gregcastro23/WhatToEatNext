@@ -5,8 +5,8 @@
  * Perfect Codebase Campaign - Phase 3 Implementation
  */
 
-import { UnusedExportAnalyzer } from './UnusedExportAnalyzer.js';
 import fs from 'fs';
+import { UnusedExportAnalyzer } from './UnusedExportAnalyzer.js';
 
 async function testUnusedExportAnalyzer() {
   console.log('🧪 Testing Unused Export Analyzer...\n');

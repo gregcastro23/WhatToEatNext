@@ -4,10 +4,11 @@
  * Part of the Kiro Optimization Campaign System
  */
 
+import { logger } from '../../utils/logger';
+
+import { DependencySecurityMonitor, DependencySecurityConfig, DEFAULT_DEPENDENCY_SECURITY_CONFIG } from './DependencySecurityMonitor';
 import { ImportCleanupSystem, ImportCleanupConfig, DEFAULT_IMPORT_CLEANUP_CONFIG } from './ImportCleanupSystem';
 import { LintingFormattingSystem, LintingFormattingConfig, DEFAULT_LINTING_FORMATTING_CONFIG } from './LintingFormattingSystem';
-import { DependencySecurityMonitor, DependencySecurityConfig, DEFAULT_DEPENDENCY_SECURITY_CONFIG } from './DependencySecurityMonitor';
-import { logger } from '../../utils/logger';
 
 export interface CodeQualityAutomationConfig {
   importCleanup: ImportCleanupConfig;

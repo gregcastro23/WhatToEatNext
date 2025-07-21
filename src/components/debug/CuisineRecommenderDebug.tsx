@@ -1,8 +1,17 @@
 'use client';
 
+import { Loader2, ChevronDown, ChevronUp, Info, Flame, Droplets, Wind, Mountain } from 'lucide-react';
 import React, { useState, useEffect } from 'react';
-import { useAstrologicalState } from '@/hooks/useAstrologicalState';
+
+import CuisineRecommender from '@/components/CuisineRecommender';
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
+import { getRecipesForCuisineMatch , cuisineFlavorProfiles } from '@/data/cuisineFlavorProfiles';
+import { cuisines } from '@/data/cuisines';
+import { getAllRecipes } from '@/data/recipes';
+import { useAstrologicalState } from '@/hooks/useAstrologicalState';
+import { ElementalProperties, ZodiacSign, LunarPhaseWithSpaces } from '@/types/alchemy';
+import { Recipe } from '@/types/unified';
+import { transformCuisines, sortByAlchemicalCompatibility } from '@/utils/alchemicalTransformationUtils';
 import { 
   getCuisineRecommendations, 
   calculateElementalMatch, 
@@ -11,14 +20,6 @@ import {
 , 
   generateTopSauceRecommendations 
 } from '@/utils/cuisineRecommender';
-import { cuisines } from '@/data/cuisines';
-import { getRecipesForCuisineMatch , cuisineFlavorProfiles } from '@/data/cuisineFlavorProfiles';
-import { getAllRecipes } from '@/data/recipes';
-import { Recipe } from '@/types/unified';
-import { ElementalProperties, ZodiacSign, LunarPhaseWithSpaces } from '@/types/alchemy';
-import { Loader2, ChevronDown, ChevronUp, Info, Flame, Droplets, Wind, Mountain } from 'lucide-react';
-import { transformCuisines, sortByAlchemicalCompatibility } from '@/utils/alchemicalTransformationUtils';
-import CuisineRecommender from '@/components/CuisineRecommender';
 
 type DebugStep = {
   name: string;

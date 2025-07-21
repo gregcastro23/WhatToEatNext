@@ -5,14 +5,6 @@
  * with proper isolation and memory management.
  */
 
-import { campaignTestController, CampaignTestController } from './CampaignTestController';
-import { TestSafeProgressTracker } from './TestSafeProgressTracker';
-import {
-  MockCampaignController,
-  MockProgressTracker,
-  MockSafetyProtocol,
-  campaignTestIsolation
-} from '../mocks/CampaignSystemMocks';
 import {
   CampaignConfig,
   CampaignPhase,
@@ -22,6 +14,15 @@ import {
   SafetyEventSeverity,
   PhaseResult
 } from '../../types/campaign';
+import {
+  MockCampaignController,
+  MockProgressTracker,
+  MockSafetyProtocol,
+  campaignTestIsolation
+} from '../mocks/CampaignSystemMocks';
+
+import { campaignTestController, CampaignTestController } from './CampaignTestController';
+import { TestSafeProgressTracker } from './TestSafeProgressTracker';
 
 /**
  * Test setup configuration for campaign tests

@@ -9,13 +9,13 @@
  */
 
 // Import all the individual category update functions
-const { updateHerbs } = require('./updateHerbs');
-const { updateVegetables } = require('./updateVegetables');
 const { updateFruits } = require('./updateFruits');
 const { updateGrains } = require('./updateGrains');
+const { updateHerbs } = require('./updateHerbs');
+const { updateOils } = require('./updateOils');
 const { updateProteins } = require('./updateProteins');
 const { updateSpices } = require('./updateSpices');
-const { updateOils } = require('./updateOils');
+const { updateVegetables } = require('./updateVegetables');
 const { updateVinegars } = require('./updateVinegars');
 
 // Map of all available category update functions

@@ -1,6 +1,8 @@
 import { useState, useEffect, useMemo } from 'react';
-import { useAlchemical } from './useAlchemical';
+
 import { ElementalProperties } from '@/types/alchemy';
+
+import { useAlchemical } from './useAlchemical';
 
 export interface ElementalState { Fire: number; Water: number; Earth: number; Air: number; }
 export function useElementalState() {

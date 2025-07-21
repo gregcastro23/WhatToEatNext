@@ -7,12 +7,10 @@
  * safety intelligence, and optimization recommendations.
  */
 
-import { logger } from '@/utils/logger';
 import { RECIPE_COMPATIBILITY_INTELLIGENCE } from '@/calculations/index';
 // Import fruit intelligence systems safely
 // Note: These represent the broader ingredient intelligence systems from Phase 27
 // Note: Alchemy Type Intelligence System integration simplified to avoid import issues
-import type { ElementalProperties, ZodiacSign, LunarPhase } from '@/types/alchemy';
 
 // ========== ADVANCED INTELLIGENCE SYSTEMS IMPORTS ==========
 // Phase 2D: Advanced Intelligence Systems Integration
@@ -22,18 +20,21 @@ import {
   AdvancedAnalyticsIntelligenceResult,
   IntegratedAdvancedIntelligenceResult
 } from '@/types/advancedIntelligence';
+import type { ElementalProperties, ZodiacSign, LunarPhase } from '@/types/alchemy';
+import { logger } from '@/utils/logger';
+
 import { 
-  PredictiveIntelligenceService,
-  createPredictiveIntelligenceService 
-} from './PredictiveIntelligenceService';
+  AdvancedAnalyticsIntelligenceService,
+  createAdvancedAnalyticsIntelligenceService 
+} from './AdvancedAnalyticsIntelligenceService';
 import { 
   MLIntelligenceService,
   createMLIntelligenceService 
 } from './MLIntelligenceService';
 import { 
-  AdvancedAnalyticsIntelligenceService,
-  createAdvancedAnalyticsIntelligenceService 
-} from './AdvancedAnalyticsIntelligenceService';
+  PredictiveIntelligenceService,
+  createPredictiveIntelligenceService 
+} from './PredictiveIntelligenceService';
 
 // ========== INTERFACES ==========
 
@@ -1366,7 +1367,7 @@ export class EnterpriseIntelligenceIntegration {
       
       return {
         compatibilityScore: Math.min(1, compatibilityScore),
-        elementalBalance: 1 - Math.max(...Object.values(elementalProperties) as number[]) + Math.min(...Object.values(elementalProperties) as number[]),
+        elementalBalance: 1 - Math.max(...Object.values(elementalProperties) ) + Math.min(...Object.values(elementalProperties) ),
         compatibilityFactors: ['Elemental balance', 'Cultural harmony', 'Seasonal alignment']
       };
     } catch (error) {

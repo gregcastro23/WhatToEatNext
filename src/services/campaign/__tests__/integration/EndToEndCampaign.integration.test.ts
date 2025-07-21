@@ -3,9 +3,9 @@
  * Perfect Codebase Campaign - Complete Campaign Workflow Testing
  */
 
-import { CampaignController } from '../../CampaignController';
-import { SafetyProtocol } from '../../SafetyProtocol';
-import { ProgressTracker } from '../../ProgressTracker';
+import { execSync } from 'child_process';
+import * as fs from 'fs';
+
 import {
   CampaignConfig,
   SafetySettings,
@@ -15,8 +15,9 @@ import {
   RecoveryAction,
   SafetyEventType
 } from '../../../../types/campaign';
-import { execSync } from 'child_process';
-import * as fs from 'fs';
+import { CampaignController } from '../../CampaignController';
+import { ProgressTracker } from '../../ProgressTracker';
+import { SafetyProtocol } from '../../SafetyProtocol';
 
 // Mock dependencies
 jest.mock('child_process');

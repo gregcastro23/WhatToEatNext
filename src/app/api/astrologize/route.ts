@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+
 import { onAstrologizeApiCall } from '@/services/CurrentMomentManager';
 import { PlanetPosition } from '@/utils/astrologyUtils';
 import { createLogger } from '@/utils/logger';
@@ -167,7 +168,7 @@ function extractPlanetaryPositions(data: any): Record<string, PlanetPosition> | 
           
           if (sign && arcDegrees && decimalDegrees !== undefined) {
             positions[planetName] = {
-              sign: sign as any,
+              sign: sign ,
               degree: arcDegrees.degrees || 0,
               minute: arcDegrees.minutes || 0,
               exactLongitude: ((decimalDegrees % 360) + 360) % 360,
@@ -192,7 +193,7 @@ function extractPlanetaryPositions(data: any): Record<string, PlanetPosition> | 
           const minutes = Math.floor((totalDegrees - degrees) * 60);
           
           positions[planetName] = {
-            sign: planetData.sign.toLowerCase() as any,
+            sign: planetData.sign.toLowerCase() ,
             degree: degrees,
             minute: minutes,
             exactLongitude: ((totalDegrees % 360) + 360) % 360,

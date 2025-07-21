@@ -1,7 +1,9 @@
 import { useState, useEffect, useMemo } from 'react';
-import { useAlchemical } from './useAlchemical';
+
 import { type IngredientRecommendation } from '@/types';
 import { Element, type ElementalProperties } from '@/types/alchemy';
+
+import { useAlchemical } from './useAlchemical';
 
 export interface Ingredient {
   id: string;

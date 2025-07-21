@@ -8,6 +8,7 @@ import {
     ELEMENT_AFFINITIES,
     ZODIAC_ELEMENTS
   } from '@/constants/elementalConstants';
+  import { getLatestAstrologicalState } from '@/services/AstrologicalService';
   import type { 
     ElementalProperties, 
     Element, 
@@ -15,7 +16,6 @@ import {
     AstrologicalState,
     Season
   } from '@/types/alchemy';
-  import { getLatestAstrologicalState } from '@/services/AstrologicalService';
   
   class ElementalSystem {
     calculateBalance(properties: ElementalProperties): number {

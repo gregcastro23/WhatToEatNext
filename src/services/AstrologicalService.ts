@@ -1,9 +1,14 @@
-import * as path from 'path';
 import * as fs from 'fs';
+import * as path from 'path';
 
-import { createLogger } from '../utils/logger';
 
 // ========== PHASE 3: UPDATED IMPORTS TO USE TYPE ALIASES ==========
+import {
+  DefaultAstrologicalState,
+  DefaultPlanetaryPositions,
+  createSuccessResponse,
+  createErrorResponse
+} from '@/constants/typeDefaults';
 import {
   ZodiacSignType,
   LunarPhaseType,
@@ -13,6 +18,10 @@ import {
   ServiceResponseType
 } from '@/types/alchemy';
 import {
+  StandardizedPlanetaryResponse,
+  PlanetaryInfluenceResponse
+} from '@/types/apiResponses';
+import {
   PlanetaryPositions,
   StandardZodiacSign,
   StandardLunarPhase,
@@ -21,17 +30,6 @@ import {
   PlanetaryAspectDetails
 } from '@/types/astrology';
 import {
-  StandardizedPlanetaryResponse,
-  PlanetaryInfluenceResponse
-} from '@/types/apiResponses';
-import {
-  DefaultAstrologicalState,
-  DefaultPlanetaryPositions,
-  createSuccessResponse,
-  createErrorResponse
-} from '@/constants/typeDefaults';
-
-import {
   CelestialPosition,
   PlanetaryAlignment,
   ZodiacSign,
@@ -39,6 +37,8 @@ import {
   LunarPhase,
   AstrologicalState as CentralizedAstrologicalState
 } from '@/types/celestial';
+
+import { createLogger } from '../utils/logger';
 
 // Create a component-specific logger
 const logger = createLogger('AstrologicalService');

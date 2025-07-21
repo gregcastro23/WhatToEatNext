@@ -1,3 +1,4 @@
+import { ZODIAC_ELEMENTS } from '@/constants/elementalConstants';
 import type { 
   ElementalProperties, 
   Recipe,
@@ -5,7 +6,6 @@ import type {
   LunarPhase
 } from '@/types/alchemy';
 import { elementalUtils } from '@/utils/elementalUtils';
-import { ZODIAC_ELEMENTS } from '@/constants/elementalConstants';
 
 /**
  * Service to generate comprehensive elemental-based food and recipe recommendations

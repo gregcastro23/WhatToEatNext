@@ -1,13 +1,15 @@
 'use client';
 
-import React, { useState, useEffect, useMemo } from 'react';
-import styles from './CookingMethods.module.css';
 import { ChevronDown, ChevronUp, Globe, Flame, Droplets, Wind, Mountain, Search, ArrowUp, ArrowDown, Zap, Sparkles, Minus, Info, ThumbsUp, Clock } from 'lucide-react';
+import React, { useState, useEffect, useMemo } from 'react';
+
 import { useServices } from '@/hooks/useServices';
 // TODO: Fix CSS module import - was: import from "./CookingMethods.module.css.ts"
-import { logger } from '@/utils/logger';
 
 import { Element } from "@/types/alchemy";
+import { logger } from '@/utils/logger';
+
+import styles from './CookingMethods.module.css';
 // Define proper types for the methods
 interface CookingMethod {
   id: string;

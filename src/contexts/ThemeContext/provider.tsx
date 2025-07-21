@@ -1,9 +1,11 @@
 'use client';
 
 import React, { ReactNode, useState, useEffect } from 'react';
+
+import { themeManager } from '@/utils/theme';
+
 import { ThemeContext } from './context';
 import { Theme } from './types';
-import { themeManager } from '@/utils/theme';
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
   const [theme, setTheme] = useState<Theme>('light');

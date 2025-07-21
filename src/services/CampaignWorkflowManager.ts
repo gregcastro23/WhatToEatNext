@@ -6,9 +6,6 @@
  * within the Kiro environment.
  */
 
-import { CampaignController } from './campaign/CampaignController';
-import { ProgressTracker } from './campaign/ProgressTracker';
-import { TypeScriptErrorAnalyzer } from './campaign/TypeScriptErrorAnalyzer';
 import {
   CampaignConfig,
   CampaignPhase,
@@ -18,6 +15,10 @@ import {
   SafetySettings,
   ToolConfiguration
 } from '../types/campaign';
+
+import { CampaignController } from './campaign/CampaignController';
+import { ProgressTracker } from './campaign/ProgressTracker';
+import { TypeScriptErrorAnalyzer } from './campaign/TypeScriptErrorAnalyzer';
 
 // Re-export required types for external components
 export { ValidationResult, DryRunResult } from '../types/campaign';

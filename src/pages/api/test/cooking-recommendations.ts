@@ -1,4 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
+
 import { testCookingMethodRecommendations } from '../../../utils/testRecommendations';
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {

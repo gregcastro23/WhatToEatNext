@@ -27,30 +27,31 @@ interface ElementalData {
  * in the WhatToEatNext application.
  */
 
+import { unifiedIngredients } from '@/data/unified/ingredients';
 import type { ElementalProperties, 
   ThermodynamicMetrics,
   PlanetName,
   BasicThermodynamicProperties } from '@/types/alchemy';
-import { unifiedIngredients } from '@/data/unified/ingredients';
+import type { Season } from '@/types/seasons';
 import { Ingredient } from '@/types/unified';
 
 // Define ErrorWithMessage for error handling
 interface ErrorWithMessage {
   message: string;
 }
-import { createElementalProperties, calculateElementalCompatibility } from '../utils/elemental/elementalUtils';
-import { isNonEmptyArray, safeSome } from '../utils/common/arrayUtils';
-import { logger } from '../utils/logger';
-import { cache } from '../utils/cache';
-
+import type { UnifiedIngredient } from '../data/unified/unifiedTypes';
 import type { Recipe } from '../types/recipe';
-import type { Season } from '@/types/seasons';
 import type { ZodiacSign } from '../types/zodiac';
+import { cache } from '../utils/cache';
+import { isNonEmptyArray, safeSome } from '../utils/common/arrayUtils';
+import { createElementalProperties, calculateElementalCompatibility } from '../utils/elemental/elementalUtils';
+import { logger } from '../utils/logger';
+
 import type { IngredientServiceInterface, 
   IngredientFilter, 
   IngredientRecommendationOptions,
   ElementalFilter } from './interfaces/IngredientServiceInterface';
-import type { UnifiedIngredient } from '../data/unified/unifiedTypes';
+
 
 // Define placeholder types and classes for missing dependencies
 enum ErrorType {

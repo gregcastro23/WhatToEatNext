@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+
 import styles from './CuisineRecommender.module.css';
 
 // Keep the interface exports for any code that depends on them

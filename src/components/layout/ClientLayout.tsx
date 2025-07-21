@@ -1,11 +1,12 @@
 'use client'
 
 import React from 'react'
+
+import { StateDebugger } from '@/components/debug/StateDebugger'
 import { ErrorBoundary } from '@/components/errors/ErrorBoundary'
 import { ErrorFallback } from '@/components/errors/ErrorFallback'
-import { StateDebugger } from '@/components/debug/StateDebugger'
-import { RecoveryProvider } from '@/providers/RecoveryProvider'
 import { AlchemicalProvider } from '@/contexts/AlchemicalContext/provider'
+import { RecoveryProvider } from '@/providers/RecoveryProvider'
 
 interface ErrorFallbackProps {
   error: Error;

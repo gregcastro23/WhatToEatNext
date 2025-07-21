@@ -1,21 +1,29 @@
 import React, { useState, useMemo } from 'react';
-import { RulingPlanet } from '@/constants/planets';
-import { ElementalCharacter, AlchemicalProperty } from '@/constants/planetaryElements';
-import { useAlchemicalRecommendations } from '@/hooks/useAlchemicalRecommendations';
+
 import { ElementalItem } from '@/calculations/alchemicalTransformation';
+import { ElementalCharacter, AlchemicalProperty } from '@/constants/planetaryElements';
+import { RulingPlanet } from '@/constants/planets';
+import {
+  BalancedElementalProperties,
+  DefaultAlchemicalProperties,
+  createSafeElementalProperties
+} from '@/constants/typeDefaults';
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
+import { cookingMethods } from '@/data/cooking/cookingMethods';
+import { cuisines } from '@/data/cuisines';
+import allIngredients from '@/data/ingredients';
+import type { Modality } from '@/data/ingredients/types';
+import { useAlchemicalRecommendations } from '@/hooks/useAlchemicalRecommendations';
+import type {
+  AlchemicalServiceResponse,
+  AlchemicalRecommendations,
+  ElementalRecommendation
+} from '@/services/AlchemicalService';
 import { LunarPhaseWithSpaces, ZodiacSign, PlanetaryAspect } from '@/types/alchemy';
 
 // Import the correct data sources
-import allIngredients from '@/data/ingredients';
-import { cookingMethods } from '@/data/cooking/cookingMethods';
-import { cuisines } from '@/data/cuisines';
 
 // Add import for modality type and utils
-import type { Modality } from '@/data/ingredients/types';
-import { determineIngredientModality } from '@/utils/ingredientUtils';
-
-// ========== PHASE 4: UPDATED IMPORTS TO USE TYPE ALIASES ==========
 import type {
   ElementalPropertiesType,
   AlchemicalPropertiesType,
@@ -23,16 +31,9 @@ import type {
   LunarPhaseType,
   PlanetaryPositionsType
 } from '@/types/alchemy';
-import type {
-  AlchemicalServiceResponse,
-  AlchemicalRecommendations,
-  ElementalRecommendation
-} from '@/services/AlchemicalService';
-import {
-  BalancedElementalProperties,
-  DefaultAlchemicalProperties,
-  createSafeElementalProperties
-} from '@/constants/typeDefaults';
+import { determineIngredientModality } from '@/utils/ingredientUtils';
+
+// ========== PHASE 4: UPDATED IMPORTS TO USE TYPE ALIASES ==========
 
 interface AlchemicalRecommendationsProps {
   // Updated to use standardized type aliases

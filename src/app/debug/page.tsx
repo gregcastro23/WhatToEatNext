@@ -1,13 +1,15 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { AlchemicalProvider } from '@/contexts/AlchemicalContext/provider';
+
+import { DebugHub } from '@/components/debug/DebugHub';
+import { StateInspector } from '@/components/debug/StateInspector';
 import { AstrologicalProvider } from '@/context/AstrologicalContext';
+import { AlchemicalProvider } from '@/contexts/AlchemicalContext/provider';
+
 import { testCookingMethodRecommendations } from '../../utils/testRecommendations';
 
 // Import debug components
-import { StateInspector } from '@/components/debug/StateInspector';
-import { DebugHub } from '@/components/debug/DebugHub';
 
 interface TestIngredient {
   name: string;

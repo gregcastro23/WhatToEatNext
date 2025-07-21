@@ -1,7 +1,7 @@
 'use client';
 
-import React, { memo } from 'react';
 import { RefreshCw, AlertCircle, Wifi, Database, Utensils, ChefHat, BookOpen } from 'lucide-react';
+import React, { memo } from 'react';
 
 interface FallbackProps {
   onRetry?: () => void;
