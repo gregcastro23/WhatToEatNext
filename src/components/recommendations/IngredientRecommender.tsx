@@ -17,8 +17,6 @@ import { herbsCollection, oilsCollection, vinegarsCollection, grainsCollection }
 import { useAlchemicalRecommendations } from '../../hooks/useAlchemicalRecommendations';
 import { useAstrologicalState } from '../../hooks/useAstrologicalState';
 import { ElementalCalculator } from '../../services/ElementalCalculator';
-
-
 import { enhancedRecommendationService, EnhancedRecommendationResult } from '../../services/EnhancedRecommendationService';
 import { 
   getChakraBasedRecommendations, 

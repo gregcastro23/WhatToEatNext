@@ -41,7 +41,7 @@ export class MemoryLeakDetector {
           if (typeof window !== 'undefined' && (window as any)._eventListeners) {
             const totalListeners = Object.values((window as any)._eventListeners)
               .reduce((sum: number, listeners: any) => sum + (listeners?.length || 0), 0);
-            return totalListeners > 50;
+            return (totalListeners as number) > 50;
           }
           return false;
         },

@@ -2,24 +2,24 @@ import { seafood , seafood as seafoodData } from './proteins/seafood';
 import { poultry , poultry as poultryData } from './proteins/poultry';
 import { plantBased , plantBased as plantBasedData } from './proteins/plantBased';
 import { spices } from './spices';
-import { vinegars, allVinegars, artisanalVinegars } from './vinegars/vinegars';
+
 import { french } from '@/data/cuisines/french';
 import { italian } from '@/data/cuisines/italian';
 import { middleEastern } from '@/data/cuisines/middle-eastern';
 import { thai } from '@/data/cuisines/thai';
 import type { Ingredient } from '@/types';
 import { UnifiedIngredient } from '@/types/unified';
-import {
-  calculateAlchemicalProperties,
-  calculateThermodynamicProperties,
-  determineIngredientModality,
-} from '@/utils/ingredientUtils';
 
 import { enhancedVegetables, standardizedVegetables } from './vegetables';
 import { seasonings } from './seasonings';
 
 import { standardizeIngredient } from '@/utils/dataStandardization';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
+import {
+  calculateAlchemicalProperties,
+  calculateThermodynamicProperties,
+  determineIngredientModality,
+} from '@/utils/ingredientUtils';
 
 import { fruits } from './fruits';
 import { allGrains, grainNames } from './grains';
@@ -44,6 +44,7 @@ export { meats, poultry, seafood, plantBased } from './proteins/index';
 // Create a combined proteins object for easier imports
 import { meats as meatsData } from './proteins/meat';
 import { warmSpices } from './spices/warmSpices';
+import { vinegars, allVinegars, artisanalVinegars } from './vinegars/vinegars';
 
 export const proteins = {
   ...meatsData,

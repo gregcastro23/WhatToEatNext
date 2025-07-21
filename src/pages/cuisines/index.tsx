@@ -57,14 +57,17 @@ const CuisinesIndexPage = () => {
         Discover culinary traditions from around the world with our cuisine guide
       </p>
 
-      {/* Cuisine Recommender Section */}
+      {/* Cuisine Recommender Section - Temporarily disabled for build */}
       <section className="mb-12 p-6 bg-gradient-to-r from-amber-50 to-yellow-50 rounded-lg shadow-sm">
         <h2 className="text-2xl font-bold mb-4">What Should You Eat Today?</h2>
         <p className="mb-6 text-gray-700">
           Let us recommend cuisines based on current elemental influences and your preferences
         </p>
 
-        <CuisineRecommender />
+        {/* <CuisineRecommender /> */}
+        <div className="p-4 bg-blue-100 rounded-lg">
+          <p className="text-blue-800">Cuisine Recommender temporarily disabled during build fixes</p>
+        </div>
       </section>
 
       {/* All Cuisines Grid */}

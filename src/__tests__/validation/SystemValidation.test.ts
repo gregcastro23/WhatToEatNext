@@ -80,9 +80,11 @@ describe('System Validation - Task 11.2', () => {
       
       // Check no opposing elements (all combinations ≥ 0.7)
       Object.values(ELEMENTAL_COMPATIBILITY).forEach(elementRow => {
-        Object.values(elementRow).forEach(compatibility => {
-          expect(compatibility).toBeGreaterThanOrEqual(0.7);
-        });
+        if (elementRow && typeof elementRow === 'object') {
+          Object.values(elementRow).forEach(compatibility => {
+            expect(compatibility).toBeGreaterThanOrEqual(0.7);
+          });
+        }
       });
     });
   });

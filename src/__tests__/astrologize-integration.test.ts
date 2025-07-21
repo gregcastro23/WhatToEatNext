@@ -71,7 +71,7 @@ describe('Astrologize API Integration', () => {
         console.log('--------------------------------');
         
         Object.entries(positions || []).forEach(([_planet, position]) => {
-          console.log(`${_planet.padEnd(10)}: ${(position as { sign?: string }).sign?.toUpperCase()?.padEnd(12)} ${(position as { degree: number }).degree.toFixed(2)?.padStart(5)}° (${(position as { exactLongitude?: number }).exactLongitude.toFixed(2)?.padStart(6)}°)`);
+          console.log(`${_planet.padEnd(10)}: ${(position as { sign?: string }).sign?.toUpperCase()?.padEnd(12)} ${(position as { degree: number }).degree.toFixed(2)?.padStart(5)}° (${(position as { exactLongitude?: number }).exactLongitude?.toFixed(2)?.padStart(6)}°)`);
         });
         
         console.log('================================\n');

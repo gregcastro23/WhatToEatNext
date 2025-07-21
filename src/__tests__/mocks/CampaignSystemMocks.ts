@@ -50,7 +50,7 @@ export class MockCampaignController {
    * Mock phase execution - does not run actual scripts
    */
   async executePhase(phase: CampaignPhase): Promise<PhaseResult> {
-    if (this.isPaused) {
+    if (this.isPaused()) {
       throw new Error('Campaign is paused');
     }
 

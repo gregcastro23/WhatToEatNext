@@ -74,8 +74,15 @@ export async function GET(request: Request) {
       bestMatchFood = searchData.foods.find(f => f.dataType === 'Foundation');
     }
     // If still not found, use the first result
-    if (!bestMatchFood) {
+    if (!bestMatchFood && searchData.foods.length > 0) {
       bestMatchFood = searchData.foods[0];
+    }
+    
+    if (!bestMatchFood) {
+      return NextResponse.json(
+        { error: 'Food not found in USDA database' },
+        { status: 404 }
+      );
     }
     
     const fdcId = bestMatchFood.fdcId;

@@ -82,6 +82,7 @@ import {
   ElementalProperties
 , Element } from '@/types/alchemy';
 import type { CookingMethod } from "@/types/alchemy";
+import { PlanetaryPosition } from "@/types/celestial";
 import { Recipe } from '@/types/recipe';
 
 // Import constants and types
@@ -89,7 +90,6 @@ import { Recipe } from '@/types/recipe';
 // Import utils
 import { createElementalProperties } from '@/utils/elemental/elementalUtils';
 import { determineIngredientModality } from '@/utils/ingredientUtils';
-import { PlanetaryPosition } from "@/types/celestial";
 // Import interfaces and types from alchemical transformation
 
 interface AlchemicalRecommendationsProps {

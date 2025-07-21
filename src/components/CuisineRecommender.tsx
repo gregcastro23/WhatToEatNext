@@ -18,6 +18,7 @@ import PerformanceAnalyticsDashboard from '@/components/analytics/PerformanceAna
 import EnterpriseIntelligencePanel from '@/components/intelligence/EnterpriseIntelligencePanel';
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 import { getAllRecipes } from '@/data/recipes';
+import { useRecommendationAnalytics, useInteractionTracking } from '@/hooks/useRecommendationAnalytics';
 import { 
   CulturalAnalyticsService,
   CulturalAnalytics,
@@ -30,6 +31,12 @@ import {
   RecipeTimingIntelligence,
   RecipeSafetyIntelligence 
 } from '@/services/RecipeIntelligenceService';
+import {
+  ElementalProperties,
+  ZodiacSign,
+  LunarPhase,
+} from '@/types/alchemy';
+import { Recipe } from '@/types/recipe';
 import { 
   getCuisineRecommendations,
   generateTopSauceRecommendations,
@@ -42,12 +49,6 @@ import {
   performEnhancedAnalysis,
   calculateMonicaKalchmCompatibility,
 } from '@/utils/monicaKalchmCalculations';
-import {
-  ElementalProperties,
-  ZodiacSign,
-  LunarPhase,
-} from '@/types/alchemy';
-import { Recipe } from '@/types/recipe';
 import { 
   processNaturalLanguageQuery, 
   enhancedSearch, 
@@ -59,7 +60,6 @@ import AdvancedSearchFilters, { SearchFilters } from './AdvancedSearchFilters';
 import RecipeRecommendations from './RecipeRecommendations';
 import SauceRecommendations from './SauceRecommendations';
 
-import { useRecommendationAnalytics, useInteractionTracking } from '@/hooks/useRecommendationAnalytics';
 
 // ========== INTERFACES ==========
 

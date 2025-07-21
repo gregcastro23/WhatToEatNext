@@ -128,9 +128,9 @@ function setupMemoryHooks(): void {
     // Take memory snapshot for memory-intensive tests
     if (globalMemoryMonitor && expect.getState().currentTestName) {
       const testName = expect.getState().currentTestName;
-      if (testName.toLowerCase().includes('memory') || 
+      if (testName && (testName.toLowerCase().includes('memory') || 
           testName.toLowerCase().includes('performance') ||
-          testName.toLowerCase().includes('integration')) {
+          testName.toLowerCase().includes('integration'))) {
         globalMemoryMonitor.takeSnapshot(`before-${testName}`);
       }
     }
@@ -292,8 +292,8 @@ declare global {
     arrayBuffers: string;
   };
   var cleanupTestMemory: () => any;
-  var __TEST_CACHE__: Map<string, any> | { clear: () => void };
-  var __TEST_REFS__: any[];
+  var __TEST_CACHE__: Map<string, any> | { clear: () => void; } | undefined;
+  var __TEST_REFS__: any[] | undefined;
 }
 
 export default {};

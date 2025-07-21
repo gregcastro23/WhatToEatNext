@@ -20,8 +20,8 @@ export default function IngredientsPage() {
   // Restore context from URL parameters or enhanced state preservation
   useEffect(() => {
     // Check URL parameters first
-    const categoryParam = searchParams.get('category');
-    const ingredientParam = searchParams.get('ingredient');
+    const categoryParam = searchParams?.get('category');
+    const ingredientParam = searchParams?.get('ingredient');
     
     if (categoryParam) {
       setSelectedCategory(categoryParam);

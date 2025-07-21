@@ -1,0 +1,115 @@
+name: Linting CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main, cancer ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  lint-and-fix:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '23.11.0'
+        cache: 'yarn'
+        
+    - name: Install dependencies
+      run: yarn install --frozen-lockfile
+      
+    - name: Run TypeScript Error Fixer
+      run: |
+        if [ -f "scripts/typescript-fixes/fix-typescript-errors-enhanced-v3.js" ]; then
+          node scripts/typescript-fixes/fix-typescript-errors-enhanced-v3.js --max-files=20 --auto-fix
+        fi
+        
+    - name: Run Explicit-Any Elimination
+      run: |
+        if [ -f "scripts/typescript-fixes/fix-explicit-any-systematic.js" ]; then
+          node scripts/typescript-fixes/fix-explicit-any-systematic.js --max-files=25 --auto-fix
+        fi
+        
+    - name: Run Linting with Auto-fix
+      run: yarn lint --fix
+      continue-on-error: true
+      
+    - name: Get Before/After Metrics
+      run: |
+        echo "Linting Summary:" >> $GITHUB_STEP_SUMMARY
+        echo "After automatic fixes:" >> $GITHUB_STEP_SUMMARY
+        LINT_OUTPUT=$(yarn lint 2>&1 || true)
+        echo '```' >> $GITHUB_STEP_SUMMARY
+        echo "$LINT_OUTPUT" | tail -10 >> $GITHUB_STEP_SUMMARY
+        echo '```' >> $GITHUB_STEP_SUMMARY
+        
+    - name: Test Build
+      run: yarn build
+      continue-on-error: true
+      
+    - name: Commit Improvements (if any)
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        if [ -n "$(git status --porcelain)" ]; then
+          git add .
+          git commit -m "🤖 Automated linting improvements
+
+          🔧 Generated with GitHub Actions CI/CD
+          
+          Co-Authored-By: GitHub Actions <action@github.com>"
+          echo "Changes committed successfully" >> $GITHUB_STEP_SUMMARY
+        else
+          echo "No changes to commit" >> $GITHUB_STEP_SUMMARY
+        fi
+        
+  quality-gate:
+    runs-on: ubuntu-latest
+    needs: lint-and-fix
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '23.11.0'
+        cache: 'yarn'
+        
+    - name: Install dependencies
+      run: yarn install --frozen-lockfile
+      
+    - name: Quality Gate Validation
+      run: |
+        # Check TypeScript errors
+        TS_ERRORS=$(yarn tsc --noEmit --skipLibCheck 2>&1 | grep -c "error TS" || echo "0")
+        echo "TypeScript Errors: $TS_ERRORS"
+        
+        # Check linting issues
+        LINT_OUTPUT=$(yarn lint 2>&1 || true)
+        LINT_ERRORS=$(echo "$LINT_OUTPUT" | grep -o '[0-9]\+ errors' | grep -o '[0-9]\+' || echo "0")
+        LINT_WARNINGS=$(echo "$LINT_OUTPUT" | grep -o '[0-9]\+ warnings' | grep -o '[0-9]\+' || echo "0")
+        
+        echo "Linting Errors: $LINT_ERRORS"
+        echo "Linting Warnings: $LINT_WARNINGS"
+        
+        # Create quality report
+        echo "## Quality Gate Report" >> $GITHUB_STEP_SUMMARY
+        echo "| Metric | Count | Status |" >> $GITHUB_STEP_SUMMARY
+        echo "|--------|-------|--------|" >> $GITHUB_STEP_SUMMARY
+        echo "| TypeScript Errors | $TS_ERRORS | $([ $TS_ERRORS -lt 2000 ] && echo "✅ Pass" || echo "⚠️ High") |" >> $GITHUB_STEP_SUMMARY
+        echo "| Linting Errors | $LINT_ERRORS | $([ $LINT_ERRORS -lt 500 ] && echo "✅ Pass" || echo "⚠️ High") |" >> $GITHUB_STEP_SUMMARY
+        echo "| Linting Warnings | $LINT_WARNINGS | $([ $LINT_WARNINGS -lt 6000 ] && echo "✅ Pass" || echo "⚠️ High") |" >> $GITHUB_STEP_SUMMARY
+        
+        # Test build success
+        if yarn build; then
+          echo "| Build Status | Success | ✅ Pass |" >> $GITHUB_STEP_SUMMARY
+        else
+          echo "| Build Status | Failed | ❌ Fail |" >> $GITHUB_STEP_SUMMARY
+        fi

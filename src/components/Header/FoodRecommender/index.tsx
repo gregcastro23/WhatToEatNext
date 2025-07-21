@@ -35,12 +35,10 @@ import TarotFoodDisplay from '@/components/TarotFoodDisplay';
 import { AlchemicalProperty, ElementalCharacter } from '@/constants/planetaryElements';
 import { PlanetaryDignity } from '@/constants/planetaryFoodAssociations';
 
-import { logger } from '@/utils/logger';
-
 // Import ingredient data
-import allIngredients from '@/data/ingredients';
 import { TAROT_CARDS } from '@/constants/tarotCards';
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
+import allIngredients from '@/data/ingredients';
 import { getCurrentSeason } from '@/data/integrations/seasonal';
 import { useCurrentChart } from '@/hooks/useCurrentChart';
 import { useTarotAstrologyData } from '@/hooks/useTarotAstrologyData';
@@ -54,6 +52,7 @@ import { calculateAspects, calculatePlanetaryPositions } from '@/utils/astrology
 
 // Import the ingredient utility functions
 import { calculateAlchemicalProperties, calculateThermodynamicProperties } from '@/utils/ingredientUtils';
+import { logger } from '@/utils/logger';
 import { 
   LUNAR_PHASE_MAP,
   formatLunarPhaseForDisplay

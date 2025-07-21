@@ -36,16 +36,42 @@ class Logger {
     this.componentLoggers.add(component);
     
     return {
-      debug: (message: string, ...args: unknown[]): void => 
-        this.debug(message, ...args, { component }),
-      log: (message: string, ...args: unknown[]): void => 
-        this.info(message, ...args, { component }),
-      info: (message: string, ...args: unknown[]): void => 
-        this.info(message, ...args, { component }),
-      warn: (message: string, ...args: unknown[]): void => 
-        this.warn(message, ...args, { component }),
-      error: (message: string, ...args: unknown[]): void => 
-        this.error(message, ...args, { component }),
+      debug: (message: string, ...args: unknown[]): void => {
+        try {
+          this.debug(message, ...args, { component });
+        } catch (e) {
+          // Fallback to console if logger fails
+          console.debug(`[DEBUG][${component}] ${message}`, ...args);
+        }
+      },
+      log: (message: string, ...args: unknown[]): void => {
+        try {
+          this.info(message, ...args, { component });
+        } catch (e) {
+          console.log(`[INFO][${component}] ${message}`, ...args);
+        }
+      },
+      info: (message: string, ...args: unknown[]): void => {
+        try {
+          this.info(message, ...args, { component });
+        } catch (e) {
+          console.info(`[INFO][${component}] ${message}`, ...args);
+        }
+      },
+      warn: (message: string, ...args: unknown[]): void => {
+        try {
+          this.warn(message, ...args, { component });
+        } catch (e) {
+          console.warn(`[WARN][${component}] ${message}`, ...args);
+        }
+      },
+      error: (message: string, ...args: unknown[]): void => {
+        try {
+          this.error(message, ...args, { component });
+        } catch (e) {
+          console.error(`[ERROR][${component}] ${message}`, ...args);
+        }
+      },
     };
   }
 
@@ -154,6 +180,11 @@ class Logger {
    * Check if we should log at this level
    */
   private shouldLog(level: LogLevel): boolean {
+    // Ensure the method exists and is accessible
+    if (!this.logLevel) {
+      return true; // Default to allowing all logs if level is undefined
+    }
+    
     const levels: LogLevel[] = ['debug', 'info', 'warn', 'error'];
     const currentLevelIndex = levels.indexOf(this.logLevel);
     const targetLevelIndex = levels.indexOf(level);
@@ -162,8 +193,15 @@ class Logger {
   }
 }
 
-// Singleton instance of the logger
-export const logger = new Logger();
+// Singleton instance of the logger with safe initialization
+let loggerInstance: Logger | undefined;
+
+export const logger = (() => {
+  if (!loggerInstance) {
+    loggerInstance = new Logger();
+  }
+  return loggerInstance;
+})();
 
 // Helper functions for creating component-specific loggers
 export const createLogger = (component: string) => logger.createLogger(component);

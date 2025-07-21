@@ -30,6 +30,7 @@ import { cookingMethods } from '@/data/cooking/cookingMethods';
 import { cuisines } from '@/data/cuisines';
 import allIngredients from '@/data/ingredients';
 import type { Ingredient, Modality } from '@/data/ingredients/types';
+import { useAlchemicalRecommendations } from '@/hooks/useAlchemicalRecommendations';
 import type { 
   ElementalProperties, 
   ThermodynamicMetrics, 
@@ -48,7 +49,6 @@ import { getTimeFactors } from '@/types/time';
 // Core Types and Constants
 
 // Hooks and Context
-import { useAlchemicalRecommendations } from '@/hooks/useAlchemicalRecommendations';
 
 // Data Sources
 
