@@ -1,0 +1,109 @@
+f973be9f5638b7ee0cedc1f9bc7ef0e4
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.meatNames = exports.meats = void 0;
+const elementalUtils_1 = require("@/utils/elementalUtils");
+const rawMeats = {
+    'beef': {
+        name: 'Beef',
+        description: 'Red meat from cattle, available in various cuts with different properties.',
+        category: 'protein',
+        qualities: ['robust', 'rich', 'substantial'],
+        sustainabilityScore: 2,
+        season: ['all'],
+        elementalProperties: { Fire: 0.7, Water: 0.1, Earth: 0.2, Air: 0.0 },
+        sensoryProfile: {
+            taste: ["Mild", "Balanced", "Natural"],
+            aroma: ["Fresh", "Clean", "Subtle"],
+            texture: ["Pleasant", "Smooth", "Appealing"],
+            notes: "Characteristic beef profile"
+        },
+        culinaryProfile: {
+            flavorProfile: {
+                primary: ["balanced"],
+                secondary: ["versatile"],
+                notes: "Versatile beef for various uses"
+            },
+            cookingMethods: ["grilling", "roasting", "braising"],
+            cuisineAffinity: ["american", "european"],
+            preparationTips: ["allow to reach room temperature before cooking", "season generously"]
+        },
+    },
+    'chicken': {
+        name: 'Chicken',
+        description: 'White meat from poultry, available in various cuts with different properties.',
+        category: 'protein',
+        qualities: ['light', 'lean', 'versatile'],
+        sustainabilityScore: 1,
+        season: ['all'],
+        elementalProperties: { Fire: 0.3, Water: 0.5, Earth: 0.2, Air: 0.0 },
+        sensoryProfile: {
+            taste: ["Mild", "Balanced", "Natural"],
+            aroma: ["Fresh", "Clean", "Subtle"],
+            texture: ["Pleasant", "Smooth", "Appealing"],
+            notes: "Characteristic chicken profile"
+        },
+        culinaryProfile: {
+            flavorProfile: {
+                primary: ["mild", "savory"],
+                notes: "Versatile for many cuisines."
+            },
+            cookingMethods: ["roasting", "grilling", "frying", "poaching"],
+            cuisineAffinity: ["global"],
+            preparationTips: ["Cook to internal temperature of 165°F.", "Brining enhances moisture."]
+        },
+    },
+    'pork': {
+        name: 'Pork',
+        description: 'Meat from pigs, known for its rich flavor and versatility.',
+        category: 'protein',
+        qualities: ['rich', 'savory', 'versatile'],
+        sustainabilityScore: 3,
+        season: ['all'],
+        elementalProperties: { Fire: 0.4, Water: 0.4, Earth: 0.2, Air: 0.0 },
+        sensoryProfile: {
+            taste: ["Savory", "Slightly sweet"],
+            aroma: ["Rich", "Meaty"],
+            texture: ["Varies from tender to crisp"],
+            notes: "Pairs well with sweet and tangy flavors."
+        },
+        culinaryProfile: {
+            flavorProfile: {
+                primary: ["savory", "umami"],
+                secondary: ["sweet"],
+                notes: "Excellent with fruits like apple and cherry."
+            },
+            cookingMethods: ["roasting", "braising", "grilling", "smoking"],
+            cuisineAffinity: ["asian", "american", "german"],
+            preparationTips: ["Do not overcook.", "Works well with rubs and marinades."]
+        },
+    },
+    'lamb': {
+        name: 'Lamb',
+        description: 'Meat from young sheep, with a distinct, slightly gamy flavor.',
+        category: 'protein',
+        qualities: ['tender', 'gamy', 'distinctive'],
+        sustainabilityScore: 4,
+        season: ['spring'],
+        elementalProperties: { Fire: 0.6, Earth: 0.3, Air: 0.1, Water: 0.0 },
+        sensoryProfile: {
+            taste: ["Rich", "Earthy", "Slightly gamy"],
+            aroma: ["Strong", "Distinctive"],
+            texture: ["Tender", "Fine-grained"],
+            notes: "Flavor becomes stronger with age (mutton)."
+        },
+        culinaryProfile: {
+            flavorProfile: {
+                primary: ["gamy", "earthy"],
+                secondary: ["herbaceous"],
+                notes: "Complemented by herbs like rosemary and mint."
+            },
+            cookingMethods: ["roasting", "grilling", "braising"],
+            cuisineAffinity: ["mediterranean", "middle_eastern"],
+            preparationTips: ["Best served medium-rare.", "Fat carries a lot of the flavor."]
+        },
+    },
+};
+exports.meats = (0, elementalUtils_1.fixIngredientMappings)(rawMeats);
+exports.meatNames = Object.keys(rawMeats);
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJmaWxlIjoiL1VzZXJzL0dyZWdDYXN0cm8vRGVza3RvcC9XaGF0VG9FYXROZXh0L3NyYy9kYXRhL2luZ3JlZGllbnRzL3Byb3RlaW5zL21lYXQudHMiLCJtYXBwaW5ncyI6Ijs7O0FBQ0EsMkRBQStEO0FBRS9ELE1BQU0sUUFBUSxHQUErQztJQUMzRCxNQUFNLEVBQUU7UUFDTixJQUFJLEVBQUUsTUFBTTtRQUNaLFdBQVcsRUFBRSw0RUFBNEU7UUFDekYsUUFBUSxFQUFFLFNBQVM7UUFDbkIsU0FBUyxFQUFFLENBQUMsUUFBUSxFQUFFLE1BQU0sRUFBRSxhQUFhLENBQUM7UUFDNUMsbUJBQW1CLEVBQUUsQ0FBQztRQUN0QixNQUFNLEVBQUUsQ0FBQyxLQUFLLENBQUM7UUFDZixtQkFBbUIsRUFBRSxFQUFFLElBQUksRUFBRSxHQUFHLEVBQUUsS0FBSyxFQUFFLEdBQUcsRUFBRSxLQUFLLEVBQUUsR0FBRyxFQUFFLEdBQUcsRUFBRSxHQUFHLEVBQUU7UUFDcEUsY0FBYyxFQUFFO1lBQ2QsS0FBSyxFQUFFLENBQUMsTUFBTSxFQUFFLFVBQVUsRUFBRSxTQUFTLENBQUM7WUFDdEMsS0FBSyxFQUFFLENBQUMsT0FBTyxFQUFFLE9BQU8sRUFBRSxRQUFRLENBQUM7WUFDbkMsT0FBTyxFQUFFLENBQUMsVUFBVSxFQUFFLFFBQVEsRUFBRSxXQUFXLENBQUM7WUFDNUMsS0FBSyxFQUFFLDZCQUE2QjtTQUNyQztRQUNELGVBQWUsRUFBRTtZQUNmLGFBQWEsRUFBRTtnQkFDYixPQUFPLEVBQUUsQ0FBQyxVQUFVLENBQUM7Z0JBQ3JCLFNBQVMsRUFBRSxDQUFDLFdBQVcsQ0FBQztnQkFDeEIsS0FBSyxFQUFFLGlDQUFpQzthQUN6QztZQUNELGNBQWMsRUFBRSxDQUFDLFVBQVUsRUFBRSxVQUFVLEVBQUUsVUFBVSxDQUFDO1lBQ3BELGVBQWUsRUFBRSxDQUFDLFVBQVUsRUFBRSxVQUFVLENBQUM7WUFDekMsZUFBZSxFQUFFLENBQUMsZ0RBQWdELEVBQUUsbUJBQW1CLENBQUM7U0FDekY7S0FDRjtJQUNELFNBQVMs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QVEsRUFBRSxlQUFlLENBQUM7WUFDMUMsS0FBSyxFQUFFLENBQUMsUUFBUSxFQUFFLGFBQWEsQ0FBQztZQUNoQyxPQUFPLEVBQUUsQ0FBQyxRQUFRLEVBQUUsY0FBYyxDQUFDO1lBQ25DLEtBQUssRUFBRSw0Q0FBNEM7U0FDcEQ7UUFDRCxlQUFlLEVBQUU7WUFDZixhQUFhLEVBQUU7Z0JBQ2IsT0FBTyxFQUFFLENBQUMsTUFBTSxFQUFFLFFBQVEsQ0FBQztnQkFDM0IsU0FBUyxFQUFFLENBQUMsWUFBWSxDQUFDO2dCQUN6QixLQUFLLEVBQUUsK0NBQStDO2FBQ3ZEO1lBQ0QsY0FBYyxFQUFFLENBQUMsVUFBVSxFQUFFLFVBQVUsRUFBRSxVQUFVLENBQUM7WUFDcEQsZUFBZSxFQUFFLENBQUMsZUFBZSxFQUFFLGdCQUFnQixDQUFDO1lBQ3BELGVBQWUsRUFBRSxDQUFDLDBCQUEwQixFQUFFLGtDQUFrQyxDQUFDO1NBQ2xGO0tBQ0Y7Q0FDRixDQUFDO0FBRVcsUUFBQSxLQUFLLEdBQXNDLElBQUEsc0NBQXFCLEVBQUMsUUFBUSxDQUFDLENBQUM7QUFDM0UsUUFBQSxTQUFTLEdBQUcsTUFBTSxDQUFDLElBQUksQ0FBQyxRQUFRLENBQUMsQ0FBQyIsIm5hbWVzIjpbXSwic291cmNlcyI6WyIvVXNlcnMvR3JlZ0Nhc3Ryby9EZXNrdG9wL1doYXRUb0VhdE5leHQvc3JjL2RhdGEvaW5ncmVkaWVudHMvcHJvdGVpbnMvbWVhdC50cyJdLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQgdHlwZSB7IEluZ3JlZGllbnRNYXBwaW5nIH0gZnJvbSAnQC9kYXRhL2luZ3JlZGllbnRzL3R5cGVzJztcbmltcG9ydCB7IGZpeEluZ3JlZGllbnRNYXBwaW5ncyB9IGZyb20gJ0AvdXRpbHMvZWxlbWVudGFsVXRpbHMnO1xuXG5jb25zdCByYXdNZWF0czogUmVjb3JkPHN0cmluZywgUGFydGlhbDxJbmdyZWRpZW50TWFwcGluZz4+ID0ge1xuICAnYmVlZic6IHtcbiAgICBuYW1lOiAnQmVlZicsXG4gICAgZGVzY3JpcHRpb246ICdSZWQgbWVhdCBmcm9tIGNhdHRsZSwgYXZhaWxhYmxlIGluIHZhcmlvdXMgY3V0cyB3aXRoIGRpZmZlcmVudCBwcm9wZXJ0aWVzLicsXG4gICAgY2F0ZWdvcnk6ICdwcm90ZWluJyxcbiAgICBxdWFsaXRpZXM6IFsncm9idXN0JywgJ3JpY2gnLCAnc3Vic3RhbnRpYWwnXSxcbiAgICBzdXN0YWluYWJpbGl0eVNjb3JlOiAyLFxuICAgIHNlYXNvbjogWydhbGwnXSxcbiAgICBlbGVtZW50YWxQcm9wZXJ0aWVzOiB7IEZpcmU6IDAuNywgV2F0ZXI6IDAuMSwgRWFydGg6IDAuMiwgQWlyOiAwLjAgfSxcbiAgICBzZW5zb3J5UHJvZmlsZToge1xuICAgICAgdGFzdGU6IFtcIk1pbGRcIiwgXCJCYWxhbmNlZFwiLCBcIk5hdHVyYWxcIl0sXG4gICAgICBhcm9tYTogW1wiRnJlc2hcIiwgXCJDbGVhblwiLCBcIlN1YnRsZVwiXSxcbiAgICAgIHRleHR1cmU6IFtcIlBsZWFzYW50XCIsIFwiU21vb3RoXCIsIFwiQXBwZWFsaW5nXCJdLFxuICAgICAgbm90ZXM6IFwiQ2hhcmFjdGVyaXN0aWMgYmVlZiBwcm9maWxlXCJcbiAgICB9LFxuICAgIGN1bGluYXJ5UHJvZmlsZToge1xuICAgICAgZmxhdm9yUHJvZmlsZToge1xuICAgICAgICBwcmltYXJ5OiBbXCJiYWxhbmNlZFwiXSxcbiAgICAgICAgc2Vjb25kYXJ5OiBbXCJ2ZXJzYXRpbGVcIl0sXG4gICAgICAgIG5vdGVzOiBcIlZlcnNhdGlsZSBiZWVmIGZvciB2YXJpb3VzIHVzZXNcIlxuICAgICAgfSxcbiAgICAgIGNvb2tpbmdNZXRob2RzOiBbXCJncmlsbGluZ1wiLCBcInJvYXN0aW5nXCIsIFwiYnJhaXNpbmdcIl0sXG4gICAgICBjdWlzaW5lQWZmaW5pdHk6IFtcImFtZXJpY2FuXCIsIFwiZXVyb3BlYW5cIl0sXG4gICAgICBwcmVwYXJhdGlvblRpcHM6IFtcImFsbG93IHRvIHJlYWNoIHJvb20gdGVtcGVyYXR1cmUgYmVmb3JlIGNvb2tpbmdcIiwgXCJzZWFzb24gZ2VuZXJvdXNseVwiXVxuICAgIH0sXG4gIH0sXG4gICdjaGlja2VuJzoge1xuICAgIG5hbWU6ICdDaGlja2VuJyxcbiAgICBkZXNjcmlwdGlvbjogJ1doaXRlIG1lYXQgZnJvbSBwb3VsdHJ5LCBhdmFpbGFibGUgaW4gdmFyaW91cyBjdXRzIHdpdGggZGlmZmVyZW50IHByb3BlcnRpZXMuJyxcbiAgICBjYXRlZ29yeTogJ3Byb3RlaW4nLFxuICAgIHF1YWxpdGllczogWydsaWdodCcsICdsZWFuJywgJ3ZlcnNhdGlsZSddLFxuICAgIHN1c3RhaW5hYmlsaXR5U2NvcmU6IDEsXG4gICAgc2Vhc29uOiBbJ2FsbCddLFxuICAgIGVsZW1lbnRhbFByb3BlcnRpZXM6IHsgRmlyZTogMC4zLCBXYXRlcjogMC41LCBFYXJ0aDogMC4yLCBBaXI6IDAuMCB9LFxuICAgIHNlbnNvcnlQcm9maWxlOiB7XG4gICAgICB0YXN0ZTogW1wiTWlsZFwiLCBcIkJhbGFuY2VkXCIsIFwiTmF0dXJhbFwiXSxcbiAgICAgIGFyb21hOiBbXCJGcmVzaFwiLCBcIkNsZWFuXCIsIFwiU3VidGxlXCJdLFxuICAgICAgdGV4dHVyZTogW1wiUGxlYXNhbnRcIiwgXCJTbW9vdGhcIiwgXCJBcHBlYWxpbmdcIl0sXG4gICAgICBub3RlczogXCJDaGFyYWN0ZXJpc3RpYyBjaGlja2VuIHByb2ZpbGVcIlxuICAgIH0sXG4gICAgY3VsaW5hcnlQcm9maWxlOiB7XG4gICAgICBmbGF2b3JQcm9maWxlOiB7XG4gICAgICAgIHByaW1hcnk6IFtcIm1pbGRcIiwgXCJzYXZvcnlcIl0sXG4gICAgICAgIG5vdGVzOiBcIlZlcnNhdGlsZSBmb3IgbWFueSBjdWlzaW5lcy5cIlxuICAgICAgfSxcbiAgICAgIGNvb2tpbmdNZXRob2RzOiBbXCJyb2FzdGluZ1wiLCBcImdyaWxsaW5nXCIsIFwiZnJ5aW5nXCIsIFwicG9hY2hpbmdcIl0sXG4gICAgICBjdWlzaW5lQWZmaW5pdHk6IFtcImdsb2JhbFwiXSxcbiAgICAgIHByZXBhcmF0aW9uVGlwczogW1wiQ29vayB0byBpbnRlcm5hbCB0ZW1wZXJhdHVyZSBvZiAxNjXCsEYuXCIsIFwiQnJpbmluZyBlbmhhbmNlcyBtb2lzdHVyZS5cIl1cbiAgICB9LFxuICB9LFxuICAncG9yayc6IHtcbiAgICBuYW1lOiAnUG9yaycsXG4gICAgZGVzY3JpcHRpb246ICdNZWF0IGZyb20gcGlncywga25vd24gZm9yIGl0cyByaWNoIGZsYXZvciBhbmQgdmVyc2F0aWxpdHkuJyxcbiAgICBjYXRlZ29yeTogJ3Byb3RlaW4nLFxuICAgIHF1YWxpdGllczogWydyaWNoJywgJ3Nhdm9yeScsICd2ZXJzYXRpbGUnXSxcbiAgICBzdXN0YWluYWJpbGl0eVNjb3JlOiAzLFxuICAgIHNlYXNvbjogWydhbGwnXSxcbiAgICBlbGVtZW50YWxQcm9wZXJ0aWVzOiB7IEZpcmU6IDAuNCwgV2F0ZXI6IDAuNCwgRWFydGg6IDAuMiwgQWlyOiAwLjAgfSxcbiAgICBzZW5zb3J5UHJvZmlsZToge1xuICAgICAgdGFzdGU6IFtcIlNhdm9yeVwiLCBcIlNsaWdodGx5IHN3ZWV0XCJdLFxuICAgICAgYXJvbWE6IFtcIlJpY2hcIiwgXCJNZWF0eVwiXSxcbiAgICAgIHRleHR1cmU6IFtcIlZhcmllcyBmcm9tIHRlbmRlciB0byBjcmlzcFwiXSxcbiAgICAgIG5vdGVzOiBcIlBhaXJzIHdlbGwgd2l0aCBzd2VldCBhbmQgdGFuZ3kgZmxhdm9ycy5cIlxuICAgIH0sXG4gICAgY3VsaW5hcnlQcm9maWxlOiB7XG4gICAgICBmbGF2b3JQcm9maWxlOiB7XG4gICAgICAgIHByaW1hcnk6IFtcInNhdm9yeVwiLCBcInVtYW1pXCJdLFxuICAgICAgICBzZWNvbmRhcnk6IFtcInN3ZWV0XCJdLFxuICAgICAgICBub3RlczogXCJFeGNlbGxlbnQgd2l0aCBmcnVpdHMgbGlrZSBhcHBsZSBhbmQgY2hlcnJ5LlwiXG4gICAgICB9LFxuICAgICAgY29va2luZ01ldGhvZHM6IFtcInJvYXN0aW5nXCIsIFwiYnJhaXNpbmdcIiwgXCJncmlsbGluZ1wiLCBcInNtb2tpbmdcIl0sXG4gICAgICBjdWlzaW5lQWZmaW5pdHk6IFtcImFzaWFuXCIsIFwiYW1lcmljYW5cIiwgXCJnZXJtYW5cIl0sXG4gICAgICBwcmVwYXJhdGlvblRpcHM6IFtcIkRvIG5vdCBvdmVyY29vay5cIiwgXCJXb3JrcyB3ZWxsIHdpdGggcnVicyBhbmQgbWFyaW5hZGVzLlwiXVxuICAgIH0sXG4gIH0sXG4gICdsYW1iJzoge1xuICAgIG5hbWU6ICdMYW1iJyxcbiAgICBkZXNjcmlwdGlvbjogJ01lYXQgZnJvbSB5b3VuZyBzaGVlcCwgd2l0aCBhIGRpc3RpbmN0LCBzbGlnaHRseSBnYW15IGZsYXZvci4nLFxuICAgIGNhdGVnb3J5OiAncHJvdGVpbicsXG4gICAgcXVhbGl0aWVzOiBbJ3RlbmRlcicsICdnYW15JywgJ2Rpc3RpbmN0aXZlJ10sXG4gICAgc3VzdGFpbmFiaWxpdHlTY29yZTogNCxcbiAgICBzZWFzb246IFsnc3ByaW5nJ10sXG4gICAgZWxlbWVudGFsUHJvcGVydGllczogeyBGaXJlOiAwLjYsIEVhcnRoOiAwLjMsIEFpcjogMC4xLCBXYXRlcjogMC4wIH0sXG4gICAgc2Vuc29yeVByb2ZpbGU6IHtcbiAgICAgIHRhc3RlOiBbXCJSaWNoXCIsIFwiRWFydGh5XCIsIFwiU2xpZ2h0bHkgZ2FteVwiXSxcbiAgICAgIGFyb21hOiBbXCJTdHJvbmdcIiwgXCJEaXN0aW5jdGl2ZVwiXSxcbiAgICAgIHRleHR1cmU6IFtcIlRlbmRlclwiLCBcIkZpbmUtZ3JhaW5lZFwiXSxcbiAgICAgIG5vdGVzOiBcIkZsYXZvciBiZWNvbWVzIHN0cm9uZ2VyIHdpdGggYWdlIChtdXR0b24pLlwiXG4gICAgfSxcbiAgICBjdWxpbmFyeVByb2ZpbGU6IHtcbiAgICAgIGZsYXZvclByb2ZpbGU6IHtcbiAgICAgICAgcHJpbWFyeTogW1wiZ2FteVwiLCBcImVhcnRoeVwiXSxcbiAgICAgICAgc2Vjb25kYXJ5OiBbXCJoZXJiYWNlb3VzXCJdLFxuICAgICAgICBub3RlczogXCJDb21wbGVtZW50ZWQgYnkgaGVyYnMgbGlrZSByb3NlbWFyeSBhbmQgbWludC5cIlxuICAgICAgfSxcbiAgICAgIGNvb2tpbmdNZXRob2RzOiBbXCJyb2FzdGluZ1wiLCBcImdyaWxsaW5nXCIsIFwiYnJhaXNpbmdcIl0sXG4gICAgICBjdWlzaW5lQWZmaW5pdHk6IFtcIm1lZGl0ZXJyYW5lYW5cIiwgXCJtaWRkbGVfZWFzdGVyblwiXSxcbiAgICAgIHByZXBhcmF0aW9uVGlwczogW1wiQmVzdCBzZXJ2ZWQgbWVkaXVtLXJhcmUuXCIsIFwiRmF0IGNhcnJpZXMgYSBsb3Qgb2YgdGhlIGZsYXZvci5cIl1cbiAgICB9LFxuICB9LFxufTtcblxuZXhwb3J0IGNvbnN0IG1lYXRzOiBSZWNvcmQ8c3RyaW5nLCBJbmdyZWRpZW50TWFwcGluZz4gPSBmaXhJbmdyZWRpZW50TWFwcGluZ3MocmF3TWVhdHMpO1xuZXhwb3J0IGNvbnN0IG1lYXROYW1lcyA9IE9iamVjdC5rZXlzKHJhd01lYXRzKTsgIl0sInZlcnNpb24iOjN9

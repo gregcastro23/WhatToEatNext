@@ -1,0 +1,26 @@
+70283a664a704392795b20d92e0f3d60
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.transformationMethods = void 0;
+const smoking_1 = require("./smoking");
+const curing_1 = require("./curing");
+const dehydrating_1 = require("./dehydrating");
+const infusing_1 = require("./infusing");
+const distilling_1 = require("./distilling");
+const marinating_1 = require("./marinating");
+/**
+ * Collection of transformation cooking methods
+ *
+ * Transformation methods significantly alter the structure, flavor, or preservation
+ * properties of food through chemical or physical processes
+ */
+exports.transformationMethods = {
+    smoking: smoking_1.smoking,
+    curing: curing_1.curing,
+    dehydrating: dehydrating_1.dehydrating,
+    infusing: infusing_1.infusing,
+    distilling: distilling_1.distilling,
+    marinating: marinating_1.marinating,
+    // Add other transformation methods as they are implemented
+};
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJmaWxlIjoiL1VzZXJzL0dyZWdDYXN0cm8vRGVza3RvcC9XaGF0VG9FYXROZXh0L3NyYy9kYXRhL2Nvb2tpbmcvbWV0aG9kcy90cmFuc2Zvcm1hdGlvbi9pbmRleC50cyIsIm1hcHBpbmdzIjoiOzs7QUFBQSx1Q0FBb0M7QUFDcEMscUNBQWtDO0FBQ2xDLCtDQUE0QztBQUM1Qyx5Q0FBc0M7QUFDdEMsNkNBQTBDO0FBQzFDLDZDQUEwQztBQUUxQzs7Ozs7R0FLRztBQUNVLFFBQUEscUJBQXFCLEdBQUc7SUFDbkMsT0FBTyxFQUFQLGlCQUFPO0lBQ1AsTUFBTSxFQUFOLGVBQU07SUFDTixXQUFXLEVBQVgseUJBQVc7SUFDWCxRQUFRLEVBQVIsbUJBQVE7SUFDUixVQUFVLEVBQVYsdUJBQVU7SUFDVixVQUFVLEVBQVYsdUJBQVU7SUFDViwyREFBMkQ7Q0FDNUQsQ0FBQyIsIm5hbWVzIjpbXSwic291cmNlcyI6WyIvVXNlcnMvR3JlZ0Nhc3Ryby9EZXNrdG9wL1doYXRUb0VhdE5leHQvc3JjL2RhdGEvY29va2luZy9tZXRob2RzL3RyYW5zZm9ybWF0aW9uL2luZGV4LnRzIl0sInNvdXJjZXNDb250ZW50IjpbImltcG9ydCB7IHNtb2tpbmcgfSBmcm9tICcuL3Ntb2tpbmcnO1xuaW1wb3J0IHsgY3VyaW5nIH0gZnJvbSAnLi9jdXJpbmcnO1xuaW1wb3J0IHsgZGVoeWRyYXRpbmcgfSBmcm9tICcuL2RlaHlkcmF0aW5nJztcbmltcG9ydCB7IGluZnVzaW5nIH0gZnJvbSAnLi9pbmZ1c2luZyc7XG5pbXBvcnQgeyBkaXN0aWxsaW5nIH0gZnJvbSAnLi9kaXN0aWxsaW5nJztcbmltcG9ydCB7IG1hcmluYXRpbmcgfSBmcm9tICcuL21hcmluYXRpbmcnO1xuXG4vKipcbiAqIENvbGxlY3Rpb24gb2YgdHJhbnNmb3JtYXRpb24gY29va2luZyBtZXRob2RzXG4gKiBcbiAqIFRyYW5zZm9ybWF0aW9uIG1ldGhvZHMgc2lnbmlmaWNhbnRseSBhbHRlciB0aGUgc3RydWN0dXJlLCBmbGF2b3IsIG9yIHByZXNlcnZhdGlvblxuICogcHJvcGVydGllcyBvZiBmb29kIHRocm91Z2ggY2hlbWljYWwgb3IgcGh5c2ljYWwgcHJvY2Vzc2VzXG4gKi9cbmV4cG9ydCBjb25zdCB0cmFuc2Zvcm1hdGlvbk1ldGhvZHMgPSB7XG4gIHNtb2tpbmcsXG4gIGN1cmluZyxcbiAgZGVoeWRyYXRpbmcsXG4gIGluZnVzaW5nLFxuICBkaXN0aWxsaW5nLFxuICBtYXJpbmF0aW5nLFxuICAvLyBBZGQgb3RoZXIgdHJhbnNmb3JtYXRpb24gbWV0aG9kcyBhcyB0aGV5IGFyZSBpbXBsZW1lbnRlZFxufTsgIl0sInZlcnNpb24iOjN9

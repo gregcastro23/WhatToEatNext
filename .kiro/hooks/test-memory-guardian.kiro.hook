@@ -1,0 +1,22 @@
+{
+  "enabled": true,
+  "name": "Test Memory Guardian",
+  "description": "Monitors test files and memory-related code changes to automatically detect and address immediate memory issues during development",
+  "version": "1",
+  "when": {
+    "type": "userTriggered",
+    "patterns": [
+      "src/__tests__/**/*.ts",
+      "src/__tests__/**/*.tsx",
+      "src/**/*.test.ts",
+      "src/**/*.test.tsx",
+      "jest.config.js",
+      "src/setupTests.ts",
+      "src/__tests__/setupMemoryManagement.ts"
+    ]
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "A test file or memory management configuration has been modified. Please analyze the changes for potential memory issues and provide immediate solutions. Focus on:\n\n1. Memory leak detection in test setups\n2. Proper cleanup in test teardown\n3. Mock cleanup and restoration\n4. Jest configuration optimization for memory usage\n5. Test isolation to prevent memory accumulation\n6. Identification of memory-intensive test patterns\n7. Recommendations for memory-efficient testing practices\n\nProvide specific, actionable fixes for any memory issues detected, including code examples and best practices for the WhatToEatNext project's testing infrastructure."
+  }
+}

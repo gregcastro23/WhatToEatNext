@@ -1,0 +1,66 @@
+53e6aa953c5650f579fe4263dc321b35
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.cryoCooking = void 0;
+/**
+ * Cryo-Cooking: A molecular gastronomy technique that uses extreme cold for cooking,
+ * freezing, and creating unique textures with liquid nitrogen or dry ice
+ */
+exports.cryoCooking = {
+    name: 'Cryo-Cooking',
+    description: 'A molecular gastronomy technique that utilizes extreme cold, typically from liquid nitrogen or dry ice, to rapidly freeze foods, create unique textures, and prepare novel culinary creations.',
+    elementalEffect: {
+        Fire: 0.0,
+        Water: 0.3,
+        Earth: 0.1,
+        Air: 0.8
+    },
+    duration: {
+        min: 0.5,
+        max: 10 // 10 minutes
+    },
+    suitable_for: [
+        'Creams',
+        'Mousses',
+        'Fruits',
+        'Herbs',
+        'Alcohol-based mixtures',
+        'Sauces',
+        'Custards'
+    ],
+    benefits: [
+        'Preserves nutrients that might be lost in conventional cooking',
+        'Creates novel textures without additional ingredients',
+        'Can reduce need for additives in frozen desserts'
+    ],
+    history: 'Though scientific uses of extreme cold have existed for centuries, cryo-cooking in gastronomy gained prominence in the early 2000s as part of the molecular gastronomy movement. Chefs like Heston Blumenthal and Ferran Adrià pioneered its culinary applications.',
+    modernVariations: [
+        'Flash freezing (rapid freezing to preserve structure)',
+        'Cryo-shattered foods (frozen brittle for unique textures)',
+        'Frozen powders (freeze-pulverized ingredients)',
+        'Nitrogen-cooled sorbets and ice creams',
+        'Cryo-blanching (quick freeze before cooking)',
+        'Smoke freezing (capturing frozen smoke)'
+    ],
+    optimalTemperatures: {
+        liquidNitrogen: -196,
+        dryIce: -78 // °C
+    },
+    toolsRequired: [
+        'Liquid nitrogen',
+        'Dry ice',
+        'Insulated container',
+        'Safety gloves',
+        'Safety goggles',
+        'Metal bowls',
+        'Insulated utensils',
+        'Anti-griddle (for less extreme applications)'
+    ],
+    healthConsiderations: [
+        'Requires proper safety protocols to prevent burns',
+        'All nitrogen must be completely evaporated before consumption',
+        'Not suitable for all ingredients or preparations',
+        'Should only be performed by trained professionals'
+    ]
+};
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJmaWxlIjoiL1VzZXJzL0dyZWdDYXN0cm8vRGVza3RvcC9XaGF0VG9FYXROZXh0L3NyYy9kYXRhL2Nvb2tpbmcvbWV0aG9kcy9tb2xlY3VsYXIvY3J5by1jb29raW5nLnRzIiwibWFwcGluZ3MiOiI7OztBQUdBOzs7R0FHRztBQUNVLFFBQUEsV0FBVyxHQUFzQjtJQUM1QyxJQUFJLEVBQUUsY0FBK0I7SUFDckMsV0FBVyxFQUFFLGdNQUFnTTtJQUM3TSxlQUFlLEVBQUU7UUFDZixJQUFJLEVBQUUsR0FBRztRQUNULEtBQUssRUFBRSxHQUFHO1FBQ1YsS0FBSyxFQUFFLEdBQUc7UUFDVixHQUFHLEVBQUUsR0FBRztLQUNUO0lBQ0QsUUFBUSxFQUFFO1FBQ1IsR0FBRyxFQUFFLEdBQUc7UUFDUixHQUFHLEVBQUUsRUFBRSxDQUFHLGFBQWE7S0FDeEI7SUFDRCxZQUFZLEVBQUU7UUFDWixRQUFRO1FBQ1IsU0FBUztRQUNULFFBQVE7UUFDUixPQUFPO1FBQ1Asd0JBQXdCO1FBQ3hCLFFBQVE7UUFDUixVQUFVO0tBQ1g7SUFDRCxRQUFRLEVBQUU7UUFDUixnRUFBZ0U7UUFDaEUsdURBQXVEO1FBQ3ZELGtEQUFrRDtLQUNuRDtJQUNELE9BQU8sRUFBRSxxUUFBcVE7SUFDOVEsZ0JBQWdCLEVBQUU7UUFDaEIsdURBQXVEO1FBQ3ZELDJEQUEyRDtRQUMzRCxnREFBZ0Q7UUFDaEQsd0NBQXdDO1FBQ3hDLDhDQUE4QztRQUM5Qyx5Q0FBeUM7S0FDMUM7SUFDRCxtQkFBbUIsRUFBRTtRQUNuQixjQUFjLEVBQUUsQ0FBQyxHQUFHO1FBQ3BCLE1BQU0sRUFBRSxDQUFDLEVBQUUsQ0FBQyxLQUFLO0tBQ2xCO0lBQ0QsYUFBYSxFQUFFO1FBQ2IsaUJBQWlCO1FBQ2pCLFNBQVM7UUFDVCxxQkFBcUI7UUFDckIsZUFBZTtRQUNmLGdCQUFnQjtRQUNoQixhQUFhO1FBQ2Isb0JBQW9CO1FBQ3BCLDhDQUE4QztLQUMvQztJQUNELG9CQUFvQixFQUFFO1FBQ3BCLG1EQUFtRDtRQUNuRCwrREFBK0Q7UUFDL0Qsa0RBQWtEO1FBQ2xELG1EQUFtRDtLQUNwRDtDQUNGLENBQUMiLCJuYW1lcyI6W10sInNvdXJjZXMiOlsiL1VzZXJzL0dyZWdDYXN0cm8vRGVza3RvcC9XaGF0VG9FYXROZXh0L3NyYy9kYXRhL2Nvb2tpbmcvbWV0aG9kcy9tb2xlY3VsYXIvY3J5by1jb29raW5nLnRzIl0sInNvdXJjZXNDb250ZW50IjpbImltcG9ydCB0eXBlIHsgQ29va2luZ01ldGhvZERhdGEgfSBmcm9tICdAL3R5cGVzL2Nvb2tpbmdNZXRob2QnO1xuaW1wb3J0IHR5cGUgeyBDb29raW5nTWV0aG9kIH0gZnJvbSAnQC90eXBlcy9zaGFyZWQnO1xuXG4vKipcbiAqIENyeW8tQ29va2luZzogQSBtb2xlY3VsYXIgZ2FzdHJvbm9teSB0ZWNobmlxdWUgdGhhdCB1c2VzIGV4dHJlbWUgY29sZCBmb3IgY29va2luZyxcbiAqIGZyZWV6aW5nLCBhbmQgY3JlYXRpbmcgdW5pcXVlIHRleHR1cmVzIHdpdGggbGlxdWlkIG5pdHJvZ2VuIG9yIGRyeSBpY2VcbiAqL1xuZXhwb3J0IGNvbnN0IGNyeW9Db29raW5nOiBDb29raW5nTWV0aG9kRGF0YSA9IHtcbiAgbmFtZTogJ0NyeW8tQ29va2luZycgYXMgQ29va2luZ01ldGhvZCxcbiAgZGVzY3JpcHRpb246ICdBIG1vbGVjdWxhciBnYXN0cm9ub215IHRlY2huaXF1ZSB0aGF0IHV0aWxpemVzIGV4dHJlbWUgY29sZCwgdHlwaWNhbGx5IGZyb20gbGlxdWlkIG5pdHJvZ2VuIG9yIGRyeSBpY2UsIHRvIHJhcGlkbHkgZnJlZXplIGZvb2RzLCBjcmVhdGUgdW5pcXVlIHRleHR1cmVzLCBhbmQgcHJlcGFyZSBub3ZlbCBjdWxpbmFyeSBjcmVhdGlvbnMuJyxcbiAgZWxlbWVudGFsRWZmZWN0OiB7XG4gICAgRmlyZTogMC4wLFxuICAgIFdhdGVyOiAwLjMsXG4gICAgRWFydGg6IDAuMSxcbiAgICBBaXI6IDAuOFxuICB9LFxuICBkdXJhdGlvbjoge1xuICAgIG1pbjogMC41LCAvLyAzMCBzZWNvbmRzXG4gICAgbWF4OiAxMCAgIC8vIDEwIG1pbnV0ZXNcbiAgfSxcbiAgc3VpdGFibGVfZm9yOiBbXG4gICAgJ0NyZWFtcycsXG4gICAgJ01vdXNzZXMnLFxuICAgICdGcnVpdHMnLFxuICAgICdIZXJicycsXG4gICAgJ0FsY29ob2wtYmFzZWQgbWl4dHVyZXMnLFxuICAgICdTYXVjZXMnLFxuICAgICdDdXN0YXJkcydcbiAgXSxcbiAgYmVuZWZpdHM6IFtcbiAgICAnUHJlc2VydmVzIG51dHJpZW50cyB0aGF0IG1pZ2h0IGJlIGxvc3QgaW4gY29udmVudGlvbmFsIGNvb2tpbmcnLFxuICAgICdDcmVhdGVzIG5vdmVsIHRleHR1cmVzIHdpdGhvdXQgYWRkaXRpb25hbCBpbmdyZWRpZW50cycsXG4gICAgJ0NhbiByZWR1Y2UgbmVlZCBmb3IgYWRkaXRpdmVzIGluIGZyb3plbiBkZXNzZXJ0cydcbiAgXSxcbiAgaGlzdG9yeTogJ1Rob3VnaCBzY2llbnRpZmljIHVzZXMgb2YgZXh0cmVtZSBjb2xkIGhhdmUgZXhpc3RlZCBmb3IgY2VudHVyaWVzLCBjcnlvLWNvb2tpbmcgaW4gZ2FzdHJvbm9teSBnYWluZWQgcHJvbWluZW5jZSBpbiB0aGUgZWFybHkgMjAwMHMgYXMgcGFydCBvZiB0aGUgbW9sZWN1bGFyIGdhc3Ryb25vbXkgbW92ZW1lbnQuIENoZWZzIGxpa2UgSGVzdG9uIEJsdW1lbnRoYWwgYW5kIEZlcnJhbiBBZHJpw6AgcGlvbmVlcmVkIGl0cyBjdWxpbmFyeSBhcHBsaWNhdGlvbnMuJyxcbiAgbW9kZXJuVmFyaWF0aW9uczogW1xuICAgICdGbGFzaCBmcmVlemluZyAocmFwaWQgZnJlZXppbmcgdG8gcHJlc2VydmUgc3RydWN0dXJlKScsXG4gICAgJ0NyeW8tc2hhdHRlcmVkIGZvb2RzIChmcm96ZW4gYnJpdHRsZSBmb3IgdW5pcXVlIHRleHR1cmVzKScsXG4gICAgJ0Zyb3plbiBwb3dkZXJzIChmcmVlemUtcHVsdmVyaXplZCBpbmdyZWRpZW50cyknLFxuICAgICdOaXRyb2dlbi1jb29sZWQgc29yYmV0cyBhbmQgaWNlIGNyZWFtcycsXG4gICAgJ0NyeW8tYmxhbmNoaW5nIChxdWljayBmcmVlemUgYmVmb3JlIGNvb2tpbmcpJyxcbiAgICAnU21va2UgZnJlZXppbmcgKGNhcHR1cmluZyBmcm96ZW4gc21va2UpJ1xuICBdLFxuICBvcHRpbWFsVGVtcGVyYXR1cmVzOiB7XG4gICAgbGlxdWlkTml0cm9nZW46IC0xOTYsIC8vIMKwQyBcbiAgICBkcnlJY2U6IC03OCAvLyDCsENcbiAgfSxcbiAgdG9vbHNSZXF1aXJlZDogW1xuICAgICdMaXF1aWQgbml0cm9nZW4nLFxuICAgICdEcnkgaWNlJyxcbiAgICAnSW5zdWxhdGVkIGNvbnRhaW5lcicsXG4gICAgJ1NhZmV0eSBnbG92ZXMnLFxuICAgICdTYWZldHkgZ29nZ2xlcycsXG4gICAgJ01ldGFsIGJvd2xzJyxcbiAgICAnSW5zdWxhdGVkIHV0ZW5zaWxzJyxcbiAgICAnQW50aS1ncmlkZGxlIChmb3IgbGVzcyBleHRyZW1lIGFwcGxpY2F0aW9ucyknXG4gIF0sXG4gIGhlYWx0aENvbnNpZGVyYXRpb25zOiBbXG4gICAgJ1JlcXVpcmVzIHByb3BlciBzYWZldHkgcHJvdG9jb2xzIHRvIHByZXZlbnQgYnVybnMnLFxuICAgICdBbGwgbml0cm9nZW4gbXVzdCBiZSBjb21wbGV0ZWx5IGV2YXBvcmF0ZWQgYmVmb3JlIGNvbnN1bXB0aW9uJyxcbiAgICAnTm90IHN1aXRhYmxlIGZvciBhbGwgaW5ncmVkaWVudHMgb3IgcHJlcGFyYXRpb25zJyxcbiAgICAnU2hvdWxkIG9ubHkgYmUgcGVyZm9ybWVkIGJ5IHRyYWluZWQgcHJvZmVzc2lvbmFscydcbiAgXVxufTsgIl0sInZlcnNpb24iOjN9

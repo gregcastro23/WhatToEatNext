@@ -1,0 +1,66 @@
+cd1ccffb15fb0bf4e4b30e791d6087b3
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.dehydrating = void 0;
+/**
+ * Dehydrating: A preservation method that removes moisture from food,
+ * concentrating flavors and extending shelf life
+ */
+exports.dehydrating = {
+    name: 'Dehydrating',
+    description: 'A preservation method that removes moisture from food through controlled evaporation, concentrating flavors and nutrients while extending shelf life.',
+    elementalEffect: {
+        Fire: 0.4,
+        Water: 0.1,
+        Earth: 0.2,
+        Air: 0.9
+    },
+    duration: {
+        min: 120,
+        max: 2880 // 48 hours
+    },
+    suitable_for: [
+        'Fruits',
+        'Vegetables',
+        'Herbs',
+        'Meats',
+        'Mushrooms',
+        'Flowers',
+        'Seeds'
+    ],
+    benefits: [
+        'Preserves most nutrients',
+        'Creates lightweight, portable food',
+        'No additives or preservatives needed',
+        'Concentrates antioxidants and nutrients',
+        'Reduces food waste'
+    ],
+    history: 'Dehydration is one of humanity\'s oldest food preservation techniques, dating back to prehistoric times. Sun-drying fruits, vegetables, and meats was practiced across ancient civilizations including Egypt, China, and the Middle East.',
+    modernVariations: [
+        'Sun drying (traditional method using solar heat)',
+        'Air drying (hanging in a cool, dry place)',
+        'Oven drying (using low heat in a conventional oven)',
+        'Food dehydrator (using specialized equipment)',
+        'Freeze-drying (removing water through sublimation)'
+    ],
+    optimalTemperatures: {
+        low: 35,
+        high: 70 // °C (158°F)
+    },
+    toolsRequired: [
+        'Food dehydrator',
+        'Oven',
+        'Drying racks',
+        'Cheesecloth',
+        'Parchment paper',
+        'Knife or mandoline for thin slicing',
+        'Airtight containers for storage'
+    ],
+    healthConsiderations: [
+        'Concentrated sugars in dried fruits',
+        'Potential loss of heat-sensitive vitamins',
+        'Proper storage needed to prevent moisture reabsorption',
+        'Insufficient drying can lead to mold growth'
+    ]
+};
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJmaWxlIjoiL1VzZXJzL0dyZWdDYXN0cm8vRGVza3RvcC9XaGF0VG9FYXROZXh0L3NyYy9kYXRhL2Nvb2tpbmcvbWV0aG9kcy90cmFuc2Zvcm1hdGlvbi9kZWh5ZHJhdGluZy50cyIsIm1hcHBpbmdzIjoiOzs7QUFHQTs7O0dBR0c7QUFDVSxRQUFBLFdBQVcsR0FBc0I7SUFDNUMsSUFBSSxFQUFFLGFBQThCO0lBQ3BDLFdBQVcsRUFBRSx1SkFBdUo7SUFDcEssZUFBZSxFQUFFO1FBQ2YsSUFBSSxFQUFFLEdBQUc7UUFDVCxLQUFLLEVBQUUsR0FBRztRQUNWLEtBQUssRUFBRSxHQUFHO1FBQ1YsR0FBRyxFQUFFLEdBQUc7S0FDVDtJQUNELFFBQVEsRUFBRTtRQUNSLEdBQUcsRUFBRSxHQUFHO1FBQ1IsR0FBRyxFQUFFLElBQUksQ0FBQyxXQUFXO0tBQ3RCO0lBQ0QsWUFBWSxFQUFFO1FBQ1osUUFBUTtRQUNSLFlBQVk7UUFDWixPQUFPO1FBQ1AsT0FBTztRQUNQLFdBQVc7UUFDWCxTQUFTO1FBQ1QsT0FBTztLQUNSO0lBQ0QsUUFBUSxFQUFFO1FBQ1IsMEJBQTBCO1FBQzFCLG9DQUFvQztRQUNwQyxzQ0FBc0M7UUFDdEMseUNBQXlDO1FBQ3pDLG9CQUFvQjtLQUNyQjtJQUNELE9BQU8sRUFBRSwyT0FBMk87SUFDcFAsZ0JBQWdCLEVBQUU7UUFDaEIsa0RBQWtEO1FBQ2xELDJDQUEyQztRQUMzQyxxREFBcUQ7UUFDckQsK0NBQStDO1FBQy9DLG9EQUFvRDtLQUNyRDtJQUNELG1CQUFtQixFQUFFO1FBQ25CLEdBQUcsRUFBRSxFQUFFO1FBQ1AsSUFBSSxFQUFFLEVBQUUsQ0FBRSxhQUFhO0tBQ3hCO0lBQ0QsYUFBYSxFQUFFO1FBQ2IsaUJBQWlCO1FBQ2pCLE1BQU07UUFDTixjQUFjO1FBQ2QsYUFBYTtRQUNiLGlCQUFpQjtRQUNqQixxQ0FBcUM7UUFDckMsaUNBQWlDO0tBQ2xDO0lBQ0Qsb0JBQW9CLEVBQUU7UUFDcEIscUNBQXFDO1FBQ3JDLDJDQUEyQztRQUMzQyx3REFBd0Q7UUFDeEQsNkNBQTZDO0tBQzlDO0NBQ0YsQ0FBQyIsIm5hbWVzIjpbXSwic291cmNlcyI6WyIvVXNlcnMvR3JlZ0Nhc3Ryby9EZXNrdG9wL1doYXRUb0VhdE5leHQvc3JjL2RhdGEvY29va2luZy9tZXRob2RzL3RyYW5zZm9ybWF0aW9uL2RlaHlkcmF0aW5nLnRzIl0sInNvdXJjZXNDb250ZW50IjpbImltcG9ydCB0eXBlIHsgQ29va2luZ01ldGhvZERhdGEgfSBmcm9tICdAL3R5cGVzL2Nvb2tpbmdNZXRob2QnO1xuaW1wb3J0IHR5cGUgeyBDb29raW5nTWV0aG9kIH0gZnJvbSAnQC90eXBlcy9zaGFyZWQnO1xuXG4vKipcbiAqIERlaHlkcmF0aW5nOiBBIHByZXNlcnZhdGlvbiBtZXRob2QgdGhhdCByZW1vdmVzIG1vaXN0dXJlIGZyb20gZm9vZCxcbiAqIGNvbmNlbnRyYXRpbmcgZmxhdm9ycyBhbmQgZXh0ZW5kaW5nIHNoZWxmIGxpZmVcbiAqL1xuZXhwb3J0IGNvbnN0IGRlaHlkcmF0aW5nOiBDb29raW5nTWV0aG9kRGF0YSA9IHtcbiAgbmFtZTogJ0RlaHlkcmF0aW5nJyBhcyBDb29raW5nTWV0aG9kLFxuICBkZXNjcmlwdGlvbjogJ0EgcHJlc2VydmF0aW9uIG1ldGhvZCB0aGF0IHJlbW92ZXMgbW9pc3R1cmUgZnJvbSBmb29kIHRocm91Z2ggY29udHJvbGxlZCBldmFwb3JhdGlvbiwgY29uY2VudHJhdGluZyBmbGF2b3JzIGFuZCBudXRyaWVudHMgd2hpbGUgZXh0ZW5kaW5nIHNoZWxmIGxpZmUuJyxcbiAgZWxlbWVudGFsRWZmZWN0OiB7XG4gICAgRmlyZTogMC40LFxuICAgIFdhdGVyOiAwLjEsXG4gICAgRWFydGg6IDAuMixcbiAgICBBaXI6IDAuOVxuICB9LFxuICBkdXJhdGlvbjoge1xuICAgIG1pbjogMTIwLCAvLyAyIGhvdXJzXG4gICAgbWF4OiAyODgwIC8vIDQ4IGhvdXJzXG4gIH0sXG4gIHN1aXRhYmxlX2ZvcjogW1xuICAgICdGcnVpdHMnLFxuICAgICdWZWdldGFibGVzJywgXG4gICAgJ0hlcmJzJyxcbiAgICAnTWVhdHMnLFxuICAgICdNdXNocm9vbXMnLFxuICAgICdGbG93ZXJzJyxcbiAgICAnU2VlZHMnXG4gIF0sXG4gIGJlbmVmaXRzOiBbXG4gICAgJ1ByZXNlcnZlcyBtb3N0IG51dHJpZW50cycsXG4gICAgJ0NyZWF0ZXMgbGlnaHR3ZWlnaHQsIHBvcnRhYmxlIGZvb2QnLFxuICAgICdObyBhZGRpdGl2ZXMgb3IgcHJlc2VydmF0aXZlcyBuZWVkZWQnLFxuICAgICdDb25jZW50cmF0ZXMgYW50aW94aWRhbnRzIGFuZCBudXRyaWVudHMnLFxuICAgICdSZWR1Y2VzIGZvb2Qgd2FzdGUnXG4gIF0sXG4gIGhpc3Rvcnk6ICdEZWh5ZHJhdGlvbiBpcyBvbmUgb2YgaHVtYW5pdHlcXCdzIG9sZGVzdCBmb29kIHByZXNlcnZhdGlvbiB0ZWNobmlxdWVzLCBkYXRpbmcgYmFjayB0byBwcmVoaXN0b3JpYyB0aW1lcy4gU3VuLWRyeWluZyBmcnVpdHMsIHZlZ2V0YWJsZXMsIGFuZCBtZWF0cyB3YXMgcHJhY3RpY2VkIGFjcm9zcyBhbmNpZW50IGNpdmlsaXphdGlvbnMgaW5jbHVkaW5nIEVneXB0LCBDaGluYSwgYW5kIHRoZSBNaWRkbGUgRWFzdC4nLFxuICBtb2Rlcm5WYXJpYXRpb25zOiBbXG4gICAgJ1N1biBkcnlpbmcgKHRyYWRpdGlvbmFsIG1ldGhvZCB1c2luZyBzb2xhciBoZWF0KScsXG4gICAgJ0FpciBkcnlpbmcgKGhhbmdpbmcgaW4gYSBjb29sLCBkcnkgcGxhY2UpJyxcbiAgICAnT3ZlbiBkcnlpbmcgKHVzaW5nIGxvdyBoZWF0IGluIGEgY29udmVudGlvbmFsIG92ZW4pJyxcbiAgICAnRm9vZCBkZWh5ZHJhdG9yICh1c2luZyBzcGVjaWFsaXplZCBlcXVpcG1lbnQpJyxcbiAgICAnRnJlZXplLWRyeWluZyAocmVtb3Zpbmcgd2F0ZXIgdGhyb3VnaCBzdWJsaW1hdGlvbiknXG4gIF0sXG4gIG9wdGltYWxUZW1wZXJhdHVyZXM6IHtcbiAgICBsb3c6IDM1LCAvLyDCsEMgKDk1wrBGKVxuICAgIGhpZ2g6IDcwICAvLyDCsEMgKDE1OMKwRilcbiAgfSxcbiAgdG9vbHNSZXF1aXJlZDogW1xuICAgICdGb29kIGRlaHlkcmF0b3InLFxuICAgICdPdmVuJyxcbiAgICAnRHJ5aW5nIHJhY2tzJyxcbiAgICAnQ2hlZXNlY2xvdGgnLFxuICAgICdQYXJjaG1lbnQgcGFwZXInLFxuICAgICdLbmlmZSBvciBtYW5kb2xpbmUgZm9yIHRoaW4gc2xpY2luZycsXG4gICAgJ0FpcnRpZ2h0IGNvbnRhaW5lcnMgZm9yIHN0b3JhZ2UnXG4gIF0sXG4gIGhlYWx0aENvbnNpZGVyYXRpb25zOiBbXG4gICAgJ0NvbmNlbnRyYXRlZCBzdWdhcnMgaW4gZHJpZWQgZnJ1aXRzJyxcbiAgICAnUG90ZW50aWFsIGxvc3Mgb2YgaGVhdC1zZW5zaXRpdmUgdml0YW1pbnMnLFxuICAgICdQcm9wZXIgc3RvcmFnZSBuZWVkZWQgdG8gcHJldmVudCBtb2lzdHVyZSByZWFic29ycHRpb24nLFxuICAgICdJbnN1ZmZpY2llbnQgZHJ5aW5nIGNhbiBsZWFkIHRvIG1vbGQgZ3Jvd3RoJ1xuICBdXG59OyAiXSwidmVyc2lvbiI6M30=
