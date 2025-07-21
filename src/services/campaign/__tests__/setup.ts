@@ -69,7 +69,8 @@ global.testUtils = {
   checkMemory: () => ({
     heapUsed: '45.2MB',
     heapTotal: '67.8MB',
-    external: '2.1MB'
+    external: '2.1MB',
+    arrayBuffers: '1.3MB'
   }),
   
   cleanupMemory: () => ({
@@ -130,7 +131,7 @@ declare global {
     createMockLintingWarnings: (count: number) => string;
     waitForAsync: () => Promise<void>;
     createMockProgressMetrics: (overrides?: any) => any;
-    checkMemory: () => { heapUsed: string; heapTotal: string; external: string };
+    checkMemory: () => { heapUsed: string; heapTotal: string; external: string; arrayBuffers: string };
     cleanupMemory: () => { success: boolean; freedMemory: string };
   };
 }

@@ -246,8 +246,8 @@ export class DirectRecipeService {
       const ingredientData = allIngredients[ingredient.name] || 
                             allIngredients[ingredient.name?.toLowerCase()];
       
-      if (ingredientData && ingredientData.alchemicalProperties) {
-        const ingredientKalchm = calculateKalchm(ingredientData.alchemicalProperties);
+      if (ingredientData && (ingredientData as any).alchemicalProperties) {
+        const ingredientKalchm = calculateKalchm((ingredientData as any).alchemicalProperties);
         totalKalchm *= ingredientKalchm;
         ingredientCount++;
       }

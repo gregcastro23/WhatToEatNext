@@ -93,7 +93,7 @@ export function standardizeIngredient(ingredient: unknown): Ingredient {
     description: raw.description ? String(raw.description) : undefined,
     qualities: Array.isArray(raw.qualities) ? raw?.qualities || [].map(String) : [],
     cookingMethods: Array.isArray(raw.cookingMethods) ? raw?.cookingMethods || [].map(String) : [],
-    pAirings: Array.isArray(raw.pAirings) ? raw?.pAirings || [].map(String) : [],
+    pairings: Array.isArray(raw.pairings) ? raw?.pairings || [].map(String) : [],
     storage: raw.storage ? String(raw.storage) : undefined,
     preparationTips: Array.isArray(raw.preparationTips) ? raw?.preparationTips || [].map(String) : [],
   } as Ingredient;
@@ -332,7 +332,7 @@ function createDefaultIngredient(id: string): Ingredient {
     season: [],
     qualities: [],
     cookingMethods: [],
-    pAirings: [],
+    pairings: [],
     preparationTips: [],
   } as Ingredient;
 }

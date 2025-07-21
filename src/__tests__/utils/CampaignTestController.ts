@@ -406,7 +406,7 @@ export class CampaignTestController {
     };
 
     // Set basic test environment
-    process.env.NODE_ENV = 'test';
+    (process.env as any).NODE_ENV = 'test';
     process.env.CAMPAIGN_TEST_MODE = 'true';
   }
 
@@ -530,8 +530,7 @@ export class CampaignTestController {
 // Export singleton instance for easy access
 export const campaignTestController = CampaignTestController.getInstance();
 
-// Export class for direct instantiation in tests if needed
-export { CampaignTestController };
+// Class is already exported above
 
 // Export types for use in tests
 export type { CampaignTestState, TestIsolationConfig };

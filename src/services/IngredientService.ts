@@ -925,8 +925,8 @@ export class IngredientService implements IngredientServiceInterface {
     
     // Filter by cuisine if specified
     const cuisines = options.cuisineType 
-      ? [cuisinesMap[options.cuisineType as keyof typeof cuisinesMap]].filter(Boolean)
-      : Object.values(cuisinesMap);
+      ? [_cuisinesMap[options.cuisineType as keyof typeof _cuisinesMap]].filter(Boolean)
+      : Object.values(_cuisinesMap);
     
     // Collect recipes from specified cuisines
     (cuisines  || []).forEach(cuisine => {
@@ -962,9 +962,9 @@ export class IngredientService implements IngredientServiceInterface {
     });
     
     // Use the filter function with collected recipes
-    return filterRecipesByIngredientMappings(
+    return _filterRecipesByIngredientMappings(
       // Apply Pattern O: Safe Recipe array type casting for TS2345 resolution
-      allRecipes as unknown as Recipe[],
+      allRecipes as unknown as _Recipe[],
       options.elementalTarget,
       // Apply Pattern B: Safe parameter interface casting - use correct property names
       {

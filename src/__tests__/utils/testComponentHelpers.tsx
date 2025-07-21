@@ -5,7 +5,7 @@
  */
 
 import React from 'react';
-import type { AlchemicalProviderProps, MainPageLayoutProps } from '../types/testUtils';
+import type { AlchemicalProviderProps, MainPageLayoutProps } from '../types/testUtils.d';
 
 // Mock AlchemicalProvider that accepts children
 export const MockAlchemicalProvider: React.FC<AlchemicalProviderProps> = ({ children }) => {

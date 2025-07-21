@@ -9,7 +9,7 @@ import { jest } from '@jest/globals';
 import App from '../../../App';
 import { AlchemicalProvider } from '../../contexts/AlchemicalContext';
 import MainPageLayout from '../../components/layout/MainPageLayout';
-import type { MainPageLayoutProps, AlchemicalProviderProps } from '../types/testUtils';
+import type { MainPageLayoutProps, AlchemicalProviderProps } from '../types/testUtils.d';
 import { 
   MockAlchemicalProvider, 
   MockMainPageLayout, 

@@ -201,15 +201,15 @@ export default function CookingMethodPage() {
                 </>
               )}
               
-              {method.pAiringSuggestions && (
+              {method.pairingSuggestions && (
                 <>
                   <Divider sx={{ my: 3 }} />
                   <Typography variant="h5" gutterBottom>
                     Pairing Suggestions
                   </Typography>
-                  {Array.isArray(method.pAiringSuggestions) ? (
+                  {Array.isArray(method.pairingSuggestions) ? (
                     <List>
-                      {method.pAiringSuggestions.map((suggestion, index) => (
+                      {method.pairingSuggestions.map((suggestion, index) => (
                         <ListItem key={index}>
                           <ListItemText primary={suggestion} />
                         </ListItem>
@@ -217,7 +217,7 @@ export default function CookingMethodPage() {
                     </List>
                   ) : (
                     <Typography variant="body1" paragraph>
-                      {method.pAiringSuggestions}
+                      {method.pairingSuggestions}
                     </Typography>
                   )}
                 </>

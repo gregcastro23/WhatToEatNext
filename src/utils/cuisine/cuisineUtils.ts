@@ -8,7 +8,7 @@ import { grainCuisineMatrix } from '../../data/integrations/grainCuisineMatrix';
 import { herbCuisineMatrix } from '../../data/integrations/herbCuisineMatrix';
 
 /**
- * Get cuisine pAirings for a specific ingredient
+ * Get cuisine pairings for a specific ingredient
  */
 export function getCuisinePAirings(
   ingredientName: string, 

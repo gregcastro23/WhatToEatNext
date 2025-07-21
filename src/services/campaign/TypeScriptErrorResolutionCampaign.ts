@@ -114,7 +114,7 @@ export class TypeScriptErrorResolutionCampaign {
 
     try {
       // Create safety checkpoint
-      const checkpointId = await this.safetyProtocol.createCheckpoint(`phase-${phaseId}-start`);
+      const checkpointId = await this.safetyProtocol.createCheckpointStash(`phase-${phaseId}-start`, phaseId);
       
       // Execute phase-specific logic
       const result = await this.executePhaseLogic(phase);

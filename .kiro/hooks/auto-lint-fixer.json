@@ -1,0 +1,28 @@
+{
+  "name": "Auto-Lint Fixer",
+  "description": "Automatically fixes linting issues on save for source files",
+  "trigger": {
+    "type": "onSave",
+    "filePattern": "src/**/*.{ts,tsx,js,jsx}"
+  },
+  "condition": {
+    "script": "const fs = require('fs'); const path = require('path'); const filePath = process.env.KIRO_FILE_PATH; if (!filePath || !fs.existsSync(filePath)) return false; const content = fs.readFileSync(filePath, 'utf8'); return content.includes('// TODO') || content.includes('console.log') || content.includes('any;') || content.includes('unused');"
+  },
+  "actions": [
+    {
+      "type": "runScript",
+      "script": "src/services/campaign/autoLintFixer.js",
+      "parameters": {
+        "safetyLevel": "conservative",
+        "autoFix": true,
+        "preserveComments": true
+      }
+    }
+  ],
+  "settings": {
+    "autoExecute": true,
+    "cooldown": 5000,
+    "maxExecutionsPerHour": 20,
+    "runInBackground": true
+  }
+}

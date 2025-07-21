@@ -346,7 +346,7 @@ campaignMock.resetAllMocks = jest.fn(() => {
 });
 
 // Global test utilities with extended interface
-global.testUtils = {
+(global as any).testUtils = {
   // Git operations mock
   gitMock,
   
@@ -467,9 +467,6 @@ expect.extend({
   },
 });
 
-// Import the unified type definitions
-import type { ExtendedTestUtils } from './types/testUtils';
-
 // Declare custom matcher types
 declare global {
   namespace jest {
@@ -477,8 +474,6 @@ declare global {
       toBeWithinRange(floor: number, ceiling: number): R;
     }
   }
-  
-  var testUtils: ExtendedTestUtils;
 }
 
 export {};

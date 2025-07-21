@@ -613,9 +613,9 @@ export class EnhancedIngredientsSystem {
     kalchmHarmonious: EnhancedIngredient[];
   } {
     return {
-      traditional: this.findTraditionalPAirings(targetIngredient),
-      innovative: this.findInnovativePAirings(targetIngredient),
-      seasonal: this.findSeasonalPAirings(targetIngredient),
+      traditional: this.findTraditionalPairings(targetIngredient),
+      innovative: this.findInnovativePairings(targetIngredient),
+      seasonal: this.findSeasonalPairings(targetIngredient),
       kalchmHarmonious: this.findKalchmCompatibleIngredients(targetIngredient.kalchm || 1.0, 0.15)
         .filter(i => i.name !== targetIngredient.name)
         .slice(0, 5)
@@ -914,13 +914,13 @@ export class EnhancedIngredientsSystem {
   }
   
   /**
-   * Find traditional pAirings for an ingredient
+   * Find traditional pairings for an ingredient
    */
-  private findTraditionalPAirings(ingredient: EnhancedIngredient): EnhancedIngredient[] {
-    // First check if the ingredient has defined pAirings
-    if ((ingredient.culinaryProperties?.pAirings || []).length > 0) {
-      return ingredient.culinaryProperties.pAirings
-        .map(pAiring => this.getIngredient(pAiring))
+  private findTraditionalPairings(ingredient: EnhancedIngredient): EnhancedIngredient[] {
+    // First check if the ingredient has defined pairings
+    if ((ingredient.culinaryProperties?.pairings || []).length > 0) {
+      return ingredient.culinaryProperties.pairings
+        .map(pairing => this.getIngredient(pairing))
         .filter((ingredient): ingredient is EnhancedIngredient => !!ingredient)
         .slice(0, 8);
     }
@@ -931,9 +931,9 @@ export class EnhancedIngredientsSystem {
   }
   
   /**
-   * Find innovative pAirings for an ingredient
+   * Find innovative pairings for an ingredient
    */
-  private findInnovativePAirings(ingredient: EnhancedIngredient): EnhancedIngredient[] {
+  private findInnovativePairings(ingredient: EnhancedIngredient): EnhancedIngredient[] {
     // Look for unexpected but harmonious combinations
     // Start with average elemental compatibility
     const compatibility = 0.75; // Minimum compatibility threshold
@@ -963,9 +963,9 @@ export class EnhancedIngredientsSystem {
   }
   
   /**
-   * Find seasonal pAirings for an ingredient
+   * Find seasonal pairings for an ingredient
    */
-  private findSeasonalPAirings(ingredient: EnhancedIngredient): EnhancedIngredient[] {
+  private findSeasonalPairings(ingredient: EnhancedIngredient): EnhancedIngredient[] {
     // Get all seasons this ingredient is associated with
     const seasons = ingredient.culinaryProperties?.seasonality?.peak || [];
     
@@ -976,7 +976,7 @@ export class EnhancedIngredientsSystem {
         .slice(0, 3)
     );
     
-    // Return unique seasonal pAirings (limit to 8)
+    // Return unique seasonal pairings (limit to 8)
     return Array.from(new Set(seasonalMatches)).slice(0, 8);
   }
   

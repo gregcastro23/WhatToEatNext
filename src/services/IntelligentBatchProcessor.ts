@@ -1321,7 +1321,7 @@ export class IntelligentBatchProcessor extends EventEmitter {
       completedJobs,
       failedJobs,
       activeJobs,
-      averageExecutionTime,
+      avgExecutionTime,
       successRate,
       throughput,
       resourceUtilization: resourceUtil,
