@@ -33,9 +33,9 @@ const errorLog = (_message: string, ..._args: unknown[]): void => {
 // Type guard for PlanetaryPosition
 export function isPlanetaryPosition(obj: unknown): obj is PlanetaryPosition {
   return obj && typeof obj === 'object' &&
-    typeof obj.sign === 'string' &&
-    typeof obj.degree === 'number' &&
-    (typeof obj.exactLongitude === 'number' || typeof obj.exactLongitude === 'undefined');
+    typeof (obj as Record<string, unknown>)?.sign === 'string' &&
+    typeof (obj as Record<string, unknown>)?.degree === 'number' &&
+    (typeof (obj as Record<string, unknown>)?.exactLongitude === 'number' || typeof (obj as Record<string, unknown>)?.exactLongitude === 'undefined');
 }
 
 // Utility to normalize planetary position keys (e.g., Sun/sun)
@@ -512,7 +512,7 @@ export async function calculateDominantElement(
   // Count elements from planetary positions
   if (astroState.planetaryPositions) {
     Object.entries(astroState.planetaryPositions || []).forEach(([planet, position]) => {
-      const element = getZodiacElementalInfluence(position.sign as Record<string, unknown>);
+      const element = getZodiacElementalInfluence(position.sign as ZodiacSign);
       
       // Weight by planet importance
       let weight = 1;
@@ -557,7 +557,7 @@ export async function calculateElementalProfile(
   // Count elements from planetary positions
   if (astroState.planetaryPositions) {
     Object.entries(astroState.planetaryPositions || []).forEach(([planet, position]) => {
-      const element = getZodiacElementalInfluence(position.sign as Record<string, unknown>);
+      const element = getZodiacElementalInfluence(position.sign as ZodiacSign);
       
       // Weight by planet importance
       let weight = 1;
@@ -664,8 +664,8 @@ export async function calculateAspects(
           const strength = 1 - (orb / definition.orb);
           
           // Get element of the sign for each planet
-          const element1 = getZodiacElement(pos1.sign as string)?.toLowerCase();
-          const element2 = getZodiacElement(pos2.sign as string)?.toLowerCase();
+          const element1 = getZodiacElement(pos1.sign as ZodiacSign)?.toLowerCase();
+          const element2 = getZodiacElement(pos2.sign as ZodiacSign)?.toLowerCase();
           
           // Base multiplier from definition
           let multiplier = definition.significance;

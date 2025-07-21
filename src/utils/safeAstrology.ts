@@ -161,8 +161,8 @@ export function calculatePlanetaryAspects(positions: Record<string, CelestialPos
       const pos2Sign = positions[planet2].sign;
       
       // Calculate the angular difference between planets
-      const pos1 = getZodiacPositionInDegrees(pos1Sign as Record<string, unknown>, positions[planet1].degree);
-      const pos2 = getZodiacPositionInDegrees(pos2Sign as Record<string, unknown>, positions[planet2].degree);
+      const pos1 = getZodiacPositionInDegrees(pos1Sign as ZodiacSign, positions[planet1].degree);
+      const pos2 = getZodiacPositionInDegrees(pos2Sign as ZodiacSign, positions[planet2].degree);
       
       let diff = Math.abs(pos1 - pos2);
       if (diff > 180) diff = 360 - diff;
@@ -291,8 +291,8 @@ export function getCurrentAstrologicalState(): AstrologicalState {
   const dominantElementCapitalized = dominantElement.charAt(0).toUpperCase() + dominantElement.slice(1) as 'Fire' | 'Water' | 'Earth' | 'Air';
   
   const state: AstrologicalState = {
-    sunSign: toZodiacSign(positions.sun.sign as Record<string, unknown>),
-    moonSign: toZodiacSign(positions.moon.sign as Record<string, unknown>),
+    sunSign: toZodiacSign(String(positions.sun.sign)),
+    moonSign: toZodiacSign(String(positions.moon.sign)),
     lunarPhase: phaseName as LunarPhase,
     activePlanets,
     dominantElement: dominantElementCapitalized,

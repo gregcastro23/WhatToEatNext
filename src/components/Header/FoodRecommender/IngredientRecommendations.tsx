@@ -143,16 +143,16 @@ export const IngredientRecommendations: React.FC<IngredientRecommendationsProps>
                             let nutritionalScore = 0;
                             if (ingredient.nutritionalProfile) {
                                 const nutrition = ingredient.nutritionalProfile;
-                                const calories = (nutrition as Record<string, unknown>)?.calories || 0;
+                                const calories = Number((nutrition as Record<string, unknown>)?.calories || 0);
                                 const macros = (nutrition as Record<string, unknown>)?.macros || {};
                                 
                                 // Calculate protein density (protein per calorie)
                                 const proteinDensity = calories > 0 ? 
-                                    (Number(macros.protein || 0) / calories) : 0;
+                                    (Number((macros as Record<string, unknown>)?.protein || 0) / calories) : 0;
                                     
                                 // Calculate fiber density (fiber per calorie)
                                 const fiberDensity = calories > 0 ? 
-                                    (Number(macros.fiber || 0) / calories) : 0;
+                                    (Number((macros as Record<string, unknown>)?.fiber || 0) / calories) : 0;
                                     
                                 // Calculate vitamin/mineral richness
                                 const vitaminCount = Object.keys((nutrition as Record<string, unknown>)?.vitamins as Record<string, unknown> || {}).length;
@@ -163,13 +163,13 @@ export const IngredientRecommendations: React.FC<IngredientRecommendationsProps>
                                 const phytonutrientScore = Object.keys((nutrition as Record<string, unknown>)?.phytonutrients as Record<string, unknown> || {}).length / 10; // Normalized to ~0-1 range
                                 
                                 // Calculate macronutrient balance based on ratios
-                                const totalMacros = Number(macros.protein || 0) + Number(macros.carbs || 0) + Number(macros.fat || 0);
+                                const totalMacros = Number((macros as Record<string, unknown>)?.protein || 0) + Number((macros as Record<string, unknown>)?.carbs || 0) + Number((macros as Record<string, unknown>)?.fat || 0);
                                 let macroBalanceScore = 0.5;
                                 
                                 if (totalMacros > 0) {
-                                    const proteinRatio = Number(macros.protein || 0) / totalMacros;
-                                    const carbsRatio = Number(macros.carbs || 0) / totalMacros;
-                                    const fatRatio = Number(macros.fat || 0) / totalMacros;
+                                    const proteinRatio = Number((macros as Record<string, unknown>)?.protein || 0) / totalMacros;
+                                    const carbsRatio = Number((macros as Record<string, unknown>)?.carbs || 0) / totalMacros;
+                                    const fatRatio = Number((macros as Record<string, unknown>)?.fat || 0) / totalMacros;
                                     
                                     // Define ideal targets for ratios
                                     const idealProtein = 0.25; // 25%

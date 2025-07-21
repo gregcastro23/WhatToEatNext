@@ -75,6 +75,7 @@ describe('EnterpriseIntelligenceIntegration', () => {
       const result = await service.performEnterpriseAnalysis(
         mockRecipeData,
         mockIngredientData,
+        mockRecipeData, // Using recipeData as cuisineData for test
         mockAstrologicalContext
       );
 
@@ -93,6 +94,7 @@ describe('EnterpriseIntelligenceIntegration', () => {
       const result = await service.performEnterpriseAnalysis(
         mockRecipeData,
         mockIngredientData,
+        mockRecipeData, // Using recipeData as cuisineData for test
         mockAstrologicalContext
       );
 
@@ -111,6 +113,7 @@ describe('EnterpriseIntelligenceIntegration', () => {
       const result = await service.performEnterpriseAnalysis(
         mockRecipeData,
         mockIngredientData,
+        mockRecipeData, // Using recipeData as cuisineData for test
         mockAstrologicalContext
       );
 
@@ -129,6 +132,7 @@ describe('EnterpriseIntelligenceIntegration', () => {
       const result = await service.performEnterpriseAnalysis(
         mockRecipeData,
         mockIngredientData,
+        mockRecipeData, // Using recipeData as cuisineData for test
         mockAstrologicalContext
       );
 
@@ -146,6 +150,7 @@ describe('EnterpriseIntelligenceIntegration', () => {
       const result = await service.performEnterpriseAnalysis(
         mockRecipeData,
         mockIngredientData,
+        mockRecipeData, // Using recipeData as cuisineData for test
         mockAstrologicalContext
       );
 
@@ -164,6 +169,7 @@ describe('EnterpriseIntelligenceIntegration', () => {
       const result = await service.performEnterpriseAnalysis(
         mockRecipeData,
         mockIngredientData,
+        mockRecipeData, // Using recipeData as cuisineData for test
         mockAstrologicalContext
       );
 
@@ -181,6 +187,7 @@ describe('EnterpriseIntelligenceIntegration', () => {
       const result = await service.performEnterpriseAnalysis(
         null,
         null,
+        null, // cuisineData
         mockAstrologicalContext
       );
 
@@ -203,6 +210,7 @@ describe('EnterpriseIntelligenceIntegration', () => {
       const result = await disabledService.performEnterpriseAnalysis(
         { id: 'test' },
         { id: 'test' },
+        { id: 'test' }, // cuisineData
         {
           zodiacSign: 'aries' as ZodiacSign,
           lunarPhase: 'new moon' as LunarPhase,
@@ -247,6 +255,7 @@ describe('EnterpriseIntelligenceIntegration', () => {
       await service.performEnterpriseAnalysis(
         { id: 'test' },
         { id: 'test' },
+        { id: 'test' }, // cuisineData
         {
           zodiacSign: 'aries' as ZodiacSign,
           lunarPhase: 'new moon' as LunarPhase,

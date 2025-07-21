@@ -100,7 +100,7 @@ export class EnhancedTransitAnalysisService {
     
     // Calculate enhanced planetary positions with dignity and location modifiers
     const enhancedPositions = this.calculateEnhancedPlanetaryPositions(
-      season.planetaryPlacements,
+      season.planetaryPlacements as Record<string, Record<string, string>>,
       locationInfluences,
       date
     );
@@ -115,7 +115,7 @@ export class EnhancedTransitAnalysisService {
     // Generate location-specific recommendations
     const locationRecommendations = this.generateLocationSpecificRecommendations(
       enhancedPositions,
-      aspectInfluences,
+      aspectInfluences as unknown as PlanetaryPosition[],
       season,
       location,
       date
@@ -124,7 +124,7 @@ export class EnhancedTransitAnalysisService {
     // Determine dominant influences
     const dominantInfluences = this.calculateDominantInfluences(
       enhancedPositions,
-      aspectInfluences,
+      aspectInfluences as unknown as PlanetaryPosition[],
       season,
       location,
       date
@@ -159,7 +159,7 @@ export class EnhancedTransitAnalysisService {
       );
       
       // Calculate overall strength
-      const strength = calculatePlanetaryStrength(planet, position);
+      const strength = calculatePlanetaryStrength(planet, position as unknown as PlanetaryPosition);
       
       // Get planet data for culinary recommendations
       const planetData = planetInfo[planet];
@@ -174,14 +174,14 @@ export class EnhancedTransitAnalysisService {
       return {
         planet,
         sign: position.sign,
-        degree: position.degree,
-        exactLongitude: position.exactLongitude,
-        isRetrograde: position.isRetrograde || false,
+        degree: Number(position.degree) || 0,
+        exactLongitude: Number(position.exactLongitude) || 0,
+        isRetrograde: Boolean(position.isRetrograde) || false,
         dignity,
         strength,
         locationInfluence: locationInfluence?.finalInfluence || 1.0,
         culinaryRecommendations
-      };
+      } as EnhancedPlanetaryPosition;
     });
   }
 
@@ -245,8 +245,8 @@ export class EnhancedTransitAnalysisService {
     const recommendations: string[] = [];
     
     // Base recommendations from planet data
-    if (planetData?.FoodAssociations) {
-      recommendations.push(...planetData.FoodAssociations.slice(0, 3));
+    if ((planetData as unknown as Record<string, unknown>)?.FoodAssociations) {
+      recommendations.push(...((planetData as unknown as Record<string, unknown>).FoodAssociations as string[]).slice(0, 3));
     }
     
     // Modify recommendations based on dignity

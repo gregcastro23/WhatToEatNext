@@ -1,5 +1,5 @@
 import { AstrologicalState, ElementalProperties, ChakraEnergies, AstrologicalProfile, ElementalAffinity, PlanetName, Element } from "@/types/alchemy";
-import type { Modality, Ingredient, SensoryProfile, CookingMethod, UnifiedIngredient } from '../../data/ingredients/types';
+import type { Modality, Ingredient, SensoryProfile, CookingMethod } from '../../data/ingredients/types';
 
 
 // Phase 10: Calculation Type Interfaces
@@ -479,11 +479,11 @@ export const getAllIngredients = async (): Promise<EnhancedIngredient[]> => {
   
   // Create eggs and dairy from proteins by filtering category
   const eggs = Object.entries(proteinsData || {})
-    .filter(([_, value]) => (value as unknown[]).category === 'egg')
+    .filter(([_, value]) => (value as unknown as Record<string, unknown>)?.category === 'egg')
     .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
   
   const dairy = Object.entries(proteinsData || {})
-    .filter(([_, value]) => (value as unknown[]).category === 'dairy')
+    .filter(([_, value]) => (value as unknown as Record<string, unknown>)?.category === 'dairy')
     .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
   
   // Define all categories with loaded data
@@ -545,7 +545,7 @@ export const getAllIngredients = async (): Promise<EnhancedIngredient[]> => {
   // Filter out ingredients without proper astrological profiles
   const validIngredients = allIngredients.filter(ing => 
     ing?.astrologicalProfile && 
-    (ing.astrologicalProfile.elementalAffinity as Record<string, unknown>)?.base && 
+    ((ing.astrologicalProfile.elementalAffinity as unknown as Record<string, unknown>)?.base) && 
     ing.astrologicalProfile.rulingPlanets
   );
   
@@ -807,7 +807,7 @@ function calculateElementalScore(
   return totalWeight > 0 ? score / totalWeight : 0.5;
 }
 
-async function calculateSeasonalScore(ingredient: Ingredient | UnifiedIngredient, date: Date): Promise<number> {
+async function calculateSeasonalScore(ingredient: Ingredient, date: Date): Promise<number> {
   // Simple seasonal scoring - could be enhanced
   const month = date.getMonth();
   const season = month >= 2 && month <= 4 ? 'spring' :
@@ -930,10 +930,10 @@ function calculateCulturalContextScore(
 function _isElementalProperties(obj: unknown): obj is ElementalProperties {
   return obj && 
     typeof obj === 'object' &&
-    typeof obj.Fire === 'number' &&
-    typeof obj.Water === 'number' &&
-    typeof obj.Earth === 'number' &&
-    typeof obj.Air === 'number';
+    typeof (obj as Record<string, unknown>)?.Fire === 'number' &&
+    typeof (obj as Record<string, unknown>)?.Water === 'number' &&
+    typeof (obj as Record<string, unknown>)?.Earth === 'number' &&
+    typeof (obj as Record<string, unknown>)?.Air === 'number';
 }
 
 function createElementalProperties(values: Partial<ElementalProperties>): ElementalProperties {
@@ -967,7 +967,15 @@ export async function recommendIngredients(
     aspects: []
   };
   
-  const grouped = await getIngredientRecommendations(elementalProps as Record<string, unknown>, options);
+  const grouped = await getIngredientRecommendations(elementalProps as ElementalProperties & {
+    timestamp: Date;
+    currentStability: number;
+    planetaryAlignment: Record<string, { sign: string; degree: number }>;
+    currentZodiac: string;
+    activePlanets: string[];
+    lunarPhase: string;
+    aspects: Array<{ aspectType: string; planet1: string; planet2: string }>;
+  }, options);
   
   // Flatten grouped recommendations into a single array
   const allRecommendations: IngredientRecommendation[] = [];

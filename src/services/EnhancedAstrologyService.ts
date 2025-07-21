@@ -100,10 +100,10 @@ export class EnhancedAstrologyService {
     const upcomingAnalysis = getSeasonalAnalysis(date, upcomingEndDate);
     
     return {
-      currentSeason,
-      upcomingTransits: upcomingAnalysis.seasons,
+      currentSeason: currentSeason as unknown as Season,
+      upcomingTransits: (upcomingAnalysis.seasons as unknown as Element[]) || [],
       dominantElements: seasonalAnalysis.dominantElements,
-      keyAspects: seasonalAnalysis.keyAspects,
+      keyAspects: (seasonalAnalysis.keyAspects as unknown as Planet[]) || [],
       retrogradePlanets: seasonalAnalysis.retrogradePlanets,
       eclipseSeasons: [], // TODO: Implement eclipse season calculation
       majorTransits: [] // TODO: Implement major transit calculation
@@ -139,12 +139,12 @@ export class EnhancedAstrologyService {
     }
 
     return {
-      seasonalThemes: currentSeason.seasonalThemes,
-      culinaryInfluences: currentSeason.culinaryInfluences,
-      dominantElements: currentSeason.dominantElements,
-      recommendedCuisines: this.getRecommendedCuisines(currentSeason.dominantElements),
-      recommendedCookingMethods: this.getRecommendedCookingMethods(currentSeason.dominantElements),
-      alchemicalProperties: currentSeason.alchemicalProperties
+      seasonalThemes: ((currentSeason as unknown as Record<string, unknown>).seasonalThemes as string[]) || [],
+      culinaryInfluences: ((currentSeason as unknown as Record<string, unknown>).culinaryInfluences as string[]) || [],
+      dominantElements: ((currentSeason as unknown as Record<string, unknown>).dominantElements as Record<string, number>) || {},
+      recommendedCuisines: this.getRecommendedCuisines((currentSeason as unknown as Record<string, unknown>).dominantElements as Record<string, number> || {}),
+      recommendedCookingMethods: this.getRecommendedCookingMethods((currentSeason as unknown as Record<string, unknown>).dominantElements as Record<string, number> || {}),
+      alchemicalProperties: ((currentSeason as unknown as Record<string, unknown>).alchemicalProperties as Record<string, number>) || {}
     };
   }
 
@@ -207,7 +207,7 @@ export class EnhancedAstrologyService {
     const specialEvents = seasonalTransit?.specialEvents || [];
 
     // Get key aspects from seasonal transit
-    const keyAspects = seasonalTransit?.keyAspects || [];
+    const keyAspects = (seasonalTransit?.keyAspects as unknown as Planet[]) || [];
 
     return {
       planetaryPositions: primaryPositions,

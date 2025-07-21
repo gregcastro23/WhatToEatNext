@@ -536,17 +536,15 @@ export const calculateNutritionalBalance = (_ingredients: unknown[]): Nutritiona
   // Aggregate nutritional values from ingredients
   const totals = _ingredients.reduce((acc, ingredient) => {
     const ingredientData = ingredient as Record<string, unknown>;
-    const nutrition = ingredientData?.nutrition || {};
-    
-    const nutritionData = nutrition as Record<string, unknown>;
+    const nutritionData = (ingredientData && ingredientData.nutrition ? ingredientData.nutrition : {}) as Record<string, unknown>;
     return {
-      calories: acc.calories + Number(nutritionData?.calories || 0),
-      protein: acc.protein + Number(nutritionData?.protein || 0),
-      carbohydrates: acc.carbohydrates + Number(nutritionData?.carbohydrates || 0),
-      fat: acc.fat + Number(nutritionData?.fat || 0),
-      fiber: acc.fiber + Number(nutritionData?.fiber || 0),
-      vitamins: { ...acc.vitamins, ...(nutritionData?.vitamins as Record<string, unknown> || {}) },
-      minerals: { ...acc.minerals, ...(nutritionData?.minerals as Record<string, unknown> || {}) }
+      calories: acc.calories + Number((nutritionData as Record<string, unknown>)?.calories || 0),
+      protein: acc.protein + Number((nutritionData as Record<string, unknown>)?.protein || 0),
+      carbohydrates: acc.carbohydrates + Number((nutritionData as Record<string, unknown>)?.carbohydrates || 0),
+      fat: acc.fat + Number((nutritionData as Record<string, unknown>)?.fat || 0),
+      fiber: acc.fiber + Number((nutritionData as Record<string, unknown>)?.fiber || 0),
+      vitamins: { ...acc.vitamins, ...((nutritionData as Record<string, unknown>)?.vitamins as Record<string, unknown> || {}) },
+      minerals: { ...acc.minerals, ...((nutritionData as Record<string, unknown>)?.minerals as Record<string, unknown> || {}) }
     };
   }, {
     calories: 0,
@@ -558,7 +556,7 @@ export const calculateNutritionalBalance = (_ingredients: unknown[]): Nutritiona
     minerals: {}
   });
   
-  return totals;
+  return totals as NutritionalProfile;
 };
 
 export const nutritionalToElemental = (profile: NutritionalProfile): ElementalProperties => {

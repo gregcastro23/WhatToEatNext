@@ -383,7 +383,7 @@ export default function IngredientRecommender() {
       (oilsCollection || []).map((oil: unknown) => {
         // Apply surgical type casting with variable extraction
         const oilData = oil as Record<string, unknown>;
-        return oilData?.name?.toLowerCase();
+        return String(oilData?.name || '').toLowerCase();
       }) : 
       Object.values(oilsCollection || {}).map((oil: unknown) => {
         const oilData = oil as Record<string, unknown>;
@@ -397,7 +397,7 @@ export default function IngredientRecommender() {
       (vinegarsCollection || []).map((vinegar: unknown) => {
         // Apply surgical type casting with variable extraction
         const vinegarData = vinegar as Record<string, unknown>;
-        return vinegarData?.name?.toLowerCase();
+        return String(vinegarData?.name || '').toLowerCase();
       }) : 
       Object.values(vinegarsCollection || {}).map((vinegar: unknown) => {
         const vinegarData = vinegar as Record<string, unknown>;
@@ -775,7 +775,7 @@ export default function IngredientRecommender() {
           });
         }
         // Herbs
-        else if (ingredient.category === 'herb' || (Array.isArray(name) ? name.includes('herb') : name === 'herb') || (herbNames || []).some(herb => name?.includes?.(herb?.toLowerCase?.()))) {
+        else if (ingredient.category === 'herb' || (Array.isArray(name) ? name.includes('herb') : name === 'herb') || (herbNames || []).some(herb => name?.includes?.(String(herb || '').toLowerCase()))) {
           categories.herbs?.push({
             ...ingredient,
             matchScore: ingredient.score || 0.5
@@ -871,7 +871,7 @@ export default function IngredientRecommender() {
             Air: 0.2, 
             Fire: 0.1 
           },
-          qualities: (vinegarData as Record<string, unknown>).qualities || ['acidic', 'tangy', 'flavorful'],
+                      qualities: ((vinegarData as unknown as Record<string, unknown>).qualities as string[]) || ['acidic', 'tangy', 'flavorful'],
           description: `${displayName} - A versatile acidic component for your culinary creations.`
         } as IngredientRecommendation;
       });
@@ -893,8 +893,8 @@ export default function IngredientRecommender() {
             matchScore: 0.6,
             elementalProperties: oilData.elementalProperties || { Fire: 0.3, Water: 0.2, Earth: 0.3, Air: 0.2 
              },
-            qualities: (oilData as Record<string, unknown>).qualities || ['cooking', 'flavoring'],
-            description: `${oilData.name || key.replace(/_/g, ' ')?.replace(/\b\w/g, l => l?.toUpperCase())} - ${(oilData as string).description || "A versatile cooking oil with various applications."}`
+            qualities: ((oilData as unknown as Record<string, unknown>).qualities as string[]) || ['cooking', 'flavoring'],
+            description: `${oilData.name || key.replace(/_/g, ' ')?.replace(/\b\w/g, l => l?.toUpperCase())} - ${String((oilData as unknown as Record<string, unknown>)?.description || "A versatile cooking oil with various applications.")}`
           } as IngredientRecommendation;
         });
       

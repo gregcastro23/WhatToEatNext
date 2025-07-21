@@ -293,8 +293,9 @@ export class AlchemicalTransformationService {
       let methodMatch = 0;
       let methodCount = 0;
       
-      const recipeData = recipe as CookingMethod;
-      recipeData?.cookingMethods?.forEach((method: string) => {
+      const recipeData = recipe as unknown as Record<string, unknown>;
+      const cookingMethods = (recipeData?.cookingMethods as string[]) || [];
+      cookingMethods.forEach((method: string) => {
         const methodName = method.toLowerCase();
         const alchemicalMethod = methodMap.get(methodName);
         
@@ -459,21 +460,22 @@ export class AlchemicalTransformationService {
   
   // Helper method to calculate lunar phase score for a recipe
   private calculateLunarPhaseScore(recipe: Recipe): number {
-    const recipeData = recipe as LunarPhase;
-    if (!recipeData?.astrologicalAffinities?.lunarPhases || 
-        recipeData.astrologicalAffinities.lunarPhases.length === 0 || 
-        !this.lunarPhase) {
+    const recipeData = recipe as unknown as Record<string, unknown>;
+    const astrologicalAffinities = recipeData?.astrologicalAffinities as Record<string, unknown>;
+    const lunarPhases = (astrologicalAffinities?.lunarPhases as string[]) || [];
+    
+    if (lunarPhases.length === 0 || !this.lunarPhase) {
       return 0.5;
     }
     
     const lunarPhaseLower = this.lunarPhase.toLowerCase();
     
     // Check if the recipe's lunar phases include the current lunar phase
-    const lunarPhases = recipeData.astrologicalAffinities.lunarPhases.map((phase: string) => 
+    const lunarPhasesLower = lunarPhases.map((phase: string) => 
       phase.toLowerCase()
     );
     
-    if (lunarPhases.includes(lunarPhaseLower)) {
+    if (lunarPhasesLower.includes(lunarPhaseLower)) {
       return 0.8;
     }
     
@@ -482,17 +484,18 @@ export class AlchemicalTransformationService {
   
   // Helper method to calculate zodiac score for a recipe
   private calculateZodiacScore(recipe: Recipe): number {
-    const recipeData = recipe as Record<string, unknown>;
-    if (!recipeData?.astrologicalAffinities?.signs || 
-        recipeData.astrologicalAffinities.signs.length === 0 || 
-        !this.currentZodiac) {
+    const recipeData = recipe as unknown as Record<string, unknown>;
+    const astrologicalAffinities = recipeData?.astrologicalAffinities as Record<string, unknown>;
+    const signs = (astrologicalAffinities?.signs as string[]) || [];
+    
+    if (signs.length === 0 || !this.currentZodiac) {
       return 0.5;
     }
     
     const zodiacLower = this.currentZodiac.toLowerCase();
     
     // Check if the recipe's zodiac signs include the current zodiac sign
-    const zodiacSigns = recipeData.astrologicalAffinities.signs.map((sign: string) => 
+    const zodiacSigns = signs.map((sign: string) => 
       sign.toLowerCase()
     );
     

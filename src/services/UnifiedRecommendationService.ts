@@ -63,7 +63,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
       // Calculate elemental compatibility if criteria includes elemental properties
       if (elementalState && recipe.elementalState) {
         const elementalScore = this.calculateElementalCompatibility(
-          elementalState,
+          elementalState as ElementalProperties,
           recipe.elementalState
         );
         
@@ -167,7 +167,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
       // Calculate elemental compatibility if criteria includes elemental properties
       if (elementalState && ingredient.elementalProperties) {
         const elementalScore = this.calculateElementalCompatibility(
-          elementalState,
+          elementalState as ElementalProperties,
           ingredient.elementalProperties
         );
         
@@ -194,7 +194,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
       const currentSeason = criteriaData?.currentSeason || criteriaData?.season;
       if (currentSeason && ingredient.seasonality) {
         const seasonMatch = (ingredient.seasonality || []).some(s =>
-          s?.toLowerCase() === currentSeason?.toLowerCase()
+          String(s || '').toLowerCase() === String(currentSeason || '').toLowerCase()
         );
         
         score += seasonMatch ? 0.1 : 0;
@@ -296,7 +296,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
       // Calculate elemental compatibility if criteria includes elemental properties
       if (elementalState && cuisineElements[cuisine]) {
         const elementalScore = this.calculateElementalCompatibility(
-          elementalState,
+          elementalState as ElementalProperties,
           cuisineElements[cuisine]
         );
         
@@ -415,7 +415,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
       const methodData = method as CookingMethod;
       if (elementalState && methodData?.elementalEffect) {
         const elementalScore = this.calculateElementalCompatibility(
-          elementalState,
+          elementalState as ElementalProperties,
           methodData.elementalEffect
         );
         
@@ -442,8 +442,8 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
     // Build scores record
     const scores: { [key: string]: number } = {};
     (limitedMethods || []).forEach(item => {
-      const methodData = item.method as Record<string, unknown>;
-      const methodId = methodData?.name || 'unknown';
+      const methodData = item.method as unknown as Record<string, unknown>;
+      const methodId = String(methodData?.name || 'unknown');
       scores[methodId] = item.score;
     });
     
@@ -466,9 +466,9 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
     target: ElementalProperties
   ): number {
     // Apply Pattern PP-1: Safe service method access
-    const alchemicalEngineData = alchemicalEngine as CookingMethod;
-    if (alchemicalEngineData?.calculateElementalCompatibility) {
-      return alchemicalEngineData.calculateElementalCompatibility(source, target);
+    const alchemicalEngineData = alchemicalEngine as unknown as Record<string, unknown>;
+    if (typeof alchemicalEngineData?.calculateElementalCompatibility === 'function') {
+      return (alchemicalEngineData.calculateElementalCompatibility as (source: ElementalProperties, target: ElementalProperties) => number)(source, target);
     }
     
     // Fallback calculation

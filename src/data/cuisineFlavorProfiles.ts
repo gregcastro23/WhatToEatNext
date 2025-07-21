@@ -1044,7 +1044,7 @@ export function getRecipesForCuisineMatch(
             ) {
               const elementScore = calculateSimilarityScore(
                 cuisineProfile.elementalAlignment,
-                recipeData.elementalProperties
+                recipeData.elementalProperties as ElementalProperties
               );
               scoreComponents.push(elementScore * 0.1);
               totalWeight += 0.1;
@@ -1077,8 +1077,8 @@ export function getRecipesForCuisineMatch(
             };
           }
         })
-        .filter((recipe) => (recipe as Recipe[])?.matchScore >= 0.5) // Only include reasonably good matches
-        .sort((a, b) => (b as Record<string, unknown>).matchScore - (a as Record<string, unknown>).matchScore); // Sort by score (high to low)
+        .filter((recipe) => Number((recipe as Record<string, unknown>)?.matchScore || 0) >= 0.5) // Only include reasonably good matches
+        .sort((a, b) => Number((b as Record<string, unknown>)?.matchScore || 0) - Number((a as Record<string, unknown>)?.matchScore || 0)); // Sort by score (high to low)
     }
 
     console.log(`Found ${scoredOtherRecipes.length} scored other recipes for ${cuisineName}`);
@@ -1107,7 +1107,7 @@ export function getRecipesForCuisineMatch(
     );
 
     // Sort by match score
-    const sortedMatches = uniqueMatches.sort((a, b) => (b as Record<string, unknown>).matchScore - (a as Record<string, unknown>).matchScore);
+    const sortedMatches = uniqueMatches.sort((a, b) => Number((b as Record<string, unknown>)?.matchScore || 0) - Number((a as Record<string, unknown>)?.matchScore || 0));
     
     console.log(`Returning ${sortedMatches.length} sorted matches for ${cuisineName}`);
     

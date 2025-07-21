@@ -17,7 +17,6 @@ import {
 } from '@mui/icons-material';
 
 import { Recipe } from '@/types/unified';
-import { AlchemyRecipe } from '@/types/recipe';
 import { useServices } from '@/hooks/useServices';
 import * as astrologize from '@/services/astrologizeApi';
 import type { CuisineType, DietaryRestriction, ElementalProperties } from '@/types/alchemy';
@@ -146,16 +145,16 @@ const RecipeCard: React.FC<RecipeCardProps> = ({ recipe, isExpanded, onToggle })
           )}
         </Box>
 
-        {recipe.rating && (
+        {(recipe as unknown as Record<string, unknown>)?.rating && (
           <Box display="flex" alignItems="center" gap={1} mb={2}>
             <Rating 
-              value={recipe.rating as number} 
+              value={Number((recipe as unknown as Record<string, unknown>)?.rating) || 0} 
               precision={0.5} 
               size="small" 
               readOnly 
             />
             <Typography variant="caption">
-              {recipe.rating as number}/5
+              {Number((recipe as unknown as Record<string, unknown>)?.rating) || 0}/5
             </Typography>
           </Box>
         )}
@@ -406,7 +405,7 @@ export default function RecipeListMigrated() {
         elemental: 50,
         planetary: 50,
         seasonal: 50,
-        popularity: recipe.rating ? Number(recipe.rating) * 20 : 50
+        popularity: (recipe as unknown as Record<string, unknown>)?.rating ? Number((recipe as unknown as Record<string, unknown>)?.rating) * 20 : 50
       };
     }
 
@@ -423,7 +422,7 @@ export default function RecipeListMigrated() {
     const seasonalScore = calculateSeasonalAlignment(recipe.season, astroData.currentSeason) * 100;
     
     // Popularity score based on rating
-    const popularityScore = recipe.rating ? Number(recipe.rating) * 20 : 50;
+    const popularityScore = (recipe as unknown as Record<string, unknown>)?.rating ? Number((recipe as unknown as Record<string, unknown>)?.rating) * 20 : 50;
     
     // Weighted total score
     const total = (
@@ -579,7 +578,7 @@ export default function RecipeListMigrated() {
 
       // Rating filter
       if (filters.minRating) {
-        const numericRating = Number(recipe.rating) || 0;
+        const numericRating = Number((recipe as unknown as Record<string, unknown>)?.rating) || 0;
         const numericMinRating = Number(filters.minRating) || 0;
         if (numericRating === 0 || numericRating < numericMinRating) {
           return false;

@@ -6,9 +6,9 @@
  */
 
 import { allIngredients } from '../data/ingredients';
-import { calculateElementalCompatibility } from './elementalUtils';
+import { calculateElementalAffinity } from './elementalUtils';
 import { logger } from './logger';
-import type { Ingredient } from '@/types/alchemy';
+import type { Ingredient } from '@/types';
 import type { ElementalProperties } from '@/types/elemental';
 
 // Validation result interfaces
@@ -264,6 +264,27 @@ function validateIngredientElementalProperties(
 }
 
 /**
+ * Calculate compatibility between two ElementalProperties objects
+ */
+function calculateElementalPropertiesCompatibility(
+  props1: ElementalProperties,
+  props2: ElementalProperties
+): number {
+  const elements: Array<'Fire' | 'Water' | 'Earth' | 'Air'> = ['Fire', 'Water', 'Earth', 'Air'];
+  let totalCompatibility = 0;
+  let totalWeight = 0;
+  
+  for (const element of elements) {
+    const affinity = calculateElementalAffinity(element, element);
+    const weight = (props1[element] || 0) * (props2[element] || 0);
+    totalCompatibility += affinity * weight;
+    totalWeight += weight;
+  }
+  
+  return totalWeight > 0 ? totalCompatibility / totalWeight : 0.5;
+}
+
+/**
  * Validate compatibility scores follow self-reinforcement principles
  */
 async function validateCompatibilityScores(): Promise<{ errors: IngredientValidationError[], warnings: IngredientValidationWarning[] }> {
@@ -279,7 +300,7 @@ async function validateCompatibilityScores(): Promise<{ errors: IngredientValida
       try {
         if (!ingredient.elementalProperties) continue;
         
-        const selfCompatibility = calculateElementalCompatibility(
+        const selfCompatibility = calculateElementalPropertiesCompatibility(
           ingredient.elementalProperties, 
           ingredient.elementalProperties
         );
@@ -320,7 +341,7 @@ async function validateCompatibilityScores(): Promise<{ errors: IngredientValida
         if (!ingredient1.elementalProperties || !ingredient2.elementalProperties) continue;
         
         try {
-          const crossCompatibility = calculateElementalCompatibility(
+          const crossCompatibility = calculateElementalPropertiesCompatibility(
             ingredient1.elementalProperties,
             ingredient2.elementalProperties
           );
@@ -374,7 +395,7 @@ async function validateAlchemicalMappings(): Promise<{ errors: IngredientValidat
     
     for (const [name, ingredient] of Object.entries(ingredients)) {
       try {
-        if (ingredient.alchemicalProperties) {
+        if ((ingredient as unknown as Record<string, unknown>)?.alchemicalProperties) {
           const validation = validateAlchemicalConsistency(name, ingredient);
           errors.push(...validation.errors);
           warnings.push(...validation.warnings);
@@ -420,17 +441,18 @@ function validateAlchemicalConsistency(
   const warnings: IngredientValidationWarning[] = [];
   
   try {
-    if (!ingredient.alchemicalProperties || !ingredient.elementalProperties) {
+    const ingredientData = ingredient as unknown as Record<string, unknown>;
+    if (!ingredientData?.alchemicalProperties || !ingredient.elementalProperties) {
       return { errors, warnings };
     }
     
-    const alchemical = ingredient.alchemicalProperties;
+    const alchemical = ingredientData.alchemicalProperties as Record<string, unknown>;
     const elemental = ingredient.elementalProperties;
     
     // Check that alchemical properties are numeric and in valid range
     const alchemicalProps = ['spirit', 'essence', 'matter', 'substance'];
     for (const prop of alchemicalProps) {
-      const value = alchemical[prop as keyof typeof alchemical];
+      const value = alchemical[prop] as number;
       if (typeof value !== 'number' || isNaN(value)) {
         errors.push({
           type: 'ALCHEMICAL_MISMATCH',
@@ -455,7 +477,7 @@ function validateAlchemicalConsistency(
     // Check consistency between alchemical and elemental properties
     // Spirit should correlate with Air and Fire
     const airFire = (elemental.Air || 0) + (elemental.Fire || 0);
-    const spirit = alchemical.spirit || 0;
+    const spirit = (alchemical.spirit as number) || 0;
     if (Math.abs(spirit - airFire * 0.5) > 0.3) {
       warnings.push({
         type: 'MINOR_INCONSISTENCY',
@@ -468,7 +490,7 @@ function validateAlchemicalConsistency(
     
     // Matter should correlate with Earth and Water
     const earthWater = (elemental.Earth || 0) + (elemental.Water || 0);
-    const matter = alchemical.matter || 0;
+    const matter = (alchemical.matter as number) || 0;
     if (Math.abs(matter - earthWater * 0.5) > 0.3) {
       warnings.push({
         type: 'MINOR_INCONSISTENCY',
@@ -687,7 +709,7 @@ async function testCompatibilityCalculations(): Promise<IngredientTestResult> {
       
       try {
         totalCalculations++;
-        const selfCompatibility = calculateElementalCompatibility(
+        const selfCompatibility = calculateElementalPropertiesCompatibility(
           ingredient.elementalProperties,
           ingredient.elementalProperties
         );
@@ -737,12 +759,13 @@ async function testAlchemicalMappings(): Promise<IngredientTestResult> {
     let totalMappings = 0;
     
     for (const ingredient of Object.values(ingredients)) {
-      if (ingredient.alchemicalProperties) {
+      const ingredientData = ingredient as unknown as Record<string, unknown>;
+      if (ingredientData?.alchemicalProperties) {
         totalMappings++;
         
-        const alchemical = ingredient.alchemicalProperties;
+        const alchemical = ingredientData.alchemicalProperties as Record<string, unknown>;
         const hasValidProps = ['spirit', 'essence', 'matter', 'substance'].every(prop => {
-          const value = alchemical[prop as keyof typeof alchemical];
+          const value = alchemical[prop] as number;
           return typeof value === 'number' && !isNaN(value);
         });
         

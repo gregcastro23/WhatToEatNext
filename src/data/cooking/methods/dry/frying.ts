@@ -363,20 +363,20 @@ export const frying: CookingMethodData = {
    */
   alchemicalAspects: {
     pillarName: 'Calcination',
-    pillarNumber: 7,
+    pillarNumber: '7',
     alchemicalProcess: 'Transformation through intense heat that breaks down original structures and builds new ones',
     effects: {
-      spirit: -1,      // Decreases spiritual essence through intense transformation
-      essence: 1,      // Increases essential qualities and concentrated flavors
-      matter: 1,       // Increases material substance and structural stability
-      substance: -1    // Decreases raw substance through dehydration and breakdown
+      spirit: '-1',      // Decreases spiritual essence through intense transformation
+      essence: '1',      // Increases essential qualities and concentrated flavors
+      matter: '1',       // Increases material substance and structural stability
+      substance: '-1'    // Decreases raw substance through dehydration and breakdown
     },
     symbolicMeaning: 'Represents the purifying fire that burns away impurities and transforms raw materials into more refined substances, paralleling how frying transforms raw ingredients into more flavorful and texturally complex foods',
     associatedElements: {
       primary: 'Fire',
       secondary: 'Earth'
     }
-  },
+  } as unknown as Record<string, Record<string, string>>,
   
   expertTips: [
     'Use fine table salt for immediate post-fry seasoning (adheres better than coarse salt)',

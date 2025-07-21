@@ -149,7 +149,7 @@ export class LintingFormattingSystem {
         formattingIssuesFixed: 0,
         patternBasedFixesApplied: 0,
         buildValidationPassed: false,
-        errors: [error.message],
+        errors: [(error as unknown as Record<string, unknown>)?.message as string || 'Unknown error'],
         warnings: [],
         violationBreakdown: {
           typeScriptErrors: 0,
@@ -297,21 +297,21 @@ export class LintingFormattingSystem {
       result.lintingViolationsFixed = await this.fixLintingViolations(filePaths);
       result.violationBreakdown = await this.getViolationBreakdown(filePaths);
     } catch (error) {
-      result.errors.push(`Linting fixes failed: ${error.message}`);
+      result.errors.push(`Linting fixes failed: ${(error as unknown as Record<string, unknown>)?.message || 'Unknown error'}`);
     }
 
     // Step 2: Format code
     try {
       result.formattingIssuesFixed = await this.formatCode(filePaths);
     } catch (error) {
-      result.errors.push(`Code formatting failed: ${error.message}`);
+      result.errors.push(`Code formatting failed: ${(error as unknown as Record<string, unknown>)?.message || 'Unknown error'}`);
     }
 
     // Step 3: Apply pattern-based fixes
     try {
       result.patternBasedFixesApplied = await this.applyPatternBasedFixes(filePaths);
     } catch (error) {
-      result.errors.push(`Pattern-based fixes failed: ${error.message}`);
+      result.errors.push(`Pattern-based fixes failed: ${(error as unknown as Record<string, unknown>)?.message || 'Unknown error'}`);
     }
 
     // Step 4: Enforce style guide compliance
@@ -319,7 +319,7 @@ export class LintingFormattingSystem {
       const complianceFixed = await this.enforceStyleGuideCompliance(filePaths);
       result.formattingIssuesFixed += complianceFixed;
     } catch (error) {
-      result.errors.push(`Style guide enforcement failed: ${error.message}`);
+      result.errors.push(`Style guide enforcement failed: ${(error as unknown as Record<string, unknown>)?.message || 'Unknown error'}`);
     }
 
     result.filesProcessed = Array.from(this.processedFiles);
@@ -339,8 +339,9 @@ export class LintingFormattingSystem {
       });
     } catch (error) {
       // ESLint returns non-zero exit code when violations are found
-      if (error.stdout) {
-        return error.stdout;
+      const errorData = error as unknown as Record<string, unknown>;
+      if (errorData?.stdout) {
+        return errorData.stdout as string;
       }
       throw error;
     }

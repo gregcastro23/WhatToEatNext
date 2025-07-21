@@ -455,12 +455,12 @@ export class AlchemicalService {
       elementalProfile: DefaultElementalProperties,
       cookingTechniques: [], // elementalUtils.getSuggestedCookingTechniques(properties),
       complementaryIngredients: [], // elementalUtils.getComplementaryElement(properties),
-      flavorProfiles: profileData?.characteristics?.flavorProfiles || [],
-      healthBenefits: profileData?.characteristics?.healthBenefits || [],
-      timeOfDay: profileData?.characteristics?.timeOfDay || [],
-      seasonalBest: this.getSeasonalRecommendations(dominantElement as Record<string, unknown>),
-      moodEffects: profileData?.characteristics?.moodEffects || [],
-      culinaryHerbs: profileData?.characteristics?.culinaryHerbs || [],
+      flavorProfiles: ((profileData?.characteristics as unknown as Record<string, unknown>)?.flavorProfiles as string[]) || [],
+      healthBenefits: ((profileData?.characteristics as unknown as Record<string, unknown>)?.healthBenefits as string[]) || [],
+      timeOfDay: ((profileData?.characteristics as unknown as Record<string, unknown>)?.timeOfDay as string[]) || [],
+      seasonalBest: this.getSeasonalRecommendations(dominantElement as unknown as Element),
+      moodEffects: ((profileData?.characteristics as unknown as Record<string, unknown>)?.moodEffects as string[]) || [],
+      culinaryHerbs: ((profileData?.characteristics as unknown as Record<string, unknown>)?.culinaryHerbs as string[]) || [],
       compatibility: 0.5
     };
   }
@@ -523,8 +523,8 @@ export class AlchemicalService {
     ingredient2: IngredientMapping,
   ): number {
     return this.calculateElementalSimilarity(
-      ingredient1.elementalState as Record<string, unknown> || { Fire: 0, Water: 0, Earth: 0, Air: 0  },
-      ingredient2.elementalState as Record<string, unknown> || { Fire: 0, Water: 0, Earth: 0, Air: 0  }
+      (ingredient1.elementalState as unknown as ElementalProperties) || { Fire: 0, Water: 0, Earth: 0, Air: 0  },
+      (ingredient2.elementalState as unknown as ElementalProperties) || { Fire: 0, Water: 0, Earth: 0, Air: 0  }
     );
   }
   

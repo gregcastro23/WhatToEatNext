@@ -140,7 +140,7 @@ export function calculateRecommendationScore(
   
   // Elemental scores
   if (astrologicalState.dominantElement && recipe.element) {
-    score += calculateElementalScore(recipe.element as Record<string, unknown>, astrologicalState.dominantElement as Record<string, unknown>) * 2;
+    score += calculateElementalScore(recipe.element as Element, astrologicalState.dominantElement as Element) * 2;
     factors += 2;
   }
   
@@ -206,7 +206,7 @@ export function explainRecommendation(
   
   // Check elemental affinity
   if (astrologicalState.dominantElement && recipe.element) {
-    const elementalScore = calculateElementalScore(recipe.element as Record<string, unknown>, astrologicalState.dominantElement as Record<string, unknown>);
+    const elementalScore = calculateElementalScore(recipe.element as Element, astrologicalState.dominantElement as Element);
     if (elementalScore > 0.6) {
       reasons.push(`The ${recipe.element} energy of this dish harmonizes with your ${astrologicalState.dominantElement} elemental influence.`);
     }
@@ -223,10 +223,10 @@ export function explainRecommendation(
     const mealScore = calculateMealTypeScore(recipe, timeFactors.mealType);
     if (mealScore > 0.6) {
       // Apply surgical type casting with variable extraction
-      const mealTypeData = timeFactors.mealType as Record<string, unknown>;
-      const timeOfDayData = timeFactors.timeOfDay as Record<string, unknown>;
-      const mealTypeLower = mealTypeData?.toLowerCase?.() || timeFactors.mealType;
-      const timeOfDayLower = timeOfDayData?.toLowerCase?.() || timeFactors.timeOfDay;
+      const mealTypeData = timeFactors.mealType as unknown as Record<string, unknown>;
+      const timeOfDayData = timeFactors.timeOfDay as unknown as Record<string, unknown>;
+      const mealTypeLower = typeof mealTypeData?.toLowerCase === 'function' ? mealTypeData.toLowerCase() : String(timeFactors.mealType || '');
+      const timeOfDayLower = typeof timeOfDayData?.toLowerCase === 'function' ? timeOfDayData.toLowerCase() : String(timeFactors.timeOfDay || '');
       
       reasons.push(`This is an ideal choice for ${mealTypeLower} during the ${timeOfDayLower}.`);
     }
@@ -249,8 +249,8 @@ export function explainRecommendation(
   // If we have dominant planets - safe property access
   if (astrologicalState.dominantPlanets && astrologicalState.dominantPlanets.length > 0) {
     for (const dominantPlanet of astrologicalState.dominantPlanets) {
-      const planetName = (dominantPlanet as Record<string, unknown>)?.name || dominantPlanet;
-      const planetScore = calculatePlanetaryScore(recipe, planetName);
+      const planetName = String((dominantPlanet as unknown as Record<string, unknown>)?.name || dominantPlanet);
+      const planetScore = calculatePlanetaryScore(recipe, planetName as Planet);
       if (planetScore > 0.6) {
         reasons.push(`The influence of ${planetName} in your chart is complemented by this recipe.`);
         break; // Just mention one planet to avoid repetition

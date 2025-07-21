@@ -107,12 +107,18 @@ describe('ExportTransformationEngine', () => {
     });
 
     // Mock safety protocol
-    mockSafetyProtocol.prototype.createSafetyCheckpoint = jest.fn().mockResolvedValue('checkpoint-123');
-    mockSafetyProtocol.prototype.rollbackToCheckpoint = jest.fn().mockResolvedValue(undefined);
-    mockSafetyProtocol.prototype.emergencyRollback = jest.fn().mockResolvedValue(undefined);
+    (mockSafetyProtocol as any).prototype.createSafetyCheckpoint = jest.fn().mockResolvedValue('checkpoint-123');
+    (mockSafetyProtocol as any).prototype.rollbackToCheckpoint = jest.fn().mockResolvedValue(undefined);
+    (mockSafetyProtocol as any).prototype.emergencyRollback = jest.fn().mockResolvedValue(undefined);
+    (mockSafetyProtocol as any).prototype.createStash = jest.fn().mockResolvedValue('stash-123');
+    (mockSafetyProtocol as any).prototype.createCheckpointStash = jest.fn().mockResolvedValue('checkpoint-stash-123');
+    (mockSafetyProtocol as any).prototype.getSafetyEvents = jest.fn().mockResolvedValue([]);
 
     // Mock progress tracker
-    mockProgressTracker.prototype.updateProgress = jest.fn().mockResolvedValue(undefined);
+    (mockProgressTracker as any).prototype.updateProgress = jest.fn().mockResolvedValue(undefined);
+    (mockProgressTracker as any).prototype.getTypeScriptErrorCount = jest.fn().mockResolvedValue(0);
+    (mockProgressTracker as any).prototype.getTypeScriptErrorBreakdown = jest.fn().mockResolvedValue({});
+    (mockProgressTracker as any).prototype.resetMetricsHistory = jest.fn().mockResolvedValue(undefined);
 
     engine = new ExportTransformationEngine({
       batchSize: 5,
@@ -168,14 +174,14 @@ describe('ExportTransformationEngine', () => {
     it('should create safety checkpoints', async () => {
       await engine.executeTransformation();
 
-      expect(mockSafetyProtocol.prototype.createSafetyCheckpoint).toHaveBeenCalledWith('transformation-start');
+      expect((mockSafetyProtocol as any).prototype.createSafetyCheckpoint).toHaveBeenCalledWith('transformation-start');
     });
 
     it('should handle critical failures', async () => {
       mockAnalyzer.prototype.analyzeUnusedExports.mockRejectedValueOnce(new Error('Analysis failed'));
 
       await expect(engine.executeTransformation()).rejects.toThrow('Analysis failed');
-      expect(mockSafetyProtocol.prototype.emergencyRollback).toHaveBeenCalled();
+      expect((mockSafetyProtocol as any).prototype.emergencyRollback).toHaveBeenCalled();
     });
   });
 
@@ -219,7 +225,7 @@ describe('ExportTransformationEngine', () => {
       const summary = await failingEngine.executeTransformation();
 
       expect(summary.failedBatches).toBeGreaterThan(0);
-      expect(mockSafetyProtocol.prototype.rollbackToCheckpoint).toHaveBeenCalled();
+      expect((mockSafetyProtocol as any).prototype.rollbackToCheckpoint).toHaveBeenCalled();
     });
 
     it('should skip rollback when disabled', async () => {
@@ -232,7 +238,7 @@ describe('ExportTransformationEngine', () => {
 
       await noRollbackEngine.executeTransformation();
 
-      expect(mockSafetyProtocol.prototype.rollbackToCheckpoint).not.toHaveBeenCalled();
+      expect((mockSafetyProtocol as any).prototype.rollbackToCheckpoint).not.toHaveBeenCalled();
     });
   });
 
@@ -253,7 +259,7 @@ describe('ExportTransformationEngine', () => {
       await engine.executeTransformation();
 
       // Should create transformation-start checkpoint plus batch checkpoints
-      expect(mockSafetyProtocol.prototype.createSafetyCheckpoint).toHaveBeenCalledTimes(3); // start + 2 batches
+      expect((mockSafetyProtocol as any).prototype.createSafetyCheckpoint).toHaveBeenCalledTimes(3); // start + 2 batches
     });
   });
 

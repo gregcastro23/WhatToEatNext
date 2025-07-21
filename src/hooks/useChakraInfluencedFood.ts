@@ -4,7 +4,7 @@ import { useAstrologicalState } from '@/hooks/useAstrologicalState';
 import { ChakraAlchemyService } from '@/lib/ChakraAlchemyService';
 import { PlanetaryHourCalculator } from '@/lib/PlanetaryHourCalculator';
 import { getRecommendedIngredients, EnhancedIngredient } from '@/utils/foodRecommender';
-import type { ChakraEnergies, AstrologicalState, Planet, BasicThermodynamicProperties } from '@/types/alchemy';
+import type { ChakraEnergies, AstrologicalState, Planet, BasicThermodynamicProperties, ZodiacSign } from '@/types/alchemy';
 
 /**
  * Interface for the chakra-influenced food recommendations
@@ -113,7 +113,7 @@ export const useChakraInfluencedFood = (options?: {
       // Calculate chakra energies
       const energies = chakraService.calculateChakraEnergies(
         currentZodiac || 'aries',
-        ((planetaryPositions?.moon as Record<string, unknown>)?.sign || 'taurus') as Record<string, unknown>,
+        ((planetaryPositions?.moon as unknown as Record<string, unknown>)?.sign || 'taurus') as ZodiacSign,
         // Pattern Y: Safe Planet array casting with validation and null checking
         (activePlanets ? activePlanets.slice(0, 3).map(p => typeof p === 'string' ? p.toLowerCase() : p) : ['sun', 'moon', 'mercury']) as unknown as Planet[],
         planetaryHour
@@ -241,7 +241,7 @@ export const useChakraInfluencedFood = (options?: {
             // Avoid Crown (Spirit) which should not include Water
             chakraScore = (chakraEnergies.sacral / 10) * 0.5 + 
                          (chakraEnergies.root / 10) * 0.3 + 
-                         ((chakraEnergies as Record<string, unknown>)?.thirdEye || chakraEnergies.throat) / 10 * 0.1 + 0.1;
+                         (Number((chakraEnergies as unknown as Record<string, unknown>)?.thirdEye) || chakraEnergies.throat) / 10 * 0.1 + 0.1;
           } else if (basedElemental === 'Fire') {
             // Fire is strongest in Crown and Heart (Spirit) and Solar Plexus (Essence)
             // Avoid Root (Matter) and Throat (Substance) which should not include Fire
@@ -274,7 +274,7 @@ export const useChakraInfluencedFood = (options?: {
             // Brow, Solar Plexus, Sacral (Essence): (-) Heat, (-) Entropy, (+) Reactivity
             if (heat < 0.4 && entropy < 0.4 && reactivity > 0.6) {
               chakraScore = (chakraScore + 
-                (((chakraEnergies as Record<string, unknown>)?.thirdEye || chakraEnergies.throat) / 10 + chakraEnergies.solarPlexus / 10 + chakraEnergies.sacral / 10) / 3) / 2;
+                ((Number((chakraEnergies as unknown as Record<string, unknown>)?.thirdEye) || chakraEnergies.throat) / 10 + chakraEnergies.solarPlexus / 10 + chakraEnergies.sacral / 10) / 3) / 2;
             }
             
             // Root (Matter): (-) Heat, (-) Entropy, (-) Reactivity
@@ -316,7 +316,7 @@ export const useChakraInfluencedFood = (options?: {
       // Recalculate chakra energies
       const energies = chakraService.calculateChakraEnergies(
         currentZodiac || 'aries',
-        ((planetaryPositions?.moon as Record<string, unknown>)?.sign || 'taurus') as Record<string, unknown>,
+        ((planetaryPositions?.moon as unknown as Record<string, unknown>)?.sign || 'taurus') as ZodiacSign,
         // Pattern Z: Safe Planet array casting with validation and null checking for refresh function
         (activePlanets ? activePlanets.slice(0, 3).map(p => typeof p === 'string' ? p.toLowerCase() : p) : ['sun', 'moon', 'mercury']) as unknown as Planet[],
         planetaryHour
@@ -353,7 +353,7 @@ export const useChakraInfluencedFood = (options?: {
           // Avoid Crown (Spirit) which should not include Water
           chakraScore = (chakraEnergies.sacral / 10) * 0.5 + 
                        (chakraEnergies.root / 10) * 0.3 + 
-                       ((chakraEnergies as Record<string, unknown>)?.thirdEye || chakraEnergies.throat) / 10 * 0.1 + 0.1;
+                       (Number((chakraEnergies as unknown as Record<string, unknown>)?.thirdEye) || chakraEnergies.throat) / 10 * 0.1 + 0.1;
         } else if (baseElement === 'Fire') {
           // Fire is strongest in Crown (Spirit) and Solar Plexus (Essence)
           // Avoid Root (Matter) and Throat (Substance) which should not include Fire
@@ -387,7 +387,7 @@ export const useChakraInfluencedFood = (options?: {
           // Brow, Solar Plexus, Sacral (Essence): (-) Heat, (-) Entropy, (+) Reactivity
           if (heat < 0.4 && entropy < 0.4 && reactivity > 0.6) {
             chakraScore = (chakraScore + 
-              (((chakraEnergies as Record<string, unknown>)?.thirdEye || chakraEnergies.throat) / 10 + chakraEnergies.solarPlexus / 10 + chakraEnergies.sacral / 10) / 3) / 2;
+              ((Number((chakraEnergies as unknown as Record<string, unknown>)?.thirdEye) || chakraEnergies.throat) / 10 + chakraEnergies.solarPlexus / 10 + chakraEnergies.sacral / 10) / 3) / 2;
           }
           
           // Root (Matter): (-) Heat, (-) Entropy, (-) Reactivity

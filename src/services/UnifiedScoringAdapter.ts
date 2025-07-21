@@ -140,7 +140,7 @@ export class UnifiedScoringAdapter {
         seasonality: (recipe.seasonality as Season[]) || [],
         planetaryRulers: ((recipe as Record<string, unknown>).planetaryRulers as Planet[]) || [],
         flavorProfile: ((recipe as Record<string, unknown>).flavorProfile as Record<string, number>) || {},
-        culturalOrigins: ((recipe as Recipe[]).culturalOrigins as string[]) || [(recipe as Recipe[]).cuisine].filter(Boolean)
+        culturalOrigins: ((recipe as unknown as Record<string, unknown>).culturalOrigins as string[]) || [String((recipe as unknown as Record<string, unknown>).cuisine || '')].filter(Boolean)
       },
       options: {
         debugMode: options.debugMode,
@@ -179,16 +179,16 @@ export class UnifiedScoringAdapter {
       item: {
         name: method.name,
         type: 'cooking_method',
-        elementalProperties: (method as Record<string, unknown>).elementalEffect || {
+        elementalProperties: ((method as unknown as Record<string, unknown>).elementalEffect as ElementalProperties) || {
           Fire: 0.25,
           Water: 0.25,
           Earth: 0.25,
           Air: 0.25
         },
-        seasonality: ((method as Record<string, unknown>).seasonality as Season[]) || [],
-        planetaryRulers: ((method as Record<string, unknown>).planetaryRulers as Planet[]) || [],
-        flavorProfile: ((method as Record<string, unknown>).flavorProfile as Record<string, number>) || {},
-        culturalOrigins: ((method as Record<string, unknown>).culturalOrigins as string[]) || []
+        seasonality: ((method as unknown as Record<string, unknown>).seasonality as Season[]) || [],
+        planetaryRulers: ((method as unknown as Record<string, unknown>).planetaryRulers as Planet[]) || [],
+        flavorProfile: ((method as unknown as Record<string, unknown>).flavorProfile as Record<string, number>) || {},
+        culturalOrigins: ((method as unknown as Record<string, unknown>).culturalOrigins as string[]) || []
       },
       options: {
         debugMode: options.debugMode,

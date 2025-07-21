@@ -148,8 +148,8 @@ const MoonDisplay: React.FC = () => {
     const getLocation = async () => {
       try {
         // Use safe method call checking if requestLocation exists
-        if (typeof (AstrologicalService as Record<string, unknown>).requestLocation === 'function') {
-          const coords = await (AstrologicalService as Record<string, unknown>).requestLocation();
+        if (typeof (AstrologicalService as unknown as Record<string, unknown>)?.requestLocation === 'function') {
+          const coords = await (AstrologicalService as unknown as Record<string, unknown>).requestLocation();
           if (coords) {
             setCoordinates({
               latitude: coords.latitude,
@@ -385,7 +385,7 @@ const MoonDisplay: React.FC = () => {
             {(() => {
               const moonData = moon as Record<string, unknown>;
               return moonData?.sign 
-                ? `Moon in ${capitalizeFirstLetter(moonData.sign)} ${formatDegree(moonData.degree)}` 
+                ? `Moon in ${capitalizeFirstLetter(String(moonData.sign))} ${formatDegree(Number(moonData.degree) || 0)}` 
                 : 'Loading...';
             })()}
             {(() => {
@@ -452,7 +452,7 @@ const MoonDisplay: React.FC = () => {
                 <div className="text-xs text-gray-400">North Node (☊)</div>
                 <div className="font-medium">
                   {northNode && northNode.sign 
-                    ? `${capitalizeFirstLetter(northNode.sign)} ${formatDegree(northNode.degree)}` 
+                    ? `${capitalizeFirstLetter(String(northNode.sign))} ${formatDegree(Number(northNode.degree) || 0)}` 
                     : 'Calculating...'}
                   {northNode && northNode.isRetrograde ? ' ℞' : ''}
                 </div>
@@ -463,7 +463,7 @@ const MoonDisplay: React.FC = () => {
                 <div className="text-xs text-gray-400">South Node (☋)</div>
                 <div className="font-medium">
                   {southNode && southNode.sign 
-                    ? `${capitalizeFirstLetter(southNode.sign)} ${formatDegree(southNode.degree)}` 
+                    ? `${capitalizeFirstLetter(String(southNode.sign))} ${formatDegree(Number(southNode.degree) || 0)}` 
                     : 'Calculating...'}
                   {southNode && southNode.isRetrograde ? ' ℞' : ''}
                 </div>

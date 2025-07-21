@@ -27,7 +27,7 @@ export function findMatchedItalianDinnerRecipes() {
   
   // Map all ingredients to our ingredient database
   const mappedRecipes = allDinnerRecipes.map(recipe => {
-    const mappedIngredients = connectIngredientsToMappings(recipe as Record<string, unknown>);
+    const mappedIngredients = connectIngredientsToMappings(recipe as unknown as import('@/types/alchemy').Recipe);
     
     // Calculate mapping score (percentage of ingredients with a mapping)
     // Apply Pattern GG-6: Enhanced property access with type guards
@@ -91,8 +91,8 @@ export function findRecipesMatchingElementalAndIngredientRequirements(
   
   // Use the new filtering function
   const matchedRecipes = filterRecipesByIngredientMappings(
-    allRecipes as unknown,
-    elementalTarget as unknown,
+    allRecipes as unknown as Recipe[],
+    elementalTarget as unknown as ElementalProperties,
     {
       required: requiredIngredients,
       excluded: excludedIngredients,
@@ -113,7 +113,7 @@ export function suggestIngredientSubstitutions(
   ingredientToReplace: string
 ) {
   // Map all ingredients
-  const mappedIngredients = connectIngredientsToMappings(recipe as Record<string, unknown>);
+  const mappedIngredients = connectIngredientsToMappings(recipe as unknown as import('@/types/alchemy').Recipe);
   
   // Find the ingredient to replace
   const ingredientMapping = mappedIngredients.find(
@@ -146,7 +146,7 @@ export function suggestIngredientSubstitutions(
       
       // Check elemental similarity
       const similarity = calculateElementalSimilarity(
-        elementalProperties,
+        elementalProperties as unknown as ElementalProperties,
         mapping.elementalProperties
       );
       
@@ -154,7 +154,7 @@ export function suggestIngredientSubstitutions(
     })
     .map(([name, mapping]) => ({
       name,
-      similarity: calculateElementalSimilarity(elementalProperties, mapping.elementalProperties),
+      similarity: calculateElementalSimilarity(elementalProperties as unknown as ElementalProperties, mapping.elementalProperties),
       mapping
     }))
     .sort((a, b) => b.similarity - a.similarity)
@@ -162,7 +162,7 @@ export function suggestIngredientSubstitutions(
   
   return {
     success: true,
-    original: ingredientMapping,
+    original: ingredientMapping as unknown as Record<string, unknown>,
     suggestions: potentialSubstitutions
   };
 }

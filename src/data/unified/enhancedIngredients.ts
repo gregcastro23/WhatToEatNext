@@ -717,24 +717,22 @@ export class EnhancedIngredientsSystem {
   private generateNutritionalProfile(ingredient: UnifiedIngredient): EnhancedIngredient['nutritionalProfile'] {
     // Use existing nutritional profile if available
     if (ingredient.nutritionalProfile) {
-      const existingProfile = ingredient.nutritionalProfile;
-      
+      const existingProfile = ingredient.nutritionalProfile as unknown as Record<string, unknown>;
       return {
-        serving_size: (existingProfile as Record<string, unknown>)?.servingSize || '100g',
-        calories: existingProfile.calories || 0,
+        serving_size: String(existingProfile.servingSize || '100g'),
+        calories: Number(existingProfile.calories || 0),
         macros: {
-          protein: (existingProfile as Record<string, unknown>)?.macros?.protein || 0,
-          carbs: (existingProfile as Record<string, unknown>)?.macros?.carbs || 0,
-          fat: (existingProfile as Record<string, unknown>)?.macros?.fat || 0,
-          fiber: (existingProfile as Record<string, unknown>)?.macros?.fiber || 0
+          protein: Number((existingProfile.macros as Record<string, unknown>)?.protein || 0),
+          carbs: Number((existingProfile.macros as Record<string, unknown>)?.carbs || 0),
+          fat: Number((existingProfile.macros as Record<string, unknown>)?.fat || 0),
+          fiber: Number((existingProfile.macros as Record<string, unknown>)?.fiber || 0)
         },
-        vitamins: existingProfile.vitamins || {},
-        minerals: existingProfile.minerals || {},
-        benefits: ingredient.healthBenefits || [],
-        source: (existingProfile as Record<string, unknown>)?.source || 'estimated'
+        vitamins: (existingProfile.vitamins as Record<string, number>) || {},
+        minerals: (existingProfile.minerals as Record<string, number>) || {},
+        benefits: Array.isArray(ingredient.healthBenefits) ? ingredient.healthBenefits : [],
+        source: String(existingProfile.source || 'estimated')
       };
     }
-    
     // Fall back to a placeholder profile
     return {
       serving_size: '100g',
@@ -742,7 +740,7 @@ export class EnhancedIngredientsSystem {
       macros: { protein: 0, carbs: 0, fat: 0, fiber: 0 },
       vitamins: {},
       minerals: {},
-      benefits: ingredient.healthBenefits || [],
+      benefits: Array.isArray(ingredient.healthBenefits) ? ingredient.healthBenefits : [],
       source: 'placeholder'
     };
   }

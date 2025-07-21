@@ -71,7 +71,7 @@ function CuisineSelectorMigrated({
     const loadAstrologyData = async () => {
       try {
         // Apply safe type casting for astrology service access
-        const serviceData = astrologyService as Record<string, unknown>;
+        const serviceData = astrologyService as unknown as Record<string, unknown>;
         
         setResolvedPlanetaryPositions(propPlanetaryPositions || await astrologyService.getCurrentPlanetaryPositions());
         setResolvedIsDaytime(propIsDaytime !== undefined ? propIsDaytime : await astrologyService.isDaytime());
@@ -79,8 +79,8 @@ function CuisineSelectorMigrated({
         
         // Use safe method access for lunar phase
         const lunarPhase = propCurrentLunarPhase || 
-          (serviceData?.getCurrentLunarPhase ? await serviceData.getCurrentLunarPhase() : 'full moon');
-        setResolvedLunarPhase(lunarPhase);
+          (serviceData?.getCurrentLunarPhase ? await (serviceData.getCurrentLunarPhase as () => Promise<string>)() : 'full moon');
+        setResolvedLunarPhase(lunarPhase as LunarPhaseWithSpaces);
       } catch (err) {
         console.error('Error loading astrological data:', err);
         setError(err instanceof Error ? err : new Error('Error loading astrological data'));
@@ -111,9 +111,10 @@ function CuisineSelectorMigrated({
         const result = await recommendationService.getRecommendedCuisines({
           planetaryPositions: Object.entries(resolvedPlanetaryPositions)?.reduce((acc, [planet, degree]) => {
             // Apply safe type casting for astrology service access
-            const serviceData = astrologyService as Record<string, unknown>;
-            const zodiacSign = serviceData?.getZodiacSignForDegree ? 
-              serviceData.getZodiacSignForDegree(Number(degree)) : 'aries';
+            const serviceData = astrologyService as unknown as Record<string, unknown>;
+            const getZodiacSignForDegree = serviceData?.getZodiacSignForDegree as ((degree: number) => string) | undefined;
+            const zodiacSign = getZodiacSignForDegree ? 
+              getZodiacSignForDegree(Number(degree)) : 'aries';
             
             acc[planet] = { 
               sign: zodiacSign,
@@ -181,19 +182,22 @@ function CuisineSelectorMigrated({
   
   // Function to determine cuisine modality
   const getCuisineModality = (cuisine: CuisineType): Modality => {
+    // Apply safe type casting for cuisine access
+    const cuisineData = cuisine as unknown as Record<string, unknown>;
+    
     // If cuisine already has modality defined, use it
-    if (cuisine.modality) return cuisine.modality;
+    if (cuisineData?.modality) return cuisineData.modality as Modality;
     
     // Otherwise determine from elemental state
-    return determineModalityFromElements(cuisine.elementalState || cuisine.elementalState || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
-    });
+    const elementalState = cuisineData?.elementalState as ElementalProperties || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
+    return determineModalityFromElements(elementalState);
   };
   
   // Filter cuisines by modality and zodiac influence
   const filteredCuisines = useMemo(() => {
     return (sortedCuisines || []).filter(cuisine => {
       // Apply modality filter
-      if (modalityFilter !== 'all' && getCuisineModality(cuisine) !== modalityFilter) {
+      if (modalityFilter !== 'all' && getCuisineModality(cuisine as unknown as CuisineType) !== modalityFilter) {
         return false;
       }
       
@@ -422,8 +426,8 @@ function CuisineSelectorMigrated({
               <span className="text-lg font-medium">{cuisine.name}</span>
               
               <div className="cuisine-modality flex justify-between items-center mt-2">
-                <span className={`modality-badge ${getCuisineModality(cuisine)?.toLowerCase()}`}>
-                  {getCuisineModality(cuisine)}
+                <span className={`modality-badge ${getCuisineModality(cuisine as unknown as CuisineType)?.toLowerCase()}`}>
+                  {getCuisineModality(cuisine as unknown as CuisineType)}
                 </span>
                 
                 {/* Display alchemical compatibility if available */}

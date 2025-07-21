@@ -347,13 +347,13 @@ export default function AlchemicalRecommendations({
       }
       
       const qualities = ingredient && typeof ingredient === 'object' && 'qualities' in ingredient ? 
-        (ingredient.qualities as Record<string, unknown> || []) : [];
+        ((ingredient as unknown as Record<string, unknown>).qualities as string[] || []) : [];
       const modality = determineIngredientModality(elementalProps as Record<string, unknown>, qualities);
       
       return {
         id: key,
         name: ingredient && typeof ingredient === 'object' && 'name' in ingredient ? 
-          String(ingredient.name || key) : key,
+          String((ingredient as unknown as Record<string, unknown>).name || key) : key,
         elementalProperties: elementalProps,
         modality,
         qualities
@@ -552,7 +552,7 @@ export default function AlchemicalRecommendations({
         {/* Elemental Properties Display */}
         <Box sx={{ mt: 1 }}>
           <Grid container spacing={1}>
-            {Object.entries(item.elementalProperties || item.elementalState || {}).map(([element, value]) => (
+            {Object.entries((item as unknown as Record<string, unknown>)?.elementalProperties || (item as unknown as Record<string, unknown>)?.elementalState || {}).map(([element, value]) => (
               <Grid item xs={3} key={element}>
                 <Chip 
                   label={`${element}: ${Math.round((value as number) * 100)}%`}
@@ -569,14 +569,14 @@ export default function AlchemicalRecommendations({
         {expandedItems[(item as Record<string, unknown>)?.id as string || `item-${index}`] && (
           <Box sx={{ mt: 2 }}>
             <Divider sx={{ mb: 2 }} />
-            {item.modality && (
+            {(item as unknown as Record<string, unknown>)?.modality && (
               <Typography variant="body2">
-                <strong>Modality:</strong> {item.modality}
+                <strong>Modality:</strong> {String((item as unknown as Record<string, unknown>)?.modality)}
               </Typography>
             )}
-            {item.qualities && (
+            {(item as unknown as Record<string, unknown>)?.qualities && (
               <Typography variant="body2">
-                <strong>Qualities:</strong> {item.qualities.join(', ')}
+                <strong>Qualities:</strong> {((item as unknown as Record<string, unknown>)?.qualities as string[])?.join(', ')}
               </Typography>
             )}
           </Box>

@@ -2403,7 +2403,7 @@ export function recommendIngredients(
   if (options.category) {
     filteredIngredients = allIngredients.filter(ing => {
       // Extract ingredient data with safe property access for type/category
-      const ingredientData = ing as Record<string, unknown>;
+      const ingredientData = ing as unknown as Record<string, unknown>;
       const ingredientType = String(ingredientData?.type || ingredientData?.category || '');
       return ingredientType.toLowerCase() === String(options.category || '').toLowerCase();
     });
@@ -2412,7 +2412,7 @@ export function recommendIngredients(
   // Filter out excluded ingredients
   if (options.excludeIngredients && options.excludeIngredients.length > 0) {
     filteredIngredients = filteredIngredients.filter(ing => {
-      const ingredientData = ing as Record<string, unknown>;
+      const ingredientData = ing as unknown as Record<string, unknown>;
       const ingredientName = String(ingredientData?.name || '');
       return !options.excludeIngredients?.includes(ingredientName);
     });
@@ -2421,7 +2421,7 @@ export function recommendIngredients(
   // Filter to only include specific ingredients
   if (options.includeOnly && options.includeOnly.length > 0) {
     filteredIngredients = filteredIngredients.filter(ing => {
-      const ingredientData = ing as Record<string, unknown>;
+      const ingredientData = ing as unknown as Record<string, unknown>;
       const ingredientName = String(ingredientData?.name || '');
       return options.includeOnly?.includes(ingredientName);
     });
@@ -2441,7 +2441,7 @@ export function recommendIngredients(
   const lunarPhase = String(astroStateData?.lunarPhase || '');
   
   // Get planetary day and hour for current time
-  const date = timestamp instanceof Date ? timestamp : new Date(timestamp);
+  const date = timestamp instanceof Date ? timestamp : new Date(String(timestamp));
   const planetaryCalculator = {
     calculatePlanetaryDay: (date: Date) => {
       const days = ['Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn'];
@@ -2472,7 +2472,7 @@ export function recommendIngredients(
   // Calculate scores for each ingredient
   for (const ingredient of filteredIngredients) {
     // Calculate elemental match (45% weight)
-    const ingredientData = ingredient as Record<string, unknown>;
+    const ingredientData = ingredient as unknown as Record<string, unknown>;
     const elementalScore = calculateElementalScore(ingredientData?.elementalProperties as ElementalProperties, systemElementalProps);
     
     // Calculate planetary day influence with enhanced dignity effects (35% weight)
@@ -2513,7 +2513,7 @@ export function recommendIngredients(
     
     // Add to recommendations list
     // Apply Pattern L: Interface property mapping for IngredientRecommendation compatibility
-    const recommendationData = ingredient as Record<string, unknown>;
+    const recommendationData = ingredient as unknown as Record<string, unknown>;
     const ingredientRecommendation: IngredientRecommendation = {
       name: String(recommendationData?.name || ''),
       type: String(recommendationData?.type || ''),
@@ -2558,7 +2558,7 @@ function generateRecommendationsForIngredient(
   // Basic recommendation based on planetary day
   if (planetaryElements[planetaryDay]) {
     const dayElements = planetaryElements[planetaryDay];
-    recs.push(`${(ingredient as Record<string, unknown>)?.name} works well on ${planetaryDay}'s day with its ${dayElements.diurnal} and ${dayElements.nocturnal} influences.`);
+    recs.push(`${String((ingredient as unknown as Record<string, unknown>)?.name)} works well on ${planetaryDay}'s day with its ${dayElements.diurnal} and ${dayElements.nocturnal} influences.`);
   }
   
   // Time-specific recommendation based on planetary hour
@@ -2567,7 +2567,7 @@ function generateRecommendationsForIngredient(
       ? planetaryElements[planetaryHour].diurnal 
       : planetaryElements[planetaryHour].nocturnal;
     
-    recs.push(`During the current hour of ${planetaryHour}, ${(ingredient as Record<string, unknown>)?.name}'s ${hourElement} properties are enhanced.`);
+    recs.push(`During the current hour of ${planetaryHour}, ${String((ingredient as unknown as Record<string, unknown>)?.name)}'s ${hourElement} properties are enhanced.`);
   }
   
   // Add dignity effect recommendations if planet is in dignified or debilitated sign

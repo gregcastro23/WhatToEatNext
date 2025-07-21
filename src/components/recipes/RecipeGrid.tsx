@@ -236,7 +236,7 @@ const RecipeCard: React.FC<RecipeCardProps> = ({
               <ol className="list-decimal list-inside space-y-1 text-sm">
                 {recipe.instructions.map((instruction, index) => (
                   <li key={index}>
-                    {typeof instruction === 'string' ? instruction : (instruction as Record<string, unknown>)?.step || 'Unknown step'}
+                    {typeof instruction === 'string' ? instruction : String((instruction as unknown as Record<string, unknown>)?.step || 'Unknown step')}
                   </li>
                 ))}
               </ol>
@@ -440,8 +440,8 @@ export const RecipeGrid: React.FC<RecipeGridProps> = ({
       
       // Check planetary influences
       if ((recipe as Record<string, unknown>).astrologicalInfluences && activePlanets) {
-        const influences = (recipe as Record<string, unknown>).astrologicalInfluences;
-        const favorablePlanets = influences.filter((planet: string) => 
+        const influences = (recipe as unknown as Record<string, unknown>).astrologicalInfluences;
+        const favorablePlanets = (influences as string[])?.filter((planet: string) => 
           Array.isArray(activePlanets) ? activePlanets.includes(planet) : activePlanets === planet
         );
         
@@ -487,7 +487,7 @@ export const RecipeGrid: React.FC<RecipeGridProps> = ({
             recipe.description?.toLowerCase().includes(query) ||
             recipe.cuisine?.toLowerCase().includes(query) ||
             (recipe.ingredients || []).some((ing: unknown) => 
-              typeof ing === 'string' ? ing.toLowerCase().includes(query) : ing?.name?.toLowerCase().includes(query)
+              typeof ing === 'string' ? ing.toLowerCase().includes(query) : String((ing as unknown as Record<string, unknown>)?.name || '').toLowerCase().includes(query)
             );
           if (!matchesSearch) return false;
         }
@@ -515,7 +515,7 @@ export const RecipeGrid: React.FC<RecipeGridProps> = ({
         
         // Elemental filter
         const elementalMatch = elementalFilter === 'all' || 
-          (recipe.elementalState && (recipe.elementalState[elementalFilter] || 0) >= 0.3);
+          (recipe.elementalState && (Number(recipe.elementalState[elementalFilter] || 0)) >= 0.3);
         
         // Dietary filters
         const dietaryMatch = dietaryFilter.length === 0 || dietaryFilter.every(diet => {
@@ -562,13 +562,13 @@ export const RecipeGrid: React.FC<RecipeGridProps> = ({
             comparison = getSeasonalScore(b) - getSeasonalScore(a);
             break;
           case 'calories':
-            comparison = ((a as Record<string, unknown>).nutrition?.calories || 0) - ((b as Record<string, unknown>).nutrition?.calories || 0);
+            comparison = (Number((a as unknown as Record<string, unknown>)?.nutrition?.calories || 0)) - (Number((b as unknown as Record<string, unknown>)?.nutrition?.calories || 0));
             break;
           case 'difficulty':
-            comparison = ((a as Record<string, unknown>).difficulty || 1) - ((b as Record<string, unknown>).difficulty || 1);
+            comparison = (Number((a as unknown as Record<string, unknown>)?.difficulty || 1)) - (Number((b as unknown as Record<string, unknown>)?.difficulty || 1));
             break;
           case 'rating':
-            comparison = ((b as Record<string, unknown>).rating || 0) - ((a as Record<string, unknown>).rating || 0);
+            comparison = (Number((b as unknown as Record<string, unknown>)?.rating || 0)) - (Number((a as unknown as Record<string, unknown>)?.rating || 0));
             break;
           default:
             comparison = b.score - a.score;
@@ -863,7 +863,7 @@ export const RecipeGrid: React.FC<RecipeGridProps> = ({
         {timeFactors && (
           <span className="flex items-center gap-1">
             <Sun className="h-4 w-4" />
-            Current season: {(timeFactors as Record<string, unknown>).season || getCurrentSeason()}
+            Current season: {String((timeFactors as unknown as Record<string, unknown>)?.season || getCurrentSeason())}
           </span>
         )}
       </div>

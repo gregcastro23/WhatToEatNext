@@ -94,7 +94,7 @@ export function calculateRecipeMatchScore(
   if (!isAppropriateForTimeOfDay(recipe, elementalState.timeOfDay)) return 0;
   
   try {
-    const baseScore = calculateElementalMatch(recipe.elementalState as any, elementalState as Record<string, unknown>);
+    const baseScore = calculateElementalMatch(recipe.elementalState as any, elementalState as { [key: string]: number });
     let score = baseScore * 100;
     
     // Enhanced scoring factors
@@ -429,14 +429,14 @@ function scoreRecipe(
   if (
     recipe.zodiacInfluences && 
     (Array.isArray(recipe.zodiacInfluences) 
-      ? recipe.zodiacInfluences.includes(sunSign) 
+      ? recipe.zodiacInfluences.includes(sunSign as ZodiacSign) 
       : recipe.zodiacInfluences === sunSign)
   ) {
     score += 12;
     reasons?.push(`Aligned with your Sun sign (${sunSign})`);
 
     // Add zodiac elemental influence check
-    const sunSignElement = getZodiacElementalInfluence(sunSign);
+    const sunSignElement = getZodiacElementalInfluence(sunSign as ZodiacSign);
     
     if (
       recipe.elementalState && 
@@ -453,7 +453,7 @@ function scoreRecipe(
     moonSign && 
     recipe.zodiacInfluences && 
     (Array.isArray(recipe.zodiacInfluences) 
-      ? recipe.zodiacInfluences.includes(moonSign) 
+      ? recipe.zodiacInfluences.includes(moonSign as ZodiacSign) 
       : recipe.zodiacInfluences === moonSign)
   ) {
     score += 10;
@@ -462,7 +462,7 @@ function scoreRecipe(
     );
 
     // Add zodiac elemental influence check for Moon sign
-    const moonSignElement = getZodiacElementalInfluence(moonSign);
+    const moonSignElement = getZodiacElementalInfluence(moonSign as ZodiacSign);
     
     if (
       recipe.elementalState && 
@@ -661,10 +661,10 @@ function calculatePlanetaryDayInfluence(
   // Check for cooking style matches
   let styleMatch = false;
   if (recipe.cookingMethod) {
-    const cookingMethodStr = (recipe.cookingMethod as Record<string, unknown>);
+    const cookingMethodStr = (recipe.cookingMethod as unknown as Record<string, unknown>);
     if (typeof cookingMethodStr === 'string') {
       for (const style of associations.styles) {
-        if (cookingMethodStr.toLowerCase().includes(style.toLowerCase())) {
+        if (String(cookingMethodStr).toLowerCase().includes(style.toLowerCase())) {
           styleMatch = true;
           break;
         }
@@ -676,7 +676,7 @@ function calculatePlanetaryDayInfluence(
   let ingredientMatch = false;
   if (recipe.ingredients) {
     // Apply safe type casting for ingredients access
-    const ingredientsData = recipe.ingredients as Record<string, unknown>;
+    const ingredientsData = recipe.ingredients as unknown as Record<string, unknown>;
     let ingredientText = '';
     
     if (Array.isArray(ingredientsData)) {
@@ -685,15 +685,15 @@ function calculatePlanetaryDayInfluence(
         .map(ingredient => {
           if (typeof ingredient === 'string') {
             return ingredient.toLowerCase();
-          } else if (ingredient && typeof ingredient === 'object' && ingredient.name) {
-            return ingredient.name.toLowerCase();
+          } else if (ingredient && typeof ingredient === 'object' && (ingredient as Record<string, unknown>)?.name) {
+            return String((ingredient as Record<string, unknown>)?.name).toLowerCase();
           }
           return '';
         })
         .join(' ');
     } else if (typeof ingredientsData === 'string') {
       // Handle string ingredients
-      ingredientText = ingredientsData.toLowerCase();
+      ingredientText = String(ingredientsData).toLowerCase();
     }
 
     for (const ingredient of associations.ingredients) {

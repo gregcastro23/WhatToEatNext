@@ -162,11 +162,13 @@ const MoonDisplayMigrated: React.FC = () => {
     if (!isLoading && !error && astrologyService) {
       const getLocation = async () => {
         try {
-          const location = await (astrologyService as Record<string, unknown>)?.getUserLocation?.();
+          const serviceData = astrologyService as unknown as Record<string, unknown>;
+          const getUserLocation = serviceData?.getUserLocation as (() => Promise<any>) | undefined;
+          const location = await getUserLocation?.();
           if (location) {
             setCoordinates({
-              latitude: location.latitude,
-              longitude: location.longitude
+              latitude: (location as any).latitude,
+              longitude: (location as any).longitude
             });
           }
         } catch (error) {
@@ -183,12 +185,14 @@ const MoonDisplayMigrated: React.FC = () => {
     if (!isLoading && !error && astrologyService) {
       const calculateTimes = async () => {
         try {
-          const times = await (astrologyService as Record<string, unknown>)?.getMoonTimes?.(new Date(), coordinates);
+          const serviceData = astrologyService as unknown as Record<string, unknown>;
+          const getMoonTimes = serviceData?.getMoonTimes as ((date: Date, coords: any) => Promise<any>) | undefined;
+          const times = await getMoonTimes?.(new Date(), coordinates);
           
           if (times) {
             setMoonTimes({
-              rise: times.rise,
-              set: times.set,
+              rise: (times as any).rise,
+              set: (times as any).set,
               calculating: false
             });
           } else {
@@ -233,12 +237,12 @@ const MoonDisplayMigrated: React.FC = () => {
           const phaseData = await astrologyService.getLunarPhaseData(false);
           
           if (phaseData) {
-            const phaseDataObj = phaseData as LunarPhase;
+            const phaseDataObj = phaseData as unknown as Record<string, unknown>;
             setMoonPhase({
-              phase: phaseDataObj?.phaseName || phaseDataObj?.phase || 'new_moon',
-              phaseValue: phaseDataObj?.phaseValue || 0,
-              description: getLunarPhaseDescription(phaseDataObj?.phaseName || phaseDataObj?.phase || 'new_moon'),
-              illumination: phaseDataObj?.illumination || 0
+              phase: String(phaseDataObj?.phaseName || phaseDataObj?.phase || 'new_moon'),
+              phaseValue: Number(phaseDataObj?.phaseValue || 0),
+              description: getLunarPhaseDescription(String(phaseDataObj?.phaseName || phaseDataObj?.phase || 'new_moon')),
+              illumination: Number(phaseDataObj?.illumination || 0)
             });
           }
         } catch (error) {

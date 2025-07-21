@@ -1072,7 +1072,7 @@ export function calculateCompleteAstrologicalEffects(
   const stelliumEffects = calculateEnhancedStelliumEffects(planetPositions, risingDegree);
   
   // Calculate house effects
-  const houseEffects = calculateAllHouseEffects(planetPositions as Record<string, unknown>, {}); // Use type assertion
+  const houseEffects = calculateAllHouseEffects(planetPositions as Record<string, { sign: ZodiacSign; house?: number }>, {}); // Use type assertion
   
   // Calculate joy effects
   const joyEffects = calculateJoyEffects(planetPositions, risingDegree);
@@ -1431,8 +1431,8 @@ export async function getCurrentAstrologicalState(date: Date = new Date()): Prom
       currentPlanetaryAlignment,
       planetaryPositions,
       activePlanets,
-      planetaryHour: planetaryHour as unknown,
-      aspects: aspects as unknown, // Type assertion to avoid compatibility issues
+      planetaryHour: planetaryHour as Planet,
+      aspects: aspects as PlanetaryAspect[], // Type assertion to avoid compatibility issues
       tarotElementBoosts: { Fire: 0, Water: 0, Earth: 0, Air: 0 },
       tarotPlanetaryBoosts: {}
     };
@@ -1451,7 +1451,7 @@ export async function getCurrentAstrologicalState(date: Date = new Date()): Prom
       currentPlanetaryAlignment: {},
       planetaryPositions: defaultPositions,
       activePlanets: [],
-      planetaryHour: 'sun' as unknown,
+      planetaryHour: 'sun' as Planet,
       aspects: [],
       tarotElementBoosts: { Fire: 0, Water: 0, Earth: 0, Air: 0 },
       tarotPlanetaryBoosts: {}
@@ -1967,10 +1967,10 @@ export const parseAstroChartAspects = (astroChartData: unknown): Array<{
         const aspectData = aspect as Record<string, unknown>;
         if (aspectData?.aspectType && aspectData?.planet1 && aspectData?.planet2) {
           aspects.push({
-            type: aspectTypeMapping[aspectData.aspectType] || aspectData.aspectType,
-            planet1: aspectData.planet1,
-            planet2: aspectData.planet2,
-            orb: aspectData.orb || 0,
+            type: aspectTypeMapping[String(aspectData.aspectType)] || String(aspectData.aspectType),
+            planet1: String(aspectData.planet1),
+            planet2: String(aspectData.planet2),
+            orb: Number(aspectData.orb) || 0,
             applying: aspectData.applying === true
           });
         }

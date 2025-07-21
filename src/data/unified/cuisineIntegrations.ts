@@ -1319,17 +1319,17 @@ export class UnifiedCuisineIntegrationSystem {
           temperatureAdjustment: (() => {
             const profileData = unifiedSeasonalProfiles[season] as Record<string, unknown>;
             const monicaModifiers = profileData?.monicaModifiers as Record<string, unknown>;
-            return monicaModifiers?.temperatureAdjustment || 0;
+            return Number(monicaModifiers?.temperatureAdjustment || 0);
           })(),
           timingAdjustment: (() => {
             const profileData = unifiedSeasonalProfiles[season] as Record<string, unknown>;
             const monicaModifiers = profileData?.monicaModifiers as Record<string, unknown>;
-            return monicaModifiers?.timingAdjustment || 0;
+            return Number(monicaModifiers?.timingAdjustment || 0);
           })(),
           intensityModifier: (() => {
             const profileData = unifiedSeasonalProfiles[season] as Record<string, unknown>;
             const monicaModifiers = profileData?.monicaModifiers as Record<string, unknown>;
-            return monicaModifiers?.intensityModifier || 'normal';
+            return String(monicaModifiers?.intensityModifier || 'normal');
           })()
         },
         traditionalSeasonalDishes: this.getTraditionalSeasonalDishes(cuisine1, cuisine2, season),
@@ -1498,7 +1498,7 @@ export class UnifiedCuisineIntegrationSystem {
       const profileData = seasonalProfile as Record<string, unknown>;
       const optimalCookingMethods = profileData?.optimalCookingMethods || [];
       
-      for (const methodName of optimalCookingMethods) {
+      for (const methodName of (optimalCookingMethods as string[]) || []) {
         const method = this?.enhancedCookingMethods?.[methodName];
         if (method && monica?.cookingMethodOptimization?.[methodName]) {
           adaptedCookingMethods?.push(method);
@@ -1513,9 +1513,9 @@ export class UnifiedCuisineIntegrationSystem {
     const monicaModifiers = seasonalProfileData?.monicaModifiers;
     
     const seasonalModifiers = {
-      temperatureAdjustment: (monicaModifiers as Record<string, unknown>)?.temperatureAdjustment || 0,
-      timingAdjustment: (monicaModifiers as Record<string, unknown>)?.timingAdjustment || 0,
-      intensityModifier: (monicaModifiers as Record<string, unknown>)?.intensityModifier || 'normal'
+      temperatureAdjustment: Number((monicaModifiers as Record<string, unknown>)?.temperatureAdjustment || 0),
+      timingAdjustment: Number((monicaModifiers as Record<string, unknown>)?.timingAdjustment || 0),
+      intensityModifier: String((monicaModifiers as Record<string, unknown>)?.intensityModifier || 'normal')
     };
     
     // Get traditional seasonal dishes
@@ -1558,12 +1558,12 @@ export class UnifiedCuisineIntegrationSystem {
     for (const ingredient of ingredients) {
       const kalchm = ingredient.kalchm;
       
-      if (kalchm >= min && kalchm <= max) {
+      if (kalchm >= Number(min) && kalchm <= Number(max)) {
         // Perfect harmony if within seasonal range
         totalHarmony += 1.0;
       } else {
         // Partial harmony based on distance from range
-        const distance = kalchm < min ? min - kalchm : kalchm - max;
+        const distance = kalchm < Number(min) ? Number(min) - kalchm : kalchm - Number(max);
         const harmony = Math.max(0.1, Math.exp(-distance * 2));
         totalHarmony += harmony;
       }
@@ -1791,7 +1791,7 @@ export class UnifiedCuisineIntegrationSystem {
     const seasonalElementalBalance = this.blendElementalProfiles([
       fusionProfile.fusionElementalProfile,
       elementalDominance
-    ], [0.7, 0.3]);
+    ], [0.7, 0.3]) || { Fire: 0, Water: 0, Earth: 0, Air: 0 };
     
     return {
       season,

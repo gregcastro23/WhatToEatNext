@@ -179,7 +179,7 @@ export default function TarotFoodDisplay({ onTarotLoaded }: TarotFoodDisplayProp
         <span>Updated daily with planetary positions</span>
         {hasSunPosition(currentPlanetaryAlignment as unknown as Record<string, unknown>) && (
           <span className="ml-3">
-            • Sun: {String((currentPlanetaryAlignment.Sun as Record<string, unknown>)?.sign)} {Math.floor(Number((currentPlanetaryAlignment.Sun as Record<string, unknown>)?.degree || 0))}°
+            • Sun: {String((currentPlanetaryAlignment.Sun as unknown as Record<string, unknown>)?.sign)} {Math.floor(Number((currentPlanetaryAlignment.Sun as unknown as Record<string, unknown>)?.degree || 0))}°
           </span>
         )}
       </div>
@@ -188,7 +188,7 @@ export default function TarotFoodDisplay({ onTarotLoaded }: TarotFoodDisplayProp
         <div className={`rounded-lg p-4 bg-opacity-10 ${getElementColor(element)}`}>
           <div className="flex justify-between items-start">
             <div>
-              <h4 className="font-bold text-white text-lg drop-shadow-md">{minorCardData?.name || 'Minor Arcana'}</h4>
+              <h4 className="font-bold text-white text-lg drop-shadow-md">{String(minorCardData?.name || 'Minor Arcana')}</h4>
               <div className="flex items-center mt-1 bg-black bg-opacity-20 rounded px-2 py-1 inline-block">
                 {getElementIcon(element)}
                 <span className="ml-1 text-sm font-medium">{element}</span>
@@ -201,30 +201,30 @@ export default function TarotFoodDisplay({ onTarotLoaded }: TarotFoodDisplayProp
           </div>
           
           <div className="mt-4 text-sm">
-            <div className="italic font-medium text-white bg-black bg-opacity-30 p-2 rounded-md">
-              {minorCardData?.meaning || 'Divine guidance flows through the cards'}
-            </div>
+                          <div className="italic font-medium text-white bg-black bg-opacity-30 p-2 rounded-md">
+                {String(minorCardData?.meaning || 'Divine guidance flows through the cards')}
+              </div>
           </div>
         </div>
         
         <div className="rounded-lg p-4 bg-gradient-to-br from-purple-900 to-indigo-900 text-white bg-opacity-10">
           <div className="flex justify-between items-start">
             <div>
-              <h4 className="font-bold text-white text-lg drop-shadow-md">{(tarotCards.majorCard as Record<string, unknown>)?.name || 'Major Arcana'}</h4>
+              <h4 className="font-bold text-white text-lg drop-shadow-md">{String((tarotCards.majorCard as unknown as Record<string, unknown>)?.name || 'Major Arcana')}</h4>
               <div className="flex items-center mt-1 bg-black bg-opacity-20 rounded px-2 py-1 inline-block">
                 <Sparkles className="w-4 h-4 text-yellow-300" />
                 <span className="ml-1 text-sm font-medium">Archetypal</span>
               </div>
             </div>
             <div className="flex items-center bg-black bg-opacity-50 px-3 py-1.5 rounded-full shadow">
-              <span className="text-sm text-white font-medium">#{(tarotCards.majorCard as Record<string, unknown>)?.number || 0}</span>
+              <span className="text-sm text-white font-medium">#{Number((tarotCards.majorCard as unknown as Record<string, unknown>)?.number || 0)}</span>
             </div>
           </div>
           
           <div className="mt-4 text-sm">
-            <div className="italic font-medium text-white bg-black bg-opacity-30 p-2 rounded-md">
-              {(tarotCards.majorCard as Record<string, unknown>)?.meaning || 'The path reveals itself'}
-            </div>
+                          <div className="italic font-medium text-white bg-black bg-opacity-30 p-2 rounded-md">
+                {String((tarotCards.majorCard as unknown as Record<string, unknown>)?.meaning || 'The path reveals itself')}
+              </div>
           </div>
         </div>
       </div>
@@ -242,15 +242,15 @@ export default function TarotFoodDisplay({ onTarotLoaded }: TarotFoodDisplayProp
               return (
                 <div key={planet} className="rounded-lg p-2 bg-gray-800 bg-opacity-40 text-xs">
                   <div className="font-medium text-purple-300">{planet}</div>
-                  <div className="text-gray-400 mt-1">{name}</div>
+                  <div className="text-gray-400 mt-1">{String(name || '')}</div>
                   <div className="flex items-center mt-1">
                     <div className="h-1 bg-gray-700 flex-grow rounded-full overflow-hidden">
                       <div 
                         className="h-1 bg-purple-500" 
-                        style={{ width: `${(energy || 0.5) * 100}%` }}
+                        style={{ width: `${(Number(energy || 0.5)) * 100}%` }}
                       ></div>
                     </div>
-                    <span className="ml-1 text-xs text-gray-500">{Math.round((energy || 0.5) * 100)}%</span>
+                    <span className="ml-1 text-xs text-gray-500">{Math.round((Number(energy || 0.5)) * 100)}%</span>
                   </div>
                 </div>
               );

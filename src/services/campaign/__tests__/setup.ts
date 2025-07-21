@@ -63,6 +63,18 @@ global.testUtils = {
     buildPerformance: { currentTime: 8.5, targetTime: 10, cacheHitRate: 0.8, memoryUsage: 45 },
     enterpriseSystems: { current: 0, target: 200, transformedExports: 0 },
     ...overrides
+  }),
+  
+  // Memory management utilities
+  checkMemory: () => ({
+    heapUsed: '45.2MB',
+    heapTotal: '67.8MB',
+    external: '2.1MB'
+  }),
+  
+  cleanupMemory: () => ({
+    success: true,
+    freedMemory: '5.2MB'
   })
 };
 
@@ -118,6 +130,8 @@ declare global {
     createMockLintingWarnings: (count: number) => string;
     waitForAsync: () => Promise<void>;
     createMockProgressMetrics: (overrides?: any) => any;
+    checkMemory: () => { heapUsed: string; heapTotal: string; external: string };
+    cleanupMemory: () => { success: boolean; freedMemory: string };
   };
 }
 

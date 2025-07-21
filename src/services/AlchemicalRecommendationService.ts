@@ -52,7 +52,7 @@ export class AlchemicalRecommendationService {
     cookingMethods: CookingMethod[]
   ): Promise<AlchemicalRecommendation> {
     // Calculate thermodynamic properties using the engine
-    const _thermodynamics = this.engine.alchemize(planetaryPositions as BasicThermodynamicProperties);
+    const _thermodynamics = this.engine.alchemize(planetaryPositions as unknown as { [planet: string]: string });
     
     // Convert thermodynamic properties to elemental properties
     const elementalBalance = this.deriveElementalProperties(_thermodynamics);
@@ -164,7 +164,7 @@ export class AlchemicalRecommendationService {
         method,
         score: this.engine.calculateElementalCompatibility(
           elementalProperties,
-          (method as Record<string, unknown>)?.elementalState || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }
+          (method as unknown as Record<string, unknown>)?.elementalState as ElementalProperties || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }
         )
       }))
       .filter(({ score }) => score > 0.7)
@@ -213,8 +213,8 @@ export class AlchemicalRecommendationService {
     }
     
     // Fix TS2339: Property 'kalchm' does not exist on type 'ThermodynamicProperties'
-    const thermodynamicsData = thermodynamics as Record<string, unknown>;
-    if (thermodynamicsData?.kalchm > 2.0) {
+    const thermodynamicsData = thermodynamics as unknown as Record<string, unknown>;
+    if ((thermodynamicsData?.kalchm as number) > 2.0) {
       recommendations?.push('Exceptional transformation potential - fermentation and aging processes are enhanced.');
     }
     
@@ -311,19 +311,19 @@ export class AlchemicalRecommendationService {
     adjustments: string[];
   } {
     // Calculate thermodynamic properties using the engine
-    const _thermodynamics = this.engine.alchemize(planetaryPositions as BasicThermodynamicProperties);
+    const _thermodynamics = this.engine.alchemize(planetaryPositions as unknown as { [planet: string]: string });
     
     // Convert thermodynamic properties to elemental properties
     const currentElementalProperties = this.deriveElementalProperties(_thermodynamics);
     
     // Get recipe's elemental properties (or use default if not present)
-    const recipeElementalProperties = (recipe.elementalState as Record<string, unknown>) || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
+    const recipeElementalProperties = (recipe.elementalState as unknown as ElementalProperties) || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
     };
     
     // Calculate compatibility
     const compatibility = this.engine.calculateElementalCompatibility(
-      currentElementalProperties as unknown,
-      recipeElementalProperties as unknown
+      currentElementalProperties,
+      recipeElementalProperties
     );
     
     // Generate suggestions based on compatibility

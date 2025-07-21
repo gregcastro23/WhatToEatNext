@@ -299,7 +299,7 @@ export const CuisineSection: React.FC<CuisineSectionProps> = ({
                     'bg-purple-100 text-purple-700'
                   }`}
                 >
-                  {element}: {String(value)}
+                  {element}: {String(value || 0)}
                 </span>
               ))}
             </div>
@@ -339,15 +339,15 @@ export const CuisineSection: React.FC<CuisineSectionProps> = ({
 
   const renderRecipeCard = (recipe: Recipe, index: number) => {
     const recipeData = recipe as Record<string, unknown>;
-    const hasDualMatch = recipeData?.cuisine?.toLowerCase() === cuisine?.toLowerCase() && 
-                        recipeData?.regionalCuisine?.toLowerCase() === cuisine?.toLowerCase();
+    const hasDualMatch = String(recipeData?.cuisine || '').toLowerCase() === cuisine?.toLowerCase() && 
+                        String(recipeData?.regionalCuisine || '').toLowerCase() === cuisine?.toLowerCase();
     
     return (
-      <div key={recipeData?.id || index} className="bg-white rounded-lg border shadow-sm overflow-hidden hover:shadow-md transition-shadow">
+      <div key={String(recipeData?.id || index)} className="bg-white rounded-lg border shadow-sm overflow-hidden hover:shadow-md transition-shadow">
         <div className="p-4">
           <div className="flex justify-between items-start mb-2">
             <h3 className="text-lg font-medium text-gray-900 line-clamp-2">
-              {recipeData?.name || 'Unnamed Recipe'}
+              {String(recipeData?.name || 'Unnamed Recipe')}
             </h3>
             {renderScoreBadge(Number(recipeData?.matchScore) || 0, hasDualMatch)}
           </div>
@@ -359,17 +359,17 @@ export const CuisineSection: React.FC<CuisineSectionProps> = ({
           <div className="flex flex-wrap gap-2 text-xs text-gray-500 mb-3">
             {recipeData?.cookingTime && (
               <span className="flex items-center gap-1">
-                ⏱️ {recipeData.cookingTime}
+                ⏱️ {String(recipeData.cookingTime)}
               </span>
             )}
             {recipeData?.difficulty && (
               <span className="flex items-center gap-1">
-                📊 {recipeData.difficulty}
+                📊 {String(recipeData.difficulty)}
               </span>
             )}
             {recipeData?.servings && (
               <span className="flex items-center gap-1">
-                👥 {recipeData.servings}
+                👥 {String(recipeData.servings)}
               </span>
             )}
           </div>
@@ -382,7 +382,7 @@ export const CuisineSection: React.FC<CuisineSectionProps> = ({
               <div className="flex flex-wrap gap-1 mt-1">
                 {(recipeData.ingredients as unknown[]).slice(0, 3).map((ingredient: Ingredient | UnifiedIngredient, i: number) => (
                   <span key={i} className="bg-gray-100 text-gray-600 px-2 py-1 rounded text-xs">
-                    {ingredient?.name || ingredient}
+                    {String((ingredient as unknown as Record<string, unknown>)?.name || ingredient)}
                   </span>
                 ))}
                 {(recipeData.ingredients as unknown[]).length > 3 && (

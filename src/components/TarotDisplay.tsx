@@ -148,8 +148,10 @@ export default function TarotDisplay({ mode = 'food', onTarotLoaded }: TarotDisp
   const getAlchemicalValues = (card: unknown): AlchemicalValues => {
     if (!card) return { Spirit: 0, Essence: 0, Matter: 0, Substance: 0 };
     
-    const suit = (card as Record<string, Record<string, number>>).name?.split(' of ')[1] || (card as Record<string, Record<string, number>>).suit;
-    const number = (card as Record<string, Record<string, number>>).number || 0;
+    const cardData = card as Record<string, unknown>;
+    const name = cardData?.name as string;
+    const suit = name?.split ? name.split(' of ')[1] : (cardData?.suit as string);
+    const number = Number(cardData?.number) || 0;
     
     // Create base object with all values at 0
     const values = { Spirit: 0, Essence: 0, Matter: 0, Substance: 0 };
@@ -245,13 +247,14 @@ export default function TarotDisplay({ mode = 'food', onTarotLoaded }: TarotDisp
       </div>
       
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-        <div className={`rounded-lg p-4 bg-opacity-10 ${getElementColor(element as Record<string, unknown>)}`}> {/* Pattern XXX: Component Props Interface Resolution */}
+        <div className={`rounded-lg p-4 bg-opacity-10 ${getElementColor(element as Element)}`}>
           <div className="flex justify-between items-start">
             <div>
-              <h4 className="font-bold text-white text-lg drop-shadow-md">{tarotCards.minorCard?.name || 'Minor Arcana'}</h4>
-              <div className="flex items-center mt-1 bg-black bg-opacity-20 rounded px-2 py-1 inline-block">
-                {getElementIcon(element as unknown)} {/* Pattern XXX: Component Props Interface Resolution */}
-                <span className="ml-1 text-sm font-medium">{element}</span>
+              <h4 className="font-bold text-white mb-2">Decan Card</h4>
+              <h5 className="text-lg text-purple-300 mb-3">{tarotCards.minorCard.name}</h5>
+              <div className="flex items-center mb-2">
+                {getElementIcon(element as Element)}
+                <span className="ml-2 text-sm text-gray-300">{element}</span>
               </div>
             </div>
             <div className="flex items-center bg-black bg-opacity-50 px-3 py-1.5 rounded-full shadow">

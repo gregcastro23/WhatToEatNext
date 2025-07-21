@@ -1096,15 +1096,16 @@ const PHASE_29_DEMONSTRATION_RESULTS = executeDemonstration();
 // Note: All Type Intelligence Systems are already exported via their const declarations above
 
 // Export all previously unused variables as functional type aliases for compatibility
-export type {
-  PlanetaryPositionsType,
-  AlchemicalState,
-  CookingMethodProfile,
-  timeFactors,
-  alchemicalValues,
-  BaseIngredient,
-  RecipeData
-};
+// Note: These types are already exported above, so we're commenting out duplicates to avoid conflicts
+// export type {
+//   PlanetaryPositionsType,
+//   AlchemicalState,
+//   CookingMethodProfile,
+//   timeFactors,
+//   alchemicalValues,
+//   BaseIngredient,
+//   RecipeData
+// };
 
 // ---------------------------------------------------------------------------
 
@@ -1190,8 +1191,8 @@ export const ALCHEMY_TYPE_INTELLIGENCE_SYSTEM = {
     // Analyze calculation patterns
     const calculationAnalysis = calculations.map(calc => ({
       scoreRange: calc.score,
-      confidence: calc.confidence,
-      factorCount: calc.factors?.length || 0,
+      confidence: (calc as unknown as AlchemicalCalculationResult)?.confidence || 0,
+      factorCount: ((calc as unknown as AlchemicalCalculationResult)?.factors?.length) || 0,
       elementalBalance: Object.values(calc.elementalProperties).reduce((sum, val) => sum + val, 0)
     }));
     
@@ -1287,7 +1288,7 @@ export const ALCHEMY_TYPE_INTELLIGENCE_SYSTEM = {
     const positionAnalysis = positions.map(position => ({
       sign: position.sign,
       degree: position.degree,
-      hasExactLongitude: !!position.exactLongitude,
+      hasExactLongitude: !!(position as unknown as PlanetaryPosition)?.exactLongitude,
       hasElement: !!position.element,
       hasDignity: !!position.dignity,
       isRetrograde: position.isRetrograde || false

@@ -201,7 +201,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
     if (filter.currentSeason) {
       filteredIngredients = this.applySeasonalFilter(
         filteredIngredients,
-        filter.currentSeason as Record<string, unknown>
+        filter.currentSeason as unknown as string[] | Season[]
       );
     }
     
@@ -337,8 +337,8 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
       
       return (seasons || []).some(s => 
         Array.isArray(_ingredient.seasonality) 
-          ? _ingredient.seasonality.includes(s as string) 
-          : _ingredient.seasonality === s as Record<string, unknown>
+          ? _ingredient.seasonality.includes(s as Season) 
+          : _ingredient.seasonality === (s as unknown as Record<string, unknown>)
       );
     });
   }
@@ -385,7 +385,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
     const allIngredients = this.getAllIngredientsFlat();
     // Extract options with safe property access for missing properties
     const optionsData = options as Record<string, unknown>;
-    const maxResults = optionsData?.maxResults || 10;
+    const maxResults = Number(optionsData?.maxResults || 10);
     const optimizeForSeason = optionsData?.optimizeForSeason !== undefined ? optionsData.optimizeForSeason : true;
     const includeExotic = optionsData?.includeExotic !== undefined ? optionsData.includeExotic : false;
     
@@ -405,12 +405,14 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
     // Score ingredients based on elemental compatibility
     const scoredIngredients = (candidates || []).map(_ingredient => {
       // Apply Pattern PP-1: Safe service method access
-      const alchemicalEngineData = alchemicalEngine as CookingMethod;
+      const alchemicalEngineData = alchemicalEngine as unknown as Record<string, unknown>;
       const compatibilityMethod = alchemicalEngineData?.calculateElementalCompatibility || this.fallbackElementalCompatibility;
-      const compatibility = compatibilityMethod(
-        elementalState,
-        _ingredient.elementalPropertiesState
-      );
+      const compatibility = typeof compatibilityMethod === 'function' 
+        ? (compatibilityMethod as (source: ElementalProperties, target: ElementalProperties) => number)(
+            elementalState,
+            _ingredient.elementalPropertiesState
+          )
+        : 0.5; // fallback value
       
       return {
         ingredient: _ingredient,
@@ -460,10 +462,12 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
     // Calculate elemental compatibility
     const alchemicalEngineData2 = alchemicalEngine as Record<string, unknown>;
     const compatibilityMethod2 = alchemicalEngineData2?.calculateElementalCompatibility || this.fallbackElementalCompatibility;
-    const elementalCompatibility = compatibilityMethod2(
-      ing1.elementalState,
-      ing2.elementalState
-    );
+    const elementalCompatibility = typeof compatibilityMethod2 === 'function'
+      ? (compatibilityMethod2 as (source: ElementalProperties, target: ElementalProperties) => number)(
+          ing1.elementalState,
+          ing2.elementalState
+        )
+      : 0.5; // fallback value
     
     // Calculate flavor compatibility if flavor profiles exist
     let flavorCompatibility = 0.5; // default middle value
@@ -793,7 +797,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
       if (!dietary) return true; // Skip if no dietary data
       
       // Extract filter data with safe property access for dietary properties
-      const filterData = filter as Record<string, unknown>;
+      const filterData = filter as unknown as Record<string, unknown>;
       const isVegetarian = filterData?.isVegetarian;
       const isVegan = filterData?.isVegan;
       const isGlutenFree = filterData?.isGlutenFree;
@@ -855,8 +859,8 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
       
       return (seasons || []).some(season => 
         Array.isArray(_ingredient.seasonality) 
-          ? _ingredient.seasonality.includes(season as string) 
-          : _ingredient.seasonality === season as Record<string, unknown>
+          ? _ingredient.seasonality.includes(season as Season) 
+          : _ingredient.seasonality === (season as unknown as Record<string, unknown>)
       );
     });
   }
