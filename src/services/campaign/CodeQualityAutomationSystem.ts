@@ -182,7 +182,7 @@ export class CodeQualityAutomationSystem {
     } catch (error) {
       logger.error('Code quality automation system failed', error);
       result.overallSuccess = false;
-      result.errors.push(`System failure: ${error.message}`);
+      result.errors.push(`System failure: ${String(error)}`);
       result.totalExecutionTime = Date.now() - startTime;
       return result;
     }
@@ -236,7 +236,7 @@ export class CodeQualityAutomationSystem {
 
     } catch (error) {
       phaseResult.success = false;
-      phaseResult.errors.push(`Phase execution failed: ${error.message}`);
+      phaseResult.errors.push(`Phase execution failed: ${String(error)}`);
       phaseResult.executionTime = Date.now() - startTime;
       return phaseResult;
     }
@@ -246,7 +246,7 @@ export class CodeQualityAutomationSystem {
    * Generate comprehensive automation report
    */
   generateReport(result: CodeQualityAutomationResult): string {
-    const report = [];
+    const report: string[] = [];
     
     report.push('# Code Quality Automation Report');
     report.push('');

@@ -122,7 +122,7 @@ export default function CuisineSectionTestPage() {
                 Earth: state.elementalState?.Earth ?? 0.25,
                 Air: state.elementalState?.Air ?? 0.25,
                 season: state.currentSeason || "spring",
-                timeOfDay: state.timeOfDay
+                timeOfDay: state.timeOfDay ?? "morning"
               }}
             />
           </div>
@@ -141,7 +141,7 @@ export default function CuisineSectionTestPage() {
                 Earth: state.elementalState?.Earth ?? 0.25,
                 Air: state.elementalState?.Air ?? 0.25,
                 season: state.currentSeason || "spring",
-                timeOfDay: state.timeOfDay
+                timeOfDay: state.timeOfDay ?? "morning"
               }}
             />
           </div>

@@ -70,23 +70,23 @@ export function findRecipesMatchingElementalAndIngredientRequirements(
   
   Object.values(cuisinesMap).forEach(cuisine => {
     // Collect breakfast recipes
-    Object.values(cuisine.dishes.breakfast).forEach(seasonRecipes => {
-      allRecipes.push(...seasonRecipes);
+    Object.values(cuisine.dishes.breakfast || {}).forEach(seasonRecipes => {
+      if (seasonRecipes) allRecipes.push(...seasonRecipes);
     });
     
     // Collect lunch recipes
-    Object.values(cuisine.dishes.lunch).forEach(seasonRecipes => {
-      allRecipes.push(...seasonRecipes);
+    Object.values(cuisine.dishes.lunch || {}).forEach(seasonRecipes => {
+      if (seasonRecipes) allRecipes.push(...seasonRecipes);
     });
     
     // Collect dinner recipes
-    Object.values(cuisine.dishes.dinner).forEach(seasonRecipes => {
-      allRecipes.push(...seasonRecipes);
+    Object.values(cuisine.dishes.dinner || {}).forEach(seasonRecipes => {
+      if (seasonRecipes) allRecipes.push(...seasonRecipes);
     });
     
     // Collect dessert recipes
-    Object.values(cuisine.dishes.dessert).forEach(seasonRecipes => {
-      allRecipes.push(...seasonRecipes);
+    Object.values(cuisine.dishes.dessert || {}).forEach(seasonRecipes => {
+      if (seasonRecipes) allRecipes.push(...seasonRecipes);
     });
   });
   
@@ -131,7 +131,7 @@ export function suggestIngredientSubstitutions(
   
   // Get the elemental properties of the ingredient
   // Apply surgical type casting with variable extraction
-  const matchedToData = ingredientMapping.matchedTo as Record<string, unknown>;
+  const matchedToData = (ingredientMapping.matchedTo ?? {}) as Record<string, unknown>;
   const elementalProperties = matchedToData?.elementalProperties;
   const alchemicalProperties = matchedToData?.alchemicalProperties;
   
@@ -143,7 +143,7 @@ export function suggestIngredientSubstitutions(
       if (name.toLowerCase() === ingredientToReplace.toLowerCase()) return false;
       
       // Skip if not the same category (optional, depending on how flexible you want to be)
-      if (mapping.category !== ingredientMapping.matchedTo.category) return false;
+      if (mapping.category !== ingredientMapping.matchedTo?.category) return false;
       
       // Check elemental similarity
       const similarity = calculateElementalSimilarity(

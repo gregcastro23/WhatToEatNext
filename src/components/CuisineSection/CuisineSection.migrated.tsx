@@ -223,7 +223,7 @@ export function CuisineSectionMigrated({
 
   const renderSeasonalInfo = (recipe: Recipe) => (
     <div className="flex flex-wrap gap-2 mt-2">
-      {recipe.currentSeason && (
+      {Boolean(recipe.currentSeason) && (
         <span className="text-sm px-2 py-1 bg-green-50 text-green-700 rounded">
           {Array.isArray(recipe.currentSeason) ? recipe.currentSeason?.join(', ') : (recipe.currentSeason as string)}
         </span>
@@ -348,7 +348,7 @@ export function CuisineSectionMigrated({
         </div>
         
         {/* Show regional cuisine if different from main cuisine */}
-        {recipe.regionalCuisine && recipe.regionalCuisine !== recipe.cuisine && (
+        {Boolean(recipe.regionalCuisine && recipe.regionalCuisine !== recipe.cuisine) && (
           <div className="text-xs text-gray-500 mb-2">
             Regional style: <span className="font-medium">{recipe.regionalCuisine as string}</span>
           </div>

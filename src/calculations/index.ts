@@ -60,7 +60,7 @@ export const COMPREHENSIVE_CALCULATION_INTELLIGENCE = {
    * @param context - Additional context for analysis
    * @returns Enhanced analysis with predictive insights
    */
-  analyzeComprehensiveResult: (alchemicalResult: any, context: any = {}) => {
+  analyzeComprehensiveResult: (alchemicalResult: ComprehensiveAlchemicalResult, context: any = {}) => {
     const analysis = {
       // Predictive modeling for calculation accuracy
       predictiveAccuracy: {
@@ -241,7 +241,7 @@ export const RECIPE_COMPATIBILITY_INTELLIGENCE = {
    * @param alchemicalResult - The current moment alchemical result
    * @returns Advanced compatibility analysis with intelligent insights
    */
-  analyzeRecipeCompatibility: (recipeProperties: any, alchemicalResult: any) => {
+  analyzeRecipeCompatibility: (recipeProperties: ElementalProperties, alchemicalResult: ComprehensiveAlchemicalResult) => {
     const compatibilityAnalysis = {
       // Core compatibility metrics
       coreMetrics: {
@@ -586,10 +586,10 @@ function _calculateKalchmAlignment(
   let alignment = 0;
   let totalWeight = 0;
 
-  Object.keys(recipeAlchemical || {}).forEach(property => {
+  Object.keys(recipeAlchemical).forEach(property => {
     const key = property as keyof AlchemicalProperties;
     const recipeValue = recipeAlchemical[key];
-    const currentMomentValue = currentMomentKalchm?.alchemicalProperties?.[key];
+    const currentMomentValue = currentMomentKalchm?.alchemicalProperties?.[key] ?? 0;
     const weight = (recipeValue + currentMomentValue) / 2;
 
     alignment += (1 - Math.abs(recipeValue - currentMomentValue) / Math.max(recipeValue, currentMomentValue)) * weight;
@@ -643,25 +643,25 @@ function generateDetailedCompatibilityRecommendations(
   const recommendations: string[] = [];
 
   if (overall >= 0.8) {
-    recommendations?.push('Excellent compatibility - this recipe aligns perfectly with your current state');
+    recommendations.push('Excellent compatibility - this recipe aligns perfectly with your current state');
   } else if (overall >= 0.6) {
-    recommendations?.push('Good compatibility - this recipe should work well for you');
+    recommendations.push('Good compatibility - this recipe should work well for you');
   } else if (overall >= 0.4) {
-    recommendations?.push('Moderate compatibility - consider adjusting preparation or timing');
+    recommendations.push('Moderate compatibility - consider adjusting preparation or timing');
   } else {
-    recommendations?.push('Lower compatibility - you might want to try a different recipe');
+    recommendations.push('Lower compatibility - you might want to try a different recipe');
   }
 
   if (elemental < 0.5) {
-    recommendations?.push('Consider adding ingredients that complement your dominant element');
+    recommendations.push('Consider adding ingredients that complement your dominant element');
   }
 
   if (_kalchm < 0.5) {
-    recommendations?.push('The alchemical properties may not align - try adjusting cooking methods');
+    recommendations.push('The alchemical properties may not align - try adjusting cooking methods');
   }
 
   if (planetary < 0.5) {
-    recommendations?.push('Timing may be important - consider preparing during favorable planetary hours');
+    recommendations.push('Timing may be important - consider preparing during favorable planetary hours');
   }
 
   return recommendations;

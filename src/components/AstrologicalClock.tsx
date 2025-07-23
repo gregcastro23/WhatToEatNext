@@ -48,10 +48,10 @@ function _isValidPosition(pos: unknown): boolean {
   const sign = posData?.sign;
   const degree = posData?.degree;
   
-  return pos && 
+  return Boolean(pos && 
          typeof sign === 'string' &&
          typeof degree === 'number' &&
-         degree >= 0 && degree < 30;
+         degree >= 0 && degree < 30);
 }
 
 // Rename this interface to avoid the conflict

@@ -239,17 +239,17 @@ export const CuisineSection: React.FC<CuisineSectionProps> = ({
     
     return (
       <div className="text-xs text-gray-500 flex flex-wrap gap-2 mt-2">
-        {recipeData?.season && (
+        {Boolean(recipeData?.season) && (
           <span className="bg-blue-100 text-blue-700 px-2 py-1 rounded-full">
             {String(recipeData.season)}
           </span>
         )}
-        {recipeData?.mealType && (
+        {Boolean(recipeData?.mealType) && (
           <span className="bg-green-100 text-green-700 px-2 py-1 rounded-full">
             {String(recipeData.mealType)}
           </span>
         )}
-        {recipeData?.difficulty && (
+        {Boolean(recipeData?.difficulty) && (
           <span className="bg-orange-100 text-orange-700 px-2 py-1 rounded-full">
             {String(recipeData.difficulty)}
           </span>
@@ -289,8 +289,8 @@ export const CuisineSection: React.FC<CuisineSectionProps> = ({
     return (
       <div key={index} className="bg-white rounded-lg border shadow-sm p-4 hover:shadow-md transition-shadow">
         <div className="flex justify-between items-start mb-2">
-          <h4 className="font-medium text-lg text-gray-900">{sauceData?.name || 'Traditional Sauce'}</h4>
-          {sauceData?.elementalProperties && (
+          <h4 className="font-medium text-lg text-gray-900">{String(sauceData?.name || 'Traditional Sauce')}</h4>
+          {Boolean(sauceData?.elementalProperties) && (
             <div className="flex gap-1">
               {Object.entries(sauceData.elementalProperties).map(([element, value]) => (
                 <span 
@@ -309,16 +309,16 @@ export const CuisineSection: React.FC<CuisineSectionProps> = ({
           )}
         </div>
         
-        {sauceData?.description && (
+        {Boolean(sauceData?.description) && (
           <p className="text-gray-600 text-sm mb-3 line-clamp-2">{String(sauceData.description)}</p>
         )}
         
         <div className="space-y-2 text-sm">
-          {sauceData?.base && (
+          {Boolean(sauceData?.base) && (
             <div><span className="font-medium text-gray-700">Base:</span> {String(sauceData.base)}</div>
           )}
           
-          {sauceData?.keyIngredients && Array.isArray(sauceData.keyIngredients) && sauceData.keyIngredients.length > 0 && (
+          {Boolean(sauceData?.keyIngredients && Array.isArray(sauceData.keyIngredients) && sauceData.keyIngredients.length > 0) && (
             <div>
               <span className="font-medium text-gray-700">Key Ingredients:</span>
               <div className="flex flex-wrap gap-1 mt-1">
@@ -355,7 +355,7 @@ export const CuisineSection: React.FC<CuisineSectionProps> = ({
             {renderScoreBadge(Number(recipeData?.matchScore) || 0, hasDualMatch)}
           </div>
           
-          {recipeData?.description && (
+          {Boolean(recipeData?.description) && (
             <p className="text-gray-600 text-sm mb-3 line-clamp-3">{String(recipeData.description)}</p>
           )}
           
@@ -365,7 +365,7 @@ export const CuisineSection: React.FC<CuisineSectionProps> = ({
                 ⏱️ {String(recipeData.cookingTime)}
               </span>
             )}
-            {recipeData?.difficulty && (
+            {Boolean(recipeData?.difficulty) && (
               <span className="flex items-center gap-1">
                 📊 {String(recipeData.difficulty)}
               </span>

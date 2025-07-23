@@ -141,8 +141,8 @@ function buildCompleteRecipe(recipe: RecipeData, cuisineName: string): Recipe {
   // Extract recipe data with safe property access
   const recipeData = recipe as unknown as Record<string, unknown>;
 
-  // Complete recipe with fallbacks
-  return {
+  // Complete recipe with fallbacks - avoid duplicate properties
+  const baseRecipe = {
     id: recipe.id || `recipe-${Math.random()?.toString(36).substring(2, 9)}`,
     name: recipe.name || `${cuisineName} Recipe`,
     description: recipe.description || `A traditional recipe from ${cuisineName} cuisine.`,
@@ -158,10 +158,11 @@ function buildCompleteRecipe(recipe: RecipeData, cuisineName: string): Recipe {
     prepTime: (recipeData.preparationTime as number) || (recipeData.preparation_time as number) || (recipeData.prep_time as number) || 15,
     servingSize: recipe.servings || recipe.servings || (recipeData.yield as string) || "4 servings",
     difficulty: recipe.difficulty || (recipeData.skill_level as string) || "Medium",
-    dietaryInfo: (recipeData.dietaryInfo as string[]) || (recipeData.dietary_restrictions as string[]) || [],
-    // Add any custom properties from the original recipe
-    ...recipe
-  } as Recipe;
+    dietaryInfo: (recipeData.dietaryInfo as string[]) || (recipeData.dietary_restrictions as string[]) || []
+  };
+  
+  // Merge with original recipe, prioritizing base recipe properties
+  return { ...recipe, ...baseRecipe } as Recipe;
 }
 
 // TODO: Integrate with recommendation service for elemental matching
@@ -537,7 +538,7 @@ export default function CuisineRecommender() {
 
       {/* Group cuisine cards in a better grid layout */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 mb-4">
-        {(cuisineRecommendations || []).map((cuisineItem) => {
+        {(cuisineRecommendations || []).map((cuisineItem): React.ReactElement => {
           const cuisine = cuisineItem as CuisineWithScore;
           // Calculate match percentage
           const matchPercentage = cuisine.matchPercentage || 
@@ -691,22 +692,22 @@ export default function CuisineRecommender() {
                 
                 {/* Show elemental properties */}
                 <div className="flex space-x-1 mt-2">
-                  {sauce.elementalState?.Fire >= 0.3 && (
+                  {(sauce.elementalState?.Fire || 0) >= 0.3 && (
                     <div className="flex items-center" title="Fire">
                       <Flame size={12} className="text-red-500" />
                     </div>
                   )}
-                  {sauce.elementalState?.Water >= 0.3 && (
+                  {(sauce.elementalState?.Water || 0) >= 0.3 && (
                     <div className="flex items-center" title="Water">
                       <Droplets size={12} className="text-blue-500" />
                     </div>
                   )}
-                  {sauce.elementalState?.Earth >= 0.3 && (
+                  {(sauce.elementalState?.Earth || 0) >= 0.3 && (
                     <div className="flex items-center" title="Earth">
                       <Mountain size={12} className="text-green-500" />
                     </div>
                   )}
-                  {sauce.elementalState?.Air >= 0.3 && (
+                  {(sauce.elementalState?.Air || 0) >= 0.3 && (
                     <div className="flex items-center" title="Air">
                       <Wind size={12} className="text-yellow-500" />
                     </div>
@@ -834,7 +835,7 @@ export default function CuisineRecommender() {
                 {String((selectedCuisineData as Record<string, unknown>).name || '')} Cuisine
               </h3>
               {(selectedCuisineData as Record<string, unknown>).parentCuisine && (
-                <span className="text-sm text-gray-500">Regional variant of {String((selectedCuisineData as Record<string, unknown>).parentCuisine)}</span>
+                <span className="text-sm text-gray-500">Regional variant of {String((selectedCuisineData as Record<string, unknown>).parentCuisine || '')}</span>
               )}
             </div>
             <span
@@ -984,12 +985,12 @@ export default function CuisineRecommender() {
                           <h5 className="font-medium text-sm">{String((recipe as Record<string, unknown>).name || '')}</h5>
                           {(recipe as Record<string, unknown>).regionalVariant && (
                             <span className="text-xs text-gray-500">
-                              {String((recipe as Record<string, unknown>).regionalVariant)} style
+                              {String((recipe as Record<string, unknown>).regionalVariant || '')} style
                             </span>
                           )}
                           {(recipe as Record<string, unknown>).fromParentCuisine && (recipe as Record<string, unknown>).parentCuisine && (
                             <span className="text-xs text-gray-500">
-                              From {String((recipe as Record<string, unknown>).parentCuisine)}
+                              From {String((recipe as Record<string, unknown>).parentCuisine || '')}
                             </span>
                           )}
                         </div>
@@ -999,7 +1000,7 @@ export default function CuisineRecommender() {
                               Number((recipe as Record<string, unknown>).matchPercentage) || 0.5
                             )}`}
                           >
-                            {Math.round(Number((recipe as Record<string, unknown>).matchPercentage) * 100)}%
+                            {String(Math.round(Number((recipe as Record<string, unknown>).matchPercentage || 0)))}%
                           </span>
                         )}
                       </div>
@@ -1137,28 +1138,28 @@ export default function CuisineRecommender() {
                             {(recipe as Record<string, unknown>).cookingTime && (
                               <div>
                                 <span className="text-gray-500">Cook: </span>
-                                <span>{String((recipe as Record<string, unknown>).cookingTime)}</span>
+                                <span>{String((recipe as Record<string, unknown>).cookingTime || '')}</span>
                               </div>
                             )}
 
                             {(recipe as Record<string, unknown>).preparationTime && (
                               <div>
                                 <span className="text-gray-500">Prep: </span>
-                                <span>{String((recipe as Record<string, unknown>).preparationTime)}</span>
+                                <span>{String((recipe as Record<string, unknown>).preparationTime || '')}</span>
                               </div>
                             )}
 
                             {(recipe as Record<string, unknown>).servings && (
                               <div>
                                 <span className="text-gray-500">Serves: </span>
-                                <span>{String((recipe as Record<string, unknown>).servings)}</span>
+                                <span>{String((recipe as Record<string, unknown>).servings || '')}</span>
                               </div>
                             )}
 
                             {(recipe as Record<string, unknown>).difficulty && (
                               <div>
                                 <span className="text-gray-500">Difficulty: </span>
-                                <span>{String((recipe as Record<string, unknown>).difficulty)}</span>
+                                <span>{String((recipe as Record<string, unknown>).difficulty || '')}</span>
                               </div>
                             )}
                           </div>

@@ -206,10 +206,10 @@ const ChakraEnergiesDisplay: React.FC<ChakraEnergiesDisplayProps> = ({ compact =
 
   // Prepare chakra data in the correct order
   const orderedChakras = CHAKRA_ORDER
-    .filter(chakraKey => chakraKey in validatedChakraEnergies)
+    .filter(chakraKey => validatedChakraEnergies && chakraKey in validatedChakraEnergies)
     .map(chakraKey => ({
       key: chakraKey,
-      energy: validatedChakraEnergies[chakraKey as keyof typeof validatedChakraEnergies] || 0
+      energy: validatedChakraEnergies?.[chakraKey as keyof typeof validatedChakraEnergies] || 0
     }));
 
   return (

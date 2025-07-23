@@ -480,7 +480,7 @@ export class AlchemicalEngineAdvanced {
   ): PlanetaryInfluence {
     return {
       planet: 'Sun', // Default to Sun as primary influence
-      sign: astrologicalState.currentZodiac,
+      sign: astrologicalState.currentZodiac ?? 'aries',
       element: element as Element,
       strength: this.seasonalModifiers[season]?.[element] || 0.5};
   }
@@ -631,10 +631,10 @@ export class AlchemicalEngineAdvanced {
   ): ElementalProperties {
     // Updated to use correct properties from AstrologicalState
     const sunInfluence = getZodiacElementalInfluence(
-      astrologicalState.currentZodiac
+      astrologicalState.currentZodiac ?? 'aries'
     );
     const moonInfluence = getZodiacElementalInfluence(
-      astrologicalState.zodiacSign
+      astrologicalState.zodiacSign ?? 'aries'
     );
 
     return {

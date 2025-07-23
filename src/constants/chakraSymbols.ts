@@ -171,7 +171,7 @@ export const CHAKRA_MANTRA_INTELLIGENCE = {
    * @returns Array of intelligent recommendations
    */
   generateRecommendations: (analysis: any) => {
-    const recommendations = [];
+    const recommendations: string[] = [];
     
     if (analysis.effectiveness.pronunciationAccuracy < 0.85) {
       recommendations.push("Enhance mantra pronunciation training for improved vibrational accuracy");
@@ -249,7 +249,7 @@ export const CHAKRA_VISUAL_INTELLIGENCE = {
    * @returns Array of intelligent recommendations
    */
   generateRecommendations: (analysis: any) => {
-    const recommendations = [];
+    const recommendations: string[] = [];
     
     if (analysis.symbolicEffectiveness.visualClarity < 0.85) {
       recommendations.push("Enhance visual symbol clarity for improved energy transmission");
@@ -326,7 +326,7 @@ export const CHAKRA_NUTRITIONAL_INTELLIGENCE = {
    * @returns Array of intelligent recommendations
    */
   generateRecommendations: (analysis: any) => {
-    const recommendations = [];
+    const recommendations: string[] = [];
     
     if (analysis.nutritionalEffectiveness.dietaryAlignment < 0.85) {
       recommendations.push("Enhance dietary alignment for improved chakra support");
@@ -404,7 +404,7 @@ export const CHAKRA_FUNCTIONAL_INTELLIGENCE = {
    * @returns Array of intelligent recommendations
    */
   generateRecommendations: (analysis: any) => {
-    const recommendations = [];
+    const recommendations: string[] = [];
     
     if (analysis.functionalEffectiveness.operationalEfficiency < 0.85) {
       recommendations.push("Enhance operational efficiency for improved system performance");
@@ -481,7 +481,7 @@ export const CHAKRA_DEMONSTRATION_PLATFORM = {
    * @returns Array of intelligent recommendations
    */
   generateRecommendations: (analysis: any) => {
-    const recommendations = [];
+    const recommendations: string[] = [];
     
     if (analysis.platformEffectiveness.demonstrationClarity < 0.85) {
       recommendations.push("Enhance demonstration clarity for improved user experience");
@@ -570,7 +570,7 @@ export const PHASE_32_CHAKRA_INTELLIGENCE_SUMMARY = {
 
 // Helper functions for intelligence systems
 function generateMantraRecommendations(analysis: any): string[] {
-  const recommendations = [];
+  const recommendations: string[] = [];
   
   if (analysis.effectiveness.pronunciationAccuracy < 0.85) {
     recommendations.push("Enhance mantra pronunciation training for improved vibrational accuracy");
@@ -588,7 +588,7 @@ function generateMantraRecommendations(analysis: any): string[] {
 }
 
 function generateVisualRecommendations(analysis: any): string[] {
-  const recommendations = [];
+  const recommendations: string[] = [];
   
   if (analysis.symbolicEffectiveness.visualClarity < 0.85) {
     recommendations.push("Enhance visual symbol clarity for improved energy transmission");
@@ -606,7 +606,7 @@ function generateVisualRecommendations(analysis: any): string[] {
 }
 
 function generateNutritionalRecommendations(analysis: any): string[] {
-  const recommendations = [];
+  const recommendations: string[] = [];
   
   if (analysis.nutritionalEffectiveness.dietaryAlignment < 0.85) {
     recommendations.push("Enhance dietary alignment for improved chakra support");
@@ -624,7 +624,7 @@ function generateNutritionalRecommendations(analysis: any): string[] {
 }
 
 function generateFunctionalRecommendations(analysis: any): string[] {
-  const recommendations = [];
+  const recommendations: string[] = [];
   
   if (analysis.functionalEffectiveness.operationalEfficiency < 0.85) {
     recommendations.push("Enhance operational efficiency for improved system performance");
@@ -642,7 +642,7 @@ function generateFunctionalRecommendations(analysis: any): string[] {
 }
 
 function generatePlatformRecommendations(analysis: any): string[] {
-  const recommendations = [];
+  const recommendations: string[] = [];
   
   if (analysis.platformEffectiveness.demonstrationClarity < 0.85) {
     recommendations.push("Enhance demonstration clarity for improved user experience");

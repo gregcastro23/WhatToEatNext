@@ -219,7 +219,7 @@ export const CuisineSection: React.FC<CuisineSectionProps> = ({
 
   const renderSeasonalInfo = (recipe: Recipe) => (
     <div className="flex flex-wrap gap-2 mt-2">
-      {recipe.currentSeason && (
+      {Boolean(recipe.currentSeason) && (
         <span className="text-sm px-2 py-1 bg-green-50 text-green-700 rounded">
           {Array.isArray(recipe.currentSeason) ? recipe.currentSeason?.join(', ') : (recipe.currentSeason as string)}
         </span>
@@ -291,7 +291,7 @@ export const CuisineSection: React.FC<CuisineSectionProps> = ({
     const cuisineStringForRegional = (cuisine || '').toString();
     const cuisineLowerForRegional = cuisineStringForRegional.toLowerCase();
     
-    return recipeData?.regionalCuisine?.toLowerCase() === cuisineLowerForRegional;
+    return String(recipeData?.regionalCuisine || '').toLowerCase() === cuisineLowerForRegional;
   });
   const parentCuisineName = isRegionalVariant ? (() => {
     const foundRecipe = cuisineRecipes.find(r => {
@@ -310,7 +310,7 @@ export const CuisineSection: React.FC<CuisineSectionProps> = ({
   const regionalVariantNames = [...new Set(cuisineRecipes
     .filter(r => {
       const recipeData = r as Record<string, unknown>;
-      return recipeData?.regionalCuisine && recipeData?.cuisine?.toLowerCase() === cuisine?.toLowerCase();
+      return recipeData?.regionalCuisine && String(recipeData?.cuisine || '').toLowerCase() === String(cuisine || '').toLowerCase();
     })
     .map(r => {
       const recipeData = r as Record<string, unknown>;
@@ -381,7 +381,7 @@ export const CuisineSection: React.FC<CuisineSectionProps> = ({
         </div>
         
         {/* Show regional cuisine if different from main cuisine */}
-        {recipe.regionalCuisine && recipe.regionalCuisine !== recipe.cuisine && (
+        {Boolean(recipe.regionalCuisine && recipe.regionalCuisine !== recipe.cuisine) && (
           <div className="text-xs text-gray-500 mb-2">
             Regional style: <span className="font-medium">{recipe.regionalCuisine as string}</span>
           </div>

@@ -841,7 +841,7 @@ export class EnterpriseIntelligenceIntegration {
   }
 
   private generateRecipeIntelligenceRecommendations(analysis: any): string[] {
-    const recommendations = [];
+    const recommendations: string[] = [];
     if (analysis.coreMetrics?.overallCompatibility < 0.9) {
       recommendations.push('Consider ingredient substitutions for better compatibility');
     }
@@ -892,7 +892,7 @@ export class EnterpriseIntelligenceIntegration {
   }
 
   private generateIngredientIntelligenceRecommendations(analyses: any): string[] {
-    const recommendations = [];
+    const recommendations: string[] = [];
     
     if (analyses.categorizationAnalysis?.categoryOptimization?.length > 0) {
       recommendations.push('Optimize ingredient categorization for better organization');
@@ -910,8 +910,8 @@ export class EnterpriseIntelligenceIntegration {
   }
 
   private validateDataIntegrity(recipeData: any, ingredientData: any): { score: number; issues: string[]; warnings: string[] } {
-    const issues = [];
-    const warnings = [];
+    const issues: string[] = [];
+    const warnings: string[] = [];
     let score = 1.0;
 
     if (!recipeData) {
@@ -933,8 +933,8 @@ export class EnterpriseIntelligenceIntegration {
   }
 
   private validateAstrologicalConsistency(astrologicalContext: any): { score: number; issues: string[]; warnings: string[] } {
-    const issues = [];
-    const warnings = [];
+    const issues: string[] = [];
+    const warnings: string[] = [];
     let score = 1.0;
 
     if (!astrologicalContext.zodiacSign) {
@@ -956,8 +956,8 @@ export class EnterpriseIntelligenceIntegration {
   }
 
   private validateElementalHarmony(elementalProperties: ElementalProperties): { score: number; issues: string[]; warnings: string[] } {
-    const issues = [];
-    const warnings = [];
+    const issues: string[] = [];
+    const warnings: string[] = [];
     let score = 1.0;
 
     if (!elementalProperties) {
@@ -988,7 +988,7 @@ export class EnterpriseIntelligenceIntegration {
   }
 
   private assessRiskFactors(recipeData: any, ingredientData: any, astrologicalContext: any): string[] {
-    const factors = [];
+    const factors: string[] = [];
 
     if (!recipeData || !ingredientData) {
       factors.push('Missing critical data');
@@ -1039,7 +1039,7 @@ export class EnterpriseIntelligenceIntegration {
   }
 
   private generateMonitoringAlerts(factors: string[]): string[] {
-    const alerts = [];
+    const alerts: string[] = [];
 
     if (factors.includes('Performance degradation detected')) {
       alerts.push('Performance monitoring alert: Execution time exceeded threshold');
@@ -1054,7 +1054,7 @@ export class EnterpriseIntelligenceIntegration {
 
   private analyzePerformanceOptimization(): { score: number; recommendations: string[]; estimatedImpact: number } {
     const score = this.performanceMetrics.averageExecutionTime < 2000 ? 0.9 : 0.6;
-    const recommendations = [];
+    const recommendations: string[] = [];
     
     if (this.performanceMetrics.averageExecutionTime > 2000) {
       recommendations.push('Optimize calculation algorithms for faster execution');
@@ -1363,11 +1363,11 @@ export class EnterpriseIntelligenceIntegration {
   private analyzeCuisineCompatibility(cuisineData: any): any {
     try {
       const elementalProperties = cuisineData?.elementalProperties || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
-      const compatibilityScore = Object.values(elementalProperties).reduce((sum, val) => sum + (val as number), 0) / 4;
+      const compatibilityScore = Object.values(elementalProperties as Record<string, number>).reduce((sum: number, val: number) => sum + val, 0) / 4;
       
       return {
         compatibilityScore: Math.min(1, compatibilityScore),
-        elementalBalance: 1 - Math.max(...Object.values(elementalProperties) ) + Math.min(...Object.values(elementalProperties) ),
+        elementalBalance: 1 - Math.max(...Object.values(elementalProperties).map(v => v as number)) + Math.min(...Object.values(elementalProperties).map(v => v as number)),
         compatibilityFactors: ['Elemental balance', 'Cultural harmony', 'Seasonal alignment']
       };
     } catch (error) {
@@ -1400,8 +1400,8 @@ export class EnterpriseIntelligenceIntegration {
 
   private validateCuisineData(cuisineData: any): any {
     try {
-      const issues = [];
-      const warnings = [];
+      const issues: string[] = [];
+      const warnings: string[] = [];
       let isValid = true;
 
       if (!cuisineData) {
@@ -1464,7 +1464,7 @@ export class EnterpriseIntelligenceIntegration {
   }
 
   private generateCuisineIntelligenceRecommendations(analyses: any): string[] {
-    const recommendations = [];
+    const recommendations: string[] = [];
     
     if (analyses.culturalAnalysis?.culturalSynergy < 0.7) {
       recommendations.push('Consider cultural context for better cuisine selection');

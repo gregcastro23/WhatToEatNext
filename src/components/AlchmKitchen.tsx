@@ -62,10 +62,10 @@ export default function AlchmKitchen() {
                 
                 // Get current tarot cards
                 const currentDate = new Date();
-                const cards = getTarotCardsForDate(currentDate, planetaryPositions.Sun && {
+                const cards = getTarotCardsForDate(currentDate, planetaryPositions.Sun ? {
                     sign: (planetaryPositions.Sun as any)?.sign || 'aries',
                     degree: (planetaryPositions.Sun as any)?.degree || 0
-                });
+                } : undefined);
                 
                 // Get recipes based on tarot cards
                 const fetchedRecipes = await getRecipesForTarotCard({

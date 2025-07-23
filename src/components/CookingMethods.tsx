@@ -444,7 +444,8 @@ export default function CookingMethods() {
         }
         
         // Store the compatibility score
-        compatibilityMap[(method as Record<string, unknown>)?.id || (method as Record<string, unknown>)?.name] = Math.min(1.0, compatibilityScore);
+        const methodId = String((method as Record<string, unknown>)?.id || (method as Record<string, unknown>)?.name || 'unknown');
+        compatibilityMap[methodId] = Math.min(1.0, compatibilityScore);
       }
     });
     
@@ -647,7 +648,7 @@ export default function CookingMethods() {
           if (itemStr === "legumes") return "Legumes (beans, lentils, chickpeas)";
           return itemStr.charAt(0).toUpperCase() + itemStr.slice(1);
         });
-        return { examples, fullDefinition };
+        return { examples, fullDefinition: fullDefinition || "Cooking method description" };
       }
     }
     
@@ -983,7 +984,7 @@ export default function CookingMethods() {
         examples = getIdealIngredients(method as any).map(ingredient => String(ingredient));
     }
     
-    return { examples, fullDefinition };
+    return { examples, fullDefinition: fullDefinition || "Cooking method description" };
   };
 
   // Replace getNutritionalImpact function with getIngredientCompatibility

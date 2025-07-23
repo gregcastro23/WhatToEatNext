@@ -635,7 +635,7 @@ export async function getRecommendedCookingMethods(
     : undefined;
   
   // Get Venus sign-based temperament for current zodiac
-  let venusTemperament = null;
+  let venusTemperament: any = null;
   if (currentZodiac && isVenusActive) {
     const lowerSign = currentZodiac.toLowerCase();
     const earthSigns = ['taurus', 'virgo', 'capricorn'];
@@ -647,18 +647,18 @@ export async function getRecommendedCookingMethods(
     const temperamentData = venusDataTyped.PlanetSpecific?.CulinaryTemperament;
     
     if (earthSigns.includes(lowerSign) && temperamentData?.EarthVenus) {
-      venusTemperament = temperamentData.EarthVenus;
+      venusTemperament = temperamentData.EarthVenus || {};
     } else if (airSigns.includes(lowerSign) && temperamentData?.AirVenus) {
-      venusTemperament = temperamentData.AirVenus;
+      venusTemperament = temperamentData.AirVenus || {};
     } else if (waterSigns.includes(lowerSign) && temperamentData?.WaterVenus) {
-      venusTemperament = temperamentData.WaterVenus;
+      venusTemperament = temperamentData.WaterVenus || {};
     } else if (fireSigns.includes(lowerSign) && temperamentData?.FireVenus) {
-      venusTemperament = temperamentData.FireVenus;
+      venusTemperament = temperamentData.FireVenus || {};
     }
   }
   
   // Get Mars sign-based temperament for current zodiac
-  let _marsTemperament = null;
+  let _marsTemperament: any = null;
   if (currentZodiac && isMarsActive) {
     const lowerSign = currentZodiac.toLowerCase();
     const fireSigns = ['aries', 'leo', 'sagittarius'];
@@ -668,14 +668,14 @@ export async function getRecommendedCookingMethods(
     const temperamentData = marsDataTyped.PlanetSpecific?.CulinaryTemperament;
     
     if (fireSigns.includes(lowerSign) && temperamentData?.FireMars) {
-      _marsTemperament = temperamentData.FireMars;
+      _marsTemperament = temperamentData.FireMars || {};
     } else if (waterSigns.includes(lowerSign) && temperamentData?.WaterMars) {
-      _marsTemperament = temperamentData.WaterMars;
+      _marsTemperament = temperamentData.WaterMars || {};
     }
   }
   
   // Get Mercury sign-based temperament for current zodiac
-  let mercuryTemperament = null;
+  let mercuryTemperament: any = null;
   if (currentZodiac && isMercuryActive) {
     const lowerSign = currentZodiac.toLowerCase();
     const airSigns = ['gemini', 'libra', 'aquarius'];
@@ -685,14 +685,14 @@ export async function getRecommendedCookingMethods(
     const temperamentData = mercuryDataTyped.PlanetSpecific?.CulinaryTemperament;
     
     if (airSigns.includes(lowerSign) && temperamentData?.AirMercury) {
-      mercuryTemperament = temperamentData.AirMercury;
+      mercuryTemperament = temperamentData.AirMercury || {};
     } else if (earthSigns.includes(lowerSign) && temperamentData?.EarthMercury) {
-      mercuryTemperament = temperamentData.EarthMercury;
+      mercuryTemperament = temperamentData.EarthMercury || {};
     }
   }
   
   // Get Jupiter sign-based temperament for current zodiac
-  let jupiterTemperament = null;
+  let jupiterTemperament: any = null;
   if (currentZodiac && isJupiterActive) {
     const lowerSign = currentZodiac.toLowerCase();
     const fireSigns = ['aries', 'leo', 'sagittarius'];
@@ -702,14 +702,14 @@ export async function getRecommendedCookingMethods(
     const temperamentData = jupiterDataTyped.PlanetSpecific?.CulinaryTemperament;
     
     if (fireSigns.includes(lowerSign) && temperamentData?.FireJupiter) {
-      jupiterTemperament = temperamentData.FireJupiter;
+      jupiterTemperament = temperamentData.FireJupiter || {};
     } else if (airSigns.includes(lowerSign) && temperamentData?.AirJupiter) {
-      jupiterTemperament = temperamentData.AirJupiter;
+      jupiterTemperament = temperamentData.AirJupiter || {};
     }
   }
   
   // Get Saturn sign-based temperament for current zodiac
-  let _saturnTemperament = null;
+  let _saturnTemperament: any = null;
   if (currentZodiac && isSaturnActive) {
     const lowerSign = currentZodiac.toLowerCase();
     const earthSigns = ['taurus', 'virgo', 'capricorn'];
@@ -1050,8 +1050,8 @@ export async function getRecommendedCookingMethods(
       }
       
       // Add score for culinary temperament alignment
-      if (venusTemperament && venusTemperament.FoodFocus) {
-        const foodFocus = String(venusTemperament.FoodFocus || '').toLowerCase();
+      if (venusTemperament && (venusTemperament as any).FoodFocus) {
+        const foodFocus = String((venusTemperament as any).FoodFocus || '').toLowerCase();
         const methodData = method as Record<string, unknown>;
         const methodName = String(methodData?.name || '').toLowerCase();
         const methodDesc = String(methodData?.description || '').toLowerCase();
@@ -1065,11 +1065,12 @@ export async function getRecommendedCookingMethods(
         venusScore += matchCount * 0.8;
         
         // Check elements alignment with Venus temperament
-        if (venusTemperament.Elements && (method as Record<string, unknown>)?.elementalEffect) {
-          for (const element in venusTemperament.Elements) {
+        if ((venusTemperament as any).Elements && (method as Record<string, unknown>)?.elementalEffect) {
+          for (const element in (venusTemperament as any).Elements) {
             const elementProperty = element as keyof ElementalProperties;
-            if ((method as Record<string, unknown>)?.elementalEffect[elementProperty]) {
-              venusScore += venusTemperament.Elements[element] * (method as Record<string, unknown>)?.elementalEffect[elementProperty] * 1.2;
+            const methodElementalEffect = (method as Record<string, unknown>)?.elementalEffect as Record<string, number>;
+            if (methodElementalEffect?.[elementProperty]) {
+              venusScore += (venusTemperament as any).Elements[element] * ((method as Record<string, unknown>)?.elementalEffect?.[elementProperty] || 0) * 1.2;
             }
           }
         }
@@ -1097,8 +1098,9 @@ export async function getRecommendedCookingMethods(
         if (venusZodiacTransit.Elements && (method as Record<string, unknown>)?.elementalEffect) {
           for (const element in venusZodiacTransit.Elements) {
             const elementProperty = element as keyof ElementalProperties;
-            if ((method as Record<string, unknown>)?.elementalEffect[elementProperty]) {
-              venusScore += venusZodiacTransit.Elements[element] * (method as Record<string, unknown>)?.elementalEffect[elementProperty] * 0.8;
+            const methodElementalEffect = (method as Record<string, unknown>)?.elementalEffect as Record<string, number>;
+            if (methodElementalEffect?.[elementProperty]) {
+              venusScore += (venusZodiacTransit as any).Elements[element] * methodElementalEffect[elementProperty] * 0.8;
             }
           }
         }
@@ -1138,9 +1140,10 @@ export async function getRecommendedCookingMethods(
           const elementsData = elements as Record<string, unknown>;
           for (const element in elementsData) {
             const elementProperty = element as keyof ElementalProperties;
-                          if ((method as Record<string, unknown>)?.elementalEffect[elementProperty]) {
+            const methodElementalEffect = (method as Record<string, unknown>)?.elementalEffect as Record<string, number>;
+            if (methodElementalEffect?.[elementProperty]) {
                 venusScore *= (1 + ((elementsData[element] as number || 0) * 
-                                 (method as Record<string, unknown>)?.elementalEffect[elementProperty] * 0.15));
+                                 methodElementalEffect[elementProperty] * 0.15));
               }
           }
         }
@@ -1209,7 +1212,7 @@ export async function getRecommendedCookingMethods(
       method: (method as Record<string, unknown>)?.id,
       score: Math.max(0, score), // Ensure score isn't negative
       description: (method as Record<string, unknown>)?.description,
-      benefits: method.benefits,
+      benefits: (method as any)?.benefits || [],
       lunarAffinity: calculateLunarMethodAffinity((method as unknown) as CookingMethod, lunarPhase),
       elementalAffinity: (method as Record<string, unknown>)?.elementalEffect?.[signElement] || 0,
       planetaryAffinity: planetaryAffinity,
@@ -1221,7 +1224,7 @@ export async function getRecommendedCookingMethods(
   });
 
   // Sort by score (highest first)
-  return recommendations.sort((a, b) => b.score - a.score);
+  return recommendations.sort((a, b) => (b.score || 0) - (a.score || 0));
 }
 
 function calculateLunarMethodAffinity(method: CookingMethod, phase: LunarPhase): number {
@@ -1337,14 +1340,14 @@ export function calculateMethodScore(method: CookingMethodProfile, astroState: A
     const zodiacCompatibility = (astrologicalInfluence?.zodiacCompatibility as Record<string, unknown>) || {};
     const planetaryAlignment = (astrologicalInfluence?.planetaryAlignment as Record<string, unknown>) || {};
     
-    if (zodiacCompatibility) {
+    if (zodiacCompatibility && astroState.currentZodiac) {
       const currentZodiac = astroState.currentZodiac;
       // ✅ Pattern KK-1: Safe number conversion for zodiac score
       const zodiacScore = Number(zodiacCompatibility[currentZodiac]) || 0.5;
       score += zodiacScore * 0.3; // 30% weight
     }
     
-    if (planetaryAlignment) {
+    if (planetaryAlignment && astroState.currentPlanetaryAlignment) {
       const currentPlanets = astroState.currentPlanetaryAlignment;
       // ✅ Pattern KK-1: Safe number conversion for planet scores
       const planetScores = Object.entries(currentPlanets).map(([planet, _]) => 
