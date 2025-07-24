@@ -118,7 +118,7 @@ export const COMPREHENSIVE_CALCULATION_INTELLIGENCE = {
    * @returns Array of intelligent recommendations
    */
   generateRecommendations: (analysis: any) => {
-    const recommendations = [];
+    const recommendations: string[] = [];
     
     if (analysis.predictiveAccuracy.shortTerm < 0.8) {
       recommendations.push("Consider enhancing short-term prediction models for improved accuracy");
@@ -211,7 +211,7 @@ export const CALCULATION_INPUT_INTELLIGENCE = {
    * @returns Array of intelligent recommendations
    */
   generateRecommendations: (enhancedInput: any) => {
-    const recommendations = [];
+    const recommendations: string[] = [];
     
     if (enhancedInput.validation.planetaryPositions.completeness < 0.9) {
       recommendations.push("Enhance planetary position data completeness for improved accuracy");
@@ -300,7 +300,7 @@ export const RECIPE_COMPATIBILITY_INTELLIGENCE = {
    * @returns Array of intelligent recommendations
    */
   generateRecommendations: (analysis: any) => {
-    const recommendations = [];
+    const recommendations: string[] = [];
     
     if (analysis.coreMetrics.overallCompatibility < 0.9) {
       recommendations.push("Consider ingredient substitutions to improve overall compatibility");
@@ -320,7 +320,7 @@ export const RECIPE_COMPATIBILITY_INTELLIGENCE = {
 
 // Helper functions for intelligence systems
 function generateCalculationRecommendations(analysis: any): string[] {
-  const recommendations = [];
+  const recommendations: string[] = [];
   
   if (analysis.predictiveAccuracy.shortTerm < 0.8) {
     recommendations.push("Enhance short-term prediction models for improved accuracy");
@@ -338,7 +338,7 @@ function generateCalculationRecommendations(analysis: any): string[] {
 }
 
 function generateInputRecommendations(enhancedInput: any): string[] {
-  const recommendations = [];
+  const recommendations: string[] = [];
   
   if (enhancedInput.validation.planetaryPositions.completeness < 0.9) {
     recommendations.push("Enhance planetary position data completeness for improved accuracy");
@@ -356,7 +356,7 @@ function generateInputRecommendations(enhancedInput: any): string[] {
 }
 
 function generateCompatibilityRecommendations(analysis: any): string[] {
-  const recommendations = [];
+  const recommendations: string[] = [];
   
   if (analysis.coreMetrics.overallCompatibility < 0.9) {
     recommendations.push("Consider ingredient substitutions to improve overall compatibility");

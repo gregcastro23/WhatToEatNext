@@ -103,7 +103,7 @@ const calculateElementalProperties = (ingredients: RecipeIngredient[]): Elementa
 
   ingredients.forEach(ingredient => {
     if (ingredient.elementalProperties) {
-      const weight = parseFloat(ingredient.quantity) || 1;
+      const weight = parseFloat(ingredient.quantity || '') || 1;
       totalWeight += weight;
       
       Object.entries(ingredient.elementalProperties).forEach(([element, value]) => {
@@ -378,7 +378,7 @@ export default function RecipeBuilder({
       let timingInstruction = `Cook for approximately ${cookingTime} minutes`;
       
       // Add professional doneness indicators
-      const donenessIndicators = [];
+      const donenessIndicators: string[] = [];
       if (selectedIngredients.some(ing => ing.name.toLowerCase().includes('onion'))) {
         donenessIndicators.push('onions are translucent');
       }
@@ -427,17 +427,17 @@ export default function RecipeBuilder({
     
     // Adjust ingredient quantities with professional scaling considerations
     const adjustedIngredients = selectedIngredients.map(ingredient => {
-      let adjustedQuantity = parseFloat(ingredient.quantity) * ratio;
+      let adjustedQuantity = parseFloat(ingredient.quantity || '') * ratio;
       
       // Professional scaling rules for different ingredient types
       if (ingredient.name.toLowerCase().includes('salt') || 
           ingredient.name.toLowerCase().includes('pepper') ||
           ingredient.name.toLowerCase().includes('spice')) {
         // Seasonings scale less aggressively
-        adjustedQuantity = parseFloat(ingredient.quantity) * Math.pow(ratio, 0.8);
+        adjustedQuantity = parseFloat(ingredient.quantity || '') * Math.pow(ratio || '', 0.8 || '');
       } else if (ingredient.name.toLowerCase().includes('herb')) {
         // Fresh herbs scale moderately
-        adjustedQuantity = parseFloat(ingredient.quantity) * Math.pow(ratio, 0.9);
+        adjustedQuantity = parseFloat(ingredient.quantity || '') * Math.pow(ratio || '', 0.9 || '');
       }
       
       return {
@@ -649,7 +649,7 @@ export default function RecipeBuilder({
   const loadRecipe = useCallback((recipe: CustomRecipe) => {
     setRecipeName(recipe.name);
     setSelectedIngredients(recipe.ingredients);
-    setSelectedMethods(recipe.methods);
+    setSelectedMethods(recipe.methods as any);
     setInstructions(recipe.instructions);
     setTiming(recipe.timing);
   }, []);

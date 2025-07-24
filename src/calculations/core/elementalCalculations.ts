@@ -277,7 +277,7 @@ export const ELEMENTAL_ANALYSIS_INTELLIGENCE = {
     dominantElement: Element,
     context: string
   ): string[] => {
-    const recommendations = [];
+    const recommendations: string[] = [];
     
     if (properties.Fire > 0.4) {
       recommendations.push(`Consider cooling methods for ${context} to balance high Fire energy`);
@@ -473,7 +473,7 @@ export const SEASONAL_ELEMENTAL_INTELLIGENCE = {
    */
   generateSeasonalRecommendations: (modifiers: Record<string, number>, season: string, context: string): string[] => {
     const dominantElement = Object.entries(modifiers).reduce((a, b) => a[1] > b[1] ? a : b)[0];
-    const recommendations = [];
+    const recommendations: string[] = [];
     
     recommendations.push(`Focus on ${dominantElement} element for optimal ${season} ${context}`);
     recommendations.push(`Apply seasonal adjustments for ${context} in ${season}`);
@@ -735,7 +735,7 @@ export function getElementalRecommendations(properties: ElementalProperties): {
   const dominant = getDominantElement(properties) as Element;
   const balance = calculateElementalBalance(properties);
   
-  const recommendations = [];
+  const recommendations: string[] = [];
   
   if (balance > 0.3) {
     recommendations.push('Consider balancing elemental properties for better harmony');

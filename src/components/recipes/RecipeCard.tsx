@@ -185,7 +185,7 @@ const RecipeCard: React.FC<RecipeCardProps> = ({
   };
 
   const renderDietaryBadges = () => {
-    const badges = [];
+    const badges: { label: string; color: string }[] = [];
     if (recipe.isVegetarian) badges.push({ label: 'Vegetarian', color: 'bg-green-100 text-green-800' });
     if (recipe.isVegan) badges.push({ label: 'Vegan', color: 'bg-green-100 text-green-800' });
     if (recipe.isGlutenFree) badges.push({ label: 'Gluten-Free', color: 'bg-blue-100 text-blue-800' });

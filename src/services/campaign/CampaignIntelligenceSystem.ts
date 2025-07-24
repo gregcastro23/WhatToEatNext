@@ -124,7 +124,7 @@ export const ERROR_PATTERN_INTELLIGENCE = {
   },
 
   generateErrorIntelligenceReport: (patterns: ErrorPatternIntelligence): string[] => {
-    const insights = [];
+    const insights: string[] = [];
     
     const topPattern = Object.entries(patterns.patternRecognition)
       .sort(([,a], [,b]) => b - a)[0];
@@ -174,7 +174,7 @@ export const CAMPAIGN_PROGRESS_INTELLIGENCE = {
       result.errorsFixed / Math.max(result.executionTime / 1000 / 60, 0.1)
     );
 
-    const bottleneckIdentification = [];
+    const bottleneckIdentification: string[] = [];
     if (currentVelocity < 1) bottleneckIdentification.push('Low error fixing velocity');
     if (fixerResults.some(r => !r.buildValidationPassed)) bottleneckIdentification.push('Build validation failures');
     if (fixerResults.some(r => r.safetyScore && r.safetyScore < 0.7)) bottleneckIdentification.push('Safety score concerns');
@@ -188,10 +188,10 @@ export const CAMPAIGN_PROGRESS_INTELLIGENCE = {
       fixerResults.filter(r => r.buildValidationPassed).length / fixerResults.length : 0.8;
 
     // Strategic insights
-    const recommendedActions = [];
-    const riskAssessment = [];
-    const opportunityIdentification = [];
-    const resourceOptimization = [];
+    const recommendedActions: string[] = [];
+    const riskAssessment: string[] = [];
+    const opportunityIdentification: string[] = [];
+    const resourceOptimization: string[] = [];
 
     if (currentVelocity < 0.5) {
       recommendedActions.push('Increase batch size for higher throughput');
@@ -236,7 +236,7 @@ export const CAMPAIGN_PROGRESS_INTELLIGENCE = {
   },
 
   generateProgressIntelligenceReport: (progress: CampaignProgressIntelligence): string[] => {
-    const insights = [];
+    const insights: string[] = [];
     
     insights.push(`Current velocity: ${progress.velocityAnalysis.currentVelocity.toFixed(2)} errors/minute`);
     insights.push(`Projected completion: ${progress.velocityAnalysis.projectedCompletion.toLocaleDateString()}`);

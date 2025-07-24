@@ -62,6 +62,8 @@ import {
   Tab 
 } from '@mui/material';
 import React, { useState, useMemo, useEffect } from 'react';
+import { createAstrologicalBridge } from '@/types/bridges/astrologicalBridge';
+
 
 import { 
   ElementalItem, 
@@ -349,7 +351,7 @@ const AlchemicalRecommendationsMigrated: React.FC<AlchemicalRecommendationsProps
         const serviceData = recommendationService as unknown as Record<string, unknown>;
         const getAllCookingMethodsMethod = serviceData?.getAllCookingMethods;
         
-        let cookingMethods = [];
+        let cookingMethods: any[] = [];
         if (getAllCookingMethodsMethod && typeof getAllCookingMethodsMethod === 'function') {
           cookingMethods = await getAllCookingMethodsMethod();
         }
@@ -697,7 +699,7 @@ const AlchemicalRecommendationsMigrated: React.FC<AlchemicalRecommendationsProps
               <select 
                 id="element-filter" 
                 value={targetElement}
-                onChange={(e) => setTargetElement(e.target.value as ElementalCharacter)}
+                onChange={(e) => setTargetElement(e?.target?.value as ElementalCharacter)}
               >
                 <option value="Fire">fire</option>
                 <option value="Water">water</option>
@@ -711,7 +713,7 @@ const AlchemicalRecommendationsMigrated: React.FC<AlchemicalRecommendationsProps
               <select 
                 id="property-filter" 
                 value={targetProperty}
-                onChange={(e) => setTargetProperty(e.target.value as AlchemicalProperty)}
+                onChange={(e) => setTargetProperty(e?.target?.value as AlchemicalProperty)}
               >
                 <option value="Spirit">Spirit</option>
                 <option value="Essence">Essence</option>
@@ -725,7 +727,7 @@ const AlchemicalRecommendationsMigrated: React.FC<AlchemicalRecommendationsProps
               <select 
                 id="modality-filter" 
                 value={modalityFilter}
-                onChange={(e) => setModalityFilter(e.target.value as 'all' | Modality)}
+                onChange={(e) => setModalityFilter(e?.target?.value as 'all' | Modality)}
               >
                 <option value="all">All Modalities</option>
                 <option value="cardinal">Cardinal</option>

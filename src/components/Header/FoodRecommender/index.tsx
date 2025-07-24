@@ -29,6 +29,8 @@ interface RecommendationItem {
 
 import { Clock, Flame, Droplets, Mountain, Wind, Leaf, ThermometerSun, ThermometerSnowflake, Pill, Sparkles, Star, RefreshCw } from 'lucide-react';
 import React, { useState, useEffect, useCallback } from 'react';
+import { createAstrologicalBridge } from '@/types/bridges/astrologicalBridge';
+
 
 import { ElementalItem, AlchemicalItem } from '@/calculations/alchemicalTransformation';
 import TarotFoodDisplay from '@/components/TarotFoodDisplay';
@@ -58,7 +60,7 @@ import {
   formatLunarPhaseForDisplay
 } from '@/utils/lunarPhaseUtils';
 
-import styles from './FoodRecommender.module.css';
+import styles from './FoodRecommender?.module?.css';
 
 // Convert lunar phase strings to the proper LunarPhaseWithSpaces type format (lowercase with spaces)
 const getLunarPhaseType = (phase: string | null | undefined): LunarPhaseWithSpaces | undefined => {
@@ -541,28 +543,28 @@ const FoodRecommender: React.FC = () => {
                 <>
                     <div className="mb-6">
                         <div className="flex flex-wrap gap-2 mb-4">
-                            {(currentPlanetaryAlignment as Record<string, unknown>)?.Sun && (
+                            {(currentPlanetaryAlignment as any)?.Sun ? (
                                 <div className="bg-yellow-900 bg-opacity-30 px-3 py-1 rounded-full text-xs flex items-center">
                                     <span className="text-yellow-400 mr-1">☉</span> 
                                     <span className="text-yellow-100">Sun in {(currentPlanetaryAlignment as Record<string, { sign: string }>)?.Sun?.sign}</span>
                                 </div>
-                            )}
+                            ) : null}
                             
-                            {(currentPlanetaryAlignment as Record<string, unknown>)?.Moon && (
+                            {(currentPlanetaryAlignment as any)?.Moon ? (
                                 <div className="bg-blue-900 bg-opacity-30 px-3 py-1 rounded-full text-xs flex items-center">
                                     <span className="text-blue-400 mr-1">☽</span> 
                                     <span className="text-blue-100">Moon in {(currentPlanetaryAlignment as Record<string, { sign: string }>)?.Moon?.sign}</span>
                                 </div>
-                            )}
+                            ) : null}
                             
-                            {currentLunarPhase && (
+                            {currentLunarPhase ? (
                                 <div className="bg-blue-900 bg-opacity-30 px-3 py-1 rounded-full text-xs flex items-center">
                                     <span className="text-blue-400 mr-1">☽</span> 
                                     <span className="text-blue-100">
                                         {formatLunarPhaseForDisplay(currentLunarPhase as string)}
                                     </span>
                                 </div>
-                            )}
+                            ) : null}
                             
                             {isDaytime !== undefined && (
                                 <div className="bg-purple-900 bg-opacity-30 px-3 py-1 rounded-full text-xs flex items-center">
@@ -578,12 +580,12 @@ const FoodRecommender: React.FC = () => {
                                 </div>
                             )}
                             
-                            {currentZodiac && (
+                            {currentZodiac ? (
                                 <div className="bg-purple-900 bg-opacity-30 px-3 py-1 rounded-full text-xs flex items-center">
                                     <Star className="w-3 h-3 mr-1 text-purple-400" />
                                     <span className="text-purple-100">{String(currentZodiac || '')}</span>
                                 </div>
-                            )}
+                            ) : null}
                         </div>
                     </div>
                     
@@ -601,9 +603,9 @@ const FoodRecommender: React.FC = () => {
                                 <div key={index} className="bg-opacity-20 bg-purple-900 rounded-lg p-4 hover:bg-opacity-30 transition-all">
                                     <h4 className="font-medium text-white capitalize">{String((ingredient as Record<string, unknown>)?.name || '').replace('_', ' ')}</h4>
                                     
-                                    {(ingredient as Record<string, unknown>)?.category && (
+                                    {(ingredient as Record<string, unknown>)?.category ? (
                                         <div className="text-xs text-gray-400 mb-2">{String((ingredient as Record<string, unknown>)?.category)}</div>
-                                    )}
+                                    ) : null}
                                         
                                         {/* Thermodynamic Properties */}
                                         <div className="mt-3 mb-2">

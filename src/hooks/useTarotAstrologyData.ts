@@ -288,7 +288,7 @@ export const useTarotAstrologyData = (): TarotAstrologyResult => {
         
         // Calculate alchemical values from tarot energies
         if (tarotCards.minorCard || tarotCards.majorCard) {
-          const cards = [];
+          const cards: any[] = [];
           if (tarotCards.minorCard) cards.push(tarotCards.minorCard);
           if (tarotCards.majorCard) cards.push(tarotCards.majorCard);
           setAlchemicalValues(calculateTarotEnergyBoosts(cards));

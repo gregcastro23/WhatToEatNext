@@ -7,7 +7,7 @@ import { Flame,
   Info,
   ChevronDown,
   ChevronUp } from 'lucide-react';
-import { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 import { cuisineFlavorProfiles } from '@/data/cuisineFlavorProfiles';
 import { 
@@ -34,6 +34,63 @@ import { getMatchScoreClass,
   calculateElementalProfileFromZodiac } from '../../utils/recommendation/cuisineRecommendation';
 
 // Phase 2D: Advanced Intelligence Systems Integration
+
+// Helper function to render recipe preparation steps
+function renderRecipeSteps(
+  recipe: Record<string, unknown>, 
+  index: number, 
+  expandedRecipes: ExpandedState, 
+  setExpandedRecipes: (state: ExpandedState) => void
+): React.ReactNode {
+  const instructions = recipe.instructions;
+  const preparationSteps = recipe.preparationSteps;
+  const procedure = recipe.procedure;
+  const stepsArray = Array.isArray(instructions) ? instructions : 
+                   Array.isArray(preparationSteps) ? preparationSteps :
+                   Array.isArray(procedure) ? procedure : [];
+  const hasSteps = stepsArray.length > 0;
+  
+  if (!hasSteps && !instructions && !preparationSteps && !procedure) {
+    return null;
+  }
+  
+  return (
+    <div className="mt-2">
+      <h6 className="text-xs font-semibold mb-1">Procedure:</h6>
+      {hasSteps ? (
+        <ol className="pl-4 list-decimal text-xs">
+          {stepsArray.slice(0, expandedRecipes[`${index}-steps`] ? undefined : 3).map((step, i) => (
+            <li key={i} className="mb-1">{String(step)}</li>
+          ))}
+          
+          {/* Show more steps button if needed */}
+          {(stepsArray.length > 3 && !expandedRecipes[`${index}-steps`]) ? (
+            <li className="list-none mt-1">
+              <button
+                className="text-xs text-blue-500 hover:underline"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  const newState = {...expandedRecipes};
+                  newState[`${index}-steps`] = true;
+                  setExpandedRecipes(newState);
+                }}
+              >
+                Show all steps ({stepsArray.length} total)
+              </button>
+            </li>
+          ) : null}
+        </ol>
+      ) : (
+        <p className="text-xs text-gray-600">
+          {typeof (instructions || preparationSteps || procedure) === 'string' 
+            ? String(instructions || preparationSteps || procedure)
+            : 'No detailed instructions available.'
+          }
+        </p>
+      )}
+    </div>
+  );
+}
 
 // Define AlchemicalItem interface for cuisine recommendations
 interface AlchemicalItem {
@@ -227,7 +284,7 @@ export default function CuisineRecommender() {
     AlchemicalItem[]
   >([]);
   const [error, setError] = useState<string | null>(null);
-  const [cuisineRecommendations, setCuisineRecommendations] = useState<unknown[]>([]);
+  const [cuisineRecommendations, setCuisineRecommendations] = useState<CuisineWithScore[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [loadingStep, setLoadingStep] = useState<string>('Initializing...');
   const [cuisineRecipes, setCuisineRecipes] = useState<unknown[]>([]);
@@ -317,7 +374,7 @@ export default function CuisineRecommender() {
     setAdvancedIntelligenceLoading(true);
     try {
       // Get current cuisine data
-      const cuisineData = cuisineRecommendations.find((c: unknown) => (c as Record<string, unknown>)?.id === selectedCuisine);
+      const cuisineData = transformedCuisines.find((c: AlchemicalItem) => c.id === selectedCuisine);
       const recipeData = cuisineRecipes[0] || null;
       const ingredientData = (recipeData as Record<string, unknown>)?.ingredients || [];
       
@@ -408,11 +465,10 @@ export default function CuisineRecommender() {
     setShowAllRecipes(false);
     setShowAllSauces(false);
 
-    // Find selected cuisine from the cuisineRecommendations list
-    const selectedCuisineData = cuisineRecommendations.find((c) => {
-      const cuisine = c as CuisineWithScore;
-      return cuisine.id === _cuisineId || cuisine.name === _cuisineId;
-    });
+    // Find selected cuisine from the transformed cuisines list
+    const selectedCuisineData = transformedCuisines.find((c) => {
+      return c.id === _cuisineId || c.name === _cuisineId;
+    }) as unknown as CuisineWithScore;
     if (selectedCuisineData) {
       const cuisine = selectedCuisineData as CuisineWithScore;
       trackEvent('cuisine_select', cuisine.name);
@@ -491,12 +547,11 @@ export default function CuisineRecommender() {
   }
 
   // Get the currently selected cuisine data
-  const selectedCuisineData = cuisineRecommendations.find(
+  const selectedCuisineData = transformedCuisines.find(
     (c) => {
-      const cuisine = c as CuisineWithScore;
-      return cuisine.id === selectedCuisine || cuisine.name === selectedCuisine;
+      return c.id === selectedCuisine || c.name === selectedCuisine;
     }
-  );
+  ) as unknown as CuisineWithScore;
 
   return (
     <div className="bg-white rounded-lg shadow p-4">
@@ -538,8 +593,8 @@ export default function CuisineRecommender() {
 
       {/* Group cuisine cards in a better grid layout */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 mb-4">
-        {(cuisineRecommendations || []).map((cuisineItem): React.ReactElement => {
-          const cuisine = cuisineItem as CuisineWithScore;
+        {(transformedCuisines || []).map((cuisineItem) => {
+          const cuisine = cuisineItem as unknown as CuisineWithScore;
           // Calculate match percentage
           const matchPercentage = cuisine.matchPercentage || 
             (cuisine.compatibilityScore ? Math.round(cuisine.compatibilityScore * 100) : 50);
@@ -563,14 +618,14 @@ export default function CuisineRecommender() {
               <div className="flex justify-between items-center mb-2">
                 <div>
                   <h3 className="font-medium text-sm">{cuisine.name}</h3>
-                  {isRegionalVariant && (
+                  {isRegionalVariant ? (
                     <span className="text-xs text-gray-500">Regional variant of {cuisine.parentCuisine}</span>
-                  )}
-                  {cuisine.regionalVariants && (cuisine.regionalVariants || []).length > 0 && (
+                  ) : null}
+                  {(cuisine.regionalVariants && (cuisine.regionalVariants || []).length > 0) ? (
                     <span className="text-xs text-gray-500 block">
                       {(cuisine.regionalVariants || []).length} regional variants
                     </span>
-                  )}
+                  ) : null}
                 </div>
                 <span
                   className={`text-xs px-2 py-1 rounded ${getMatchScoreClass(
@@ -590,35 +645,35 @@ export default function CuisineRecommender() {
               <div className="flex items-center space-x-1 mb-2">
                 <span className="text-xs font-medium text-gray-500">Elements:</span>
                 <div className="flex space-x-1">
-                  {cuisine.elementalState.Fire >= 0.3 && (
+                  {(cuisine.elementalState?.Fire || cuisine.elementalProperties?.Fire || 0) >= 0.3 ? (
                     <div className="flex items-center" title={`fire: ${Math.round(cuisine.elementalState.Fire * 100)}%`}>
                       <Flame size={14} className="text-red-500" />
                       <span className="text-xs ml-1">{Math.round(cuisine.elementalState.Fire * 100)}%</span>
                     </div>
-                  )}
-                  {cuisine.elementalState.Water >= 0.3 && (
-                    <div className="flex items-center" title={`water: ${Math.round(cuisine.elementalState.Water * 100)}%`}>
+                  ) : null}
+                  {(cuisine.elementalState?.Water || cuisine.elementalProperties?.Water || 0) >= 0.3 ? (
+                    <div className="flex items-center" title={`water: ${Math.round((cuisine.elementalState?.Water || cuisine.elementalProperties?.Water || 0) * 100)}%`}>
                       <Droplets size={14} className="text-blue-500" />
-                      <span className="text-xs ml-1">{Math.round(cuisine.elementalState.Water * 100)}%</span>
+                      <span className="text-xs ml-1">{Math.round((cuisine.elementalState?.Water || cuisine.elementalProperties?.Water || 0) * 100)}%</span>
                     </div>
-                  )}
-                  {cuisine.elementalState.Earth >= 0.3 && (
-                    <div className="flex items-center" title={`earth: ${Math.round(cuisine.elementalState.Earth * 100)}%`}>
+                  ) : null}
+                  {(cuisine.elementalState?.Earth || cuisine.elementalProperties?.Earth || 0) >= 0.3 ? (
+                    <div className="flex items-center" title={`earth: ${Math.round((cuisine.elementalState?.Earth || cuisine.elementalProperties?.Earth || 0) * 100)}%`}>
                       <Mountain size={14} className="text-green-500" />
-                      <span className="text-xs ml-1">{Math.round(cuisine.elementalState.Earth * 100)}%</span>
+                      <span className="text-xs ml-1">{Math.round((cuisine.elementalState?.Earth || cuisine.elementalProperties?.Earth || 0) * 100)}%</span>
                     </div>
-                  )}
-                  {cuisine.elementalState.Air >= 0.3 && (
-                    <div className="flex items-center" title={`Air: ${Math.round(cuisine.elementalState.Air * 100)}%`}>
+                  ) : null}
+                  {(cuisine.elementalState?.Air || cuisine.elementalProperties?.Air || 0) >= 0.3 ? (
+                    <div className="flex items-center" title={`Air: ${Math.round((cuisine.elementalState?.Air || cuisine.elementalProperties?.Air || 0) * 100)}%`}>
                       <Wind size={14} className="text-yellow-500" />
-                      <span className="text-xs ml-1">{Math.round(cuisine.elementalState.Air * 100)}%</span>
+                      <span className="text-xs ml-1">{Math.round((cuisine.elementalState?.Air || cuisine.elementalProperties?.Air || 0) * 100)}%</span>
                     </div>
-                  )}
+                  ) : null}
                 </div>
               </div>
 
               {/* Show signature dishes and techniques if available */}
-              {cuisine.signatureDishes && (cuisine.signatureDishes || []).length > 0 && (
+              {(cuisine.signatureDishes && (cuisine.signatureDishes || []).length > 0) ? (
                 <div className="mt-1">
                   <span className="text-xs font-medium text-gray-500 block">Signature dishes:</span>
                   <span className="text-xs text-gray-600">
@@ -626,10 +681,10 @@ export default function CuisineRecommender() {
                     {(cuisine.signatureDishes || []).length > 3 ? "..." : ""}
                   </span>
                 </div>
-              )}
+              ) : null}
 
               {/* Show astrological influences if available */}
-              {cuisine.zodiacInfluences && (cuisine.zodiacInfluences || []).length > 0 && (
+              {(cuisine.zodiacInfluences && (cuisine.zodiacInfluences || []).length > 0) ? (
                 <div className="mt-1 flex flex-wrap gap-1">
                   {cuisine.zodiacInfluences?.slice(0, 3).map(sign => (
                     <span 
@@ -638,11 +693,11 @@ export default function CuisineRecommender() {
                         ${currentZodiac === sign ? 'bg-blue-100 text-blue-800 font-medium' : 'bg-gray-100 text-gray-700'}`}
                     >
                       {sign}
-                      {currentZodiac === sign && <span className="ml-1">✓</span>}
+                      {currentZodiac === sign ? <span className="ml-1">✓</span> : null}
                     </span>
                   ))}
                 </div>
-              )}
+              ) : null}
             </div>
           )
         })}
@@ -834,9 +889,9 @@ export default function CuisineRecommender() {
               <h3 className="font-semibold text-lg">
                 {String((selectedCuisineData as Record<string, unknown>).name || '')} Cuisine
               </h3>
-              {(selectedCuisineData as Record<string, unknown>).parentCuisine && (
+              {(selectedCuisineData as Record<string, unknown>).parentCuisine ? (
                 <span className="text-sm text-gray-500">Regional variant of {String((selectedCuisineData as Record<string, unknown>).parentCuisine || '')}</span>
-              )}
+              ) : null}
             </div>
             <span
               className={`text-xs px-2 py-1 rounded ${getMatchScoreClass(
@@ -929,7 +984,7 @@ export default function CuisineRecommender() {
           </div>
 
           {/* Regional variants if any */}
-          {(selectedCuisineData as Record<string, unknown>).regionalVariants && Array.isArray((selectedCuisineData as Record<string, unknown>).regionalVariants) && ((selectedCuisineData as Record<string, unknown>).regionalVariants as unknown[]).length > 0 && (
+          {((selectedCuisineData as Record<string, unknown>).regionalVariants && Array.isArray((selectedCuisineData as Record<string, unknown>).regionalVariants) && ((selectedCuisineData as Record<string, unknown>).regionalVariants as unknown[]).length > 0) ? (
             <div className="mb-4">
               <h4 className="text-sm font-medium mb-2">Regional Variants</h4>
               <div className="flex flex-wrap gap-2">
@@ -943,10 +998,10 @@ export default function CuisineRecommender() {
                 ))}
               </div>
             </div>
-          )}
+          ) : null}
 
           {/* Signature dishes if available */}
-          {(selectedCuisineData as Record<string, unknown>).signatureDishes && Array.isArray((selectedCuisineData as Record<string, unknown>).signatureDishes) && ((selectedCuisineData as Record<string, unknown>).signatureDishes as unknown[]).length > 0 && (
+          {((selectedCuisineData as Record<string, unknown>).signatureDishes && Array.isArray((selectedCuisineData as Record<string, unknown>).signatureDishes) && ((selectedCuisineData as Record<string, unknown>).signatureDishes as unknown[]).length > 0) ? (
             <div className="mb-4">
               <h4 className="text-sm font-medium mb-2">Signature Dishes</h4>
               <div className="flex flex-wrap gap-2">
@@ -960,7 +1015,7 @@ export default function CuisineRecommender() {
                 ))}
               </div>
             </div>
-          )}
+          ) : null}
 
           {/* Recipe Recommendations - Shown after cuisine info */}
           {cuisineRecipes && (cuisineRecipes || []).length > 0 ? (
@@ -983,18 +1038,18 @@ export default function CuisineRecommender() {
                       <div className="flex justify-between items-center mb-1">
                         <div>
                           <h5 className="font-medium text-sm">{String((recipe as Record<string, unknown>).name || '')}</h5>
-                          {(recipe as Record<string, unknown>).regionalVariant && (
+                          {(recipe as Record<string, unknown>).regionalVariant ? (
                             <span className="text-xs text-gray-500">
                               {String((recipe as Record<string, unknown>).regionalVariant || '')} style
                             </span>
-                          )}
-                          {(recipe as Record<string, unknown>).fromParentCuisine && (recipe as Record<string, unknown>).parentCuisine && (
+                          ) : null}
+                          {((recipe as Record<string, unknown>).fromParentCuisine && (recipe as Record<string, unknown>).parentCuisine) ? (
                             <span className="text-xs text-gray-500">
                               From {String((recipe as Record<string, unknown>).parentCuisine || '')}
                             </span>
-                          )}
+                          ) : null}
                         </div>
-                        {(recipe as Record<string, unknown>).matchPercentage && (
+                        {(recipe as Record<string, unknown>).matchPercentage ? (
                           <span
                             className={`text-xs px-1.5 py-0.5 rounded ${getMatchScoreClass(
                               Number((recipe as Record<string, unknown>).matchPercentage) || 0.5
@@ -1002,7 +1057,7 @@ export default function CuisineRecommender() {
                           >
                             {String(Math.round(Number((recipe as Record<string, unknown>).matchPercentage || 0)))}%
                           </span>
-                        )}
+                        ) : null}
                       </div>
                       
                       {!expandedRecipes[index] && (
@@ -1032,33 +1087,33 @@ export default function CuisineRecommender() {
                               const fireValue = typeof elementalState === 'object' && elementalState !== null && 'Fire' in elementalState 
                                 ? Number((elementalState as Record<string, unknown>).Fire || 0) 
                                 : 0;
-                              return fireValue >= 0.3 && <Flame size={12} className="text-red-500" />;
+                              return fireValue >= 0.3 ? <Flame size={12} className="text-red-500" /> : null;
                             })()}
                             {(() => {
                               const elementalState = (recipe as Record<string, unknown>)?.elementalState;
                               const waterValue = typeof elementalState === 'object' && elementalState !== null && 'Water' in elementalState 
                                 ? Number((elementalState as Record<string, unknown>).Water || 0) 
                                 : 0;
-                              return waterValue >= 0.3 && <Droplets size={12} className="text-blue-500" />;
+                              return waterValue >= 0.3 ? <Droplets size={12} className="text-blue-500" /> : null;
                             })()}
                             {(() => {
                               const elementalState = (recipe as Record<string, unknown>)?.elementalState;
                               const earthValue = typeof elementalState === 'object' && elementalState !== null && 'Earth' in elementalState 
                                 ? Number((elementalState as Record<string, unknown>).Earth || 0) 
                                 : 0;
-                              return earthValue >= 0.3 && <Mountain size={12} className="text-green-500" />;
+                              return earthValue >= 0.3 ? <Mountain size={12} className="text-green-500" /> : null;
                             })()}
                             {(() => {
                               const elementalState = (recipe as Record<string, unknown>)?.elementalState;
                               const airValue = typeof elementalState === 'object' && elementalState !== null && 'Air' in elementalState 
                                 ? Number((elementalState as Record<string, unknown>).Air || 0) 
                                 : 0;
-                              return airValue >= 0.3 && <Wind size={12} className="text-yellow-500" />;
+                              return airValue >= 0.3 ? <Wind size={12} className="text-yellow-500" /> : null;
                             })()}
                           </div>
 
                           {/* Show ingredients with proper type casting */}
-                          {(recipe  as Record<string, unknown>)?.ingredients && Array.isArray((recipe  as Record<string, unknown>).ingredients) && ((recipe  as Record<string, unknown>).ingredients as unknown[]).length > 0 && (
+                          {((recipe  as Record<string, unknown>)?.ingredients && Array.isArray((recipe  as Record<string, unknown>).ingredients) && ((recipe  as Record<string, unknown>).ingredients as unknown[]).length > 0) ? (
                             <div className="mt-1">
                               <h6 className="text-xs font-semibold mb-1">Ingredients:</h6>
                               <ul className="pl-4 list-disc text-xs">
@@ -1079,89 +1134,50 @@ export default function CuisineRecommender() {
                                 )}
                               </ul>
                             </div>
-                          )}
+                          ) : null}
 
                           {/* Show preparation steps with proper fallbacks */}
-                          {(() => {
-                            const instructions = (recipe as Record<string, unknown>).instructions;
-                            const preparationSteps = (recipe as Record<string, unknown>).preparationSteps;
-                            const procedure = (recipe as Record<string, unknown>).procedure;
-                            const stepsArray = Array.isArray(instructions) ? instructions : 
-                                             Array.isArray(preparationSteps) ? preparationSteps :
-                                             Array.isArray(procedure) ? procedure : [];
-                            const hasSteps = stepsArray.length > 0;
-                            
-                            if (!hasSteps && !instructions && !preparationSteps && !procedure) {
-                              return null;
-                            }
-                            
-                            return (
-                              <div className="mt-2">
-                                <h6 className="text-xs font-semibold mb-1">Procedure:</h6>
-                                {hasSteps ? (
-                                  <ol className="pl-4 list-decimal text-xs">
-                                    {stepsArray.slice(0, expandedRecipes[`${index}-steps`] ? undefined : 3).map((step, i) => (
-                                      <li key={i} className="mb-1">{String(step)}</li>
-                                    ))}
-                                    
-                                    {/* Show more steps button if needed */}
-                                    {stepsArray.length > 3 && !expandedRecipes[`${index}-steps`] && (
-                                      <li className="list-none mt-1">
-                                        <button
-                                          className="text-xs text-blue-500 hover:underline"
-                                          onClick={(e) => {
-                                            e.stopPropagation();
-                                            const newState = {...expandedRecipes};
-                                            newState[`${index}-steps`] = true;
-                                            setExpandedRecipes(newState);
-                                          }}
-                                        >
-                                          Show all steps ({stepsArray.length} total)
-                                        </button>
-                                      </li>
-                                    )}
-                                  </ol>
-                                ) : (
-                                  <p className="text-xs text-gray-600">
-                                    {typeof (instructions || preparationSteps || procedure) === 'string' 
-                                      ? String(instructions || preparationSteps || procedure)
-                                      : 'No detailed instructions available.'
-                                    }
-                                  </p>
-                                )}
-                              </div>
-                            );
-                          })()}
+                          {((recipe as Record<string, unknown>).instructions || (recipe as Record<string, unknown>).preparationSteps || (recipe as Record<string, unknown>).procedure) ? (
+                            <div className="mt-2">
+                              <h6 className="text-xs font-semibold mb-1">Procedure:</h6>
+                              <p className="text-xs text-gray-600">
+                                {String((recipe as Record<string, unknown>).instructions || 
+                                       (recipe as Record<string, unknown>).preparationSteps || 
+                                       (recipe as Record<string, unknown>).procedure || 
+                                       'No detailed instructions available.')}
+                              </p>
+                            </div>
+                          ) : null}
 
                           {/* Additional recipe information */}
                           <div className="mt-2 pt-1 border-t border-gray-100 grid grid-cols-2 gap-x-2 gap-y-1 text-xs">
-                            {(recipe as Record<string, unknown>).cookingTime && (
+                            {(recipe as Record<string, unknown>).cookingTime ? (
                               <div>
                                 <span className="text-gray-500">Cook: </span>
                                 <span>{String((recipe as Record<string, unknown>).cookingTime || '')}</span>
                               </div>
-                            )}
+                            ) : null}
 
-                            {(recipe as Record<string, unknown>).preparationTime && (
+                            {(recipe as Record<string, unknown>).preparationTime ? (
                               <div>
                                 <span className="text-gray-500">Prep: </span>
                                 <span>{String((recipe as Record<string, unknown>).preparationTime || '')}</span>
                               </div>
-                            )}
+                            ) : null}
 
-                            {(recipe as Record<string, unknown>).servings && (
+                            {(recipe as Record<string, unknown>).servings ? (
                               <div>
                                 <span className="text-gray-500">Serves: </span>
                                 <span>{String((recipe as Record<string, unknown>).servings || '')}</span>
                               </div>
-                            )}
+                            ) : null}
 
-                            {(recipe as Record<string, unknown>).difficulty && (
+                            {(recipe as Record<string, unknown>).difficulty ? (
                               <div>
                                 <span className="text-gray-500">Difficulty: </span>
                                 <span>{String((recipe as Record<string, unknown>).difficulty || '')}</span>
                               </div>
-                            )}
+                            ) : null}
                           </div>
 
                           {(recipe as Record<string, unknown>)?.dietaryInfo && Array.isArray((recipe as Record<string, unknown>).dietaryInfo) && ((recipe as Record<string, unknown>).dietaryInfo as unknown[]).length > 0 && (

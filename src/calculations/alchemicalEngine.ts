@@ -1,3 +1,7 @@
+// Type Harmony imports
+import { createAstrologicalBridge } from '@/types/bridges/astrologicalBridge';
+import { safelyExtractElementalProperties, createDefaultElementalProperties } from '@/utils/typeGuards/astrologicalGuards';
+
 import { DEFAULT_ELEMENTAL_PROPERTIES } from '@/constants/defaults';
 import { planetInfo } from '@/constants/planetInfo';
 import { PLANETARY_MODIFIERS, RulingPlanet } from '@/constants/planets';
@@ -658,13 +662,22 @@ export class AlchemicalEngineAdvanced {
         Earth: 0.25};
     }
 
-    const currentZodiacElement =
-      this.zodiacElements[astrologicalState.currentZodiac] || 'Fire';
-    const moonSignElement =
-      this.zodiacElements[astrologicalState.zodiacSign] || 'Water';
-    const lunarModifiers = this.lunarPhaseModifiers[
-      astrologicalState.lunarPhase
-    ] || {
+    // Use Type Harmony approach for safe property access
+    const bridge = createAstrologicalBridge();
+    const currentZodiacElement = astrologicalState.currentZodiac 
+      ? this.zodiacElements[astrologicalState.currentZodiac] || 'Fire'
+      : 'Fire';
+    const moonSignElement = astrologicalState.zodiacSign
+      ? this.zodiacElements[astrologicalState.zodiacSign] || 'Water'
+      : 'Water';
+    const lunarModifiers = astrologicalState.lunarPhase
+      ? this.lunarPhaseModifiers[astrologicalState.lunarPhase] || {
+          Fire: 0.25,
+          Water: 0.25,
+          Air: 0.25,
+          Earth: 0.25
+        }
+      : {
       Fire: 0.25,
       Water: 0.25,
       Air: 0.25,

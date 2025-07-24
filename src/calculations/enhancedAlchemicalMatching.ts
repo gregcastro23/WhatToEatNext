@@ -810,7 +810,7 @@ export function validateAlgorithms(): {
   success: boolean;
   results: Array<{ test: string; passed: boolean; info?: string }>;
 } {
-  const testResults = [];
+  const testResults: Array<{ test: string; passed: boolean; info?: string }> = [];
   
   // Test 1: Verify decanic compatibility calculation
   const decanTest = {

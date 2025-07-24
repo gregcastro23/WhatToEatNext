@@ -206,7 +206,7 @@ function CuisineSelectorMigrated({
         // Check if cuisine has zodiac influences and includes the selected zodiac
         // Apply safe type casting for zodiac influences access
         const zodiacInfluencesData = cuisine.zodiacInfluences as Record<string, unknown>;
-        const zodiacInfluences = Array.isArray(zodiacInfluencesData) ? zodiacInfluencesData : [];
+        const zodiacInfluences: string[] = Array.isArray(zodiacInfluencesData) ? zodiacInfluencesData as string[] : [];
         
         if (zodiacFilter !== 'all' && !zodiacInfluences.includes(zodiacFilter)) {
           // Also check for planetary dignities if cuisines were transformed
@@ -442,7 +442,7 @@ function CuisineSelectorMigrated({
               {cuisine.zodiacInfluences && (() => {
                 // Apply safe type casting for zodiac influences access
                 const zodiacInfluencesData = cuisine.zodiacInfluences as Record<string, unknown>;
-                const zodiacInfluences = Array.isArray(zodiacInfluencesData) ? zodiacInfluencesData : [];
+                const zodiacInfluences: string[] = Array.isArray(zodiacInfluencesData) ? zodiacInfluencesData as string[] : [];
                 
                 return zodiacInfluences.length > 0 && (
                   <div className="zodiac-influences text-xs mt-2">

@@ -9,6 +9,8 @@ import type {
 import type { ElementalProperties } from '@/types/alchemy';
 import { FlavorProfile } from '@/types/alchemy';
 import type { SimpleIngredient } from '@/types/recipeIngredient';
+import { createAstrologicalBridge } from '@/types/bridges/astrologicalBridge';
+
 
 /**
  * Calculate alchemical properties based on elemental properties
@@ -250,7 +252,7 @@ export function validateIngredient(ingredient: Partial<Ingredient> & {
   // Fix specific property access errors
   if (ingredient.qualities && Array.isArray(ingredient.qualities)) {
     // Check each quality is a string
-    const invalidQualities = ingredient.qualities.filter((q: unknown) => typeof q !== 'string');
+    const invalidQualities = ingredient?.qualities?.filter((q: unknown) => typeof q !== 'string');
     if (invalidQualities.length > 0) {
       errors.push('All qualities must be strings');
     }

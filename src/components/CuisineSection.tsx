@@ -183,7 +183,7 @@ export const CuisineSection: React.FC<CuisineSectionProps> = ({
                               cuisinesMap[cuisine?.charAt(0)?.toUpperCase() + cuisine?.slice(1)?.toLowerCase()];
                               
         if (importedCuisine && importedCuisine.dishes) {
-          const specialRecipes = [];
+          const specialRecipes: any[] = [];
           
           // Try to extract some recipes directly
           Object.entries(importedCuisine.dishes || {}).forEach(([_mealType, seasonalDishes]) => {

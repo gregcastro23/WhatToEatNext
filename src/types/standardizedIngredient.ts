@@ -183,7 +183,12 @@ export interface StandardizedCulinaryApplications {
   }>;
   
   // Flexible extension for category-specific methods
-  [methodName: string]: Record<string, unknown>;
+  [methodName: string]: Record<string, unknown> | {
+    notes: string[];
+    techniques?: string[];
+    dishes?: string[];
+    [key: string]: unknown;
+  } | undefined;
 }
 
 // Standardized variety information

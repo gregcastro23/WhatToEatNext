@@ -4,6 +4,8 @@ import type {
   ElementalProperties,
   Season 
 } from "@/types/alchemy";
+import { createAstrologicalBridge } from '@/types/bridges/astrologicalBridge';
+
 
 // ===== UNIFIED INTERFACES =====
 
@@ -195,7 +197,7 @@ export class UnifiedFlavorEngine {
         
         // Add profiles to our map
         for (const profile of profiles) {
-          this.profiles.set(profile.id, profile);
+          this?.profiles?.set(profile.id, profile);
         }
         
         // Log successful initialization
@@ -236,13 +238,13 @@ export class UnifiedFlavorEngine {
     const cacheKey = `${_profile1.id}-${_profile2.id}-${JSON.stringify(_context || {})}`;
     
     // Phase 8: Enhanced cache checking with performance tracking
-    if (this.compatibilityCache.has(cacheKey)) {
-      this.performanceMetrics.totalCacheHits++;
-      const result = this.compatibilityCache.get(cacheKey)!;
+    if (this?.compatibilityCache?.has(cacheKey)) {
+      this?.performanceMetrics?.totalCacheHits++;
+      const result = this?.compatibilityCache?.get(cacheKey)!;
       
       // Update cache access time for LRU tracking
-      this.compatibilityCache.delete(cacheKey);
-      this.compatibilityCache.set(cacheKey, result);
+      this?.compatibilityCache?.delete(cacheKey);
+      this?.compatibilityCache?.set(cacheKey, result);
       
       return result;
     }
@@ -324,19 +326,19 @@ export class UnifiedFlavorEngine {
     };
 
     // Phase 8: Enhanced caching with performance tracking
-    this.compatibilityCache.set(cacheKey, result);
-    this.performanceMetrics.totalCalculations++;
+    this?.compatibilityCache?.set(cacheKey, result);
+    this?.performanceMetrics?.totalCalculations++;
     
     // Track calculation time
     const calculationTime = performance.now() - startTime;
     this.performanceMetrics.averageCalculationTime = 
-      (this.performanceMetrics.averageCalculationTime * (this.performanceMetrics.totalCalculations - 1) + calculationTime) / 
-      this.performanceMetrics.totalCalculations;
+      (this?.performanceMetrics?.averageCalculationTime * (this?.performanceMetrics?.totalCalculations - 1) + calculationTime) / 
+      this?.performanceMetrics?.totalCalculations;
     
     // Manage cache size (LRU eviction)
-    if (this.compatibilityCache.size > 2000) {
-      const firstKey = this.compatibilityCache.keys()?.next().value;
-      this.compatibilityCache.delete(firstKey);
+    if (this?.compatibilityCache?.size > 2000) {
+      const firstKey = this?.compatibilityCache?.keys()?.next().value;
+      this?.compatibilityCache?.delete(firstKey);
     }
     
     return result;
@@ -665,23 +667,23 @@ export class UnifiedFlavorEngine {
   // ===== PROFILE MANAGEMENT =====
   
   public addProfile(profile: UnifiedFlavorProfile): void {
-    this.profiles.set(profile.id, profile);
+    this?.profiles?.set(profile.id, profile);
     this.clearCaches(); // Clear caches when profiles change
   }
 
   public getProfile(id: string): UnifiedFlavorProfile | undefined {
-    return this.profiles.get(id);
+    return this?.profiles?.get(id);
   }
 
   public getAllProfiles(): UnifiedFlavorProfile[] {
-    return Array.from(this.profiles.values());
+    return Array.from(this?.profiles?.values());
   }
 
   public searchProfiles(criteria: FlavorSearchCriteria): UnifiedFlavorProfile[] {
     const cacheKey = JSON.stringify(criteria);
     
-    if (this.searchCache.has(cacheKey)) {
-      return this.searchCache.get(cacheKey)!;
+    if (this?.searchCache?.has(cacheKey)) {
+      return this?.searchCache?.get(cacheKey)!;
     }
 
     let results = this.getAllProfiles();
@@ -710,7 +712,7 @@ export class UnifiedFlavorEngine {
     }
 
     if (criteria.seasonalAlignment) {
-      results = results.filter(p => p.seasonalPeak.includes(criteria.seasonalAlignment!));
+      results = results.filter(p => p?.seasonalPeak?.includes(criteria.seasonalAlignment!));
     }
 
     if (criteria.culturalOrigin) {
@@ -740,21 +742,21 @@ export class UnifiedFlavorEngine {
     if (criteria.tags && criteria.tags  || [].length > 0) {
       results = (results || []).filter(p => 
         criteria.tags!  || [].some(tag => 
-          p.tags.some(pTag => pTag?.toLowerCase()?.includes(tag?.toLowerCase()))
+          p?.tags?.some(pTag => pTag?.toLowerCase()?.includes(tag?.toLowerCase()))
         )
       );
     }
 
     // Cache and return results
-    this.searchCache.set(cacheKey, results);
+    this?.searchCache?.set(cacheKey, results);
     return results;
   }
 
   // ===== CACHE MANAGEMENT =====
   
   private clearCaches(): void {
-    this.compatibilityCache.clear();
-    this.searchCache.clear();
+    this?.compatibilityCache?.clear();
+    this?.searchCache?.clear();
   }
 
   public getCacheStats(): { 
@@ -764,20 +766,20 @@ export class UnifiedFlavorEngine {
     hitRate: number;
     memoryEstimate: number;
   } {
-    const hitRate = this.performanceMetrics.totalCalculations > 0 
-      ? this.performanceMetrics.totalCacheHits / this.performanceMetrics.totalCalculations 
+    const hitRate = this?.performanceMetrics?.totalCalculations > 0 
+      ? this?.performanceMetrics?.totalCacheHits / this?.performanceMetrics?.totalCalculations 
       : 0;
     
     // Estimate memory usage (rough calculation)
     const memoryEstimate = 
-      (this.compatibilityCache.size * 1024) + // ~1KB per compatibility result
-      (this.searchCache.size * 512) + // ~512B per search result
-      (this.profiles.size * 2048); // ~2KB per profile
+      (this?.compatibilityCache?.size * 1024) + // ~1KB per compatibility result
+      (this?.searchCache?.size * 512) + // ~512B per search result
+      (this?.profiles?.size * 2048); // ~2KB per profile
     
     return {
-      compatibility: this.compatibilityCache.size,
-      search: this.searchCache.size,
-      performance: {},
+      compatibility: this?.compatibilityCache?.size,
+      search: this?.searchCache?.size,
+      performance: {} as Record<Planet, PlanetaryPosition>,
       hitRate,
       memoryEstimate
     };
@@ -793,25 +795,25 @@ export class UnifiedFlavorEngine {
     const maxSearchCacheSize = 500;
     
     // Clean compatibility cache if too large
-    if (this.compatibilityCache.size > maxCacheSize) {
-      const keysToDelete = Array.from(this.compatibilityCache.keys()).slice(0, this.compatibilityCache.size - maxCacheSize);
-      keysToDelete.forEach(key => this.compatibilityCache.delete(key));
+    if (this?.compatibilityCache?.size > maxCacheSize) {
+      const keysToDelete = Array.from(this?.compatibilityCache?.keys()).slice(0, this?.compatibilityCache?.size - maxCacheSize);
+      keysToDelete.forEach(key => this?.compatibilityCache?.delete(key));
     }
     
     // Clean search cache if too large
-    if (this.searchCache.size > maxSearchCacheSize) {
-      const keysToDelete = Array.from(this.searchCache.keys()).slice(0, this.searchCache.size - maxSearchCacheSize);
-      keysToDelete.forEach(key => this.searchCache.delete(key));
+    if (this?.searchCache?.size > maxSearchCacheSize) {
+      const keysToDelete = Array.from(this?.searchCache?.keys()).slice(0, this?.searchCache?.size - maxSearchCacheSize);
+      keysToDelete.forEach(key => this?.searchCache?.delete(key));
     }
     
     // Clean memoized calculations
-    if (this.memoizedCalculations.size > 1000) {
-      this.memoizedCalculations.clear();
+    if (this?.memoizedCalculations?.size > 1000) {
+      this?.memoizedCalculations?.clear();
     }
     
     // Update peak memory usage
     const currentMemory = this.estimateMemoryUsage();
-    if (currentMemory > this.performanceMetrics.peakMemoryUsage) {
+    if (currentMemory > this?.performanceMetrics?.peakMemoryUsage) {
       this.performanceMetrics.peakMemoryUsage = currentMemory;
     }
   }
@@ -821,10 +823,10 @@ export class UnifiedFlavorEngine {
    */
   private estimateMemoryUsage(): number {
     return (
-      (this.compatibilityCache.size * 1024) +
-      (this.searchCache.size * 512) +
-      (this.profiles.size * 2048) +
-      (this.memoizedCalculations.size * 256)
+      (this?.compatibilityCache?.size * 1024) +
+      (this?.searchCache?.size * 512) +
+      (this?.profiles?.size * 2048) +
+      (this?.memoizedCalculations?.size * 256)
     );
   }
 
@@ -832,12 +834,12 @@ export class UnifiedFlavorEngine {
    * Memoized calculation wrapper for expensive operations
    */
   private memoize<T>(key: string, calculation: () => T): T {
-    if (this.memoizedCalculations.has(key)) {
-      return this.memoizedCalculations.get(key);
+    if (this?.memoizedCalculations?.has(key)) {
+      return this?.memoizedCalculations?.get(key);
     }
     
     const result = calculation();
-    this.memoizedCalculations.set(key, result);
+    this?.memoizedCalculations?.set(key, result);
     
     return result;
   }
@@ -905,7 +907,7 @@ export class UnifiedFlavorEngine {
   public async warmupCache(): Promise<void> {
     console.log('🔥 Warming up UnifiedFlavorEngine cache...');
     
-    const profiles = Array.from(this.profiles.values());
+    const profiles = Array.from(this?.profiles?.values());
     const commonProfiles = profiles?.slice(0, Math.min(20, (profiles || []).length));
     
     // Pre-calculate common combinations
@@ -915,7 +917,7 @@ export class UnifiedFlavorEngine {
       }
     }
     
-    console.log(`✅ Cache warmed with ${this.compatibilityCache.size} pre-calculated combinations`);
+    console.log(`✅ Cache warmed with ${this?.compatibilityCache?.size} pre-calculated combinations`);
   }
 }
 
@@ -956,7 +958,7 @@ export function findCompatibleProfiles(
     }
   }
 
-  return results.sort((a, b) => b.compatibility.overall - a.compatibility.overall);
+  return results.sort((a, b) => b?.compatibility?.overall - a?.compatibility?.overall);
 }
 
 /**

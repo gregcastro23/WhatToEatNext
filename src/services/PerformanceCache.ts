@@ -300,7 +300,7 @@ export class PerformanceMonitor {
     peak: PerformanceMetrics;
     history: PerformanceMetrics[];
   } {
-    if (this.metrics  || [].length === 0) {
+    if (this.metrics.length === 0) {
       const empty: PerformanceMetrics = {
         calculationTime: 0,
         cacheHitRate: 0,
@@ -351,13 +351,14 @@ export class PerformanceMonitor {
     };
     
     // Calculate peaks
+    const metricsArray = this.metrics.length > 0 ? this.metrics : [];
     const peak: PerformanceMetrics = {
-      calculationTime: Math.max(...this?.metrics || [].map(m => m.calculationTime)),
-      cacheHitRate: Math.max(...this?.metrics || [].map(m => m.cacheHitRate)),
-      memoryUsage: Math.max(...this?.metrics || [].map(m => m.memoryUsage)),
-      recommendationCount: Math.max(...this?.metrics || [].map(m => m.recommendationCount)),
-      averageResponseTime: Math.max(...this?.metrics || [].map(m => m.averageResponseTime)),
-      peakMemoryUsage: Math.max(...this?.metrics || [].map(m => m.peakMemoryUsage))
+      calculationTime: metricsArray.length > 0 ? Math.max(...metricsArray.map(m => m.calculationTime)) : 0,
+      cacheHitRate: metricsArray.length > 0 ? Math.max(...metricsArray.map(m => m.cacheHitRate)) : 0,
+      memoryUsage: metricsArray.length > 0 ? Math.max(...metricsArray.map(m => m.memoryUsage)) : 0,
+      recommendationCount: metricsArray.length > 0 ? Math.max(...metricsArray.map(m => m.recommendationCount)) : 0,
+      averageResponseTime: metricsArray.length > 0 ? Math.max(...metricsArray.map(m => m.averageResponseTime)) : 0,
+      peakMemoryUsage: metricsArray.length > 0 ? Math.max(...metricsArray.map(m => m.peakMemoryUsage)) : 0
     };
     
     return { current, average, peak, history: [...this.metrics] };

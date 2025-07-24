@@ -277,8 +277,8 @@ export class EnhancedIngredientsSystem {
     // Filter by seasonal alignment
     if (criteria.seasonalAlignment) {
       results = (results || []).filter(ingredient => 
-        ingredient.culinaryProperties?.seasonality?.peak?.includes(criteria.seasonalAlignment) ||
-        ingredient.culinaryProperties?.seasonality?.optimal?.includes(criteria.seasonalAlignment)
+        ingredient.culinaryProperties?.seasonality?.peak?.includes(criteria.seasonalAlignment || '') ||
+        ingredient.culinaryProperties?.seasonality?.optimal?.includes(criteria.seasonalAlignment || '')
       );
     }
 
@@ -554,7 +554,7 @@ export class EnhancedIngredientsSystem {
     
     // Apply seasonal adaptations if conditions specified
     const seasonallyAdjusted = conditions?.season
-      ? this.adaptIngredientsForSeason(baseIngredients, conditions.currentSeason)
+      ? this.adaptIngredientsForSeason(baseIngredients || '', conditions.currentSeason || '')
       : baseIngredients;
     
     // Find complementary ingredients
@@ -562,7 +562,7 @@ export class EnhancedIngredientsSystem {
     
     // Find seasonal ingredients that might not be in the base set
     const seasonal = conditions?.season
-      ? this.getSeasonalIngredients(conditions.currentSeason)
+      ? this.getSeasonalIngredients(conditions.currentSeason || '')
         .filter(i => {
           const baseIngredientsArray = Array.isArray(baseIngredients) ? baseIngredients : [];
           return !baseIngredientsArray.some(bi => bi.name === i.name);

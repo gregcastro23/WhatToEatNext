@@ -1,15 +1,17 @@
-// Import unified types for cuisine integrations
-import type { UnifiedIngredient } from '@/types';
-import type { // ===== UNIFIED CUISINE INTEGRATION SYSTEM =====
+// ===== UNIFIED CUISINE INTEGRATION SYSTEM =====
 // Phase 3 Step 2 of WhatToEatNext Data Consolidation
 // Consolidates cuisineMatrix.ts and related files with Monica/Kalchm integration
 // Integrates with unified seasonal system for dynamic cuisine recommendations
 
+import type { UnifiedIngredient } from '@/types';
+import type {
   Element, 
   ElementalProperties, 
   PlanetName,
   LunarPhase,
-  CookingMethod } from "@/types/alchemy";
+  CookingMethod 
+} from "@/types/alchemy";
+import { createAstrologicalBridge } from '@/types/bridges/astrologicalBridge';
 import type { EnhancedCookingMethod } from '@/types/cooking';
 import { FlavorProfileType } from "@/types/flavor";
 import type { Season } from "@/types/seasons";
@@ -589,8 +591,8 @@ export class UnifiedCuisineIntegrationSystem {
     const cacheKey = `${cuisine1}-${cuisine2}`;
     
     // Check cache first
-    if (this.cuisineCompatibilityCache.has(cacheKey)) {
-      const cached = this.cuisineCompatibilityCache.get(cacheKey)!;
+    if (this?.cuisineCompatibilityCache?.has(cacheKey)) {
+      const cached = this?.cuisineCompatibilityCache?.get(cacheKey)!;
       if (cached[cuisine2]) {
         return cached[cuisine2];
       }
@@ -659,10 +661,10 @@ export class UnifiedCuisineIntegrationSystem {
     };
     
     // Cache the result
-    if (!this.cuisineCompatibilityCache.has(cacheKey)) {
-      this.cuisineCompatibilityCache.set(cacheKey, {});
+    if (!this?.cuisineCompatibilityCache?.has(cacheKey)) {
+      this?.cuisineCompatibilityCache?.set(cacheKey, {});
     }
-    this.cuisineCompatibilityCache.get(cacheKey)![cuisine2] = compatibility;
+    this?.cuisineCompatibilityCache?.get(cacheKey)![cuisine2] = compatibility;
     
     return compatibility;
   }
@@ -945,7 +947,7 @@ export class UnifiedCuisineIntegrationSystem {
    */
   generateFusion(cuisine1: string, cuisine2: string): FusionCuisineProfile {
     const compatibility = this.calculateCuisineCompatibility(cuisine1, cuisine2);
-    const blendRatio = compatibility.recommendedBlendRatio;
+    const blendRatio = compatibility?.recommendedBlendRatio ?? 0.5;
     
     // Generate fusion name
     const name = this.generateFusionName(cuisine1, cuisine2);
@@ -1556,7 +1558,7 @@ export class UnifiedCuisineIntegrationSystem {
     let totalHarmony = 0;
     
     for (const ingredient of ingredients) {
-      const kalchm = ingredient.kalchm;
+      const kalchm = ingredient.kalchm ?? 1.0;
       
       if (kalchm >= Number(min) && kalchm <= Number(max)) {
         // Perfect harmony if within seasonal range
@@ -1604,7 +1606,7 @@ export class UnifiedCuisineIntegrationSystem {
         if (i !== j) {
           const otherCuisine = cuisines[j];
           const compatibility = this.calculateCuisineCompatibility(cuisine, otherCuisine);
-          compatibilitySum += compatibility.monicaCompatibility;
+          compatibilitySum += compatibility?.monicaCompatibility ?? 0.5;
           compatibilityCount++;
         }
       }

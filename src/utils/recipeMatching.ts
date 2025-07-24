@@ -6,6 +6,8 @@ import type {
   Season,
 } from "@/types/alchemy";
 import type { CookingMethod } from "@/types/cookingMethod";
+import { createAstrologicalBridge } from '@/types/bridges/astrologicalBridge';
+
 
 // Define IngredientMapping locally since it's not exported from alchemy
 interface IngredientMapping {
@@ -126,7 +128,7 @@ export async function findBestMatches(
 
   if (
     matchFilters?.dietaryRestrictions &&
-    matchFilters.dietaryRestrictions.length > 0
+    matchFilters?.dietaryRestrictions?.length > 0
   ) {
     filteredRecipes = filteredRecipes.filter((recipe) => {
       // Extract recipe data with safe property access
@@ -136,7 +138,7 @@ export async function findBestMatches(
       if (!dietaryTags) return true; // Keep recipes without tags
 
       // Check if any of the restrictions are in the recipe's dietary tags
-      const hasRestrictedTag = matchFilters.dietaryRestrictions.some(
+      const hasRestrictedTag = matchFilters?.dietaryRestrictions?.some(
         (restriction) => Array.isArray(dietaryTags) && dietaryTags.includes(restriction)
       );
 
@@ -150,9 +152,9 @@ export async function findBestMatches(
     // Prioritize seasonal recipes but don't completely exclude off-season ones
     filteredRecipes = filteredRecipes.sort((a, b) => {
       const aIsInSeason =
-        Array.isArray(a.season) ? a.season.includes((matchFilters as Record<string, unknown>)?.season as Season) || a.season.includes('all') : a.season === (matchFilters as Record<string, unknown>)?.season || a.season === 'all';
+        Array.isArray(a.season) ? a?.season?.includes((matchFilters as Record<string, unknown>)?.season as Season) || a?.season?.includes('all') : a.season === (matchFilters as Record<string, unknown>)?.season || a.season === 'all';
       const bIsInSeason =
-        Array.isArray(b.season) ? b.season.includes((matchFilters as Record<string, unknown>)?.season as Season) || b.season.includes('all') : b.season === (matchFilters as Record<string, unknown>)?.season || b.season === 'all';
+        Array.isArray(b.season) ? b?.season?.includes((matchFilters as Record<string, unknown>)?.season as Season) || b?.season?.includes('all') : b.season === (matchFilters as Record<string, unknown>)?.season || b.season === 'all';
 
       if (aIsInSeason && !bIsInSeason) return -1;
       if (!aIsInSeason && bIsInSeason) return 1;
@@ -173,16 +175,16 @@ export async function findBestMatches(
 
   if (
     matchFilters?.excludeIngredients &&
-    matchFilters.excludeIngredients.length > 0
+    matchFilters?.excludeIngredients?.length > 0
   ) {
     filteredRecipes = filteredRecipes.filter((recipe) => {
       if (!recipe.ingredients) return true;
 
       // Check if any of the excluded ingredients are in the recipe
-      const hasExcludedIngredient = matchFilters.excludeIngredients.some(
+      const hasExcludedIngredient = matchFilters?.excludeIngredients?.some(
         (excluded) => {
           const lowerExcluded = excluded.toLowerCase();
-          return recipe.ingredients.some((ingredient) => {
+          return recipe?.ingredients?.some((ingredient) => {
             if (typeof ingredient === 'string') {
               const ingredientStr = ingredient as string;
               return ingredientStr.toLowerCase().includes(lowerExcluded);
@@ -202,7 +204,7 @@ export async function findBestMatches(
     // console.log(`After excludeIngredients filter: ${filteredRecipes.length} recipes remain`);
   }
 
-  if (matchFilters?.cookingMethods && matchFilters.cookingMethods.length > 0) {
+  if (matchFilters?.cookingMethods && matchFilters?.cookingMethods?.length > 0) {
     // Prioritize recipes that use preferred cooking methods
     filteredRecipes = filteredRecipes.sort((a, b) => {
       // Extract recipe data with safe property access for cooking methods
@@ -213,12 +215,12 @@ export async function findBestMatches(
       
       const aUsesMethod =
         Array.isArray(aCookingMethods) && aCookingMethods.some((method) =>
-          matchFilters.cookingMethods.includes(method)
+          matchFilters?.cookingMethods?.includes(method)
         ) || false;
 
       const bUsesMethod =
         Array.isArray(bCookingMethods) && bCookingMethods.some((method) =>
-          matchFilters.cookingMethods.includes(method)
+          matchFilters?.cookingMethods?.includes(method)
         ) || false;
 
       if (aUsesMethod && !bUsesMethod) return -1;
@@ -364,7 +366,7 @@ const calculateEnergyMatch = (
     if (
       isAriesSeason &&
       recipeEnergy.planetary &&
-      (Array.isArray(recipeEnergy.planetary) ? recipeEnergy.planetary.includes('Mars') : recipeEnergy.planetary === 'Mars')
+      (Array.isArray(recipeEnergy.planetary) ? recipeEnergy?.planetary?.includes('Mars') : recipeEnergy.planetary === 'Mars')
     ) {
       score += 0.2; // Additional bonus for Mars-influenced recipes during Aries season
     }
@@ -384,24 +386,24 @@ const calculateEnergyMatch = (
   if (recipeEnergy.planetary && currentEnergy.planetaryEnergy) {
     // Sun influence bonus
     if (
-      (Array.isArray(recipeEnergy.planetary) ? recipeEnergy.planetary.includes('Sun') : recipeEnergy.planetary === 'Sun') &&
-      (Array.isArray(currentEnergy.planetaryEnergy) ? currentEnergy.planetaryEnergy.includes('Sun') : currentEnergy.planetaryEnergy === 'Sun')
+      (Array.isArray(recipeEnergy.planetary) ? recipeEnergy?.planetary?.includes('Sun') : recipeEnergy.planetary === 'Sun') &&
+      (Array.isArray(currentEnergy.planetaryEnergy) ? currentEnergy?.planetaryEnergy?.includes('Sun') : currentEnergy.planetaryEnergy === 'Sun')
     ) {
       score += 0.15;
     }
 
     // Moon influence bonus
     if (
-      (Array.isArray(recipeEnergy.planetary) ? recipeEnergy.planetary.includes('Moon') : recipeEnergy.planetary === 'Moon') &&
-      (Array.isArray(currentEnergy.planetaryEnergy) ? currentEnergy.planetaryEnergy.includes('Moon') : currentEnergy.planetaryEnergy === 'Moon')
+      (Array.isArray(recipeEnergy.planetary) ? recipeEnergy?.planetary?.includes('Moon') : recipeEnergy.planetary === 'Moon') &&
+      (Array.isArray(currentEnergy.planetaryEnergy) ? currentEnergy?.planetaryEnergy?.includes('Moon') : currentEnergy.planetaryEnergy === 'Moon')
     ) {
       score += 0.15;
     }
 
     // Mars influence bonus
     if (
-      (Array.isArray(recipeEnergy.planetary) ? recipeEnergy.planetary.includes('Mars') : recipeEnergy.planetary === 'Mars') &&
-      (Array.isArray(currentEnergy.planetaryEnergy) ? currentEnergy.planetaryEnergy.includes('Mars') : currentEnergy.planetaryEnergy === 'Mars')
+      (Array.isArray(recipeEnergy.planetary) ? recipeEnergy?.planetary?.includes('Mars') : recipeEnergy.planetary === 'Mars') &&
+      (Array.isArray(currentEnergy.planetaryEnergy) ? currentEnergy?.planetaryEnergy?.includes('Mars') : currentEnergy.planetaryEnergy === 'Mars')
     ) {
       // Higher bonus during Aries season
       score += isAriesSeason ? 0.25 : 0.15;
@@ -698,7 +700,7 @@ function determineIngredientModality(
 
     // Check for cardinal keywords
     if (
-      modalityKeywords.cardinal.some((keyword) =>
+      modalityKeywords?.cardinal?.some((keyword) =>
         lowerQuality.includes(keyword)
       )
     ) {
@@ -707,14 +709,14 @@ function determineIngredientModality(
 
     // Check for fixed keywords
     if (
-      modalityKeywords.fixed.some((keyword) => lowerQuality.includes(keyword))
+      modalityKeywords?.fixed?.some((keyword) => lowerQuality.includes(keyword))
     ) {
       counts.fixed++;
     }
 
     // Check for mutable keywords
     if (
-      modalityKeywords.mutable.some((keyword) => lowerQuality.includes(keyword))
+      modalityKeywords?.mutable?.some((keyword) => lowerQuality.includes(keyword))
     ) {
       counts.mutable++;
     }
@@ -922,7 +924,7 @@ export const connectIngredientsToMappings = (
   matchedTo?: IngredientMapping;
   confidence: number;
 }[] => {
-  if (!recipe.ingredients || recipe.ingredients.length === 0) {
+  if (!recipe.ingredients || recipe?.ingredients?.length === 0) {
     return [];
   }
 
@@ -936,7 +938,7 @@ export const connectIngredientsToMappings = (
   // Try to get from localStorage, with proper error handling
   if (isBrowser) {
     try {
-      cached = window.localStorage.getItem(cacheKey);
+      cached = window?.localStorage?.getItem(cacheKey);
     } catch (e) {
       // console.debug('localStorage not available:', e);
     }
@@ -950,7 +952,7 @@ export const connectIngredientsToMappings = (
       if (
         parsedCache.timestamp &&
         Date.now() - parsedCache.timestamp < 3600000 && // 1 hour cache
-        parsedCache.ingredientCount === recipe.ingredients.length
+        parsedCache.ingredientCount === recipe?.ingredients?.length
       ) {
         return parsedCache.matches;
       }
@@ -959,7 +961,7 @@ export const connectIngredientsToMappings = (
     }
   }
 
-  const matches = recipe.ingredients.map((recipeIngredient) => {
+  const matches = recipe?.ingredients?.map((recipeIngredient) => {
     // Initial result with no match
     // Apply Pattern MM-1: Safe type assertions
     const ingredientData = recipeIngredient as Record<string, unknown>;
@@ -1052,12 +1054,12 @@ export const connectIngredientsToMappings = (
   // Cache the results
   if (isBrowser) {
     try {
-      window.localStorage.setItem(
+      window?.localStorage?.setItem(
         cacheKey,
         JSON.stringify({
           matches,
           timestamp: Date.now(),
-          ingredientCount: recipe.ingredients.length,
+          ingredientCount: recipe?.ingredients?.length,
         })
       );
     } catch (e) {

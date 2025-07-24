@@ -1,3 +1,7 @@
+// Type Harmony imports
+import { createAstrologicalBridge } from '@/types/bridges/astrologicalBridge';
+import { isValidAstrologicalState } from '@/utils/typeGuards/astrologicalGuards';
+
 import { cuisinesMap } from '@/data/cuisines';
 import type {
   AstrologicalState,
@@ -282,22 +286,24 @@ export class EnhancedCuisineRecommender {
     const mealTypes = ['breakfast', 'lunch', 'dinner', 'dessert'];
 
     mealTypes.forEach((mealType) => {
+      // Use Type Harmony approach for safe property access
+      const bridge = createAstrologicalBridge();
+      const mealTypeData = bridge.safeAccess(cuisine.dishes, mealType);
+      
       // Add current season recipes
-      if (
-        cuisine.dishes[mealType as keyof typeof cuisine.dishes][currentSeason]
-      ) {
-        allRecipes.push(
-          ...cuisine.dishes[mealType as keyof typeof cuisine.dishes][
-            currentSeason
-          ]
-        );
+      if (mealTypeData && bridge.safeAccess(mealTypeData, currentSeason)) {
+        const seasonRecipes = bridge.safeAccess(mealTypeData, currentSeason);
+        if (Array.isArray(seasonRecipes)) {
+          allRecipes.push(...seasonRecipes);
+        }
       }
 
       // Add "all" season recipes if they exist
-      if (cuisine.dishes[mealType as keyof typeof cuisine.dishes].all) {
-        allRecipes.push(
-          ...cuisine.dishes[mealType as keyof typeof cuisine.dishes].all
-        );
+      if (mealTypeData && bridge.safeAccess(mealTypeData, 'all')) {
+        const allSeasonRecipes = bridge.safeAccess(mealTypeData, 'all');
+        if (Array.isArray(allSeasonRecipes)) {
+          allRecipes.push(...allSeasonRecipes);
+        }
       }
     });
 

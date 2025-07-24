@@ -1,16 +1,19 @@
-import { unifiedIngredients } from '@/data/unified/ingredients';
-import { UnifiedIngredient } from '@/data/unified/unifiedTypes';
-import type { // ===== UNIFIED NUTRITIONAL SERVICE =====
+// ===== UNIFIED NUTRITIONAL SERVICE =====
 // Phase 3 Step 4 of WhatToEatNext Data Consolidation
 // Service layer for unified nutritional system with comprehensive API
 // Integrates with all unified systems and provides backward compatibility
 
+import { unifiedIngredients } from '@/data/unified/ingredients';
+import { UnifiedIngredient } from '@/data/unified/unifiedTypes';
+import type {
   Element, 
   ElementalProperties, 
   ZodiacSign, 
   PlanetName,
   Season,
-  CookingMethod } from '@/types/alchemy';
+  CookingMethod 
+} from '@/types/alchemy';
+import { createAstrologicalBridge } from '@/types/bridges/astrologicalBridge';
 
 import { allIngredients } from '../data/ingredients';
 import { 
@@ -71,8 +74,8 @@ export class UnifiedNutritionalService {
     try {
       const cacheKey = `enhanced_${typeof ingredient === 'string' ? ingredient : ingredient.name}_${JSON.stringify(context)}`;
       
-      if (this.cache.has(cacheKey)) {
-        return this.cache.get(cacheKey);
+      if (this?.cache?.has(cacheKey)) {
+        return this?.cache?.get(cacheKey);
       }
       
       let nutritionalProfile: NutritionalProfile | null = null;
@@ -88,7 +91,7 @@ export class UnifiedNutritionalService {
             ...unifiedProfile,
             // Convert phytonutrients from string[] to Record<string, number> if needed
             phytonutrients: Array.isArray(unifiedProfile.phytonutrients) 
-              ? unifiedProfile.phytonutrients.reduce((acc, nutrient) => ({ ...acc, [nutrient]: 1.0 }), {})
+              ? unifiedProfile?.phytonutrients?.reduce((acc, nutrient) => ({ ...acc, [nutrient]: 1.0 }), {})
               : unifiedProfile.phytonutrients || {}
           } as unknown as NutritionalProfile;
         } else {
@@ -101,14 +104,14 @@ export class UnifiedNutritionalService {
             ...alchemyProfile,
             // Convert phytonutrients from string[] to Record<string, number>
             phytonutrients: Array.isArray(alchemyProfile.phytonutrients) 
-              ? alchemyProfile.phytonutrients.reduce((acc, nutrient) => ({ ...acc, [nutrient]: 1.0 }), {})
+              ? alchemyProfile?.phytonutrients?.reduce((acc, nutrient) => ({ ...acc, [nutrient]: 1.0 }), {})
               : alchemyProfile.phytonutrients || {}
           } as unknown as NutritionalProfile;
           }
           
           if (!nutritionalProfile) {
             // Fallback to legacy service
-            nutritionalProfile = await this.legacyNutritionService.getNutritionalProfile(ingredient);
+            nutritionalProfile = await this?.legacyNutritionService?.getNutritionalProfile(ingredient);
           }
         }
       } else {
@@ -141,7 +144,7 @@ export class UnifiedNutritionalService {
         monica: enhanced.monica || 0
       };
       
-      this.cache.set(cacheKey, alchemicalProfile);
+      this?.cache?.set(cacheKey, alchemicalProfile);
       return alchemicalProfile;
       
     } catch (error) {
@@ -344,7 +347,7 @@ export class UnifiedNutritionalService {
       if (filter.vitamins && (filter.vitamins || []).length > 0) {
         const hasRequiredVitamins = (filter.vitamins || []).some(vitamin => {
           if (Array.isArray(nutritionalProfile.vitamins)) {
-            return nutritionalProfile.vitamins.includes(vitamin);
+            return nutritionalProfile?.vitamins?.includes(vitamin);
           } else if (typeof nutritionalProfile.vitamins === 'object') {
             return nutritionalProfile?.vitamins?.[vitamin] !== undefined;
           }
@@ -357,7 +360,7 @@ export class UnifiedNutritionalService {
       if (filter.minerals && (filter.minerals || []).length > 0) {
         const hasRequiredMinerals = (filter.minerals || []).some(mineral => {
           if (Array.isArray(nutritionalProfile.minerals)) {
-            return nutritionalProfile.minerals.includes(mineral);
+            return nutritionalProfile?.minerals?.includes(mineral);
           } else if (typeof nutritionalProfile.minerals === 'object') {
             return nutritionalProfile?.minerals?.[mineral] !== undefined;
           }
@@ -428,7 +431,7 @@ export class UnifiedNutritionalService {
       const enhanced = await this.getEnhancedNutritionalProfile(ingredient, context);
       if (!enhanced) return 0;
       
-      return enhanced.monicaOptimization.finalOptimizedScore;
+      return enhanced?.monicaOptimization?.finalOptimizedScore;
       
     } catch (error) {
       logger.error('Error calculating nutritional score:', error);
@@ -481,10 +484,10 @@ export class UnifiedNutritionalService {
       };
       
       // Calculate seasonal alignment
-      const seasonalAlignment = context?.season ? enhanced.monicaOptimization.seasonalModifier : 0.5;
+      const seasonalAlignment = context?.season ? enhanced?.monicaOptimization?.seasonalModifier : 0.5;
       
       // Calculate planetary resonance
-      const planetaryResonance = context?.planetaryHour ? enhanced.monicaOptimization.planetaryModifier : 0.5;
+      const planetaryResonance = context?.planetaryHour ? enhanced?.monicaOptimization?.planetaryModifier : 0.5;
       
       // Generate health benefits
       const healthBenefits = (enhanced?.astrologicalProfile?.rulingPlanets || []).map(planet => 
@@ -609,7 +612,7 @@ export class UnifiedNutritionalService {
    * Clear nutritional cache
    */
   clearCache(): void {
-    this.cache.clear();
+    this?.cache?.clear();
   }
   
   /**
@@ -617,8 +620,8 @@ export class UnifiedNutritionalService {
    */
   getCacheStats(): { size: number; keys: string[] } {
     return {
-      size: this.cache.size,
-      keys: Array.from(this.cache.keys())
+      size: this?.cache?.size,
+      keys: Array.from(this?.cache?.keys())
     };
   }
   
@@ -632,10 +635,9 @@ export class UnifiedNutritionalService {
               if ((ingredients || []).length === 0) {
         return {
           calories: 0,
-          macros: {},
-          vitamins: {},
-          minerals: {}
-        };
+          macros: {} as Record<Planet, PlanetaryPosition>,
+          vitamins: {} as Record<Planet, PlanetaryPosition>,
+          minerals: {} as Record<Planet, PlanetaryPosition>};
       }
       
       // Get enhanced profiles for all ingredients
@@ -644,18 +646,17 @@ export class UnifiedNutritionalService {
       // Aggregate nutritional values
       const aggregated: NutritionalProfile = {
         calories: 0,
-        macros: {},
-        vitamins: {},
-        minerals: {}
-      };
+        macros: {} as Record<Planet, PlanetaryPosition>,
+        vitamins: {} as Record<Planet, PlanetaryPosition>,
+        minerals: {} as Record<Planet, PlanetaryPosition>};
       
       (enhancedProfiles || []).forEach(profile => {
         aggregated.calories = (aggregated.calories || 0) + (profile.calories || 0);
         if (aggregated.macros && profile.macros) {
-          aggregated.macros.protein = (aggregated.macros.protein || 0) + (profile.macros.protein || 0);
-          aggregated.macros.carbs = (aggregated.macros.carbs || 0) + (profile.macros.carbs || 0);
-          aggregated.macros.fat = (aggregated.macros.fat || 0) + (profile.macros.fat || 0);
-          aggregated.macros.fiber = (aggregated.macros.fiber || 0) + (profile.macros.fiber || 0);
+          aggregated.macros.protein = (aggregated?.macros?.protein || 0) + (profile?.macros?.protein || 0);
+          aggregated.macros.carbs = (aggregated?.macros?.carbs || 0) + (profile?.macros?.carbs || 0);
+          aggregated.macros.fat = (aggregated?.macros?.fat || 0) + (profile?.macros?.fat || 0);
+          aggregated.macros.fiber = (aggregated?.macros?.fiber || 0) + (profile?.macros?.fiber || 0);
         }
       });
       
@@ -665,10 +666,9 @@ export class UnifiedNutritionalService {
       logger.error('Error calculating nutritional balance:', error);
       return {
         calories: 0,
-        macros: {},
-        vitamins: {},
-        minerals: {}
-      };
+        macros: {} as Record<Planet, PlanetaryPosition>,
+        vitamins: {} as Record<Planet, PlanetaryPosition>,
+        minerals: {} as Record<Planet, PlanetaryPosition>};
     }
   }
   

@@ -1,4 +1,6 @@
 import { NutritionalProfile, ElementalProperties } from '../types/alchemy';
+import { createAstrologicalBridge } from '@/types/bridges/astrologicalBridge';
+
 
 // Base nutritional values for common ingredient categories (per 100g)
 const nutritionReferenceValues: Record<string, unknown> = {
@@ -149,7 +151,7 @@ export const calculateEstimatedNutrition = (ingredients: unknown[]): unknown => 
     }
     
     // Find the best matching reference value
-    let referenceItem = null;
+    let referenceItem: any = null;
     let bestMatchKey = '';
     
     // Check for exact matches first

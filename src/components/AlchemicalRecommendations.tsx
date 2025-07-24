@@ -1,5 +1,9 @@
 import React, { useState, useMemo } from 'react';
 
+// Type Harmony imports
+import { createAstrologicalBridge } from '@/types/bridges/astrologicalBridge';
+import { safelyExtractElementalProperties, createDefaultElementalProperties } from '@/utils/typeGuards/astrologicalGuards';
+
 import { ElementalItem } from '@/calculations/alchemicalTransformation';
 import { ElementalCharacter, AlchemicalProperty } from '@/constants/planetaryElements';
 import { RulingPlanet } from '@/constants/planets';
@@ -156,8 +160,10 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
       // Get ingredient elemental properties or calculate them
       let elementalProps: ElementalPropertiesType;
       
-      if ((ingredient as Record<string, unknown>).elementalProperties) {
-        elementalProps = createSafeElementalProperties((ingredient as Record<string, unknown>).elementalProperties);
+      // Use Type Harmony approach for safe property extraction
+      const extractedProps = safelyExtractElementalProperties(ingredient);
+      if (extractedProps) {
+        elementalProps = createSafeElementalProperties(extractedProps);
       } else {
         // Calculate based on ingredient category and attributes
         const category = (ingredient as Record<string, unknown>).category || '';
@@ -223,12 +229,21 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
         elementalProps = createSafeElementalProperties(tempProps);
       }
       
+      // Use Type Harmony approach for safe object creation
+      const bridge = createAstrologicalBridge();
+      const ingredientName = bridge.safeAccess<string>(ingredient, 'name') || key;
+      const qualities = bridge.safeAccess<string[]>(ingredient, 'qualities') || [];
+      const modality = bridge.safeAccess(ingredient, 'modality') || 'cardinal';
+      
       return {
         id: key,
-        name: (ingredient as Record<string, unknown>)?.name || key,
+        name: ingredientName,
         elementalProperties: elementalProps,
-        qualities: (ingredient as Record<string, unknown>).qualities || [],
-        modality: (ingredient as Record<string, unknown>).modality
+        qualities: qualities,
+        modality: modality,
+        // Add required ElementalItem properties
+        category: bridge.safeAccess<string>(ingredient, 'category') || 'ingredient',
+        description: bridge.safeAccess<string>(ingredient, 'description') || ''
       } as ElementalItem;
     });
   }, []);

@@ -105,7 +105,7 @@ export const CuisineRecommender: React.FC<CuisineRecommenderProps> = ({
   if (error) {
     return (
       <div className="cuisine-recommender error">
-        <p>{error}</p>
+        <p>{error as React.ReactNode}</p>
         <button onClick={loadRecommendations}>Try Again</button>
       </div>
     );

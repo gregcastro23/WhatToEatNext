@@ -17,8 +17,8 @@ import {
 } from '@/services/AlchemicalRecommendationService'
 import {
   fetchPlanetaryPositions,
-  AstrologizeResult,
 } from '@/services/astrologizeApi'
+import { PlanetPosition } from '@/utils/astrologyUtils'
 import { alchemize, StandardizedAlchemicalResult } from '@/services/RealAlchemizeService'
 import { logger } from '@/utils/logger'
 
@@ -26,7 +26,7 @@ import { logger } from '@/utils/logger'
 interface UnifiedState {
   isLoading: boolean
   error: string | null
-  astrologicalData: AstrologizeResult | null
+  astrologicalData: Record<string, PlanetPosition> | null
   alchemicalData: StandardizedAlchemicalResult | null
   recommendationData: AlchemicalRecommendation | null
   lastUpdated: Date | null
@@ -41,7 +41,7 @@ export const UnifiedStateProvider = ({ children }: { children: ReactNode }) => {
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [astrologicalData, setAstrologicalData] =
-    useState<AstrologizeResult | null>(null)
+    useState<Record<string, PlanetPosition> | null>(null)
   const [alchemicalData, setAlchemicalData] =
     useState<StandardizedAlchemicalResult | null>(null)
   const [recommendationData, setRecommendationData] =

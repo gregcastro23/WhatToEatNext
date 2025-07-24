@@ -105,7 +105,7 @@ const RecipeCard: React.FC<RecipeCardProps> = ({
   };
 
   const renderDietaryBadges = () => {
-    const badges = [];
+    const badges: string[] = [];
     if ((recipe as Record<string, unknown>).isVegetarian) badges.push('Vegetarian');
     if ((recipe as Record<string, unknown>).isVegan) badges.push('Vegan');
     if ((recipe as Record<string, unknown>).isGlutenFree) badges.push('Gluten-Free');
@@ -327,7 +327,7 @@ export const RecipeGrid: React.FC<RecipeGridProps> = ({
                   if (!recipe) return;
                   
                   recipeIndex++;
-                  const baseName = recipe.name ? recipe.name.toLowerCase().replace(/\s+/g, '-') : 'unknown';
+                  const baseName = recipe.name ? (recipe as any).name.toLowerCase().replace(/\s+/g, '-') : 'unknown';
                   const uniqueId = `${cuisineId}-${baseName}-${recipeIndex}`;
                   
                   // Extract and enrich recipe data - Safe property access

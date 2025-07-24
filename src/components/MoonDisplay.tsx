@@ -103,7 +103,7 @@ const MoonDisplay: React.FC = () => {
 
   // Extract moon info directly from planetaryPositions rather than calculating it separately
   // Fall back to using the moon position from planetaryPositions if available
-  const moon = planetaryPositions?.moon || { sign: 'unknown', degree: 0, exactLongitude: 0, isRetrograde: false };
+  const moon = (planetaryPositions as any)?.moon || { sign: 'unknown', degree: 0, exactLongitude: 0, isRetrograde: false };
   
   // Simplified lunar node handling - ensure we have default values if northNode or southNode are missing
   const northNode = useMemo(() => {
@@ -386,7 +386,7 @@ const MoonDisplay: React.FC = () => {
             {(() => {
               const moonData = moon as Record<string, unknown>;
               return moonData?.sign 
-                ? `Moon in ${capitalizeFirstLetter(String(moonData.sign))} ${formatDegree(Number(moonData.degree) || 0)}` 
+                ? `Moon in ${capitalizeFirstLetter(String((moonData as any).sign))} ${formatDegree(Number((moonData as any).degree) || 0)}` 
                 : 'Loading...';
             })()}
             {(() => {

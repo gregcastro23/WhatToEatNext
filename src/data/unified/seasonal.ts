@@ -13,6 +13,8 @@ import type {
   LunarPhase,
   CookingMethod 
 } from "@/types/alchemy";
+import { createAstrologicalBridge } from '@/types/bridges/astrologicalBridge';
+
 
 import { 
   getAllEnhancedCookingMethods, 
@@ -697,9 +699,9 @@ export class UnifiedSeasonalSystem {
     
     // Get traditional use from seasonal usage data
     const traditionalUse: string[] = [];
-    if (seasonProfile.growing && seasonProfile.growing.includes(ingredientName)) traditionalUse?.push('growing');
-    if (seasonProfile.herbs && seasonProfile.herbs.includes(ingredientName)) traditionalUse?.push('culinary herb');
-    if (seasonProfile.vegetables && seasonProfile.vegetables.includes(ingredientName)) traditionalUse?.push('seasonal vegetable');
+    if (seasonProfile.growing && seasonProfile?.growing?.includes(ingredientName)) traditionalUse?.push('growing');
+    if (seasonProfile.herbs && seasonProfile?.herbs?.includes(ingredientName)) traditionalUse?.push('culinary herb');
+    if (seasonProfile.vegetables && seasonProfile?.vegetables?.includes(ingredientName)) traditionalUse?.push('seasonal vegetable');
     
     // Get complementary flavors for the season (top scoring ingredients)
     const complementaryFlavors = Object.entries(seasonProfile.ingredients)
@@ -855,12 +857,12 @@ export class UnifiedSeasonalSystem {
     
     // Lunar phase modifier
     if (conditions.lunarPhase) {
-      modifier *= (1 + seasonProfile.monicaModifiers.lunarPhaseBonus * 0.1);
+      modifier *= (1 + seasonProfile?.monicaModifiers?.lunarPhaseBonus * 0.1);
     }
     
     // Planetary hour modifier
     if (conditions.planetaryHour) {
-      modifier *= (1 + seasonProfile.monicaModifiers.planetaryAlignment * 0.1);
+      modifier *= (1 + seasonProfile?.monicaModifiers?.planetaryAlignment * 0.1);
     }
     
     // Temperature modifier
@@ -1012,7 +1014,7 @@ export class UnifiedSeasonalSystem {
     let score = 0;
     
     // Base seasonal compatibility
-    if (seasonProfile.optimalCookingMethods.includes(method.name)) {
+    if (seasonProfile?.optimalCookingMethods?.includes(method.name)) {
       score += 1.0;
     }
     
@@ -1117,10 +1119,10 @@ export class UnifiedSeasonalSystem {
     
     // Blend Kalchm ranges
     const blendedKalchmRange = {
-      min: fromProfile.kalchmRange.min + 
-           (toProfile.kalchmRange.min - fromProfile?.kalchmRange?.min) * transitionProgress,
-      max: fromProfile.kalchmRange.max + 
-           (toProfile.kalchmRange.max - fromProfile?.kalchmRange?.max) * transitionProgress
+      min: fromProfile?.kalchmRange?.min + 
+           (toProfile?.kalchmRange?.min - fromProfile?.kalchmRange?.min) * transitionProgress,
+      max: fromProfile?.kalchmRange?.max + 
+           (toProfile?.kalchmRange?.max - fromProfile?.kalchmRange?.max) * transitionProgress
     };
     
     // Blend Monica modifiers
@@ -1278,7 +1280,7 @@ export const seasonalPatterns = Object.fromEntries(
     {
       ...profile.ingredients,
       elementalInfluence: profile.elementalInfluence,
-      tarotInfluences: profile.tarotProfile.tarotInfluences
+      tarotInfluences: profile?.tarotProfile?.tarotInfluences
     }
   ])
 );
@@ -1295,7 +1297,7 @@ export const seasonalUsage = Object.fromEntries(
         minorArcana: profile?.tarotProfile?.minorArcana,
         majorArcana: profile?.tarotProfile?.majorArcana,
         currentZodiacSigns: profile?.tarotProfile?.currentZodiacSigns,
-        cookingRecommendations: profile.tarotProfile.cookingRecommendations
+        cookingRecommendations: profile?.tarotProfile?.cookingRecommendations
       }
     }
   ])
@@ -1328,9 +1330,9 @@ export function getSeasonalUsageData(ingredient: string, season: Season) {
   if (!seasonProfile) return { inGrowing: false, inHerbs: false, inVegetables: false };
   
   return {
-    inGrowing: seasonProfile.growing && seasonProfile.growing.includes(ingredient),
-    inHerbs: seasonProfile.herbs && seasonProfile.herbs.includes(ingredient),
-    inVegetables: seasonProfile.vegetables && seasonProfile.vegetables.includes(ingredient)
+    inGrowing: seasonProfile.growing && seasonProfile?.growing?.includes(ingredient),
+    inHerbs: seasonProfile.herbs && seasonProfile?.herbs?.includes(ingredient),
+    inVegetables: seasonProfile.vegetables && seasonProfile?.vegetables?.includes(ingredient)
   };
 }
 

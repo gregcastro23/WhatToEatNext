@@ -636,7 +636,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
       const filterData = filter as Record<string, unknown>;
       const maxFiber = filterData?.maxFiber;
       
-      if (maxFiber !== undefined && 
+      if (maxFiber !== undefined && maxFiber !== null && 
           (nutrition.fiber || 0) > maxFiber) {
         return false;
       }
@@ -739,38 +739,38 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
       const maxAir = filterData?.maxAir;
       
       // Check Fire
-      if (minfire !== undefined && elemental.Fire < minfire) {
+      if (minfire !== undefined && minfire !== null && elemental.Fire < minfire) {
         return false;
       }
       
-      if (maxfire !== undefined && elemental.Fire > maxfire) {
+      if (maxfire !== undefined && maxfire !== null && elemental.Fire > maxfire) {
         return false;
       }
       
       // Check Water
-      if (minwater !== undefined && elemental.Water < minwater) {
+      if (minwater !== undefined && minwater !== null && elemental.Water < minwater) {
         return false;
       }
       
-      if (maxwater !== undefined && elemental.Water > maxwater) {
+      if (maxwater !== undefined && maxwater !== null && elemental.Water > maxwater) {
         return false;
       }
       
       // Check Earth
-      if (minearth !== undefined && elemental.Earth < minearth) {
+      if (minearth !== undefined && minearth !== null && elemental.Earth < minearth) {
         return false;
       }
       
-      if (maxearth !== undefined && elemental.Earth > maxearth) {
+      if (maxearth !== undefined && maxearth !== null && elemental.Earth > maxearth) {
         return false;
       }
       
       // Check Air
-      if (minAir !== undefined && elemental.Air < minAir) {
+      if (minAir !== undefined && minAir !== null && elemental.Air < minAir) {
         return false;
       }
       
-      if (maxAir !== undefined && elemental.Air > maxAir) {
+      if (maxAir !== undefined && maxAir !== null && elemental.Air > maxAir) {
         return false;
       }
       

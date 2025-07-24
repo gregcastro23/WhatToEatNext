@@ -19,7 +19,7 @@ async function getRecommendations(
   const astroData = useAstrologicalState();
   
   // ✅ Pattern MM-1: Safe type assertion for astrological data access
-  const astroState = (astroData as unknown) as Record<string, unknown>;
+  const astroState = (astroData as unknown) as ElementalProperties;
   const planetaryPositions = astroState?.planetaryPositions;
   const moonPhase = astroState?.moonPhase;
   const aspects = astroState?.aspects;
@@ -36,13 +36,13 @@ async function getRecommendations(
     timestamp: new Date(),
     currentStability: 1.0,
     // Use actual planetary alignment data from astrological context
-    planetaryAlignment: (planetaryPositions as Record<string, unknown>) || {},
+    planetaryAlignment: (planetaryPositions as ElementalProperties) || {},
     dominantElement: Object.entries(elementalProps || {})
       .sort((a, b) => Number(b[1]) - Number(a[1]))
       .map(([element]) => element)[0] || 'Fire',
     zodiacSign: String(options.currentZodiac || currentZodiac || 'aries'),
     // Use actual active planets from planetary positions
-    activePlanets: planetaryPositions ? Object.keys(planetaryPositions as Record<string, unknown>) : 
+    activePlanets: planetaryPositions ? Object.keys(planetaryPositions as ElementalProperties) : 
       ['Sun', 'Moon', 'Mercury', 'Venus', 'Mars', 'Jupiter', 'Saturn', 'Uranus', 'Neptune', 'Pluto'],
     // Use actual moon phase
     lunarPhase: String(moonPhase || 'full moon'),
@@ -51,7 +51,7 @@ async function getRecommendations(
   };
   
   // ✅ Pattern MM-1: Safe type assertion for ingredient recommendations
-  return await getIngredientRecommendations(astroStateData as Record<string, unknown>, options);
+  return await getIngredientRecommendations(astroStateData as ElementalProperties, options);
 }
 
 interface IngredientRecommendationsProps {
@@ -147,7 +147,7 @@ export default function IngredientRecommendations({
     };
     
     // ✅ Pattern MM-1: Safe type assertion for ingredient score
-    const ingredientData = (ingredient as unknown) as Record<string, unknown>;
+    const ingredientData = (ingredient as unknown) as ElementalProperties;
     const score = Number(ingredientData?.score) || 0;
     const matchPercentage = !isNaN(score) 
       ? `${Math.round(score * 100)}%`
@@ -217,7 +217,7 @@ export default function IngredientRecommendations({
           <h4>Flavor Profile</h4>
           {ingredientData?.sensoryProfile && (
             <div className={styles.sensoryHighlights}>
-              {Object.entries(((ingredientData?.sensoryProfile as Record<string, unknown>)?.taste as Record<string, unknown>) || {})
+              {Object.entries(((ingredientData?.sensoryProfile as ElementalProperties)?.taste as ElementalProperties) || {})
                 .filter(([_, value]) => Number(value || 0) > 0.6)
                 .slice(0, 3)
                 .map(([type, value]) => (
@@ -283,7 +283,7 @@ export default function IngredientRecommendations({
   // Display a compact ingredient card
   const renderCompactIngredientCard = (ingredient: IngredientRecommendation) => {
     // ✅ Pattern MM-1: Safe type assertion for ingredient access
-    const ingredientData = (ingredient as unknown) as Record<string, unknown>;
+    const ingredientData = (ingredient as unknown) as ElementalProperties;
     const score = Number(ingredientData?.score) || 0;
     
     // Get elemental properties

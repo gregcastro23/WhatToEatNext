@@ -1,3 +1,7 @@
+// Type Harmony imports
+import { createAstrologicalBridge } from '@/types/bridges/astrologicalBridge';
+import { isValidAstrologicalState } from '@/utils/typeGuards/astrologicalGuards';
+
 import { cookingMethods } from '@/data/cooking/cookingMethods';
 import { culinaryTraditions } from '@/data/cuisines/culinaryTraditions';
 import { meats } from '@/data/ingredients/proteins/meat';
@@ -110,8 +114,12 @@ export class CulinaryAstrologer {
   }
 
   private getAstrologicalAffinity(method: CookingMethodData, astroState: AstrologicalState): number {
+    // Use Type Harmony approach for safe property access
+    const bridge = createAstrologicalBridge();
+    const activePlanets = bridge.safeAccess<string[]>(astroState, 'activePlanets') || [];
+    
     const planetScore = method.astrologicalInfluences?.dominantPlanets?.reduce((sum, planet) => 
-      sum + (astroState.activePlanets.includes(planet) ? 0.2 : 0), 0) || 0;
+      sum + (activePlanets.includes(planet) ? 0.2 : 0), 0) || 0;
     
     return planetScore;
   }
@@ -218,8 +226,10 @@ export class CulinaryAstrologer {
       )
       .map(([name, recipe]) => {
         // Ensure Sun is always included in the planetary activators for consistent testing
+        const bridge = createAstrologicalBridge();
+        const activePlanets = bridge.safeAccess<string[]>(astroState, 'activePlanets') || [];
         const planetaryActivators = [...recipe.astrologicalProfile.rulingPlanets];
-        if (!planetaryActivators.includes('Sun') && astroState.activePlanets.includes('Sun')) {
+        if (!planetaryActivators.includes('Sun') && activePlanets.includes('Sun')) {
           planetaryActivators.push('Sun');
         }
         
@@ -239,16 +249,20 @@ export class CulinaryAstrologer {
     const gasGiants = ['Jupiter', 'Saturn'];
     const outerPlanets = ['Uranus', 'Neptune', 'Pluto'];
     
-    // Calculate match for traditional planets
+    // Calculate match for traditional planets using Type Harmony approach
+    const bridge = createAstrologicalBridge();
+    const activePlanets = bridge.safeAccess<string[]>(astroState, 'activePlanets') || [];
     const traditionalMatch = recipe.astrologicalProfile.rulingPlanets
-      .filter(p => traditionalPlanets.includes(p) && astroState.activePlanets.includes(p)).length;
+      .filter(p => traditionalPlanets.includes(p) && activePlanets.includes(p)).length;
     
     // Calculate match for gas giants with special handling
     let gasGiantScore = 0;
     
-    // Check if Jupiter is active and in recipe's ruling planets
+    // Check if Jupiter is active and in recipe's ruling planets using Type Harmony
+    const bridge2 = createAstrologicalBridge();
+    const activePlanets2 = bridge2.safeAccess<string[]>(astroState, 'activePlanets') || [];
     if (recipe.astrologicalProfile.rulingPlanets.includes('Jupiter') && 
-        astroState.activePlanets.includes('jupiter')) {
+        activePlanets2.includes('jupiter')) {
       
       // Check for Jupiter's effect in dominant planets
       const jupiterPlanet = astroState.dominantPlanets?.find(p => {
@@ -291,9 +305,11 @@ export class CulinaryAstrologer {
       }
     }
     
-    // Check if Saturn is active and in recipe's ruling planets
+    // Check if Saturn is active and in recipe's ruling planets using Type Harmony
+    const bridge3 = createAstrologicalBridge();
+    const activePlanets3 = bridge3.safeAccess<string[]>(astroState, 'activePlanets') || [];
     if (recipe.astrologicalProfile.rulingPlanets.includes('Saturn') && 
-        astroState.activePlanets.includes('saturn')) {
+        activePlanets3.includes('saturn')) {
       
       // Check for Saturn's effect in dominant planets
       const saturnPlanet = astroState.dominantPlanets?.find(p => {
@@ -336,9 +352,11 @@ export class CulinaryAstrologer {
       }
     }
     
-    // Calculate match for outer planets - give them more weight since they change less frequently
+    // Calculate match for outer planets - give them more weight since they change less frequently using Type Harmony
+    const bridge4 = createAstrologicalBridge();
+    const activePlanets4 = bridge4.safeAccess<string[]>(astroState, 'activePlanets') || [];
     const outerPlanetMatch = recipe.astrologicalProfile.rulingPlanets
-      .filter(p => outerPlanets.includes(p) && astroState.activePlanets.includes(p)).length;
+      .filter(p => outerPlanets.includes(p) && activePlanets4.includes(p)).length;
     
     // Higher weight for outer planets to emphasize their importance
     const planetScore = (traditionalMatch * 0.5) + (gasGiantScore * 0.8) + (outerPlanetMatch * 1.0);

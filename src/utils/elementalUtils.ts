@@ -25,6 +25,8 @@ import {
   isElementalPropertyKey, 
   logUnexpectedValue 
 } from '@/utils/validation';
+import { createAstrologicalBridge } from '@/types/bridges/astrologicalBridge';
+
 
 import {
   elements,
@@ -234,7 +236,7 @@ export const elementalUtils = {
     const balance: ElementalProperties = { ...DEFAULT_ELEMENTAL_PROPERTIES };
     
     // Get total amount for percentage calculations
-    const totalAmount = recipe.ingredients.reduce((sum, ing) => {
+    const totalAmount = recipe?.ingredients?.reduce((sum, ing) => {
       const amount = ing.amount ?? 1; // Default to 1 if amount is missing
       return sum + amount;
     }, 0);
@@ -252,7 +254,7 @@ export const elementalUtils = {
     });
 
     // Process each ingredient
-    recipe.ingredients.forEach(ing => {
+    recipe?.ingredients?.forEach(ing => {
       const amount = ing.amount ?? 1; // Default to 1 if amount is missing
       
       if (ing.elementalProperties) {
@@ -291,7 +293,7 @@ export const elementalUtils = {
       return ElementalCalculator.getCurrentElementalState();
     }
 
-    const combinedProperties = recipe.ingredients.reduce(
+    const combinedProperties = recipe?.ingredients?.reduce(
       (acc, ingredient) => {
         const props =
           ingredient.elementalProperties ||
@@ -379,25 +381,25 @@ export const elementalUtils = {
 
     if (properties.Fire > threshold) {
       techniques.push(
-        ...ELEMENTAL_CHARACTERISTICS.Fire.cookingTechniques.slice(0, 2)
+        ...ELEMENTAL_CHARACTERISTICS?.Fire?.cookingTechniques.slice(0, 2)
       );
     }
 
     if (properties.Water > threshold) {
       techniques.push(
-        ...ELEMENTAL_CHARACTERISTICS.Water.cookingTechniques.slice(0, 2)
+        ...ELEMENTAL_CHARACTERISTICS?.Water?.cookingTechniques.slice(0, 2)
       );
     }
 
     if (properties.Earth > threshold) {
       techniques.push(
-        ...ELEMENTAL_CHARACTERISTICS.Earth.cookingTechniques.slice(0, 2)
+        ...ELEMENTAL_CHARACTERISTICS?.Earth?.cookingTechniques.slice(0, 2)
       );
     }
 
     if (properties.Air > threshold) {
       techniques.push(
-        ...ELEMENTAL_CHARACTERISTICS.Air.cookingTechniques.slice(0, 2)
+        ...ELEMENTAL_CHARACTERISTICS?.Air?.cookingTechniques.slice(0, 2)
       );
     }
 
@@ -420,25 +422,25 @@ export const elementalUtils = {
     // Add times based on the elemental balance, weighted by their values
     if (properties.Fire > threshold) {
       for (let i = 0; i < Math.ceil(properties.Fire * 10); i++) {
-        weightedTimes.push(...ELEMENTAL_CHARACTERISTICS.Fire.timeOfDay);
+        weightedTimes.push(...ELEMENTAL_CHARACTERISTICS?.Fire?.timeOfDay);
       }
     }
 
     if (properties.Water > threshold) {
       for (let i = 0; i < Math.ceil(properties.Water * 10); i++) {
-        weightedTimes.push(...ELEMENTAL_CHARACTERISTICS.Water.timeOfDay);
+        weightedTimes.push(...ELEMENTAL_CHARACTERISTICS?.Water?.timeOfDay);
       }
     }
 
     if (properties.Earth > threshold) {
       for (let i = 0; i < Math.ceil(properties.Earth * 10); i++) {
-        weightedTimes.push(...ELEMENTAL_CHARACTERISTICS.Earth.timeOfDay);
+        weightedTimes.push(...ELEMENTAL_CHARACTERISTICS?.Earth?.timeOfDay);
       }
     }
 
     if (properties.Air > threshold) {
       for (let i = 0; i < Math.ceil(properties.Air * 10); i++) {
-        weightedTimes.push(...ELEMENTAL_CHARACTERISTICS.Air.timeOfDay);
+        weightedTimes.push(...ELEMENTAL_CHARACTERISTICS?.Air?.timeOfDay);
       }
     }
 
@@ -1381,7 +1383,7 @@ export function enhanceOilProperties(
     if (!enhancedOil.recommendedCookingMethods) {
       const smokePointData = (enhancedOil.smokePoint as unknown) as Record<string, unknown>;
       const smokePoint = Number(smokePointData?.fahrenheit) || 0;
-      const methods = [];
+      const methods: Array<{ name: string; potency: number }> = [];
 
       if (smokePoint > 400) {
         methods.push({ name: 'deepFrying', potency: 0.9 });

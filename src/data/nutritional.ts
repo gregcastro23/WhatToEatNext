@@ -671,14 +671,17 @@ export function calculateNutritionalBalance(ingredients: IngredientWithNutrition
     const profile = ingredient.nutritionalProfile || {};
     
     // Add calories
-    acc.calories += profile.calories || 0;
+    acc.calories = (acc.calories || 0) + (profile.calories || 0);
     
     // Add macros
     if (profile.macros) {
-      acc.macros.protein += profile.macros.protein || 0;
-      acc.macros.carbs += profile.macros.carbs || 0;
-      acc.macros.fat += profile.macros.fat || 0;
-      acc.macros.fiber += profile.macros.fiber || 0;
+      if (!acc.macros) {
+        acc.macros = { protein: 0, carbs: 0, fat: 0, fiber: 0 };
+      }
+      acc.macros.protein = (acc.macros.protein || 0) + (profile.macros.protein || 0);
+      acc.macros.carbs = (acc.macros.carbs || 0) + (profile.macros.carbs || 0);
+      acc.macros.fat = (acc.macros.fat || 0) + (profile.macros.fat || 0);
+      acc.macros.fiber = (acc.macros.fiber || 0) + (profile.macros.fiber || 0);
     }
     
     // Add vitamins
@@ -771,8 +774,8 @@ export function getZodiacNutritionalRecommendations(sign: string): {
   const signData = zodiacNutritionalNeeds[sign];
   
   return {
-    elementalBalance: (signData as Record<string, unknown>)?.elementalNeeds,
-    focusNutrients: (signData as Record<string, unknown>)?.nutritionalFocus,
+    elementalBalance: (signData as any)?.elementalNeeds as Record<string, number>,
+    focusNutrients: (signData as any)?.nutritionalFocus as string[],
     recommendedFoods: signData.beneficialFoods,
     avoidFoods: signData.challengeFoods
   };
@@ -940,8 +943,8 @@ export function getSeasonalNutritionalRecommendations(season: string): {
   const seasonData = seasonalNutritionFocus[seasonKey] || seasonalNutritionFocus['spring'];
   
   return {
-    element: (seasonData as Record<string, unknown>)?.elementalEmphasis,
-    focusNutrients: (seasonData as Record<string, unknown>)?.nutritionalFocus,
+    element: (seasonData as any)?.elementalEmphasis as string,
+    focusNutrients: (seasonData as any)?.nutritionalFocus as string[],
     seasonalFoods: seasonData.recommendedFoods
   };
 }

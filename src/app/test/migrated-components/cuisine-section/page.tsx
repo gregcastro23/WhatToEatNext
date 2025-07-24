@@ -21,7 +21,7 @@ export default function CuisineSectionTestPage() {
   const { recipeService } = useServices();
   
   // Component state
-  const [recipes, setRecipes] = useState([]);
+  const [recipes, setRecipes] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
   

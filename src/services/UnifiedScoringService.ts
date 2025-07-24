@@ -306,7 +306,7 @@ export function calculateAspectEffect(
   
   for (const aspect of astroData.aspects) {
     if (itemRulers.includes(aspect.planet1 as Planet) || itemRulers.includes(aspect.planet2 as Planet)) {
-      const aspectStrength = aspect.strength;
+      const aspectStrength = aspect.strength ?? 1.0;
       
       switch (aspect.type) {
         case 'conjunction':
@@ -630,14 +630,14 @@ export class UnifiedScoringService {
    */
   private async getFallbackAstrologicalData(context: ScoringContext): Promise<Partial<AstrologicalData>> {
     return {
-      planetaryPositions: context.planetaryPositions || {},
+      planetaryPositions: context.planetaryPositions || ({} as Record<Planet, PlanetaryPosition>),
       aspects: (context.aspects || []).map(aspect => ({
         ...aspect,
         strength: 0.5 // Default strength for fallback data
       })),
       transits: { active: [], seasonal: {} },
-      lunarPhase: { name: 'Unknown', illumination: 0.5, effect: 'Neutral' },
-      dignity: {}
+      lunarPhase: { name: 'new moon' as LunarPhase, illumination: 0.5, effect: 'Neutral' },
+      dignity: {} as Record<Planet, number>
     };
   }
   
@@ -646,11 +646,11 @@ export class UnifiedScoringService {
    */
   private getMinimalFallbackData(context: ScoringContext): AstrologicalData {
     return {
-      planetaryPositions: {},
+      planetaryPositions: {} as Record<Planet, PlanetaryPosition>,
       aspects: [],
       transits: { active: [], seasonal: {} },
-      lunarPhase: { name: 'Unknown', illumination: 0.5, effect: 'Neutral' },
-      dignity: {},
+      lunarPhase: { name: 'new moon' as LunarPhase, illumination: 0.5, effect: 'Neutral' },
+      dignity: {} as Record<Planet, number>,
       source: 'fallback' as const,
       confidence: 0.1
     };

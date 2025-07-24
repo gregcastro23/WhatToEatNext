@@ -3,6 +3,8 @@ import type { ZodiacSign, LunarPhase, ElementalProperties } from '@/types/alchem
 import type { Cuisine, SeasonalDishes } from '@/types/cuisine';
 import type { Recipe } from '@/types/recipe';
 import { logger } from '@/utils/logger';
+import { createAstrologicalBridge } from '@/types/bridges/astrologicalBridge';
+
 
 // Define a more specific type for dish objects
 interface RawDish {
@@ -283,10 +285,10 @@ export class LocalRecipeService {
       logger.debug(`Extracting recipes from cuisine: ${cuisine.name}`);
       
       // Special handling for American and African cuisines
-      const isSpecialCase = cuisine.name.toLowerCase() === 'american' || cuisine.name.toLowerCase() === 'african';
+      const isSpecialCase = cuisine?.name?.toLowerCase() === 'american' || cuisine?.name?.toLowerCase() === 'african';
       
       // Log specific debug info for African cuisine
-      if (cuisine.name.toLowerCase() === 'african') {
+      if (cuisine?.name?.toLowerCase() === 'african') {
         logger.debug('AFRICAN CUISINE DETAILED DEBUG INFO:');
         logger.debug('Full cuisine structure:', JSON.stringify({
           id: cuisine.id,
@@ -437,15 +439,15 @@ export class LocalRecipeService {
               seasonKeys: value ? Object.keys(value) : [],
               hasAll: !!(value && value.all),
               allIsArray: !!(value && value.all && Array.isArray(value.all)),
-              allLength: value && value.all && Array.isArray(value.all) ? value.all.length : 0
+              allLength: value && value.all && Array.isArray(value.all) ? value?.all?.length : 0
             }))
           }, null, 2)
         );
         
         // Check if the dishes property might be nested incorrectly
-        if (cuisine.dishes && typeof cuisine.dishes.dishes === 'object') {
+        if (cuisine.dishes && typeof cuisine?.dishes?.dishes === 'object') {
           logger.debug('Found nested dishes property, trying to extract from there instead');
-          return this.getRecipesFromCuisine({...cuisine, dishes: cuisine.dishes.dishes as Record<string, unknown>});
+          return this.getRecipesFromCuisine({...cuisine, dishes: cuisine?.dishes?.dishes as Record<string, unknown>});
         }
       }
       
@@ -477,7 +479,7 @@ export class LocalRecipeService {
       }
       
       // Generate a deterministic ID if none exists
-      const id = dish.id || `${cuisineName.toLowerCase()}-${dish.name.toLowerCase().replace(/\s+/g, '-')}`;
+      const id = dish.id || `${cuisineName.toLowerCase()}-${dish?.name?.toLowerCase().replace(/\s+/g, '-')}`;
       
       // Map cuisine ingredients to our RecipeIngredient type
       const ingredients = (Array.isArray(dish.ingredients) ? dish.ingredients : []).map(ing => {
@@ -549,9 +551,9 @@ export class LocalRecipeService {
       
       // Get instructions from preparationSteps or instructions field
       let instructions = [];
-      if (Array.isArray(dish.preparationSteps) && dish.preparationSteps.length > 0) {
+      if (Array.isArray(dish.preparationSteps) && dish?.preparationSteps?.length > 0) {
         instructions = dish.preparationSteps;
-      } else if (Array.isArray(dish.instructions) && dish.instructions.length > 0) {
+      } else if (Array.isArray(dish.instructions) && dish?.instructions?.length > 0) {
         instructions = dish.instructions;
       } else if (typeof dish.preparationSteps === 'string') {
         instructions = [dish.preparationSteps];
@@ -563,12 +565,12 @@ export class LocalRecipeService {
       
       // Process nutrition information
       const nutrition = dish.nutrition ? {
-        calories: dish.nutrition.calories,
-        protein: dish.nutrition.protein,
-        carbs: dish.nutrition.carbs,
-        fat: dish.nutrition.fat,
-        vitamins: dish.nutrition.vitamins || [],
-        minerals: dish.nutrition.minerals || []
+        calories: dish?.nutrition?.calories,
+        protein: dish?.nutrition?.protein,
+        carbs: dish?.nutrition?.carbs,
+        fat: dish?.nutrition?.fat,
+        vitamins: dish?.nutrition?.vitamins || [],
+        minerals: dish?.nutrition?.minerals || []
       } : undefined;
       
       // Process substitutions
@@ -653,12 +655,12 @@ export class LocalRecipeService {
       
       return recipes.filter(recipe => {
         // Search in recipe name
-        if (recipe.name && recipe.name.toLowerCase().includes(normalizedQuery)) {
+        if (recipe.name && recipe?.name?.toLowerCase().includes(normalizedQuery)) {
           return true;
         }
         
         // Search in recipe description
-        if (recipe.description && recipe.description.toLowerCase().includes(normalizedQuery)) {
+        if (recipe.description && recipe?.description?.toLowerCase().includes(normalizedQuery)) {
           return true;
         }
         
@@ -698,8 +700,8 @@ export class LocalRecipeService {
       return recipes.filter(recipe => 
         recipe.mealType && 
         (Array.isArray(recipe.mealType) 
-          ? recipe.mealType.some(m => m.toLowerCase() === normalizedMealType)
-          : recipe.mealType.toLowerCase() === normalizedMealType)
+          ? recipe?.mealType?.some(m => m.toLowerCase() === normalizedMealType)
+          : recipe?.mealType?.toLowerCase() === normalizedMealType)
       );
     } catch (error) {
       logger.error(`Error getting recipes for meal type "${mealType}":`, error);
@@ -722,8 +724,8 @@ export class LocalRecipeService {
       return recipes.filter(recipe => 
         recipe.season && 
         (Array.isArray(recipe.season) 
-          ? recipe.season.some(s => s.toLowerCase() === normalizedSeason)
-          : recipe.season.toLowerCase() === normalizedSeason)
+          ? recipe?.season?.some(s => s.toLowerCase() === normalizedSeason)
+          : recipe?.season?.toLowerCase() === normalizedSeason)
       );
     } catch (error) {
       logger.error(`Error getting recipes for season "${season}":`, error);

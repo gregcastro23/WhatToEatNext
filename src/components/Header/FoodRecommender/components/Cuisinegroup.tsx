@@ -40,15 +40,15 @@ const CuisineGroup: React.FC<Props> = ({ recipes, elementalState }) => {
             case 'night':
             case 'evening':
                 return mealTypes.some(type => 
-                    ['dinner', 'supper', 'evening', 'all'].includes(type?.toLowerCase())
+                    ['dinner', 'supper', 'evening', 'all'].includes(type?.toLowerCase() || "")
                 );
             case 'morning':
                 return mealTypes.some(type => 
-                    ['breakfast', 'brunch', 'all'].includes(type?.toLowerCase())
+                    ['breakfast', 'brunch', 'all'].includes(type?.toLowerCase() || "")
                 );
             case 'afternoon':
                 return mealTypes.some(type => 
-                    ['lunch', 'brunch', 'all'].includes(type?.toLowerCase())
+                    ['lunch', 'brunch', 'all'].includes(type?.toLowerCase() || "")
                 );
             default:
                 return true;
@@ -151,7 +151,7 @@ const CuisineGroup: React.FC<Props> = ({ recipes, elementalState }) => {
             }
 
             // Preparation time bonus for quick meals during busy times
-            const prepTime = parseInt(recipe.timeToMake) || 0;
+            const prepTime = parseInt(recipe.timeToMake || "0") || 0;
             if (prepTime <= 30) {
                 score += bonusFactors.quickPrep;
             } else if (prepTime <= 45) {
@@ -339,7 +339,7 @@ const CuisineGroup: React.FC<Props> = ({ recipes, elementalState }) => {
                                         </div>
                                         <div className="flex items-center gap-2">
                                             <span className="font-medium">Time:</span>
-                                            <span>{recipe.timeToMake}</span>
+                                            <span>{recipe.timeToMake || ""}</span>
                                         </div>
                                         {recipe.nutrition?.calories && (
                                             <div className="flex items-center gap-2">

@@ -388,8 +388,8 @@ export class AlchemicalEngineBase {
   }
 
   calculateIngredientInteractions(ingredients: Ingredient[]) {
-    const synergies = [];
-    const conflicts = [];
+    const synergies: { ingredients: Ingredient[]; score: number; }[] = [];
+    const conflicts: { ingredients: Ingredient[]; score: number; }[] = [];
 
     for (let i = 0; i < ingredients.length; i++) {
       for (let j = i + 1; j < ingredients.length; j++) {

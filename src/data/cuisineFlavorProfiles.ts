@@ -840,7 +840,7 @@ export function getRecipesForCuisineMatch(
           console.log(`Direct import successful for ${cuisineName}, extracting recipes from dishes`);
 
           // Extract recipes from all meal types
-          const allRecipes = [];
+          const allRecipes: any[] = [];
           const mealTypes = ['breakfast', 'lunch', 'dinner', 'dessert'];
 
           for (const mealType of mealTypes) {
@@ -985,7 +985,7 @@ export function getRecipesForCuisineMatch(
         .map((recipe) => {
           try {
             const recipeData = recipe as Record<string, unknown>;
-            const scoreComponents = [];
+            const scoreComponents: number[] = [];
             let totalWeight = 0;
 
             // Base flavor profile match (weight: 0.4)
@@ -1251,7 +1251,7 @@ export const findRelatedRecipes = (
 ): Recipe[] => {
   const scoredRecipes = recipes
     .map((recipe) => {
-      const scoreComponents = [];
+      const scoreComponents: number[] = [];
       const totalWeight = 0;
       
       // Simple name similarity scoring

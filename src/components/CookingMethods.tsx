@@ -32,6 +32,9 @@ interface CookingMethodData {
 import { ChevronDown, ChevronUp } from 'lucide-react';
 import React, { useState, useEffect, useMemo, useCallback, useRef } from 'react';
 
+// Type Harmony imports
+import { createAstrologicalBridge } from '@/types/bridges/astrologicalBridge';
+import { isValidAstrologicalState, safelyExtractElementalProperties, createDefaultElementalProperties } from '@/utils/typeGuards/astrologicalGuards';
 
 import { AlchemicalItem } from '@/calculations/alchemicalTransformation';
 import type { LunarPhase } from '@/constants/lunarPhases';
@@ -66,9 +69,9 @@ const alchemize = async (
 
     const horoscopeDict = {
       tropical: {
-        CelestialBodies: {},
-        Ascendant: {},
-        Aspects: {}
+        CelestialBodies: "{}",
+        Ascendant: "{}",
+        Aspects: "{}"
       }
     };
 
@@ -107,7 +110,7 @@ const alchemize = async (
     console.error('Error in alchemize function:', error);
     return {
       ...elements,
-      alchemicalProperties: {},
+      alchemicalProperties: "{}",
       transformedElementalProperties: elements,
       heat: (thermodynamics as BasicThermodynamicProperties)?.heat || 0.5,
       entropy: (thermodynamics as BasicThermodynamicProperties)?.entropy || 0.5,
@@ -1381,8 +1384,11 @@ export default function CookingMethods() {
             // Cap the score at 1.0 maximum and minimum of 0.1
             const finalScore = Math.min(1.0, Math.max(0.1, adjustedScore));
             
-            // Generate a reason for the match
-            const matchReason = determineMatchReason(methodWithThermodynamics as any, astroState);
+            // Generate a reason for the match using Type Harmony bridge
+            const bridge = createAstrologicalBridge();
+            const matchReason = isValidAstrologicalState(astroState) 
+              ? determineMatchReason(methodWithThermodynamics as CookingMethod, astroState)
+              : "Compatible elemental properties";
             
             return {
               ...methodWithThermodynamics,

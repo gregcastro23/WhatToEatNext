@@ -1,0 +1,24 @@
+{
+  "enabled": true,
+  "name": "Campaign Progress Tracker",
+  "description": "Monitors your active campaigns and automatically advances phases. Tracks TypeScript errors, linting warnings, unused variables and provides background monitoring for campaign system integration.",
+  "version": "1",
+  "when": {
+    "type": "fileEdited",
+    "patterns": [
+      "src/services/campaign/**/*.ts",
+      "src/services/campaign/**/*.js",
+      "*.log",
+      "logs/**/*.txt",
+      "logs/**/*.log",
+      "current-errors.log",
+      "current-ts-errors.log",
+      "lint-results.json",
+      "unused-variables-analysis.json"
+    ]
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "Monitor campaign progress and check if any phases need to be advanced. Analyze the current TypeScript error count, linting warnings, and unused variables. If error thresholds are exceeded (>100 TypeScript errors or >1000 linting warnings), suggest triggering appropriate campaign phases. Check for campaign completion criteria and provide status updates on the systematic code quality improvement process. Include safety protocol status and any rollback recommendations if needed."
+  }
+}

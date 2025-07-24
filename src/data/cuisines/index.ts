@@ -127,23 +127,23 @@ const processCuisineRecipes = (cuisine: Partial<Cuisine>): Cuisine => {
 
 // Create and export the cuisines map with validated structures
 export const cuisinesMap = {
-    African: processCuisineRecipes(african as unknown),
-    American: processCuisineRecipes(american as unknown),
-    Chinese: processCuisineRecipes(chinese as unknown),
-    French: processCuisineRecipes(french as unknown),
-    Greek: processCuisineRecipes(greek as unknown),
-    Indian: processCuisineRecipes(indian as unknown),
-    Italian: processCuisineRecipes(italian as unknown),
-    Japanese: processCuisineRecipes(japanese as unknown),
-    Korean: processCuisineRecipes(korean as unknown),
-    Mexican: processCuisineRecipes(mexican as unknown),
-    'Middle Eastern': processCuisineRecipes(middleEastern as unknown),
-    Russian: processCuisineRecipes(russian as unknown),
-    Thai: processCuisineRecipes(thai as unknown),
-    Vietnamese: processCuisineRecipes(vietnamese as unknown),
+    African: processCuisineRecipes(african as Partial<Cuisine>),
+    American: processCuisineRecipes(american as Partial<Cuisine>),
+    Chinese: processCuisineRecipes(chinese as Partial<Cuisine>),
+    French: processCuisineRecipes(french as Partial<Cuisine>),
+    Greek: processCuisineRecipes(greek as Partial<Cuisine>),
+    Indian: processCuisineRecipes(indian as Partial<Cuisine>),
+    Italian: processCuisineRecipes(italian as Partial<Cuisine>),
+    Japanese: processCuisineRecipes(japanese as Partial<Cuisine>),
+    Korean: processCuisineRecipes(korean as Partial<Cuisine>),
+    Mexican: processCuisineRecipes(mexican as Partial<Cuisine>),
+    'Middle Eastern': processCuisineRecipes(middleEastern as Partial<Cuisine>),
+    Russian: processCuisineRecipes(russian as Partial<Cuisine>),
+    Thai: processCuisineRecipes(thai as Partial<Cuisine>),
+    Vietnamese: processCuisineRecipes(vietnamese as Partial<Cuisine>),
     // Add lowercase variants for problematic cuisines
-    african: processCuisineRecipes(african as unknown),
-    american: processCuisineRecipes(american as unknown)
+    african: processCuisineRecipes(african as Partial<Cuisine>),
+    american: processCuisineRecipes(american as Partial<Cuisine>)
 } as const;
 
 export type CuisineName = keyof typeof cuisinesMap;

@@ -1,6 +1,8 @@
 import { Flame, Droplets, Mountain, Wind, Info, Clock, Tag, Leaf, X, ChevronDown, ChevronUp, Beaker, Settings } from 'lucide-react';
 import { useEffect, useState, useMemo, useCallback } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
+import { createAstrologicalBridge } from '@/types/bridges/astrologicalBridge';
+
 
 import { ingredientCategories } from "@/data/ingredientCategories";
 import type { 
@@ -29,10 +31,10 @@ import { IngredientCard } from '../IngredientCard';
 
 
 // Import the useFlavorEngine hook from our new context
-// TODO: Fix CSS module import - was: import from "./IngredientRecommender.module.css.ts"
+// TODO: Fix CSS module import - was: import from "./IngredientRecommender?.module?.css.ts"
 
 
-import styles from './CookingMethods.module.css';
+import styles from './CookingMethods?.module?.css';
 /**
  * Maps planets to their elemental influences (diurnal and nocturnal elements)
  */
@@ -293,7 +295,7 @@ export default function IngredientRecommender() {
           astrologicalState,
           {
             dietary: [],
-            taste: {},
+            taste: {} as Record<Planet, PlanetaryPosition>,
             chakraFocus: []
           }
         );
@@ -517,8 +519,8 @@ export default function IngredientRecommender() {
     // Enhance score based on time of day (diurnal/nocturnal)
     if (ingredient.elementalProperties) {
       const timeBonus = isDaytime ? 
-        (ingredient.elementalProperties.Fire || 0) * 0.1 + (ingredient.elementalProperties.Air || 0) * 0.05 :
-        (ingredient.elementalProperties.Water || 0) * 0.1 + (ingredient.elementalProperties.Earth || 0) * 0.05;
+        (ingredient?.elementalProperties?.Fire || 0) * 0.1 + (ingredient?.elementalProperties?.Air || 0) * 0.05 :
+        (ingredient?.elementalProperties?.Water || 0) * 0.1 + (ingredient?.elementalProperties?.Earth || 0) * 0.05;
       score += timeBonus;
     }
     
@@ -899,7 +901,7 @@ export default function IngredientRecommender() {
             elementalProperties: oilData.elementalProperties || { Fire: 0.3, Water: 0.2, Earth: 0.3, Air: 0.2 
              },
             qualities: ((oilData as unknown as Record<string, unknown>).qualities as string[]) || ['cooking', 'flavoring'],
-            description: `${oilData.name || key.replace(/_/g, ' ')?.replace(/\b\w/g, l => l?.toUpperCase())} - ${String((oilData as unknown as Record<string, unknown>)?.description || "A versatile cooking oil with various applications.")}`
+            description: `${oilData.name || key.replace(/_/g, ' ')?.replace(/\b\w/g, l => l?.(toUpperCase as () => void)())} - ${String((oilData as unknown as Record<string, unknown>)?.description || "A versatile cooking oil with various applications.")}`
           } as IngredientRecommendation;
         });
       
@@ -1073,15 +1075,15 @@ export default function IngredientRecommender() {
     
     // Fallback comparison using elemental properties
     if (ingredient1.elementalProperties && ingredient2.elementalProperties) {
-      const fire1 = ingredient1.elementalProperties.Fire || 0;
-      const water1 = ingredient1.elementalProperties.Water || 0;
-      const earth1 = ingredient1.elementalProperties.Earth || 0;
-      const Air1 = ingredient1.elementalProperties.Air || 0;
+      const fire1 = ingredient1?.elementalProperties?.Fire || 0;
+      const water1 = ingredient1?.elementalProperties?.Water || 0;
+      const earth1 = ingredient1?.elementalProperties?.Earth || 0;
+      const Air1 = ingredient1?.elementalProperties?.Air || 0;
       
-      const fire2 = ingredient2.elementalProperties.Fire || 0;
-      const water2 = ingredient2.elementalProperties.Water || 0;
-      const earth2 = ingredient2.elementalProperties.Earth || 0;
-      const Air2 = ingredient2.elementalProperties.Air || 0;
+      const fire2 = ingredient2?.elementalProperties?.Fire || 0;
+      const water2 = ingredient2?.elementalProperties?.Water || 0;
+      const earth2 = ingredient2?.elementalProperties?.Earth || 0;
+      const Air2 = ingredient2?.elementalProperties?.Air || 0;
       
       // Calculate simple compatibility based on elemental similarity
       const fireDiff = Math.abs(fire1 - fire2);
@@ -1199,19 +1201,19 @@ export default function IngredientRecommender() {
                       <div className={'elementalState-class'}>
                         {getElementIcon('Fire')}
                         <span className={'elementValue-class'}>
-                          {Math.round((item.elementalProperties.Fire || 0) * 100)}%
+                          {Math.round((item?.elementalProperties?.Fire || 0) * 100)}%
                             </span>
                         {getElementIcon('Water')}
                         <span className={'elementValue-class'}>
-                          {Math.round((item.elementalProperties.Water || 0) * 100)}%
+                          {Math.round((item?.elementalProperties?.Water || 0) * 100)}%
                         </span>
                         {getElementIcon('Earth')}
                         <span className={'elementValue-class'}>
-                          {Math.round((item.elementalProperties.Earth || 0) * 100)}%
+                          {Math.round((item?.elementalProperties?.Earth || 0) * 100)}%
                         </span>
                         {getElementIcon('Air')}
                         <span className={'elementValue-class'}>
-                          {Math.round((item.elementalProperties.Air || 0) * 100)}%
+                          {Math.round((item?.elementalProperties?.Air || 0) * 100)}%
                         </span>
                           </div>
                         )}
@@ -1243,13 +1245,13 @@ export default function IngredientRecommender() {
                               .filter(rec => 
                                 rec?.ingredient?.name?.toLowerCase() === item.name?.toLowerCase())
                               .map(enhancedRec => (
-                                <div key={`enhanced-${enhancedRec.ingredient.name}`} className={'enhancedDetails-class'}>
+                                <div key={`enhanced-${enhancedRec?.ingredient?.name}`} className={'enhancedDetails-class'}>
                                   {enhancedRec.chakraAlignment && (
                                     <div className={'chakraAlignment-class'}>
                                     <ChakraIndicator 
-                                        chakra={enhancedRec.chakraAlignment.dominantChakra}
-                                        energyLevel={enhancedRec.chakraAlignment.energyLevel}
-                                        balanceState={enhancedRec.chakraAlignment.balanceState}
+                                        chakra={enhancedRec?.chakraAlignment?.dominantChakra}
+                                        energyLevel={enhancedRec?.chakraAlignment?.energyLevel}
+                                        balanceState={enhancedRec?.chakraAlignment?.balanceState}
                                     />
                                   </div>
                                 )}
@@ -1414,14 +1416,14 @@ export default function IngredientRecommender() {
                 }}
                 onMouseEnter={(e) => {
                   if (!isSelected) {
-                    e.currentTarget.style.backgroundColor = '#f1f5f9';
-                    e.currentTarget.style.borderColor = '#94a3b8';
+                    e?.currentTarget?.style.backgroundColor = '#f1f5f9';
+                    e?.currentTarget?.style.borderColor = '#94a3b8';
                   }
                 }}
                 onMouseLeave={(e) => {
                   if (!isSelected) {
-                    e.currentTarget.style.backgroundColor = '#ffffff';
-                    e.currentTarget.style.borderColor = '#d1d5db';
+                    e?.currentTarget?.style.backgroundColor = '#ffffff';
+                    e?.currentTarget?.style.borderColor = '#d1d5db';
                   }
                 }}
               >
