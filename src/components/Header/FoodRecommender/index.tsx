@@ -613,19 +613,19 @@ const FoodRecommender: React.FC = () => {
                                             <div className="grid grid-cols-2 gap-x-2 gap-y-1">
                                                 <div className="text-xs flex justify-between">
                                                     <span className="text-yellow-400">Heat:</span>
-                                                    <span className="text-white">{safelyFormatNumber(thermodynamic.heat * 100)}%</span>
+                                                    <span className="text-white">{String(safelyFormatNumber(thermodynamic.heat * 100))}%</span>
                                                 </div>
                                                 <div className="text-xs flex justify-between">
                                                     <span className="text-indigo-400">Entropy:</span>
-                                                    <span className="text-white">{safelyFormatNumber(thermodynamic.entropy * 100)}%</span>
+                                                    <span className="text-white">{String(safelyFormatNumber(thermodynamic.entropy * 100))}%</span>
                                                 </div>
                                                 <div className="text-xs flex justify-between">
                                                     <span className="text-green-400">Reactivity:</span>
-                                                    <span className="text-white">{safelyFormatNumber(thermodynamic.reactivity * 100)}%</span>
+                                                    <span className="text-white">{String(safelyFormatNumber(thermodynamic.reactivity * 100))}%</span>
                                                 </div>
                                                 <div className="text-xs flex justify-between">
                                                     <span className="text-blue-400">Energy:</span>
-                                                    <span className="text-white">{safelyFormatNumber(thermodynamic.energy * 100)}%</span>
+                                                    <span className="text-white">{String(safelyFormatNumber(thermodynamic.energy * 100))}%</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -640,15 +640,15 @@ const FoodRecommender: React.FC = () => {
                                                 </div>
                                                 <div className="text-xs flex justify-between">
                                                     <span className="text-pink-400">Essence:</span>
-                                                    <span className="text-white">{safelyFormatNumber(alchemical.essence * 100)}%</span>
+                                                    <span className="text-white">{String(safelyFormatNumber(alchemical.essence * 100))}%</span>
                                                 </div>
                                                 <div className="text-xs flex justify-between">
                                                     <span className="text-amber-400">Matter:</span>
-                                                    <span className="text-white">{safelyFormatNumber(alchemical.matter * 100)}%</span>
+                                                    <span className="text-white">{String(safelyFormatNumber(alchemical.matter * 100))}%</span>
                                                 </div>
                                                 <div className="text-xs flex justify-between">
                                                     <span className="text-cyan-400">Substance:</span>
-                                                    <span className="text-white">{safelyFormatNumber(alchemical.substance * 100)}%</span>
+                                                    <span className="text-white">{String(safelyFormatNumber(alchemical.substance * 100))}%</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -774,7 +774,7 @@ const FoodRecommender: React.FC = () => {
                                                                     {isTarotElement && ' ✧'}
                                                                 </span>
                                                             </div>
-                                                            <span className="text-gray-400">{safelyFormatNumber(normalizedValue * 100)}%</span>
+                                                            <span className="text-gray-400">{String(safelyFormatNumber(normalizedValue * 100))}%</span>
                                                         </div>
                                                         <div className="w-full bg-gray-800 rounded-full h-1.5">
                                                             <div 
@@ -799,7 +799,7 @@ const FoodRecommender: React.FC = () => {
                                                         style={{ width: `${Math.min(100, Math.max(0, Math.round(((ingredient as Record<string, unknown>)?.heat as number || 0) * 100)))}%` }}
                                                     ></div>
                                                 </div>
-                                                <span className="text-gray-400">{safelyFormatNumber((ingredient as Record<string, unknown>)?.heat)}</span>
+                                                <span className="text-gray-400">{String(safelyFormatNumber((ingredient as Record<string, unknown>)?.heat))}</span>
                                             </div>
                                         </div>
                                         <div className="text-xs">

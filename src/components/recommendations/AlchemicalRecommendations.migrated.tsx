@@ -420,14 +420,14 @@ const AlchemicalRecommendationsMigrated: React.FC<AlchemicalRecommendationsProps
           // Get cuisine elemental state or calculate it
           let elementalState: ElementalProperties;
           
-          if (cuisine.elementalState) {
-            elementalState = createElementalProperties(cuisine.elementalState);
+          if ((cuisine as CuisineData).elementalState) {
+            elementalState = createElementalProperties((cuisine as CuisineData).elementalState as ElementalProperties);
           } else {
             // Calculate based on cuisine characteristics
             elementalState = createElementalProperties({ Fire: 0, Water: 0, Earth: 0, Air: 0  });
             
-            const cuisineName = cuisine.name?.toLowerCase();
-            const region = cuisine.region?.toLowerCase() || '';
+            const cuisineName = (cuisine as CuisineData).name?.toLowerCase();
+            const region = String((cuisine as CuisineData).region || '').toLowerCase();
             
             // Adjust by cuisine type/region
             if (cuisineName && (cuisineName.includes('indian') || cuisineName === 'indian' || 
@@ -461,8 +461,8 @@ const AlchemicalRecommendationsMigrated: React.FC<AlchemicalRecommendationsProps
           }
           
           return {
-            id: cuisine.id || cuisine.name,
-            name: cuisine.name,
+            id: (cuisine as CuisineData).id || (cuisine as CuisineData).name,
+            name: (cuisine as CuisineData).name,
             elementalProperties: elementalState as Record<ElementalCharacter, number>
           } as ElementalItem;
         });
@@ -529,7 +529,7 @@ const AlchemicalRecommendationsMigrated: React.FC<AlchemicalRecommendationsProps
         // ✅ Pattern MM-1: generateRecommendations expects (planetaryPositions, ingredients, cookingMethods)
         const planetaryPositions = resolvedPlanetaryPositions || {};
         const recs = await alchemicalRecommendationService.generateRecommendations(
-          planetaryPositions as Record<string, ZodiacSign>,
+          planetaryPositions as unknown as Record<string, ZodiacSign>,
           (filteredIngredientsArray || []) as unknown as UnifiedIngredient[],
           (cookingMethodsArray || []) as unknown as CookingMethod[]
         );
@@ -764,7 +764,7 @@ const AlchemicalRecommendationsMigrated: React.FC<AlchemicalRecommendationsProps
                             <strong>Air:</strong> {Math.round(Number(elementalState?.Air || 0) * 100)}%
                           </div>
                         </div>
-                        {itemData?.modality && (
+                        {Boolean(itemData?.modality && String(itemData?.modality)) && (
                           <div className="item-modality">
                             <span className={`modality-badge ${(String(itemData?.modality || '')).toLowerCase()}`}>
                               {String(itemData?.modality || '')}
