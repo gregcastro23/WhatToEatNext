@@ -1235,7 +1235,7 @@ export default function CookingMethods() {
     
     // If the method already has valid elemental properties, use those
     if ((method as Record<string, unknown>)?.elementalProperties && 
-        Object.values((method as Record<string, unknown>)?.elementalProperties).some(val => Number(val) > 0)) {
+        Object.values((method as Record<string, unknown>)?.elementalProperties || {}).some(val => Number(val) > 0)) {
       return (method as Record<string, unknown>)?.elementalProperties;
     }
     

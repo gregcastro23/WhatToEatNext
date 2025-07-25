@@ -1,59 +1,15 @@
 {
   "mcpServers": {
-    "nasa-horizons": {
+    "local-api-tester": {
       "command": "uvx",
-      "args": ["nasa-horizons-mcp-server@latest"],
-      "env": {
-        "FASTMCP_LOG_LEVEL": "ERROR",
-        "NASA_API_KEY": ""
-      },
-      "disabled": false,
-      "autoApprove": [
-        "get_planetary_positions",
-        "get_ephemeris_data",
-        "calculate_lunar_phases",
-        "get_transit_dates"
-      ]
-    },
-    "usda-nutrition": {
-      "command": "uvx", 
-      "args": ["usda-nutrition-mcp-server@latest"],
-      "env": {
-        "FASTMCP_LOG_LEVEL": "ERROR",
-        "USDA_API_KEY": ""
-      },
-      "disabled": false,
-      "autoApprove": [
-        "get_nutrition_data",
-        "search_ingredients",
-        "get_food_details",
-        "search_branded_foods"
-      ]
-    },
-    "spoonacular-recipes": {
-      "command": "uvx",
-      "args": ["spoonacular-mcp-server@latest"], 
-      "env": {
-        "FASTMCP_LOG_LEVEL": "ERROR",
-        "SPOONACULAR_API_KEY": ""
-      },
-      "disabled": false,
-      "autoApprove": [
-        "search_recipes",
-        "get_recipe_details",
-        "get_recipe_nutrition",
-        "search_ingredients",
-        "get_ingredient_substitutes"
-      ]
-    },
-    "aws-docs": {
-      "command": "uvx",
-      "args": ["awslabs.aws-documentation-mcp-server@latest"],
+      "args": ["mcp-server-fetch@latest"],
       "env": {
         "FASTMCP_LOG_LEVEL": "ERROR"
       },
-      "disabled": true,
-      "autoApprove": []
+      "disabled": false,
+      "autoApprove": [
+        "fetch"
+      ]
     }
   }
 }

@@ -127,7 +127,7 @@ export default function FilterSection({
       <div>
         <h3 className="text-lg font-medium mb-2">Elemental Balance</h3>
         <div className="grid grid-cols-2 gap-4">
-          {Object.entries(state.elementalPreference).map(([element, value]) => {
+          {Object.entries(state.elementalPreference || {}).map(([element, value]) => {
             const Icon = ElementIcons[element as keyof typeof ElementIcons];
             return (
               <div 

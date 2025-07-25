@@ -65,7 +65,7 @@ export const Tooltip: React.FC<TooltipProps> = ({
     };
   }, []);
 
-  const clonedTrigger = React.cloneElement(trigger, {
+  const clonedTrigger = React.cloneElement(trigger as React.ReactElement<any>, {
     ref: triggerRef,
     onMouseEnter: showTooltip,
     onMouseLeave: hideTooltip,

@@ -967,7 +967,7 @@ export default function CuisineRecommender() {
     setShowCuisineDetails(true);
 
     if (selectedData?.recipes?.length > 0) {
-      setMatchingRecipes(selectedData.recipes);
+      setMatchingRecipes(selectedData?.recipes ?? []);
     } else {
       setMatchingRecipes([]);
     }

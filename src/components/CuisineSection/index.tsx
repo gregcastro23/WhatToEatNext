@@ -292,7 +292,7 @@ export const CuisineSection: React.FC<CuisineSectionProps> = ({
           <h4 className="font-medium text-lg text-gray-900">{String(sauceData?.name || 'Traditional Sauce')}</h4>
           {Boolean(sauceData?.elementalProperties) && (
             <div className="flex gap-1">
-              {Object.entries(sauceData.elementalProperties).map(([element, value]) => (
+              {Object.entries(sauceData.elementalProperties || {}).map(([element, value]) => (
                 <span 
                   key={element}
                   className={`px-2 py-1 rounded-full text-xs font-medium ${

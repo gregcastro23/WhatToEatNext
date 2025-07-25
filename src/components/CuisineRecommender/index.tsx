@@ -200,23 +200,23 @@ export const CuisineRecommender: React.FC<CuisineRecommenderProps> = ({
                     <div className="score-details">
                       <div className="score-item">
                         <span>Elemental:</span>
-                        <span>{(recipe.alchemicalScores.elementalScore * 100).toFixed(0)}%</span>
+                        <span>{((recipe.alchemicalScores?.elementalScore ?? 0) * 100).toFixed(0)}%</span>
                       </div>
                       <div className="score-item">
                         <span>Zodiacal:</span>
-                        <span>{(recipe.alchemicalScores.zodiacalScore * 100).toFixed(0)}%</span>
+                        <span>{((recipe.alchemicalScores?.zodiacalScore ?? 0) * 100).toFixed(0)}%</span>
                       </div>
                       <div className="score-item">
                         <span>Lunar:</span>
-                        <span>{(recipe.alchemicalScores.lunarScore * 100).toFixed(0)}%</span>
+                        <span>{((recipe.alchemicalScores?.lunarScore ?? 0) * 100).toFixed(0)}%</span>
                       </div>
                       <div className="score-item">
                         <span>Planetary:</span>
-                        <span>{(recipe.alchemicalScores.planetaryScore * 100).toFixed(0)}%</span>
+                        <span>{((recipe.alchemicalScores?.planetaryScore ?? 0) * 100).toFixed(0)}%</span>
                       </div>
                       <div className="score-item">
                         <span>Seasonal:</span>
-                        <span>{(recipe.alchemicalScores.seasonalScore * 100).toFixed(0)}%</span>
+                        <span>{((recipe.alchemicalScores?.seasonalScore ?? 0) * 100).toFixed(0)}%</span>
                       </div>
                     </div>
                   </div>

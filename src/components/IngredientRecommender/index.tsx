@@ -807,7 +807,7 @@ export default function IngredientRecommender() {
     
     // Now add the astrological recommendations
     Object.entries(astroRecommendations).forEach(([_category, items]) => {
-      items.forEach(item => {
+      (items ?? []).forEach(item => {
         const normalizedCategory = getNormalizedCategory(item as unknown as Ingredient | UnifiedIngredient);
         const targetCategory = normalizedCategory === 'other' ? determineCategory(String(item.name)) : normalizedCategory;
         
