@@ -635,9 +635,9 @@ export class UnifiedNutritionalService {
               if ((ingredients || []).length === 0) {
         return {
           calories: 0,
-          macros: {} as Record<string, PlanetaryPosition>,
-          vitamins: {} as Record<string, PlanetaryPosition>,
-          minerals: {} as Record<string, PlanetaryPosition>};
+          macros: {} as { [key: string]: number | undefined },
+          vitamins: {} as Record<string, number>,
+          minerals: {} as Record<string, number>};
       }
       
       // Get enhanced profiles for all ingredients
@@ -646,9 +646,9 @@ export class UnifiedNutritionalService {
       // Aggregate nutritional values
       const aggregated: NutritionalProfile = {
         calories: 0,
-        macros: {} as Record<string, PlanetaryPosition>,
-        vitamins: {} as Record<string, PlanetaryPosition>,
-        minerals: {} as Record<string, PlanetaryPosition>};
+        macros: {} as { [key: string]: number | undefined },
+        vitamins: {} as Record<string, number>,
+        minerals: {} as Record<string, number>};
       
       (enhancedProfiles || []).forEach(profile => {
         aggregated.calories = (aggregated.calories || 0) + (profile.calories || 0);
@@ -666,9 +666,9 @@ export class UnifiedNutritionalService {
       logger.error('Error calculating nutritional balance:', error);
       return {
         calories: 0,
-        macros: {} as Record<string, PlanetaryPosition>,
-        vitamins: {} as Record<string, PlanetaryPosition>,
-        minerals: {} as Record<string, PlanetaryPosition>};
+        macros: {} as { [key: string]: number | undefined },
+        vitamins: {} as Record<string, number>,
+        minerals: {} as Record<string, number>};
     }
   }
   
@@ -678,9 +678,9 @@ export class UnifiedNutritionalService {
   async calculateLegacyNutritionalScore(nutrition: {}): Promise<number>  {
     try {
       // Apply Pattern PP-1: Safe service method access
-      const legacyServiceData = this.legacyNutritionService as Record<string, unknown>;
-      if (legacyServiceData?.calculateNutritionalScore) {
-        return legacyServiceData.calculateNutritionalScore(nutrition);
+      const legacyServiceData = this.legacyNutritionService as unknown as Record<string, unknown>;
+      if (legacyServiceData?.calculateNutritionalScore && typeof legacyServiceData.calculateNutritionalScore === 'function') {
+        return (legacyServiceData.calculateNutritionalScore as (nutrition: any) => Promise<number>)(nutrition);
       }
       return 0;
     } catch (error) {

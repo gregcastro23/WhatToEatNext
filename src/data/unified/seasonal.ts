@@ -713,7 +713,7 @@ export class UnifiedSeasonalSystem {
     // Calculate Kalchm compatibility
     const unifiedIngredient = unifiedIngredients[ingredientName];
     const kalchmCompatibility = unifiedIngredient 
-      ? this.calculateKalchmSeasonalCompatibility(unifiedIngredient.kalchm, season)
+      ? this.calculateKalchmSeasonalCompatibility(unifiedIngredient.kalchm ?? 0, season)
       : 0.5;
     
     // Calculate Monica resonance
@@ -788,7 +788,7 @@ export class UnifiedSeasonalSystem {
     const baseScore = this.getSeasonalScore(ingredient.name, season);
     
     // Kalchm compatibility
-    const kalchmCompatibility = this.calculateKalchmSeasonalCompatibility(ingredient.kalchm, season);
+    const kalchmCompatibility = this.calculateKalchmSeasonalCompatibility(ingredient.kalchm ?? 0, season);
     
     // Elemental compatibility
     const elementalCompatibility = this.calculateElementalSeasonalCompatibility(
@@ -942,12 +942,12 @@ export class UnifiedSeasonalSystem {
       
       // Check Kalchm compatibility
       const kalchmCompatibility = this.calculateKalchmSeasonalCompatibility(
-        ingredient.kalchm,
+        ingredient.kalchm ?? 0,
         season
       );
       
       // Check if within desired Kalchm range
-      const inRange = ingredient.kalchm >= kalchmRange.min && ingredient.kalchm <= kalchmRange.max;
+      const inRange = (ingredient.kalchm ?? 0) >= kalchmRange.min && (ingredient.kalchm ?? 0) <= kalchmRange.max;
       
       if (kalchmCompatibility >= 0.7 || inRange) {
         compatibleIngredients?.push(ingredient);
@@ -957,9 +957,9 @@ export class UnifiedSeasonalSystem {
     // Sort by seasonal score and Kalchm compatibility
     return compatibleIngredients.sort((a, b) => {
       const scoreA = this.getSeasonalScore(a.name, season) + 
-                    this.calculateKalchmSeasonalCompatibility(a.kalchm, season);
+                    this.calculateKalchmSeasonalCompatibility(a.kalchm ?? 0, season);
       const scoreB = this.getSeasonalScore(b.name, season) + 
-                    this.calculateKalchmSeasonalCompatibility(b.kalchm, season);
+                    this.calculateKalchmSeasonalCompatibility(b.kalchm ?? 0, season);
       return scoreB - scoreA;
     });
   }
@@ -1078,7 +1078,7 @@ export class UnifiedSeasonalSystem {
     
     for (const ingredient of ingredients) {
       // Calculate how well the ingredient fits the seasonal Kalchm range
-      const kalchm = ingredient.kalchm;
+      const kalchm = ingredient.kalchm ?? 0;
       
       if (kalchm >= kalchmRange.min && kalchm <= kalchmRange.max) {
         // Perfect harmony if within range

@@ -239,7 +239,9 @@ export class UnifiedFlavorEngine {
     
     // Phase 8: Enhanced cache checking with performance tracking
     if (this?.compatibilityCache?.has(cacheKey)) {
-      this?.performanceMetrics?.totalCacheHits++;
+      if (this?.performanceMetrics) {
+        this.performanceMetrics.totalCacheHits = (this.performanceMetrics.totalCacheHits ?? 0) + 1;
+      }
       const result = this?.compatibilityCache?.get(cacheKey)!;
       
       // Update cache access time for LRU tracking
@@ -327,7 +329,9 @@ export class UnifiedFlavorEngine {
 
     // Phase 8: Enhanced caching with performance tracking
     this?.compatibilityCache?.set(cacheKey, result);
-    this?.performanceMetrics?.totalCalculations++;
+    if (this?.performanceMetrics) {
+      this.performanceMetrics.totalCalculations = (this.performanceMetrics.totalCalculations ?? 0) + 1;
+    }
     
     // Track calculation time
     const calculationTime = performance.now() - startTime;
@@ -452,8 +456,8 @@ export class UnifiedFlavorEngine {
     _profile2: UnifiedFlavorProfile,
     _culturalPreference?: string
   ): number {
-    const origins1 = new Set(_profile1?.culturalOrigins || [].map(o => o?.toLowerCase()));
-    const origins2 = new Set(_profile2?.culturalOrigins || [].map(o => o?.toLowerCase()));
+    const origins1 = new Set((_profile1?.culturalOrigins || []).map(o => o?.toLowerCase()));
+    const origins2 = new Set((_profile2?.culturalOrigins || []).map(o => o?.toLowerCase()));
     
     // Calculate overlap
     const intersection = new Set([...origins1].filter(x => origins2.has(x)));
@@ -504,8 +508,8 @@ export class UnifiedFlavorEngine {
     _profile2: UnifiedFlavorProfile,
     _contextMethod?: string
   ): number {
-    const methods1 = new Set(_profile1?.preparationMethods || [].map(m => m?.toLowerCase()));
-    const methods2 = new Set(_profile2?.preparationMethods || [].map(m => m?.toLowerCase()));
+    const methods1 = new Set((_profile1?.preparationMethods || []).map(m => m?.toLowerCase()));
+    const methods2 = new Set((_profile2?.preparationMethods || []).map(m => m?.toLowerCase()));
     
     // Calculate method overlap
     const intersection = new Set([...methods1].filter(x => methods2.has(x)));
@@ -608,8 +612,8 @@ export class UnifiedFlavorEngine {
     _profile1: UnifiedFlavorProfile, 
     _profile2: UnifiedFlavorProfile
   ): string[] {
-    const origins1 = new Set(_profile1?.culturalOrigins || [].map(o => o?.toLowerCase()));
-    const origins2 = new Set(_profile2?.culturalOrigins || [].map(o => o?.toLowerCase()));
+    const origins1 = new Set((_profile1?.culturalOrigins || []).map(o => o?.toLowerCase()));
+    const origins2 = new Set((_profile2?.culturalOrigins || []).map(o => o?.toLowerCase()));
     
     return [...new Set([...origins1].filter(x => origins2.has(x)))];
   }
@@ -717,7 +721,7 @@ export class UnifiedFlavorEngine {
 
     if (criteria.culturalOrigin) {
       results = (results || []).filter(p => 
-        p.culturalOrigins  || [].some(origin => 
+        (p.culturalOrigins  || []).some(origin => 
           origin?.toLowerCase()?.includes(criteria.culturalOrigin!.toLowerCase())
         )
       );
@@ -725,7 +729,7 @@ export class UnifiedFlavorEngine {
 
     if (criteria.preparationMethod) {
       results = (results || []).filter(p => 
-        p.preparationMethods  || [].some(method => 
+        (p.preparationMethods  || []).some(method => 
           method?.toLowerCase()?.includes(criteria.preparationMethod!.toLowerCase())
         )
       );
