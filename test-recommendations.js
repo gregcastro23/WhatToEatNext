@@ -1,8 +1,8 @@
 // Simple test script to verify cooking method recommendations
 
 // Import the functions we want to test
-const { getRecommendedCookingMethodsForIngredient } = require('./src/utils/alchemicalTransformationUtils');
-const { getCookingMethods } = require('./src/constants/alchemicalPillars');
+import { getRecommendedCookingMethodsForIngredient } from './src/utils/alchemicalTransformationUtils.js';
+import { getCookingMethods } from './src/constants/alchemicalPillars.js';
 
 // Create a mock ingredient
 const mockIngredient = {

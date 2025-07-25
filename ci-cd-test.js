@@ -13,4 +13,4 @@ function testFunction(arg1, arg2, unused) { // unused-vars warning
 }
 
 // This tests the automated linting fixes in our GitHub Actions workflow
-module.exports = testFunction;
+export default testFunction;

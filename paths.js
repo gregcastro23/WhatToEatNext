@@ -1,7 +1,11 @@
 // Helper file for path resolution in development or tests
 
-const path = require('path');
-const fs = require('fs');
+import path from 'path';
+import fs from 'fs';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // Get the absolute path to the project root
 const projectRoot = __dirname;
@@ -29,7 +33,5 @@ function resolvePath(pathWithAlias) {
   return pathWithAlias;
 }
 
-module.exports = {
-  pathMap,
-  resolvePath
-}; 
+export { pathMap, resolvePath };
+export default { pathMap, resolvePath }; 

@@ -8,7 +8,7 @@
  * 3. https://alchm-backend.onrender.com/alchemize
  */
 
-const https = require('https');
+import https from 'https';
 
 // Test configuration
 const TIMEOUT = 10000; // 10 seconds

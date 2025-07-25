@@ -72,7 +72,7 @@ describe('Memory Usage Performance Tests', () => {
         external: 5 * 1024 * 1024,
         rss: 100 * 1024 * 1024,
         arrayBuffers: 2 * 1024 * 1024
-      });
+      }) as unknown as typeof process.memoryUsage;
 
       const memoryUsage = await progressTracker.getMemoryUsage();
 
@@ -90,7 +90,7 @@ describe('Memory Usage Performance Tests', () => {
         external: 10 * 1024 * 1024,
         rss: 200 * 1024 * 1024,
         arrayBuffers: 5 * 1024 * 1024
-      });
+      }) as unknown as typeof process.memoryUsage;
 
       const memoryUsage = await progressTracker.getMemoryUsage();
 
@@ -104,7 +104,7 @@ describe('Memory Usage Performance Tests', () => {
       const originalMemoryUsage = process.memoryUsage;
       process.memoryUsage = jest.fn().mockImplementation(() => {
         throw new Error('Memory measurement failed');
-      });
+      }) as unknown as typeof process.memoryUsage;
 
       const memoryUsage = await progressTracker.getMemoryUsage();
 
@@ -132,7 +132,7 @@ describe('Memory Usage Performance Tests', () => {
           rss: heapUsed * 1.5,
           arrayBuffers: 2 * 1024 * 1024
         };
-      });
+      }) as unknown as typeof process.memoryUsage;
 
       // Collect multiple memory readings
       for (let i = 0; i < 10; i++) {
@@ -168,7 +168,7 @@ describe('Memory Usage Performance Tests', () => {
           rss: simulatedMemoryLeak * 1.5 * 1024 * 1024,
           arrayBuffers: 2 * 1024 * 1024
         };
-      });
+      }) as unknown as typeof process.memoryUsage;
 
       const memoryReadings: number[] = [];
 
@@ -200,7 +200,7 @@ describe('Memory Usage Performance Tests', () => {
           rss: memoryUsage * 1.5 * 1024 * 1024,
           arrayBuffers: 2 * 1024 * 1024
         };
-      });
+      }) as unknown as typeof process.memoryUsage;
 
       // Create many safety events to test memory management
       for (let i = 0; i < 1100; i++) {
@@ -237,7 +237,7 @@ describe('Memory Usage Performance Tests', () => {
           rss: memoryUsage * 1.5 * 1024 * 1024,
           arrayBuffers: 2 * 1024 * 1024
         };
-      });
+      }) as unknown as typeof process.memoryUsage;
 
       // Mock progress metrics to create history
       jest.spyOn(progressTracker, 'getProgressMetrics').mockImplementation(async () => {
@@ -282,7 +282,7 @@ describe('Memory Usage Performance Tests', () => {
           rss: (baseMemory + memoryIncrease) * 1.5 * 1024 * 1024,
           arrayBuffers: 2 * 1024 * 1024
         };
-      });
+      }) as unknown as typeof process.memoryUsage;
 
       // Simulate processing large number of files
       const largeFileList = Array.from({ length: 1000 }, (_, i) => `file${i}.ts`);
@@ -321,7 +321,7 @@ describe('Memory Usage Performance Tests', () => {
           rss: (baseMemory + variation) * 1.5 * 1024 * 1024,
           arrayBuffers: 2 * 1024 * 1024
         };
-      });
+      }) as unknown as typeof process.memoryUsage;
 
       // Run multiple concurrent operations
       const promises = Array.from({ length: 10 }, async () => {
@@ -358,7 +358,7 @@ describe('Memory Usage Performance Tests', () => {
           rss: baseMemory * 1.5 * 1024 * 1024,
           arrayBuffers: 2 * 1024 * 1024
         };
-      });
+      }) as unknown as typeof process.memoryUsage;
 
       // Normal operation
       let memoryUsage = await progressTracker.getMemoryUsage();
@@ -400,7 +400,7 @@ describe('Memory Usage Performance Tests', () => {
           rss: totalMemory * 1.5 * 1024 * 1024,
           arrayBuffers: 2 * 1024 * 1024
         };
-      });
+      }) as unknown as typeof process.memoryUsage;
 
       // Collect memory snapshots during various operations
       for (let i = 0; i < 20; i++) {
@@ -469,7 +469,7 @@ describe('Memory Usage Performance Tests', () => {
           rss: baseMemory * 1.5 * 1024 * 1024,
           arrayBuffers: 2 * 1024 * 1024
         };
-      });
+      }) as unknown as typeof process.memoryUsage;
 
       // Test different operations and their memory usage
       const operations = [

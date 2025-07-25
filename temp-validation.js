@@ -1,5 +1,5 @@
 
-    const logger = require('./src/utils/logger');
-    const intelligence = require('./src/utils/steeringFileIntelligence');
-    console.log('✅ Core modules load successfully');
+import logger from './src/utils/logger.js';
+import intelligence from './src/utils/steeringFileIntelligence.js';
+console.log('✅ Core modules load successfully');
   

@@ -6,6 +6,7 @@ import morgan from 'morgan';
 import helmet from 'helmet';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
+import { AstrologicalService } from './src/services/AstrologicalService.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -41,7 +42,7 @@ app.post('/planetary-data', async (request, response) => {
     );
     
     // Use your AlchemicalEngine to calculate the alchemical properties
-    const { AlchemicalEngineBase } = require('./src/lib/alchemicalEngine');
+    const { AlchemicalEngineBase } = await import('./src/lib/alchemicalEngine.js');
     const alchemicalEngine = new AlchemicalEngineBase();
     const isDaytime = isDay(new Date(datetime), latitude, longitude);
     const alchemicalProperties = alchemicalEngine.calculateProperties(
@@ -59,8 +60,7 @@ app.post('/planetary-data', async (request, response) => {
   }
 });
 
-// Import the AstrologicalService
-const { AstrologicalService } = require('./src/services/AstrologicalService');
+
 
 // Helper function to determine if it's day or night
 function isDay(datetime, latitude, longitude) {

@@ -6,7 +6,7 @@
  * This script focuses on the APIs you actually use in your application
  */
 
-const http = require('http');
+import http from 'http';
 
 // Configuration
 const LOCAL_BASE = 'http://localhost:3000';
