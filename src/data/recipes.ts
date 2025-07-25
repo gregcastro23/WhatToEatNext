@@ -582,7 +582,7 @@ export const getBestRecipeMatches = async (
           timeToMake: recipeData?.timeToMake,
           // Use the matchScore or matchPercentage if provided, otherwise use a default score
           matchScore: recipeData?.matchScore || (recipeData?.matchPercentage ? Number(recipeData.matchPercentage) / 100 : 0.85)
-        } as RecipeData;
+        } as unknown as RecipeData;
         });
         
         candidateRecipes = formattedRecipes;
@@ -649,7 +649,7 @@ export const getBestRecipeMatches = async (
             timeToMake,
             matchScore: 0.85, // Default high score for local recipes
             matchPercentage: 85 // For display purposes
-          } as RecipeData;
+          } as unknown as RecipeData;
           });
           
           // Apply additional filters if needed
@@ -913,8 +913,8 @@ export const getRecommendedCuisines = (profile: CuisineRecommendationProfile) =>
       }
       
       // Season matching
-      if (profile.season && (cuisineProfile as Record<string, unknown>)?.seasonalPreference) {
-        const seasonMatch = (cuisineProfile as string)?.seasonalPreference.includes(profile.season);
+      if (profile.season && (cuisineProfile as unknown as Record<string, unknown>)?.seasonalPreference) {
+        const seasonMatch = (cuisineProfile as unknown as string)?.seasonalPreference.includes(profile.season);
         if (seasonMatch) {
           matchScore += 1;
           totalFactors += 1;
@@ -933,7 +933,7 @@ export const getRecommendedCuisines = (profile: CuisineRecommendationProfile) =>
       
       return {
         id: cuisineName,
-        name: (cuisineProfile as Record<string, unknown>)?.name,
+        name: (cuisineProfile as unknown as Record<string, unknown>)?.name,
         score: finalScore
       };
     })

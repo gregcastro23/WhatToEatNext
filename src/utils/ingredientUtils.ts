@@ -372,22 +372,22 @@ export function mapToIngredient(mapping: IngredientMapping): Ingredient {
     category: (mapping.category as unknown as IngredientCategory) || 'culinary_herb',
     elementalProperties: (mapping.elementalProperties as unknown as ElementalProperties) || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
     qualities: (mapping.qualities as unknown as string[]) || [],
-    storage: (mapping.storage as Record<string, unknown>) || {
+    storage: (mapping.storage as unknown as Record<string, unknown>) || {
       duration: 'unknown'
     },
     // Add missing required properties for Ingredient interface
-    amount: (mapping as Record<string, unknown>).amount || 1,
-    astrologicalProfile: (mapping as Record<string, unknown>).astrologicalProfile || {
+    amount: (mapping as unknown as Record<string, unknown>).amount || 1,
+    astrologicalProfile: (mapping as unknown as Record<string, unknown>).astrologicalProfile || {
       elementalAffinity: { base: 'Earth' },
       rulingPlanets: [],
       zodiacAffinity: []
     }
-  } as Ingredient;
+  } as unknown as Ingredient;
 
   // Add any additional properties from the mapping
   for (const key in mapping) {
     if (key !== 'name' && key !== 'category' && key !== 'elementalProperties' && key !== 'qualities') {
-      (ingredient as Record<string, unknown>)[key] = mapping[key];
+      (ingredient as unknown as Record<string, unknown>)[key] = mapping[key];
     }
   }
 
@@ -408,11 +408,11 @@ export function ingredientToRecipeIngredient(
     unit,
     category: (ingredient.category ) || 'culinary_herb',
     elementalProperties: ingredient.elementalProperties as Record<string, unknown>,
-    qualities: (ingredient as Record<string, unknown>)?.qualities || [],
+    qualities: (ingredient as unknown as Record<string, unknown>)?.qualities || [],
     astrologicalProfile: ingredient.astrologicalProfile,
     // Include other relevant properties that exist in RecipeIngredient - safe property access
-    origin: (ingredient as Record<string, unknown>)?.origin || undefined,
-    seasonality: (ingredient as Record<string, unknown>)?.seasonality || undefined
+    origin: (ingredient as unknown as Record<string, unknown>)?.origin || undefined,
+    seasonality: (ingredient as unknown as Record<string, unknown>)?.seasonality || undefined
   } as RecipeIngredient;
 }
 
