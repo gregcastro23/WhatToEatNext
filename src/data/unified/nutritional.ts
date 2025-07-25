@@ -535,7 +535,15 @@ export const calculateNutritionalBalance = (_ingredients: unknown[]): Nutritiona
   }
   
   // Aggregate nutritional values from ingredients
-  const totals = _ingredients.reduce((acc, ingredient) => {
+  const totals = _ingredients.reduce((acc: {
+    calories: number;
+    protein: number;
+    carbohydrates: number;
+    fat: number;
+    fiber: number;
+    vitamins: Record<string, unknown>;
+    minerals: Record<string, unknown>;
+  }, ingredient) => {
     const ingredientData = ingredient as Record<string, unknown>;
     const nutritionData = (ingredientData && ingredientData.nutrition ? ingredientData.nutrition : {}) as Record<string, unknown>;
     return {

@@ -102,7 +102,7 @@ export class PerformanceMonitoringSystem extends ProgressTracker {
       return measuredTime;
 
     } catch (error) {
-      console.warn(`⚠️  Build time measurement failed: ${error.message}`);
+      console.warn(`⚠️  Build time measurement failed: ${(error as Error).message}`);
       
       // Fallback to simple timing if time command fails
       try {
@@ -114,7 +114,7 @@ export class PerformanceMonitoringSystem extends ProgressTracker {
         console.log(`⏱️  Build completed in ${fallbackTime.toFixed(2)}s (fallback timing)`);
         return fallbackTime;
       } catch (buildError) {
-        console.error(`❌ Build failed: ${buildError.message}`);
+        console.error(`❌ Build failed: ${(buildError as Error).message}`);
         return -1;
       }
     }
@@ -171,7 +171,7 @@ export class PerformanceMonitoringSystem extends ProgressTracker {
       return estimatedHitRate;
 
     } catch (error) {
-      console.warn(`⚠️  Cache hit rate monitoring failed: ${error.message}`);
+      console.warn(`⚠️  Cache hit rate monitoring failed: ${(error as Error).message}`);
       return 0.7; // Default reasonable estimate
     }
   }
@@ -207,7 +207,7 @@ export class PerformanceMonitoringSystem extends ProgressTracker {
       return { current: currentMB, peak: peakMB };
 
     } catch (error) {
-      console.warn(`⚠️  Memory usage tracking failed: ${error.message}`);
+      console.warn(`⚠️  Memory usage tracking failed: ${(error as Error).message}`);
       return { current: 0, peak: 0 };
     }
   }
@@ -452,7 +452,7 @@ export class PerformanceMonitoringSystem extends ProgressTracker {
         await this.getPerformanceMetrics();
         await this.detectPerformanceRegression();
       } catch (error) {
-        console.warn(`⚠️  Performance monitoring error: ${error.message}`);
+        console.warn(`⚠️  Performance monitoring error: ${(error as Error).message}`);
       }
     }, intervalMinutes * 60 * 1000);
   }
@@ -486,7 +486,7 @@ export class PerformanceMonitoringSystem extends ProgressTracker {
       console.log(`📊 Performance data exported to: ${filePath}`);
 
     } catch (error) {
-      throw new Error(`Failed to export performance data: ${error.message}`);
+      throw new Error(`Failed to export performance data: ${(error as Error).message}`);
     }
   }
 

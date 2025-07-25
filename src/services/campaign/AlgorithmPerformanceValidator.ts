@@ -131,7 +131,7 @@ export class AlgorithmPerformanceValidator {
       return benchmarks;
 
     } catch (error) {
-      console.warn(`⚠️  Performance benchmarking failed: ${error.message}`);
+      console.warn(`⚠️  Performance benchmarking failed: ${(error as Error).message}`);
       return [];
     }
   }
@@ -185,7 +185,7 @@ export class AlgorithmPerformanceValidator {
       return cacheMetrics;
 
     } catch (error) {
-      console.warn(`⚠️  Cache validation failed: ${error.message}`);
+      console.warn(`⚠️  Cache validation failed: ${(error as Error).message}`);
       
       // Return fallback metrics
       return {
@@ -264,7 +264,7 @@ export class AlgorithmPerformanceValidator {
       return regressionTests;
 
     } catch (error) {
-      console.warn(`⚠️  Regression detection failed: ${error.message}`);
+      console.warn(`⚠️  Regression detection failed: ${(error as Error).message}`);
       return [];
     }
   }
@@ -326,7 +326,7 @@ export class AlgorithmPerformanceValidator {
       return improvementMaintained;
 
     } catch (error) {
-      console.warn(`⚠️  Improvement validation failed: ${error.message}`);
+      console.warn(`⚠️  Improvement validation failed: ${(error as Error).message}`);
       return false;
     }
   }
@@ -759,7 +759,7 @@ export class AlgorithmPerformanceValidator {
       console.log(`🚀 Performance data exported to: ${filePath}`);
 
     } catch (error) {
-      throw new Error(`Failed to export performance data: ${error.message}`);
+      throw new Error(`Failed to export performance data: ${(error as Error).message}`);
     }
   }
 
