@@ -13,6 +13,7 @@ import {
 } from 'lucide-react';
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { createAstrologicalBridge } from '@/types/bridges/astrologicalBridge';
+import type { AstrologicalState } from '@/types/commonTypes';
 
 
 import { calculateRecipeCompatibility } from '@/calculations/index';
@@ -403,6 +404,7 @@ const buildCompleteRecipe = (
   };
 
   return {
+    ...recipe,
     id: recipe.id || `recipe-${Math.random().toString(36).substring(2, 9)}`,
     name: recipe.name || `${cuisineName} Recipe`,
     description: recipe.description || `A traditional recipe from ${cuisineName} cuisine.`,
@@ -486,8 +488,7 @@ const buildCompleteRecipe = (
         confidence: 0.8,
         timestamp: new Date().toISOString()
       }
-    },
-    ...recipe
+    }
   };
 };
 
@@ -642,8 +643,11 @@ export default function CuisineRecommender() {
     return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
   }, [state, currentZodiac]);
 
-  const astrologicalStateForRecommendations = useMemo(() => ({ zodiacSign:  String(currentZodiac || 'aries') as ZodiacSign, lunarPhase:  String(lunarPhase || 'new moon') as LunarPhase, planetaryPositions:  planetaryPositions || { } as AstrologicalState,
-  }), [currentZodiac, lunarPhase, planetaryPositions]);
+  const astrologicalStateForRecommendations = useMemo(() => ({ 
+    zodiacSign: String(currentZodiac || 'aries') as ZodiacSign, 
+    lunarPhase: String(lunarPhase || 'new moon') as LunarPhase, 
+    planetaryPositions: planetaryPositions || {}
+  } as AstrologicalState), [currentZodiac, lunarPhase, planetaryPositions]);
 
   // ========== DATA LOADING ==========
 
@@ -966,7 +970,7 @@ export default function CuisineRecommender() {
     setSelectedCuisine(cuisineId);
     setShowCuisineDetails(true);
 
-    if (selectedData?.recipes?.length > 0) {
+    if (selectedData?.recipes && selectedData.recipes.length > 0) {
       setMatchingRecipes(selectedData?.recipes ?? []);
     } else {
       setMatchingRecipes([]);

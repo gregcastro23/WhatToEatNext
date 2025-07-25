@@ -60,7 +60,7 @@ import {
   formatLunarPhaseForDisplay
 } from '@/utils/lunarPhaseUtils';
 
-import styles from './FoodRecommender?.module?.css';
+import styles from './FoodRecommender.module.css';
 
 // Convert lunar phase strings to the proper LunarPhaseWithSpaces type format (lowercase with spaces)
 const getLunarPhaseType = (phase: string | null | undefined): LunarPhaseWithSpaces | undefined => {
@@ -636,7 +636,7 @@ const FoodRecommender: React.FC = () => {
                                             <div className="grid grid-cols-2 gap-x-2 gap-y-1">
                                                 <div className="text-xs flex justify-between">
                                                     <span className="text-purple-400">Spirit:</span>
-                                                    <span className="text-white">{safelyFormatNumber(alchemical.spirit * 100)}%</span>
+                                                    <span className="text-white">{String(safelyFormatNumber(alchemical.spirit * 100))}%</span>
                                                 </div>
                                                 <div className="text-xs flex justify-between">
                                                     <span className="text-pink-400">Essence:</span>
