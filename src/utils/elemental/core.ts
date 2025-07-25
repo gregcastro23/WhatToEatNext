@@ -246,7 +246,7 @@ export async function calculateDetailedElementalCompatibility(
   const userDominant = calculateDominantElement(userProps);
   
   // Calculate base compatibility
-  const baseCompatibility = calculateElementalCompatibility(recipeDominant as ElementalProperties, userDominant as ElementalProperties);
+  const baseCompatibility = calculateElementalCompatibility(recipeDominant as unknown as ElementalProperties, userDominant as unknown as ElementalProperties);
   
   // Calculate complementary score (how well elements work together)
   const complementaryScore = calculateComplementaryScore(recipeDominant, userDominant);
