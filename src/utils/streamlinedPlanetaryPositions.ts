@@ -261,7 +261,7 @@ export function getPlanetaryPositionsForDate(date: Date): { [key: string]: Celes
 
   for (const [planet, position] of Object.entries(basePositions)) {
     const movement = dailyMovement[planet] || 0;
-    let adjustedLongitude = position?.exactLongitude;
+    let adjustedLongitude = position?.exactLongitude ?? 0;
 
     // Apply movement (retrograde planets move backwards)
     if (position.isRetrograde) {
@@ -384,8 +384,8 @@ export function getPositionsSummary(): string {
   
   for (const [planet, position] of Object.entries(positions)) {
     const retrograde = position.isRetrograde ? ' (R)' : '';
-    const degrees = Math.floor(position.degree);
-    const minutes = Math.floor((position.degree - degrees) * 60);
+    const degrees = Math.floor(position.degree ?? 0);
+    const minutes = Math.floor((position.degree ?? 0 - degrees) * 60);
     lines?.push(`${planet}: ${position.sign} ${degrees}° ${minutes}'${retrograde}`);
   }
   

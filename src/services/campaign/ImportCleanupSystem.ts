@@ -112,7 +112,7 @@ export class ImportCleanupSystem {
         importsOrganized: 0,
         styleViolationsFixed: 0,
         buildValidationPassed: false,
-        errors: [error.message],
+        errors: [(error as Error).message],
         warnings: []
       };
     }
@@ -215,7 +215,7 @@ export class ImportCleanupSystem {
     try {
       result.unusedImportsRemoved = await this.removeUnusedImports(filePaths);
     } catch (error) {
-      result.errors.push(`Unused import removal failed: ${error.message}`);
+      result.errors.push(`Unused import removal failed: ${(error as Error).message}`);
     }
 
     // Step 2: Organize imports
@@ -224,7 +224,7 @@ export class ImportCleanupSystem {
       try {
         result.importsOrganized = await this.organizeImports(filePaths);
       } catch (error) {
-        result.errors.push(`Import organization failed: ${error.message}`);
+        result.errors.push(`Import organization failed: ${(error as Error).message}`);
       }
     }
 
@@ -233,7 +233,7 @@ export class ImportCleanupSystem {
       try {
         result.styleViolationsFixed = await this.enforceImportStyle(filePaths);
       } catch (error) {
-        result.errors.push(`Import style enforcement failed: ${error.message}`);
+        result.errors.push(`Import style enforcement failed: ${(error as Error).message}`);
       }
     }
 

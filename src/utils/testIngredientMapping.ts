@@ -19,11 +19,12 @@ import { connectIngredientsToMappings } from './recipeMatching';
 export function findMatchedItalianDinnerRecipes() {
   // Get all Italian dinner recipes
   const italianCuisine = cuisinesMap.Italian;
+  const dinnerDishes = italianCuisine.dishes?.dinner;
   const allDinnerRecipes = [
-    ...(italianCuisine.dishes.dinner.spring || []),
-    ...(italianCuisine.dishes.dinner.summer || []),
-    ...(italianCuisine.dishes.dinner.autumn || []),
-    ...(italianCuisine.dishes.dinner.winter || [])
+    ...(dinnerDishes?.spring || []),
+    ...(dinnerDishes?.summer || []),
+    ...(dinnerDishes?.autumn || []),
+    ...(dinnerDishes?.winter || [])
   ];
   
   // Map all ingredients to our ingredient database
