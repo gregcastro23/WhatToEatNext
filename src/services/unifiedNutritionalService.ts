@@ -97,9 +97,9 @@ export class UnifiedNutritionalService {
         } else {
           // Fallback to regular ingredients
           const regularIngredient = allIngredients[ingredient];
-          if (regularIngredient?.nutritionalProfile) {
+          if ((regularIngredient as any)?.nutritionalProfile) {
             // Convert alchemy.NutritionalProfile to nutrition.NutritionalProfile
-          const alchemyProfile = regularIngredient.nutritionalProfile;
+          const alchemyProfile = (regularIngredient as any).nutritionalProfile;
           nutritionalProfile = {
             ...alchemyProfile,
             // Convert phytonutrients from string[] to Record<string, number>
@@ -185,7 +185,7 @@ export class UnifiedNutritionalService {
         }
       }
       
-      return unifiedNutritionalSystem.analyzeNutritionalCompatibility(profiles, context) ;
+      return unifiedNutritionalSystem.analyzeNutritionalCompatibility(profiles, context as any) ;
       
     } catch (error) {
       logger.error('Error analyzing nutritional compatibility:', error);
@@ -218,7 +218,7 @@ export class UnifiedNutritionalService {
       // Apply nutritional filters if provided
       if (criteria.nutritionalFilter) {
         baseRecommendations.ingredients = this.applyNutritionalFilter(
-          baseRecommendations.ingredients,
+          baseRecommendations.ingredients as UnifiedIngredient[],
           criteria.nutritionalFilter
         );
       }
@@ -397,7 +397,7 @@ export class UnifiedNutritionalService {
     tolerance: number = 0.2
   ): UnifiedIngredient[] {
     return (ingredients || []).filter(ingredient => 
-      Math.abs(ingredient.kalchm - targetKalchm) <= tolerance
+      Math.abs((ingredient.kalchm ?? 0) - targetKalchm) <= tolerance
     );
   }
   
@@ -635,20 +635,20 @@ export class UnifiedNutritionalService {
               if ((ingredients || []).length === 0) {
         return {
           calories: 0,
-          macros: {} as Record<Planet, PlanetaryPosition>,
-          vitamins: {} as Record<Planet, PlanetaryPosition>,
-          minerals: {} as Record<Planet, PlanetaryPosition>};
+          macros: {} as Record<string, PlanetaryPosition>,
+          vitamins: {} as Record<string, PlanetaryPosition>,
+          minerals: {} as Record<string, PlanetaryPosition>};
       }
       
       // Get enhanced profiles for all ingredients
-      const enhancedProfiles = await this.enhanceNutritionalProfilesBatch(ingredients);
+      const enhancedProfiles = await this.enhanceNutritionalProfilesBatch(ingredients as (string | UnifiedIngredient)[]);
       
       // Aggregate nutritional values
       const aggregated: NutritionalProfile = {
         calories: 0,
-        macros: {} as Record<Planet, PlanetaryPosition>,
-        vitamins: {} as Record<Planet, PlanetaryPosition>,
-        minerals: {} as Record<Planet, PlanetaryPosition>};
+        macros: {} as Record<string, PlanetaryPosition>,
+        vitamins: {} as Record<string, PlanetaryPosition>,
+        minerals: {} as Record<string, PlanetaryPosition>};
       
       (enhancedProfiles || []).forEach(profile => {
         aggregated.calories = (aggregated.calories || 0) + (profile.calories || 0);
@@ -666,9 +666,9 @@ export class UnifiedNutritionalService {
       logger.error('Error calculating nutritional balance:', error);
       return {
         calories: 0,
-        macros: {} as Record<Planet, PlanetaryPosition>,
-        vitamins: {} as Record<Planet, PlanetaryPosition>,
-        minerals: {} as Record<Planet, PlanetaryPosition>};
+        macros: {} as Record<string, PlanetaryPosition>,
+        vitamins: {} as Record<string, PlanetaryPosition>,
+        minerals: {} as Record<string, PlanetaryPosition>};
     }
   }
   

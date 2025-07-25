@@ -240,8 +240,8 @@ export default function IngredientRecommender({
       // Determine current planetary day and hour
       const now = new Date();
       // Extract planetary day and hour from context if available
-      const planetaryDay = planetaryPositions?.planetaryDay?.planet || 'Sun';
-      const planetaryHour = planetaryPositions?.planetaryHour?.planet || 'Sun';
+      const planetaryDay = (planetaryPositions as any)?.planetaryDay?.planet || 'Sun';
+      const planetaryHour = (planetaryPositions as any)?.planetaryHour?.planet || 'Sun';
       const isDaytime = now.getHours() >= 6 && now.getHours() < 18;
       
       // Create an object with astrological state data
@@ -502,7 +502,7 @@ export default function IngredientRecommender({
           });
         }
         // Oils
-        else if (isOil(ingredient)) {
+        else if (isOil(ingredient as any)) {
           categories.oils.push({
             ...ingredient,
             matchScore: ingredient.score || 0.5
@@ -870,7 +870,7 @@ export default function IngredientRecommender({
               astrologicalContext={{
                 zodiacSign: (currentZodiac || 'aries') as any,
                 lunarPhase: 'new moon' as any,
-                elementalProperties: astroState.elementalProperties || {
+                elementalProperties: (astroState as any).elementalProperties || {
                   Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
                 },
                 planetaryPositions: currentPlanetaryAlignment
@@ -1166,7 +1166,7 @@ export default function IngredientRecommender({
                                         if (minimum && maximum) {
                                           cookingTime = `${minimum}-${maximum}`;
                                         } else if (optimal) {
-                                          cookingTime = optimal;
+                                          cookingTime = optimal as string;
                                         } else {
                                           const times = Object.values(timing).filter(t => typeof t === 'string');
                                           if (times.length) cookingTime = times.join('-');

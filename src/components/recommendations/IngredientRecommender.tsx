@@ -34,7 +34,7 @@ import { IngredientCard } from '../IngredientCard';
 // TODO: Fix CSS module import - was: import from "./IngredientRecommender?.module?.css.ts"
 
 
-import styles from './CookingMethods?.module?.css';
+import styles from './CookingMethods.module.css';
 /**
  * Maps planets to their elemental influences (diurnal and nocturnal elements)
  */
@@ -295,7 +295,7 @@ export default function IngredientRecommender() {
           astrologicalState,
           {
             dietary: [],
-            taste: {} as Record<Planet, PlanetaryPosition>,
+            taste: {} as Record<string, PlanetaryPosition>,
             chakraFocus: []
           }
         );
@@ -348,10 +348,10 @@ export default function IngredientRecommender() {
         if (Array.isArray(value)) {
           // Ensure each array item has the required IngredientRecommendation structure
           convertedRecommendations[key] = value.map(item => ({
+            ...item,
             name: item?.name || 'Unknown',
             type: item?.type || 'ingredient',
-            matchScore: item?.matchScore || 0.5,
-            ...item
+            matchScore: item?.matchScore || 0.5
           })) as IngredientRecommendation[];
         } else {
           convertedRecommendations[key] = [];
@@ -901,7 +901,7 @@ export default function IngredientRecommender() {
             elementalProperties: oilData.elementalProperties || { Fire: 0.3, Water: 0.2, Earth: 0.3, Air: 0.2 
              },
             qualities: ((oilData as unknown as Record<string, unknown>).qualities as string[]) || ['cooking', 'flavoring'],
-            description: `${oilData.name || key.replace(/_/g, ' ')?.replace(/\b\w/g, l => l?.(toUpperCase as () => void)())} - ${String((oilData as unknown as Record<string, unknown>)?.description || "A versatile cooking oil with various applications.")}`
+            description: `${oilData.name || key.replace(/_/g, ' ')?.replace(/\b\w/g, l => l?.toUpperCase())} - ${String((oilData as unknown as Record<string, unknown>)?.description || "A versatile cooking oil with various applications.")}`
           } as IngredientRecommendation;
         });
       
