@@ -664,7 +664,10 @@ export class UnifiedCuisineIntegrationSystem {
     if (!this?.cuisineCompatibilityCache?.has(cacheKey)) {
       this?.cuisineCompatibilityCache?.set(cacheKey, {});
     }
-    this?.cuisineCompatibilityCache?.get(cacheKey)![cuisine2] = compatibility;
+    const cache = this?.cuisineCompatibilityCache?.get(cacheKey);
+    if (cache) {
+      cache[cuisine2] = compatibility;
+    }
     
     return compatibility;
   }
@@ -1792,7 +1795,7 @@ export class UnifiedCuisineIntegrationSystem {
     
     const seasonalElementalBalance = this.blendElementalProfiles([
       fusionProfile.fusionElementalProfile,
-      elementalDominance
+      elementalDominance as ElementalProperties
     ], [0.7, 0.3]) || { Fire: 0, Water: 0, Earth: 0, Air: 0 };
     
     return {
@@ -1857,12 +1860,12 @@ export class UnifiedCuisineIntegrationSystem {
     }
     
     // Calculate Kalchm profile
-    const kalchmValues = (ingredients || []).map(ing => ing.kalchm);
+    const kalchmValues = (ingredients || []).map(ing => ing.kalchm).filter(v => v !== undefined) as number[];
     const kalchmProfile = {
-      averageKalchm: kalchmValues.reduce((a, b) => (a || 0) + (b || 0), 0) / (kalchmValues || []).length,
+      averageKalchm: kalchmValues.length > 0 ? kalchmValues.reduce((a, b) => a + b, 0) / kalchmValues.length : 0,
       kalchmRange: {
-        min: Math.min(...kalchmValues),
-        max: Math.max(...kalchmValues)
+        min: kalchmValues.length > 0 ? Math.min(...kalchmValues) : 0,
+        max: kalchmValues.length > 0 ? Math.max(...kalchmValues) : 0
       },
       kalchmDistribution: this.calculateKalchmDistribution(kalchmValues)
     };
@@ -2029,8 +2032,8 @@ export class UnifiedCuisineIntegrationSystem {
     // Sort by Kalchm compatibility with cuisine
     const cuisineKalchm = this.calculateKalchmHarmony([cuisine]);
     ingredients.sort((a, b) => {
-      const compatibilityA = Math.abs(a.kalchm - cuisineKalchm);
-      const compatibilityB = Math.abs(b.kalchm - cuisineKalchm);
+      const compatibilityA = Math.abs((a.kalchm || 0) - cuisineKalchm);
+      const compatibilityB = Math.abs((b.kalchm || 0) - cuisineKalchm);
       return compatibilityA - compatibilityB;
     });
     
@@ -2049,7 +2052,8 @@ export { getCuisinePAirings, getIngredientsForCuisine };
 
 // Export helper functions
 export function getCuisineCompatibility(cuisine1: string, cuisine2: string): CuisineCompatibilityProfile {
-  return unifiedCuisineIntegrationSystem.calculateCuisineCompatibility(cuisine1, cuisine2);
+  const result = unifiedCuisineIntegrationSystem.calculateCuisineCompatibility(cuisine1, cuisine2);
+  return result as CuisineCompatibilityProfile;
 }
 
 export function generateCuisineFusion(cuisine1: string, cuisine2: string): FusionCuisineProfile {

@@ -15,7 +15,7 @@ import { getChakraBasedRecommendations, GroupedIngredientRecommendations, getIng
 
 
 
-import styles from './IngredientRecommender?.module?.css';
+import styles from './IngredientRecommender.module.css';
 
 // Extended IngredientRecommendation interface to handle missing properties
 interface ExtendedIngredientRecommendation extends IngredientRecommendation {
@@ -1017,7 +1017,7 @@ export default function IngredientRecommender() {
                     }}>
                       {method.charAt(0).toUpperCase() + method.slice(1)}
                     </div>
-                    {detailsData?.notes && Array.isArray(detailsData.notes) && detailsData?.notes?.length > 0 && (
+                    {(detailsData?.notes && Array.isArray(detailsData.notes) && detailsData?.notes?.length > 0) ? (
                       <div style={{ 
                         fontSize: '0.85rem', 
                         color: '#4b5563',
@@ -1025,8 +1025,8 @@ export default function IngredientRecommender() {
                       }}>
                         {detailsData.notes[0]}
                       </div>
-                    )}
-                    {detailsData?.techniques && Array.isArray(detailsData.techniques) && detailsData?.techniques?.length > 0 && (
+                    ) : null}
+                    {(detailsData?.techniques && Array.isArray(detailsData.techniques) && detailsData?.techniques?.length > 0) ? (
                       <div style={{ 
                         fontSize: '0.8rem', 
                         color: '#6b7280',
@@ -1034,7 +1034,7 @@ export default function IngredientRecommender() {
                       }}>
                         <strong>Techniques:</strong> {detailsData?.techniques?.join(', ')}
                       </div>
-                    )}
+                    ) : null}
                   </div>
                 );
               })}
@@ -1133,16 +1133,16 @@ export default function IngredientRecommender() {
               padding: '0.75rem 1rem',
               border: '1px solid rgba(229, 231, 235, 0.8)'
             }}>
-              {((item as Record<string, unknown>).astrologicalProfile as Record<string, unknown>)?.rulingPlanets && (
+              {(((item as Record<string, unknown>).astrologicalProfile as Record<string, unknown>)?.rulingPlanets) ? (
                 <div style={{ fontSize: '0.85rem', marginBottom: '0.5rem', display: 'flex', alignItems: 'center' }}>
                   <span style={{ fontWeight: '600', width: '140px', color: '#4b5563' }}>Planetary influence: </span>
                   <span style={{ fontWeight: '500', color: '#1f2937' }}>
                     {(((item as Record<string, unknown>).astrologicalProfile as Record<string, unknown>)?.rulingPlanets as string[])?.join(', ')}
                   </span>
                 </div>
-              )}
+              ) : null}
               
-              {((item as Record<string, unknown>).astrologicalProfile as Record<string, unknown>)?.favorableZodiac && (
+              {(((item as Record<string, unknown>).astrologicalProfile as Record<string, unknown>)?.favorableZodiac) ? (
                 <div style={{ fontSize: '0.85rem', display: 'flex', alignItems: 'center' }}>
                   <span style={{ fontWeight: '600', width: '140px', color: '#4b5563' }}>Favorable zodiac: </span>
                   <span style={{ fontWeight: '500', color: '#1f2937' }}>
@@ -1151,7 +1151,7 @@ export default function IngredientRecommender() {
                     ).join(', ')}
                   </span>
                 </div>
-              )}
+              ) : null}
             </div>
           </div>
         )}
@@ -1199,7 +1199,7 @@ export default function IngredientRecommender() {
             Match: {Math.round((Number(itemData.matchScore) || 0) * 100)}%
           </div>
           
-          {itemData.qualities && (itemData.qualities as unknown[]).length > 0 && (
+          {(itemData.qualities && (itemData.qualities as unknown[]).length > 0) ? (
             <div className={styles.qualitiesList}>
               {(itemData.qualities as unknown[]).slice(0, 3).map((quality) => (
                 <span key={String(quality)} className={styles.qualityTag}>
@@ -1207,7 +1207,7 @@ export default function IngredientRecommender() {
                 </span>
               ))}
             </div>
-          )}
+          ) : null}
           
           <button
             className={`${styles.detailsButton} ${isSelected ? styles.detailsButtonActive : ''}`}
