@@ -287,11 +287,11 @@ export class AlchemicalEngineBase {
     astrologicalState: AstrologicalState
   ): ElementalProperties {
     const sunElement =
-      this.zodiacElements[astrologicalState.sunSign].baseElement;
+      this.zodiacElements[astrologicalState.sunSign || 'aries'].baseElement;
     const moonElement =
-      this.zodiacElements[astrologicalState.moonSign].baseElement;
+      this.zodiacElements[astrologicalState.moonSign || 'aries'].baseElement;
     const lunarModifiers =
-      this.lunarPhaseModifiers[astrologicalState.lunarPhase];
+      this.lunarPhaseModifiers[astrologicalState.lunarPhase || 'new_moon'];
 
     const baseModifiers: ElementalProperties = {
       Fire: 0.25,

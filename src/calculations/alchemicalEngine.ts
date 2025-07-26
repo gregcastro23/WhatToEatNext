@@ -1,6 +1,4 @@
 // Type Harmony imports
-import { createAstrologicalBridge } from '@/types/bridges/astrologicalBridge';
-import { safelyExtractElementalProperties, createDefaultElementalProperties } from '@/utils/typeGuards/astrologicalGuards';
 
 import { DEFAULT_ELEMENTAL_PROPERTIES } from '@/constants/defaults';
 import { planetInfo } from '@/constants/planetInfo';
@@ -24,6 +22,7 @@ import type {
   StandardizedAlchemicalResult} from '@/types/alchemy';
 // Import ChakraEnergies from the more complete chakra.ts that includes 'brow'
 import type { BirthInfo as UnifiedBirthInfo } from '@/types/alchemy';
+import { createAstrologicalBridge } from '@/types/bridges/astrologicalBridge';
 import type { Element } from '@/types/celestial';
 import type { ChakraEnergies, ChakraPosition } from '@/types/chakra';
 // Import Element from celestial for consistency (4 elements, no Aether)
@@ -31,6 +30,7 @@ import type { PlanetPosition } from '@/types/unified';
 import { getAccuratePlanetaryPositions } from '@/utils/accurateAstronomy';
 import { logger } from '@/utils/logger';
 import { recipeCalculations } from '@/utils/recipeCalculations';
+import { safelyExtractElementalProperties, createDefaultElementalProperties } from '@/utils/typeGuards/astrologicalGuards';
 import { getZodiacElementalInfluence } from '@/utils/zodiacUtils';
 
 // Import planetary and sign data for alchemical calculations

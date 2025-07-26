@@ -106,7 +106,7 @@ export class CuisineEnhancer {
         // Get Kalchm value
         const unifiedIngredient = RecipeEnhancer.findUnifiedIngredient(ingredientName);
         if (unifiedIngredient) {
-          ingredientKalchms.set(ingredientName, unifiedIngredient.kalchm);
+          ingredientKalchms.set(ingredientName, unifiedIngredient.kalchm || 1.0);
         } else if (((ingredient as unknown) as Record<string, unknown>)?.element) {
           ingredientKalchms.set(ingredientName, RecipeEnhancer.estimateKalchmFromElement(((ingredient as unknown) as Record<string, unknown>)?.element  as Element));
         }
@@ -435,7 +435,7 @@ export class CuisineEnhancer {
     
     // Create enhanced cuisine (PRESERVES ALL EXISTING DATA)
     const enhancedCuisine: EnhancedCuisine = {
-      ...cuisine, // Preserve ALL existing properties
+      ...(cuisine as Record<string, unknown>), // Preserve ALL existing properties
       
       // ADD new alchemical properties
       alchemicalProperties: {
@@ -619,7 +619,7 @@ export class CuisineAnalyzer {
    * Update cuisine compatibility matrices
    */
   static updateCuisineCompatibilities(cuisines: EnhancedCuisine[]): EnhancedCuisine[] {
-    return cuisines.map(cuisine => {
+    return cuisines.map(cuisine => { 
       if (!cuisine.alchemicalProperties) return cuisine;
       
       // Find compatible cuisines

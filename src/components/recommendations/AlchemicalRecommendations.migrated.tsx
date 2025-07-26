@@ -62,7 +62,7 @@ import {
   Tab 
 } from '@mui/material';
 import React, { useState, useMemo, useEffect } from 'react';
-import { createAstrologicalBridge } from '@/types/bridges/astrologicalBridge';
+
 
 
 import { 
@@ -84,6 +84,7 @@ import {
   ElementalProperties
 , Element } from '@/types/alchemy';
 import type { CookingMethod } from "@/types/alchemy";
+import { createAstrologicalBridge } from '@/types/bridges/astrologicalBridge';
 import { PlanetaryPosition } from "@/types/celestial";
 import { Recipe } from '@/types/recipe';
 

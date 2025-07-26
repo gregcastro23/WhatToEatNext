@@ -783,7 +783,7 @@ const IngredientCard: React.FC<IngredientCardProps> = ({
                 const nutrients = nutrition?.nutrients;
                 
                 // ✅ Pattern GG-6: Safe property access for nutrients array
-                return Boolean(nutrients && Array.isArray(nutrients)) ? (
+                return nutrients && Array.isArray(nutrients) ? (
                   <div className="grid grid-cols-2 gap-x-2 gap-y-1 text-xs">
                     {(nutrients as unknown[])
                       .slice(0, 8)
@@ -812,7 +812,7 @@ const IngredientCard: React.FC<IngredientCardProps> = ({
                 const categoryPath = enhancedDataObj?.categoryPath;
                 
                 // ✅ Pattern GG-6: Safe property access for category path
-                return Boolean(categoryPath && Array.isArray(categoryPath)) ? (
+                return categoryPath && Array.isArray(categoryPath) ? (
                   <div className="text-xs mt-2">
                     <span className="font-medium">Category:</span>{' '}
                     {(categoryPath as string[]).join(' > ')}

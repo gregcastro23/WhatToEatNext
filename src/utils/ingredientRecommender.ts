@@ -79,8 +79,8 @@ import { fruits } from '@/data/ingredients/fruits';
 import type { Modality, Ingredient } from '@/data/ingredients/types';
 import { AstrologicalState } from '@/types';
 import { ElementalProperties, ChakraEnergies, Season, ZodiacSign, LunarPhase } from '@/types/alchemy';
-import { ElementalState } from '@/types/elemental';
 import { createAstrologicalBridge } from '@/types/bridges/astrologicalBridge';
+import { ElementalState } from '@/types/elemental';
 
 
 // AstrologicalInfluences interface

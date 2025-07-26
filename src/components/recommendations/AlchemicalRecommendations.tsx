@@ -673,7 +673,7 @@ export default function AlchemicalRecommendations({
                     </Typography>
                     
                     <Box sx={{ mb: 1 }}>
-                      {(Boolean(recipe.mealType) ? (
+                      {(recipe.mealType ? (
                         <Chip 
                           label={Array.isArray(recipe.mealType) ? recipe.mealType[0] : String(recipe.mealType)}
                           size="small"

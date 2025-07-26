@@ -12,8 +12,7 @@ import {
   Leaf
 } from 'lucide-react';
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
-import { createAstrologicalBridge } from '@/types/bridges/astrologicalBridge';
-import type { AstrologicalState } from '@/types/commonTypes';
+
 
 
 import { calculateRecipeCompatibility } from '@/calculations/index';
@@ -34,6 +33,8 @@ import {
   ZodiacSign,
   LunarPhase,
 } from '@/types/alchemy';
+import { createAstrologicalBridge } from '@/types/bridges/astrologicalBridge';
+import type { AstrologicalState } from '@/types/commonTypes';
 import { Recipe } from '@/types/recipe';
 import { 
   getCuisineRecommendations,

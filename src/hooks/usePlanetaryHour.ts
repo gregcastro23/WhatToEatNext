@@ -1,7 +1,8 @@
 'use client';
-import React from 'react';
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
+
 import { PlanetaryHourCalculator } from "../lib/PlanetaryHourCalculator";
+
 import useErrorHandler from "./useErrorHandler";
 
 interface PlanetaryHourData {

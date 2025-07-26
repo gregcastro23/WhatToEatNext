@@ -1,8 +1,6 @@
 import React, { useState, useMemo } from 'react';
 
 // Type Harmony imports
-import { createAstrologicalBridge } from '@/types/bridges/astrologicalBridge';
-import { safelyExtractElementalProperties, createDefaultElementalProperties } from '@/utils/typeGuards/astrologicalGuards';
 
 import { ElementalItem } from '@/calculations/alchemicalTransformation';
 import { ElementalCharacter, AlchemicalProperty } from '@/constants/planetaryElements';
@@ -35,7 +33,9 @@ import type {
   LunarPhaseType,
   PlanetaryPositionsType
 } from '@/types/alchemy';
+import { createAstrologicalBridge } from '@/types/bridges/astrologicalBridge';
 import { determineIngredientModality } from '@/utils/ingredientUtils';
+import { safelyExtractElementalProperties, createDefaultElementalProperties } from '@/utils/typeGuards/astrologicalGuards';
 
 // ========== PHASE 4: UPDATED IMPORTS TO USE TYPE ALIASES ==========
 

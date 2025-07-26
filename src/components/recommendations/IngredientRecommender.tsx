@@ -1,7 +1,7 @@
 import { Flame, Droplets, Mountain, Wind, Info, Clock, Tag, Leaf, X, ChevronDown, ChevronUp, Beaker, Settings } from 'lucide-react';
 import { useEffect, useState, useMemo, useCallback } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
-import { createAstrologicalBridge } from '@/types/bridges/astrologicalBridge';
+
 
 
 import { ingredientCategories } from "@/data/ingredientCategories";
@@ -13,6 +13,7 @@ import type {
   AlchemicalProperties,
   UnifiedFlavorProfile 
 } from "@/types";
+import { createAstrologicalBridge } from '@/types/bridges/astrologicalBridge';
 
 import { normalizeChakraKey } from '../../constants/chakraSymbols';
 import { useFlavorEngine } from '../../contexts/FlavorEngineContext';

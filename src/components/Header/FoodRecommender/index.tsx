@@ -29,7 +29,7 @@ interface RecommendationItem {
 
 import { Clock, Flame, Droplets, Mountain, Wind, Leaf, ThermometerSun, ThermometerSnowflake, Pill, Sparkles, Star, RefreshCw } from 'lucide-react';
 import React, { useState, useEffect, useCallback, ReactNode } from 'react';
-import { createAstrologicalBridge } from '@/types/bridges/astrologicalBridge';
+
 
 
 import { ElementalItem, AlchemicalItem } from '@/calculations/alchemicalTransformation';
@@ -46,6 +46,7 @@ import { useCurrentChart } from '@/hooks/useCurrentChart';
 import { useTarotAstrologyData } from '@/hooks/useTarotAstrologyData';
 import { RecommendationAdapter } from '@/services/RecommendationAdapter';
 import { LunarPhase, LunarPhaseWithSpaces, PlanetaryAspect } from '@/types/alchemy';
+import { createAstrologicalBridge } from '@/types/bridges/astrologicalBridge';
 import type { Ingredient } from '@/types/index';
 import type { Ingredient as IngredientType, UnifiedIngredient } from '@/types/ingredient';
 import { calculateAspects, calculatePlanetaryPositions } from '@/utils/astrologyUtils';

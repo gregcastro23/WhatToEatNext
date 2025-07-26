@@ -1,13 +1,15 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
-import { useClientEffect } from './useClientEffect';
-import { createLogger } from '../utils/logger';
-import * as safeAstrology from '../utils/safeAstrology';
+
 import { 
   ZodiacSign, 
   LunarPhase, 
   PlanetaryPosition,
   AstrologicalProfile
 } from '../types/astrology';
+import { createLogger } from '../utils/logger';
+import * as safeAstrology from '../utils/safeAstrology';
+
+import { useClientEffect } from './useClientEffect';
 
 const logger = createLogger('useAstrology');
 

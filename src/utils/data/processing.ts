@@ -171,7 +171,7 @@ export function validateIngredient(ingredient: Partial<Ingredient>): ValidationR
   const ingredientData = ingredient as Record<string, unknown>;
   if (ingredientData?.astrologicalPropertiesProfile || ingredientData?.astrologicalProfile) {
     const astroProfile = ingredientData.astrologicalPropertiesProfile || ingredientData.astrologicalProfile;
-    const astroValidation = validateAstrologicalProfile(astroProfile as unknown as AstrologicalProfile);
+    const astroValidation = validateAstrologicalProfile(astroProfile  as AstrologicalProfile);
     if (!astroValidation.isValid) {
       warnings?.push(...astroValidation.errors);
     }

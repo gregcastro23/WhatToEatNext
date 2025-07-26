@@ -1,5 +1,6 @@
-import { NutritionalProfile, ElementalProperties } from '../types/alchemy';
 import { createAstrologicalBridge } from '@/types/bridges/astrologicalBridge';
+
+import { NutritionalProfile, ElementalProperties } from '../types/alchemy';
 
 
 // Base nutritional values for common ingredient categories (per 100g)

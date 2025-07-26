@@ -33,8 +33,6 @@ import { ChevronDown, ChevronUp } from 'lucide-react';
 import React, { useState, useEffect, useMemo, useCallback, useRef } from 'react';
 
 // Type Harmony imports
-import { createAstrologicalBridge } from '@/types/bridges/astrologicalBridge';
-import { isValidAstrologicalState, safelyExtractElementalProperties, createDefaultElementalProperties } from '@/utils/typeGuards/astrologicalGuards';
 
 import { AlchemicalItem } from '@/calculations/alchemicalTransformation';
 import type { LunarPhase } from '@/constants/lunarPhases';
@@ -44,9 +42,11 @@ import type { Modality } from '@/data/ingredients/types';
 import { useAstrologicalState } from '@/hooks/useAstrologicalState';
 import { COOKING_METHOD_THERMODYNAMICS } from '@/types/alchemy';
 import type { ElementalProperties, CookingMethod, BasicThermodynamicProperties } from '@/types/alchemy';
+import { createAstrologicalBridge } from '@/types/bridges/astrologicalBridge';
 import { ZodiacSign, Ingredient, UnifiedIngredient } from '@/types/unified';
 import { staticAlchemize } from '@/utils/alchemyInitializer';
 import { getLunarMultiplier } from '@/utils/lunarMultiplier';
+import { isValidAstrologicalState, safelyExtractElementalProperties, createDefaultElementalProperties } from '@/utils/typeGuards/astrologicalGuards';
 
 import styles from './CookingMethods.module.css';
 

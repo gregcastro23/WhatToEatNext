@@ -7,9 +7,13 @@
  * Focuses on safe, non-disruptive optimizations that improve code quality.
  */
 
-const { execSync } = require('child_process');
-const fs = require('fs');
-const path = require('path');
+import { execSync } from 'child_process';
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 class ParallelImportOptimizer {
   constructor() {
@@ -184,9 +188,7 @@ class ParallelImportOptimizer {
 }
 
 // Execute if run directly
-if (require.main === module) {
-  const optimizer = new ParallelImportOptimizer();
-  optimizer.optimize().catch(console.error);
-}
+const optimizer = new ParallelImportOptimizer();
+optimizer.optimize().catch(console.error);
 
-module.exports = ParallelImportOptimizer;
+export default ParallelImportOptimizer;

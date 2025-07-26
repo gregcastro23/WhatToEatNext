@@ -4,7 +4,7 @@
 'use client';
 
 import { useState, useEffect, useMemo } from 'react';
-import type { Ingredient } from '@/types/alchemy';
+
 import { 
   ingredientsMap,
   getAllIngredientsByCategory,
@@ -14,6 +14,7 @@ import {
   getAllSpices,
   getAllGrains
 } from '@/data/ingredients';
+import type { Ingredient } from '@/types/alchemy';
 
 export interface IngredientSearchOptions {
   category?: string;

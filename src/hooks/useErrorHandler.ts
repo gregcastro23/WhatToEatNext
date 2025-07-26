@@ -1,8 +1,9 @@
 'use client';
 import React, { useState, useCallback, useEffect } from 'react';
+
+import { ApiError } from "../types/errors";
+import handleError, { ErrorType, ErrorSeverity } from "../utils/errorHandler";
 import { createLogger } from "../utils/logger";
-import { handleError, ErrorType, ErrorSeverity } from "../utils/errorHandler";
-import { AppError } from "../types/errors";
 // Logger instance
 const logger = createLogger('useErrorHandler');
 // Component props
@@ -53,7 +54,7 @@ export default function useErrorHandler({ componentName }: UseErrorHandlerProps)
     // Handle the error through the error system
     handleError(errorObj, {
       source: componentName,
-      severity: ErrorSeverity.Warning,
+      severity: ErrorSeverity.WARNING,
       type: ((ErrorType as Record<string, unknown>).FOOD_RECOMMENDATION as string) || 'General',
       context
     });

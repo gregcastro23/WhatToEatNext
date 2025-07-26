@@ -21,7 +21,7 @@ import { ProgressTracker } from './campaign/ProgressTracker';
 import { TypeScriptErrorAnalyzer } from './campaign/TypeScriptErrorAnalyzer';
 
 // Re-export required types for external components
-export { ValidationResult, DryRunResult } from '../types/campaign';
+export type { ValidationResult, DryRunResult } from '../types/campaign';
 
 // ========== WORKFLOW TYPES ==========
 
@@ -822,7 +822,7 @@ export class CampaignWorkflowManager {
       })),
       successCriteria: phaseTemplate.successCriteria,
       safetyCheckpoints: []
-    }));
+    } as CampaignPhase));
 
     return {
       phases,

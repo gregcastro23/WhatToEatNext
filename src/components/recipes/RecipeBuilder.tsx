@@ -434,10 +434,10 @@ export default function RecipeBuilder({
           ingredient.name.toLowerCase().includes('pepper') ||
           ingredient.name.toLowerCase().includes('spice')) {
         // Seasonings scale less aggressively
-        adjustedQuantity = parseFloat(ingredient.quantity || '') * Math.pow((ratio as number) || 0, 0.8);
+        adjustedQuantity = parseFloat(ingredient.quantity || '') * Math.pow((ratio ) || 0, 0.8);
       } else if (ingredient.name.toLowerCase().includes('herb')) {
         // Fresh herbs scale moderately
-        adjustedQuantity = parseFloat(ingredient.quantity || '') * Math.pow((ratio as number) || 0, 0.9);
+        adjustedQuantity = parseFloat(ingredient.quantity || '') * Math.pow((ratio ) || 0, 0.9);
       }
       
       return {

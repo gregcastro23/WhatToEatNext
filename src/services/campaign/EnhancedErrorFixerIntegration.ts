@@ -11,6 +11,7 @@
 import { execSync, spawn } from 'child_process';
 import fs from 'fs';
 import path from 'path';
+
 import { terminalFreezePreventionSystem } from './TerminalFreezePreventionSystem';
 
 export interface FixerOptions {

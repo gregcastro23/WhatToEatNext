@@ -1,13 +1,13 @@
 // Type Harmony imports
-import { createAstrologicalBridge } from '@/types/bridges/astrologicalBridge';
-import { isValidAstrologicalState } from '@/utils/typeGuards/astrologicalGuards';
 
 import { cookingMethods } from '@/data/cooking/cookingMethods';
 import { culinaryTraditions } from '@/data/cuisines/culinaryTraditions';
 import { meats } from '@/data/ingredients/proteins/meat';
 import { recipeElementalMappings } from '@/data/recipes/elementalMappings';
 import { AstrologicalState, Season } from '@/types/alchemy';
+import { createAstrologicalBridge } from '@/types/bridges/astrologicalBridge';
 import type { RecipeElementalMapping } from '@/types/recipes';
+import { isValidAstrologicalState } from '@/utils/typeGuards/astrologicalGuards';
 
 // Define the missing interface
 interface AstrologicalCulinaryGuidance {

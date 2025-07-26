@@ -304,7 +304,7 @@ export class UnifiedNutritionalSystem {
     
     // Calculate balance as inverse of standard deviation
     const values = Object.values(totalElementalValues);
-    const mean = values.reduce((sum, val) => sum + (val) as any, 0) / values.length;
+    const mean = values.reduce((sum, val) => sum + (val) , 0) / values.length;
     const variance = values.reduce((sum, val) => sum + Math.pow((val) as any - mean, 2), 0) / values.length;
     const stdDev = Math.sqrt(variance);
     

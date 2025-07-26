@@ -470,7 +470,7 @@ export default function CuisineRecommender() {
       return c.id === _cuisineId || c.name === _cuisineId;
     }) as unknown as CuisineWithScore;
     if (selectedCuisineData) {
-      const cuisine = selectedCuisineData as CuisineWithScore;
+      const cuisine = selectedCuisineData ;
       trackEvent('cuisine_select', cuisine.name);
       
       // TODO: Implement comprehensive recipe matching algorithm

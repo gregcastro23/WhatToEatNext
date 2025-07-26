@@ -209,7 +209,7 @@ const ChakraEnergiesDisplay: React.FC<ChakraEnergiesDisplayProps> = ({ compact =
     .filter(chakraKey => validatedChakraEnergies && chakraKey in validatedChakraEnergies)
     .map(chakraKey => ({
       key: chakraKey,
-      energy: validatedChakraEnergies?.[chakraKey as keyof typeof validatedChakraEnergies] || 0
+      energy: validatedChakraEnergies?.[chakraKey ] || 0
     }));
 
   return (

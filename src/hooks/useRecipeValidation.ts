@@ -4,6 +4,7 @@
 'use client';
 
 import { useMemo } from 'react';
+
 import type { Ingredient, ElementalProperties, Recipe } from '@/types/alchemy';
 
 export interface ValidationResult {

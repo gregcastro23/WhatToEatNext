@@ -5,8 +5,8 @@ import type {
   AstrologicalState,
   Season,
 } from "@/types/alchemy";
-import type { CookingMethod } from "@/types/cookingMethod";
 import { createAstrologicalBridge } from '@/types/bridges/astrologicalBridge';
+import type { CookingMethod } from "@/types/cookingMethod";
 
 
 // Define IngredientMapping locally since it's not exported from alchemy

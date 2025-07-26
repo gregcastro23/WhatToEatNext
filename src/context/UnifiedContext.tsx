@@ -18,8 +18,8 @@ import {
 import {
   fetchPlanetaryPositions,
 } from '@/services/astrologizeApi'
-import { PlanetPosition } from '@/utils/astrologyUtils'
 import { alchemize, StandardizedAlchemicalResult } from '@/services/RealAlchemizeService'
+import { PlanetPosition } from '@/utils/astrologyUtils'
 import { logger } from '@/utils/logger'
 
 // Define the shape of our unified state

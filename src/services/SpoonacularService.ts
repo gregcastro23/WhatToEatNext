@@ -333,13 +333,13 @@ export class SpoonacularService {
         }
       });
 
-      if (!(searchResponse.data as Record<string, unknown>).results || !Array.isArray((searchResponse.data as Record<string, unknown>).results) || ((searchResponse.data as Record<string, unknown>).results as unknown[]).length === 0) {
+      if (!(searchResponse.data ).results || !Array.isArray((searchResponse.data ).results) || ((searchResponse.data ).results as unknown[]).length === 0) {
         console.warn(`No results found for vegetable: ${searchVegetableName}`);
         return {};
       }
 
-      const vegetableId = (searchResponse.data.results as any[])[0].id;
-      const vegetableName = (searchResponse.data.results as any[])[0].name;
+      const vegetableId = (searchResponse.data.results )[0].id;
+      const vegetableName = (searchResponse.data.results )[0].name;
 
       // Get detailed information about the vegetable
       const detailsResponse = await axios.get(`${this.API_BASE_URL}/food/ingredients/${vegetableId}/information`, {
@@ -350,7 +350,7 @@ export class SpoonacularService {
         }
       });
 
-      const vegetableData = detailsResponse.data as Record<string, unknown>;
+      const vegetableData = detailsResponse.data ;
 
       // Extract nutritional data
       const nutritionalProfile: NutritionalProfile = {

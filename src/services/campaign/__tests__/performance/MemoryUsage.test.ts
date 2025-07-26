@@ -3,6 +3,8 @@
  * Perfect Codebase Campaign - Memory Performance Testing
  */
 
+import { createAstrologicalBridge } from '@/types/bridges/astrologicalBridge';
+
 import {
   CampaignConfig,
   SafetySettings,
@@ -12,7 +14,6 @@ import {
 import { CampaignController } from '../../CampaignController';
 import { ProgressTracker } from '../../ProgressTracker';
 import { SafetyProtocol } from '../../SafetyProtocol';
-import { createAstrologicalBridge } from '@/types/bridges/astrologicalBridge';
 
 
 describe('Memory Usage Performance Tests', () => {

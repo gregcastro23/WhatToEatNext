@@ -8,8 +8,8 @@ import type {
 } from '@/types';
 import type { ElementalProperties } from '@/types/alchemy';
 import { FlavorProfile } from '@/types/alchemy';
-import type { SimpleIngredient } from '@/types/recipeIngredient';
 import { createAstrologicalBridge } from '@/types/bridges/astrologicalBridge';
+import type { SimpleIngredient } from '@/types/recipeIngredient';
 
 
 /**

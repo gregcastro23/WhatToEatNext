@@ -1,6 +1,6 @@
 import type { ElementalProperties, ThermodynamicMetrics, AstrologicalState, timeFactors, PlanetName, LunarPhase } from "@/types/alchemy";
-import type { ZodiacSign } from "@/types/celestial";
 import { Element } from "@/types/alchemy";
+import type { ZodiacSign } from "@/types/celestial";
 import type { Recipe } from "@/types/recipe";
 import type { TimeOfDay, TimeFactors, Season, WeekDay, PlanetaryDay, PlanetaryHour } from "@/types/time";
 

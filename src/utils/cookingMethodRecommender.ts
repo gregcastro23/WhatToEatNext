@@ -1050,8 +1050,8 @@ export async function getRecommendedCookingMethods(
       }
       
       // Add score for culinary temperament alignment
-      if (venusTemperament && (venusTemperament as any).FoodFocus) {
-        const foodFocus = String((venusTemperament as any).FoodFocus || '').toLowerCase();
+      if (venusTemperament && (venusTemperament ).FoodFocus) {
+        const foodFocus = String((venusTemperament ).FoodFocus || '').toLowerCase();
         const methodData = method as Record<string, unknown>;
         const methodName = String(methodData?.name || '').toLowerCase();
         const methodDesc = String(methodData?.description || '').toLowerCase();
@@ -1065,12 +1065,12 @@ export async function getRecommendedCookingMethods(
         venusScore += matchCount * 0.8;
         
         // Check elements alignment with Venus temperament
-        if ((venusTemperament as any).Elements && (method as Record<string, unknown>)?.elementalEffect) {
-          for (const element in (venusTemperament as any).Elements) {
+        if ((venusTemperament ).Elements && (method as Record<string, unknown>)?.elementalEffect) {
+          for (const element in (venusTemperament ).Elements) {
             const elementProperty = element as keyof ElementalProperties;
             const methodElementalEffect = (method as Record<string, unknown>)?.elementalEffect as Record<string, number>;
             if (methodElementalEffect?.[elementProperty]) {
-              venusScore += (venusTemperament as any).Elements[element] * ((method as Record<string, unknown>)?.elementalEffect?.[elementProperty] || 0) * 1.2;
+              venusScore += (venusTemperament ).Elements[element] * ((method as Record<string, unknown>)?.elementalEffect?.[elementProperty] || 0) * 1.2;
             }
           }
         }
@@ -1100,7 +1100,7 @@ export async function getRecommendedCookingMethods(
             const elementProperty = element as keyof ElementalProperties;
             const methodElementalEffect = (method as Record<string, unknown>)?.elementalEffect as Record<string, number>;
             if (methodElementalEffect?.[elementProperty]) {
-              venusScore += (venusZodiacTransit as any).Elements[element] * methodElementalEffect[elementProperty] * 0.8;
+              venusScore += (venusZodiacTransit ).Elements[element] * methodElementalEffect[elementProperty] * 0.8;
             }
           }
         }

@@ -1,6 +1,6 @@
 import { Flame, Droplets, Mountain, Wind, Info, Clock, Tag, Leaf, X, ChevronDown, ChevronUp, Beaker } from 'lucide-react';
 import { useEffect, useState, useMemo } from 'react';
-import { createAstrologicalBridge } from '@/types/bridges/astrologicalBridge';
+
 
 
 import { normalizeChakraKey } from '@/constants/chakraSymbols';
@@ -9,6 +9,7 @@ import { useAstrologicalState } from '@/hooks/useAstrologicalState';
 import { useChakraInfluencedFood } from '@/hooks/useChakraInfluencedFood';
 import { ElementalCalculator } from '@/services/ElementalCalculator';
 import { ElementalProperties } from '@/types/alchemy';
+import { createAstrologicalBridge } from '@/types/bridges/astrologicalBridge';
 import type { CookingMethod } from '@/types/cooking';
 import type { Ingredient, UnifiedIngredient } from '@/types/ingredient';
 import { getChakraBasedRecommendations, GroupedIngredientRecommendations, getIngredientRecommendations, IngredientRecommendation } from '@/utils/ingredientRecommender';

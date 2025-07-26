@@ -20,12 +20,12 @@ import type {
   Element,
   ElementalProfile,
 } from '@/types/alchemy';
+import { createAstrologicalBridge } from '@/types/bridges/astrologicalBridge';
 import { 
   isElementalProperties, 
   isElementalPropertyKey, 
   logUnexpectedValue 
 } from '@/utils/validation';
-import { createAstrologicalBridge } from '@/types/bridges/astrologicalBridge';
 
 
 import {
