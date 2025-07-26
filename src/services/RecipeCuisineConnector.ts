@@ -322,9 +322,16 @@ export class RecipeCuisineConnector {
    */
   convertToBuilderFormat(cuisineRecipe: CuisineRecipe): Recipe {
     return {
+      id: `cuisine-${cuisineRecipe.cuisine}-${cuisineRecipe.name}`.toLowerCase().replace(/\s+/g, '-'),
       name: cuisineRecipe.name,
       description: cuisineRecipe.description,
       cuisine: cuisineRecipe.cuisine,
+      elementalProperties: {
+        Fire: 0.25,
+        Water: 0.25,
+        Earth: 0.25,
+        Air: 0.25
+      },
       ingredients: cuisineRecipe.ingredients.map(ingredient => ({
         name: ingredient.name,
         amount: Number(ingredient.amount) || 1,
@@ -368,8 +375,8 @@ export class RecipeCuisineConnector {
     try {
       const builderRecipe = this.convertToBuilderFormat(cuisineRecipe);
       
-      const warnings = [];
-      const suggestions = [];
+      const warnings: string[] = [];
+      const suggestions: string[] = [];
 
       // Generate warnings for missing data
       if (!cuisineRecipe.nutrition) {

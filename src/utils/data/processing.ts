@@ -4,6 +4,7 @@ import { Element , ElementalProperties ,
 import { RecipeIngredient , Recipe ,
   Ingredient, 
   IngredientMapping} from '@/types/recipe';
+import type { UnifiedIngredient } from '@/types/unified';
 
 /**
  * Data Processing Module
@@ -389,7 +390,7 @@ function _standardizeAstrologicalProfile(profile: unknown): AstrologicalProfile 
   }
   const prof = profile as Record<string, unknown>;
   return {
-    elementalAffinity: standardizeElementalAffinity(prof.elementalAffinity?.base),
+    elementalAffinity: standardizeElementalAffinity((prof.elementalAffinity as Record<string, unknown>)?.base),
     rulingPlanets: Array.isArray(prof.rulingPlanets) ? (prof.rulingPlanets || []).map(String) : [],
     favorableZodiac: Array.isArray(prof.favorableZodiac) ? (prof.favorableZodiac || []).map(String) : [],
   } as unknown as AstrologicalProfile;
@@ -523,7 +524,7 @@ function validateAstrologicalProfile(profile: AstrologicalProfile): ValidationRe
   
   // Safe property access for AstrologicalProfile properties
   const elementalAffinity = (profile as Record<string, unknown>)?.elementalAffinity;
-  if (!elementalAffinity?.base) {
+  if (!(elementalAffinity as Record<string, unknown>)?.base) {
     errors?.push('Elemental affinity is required');
   }
   

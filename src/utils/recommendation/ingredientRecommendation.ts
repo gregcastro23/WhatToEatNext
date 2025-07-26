@@ -815,8 +815,9 @@ async function calculateSeasonalScore(ingredient: Ingredient, date: Date): Promi
                 month >= 5 && month <= 7 ? 'summer' :
                 month >= 8 && month <= 10 ? 'autumn' : 'winter';
   
-  if (ingredient.season && Array.isArray(ingredient.season)) {
-    return ingredient.season.includes(season) ? 0.9 : 0.4;
+  const ingredientData = ingredient as Record<string, unknown>;
+  if (ingredientData.season && Array.isArray(ingredientData.season)) {
+    return (ingredientData.season as string[]).includes(season) ? 0.9 : 0.4;
   }
   
   return 0.6; // Default neutral score
@@ -929,12 +930,12 @@ function calculateCulturalContextScore(
 }
 
 function _isElementalProperties(obj: unknown): obj is ElementalProperties {
-  return obj && 
+  return Boolean(obj && 
     typeof obj === 'object' &&
     typeof (obj as Record<string, unknown>)?.Fire === 'number' &&
     typeof (obj as Record<string, unknown>)?.Water === 'number' &&
     typeof (obj as Record<string, unknown>)?.Earth === 'number' &&
-    typeof (obj as Record<string, unknown>)?.Air === 'number';
+    typeof (obj as Record<string, unknown>)?.Air === 'number');
 }
 
 function createElementalProperties(values: Partial<ElementalProperties>): ElementalProperties {
@@ -968,7 +969,7 @@ export async function recommendIngredients(
     aspects: []
   };
   
-  const grouped = await getIngredientRecommendations(elementalProps as ElementalProperties & {
+  const grouped = await getIngredientRecommendations(elementalProps as unknown as ElementalProperties & {
     timestamp: Date;
     currentStability: number;
     planetaryAlignment: Record<string, { sign: string; degree: number }>;
