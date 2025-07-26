@@ -314,8 +314,8 @@ export function useAstrology(options: AstrologyOptions = {}) {
    */
   const getAstrologicalProfile = useCallback(async (
     profileDate: Date = dateRef.current,
-    calcLatitude: number = latitude,
-    calcLongitude: number = longitude
+    calcLatitude: number = latitude || 0,
+    calcLongitude: number = longitude || 0
   ): Promise<AstrologicalProfile | null> => {
     if (!isClient || !isMountedRef.current || calcLatitude === null || calcLongitude === null) {
       return null;
@@ -392,9 +392,9 @@ export function useAstrology(options: AstrologyOptions = {}) {
     try {
       const positions = safeAstrology.getReliablePlanetaryPositions();
       const lunarPhase = safeAstrology.getLunarPhaseName(safeAstrology.calculateLunarPhase()) as LunarPhase;
-      const currentSign = safeAstrology.calculatesunSign();
+      const currentSign = safeAstrology.calculateSunSign();
       
-      setState((prev) => ({
+      setState((prev: AstrologyState) => ({
         ...prev,
         loading: false,
         error: 'Using fallback data due to API error',
@@ -405,7 +405,7 @@ export function useAstrology(options: AstrologyOptions = {}) {
           lunarPhase
         },
         lastUpdated: Date.now()
-      }));
+      } as AstrologyState));
       
       return {
         positions,

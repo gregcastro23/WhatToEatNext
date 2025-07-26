@@ -87,10 +87,10 @@ export default function NutritionalDisplay({
             <h4 className="font-medium text-gray-700">Macronutrients</h4>
             <div className="grid grid-cols-2 gap-2">
               <div className="text-sm">Calories: {Number((nutritionalData as Record<string, unknown>)?.calories || 0)}</div>
-              <div className="text-sm">Protein: {Number((nutritionalData as Record<string, unknown>)?.macros?.protein || 0)}g</div>
-              <div className="text-sm">Carbs: {Number((nutritionalData as Record<string, unknown>)?.macros?.carbs || 0)}g</div>
-              <div className="text-sm">Fat: {Number((nutritionalData as Record<string, unknown>)?.macros?.fat || 0)}g</div>
-              <div className="text-sm">Fiber: {Number((nutritionalData as Record<string, unknown>)?.macros?.fiber || 0)}g</div>
+              <div className="text-sm">Protein: {Number(((nutritionalData as Record<string, unknown>)?.macros as Record<string, unknown>)?.protein || 0)}g</div>
+              <div className="text-sm">Carbs: {Number(((nutritionalData as Record<string, unknown>)?.macros as Record<string, unknown>)?.carbs || 0)}g</div>
+              <div className="text-sm">Fat: {Number(((nutritionalData as Record<string, unknown>)?.macros as Record<string, unknown>)?.fat || 0)}g</div>
+              <div className="text-sm">Fiber: {Number(((nutritionalData as Record<string, unknown>)?.macros as Record<string, unknown>)?.fiber || 0)}g</div>
             </div>
           </div>
 
