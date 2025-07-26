@@ -333,7 +333,7 @@ export class SpoonacularService {
         }
       });
 
-      if (!searchResponse.data.results || searchResponse.data.results.length === 0) {
+      if (!(searchResponse.data as Record<string, unknown>).results || !Array.isArray((searchResponse.data as Record<string, unknown>).results) || ((searchResponse.data as Record<string, unknown>).results as unknown[]).length === 0) {
         console.warn(`No results found for vegetable: ${searchVegetableName}`);
         return {};
       }
@@ -350,7 +350,7 @@ export class SpoonacularService {
         }
       });
 
-      const vegetableData = detailsResponse.data;
+      const vegetableData = detailsResponse.data as Record<string, unknown>;
 
       // Extract nutritional data
       const nutritionalProfile: NutritionalProfile = {
@@ -362,8 +362,8 @@ export class SpoonacularService {
         minerals: []
       };
       
-      if (vegetableData.nutrition && vegetableData.nutrition.nutrients) {
-        vegetableData.nutrition.nutrients.forEach((nutrient: SpoonacularNutrient) => {
+      if ((vegetableData.nutrition as Record<string, unknown>) && (vegetableData.nutrition as Record<string, unknown>).nutrients) {
+        ((vegetableData.nutrition as Record<string, unknown>).nutrients as SpoonacularNutrient[]).forEach((nutrient: SpoonacularNutrient) => {
           if (nutrient.name === 'Calories') {
             nutritionalProfile.calories = nutrient.amount;
           } else if (nutrient.name === 'Carbohydrates') {
@@ -378,7 +378,7 @@ export class SpoonacularService {
         const vitamins: string[] = [];
         const minerals: string[] = [];
 
-        vegetableData.nutrition.nutrients.forEach((nutrient: SpoonacularNutrient) => {
+        ((vegetableData.nutrition as Record<string, unknown>).nutrients as SpoonacularNutrient[]).forEach((nutrient: SpoonacularNutrient) => {
           if (nutrient.name.includes('Vitamin')) {
             vitamins.push(nutrient.name.replace('Vitamin ', '').toLowerCase());
           } else if (['Calcium', 'Iron', 'Magnesium', 'Potassium', 'Zinc'].includes(nutrient.name)) {
@@ -393,7 +393,7 @@ export class SpoonacularService {
       // Map Spoonacular data to our IngredientMapping format
       const elementalProperties = SpoonacularElementalMapper.mapRecipeToElemental({
         nutrition: {
-          nutrients: vegetableData.nutrition?.nutrients || []
+          nutrients: ((vegetableData.nutrition as Record<string, unknown>)?.nutrients as SpoonacularNutrient[]) || []
         }
       });
 
@@ -583,7 +583,7 @@ export class SpoonacularService {
       };
       
       // Process each ingredient's nutrition data
-      response.data.forEach((ingredientData: SpoonacularIngredient) => {
+      (response.data as SpoonacularIngredient[]).forEach((ingredientData: SpoonacularIngredient) => {
         if (ingredientData.nutrition && ingredientData.nutrition.nutrients) {
           (ingredientData.nutrition.nutrients || []).forEach((nutrient: SpoonacularNutrient) => {
             // Find existing nutrient or add a new one

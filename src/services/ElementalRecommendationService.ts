@@ -29,18 +29,18 @@ export class ElementalRecommendationService {
       cookingTechniques: elementalUtils.getSuggestedCookingTechniques(properties),
       // ✅ Pattern MM-1: getComplementaryElement returns element key, convert to string and wrap in array
       complementaryIngredients: [elementalUtils.getComplementaryElement(dominantElement) as string],
-      flavorProfiles: utilsService?.getFlavorProfileRecommendations?.(properties) || [],
-      healthBenefits: utilsService?.getHealthBenefits?.(properties) || [],
+      flavorProfiles: (utilsService?.getFlavorProfileRecommendations && typeof utilsService.getFlavorProfileRecommendations === 'function') ? utilsService.getFlavorProfileRecommendations(properties) : [],
+      healthBenefits: (utilsService?.getHealthBenefits && typeof utilsService.getHealthBenefits === 'function') ? utilsService.getHealthBenefits(properties) : [],
       timeOfDay: elementalUtils.getRecommendedTimeOfDay(properties),
       seasonalBest: this.getSeasonalRecommendations(dominantElement),
       // Fix TS2339: Property access on array type using safe type casting
       moodEffects: (() => {
-        const characteristics = profile.characteristics as Record<string, unknown>;
-        return characteristics?.moodEffects || [];
+        const characteristics = profile.characteristics as unknown as Record<string, unknown>;
+        return Array.isArray(characteristics?.moodEffects) ? characteristics.moodEffects as string[] : [];
       })(),
       culinaryHerbs: (() => {
-        const characteristics = profile.characteristics as Record<string, unknown>;
-        return characteristics?.culinaryHerbs || [];
+        const characteristics = profile.characteristics as unknown as Record<string, unknown>;
+        return Array.isArray(characteristics?.culinaryHerbs) ? characteristics.culinaryHerbs as string[] : [];
       })()
     };
   }
