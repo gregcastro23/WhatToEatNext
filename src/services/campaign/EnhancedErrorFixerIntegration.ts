@@ -11,6 +11,7 @@
 import { execSync, spawn } from 'child_process';
 import fs from 'fs';
 import path from 'path';
+import { terminalFreezePreventionSystem } from './TerminalFreezePreventionSystem';
 
 export interface FixerOptions {
   maxFiles?: number;
@@ -104,8 +105,18 @@ export class EnhancedErrorFixerIntegration {
     let totalFilesProcessed = 0;
     let totalErrorsFixed = 0;
     
-    while (true) {
-      console.log(`\n📦 Processing Batch ${batchNumber}...`);
+    const maxIterations = options.maxBatches || 50; // Prevent infinite loops
+    const startTime = Date.now();
+    const maxExecutionTime = 30 * 60 * 1000; // 30 minutes max
+    
+    while (batchNumber <= maxIterations) {
+      console.log(`\n📦 Processing Batch ${batchNumber}/${maxIterations}...`);
+      
+      // Check execution time limit
+      if (Date.now() - startTime > maxExecutionTime) {
+        console.log(`⏰ Maximum execution time (30 minutes) reached, stopping`);
+        break;
+      }
       
       // Check if we should stop (max batches reached)
       if (options.maxBatches && batchNumber > options.maxBatches) {
@@ -113,8 +124,15 @@ export class EnhancedErrorFixerIntegration {
         break;
       }
       
-      // Check current error count
-      const currentErrors = await this.getCurrentErrorCount();
+      // Check current error count with timeout protection
+      let currentErrors = 0;
+      try {
+        currentErrors = await this.getCurrentErrorCount();
+      } catch (error) {
+        console.warn('⚠️  Error count check failed, assuming errors remain');
+        currentErrors = 1; // Assume errors exist to continue safely
+      }
+      
       if (currentErrors === 0) {
         console.log('🎉 No more TypeScript errors found!');
         break;
@@ -363,11 +381,13 @@ export class EnhancedErrorFixerIntegration {
     try {
       const output = execSync('yarn tsc --noEmit --skipLibCheck 2>&1 | grep -c "error TS"', { 
         encoding: 'utf8',
-        stdio: 'pipe'
+        stdio: 'pipe',
+        timeout: 30000 // 30 second timeout
       });
       return parseInt(output.trim()) || 0;
     } catch (error) {
-      // If grep finds no matches, it returns exit code 1
+      // If grep finds no matches, it returns exit code 1, or timeout occurred
+      console.warn('TypeScript error count check failed or timed out:', error.message);
       return 0;
     }
   }

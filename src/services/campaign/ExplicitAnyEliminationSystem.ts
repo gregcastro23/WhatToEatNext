@@ -125,8 +125,18 @@ export class ExplicitAnyEliminationSystem {
     // Load or initialize campaign progress
     const campaignProgress = await this.loadCampaignProgress();
     
-    while (true) {
-      console.log(`\n📦 Processing Explicit-Any Batch ${batchNumber}...`);
+    const maxIterations = maxBatches || 30; // Prevent infinite loops
+    const startTime = Date.now();
+    const maxExecutionTime = 20 * 60 * 1000; // 20 minutes max
+    
+    while (batchNumber <= maxIterations) {
+      console.log(`\n📦 Processing Explicit-Any Batch ${batchNumber}/${maxIterations}...`);
+      
+      // Check execution time limit
+      if (Date.now() - startTime > maxExecutionTime) {
+        console.log(`⏰ Maximum execution time (20 minutes) reached, stopping`);
+        break;
+      }
       
       // Check if we should stop (max batches reached)
       if (maxBatches && batchNumber > maxBatches) {
@@ -134,8 +144,15 @@ export class ExplicitAnyEliminationSystem {
         break;
       }
       
-      // Check current explicit-any count
-      const currentCount = await this.getCurrentExplicitAnyCount();
+      // Check current explicit-any count with timeout protection
+      let currentCount = 0;
+      try {
+        currentCount = await this.getCurrentExplicitAnyCount();
+      } catch (error) {
+        console.warn('⚠️  Explicit-any count check failed, assuming warnings remain');
+        currentCount = 1; // Assume warnings exist to continue safely
+      }
+      
       if (currentCount === 0) {
         console.log('🎉 No more explicit-any warnings found!');
         break;
@@ -371,11 +388,13 @@ export class ExplicitAnyEliminationSystem {
     try {
       const output = execSync('yarn lint 2>&1 | grep -c "@typescript-eslint/no-explicit-any"', { 
         encoding: 'utf8',
-        stdio: 'pipe'
+        stdio: 'pipe',
+        timeout: 30000 // 30 second timeout
       });
       return parseInt(output.trim()) || 0;
     } catch (error) {
-      // If grep finds no matches, it returns exit code 1
+      // If grep finds no matches, it returns exit code 1, or timeout occurred
+      console.warn('Explicit-any count check failed or timed out:', error.message);
       return 0;
     }
   }

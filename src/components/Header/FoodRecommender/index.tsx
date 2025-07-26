@@ -632,6 +632,7 @@ const FoodRecommender: React.FC = () => {
                                         </div>
 
                                         {/* Alchemical Properties */}
+                                        {Boolean(alchemical) && (
                                         <div className="mt-3 mb-2">
                                             <h5 className="text-xs text-gray-300 mb-1">Alchemical Properties</h5>
                                             <div className="grid grid-cols-2 gap-x-2 gap-y-1">
@@ -653,31 +654,32 @@ const FoodRecommender: React.FC = () => {
                                                 </div>
                                             </div>
                                         </div>
+                                        )}
                                     
                                     {/* ✅ Pattern GG-6: Safe property access for nutritional information */}
-                                    {(ingredient as Record<string, unknown>)?.nutritionalInfo && (
+                                    {Boolean((ingredient as Record<string, unknown>)?.nutritionalInfo) && (
                                         <div className="mt-2 mb-3">
                                             <h5 className="text-xs text-gray-500 mb-1">Nutritional Information</h5>
                                             <div className="grid grid-cols-2 gap-2">
-                                                {((ingredient as Record<string, unknown>)?.nutritionalInfo as Record<string, unknown>)?.calories && (
+                                                {Boolean(((ingredient as Record<string, unknown>)?.nutritionalInfo as Record<string, unknown>)?.calories) && (
                                                     <div className="text-xs">
                                                         <span className="text-gray-400">Calories:</span> 
                                                         <span className="text-white ml-1">{String(((ingredient as Record<string, unknown>)?.nutritionalInfo as Record<string, unknown>)?.calories || '')}</span>
                                                     </div>
                                                 )}
-                                                {((ingredient as Record<string, unknown>)?.nutritionalInfo as Record<string, unknown>)?.protein && (
+                                                {Boolean(((ingredient as Record<string, unknown>)?.nutritionalInfo as Record<string, unknown>)?.protein) && (
                                                     <div className="text-xs">
                                                         <span className="text-gray-400">Protein:</span> 
                                                         <span className="text-white ml-1">{String(((ingredient as Record<string, unknown>)?.nutritionalInfo as Record<string, unknown>)?.protein || '')}g</span>
                                                     </div>
                                                 )}
-                                                {((ingredient as Record<string, unknown>)?.nutritionalInfo as Record<string, unknown>)?.carbs && (
+                                                {Boolean(((ingredient as Record<string, unknown>)?.nutritionalInfo as Record<string, unknown>)?.carbs) && (
                                                     <div className="text-xs">
                                                         <span className="text-gray-400">Carbs:</span> 
                                                         <span className="text-white ml-1">{String(((ingredient as Record<string, unknown>)?.nutritionalInfo as Record<string, unknown>)?.carbs || '')}g</span>
                                                     </div>
                                                 )}
-                                                {((ingredient as Record<string, unknown>)?.nutritionalInfo as Record<string, unknown>)?.fat && (
+                                                {Boolean(((ingredient as Record<string, unknown>)?.nutritionalInfo as Record<string, unknown>)?.fat) && (
                                                     <div className="text-xs">
                                                         <span className="text-gray-400">Fat:</span> 
                                                         <span className="text-white ml-1">{String(((ingredient as Record<string, unknown>)?.nutritionalInfo as Record<string, unknown>)?.fat || '')}g</span>
@@ -688,7 +690,7 @@ const FoodRecommender: React.FC = () => {
                                     )}
 
                                     {/* ✅ Pattern GG-6: Safe property access for sensory profile */}
-                                    {!(ingredient as Record<string, unknown>)?.nutritionalInfo && (ingredient as Record<string, unknown>)?.sensoryProfile && (
+                                    {Boolean(!(ingredient as Record<string, unknown>)?.nutritionalInfo && (ingredient as Record<string, unknown>)?.sensoryProfile) && (
                                         <div className="mt-2 mb-3">
                                             <h5 className="text-xs text-gray-500 mb-1">Flavor Profile</h5>
                                             <div className="flex flex-wrap gap-1">
@@ -775,7 +777,7 @@ const FoodRecommender: React.FC = () => {
                                                                     {isTarotElement && ' ✧'}
                                                                 </span>
                                                             </div>
-                                                            <span className="text-gray-400">{safelyFormatNumber(normalizedValue * 100) as ReactNode}%</span>
+                                                            <span className="text-gray-400">{String(safelyFormatNumber(normalizedValue * 100))}%</span>
                                                         </div>
                                                         <div className="w-full bg-gray-800 rounded-full h-1.5">
                                                             <div 

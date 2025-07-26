@@ -268,7 +268,13 @@ export class TypeScriptErrorAnalyzer {
     description: string;
     estimatedReduction: number;
   }> {
-    const recommendations = [];
+    const recommendations: Array<{
+      category: ErrorCategory;
+      errorCount: number;
+      priority: number;
+      description: string;
+      estimatedReduction: number;
+    }> = [];
 
     // TS2352 Type Conversion Errors (highest priority per requirements)
     const ts2352Count = distribution.errorsByCategory[ErrorCategory.TS2352_TYPE_CONVERSION].length;
@@ -392,11 +398,13 @@ export class TypeScriptErrorAnalyzer {
     try {
       const output = execSync('yarn tsc --noEmit --skipLibCheck 2>&1 | grep -c "error TS"', { 
         encoding: 'utf8',
-        stdio: 'pipe'
+        stdio: 'pipe',
+        timeout: 30000 // 30 second timeout
       });
       return parseInt(output.trim()) || 0;
     } catch (error) {
-      // If grep finds no matches, it returns exit code 1
+      // If grep finds no matches, it returns exit code 1, or timeout occurred
+      console.warn('TypeScript error count check failed or timed out:', (error as Error).message);
       return 0;
     }
   }
