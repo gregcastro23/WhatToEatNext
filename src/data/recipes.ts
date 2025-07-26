@@ -698,7 +698,7 @@ async function applyAdditionalFilters(
     logger.debug(`Filtering by season: ${criteria.season}`);
     const seasonRecipes = candidateRecipes.filter(recipe => 
       recipe.energyProfile?.season?.includes(criteria.season!) ||
-      (Array.isArray(recipe.season) && recipe.season.includes(criteria.season)) ||
+      (Array.isArray(recipe.season) && recipe.season.includes(criteria.season!)) ||
       (typeof recipe.season === 'string' && recipe.season === criteria.season)
     );
     
@@ -914,7 +914,7 @@ export const getRecommendedCuisines = (profile: CuisineRecommendationProfile) =>
       
       // Season matching
       if (profile.season && (cuisineProfile as unknown as Record<string, unknown>)?.seasonalPreference) {
-        const seasonMatch = (cuisineProfile as unknown as string)?.seasonalPreference.includes(profile.season);
+        const seasonMatch = ((cuisineProfile as unknown as Record<string, unknown>)?.seasonalPreference as string[])?.includes(profile.season);
         if (seasonMatch) {
           matchScore += 1;
           totalFactors += 1;

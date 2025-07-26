@@ -745,7 +745,7 @@ export class UnifiedFlavorEngine {
 
     if (criteria.tags && criteria.tags  || [].length > 0) {
       results = (results || []).filter(p => 
-        criteria.tags!  || [].some(tag => 
+        (criteria.tags || []).some(tag => 
           p?.tags?.some(pTag => pTag?.toLowerCase()?.includes(tag?.toLowerCase()))
         )
       );
@@ -783,7 +783,7 @@ export class UnifiedFlavorEngine {
     return {
       compatibility: this?.compatibilityCache?.size,
       search: this?.searchCache?.size,
-      performance: {} as Record<Planet, PlanetaryPosition>,
+      performance: this.performanceMetrics,
       hitRate,
       memoryEstimate
     };

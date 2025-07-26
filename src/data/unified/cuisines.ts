@@ -434,7 +434,7 @@ export class CuisineEnhancer {
     );
     
     // Create enhanced cuisine (PRESERVES ALL EXISTING DATA)
-    const enhancedCuisine: EnhancedCuisine = {
+    const enhancedCuisine = {
       ...(cuisine as unknown as Record<string, unknown>), // Preserve ALL existing properties
       
       // ADD new alchemical properties
@@ -444,7 +444,7 @@ export class CuisineEnhancer {
         ingredientKalchmProfile: kalchmAnalysis.ingredientKalchmProfile as any,
         cookingMethodInfluence: kalchmAnalysis.cookingMethodInfluence as any,
         alchemicalClassification,
-        elementalBalance
+        alchemicalClassification
       },
       
       // ADD cuisine optimization
@@ -459,7 +459,7 @@ export class CuisineEnhancer {
         enhancedAt: new Date()?.toISOString(),
         sourceFile
       }
-    };
+    } as EnhancedCuisine;
     
     return enhancedCuisine;
   }
@@ -618,7 +618,7 @@ export class CuisineAnalyzer {
   /**
    * Update cuisine compatibility matrices
    */
-  static updateCuisineCompatibilities(cuisines: EnhancedCuisine[]): EnhancedCuisine[] {
+  static updateCuisineCompatibilities(cuisines: EnhancedCuisine[]): any[] {
     return cuisines.map(cuisine => {
       if (!cuisine.alchemicalProperties) return cuisine;
       
