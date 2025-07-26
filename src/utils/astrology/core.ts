@@ -34,7 +34,7 @@ const errorLog = (_message: string, ..._args: unknown[]): void => {
 
 // Type guard for PlanetaryPosition
 export function isPlanetaryPosition(obj: unknown): obj is PlanetaryPosition {
-  return obj && typeof obj === 'object' &&
+  return Boolean(obj) && typeof obj === 'object' &&
     typeof (obj as Record<string, unknown>)?.sign === 'string' &&
     typeof (obj as Record<string, unknown>)?.degree === 'number' &&
     (typeof (obj as Record<string, unknown>)?.exactLongitude === 'number' || typeof (obj as Record<string, unknown>)?.exactLongitude === 'undefined');
@@ -241,7 +241,7 @@ export async function calculateLunarPhase(date: Date = new Date()): Promise<numb
       throw new Error('Sun or Moon position missing');
     }
     // Calculate the angular distance between Sun and Moon
-    let angularDistance = positions.Moon.exactLongitude - positions.Sun.exactLongitude;
+    let angularDistance = (positions.Moon.exactLongitude || 0) - (positions.Sun.exactLongitude || 0);
     // Normalize to 0-360 range
     angularDistance = ((angularDistance % 360) + 360) % 360;
     // Convert to phase percentage (0 to 1)

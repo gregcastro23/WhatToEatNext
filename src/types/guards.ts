@@ -22,8 +22,8 @@ export function isNutritionalProfile(obj: unknown): obj is Nutrition {
     typeof maybe.calories === 'number' ||
     typeof maybe.protein === 'number' ||
     typeof maybe.carbs === 'number' ||
-    !!maybe.vitamins ||
-    !!maybe.minerals
+    !!(maybe as Record<string, unknown>).vitamins ||
+    !!(maybe as Record<string, unknown>).minerals
   );
 }
 
@@ -33,7 +33,7 @@ export function isPlanetaryPosition(obj: unknown): obj is PlanetaryPosition {
   const maybe = obj as Partial<PlanetaryPosition>;
   return (
     typeof maybe.degree === 'number' ||
-    typeof maybe.exactLongitude === 'number' ||
+    typeof (maybe as Record<string, unknown>).exactLongitude === 'number' ||
     typeof maybe.sign === 'string'
   );
 }

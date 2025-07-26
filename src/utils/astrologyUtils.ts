@@ -1435,7 +1435,7 @@ export async function getCurrentAstrologicalState(date: Date = new Date()): Prom
       currentPlanetaryAlignment,
       planetaryPositions,
       activePlanets,
-      planetaryHour: planetaryHour as Planet | undefined,
+      planetaryHour: planetaryHour as any,
       aspects: aspects as import('@/types/celestial').PlanetaryAspect[],
       tarotElementBoosts: { Fire: 0, Water: 0, Earth: 0, Air: 0 },
       tarotPlanetaryBoosts: {}
@@ -1455,7 +1455,7 @@ export async function getCurrentAstrologicalState(date: Date = new Date()): Prom
       currentPlanetaryAlignment: {},
       planetaryPositions: defaultPositions,
       activePlanets: [],
-      planetaryHour: 'sun' as Planet,
+      planetaryHour: 'sun' as any,
       aspects: [],
       tarotElementBoosts: { Fire: 0, Water: 0, Earth: 0, Air: 0 },
       tarotPlanetaryBoosts: {}
