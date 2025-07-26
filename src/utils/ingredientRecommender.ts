@@ -434,8 +434,8 @@ export async function getIngredientRecommendations(
     .filter(ingredient => {
       // Apply basic filters
       const ingredientName = safeGetIngredientName(ingredient);
-      if (options.excludeIngredients?.includes(ingredientName)) return false;
-      if (options.includeOnly && !options?.includeOnly?.includes(ingredientName)) return false;
+      if (options.excludeIngredients?.includes(ingredientName || '')) return false;
+      if (options.includeOnly && !options?.includeOnly?.includes(ingredientName || '')) return false;
       if (options.category && ingredient.category !== options.category) return false;
       
       // Filter by dietary preference if specified

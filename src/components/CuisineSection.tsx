@@ -296,7 +296,7 @@ export const CuisineSection: React.FC<CuisineSectionProps> = ({
   const parentCuisineName = isRegionalVariant ? (() => {
     const foundRecipe = cuisineRecipes.find(r => {
       const recipeData = r as Record<string, unknown>;
-      return recipeData?.regionalCuisine?.toLowerCase() === cuisine?.toLowerCase();
+      return (recipeData?.regionalCuisine as string)?.toLowerCase() === (cuisine as string)?.toLowerCase();
     });
     const foundRecipeData = foundRecipe as Record<string, unknown>;
     return foundRecipeData?.cuisine;
@@ -305,7 +305,7 @@ export const CuisineSection: React.FC<CuisineSectionProps> = ({
   // Check if this is a parent cuisine with regional variants shown
   const hasRegionalVariants = (cuisineRecipes || []).some(r => {
     const recipeData = r as Record<string, unknown>;
-    return recipeData?.regionalCuisine && recipeData?.cuisine?.toLowerCase() === cuisine?.toLowerCase();
+    return recipeData?.regionalCuisine && (recipeData?.cuisine as string)?.toLowerCase() === (cuisine as string)?.toLowerCase();
   });
   const regionalVariantNames = [...new Set(cuisineRecipes
     .filter(r => {

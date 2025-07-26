@@ -693,7 +693,7 @@ export default function CuisineRecommender() {
       
       const recommendations = getCuisineRecommendations(
         currentMomentElementalProfile,
-        astrologicalStateForRecommendations,
+        astrologicalStateForRecommendations as unknown as import('@/types/celestial').AstrologicalState,
         { count: 12, includeRegional: true }
       );
       
@@ -898,7 +898,7 @@ export default function CuisineRecommender() {
       const topSauces = generateTopSauceRecommendations(
         currentMomentElementalProfile,
         6,
-        astrologicalStateForRecommendations
+        astrologicalStateForRecommendations as unknown as Partial<AstrologicalState>
       );
       setSauceRecommendations(topSauces as SauceData[]);
 

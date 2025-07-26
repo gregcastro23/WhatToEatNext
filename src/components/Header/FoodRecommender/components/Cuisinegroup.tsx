@@ -271,7 +271,7 @@ const CuisineGroup: React.FC<Props> = ({ recipes, elementalState }) => {
             recipesByCuisine[cuisine].sort((a, b) => {
                 switch(sortBy) {
                     case 'time':
-                        return (parseInt(a.timeToMake) || 0) - (parseInt(b.timeToMake) || 0);
+                        return (parseInt(a.timeToMake || '0') || 0) - (parseInt(b.timeToMake || '0') || 0);
                     case 'calories':
                         return (a.nutrition?.calories || 0) - (b.nutrition?.calories || 0);
                     case 'elemental':
