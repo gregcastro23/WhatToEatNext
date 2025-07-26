@@ -57,7 +57,7 @@ export async function runServiceIntegrationExample() {
       limit: 5
     });
     console.log('Recommended ingredients:', 
-      ingredientRecommendations?.items || [].map(ing => ing.name),
+      (ingredientRecommendations?.items || [] as any[]).map(ing => ing.name),
       'Scores:', ingredientRecommendations.scores
     );
     
@@ -68,7 +68,7 @@ export async function runServiceIntegrationExample() {
       limit: 3
     });
     console.log('Recommended recipes:', 
-      recipeRecommendations?.items || [].map(recipe => recipe.name),
+      (recipeRecommendations?.items || [] as any[]).map(recipe => recipe.name),
       'Scores:', recipeRecommendations.scores
     );
     
@@ -79,7 +79,7 @@ export async function runServiceIntegrationExample() {
       limit: 3
     });
     console.log('Recommended cooking methods:', 
-      cookingMethodRecommendations?.items || [].map(method => method.name),
+      (cookingMethodRecommendations?.items || [] as any[]).map(method => method.name),
       'Scores:', cookingMethodRecommendations.scores
     );
     

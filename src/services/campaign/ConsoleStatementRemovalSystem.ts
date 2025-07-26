@@ -415,7 +415,7 @@ export class ConsoleStatementRemovalSystem {
 
     try {
       // Build command arguments
-      const args = [];
+      const args: string[] = [];
       
       if (this.config.dryRun) {
         args.push('--dry-run');

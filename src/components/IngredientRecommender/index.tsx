@@ -923,8 +923,8 @@ export default function IngredientRecommender() {
     const itemData = item as Record<string, unknown>;
     return (
       <div className={styles.ingredientDetails}>
-        {/* Description if available */}
-        {itemData.description && (
+        {String(/* Description if available */)}
+        {Boolean(itemData.description) && (
           <div className={styles.detailSection}>
             <h4 className={styles.detailTitle}>
               About {String(itemData.name)}:
@@ -991,7 +991,7 @@ export default function IngredientRecommender() {
         )}
         
         {/* Culinary Applications with improved structure */}
-        {(item as ExtendedIngredientRecommendation).culinaryApplications && Object.keys((item as ExtendedIngredientRecommendation).culinaryApplications || {}).length > 0 && (
+        {Boolean((item as ExtendedIngredientRecommendation).culinaryApplications) && Object.keys((item as ExtendedIngredientRecommendation).culinaryApplications || {}).length > 0 && (
           <div className={styles.detailSection}>
             <h4 className={styles.detailTitle}>
               <Leaf size={16} /> Culinary Applications

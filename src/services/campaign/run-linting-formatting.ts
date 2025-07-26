@@ -73,9 +73,9 @@ class LintingFormattingCLI {
       console.log('\n✅ Linting and formatting completed successfully!');
 
     } catch (error) {
-      console.error('❌ Linting and formatting failed:', error.message);
+      console.error('❌ Linting and formatting failed:', (error as Error).message);
       if (this.options.verbose) {
-        console.error(error.stack);
+        console.error((error as Error).stack);
       }
       process.exit(1);
     }
@@ -113,7 +113,7 @@ class LintingFormattingCLI {
         config = { ...config, ...configFile };
         console.log(`📋 Loaded configuration from ${configPath}`);
       } catch (error) {
-        console.warn(`⚠️  Failed to load config file: ${error.message}`);
+        console.warn(`⚠️  Failed to load config file: ${(error as Error).message}`);
       }
     }
 

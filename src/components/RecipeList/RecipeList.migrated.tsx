@@ -151,7 +151,8 @@ const RecipeCard: React.FC<RecipeCardProps> = ({ recipe, isExpanded, onToggle })
               value={Number((recipe as unknown as Record<string, unknown>)?.rating) || 0} 
               precision={0.5} 
               size="small" 
-              readOnly 
+              readOnly
+              max={5} 
             />
             <Typography variant="caption">
               {Number((recipe as unknown as Record<string, unknown>)?.rating) || 0}/5
@@ -515,7 +516,7 @@ export default function RecipeListMigrated() {
       // Check if response is a direct array or a service response object
       if (Array.isArray(response)) {
         // Direct array response - convert from AlchemyRecipe to Recipe format
-        const convertedRecipes: Recipe[] = (response as AlchemyRecipe[]).map(alchemyRecipe => ({
+        const convertedRecipes: Recipe[] = (response as any[]).map(alchemyRecipe => ({
           ...alchemyRecipe,
           instructions: Array.isArray(alchemyRecipe.instructions) 
             ? alchemyRecipe.instructions as string[]
@@ -528,7 +529,7 @@ export default function RecipeListMigrated() {
         setTotalPages(1);
       } else {
         // Service response object
-        const responseData = response as RecipeServiceResponse;
+        const responseData = response as unknown as RecipeServiceResponse;
         if (responseData?.success) {
           setRecipes(responseData.data || []);
           

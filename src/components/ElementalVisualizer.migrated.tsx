@@ -213,7 +213,7 @@ const ElementalVisualizerMigrated: React.FC<ElementalVisualizerProps> = ({
       };
       
       // Get recommendations based on dominant element
-      recommendations = {
+      recommendations = { 
         flavorProfile: flavorProfiles[dominantElement?.toLowerCase() ] || [],
         cuisineAffinity: cuisineAffinities[dominantElement?.toLowerCase() ] || [],
         wellnessProperties: wellnessProperties[dominantElement?.toLowerCase() ] || []
@@ -448,7 +448,7 @@ const ElementalVisualizerMigrated: React.FC<ElementalVisualizerProps> = ({
       // Calculate total for normalization
       const userTotal = Object.values(userProperties)?.reduce((sum, value) => sum + value, 0);
       
-      comparisonPoints = (elements || []).map((element, i) => {
+      comparisonPoints = (elements || [] as any).map((element: any, i: number) => {
         const angle = i * angleStep - Math.PI / 2;
         const value = userProperties[element as "Fire" | "Water" | "Earth" | "Air"] || 0;
         const normalizedValue = userTotal > 0 ? value / userTotal : 0;
@@ -506,7 +506,7 @@ const ElementalVisualizerMigrated: React.FC<ElementalVisualizerProps> = ({
         {/* Comparison polygon if applicable */}
         {comparisonPoints && (
           <polygon
-            points={comparisonPoints.map(p => `${p.x},${p.y}`)?.join(' ')}
+            points={(comparisonPoints as any).map((p: any) => `${p.x},${p.y}`)?.join(' ')}
             fill="rgba(255, 87, 34, 0.3)"
             stroke="#FF5722"
             strokeWidth={2}

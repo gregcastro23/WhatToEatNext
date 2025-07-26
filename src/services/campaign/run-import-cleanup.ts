@@ -71,9 +71,9 @@ class ImportCleanupCLI {
       console.log('\n✅ Import cleanup completed successfully!');
 
     } catch (error) {
-      console.error('❌ Import cleanup failed:', error.message);
+      console.error('❌ Import cleanup failed:', (error as Error).message);
       if (this.options.verbose) {
-        console.error(error.stack);
+        console.error((error as Error).stack);
       }
       process.exit(1);
     }
@@ -99,7 +99,7 @@ class ImportCleanupCLI {
         config = { ...config, ...configFile };
         console.log(`📋 Loaded configuration from ${configPath}`);
       } catch (error) {
-        console.warn(`⚠️  Failed to load config file: ${error.message}`);
+        console.warn(`⚠️  Failed to load config file: ${(error as Error).message}`);
       }
     }
 

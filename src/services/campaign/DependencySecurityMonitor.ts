@@ -221,7 +221,7 @@ export class DependencySecurityMonitor {
         updatesApplied: 0,
         securityPatchesApplied: 0,
         compatibilityTestsPassed: false,
-        errors: [(error as Record<string, unknown>)?.message || 'Unknown error'],
+        errors: [String((error as Record<string, unknown>)?.message || 'Unknown error')],
         warnings: [],
         securityReport: {
           vulnerabilities: [],
@@ -339,9 +339,9 @@ export class DependencySecurityMonitor {
 
     } catch (error) {
       // yarn outdated returns non-zero exit code when updates are available
-      if (error.stdout) {
+      if ((error as any).stdout) {
         try {
-          const outdatedData = JSON.parse(error.stdout || '{}');
+          const outdatedData = JSON.parse((error as any).stdout || '{}');
           // Process the data as above
           return this.processOutdatedData(outdatedData);
         } catch (parseError) {

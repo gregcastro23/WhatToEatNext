@@ -81,8 +81,8 @@ export function InfiniteLoopDetector({
           }
           
           // Add a hook to React DevTools
-          if ((window as Record<string, Record<string, string>>).__REACT_DEVTOOLS_GLOBAL_HOOK__) {
-            (window as Record<string, Record<string, string>>).__REACT_DEVTOOLS_GLOBAL_HOOK__.__INFINITE_LOOP_DETECTED__ = {
+          if ((window as unknown as Record<string, any>).__REACT_DEVTOOLS_GLOBAL_HOOK__) {
+            (window as unknown as Record<string, any>).__REACT_DEVTOOLS_GLOBAL_HOOK__.__INFINITE_LOOP_DETECTED__ = {
               componentStack: componentStackRef.current,
               rendersPerSecond: (renderCount.current / timeElapsed) * 1000,
               timestamp: new Date()?.toISOString()

@@ -51,7 +51,7 @@ const ChromeAPITest = () => {
     try {
       console.log('Attempting to open FormSwift URL');
       // Use our guaranteed available Chrome API
-      window.chrome.tabs.create({
+      window.chrome?.tabs?.create({
         url: "https://formswift.com / (sem || 1) / (edit || 1)-pdf",
         active: true,
       }).then(result => {

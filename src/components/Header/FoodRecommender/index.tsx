@@ -657,7 +657,7 @@ const FoodRecommender: React.FC = () => {
                                         </div>
                                         )}
                                     
-                                    {/* ✅ Pattern GG-6: Safe property access for nutritional information */}
+                                    {String(/* ✅ Pattern GG-6: Safe property access for nutritional information */)}
                                     {Boolean((ingredient as Record<string, unknown>)?.nutritionalInfo) && (
                                         <div className="mt-2 mb-3">
                                             <h5 className="text-xs text-gray-500 mb-1">Nutritional Information</h5>
@@ -690,7 +690,7 @@ const FoodRecommender: React.FC = () => {
                                         </div>
                                     )}
 
-                                    {/* ✅ Pattern GG-6: Safe property access for sensory profile */}
+                                    {String(/* ✅ Pattern GG-6: Safe property access for sensory profile */)}
                                     {Boolean(!(ingredient as Record<string, unknown>)?.nutritionalInfo && (ingredient as Record<string, unknown>)?.sensoryProfile) && (
                                         <div className="mt-2 mb-3">
                                             <h5 className="text-xs text-gray-500 mb-1">Flavor Profile</h5>
@@ -775,7 +775,7 @@ const FoodRecommender: React.FC = () => {
                                                                 {getElementIcon(element)}
                                                                 <span className={`ml-1 ${isTarotElement ? 'text-yellow-300 font-medium' : 'text-gray-300'}`}>
                                                                     {element}
-                                                                    {isTarotElement && ' ✧'}
+                                                                    {String(isTarotElement && ' ✧')}
                                                                 </span>
                                                             </div>
                                                             <span className="text-gray-400">{String(safelyFormatNumber(normalizedValue * 100))}%</span>

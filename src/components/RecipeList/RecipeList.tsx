@@ -92,7 +92,7 @@ export default function RecipeList() {
         ...recipe, 
         score: 0.5,
         id: recipe.id || `recipe-${Math.random().toString(36).substr(2, 9)}`
-      } as ScoredRecipe;
+      } as unknown as ScoredRecipe;
     });
   };
 
@@ -109,7 +109,7 @@ export default function RecipeList() {
           recipes, 
           filters.cuisineTypes.map(cuisine => cuisine as unknown as string)
         );
-        filteredByCuisine = ensureScoredRecipes(cuisineFiltered);
+        filteredByCuisine = ensureScoredRecipes(cuisineFiltered as any);
       }
 
       // Then apply other filters
@@ -188,7 +188,7 @@ export default function RecipeList() {
         const recipesData = await recipeData.getAllRecipes();
         
         // Ensure all recipes have a score
-        const scoredRecipes = ensureScoredRecipes(recipesData);
+        const scoredRecipes = ensureScoredRecipes(recipesData as any);
         setRecipes(scoredRecipes);
       } catch (error) {
         logger.error('Error loading recipes:', error);

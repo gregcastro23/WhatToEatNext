@@ -116,7 +116,7 @@ export class LegacyIngredientAdapter {
    */
   public filterIngredients(filter: IngredientFilter = {}): Record<string, UnifiedIngredient[]> {
     try {
-      const result: unknown = unifiedIngredientService.filterIngredients(filter); // Pattern UUU: Import Path Interface Resolution
+      const result: unknown = unifiedIngredientService.filterIngredients(filter as any); // Pattern UUU: Import Path Interface Resolution
       return result as Record<string, UnifiedIngredient[]>;
     } catch (error) {
       logger.error('Error in filterIngredients:', error);
@@ -130,12 +130,12 @@ export class LegacyIngredientAdapter {
    */
   public getIngredientsByElement(elementalFilter: Element): UnifiedIngredient[] {
     try {
-      const result: unknown = unifiedIngredientService.getIngredientsByElement({ element: elementalFilter } as ElementalFilter);
+      const result: unknown = unifiedIngredientService.getIngredientsByElement({ element: elementalFilter } as any);
       return result as UnifiedIngredient[];
     } catch (error) {
       logger.error('Error in getIngredientsByElement:', error);
       // Fall back to original implementation if needed
-      return this.legacyService.getIngredientsByElement({ element: elementalFilter } as ElementalFilter);
+      return this.legacyService.getIngredientsByElement({ element: elementalFilter } as any);
     }
   }
   

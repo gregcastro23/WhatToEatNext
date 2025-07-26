@@ -59,9 +59,9 @@ class DependencySecurityCLI {
       console.log('\n✅ Dependency security monitoring completed successfully!');
 
     } catch (error) {
-      console.error('❌ Dependency security monitoring failed:', error.message);
+      console.error('❌ Dependency security monitoring failed:', (error as Error).message);
       if (this.options.verbose) {
-        console.error(error.stack);
+        console.error((error as Error).stack);
       }
       process.exit(1);
     }
@@ -103,7 +103,7 @@ class DependencySecurityCLI {
         config = { ...config, ...configFile };
         console.log(`📋 Loaded configuration from ${configPath}`);
       } catch (error) {
-        console.warn(`⚠️  Failed to load config file: ${error.message}`);
+        console.warn(`⚠️  Failed to load config file: ${(error as Error).message}`);
       }
     }
 
