@@ -1288,7 +1288,7 @@ export const ALCHEMY_TYPE_INTELLIGENCE_SYSTEM = {
     const positionAnalysis = positions.map(position => ({
       sign: position.sign,
       degree: position.degree,
-      hasExactLongitude: !!(position as unknown as PlanetaryPosition)?.exactLongitude,
+      hasExactLongitude: !!((position as unknown as Record<string, unknown>)?.exactLongitude),
       hasElement: !!position.element,
       hasDignity: !!position.dignity,
       isRetrograde: position.isRetrograde || false
@@ -1429,7 +1429,7 @@ export const ALCHEMY_TYPE_DEMONSTRATION_PLATFORM = {
           aspectPatterns: [],
           energyFlow: 0.7
         }
-      ] as CelestialAlignment[],
+      ] as unknown as CelestialAlignment[],
       positions: [
         { sign: 'aries', degree: 15 }
       ] as PlanetaryPosition[]

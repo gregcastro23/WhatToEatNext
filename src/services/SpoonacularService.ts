@@ -338,8 +338,8 @@ export class SpoonacularService {
         return {};
       }
 
-      const vegetableId = searchResponse.data.results[0].id;
-      const vegetableName = searchResponse.data.results[0].name;
+      const vegetableId = (searchResponse.data.results as any[])[0].id;
+      const vegetableName = (searchResponse.data.results as any[])[0].name;
 
       // Get detailed information about the vegetable
       const detailsResponse = await axios.get(`${this.API_BASE_URL}/food/ingredients/${vegetableId}/information`, {
@@ -583,7 +583,7 @@ export class SpoonacularService {
       };
       
       // Process each ingredient's nutrition data
-      (response.data as SpoonacularIngredient[]).forEach((ingredientData: SpoonacularIngredient) => {
+      (response.data as unknown as SpoonacularIngredient[]).forEach((ingredientData: SpoonacularIngredient) => {
         if (ingredientData.nutrition && ingredientData.nutrition.nutrients) {
           (ingredientData.nutrition.nutrients || []).forEach((nutrient: SpoonacularNutrient) => {
             // Find existing nutrient or add a new one

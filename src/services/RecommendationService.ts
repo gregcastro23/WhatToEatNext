@@ -16,7 +16,7 @@ import { convertToLunarPhase } from '@/utils/lunarPhaseUtils';
 
 import { calculatePlanetaryPositions , normalizePlanetaryPositions } from '../utils/astrology/core';
 import { calculateLunarPhase , transformItemsWithPlanetaryPositions } from '../utils/astrologyUtils';
-import { createError } from '../utils/errorHandling';
+import createError from '../utils/errorHandling';
 import { logger } from '../utils/logger';
 
 
@@ -279,7 +279,7 @@ export class RecommendationService {
     
     // Apply boosts to each ingredient
     this.transformedIngredients = this.transformedIngredients  || [].map(item => {
-      const properties = item.elementalState || { Fire: 0, Water: 0, Earth: 0, Air: 0  };
+      const properties = (item as any).elementalState || { Fire: 0, Water: 0, Earth: 0, Air: 0  };
       
       // Apply boosts to each element
       Object.entries(this.tarotElementBoosts || []).forEach(([element, boost]) => {
@@ -289,7 +289,7 @@ export class RecommendationService {
       });
       
       return {
-        ...item,
+        ...(item as any),
         elementalProperties: properties
       };
     });
@@ -395,7 +395,7 @@ export class RecommendationService {
   ): Promise<ScoredRecipe[]> {
     try {
       if (!Array.isArray(recipes) || (recipes || []).length === 0) {
-        throw createError('INVALID_REQUEST', { context: 'Empty recipe list' });
+        throw new (createError as any)('INVALID_REQUEST', { context: 'Empty recipe list' });
       }
 
       // If celestial influence not provided, calculate from current settings
