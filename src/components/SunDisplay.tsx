@@ -34,7 +34,9 @@ const SunDisplay: React.FC = () => {
   useEffect(() => {
     const getLocation = async () => {
       try {
-        const coords = await (AstrologicalService as Record<string, unknown>)?.requestLocation?.();
+        const astroService = AstrologicalService as unknown as Record<string, unknown>;
+        const requestLocation = astroService?.requestLocation;
+        const coords = (requestLocation && typeof requestLocation === 'function') ? await requestLocation() : null;
         if (coords) {
           setCoordinates({
             latitude: coords.latitude,
@@ -157,9 +159,9 @@ const SunDisplay: React.FC = () => {
         <div className="flex items-center">
           <span className="text-3xl mr-3">☉</span>
           <div>
-            <p className="font-medium">{(sun as Record<string, unknown>)?.sign || 'Unknown'}</p>
+            <p className="font-medium">{String((sun as Record<string, unknown>)?.sign || 'Unknown')}</p>
             <p className="text-sm text-amber-200">
-              {sun && (sun as Record<string, unknown>)?.degree !== undefined ? formatDegree((sun as Record<string, unknown>)?.degree) : ''}
+              {sun && (sun as Record<string, unknown>)?.degree !== undefined ? formatDegree(Number((sun as Record<string, unknown>)?.degree)) : ''}
             </p>
           </div>
         </div>

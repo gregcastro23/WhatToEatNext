@@ -116,7 +116,7 @@ export class LegacyIngredientAdapter {
    */
   public filterIngredients(filter: IngredientFilter = {}): Record<string, UnifiedIngredient[]> {
     try {
-      const result: unknown = unifiedIngredientService.filterIngredients(filter as Ingredient[]); // Pattern UUU: Import Path Interface Resolution
+      const result: unknown = unifiedIngredientService.filterIngredients(filter); // Pattern UUU: Import Path Interface Resolution
       return result as Record<string, UnifiedIngredient[]>;
     } catch (error) {
       logger.error('Error in filterIngredients:', error);
@@ -130,12 +130,12 @@ export class LegacyIngredientAdapter {
    */
   public getIngredientsByElement(elementalFilter: Element): UnifiedIngredient[] {
     try {
-      const result: unknown = unifiedIngredientService.getIngredientsByElement(elementalFilter);
+      const result: unknown = unifiedIngredientService.getIngredientsByElement({ element: elementalFilter } as ElementalFilter);
       return result as UnifiedIngredient[];
     } catch (error) {
       logger.error('Error in getIngredientsByElement:', error);
       // Fall back to original implementation if needed
-      return this.legacyService.getIngredientsByElement(elementalFilter);
+      return this.legacyService.getIngredientsByElement({ element: elementalFilter } as ElementalFilter);
     }
   }
   
@@ -147,7 +147,7 @@ export class LegacyIngredientAdapter {
     maxResults: number = 5
   ): UnifiedIngredient[] {
     try {
-      const result: unknown = unifiedIngredientService.findComplementaryIngredients(ingredient as Record<string, unknown>, maxResults); // Pattern UUU: Import Path Interface Resolution
+      const result: unknown = unifiedIngredientService.findComplementaryIngredients(ingredient, maxResults); // Pattern UUU: Import Path Interface Resolution
       return result as UnifiedIngredient[];
     } catch (error) {
       logger.error(`Error in findComplementaryIngredients for "${typeof ingredient === 'string' ? ingredient : ingredient.name}":`, error);
@@ -199,7 +199,7 @@ export class LegacyIngredientAdapter {
     } catch (error) {
       logger.error(`Error in analyzeRecipeIngredients for "${recipe.name}":`, error);
       // Fall back to original implementation if needed
-      return this.legacyService.analyzeRecipeIngredients(recipe);
+      return this.legacyService.analyzeRecipeIngredients(recipe as unknown as import('@/types/unified').Recipe);
     }
   }
   

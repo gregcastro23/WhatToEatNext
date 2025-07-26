@@ -159,7 +159,7 @@ export class EnhancedTransitAnalysisService {
       );
       
       // Calculate overall strength
-      const strength = calculatePlanetaryStrength(planet, position as unknown as PlanetaryPosition);
+      const strength = calculatePlanetaryStrength(planet, position as unknown as import('@/types/alchemy').PlanetaryPosition);
       
       // Get planet data for culinary recommendations
       const planetData = planetInfo[planet];
@@ -226,7 +226,7 @@ export class EnhancedTransitAnalysisService {
 
       return {
         aspect,
-        dignityModifiedInfluence,
+        dignityModifiedInfluence: dignityModifiedInfluence ?? aspect.influence,
         culinaryEffects
       };
     });
@@ -358,7 +358,10 @@ export class EnhancedTransitAnalysisService {
     
     // Add aspect-influenced methods
     aspectInfluences.forEach(aspectInfluence => {
-      cookingMethods.push(...aspectInfluence.culinaryEffects.slice(0, 1));
+      const effects = (aspectInfluence as Record<string, unknown>).culinaryEffects as string[];
+      if (Array.isArray(effects)) {
+        cookingMethods.push(...effects.slice(0, 1));
+      }
     });
 
     // Generate flavor profiles based on elemental dominance
