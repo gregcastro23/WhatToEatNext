@@ -171,7 +171,7 @@ const RecipeCard: React.FC<RecipeCardProps> = ({
             {recipe.cookTime}
           </div>
         )}
-        {recipe.servings && (
+        {Boolean(recipe.servings) && (
           <div className="flex items-center">
             <Users className="h-4 w-4 mr-1" />
             {recipe.servings as number} servings
@@ -409,7 +409,7 @@ export const RecipeGrid: React.FC<RecipeGridProps> = ({
     
     const standardizedRecipe = recipeElementalService.standardizeRecipe(recipe);
     let similarity = recipeElementalService.calculateSimilarity(
-      standardizedRecipe.elementalState,
+      standardizedRecipe.elementalState as unknown as ElementalProperties,
       state.elementalPreference
     );
     
@@ -534,7 +534,7 @@ export const RecipeGrid: React.FC<RecipeGridProps> = ({
         
         // Rating filter
         const ratingMatch = !minRating || 
-          ((recipe as Record<string, unknown>).rating && (recipe as Record<string, unknown>).rating >= minRating);
+          ((recipe as Record<string, unknown>).rating && Number((recipe as Record<string, unknown>).rating) >= minRating);
         
         // Favorites filter
         const favoritesMatch = !showFavoritesOnly || favorites.includes(recipe.id);
@@ -562,7 +562,7 @@ export const RecipeGrid: React.FC<RecipeGridProps> = ({
             comparison = getSeasonalScore(b) - getSeasonalScore(a);
             break;
           case 'calories':
-            comparison = (Number((a as unknown as Record<string, unknown>)?.nutrition?.calories || 0)) - (Number((b as unknown as Record<string, unknown>)?.nutrition?.calories || 0));
+            comparison = (Number(((a as Record<string, unknown>)?.nutrition as Record<string, unknown>)?.calories) || 0) - (Number(((b as Record<string, unknown>)?.nutrition as Record<string, unknown>)?.calories) || 0);
             break;
           case 'difficulty':
             comparison = (Number((a as unknown as Record<string, unknown>)?.difficulty || 1)) - (Number((b as unknown as Record<string, unknown>)?.difficulty || 1));

@@ -171,7 +171,7 @@ export function validateIngredient(ingredient: Partial<Ingredient>): ValidationR
   const ingredientData = ingredient as Record<string, unknown>;
   if (ingredientData?.astrologicalPropertiesProfile || ingredientData?.astrologicalProfile) {
     const astroProfile = ingredientData.astrologicalPropertiesProfile || ingredientData.astrologicalProfile;
-    const astroValidation = validateAstrologicalProfile(astroProfile);
+    const astroValidation = validateAstrologicalProfile(astroProfile as unknown as AstrologicalProfile);
     if (!astroValidation.isValid) {
       warnings?.push(...astroValidation.errors);
     }
@@ -235,7 +235,7 @@ export function validateRecipe(recipe: Partial<Recipe>): ValidationResult {
   
   // Elemental properties validation
   if (recipe.elementalState) {
-    const elementalValidation = validateElementalProperties(recipe.elementalState as Record<string, unknown>);
+    const elementalValidation = validateElementalProperties(recipe.elementalState as unknown as ElementalProperties);
     if (!elementalValidation.isValid) {
       warnings?.push(...elementalValidation.errors);
     }
@@ -269,7 +269,7 @@ export function cleanupIngredientsDatabase(
   
   const cleanedIngredients: Ingredient[] = [];
   
-  (ingredients || []).forEach((rawIngredient, index) => {
+  (Array.isArray(ingredients) ? ingredients : []).forEach((rawIngredient, index) => {
     result.processed++;
     
     try {
@@ -390,7 +390,7 @@ function _standardizeAstrologicalProfile(profile: unknown): AstrologicalProfile 
   }
   const prof = profile as Record<string, unknown>;
   return {
-    elementalAffinity: standardizeElementalAffinity((prof.elementalAffinity as Record<string, unknown>)?.base),
+    elementalAffinity: standardizeElementalAffinity(String((prof.elementalAffinity as Record<string, unknown>)?.base || '')),
     rulingPlanets: Array.isArray(prof.rulingPlanets) ? (prof.rulingPlanets || []).map(String) : [],
     favorableZodiac: Array.isArray(prof.favorableZodiac) ? (prof.favorableZodiac || []).map(String) : [],
   } as unknown as AstrologicalProfile;

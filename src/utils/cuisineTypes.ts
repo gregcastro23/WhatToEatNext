@@ -70,7 +70,7 @@ export function isRegionalCuisine(cuisine: CompleteCuisineType): cuisine is Regi
     // African Regional
     'Ethiopian', 'Nigerian', 'Ghanaian', 'Kenyan', 'SouthAfrican',
     // Mediterranean Regional
-    'Greek', 'Cypriot', 'Maltese',
+    'Greek' as RegionalCuisineType, 'Cypriot', 'Maltese',
     // Russian Regional
     'Moscow', 'StPetersburg', 'Siberian', 'Caucasian', 'CentralAsian'
   ];
@@ -177,7 +177,7 @@ export function calculateCuisineCompatibility(
  * Get primary cuisine from regional cuisine
  */
 export function getPrimaryCuisineFromRegional(regional: RegionalCuisineType): PrimaryCuisineType {
-  const regionalToPrimary: Record<RegionalCuisineType, PrimaryCuisineType> = {
+  const regionalToPrimary = {
     // Chinese Regional
     'Sichuan': 'Chinese', 'Cantonese': 'Chinese', 'Shanghai': 'Chinese', 'Hunan': 'Chinese', 'Northern': 'Chinese',
     // Japanese Regional
@@ -205,12 +205,12 @@ export function getPrimaryCuisineFromRegional(regional: RegionalCuisineType): Pr
     // African Regional
     'Ethiopian': 'African', 'Nigerian': 'African', 'Ghanaian': 'African', 'Kenyan': 'African', 'SouthAfrican': 'African',
     // Mediterranean Regional
-    'Greek': 'Mediterranean', 'Cypriot': 'Mediterranean', 'Maltese': 'Mediterranean',
+    'Greek': 'Mediterranean' as PrimaryCuisineType, 'Cypriot': 'Mediterranean', 'Maltese': 'Mediterranean',
     // Russian Regional
     'Moscow': 'Russian', 'StPetersburg': 'Russian', 'Siberian': 'Russian', 'Caucasian': 'Russian', 'CentralAsian': 'Russian'
   };
   
-  return regionalToPrimary[regional] || 'Fusion';
+  return (regionalToPrimary as Record<string, string>)[regional] as PrimaryCuisineType || 'Fusion' as PrimaryCuisineType;
 }
 
 /**
@@ -226,13 +226,13 @@ export function getRegionalCuisinesForPrimary(primary: PrimaryCuisineType): Regi
     'Vietnamese': ['Hanoi', 'Saigon', 'Hue'],
     'Italian': ['Tuscan', 'Sicilian', 'Lombard', 'Venetian', 'Roman', 'Neapolitan', 'Piedmontese', 'Ligurian', 'Emilian', 'Sardinian'],
     'French': ['Provencal', 'Norman', 'Alsatian', 'Lyonnais', 'Bordeaux', 'Burgundian', 'Breton'],
-    'Greek': ['Greek', 'Cypriot', 'Maltese'],
+    'Greek': ['Greek' as RegionalCuisineType, 'Cypriot', 'Maltese'],
     'Spanish': ['Catalan', 'Andalusian', 'Basque', 'Galician', 'Valencian', 'Castilian'],
     'Mexican': ['Yucatecan', 'Oaxacan', 'Poblano', 'Veracruzano', 'Jaliscan', 'Sonoran'],
     'American': ['Southern', 'NewEngland', 'Californian', 'TexMex', 'Cajun', 'Creole', 'Southwestern', 'Midwestern', 'PacificNorthwest'],
     'Middle-Eastern': ['Lebanese', 'Syrian', 'Jordanian', 'Palestinian', 'Iraqi', 'Iranian', 'Turkish', 'Egyptian', 'Moroccan', 'Tunisian', 'Algerian', 'Libyan'],
     'African': ['Ethiopian', 'Nigerian', 'Ghanaian', 'Kenyan', 'SouthAfrican'],
-    'Mediterranean': ['Greek', 'Cypriot', 'Maltese'],
+    'Mediterranean': ['Greek' as RegionalCuisineType, 'Cypriot', 'Maltese'],
     'Russian': ['Moscow', 'StPetersburg', 'Siberian', 'Caucasian', 'CentralAsian'],
     'Fusion': []
   };

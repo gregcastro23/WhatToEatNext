@@ -253,10 +253,10 @@ export function loadPlanetaryPositions(): Record<string, PlanetaryPosition> {
       const data = planetData as Record<string, unknown>;
       
       convertedPositions[planetName] = {
-        sign: normalizeSign(data.sign),
-        degree: data.degree,
-        minute: data.minute,
-        isRetrograde: data.isRetrograde || false
+        sign: normalizeSign(String(data.sign || '')),
+        degree: Number(data.degree) || 0,
+        minute: Number(data.minute) || 0,
+        isRetrograde: Boolean(data.isRetrograde) || false
       };
     }
     
