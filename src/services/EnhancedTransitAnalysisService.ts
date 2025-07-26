@@ -204,16 +204,16 @@ export class EnhancedTransitAnalysisService {
       );
 
       // Calculate dignity-modified influence
-      let dignityModifiedInfluence = aspect.influence;
+      let dignityModifiedInfluence: number = aspect.influence || 0;
       
       if (planet1Data && planet2Data) {
         // Modify influence based on planetary dignities
         const averageDignityModifier = (planet1Data.dignity.modifier + planet2Data.dignity.modifier) / 2;
-        dignityModifiedInfluence *= averageDignityModifier;
+        dignityModifiedInfluence = (dignityModifiedInfluence || 0) * averageDignityModifier;
         
         // Further modify based on location influences
         const averageLocationInfluence = (planet1Data.locationInfluence + planet2Data.locationInfluence) / 2;
-        dignityModifiedInfluence *= averageLocationInfluence;
+        dignityModifiedInfluence = (dignityModifiedInfluence || 0) * averageLocationInfluence;
       }
 
       // Generate culinary effects for this aspect
@@ -358,7 +358,7 @@ export class EnhancedTransitAnalysisService {
     
     // Add aspect-influenced methods
     aspectInfluences.forEach(aspectInfluence => {
-      const effects = (aspectInfluence as Record<string, unknown>).culinaryEffects as string[];
+      const effects = (aspectInfluence as unknown as Record<string, unknown>).culinaryEffects as string[];
       if (Array.isArray(effects)) {
         cookingMethods.push(...effects.slice(0, 1));
       }

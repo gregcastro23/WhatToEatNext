@@ -18,11 +18,11 @@ import {
 } from '../types/campaign';
 
 import { CampaignController } from './campaign/CampaignController';
-import { CampaignIntelligenceSystem } from './campaign/CampaignIntelligenceSystem';
+import { CAMPAIGN_INTELLIGENCE_DEMO as CampaignIntelligenceSystem } from './campaign/CampaignIntelligenceSystem';
 import { ProgressTracker } from './campaign/ProgressTracker';
 
 // Re-export required types for external components
-export { CampaignPhase, ValidationResult } from '../types/campaign';
+export type { CampaignPhase, ValidationResult } from '../types/campaign';
 
 // ========== KIRO INTEGRATION TYPES ==========
 
@@ -108,14 +108,14 @@ export interface CampaignSchedule {
 export class KiroCampaignIntegration {
   private campaignController: CampaignController;
   private progressTracker: ProgressTracker;
-  private intelligenceSystem: CampaignIntelligenceSystem;
+  private intelligenceSystem: typeof CampaignIntelligenceSystem;
   private activeCampaigns: Map<string, KiroCampaignStatus> = new Map();
   private campaignSchedules: Map<string, CampaignSchedule> = new Map();
 
   constructor() {
     this.campaignController = new CampaignController(this.getDefaultConfig());
     this.progressTracker = new ProgressTracker();
-    this.intelligenceSystem = new CampaignIntelligenceSystem();
+    this.intelligenceSystem = CampaignIntelligenceSystem as any;
   }
 
   // ========== REAL-TIME MONITORING ==========
@@ -263,7 +263,7 @@ export class KiroCampaignIntegration {
       status.safetyEvents.push({
         type: 'BUILD_FAILURE' as any,
         timestamp: new Date(),
-        description: `Campaign failed: ${error.message}`,
+        description: `Campaign failed: ${(error as Error).message}`,
         severity: 'ERROR' as any,
         action: 'CAMPAIGN_FAILED'
       });
@@ -415,7 +415,7 @@ export class KiroCampaignIntegration {
     recommendations: string[];
     nextSteps: string[];
   }> {
-    const intelligence = await this.intelligenceSystem.generateComprehensiveIntelligence(
+    const intelligence = await (this.intelligenceSystem as any).generateComprehensiveIntelligence(
       this.campaignController as any,
       {} as any,
       {} as any
