@@ -439,7 +439,7 @@ function CuisineSelectorMigrated({
               </div>
               
               {/* Display zodiac influences if available */}
-              {cuisine.zodiacInfluences && (() => {
+              {Boolean(cuisine.zodiacInfluences) && (() => {
                 // Apply safe type casting for zodiac influences access
                 const zodiacInfluencesData = cuisine.zodiacInfluences as Record<string, unknown>;
                 const zodiacInfluences: string[] = Array.isArray(zodiacInfluencesData) ? zodiacInfluencesData as string[] : [];

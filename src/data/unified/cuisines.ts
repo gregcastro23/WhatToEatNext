@@ -423,7 +423,7 @@ export class CuisineEnhancer {
     // Determine alchemical classification
     const alchemicalClassification = this.determineCuisineAlchemicalClassification(
       kalchmAnalysis.totalKalchm,
-      kalchmAnalysis.cookingMethodInfluence.primaryMethods
+      (kalchmAnalysis.cookingMethodInfluence as any)?.primaryMethods
     );
     
     // Calculate cuisine optimization

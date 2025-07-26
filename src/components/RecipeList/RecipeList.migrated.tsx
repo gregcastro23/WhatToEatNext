@@ -502,7 +502,7 @@ export default function RecipeListMigrated() {
     setError(null);
     
     try {
-      const response = await recipeService.getAllRecipes();
+      const response = await recipeService?.getAllRecipes();
       
       // For responseData, define a type
       interface RecipeServiceResponse {

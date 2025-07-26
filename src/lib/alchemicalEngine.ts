@@ -304,7 +304,7 @@ export class AlchemicalEngineBase {
     baseModifiers[moonElement] += 0.1;
 
     Object.entries(lunarModifiers).forEach(([element, value]) => {
-      baseModifiers[element as keyof ElementalProperties] *= value;
+      baseModifiers[element as keyof ElementalProperties] *= (value as number);
     });
 
     const total = Object.values(baseModifiers).reduce(

@@ -84,7 +84,7 @@ const RecommendedRecipes: React.FC<RecommendedRecipesProps> = ({
                 <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
                   <AccessTime fontSize="small" sx={{ mr: 0.5 }} />
                   <Typography variant="body2" color="text.secondary">
-                    {recipe.prepTime + recipe.cookTime} mins
+                    {(recipe.prepTime ?? 0) + (recipe.cookTime ?? 0)} mins
                   </Typography>
                   <Restaurant fontSize="small" sx={{ ml: 1.5, mr: 0.5 }} />
                   <Typography variant="body2" color="text.secondary">
@@ -93,7 +93,7 @@ const RecommendedRecipes: React.FC<RecommendedRecipesProps> = ({
                 </Box>
                 
                 <Box sx={{ mb: 1.5 }}>
-                  {recipe.tags.slice(0, 3).map((tag) => (
+                  {(recipe.tags ?? []).slice(0, 3).map((tag) => (
                     <Chip
                       key={tag}
                       label={tag}

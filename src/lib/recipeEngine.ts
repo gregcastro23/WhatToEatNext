@@ -47,11 +47,11 @@ export class RecipeEngine {
             return ElementalCalculator.getCurrentElementalState();
         }
 
-        const total = recipe.ingredients.reduce((sum, ing) => sum + ing.amount, 0);
+        const total = recipe.ingredients.reduce((sum, ing) => sum + (ing.amount ?? 0), 0);
         const unnormalized = recipe.ingredients.reduce((props, ing) => {
             if (ing.elementalProperties) {
                 Object.entries(ing.elementalProperties).forEach(([_element, value]) => {
-                    props[_element] = (props[_element] || 0) + (value * ing.amount / total);
+                    props[_element] = (props[_element] || 0) + (value * (ing.amount ?? 0) / total);
                 });
             }
             return props;

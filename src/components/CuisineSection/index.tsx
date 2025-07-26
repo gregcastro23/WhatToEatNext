@@ -360,7 +360,7 @@ export const CuisineSection: React.FC<CuisineSectionProps> = ({
           )}
           
           <div className="flex flex-wrap gap-2 text-xs text-gray-500 mb-3">
-            {recipeData?.cookingTime && (
+            {Boolean(recipeData?.cookingTime) && (
               <span className="flex items-center gap-1">
                 ⏱️ {String(recipeData.cookingTime)}
               </span>
@@ -370,7 +370,7 @@ export const CuisineSection: React.FC<CuisineSectionProps> = ({
                 📊 {String(recipeData.difficulty)}
               </span>
             )}
-            {recipeData?.servings && (
+            {Boolean(recipeData?.servings) && (
               <span className="flex items-center gap-1">
                 👥 {String(recipeData.servings)}
               </span>
@@ -379,7 +379,7 @@ export const CuisineSection: React.FC<CuisineSectionProps> = ({
           
           {renderSeasonalInfo(recipe)}
           
-          {recipeData?.ingredients && Array.isArray(recipeData.ingredients) && recipeData.ingredients.length > 0 && (
+          {Boolean(recipeData?.ingredients && Array.isArray(recipeData.ingredients) && recipeData.ingredients.length > 0) && (
             <div className="mt-3 pt-3 border-t border-gray-100">
               <span className="text-xs font-medium text-gray-700">Key Ingredients:</span>
               <div className="flex flex-wrap gap-1 mt-1">
