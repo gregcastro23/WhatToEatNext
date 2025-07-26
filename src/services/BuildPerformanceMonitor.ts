@@ -147,7 +147,7 @@ class BuildPerformanceMonitor {
       const compilationTime = performance.now() - startTime;
       
       // Handle compilation errors
-      const errorOutput = error.stdout || error.stderr || '';
+      const errorOutput = (error as any).stdout || (error as any).stderr || '';
       const errorCount = (errorOutput.match(/error TS/g) || []).length;
       const warningCount = (errorOutput.match(/warning TS/g) || []).length;
 
@@ -214,7 +214,7 @@ class BuildPerformanceMonitor {
       const totalBuildTime = performance.now() - startTime;
       const finalMemory = process.memoryUsage().heapUsed;
 
-      const errorOutput = error.stdout || error.stderr || '';
+      const errorOutput = (error as any).stdout || (error as any).stderr || '';
       const errorCount = (errorOutput.match(/error/gi) || []).length;
       const warningCount = (errorOutput.match(/warning/gi) || []).length;
 

@@ -286,7 +286,7 @@ export class MilestoneValidationSystem {
   }
 
   private async validateErrorDistributionElimination(metrics: ProgressMetrics): Promise<MilestoneValidation> {
-    const errorBreakdown = metrics.errorBreakdown || {};
+    const errorBreakdown = (metrics as unknown as Record<string, unknown>).errorBreakdown || {};
     const criticalErrorTypes = ['TS2352', 'TS2345', 'TS2698', 'TS2304', 'TS2362'];
     
     const criteria: ValidationCriteria[] = criticalErrorTypes.map(errorType => ({
@@ -402,7 +402,7 @@ export class MilestoneValidationSystem {
   }
 
   private async validateWarningCategoryElimination(metrics: ProgressMetrics): Promise<MilestoneValidation> {
-    const warningBreakdown = metrics.warningBreakdown || {};
+    const warningBreakdown = (metrics as unknown as Record<string, unknown>).warningBreakdown || {};
     const criticalWarningTypes = [
       '@typescript-eslint/no-explicit-any',
       'no-unused-vars',
@@ -619,7 +619,7 @@ export class MilestoneValidationSystem {
 
     const success = criteria.every(c => c.passed);
     const failureReasons = criteria.filter(c => !c.passed).map(c => 
-      `${c.name}: expected >= ${c.target * 100}%, got ${(c.actual as number) * 100}%`
+      `${c.name}: expected >= ${Number(c.target) * 100}%, got ${Number(c.actual) * 100}%`
     );
 
     return {
@@ -664,7 +664,7 @@ export class MilestoneValidationSystem {
   }
 
   private async validateBundleSize(metrics: ProgressMetrics): Promise<MilestoneValidation> {
-    const bundleSize = metrics.buildMetrics?.bundleSize || 0;
+    const bundleSize: number = Number(((metrics as unknown as Record<string, unknown>).buildMetrics as Record<string, unknown>)?.bundleSize) || 0;
     
     const criteria: ValidationCriteria[] = [
       {
