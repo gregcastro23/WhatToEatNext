@@ -1,4 +1,5 @@
-import type { ElementalProperties, ThermodynamicMetrics, AstrologicalState, timeFactors, PlanetName } from "@/types/alchemy";
+import type { ElementalProperties, ThermodynamicMetrics, AstrologicalState, timeFactors, PlanetName, LunarPhase } from "@/types/alchemy";
+import type { ZodiacSign } from "@/types/celestial";
 import { Element } from "@/types/alchemy";
 import type { Recipe } from "@/types/recipe";
 import type { TimeOfDay, TimeFactors, Season, WeekDay, PlanetaryDay, PlanetaryHour } from "@/types/time";
@@ -94,7 +95,7 @@ export function calculateRecipeMatchScore(
   if (!isAppropriateForTimeOfDay(recipe, elementalState.timeOfDay)) return 0;
   
   try {
-    const baseScore = calculateElementalMatch(recipe.elementalState as any, elementalState as { [key: string]: number });
+    const baseScore = calculateElementalMatch(recipe.elementalState as unknown as { [key: string]: number }, elementalState as unknown as { [key: string]: number });
     let score = baseScore * 100;
     
     // Enhanced scoring factors
@@ -190,7 +191,7 @@ export function calculateRecipeMatchScore(
     }
 
     // Preparation time bonus for quick meals during busy times
-    const prepTime = parseInt(recipe.timeToMake) || 0;
+    const prepTime = parseInt(recipe.timeToMake || '0') || 0;
     if (prepTime <= 30) {
       score += bonusFactors.quickPrep;
     } else if (prepTime <= 45) {
@@ -477,7 +478,7 @@ function scoreRecipe(
   if (
     recipe.lunarPhaseInfluences && 
     (Array.isArray(recipe.lunarPhaseInfluences) 
-      ? recipe.lunarPhaseInfluences.includes(astrologicalState.lunarPhase) 
+      ? recipe.lunarPhaseInfluences.includes(astrologicalState.lunarPhase!) 
       : recipe.lunarPhaseInfluences === astrologicalState.lunarPhase)
   ) {
     score += 10;
