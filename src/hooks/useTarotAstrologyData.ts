@@ -379,9 +379,9 @@ export const useTarotAstrologyData = (): TarotAstrologyResult => {
             'Pentacles': 'Earth',
             'Swords': 'Air'
           };
-          element = suitMap[card.suit];
+          element = suitMap[card.suit] || null;
         } else if (card.name) { // Major arcana
-          element = getMajorArcanaElement(card.name);
+          element = getMajorArcanaElement(card.name) || null;
         }
         
         if (element) {

@@ -39,7 +39,7 @@ export class TerminalFreezePreventionSystem {
     killOnTimeout: true
   };
 
-  constructor(private config: ProcessMonitorConfig = {}) {
+  constructor(private config: ProcessMonitorConfig = {} as ProcessMonitorConfig) {
     this.config = { ...this.DEFAULT_CONFIG, ...config };
     this.startMonitoring();
   }
@@ -237,7 +237,7 @@ export class TerminalFreezePreventionSystem {
         }
       }, 5000);
     } catch (error) {
-      console.warn(`Failed to kill process ${pid}:`, error.message);
+      console.warn(`Failed to kill process ${pid}:`, (error as Error).message);
     }
   }
 

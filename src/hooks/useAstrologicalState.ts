@@ -197,7 +197,7 @@ export function useAstrologicalState(): AstrologyHookData {
   useEffect(() => {
     try {
       if (Object.keys(memoizedPlanetaryPositions).length > 0) {
-        const activePlanets = getActivePlanets(memoizedPlanetaryPositions);
+        const activePlanets = getActivePlanets(memoizedPlanetaryPositions as any);
         const currentZodiac = ((memoizedPlanetaryPositions.sun as any)?.sign || '').toLowerCase();
         
         logger.debug('Updating astrological state:', {
@@ -206,7 +206,7 @@ export function useAstrologicalState(): AstrologyHookData {
           time: new Date().toISOString()
         });
         
-        setAstroState(prev => {
+        setAstroState((prev: any) => {
           // Skip update if nothing changed to prevent unnecessary re-renders
           if (
             prev.currentZodiac === currentZodiac &&

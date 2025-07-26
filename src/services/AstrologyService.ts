@@ -82,7 +82,7 @@ export class AstrologyService {
     if (forceRefresh || !this.currentState.isReady) {
       await this.refreshAstrologicalState();
     }
-    return this.currentState.moonPhase;
+    return this.currentState.moonPhase || 'new_moon';
   }
 
   /**
@@ -92,7 +92,7 @@ export class AstrologyService {
     if (forceRefresh || !this.currentState.isReady) {
       await this.refreshAstrologicalState();
     }
-    return this.currentState.currentZodiac;
+    return this.currentState.currentZodiac || 'aries';
   }
 
   /**

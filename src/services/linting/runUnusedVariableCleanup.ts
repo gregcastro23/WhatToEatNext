@@ -61,14 +61,14 @@ async function main() {
     }
 
   } catch (error) {
-    console.error('\n❌ Error during processing:', error.message);
+    console.error('\n❌ Error during processing:', (error as Error).message);
     
     // Restore backup on error
     try {
       execSync('git stash pop', { stdio: 'inherit' });
       console.log('🔄 Backup restored successfully');
     } catch (restoreError) {
-      console.error('❌ Failed to restore backup:', restoreError.message);
+      console.error('❌ Failed to restore backup:', (restoreError as Error).message);
     }
     
     process.exit(1);
