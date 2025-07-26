@@ -177,8 +177,8 @@ export const spherification: CookingMethodData = {
   
   // More detailed technical information
   technicalNotes: {
-    basicProcedure: 'Dissolve sodium alginate in flavored liquid (0.5-1% by weight), rest 24 hours to hydrate and remove air bubbles, then drop into calcium bath (0.5-1% calcium chloride) to form spheres',
-    reverseProcedure: 'Mix calcium salt (calcium lactate gluconate 1-2%) into flavored liquid, then drop into sodium alginate bath (0.5% solution) for spheres with liquid centers',
+    basicProcedure: { description: 'Dissolve sodium alginate in flavored liquid (0.5-1% by weight), rest 24 hours to hydrate and remove air bubbles, then drop into calcium bath (0.5-1% calcium chloride) to form spheres' },
+    reverseProcedure: { description: 'Mix calcium salt (calcium lactate gluconate 1-2%) into flavored liquid, then drop into sodium alginate bath (0.5% solution) for spheres with liquid centers' },
     requiredAdditives: {
       'sodium_alginate': '0.5-1% by weight of liquid (higher % = firmer membrane)',
       'calcium_chloride': '0.5-1% by weight of bath (higher % = faster reaction)',
