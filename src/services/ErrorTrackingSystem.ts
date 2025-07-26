@@ -166,7 +166,7 @@ class ErrorTrackingSystem {
       return [];
 
     } catch (error) {
-      const output = error.stdout || error.stderr || '';
+      const output = (error as any).stdout || (error as any).stderr || '';
       const errors = this.parseTypeScriptErrors(output);
       
       // Mark existing errors as resolved if they're not in the new set
@@ -241,7 +241,7 @@ class ErrorTrackingSystem {
 
     } catch (error) {
       // ESLint returns non-zero exit code when violations are found
-      const output = error.stdout || '';
+      const output = (error as any).stdout || '';
       
       try {
         const lintResults = JSON.parse(output);

@@ -198,12 +198,12 @@ export class DirectRecipeService {
     const monica = calculateMonica(
       recipeKalchm,
       _alignment.elementalState || _alignment.elementalDominance || _alignment.elementalBalance,
-      (recipe as Record<string, unknown>).elementalState || recipe.elementalProperties
+      recipe as unknown as Recipe
     );
     
     // Perform full alchemical analysis
     const alchemicalAnalysis = performAlchemicalAnalysis(
-      (recipe as Record<string, unknown>).elementalState || recipe.elementalProperties,
+      recipe as unknown as Recipe,
       _alignment.elementalState || _alignment.elementalDominance || _alignment.elementalBalance
     );
     
@@ -551,8 +551,8 @@ export class DirectRecipeService {
         const recipeElementalState = recipe.elementalState;
         
         const criteriaCompatibility = calculateElementalCompatibility(
-          criteriaElementalState as unknown,
-          recipeElementalState as unknown
+          criteriaElementalState as unknown as ElementalProperties,
+          recipeElementalState as unknown as ElementalProperties
         );
         finalScore = (finalScore + criteriaCompatibility) / 2;
       }

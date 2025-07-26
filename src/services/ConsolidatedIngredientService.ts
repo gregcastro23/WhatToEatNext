@@ -40,7 +40,7 @@ interface ErrorWithMessage {
   message: string;
 }
 import type { UnifiedIngredient } from '../data/unified/unifiedTypes';
-import type { Recipe } from '../types/recipe';
+import type { Recipe } from '../types/unified';
 import type { ZodiacSign } from '../types/zodiac';
 import { cache } from '../utils/cache';
 import { isNonEmptyArray, safeSome } from '../utils/common/arrayUtils';
@@ -331,8 +331,8 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
   getHighKalchmIngredients(threshold: number = 1.5): UnifiedIngredient[] {
     try {
       return Object.values(unifiedIngredients)
-        .filter(ingredient => ingredient.kalchm > threshold)
-        .sort((a, b) => b.kalchm - a.kalchm);
+        .filter(ingredient => (ingredient.kalchm ?? 0) > threshold)
+        .sort((a, b) => (b.kalchm ?? 0) - (a.kalchm ?? 0));
     } catch (error) {
       errorHandler.logError(error as ErrorWithMessage, {
         type: ErrorType.DATA,
@@ -1467,7 +1467,8 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
    * Analyze the ingredient combinations in a recipe
    */
   analyzeRecipeIngredients(recipe: Recipe): {
-    overallHarmony: number;flavorProfile: { [key: string]: number };
+    overallHarmony: number;
+    flavorProfile: { [key: string]: number };
     strongPairings: Array<{ ingredients: string[]; score: number }>;
     weakPairings: Array<{ ingredients: string[]; score: number }>;
   } {
