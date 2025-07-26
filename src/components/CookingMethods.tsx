@@ -651,7 +651,7 @@ export default function CookingMethods() {
           if (itemStr === "legumes") return "Legumes (beans, lentils, chickpeas)";
           return itemStr.charAt(0).toUpperCase() + itemStr.slice(1);
         });
-        return { examples, fullDefinition: fullDefinition || "Cooking method description" };
+        return { examples, fullDefinition: String(fullDefinition) || "Cooking method description" };
       }
     }
     
@@ -987,7 +987,7 @@ export default function CookingMethods() {
         examples = getIdealIngredients(method as any).map(ingredient => String(ingredient));
     }
     
-    return { examples, fullDefinition: fullDefinition || "Cooking method description" };
+    return { examples, fullDefinition: String(fullDefinition) || "Cooking method description" };
   };
 
   // Replace getNutritionalImpact function with getIngredientCompatibility
@@ -1387,7 +1387,7 @@ export default function CookingMethods() {
             // Generate a reason for the match using Type Harmony bridge
             const bridge = createAstrologicalBridge();
             const matchReason = isValidAstrologicalState(astroState) 
-              ? determineMatchReason(methodWithThermodynamics as CookingMethod, astroState)
+              ? determineMatchReason(methodWithThermodynamics as any, astroState as any)
               : "Compatible elemental properties";
             
             return {

@@ -872,7 +872,7 @@ export default function CuisineRecommender() {
           const analytics = CulturalAnalyticsService.generateCulturalAnalytics(
             cuisine?.name?.toLowerCase(),
             (cuisine.elementalProperties as ElementalProperties) || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
-            astrologicalStateForRecommendations
+            astrologicalStateForRecommendations as unknown as { zodiacSign: ZodiacSign; lunarPhase: LunarPhase; }
           );
           culturalAnalyticsData[cuisine.id] = analytics;
         } catch (error) {
@@ -898,7 +898,7 @@ export default function CuisineRecommender() {
       const topSauces = generateTopSauceRecommendations(
         currentMomentElementalProfile,
         6,
-        astrologicalStateForRecommendations as unknown as Partial<AstrologicalState>
+        astrologicalStateForRecommendations as any
       );
       setSauceRecommendations(topSauces as SauceData[]);
 
@@ -1158,8 +1158,8 @@ export default function CuisineRecommender() {
               recipeData={selectedCuisine ? cuisineRecommendations.find(c => c.id === selectedCuisine) : null}
               ingredientData={{ ingredients: matchingRecipes }}
               astrologicalContext={{
-                zodiacSign: astrologicalStateForRecommendations.zodiacSign,
-                lunarPhase: astrologicalStateForRecommendations.lunarPhase,
+                zodiacSign: astrologicalStateForRecommendations.zodiacSign as ZodiacSign,
+                lunarPhase: astrologicalStateForRecommendations.lunarPhase as LunarPhase,
                 elementalProperties: currentMomentElementalProfile,
                 planetaryPositions: astrologicalStateForRecommendations.planetaryPositions
               }}

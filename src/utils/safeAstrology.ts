@@ -161,8 +161,8 @@ export function calculatePlanetaryAspects(positions: Record<string, CelestialPos
       const pos2Sign = positions[planet2].sign;
       
       // Calculate the angular difference between planets
-      const pos1 = getZodiacPositionInDegrees(pos1Sign as ZodiacSign, positions[planet1].degree);
-      const pos2 = getZodiacPositionInDegrees(pos2Sign as ZodiacSign, positions[planet2].degree);
+      const pos1 = getZodiacPositionInDegrees(pos1Sign as ZodiacSign, positions[planet1].degree || 0);
+      const pos2 = getZodiacPositionInDegrees(pos2Sign as ZodiacSign, positions[planet2].degree || 0);
       
       let diff = Math.abs(pos1 - pos2);
       if (diff > 180) diff = 360 - diff;
@@ -356,7 +356,7 @@ function countElements(positions: Record<string, CelestialPosition>): Record<str
   
   // Count elements
   Object.entries(positions).forEach(([planet, position]) => {
-    const element = signElements[position.sign];
+    const element = signElements[position.sign || 'aries'];
     const weight = planetWeight[planet] || 1;
     elements[element] += weight;
   });
