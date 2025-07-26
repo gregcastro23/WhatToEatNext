@@ -80,10 +80,10 @@ export interface SimpleIngredient {
  * Validates that an object conforms to the RecipeIngredient interface
  */
 export function validateIngredient(obj: unknown): obj is RecipeIngredient {
-  return obj && 
-         typeof obj.name === 'string' && 
-         typeof obj.amount === 'number' && 
-         typeof obj.unit === 'string';
+  return Boolean(obj && 
+         typeof (obj as Record<string, unknown>).name === 'string' && 
+         typeof (obj as Record<string, unknown>).amount === 'number' && 
+         typeof (obj as Record<string, unknown>).unit === 'string');
 }
 
 /**
@@ -91,9 +91,6 @@ export function validateIngredient(obj: unknown): obj is RecipeIngredient {
  */
 export function createRecipeIngredient(partial: Partial<RecipeIngredient> & { name: string; amount: number; unit: string }): RecipeIngredient {
   return {
-    name: partial.name,
-    amount: partial.amount,
-    unit: partial.unit,
     optional: false,
     ...partial
   };

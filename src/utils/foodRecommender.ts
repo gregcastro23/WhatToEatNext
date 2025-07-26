@@ -671,10 +671,10 @@ export const getRecommendedIngredients = (astroState: AstrologicalState): Enhanc
       if (astroState.aspects && astroState.aspects.length > 0) {
         // Check for specific aspect enhancers in the ingredient data
         const profileData = profile as Record<string, unknown>;
-        if (profileData?.aspectEnhancers && profileData.aspectEnhancers.length > 0) {
+        if (profileData?.aspectEnhancers && (profileData.aspectEnhancers as unknown[]).length > 0) {
           const relevantAspects = astroState.aspects.filter(aspect => {
             // Check if this aspect type is specifically listed as an enhancer
-            return profileData.aspectEnhancers?.includes(aspect.type);
+            return (profileData.aspectEnhancers as string[])?.includes(aspect.type);
           });
           
           if (relevantAspects.length > 0) {
@@ -776,7 +776,7 @@ export const getRecommendedIngredients = (astroState: AstrologicalState): Enhanc
       // instead of using a placeholder assumption
       const astroStateData = astroState as Record<string, unknown>;
       const userPreferences = astroStateData?.userPreferences || {};
-      const tastePreferences = userPreferences.taste || {
+      const tastePreferences = (userPreferences as Record<string, unknown>).taste || {
         sweet: 0.5,
         salty: 0.5,
         sour: 0.5,
@@ -1078,19 +1078,19 @@ export const getRecommendedIngredients = (astroState: AstrologicalState): Enhanc
         // For vegetables: check for plant-based items with high nutritional profile
         if (category === 'vegetables' && 
             (ingredient.elementalProperties?.Earth > 0.3 || 
-             ingredient.nutritionalProfile?.macros?.fiber > 2)) {
+             (ingredient.nutritionalProfile?.macros?.fiber ?? 0) > 2)) {
           return true;
         }
         
         // For proteins: check for high protein content
         if (category === 'proteins' && 
-            ingredient.nutritionalProfile?.macros?.protein > 5) {
+            (ingredient.nutritionalProfile?.macros?.protein ?? 0) > 5) {
           return true;
         }
         
         // For grains: check for carb-rich items
         if (category === 'grains' && 
-            ingredient.nutritionalProfile?.macros?.carbs > 15) {
+            (ingredient.nutritionalProfile?.macros?.carbs ?? 0) > 15) {
           return true;
         }
         
