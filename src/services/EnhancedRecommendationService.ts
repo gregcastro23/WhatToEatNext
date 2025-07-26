@@ -143,7 +143,7 @@ export class EnhancedRecommendationService {
       taste?: { [key: string]: number };
       chakraFocus?: string[];
     }
-  ): Promise<EnhancedRecommendationResult>  {
+  ): Promise<EnhancedRecommendationResult> {
     try {
       // Get base recommendations
       const baseRecommendations = await getRecommendedIngredients(astroState);
@@ -181,7 +181,7 @@ export class EnhancedRecommendationService {
           return await this.enhanceRecommendation(
             enhancedIngredient,
             chakraEnergyStates,
-            tarotGuidance,
+            tarotGuidance as Record<string, unknown>,
             astroState,
             chakraEnergies // Pass chakra energies for flavor compatibility
           );
@@ -266,7 +266,7 @@ export class EnhancedRecommendationService {
     tarotGuidance,
     astroState: AstrologicalState,
     chakraEnergies?: ChakraEnergies
-  ): Promise<EnhancedRecommendation>  {
+  ): Promise<EnhancedRecommendation> {
     let enhancedScore = ingredient.score || 0.5;
     const reasons: string[] = [];
 
@@ -653,7 +653,7 @@ export class EnhancedRecommendationService {
   private createAstrologicalReferenceProfileCached(
     astroState: AstrologicalState,
     chakraEnergies?: ChakraEnergies
-  ): UnifiedFlavorProfile  {
+  ): UnifiedFlavorProfile {
     try {
       // Check cache first
       const cacheKey = `astro_${astroState.currentZodiac}_${astroState.lunarPhase}`;

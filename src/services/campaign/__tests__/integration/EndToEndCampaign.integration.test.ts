@@ -224,7 +224,7 @@ describe('End-to-End Campaign Integration Tests', () => {
     });
 
     it('should maintain safety protocols throughout entire campaign', async () => {
-      const allSafetyEvents: any[] = [];
+      const allSafetyEvents: Array<Record<string, unknown>> = [];
 
       for (const phase of mockConfig.phases) {
         const result = await campaignController.executePhase(phase);
@@ -244,7 +244,7 @@ describe('End-to-End Campaign Integration Tests', () => {
 
     it('should track progress metrics throughout campaign', async () => {
       // Mock progressive metrics improvement
-      const metricsHistory: any[] = [];
+      const metricsHistory: Array<Record<string, unknown>> = [];
 
       jest.spyOn(progressTracker, 'getProgressMetrics').mockImplementation(async () => {
         const metrics = {
@@ -331,7 +331,7 @@ describe('End-to-End Campaign Integration Tests', () => {
       const phase1 = mockConfig.phases[0];
       
       // Mock tool execution failure
-      jest.spyOn(campaignController as any, 'executeTool').mockRejectedValue(
+      jest.spyOn(campaignController as unknown as Record<string, any>, 'executeTool').mockRejectedValue(
         new Error('Critical tool failure')
       );
 
@@ -398,7 +398,7 @@ describe('End-to-End Campaign Integration Tests', () => {
       
       // Mock partial failure - first tool fails, second succeeds
       let toolCallCount = 0;
-      jest.spyOn(campaignController as any, 'executeTool').mockImplementation(async () => {
+      jest.spyOn(campaignController as unknown as Record<string, any>, 'executeTool').mockImplementation(async () => {
         toolCallCount++;
         if (toolCallCount === 1) {
           throw new Error('First tool failed');
@@ -534,7 +534,7 @@ describe('End-to-End Campaign Integration Tests', () => {
 
   describe('Reporting and Analytics', () => {
     it('should generate detailed execution analytics', async () => {
-      const executionMetrics: any[] = [];
+      const executionMetrics: Array<Record<string, unknown>> = [];
 
       for (const phase of mockConfig.phases) {
         const startTime = Date.now();

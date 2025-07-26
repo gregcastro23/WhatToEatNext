@@ -27,7 +27,7 @@ describe('AutomatedLintingIntegration', () => {
     mockAnalysisService = {
       performComprehensiveAnalysis: jest.fn(),
       performQuickAnalysis: jest.fn()
-    } as any;
+    } as unknown as jest.Mocked<LintingAnalysisService>;
 
     // Setup mock fixer
     mockFixer = {
@@ -37,7 +37,7 @@ describe('AutomatedLintingIntegration', () => {
       improveTypeAnnotations: jest.fn(),
       validateFixes: jest.fn(),
       performRollback: jest.fn()
-    } as any;
+    } as unknown as jest.Mocked<AutomatedLintingFixer>;
 
     MockLintingAnalysisService.mockImplementation(() => mockAnalysisService);
     MockAutomatedLintingFixer.mockImplementation(() => mockFixer);
@@ -64,8 +64,8 @@ describe('AutomatedLintingIntegration', () => {
           errors: 2,
           warnings: 8,
           byCategory: {
-            typescript: [{ rule: '@typescript-eslint/no-unused-vars' }],
-            import: [{ rule: 'import/order' }]
+            typescript: [{ rule: '@typescript-eslint/no-unused-vars' } as any],
+            import: [{ rule: 'import/order' } as any]
           },
           byPriority: { 1: [], 2: [], 3: [], 4: [] },
           byFile: {},
@@ -165,7 +165,7 @@ describe('AutomatedLintingIntegration', () => {
           total: 5,
           errors: 1,
           warnings: 4,
-          byCategory: { typescript: [], import: [] },
+          byCategory: { typescript: [] as any[], import: [] as any[] },
           byPriority: { 1: [], 2: [], 3: [], 4: [] },
           byFile: {},
           autoFixable: [],
@@ -245,7 +245,7 @@ describe('AutomatedLintingIntegration', () => {
           total: 20,
           errors: 0,
           warnings: 20,
-          byCategory: { typescript: [], import: [] },
+          byCategory: { typescript: [] as any[], import: [] as any[] },
           byPriority: { 1: [], 2: [], 3: [], 4: [] },
           byFile: {},
           autoFixable: [],

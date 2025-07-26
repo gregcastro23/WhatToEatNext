@@ -134,7 +134,7 @@ describe('Build Performance Tests', () => {
     });
 
     it('should measure build time consistently across multiple runs', async () => {
-      const buildTimes: number[] = [];
+      const buildTimes: Array<number> = [];
       const targetBuildTime = 8; // 8 seconds
 
       mockExecSync.mockImplementation((command) => {
@@ -387,7 +387,7 @@ describe('Build Performance Tests', () => {
 
   describe('Performance Benchmarking', () => {
     it('should benchmark TypeScript compilation performance', async () => {
-      const compilationTimes: number[] = [];
+      const compilationTimes: Array<number> = [];
 
       mockExecSync.mockImplementation((command) => {
         if (command.toString().includes('yarn tsc')) {
@@ -418,7 +418,7 @@ describe('Build Performance Tests', () => {
     });
 
     it('should benchmark linting performance', async () => {
-      const lintingTimes: number[] = [];
+      const lintingTimes: Array<number> = [];
 
       mockExecSync.mockImplementation((command) => {
         if (command.toString().includes('yarn lint')) {
@@ -449,7 +449,7 @@ describe('Build Performance Tests', () => {
     });
 
     it('should benchmark enterprise system counting performance', async () => {
-      const countingTimes: number[] = [];
+      const countingTimes: Array<number> = [];
 
       mockExecSync.mockImplementation((command) => {
         if (command.toString().includes('grep -r "INTELLIGENCE_SYSTEM"')) {

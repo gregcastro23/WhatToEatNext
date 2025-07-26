@@ -57,7 +57,7 @@ global.testUtils = {
   waitForAsync: () => new Promise(resolve => setTimeout(resolve, 0)),
   
   // Helper to create mock progress metrics
-  createMockProgressMetrics: (overrides = {}) => ({
+  createMockProgressMetrics: (overrides: Record<string, unknown> = {}) => ({
     typeScriptErrors: { current: 86, target: 0, reduction: 0, percentage: 0 },
     lintingWarnings: { current: 4506, target: 0, reduction: 0, percentage: 0 },
     buildPerformance: { currentTime: 8.5, targetTime: 10, cacheHitRate: 0.8, memoryUsage: 45 },
@@ -81,7 +81,7 @@ global.testUtils = {
 
 // Extend Jest matchers
 expect.extend({
-  toBeWithinRange(received: number, floor: number, ceiling: number) {
+  toBeWithinRange(received: number, floor: number, ceiling: number): { message: () => string; pass: boolean } {
     const pass = received >= floor && received <= ceiling;
     if (pass) {
       return {
@@ -96,7 +96,7 @@ expect.extend({
     }
   },
   
-  toHaveBeenCalledWithScript(received: jest.Mock, scriptPath: string) {
+  toHaveBeenCalledWithScript(received: jest.Mock, scriptPath: string): { message: () => string; pass: boolean } {
     const calls = received.mock.calls;
     const pass = calls.some(call => call[0] && call[0].includes && call[0].includes(scriptPath));
     
@@ -130,7 +130,7 @@ declare global {
     createMockTypeScriptErrors: (count: number) => string;
     createMockLintingWarnings: (count: number) => string;
     waitForAsync: () => Promise<void>;
-    createMockProgressMetrics: (overrides?: any) => any;
+    createMockProgressMetrics: (overrides?: Record<string, unknown>) => Record<string, unknown>;
     checkMemory: () => { heapUsed: string; heapTotal: string; external: string; arrayBuffers: string };
     cleanupMemory: () => { success: boolean; freedMemory: string };
   };
@@ -140,9 +140,9 @@ declare global {
 const originalConsole = console;
 global.console = {
   ...originalConsole,
-  log: jest.fn(),
-  warn: jest.fn(),
-  error: jest.fn(),
-  info: jest.fn(),
-  debug: jest.fn(),
-};
+  log: jest.fn() as any,
+  warn: jest.fn() as any,
+  error: jest.fn() as any,
+  info: jest.fn() as any,
+  debug: jest.fn() as any,
+} as Console;
