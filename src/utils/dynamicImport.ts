@@ -247,12 +247,12 @@ export async function safeImportAndExecute<R, A extends any[] = any[]>(
       }
     }
     
-    if (typeof importedModule[functionName] !== 'function') {
+    if (typeof (importedModule as any)[functionName] !== 'function') {
       errorLog(`Function ${functionName} not found in module ${path}`);
       return null;
     }
     
-    return importedModule[functionName](..._args) as R;
+    return (importedModule as any)[functionName](..._args) as R;
   } catch (error) {
     errorLog(`Safe import and execute failed for ${functionName} from ${path}:`, error);
     

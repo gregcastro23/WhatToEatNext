@@ -250,7 +250,7 @@ export function explainRecommendation(
   if (astrologicalState.dominantPlanets && astrologicalState.dominantPlanets.length > 0) {
     for (const dominantPlanet of astrologicalState.dominantPlanets) {
       const planetName = String((dominantPlanet as unknown as Record<string, unknown>)?.name || dominantPlanet);
-      const planetScore = calculatePlanetaryScore(recipe, planetName as Planet);
+      const planetScore = calculatePlanetaryScore(recipe, planetName as unknown as any);
       if (planetScore > 0.6) {
         reasons.push(`The influence of ${planetName} in your chart is complemented by this recipe.`);
         break; // Just mention one planet to avoid repetition

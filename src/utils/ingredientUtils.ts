@@ -196,7 +196,7 @@ export function determineIngredientModality(
 export function isRecipeIngredient(ingredient: unknown): ingredient is RecipeIngredient {
   const ingredientData = ingredient as Record<string, unknown>;
   return (
-    ingredient &&
+    Boolean(ingredient) &&
     typeof ingredientData?.name === 'string' &&
     typeof ingredientData?.amount === 'number' &&
     typeof ingredientData?.unit === 'string'
@@ -209,7 +209,7 @@ export function isRecipeIngredient(ingredient: unknown): ingredient is RecipeIng
 export function isFullIngredient(ingredient: unknown): ingredient is Ingredient {
   const ingredientData = ingredient as Record<string, unknown>;
   return (
-    ingredient &&
+    Boolean(ingredient) &&
     typeof ingredientData?.name === 'string' &&
     typeof ingredientData?.category === 'string' &&
     ingredientData?.elementalProperties &&

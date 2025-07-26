@@ -1379,13 +1379,13 @@ function calculateAstrologicalMatch(
   if (!userElement) return 0.5; // Default to neutral if sign not recognized
 
   // Extract recipeInfluence data with safe property access
-  const influenceData = recipeInfluence as ElementalProperties;
+  const influenceData = recipeInfluence as any;
   const sign = influenceData?.sign;
   const elements = influenceData?.elements;
   
   // If recipe has a specific sign it aligns with
   if (sign && typeof sign === 'string') {
-    const recipeSignLower = sign.toLowerCase();
+    const recipeSignLower = String(sign).toLowerCase();
 
     // Direct sign match is very favorable
     if (recipeSignLower === userSignLower) {
@@ -1408,7 +1408,7 @@ function calculateAstrologicalMatch(
   if (elements) {
     // Check if recipe has the user's element
     if (typeof elements === 'string') {
-      const singleElement = elements.toLowerCase();
+      const singleElement = String(elements).toLowerCase();
       return elementCompatibility[userElement][singleElement] || 0.5;
     }
 

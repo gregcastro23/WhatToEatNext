@@ -581,7 +581,7 @@ export async function getIngredientRecommendations(
         timing: ingredientIntelligence.seasonalAnalysis?.optimalTiming || 'flexible',
         duration: ingredientIntelligence.seasonalAnalysis?.preparationTime || 'standard'
       };
-      groupedRecommendations[category].push(ingredientRecommendation);
+      groupedRecommendations[category]?.push(ingredientRecommendation);
       categoryCounts[category]++;
     }
   });
@@ -918,7 +918,7 @@ export function getChakraBasedRecommendations(
   
   // Apply limit to each category
   Object.keys(result).forEach(key => {
-    if (result[key]?.length > limit) {
+    if (result[key]?.length && result[key].length > limit) {
       result[key] = result[key]?.slice(0, limit);
     }
   });

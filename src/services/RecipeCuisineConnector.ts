@@ -82,7 +82,7 @@ export class RecipeCuisineConnector {
   private recipeCache: Map<string, CuisineRecipe>;
 
   constructor() {
-    this.cuisineDatabase = cuisinesMap;
+    this.cuisineDatabase = cuisinesMap as any;
     this.recipeCache = new Map();
     this.buildRecipeCache();
   }
@@ -98,7 +98,7 @@ export class RecipeCuisineConnector {
           ...recipe,
           id: recipeId,
           cuisine: cuisine.name,
-          elementalProperties: cuisine.elementalProperties
+          elementalProperties: cuisine.elementalProperties as any
         });
       });
     });

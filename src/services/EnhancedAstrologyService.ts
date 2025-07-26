@@ -214,7 +214,7 @@ export class EnhancedAstrologyService {
       planetaryPositions: primaryPositions,
       dataSource,
       confidence,
-      siderealTime,
+      siderealTime: siderealTime || undefined,
       seasonalTransit,
       keyAspects,
       dominantElements,
@@ -265,7 +265,7 @@ export class EnhancedAstrologyService {
     };
 
     Object.values(positions).forEach(position => {
-      const element = signElements[position.sign];
+      const element = signElements[position.sign || 'aries'];
       if (element) {
         elementCounts[element]++;
       }

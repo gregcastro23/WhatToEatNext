@@ -78,7 +78,7 @@ export async function validatePlanetaryPositions(positions?: Record<string, unkn
       }
       
       // Safe access to calculated properties
-      const calculatedData = calculated as Record<string, unknown>;
+      const calculatedData = calculated as unknown as Record<string, unknown>;
       
       // Convert our formatting to match reference format
       const formattedCalculated: PlanetaryPosition = {
@@ -186,7 +186,7 @@ export async function fetchLatestPositions(): Promise<Record<string, unknown>> {
     
     const data = await response.json();
     const responseData = data as Record<string, unknown>;
-    return responseData?.calculatedPositions || {};
+    return (responseData?.calculatedPositions || {}) as Record<string, unknown>;
   } catch (error) {
     console.error('Error fetching latest positions:', error);
     return {};

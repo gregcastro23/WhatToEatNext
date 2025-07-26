@@ -441,8 +441,8 @@ export class IngredientFilterService {
         const bNutrition = b.nutritionalProfile || {};
         
         // Create a simple score based on available nutritional data
-        const aScore = this.calculateNutritionalScore(aNutrition);
-        const bScore = this.calculateNutritionalScore(bNutrition);
+        const aScore = this.calculateNutritionalScore(aNutrition as any);
+        const bScore = this.calculateNutritionalScore(bNutrition as any);
         
         return bScore - aScore; // Higher score first
       });

@@ -662,7 +662,7 @@ export async function getIngredientRecommendations(
     try {
       // Traditional scoring factors
       const elementalScore = calculateElementalScore(ingredient.elementalProperties, _elementalProps);
-      const seasonalScore = await calculateSeasonalScore(ingredient, _elementalProps.timestamp);
+      const seasonalScore = await calculateSeasonalScore(ingredient as any, _elementalProps.timestamp);
       const modalityScore = await calculateModalityScore(ingredient.qualities || [], _options.modalityPreference);
       
       // NEW: Unified flavor compatibility scoring
@@ -815,7 +815,7 @@ async function calculateSeasonalScore(ingredient: Ingredient, date: Date): Promi
                 month >= 5 && month <= 7 ? 'summer' :
                 month >= 8 && month <= 10 ? 'autumn' : 'winter';
   
-  const ingredientData = ingredient as Record<string, unknown>;
+  const ingredientData = ingredient as unknown as Record<string, unknown>;
   if (ingredientData.season && Array.isArray(ingredientData.season)) {
     return (ingredientData.season as string[]).includes(season) ? 0.9 : 0.4;
   }

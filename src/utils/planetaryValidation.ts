@@ -401,8 +401,8 @@ async function getExpectedSignsForPlanet(planetName: string): Promise<string[]> 
       const possibleSigns: string[] = [];
       
       for (const [sign, dates] of Object.entries(transitDates)) {
-        const startDate = new Date(dates.Start);
-        const endDate = new Date(dates.End);
+        const startDate = new Date((dates as any).Start);
+        const endDate = new Date((dates as any).End);
         
         // Add some buffer for date accuracy
         const bufferDays = 7;

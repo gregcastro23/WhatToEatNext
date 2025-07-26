@@ -21,7 +21,7 @@ class IngredientMappingService {
    */
   mapRecipeIngredients(recipe: Recipe) {
     // Pattern HH: Safe Recipe type casting for connectIngredientsToMappings with proper import resolution
-    return connectIngredientsToMappings(recipe as unknown);
+    return connectIngredientsToMappings(recipe as any);
   }
 
   /**
@@ -277,7 +277,7 @@ class IngredientMappingService {
             combinations.push({
               ingredients: [ing1.name, ing2.name],
               compatibility: result.compatibility,
-              type: result.type
+              type: result.type || 'unknown'
             });
           }
         }

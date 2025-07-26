@@ -36,7 +36,7 @@ export function isScoredRecipe(obj: unknown): obj is ScoredRecipe {
 /**
  * Type guard to check if an ingredient is a RecipeIngredient object (not string)
  */
-export function isRecipeIngredient(ingredient: Ingredient | UnifiedIngredient): ingredient is RecipeIngredient {
+export function isRecipeIngredient(ingredient: any): ingredient is RecipeIngredient {
   return typeof ingredient === 'object' && 
          ingredient !== null &&
          typeof (ingredient as RecipeIngredient).name === 'string' &&
@@ -275,7 +275,7 @@ export function recipeHasIngredient(recipe: Recipe, ingredientName: string): boo
     
     // Handle both string and object ingredients
     if (typeof ingredientData === 'string') {
-      return ingredientData.toLowerCase().includes(searchName);
+      return String(ingredientData).toLowerCase().includes(searchName);
     }
     
     if (typeof ingredientData === 'object' && ingredientData?.name) {

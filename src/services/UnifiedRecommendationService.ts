@@ -92,7 +92,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
       
       // Check for ingredient inclusion
       if (criteria.includeIngredients && (criteria.includeIngredients || []).length > 0) {
-        const recipeIngredients = recipe.ingredients || [].map(ing => ing.name?.toLowerCase());
+        const recipeIngredients = (recipe.ingredients || [] as any[]).map(ing => ing.name?.toLowerCase());
         
         const includedCount = (criteria?.includeIngredients || []).filter(ing =>
           Array.isArray(recipeIngredients) ? recipeIngredients.includes(ing?.toLowerCase() || '') : recipeIngredients === (ing?.toLowerCase() || '')
@@ -104,7 +104,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
       
       // Check for ingredient exclusion
       if (criteria.excludeIngredients && (criteria.excludeIngredients || []).length > 0) {
-        const recipeIngredients = recipe.ingredients || [].map(ing => ing.name?.toLowerCase());
+        const recipeIngredients = (recipe.ingredients || [] as any[]).map(ing => ing.name?.toLowerCase());
         
         const excludedCount = (criteria?.excludeIngredients || []).filter(ing =>
           Array.isArray(recipeIngredients) ? recipeIngredients.includes(ing?.toLowerCase() || '') : recipeIngredients === (ing?.toLowerCase() || '')

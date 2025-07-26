@@ -522,7 +522,7 @@ function calculateElementalAlignment(
   const recipeInfluences = getRecipeAstrologicalInfluences(recipe);
   
   // Calculate base score from elemental match
-  let score = recipeElements[currentEnergy.dominantElement?.toLowerCase()] || 0;
+  let score = recipeElements[currentEnergy.dominantElement?.toLowerCase() || 'fire'] || 0;
   
   // Boost score if recipe has astrological influence matching current Sun sign
   // Apply safe type casting for astrological state access

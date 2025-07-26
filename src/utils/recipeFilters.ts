@@ -217,7 +217,7 @@ export class RecipeFilter {
             break;
           case 'prepTime':
             comparison =
-              this.parseTime(a.timeToMake) - this.parseTime(b.timeToMake);
+              this.parseTime(a.timeToMake || '0') - this.parseTime(b.timeToMake || '0');
             break;
           case 'elementalState':
             comparison = this.getelementalState(b) - this.getelementalState(a);

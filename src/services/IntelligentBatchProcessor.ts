@@ -724,7 +724,7 @@ export class IntelligentBatchProcessor extends EventEmitter {
         console.log(`✅ Job ${job.jobId} completed successfully`);
         this.emit('job-completed', job);
       } else {
-        await this.handleJobFailure(job, queue, validationResult.error || 'Validation failed');
+        await this.handleJobFailure(job, queue, new Error(validationResult.error || 'Validation failed'));
       }
       
       // Update optimization based on result
@@ -1336,7 +1336,7 @@ export class IntelligentBatchProcessor extends EventEmitter {
         testStability: 0.9,
         safetyScore: 0.8
       }
-    };
+    } as any;
   }
 
   getOptimizations(): BatchOptimization[] {
