@@ -313,7 +313,7 @@ export default function AlchemicalRecommendations({
       
       if (ingredient && typeof ingredient === 'object' && 'elementalProperties' in ingredient && 
           ingredient.elementalProperties && typeof ingredient.elementalProperties === 'object') {
-        elementalProps = validateElementalProperties(ingredient.elementalProperties);
+        elementalProps = validateElementalProperties(ingredient.elementalProperties as Record<string, unknown>);
       } else {
         const category = ingredient && typeof ingredient === 'object' && 'category' in ingredient ? 
           String(ingredient.category || '') : '';
@@ -349,7 +349,7 @@ export default function AlchemicalRecommendations({
       
       const qualities = ingredient && typeof ingredient === 'object' && 'qualities' in ingredient ? 
         ((ingredient as unknown as Record<string, unknown>).qualities as string[] || []) : [];
-      const modality = determineIngredientModality(elementalProps as Record<string, unknown>, qualities);
+      const modality = determineIngredientModality(qualities, elementalProps as Record<string, unknown>);
       
       return {
         id: key,
@@ -540,7 +540,7 @@ export default function AlchemicalRecommendations({
       <CardContent>
         <Box display="flex" justifyContent="space-between" alignItems="center">
           <Typography variant="h6" color="primary">
-            {(item as Record<string, unknown>)?.id || `Item ${index}`}
+            {String((item as Record<string, unknown>)?.id || `Item ${index}`)}
           </Typography>
           <Button
             onClick={() => toggleExpansion((item as Record<string, unknown>)?.id as string || `item-${index}`)}

@@ -6,7 +6,7 @@
  */
 
 import { CampaignController } from './CampaignController';
-import { CampaignIntelligenceSystem } from './CampaignIntelligenceSystem';
+import CampaignIntelligenceSystem, { CAMPAIGN_INTELLIGENCE_DEMO } from './CampaignIntelligenceSystem';
 import { ProgressTracker } from './ProgressTracker';
 import { SafetyProtocol } from './SafetyProtocol';
 

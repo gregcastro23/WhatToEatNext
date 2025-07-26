@@ -167,6 +167,7 @@ export class EnhancedRecommendationService {
           // Create a proper EnhancedIngredient from the base recommendation
           const ingredientData = ingredient as unknown as Record<string, unknown>;
           const enhancedIngredient: EnhancedIngredient = {
+            ...ingredient,
             name: ingredient.name || 'Unknown',
             astrologicalProfile: ingredientData?.astrologicalProfile || {},
             elementalPropertiesState: ingredient.elementalProperties || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
@@ -174,8 +175,7 @@ export class EnhancedRecommendationService {
             // Add missing required properties for EnhancedIngredient
             amount: typeof ingredientData?.amount === 'number' ? ingredientData.amount : 1,
             unit: typeof ingredientData?.unit === 'string' ? ingredientData.unit : 'serving',
-            element: this.safeGetElement(ingredientData?.element) || 'Air',
-            ...ingredient
+            element: this.safeGetElement(ingredientData?.element) || 'Air'
           };
           
           return await this.enhanceRecommendation(
@@ -613,7 +613,10 @@ export class EnhancedRecommendationService {
         id: ingredient.name || 'unknown',
         name: ingredient.name || 'Unknown Ingredient',
         category: 'ingredient' as const,
-        baseNotes: (ingredientData?.baseNotes as string[]) || [],
+        baseNotes: {
+          sweet: 0, sour: 0, salty: 0, bitter: 0, umami: 0, spicy: 0,
+          ...(Array.isArray(ingredientData?.baseNotes) ? {} : ingredientData?.baseNotes as Record<string, number> || {})
+        },
         heartNotes: (ingredientData?.heartNotes as string[]) || [],
         topNotes: (ingredientData?.topNotes as string[]) || [],
         elementalProfile: {
@@ -682,8 +685,10 @@ export class EnhancedRecommendationService {
       const profile: UnifiedFlavorProfile = {
         id: `astro_${astroState.currentZodiac}`,
         name: `Astrological Profile - ${astroState.currentZodiac}`,
-        category: 'astrological',
-        baseNotes: ['cosmic', 'celestial', 'harmonious'],
+        category: 'elemental' as const,
+        baseNotes: {
+          sweet: 0.3, sour: 0.1, salty: 0.1, bitter: 0.2, umami: 0.2, spicy: 0.1
+        },
         heartNotes: ['balanced', 'aligned', 'resonant'],
         topNotes: ['dynamic', 'flowing', 'energetic'],
         elementalProfile: {
@@ -717,8 +722,10 @@ export class EnhancedRecommendationService {
       return {
         id: 'default_astro',
         name: 'Default Astrological Profile',
-        category: 'astrological',
-        baseNotes: ['neutral'],
+        category: 'elemental' as const,
+        baseNotes: {
+          sweet: 0.25, sour: 0.25, salty: 0.25, bitter: 0.25, umami: 0, spicy: 0
+        },
         heartNotes: ['balanced'],
         topNotes: ['harmonious'],
         elementalProfile: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
