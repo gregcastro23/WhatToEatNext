@@ -287,9 +287,9 @@ describe('ProgressTracker', () => {
         heapUsed: 50 * 1024 * 1024, // 50MB
         heapTotal: 100 * 1024 * 1024,
         external: 0,
-        rss: 0,
+        rss: 60 * 1024 * 1024,
         arrayBuffers: 0
-      });
+      }) as any;
 
       const memory = await progressTracker.getMemoryUsage();
 
@@ -302,7 +302,7 @@ describe('ProgressTracker', () => {
       const originalMemoryUsage = process.memoryUsage;
       process.memoryUsage = jest.fn().mockImplementation(() => {
         throw new Error('Memory measurement failed');
-      });
+      }) as any;
 
       const memory = await progressTracker.getMemoryUsage();
 

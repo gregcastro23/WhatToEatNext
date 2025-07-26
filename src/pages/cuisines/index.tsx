@@ -84,11 +84,11 @@ const CuisinesIndexPage = () => {
               
               {/* Regional Variants */}
               {cuisineFlavorProfiles[cuisine.id]?.regionalVariants && 
-               cuisineFlavorProfiles[cuisine.id]?.regionalVariants?.length > 0 && (
+               (cuisineFlavorProfiles[cuisine.id]?.regionalVariants?.length ?? 0) > 0 && (
                 <div className="mb-4">
                   <h4 className="text-sm font-semibold text-gray-500 mb-1">Regional Variations:</h4>
                   <div className="flex flex-wrap gap-1">
-                    {cuisineFlavorProfiles[cuisine.id].regionalVariants.map(variant => {
+                    {(cuisineFlavorProfiles[cuisine.id]?.regionalVariants ?? []).map(variant => {
                       // Find the variant cuisine ID
                       const variantCuisineEntry = Object.entries(cuisineFlavorProfiles).find(
                         ([_, profile]) => profile.name.toLowerCase() === variant

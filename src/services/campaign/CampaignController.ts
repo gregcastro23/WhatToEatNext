@@ -100,7 +100,7 @@ export class CampaignController {
       this.addSafetyEvent({
         type: SafetyEventType.BUILD_FAILURE,
         timestamp: new Date(),
-        description: `Phase execution failed: ${error.message}`,
+        description: `Phase execution failed: ${(error as Error).message}`,
         severity: SafetyEventSeverity.ERROR,
         action: 'PHASE_FAILED'
       });
@@ -188,7 +188,7 @@ export class CampaignController {
     } catch (error) {
       return {
         success: false,
-        errors: [`Validation error: ${error.message}`],
+        errors: [`Validation error: ${(error as Error).message}`],
         warnings: []
       };
     }

@@ -57,7 +57,7 @@ const SauceDetailsPage: NextPage = () => {
         if (cuisineKey && cuisinesMap[cuisineKey].traditionalSauces) {
           // Find the sauce with the matching ID
           const sauceId = Object.keys(
-            cuisinesMap[cuisineKey].traditionalSauces
+            cuisinesMap[cuisineKey].traditionalSauces || {}
           ).find((sKey) => {
             const urlFriendlySauceId = sKey
               .toLowerCase()
@@ -69,7 +69,7 @@ const SauceDetailsPage: NextPage = () => {
           if (sauceId) {
             const foundSauce = {
               id: sauceId,
-              ...cuisinesMap[cuisineKey].traditionalSauces[sauceId],
+              ...(cuisinesMap[cuisineKey].traditionalSauces as Record<string, any>)[sauceId],
             };
             setSauce(foundSauce);
           } else {

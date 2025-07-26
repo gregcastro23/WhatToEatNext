@@ -29,7 +29,7 @@ describe('PerformanceMonitoringSystem', () => {
     (process.hrtime as any) = { bigint: mockHrtime };
     
     // Mock process.memoryUsage
-    (process.memoryUsage as jest.Mock) = jest.fn().mockReturnValue({
+    (process.memoryUsage as unknown as jest.Mock) = jest.fn().mockReturnValue({
       heapUsed: 40 * 1024 * 1024, // 40MB
       heapTotal: 50 * 1024 * 1024, // 50MB
       external: 5 * 1024 * 1024,
@@ -143,7 +143,7 @@ describe('PerformanceMonitoringSystem', () => {
     });
 
     it('should handle memory tracking errors gracefully', async () => {
-      (process.memoryUsage as jest.Mock).mockImplementation(() => {
+      (process.memoryUsage as unknown as jest.Mock).mockImplementation(() => {
         throw new Error('Memory tracking failed');
       });
       
