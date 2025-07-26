@@ -263,7 +263,11 @@ async function runComprehensiveTests() {
     // Test 9: Multiple Cuisine Compatibility
     console.log('🍽️ Test 9: Multiple Cuisine Compatibility');
     const cuisines = ['italian', 'indian', 'japanese', 'mexican', 'french', 'chinese'];
-    const cuisineResults = [];
+    const cuisineResults: Array<{
+      cuisine: string;
+      score: string;
+      confidence: number;
+    }> = [];
     for (const cuisine of cuisines) {
       const result = await alchemicalEngine.calculateAstroCuisineMatch(
         testRecipeElements,

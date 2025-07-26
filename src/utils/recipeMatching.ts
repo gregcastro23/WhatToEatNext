@@ -121,7 +121,7 @@ export async function findBestMatches(
     filteredRecipes = filteredRecipes.filter(
       (recipe) =>
         // Apply Pattern KK-1: Explicit Type Assertion for comparison operations
-        !recipe.cookingTime || Number(recipe.cookingTime) <= matchFilters.maxCookingTime
+        !recipe.cookingTime || Number(recipe.cookingTime) <= matchFilters.maxCookingTime!
     );
     // console.log(`After maxCookingTime filter: ${filteredRecipes.length} recipes remain`);
   }
@@ -168,7 +168,7 @@ export async function findBestMatches(
     filteredRecipes = filteredRecipes.filter(
       (recipe) => 
         // Apply Pattern KK-1: Explicit Type Assertion for comparison operations
-        !recipe.servings || Number(recipe.servings) >= matchFilters.servings
+        !recipe.servings || Number(recipe.servings) >= matchFilters.servings!
     );
     // console.log(`After servings filter: ${filteredRecipes.length} recipes remain`);
   }
@@ -467,7 +467,7 @@ async function _calculateRecipeEnergyMatch(
   if (recipe.astrologicalEnergy) {
     const astrologicalScore = calculateEnergyMatch(
       recipe.astrologicalEnergy,
-      currentEnergy as unknown
+      currentEnergy as unknown as EnergyData
     );
     score += astrologicalScore * 0.4; // Doubled from 0.2
   }
