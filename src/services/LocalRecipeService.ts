@@ -351,8 +351,8 @@ export class LocalRecipeService {
         const dishesNested = dishesData?.dishes as Record<string, unknown>;
         const breakfastNestedData = dishesNested?.breakfast as Record<string, unknown>;
         const breakfastAll = breakfastData?.all || breakfastNestedData?.all;
-        if (breakfastAll?.length > 0) {
-          logger.debug('Sample breakfast recipe:', JSON.stringify(breakfastAll[0]));
+        if (Array.isArray(breakfastAll) && breakfastAll.length > 0) {
+          logger.debug('Sample breakfast recipe:', JSON.stringify((breakfastAll as unknown[])[0]));
         }
       }
       
@@ -550,7 +550,7 @@ export class LocalRecipeService {
       }
       
       // Get instructions from preparationSteps or instructions field
-      let instructions = [];
+      let instructions: string[] = [];
       if (Array.isArray(dish.preparationSteps) && dish?.preparationSteps?.length > 0) {
         instructions = dish.preparationSteps;
       } else if (Array.isArray(dish.instructions) && dish?.instructions?.length > 0) {
@@ -574,7 +574,7 @@ export class LocalRecipeService {
       } : undefined;
       
       // Process substitutions
-      let substitutions = [];
+      let substitutions: { original: string; alternatives: string[]; }[] = [];
       if (dish.substitutions && typeof dish.substitutions === 'object') {
         // Convert from {ingredient: [alternatives]} format
         substitutions = Object.entries(dish.substitutions).map(([original, alternatives]) => ({

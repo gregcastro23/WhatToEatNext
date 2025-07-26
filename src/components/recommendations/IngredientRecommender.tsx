@@ -10,8 +10,9 @@ import type {
   Element, 
   AstrologicalState, 
   ChakraEnergies,
-  AlchemicalProperties 
-} from "@/types/alchemy";
+  AlchemicalProperties,
+  UnifiedFlavorProfile 
+} from "@/types";
 
 import { normalizeChakraKey } from '../../constants/chakraSymbols';
 import { useFlavorEngine } from '../../contexts/FlavorEngineContext';
@@ -295,7 +296,7 @@ export default function IngredientRecommender() {
           astrologicalState,
           {
             dietary: [],
-            taste: {} as Record<string, PlanetaryPosition>,
+            taste: {} as unknown as { [key: string]: number },
             chakraFocus: []
           }
         );
@@ -587,7 +588,7 @@ export default function IngredientRecommender() {
   };
 
   // Helper function to determine category from ingredient name
-  const determineCategory = (name: string): string => {
+  const determineCategoryArrow = (name: string): string => {
     const lowercaseName = name?.toLowerCase();
     
     // Proteins
@@ -1066,7 +1067,7 @@ export default function IngredientRecommender() {
     // Use flavor engine context for comparison if available
     if (calculateCompatibility) {
       try {
-        return calculateCompatibility(ingredient1 as unknown, ingredient2 as unknown); // Pattern YYY: React Props and State Interface Resolution
+        return calculateCompatibility(ingredient1 as any, ingredient2 as any);
       } catch (error) {
         console.error('Error calculating compatibility:', error);
         return 0.5; // Default compatibility
@@ -1331,7 +1332,7 @@ export default function IngredientRecommender() {
             onClick={() => {
               setLoadingTimedOut(false);
               setIsComponentLoading(true);
-              refreshRecommendations();
+              (refreshRecommendations as () => void)();
               generateRecommendations();
             }}
             className="px-4 py-2 bg-indigo-700 text-white rounded-md hover:bg-indigo-600 transition-colors"
@@ -1415,15 +1416,15 @@ export default function IngredientRecommender() {
                   gap: '6px'
                 }}
                 onMouseEnter={(e) => {
-                  if (!isSelected) {
-                    e?.currentTarget?.style.backgroundColor = '#f1f5f9';
-                    e?.currentTarget?.style.borderColor = '#94a3b8';
+                  if (!isSelected && e?.currentTarget) {
+                    e.currentTarget.style.backgroundColor = '#f1f5f9';
+                    e.currentTarget.style.borderColor = '#94a3b8';
                   }
                 }}
                 onMouseLeave={(e) => {
-                  if (!isSelected) {
-                    e?.currentTarget?.style.backgroundColor = '#ffffff';
-                    e?.currentTarget?.style.borderColor = '#d1d5db';
+                  if (!isSelected && e?.currentTarget) {
+                    e.currentTarget.style.backgroundColor = '#ffffff';
+                    e.currentTarget.style.borderColor = '#d1d5db';
                   }
                 }}
               >
@@ -1722,7 +1723,7 @@ export default function IngredientRecommender() {
         category={category}
         currentZodiac={currentZodiac || 'aries'}
         isDaytime={isDaytime}
-        onClick={(ing) => handleIngredientSelect(ing as IngredientRecommendation, {} as React.MouseEvent)}
+        onClick={(ing) => handleIngredientSelect(ing as unknown as IngredientRecommendation, {} as React.MouseEvent)}
       />
     );
   };

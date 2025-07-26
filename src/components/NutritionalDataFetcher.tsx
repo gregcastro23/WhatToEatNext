@@ -108,7 +108,7 @@ export default function NutritionalDataFetcher() {
         return;
       }
       
-      setNutritionalData(data as unknown);
+      setNutritionalData(data as unknown as NutritionalProfile | null);
       const elemental = nutritionalToElemental(data);
       setElementalData(elemental);
     } catch (err) {
@@ -157,17 +157,17 @@ export default function NutritionalDataFetcher() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="p-4 border rounded bg-white shadow">
             <h2 className="text-xl font-semibold mb-2">Nutritional Profile</h2>
-            {(nutritionalData as Record<string, unknown>)?.name && (
-              <p className="text-lg font-medium mb-2">{(nutritionalData as Record<string, unknown>)?.name}</p>
+            {Boolean((nutritionalData as Record<string, unknown>)?.name) && (
+              <p className="text-lg font-medium mb-2">{String((nutritionalData as Record<string, unknown>)?.name)}</p>
             )}
-            <p><strong>Calories:</strong> {nutritionalData.calories.toFixed(1)}</p>
+            <p><strong>Calories:</strong> {((nutritionalData as Record<string, unknown>)?.calories as number || 0).toFixed(1)}</p>
             
             <h3 className="text-lg font-semibold mt-4 mb-2">Macronutrients</h3>
             <ul className="pl-5 list-disc">
-              <li>Protein: {((nutritionalData as Record<string, unknown>)?.macros?.protein || 0).toFixed(1)}g</li>
-              <li>Carbohydrates: {((nutritionalData as Record<string, unknown>)?.macros?.carbs || 0).toFixed(1)}g</li>
-              <li>Fat: {((nutritionalData as Record<string, unknown>)?.macros?.fat || 0).toFixed(1)}g</li>
-              <li>Fiber: {((nutritionalData as Record<string, unknown>)?.macros?.fiber || 0).toFixed(1)}g</li>
+              <li>Protein: {(((nutritionalData as Record<string, unknown>)?.macros as Record<string, unknown>)?.protein as number || 0).toFixed(1)}g</li>
+              <li>Carbohydrates: {(((nutritionalData as Record<string, unknown>)?.macros as Record<string, unknown>)?.carbs as number || 0).toFixed(1)}g</li>
+              <li>Fat: {(((nutritionalData as Record<string, unknown>)?.macros as Record<string, unknown>)?.fat as number || 0).toFixed(1)}g</li>
+              <li>Fiber: {(((nutritionalData as Record<string, unknown>)?.macros as Record<string, unknown>)?.fiber as number || 0).toFixed(1)}g</li>
             </ul>
             
             {nutritionalData.vitamins && Object.keys(nutritionalData.vitamins).length > 0 && (
