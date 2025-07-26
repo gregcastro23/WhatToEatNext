@@ -82,7 +82,7 @@ export class UnusedVariableProcessor {
         result.skipped += processed.skipped;
         result.preservedCritical.push(...processed.preserved);
       } catch (error) {
-        result.errors.push(`Error processing ${filePath}: ${error.message}`);
+        result.errors.push(`Error processing ${filePath}: ${(error as Error).message}`);
       }
     }
 
@@ -138,7 +138,7 @@ export class UnusedVariableProcessor {
 
       return issues;
     } catch (error) {
-      console.warn('Could not parse unused variables:', error.message);
+      console.warn('Could not parse unused variables:', (error as Error).message);
       return [];
     }
   }
@@ -393,7 +393,7 @@ export class UnusedVariableProcessor {
       
       return true;
     } catch (error) {
-      console.error('❌ Validation failed:', error.message);
+      console.error('❌ Validation failed:', (error as Error).message);
       return false;
     }
   }

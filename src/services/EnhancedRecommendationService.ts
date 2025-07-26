@@ -333,7 +333,7 @@ export class EnhancedRecommendationService {
       score: Math.min(1.0, enhancedScore),
       reasons,
       chakraAlignment,
-      flavorCompatibility,
+      flavorCompatibility: flavorCompatibility as any,
       tarotInfluence,
       wiccanProperties
     };
@@ -609,7 +609,7 @@ export class EnhancedRecommendationService {
       const ingredientData = ingredient as unknown as Record<string, unknown>;
       
       // Create basic flavor profile structure
-      const profile: UnifiedFlavorProfile = {
+      const profile = {
         id: ingredient.name || 'unknown',
         name: ingredient.name || 'Unknown Ingredient',
         category: 'ingredient' as const,
@@ -643,7 +643,7 @@ export class EnhancedRecommendationService {
         monica: this.safeGetNumber(ingredientData?.monica) || 0.5
       };
 
-      return profile;
+      return profile as unknown as UnifiedFlavorProfile;
     } catch (error) {
       console.warn('Error creating flavor profile:', error);
       return null;
@@ -682,7 +682,7 @@ export class EnhancedRecommendationService {
       const elementalProps = astroData?.elementalProperties as Record<string, unknown>;
       
       // Create astrological reference profile
-      const profile: UnifiedFlavorProfile = {
+      const profile = {
         id: `astro_${astroState.currentZodiac}`,
         name: `Astrological Profile - ${astroState.currentZodiac}`,
         category: 'elemental' as const,
@@ -715,7 +715,7 @@ export class EnhancedRecommendationService {
         monica: 0.5
       };
 
-      return profile;
+      return profile as unknown as UnifiedFlavorProfile;
     } catch (error) {
       console.warn('Error creating astrological profile:', error);
       // Return default profile
@@ -739,7 +739,7 @@ export class EnhancedRecommendationService {
         contraindications: [],
         kalchm: 0.5,
         monica: 0.5
-      };
+      } as unknown as UnifiedFlavorProfile;
     }
   }
 }

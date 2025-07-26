@@ -26,9 +26,9 @@ afterEach(() => {
 });
 
 // Global test utilities
-global.testUtils = {
-  gitMock: gitOperationsMock,
-  scriptMock: scriptExecutionMock,
+(global as any).testUtils = {
+  gitMock: gitOperationsMock as any,
+  scriptMock: scriptExecutionMock as any,
   
   // Helper to create mock file corruption
   createMockCorruptedFile: (content: string) => {
@@ -37,7 +37,7 @@ global.testUtils = {
   
   // Helper to create mock TypeScript errors
   createMockTypeScriptErrors: (count: number) => {
-    const errors = [];
+    const errors: Array<string> = [];
     for (let i = 0; i < count; i++) {
       errors.push(`file${i}.ts(10,5): error TS2352: Type conversion error`);
     }
@@ -46,7 +46,7 @@ global.testUtils = {
   
   // Helper to create mock linting warnings
   createMockLintingWarnings: (count: number) => {
-    const warnings = [];
+    const warnings: Array<string> = [];
     for (let i = 0; i < count; i++) {
       warnings.push(`file${i}.ts:10:5 - warning: Explicit any @typescript-eslint/no-explicit-any`);
     }
@@ -122,18 +122,6 @@ declare global {
       toHaveBeenCalledWithScript(scriptPath: string): R;
     }
   }
-  
-  var testUtils: {
-    gitMock: typeof gitOperationsMock;
-    scriptMock: typeof scriptExecutionMock;
-    createMockCorruptedFile: (content: string) => string;
-    createMockTypeScriptErrors: (count: number) => string;
-    createMockLintingWarnings: (count: number) => string;
-    waitForAsync: () => Promise<void>;
-    createMockProgressMetrics: (overrides?: Record<string, unknown>) => Record<string, unknown>;
-    checkMemory: () => { heapUsed: string; heapTotal: string; external: string; arrayBuffers: string };
-    cleanupMemory: () => { success: boolean; freedMemory: string };
-  };
 }
 
 // Console override for cleaner test output

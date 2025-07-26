@@ -137,9 +137,7 @@ function validateAndNormalizeIngredients(ingredients: Array<Partial<RecipeIngred
     preparation: ing.preparation || '',
     notes: ing.notes || '',
     // Standardize ingredient elemental properties too
-    elementalProperties: (ing as Record<string, unknown>)?.elementalProperties ? 
-      (recipeElementalService.standardizeRecipe({elementalProperties: (ing as Record<string, unknown>)?.elementalProperties}).elementalProperties as ElementalProperties) || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 } : 
-      { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }
+    elementalProperties: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }
   }));
 }
 
@@ -323,7 +321,7 @@ class RecipeData {
           const mappingData = mapping as Record<string, unknown>;
           elementalProps = recipeElementalService.deriveElementalProperties({
             cuisine: String((mappingData?.cuisine as Record<string, unknown>)?.name || mappingData?.cuisine || ''),
-            cookingMethod: String(mappingData?.cookingMethod || '')
+            cookingMethod: [String(mappingData?.cookingMethod || '')]
           });
         }
         
@@ -347,7 +345,7 @@ class RecipeData {
               })
             : [],
           instructions: Array.isArray(mappingData?.instructions) ? mappingData.instructions : [],
-          timeToMake: mappingData?.timeToMake || '30 minutes',
+          timeToMake: String(mappingData?.timeToMake) || '30 minutes',
           energyProfile: mappingData?.energyProfile || {},
           // Critical field: always ensure astrologicalInfluences is set
           astrologicalInfluences: (mappingData?.astrologicalInfluences ? 

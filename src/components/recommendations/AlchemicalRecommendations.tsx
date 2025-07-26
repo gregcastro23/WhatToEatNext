@@ -567,21 +567,21 @@ export default function AlchemicalRecommendations({
         </Box>
 
         {/* Expandable content */}
-        {expandedItems[(item as Record<string, unknown>)?.id as string || `item-${index}`] && (
-          <Box sx={{ mt: 2 }}>
+        {Boolean(expandedItems[String((item as Record<string, unknown>)?.id) || `item-${index}`]) && (
+          <Box sx={{ mt: 2 } as any}>
             <Divider sx={{ mb: 2 }} />
-            {(item  as Record<string, unknown>)?.modality && (
+            {(item as Record<string, unknown>)?.modality && (
               <Typography variant="body2">
-                <strong>Modality:</strong> {String((item  as Record<string, unknown>)?.modality)}
+                <strong>Modality:</strong> {String((item as Record<string, unknown>)?.modality)}
               </Typography>
             )}
-            {(item  as Record<string, unknown>)?.qualities && (
+            {(item as Record<string, unknown>)?.qualities && (
               <Typography variant="body2">
-                <strong>Qualities:</strong> {((item  as Record<string, unknown>)?.qualities as string[])?.join(', ')}
+                <strong>Qualities:</strong> {((item as Record<string, unknown>)?.qualities as string[])?.join(', ')}
               </Typography>
             )}
           </Box>
-        )}
+        ) as any}
       </CardContent>
     </Card>
   );
@@ -612,7 +612,7 @@ export default function AlchemicalRecommendations({
                   </Grid>
                   <Grid item xs={6}>
                     <Typography variant="body2">
-                      <strong>Dominant Property:</strong> {(energeticProfile as Record<string, unknown>)?.dominantAlchemicalProperty}
+                      <strong>Dominant Property:</strong> {String((energeticProfile as Record<string, unknown>)?.dominantAlchemicalProperty || 'Unknown')}
                     </Typography>
                   </Grid>
                 </Grid>
@@ -656,10 +656,10 @@ export default function AlchemicalRecommendations({
             {recipeRecommendations.map((recipe, index) => (
               <Grid item xs={12} sm={6} md={4} key={recipe.id || index}>
                 <Card>
-                  {recipe.image && (
+                  {String(recipe.image) && (
                     <CardMedia
                       component="img"
-                      height="140"
+                      height={140}
                       image={String(recipe.image)}
                       alt={String(recipe.name)}
                     />
@@ -669,17 +669,17 @@ export default function AlchemicalRecommendations({
                       {String(recipe.name)}
                     </Typography>
                     <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
-                      {String(recipe.cuisine)}
+                      {String(recipe.cuisine || 'Unknown Cuisine')}
                     </Typography>
                     
                     <Box sx={{ mb: 1 }}>
-                      {recipe.mealType && (
+                      {(Boolean(recipe.mealType) ? (
                         <Chip 
                           label={Array.isArray(recipe.mealType) ? recipe.mealType[0] : String(recipe.mealType)}
                           size="small"
                           sx={{ mr: 0.5, mb: 0.5 }}
                         />
-                      )}
+                      ) : null) as any}
                       
                       {recipe.cookTime && (
                         <Chip 

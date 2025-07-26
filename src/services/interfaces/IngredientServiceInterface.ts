@@ -5,7 +5,7 @@ import type { ElementalProperties,
   Season,
   PlanetName,
   ZodiacSign } from "@/types/alchemy";
-import { RecipeIngredient } from '@/types/recipe';
+import { RecipeIngredient } from '@/types/unified';
 
 /**
  * IngredientServiceInterface.ts
@@ -19,7 +19,7 @@ import { RecipeIngredient } from '@/types/recipe';
  * The goal is to create a single, consistent API for all ingredient operations.
  */
 
-import type { Recipe } from "@/types/recipe";
+import type { Recipe } from "@/types/unified";
 
 import type { UnifiedIngredient } from '../../data/unified/unifiedTypes';
 
@@ -245,7 +245,8 @@ export interface IngredientServiceInterface {
    * @returns Analysis of ingredient combinations
    */
   analyzeRecipeIngredients(recipe: Recipe): {
-    overallHarmony: number;flavorProfile: { [key: string]: number };
+    overallHarmony: number;
+    flavorProfile: { [key: string]: number };
     strongPairings: Array<{ ingredients: string[]; score: number }>;
     weakPairings: Array<{ ingredients: string[]; score: number }>;
   };

@@ -140,7 +140,7 @@ export class IngredientService implements IngredientServiceInterface {
             ...data,
             elementalProperties: (data.elementalState || createElementalProperties({
               Fire: 0, Water: 0, Earth: 0, Air: 0 
-            })) as ElementalProperties,
+            })) as unknown as ElementalProperties,
             alchemicalProperties: {
               Spirit: Number(((data as Record<string, unknown>)?.alchemicalProperties as Record<string, unknown>)?.Spirit || (data as Record<string, unknown>)?.Spirit || 0),
               Essence: Number(((data as Record<string, unknown>)?.alchemicalProperties as Record<string, unknown>)?.Essence || (data as Record<string, unknown>)?.Essence || 0),
@@ -905,7 +905,7 @@ export class IngredientService implements IngredientServiceInterface {
    */
   mapRecipeIngredients(recipe: Recipe) {
     // Apply Pattern Q: Safe Recipe type casting for connectIngredientsToMappings
-    return connectIngredientsToMappings(recipe as unknown as Recipe);
+    return connectIngredientsToMappings(recipe as unknown as _Recipe);
   }
 
   /**
@@ -1190,12 +1190,10 @@ export class IngredientService implements IngredientServiceInterface {
    * Analyze the ingredient combinations in a recipe
    */
   public analyzeRecipeIngredients(recipe: Recipe): {
-      overallHarmony: number;
-      flavorProfile: { [key: string]: number };
-      strongPairings: Array<{ ingredients: string[];
-      score: number }>;
-      weakPairings: Array<{ ingredients: string[];
-      score: number }>;
+    overallHarmony: number;
+    flavorProfile: { [key: string]: number };
+    strongPairings: Array<{ ingredients: string[]; score: number }>;
+    weakPairings: Array<{ ingredients: string[]; score: number }>;
   } {
     try {
       // Extract ingredient names from recipe
@@ -1212,10 +1210,8 @@ export class IngredientService implements IngredientServiceInterface {
       const result = {
         overallHarmony: 0,
         flavorProfile: {} as Record<string, number>,
-        strongPairings: [] as Array<{ ingredients: string[];
-      score: number }>,
-        weakPairings: [] as Array<{ ingredients: string[];
-      score: number }>
+        strongPairings: [] as Array<{ ingredients: string[]; score: number }>,
+        weakPairings: [] as Array<{ ingredients: string[]; score: number }>
       };
       
       // Calculate overall elemental balance

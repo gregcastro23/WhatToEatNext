@@ -98,7 +98,7 @@ describe('AutomatedLintingIntegration', () => {
         }
       };
 
-      mockAnalysisService.performComprehensiveAnalysis.mockResolvedValue(mockAnalysis);
+      mockAnalysisService.performComprehensiveAnalysis.mockResolvedValue(mockAnalysis as any);
 
       // Mock automated fixes
       const mockFixResult = {
@@ -194,7 +194,7 @@ describe('AutomatedLintingIntegration', () => {
         }
       };
 
-      mockAnalysisService.performComprehensiveAnalysis.mockResolvedValue(mockAnalysis);
+      mockAnalysisService.performComprehensiveAnalysis.mockResolvedValue(mockAnalysis as any);
       mockFixer.applyAutomatedFixes.mockResolvedValue({
         success: true,
         fixedIssues: 1,
@@ -274,7 +274,7 @@ describe('AutomatedLintingIntegration', () => {
         }
       };
 
-      mockAnalysisService.performComprehensiveAnalysis.mockResolvedValue(mockAnalysis);
+      mockAnalysisService.performComprehensiveAnalysis.mockResolvedValue(mockAnalysis as any);
       mockFixer.applyAutomatedFixes.mockResolvedValue({
         success: true,
         fixedIssues: 15,
@@ -356,7 +356,7 @@ describe('AutomatedLintingIntegration', () => {
         }
       };
 
-      mockAnalysisService.performComprehensiveAnalysis.mockResolvedValue(mockAnalysis);
+      mockAnalysisService.performComprehensiveAnalysis.mockResolvedValue(mockAnalysis as any);
       mockFixer.applyAutomatedFixes.mockResolvedValue({
         success: true,
         fixedIssues: 120,
@@ -416,7 +416,7 @@ describe('AutomatedLintingIntegration', () => {
         criticalIssues: []
       };
 
-      mockAnalysisService.performQuickAnalysis.mockResolvedValue(mockQuickAnalysis);
+      mockAnalysisService.performQuickAnalysis.mockResolvedValue(mockQuickAnalysis as any);
       mockFixer.applyAutomatedFixes.mockResolvedValue({
         success: true,
         fixedIssues: 2,
@@ -473,7 +473,7 @@ describe('AutomatedLintingIntegration', () => {
         criticalIssues: []
       };
 
-      mockAnalysisService.performQuickAnalysis.mockResolvedValue(mockQuickAnalysis);
+      mockAnalysisService.performQuickAnalysis.mockResolvedValue(mockQuickAnalysis as any);
       mockFixer.applyAutomatedFixes.mockResolvedValue({
         success: true,
         fixedIssues: 1,
@@ -555,7 +555,7 @@ describe('AutomatedLintingIntegration', () => {
         }
       };
 
-      mockAnalysisService.performComprehensiveAnalysis.mockResolvedValue(mockAnalysis);
+      mockAnalysisService.performComprehensiveAnalysis.mockResolvedValue(mockAnalysis as any);
       mockFixer.handleUnusedVariables.mockResolvedValue({
         success: true,
         fixedIssues: 2,
@@ -639,7 +639,7 @@ describe('AutomatedLintingIntegration', () => {
         }
       };
 
-      mockAnalysisService.performComprehensiveAnalysis.mockResolvedValue(mockAnalysis);
+      mockAnalysisService.performComprehensiveAnalysis.mockResolvedValue(mockAnalysis as any);
 
       const result = await integration.executeUnusedVariableCleanup();
 
@@ -700,7 +700,7 @@ describe('AutomatedLintingIntegration', () => {
         }
       };
 
-      mockAnalysisService.performComprehensiveAnalysis.mockResolvedValue(mockAnalysis);
+      mockAnalysisService.performComprehensiveAnalysis.mockResolvedValue(mockAnalysis as any);
       mockFixer.optimizeImports.mockResolvedValue({
         success: true,
         fixedIssues: 2,
@@ -784,7 +784,7 @@ describe('AutomatedLintingIntegration', () => {
         }
       };
 
-      mockAnalysisService.performComprehensiveAnalysis.mockResolvedValue(mockAnalysis);
+      mockAnalysisService.performComprehensiveAnalysis.mockResolvedValue(mockAnalysis as any);
 
       const result = await integration.executeImportOptimization();
 
@@ -850,7 +850,7 @@ describe('AutomatedLintingIntegration', () => {
         }
       };
 
-      mockAnalysisService.performComprehensiveAnalysis.mockResolvedValue(mockAnalysis);
+      mockAnalysisService.performComprehensiveAnalysis.mockResolvedValue(mockAnalysis as any);
       mockFixer.applyAutomatedFixes.mockResolvedValue({
         success: false,
         fixedIssues: 0,
@@ -933,7 +933,7 @@ describe('AutomatedLintingIntegration', () => {
         }
       };
 
-      mockAnalysisService.performComprehensiveAnalysis.mockResolvedValue(mockAnalysis);
+      mockAnalysisService.performComprehensiveAnalysis.mockResolvedValue(mockAnalysis as any);
       mockFixer.applyAutomatedFixes.mockResolvedValue({
         success: true,
         fixedIssues: 8,

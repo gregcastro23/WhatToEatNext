@@ -184,7 +184,7 @@ describe('End-to-End Campaign Integration Tests', () => {
       jest.spyOn(progressTracker, 'getEnterpriseSystemCount').mockImplementation(async () => enterpriseSystems);
       jest.spyOn(progressTracker, 'getBuildTime').mockImplementation(async () => buildTime);
 
-      const phaseResults = [];
+      const phaseResults: Array<any> = [];
 
       // Execute Phase 1: TypeScript Error Elimination
       const phase1Result = await campaignController.executePhase(mockConfig.phases[0]);
@@ -224,7 +224,7 @@ describe('End-to-End Campaign Integration Tests', () => {
     });
 
     it('should maintain safety protocols throughout entire campaign', async () => {
-      const allSafetyEvents: Array<Record<string, unknown>> = [];
+      const allSafetyEvents: Array<any> = [];
 
       for (const phase of mockConfig.phases) {
         const result = await campaignController.executePhase(phase);
@@ -237,14 +237,14 @@ describe('End-to-End Campaign Integration Tests', () => {
       // Check that each phase has safety events
       for (const phase of mockConfig.phases) {
         expect(allSafetyEvents.some(event => 
-          event.description.includes(phase.name) || event.description.includes(phase.id)
+          String((event as any)?.description || '').includes(phase.name) || String((event as any)?.description || '').includes(phase.id)
         )).toBe(true);
       }
     });
 
     it('should track progress metrics throughout campaign', async () => {
       // Mock progressive metrics improvement
-      const metricsHistory: Array<Record<string, unknown>> = [];
+      const metricsHistory: Array<any> = [];
 
       jest.spyOn(progressTracker, 'getProgressMetrics').mockImplementation(async () => {
         const metrics = {
@@ -266,9 +266,9 @@ describe('End-to-End Campaign Integration Tests', () => {
       expect(metricsHistory.length).toBeGreaterThan(0);
       
       // Verify progressive improvement
-      const finalMetrics = metricsHistory[metricsHistory.length - 1];
-      expect(finalMetrics.typeScriptErrors.current).toBeLessThanOrEqual(86);
-      expect(finalMetrics.lintingWarnings.current).toBeLessThanOrEqual(4506);
+      const finalMetrics = metricsHistory[metricsHistory.length - 1] as any;
+      expect((finalMetrics?.typeScriptErrors as any)?.current ?? 0).toBeLessThanOrEqual(86);
+      expect((finalMetrics?.lintingWarnings as any)?.current ?? 0).toBeLessThanOrEqual(4506);
     });
 
     it('should validate all milestones after campaign completion', async () => {
@@ -534,7 +534,7 @@ describe('End-to-End Campaign Integration Tests', () => {
 
   describe('Reporting and Analytics', () => {
     it('should generate detailed execution analytics', async () => {
-      const executionMetrics: Array<Record<string, unknown>> = [];
+      const executionMetrics: Array<any> = [];
 
       for (const phase of mockConfig.phases) {
         const startTime = Date.now();
@@ -553,7 +553,7 @@ describe('End-to-End Campaign Integration Tests', () => {
       }
 
       expect(executionMetrics.length).toBe(4);
-      expect(executionMetrics.every(metric => metric.executionTime > 0)).toBe(true);
+      expect(executionMetrics.every(metric => Number((metric as any)?.executionTime || 0) > 0)).toBe(true);
       expect(executionMetrics.every(metric => typeof metric.success === 'boolean')).toBe(true);
     });
 
