@@ -155,7 +155,7 @@ export class PredictiveIntelligenceService {
 
       // Calculate seasonal optimization
       const currentSeason = getCurrentSeason();
-      const seasonalOptimization = calculateSeasonalOptimization(recipe.seasonality || 'all', currentSeason);
+      const seasonalOptimization = calculateSeasonalOptimization(String(recipe.seasonality) || 'all', currentSeason);
 
       // Calculate astrological alignment
       const astrologicalAlignment = calculateAstrologicalAlignment(
@@ -169,7 +169,7 @@ export class PredictiveIntelligenceService {
         elementalAlignment,
         seasonalOptimization,
         astrologicalAlignment,
-        recipeComplexity: recipe.difficulty || 'medium',
+        recipeComplexity: String(recipe.difficulty) || 'medium',
         userPreferences: 0.8 // Default assumption
       });
 
@@ -178,7 +178,7 @@ export class PredictiveIntelligenceService {
         successProbability,
         elementalAlignment,
         seasonalOptimization,
-        recipeQuality: recipe.rating || 4.0
+        recipeQuality: Number(recipe.rating) || 4.0
       });
 
       // Determine optimal timing
@@ -450,7 +450,7 @@ export class PredictiveIntelligenceService {
       return 0.7; // Moderate optimization for all-season recipes
     }
     
-    const seasonalMatch = seasonality.toLowerCase().includes(currentSeason.toLowerCase()) ? 0.9 : 0.3;
+    const seasonalMatch = String(seasonality).toLowerCase().includes(currentSeason.toLowerCase()) ? 0.9 : 0.3;
     const astrologicalBoost = this.calculateAstrologicalSeasonalBoost(astrologicalContext, currentSeason);
     
     return Math.max(0, Math.min(1, (seasonalMatch + astrologicalBoost) / 2));

@@ -68,7 +68,7 @@ export function calculateBasicPlanetaryPositions(date: Date = new Date()) {
     const calculateLunarNodesMethod = accurateAstronomyData?.calculateLunarNodes;
     
     // First try to import and use the accurate astronomy module
-    const nodeData = calculateLunarNodesMethod ? calculateLunarNodesMethod(date) : null;
+    const nodeData = (calculateLunarNodesMethod && typeof calculateLunarNodesMethod === 'function') ? calculateLunarNodesMethod(date) : null;
     
     if (!nodeData) {
       throw new Error('Node data not available');
@@ -76,14 +76,14 @@ export function calculateBasicPlanetaryPositions(date: Date = new Date()) {
     
     // Apply surgical type casting for node data access
     const nodeDataTyped = nodeData as Record<string, unknown>;
-    const northNodeValue = nodeDataTyped?.northNode || 0;
-    const southNodeValue = nodeDataTyped?.southNode || ((northNodeValue + 180) % 360);
+    const northNodeValue = Number(nodeDataTyped?.northNode) || 0;
+    const southNodeValue = Number(nodeDataTyped?.southNode) || ((northNodeValue + 180) % 360);
     
     // Convert longitude to sign and degree
-    const northNodeSign = getSignFromLongitude(northNodeValue);
-    const northNodeDegree = northNodeValue % 30;
+    const northNodeSign = getSignFromLongitude(Number(northNodeValue));
+    const northNodeDegree = Number(northNodeValue) % 30;
     
-    const southNodeLongitude = (northNodeValue + 180) % 360;
+    const southNodeLongitude = (Number(northNodeValue) + 180) % 360;
     const southNodeSign = getSignFromLongitude(southNodeLongitude);
     const southNodeDegree = southNodeLongitude % 30;
     

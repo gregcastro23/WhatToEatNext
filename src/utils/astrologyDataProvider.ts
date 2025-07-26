@@ -68,9 +68,9 @@ async function getPositionsFromAPI(): Promise<Record<string, CelestialPosition> 
     Object.entries(data || {}).forEach(([planet, position]) => {
       if (typeof position === 'object' && position !== null && 'sign' in position) {
         positions[planet?.toLowerCase()] = {
-          sign: (position as Record<string, Record<string, number>>).sign?.toLowerCase() as ZodiacSign,
-          degree: typeof (position as Record<string, Record<string, number>>).degree === 'number' ? (position as Record<string, Record<string, number>>).degree : 0,
-          exactLongitude: typeof (position as Record<string, Record<string, number>>).exactLongitude === 'number' ? (position as Record<string, Record<string, number>>).exactLongitude : 0,
+          sign: (typeof (position as Record<string, unknown>).sign === 'string' ? ((position as Record<string, unknown>).sign as string).toLowerCase() : 'aries') as ZodiacSign,
+          degree: Number((position as Record<string, unknown>).degree) || 0,
+          exactLongitude: Number((position as Record<string, unknown>).exactLongitude) || 0,
           isRetrograde: !!(position as Record<string, Record<string, number>>).isRetrograde
         };
       }
@@ -156,7 +156,9 @@ export async function getDominantElement(): Promise<string> {
   const getDominantElementMethod = safeAstrologyData?.getDominantElement;
   const countElementsMethod = safeAstrologyData?.countElements;
   
-  if (getDominantElementMethod && countElementsMethod) {
+  if (getDominantElementMethod && countElementsMethod && 
+      typeof getDominantElementMethod === 'function' && 
+      typeof countElementsMethod === 'function') {
     return getDominantElementMethod(countElementsMethod(positions));
   }
   

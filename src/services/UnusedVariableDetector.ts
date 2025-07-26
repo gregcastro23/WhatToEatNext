@@ -465,7 +465,13 @@ export class UnusedVariableDetector extends EventEmitter {
     column: number;
     declarationType: UnusedVariable['declarationType'];
   }> {
-    const declarations = [];
+    const declarations: Array<{
+      name: string;
+      type: UnusedVariable['type'];
+      line: number;
+      column: number;
+      declarationType: UnusedVariable['declarationType'];
+    }> = [];
     const lines = content.split('\n');
     
     for (let i = 0; i < lines.length; i++) {
@@ -1104,7 +1110,7 @@ export class UnusedVariableDetector extends EventEmitter {
             performance: 0.1,
             maintainability: 0.3
           },
-          risks: variable.riskLevel === 'high' ? ['May break external dependencies'] : [],
+          risks: (variable.riskLevel as string) === 'high' ? ['May break external dependencies'] : [],
           automationPossible: variable.riskLevel === 'low' && variable.confidence > 0.9,
           dependencies: [],
           implementation: [`Remove line ${variable.line} in ${variable.filePath}`]
