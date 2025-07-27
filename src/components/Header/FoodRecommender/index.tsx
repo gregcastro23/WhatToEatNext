@@ -690,7 +690,7 @@ const FoodRecommender: React.FC = () => {
                                         </div>
                                     )}
 
-                                    {String(/* ✅ Pattern GG-6: Safe property access for sensory profile */)}
+                                    {/* ✅ Pattern GG-6: Safe property access for sensory profile */}
                                     {Boolean(!(ingredient as Record<string, unknown>)?.nutritionalInfo && (ingredient as Record<string, unknown>)?.sensoryProfile) && (
                                         <div className="mt-2 mb-3">
                                             <h5 className="text-xs text-gray-500 mb-1">Flavor Profile</h5>
@@ -709,7 +709,8 @@ const FoodRecommender: React.FC = () => {
                                     )}
                                     
                                     {/* ✅ Pattern GG-6: Safe property access for medicinal properties */}
-                                    {(ingredient as Record<string, unknown>)?.medicinalProperties && (
+                                    {String('')}
+                                    {Boolean((ingredient as Record<string, unknown>)?.medicinalProperties) && (
                                         <div className="mt-2 mb-3">
                                             <h5 className="text-xs text-gray-500 mb-1">Properties</h5>
                                             <div className="flex flex-wrap gap-1">

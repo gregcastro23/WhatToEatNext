@@ -789,9 +789,9 @@ export function mergeWithDefaults<T extends Record<string, any>>(
       if (typeof userValues[key] === 'object' && 
           typeof defaults[key] === 'object' && 
           !Array.isArray(userValues[key])) {
-        result[key] = mergeWithDefaults(userValues[key], defaults[key]);
+        result[key] = mergeWithDefaults(userValues[key] as any, defaults[key]);
       } else {
-        result[key] = userValues[key];
+        result[key] = userValues[key] as any;
       }
     }
   }
