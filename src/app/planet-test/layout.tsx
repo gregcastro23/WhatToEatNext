@@ -17,12 +17,12 @@ export default function PlanetTestLayout({ children }: {
     const originalLog = console.log;
 
     console.error = (...args) => {
-      setErrors(prev => [...prev, args?.join(' ')]);
+      setErrors(prev => [...prev, args.join(' ')]);
       originalError(...args);
     };
 
     console.log = (...args) => {
-      setLogs(prev => [...prev, args?.join(' ')]);
+      setLogs(prev => [...prev, args.join(' ')]);
       originalLog(...args);
     };
 

@@ -659,7 +659,7 @@ export class UnifiedSeasonalSystem {
    * Get current season based on date
    */
   getCurrentSeason(): Season {
-    const month = new Date()?.getMonth();
+    const month = new Date().getMonth();
     
     if (month >= 2 && month <= 4) return 'spring';
     if (month >= 5 && month <= 7) return 'summer';
@@ -675,8 +675,8 @@ export class UnifiedSeasonalSystem {
     if (!seasonProfile) return 0.1;
     
     // Check if the ingredient exists in seasonal patterns
-    if (seasonProfile?.ingredients?.[ingredientName]) {
-      return seasonProfile?.ingredients?.[ingredientName];
+    if (seasonProfile.ingredients[ingredientName]) {
+      return seasonProfile.ingredients[ingredientName];
     }
     
     // If ingredient is not found in the specific season, check if it's marked as 'all' seasons
@@ -699,9 +699,9 @@ export class UnifiedSeasonalSystem {
     
     // Get traditional use from seasonal usage data
     const traditionalUse: string[] = [];
-    if (seasonProfile.growing && seasonProfile?.growing?.includes(ingredientName)) traditionalUse?.push('growing');
-    if (seasonProfile.herbs && seasonProfile?.herbs?.includes(ingredientName)) traditionalUse?.push('culinary herb');
-    if (seasonProfile.vegetables && seasonProfile?.vegetables?.includes(ingredientName)) traditionalUse?.push('seasonal vegetable');
+    if (seasonProfile.growing && seasonProfile.growing.includes(ingredientName)) traditionalUse.push('growing');
+    if (seasonProfile.herbs && seasonProfile.herbs.includes(ingredientName)) traditionalUse.push('culinary herb');
+    if (seasonProfile.vegetables && seasonProfile.vegetables.includes(ingredientName)) traditionalUse.push('seasonal vegetable');
     
     // Get complementary flavors for the season (top scoring ingredients)
     const complementaryFlavors = Object.entries(seasonProfile.ingredients)
@@ -754,7 +754,7 @@ export class UnifiedSeasonalSystem {
    */
   private calculateMonicaSeasonalResonance(season: Season, availability: number): number {
     const seasonProfile = unifiedSeasonalProfiles[season];
-    const baseResonance = seasonProfile?.monicaModifiers?.lunarPhaseBonus;
+    const baseResonance = seasonProfile.monicaModifiers.lunarPhaseBonus;
     
     // Higher availability increases Monica resonance
     return Math.min(1.0, baseResonance * (0.5 + availability * 0.5));
@@ -857,17 +857,17 @@ export class UnifiedSeasonalSystem {
     
     // Lunar phase modifier
     if (conditions.lunarPhase) {
-      modifier *= (1 + seasonProfile?.monicaModifiers?.lunarPhaseBonus * 0.1);
+      modifier *= (1 + seasonProfile.monicaModifiers.lunarPhaseBonus * 0.1);
     }
     
     // Planetary hour modifier
     if (conditions.planetaryHour) {
-      modifier *= (1 + seasonProfile?.monicaModifiers?.planetaryAlignment * 0.1);
+      modifier *= (1 + seasonProfile.monicaModifiers.planetaryAlignment * 0.1);
     }
     
     // Temperature modifier
     if (conditions.temperature) {
-      const optimalTemp = 70 + seasonProfile?.monicaModifiers?.temperatureAdjustment;
+      const optimalTemp = 70 + seasonProfile.monicaModifiers.temperatureAdjustment;
       const tempDifference = Math.abs(conditions.temperature - optimalTemp);
       const tempModifier = Math.max(0.8, 1 - (tempDifference / 100));
       modifier *= tempModifier;
@@ -950,7 +950,7 @@ export class UnifiedSeasonalSystem {
       const inRange = (ingredient.kalchm ?? 0) >= kalchmRange.min && (ingredient.kalchm ?? 0) <= kalchmRange.max;
       
       if (kalchmCompatibility >= 0.7 || inRange) {
-        compatibleIngredients?.push(ingredient);
+        compatibleIngredients.push(ingredient);
       }
     }
     
@@ -976,9 +976,9 @@ export class UnifiedSeasonalSystem {
     
     // Get methods listed as optimal for the season
     for (const methodName of seasonProfile.optimalCookingMethods) {
-      const enhancedMethod = this?.enhancedCookingMethods?.[methodName];
+      const enhancedMethod = this.enhancedCookingMethods[methodName];
       if (enhancedMethod) {
-        optimalMethods?.push(enhancedMethod);
+        optimalMethods.push(enhancedMethod);
       }
     }
     
@@ -989,7 +989,7 @@ export class UnifiedSeasonalSystem {
       // Add Monica-compatible methods that aren't already included
       for (const method of monicaCompatibleMethods) {
         if (!optimalMethods.find(m => m.name === method.name)) {
-          optimalMethods?.push(method);
+          optimalMethods.push(method);
         }
       }
     }
@@ -1014,7 +1014,7 @@ export class UnifiedSeasonalSystem {
     let score = 0;
     
     // Base seasonal compatibility
-    if (seasonProfile?.optimalCookingMethods?.includes(method.name)) {
+    if (seasonProfile.optimalCookingMethods.includes(method.name)) {
       score += 1.0;
     }
     
@@ -1027,7 +1027,7 @@ export class UnifiedSeasonalSystem {
     // Elemental compatibility
     const methodElement = (method as any)?.alchemicalPillar?.elementalAssociations?.primary;
     if (methodElement) {
-      const elementalScore = seasonProfile?.elementalDominance?.[methodElement] || 0;
+      const elementalScore = seasonProfile.elementalDominance[methodElement] || 0;
       score += elementalScore;
     }
     
@@ -1056,7 +1056,7 @@ export class UnifiedSeasonalSystem {
         const methodOptimization = Math.max(0, 1 - monicaDifference);
         
         // Apply seasonal Monica modifiers
-        const seasonalBonus = seasonProfile?.monicaModifiers?.lunarPhaseBonus;
+        const seasonalBonus = seasonProfile.monicaModifiers.lunarPhaseBonus;
         totalOptimization += methodOptimization * (1 + seasonalBonus * 0.2);
         validMethods++;
       }
@@ -1119,10 +1119,10 @@ export class UnifiedSeasonalSystem {
     
     // Blend Kalchm ranges
     const blendedKalchmRange = {
-      min: fromProfile?.kalchmRange?.min + 
-           (toProfile?.kalchmRange?.min - fromProfile?.kalchmRange?.min) * transitionProgress,
-      max: fromProfile?.kalchmRange?.max + 
-           (toProfile?.kalchmRange?.max - fromProfile?.kalchmRange?.max) * transitionProgress
+      min: fromProfile.kalchmRange.min + 
+           (toProfile.kalchmRange.min - fromProfile.kalchmRange.min) * transitionProgress,
+      max: fromProfile.kalchmRange.max + 
+           (toProfile.kalchmRange.max - fromProfile.kalchmRange.max) * transitionProgress
     };
     
     // Blend Monica modifiers
@@ -1207,17 +1207,17 @@ export class UnifiedSeasonalSystem {
     const transitionalIngredients: UnifiedIngredient[] = [];
     
     // Add ingredients from departing season (weighted by 1-progress)
-    for (const ingredient of fromIngredients?.slice(0, 10)) {
+    for (const ingredient of fromIngredients.slice(0, 10)) {
       if (Math.random() < (1 - progress)) {
-        transitionalIngredients?.push(ingredient);
+        transitionalIngredients.push(ingredient);
       }
     }
     
     // Add ingredients from arriving season (weighted by progress)
-    for (const ingredient of toIngredients?.slice(0, 10)) {
+    for (const ingredient of toIngredients.slice(0, 10)) {
       if (Math.random() < progress && 
           !transitionalIngredients.find(i => i.name === ingredient.name)) {
-        transitionalIngredients?.push(ingredient);
+        transitionalIngredients.push(ingredient);
       }
     }
     
@@ -1238,17 +1238,17 @@ export class UnifiedSeasonalSystem {
     const transitionalMethods: EnhancedCookingMethod[] = [];
     
     // Add methods from departing season
-    for (const method of fromMethods?.slice(0, 3)) {
+    for (const method of fromMethods.slice(0, 3)) {
       if (Math.random() < (1 - progress)) {
-        transitionalMethods?.push(method);
+        transitionalMethods.push(method);
       }
     }
     
     // Add methods from arriving season
-    for (const method of toMethods?.slice(0, 3)) {
+    for (const method of toMethods.slice(0, 3)) {
       if (Math.random() < progress && 
           !transitionalMethods.find(m => m.name === method.name)) {
-        transitionalMethods?.push(method);
+        transitionalMethods.push(method);
       }
     }
     
@@ -1280,7 +1280,7 @@ export const seasonalPatterns = Object.fromEntries(
     {
       ...profile.ingredients,
       elementalInfluence: profile.elementalInfluence,
-      tarotInfluences: profile?.tarotProfile?.tarotInfluences
+      tarotInfluences: profile.tarotProfile.tarotInfluences
     }
   ])
 );
@@ -1294,10 +1294,10 @@ export const seasonalUsage = Object.fromEntries(
       vegetables: profile.vegetables,
       cuisines: profile.cuisines,
       tarotAssociations: {
-        minorArcana: profile?.tarotProfile?.minorArcana,
-        majorArcana: profile?.tarotProfile?.majorArcana,
-        currentZodiacSigns: profile?.tarotProfile?.currentZodiacSigns,
-        cookingRecommendations: profile?.tarotProfile?.cookingRecommendations
+        minorArcana: profile.tarotProfile.minorArcana,
+        majorArcana: profile.tarotProfile.majorArcana,
+        currentZodiacSigns: profile.tarotProfile.currentZodiacSigns,
+        cookingRecommendations: profile.tarotProfile.cookingRecommendations
       }
     }
   ])
@@ -1305,11 +1305,11 @@ export const seasonalUsage = Object.fromEntries(
 
 // Export helper functions from original seasonalPatterns.ts
 export function getTarotInfluenceForSeason(season: Season) {
-  return unifiedSeasonalProfiles[season]?.tarotProfile.tarotInfluences || {};
+  return unifiedSeasonalProfiles[season].tarotProfile.tarotInfluences || {};
 }
 
 export function getSeasonalIngredientsByTarotCard(season: Season, cardKey: string): string[] {
-  const tarotInfluence = unifiedSeasonalProfiles[season]?.tarotProfile?.tarotInfluences?.[cardKey];
+  const tarotInfluence = unifiedSeasonalProfiles[season].tarotProfile.tarotInfluences[cardKey];
   if (tarotInfluence && typeof tarotInfluence === 'object' && 'ingredients' in tarotInfluence) {
     return tarotInfluence.ingredients;
   }
@@ -1317,7 +1317,7 @@ export function getSeasonalIngredientsByTarotCard(season: Season, cardKey: strin
 }
 
 export function getRecommendedCookingMethodByTarotCard(season: Season, cardKey: string): string {
-  const tarotInfluence = unifiedSeasonalProfiles[season]?.tarotProfile?.tarotInfluences?.[cardKey];
+  const tarotInfluence = unifiedSeasonalProfiles[season].tarotProfile.tarotInfluences[cardKey];
   if (tarotInfluence && typeof tarotInfluence === 'object' && 'cookingMethod' in tarotInfluence) {
     return tarotInfluence.cookingMethod as unknown as string;
   }
@@ -1330,22 +1330,22 @@ export function getSeasonalUsageData(ingredient: string, season: Season) {
   if (!seasonProfile) return { inGrowing: false, inHerbs: false, inVegetables: false };
   
   return {
-    inGrowing: seasonProfile.growing && seasonProfile?.growing?.includes(ingredient),
-    inHerbs: seasonProfile.herbs && seasonProfile?.herbs?.includes(ingredient),
-    inVegetables: seasonProfile.vegetables && seasonProfile?.vegetables?.includes(ingredient)
+    inGrowing: seasonProfile.growing && seasonProfile.growing.includes(ingredient),
+    inHerbs: seasonProfile.herbs && seasonProfile.herbs.includes(ingredient),
+    inVegetables: seasonProfile.vegetables && seasonProfile.vegetables.includes(ingredient)
   };
 }
 
 export function getTarotRecommendationsForSeason(season: Season) {
-  return unifiedSeasonalProfiles[season]?.tarotProfile.cookingRecommendations || [];
+  return unifiedSeasonalProfiles[season].tarotProfile.cookingRecommendations || [];
 }
 
 export function getMinorArcanaForSeason(season: Season) {
-  return unifiedSeasonalProfiles[season]?.tarotProfile.minorArcana || [];
+  return unifiedSeasonalProfiles[season].tarotProfile.minorArcana || [];
 }
 
 export function getMajorArcanaForSeason(season: Season) {
-  return unifiedSeasonalProfiles[season]?.tarotProfile.majorArcana || [];
+  return unifiedSeasonalProfiles[season].tarotProfile.majorArcana || [];
 }
 
 // ===== EXPORTS =====

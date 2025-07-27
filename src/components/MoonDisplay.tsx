@@ -107,40 +107,40 @@ const MoonDisplay: React.FC = () => {
   
   // Simplified lunar node handling - ensure we have default values if northNode or southNode are missing
   const northNode = useMemo(() => {
-    if (!planetaryPositions?.northnode && !planetaryPositions?.northNode) {
+    if (!planetaryPositions.northnode && !planetaryPositions.northNode) {
       // If north node is missing completely, provide a default
       return { sign: 'virgo', degree: 15, exactLongitude: 165, isRetrograde: true };
     }
     
     // Try both possible property names
-    const node = planetaryPositions?.northnode || planetaryPositions?.northNode;
+    const node = planetaryPositions.northnode || planetaryPositions.northNode;
     const nodeData = node as Record<string, unknown>;
     
     // Ensure all required properties are present
     return {
-      sign: nodeData?.sign || 'virgo',
-      degree: nodeData?.degree ?? 15,
-      exactLongitude: nodeData?.exactLongitude ?? 165,
-      isRetrograde: nodeData?.isRetrograde ?? true
+      sign: nodeData.sign || 'virgo',
+      degree: nodeData.degree ?? 15,
+      exactLongitude: nodeData.exactLongitude ?? 165,
+      isRetrograde: nodeData.isRetrograde ?? true
     };
   }, [planetaryPositions]);
   
   const southNode = useMemo(() => {
-    if (!planetaryPositions?.southnode && !planetaryPositions?.southNode) {
+    if (!planetaryPositions.southnode && !planetaryPositions.southNode) {
       // If south node is missing completely, provide a default
       return { sign: 'pisces', degree: 15, exactLongitude: 345, isRetrograde: true };
     }
     
     // Try both possible property names
-    const node = planetaryPositions?.southnode || planetaryPositions?.southNode;
+    const node = planetaryPositions.southnode || planetaryPositions.southNode;
     const nodeData = node as Record<string, unknown>;
     
     // Ensure all required properties are present
     return {
-      sign: nodeData?.sign || 'pisces',
-      degree: nodeData?.degree ?? 15,
-      exactLongitude: nodeData?.exactLongitude ?? 345,
-      isRetrograde: nodeData?.isRetrograde ?? true
+      sign: nodeData.sign || 'pisces',
+      degree: nodeData.degree ?? 15,
+      exactLongitude: nodeData.exactLongitude ?? 345,
+      isRetrograde: nodeData.isRetrograde ?? true
     };
   }, [planetaryPositions]);
 
@@ -149,7 +149,7 @@ const MoonDisplay: React.FC = () => {
     const getLocation = async () => {
       try {
         // Use safe method call checking if requestLocation exists
-        if (typeof (AstrologicalService as unknown as Record<string, unknown>)?.requestLocation === 'function') {
+        if (typeof (AstrologicalService as unknown as Record<string, unknown>).requestLocation === 'function') {
           const coords = await (AstrologicalService as unknown as Record<string, unknown>).requestLocation();
           if (coords) {
             setCoordinates({
@@ -329,7 +329,7 @@ const MoonDisplay: React.FC = () => {
     
     // If the moon position is available and has proper sign information
     const moonData = planetaryPositions.moon as Record<string, unknown>;
-    if (planetaryPositions.moon && moonData?.sign) {
+    if (planetaryPositions.moon && moonData.sign) {
       // No need for additional calculations - the context already has the sign and degree
       debugLog('Moon position available from planetary alignment:', planetaryPositions.moon);
     }
@@ -349,8 +349,8 @@ const MoonDisplay: React.FC = () => {
     const moonData = planetaryPositions.moon as Record<string, unknown>;
     const northNodeData = (planetaryPositions.northNode || planetaryPositions.northnode) as Record<string, unknown>;
     const northNodeIncomplete = 
-      (planetaryPositions.northNode && !northNodeData?.sign) || 
-      (planetaryPositions.northnode && !northNodeData?.sign);
+      (planetaryPositions.northNode && !northNodeData.sign) || 
+      (planetaryPositions.northnode && !northNodeData.sign);
       
     if (northNodeMissing || northNodeIncomplete) {
       // Log only once
@@ -385,13 +385,13 @@ const MoonDisplay: React.FC = () => {
           <p className="text-sm text-gray-300">
             {(() => {
               const moonData = moon as Record<string, unknown>;
-              return moonData?.sign 
+              return moonData.sign 
                 ? `Moon in ${capitalizeFirstLetter(String((moonData as any).sign))} ${formatDegree(Number((moonData as any).degree) || 0)}` 
                 : 'Loading...';
             })()}
             {(() => {
               const moonData = moon as Record<string, unknown>;
-              return moonData?.isRetrograde ? ' ℞' : '';
+              return moonData.isRetrograde ? ' ℞' : '';
             })()}
           </p>
           <p className="text-xs text-gray-400">{moonPhase.illumination}% illuminated</p>

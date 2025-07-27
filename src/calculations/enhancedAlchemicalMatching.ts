@@ -568,8 +568,8 @@ export function generateEnhancedRecommendation(
   }
 } {
   // Extract dominant element and modality - Pattern RRR: Safe property access
-  const dominantElement = astroResult.dominant?.element || 'Fire';
-  const dominantModality = astroResult.dominant?.modality || 'Cardinal';
+  const dominantElement = astroResult.dominant.element || 'Fire';
+  const dominantModality = astroResult.dominant.modality || 'Cardinal';
   
   // Calculate natural element-modality affinity
   const naturalAffinity = getElementModalityAffinity(dominantElement, dominantModality);

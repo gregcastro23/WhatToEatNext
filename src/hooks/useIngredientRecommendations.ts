@@ -69,7 +69,7 @@ export function useIngredientRecommendations(_criteria?: RecommendationCriteria)
       }
     });
 
-    const total = Object.values(elementCounts)?.reduce((sum, count) => sum + count, 0);
+    const total = Object.values(elementCounts).reduce((sum, count) => sum + count, 0);
     
     return { Fire: total > 0 ? elementCounts.Fire / total : 0.25, Water: total > 0 ? elementCounts.Water / total : 0.25, Earth: total > 0 ? elementCounts.Earth / total : 0.25, Air: total > 0 ? elementCounts.Air / total : 0.25
     };

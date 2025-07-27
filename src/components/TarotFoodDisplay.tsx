@@ -73,8 +73,8 @@ export default function TarotFoodDisplay({ onTarotLoaded }: TarotFoodDisplayProp
       if (hasSunPosition(currentPlanetaryAlignment as unknown as Record<string, unknown>)) {
         const sunData = currentPlanetaryAlignment.Sun as Record<string, unknown>;
         sunPosition = {
-          sign: String(sunData?.sign || ''),
-          degree: Number(sunData?.degree || 0)
+          sign: String(sunData.sign || ''),
+          degree: Number(sunData.degree || 0)
         };
       }
       
@@ -124,8 +124,8 @@ export default function TarotFoodDisplay({ onTarotLoaded }: TarotFoodDisplayProp
     if (!card) return { Spirit: 0, Essence: 0, Matter: 0, Substance: 0 };
     
     const cardData = card as Record<string, unknown>;
-    const suit = String(cardData?.name || '').split(' of ')[1];
-    const number = Number(cardData?.number || 0);
+    const suit = String(cardData.name || '').split(' of ')[1];
+    const number = Number(cardData.number || 0);
     
     // Create base object with all values at 0
     const values = { Spirit: 0, Essence: 0, Matter: 0, Substance: 0 };
@@ -140,7 +140,7 @@ export default function TarotFoodDisplay({ onTarotLoaded }: TarotFoodDisplayProp
   };
 
   const getElementIcon = (element: string) => {
-    switch (element?.toLowerCase()) {
+    switch (element.toLowerCase()) {
       case 'fire': return <Flame className="w-4 h-4 text-orange-400" />;
       case 'water': return <Droplets className="w-4 h-4 text-blue-400" />;
       case 'earth': return <Mountain className="w-4 h-4 text-green-400" />;
@@ -150,7 +150,7 @@ export default function TarotFoodDisplay({ onTarotLoaded }: TarotFoodDisplayProp
   };
 
   const getElementColor = (element: string) => {
-    switch (element?.toLowerCase()) {
+    switch (element.toLowerCase()) {
       case 'fire': return 'bg-gradient-to-br from-orange-800 to-red-900 text-white';
       case 'water': return 'bg-gradient-to-br from-blue-800 to-indigo-900 text-white';
       case 'earth': return 'bg-gradient-to-br from-green-800 to-emerald-900 text-white';
@@ -164,10 +164,10 @@ export default function TarotFoodDisplay({ onTarotLoaded }: TarotFoodDisplayProp
 
   // Safe access to tarot card properties
   const minorCardData = tarotCards.minorCard as Record<string, unknown>;
-  const suit = String(minorCardData?.name || '').split(' ')[2];
+  const suit = String(minorCardData.name || '').split(' ')[2];
   const element = suit ? (SUIT_TO_ELEMENT[suit as keyof typeof SUIT_TO_ELEMENT] || 'Unknown') : 'Unknown';
   const token = suit ? (SUIT_TO_TOKEN[suit as keyof typeof SUIT_TO_TOKEN] || 'Quantum') : 'Quantum';
-  const value = Number(minorCardData?.number || 0);
+  const value = Number(minorCardData.number || 0);
 
   return (
     <div className="mb-6 mt-2">
@@ -180,7 +180,7 @@ export default function TarotFoodDisplay({ onTarotLoaded }: TarotFoodDisplayProp
         <span>Updated daily with planetary positions</span>
         {hasSunPosition(currentPlanetaryAlignment as unknown as Record<string, unknown>) && (
           <span className="ml-3">
-            • Sun: {String((currentPlanetaryAlignment.Sun as unknown as Record<string, unknown>)?.sign)} {Math.floor(Number((currentPlanetaryAlignment.Sun as unknown as Record<string, unknown>)?.degree || 0))}°
+            • Sun: {String((currentPlanetaryAlignment.Sun as unknown as Record<string, unknown>).sign)} {Math.floor(Number((currentPlanetaryAlignment.Sun as unknown as Record<string, unknown>).degree || 0))}°
           </span>
         )}
       </div>
@@ -189,7 +189,7 @@ export default function TarotFoodDisplay({ onTarotLoaded }: TarotFoodDisplayProp
         <div className={`rounded-lg p-4 bg-opacity-10 ${getElementColor(element)}`}>
           <div className="flex justify-between items-start">
             <div>
-              <h4 className="font-bold text-white text-lg drop-shadow-md">{String(minorCardData?.name || 'Minor Arcana')}</h4>
+              <h4 className="font-bold text-white text-lg drop-shadow-md">{String(minorCardData.name || 'Minor Arcana')}</h4>
               <div className="flex items-center mt-1 bg-black bg-opacity-20 rounded px-2 py-1 inline-block">
                 {getElementIcon(element)}
                 <span className="ml-1 text-sm font-medium">{element}</span>
@@ -203,7 +203,7 @@ export default function TarotFoodDisplay({ onTarotLoaded }: TarotFoodDisplayProp
           
           <div className="mt-4 text-sm">
                           <div className="italic font-medium text-white bg-black bg-opacity-30 p-2 rounded-md">
-                {String(minorCardData?.meaning || 'Divine guidance flows through the cards')}
+                {String(minorCardData.meaning || 'Divine guidance flows through the cards')}
               </div>
           </div>
         </div>
@@ -211,20 +211,20 @@ export default function TarotFoodDisplay({ onTarotLoaded }: TarotFoodDisplayProp
         <div className="rounded-lg p-4 bg-gradient-to-br from-purple-900 to-indigo-900 text-white bg-opacity-10">
           <div className="flex justify-between items-start">
             <div>
-              <h4 className="font-bold text-white text-lg drop-shadow-md">{String((tarotCards.majorCard  as Record<string, unknown>)?.name || 'Major Arcana')}</h4>
+              <h4 className="font-bold text-white text-lg drop-shadow-md">{String((tarotCards.majorCard  as Record<string, unknown>).name || 'Major Arcana')}</h4>
               <div className="flex items-center mt-1 bg-black bg-opacity-20 rounded px-2 py-1 inline-block">
                 <Sparkles className="w-4 h-4 text-yellow-300" />
                 <span className="ml-1 text-sm font-medium">Archetypal</span>
               </div>
             </div>
             <div className="flex items-center bg-black bg-opacity-50 px-3 py-1.5 rounded-full shadow">
-              <span className="text-sm text-white font-medium">#{Number((tarotCards.majorCard  as Record<string, unknown>)?.number || 0)}</span>
+              <span className="text-sm text-white font-medium">#{Number((tarotCards.majorCard  as Record<string, unknown>).number || 0)}</span>
             </div>
           </div>
           
           <div className="mt-4 text-sm">
                           <div className="italic font-medium text-white bg-black bg-opacity-30 p-2 rounded-md">
-                {String((tarotCards.majorCard  as Record<string, unknown>)?.meaning || 'The path reveals itself')}
+                {String((tarotCards.majorCard  as Record<string, unknown>).meaning || 'The path reveals itself')}
               </div>
           </div>
         </div>
@@ -237,8 +237,8 @@ export default function TarotFoodDisplay({ onTarotLoaded }: TarotFoodDisplayProp
             {Object.entries(tarotCards.planetaryCards).map(([planet, card]) => {
               // Apply surgical type casting with variable extraction
               const cardData = card as Record<string, unknown>;
-              const name = cardData?.name;
-              const energy = cardData?.energy;
+              const name = cardData.name;
+              const energy = cardData.energy;
               
               return (
                 <div key={planet} className="rounded-lg p-2 bg-gray-800 bg-opacity-40 text-xs">

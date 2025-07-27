@@ -51,7 +51,7 @@ export const ChartProvider: React.FC<{children: React.ReactNode}> = ({ children 
       
       // Use safe type casting for planetary data access
       const planetData = getSafePlanetaryData(data);
-      if (!planetData?.sign) return;
+      if (!planetData.sign) return;
       
       const sign = planetData.sign;
       if (!signGroups[sign]) {
@@ -83,7 +83,7 @@ export const ChartProvider: React.FC<{children: React.ReactNode}> = ({ children 
       
       // Use safe type casting for planetary data access  
       const planetData = getSafePlanetaryData(data);
-      if (!planetData?.sign) return;
+      if (!planetData.sign) return;
       
       const sign = planetData.sign;
       const element = getElementFromSign(sign);
@@ -176,10 +176,10 @@ export const ChartProvider: React.FC<{children: React.ReactNode}> = ({ children 
       
       const planetName = key.charAt(0).toUpperCase() + key.slice(1);
       formattedPlanets[planetName] = {
-        sign: planetData?.sign || 'Unknown',
-        degree: planetData?.degree || 0,
-        isRetrograde: planetData?.isRetrograde || false,
-        exactLongitude: planetData?.exactLongitude || 0,
+        sign: planetData.sign || 'Unknown',
+        degree: planetData.degree || 0,
+        isRetrograde: planetData.isRetrograde || false,
+        exactLongitude: planetData.exactLongitude || 0,
       };
     });
     
@@ -189,7 +189,7 @@ export const ChartProvider: React.FC<{children: React.ReactNode}> = ({ children 
     // Create a basic SVG representation  
     return {
       planetPositions: formattedPlanets,
-      ascendantSign: ascendantData?.sign || 'Libra',
+      ascendantSign: ascendantData.sign || 'Libra',
       svgContent: `<svg width="300" height="300" viewBox="0 0 300 300">
         <circle cx="150" cy="150" r="140" fill="none" stroke="#333" stroke-width="1"/>
         <text x="150" y="20" text-anchor="middle">Current Chart</text>
@@ -197,7 +197,7 @@ export const ChartProvider: React.FC<{children: React.ReactNode}> = ({ children 
           const angle = (index * 30) % 360;
           const x = 150 + 120 * Math.cos(angle * Math.PI / 180);
           const y = 150 + 120 * Math.sin(angle * Math.PI / 180);
-          return `<text x="${x}" y="${y}" text-anchor="middle">${planet}: ${planetInfo?.sign}</text>`;
+          return `<text x="${x}" y="${y}" text-anchor="middle">${planet}: ${planetInfo.sign}</text>`;
         }).join('')}
       </svg>`
     };

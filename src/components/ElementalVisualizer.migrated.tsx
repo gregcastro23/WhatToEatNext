@@ -56,7 +56,7 @@ function generateCacheKey(elementalProps: ElementalProperties, userProps?: Eleme
 function addToCache(key: string, value: any): void {
   if (calculationCache.size >= MAX_CACHE_SIZE) {
     // Remove the oldest entry (first inserted)
-    const firstKey = calculationCache.keys()?.next().value;
+    const firstKey = calculationCache.keys().next().value;
     if (firstKey) calculationCache.delete(firstKey);
   }
   calculationCache.set(key, value);
@@ -72,8 +72,8 @@ function calculateElementalCompatibility(
   let totalWeight = 0;
   
   for (const element in source) {
-    if (Object?.prototype?.hasOwnProperty?.call(source, element) && 
-        Object?.prototype?.hasOwnProperty?.call(target, element)) {
+    if (Object.prototype.hasOwnProperty.call(source, element) && 
+        Object.prototype.hasOwnProperty.call(target, element)) {
       const sourceValue = source[element as "Fire" | "Water" | "Earth" | "Air"] || 0;
       const targetValue = target[element as "Fire" | "Water" | "Earth" | "Air"] || 0;
       
@@ -161,7 +161,7 @@ const ElementalVisualizerMigrated: React.FC<ElementalVisualizerProps> = ({
     }
     
     // Calculate total to normalize percentages
-    const total = Object.values(elementalProperties)?.reduce((sum, value) => sum + value, 0);
+    const total = Object.values(elementalProperties).reduce((sum, value) => sum + value, 0);
     
     // Calculate normalized values (percentages)
     const normalizedValues: { [key: string]: number } = {};
@@ -214,9 +214,9 @@ const ElementalVisualizerMigrated: React.FC<ElementalVisualizerProps> = ({
       
       // Get recommendations based on dominant element
       recommendations = { 
-        flavorProfile: flavorProfiles[dominantElement?.toLowerCase() ] || [],
-        cuisineAffinity: cuisineAffinities[dominantElement?.toLowerCase() ] || [],
-        wellnessProperties: wellnessProperties[dominantElement?.toLowerCase() ] || []
+        flavorProfile: flavorProfiles[dominantElement.toLowerCase() ] || [],
+        cuisineAffinity: cuisineAffinities[dominantElement.toLowerCase() ] || [],
+        wellnessProperties: wellnessProperties[dominantElement.toLowerCase() ] || []
       };
     }
     
@@ -259,7 +259,7 @@ const ElementalVisualizerMigrated: React.FC<ElementalVisualizerProps> = ({
         {Object.entries(normalizedValues || {}).map(([element, percentage], index) => {
           const numericPercentage = Number(percentage) || 0;
           const y = (index * (barHeight + barSpacing)) + sizeConfig.padding;
-          const normalizedElement = element?.toLowerCase();
+          const normalizedElement = element.toLowerCase();
           
           return (
             <g key={element}>
@@ -370,7 +370,7 @@ const ElementalVisualizerMigrated: React.FC<ElementalVisualizerProps> = ({
       >
         {/* Render slices */}
         {(slices || []).map((slice, index) => {
-          const normalizedElement = slice.element?.toLowerCase();
+          const normalizedElement = slice.element.toLowerCase();
           const midAngle = (slice.startAngle + slice.endAngle) / 2;
           const midRad = (midAngle - 90) * (Math.PI / 180);
           
@@ -440,13 +440,13 @@ const ElementalVisualizerMigrated: React.FC<ElementalVisualizerProps> = ({
     });
     
     // Create the polygon points string
-    const polygonPoints = (points || []).map(p => `${p.x},${p.y}`)?.join(' ');
+    const polygonPoints = (points || []).map(p => `${p.x},${p.y}`).join(' ');
     
     // Create the comparison polygon if applicable
     let comparisonPoints = null;
     if (showComparison && userProperties) {
       // Calculate total for normalization
-      const userTotal = Object.values(userProperties)?.reduce((sum, value) => sum + value, 0);
+      const userTotal = Object.values(userProperties).reduce((sum, value) => sum + value, 0);
       
       comparisonPoints = (elements || [] as any).map((element: any, i: number) => {
         const angle = i * angleStep - Math.PI / 2;
@@ -716,7 +716,7 @@ const ElementalVisualizerMigrated: React.FC<ElementalVisualizerProps> = ({
                 style={{ backgroundColor: color }}
               ></div>
               <span style={{ fontSize: sizeConfig.fontSize - 2 }}>
-                {element.charAt(0)?.toUpperCase() + element?.slice(1)}
+                {element.charAt(0).toUpperCase() + element.slice(1)}
               </span>
             </div>
           ))}

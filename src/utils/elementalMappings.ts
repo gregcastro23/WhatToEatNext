@@ -68,7 +68,7 @@ export const elementalFunctions = {
 
     for (const [element1, value1] of Object.entries(props1)) {
       for (const [element2, value2] of Object.entries(props2)) {
-        if (elementalInteractions[element1 as Element]?.[element2 as Element]) {
+        if (elementalInteractions[element1 as Element][element2 as Element]) {
           affinity += value1 * value2 * elementalInteractions[element1 as Element][element2 as Element];
           count++;
         }

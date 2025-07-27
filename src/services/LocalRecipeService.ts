@@ -187,49 +187,49 @@ export class LocalRecipeService {
             dishTypes: directCuisine.dishes ? Object.keys(directCuisine.dishes).join(', ') : 'none',
             breakfast: (() => {
               const dishes = directCuisine.dishes as Record<string, unknown>;
-              const breakfast = dishes?.breakfast as Record<string, unknown>;
-              const breakfastAll = breakfast?.all;
+              const breakfast = dishes.breakfast as Record<string, unknown>;
+              const breakfastAll = breakfast.all;
               if (Array.isArray(breakfastAll)) return breakfastAll.length;
-              const dishesBreakfast = dishes?.dishes as Record<string, unknown>;
+              const dishesBreakfast = dishes.dishes as Record<string, unknown>;
               // Apply Pattern GG-6: Enhanced property access with type guards
-              const breakfastData = dishesBreakfast?.breakfast as Record<string, unknown>;
-              const dishesBreakfastAll = breakfastData?.all;
+              const breakfastData = dishesBreakfast.breakfast as Record<string, unknown>;
+              const dishesBreakfastAll = breakfastData.all;
               if (Array.isArray(dishesBreakfastAll)) return dishesBreakfastAll.length;
               return 0;
             })(),
             lunch: (() => {
               const dishes = directCuisine.dishes as Record<string, unknown>;
-              const lunch = dishes?.lunch as Record<string, unknown>;
-              const lunchAll = lunch?.all;
+              const lunch = dishes.lunch as Record<string, unknown>;
+              const lunchAll = lunch.all;
               if (Array.isArray(lunchAll)) return lunchAll.length;
-              const dishesLunch = dishes?.dishes as Record<string, unknown>;
+              const dishesLunch = dishes.dishes as Record<string, unknown>;
               // Apply Pattern GG-6: Enhanced property access with type guards
-              const lunchData = dishesLunch?.lunch as Record<string, unknown>;
-              const dishesLunchAll = lunchData?.all;
+              const lunchData = dishesLunch.lunch as Record<string, unknown>;
+              const dishesLunchAll = lunchData.all;
               if (Array.isArray(dishesLunchAll)) return dishesLunchAll.length;
               return 0;
             })(),
             dinner: (() => {
               const dishes = directCuisine.dishes as Record<string, unknown>;
-              const dinner = dishes?.dinner as Record<string, unknown>;
-              const dinnerAll = dinner?.all;
+              const dinner = dishes.dinner as Record<string, unknown>;
+              const dinnerAll = dinner.all;
               if (Array.isArray(dinnerAll)) return dinnerAll.length;
-              const dishesDinner = dishes?.dishes as Record<string, unknown>;
+              const dishesDinner = dishes.dishes as Record<string, unknown>;
               // Apply Pattern GG-6: Enhanced property access with type guards
-              const dinnerData = dishesDinner?.dinner as Record<string, unknown>;
-              const dishesDinnerAll = dinnerData?.all;
+              const dinnerData = dishesDinner.dinner as Record<string, unknown>;
+              const dishesDinnerAll = dinnerData.all;
               if (Array.isArray(dishesDinnerAll)) return dishesDinnerAll.length;
               return 0;
             })(),
             dessert: (() => {
               const dishes = directCuisine.dishes as Record<string, unknown>;
-              const dessert = dishes?.dessert as Record<string, unknown>;
-              const dessertAll = dessert?.all;
+              const dessert = dishes.dessert as Record<string, unknown>;
+              const dessertAll = dessert.all;
               if (Array.isArray(dessertAll)) return dessertAll.length;
-              const dishesDessert = dishes?.dishes as Record<string, unknown>;
+              const dishesDessert = dishes.dishes as Record<string, unknown>;
               // Apply Pattern GG-6: Enhanced property access with type guards
-              const dessertData = dishesDessert?.dessert as Record<string, unknown>;
-              const dishesDessertAll = dessertData?.all;
+              const dessertData = dishesDessert.dessert as Record<string, unknown>;
+              const dishesDessertAll = dessertData.all;
               if (Array.isArray(dishesDessertAll)) return dishesDessertAll.length;
               return 0;
             })()
@@ -243,16 +243,16 @@ export class LocalRecipeService {
       
       // Find the cuisine object in the regular way
       const cuisine = Object.values(cuisinesMap).find(
-        c => c?.name?.toLowerCase() === normalizedName
+        c => c.name.toLowerCase() === normalizedName
       );
       
       if (!cuisine) {
         // Try finding the cuisine by ID or variations of the name
         const byIdMatch = Object.entries(cuisinesMap).find(
           ([id, c]) => id.toLowerCase() === normalizedName ||
-                    c?.name?.toLowerCase() === normalizedName ||
-                    c?.name?.toLowerCase().includes(normalizedName) ||
-                    normalizedName.includes(c?.name?.toLowerCase())
+                    c.name.toLowerCase() === normalizedName ||
+                    c.name.toLowerCase().includes(normalizedName) ||
+                    normalizedName.includes(c.name.toLowerCase())
         );
         
         if (byIdMatch && byIdMatch[1]) {
@@ -285,10 +285,10 @@ export class LocalRecipeService {
       logger.debug(`Extracting recipes from cuisine: ${cuisine.name}`);
       
       // Special handling for American and African cuisines
-      const isSpecialCase = cuisine?.name?.toLowerCase() === 'american' || cuisine?.name?.toLowerCase() === 'african';
+      const isSpecialCase = cuisine.name.toLowerCase() === 'american' || cuisine.name.toLowerCase() === 'african';
       
       // Log specific debug info for African cuisine
-      if (cuisine?.name?.toLowerCase() === 'african') {
+      if (cuisine.name.toLowerCase() === 'african') {
         logger.debug('AFRICAN CUISINE DETAILED DEBUG INFO:');
         logger.debug('Full cuisine structure:', JSON.stringify({
           id: cuisine.id,
@@ -296,49 +296,49 @@ export class LocalRecipeService {
           dishesKeys: Object.keys(cuisine.dishes || {}),
           breakfastAllLength: (() => {
             const dishes = cuisine.dishes as Record<string, unknown>;
-            const breakfast = dishes?.breakfast as Record<string, unknown>;
-            const breakfastAll = breakfast?.all;
+            const breakfast = dishes.breakfast as Record<string, unknown>;
+            const breakfastAll = breakfast.all;
             if (Array.isArray(breakfastAll)) return breakfastAll.length;
-            const dishesBreakfast = dishes?.dishes as Record<string, unknown>;
+            const dishesBreakfast = dishes.dishes as Record<string, unknown>;
             // Apply Pattern GG-6: Enhanced property access with type guards
-            const breakfastData = dishesBreakfast?.breakfast as Record<string, unknown>;
-            const dishesBreakfastAll = breakfastData?.all;
+            const breakfastData = dishesBreakfast.breakfast as Record<string, unknown>;
+            const dishesBreakfastAll = breakfastData.all;
             if (Array.isArray(dishesBreakfastAll)) return dishesBreakfastAll.length;
             return 0;
           })(),
           lunchAllLength: (() => {
             const dishes = cuisine.dishes as Record<string, unknown>;
-            const lunch = dishes?.lunch as Record<string, unknown>;
-            const lunchAll = lunch?.all;
+            const lunch = dishes.lunch as Record<string, unknown>;
+            const lunchAll = lunch.all;
             if (Array.isArray(lunchAll)) return lunchAll.length;
-            const dishesLunch = dishes?.dishes as Record<string, unknown>;
+            const dishesLunch = dishes.dishes as Record<string, unknown>;
             // Apply Pattern GG-6: Enhanced property access with type guards
-            const lunchData = dishesLunch?.lunch as Record<string, unknown>;
-            const dishesLunchAll = lunchData?.all;
+            const lunchData = dishesLunch.lunch as Record<string, unknown>;
+            const dishesLunchAll = lunchData.all;
             if (Array.isArray(dishesLunchAll)) return dishesLunchAll.length;
             return 0;
           })(),
           dinnerAllLength: (() => {
             const dishes = cuisine.dishes as Record<string, unknown>;
-            const dinner = dishes?.dinner as Record<string, unknown>;
-            const dinnerAll = dinner?.all;
+            const dinner = dishes.dinner as Record<string, unknown>;
+            const dinnerAll = dinner.all;
             if (Array.isArray(dinnerAll)) return dinnerAll.length;
-            const dishesDinner = dishes?.dishes as Record<string, unknown>;
+            const dishesDinner = dishes.dishes as Record<string, unknown>;
             // Apply Pattern GG-6: Enhanced property access with type guards
-            const dinnerData = dishesDinner?.dinner as Record<string, unknown>;
-            const dishesDinnerAll = dinnerData?.all;
+            const dinnerData = dishesDinner.dinner as Record<string, unknown>;
+            const dishesDinnerAll = dinnerData.all;
             if (Array.isArray(dishesDinnerAll)) return dishesDinnerAll.length;
             return 0;
           })(),
           dessertAllLength: (() => {
             const dishes = cuisine.dishes as Record<string, unknown>;
-            const dessert = dishes?.dessert as Record<string, unknown>;
-            const dessertAll = dessert?.all;
+            const dessert = dishes.dessert as Record<string, unknown>;
+            const dessertAll = dessert.all;
             if (Array.isArray(dessertAll)) return dessertAll.length;
-            const dishesDessert = dishes?.dishes as Record<string, unknown>;
+            const dishesDessert = dishes.dishes as Record<string, unknown>;
             // Apply Pattern GG-6: Enhanced property access with type guards
-            const dessertData = dishesDessert?.dessert as Record<string, unknown>;
-            const dishesDessertAll = dessertData?.all;
+            const dessertData = dishesDessert.dessert as Record<string, unknown>;
+            const dishesDessertAll = dessertData.all;
             if (Array.isArray(dishesDessertAll)) return dishesDessertAll.length;
             return 0;
           })()
@@ -347,10 +347,10 @@ export class LocalRecipeService {
         // Check if "all" arrays actually contain recipes with safe type casting
         const dishesData = cuisine.dishes as Record<string, unknown>;
         // Apply Pattern GG-6: Enhanced property access with type guards
-        const breakfastData = dishesData?.breakfast as Record<string, unknown>;
-        const dishesNested = dishesData?.dishes as Record<string, unknown>;
-        const breakfastNestedData = dishesNested?.breakfast as Record<string, unknown>;
-        const breakfastAll = breakfastData?.all || breakfastNestedData?.all;
+        const breakfastData = dishesData.breakfast as Record<string, unknown>;
+        const dishesNested = dishesData.dishes as Record<string, unknown>;
+        const breakfastNestedData = dishesNested.breakfast as Record<string, unknown>;
+        const breakfastAll = breakfastData.all || breakfastNestedData.all;
         if (Array.isArray(breakfastAll) && breakfastAll.length > 0) {
           logger.debug('Sample breakfast recipe:', JSON.stringify((breakfastAll as unknown[])[0]));
         }
@@ -445,9 +445,9 @@ export class LocalRecipeService {
         );
         
         // Check if the dishes property might be nested incorrectly
-        if (cuisine.dishes && typeof cuisine?.dishes?.dishes === 'object') {
+        if (cuisine.dishes && typeof cuisine.dishes.dishes === 'object') {
           logger.debug('Found nested dishes property, trying to extract from there instead');
-          return this.getRecipesFromCuisine({...cuisine, dishes: cuisine?.dishes?.dishes as Record<string, unknown>});
+          return this.getRecipesFromCuisine({...cuisine, dishes: cuisine.dishes.dishes as Record<string, unknown>});
         }
       }
       
@@ -479,7 +479,7 @@ export class LocalRecipeService {
       }
       
       // Generate a deterministic ID if none exists
-      const id = dish.id || `${cuisineName.toLowerCase()}-${dish?.name?.toLowerCase().replace(/\s+/g, '-')}`;
+      const id = dish.id || `${cuisineName.toLowerCase()}-${dish.name.toLowerCase().replace(/\s+/g, '-')}`;
       
       // Map cuisine ingredients to our RecipeIngredient type
       const ingredients = (Array.isArray(dish.ingredients) ? dish.ingredients : []).map(ing => {
@@ -551,9 +551,9 @@ export class LocalRecipeService {
       
       // Get instructions from preparationSteps or instructions field
       let instructions: string[] = [];
-      if (Array.isArray(dish.preparationSteps) && dish?.preparationSteps?.length > 0) {
+      if (Array.isArray(dish.preparationSteps) && dish.preparationSteps.length > 0) {
         instructions = dish.preparationSteps;
-      } else if (Array.isArray(dish.instructions) && dish?.instructions?.length > 0) {
+      } else if (Array.isArray(dish.instructions) && dish.instructions.length > 0) {
         instructions = dish.instructions;
       } else if (typeof dish.preparationSteps === 'string') {
         instructions = [dish.preparationSteps];
@@ -565,12 +565,12 @@ export class LocalRecipeService {
       
       // Process nutrition information
       const nutrition = dish.nutrition ? {
-        calories: dish?.nutrition?.calories,
-        protein: dish?.nutrition?.protein,
-        carbs: dish?.nutrition?.carbs,
-        fat: dish?.nutrition?.fat,
-        vitamins: dish?.nutrition?.vitamins || [],
-        minerals: dish?.nutrition?.minerals || []
+        calories: dish.nutrition.calories,
+        protein: dish.nutrition.protein,
+        carbs: dish.nutrition.carbs,
+        fat: dish.nutrition.fat,
+        vitamins: dish.nutrition.vitamins || [],
+        minerals: dish.nutrition.minerals || []
       } : undefined;
       
       // Process substitutions
@@ -624,7 +624,7 @@ export class LocalRecipeService {
       logger.error('Error standardizing recipe:', error);
       return {
         id: `error-${Math.random().toString(36).substring(2, 11)}`,
-        name: dish?.name || 'Unknown Recipe',
+        name: dish.name || 'Unknown Recipe',
         description: 'Error loading recipe details',
         cuisine: cuisineName,
         ingredients: [],
@@ -655,12 +655,12 @@ export class LocalRecipeService {
       
       return recipes.filter(recipe => {
         // Search in recipe name
-        if (recipe.name && recipe?.name?.toLowerCase().includes(normalizedQuery)) {
+        if (recipe.name && recipe.name.toLowerCase().includes(normalizedQuery)) {
           return true;
         }
         
         // Search in recipe description
-        if (recipe.description && recipe?.description?.toLowerCase().includes(normalizedQuery)) {
+        if (recipe.description && recipe.description.toLowerCase().includes(normalizedQuery)) {
           return true;
         }
         
@@ -700,8 +700,8 @@ export class LocalRecipeService {
       return recipes.filter(recipe => 
         recipe.mealType && 
         (Array.isArray(recipe.mealType) 
-          ? recipe?.mealType?.some(m => m.toLowerCase() === normalizedMealType)
-          : recipe?.mealType?.toLowerCase() === normalizedMealType)
+          ? recipe.mealType.some(m => m.toLowerCase() === normalizedMealType)
+          : recipe.mealType.toLowerCase() === normalizedMealType)
       );
     } catch (error) {
       logger.error(`Error getting recipes for meal type "${mealType}":`, error);
@@ -724,8 +724,8 @@ export class LocalRecipeService {
       return recipes.filter(recipe => 
         recipe.season && 
         (Array.isArray(recipe.season) 
-          ? recipe?.season?.some(s => s.toLowerCase() === normalizedSeason)
-          : recipe?.season?.toLowerCase() === normalizedSeason)
+          ? recipe.season.some(s => s.toLowerCase() === normalizedSeason)
+          : recipe.season.toLowerCase() === normalizedSeason)
       );
     } catch (error) {
       logger.error(`Error getting recipes for season "${season}":`, error);

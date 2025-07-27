@@ -8,10 +8,6 @@
 
 import { 
   MLIntelligenceResult,
-  MLRecipeOptimizationAnalysis,
-  MLIngredientCompatibilityAnalysis,
-  MLCuisineFusionAnalysis,
-  MLAstrologicalPredictionAnalysis,
   AdvancedIntelligenceConfig,
   AdvancedIntelligenceMetrics
 } from '@/types/advancedIntelligence';
@@ -28,9 +24,37 @@ const calculateSeasonalOptimization = (seasonality: string, currentSeason: strin
   return 0.6;
 };
 
-const calculateAstrologicalAlignment = (recipe: any, zodiacSign: string, lunarPhase: string): number => {
-  // Placeholder implementation - would integrate with actual astrological calculations
-  return 0.75 + (Math.random() * 0.2); // 75-95% range
+const calculateAstrologicalAlignment = (recipe: Recipe, zodiacSign: string, lunarPhase: string): number => {
+  let alignment = 0.5; // Base alignment score
+  
+  // Check zodiac compatibility with recipe's astrological timing
+  if (recipe.astrologicalTiming?.zodiacCompatibility) {
+    const zodiacCompatibility = recipe.astrologicalTiming.zodiacCompatibility[zodiacSign as ZodiacSign];
+    if (zodiacCompatibility) {
+      alignment += zodiacCompatibility * 0.2; // Up to 20% bonus
+    }
+  }
+  
+  // Check lunar phase compatibility
+  if (recipe.astrologicalTiming?.lunarPhaseCompatibility) {
+    const lunarCompatibility = recipe.astrologicalTiming.lunarPhaseCompatibility[lunarPhase];
+    if (lunarCompatibility) {
+      alignment += lunarCompatibility * 0.15; // Up to 15% bonus
+    }
+  }
+  
+  // Check if any ingredients have zodiac influences matching the current zodiac
+  const zodiacIngredientBonus = recipe.ingredients.reduce((bonus, ingredient) => {
+    if (ingredient.zodiacInfluences?.includes(zodiacSign as ZodiacSign)) {
+      return bonus + 0.02; // 2% per matching ingredient
+    }
+    return bonus;
+  }, 0);
+  
+  alignment += Math.min(zodiacIngredientBonus, 0.15); // Cap at 15%
+  
+  // Ensure alignment stays within reasonable bounds
+  return Math.max(0.2, Math.min(0.95, alignment));
 };
 
 // ========== MACHINE LEARNING INTELLIGENCE SERVICE ==========
@@ -338,7 +362,7 @@ export class MLIntelligenceService {
       calculateElementalCompatibility(recipe.elementalProperties, astrologicalContext.elementalProperties) : 0.5;
 
     const recipeData = (recipe as unknown) as Record<string, unknown>;
-    const seasonalOptimization = calculateSeasonalOptimization(recipeData?.seasonality as string || 'all', getCurrentSeason());
+    const seasonalOptimization = calculateSeasonalOptimization(recipeData.seasonality as string || 'all', getCurrentSeason());
     const astrologicalAlignment = calculateAstrologicalAlignment(
       recipe,
       astrologicalContext.zodiacSign,
@@ -379,7 +403,7 @@ export class MLIntelligenceService {
     // Add seasonal substitution recommendations
     const currentSeason = getCurrentSeason();
     const recipeSeason = (recipe as unknown) as Record<string, unknown>;
-    if (recipeSeason?.seasonality && recipeSeason.seasonality !== 'all' && !(recipeSeason.seasonality as string).toLowerCase().includes(currentSeason.toLowerCase())) {
+    if (recipeSeason.seasonality && recipeSeason.seasonality !== 'all' && !(recipeSeason.seasonality as string).toLowerCase().includes(currentSeason.toLowerCase())) {
       recommendations.push(`Consider seasonal ingredient adjustments for ${currentSeason} optimization`);
     }
 
@@ -397,7 +421,7 @@ export class MLIntelligenceService {
     
     // Analyze current cooking methods
     const recipeMethodData = (recipe as unknown) as Record<string, unknown>;
-    if (recipeMethodData?.cookingMethods) {
+    if (recipeMethodData.cookingMethods) {
       (recipeMethodData.cookingMethods as string[]).forEach(method => {
         const optimization = this.findCookingMethodOptimization(method, astrologicalContext);
         if (optimization) {
@@ -424,7 +448,7 @@ export class MLIntelligenceService {
     
     // Analyze flavor profile for enhancements
     const recipeFlavorData = (recipe as unknown) as Record<string, unknown>;
-    if (recipeFlavorData?.flavorProfile) {
+    if (recipeFlavorData.flavorProfile) {
       const flavorEnhancements = this.analyzeFlavorEnhancements(recipeFlavorData.flavorProfile as Record<string, unknown>, astrologicalContext);
       suggestions.push(...flavorEnhancements);
     }
@@ -445,7 +469,7 @@ export class MLIntelligenceService {
     
     // Analyze nutritional balance
     const recipeNutritionData = (recipe as unknown) as Record<string, unknown>;
-    if (recipeNutritionData?.nutrition) {
+    if (recipeNutritionData.nutrition) {
       const nutritionalOptimizations = this.analyzeNutritionalOptimizations(recipeNutritionData.nutrition as Record<string, unknown>, astrologicalContext);
       optimizations.push(...nutritionalOptimizations);
     }
@@ -688,18 +712,121 @@ export class MLIntelligenceService {
   }
 
   private findCookingMethodOptimization(method: string, astrologicalContext: any): string | null {
-    // TODO: Implement ML-based cooking method optimization
-    const basicOptimizations: Record<string, string> = {
-      'grilling': 'Consider longer marination for enhanced flavor',
-      'baking': 'Adjust temperature for optimal astrological timing',
-      'frying': 'Use high smoke point oils for better results'
+    const methodOptimizations: Record<string, Record<string, string>> = {
+      'grilling': {
+        'default': 'Consider longer marination for enhanced flavor',
+        'fire': 'High heat grilling aligns with current Fire energy',
+        'water': 'Use marinades with citrus for Water element balance'
+      },
+      'baking': {
+        'default': 'Adjust temperature for optimal texture',
+        'earth': 'Lower temperature (325°F) for Earth element grounding',
+        'air': 'Higher temperature (400°F) for Air element lightness'
+      },
+      'frying': {
+        'default': 'Use high smoke point oils for better results',
+        'fire': 'Quick high-heat frying maximizes Fire element',
+        'water': 'Consider steam-frying with liquid for balance'
+      },
+      'roasting': {
+        'default': 'Rotate halfway through for even cooking',
+        'fire': 'High heat (425°F) caramelization',
+        'earth': 'Slow roast (325°F) for depth'
+      }
     };
-    return basicOptimizations[method.toLowerCase()] || null;
+    
+    const optimizations = methodOptimizations[method.toLowerCase()] || 
+                         { 'default': `Optimize ${method} based on ingredient properties` };
+    
+    if (astrologicalContext) {
+      const planetaryElement = this.getDominantPlanetaryElement(astrologicalContext).toLowerCase();
+      
+      // Mars aspects affect heat preferences
+      if (astrologicalContext.marsAspects?.some((a: any) => a.type === 'strong')) {
+        return optimizations['fire'] || optimizations['default'];
+      }
+      
+      // Moon in water signs prefers gentler methods
+      if (['cancer', 'scorpio', 'pisces'].includes(astrologicalContext.moonSign)) {
+        return optimizations['water'] || optimizations['default'];
+      }
+      
+      return optimizations[planetaryElement] || optimizations['default'];
+    }
+    
+    return optimizations['default'];
   }
 
   private generateTimingOptimization(recipe: Recipe, astrologicalContext: any): string | null {
-    // TODO: Implement ML-based timing optimization analysis
-    return 'Consider cooking during peak planetary alignment for enhanced results';
+    if (!astrologicalContext) {
+      return 'Optimal cooking time based on ingredient properties';
+    }
+    
+    const timingRecommendations: string[] = [];
+    
+    // Planetary hour recommendations
+    if (astrologicalContext.planetaryHour) {
+      const hourInfluences: Record<string, string> = {
+        'sun': 'Sun hour enhances vitality - ideal for energizing dishes',
+        'moon': 'Moon hour enhances comfort - perfect for nurturing meals',
+        'mars': 'Mars hour adds dynamism - great for spicy or grilled foods',
+        'mercury': 'Mercury hour aids digestion - ideal for light, varied meals',
+        'jupiter': 'Jupiter hour amplifies abundance - perfect for feasts',
+        'venus': 'Venus hour enhances pleasure - ideal for desserts and romantic meals',
+        'saturn': 'Saturn hour promotes structure - good for traditional recipes'
+      };
+      const recommendation = hourInfluences[astrologicalContext.planetaryHour.toLowerCase()];
+      if (recommendation) {
+        timingRecommendations.push(recommendation);
+      }
+    }
+    
+    // Moon phase timing
+    if (astrologicalContext.moonPhase) {
+      if (astrologicalContext.moonPhase === 'waxing') {
+        timingRecommendations.push('Waxing moon favors building flavors - add ingredients gradually');
+      } else if (astrologicalContext.moonPhase === 'waning') {
+        timingRecommendations.push('Waning moon favors reduction - perfect for sauces and concentrates');
+      }
+    }
+    
+    // Time of day optimization
+    const hour = new Date().getHours();
+    if (recipe.cookingMethod === 'baking' && (hour >= 14 && hour <= 17)) {
+      timingRecommendations.push('Afternoon baking aligns with natural cooling cycle');
+    }
+    
+    return timingRecommendations[0] || 'Current planetary alignments support this recipe';
+  }
+  
+  // Helper method for getting dominant planetary element
+  private getDominantPlanetaryElement(astrologicalContext: any): string {
+    if (!astrologicalContext) return 'Earth';
+    
+    // Simple mapping based on sun sign element
+    const elementMap: Record<string, string> = {
+      aries: 'Fire', leo: 'Fire', sagittarius: 'Fire',
+      taurus: 'Earth', virgo: 'Earth', capricorn: 'Earth',
+      gemini: 'Air', libra: 'Air', aquarius: 'Air',
+      cancer: 'Water', scorpio: 'Water', pisces: 'Water'
+    };
+    
+    return elementMap[astrologicalContext.sunSign?.toLowerCase()] || 'Earth';
+  }
+  
+  // Helper method for element matching
+  private elementMatchesContext(ingredient: string, element: string): boolean {
+    const elementalIngredients: Record<string, string[]> = {
+      'fire': ['chili', 'pepper', 'ginger', 'garlic', 'onion', 'paprika'],
+      'water': ['cucumber', 'melon', 'lettuce', 'milk', 'coconut milk'],
+      'earth': ['potato', 'carrot', 'beet', 'grain', 'nut', 'bean'],
+      'air': ['herb', 'spice', 'citrus', 'vinegar', 'wine']
+    };
+    
+    const ingredientLower = ingredient.toLowerCase();
+    const elementIngredients = elementalIngredients[element.toLowerCase()] || [];
+    
+    return elementIngredients.some(el => ingredientLower.includes(el));
   }
 
   private generateElementalCookingOptimizations(recipe: Recipe, astrologicalContext: any): string[] {
@@ -921,7 +1048,7 @@ export class MLIntelligenceService {
 
   private log(level: string, message: string, data?: any): void {
     if (this.shouldLog(level)) {
-      logger[level as keyof typeof logger]?.(`[MLIntelligence] ${message}`, data);
+      logger[level as keyof typeof logger](`[MLIntelligence] ${message}`, data);
     }
   }
 

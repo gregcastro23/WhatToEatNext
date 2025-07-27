@@ -132,7 +132,7 @@ export function CuisineSectionMigrated({
             setCuisineRecipesFromService(response);
           } else {
             const responseData = response as Record<string, unknown>;
-            if (responseData?.success && responseData?.data) {
+            if (responseData.success && responseData.data) {
               setCuisineRecipesFromService(responseData.data as any[]);
             } else {
               setCuisineRecipesFromService([]);
@@ -175,13 +175,13 @@ export function CuisineSectionMigrated({
         
         // Apply surgical type casting with variable extraction
         const cuisineStringMatch = String(cuisine || '');
-        const cuisineLowerMatch = cuisineStringMatch?.toLowerCase();
+        const cuisineLowerMatch = cuisineStringMatch.toLowerCase();
         
         // Direct cuisine match
         if (recipe.cuisine?.toLowerCase() === cuisineLowerMatch) return true;
         
         // Regional cuisine match
-        if ((recipe.regionalCuisine as string)?.toLowerCase?.() === cuisineLowerMatch) return true;
+        if ((recipe.regionalCuisine as string).toLowerCase() === cuisineLowerMatch) return true;
         
         // High match score
         return (Number(recipe.matchScore) || 0) > 0.75;
@@ -197,7 +197,7 @@ export function CuisineSectionMigrated({
         // If match scores are equal, prioritize direct cuisine matches
         // Apply surgical type casting with variable extraction
         const cuisineStringSort = String(cuisine || '');
-        const cuisineLowerSort = cuisineStringSort?.toLowerCase();
+        const cuisineLowerSort = cuisineStringSort.toLowerCase();
         
         const directMatchA = a.cuisine?.toLowerCase() === cuisineLowerSort;
         const directMatchB = b.cuisine?.toLowerCase() === cuisineLowerSort;
@@ -212,25 +212,25 @@ export function CuisineSectionMigrated({
   }, [recipes, cuisineRecipesFromService, cuisine, viewAllRecipes]);
 
   // Check for regional variations to add information about cuisine relationships
-  const isRegionalVariant = (cuisineRecipes || []).some(r => (r.regionalCuisine as string)?.toLowerCase?.() === (cuisine )?.toLowerCase?.());
-  const parentCuisineName = isRegionalVariant ? cuisineRecipes.find(r => (r.regionalCuisine as string)?.toLowerCase?.() === (cuisine )?.toLowerCase?.())?.cuisine : null;
+  const isRegionalVariant = (cuisineRecipes || []).some(r => (r.regionalCuisine as string).toLowerCase() === (cuisine ).toLowerCase());
+  const parentCuisineName = isRegionalVariant ? cuisineRecipes.find(r => (r.regionalCuisine as string).toLowerCase() === (cuisine ).toLowerCase())?.cuisine : null;
   
   // Check if this is a parent cuisine with regional variants shown
-  const hasRegionalVariants = (cuisineRecipes || []).some(r => r.regionalCuisine && r.cuisine?.toLowerCase() === cuisine?.toLowerCase());
+  const hasRegionalVariants = (cuisineRecipes || []).some(r => r.regionalCuisine && r.cuisine?.toLowerCase() === cuisine.toLowerCase());
   const regionalVariantNames = [... new Set(cuisineRecipes
-    .filter(r => r.regionalCuisine && r.cuisine?.toLowerCase() === cuisine?.toLowerCase())
+    .filter(r => r.regionalCuisine && r.cuisine?.toLowerCase() === cuisine.toLowerCase())
     .map(r => r.regionalCuisine))] as string[];
 
   const renderSeasonalInfo = (recipe: Recipe) => (
     <div className="flex flex-wrap gap-2 mt-2">
       {Boolean(recipe.currentSeason) && (
         <span className="text-sm px-2 py-1 bg-green-50 text-green-700 rounded">
-          {Array.isArray(recipe.currentSeason) ? recipe.currentSeason?.join(', ') : (recipe.currentSeason as string)}
+          {Array.isArray(recipe.currentSeason) ? recipe.currentSeason.join(', ') : (recipe.currentSeason as string)}
         </span>
       )}
       {recipe.mealType && (
         <span className="text-sm px-2 py-1 bg-blue-50 text-blue-700 rounded">
-          {Array.isArray(recipe.mealType) ? recipe.mealType?.join(', ') : recipe.mealType}
+          {Array.isArray(recipe.mealType) ? recipe.mealType.join(', ') : recipe.mealType}
         </span>
       )}
       {recipe.timeToMake && (
@@ -295,8 +295,8 @@ export function CuisineSectionMigrated({
     }
     
     // Create a URL-friendly sauce ID
-    const sauceUrlId = sauce.id?.toLowerCase()?.replace(/ /g, '-').replace(/[^\w-]/g, '');
-    const sauceUrl = `/sauces/${cuisine?.toLowerCase() || 'unknown'}/${sauceUrlId}`;
+    const sauceUrlId = sauce.id.toLowerCase().replace(/ /g, '-').replace(/[^\w-]/g, '');
+    const sauceUrl = `/sauces/${cuisine.toLowerCase() || 'unknown'}/${sauceUrlId}`;
     
     return (
       <Link 
@@ -332,7 +332,7 @@ export function CuisineSectionMigrated({
     }
     
     // Create URL-friendly recipe ID
-    const recipeId = recipe.name?.toLowerCase()?.replace(/ /g, '-').replace(/[^\w-]/g, '');
+    const recipeId = recipe.name.toLowerCase().replace(/ /g, '-').replace(/[^\w-]/g, '');
     
     return (
       <Link 
@@ -448,7 +448,7 @@ export function CuisineSectionMigrated({
         <div className="mb-4 p-3 bg-blue-50 rounded-lg text-blue-800">
           <p>
             <span className="font-medium">{cuisine}</span> is a regional variant of{' '}
-            <Link href={`/cuisines/${parentCuisineName?.toLowerCase()}`} className="underline hover:text-blue-600">
+            <Link href={`/cuisines/${parentCuisineName.toLowerCase()}`} className="underline hover:text-blue-600">
               {parentCuisineName} cuisine
             </Link>
           </p>
@@ -465,7 +465,7 @@ export function CuisineSectionMigrated({
             {(regionalVariantNames || []).map((variant, index) => (
               <li key={index}>
                 <Link 
-                  href={`/cuisines/${variant?.toLowerCase()}`} 
+                  href={`/cuisines/${variant.toLowerCase()}`} 
                   className="px-3 py-1 bg-blue-100 rounded-full hover:bg-blue-200 transition-colors"
                 >
                   {variant}

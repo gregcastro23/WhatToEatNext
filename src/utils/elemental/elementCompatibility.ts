@@ -99,8 +99,8 @@ export function enhanceElementalProfile(
   enhancedProfile[strongestElement] *= 1.2;
   
   // Normalize to ensure values still sum to same total
-  const originalSum = Object.values(profile)?.reduce((sum, val) => sum + val, 0);
-  const enhancedSum = Object.values(enhancedProfile)?.reduce((sum, val) => sum + val, 0);
+  const originalSum = Object.values(profile).reduce((sum, val) => sum + val, 0);
+  const enhancedSum = Object.values(enhancedProfile).reduce((sum, val) => sum + val, 0);
   
   if (enhancedSum > 0) {
     const normalizeFactor = originalSum / enhancedSum;
@@ -121,7 +121,7 @@ export function enhanceElementalProfile(
 export function getElementalPercentages(
   elementalProfile: Record<Element, number>
 ): Record<Element, number> {
-  const total = Object.values(elementalProfile)?.reduce((sum, val) => sum + val, 0);
+  const total = Object.values(elementalProfile).reduce((sum, val) => sum + val, 0);
   
   if (total <= 0) {
     return { Fire: 25, Water: 25, Earth: 25, Air: 25 };

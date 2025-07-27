@@ -175,7 +175,7 @@ function calculatePlanetaryScore(recipe: Recipe, planetName?: PlanetName): numbe
     // Apply surgical type casting with variable extraction
     const influenceData = influence as any;
     const influenceLower = influenceData?.toLowerCase?.();
-    const planetNameLower = planetName?.toLowerCase();
+    const planetNameLower = planetName.toLowerCase();
     
     return influenceLower?.includes(planetNameLower);
   });
@@ -187,7 +187,7 @@ function calculateSeasonalScore(recipe: Recipe, season: Season): number {
   
   // Apply Pattern I: Safe union type array casting
   const seasonMatch = safeSome(Array.isArray(recipe.season) ? recipe.season : [recipe.season] as string[], recipeSeason => 
-    recipeSeason?.toLowerCase() === season?.toLowerCase()
+    recipeSeason.toLowerCase() === season.toLowerCase()
   );
   return seasonMatch ? 0.9 : 0.4;
 }
@@ -222,7 +222,7 @@ function calculateMealTypeScore(recipe: Recipe, mealType: MealType): number {
   
   const mealTypeMatch = safeSome(
     Array.isArray(recipe.mealType) ? recipe.mealType : [recipe.mealType], 
-    recipeMealType => recipeMealType?.toLowerCase() === mealType?.toLowerCase()
+    recipeMealType => recipeMealType.toLowerCase() === mealType.toLowerCase()
   );
   return mealTypeMatch ? 0.9 : 0.3;
 }
@@ -236,7 +236,7 @@ function _calculateZodiacScore(recipe: Recipe, sunSign: ZodiacSign): number {
     // Apply surgical type casting with variable extraction
     const influenceDataZodiac = influence as any;
     const influenceLowerZodiac = influenceDataZodiac?.toLowerCase?.();
-    const sunSignLower = sunSign?.toLowerCase();
+    const sunSignLower = sunSign.toLowerCase();
     
     return influenceLowerZodiac?.includes(sunSignLower);
   });
@@ -278,7 +278,7 @@ function getZodiacElement(sign: ZodiacSign): Element | null {
   const airSigns = ['gemini', 'libra', 'aquarius'];
   const waterSigns = ['cancer', 'scorpio', 'pisces'];
   
-  const signLower = sign?.toLowerCase();
+  const signLower = sign.toLowerCase();
   
   if (fireSigns.includes(signLower)) return 'Fire';
   if (earthSigns.includes(signLower)) return 'Earth';
@@ -437,7 +437,7 @@ export function isAppropriateForTimeOfDay(recipe: Recipe, timeOfDay: string): bo
     'night': ['Snack']
   };
   
-  const appropriateMealTypes = timeMapping[timeOfDay?.toLowerCase()] || [];
+  const appropriateMealTypes = timeMapping[timeOfDay.toLowerCase()] || [];
   
   return safeSome(
     Array.isArray(recipe.mealType) ? recipe.mealType : [recipe.mealType], 
@@ -506,5 +506,5 @@ export function getModalityElementAffinity(modality: string, element: string): n
     mutable: { Fire: 0.7, Water: 0.8, Earth: 0.7, Air: 0.9 }
   };
   
-  return modalityAffinities[modality?.toLowerCase()]?.[element] || 0.5;
+  return modalityAffinities[modality.toLowerCase()][element] || 0.5;
 } 

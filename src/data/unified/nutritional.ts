@@ -286,19 +286,19 @@ export class UnifiedNutritionalSystem {
     
     profiles.forEach(profile => {
       const profileData = profile as Record<string, unknown>;
-      const nutrients = profileData?.elementalNutrients;
+      const nutrients = profileData.elementalNutrients;
       
       if (nutrients) {
         const nutrientData = nutrients as Record<string, unknown>;
-        const fireNutrients = nutrientData?.Fire as Record<string, unknown>;
-        const waterNutrients = nutrientData?.Water as Record<string, unknown>;
-        const earthNutrients = nutrientData?.Earth as Record<string, unknown>;
-        const airNutrients = nutrientData?.Air as Record<string, unknown>;
+        const fireNutrients = nutrientData.Fire as Record<string, unknown>;
+        const waterNutrients = nutrientData.Water as Record<string, unknown>;
+        const earthNutrients = nutrientData.Earth as Record<string, unknown>;
+        const airNutrients = nutrientData.Air as Record<string, unknown>;
         
-        totalElementalValues.Fire += Number(fireNutrients?.totalElementalValue || 0);
-        totalElementalValues.Water += Number(waterNutrients?.totalElementalValue || 0);
-        totalElementalValues.Earth += Number(earthNutrients?.totalElementalValue || 0);
-        totalElementalValues.Air += Number(airNutrients?.totalElementalValue || 0);
+        totalElementalValues.Fire += Number(fireNutrients.totalElementalValue || 0);
+        totalElementalValues.Water += Number(waterNutrients.totalElementalValue || 0);
+        totalElementalValues.Earth += Number(earthNutrients.totalElementalValue || 0);
+        totalElementalValues.Air += Number(airNutrients.totalElementalValue || 0);
       }
     });
     
@@ -320,7 +320,7 @@ export class UnifiedNutritionalSystem {
     
     profiles.forEach(profile => {
       const profileData = profile as Record<string, unknown>;
-      const astroProfile = profileData?.astrologicalProfile;
+      const astroProfile = profileData.astrologicalProfile;
       
       const astroData = astroProfile as Record<string, unknown>;
       if (astroData && astroData.seasonalPeak) {
@@ -344,7 +344,7 @@ export class UnifiedNutritionalSystem {
     
     profiles.forEach(profile => {
       const profileData = profile as Record<string, unknown>;
-      const astroProfile = profileData?.astrologicalProfile;
+      const astroProfile = profileData.astrologicalProfile;
       
       const astroData = astroProfile as Record<string, unknown>;
       if (astroData && astroData.rulingPlanets) {
@@ -427,7 +427,7 @@ export class UnifiedNutritionalSystem {
     // Calculate Kalchm harmony
     const kalchmHarmony = profiles.reduce((sum, profile) => {
       const profileData = profile as Record<string, unknown>;
-      const kalchmValue = typeof profileData?.kalchm === 'number' ? profileData.kalchm : 0.5;
+      const kalchmValue = typeof profileData.kalchm === 'number' ? profileData.kalchm : 0.5;
       return sum + kalchmValue;
     }, 0) / profiles.length;
     
@@ -474,10 +474,10 @@ export class UnifiedNutritionalSystem {
     
     // Calculate alchemical properties from nutritional data
     const alchemicalProperties: AlchemicalProperties = {
-      Spirit: Number(baseData?.volatileCompounds || 0.2),
-      Essence: Number(baseData?.activeCompounds || 0.3),
-      Matter: Number(baseData?.structuralNutrients || 0.3),
-      Substance: Number(baseData?.stableNutrients || 0.2)
+      Spirit: Number(baseData.volatileCompounds || 0.2),
+      Essence: Number(baseData.activeCompounds || 0.3),
+      Matter: Number(baseData.structuralNutrients || 0.3),
+      Substance: Number(baseData.stableNutrients || 0.2)
     };
     
     // Calculate Kalchm value
@@ -547,13 +547,13 @@ export const calculateNutritionalBalance = (_ingredients: unknown[]): Nutritiona
     const ingredientData = ingredient as Record<string, unknown>;
     const nutritionData = (ingredientData && ingredientData.nutrition ? ingredientData.nutrition : {}) as Record<string, unknown>;
     return {
-      calories: acc.calories + Number((nutritionData )?.calories || 0),
-      protein: acc.protein + Number((nutritionData )?.protein || 0),
-      carbohydrates: acc.carbohydrates + Number((nutritionData )?.carbohydrates || 0),
-      fat: acc.fat + Number((nutritionData )?.fat || 0),
-      fiber: acc.fiber + Number((nutritionData )?.fiber || 0),
-      vitamins: { ...acc.vitamins, ...((nutritionData )?.vitamins as Record<string, unknown> || {}) },
-      minerals: { ...acc.minerals, ...((nutritionData )?.minerals as Record<string, unknown> || {}) }
+      calories: acc.calories + Number((nutritionData ).calories || 0),
+      protein: acc.protein + Number((nutritionData ).protein || 0),
+      carbohydrates: acc.carbohydrates + Number((nutritionData ).carbohydrates || 0),
+      fat: acc.fat + Number((nutritionData ).fat || 0),
+      fiber: acc.fiber + Number((nutritionData ).fiber || 0),
+      vitamins: { ...acc.vitamins, ...((nutritionData ).vitamins as Record<string, unknown> || {}) },
+      minerals: { ...acc.minerals, ...((nutritionData ).minerals as Record<string, unknown> || {}) }
     };
   }, {
     calories: 0,
@@ -572,19 +572,19 @@ export const nutritionalToElemental = (profile: NutritionalProfile): ElementalPr
   const profileData = profile as Record<string, unknown>;
   
   // Map nutritional components to elemental properties
-  const protein = Number(profileData?.protein || 0);
-  const carbs = Number(profileData?.carbohydrates || 0);
-  const fat = Number(profileData?.fat || 0);
-  const fiber = Number(profileData?.fiber || 0);
+  const protein = Number(profileData.protein || 0);
+  const carbs = Number(profileData.carbohydrates || 0);
+  const fat = Number(profileData.fat || 0);
+  const fiber = Number(profileData.fiber || 0);
   
   // Normalize to total of 1.0
   const total = protein + carbs + fat + fiber || 1;
   
   return {
     Fire: (protein * 0.6 + carbs * 0.4) / total,     // Energizing nutrients
-    Water: Number(profileData?.waterContent || 0.3) / total, // Hydrating elements
+    Water: Number(profileData.waterContent || 0.3) / total, // Hydrating elements
     Earth: (fiber * 0.8 + fat * 0.2) / total,        // Grounding nutrients
-    Air: Number(profileData?.volatiles || 0.1) / total      // Light, dispersing elements
+    Air: Number(profileData.volatiles || 0.1) / total      // Light, dispersing elements
   };
 };
 

@@ -248,7 +248,7 @@ export class EnhancedErrorFixerIntegration {
       let stdout = '';
       let stderr = '';
       
-      child.stdout?.on('data', (data) => {
+      child.stdout.on('data', (data) => {
         stdout += data.toString();
         // Show real-time output if not silent
         if (!args.includes('--silent')) {
@@ -256,7 +256,7 @@ export class EnhancedErrorFixerIntegration {
         }
       });
       
-      child.stderr?.on('data', (data) => {
+      child.stderr.on('data', (data) => {
         stderr += data.toString();
         if (!args.includes('--silent')) {
           process.stderr.write(data);

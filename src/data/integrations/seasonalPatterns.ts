@@ -270,18 +270,18 @@ export const seasonalPatterns: Record<Season, SeasonalPattern> = {
 };
 
 export function getTarotInfluenceForSeason(season: Season): TarotInfluences | Record<string, never> {
-  const influences = seasonalPatterns[season]?.tarotInfluences;
+  const influences = seasonalPatterns[season].tarotInfluences;
   return (influences as TarotInfluences) || {};
 }
 
 export function getSeasonalIngredientsByTarotCard(season: Season, cardKey: string): string[] {
-  const influence = (seasonalPatterns[season]?.tarotInfluences as TarotInfluences)?.[cardKey] as TarotCardInfluence;
-  return influence?.ingredients || [];
+  const influence = (seasonalPatterns[season].tarotInfluences as TarotInfluences)[cardKey] as TarotCardInfluence;
+  return influence.ingredients || [];
 }
 
 export function getRecommendedCookingMethodByTarotCard(season: Season, cardKey: string): string {
-  const influence = (seasonalPatterns[season]?.tarotInfluences as TarotInfluences)?.[cardKey] as TarotCardInfluence;
-  return influence?.cookingMethod || "";
+  const influence = (seasonalPatterns[season].tarotInfluences as TarotInfluences)[cardKey] as TarotCardInfluence;
+  return influence.cookingMethod || "";
 }
 
 export default seasonalPatterns;

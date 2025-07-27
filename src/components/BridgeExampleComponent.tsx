@@ -90,7 +90,7 @@ export default function BridgeExampleComponent() {
       
       <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
         {Object.entries(dataSource)
-          .filter(([planet]) => ['Sun', 'Moon', 'Mercury', 'Venus', 'Mars'].includes(planet?.toLowerCase()))
+          .filter(([planet]) => ['Sun', 'Moon', 'Mercury', 'Venus', 'Mars'].includes(planet.toLowerCase()))
           .map(([planet, data]: [string, any]) => (
             <div key={planet} className="bg-white rounded-md p-3 shadow-sm">
               <div className="flex justify-between">

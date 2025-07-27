@@ -50,7 +50,7 @@ export function UnifiedDebug({ mode = 'compact', showTabs = true }: UnifiedDebug
         setPlanetaryHour(String(currentHour) || 'Unknown');
       } else {
         // Fallback to time of day
-        const hour = new Date()?.getHours();
+        const hour = new Date().getHours();
         let timeBasedPlanet = 'Sun';
         
         if (hour >= 0 && hour < 3) timeBasedPlanet = 'Saturn';
@@ -126,10 +126,10 @@ export function UnifiedDebug({ mode = 'compact', showTabs = true }: UnifiedDebug
   let substanceValue = 0;
 
   if (state.alchemicalValues) {
-    spiritValue = state.alchemicalValues?.Spirit || 0;
-    essenceValue = state.alchemicalValues?.Essence || 0;
-    matterValue = state.alchemicalValues?.Matter || 0;
-    substanceValue = state.alchemicalValues?.Substance || 0;
+    spiritValue = state.alchemicalValues.Spirit || 0;
+    essenceValue = state.alchemicalValues.Essence || 0;
+    matterValue = state.alchemicalValues.Matter || 0;
+    substanceValue = state.alchemicalValues.Substance || 0;
   }
   
   const tokenSymbol = '⦿';
@@ -140,7 +140,7 @@ export function UnifiedDebug({ mode = 'compact', showTabs = true }: UnifiedDebug
       <div className="space-y-1">
         <p>Mounted: {String(mounted)}</p>
         <p>Renders: {renderCount}</p>
-        <p>Current Sign: {(state.astrologicalState?.currentZodiacSign as string) || (state.astrologicalState?.sunSign ) || 'unknown'}</p>
+        <p>Current Sign: {(state.astrologicalState.currentZodiacSign as string) || (state.astrologicalState.sunSign ) || 'unknown'}</p>
         <p>Planetary Hour: {planetaryHour}</p>
         <p>Lunar Phase: {lunarPhase}</p>
         <div>
@@ -195,7 +195,7 @@ export function UnifiedDebug({ mode = 'compact', showTabs = true }: UnifiedDebug
           <div>
             <h5 className="font-bold text-xs">Holistic Recommendations:</h5>
             <ul className="list-disc list-inside text-xs space-y-1">
-              {testResults.holisticRecommendations?.slice(0, 3)?.map((rec, index) => (
+              {testResults.holisticRecommendations.slice(0, 3).map((rec, index) => (
                 <li key={`holistic-${index}`}>
                   {rec.method} - {Math.round(rec.compatibility)}%
                 </li>

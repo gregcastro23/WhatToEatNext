@@ -474,7 +474,7 @@ function transformUSDADataToNutritionalProfile(food: USDAFoodData): NutritionalP
     };
   }
   
-  console.log(`Transforming food data: ${(food as Record<string, unknown>)?.description || food.foodClass || 'Unknown'} [${food.dataType || 'Unknown type'}]`);
+  console.log(`Transforming food data: ${(food as Record<string, unknown>).description || food.foodClass || 'Unknown'} [${food.dataType || 'Unknown type'}]`);
   
   // Initialize nutrition values
   const nutrients: Record<string, number> = {};
@@ -623,8 +623,8 @@ function transformUSDADataToNutritionalProfile(food: USDAFoodData): NutritionalP
   const profileData = profile as Record<string, unknown>;
   
   // Add food metadata if available
-  if ((food as Record<string, unknown>)?.description) {
-    profileData.name = (food as Record<string, unknown>)?.description;
+  if ((food as Record<string, unknown>).description) {
+    profileData.name = (food as Record<string, unknown>).description;
   }
   
   if (food.fdcId) {
@@ -823,8 +823,8 @@ export function getEnhancedPlanetaryNutritionalRecommendations(
   recommendedFoods: string[]
 } {
   // Normalize planet names to lowercase
-  const dayPlanet = (planetaryDay )?.toLowerCase?.();
-  const hourPlanet = (planetaryHour )?.toLowerCase?.();
+  const dayPlanet = (planetaryDay ).toLowerCase();
+  const hourPlanet = (planetaryHour ).toLowerCase();
   
   // Initialize results
   const focusNutrients: string[] = [];
@@ -933,7 +933,7 @@ export function getSeasonalNutritionalRecommendations(season: string): {
   seasonalFoods: string[]
 } {
   // Normalize season name
-  const normalizedSeason = (season )?.toLowerCase?.();
+  const normalizedSeason = (season ).toLowerCase();
   
   // Handle both "autumn" and "fall"
   const seasonKey = (normalizedSeason === 'fall' || normalizedSeason === 'autumn') 

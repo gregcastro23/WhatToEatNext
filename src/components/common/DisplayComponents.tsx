@@ -190,7 +190,7 @@ export const ElementalEnergyDisplay: React.FC<ElementalEnergyDisplayProps> = ({ 
     return `${Math.round(value * 100)}%`;
   };
 
-  if (!state?.elementalState) {
+  if (!state.elementalState) {
     return (
       <div className={styles.container}>
         <div className={styles.section}>
@@ -232,7 +232,7 @@ export const ElementalEnergyDisplay: React.FC<ElementalEnergyDisplayProps> = ({ 
               </div>
               <div className={styles.barContainer}>
                 <div 
-                  className={`${styles.barFill} ${styles[`${element?.toLowerCase()}Fill`]}`}
+                  className={`${styles.barFill} ${styles[`${element.toLowerCase()}Fill`]}`}
                   style={{ width: formatPercentage(value ) }}
                 />
               </div>
@@ -254,7 +254,7 @@ export const ElementalEnergyDisplay: React.FC<ElementalEnergyDisplayProps> = ({ 
                 </div>
                 <div className={styles.barContainer}>
                   <div 
-                    className={`${styles.barFill} ${styles[`${property?.toLowerCase()}Fill`]}`}
+                    className={`${styles.barFill} ${styles[`${property.toLowerCase()}Fill`]}`}
                     style={{ width: formatPercentage(value ) }}
                   />
                 </div>
@@ -277,7 +277,7 @@ export const ElementalEnergyDisplay: React.FC<ElementalEnergyDisplayProps> = ({ 
                 </div>
                 <div className={styles.barContainer}>
                   <div 
-                    className={`${styles.barFill} ${styles[`${metric?.toLowerCase()}Fill`]}`}
+                    className={`${styles.barFill} ${styles[`${metric.toLowerCase()}Fill`]}`}
                     style={{ width: `${Math.min(Math.abs(value as number) * 100, 100)}%` }}
                   />
                 </div>

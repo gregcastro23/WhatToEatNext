@@ -146,7 +146,7 @@ export const getRecommendations = (mealTime: string, season: Season, cuisineId: 
       return [];
     }
 
-    const mealTimeDishes = cuisine.dishes?.[mealTime];
+    const mealTimeDishes = cuisine.dishes[mealTime];
     if (!mealTimeDishes) {
       debugLog(`No ${mealTime} dishes found for ${cuisineId}`);
       return [];

@@ -120,7 +120,7 @@ export function useAstrologicalState(): AstrologyHookData {
     
     try {
       // Add ruling planet of current sun sign
-      const sunSign = positions.sun?.sign?.toLowerCase();
+      const sunSign = positions.sun.sign?.toLowerCase();
       if (sunSign) {
         // Map signs to their ruling planets
         const signRulers: Record<string, string> = {
@@ -167,7 +167,7 @@ export function useAstrologicalState(): AstrologyHookData {
         };
         
         // Check if planet is in a powerful sign position
-        if (dignities[planetLower]?.includes(signLower)) {
+        if (dignities[planetLower].includes(signLower)) {
           activePlanets.push(planetLower);
         }
         

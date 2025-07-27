@@ -97,11 +97,11 @@ export class TerminalFreezePreventionSystem {
       let stdout = '';
       let stderr = '';
 
-      child.stdout?.on('data', (data) => {
+      child.stdout.on('data', (data) => {
         stdout += data.toString();
       });
 
-      child.stderr?.on('data', (data) => {
+      child.stderr.on('data', (data) => {
         stderr += data.toString();
       });
 

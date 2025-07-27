@@ -20,7 +20,7 @@ export default function RecipeComponent({ recipe, showDetails = true, isExpanded
           <div className="ingredients">
             <h3>Ingredients</h3>
             <ul>
-              {recipe.ingredients?.map((ingredient, index) => (
+              {recipe.ingredients.map((ingredient, index) => (
                 <li key={index}>{typeof ingredient === 'string' ? ingredient : ingredient.name || String(ingredient)}</li>
               ))}
             </ul>
@@ -29,7 +29,7 @@ export default function RecipeComponent({ recipe, showDetails = true, isExpanded
           <div className="instructions">
             <h3>Instructions</h3>
             <ol>
-              {recipe.instructions?.map((instruction, index) => (
+              {recipe.instructions.map((instruction, index) => (
                 <li key={index}>{instruction}</li>
               ))}
             </ol>

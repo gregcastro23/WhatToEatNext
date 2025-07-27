@@ -496,7 +496,7 @@ export class FoodAlchemySystem {
             // Add dignity effect recommendations if applicable
             if (planetaryPositions) {
                 // Check day planet dignity
-                if (planetaryElements[planetaryDay]?.dignityEffect && 
+                if (planetaryElements[planetaryDay].dignityEffect && 
                     planetaryPositions[planetaryDay]) {
                     const daySign = planetaryPositions[planetaryDay].sign;
                     const dayDignity = planetaryElements[planetaryDay].dignityEffect?.[daySign];
@@ -509,7 +509,7 @@ export class FoodAlchemySystem {
                 }
                 
                 // Check hour planet dignity
-                if (planetaryElements[planetaryHour]?.dignityEffect && 
+                if (planetaryElements[planetaryHour].dignityEffect && 
                     planetaryPositions[planetaryHour]) {
                     const hourSign = planetaryPositions[planetaryHour].sign;
                     const hourDignity = planetaryElements[planetaryHour].dignityEffect?.[hourSign];
@@ -520,7 +520,7 @@ export class FoodAlchemySystem {
                 }
                 
                 // Check food's ruling planet dignity
-                if (planetaryElements[food.planetaryRuler]?.dignityEffect && 
+                if (planetaryElements[food.planetaryRuler].dignityEffect && 
                     planetaryPositions[food.planetaryRuler]) {
                     const foodPlanetSign = planetaryPositions[food.planetaryRuler].sign;
                     const foodPlanetDignity = planetaryElements[food.planetaryRuler].dignityEffect?.[foodPlanetSign];
@@ -543,7 +543,7 @@ export class FoodAlchemySystem {
                     else if (planetDegree > 20) decan = '3rd Decan';
                     
                     // If food's planet rules the decan
-                    if (signInfo[planetSign]?.decanEffects[decan]?.includes(food.planetaryRuler)) {
+                    if (signInfo[planetSign].decanEffects[decan].includes(food.planetaryRuler)) {
                         recommendations.push(`${food.name} is especially potent today as it's ruled by ${food.planetaryRuler}, which rules the ${decan.toLowerCase()} of ${planetSign}.`);
                     }
                 }
@@ -597,7 +597,7 @@ export class FoodAlchemySystem {
         // Check for dignity challenges
         if (planetaryPositions && planetaryPositions[food.planetaryRuler]) {
             const foodPlanetSign = planetaryPositions[food.planetaryRuler].sign;
-            const foodPlanetDignity = planetaryElements[food.planetaryRuler]?.dignityEffect?.[foodPlanetSign];
+            const foodPlanetDignity = planetaryElements[food.planetaryRuler].dignityEffect?.[foodPlanetSign];
             
             if (foodPlanetDignity && foodPlanetDignity < -1) {
                 warnings.push(`${food.name}'s ruling planet ${food.planetaryRuler} is in fall in ${foodPlanetSign}, requiring extra attention to preparation and seasoning.`);

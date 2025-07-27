@@ -275,7 +275,7 @@ export class AlchemicalTransformationService {
       let ingredientMatch = 0;
       let ingredientCount = 0;
       
-      recipe.ingredients?.forEach(ingredient => {
+      recipe.ingredients.forEach(ingredient => {
         const ingredientName = ingredient.name.toLowerCase();
         const alchemicalIngredient = ingredientMap.get(ingredientName);
         
@@ -294,7 +294,7 @@ export class AlchemicalTransformationService {
       let methodCount = 0;
       
       const recipeData = recipe as unknown as Record<string, unknown>;
-      const cookingMethods = (recipeData?.cookingMethods as string[]) || [];
+      const cookingMethods = (recipeData.cookingMethods as string[]) || [];
       cookingMethods.forEach((method: string) => {
         const methodName = method.toLowerCase();
         const alchemicalMethod = methodMap.get(methodName);
@@ -461,8 +461,8 @@ export class AlchemicalTransformationService {
   // Helper method to calculate lunar phase score for a recipe
   private calculateLunarPhaseScore(recipe: Recipe): number {
     const recipeData = recipe as unknown as Record<string, unknown>;
-    const astrologicalAffinities = recipeData?.astrologicalAffinities as Record<string, unknown>;
-    const lunarPhases = (astrologicalAffinities?.lunarPhases as string[]) || [];
+    const astrologicalAffinities = recipeData.astrologicalAffinities as Record<string, unknown>;
+    const lunarPhases = (astrologicalAffinities.lunarPhases as string[]) || [];
     
     if (lunarPhases.length === 0 || !this.lunarPhase) {
       return 0.5;
@@ -485,8 +485,8 @@ export class AlchemicalTransformationService {
   // Helper method to calculate zodiac score for a recipe
   private calculateZodiacScore(recipe: Recipe): number {
     const recipeData = recipe as unknown as Record<string, unknown>;
-    const astrologicalAffinities = recipeData?.astrologicalAffinities as Record<string, unknown>;
-    const signs = (astrologicalAffinities?.signs as string[]) || [];
+    const astrologicalAffinities = recipeData.astrologicalAffinities as Record<string, unknown>;
+    const signs = (astrologicalAffinities.signs as string[]) || [];
     
     if (signs.length === 0 || !this.currentZodiac) {
       return 0.5;

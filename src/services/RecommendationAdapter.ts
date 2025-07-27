@@ -158,7 +158,7 @@ export class RecommendationAdapter {
       
       // Get current sun sign as current zodiac
       const sunPosition = positions['sun'];
-      const currentZodiac = sunPosition?.sign || null;
+      const currentZodiac = sunPosition.sign || null;
       
       // Initialize adapter with calculated values - safe type conversion
       this.initialize(
@@ -305,9 +305,9 @@ export class RecommendationAdapter {
         this.aspects.forEach(aspect => {
           // Extract aspect data with safe property access
           const aspectData = (aspect as unknown) as Record<string, unknown>;
-          const body1 = aspectData?.body1;
-          const body2 = aspectData?.body2;
-          const aspectType = aspectData?.aspectType;
+          const body1 = aspectData.body1;
+          const body2 = aspectData.body2;
+          const aspectType = aspectData.aspectType;
           
           // Lookup planet data for both bodies with safe string conversion
           const planet1 = typeof body1 === 'string' ? body1.toLowerCase() : undefined;
@@ -320,17 +320,17 @@ export class RecommendationAdapter {
           const planetData2 = this.getPlanetData(planet2);
           
           // If either planet has aspect effects for the other planet
-          if (planetData1?.AspectsEffect?.[planet2]) {
+          if (planetData1.AspectsEffect?.[planet2]) {
             const aspectEffect = planetData1.AspectsEffect[planet2][aspectType];
             if (aspectEffect) {
               // Boost alchemical properties based on aspect effect
               const boost = aspectEffect;
               // Extract alchemy data with safe property access
               const alchemyData1 = planetData1.Alchemy as Record<string, unknown>;
-              const spirit1 = this.safeGetNumber(alchemyData1?.Spirit);
-              const essence1 = this.safeGetNumber(alchemyData1?.Essence);
-              const matter1 = this.safeGetNumber(alchemyData1?.Matter);
-              const substance1 = this.safeGetNumber(alchemyData1?.Substance);
+              const spirit1 = this.safeGetNumber(alchemyData1.Spirit);
+              const essence1 = this.safeGetNumber(alchemyData1.Essence);
+              const matter1 = this.safeGetNumber(alchemyData1.Matter);
+              const substance1 = this.safeGetNumber(alchemyData1.Substance);
               
               alchemicalProperties.Spirit = alchemicalProperties.Spirit + spirit1 * boost;
               alchemicalProperties.Essence = alchemicalProperties.Essence + essence1 * boost;
@@ -339,17 +339,17 @@ export class RecommendationAdapter {
             }
           }
           
-          if (planetData2?.AspectsEffect?.[planet1]) {
+          if (planetData2.AspectsEffect?.[planet1]) {
             const aspectEffect = planetData2.AspectsEffect[planet1][aspectType];
             if (aspectEffect) {
               // Boost alchemical properties based on aspect effect
               const boost = aspectEffect;
               // Extract alchemy data with safe property access
               const alchemyData2 = planetData2.Alchemy as Record<string, unknown>;
-              const spirit2 = this.safeGetNumber(alchemyData2?.Spirit);
-              const essence2 = this.safeGetNumber(alchemyData2?.Essence);
-              const matter2 = this.safeGetNumber(alchemyData2?.Matter);
-              const substance2 = this.safeGetNumber(alchemyData2?.Substance);
+              const spirit2 = this.safeGetNumber(alchemyData2.Spirit);
+              const essence2 = this.safeGetNumber(alchemyData2.Essence);
+              const matter2 = this.safeGetNumber(alchemyData2.Matter);
+              const substance2 = this.safeGetNumber(alchemyData2.Substance);
               
               alchemicalProperties.Spirit = alchemicalProperties.Spirit + spirit2 * boost;
               alchemicalProperties.Essence = alchemicalProperties.Essence + essence2 * boost;
@@ -497,9 +497,9 @@ export class RecommendationAdapter {
       if (nutrition) {
         // Extract nutrition data with safe property access
         const nutritionData = nutrition as Record<string, unknown>;
-        const macros = nutritionData?.macros;
-        const vitamins = nutritionData?.vitamins;
-        const minerals = nutritionData?.minerals;
+        const macros = nutritionData.macros;
+        const vitamins = nutritionData.vitamins;
+        const minerals = nutritionData.minerals;
         
         if (macros && vitamins && minerals) {
           const macrosData = macros as Record<string, unknown>;
@@ -660,9 +660,9 @@ export class RecommendationAdapter {
     if (this.alchemicalResult) {
       // Extract elemental balance with safe property access
       const alchemicalData = this.alchemicalResult as Record<string, unknown>;
-      const elementalBalance = (alchemicalData?.elementalBalance as any) || {};
+      const elementalBalance = (alchemicalData.elementalBalance as any) || {};
       const fire = Number(elementalBalance?.Fire) || 0;
-      const spirit = alchemicalData?.spirit || 0;
+      const spirit = alchemicalData.spirit || 0;
       
       // Heat is primarily influenced by Fire element and Spirit property
       return (Number(fire) * 0.6 + Number(spirit) * 0.4) / 2;
@@ -684,9 +684,9 @@ export class RecommendationAdapter {
     if (this.alchemicalResult) {
       // Extract elemental balance with safe property access
       const alchemicalData = this.alchemicalResult as Record<string, unknown>;
-      const elementalBalance = (alchemicalData?.elementalBalance as any) || {};
+      const elementalBalance = (alchemicalData.elementalBalance as any) || {};
       const air = Number(elementalBalance?.Air) || 0;
-      const substance = alchemicalData?.substance || 0;
+      const substance = alchemicalData.substance || 0;
       
       // Entropy is primarily influenced by Air element and Substance property
       return (Number(air) * 0.7 + Number(substance) * 0.3) / 2;
@@ -708,8 +708,8 @@ export class RecommendationAdapter {
     if (this.alchemicalResult) {
       // Extract elemental balance with safe property access
       const alchemicalData = this.alchemicalResult as Record<string, unknown>;
-      const elementalBalance = (alchemicalData?.elementalBalance as any) || {};
-      const essence = Number(alchemicalData?.essence) || 0;
+      const elementalBalance = (alchemicalData.elementalBalance as any) || {};
+      const essence = Number(alchemicalData.essence) || 0;
       const water = Number(elementalBalance?.Water) || 0;
       
       // Reactivity is primarily influenced by Water element and Essence property
@@ -732,17 +732,17 @@ export class RecommendationAdapter {
     if (this.alchemicalResult) {
       // Extract data with safe property access
       const alchemicalData = this.alchemicalResult as Record<string, unknown>;
-      const elementalBalanceData = (alchemicalData?.elementalBalance as any) || {};
+      const elementalBalanceData = (alchemicalData.elementalBalance as any) || {};
       
       const Fire = Number(elementalBalanceData?.Fire) || 0;
       const Water = Number(elementalBalanceData?.Water) || 0;
       const Earth = Number(elementalBalanceData?.Earth) || 0;
       const Air = Number(elementalBalanceData?.Air) || 0;
       
-      const spirit = Number(alchemicalData?.spirit) || 0;
-      const essence = Number(alchemicalData?.essence) || 0;
-      const matter = Number(alchemicalData?.matter) || 0;
-      const substance = Number(alchemicalData?.substance) || 0;
+      const spirit = Number(alchemicalData.spirit) || 0;
+      const essence = Number(alchemicalData.essence) || 0;
+      const matter = Number(alchemicalData.matter) || 0;
+      const substance = Number(alchemicalData.substance) || 0;
       
       // Weighted combination of all elements and properties
       const elementalBalance = (Number(Fire) + Number(Water) + Number(Earth) + Number(Air)) / 4;

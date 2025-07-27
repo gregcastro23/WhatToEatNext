@@ -109,7 +109,7 @@ function normalizeSignName(signName: string): ZodiacSign {
     'pisces': 'pisces'
   };
   
-  const normalized = signName?.toLowerCase() as ZodiacSign;
+  const normalized = signName.toLowerCase() as ZodiacSign;
   return signMap[normalized] || 'aries';
 }
 
@@ -194,7 +194,7 @@ export async function fetchPlanetaryPositions(
     const data: AstrologizeResponse = await response.json();
     
     // Extract planetary positions from the new API structure
-    const celestialBodies = data?._celestialBodies;
+    const celestialBodies = data._celestialBodies;
     
     if (!celestialBodies) {
       throw new Error('Invalid API response structure');
@@ -244,7 +244,7 @@ export async function fetchPlanetaryPositions(
     };
 
     console.log('Successfully fetched planetary positions from local API:', Object.keys(positions));
-    console.log('🌟 Using', data.birth_info?.ayanamsa || 'TROPICAL', 'zodiac system');
+    console.log('🌟 Using', data.birth_info.ayanamsa || 'TROPICAL', 'zodiac system');
     return positions;
 
   }, fallbackPositions);

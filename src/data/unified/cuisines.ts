@@ -97,7 +97,7 @@ export class CuisineEnhancer {
       
       // Track ingredient frequency and Kalchm values
       for (const ingredient of recipe.ingredients) {
-        const ingredientName = ingredient.name?.toLowerCase();
+        const ingredientName = ingredient.name.toLowerCase();
         if (!ingredientName) continue;
         
         // Update frequency
@@ -107,14 +107,14 @@ export class CuisineEnhancer {
         const unifiedIngredient = RecipeEnhancer.findUnifiedIngredient(ingredientName);
         if (unifiedIngredient) {
           ingredientKalchms.set(ingredientName, unifiedIngredient.kalchm || 1.0);
-        } else if (((ingredient as unknown) as Record<string, unknown>)?.element) {
-          ingredientKalchms.set(ingredientName, RecipeEnhancer.estimateKalchmFromElement(((ingredient as unknown) as Record<string, unknown>)?.element  as Element));
+        } else if (((ingredient as unknown) as Record<string, unknown>).element) {
+          ingredientKalchms.set(ingredientName, RecipeEnhancer.estimateKalchmFromElement(((ingredient as unknown) as Record<string, unknown>).element  as Element));
         }
       }
       
       // Track cooking methods
       const recipeData = (recipe as unknown) as Record<string, unknown>;
-      if (recipeData?.cookingMethods && Array.isArray(recipeData.cookingMethods)) {
+      if (recipeData.cookingMethods && Array.isArray(recipeData.cookingMethods)) {
         for (const method of recipeData.cookingMethods as string[]) {
           cookingMethods.set(method, (cookingMethods.get(method) || 0) + 1);
         }
@@ -154,7 +154,7 @@ export class CuisineEnhancer {
     
     // Use safe type casting for cuisine property access
     const cuisineData = cuisine as Record<string, unknown>;
-    if (!cuisineData?.dishes || typeof cuisineData.dishes !== 'object') {
+    if (!cuisineData.dishes || typeof cuisineData.dishes !== 'object') {
       return recipes;
     }
     
@@ -169,11 +169,11 @@ export class CuisineEnhancer {
         // Add each dish as a recipe
         for (const dish of dishes) {
           if (dish && dish.name) {
-            recipes?.push({
+            recipes.push({
               ...dish,
               mealType,
               season,
-              cuisine: cuisineData?.name || 'Unknown'
+              cuisine: cuisineData.name || 'Unknown'
             });
           }
         }
@@ -196,8 +196,8 @@ export class CuisineEnhancer {
     // Build most common ingredients with their Kalchm values
     for (const [ingredient, frequency] of ingredientFrequency.entries()) {
       const kalchm = ingredientKalchms.get(ingredient) || 1.0;
-      mostCommon?.push({ ingredient, kalchm, frequency });
-      kalchmValues?.push(kalchm);
+      mostCommon.push({ ingredient, kalchm, frequency });
+      kalchmValues.push(kalchm);
     }
     
     // Sort by frequency (most common first)
@@ -211,7 +211,7 @@ export class CuisineEnhancer {
     } : { min: 1.0, max: 1.0, average: 1.0 };
     
     return {
-      mostCommon: mostCommon?.slice(0, 10), // Top 10 most common ingredients
+      mostCommon: mostCommon.slice(0, 10), // Top 10 most common ingredients
       kalchmRange
     };
   }
@@ -267,7 +267,7 @@ export class CuisineEnhancer {
     
     // Calculate method Kalchm modifiers
     for (const [method, frequency] of cookingMethods.entries()) {
-      const baseModifier = kalchmModifierMap[method?.toLowerCase()] || 1.0;
+      const baseModifier = kalchmModifierMap[method.toLowerCase()] || 1.0;
       // Weight modifier by frequency (more frequent methods have stronger influence)
       const totalFrequency = Array.from(cookingMethods.values()).reduce((a, b) => a + b, 0);
       const frequencyWeight = frequency / totalFrequency;
@@ -288,11 +288,11 @@ export class CuisineEnhancer {
     const cuisineData = cuisine as Record<string, unknown>;
     
     // Use existing elemental properties if available
-    if (cuisineData?.elementalState) {
+    if (cuisineData.elementalState) {
       return cuisineData.elementalState as ElementalProperties;
     }
     
-    if (cuisineData?.elementalProperties) {
+    if (cuisineData.elementalProperties) {
       return cuisineData.elementalProperties as ElementalProperties;
     }
     
@@ -303,7 +303,7 @@ export class CuisineEnhancer {
     
     for (const recipe of recipes) {
       const recipeData = (recipe as unknown) as Record<string, unknown>;
-      if (recipeData?.elementalState) {
+      if (recipeData.elementalState) {
         const elementalData = recipeData.elementalState as ElementalProperties;
         totalFire += elementalData.Fire || 0;
         totalWater += elementalData.Water || 0;
@@ -338,11 +338,11 @@ export class CuisineEnhancer {
     
     // Modify based on cooking methods
     const fireMethodCount = (cookingMethods || []).filter(method => 
-      ['grilling', 'roasting', 'searing', 'frying', 'broiling'].includes(method?.toLowerCase())
+      ['grilling', 'roasting', 'searing', 'frying', 'broiling'].includes(method.toLowerCase())
     ).length;
     
     const waterMethodCount = (cookingMethods || []).filter(method => 
-      ['steaming', 'boiling', 'poaching', 'braising', 'simmering'].includes(method?.toLowerCase())
+      ['steaming', 'boiling', 'poaching', 'braising', 'simmering'].includes(method.toLowerCase())
     ).length;
     
     if (fireMethodCount > waterMethodCount * 2) {
@@ -370,7 +370,7 @@ export class CuisineEnhancer {
     for (const recipe of recipes) {
       // Count seasons
       const recipeSeasonData = (recipe as unknown) as Record<string, unknown>;
-      if (recipeSeasonData?.currentSeason && Array.isArray(recipeSeasonData.currentSeason)) {
+      if (recipeSeasonData.currentSeason && Array.isArray(recipeSeasonData.currentSeason)) {
         for (const season of recipeSeasonData.currentSeason as string[]) {
           if (season !== 'all') {
             seasonFrequency.set(season, (seasonFrequency.get(season) || 0) + 1);
@@ -380,7 +380,7 @@ export class CuisineEnhancer {
       
       // Collect planetary affinities
       const astroData = (recipe as unknown) as Record<string, unknown>;
-      if ((astroData?.astrologicalAffinities as Record<string, unknown>)?.planets) {
+      if ((astroData.astrologicalAffinities as Record<string, unknown>).planets) {
         for (const planet of ((astroData.astrologicalAffinities as Record<string, unknown>).planets as string[])) {
           planetaryAffinities.add(planet);
         }
@@ -456,7 +456,7 @@ export class CuisineEnhancer {
         kalchmCalculated: true,
         recipesAnalyzed: kalchmAnalysis.recipesAnalyzed,
         ingredientsAnalyzed: kalchmAnalysis.ingredientsAnalyzed,
-        enhancedAt: new Date()?.toISOString(),
+        enhancedAt: new Date().toISOString(),
         sourceFile
       }
     } as EnhancedCuisine;
@@ -508,7 +508,7 @@ export class CuisineAnalyzer {
     return cuisines.filter(cuisine => {
       // Use safe type casting for alchemicalProperties access
       const alchemicalData = cuisine.alchemicalProperties as Record<string, unknown>;
-      const elementalBalance = alchemicalData?.elementalBalance;
+      const elementalBalance = alchemicalData.elementalBalance;
       return elementalBalance && elementalBalance[element] >= threshold;
     });
   }
@@ -555,12 +555,12 @@ export class CuisineAnalyzer {
     enhanced.forEach(cuisine => {
       // Analyze elemental dominance with safe type casting
       const alchemicalData = cuisine.alchemicalProperties as Record<string, unknown>;
-      const elementalBalance = alchemicalData?.elementalBalance;
+      const elementalBalance = alchemicalData.elementalBalance;
       if (elementalBalance) {
         const dominant = Object.entries(elementalBalance)
           .reduce((a, b) => elementalBalance[a[0] as keyof ElementalProperties] > elementalBalance[b[0] as keyof ElementalProperties] ? a : b)[0];
         
-        const dominantKey = dominant?.toLowerCase() + '-dominant';
+        const dominantKey = dominant.toLowerCase() + '-dominant';
         if (elementalDistribution[dominantKey] !== undefined) {
           elementalDistribution[dominantKey]++;
         } else {

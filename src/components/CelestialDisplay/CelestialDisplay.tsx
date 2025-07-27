@@ -405,19 +405,19 @@ export default function CelestialDisplay() {
               <div className="flex items-center text-sm text-gray-400">
                 <span className="text-yellow-500 mr-1">{PLANET_SYMBOLS.sun}</span>
                 <span className="capitalize">
-                  {(planetaryAlignment as PlanetaryAlignment)?.Sun?.sign}
+                  {(planetaryAlignment as PlanetaryAlignment).Sun?.sign}
                 </span>
               </div>
               <div className="flex items-center text-sm text-gray-400">
                 <span className="text-gray-300 mr-1">{PLANET_SYMBOLS.moon}</span>
                 <span className="capitalize">
-                  {(planetaryAlignment as PlanetaryAlignment)?.Moon?.sign}
+                  {(planetaryAlignment as PlanetaryAlignment).Moon?.sign}
                 </span>
               </div>
               <div className="flex items-center text-sm text-gray-400">
                 <span className="text-orange-500 mr-1">{PLANET_SYMBOLS.northNode}</span>
                 <span className="capitalize">
-                  {(planetaryAlignment as PlanetaryAlignment)?.northNode?.sign}
+                  {(planetaryAlignment as PlanetaryAlignment).northNode?.sign}
                 </span>
               </div>
             </div>

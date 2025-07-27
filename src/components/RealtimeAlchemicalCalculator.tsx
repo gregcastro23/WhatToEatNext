@@ -220,11 +220,11 @@ export default function RealtimeAlchemicalCalculator() {
           {Object.entries(positions || {}).map(([planet, position]) => (
             <div key={planet} className="text-center p-3 bg-gray-50 rounded">
               <div className="font-semibold text-gray-800">{planet}</div>
-              <div className="text-sm text-gray-600 capitalize">{position?.sign}</div>
+              <div className="text-sm text-gray-600 capitalize">{position.sign}</div>
               <div className="text-xs text-gray-500">
-                {position?.degree}°{position?.minute || 0}'
+                {position.degree}°{position.minute || 0}'
               </div>
-              {position?.isRetrograde && (
+              {position.isRetrograde && (
                 <div className="text-xs text-red-500">Retrograde</div>
               )}
             </div>

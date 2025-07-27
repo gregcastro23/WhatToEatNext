@@ -397,7 +397,7 @@ async function validateAlchemicalMappings(): Promise<{ errors: IngredientValidat
     
     for (const [name, ingredient] of Object.entries(ingredients)) {
       try {
-        if ((ingredient as unknown as Record<string, unknown>)?.alchemicalProperties) {
+        if ((ingredient as unknown as Record<string, unknown>).alchemicalProperties) {
           const validation = validateAlchemicalConsistency(name, ingredient);
           errors.push(...validation.errors);
           warnings.push(...validation.warnings);
@@ -444,7 +444,7 @@ function validateAlchemicalConsistency(
   
   try {
     const ingredientData = ingredient as unknown as Record<string, unknown>;
-    if (!ingredientData?.alchemicalProperties || !ingredient.elementalProperties) {
+    if (!ingredientData.alchemicalProperties || !ingredient.elementalProperties) {
       return { errors, warnings };
     }
     
@@ -762,7 +762,7 @@ async function testAlchemicalMappings(): Promise<IngredientTestResult> {
     
     for (const ingredient of Object.values(ingredients)) {
       const ingredientData = ingredient as unknown as Record<string, unknown>;
-      if (ingredientData?.alchemicalProperties) {
+      if (ingredientData.alchemicalProperties) {
         totalMappings++;
         
         const alchemical = ingredientData.alchemicalProperties as Record<string, unknown>;

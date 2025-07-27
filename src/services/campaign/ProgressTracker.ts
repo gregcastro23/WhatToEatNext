@@ -38,12 +38,12 @@ export class ProgressTracker {
       // If grep finds no matches, it returns exit code 1, but that means 0 errors
       // Apply Pattern GG-6: Enhanced property access with type guards
       const errorData = error  as Record<string, unknown>;
-      if (typeof errorData?.status === 'number' && errorData.status === 1) {
+      if (typeof errorData.status === 'number' && errorData.status === 1) {
         return 0;
       }
       
       // Apply Pattern GG-6: Safe property access for error message
-      const errorMessage = typeof errorData?.message === 'string' ? errorData.message : 'Unknown error';
+      const errorMessage = typeof errorData.message === 'string' ? errorData.message : 'Unknown error';
       console.warn(`Warning: Could not get TypeScript error count: ${errorMessage}`);
       return -1; // Indicates measurement failure
     }
@@ -76,7 +76,7 @@ export class ProgressTracker {
     } catch (error) {
       // Apply Pattern GG-6: Safe property access for error message
       const errorData = error  as Record<string, unknown>;
-      const errorMessage = typeof errorData?.message === 'string' ? errorData.message : 'Unknown error';
+      const errorMessage = typeof errorData.message === 'string' ? errorData.message : 'Unknown error';
       console.warn(`Warning: Could not get TypeScript error breakdown: ${errorMessage}`);
       return {};
     }
@@ -100,12 +100,12 @@ export class ProgressTracker {
       // If grep finds no matches, it returns exit code 1, but that means 0 warnings
       // Apply Pattern GG-6: Enhanced property access with type guards
       const errorData = error  as Record<string, unknown>;
-      if (typeof errorData?.status === 'number' && errorData.status === 1) {
+      if (typeof errorData.status === 'number' && errorData.status === 1) {
         return 0;
       }
       
       // Apply Pattern GG-6: Safe property access for error message
-      const errorMessage = typeof errorData?.message === 'string' ? errorData.message : 'Unknown error';
+      const errorMessage = typeof errorData.message === 'string' ? errorData.message : 'Unknown error';
       console.warn(`Warning: Could not get linting warning count: ${errorMessage}`);
       return -1; // Indicates measurement failure
     }
@@ -138,7 +138,7 @@ export class ProgressTracker {
     } catch (error) {
       // Apply Pattern GG-6: Safe property access for error message
       const errorData = error  as Record<string, unknown>;
-      const errorMessage = typeof errorData?.message === 'string' ? errorData.message : 'Unknown error';
+      const errorMessage = typeof errorData.message === 'string' ? errorData.message : 'Unknown error';
       console.warn(`Warning: Could not get linting warning breakdown: ${errorMessage}`);
       return {};
     }
@@ -165,7 +165,7 @@ export class ProgressTracker {
     } catch (error) {
       // Apply Pattern GG-6: Safe property access for error message
       const errorData = error  as Record<string, unknown>;
-      const errorMessage = typeof errorData?.message === 'string' ? errorData.message : 'Unknown error';
+      const errorMessage = typeof errorData.message === 'string' ? errorData.message : 'Unknown error';
       console.warn(`Warning: Build failed during timing: ${errorMessage}`);
       return -1; // Indicates build failure
     }
@@ -188,7 +188,7 @@ export class ProgressTracker {
     } catch (error) {
       // Apply Pattern GG-6: Safe property access for error message
       const errorData = error  as Record<string, unknown>;
-      const errorMessage = typeof errorData?.message === 'string' ? errorData.message : 'Unknown error';
+      const errorMessage = typeof errorData.message === 'string' ? errorData.message : 'Unknown error';
       console.warn(`Warning: Could not count enterprise systems: ${errorMessage}`);
       return 0;
     }
@@ -206,7 +206,7 @@ export class ProgressTracker {
     } catch (error) {
       // Apply Pattern GG-6: Safe property access for error message
       const errorData = error  as Record<string, unknown>;
-      const errorMessage = typeof errorData?.message === 'string' ? errorData.message : 'Unknown error';
+      const errorMessage = typeof errorData.message === 'string' ? errorData.message : 'Unknown error';
       console.warn(`Warning: Could not measure cache hit rate: ${errorMessage}`);
       return 0;
     }
@@ -226,7 +226,7 @@ export class ProgressTracker {
     } catch (error) {
       // Apply Pattern GG-6: Safe property access for error message
       const errorData = error  as Record<string, unknown>;
-      const errorMessage = typeof errorData?.message === 'string' ? errorData.message : 'Unknown error';
+      const errorMessage = typeof errorData.message === 'string' ? errorData.message : 'Unknown error';
       console.warn(`Warning: Could not measure memory usage: ${errorMessage}`);
       return 0;
     }
@@ -258,7 +258,7 @@ export class ProgressTracker {
     } catch (error) {
       // Apply Pattern GG-6: Safe property access for error message
       const errorData = error  as Record<string, unknown>;
-      const errorMessage = typeof errorData?.message === 'string' ? errorData.message : 'Unknown error';
+      const errorMessage = typeof errorData.message === 'string' ? errorData.message : 'Unknown error';
       console.warn(`Warning: Could not measure bundle size: ${errorMessage}`);
       return 0;
     }

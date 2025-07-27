@@ -64,12 +64,12 @@ export default function IngredientDisplayMigrated() {
         });
         
         // Transform to expected format
-        const transformedIngredients: Ingredient[] = (recommendations?.items || []).map((item: any) => ({
+        const transformedIngredients: Ingredient[] = (recommendations.items || []).map((item: any) => ({
           name: item.name,
           category: item.category || 'Uncategorized',
           element: item.elementalState ? 
             'Fire' : // Simplified for now
-            dominantElement?.toLowerCase(),
+            dominantElement.toLowerCase(),
           energyLevel: item.elementalState ? 
             (item.elementalState.Fire + item.elementalState.Water + 
              item.elementalState.Earth + item.elementalState.Air) / 4 : 

@@ -67,7 +67,7 @@ async function getPositionsFromAPI(): Promise<Record<string, CelestialPosition> 
     
     Object.entries(data || {}).forEach(([planet, position]) => {
       if (typeof position === 'object' && position !== null && 'sign' in position) {
-        positions[planet?.toLowerCase()] = {
+        positions[planet.toLowerCase()] = {
           sign: (typeof (position as Record<string, unknown>).sign === 'string' ? ((position as Record<string, unknown>).sign as string).toLowerCase() : 'aries') as ZodiacSign,
           degree: Number((position as Record<string, unknown>).degree) || 0,
           exactLongitude: Number((position as Record<string, unknown>).exactLongitude) || 0,
@@ -153,8 +153,8 @@ export async function getDominantElement(): Promise<string> {
   const positions = await getPlanetaryPositions();
   // Apply surgical type casting with variable extraction
   const safeAstrologyData = safeAstrology as Record<string, unknown>;
-  const getDominantElementMethod = safeAstrologyData?.getDominantElement;
-  const countElementsMethod = safeAstrologyData?.countElements;
+  const getDominantElementMethod = safeAstrologyData.getDominantElement;
+  const countElementsMethod = safeAstrologyData.countElements;
   
   if (getDominantElementMethod && countElementsMethod && 
       typeof getDominantElementMethod === 'function' && 

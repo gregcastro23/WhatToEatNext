@@ -283,7 +283,7 @@ const ChakraDisplayMigrated: React.FC<ChakraDisplayProps> = ({ compact = false }
                   <div className="text-xs text-gray-500 flex flex-wrap items-center">
                     <span className="mr-3">Energy state: {energyState}</span>
                     {(planets || []).length > 0 && (
-                      <span>Planets: {planets?.join(', ')}</span>
+                      <span>Planets: {planets.join(', ')}</span>
                     )}
                   </div>
                 </div>

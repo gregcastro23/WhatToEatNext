@@ -374,7 +374,7 @@ describe('Memory Usage Performance Tests', () => {
       // System should handle pressure gracefully
       const metrics = await progressTracker.getProgressMetrics();
       expect(metrics).toBeDefined();
-      expect(metrics?.buildPerformance?.memoryUsage).toBe(48);
+      expect(metrics.buildPerformance.memoryUsage).toBe(48);
 
       process.memoryUsage = originalMemoryUsage;
     });

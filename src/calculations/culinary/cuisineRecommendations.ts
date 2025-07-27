@@ -72,7 +72,7 @@ export function generateCuisineRecommendations(
   const processedCuisines = new Set<string>();
 
   // Get recommendations from dominant planets
-  dominantPlanets?.slice(0, 3).forEach(({ planet, strength, element }) => {
+  dominantPlanets.slice(0, 3).forEach(({ planet, strength, element }) => {
     const planetaryCuisines = PLANETARY_CUISINES[planet as keyof typeof PLANETARY_CUISINES] || [];
     
     (planetaryCuisines || []).forEach(cuisine => {
@@ -83,7 +83,7 @@ export function generateCuisineRecommendations(
         const reasons = generateCuisineReasons(cuisine, planet, element, strength);
         const suggestedDishes = getSuggestedDishes(cuisine, elementalProperties);
         
-        recommendations?.push({
+        recommendations.push({
           cuisine,
           compatibility,
           reasons,
@@ -107,7 +107,7 @@ export function generateCuisineRecommendations(
           const reasons = [`Strong ${element} element aligns with ${cuisine} cuisine characteristics`];
           const suggestedDishes = getSuggestedDishes(cuisine, elementalProperties);
           
-          recommendations?.push({
+          recommendations.push({
             cuisine,
             compatibility,
             reasons,
@@ -157,7 +157,7 @@ function calculateCuisineElementalAlignment(cuisine: string): ElementalPropertie
   let alignment: ElementalProperties = { Fire: 0.25, Water: 0.25, Air: 0.25, Earth: 0.25 };
 
   // Adjust based on cuisine characteristics
-  const lowerCuisine = cuisine?.toLowerCase();
+  const lowerCuisine = cuisine.toLowerCase();
 
   if (['mexican', 'indian', 'thai', 'cajun', 'ethiopian', 'szechuan'].includes(lowerCuisine)) {
     alignment = { Fire: 0.4, Water: 0.2, Air: 0.2, Earth: 0.2 };
@@ -185,13 +185,13 @@ function generateCuisineReasons(
 ): string[] {
   const reasons: string[] = [];
 
-  reasons?.push(`${planet} influence (${(strength * 100)?.toFixed(0)}%) aligns with ${cuisine} cuisine`);
-  reasons?.push(`${element} elemental energy complements ${cuisine} cooking methods`);
+  reasons.push(`${planet} influence (${(strength * 100).toFixed(0)}%) aligns with ${cuisine} cuisine`);
+  reasons.push(`${element} elemental energy complements ${cuisine} cooking methods`);
 
   if (strength > 0.7) {
-    reasons?.push(`Strong planetary influence makes this an excellent match`);
+    reasons.push(`Strong planetary influence makes this an excellent match`);
   } else if (strength > 0.5) {
-    reasons?.push(`Good planetary alignment for this cuisine style`);
+    reasons.push(`Good planetary alignment for this cuisine style`);
   }
 
   return reasons;
@@ -221,7 +221,7 @@ function getSuggestedDishes(cuisine: string, elementals: ElementalProperties): s
     .reduce((a, b) => elementals[a[0] as keyof ElementalProperties] > elementals[b[0] as keyof ElementalProperties] ? a : b)[0];
 
   // Return dishes that align with dominant element
-  return cuisineDishes?.slice(0, 3);
+  return cuisineDishes.slice(0, 3);
 }
 
 export default {

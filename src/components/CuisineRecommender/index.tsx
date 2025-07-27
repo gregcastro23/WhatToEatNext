@@ -126,13 +126,13 @@ export const CuisineRecommender: React.FC<CuisineRecommenderProps> = ({
             </div>
             <div className="dominant-planets">
               <strong>Dominant Planets:</strong>
-              {(celestialData?.dominantPlanets || []).map((planet, index) => {
+              {(celestialData.dominantPlanets || []).map((planet, index) => {
                 const planetData = planet as Record<string, unknown>;
-                const planetName = String(planetData?.name || `Planet ${index}`);
-                const planetInfluence = Number(planetData?.influence || 0);
+                const planetName = String(planetData.name || `Planet ${index}`);
+                const planetInfluence = Number(planetData.influence || 0);
                 return (
                   <span key={planetName} className="planet-tag">
-                    {planetName} ({(planetInfluence * 100)?.toFixed(0)}%)
+                    {planetName} ({(planetInfluence * 100).toFixed(0)}%)
                   </span>
                 );
               })}
@@ -140,12 +140,12 @@ export const CuisineRecommender: React.FC<CuisineRecommenderProps> = ({
             <div className="elemental-balance">
               <strong>Elemental Balance:</strong>
               <div className="elements">
-                {Object.entries((celestialData as Record<string, unknown>)?.elementalState as Record<string, number> || {}).map(([element, value]) => (
+                {Object.entries((celestialData as unknown as Record<string, unknown>).elementalState as Record<string, number> || {}).map(([element, value]) => (
                   <div key={element} className="element-bar">
                     <span className="element-name">{element}:</span>
                     <div className="bar">
                       <div 
-                        className={`fill ${element?.toLowerCase()}`}
+                        className={`fill ${element.toLowerCase()}`}
                         style={{ width: `${(value ) * 100}%` }}
                       />
                     </div>
@@ -227,9 +227,9 @@ export const CuisineRecommender: React.FC<CuisineRecommenderProps> = ({
                   <div className="elemental-properties">
                     <h5>Recipe Elements:</h5>
                     <div className="elements">
-                      {Object.entries(recipe?.elementalState || {}).map(([element, value]) => (
+                      {Object.entries(recipe.elementalState || {}).map(([element, value]) => (
                         <div key={element} className="element-indicator">
-                          <span className={`element-dot ${element?.toLowerCase()}`} />
+                          <span className={`element-dot ${element.toLowerCase()}`} />
                           <span>{element}: {(Number(value as number) * 100).toFixed(0)}%</span>
                         </div>
                       ))}
@@ -242,16 +242,16 @@ export const CuisineRecommender: React.FC<CuisineRecommenderProps> = ({
                   {recipe.zodiacInfluences && (recipe.zodiacInfluences || []).length > 0 && (
                     <div className="influences-section">
                       <strong>Zodiac Influences:</strong>
-                      {(recipe?.zodiacInfluences || []).map(sign => (
+                      {(recipe.zodiacInfluences || []).map(sign => (
                         <span key={sign} className="influence-tag zodiac">{sign}</span>
                       ))}
                     </div>
                   )}
                   
-                  {recipe.planetaryInfluences?.favorable && (recipe?.planetaryInfluences?.favorable || []).length > 0 && (
+                  {recipe.planetaryInfluences?.favorable && (recipe.planetaryInfluences.favorable || []).length > 0 && (
                     <div className="influences-section">
                       <strong>Favorable Planets:</strong>
-                      {(recipe?.planetaryInfluences?.favorable || []).map(planet => (
+                      {(recipe.planetaryInfluences.favorable || []).map(planet => (
                         <span key={planet} className="influence-tag planet favorable">{planet}</span>
                       ))}
                     </div>
@@ -260,7 +260,7 @@ export const CuisineRecommender: React.FC<CuisineRecommenderProps> = ({
                   {recipe.lunarPhaseInfluences && (recipe.lunarPhaseInfluences || []).length > 0 && (
                     <div className="influences-section">
                       <strong>Lunar Phases:</strong>
-                      {(recipe?.lunarPhaseInfluences || []).map(phase => (
+                      {(recipe.lunarPhaseInfluences || []).map(phase => (
                         <span key={phase} className="influence-tag lunar">{phase}</span>
                       ))}
                     </div>
@@ -271,7 +271,7 @@ export const CuisineRecommender: React.FC<CuisineRecommenderProps> = ({
                 <div className="ingredients-preview">
                   <h5>Key Ingredients:</h5>
                   <div className="ingredients-list">
-                    {(recipe.ingredients?.slice(0, 5) || []).map((ingredient, idx) => (
+                    {(recipe.ingredients.slice(0, 5) || []).map((ingredient, idx) => (
                       <span key={idx} className="ingredient-tag">
                         {ingredient.name}
                       </span>

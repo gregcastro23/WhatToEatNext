@@ -201,7 +201,7 @@ export default function IngredientRecommender() {
   
   // Helper function to check if an ingredient is an oil
   const isOil = (ingredient: Ingredient | UnifiedIngredient): boolean => {
-    const _category = ingredient.category?.toLowerCase() || '';
+    const _category = ingredient.category.toLowerCase() || '';
     if (_category === 'oil' || _category === 'oils') return true;
     
     const name = String(ingredient.name).toLowerCase();
@@ -210,7 +210,7 @@ export default function IngredientRecommender() {
   
   // Helper function to check if an ingredient is a vinegar
   const isVinegar = (ingredient: Ingredient | UnifiedIngredient): boolean => {
-    const _category = ingredient.category?.toLowerCase() || '';
+    const _category = ingredient.category.toLowerCase() || '';
     if (_category === 'vinegar' || _category === 'vinegars') return true;
     
     const name = String(ingredient.name).toLowerCase();
@@ -221,7 +221,7 @@ export default function IngredientRecommender() {
   const getNormalizedCategory = (ingredient: Ingredient | UnifiedIngredient): string => {
     if (!ingredient.category) return 'other';
     
-    const _category = ingredient?.category?.toLowerCase();
+    const _category = ingredient.category.toLowerCase();
     
     // Map categories to our standard ones
     if (['vegetable', 'vegetables'].includes(_category)) return 'vegetables';
@@ -316,7 +316,7 @@ export default function IngredientRecommender() {
     
     // First check for explicit category
     if (ingredient.category) {
-      const _category = ingredient?.category?.toLowerCase();
+      const _category = ingredient.category.toLowerCase();
       
       // Handle specific category mappings
       if (['protein', 'meat', 'egg', 'dairy', 'plant_based', 'seafood', 'poultry'].includes(_category)) {
@@ -695,7 +695,7 @@ export default function IngredientRecommender() {
           name.includes('octopus') || name.includes('fish') || name.includes('trout') || 
           name.includes('tuna') || name.includes('crab') || name.includes('lobster')
         ) {
-          categories?.proteins?.push({
+          categories.proteins.push({
             ...ingredient,
             matchScore: ingredient.score || 0.5
           });
@@ -720,7 +720,7 @@ export default function IngredientRecommender() {
           name.includes('spice') || 
           name.includes('seasoning')
         ) {
-          categories?.spices?.push({
+          categories.spices.push({
             ...ingredient,
             matchScore: ingredient.score || 0.5
           });
@@ -736,28 +736,28 @@ export default function IngredientRecommender() {
           name.includes('chili pepper') || 
           name.includes('paprika')
         ) {
-          categories?.vegetables?.push({
+          categories.vegetables.push({
             ...ingredient,
             matchScore: ingredient.score || 0.5
           });
         }
         // Oils
         else if (isOil(ingredient as UnifiedIngredient | Ingredient)) {
-          categories?.oils?.push({
+          categories.oils.push({
             ...ingredient,
             matchScore: ingredient.score || 0.5
           });
         }
         // Vinegars
         else if (isVinegar(ingredient as UnifiedIngredient | Ingredient)) {
-          categories?.vinegars?.push({
+          categories.vinegars.push({
             ...ingredient,
             matchScore: ingredient.score || 0.5
           });
         }
         // Herbs
         else if (ingredient.category === 'herb' || name.includes('herb') || herbNames.some(herb => name.includes(herb.toLowerCase()))) {
-          categories?.herbs?.push({
+          categories.herbs.push({
             ...ingredient,
             matchScore: ingredient.score || 0.5
           });
@@ -782,7 +782,7 @@ export default function IngredientRecommender() {
               name.includes('arugula') || name.includes('turnip') || name.includes('leek') ||
               ingredient.category?.toLowerCase() === 'vegetable' || ingredient.category?.toLowerCase() === 'vegetables'
             ) {
-              categories?.vegetables?.push({
+              categories.vegetables.push({
                 ...ingredient,
                 matchScore: ingredient.score || 0.5
               });
@@ -790,13 +790,13 @@ export default function IngredientRecommender() {
               name.includes('apple') || name.includes('orange') || name.includes('lemon') || 
               name.includes('melon') || name.includes('berry') || name.includes('pineapple')
             ) {
-              categories?.fruits?.push({
+              categories.fruits.push({
                 ...ingredient,
                 matchScore: ingredient.score || 0.5
               });
             } else {
               // Default to vegetables for unmatched items
-              categories?.vegetables?.push({
+              categories.vegetables.push({
                 ...ingredient,
                 matchScore: ingredient.score || 0.5
               });
@@ -838,7 +838,7 @@ export default function IngredientRecommender() {
     });
     
     // Ensure vinegars are always present by adding them from the collection if needed
-    if (!categories.vinegars || categories?.vinegars?.length === 0) {
+    if (!categories.vinegars || categories.vinegars.length === 0) {
       categories.vinegars = Object.entries(vinegarsCollection).map(([key, vinegarData]) => {
         const displayName = vinegarData.name || key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
         return {
@@ -859,11 +859,11 @@ export default function IngredientRecommender() {
     }
     
     // Add any missing oils from the oils collection
-    if (!categories.oils || categories?.oils?.length < 3) {
+    if (!categories.oils || categories.oils.length < 3) {
       const existingOilNames = new Set((categories.oils || []).map(oil => oil?.name?.toLowerCase()));
       const additionalOils = Object.entries(oilsCollection)
         .filter(([_, oilData]) => 
-          !existingOilNames.has(oilData.name?.toLowerCase() || '')
+          !existingOilNames.has(oilData.name.toLowerCase() || '')
         )
         .slice(0, 10) // Limit to 10 additional oils
         .map(([key, oilData]) => {
@@ -1018,7 +1018,7 @@ export default function IngredientRecommender() {
                     }}>
                       {method.charAt(0).toUpperCase() + method.slice(1)}
                     </div>
-                    {(detailsData?.notes && Array.isArray(detailsData.notes) && detailsData?.notes?.length > 0) ? (
+                    {(detailsData.notes && Array.isArray(detailsData.notes) && detailsData.notes.length > 0) ? (
                       <div style={{ 
                         fontSize: '0.85rem', 
                         color: '#4b5563',
@@ -1027,13 +1027,13 @@ export default function IngredientRecommender() {
                         {detailsData.notes[0]}
                       </div>
                     ) : null}
-                    {(detailsData?.techniques && Array.isArray(detailsData.techniques) && detailsData?.techniques?.length > 0) ? (
+                    {(detailsData.techniques && Array.isArray(detailsData.techniques) && detailsData.techniques.length > 0) ? (
                       <div style={{ 
                         fontSize: '0.8rem', 
                         color: '#6b7280',
                         marginTop: '0.5rem' 
                       }}>
-                        <strong>Techniques:</strong> {detailsData?.techniques?.join(', ')}
+                        <strong>Techniques:</strong> {detailsData.techniques.join(', ')}
                       </div>
                     ) : null}
                   </div>
@@ -1134,20 +1134,20 @@ export default function IngredientRecommender() {
               padding: '0.75rem 1rem',
               border: '1px solid rgba(229, 231, 235, 0.8)'
             }}>
-              {(((item as Record<string, unknown>).astrologicalProfile as Record<string, unknown>)?.rulingPlanets) ? (
+              {(((item as Record<string, unknown>).astrologicalProfile as Record<string, unknown>).rulingPlanets) ? (
                 <div style={{ fontSize: '0.85rem', marginBottom: '0.5rem', display: 'flex', alignItems: 'center' }}>
                   <span style={{ fontWeight: '600', width: '140px', color: '#4b5563' }}>Planetary influence: </span>
                   <span style={{ fontWeight: '500', color: '#1f2937' }}>
-                    {(((item as Record<string, unknown>).astrologicalProfile as Record<string, unknown>)?.rulingPlanets as string[])?.join(', ')}
+                    {(((item as Record<string, unknown>).astrologicalProfile as Record<string, unknown>).rulingPlanets as string[]).join(', ')}
                   </span>
                 </div>
               ) : null}
               
-              {(((item as Record<string, unknown>).astrologicalProfile as Record<string, unknown>)?.favorableZodiac) ? (
+              {(((item as Record<string, unknown>).astrologicalProfile as Record<string, unknown>).favorableZodiac) ? (
                 <div style={{ fontSize: '0.85rem', display: 'flex', alignItems: 'center' }}>
                   <span style={{ fontWeight: '600', width: '140px', color: '#4b5563' }}>Favorable zodiac: </span>
                   <span style={{ fontWeight: '500', color: '#1f2937' }}>
-                    {(((item as Record<string, unknown>).astrologicalProfile as Record<string, unknown>)?.favorableZodiac as string[])?.map((sign: string) => 
+                    {(((item as Record<string, unknown>).astrologicalProfile as Record<string, unknown>).favorableZodiac as string[]).map((sign: string) => 
                       sign.charAt(0).toUpperCase() + sign.slice(1)
                     ).join(', ')}
                   </span>

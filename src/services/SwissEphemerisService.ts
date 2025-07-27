@@ -428,7 +428,7 @@ export class SwissEphemerisService {
         const { sign, degree } = this.longitudeToSignAndDegree(longitude);
         
         positions[planetName] = {
-          sign: signName?.toLowerCase() as ZodiacSign || sign,
+          sign: signName.toLowerCase() as ZodiacSign || sign,
           degree: degree,
           exactLongitude: longitude,
           isRetrograde: isRetrograde,

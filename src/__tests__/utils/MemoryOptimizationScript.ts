@@ -217,13 +217,13 @@ export class MemoryOptimizationScript {
     }
 
     // Enable garbage collection exposure
-    if (!process.env.NODE_OPTIONS?.includes('--expose-gc')) {
+    if (!process.env.NODE_OPTIONS.includes('--expose-gc')) {
       process.env.NODE_OPTIONS = (process.env.NODE_OPTIONS || '') + ' --expose-gc';
       optimizations.push('Enabled garbage collection exposure');
     }
 
     // Optimize garbage collection
-    if (!process.env.NODE_OPTIONS?.includes('--optimize-for-size')) {
+    if (!process.env.NODE_OPTIONS.includes('--optimize-for-size')) {
       process.env.NODE_OPTIONS = (process.env.NODE_OPTIONS || '') + ' --optimize-for-size';
       optimizations.push('Enabled size optimization');
     }

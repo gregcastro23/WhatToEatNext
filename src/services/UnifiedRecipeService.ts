@@ -92,7 +92,7 @@ export class UnifiedRecipeService {
     try {
       const allRecipes = await this.getAllRecipes();
       // Simple implementation for now
-      const matches = allRecipes?.slice(0, 10);
+      const matches = allRecipes.slice(0, 10);
       return matches as unknown as ExtendedRecipe[];
     } catch (error) {
       console.error('Error getting best recipe matches:', error);

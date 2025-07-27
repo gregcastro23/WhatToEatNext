@@ -13,7 +13,7 @@ export const MoonInfoDisplay: React.FC<MoonInfoDisplayProps> = ({ className = ''
   // Handle the actual data structure from astrologize API
   const moonPosition = astrologicalData?.moon || astrologicalData?.Moon;
   const lunarPhase = astrologicalData?.lunarPhase;
-  const moonDignity = (astrologicalData?.dignity as unknown as Record<string, unknown>)?.Moon || 0;
+  const moonDignity = (astrologicalData?.dignity as unknown as Record<string, unknown>).Moon || 0;
   
   // Early return if no data available
   if (!astrologicalData) {
@@ -33,7 +33,7 @@ export const MoonInfoDisplay: React.FC<MoonInfoDisplayProps> = ({ className = ''
   const moonKalchmScore = calculateMoonKalchm(moonPosition, lunarPhase);
   
   // Find aspects involving the Moon
-  const moonAspects = (astrologicalData?.aspects as unknown as any[])?.filter((aspect: any) => 
+  const moonAspects = (astrologicalData.aspects as unknown as any[]).filter((aspect: any) => 
     aspect.planet1 === 'Moon' || aspect.planet2 === 'Moon'
   ) || [];
   
@@ -65,17 +65,17 @@ export const MoonInfoDisplay: React.FC<MoonInfoDisplayProps> = ({ className = ''
           <h4>Phase</h4>
           <div className="lunar-phase">
             <div className="phase-icon">
-              {getLunarPhaseIcon((lunarPhase as unknown as Record<string, unknown>)?.name as string)}
+              {getLunarPhaseIcon((lunarPhase as unknown as Record<string, unknown>).name as string)}
             </div>
             <div className="phase-info">
               <span className="phase-name">
-                {(lunarPhase as unknown as Record<string, unknown>)?.name ? formatPhaseName((lunarPhase as unknown as Record<string, unknown>).name as string) : 'Unknown'}
+                {(lunarPhase as unknown as Record<string, unknown>).name ? formatPhaseName((lunarPhase as unknown as Record<string, unknown>).name as string) : 'Unknown'}
               </span>
               <span className="phase-illumination">
-                {(lunarPhase as unknown as Record<string, unknown>)?.illumination ? `${(((lunarPhase as unknown as Record<string, unknown>).illumination as number) * 100).toFixed(0)}% illuminated` : 'N/A'}
+                {(lunarPhase as unknown as Record<string, unknown>).illumination ? `${(((lunarPhase as unknown as Record<string, unknown>).illumination as number) * 100).toFixed(0)}% illuminated` : 'N/A'}
               </span>
               <span className="phase-effect">
-                {String((lunarPhase as unknown as Record<string, unknown>)?.effect || 'Neutral')}
+                {String((lunarPhase as unknown as Record<string, unknown>).effect || 'Neutral')}
               </span>
             </div>
           </div>
@@ -377,7 +377,7 @@ function getSignBonus(sign: string): number {
     'capricorn': 0.1  // Moon's fall
   };
   
-  return bonuses[sign?.toLowerCase()] || 0.5;
+  return bonuses[sign.toLowerCase()] || 0.5;
 }
 
 function getPhaseBonus(phase?: string): number {

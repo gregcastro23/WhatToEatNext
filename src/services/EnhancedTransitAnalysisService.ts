@@ -245,7 +245,7 @@ export class EnhancedTransitAnalysisService {
     const recommendations: string[] = [];
     
     // Base recommendations from planet data
-    if ((planetData as unknown as Record<string, unknown>)?.FoodAssociations) {
+    if ((planetData as unknown as Record<string, unknown>).FoodAssociations) {
       recommendations.push(...((planetData as unknown as Record<string, unknown>).FoodAssociations as string[]).slice(0, 3));
     }
     

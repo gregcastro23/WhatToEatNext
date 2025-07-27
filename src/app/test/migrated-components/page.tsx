@@ -12,7 +12,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 
 const AstrologyChart = dynamic(
-  () => import('@/components/AstrologyChart/AstrologyChart.migrated')?.then(mod => {
+  () => import('@/components/AstrologyChart/AstrologyChart.migrated').then(mod => {
     return mod.default;
   }),
   { ssr: false }

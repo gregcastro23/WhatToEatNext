@@ -74,7 +74,7 @@ interface RecipeCardProps {
 
 const RecipeCard: React.FC<RecipeCardProps> = ({ recipe, isExpanded, onToggle }) => {
   const getElementColor = (element: string): string => {
-    switch (element?.toLowerCase()) {
+    switch (element.toLowerCase()) {
       case 'fire': return '#ef4444';
       case 'water': return '#3b82f6';
       case 'earth': return '#22c55e';
@@ -145,17 +145,17 @@ const RecipeCard: React.FC<RecipeCardProps> = ({ recipe, isExpanded, onToggle })
           )}
         </Box>
 
-        {(recipe as unknown as Record<string, unknown>)?.rating && (
+        {(recipe as unknown as Record<string, unknown>).rating && (
           <Box display="flex" alignItems="center" gap={1} mb={2}>
             <Rating 
-              value={Number((recipe as unknown as Record<string, unknown>)?.rating) || 0} 
+              value={Number((recipe as unknown as Record<string, unknown>).rating) || 0} 
               precision={0.5} 
               size="small" 
               readOnly
               max={5} 
             />
             <Typography variant="caption">
-              {Number((recipe as unknown as Record<string, unknown>)?.rating) || 0}/5
+              {Number((recipe as unknown as Record<string, unknown>).rating) || 0}/5
             </Typography>
           </Box>
         )}
@@ -390,7 +390,7 @@ export default function RecipeListMigrated() {
       const enhanced = recipes.map(recipe => ({
         ...recipe,
         score: calculateRecipeScore(recipe, astroData),
-        matchPercentage: calculateRecipeScore(recipe, astroData)?.total || 0
+        matchPercentage: calculateRecipeScore(recipe, astroData).total || 0
       }));
       setEnhancedRecipes(enhanced);
     }
@@ -406,7 +406,7 @@ export default function RecipeListMigrated() {
         elemental: 50,
         planetary: 50,
         seasonal: 50,
-        popularity: (recipe as unknown as Record<string, unknown>)?.rating ? Number((recipe as unknown as Record<string, unknown>)?.rating) * 20 : 50
+        popularity: (recipe as unknown as Record<string, unknown>).rating ? Number((recipe as unknown as Record<string, unknown>).rating) * 20 : 50
       };
     }
 
@@ -423,7 +423,7 @@ export default function RecipeListMigrated() {
     const seasonalScore = calculateSeasonalAlignment(recipe.season, astroData.currentSeason) * 100;
     
     // Popularity score based on rating
-    const popularityScore = (recipe as unknown as Record<string, unknown>)?.rating ? Number((recipe as unknown as Record<string, unknown>)?.rating) * 20 : 50;
+    const popularityScore = (recipe as unknown as Record<string, unknown>).rating ? Number((recipe as unknown as Record<string, unknown>).rating) * 20 : 50;
     
     // Weighted total score
     const total = (
@@ -530,14 +530,14 @@ export default function RecipeListMigrated() {
       } else {
         // Service response object
         const responseData = response as unknown as RecipeServiceResponse;
-        if (responseData?.success) {
+        if (responseData.success) {
           setRecipes(responseData.data || []);
           
-          if (responseData?.metadata) {
+          if (responseData.metadata) {
             setTotalPages(responseData.metadata.totalPages || 1);
           }
         } else {
-          setError(responseData?.error?.message || 'Failed to fetch recipes');
+          setError(responseData.error?.message || 'Failed to fetch recipes');
           setRecipes([]);
         }
       }
@@ -579,7 +579,7 @@ export default function RecipeListMigrated() {
 
       // Rating filter
       if (filters.minRating) {
-        const numericRating = Number((recipe as unknown as Record<string, unknown>)?.rating) || 0;
+        const numericRating = Number((recipe as unknown as Record<string, unknown>).rating) || 0;
         const numericMinRating = Number(filters.minRating) || 0;
         if (numericRating === 0 || numericRating < numericMinRating) {
           return false;

@@ -62,7 +62,6 @@ function calculateElementalScore(recipeElement: Element, userElement: Element): 
 // Calculate planetary affinity score
 function calculatePlanetaryScore(recipe: Recipe, planetName: PlanetName): number {
   const cuisineAffinity = PLANET_CUISINE_AFFINITIES[planetName];
-  if (cuisineAffinity.some(cuisine => (recipe.tags || []).includes(cuisine))) {
     return 1;
   }
   return 0.3;
@@ -71,12 +70,12 @@ function calculatePlanetaryScore(recipe: Recipe, planetName: PlanetName): number
 // Calculate seasonal affinity score
 function calculateSeasonalScore(recipe: Recipe, season: Season): number {
   const seasonalAffinity = SEASONAL_CUISINE_AFFINITIES[season];
-  if (seasonalAffinity.some(tag => (recipe.tags || []).includes(tag))) {
+  if (seasonalAffinity) {
     return 1;
   }
   
   // Check if recipe explicitly mentions seasons
-  if ((recipe.tags || []).includes(season)) {
+  if (recipe.name.toLowerCase().includes(season.toLowerCase())) {
     return 1;
   }
   
@@ -86,7 +85,7 @@ function calculateSeasonalScore(recipe: Recipe, season: Season): number {
 // Calculate weekday affinity score
 function calculateWeekdayScore(recipe: Recipe, day: WeekDay): number {
   const dayAffinity = WEEKDAY_CUISINE_AFFINITIES[day];
-  if (dayAffinity.some(tag => (recipe.tags || []).includes(tag))) {
+  if (dayAffinity) {
     return 1;
   }
   return 0.5;
@@ -122,7 +121,6 @@ function calculateZodiacScore(recipe: Recipe, sunSign: ZodiacSign): number {
   };
   
   const signAffinity = zodiacAffinities[sunSign];
-  if (signAffinity.some(tag => (recipe.tags || []).includes(tag))) {
     return 1;
   }
   return 0.5;

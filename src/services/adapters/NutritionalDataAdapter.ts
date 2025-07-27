@@ -90,7 +90,7 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
     } catch (error) {
       // Use safe type casting for errorHandler service access
       const errorHandlerService = (errorHandler as unknown) as Record<string, unknown>;
-      const logError = errorHandlerService?.logError as Function;
+      const logError = errorHandlerService.logError as Function;
       if (typeof logError === 'function') {
         logError(error, {
           context: 'NutritionalDataAdapter',
@@ -111,7 +111,7 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
     } catch (error) {
       // Use safe type casting for errorHandler service access
       const errorHandlerService = (errorHandler as unknown) as Record<string, unknown>;
-      const logError = errorHandlerService?.logError as Function;
+      const logError = errorHandlerService.logError as Function;
       if (typeof logError === 'function') {
         logError(error, {
           context: 'NutritionalDataAdapter',
@@ -149,7 +149,7 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
     } catch (error) {
       // Use safe type casting for errorHandler service access
       const errorHandlerService = (errorHandler as unknown) as Record<string, unknown>;
-      const logError = errorHandlerService?.logError as Function;
+      const logError = errorHandlerService.logError as Function;
       if (typeof logError === 'function') {
         logError(error, {
           context: 'NutritionalDataAdapter',
@@ -184,7 +184,7 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
     } catch (error) {
       // Use safe type casting for errorHandler service access
       const errorHandlerService = (errorHandler as unknown) as Record<string, unknown>;
-      const logError = errorHandlerService?.logError as Function;
+      const logError = errorHandlerService.logError as Function;
       if (typeof logError === 'function') {
         logError(error, {
           context: 'NutritionalDataAdapter',
@@ -216,7 +216,7 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
     } catch (error) {
       // Use safe type casting for errorHandler service access
       const errorHandlerService = (errorHandler as unknown) as Record<string, unknown>;
-      const logError = errorHandlerService?.logError as Function;
+      const logError = errorHandlerService.logError as Function;
       if (typeof logError === 'function') {
         logError(error, {
           context: 'NutritionalDataAdapter',
@@ -269,7 +269,7 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
     } catch (error) {
       // Use safe type casting for errorHandler service access
       const errorHandlerService = (errorHandler as unknown) as Record<string, unknown>;
-      const logError = errorHandlerService?.logError as Function;
+      const logError = errorHandlerService.logError as Function;
       if (typeof logError === 'function') {
         logError(error, {
           context: 'NutritionalDataAdapter',
@@ -308,7 +308,7 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
       // Use safe type casting for errorHandler service access
       type ErrorHandlerWithLogError = typeof errorHandler & { logError?: (error: unknown, context: unknown) => void };
       const errorHandlerService = errorHandler as ErrorHandlerWithLogError;
-      errorHandlerService?.logError?.(error, {
+      errorHandlerService.logError?.(error, {
         context: 'NutritionalDataAdapter',
         action: 'getSeasonalNutritionalRecommendations',
         season: String(season)
@@ -342,7 +342,7 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
     } catch (error) {
       // Use safe type casting for errorHandler service access
       const errorHandlerService = (errorHandler as unknown) as Record<string, unknown>;
-      const logError = errorHandlerService?.logError as Function;
+      const logError = errorHandlerService.logError as Function;
       if (typeof logError === 'function') {
         logError(error, {
           context: 'NutritionalDataAdapter',

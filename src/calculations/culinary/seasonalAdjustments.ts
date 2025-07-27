@@ -38,7 +38,7 @@ export function applySeasonalAdjustments(
   baseProperties: ElementalProperties,
   season: string = 'spring'
 ): ElementalProperties {
-  const seasonKey = season?.toLowerCase();
+  const seasonKey = season.toLowerCase();
   const modifier = SEASONAL_MODIFIERS[seasonKey] || SEASONAL_MODIFIERS.spring;
   
   return { Fire: (baseProperties.Fire * 0.7) + (modifier.Fire * 0.3), Water: (baseProperties.Water * 0.7) + (modifier.Water * 0.3), Air: (baseProperties.Air * 0.7) + (modifier.Air * 0.3), Earth: (baseProperties.Earth * 0.7) + (modifier.Earth * 0.3)
@@ -52,7 +52,7 @@ export function applyLunarPhaseAdjustments(
   baseProperties: ElementalProperties,
   lunarPhase: string = 'full moon'
 ): ElementalProperties {
-  const phaseKey = lunarPhase?.toLowerCase();
+  const phaseKey = lunarPhase.toLowerCase();
   const modifier = LUNAR_PHASE_MODIFIERS[phaseKey] || LUNAR_PHASE_MODIFIERS['full moon'];
   
   return { Fire: (baseProperties.Fire * 0.8) + (modifier.Fire * 0.2), Water: (baseProperties.Water * 0.8) + (modifier.Water * 0.2), Air: (baseProperties.Air * 0.8) + (modifier.Air * 0.2), Earth: (baseProperties.Earth * 0.8) + (modifier.Earth * 0.2)
@@ -84,7 +84,7 @@ export function getSeasonalCookingRecommendations(season: string): {
   flavors: string[];
   timing: string[];
 } {
-  const seasonKey = season?.toLowerCase();
+  const seasonKey = season.toLowerCase();
   
   const recommendations = {
     spring: {
@@ -132,7 +132,7 @@ export function calculateSeasonalEffectiveness(
   };
   recommendations: string[];
 } {
-  const seasonKey = season?.toLowerCase();
+  const seasonKey = season.toLowerCase();
   const seasonalModifier = SEASONAL_MODIFIERS[seasonKey] || SEASONAL_MODIFIERS.spring;
   
   // Calculate seasonal alignment
@@ -141,7 +141,7 @@ export function calculateSeasonalEffectiveness(
   // Calculate lunar alignment if phase provided
   let lunarAlignment = 0.5; // neutral if no phase
   if (lunarPhase) {
-    const phaseKey = lunarPhase?.toLowerCase();
+    const phaseKey = lunarPhase.toLowerCase();
     const lunarModifier = LUNAR_PHASE_MODIFIERS[phaseKey] || LUNAR_PHASE_MODIFIERS['full moon'];
     lunarAlignment = calculateElementalAlignment(recipeElements, lunarModifier);
   }
@@ -207,21 +207,21 @@ function generateSeasonalRecommendations(
   const recommendations: string[] = [];
   
   if (overallScore >= 0.8) {
-    recommendations?.push('Excellent seasonal alignment - perfect timing for this recipe');
+    recommendations.push('Excellent seasonal alignment - perfect timing for this recipe');
   } else if (overallScore >= 0.6) {
-    recommendations?.push('Good seasonal match - recipe works well for this time');
+    recommendations.push('Good seasonal match - recipe works well for this time');
   } else if (overallScore >= 0.4) {
-    recommendations?.push('Moderate seasonal fit - consider minor adjustments');
+    recommendations.push('Moderate seasonal fit - consider minor adjustments');
   } else {
-    recommendations?.push('Low seasonal alignment - significant modifications recommended');
+    recommendations.push('Low seasonal alignment - significant modifications recommended');
   }
   
   if (seasonalAlignment < 0.5) {
-    recommendations?.push('Adjust cooking method to better match seasonal energy');
+    recommendations.push('Adjust cooking method to better match seasonal energy');
   }
   
   if (lunarAlignment < 0.5) {
-    recommendations?.push('Consider timing preparation with a more favorable lunar phase');
+    recommendations.push('Consider timing preparation with a more favorable lunar phase');
   }
   
   return recommendations;

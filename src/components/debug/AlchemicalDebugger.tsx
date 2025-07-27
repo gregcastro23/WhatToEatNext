@@ -13,7 +13,7 @@ const safeStringify = (obj, maxLength = 100): string => {
     
     const str = JSON.stringify(obj);
     if ((str || []).length <= maxLength) return str;
-    return str?.substring(0, maxLength - 3) + '...';
+    return str.substring(0, maxLength - 3) + '...';
   } catch (error) {
     return 'Error stringifying object';
   }
@@ -36,10 +36,10 @@ export default function AlchemicalDebugger() {
     
     // Stringify current state for comparison
     const currentState = safeStringify({
-      currentZodiac: alchemicalContext?.state?.astrologicalState?.currentZodiacSign,
-      elementalState: alchemicalContext?.state?.elementalState,
-      isDaytime: alchemicalContext?.isDaytime,
-      planetsCount: Object.keys(alchemicalContext?.planetaryPositions || {}).length
+      currentZodiac: alchemicalContext.state.astrologicalState.currentZodiacSign,
+      elementalState: alchemicalContext.state.elementalState,
+      isDaytime: alchemicalContext.isDaytime,
+      planetsCount: Object.keys(alchemicalContext.planetaryPositions || {}).length
     });
     
     // Check if state has changed
@@ -66,7 +66,7 @@ export default function AlchemicalDebugger() {
         <div>{stateChangeCount}</div>
         
         <div className="font-medium">Current zodiac:</div>
-        <div>{(alchemicalContext.state?.astrologicalState?.currentZodiacSign as string) || 'unknown'}</div>
+        <div>{(alchemicalContext.state.astrologicalState.currentZodiacSign as string) || 'unknown'}</div>
         
         <div className="font-medium">Is daytime:</div>
         <div>{alchemicalContext.isDaytime ? 'Yes' : 'No'}</div>

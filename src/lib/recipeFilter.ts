@@ -34,7 +34,7 @@ export const recipeFilter = {
     if (filters.searchQuery) {
       const searchLower = filters.searchQuery.toLowerCase();
       filteredRecipes = filteredRecipes.filter(recipe =>
-        (recipe.name?.toLowerCase().includes(searchLower) || false) ||
+        (recipe.name.toLowerCase().includes(searchLower) || false) ||
         (recipe.description?.toLowerCase().includes(searchLower) || false)
       );
     }

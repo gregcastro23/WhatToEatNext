@@ -332,7 +332,7 @@ const buildCompleteRecipe = (
   const compatibility = calculateRecipeCompatibility(elementalProperties, alchemicalResult);
 
   // 2. Ingredient complexity (real count)
-  const ingredientCount = Array.isArray(recipe.ingredients) ? recipe?.ingredients?.length : 0;
+  const ingredientCount = Array.isArray(recipe.ingredients) ? recipe.ingredients.length : 0;
   const complexityModifier = Math.min(1.2, 0.9 + (ingredientCount * 0.02));
 
   // 3. Seasonal optimization (real seasonality)
@@ -342,7 +342,7 @@ const buildCompleteRecipe = (
       ? [recipe.season]
       : [];
   const season = currentSeason || 'all';
-  const seasonalOptimization = (recipeSeasons || []).some(s => s?.toLowerCase() === season.toLowerCase()) ? 0.9 : 0.6;
+  const seasonalOptimization = (recipeSeasons || []).some(s => s.toLowerCase() === season.toLowerCase()) ? 0.9 : 0.6;
 
   // 4. Difficulty bonus (real difficulty)
   const difficulty = String(recipe.difficulty || 'Medium').toLowerCase();
@@ -361,7 +361,7 @@ const buildCompleteRecipe = (
   // Phase 2B: Ingredient Intelligence Systems Integration
   const ingredientCategories = new Set(
     Array.isArray(recipe.ingredients) 
-      ? recipe?.ingredients?.map((ing: any) => ing.category).filter(Boolean)
+      ? recipe.ingredients.map((ing: any) => ing.category).filter(Boolean)
       : []
   );
   
@@ -372,7 +372,7 @@ const buildCompleteRecipe = (
       ingredientDistribution: Array.from(ingredientCategories).map(cat => ({
         category: cat,
         count: Array.isArray(recipe.ingredients) 
-          ? recipe?.ingredients?.filter((ing: any) => ing.category === cat).length 
+          ? recipe.ingredients.filter((ing: any) => ing.category === cat).length 
           : 0
       }))
     },
@@ -513,18 +513,18 @@ class CuisineRecommenderErrorBoundary extends React.Component<
   }
 
   handleRetry = () => {
-    if (this?.state?.retryCount < 3) {
+    if (this.state.retryCount < 3) {
       this.setState(prevState => ({
         hasError: false,
         error: null,
         retryCount: prevState.retryCount + 1
       } as any));
-      this?.props?.onRetry();
+      this.props.onRetry();
     }
   };
 
   render() {
-    if (this?.state?.hasError) {
+    if (this.state.hasError) {
       return (
         <div className="p-6 bg-red-50 border border-red-200 rounded-lg">
           <div className="flex items-center space-x-2 mb-3">
@@ -533,22 +533,22 @@ class CuisineRecommenderErrorBoundary extends React.Component<
           </div>
           <p className="text-red-600 text-sm mb-4">
             We encountered an error loading the cuisine recommendations. 
-            {this?.state?.retryCount < 3 && " You can try again."}
+            {this.state.retryCount < 3 && " You can try again."}
           </p>
-          {this?.state?.retryCount < 3 && (
+          {this.state.retryCount < 3 && (
             <button
               onClick={this.handleRetry}
               className="flex items-center space-x-2 px-4 py-2 bg-red-100 hover:bg-red-200 text-red-700 rounded transition-colors"
             >
               <RefreshCw size={16} />
-              <span>Try Again ({3 - this?.state?.retryCount} attempts left)</span>
+              <span>Try Again ({3 - this.state.retryCount} attempts left)</span>
             </button>
           )}
         </div>
       );
     }
 
-    return this?.props?.children;
+    return this.props.children;
   }
 }
 
@@ -727,14 +727,14 @@ export default function CuisineRecommender() {
         const cuisineMonica = calculateMomentMonicaConstant(cuisineElemental);
         
         // Calculate thermodynamic harmony score
-        const thermodynamicHarmony = Math.max(0, 1 - Math.abs(enhancedAnalysis?.thermodynamicMetrics?.gregsEnergy) / 10);
+        const thermodynamicHarmony = Math.max(0, 1 - Math.abs(enhancedAnalysis.thermodynamicMetrics.gregsEnergy) / 10);
         
         // Calculate alchemical balance optimization
         const alchemicalBalance = calculateAlchemicalBalance(enhancedAnalysis.alchemicalProperties);
         
         // Calculate cultural synergy score (5% weight in 7-factor algorithm)
         const culturalSynergyData = CulturalAnalyticsService.calculateCulturalSynergy(
-          cuisine?.name?.toLowerCase(),
+          cuisine.name.toLowerCase(),
           [],
           { season: getCurrentSeason() }
         );
@@ -796,7 +796,7 @@ export default function CuisineRecommender() {
       
       const cuisinesWithRecipes = enhancedRecommendations.map(cuisine => {
         const matching = recipes.filter(recipe => 
-          recipe.cuisine && recipe?.cuisine?.toLowerCase() === cuisine?.name?.toLowerCase()
+          recipe.cuisine && recipe.cuisine.toLowerCase() === cuisine.name.toLowerCase()
         );
         
         // Enhanced recipe building with Recipe Intelligence Systems integration
@@ -841,8 +841,8 @@ export default function CuisineRecommender() {
             return {
               ...baseRecipe,
               enhancedAnalysis: analysis,
-              monicaScore: analysis?.thermodynamicMetrics?.monica,
-              kalchmScore: analysis?.thermodynamicMetrics?.kalchm,
+              monicaScore: analysis.thermodynamicMetrics.monica,
+              kalchmScore: analysis.thermodynamicMetrics.kalchm,
               kalchmHarmony,
               thermodynamicOptimization,
               compatibilityScore: analysis.compatibilityScore,
@@ -871,7 +871,7 @@ export default function CuisineRecommender() {
       for (const cuisine of cuisinesWithRecipes) {
         try {
           const analytics = CulturalAnalyticsService.generateCulturalAnalytics(
-            cuisine?.name?.toLowerCase(),
+            cuisine.name.toLowerCase(),
             (cuisine.elementalProperties as ElementalProperties) || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
             astrologicalStateForRecommendations as unknown as { zodiacSign: ZodiacSign; lunarPhase: LunarPhase; }
           );
@@ -883,7 +883,7 @@ export default function CuisineRecommender() {
       setCulturalAnalytics(culturalAnalyticsData);
       
       // Generate fusion recommendations
-      const availableCuisineNames = cuisinesWithRecipes.map(c => c?.name?.toLowerCase());
+      const availableCuisineNames = cuisinesWithRecipes.map(c => c.name.toLowerCase());
       const topCuisine = cuisinesWithRecipes[0]?.name?.toLowerCase();
       if (topCuisine) {
         const fusionRecs = CulturalAnalyticsService.generateFusionRecommendations(
@@ -928,7 +928,7 @@ export default function CuisineRecommender() {
       analyticsActions.recordLoadTime(totalLoadTime);
       endTiming();
       
-      logger.info(`Cuisine recommendations loaded in ${totalLoadTime.toFixed(2)}ms with confidence ${overallConfidence?.overallScore?.toFixed(2)}`);
+      logger.info(`Cuisine recommendations loaded in ${totalLoadTime.toFixed(2)}ms with confidence ${overallConfidence.overallScore.toFixed(2)}`);
 
       setLoadingState({ isLoading: false, step: 'Complete!', progress: 100 });
     } catch (err) {
@@ -971,7 +971,7 @@ export default function CuisineRecommender() {
     setSelectedCuisine(cuisineId);
     setShowCuisineDetails(true);
 
-    if (selectedData?.recipes && selectedData.recipes.length > 0) {
+    if (selectedData?.recipes?.length > 0) {
       setMatchingRecipes(selectedData?.recipes ?? []);
     } else {
       setMatchingRecipes([]);
@@ -989,7 +989,7 @@ export default function CuisineRecommender() {
     setSearchFilters(filters);
     
     // Process natural language query if present
-    if (filters?.query?.trim()) {
+    if (filters.query.trim()) {
       const intent = processNaturalLanguageQuery(filters.query);
       setSearchIntent(intent);
       
@@ -1001,19 +1001,19 @@ export default function CuisineRecommender() {
         dietaryRestrictions: [
           ...new Set([
             ...filters.dietaryRestrictions,
-            ...(intent?.extractedFilters?.dietaryRestrictions || [])
+            ...(intent.extractedFilters.dietaryRestrictions || [])
           ])
         ],
         cuisineTypes: [
           ...new Set([
             ...filters.cuisineTypes,
-            ...(intent?.extractedFilters?.cuisineTypes || [])
+            ...(intent.extractedFilters.cuisineTypes || [])
           ])
         ],
         difficultyLevel: [
           ...new Set([
             ...filters.difficultyLevel,
-            ...(intent?.extractedFilters?.difficultyLevel || [])
+            ...(intent.extractedFilters.difficultyLevel || [])
           ])
         ]
       };
@@ -1022,7 +1022,7 @@ export default function CuisineRecommender() {
       let filtered = originalCuisines;
       
       // Apply text search first
-      if (intent?.query?.trim()) {
+      if (intent.query.trim()) {
         filtered = enhancedSearch(filtered, intent.query, ['name', 'description']);
       }
       
@@ -1060,7 +1060,7 @@ export default function CuisineRecommender() {
     // Apply enhanced search
     let filtered = originalCuisines;
     
-    if (intent?.query?.trim()) {
+    if (intent.query.trim()) {
       filtered = enhancedSearch(filtered, intent.query, ['name', 'description']);
     }
     
@@ -1184,13 +1184,13 @@ export default function CuisineRecommender() {
             <div className="flex items-center space-x-4">
               <div className="flex items-center space-x-1">
                 <Zap size={12} className="text-blue-500" />
-                <span>Load: {analyticsState?.metrics?.loadTime.toFixed(0)}ms</span>
+                <span>Load: {analyticsState.metrics.loadTime.toFixed(0)}ms</span>
               </div>
               <div className="flex items-center space-x-1">
-                <span>Cache: {(analyticsState?.cacheStats?.hitRate * 100).toFixed(0)}%</span>
+                <span>Cache: {(analyticsState.cacheStats.hitRate * 100).toFixed(0)}%</span>
               </div>
               <div className="flex items-center space-x-1">
-                <span>Score: {analyticsState?.performanceTrends?.performanceScore.toFixed(0)}/100</span>
+                <span>Score: {analyticsState.performanceTrends.performanceScore.toFixed(0)}/100</span>
               </div>
             </div>
             <button
@@ -1207,7 +1207,7 @@ export default function CuisineRecommender() {
           <AdvancedSearchFilters
             onFiltersChange={handleFiltersChange}
             onSearch={handleSearch}
-            availableCuisines={originalCuisines.map(c => c?.name?.toLowerCase())}
+            availableCuisines={originalCuisines.map(c => c.name.toLowerCase())}
             className="mb-4"
           />
           
@@ -1221,10 +1221,10 @@ export default function CuisineRecommender() {
                   {Math.round(searchIntent.confidence * 100)}% confidence
                 </span>
               </div>
-              {searchIntent?.suggestions?.length > 0 && (
+              {searchIntent.suggestions.length > 0 && (
                 <div className="text-sm text-blue-600">
                   <span className="font-medium">Suggestions: </span>
-                  {searchIntent?.suggestions?.slice(0, 3).join(', ')}
+                  {searchIntent.suggestions.slice(0, 3).join(', ')}
                 </div>
               )}
             </div>
@@ -1613,13 +1613,13 @@ export default function CuisineRecommender() {
                         </div>
                         
                         <p className="text-xs text-gray-600 mb-2">
-                          Blend of {fusion?.parentCuisines?.join(' and ')} cuisines
+                          Blend of {fusion.parentCuisines.join(' and ')} cuisines
                         </p>
                         
                         <div className="mb-2">
                           <h6 className="text-xs font-medium mb-1">Recommended Dishes:</h6>
                           <div className="flex flex-wrap gap-1">
-                            {fusion?.recommendedDishes?.map((dish, i) => (
+                            {fusion.recommendedDishes.map((dish, i) => (
                               <span key={i} className="text-xs px-2 py-1 bg-gray-100 rounded">
                                 {dish}
                               </span>
@@ -1669,7 +1669,7 @@ export default function CuisineRecommender() {
                         <div className="flex justify-between items-center mb-2">
                           <h5 className="text-sm font-medium">{recipe.name}</h5>
                           <span className="text-xs px-2 py-1 bg-blue-100 rounded">
-                            {Math.round(recipe?.intelligenceAnalysis?.score * 100)}% Intelligence
+                            {Math.round(recipe.intelligenceAnalysis.score * 100)}% Intelligence
                           </span>
                         </div>
                         
@@ -1677,46 +1677,46 @@ export default function CuisineRecommender() {
                           <div className="flex justify-between text-xs">
                             <span>Elemental Alignment:</span>
                             <span className="font-medium">
-                              {Math.round(recipe?.intelligenceAnalysis?.compatibility.elementalAlignment * 100)}%
+                              {Math.round(recipe.intelligenceAnalysis.compatibility.elementalAlignment * 100)}%
                             </span>
                           </div>
                           <div className="flex justify-between text-xs">
                             <span>Kalchm Alignment:</span>
                             <span className="font-medium">
-                              {Math.round(recipe?.intelligenceAnalysis?.compatibility.kalchmAlignment * 100)}%
+                              {Math.round(recipe.intelligenceAnalysis.compatibility.kalchmAlignment * 100)}%
                             </span>
                           </div>
                           <div className="flex justify-between text-xs">
                             <span>Planetary Alignment:</span>
                             <span className="font-medium">
-                              {Math.round(recipe?.intelligenceAnalysis?.compatibility.planetaryAlignment * 100)}%
+                              {Math.round(recipe.intelligenceAnalysis.compatibility.planetaryAlignment * 100)}%
                             </span>
                           </div>
                           <div className="flex justify-between text-xs">
                             <span>Ingredient Complexity:</span>
                             <span className="font-medium">
-                              {recipe?.intelligenceAnalysis?.ingredientCount} ingredients
+                              {recipe.intelligenceAnalysis.ingredientCount} ingredients
                             </span>
                           </div>
                           <div className="flex justify-between text-xs">
                             <span>Seasonal Optimization:</span>
                             <span className="font-medium">
-                              {Math.round(recipe?.intelligenceAnalysis?.seasonalOptimization * 100)}%
+                              {Math.round(recipe.intelligenceAnalysis.seasonalOptimization * 100)}%
                             </span>
                           </div>
                           <div className="flex justify-between text-xs">
                             <span>Difficulty Bonus:</span>
                             <span className="font-medium">
-                              {Math.round(recipe?.intelligenceAnalysis?.difficultyBonus * 100)}%
+                              {Math.round(recipe.intelligenceAnalysis.difficultyBonus * 100)}%
                             </span>
                           </div>
                         </div>
                         
-                        {recipe?.intelligenceAnalysis?.compatibility?.recommendations?.length > 0 && (
+                        {recipe.intelligenceAnalysis.compatibility.recommendations.length > 0 && (
                           <div className="mt-2 pt-2 border-t border-gray-100">
                             <div className="text-xs text-gray-600 mb-1">Recommendations:</div>
                             <div className="text-xs text-gray-700">
-                              {recipe?.intelligenceAnalysis?.compatibility.recommendations[0]}
+                              {recipe.intelligenceAnalysis.compatibility.recommendations[0]}
                             </div>
                           </div>
                         )}
@@ -1744,7 +1744,7 @@ export default function CuisineRecommender() {
                         <div className="flex justify-between items-center mb-2">
                           <h5 className="text-sm font-medium">{recipe.name}</h5>
                           <span className="text-xs px-2 py-1 bg-green-100 rounded">
-                            {Math.round(recipe?.intelligenceAnalysis?.ingredientIntelligence.optimizationScore * 100)}% Optimization
+                            {Math.round(recipe.intelligenceAnalysis.ingredientIntelligence.optimizationScore * 100)}% Optimization
                           </span>
                         </div>
                         
@@ -1752,67 +1752,67 @@ export default function CuisineRecommender() {
                           <div className="flex justify-between text-xs">
                             <span>Category Harmony:</span>
                             <span className="font-medium">
-                              {Math.round(recipe?.intelligenceAnalysis?.ingredientIntelligence?.categorizationAnalysis?.categoryHarmony * 100)}%
+                              {Math.round(recipe.intelligenceAnalysis.ingredientIntelligence.categorizationAnalysis.categoryHarmony * 100)}%
                             </span>
                           </div>
                           <div className="flex justify-between text-xs">
                             <span>Category Count:</span>
                             <span className="font-medium">
-                              {recipe?.intelligenceAnalysis?.ingredientIntelligence?.categorizationAnalysis?.categoryCount} categories
+                              {recipe.intelligenceAnalysis.ingredientIntelligence.categorizationAnalysis.categoryCount} categories
                             </span>
                           </div>
                           <div className="flex justify-between text-xs">
                             <span>Seasonal Harmony:</span>
                             <span className="font-medium">
-                              {Math.round(recipe?.intelligenceAnalysis?.ingredientIntelligence?.seasonalAnalysis?.seasonalHarmony * 100)}%
+                              {Math.round(recipe.intelligenceAnalysis.ingredientIntelligence.seasonalAnalysis.seasonalHarmony * 100)}%
                             </span>
                           </div>
                           <div className="flex justify-between text-xs">
                             <span>Compatibility Harmony:</span>
                             <span className="font-medium">
-                              {Math.round(recipe?.intelligenceAnalysis?.ingredientIntelligence?.compatibilityAnalysis?.compatibilityHarmony * 100)}%
+                              {Math.round(recipe.intelligenceAnalysis.ingredientIntelligence.compatibilityAnalysis.compatibilityHarmony * 100)}%
                             </span>
                           </div>
                           <div className="flex justify-between text-xs">
                             <span>Astrological Harmony:</span>
                             <span className="font-medium">
-                              {Math.round(recipe?.intelligenceAnalysis?.ingredientIntelligence?.astrologicalAnalysis?.astrologicalHarmony * 100)}%
+                              {Math.round(recipe.intelligenceAnalysis.ingredientIntelligence.astrologicalAnalysis.astrologicalHarmony * 100)}%
                             </span>
                           </div>
                           <div className="flex justify-between text-xs">
                             <span>Validation Rate:</span>
                             <span className="font-medium">
-                              {Math.round(recipe?.intelligenceAnalysis?.ingredientIntelligence?.validationResults?.validationRate * 100)}%
+                              {Math.round(recipe.intelligenceAnalysis.ingredientIntelligence.validationResults.validationRate * 100)}%
                             </span>
                           </div>
                           <div className="flex justify-between text-xs">
                             <span>Safety Score:</span>
                             <span className="font-medium">
-                              {Math.round(recipe?.intelligenceAnalysis?.ingredientIntelligence.safetyScore * 100)}%
+                              {Math.round(recipe.intelligenceAnalysis.ingredientIntelligence.safetyScore * 100)}%
                             </span>
                           </div>
                           <div className="flex justify-between text-xs">
                             <span>Confidence:</span>
                             <span className="font-medium">
-                              {Math.round(recipe?.intelligenceAnalysis?.ingredientIntelligence.confidence * 100)}%
+                              {Math.round(recipe.intelligenceAnalysis.ingredientIntelligence.confidence * 100)}%
                             </span>
                           </div>
                         </div>
                         
-                        {recipe?.intelligenceAnalysis?.ingredientIntelligence?.recommendations?.length > 0 && (
+                        {recipe.intelligenceAnalysis.ingredientIntelligence.recommendations.length > 0 && (
                           <div className="mt-2 pt-2 border-t border-gray-100">
                             <div className="text-xs text-gray-600 mb-1">Ingredient Recommendations:</div>
                             <div className="text-xs text-gray-700">
-                              {recipe?.intelligenceAnalysis?.ingredientIntelligence.recommendations[0]}
+                              {recipe.intelligenceAnalysis.ingredientIntelligence.recommendations[0]}
                             </div>
                           </div>
                         )}
                         
-                        {recipe?.intelligenceAnalysis?.ingredientIntelligence.categorizationAnalysis?.ingredientDistribution?.length > 0 && (
+                        {recipe.intelligenceAnalysis.ingredientIntelligence.categorizationAnalysis.ingredientDistribution.length > 0 && (
                           <div className="mt-2 pt-2 border-t border-gray-100">
                             <div className="text-xs text-gray-600 mb-1">Ingredient Distribution:</div>
                             <div className="space-y-1">
-                              {recipe?.intelligenceAnalysis?.ingredientIntelligence.categorizationAnalysis?.ingredientDistribution?.slice(0, 3).map((dist, i) => (
+                              {recipe.intelligenceAnalysis.ingredientIntelligence.categorizationAnalysis.ingredientDistribution.slice(0, 3).map((dist, i) => (
                                 <div key={i} className="flex justify-between text-xs">
                                   <span className="capitalize">{dist.category}:</span>
                                   <span className="font-medium">{dist.count} items</span>
@@ -1847,7 +1847,7 @@ export default function CuisineRecommender() {
                         <div className="flex justify-between items-center mb-2">
                           <h5 className="text-sm font-medium">{recipe.name}</h5>
                           <span className="text-xs px-2 py-1 bg-purple-100 rounded">
-                            {Math.round(recipe?.intelligenceAnalysis?.cuisineIntelligence.optimizationScore * 100)}% Optimization
+                            {Math.round(recipe.intelligenceAnalysis.cuisineIntelligence.optimizationScore * 100)}% Optimization
                           </span>
                         </div>
                         
@@ -1855,85 +1855,85 @@ export default function CuisineRecommender() {
                           <div className="flex justify-between text-xs">
                             <span>Cultural Synergy:</span>
                             <span className="font-medium">
-                              {Math.round(recipe?.intelligenceAnalysis?.cuisineIntelligence?.culturalAnalysis?.culturalSynergy * 100)}%
+                              {Math.round(recipe.intelligenceAnalysis.cuisineIntelligence.culturalAnalysis.culturalSynergy * 100)}%
                             </span>
                           </div>
                           <div className="flex justify-between text-xs">
                             <span>Cultural Compatibility:</span>
                             <span className="font-medium">
-                              {Math.round(recipe?.intelligenceAnalysis?.cuisineIntelligence?.culturalAnalysis?.culturalCompatibility * 100)}%
+                              {Math.round(recipe.intelligenceAnalysis.cuisineIntelligence.culturalAnalysis.culturalCompatibility * 100)}%
                             </span>
                           </div>
                           <div className="flex justify-between text-xs">
                             <span>Fusion Potential:</span>
                             <span className="font-medium">
-                              {Math.round(recipe?.intelligenceAnalysis?.cuisineIntelligence?.fusionAnalysis?.fusionPotential * 100)}%
+                              {Math.round(recipe.intelligenceAnalysis.cuisineIntelligence.fusionAnalysis.fusionPotential * 100)}%
                             </span>
                           </div>
                           <div className="flex justify-between text-xs">
                             <span>Fusion Score:</span>
                             <span className="font-medium">
-                              {Math.round(recipe?.intelligenceAnalysis?.cuisineIntelligence?.fusionAnalysis?.fusionScore * 100)}%
+                              {Math.round(recipe.intelligenceAnalysis.cuisineIntelligence.fusionAnalysis.fusionScore * 100)}%
                             </span>
                           </div>
                           <div className="flex justify-between text-xs">
                             <span>Seasonal Alignment:</span>
                             <span className="font-medium">
-                              {recipe?.intelligenceAnalysis?.cuisineIntelligence?.seasonalAnalysis?.seasonalAlignment}
+                              {recipe.intelligenceAnalysis.cuisineIntelligence.seasonalAnalysis.seasonalAlignment}
                             </span>
                           </div>
                           <div className="flex justify-between text-xs">
                             <span>Elemental Balance:</span>
                             <span className="font-medium">
-                              {Math.round(recipe?.intelligenceAnalysis?.cuisineIntelligence?.compatibilityAnalysis?.elementalBalance * 100)}%
+                              {Math.round(recipe.intelligenceAnalysis.cuisineIntelligence.compatibilityAnalysis.elementalBalance * 100)}%
                             </span>
                           </div>
                           <div className="flex justify-between text-xs">
                             <span>Astrological Alignment:</span>
                             <span className="font-medium">
-                              {Math.round(recipe?.intelligenceAnalysis?.cuisineIntelligence?.astrologicalAnalysis?.astrologicalAlignment * 100)}%
+                              {Math.round(recipe.intelligenceAnalysis.cuisineIntelligence.astrologicalAnalysis.astrologicalAlignment * 100)}%
                             </span>
                           </div>
                           <div className="flex justify-between text-xs">
                             <span>Zodiac Compatibility:</span>
                             <span className="font-medium">
-                              {Math.round(recipe?.intelligenceAnalysis?.cuisineIntelligence?.astrologicalAnalysis?.zodiacCompatibility * 100)}%
+                              {Math.round(recipe.intelligenceAnalysis.cuisineIntelligence.astrologicalAnalysis.zodiacCompatibility * 100)}%
                             </span>
                           </div>
                           <div className="flex justify-between text-xs">
                             <span>Lunar Phase Harmony:</span>
                             <span className="font-medium">
-                              {Math.round(recipe?.intelligenceAnalysis?.cuisineIntelligence?.astrologicalAnalysis?.lunarPhaseHarmony * 100)}%
+                              {Math.round(recipe.intelligenceAnalysis.cuisineIntelligence.astrologicalAnalysis.lunarPhaseHarmony * 100)}%
                             </span>
                           </div>
                           <div className="flex justify-between text-xs">
                             <span>Safety Score:</span>
                             <span className="font-medium">
-                              {Math.round(recipe?.intelligenceAnalysis?.cuisineIntelligence.safetyScore * 100)}%
+                              {Math.round(recipe.intelligenceAnalysis.cuisineIntelligence.safetyScore * 100)}%
                             </span>
                           </div>
                           <div className="flex justify-between text-xs">
                             <span>Confidence:</span>
                             <span className="font-medium">
-                              {Math.round(recipe?.intelligenceAnalysis?.cuisineIntelligence.confidence * 100)}%
+                              {Math.round(recipe.intelligenceAnalysis.cuisineIntelligence.confidence * 100)}%
                             </span>
                           </div>
                         </div>
                         
-                        {recipe?.intelligenceAnalysis?.cuisineIntelligence?.recommendations?.length > 0 && (
+                        {recipe.intelligenceAnalysis.cuisineIntelligence.recommendations.length > 0 && (
                           <div className="mt-2 pt-2 border-t border-gray-100">
                             <div className="text-xs text-gray-600 mb-1">Cuisine Recommendations:</div>
                             <div className="text-xs text-gray-700">
-                              {recipe?.intelligenceAnalysis?.cuisineIntelligence.recommendations[0]}
+                              {recipe.intelligenceAnalysis.cuisineIntelligence.recommendations[0]}
                             </div>
                           </div>
                         )}
                         
-                        {recipe?.intelligenceAnalysis?.cuisineIntelligence.fusionAnalysis?.fusionRecommendations?.length > 0 && (
+                        {recipe.intelligenceAnalysis.cuisineIntelligence.fusionAnalysis.fusionRecommendations.length > 0 && (
                           <div className="mt-2 pt-2 border-t border-gray-100">
                             <div className="text-xs text-gray-600 mb-1">Fusion Recommendations:</div>
                             <div className="space-y-1">
-                              {recipe?.intelligenceAnalysis?.cuisineIntelligence.fusionAnalysis?.fusionRecommendations?.slice(0, 2).map((fusion, i) => (
+                              {recipe.intelligenceAnalysis.cuisineIntelligence.fusionAnalysis.fusionRecommendations.slice(0, 2).map((fusion, i) => (
                                 <div key={i} className="text-xs">
                                   <span className="font-medium">{fusion.name}</span>
                                   <span className="text-gray-600"> ({Math.round(fusion.fusionScore * 100)}% fusion)</span>

@@ -89,10 +89,10 @@ export function generateTopSauceRecommendations(
     if (planetaryInfluences && planetaryInfluences.includes(currentPlanetaryDay)) {
       astrologicalScore = 0.9; // Bonus for matching the planetary day
     }
-    if (astrologicalState?.zodiacSign && planetaryInfluences?.includes(astrologicalState.zodiacSign)) {
+    if (astrologicalState?.zodiacSign && planetaryInfluences.includes(astrologicalState.zodiacSign)) {
       astrologicalScore = Math.min(1, astrologicalScore + 0.2); // Bonus for zodiac sign
     }
-    if (astrologicalState?.lunarPhase && planetaryInfluences?.includes(astrologicalState.lunarPhase)) {
+    if (astrologicalState?.lunarPhase && planetaryInfluences.includes(astrologicalState.lunarPhase)) {
       astrologicalScore = Math.min(1, astrologicalScore + 0.1); // Bonus for lunar phase
     }
     
@@ -104,7 +104,7 @@ export function generateTopSauceRecommendations(
       const planetaryFlavors = planetaryFlavorProfiles[currentPlanetaryDay] ;
       
       // Simple flavor matching based on ingredients
-      if (planetaryFlavors?.flavorProfiles) {
+      if (planetaryFlavors.flavorProfiles) {
         const matchingIngredients = sauce.keyIngredients.filter(ingredient => 
           Object.keys(planetaryFlavors.flavorProfiles).some(flavor => 
             ingredient.toLowerCase().includes(flavor)
@@ -119,7 +119,7 @@ export function generateTopSauceRecommendations(
     
     return {
       ...sauce,
-      id: name?.replace(/\s+/g, '-').toLowerCase(),
+      id: name.replace(/\s+/g, '-').toLowerCase(),
       score: overallScore,
       matchPercentage: Math.round(overallScore * 100),
       scores: {
@@ -165,7 +165,7 @@ export function getCuisineRecommendations(
   // Get all cuisines from flavor profiles, ensuring they are correctly typed
   const cuisines = Object.values(cuisineFlavorProfiles).map(cuisine => ({
     ...cuisine,
-    id: cuisine.id || cuisine.name?.toLowerCase().replace(/\s+/g, '-') || 'unknown',
+    id: cuisine.id || cuisine.name.toLowerCase().replace(/\s+/g, '-') || 'unknown',
     name: cuisine.name || 'Unknown Cuisine'
   }));
   
@@ -184,14 +184,14 @@ export function getCuisineRecommendations(
     if (astrologicalState) {
       // Zodiac Match Score (30% weight) - safe property access
       const zodiacInfluences = (cuisine as Record<string, unknown>).zodiacInfluences;
-      if (astrologicalState.zodiacSign && (zodiacInfluences  as string[])?.includes(astrologicalState.zodiacSign as string)) {
+      if (astrologicalState.zodiacSign && (zodiacInfluences  as string[]).includes(astrologicalState.zodiacSign as string)) {
         score += 0.3;
         reasoning.push(`Favorable for ${astrologicalState.zodiacSign}`);
       }
       
       // Lunar Phase Match Score (20% weight) - safe property access
       const lunarPhaseInfluences = (cuisine as Record<string, unknown>).lunarPhaseInfluences;
-      if (astrologicalState.lunarPhase && (lunarPhaseInfluences  as string[])?.includes(astrologicalState.lunarPhase as string)) {
+      if (astrologicalState.lunarPhase && (lunarPhaseInfluences  as string[]).includes(astrologicalState.lunarPhase as string)) {
         score += 0.2;
         reasoning.push(`Harmonizes with the ${astrologicalState.lunarPhase}`);
       }
@@ -200,7 +200,7 @@ export function getCuisineRecommendations(
       const planetaryRulers = (cuisine as Record<string, unknown>).planetaryRulers;
       if (planetaryRulers && astrologicalState.planetaryPositions) {
         const planetScore = Object.entries(astrologicalState.planetaryPositions).reduce((acc, [planet, position]) => {
-          if ((planetaryRulers as unknown as string[])?.includes(planet )) {
+          if ((planetaryRulers as unknown as string[]).includes(planet )) {
             return acc + 0.05; // Small bonus for each ruling planet present
           }
           return acc;
@@ -226,7 +226,7 @@ export function getCuisineRecommendations(
   // Filter out regional variants if not requested - safe property access
   const filteredCuisines = includeRegional 
     ? scoredCuisines 
-    : scoredCuisines.filter(c => !(c as unknown as Record<string, unknown>)?.parentCuisine);
+    : scoredCuisines.filter(c => !(c as unknown as Record<string, unknown>).parentCuisine);
 
   return filteredCuisines
     .sort((a, b) => b.score - a.score)

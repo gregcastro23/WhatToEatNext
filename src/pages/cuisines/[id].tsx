@@ -148,22 +148,22 @@ const CuisineDetailsPage: NextPage = () => {
   return (
     <div className="container mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold mb-8 capitalize">
-        {cuisine?.name || id as string} Cuisine
+        {cuisine.name || id as string} Cuisine
       </h1>
       
       <div className="mb-8">
-        {cuisine?.description && (
+        {cuisine.description && (
           <p className="text-lg text-gray-700 mb-4">{cuisine.description}</p>
         )}
         
-        {cuisine?.history && (
+        {cuisine.history && (
           <div className="bg-amber-50 p-4 rounded-lg mb-4">
             <h2 className="text-xl font-semibold mb-2">Historical Context</h2>
             <p className="text-gray-800">{cuisine.history}</p>
           </div>
         )}
         
-        {cuisine?.culturalImportance && (
+        {cuisine.culturalImportance && (
           <div className="bg-blue-50 p-4 rounded-lg mb-4">
             <h2 className="text-xl font-semibold mb-2">Cultural Significance</h2>
             <p className="text-gray-800">{cuisine.culturalImportance}</p>
@@ -172,7 +172,7 @@ const CuisineDetailsPage: NextPage = () => {
       </div>
       
       <CuisineSection 
-        cuisine={cuisine?.name || id as string} 
+        cuisine={cuisine.name || id as string} 
         recipes={combinedRecipes} // Pass the memoized recipes
         elementalState={elementalState}
       />

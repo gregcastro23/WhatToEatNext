@@ -13,7 +13,7 @@ export const getElementalAlignmentFromTarot = (tarot: {
   
   // Major arcana influences
   tarot.majorArcana.forEach(card => {
-    const cardElement = TAROT_ELEMENT_ASSOCIATIONS[card]?.element;
+    const cardElement = TAROT_ELEMENT_ASSOCIATIONS[card].element;
     if (cardElement) {
       alignment[cardElement] += 0.5;
     }
@@ -21,7 +21,7 @@ export const getElementalAlignmentFromTarot = (tarot: {
 
   // Minor arcana influences
   tarot.minorArcana.forEach(card => {
-    const cardElement = TAROT_ELEMENT_ASSOCIATIONS[card]?.element;
+    const cardElement = TAROT_ELEMENT_ASSOCIATIONS[card].element;
     if (cardElement) {
       alignment[cardElement] += 0.3;
     }

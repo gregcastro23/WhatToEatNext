@@ -181,7 +181,7 @@ export function getFallbackPlanetaryPositions(date: Date): { [key: string]: any 
     
     // Store both the raw longitude and the formatted data
     positions[planet] = {
-      sign: sign?.toLowerCase(),
+      sign: sign.toLowerCase(),
       degree: parseFloat(degree.toFixed(2)),
       exactLongitude: newLongitude,
       isRetrograde
@@ -202,7 +202,7 @@ function calculateLunarNodesInternal(date: Date): { NorthNode: number, isRetrogr
     // we'll implement a simple approximation using astronomical formulas
     
     // Time in Julian centuries since 2000
-    const jd = Astronomy.MakeTime(date)?.tt;
+    const jd = Astronomy.MakeTime(date).tt;
     const T = (jd - 2451545.0) / 36525;
     
     // Mean longitude of ascending node (Meeus formula)
@@ -259,7 +259,7 @@ export function getAccuratePlanetaryPositions(date: Date): { [key: string]: Plan
           const { sign, degree } = getSignFromLongitude(sunLong);
           
           positions[planet] = {
-            sign: sign?.toLowerCase() as ZodiacSign,
+            sign: sign.toLowerCase() as ZodiacSign,
             degree,
             exactLongitude: sunLong,
             isRetrograde
@@ -273,7 +273,7 @@ export function getAccuratePlanetaryPositions(date: Date): { [key: string]: Plan
           const { sign, degree } = getSignFromLongitude(longitude);
           
           positions[planet] = {
-            sign: sign?.toLowerCase() as ZodiacSign,
+            sign: sign.toLowerCase() as ZodiacSign,
             degree,
             exactLongitude: longitude,
             isRetrograde
@@ -359,7 +359,7 @@ export function getNodeInfo(nodeLongitude: number): PlanetPositionData {
   const { sign, degree } = getSignFromLongitude(nodeLongitude);
   
   return {
-    sign: (sign?.toLowerCase() || 'aries') as ZodiacSign,
+    sign: (sign.toLowerCase() || 'aries') as ZodiacSign,
     degree,
     exactLongitude: nodeLongitude,
     isRetrograde: true // Lunar nodes are always retrograde
@@ -393,7 +393,7 @@ export function getPositionsSummary(): string {
   }
   
   const { positions, timestamp } = positionsCache;
-  const formattedDate = new Date(timestamp)?.toISOString();
+  const formattedDate = new Date(timestamp).toISOString();
   
   let summary = `Planetary positions as of ${formattedDate}:\n`;
   

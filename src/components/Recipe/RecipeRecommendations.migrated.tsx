@@ -97,7 +97,7 @@ const RecipeCard: React.FC<{
   const [expanded, setExpanded] = useState(false);
 
   const getElementColor = (element: Element): string => {
-    switch (element?.toLowerCase()) {
+    switch (element.toLowerCase()) {
       case 'fire': return '#ef4444';
       case 'water': return '#3b82f6';
       case 'earth': return '#22c55e';
@@ -280,7 +280,7 @@ const RecipeRecommendationsMigrated: React.FC<RecipeRecommendationsProps> = ({ f
     recipeService,
     alchemicalRecommendationService
   } = servicesData;
-  const elementalCalculatorService = (servicesData as Record<string, unknown>)?.elementalCalculator;
+  const elementalCalculatorService = (servicesData as Record<string, unknown>).elementalCalculator;
 
   // State management with proper TypeScript types
   const [recipes, setRecipes] = useState<RecipeType[]>([]);
@@ -332,7 +332,7 @@ const RecipeRecommendationsMigrated: React.FC<RecipeRecommendationsProps> = ({ f
   useEffect(() => {
     // ✅ Pattern MM-1: Safe type assertion for service access
     const servicesData = (useServices() as unknown) as Record<string, unknown>;
-    const elementalCalculatorService = servicesData?.elementalCalculator as { calculateElementalProperties: (positions: Record<string, number>, daytime: boolean) => Promise<ElementalProperties> } | undefined;
+    const elementalCalculatorService = servicesData.elementalCalculator as { calculateElementalProperties: (positions: Record<string, number>, daytime: boolean) => Promise<ElementalProperties> } | undefined;
     
     if (servicesLoading || !astrologyService || !elementalCalculatorService) {
       return;
@@ -365,18 +365,18 @@ const RecipeRecommendationsMigrated: React.FC<RecipeRecommendationsProps> = ({ f
         // ✅ Pattern MM-1: Safe type assertion for service access
         const astrologyServiceData = (astrologyService as unknown) as Record<string, unknown>;
         // ✅ Pattern GG-6: Safe method call with proper typing
-        const chartMethod = astrologyServiceData?.getChartData as (() => Promise<Record<string, unknown>>) | undefined;
+        const chartMethod = astrologyServiceData.getChartData as (() => Promise<Record<string, unknown>>) | undefined;
         if (chartMethod) {
           const chartData = await chartMethod();
-          const sunData = (chartData?.Sun ) as Record<string, unknown>;
-          if (sunData?.sign) {
+          const sunData = (chartData.Sun ) as Record<string, unknown>;
+          if (sunData.sign) {
             setZodiacSign(String(sunData.sign) as ZodiacSign);
           }
         }
         
         // Get lunar phase
         // ✅ Pattern GG-6: Safe method call with proper typing
-        const lunarMethod = astrologyServiceData?.getCurrentLunarPhase as (() => Promise<string>) | undefined;
+        const lunarMethod = astrologyServiceData.getCurrentLunarPhase as (() => Promise<string>) | undefined;
         if (lunarMethod) {
           const phase = await lunarMethod();
           setLunarPhase(String(phase || ''));
@@ -409,7 +409,7 @@ const RecipeRecommendationsMigrated: React.FC<RecipeRecommendationsProps> = ({ f
         // ✅ Pattern MM-1: Safe type assertion for service access
         const recipeServiceData = (recipeService as unknown) as Record<string, unknown>;
         // ✅ Pattern GG-6: Safe method call with proper typing
-        const cuisinesMethod = recipeServiceData?.getAllCuisines as (() => Promise<Record<string, CuisineData>>) | undefined;
+        const cuisinesMethod = recipeServiceData.getAllCuisines as (() => Promise<Record<string, CuisineData>>) | undefined;
         if (cuisinesMethod) {
           const cuisinesData = await cuisinesMethod();
           setCuisines(cuisinesData || {});
@@ -504,10 +504,10 @@ const RecipeRecommendationsMigrated: React.FC<RecipeRecommendationsProps> = ({ f
   const calculateRecommendationScore = (item: unknown, astroData: Record<string, unknown>): RecommendationScore => {
     // ✅ Pattern MM-1: Safe type assertion for item properties
     const itemData = (item ) as Record<string, unknown>;
-    const elementalMatch = calculateElementalMatch(itemData?.elementalProperties as ElementalProperties, astroData?.dominantElements as ElementalProperties) * 0.4;
-    const planetaryInfluence = calculatePlanetaryInfluence(itemData?.planetaryRulers as string[], astroData?.activePlanets as string[]) * 0.3;
-    const seasonalAlignment = calculateSeasonalAlignment(itemData?.seasonality as Record<string, number>, String(astroData?.currentSeason || '')) * 0.2;
-    const lunarPhaseBonus = calculateLunarPhaseBonus(itemData?.lunarAffinities as Record<string, number>, String(astroData?.lunarPhase || '')) * 0.1;
+    const elementalMatch = calculateElementalMatch(itemData.elementalProperties as ElementalProperties, astroData.dominantElements as ElementalProperties) * 0.4;
+    const planetaryInfluence = calculatePlanetaryInfluence(itemData.planetaryRulers as string[], astroData.activePlanets as string[]) * 0.3;
+    const seasonalAlignment = calculateSeasonalAlignment(itemData.seasonality as Record<string, number>, String(astroData.currentSeason || '')) * 0.2;
+    const lunarPhaseBonus = calculateLunarPhaseBonus(itemData.lunarAffinities as Record<string, number>, String(astroData.lunarPhase || '')) * 0.1;
     
     const total = elementalMatch + planetaryInfluence + seasonalAlignment + lunarPhaseBonus;
     
@@ -597,7 +597,7 @@ const RecipeRecommendationsMigrated: React.FC<RecipeRecommendationsProps> = ({ f
         // ✅ Pattern MM-1: Safe type assertion for service access
         const serviceData = (alchemicalRecommendationService as unknown) as Record<string, unknown>;
         // ✅ Pattern GG-6: Safe method call with proper typing
-        const optimizeMethod = serviceData?.getOptimizedRecipes as ((recipes: unknown[], positions: unknown, daytime: boolean, options: unknown) => Promise<unknown[]>) | undefined;
+        const optimizeMethod = serviceData.getOptimizedRecipes as ((recipes: unknown[], positions: unknown, daytime: boolean, options: unknown) => Promise<unknown[]>) | undefined;
         if (optimizeMethod) {
           const optimized = await optimizeMethod(
             preparedRecipes,
@@ -631,7 +631,7 @@ const RecipeRecommendationsMigrated: React.FC<RecipeRecommendationsProps> = ({ f
 
   // Helper function to get element color
   const getElementColor = (element: string): string => {
-    switch (element?.toLowerCase()) {
+    switch (element.toLowerCase()) {
       case 'fire': return '#ef4444';
       case 'water': return '#3b82f6';
       case 'earth': return '#22c55e';

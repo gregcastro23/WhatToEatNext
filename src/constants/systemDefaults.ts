@@ -811,7 +811,7 @@ export function validateAgainstDefaults<T extends object>(
   // Check for unknown keys
   for (const key in values) {
     if (!(key in defaults)) {
-      errors?.push(`Unknown property: ${key}`);
+      errors.push(`Unknown property: ${key}`);
     }
   }
   
@@ -822,7 +822,7 @@ export function validateAgainstDefaults<T extends object>(
       const valueType = typeof values[key];
       
       if (defaultType !== valueType && values[key] !== null && values[key] !== undefined) {
-        errors?.push(`Type mismatch for ${key}: expected ${defaultType}, got ${valueType}`);
+        errors.push(`Type mismatch for ${key}: expected ${defaultType}, got ${valueType}`);
       }
     }
   }

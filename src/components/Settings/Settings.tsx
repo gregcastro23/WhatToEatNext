@@ -116,16 +116,16 @@ export default function Settings() {
           cooking: true,
         },
         preferences: {
-          defaultServings: userPrefs.cooking?.servingSize || 2,
+          defaultServings: userPrefs.cooking.servingSize || 2,
           measurementSystem: 'metric',
-          maxPrepTime: userPrefs.cooking?.maxPrepTime || 60,
-          complexity: userPrefs.cooking?.complexity || 'moderate',
+          maxPrepTime: userPrefs.cooking.maxPrepTime || 60,
+          complexity: userPrefs.cooking.complexity || 'moderate',
         },
         dietary: {
-          restrictions: userPrefs.dietary?.restrictions || [],
-          favorites: userPrefs.dietary?.favorites || [],
-          excluded: userPrefs.dietary?.excluded || [],
-          spiciness: userPrefs.dietary?.spiciness || 'medium',
+          restrictions: userPrefs.dietary.restrictions || [],
+          favorites: userPrefs.dietary.favorites || [],
+          excluded: userPrefs.dietary.excluded || [],
+          spiciness: userPrefs.dietary.spiciness || 'medium',
         },
       });
     } catch (error) {

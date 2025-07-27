@@ -219,14 +219,14 @@ export class UnifiedFlavorProfileSystem {
    */
   getFlavorProfile(identifier: string, type?: 'cuisine' | 'planetary' | 'ingredient' | 'elemental'): UnifiedFlavorProfile | undefined {
     // Direct lookup first
-    if (this?.flavorProfiles?.[identifier]) {
-      return this?.flavorProfiles?.[identifier];
+    if (this.flavorProfiles[identifier]) {
+      return this.flavorProfiles[identifier];
     }
     
     // Try case-insensitive lookup
-    const normalizedId = identifier?.toLowerCase();
-    const profile = Object.values(this.flavorProfiles)?.find(
-      p => p.id?.toLowerCase() === normalizedId || p.name?.toLowerCase() === normalizedId
+    const normalizedId = identifier.toLowerCase();
+    const profile = Object.values(this.flavorProfiles).find(
+      p => p.id.toLowerCase() === normalizedId || p.name.toLowerCase() === normalizedId
     );
     
     // If type is specified, ensure the profile matches the type
@@ -264,7 +264,7 @@ export class UnifiedFlavorProfileSystem {
     const monicaOptimization = (profile1.monicaOptimization + profile2.monicaOptimization) / 2;
     
     // Calculate seasonal alignment
-    const seasonalOverlap = (profile1?.seasonalPeak || []).filter(season => (Array.isArray(profile2.seasonalPeak) ? profile2.seasonalPeak.includes(season) : profile2.seasonalPeak === season)
+    const seasonalOverlap = (profile1.seasonalPeak || []).filter(season => (Array.isArray(profile2.seasonalPeak) ? profile2.seasonalPeak.includes(season) : profile2.seasonalPeak === season)
     ).length;
     const seasonalAlignment = Number(seasonalOverlap) > 0 
       ? Number(seasonalOverlap) / Math.max(Number((profile1.seasonalPeak  || []).length), Number((profile2.seasonalPeak  || []).length))
@@ -283,15 +283,15 @@ export class UnifiedFlavorProfileSystem {
     const warnings: string[] = [];
     
     if (elementalHarmony > 0.8) {
-      recommendations?.push(`Strong elemental harmony between ${profile1.name} and ${profile2.name}`);
+      recommendations.push(`Strong elemental harmony between ${profile1.name} and ${profile2.name}`);
     }
     
     if (kalchmResonance > 0.8) {
-      recommendations?.push(`Excellent Kalchm resonance creates balanced flavor energy`);
+      recommendations.push(`Excellent Kalchm resonance creates balanced flavor energy`);
     }
     
     if (seasonalAlignment < 0.3) {
-      warnings?.push(`Limited seasonal alignment may affect availability`);
+      warnings.push(`Limited seasonal alignment may affect availability`);
     }
     
     // Return the comprehensive compatibility result

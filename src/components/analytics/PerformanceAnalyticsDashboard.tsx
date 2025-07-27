@@ -213,7 +213,7 @@ export const PerformanceAnalyticsDashboard: React.FC<PerformanceAnalyticsDashboa
       <div className="flex items-center space-x-4 text-sm">
         <div className="flex items-center space-x-1">
           <Clock size={14} className="text-gray-400" />
-          <span>{metrics?.loadTime?.toFixed(0) || 0}ms</span>
+          <span>{metrics?.loadTime.toFixed(0) || 0}ms</span>
         </div>
         
         <div className="flex items-center space-x-1">
@@ -340,7 +340,7 @@ export const PerformanceAnalyticsDashboard: React.FC<PerformanceAnalyticsDashboa
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <div className="bg-white rounded-lg border border-gray-200 p-4">
             <PerformanceChart
-              data={(performanceTrends as Record<string, unknown>)?.loadTimeTrend as number[] || []}
+              data={(performanceTrends as Record<string, unknown>).loadTimeTrend as number[] || []}
               label="Load Time Trend"
               color="#3B82F6"
             />
@@ -348,7 +348,7 @@ export const PerformanceAnalyticsDashboard: React.FC<PerformanceAnalyticsDashboa
           
           <div className="bg-white rounded-lg border border-gray-200 p-4">
             <PerformanceChart
-              data={(performanceTrends as Record<string, unknown>)?.cacheHitRateTrend as number[] || []}
+              data={(performanceTrends as Record<string, unknown>).cacheHitRateTrend as number[] || []}
               label="Cache Hit Rate Trend"
               color="#10B981"
             />

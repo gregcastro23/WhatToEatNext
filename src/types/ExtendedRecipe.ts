@@ -166,7 +166,7 @@ export function toExtendedRecipe(recipe: Recipe): ExtendedRecipe {
       const extendedIngredient = (ingredient as unknown) as Record<string, unknown>;
       return {
         ...ingredient,
-        id: typeof extendedIngredient?.id === 'string' ? extendedIngredient.id : 'ingredient-' + Date.now(),
+        id: typeof extendedIngredient.id === 'string' ? extendedIngredient.id : 'ingredient-' + Date.now(),
         preparation: typeof extendedIngredient.preparation === 'string' ? extendedIngredient.preparation : '',
         optional: typeof extendedIngredient.optional === 'boolean' ? extendedIngredient.optional : false,
         notes: typeof extendedIngredient.notes === 'string' ? extendedIngredient.notes : ''

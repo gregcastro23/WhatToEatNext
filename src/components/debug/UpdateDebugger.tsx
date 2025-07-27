@@ -16,14 +16,14 @@ export default function UpdateDebugger() {
     // Keep last 10 render times
     setRenderTimes(prev => {
       const newTimes = [...prev, now.toISOString()];
-      return newTimes?.slice(-10);
+      return newTimes.slice(-10);
     });
     
     // Check for rapid renders that might indicate an infinite loop
     if ((renderTimes || []).length > 5) {
-      const recentRenders = renderTimes?.slice(-5);
-      const times = (recentRenders || []).map(time => new Date(time)?.getTime());
-      const intervals = times?.slice(1)?.map((time, i) => time - times[i]);
+      const recentRenders = renderTimes.slice(-5);
+      const times = (recentRenders || []).map(time => new Date(time).getTime());
+      const intervals = times.slice(1).map((time, i) => time - times[i]);
       
       // If we have multiple renders in less than 100ms each, likely an infinite loop
       const rapidRenders = (intervals || []).filter(interval => interval < 100).length;
@@ -59,7 +59,7 @@ export default function UpdateDebugger() {
       <ul style={{ margin: '4px 0', padding: '0 0 0 20px' }}>
         {(renderTimes || []).map((time, i) => (
           <li key={i}>
-            {new Date(time)?.toLocaleTimeString()}.{new Date(time)?.getMilliseconds()}
+            {new Date(time).toLocaleTimeString()}.{new Date(time).getMilliseconds()}
           </li>
         ))}
       </ul>

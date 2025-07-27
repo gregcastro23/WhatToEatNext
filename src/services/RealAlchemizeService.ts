@@ -108,7 +108,7 @@ function getPlanetaryDignity(planet: string, sign: string): number {
     }
   };
   
-  return dignityMap[planet]?.[sign.toLowerCase()] || 0;
+  return dignityMap[planet][sign.toLowerCase()] || 0;
 }
 
 /**
@@ -225,8 +225,8 @@ export function alchemize(planetaryPositions: Record<string, PlanetaryPosition>)
       source: 'alchemize',
       dominantElement,
       dominantModality: 'Cardinal', // Simplified for now
-      sunSign: planetaryPositions['Sun']?.sign || '',
-      chartRuler: getZodiacElement(planetaryPositions['Sun']?.sign || 'aries')
+      sunSign: planetaryPositions['Sun'].sign || '',
+      chartRuler: getZodiacElement(planetaryPositions['Sun'].sign || 'aries')
     }
   };
 }

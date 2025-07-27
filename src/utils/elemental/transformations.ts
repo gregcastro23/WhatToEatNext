@@ -157,7 +157,7 @@ export function transformSingleItem(
   
   // ✅ Pattern MM-1: Safe type assertion for elemental properties
   const transformedElemental = applyElementalTransformations(
-    ((item as unknown) as Record<string, unknown>)?.elementalProperties as ElementalProperties || item.elementalProperties,
+    ((item as unknown) as Record<string, unknown>).elementalProperties as ElementalProperties || item.elementalProperties,
     planetaryInfluences,
     lunarModifiers,
     zodiacElement,
@@ -178,8 +178,8 @@ export function transformSingleItem(
     ...item,
     elementalProperties: transformedElemental,
     alchemicalProperties,
-    uniqueness: ((item as unknown) as Record<string, unknown>)?.uniqueness as number || uniqueness,
-    planetaryInfluences: ((item as unknown) as Record<string, unknown>)?.planetaryInfluences as string[] || Object.keys(planetaryInfluences),
+    uniqueness: ((item as unknown) as Record<string, unknown>).uniqueness as number || uniqueness,
+    planetaryInfluences: ((item as unknown) as Record<string, unknown>).planetaryInfluences as string[] || Object.keys(planetaryInfluences),
     lunarPhaseEffect: context.lunarPhase || 'new Moon',
     zodiacInfluence: context.currentZodiac || 'aries',
     transformationScore: calculateTransformationScore(alchemicalProperties, uniqueness)
@@ -230,10 +230,10 @@ export function applyPlanetaryInfluence(
   // Apply alchemical boost
   // ✅ Pattern KK-9: Safe arithmetic operations for alchemical transformation
   const alchemicalBoost = {
-    Spirit: Number(item.alchemicalProperties?.Spirit || 0.25) + (Number(planetProperties.Spirit || 0) * Number(planetaryStrength || 0)),
-    Essence: Number(item.alchemicalProperties?.Essence || 0.25) + (Number(planetProperties.Essence || 0) * Number(planetaryStrength || 0)),
-    Matter: Number(item.alchemicalProperties?.Matter || 0.25) + (Number(planetProperties.Matter || 0) * Number(planetaryStrength || 0)),
-    Substance: Number(item.alchemicalProperties?.Substance || 0.25) + (Number(planetProperties.Substance || 0) * Number(planetaryStrength || 0))
+    Spirit: Number(item.alchemicalProperties.Spirit || 0.25) + (Number(planetProperties.Spirit || 0) * Number(planetaryStrength || 0)),
+    Essence: Number(item.alchemicalProperties.Essence || 0.25) + (Number(planetProperties.Essence || 0) * Number(planetaryStrength || 0)),
+    Matter: Number(item.alchemicalProperties.Matter || 0.25) + (Number(planetProperties.Matter || 0) * Number(planetaryStrength || 0)),
+    Substance: Number(item.alchemicalProperties.Substance || 0.25) + (Number(planetProperties.Substance || 0) * Number(planetaryStrength || 0))
   };
   
   return {
@@ -241,8 +241,8 @@ export function applyPlanetaryInfluence(
     elementalProperties: transformedElemental,
     alchemicalProperties: alchemicalBoost,
     // ✅ Pattern MM-1: Safe type assertion for planetary influences array
-    planetaryInfluences: [...(Array.isArray(((item as unknown) as Record<string, unknown>)?.planetaryInfluences) ? ((item as unknown) as Record<string, unknown>)?.planetaryInfluences as string[] : []), String(planet || '')],
-    transformationScore: calculateTransformationScore(alchemicalBoost, Number(((item as unknown) as Record<string, unknown>)?.uniqueness) || 0.5)
+    planetaryInfluences: [...(Array.isArray(((item as unknown) as Record<string, unknown>).planetaryInfluences) ? ((item as unknown) as Record<string, unknown>).planetaryInfluences as string[] : []), String(planet || '')],
+    transformationScore: calculateTransformationScore(alchemicalBoost, Number(((item as unknown) as Record<string, unknown>).uniqueness) || 0.5)
   } as unknown as AlchemicalItem;
 }
 
@@ -259,8 +259,8 @@ export function sortByAlchemicalCompatibility(
   if (!targetElementalProperties) {
     // ✅ Pattern MM-1: Safe type assertion for transformation score comparison
     return (items || []).sort((a, b) => {
-      const scoreB = Number(((((b as unknown) as Record<string, unknown>)?.transformations as Record<string, unknown>)?.score) || 0);
-      const scoreA = Number(((((a as unknown) as Record<string, unknown>)?.transformations as Record<string, unknown>)?.score) || 0);
+      const scoreB = Number(((((b as unknown) as Record<string, unknown>).transformations as Record<string, unknown>).score) || 0);
+      const scoreA = Number(((((a as unknown) as Record<string, unknown>).transformations as Record<string, unknown>).score) || 0);
       return scoreB - scoreA;
     });
   }
@@ -324,7 +324,7 @@ export function getTopCompatibleItems(
   items: AlchemicalItem[],
   count = 5
 ): AlchemicalItem[] {
-  return sortByAlchemicalCompatibility(items)?.slice(0, count);
+  return sortByAlchemicalCompatibility(items).slice(0, count);
 }
 
 // --- Helper Functions ---
@@ -469,7 +469,7 @@ function calculateAlchemicalProperties(
   }
   
   // Normalize alchemical properties
-  const sum = Object.values(alchemicalProps)?.reduce((acc, val) => acc + val, 0);
+  const sum = Object.values(alchemicalProps).reduce((acc, val) => acc + val, 0);
   if (sum > 0) {
     for (const prop in alchemicalProps) {
       alchemicalProps[prop] /= sum;
@@ -508,7 +508,7 @@ function calculateTransformationScore(
   alchemicalProperties: { [key: string]: number },
   uniqueness: number
 ): number {
-  const alchemicalSum = Object.values(alchemicalProperties)?.reduce((sum, val) => sum + val, 0);
+  const alchemicalSum = Object.values(alchemicalProperties).reduce((sum, val) => sum + val, 0);
   const alchemicalScore = alchemicalSum / Object.keys(alchemicalProperties || {}).length;
   
   return (alchemicalScore * 0.7) + (uniqueness * 0.3);
@@ -530,7 +530,7 @@ function calculateCompatibilityScore(
   });
   
   // ✅ Pattern MM-1: Safe property access for transformation score
-  score += ((((item as unknown) as Record<string, unknown>)?.transformations as Record<string, unknown>)?.score as number || 0.5) * 0.4;
+  score += ((((item as unknown) as Record<string, unknown>).transformations as Record<string, unknown>).score as number || 0.5) * 0.4;
   totalWeight += 0.4;
   
   return totalWeight > 0 ? score / totalWeight : 0;

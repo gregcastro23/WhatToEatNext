@@ -33,7 +33,7 @@ export class FlavorEngineErrorBoundary extends Component<Props, State> {
 
   static getDerivedStateFromError(error: Error): State {
     // Check if error message indicates a maximum update depth error
-        const isRenderLoop = error.message?.includes('Maximum update depth exceeded') ||
+        const isRenderLoop = error.message.includes('Maximum update depth exceeded') ||
                           error.stack?.includes('Maximum update depth exceeded') ||
                           false;
     

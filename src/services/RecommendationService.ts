@@ -181,7 +181,7 @@ export class RecommendationService {
       const isDaytime = hours >= 6 && hours < 18;
       // Get current Sun sign as current zodiac
       const sunPosition = positions['Sun'];
-      const currentZodiac = sunPosition?.sign || null;
+      const currentZodiac = sunPosition.sign || null;
       // Initialize with calculated values
       this.initialize(
         positions,
@@ -338,7 +338,7 @@ export class RecommendationService {
     return [...items]
       .sort((a, b) => {
         // Sort by compatibility score (higher is better) - safe property access
-        return ((b as { compatibilityScore?: number })?.compatibilityScore || 0) - ((a as { compatibilityScore?: number })?.compatibilityScore || 0);
+        return ((b as { compatibilityScore?: number }).compatibilityScore || 0) - ((a as { compatibilityScore?: number }).compatibilityScore || 0);
       })
       .slice(0, limit);
   }
@@ -536,9 +536,9 @@ export class RecommendationService {
         [key: string]: unknown 
       };
       const currentMomentElements: ElementalProperties = 
-        (astroStateData?.elementalProperties && Object.keys(astroStateData.elementalProperties).length > 0 
+        (astroStateData.elementalProperties && Object.keys(astroStateData.elementalProperties).length > 0 
           ? astroStateData.elementalProperties 
-          : astroStateData?.elementalState && Object.keys(astroStateData.elementalState).length > 0
+          : astroStateData.elementalState && Object.keys(astroStateData.elementalState).length > 0
           ? astroStateData.elementalState 
           : { Fire: 0, Water: 0, Earth: 0, Air: 0 }) as ElementalProperties;
       
@@ -572,8 +572,8 @@ export class RecommendationService {
         // Extract numerical score from the result object
         advancedScore = typeof compatibilityResult === 'number' 
           ? compatibilityResult 
-          : (compatibilityResult as { score?: number; compatibility?: number })?.score || 
-            (compatibilityResult as { score?: number; compatibility?: number })?.compatibility || 0.5;
+          : (compatibilityResult as { score?: number; compatibility?: number }).score || 
+            (compatibilityResult as { score?: number; compatibility?: number }).compatibility || 0.5;
       } catch (error) {
         logger.warn('Advanced compatibility calculation failed, using basic elemental match:', error);
         advancedScore = elementalScore;

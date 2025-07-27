@@ -843,7 +843,7 @@ export function calculateEnhancedStelliumEffects(
             planetElement = 'water';
             break;
           case 'mercury':
-            planetElement = planetPositions[planet]?.degree < 15 ? 'air' : 'Earth'; // First half: Air, Second half: Earth
+            planetElement = planetPositions[planet].degree < 15 ? 'air' : 'Earth'; // First half: Air, Second half: Earth
             break;
           case 'venus':
             planetElement = 'water';
@@ -1885,7 +1885,7 @@ export const parseAstroChartData = (astroChartData: unknown): Record<string, num
     const data = astroChartData as Record<string, unknown>;
     
     // Process planetary positions
-    if (data?.planets) {
+    if (data.planets) {
       // Map AstroCharts planet names to our internal format
       const planetMapping: Record<string, string> = {
         'Sun': 'Sun',
@@ -1914,7 +1914,7 @@ export const parseAstroChartData = (astroChartData: unknown): Record<string, num
     }
     
     // Process houses and angles if available
-    if (data?.houses) {
+    if (data.houses) {
       const houses = data.houses;
       result['Ascendant'] = houses[1]?.longitude || 0;
       result['MC'] = houses[10]?.longitude || 0;
@@ -1950,7 +1950,7 @@ export const parseAstroChartAspects = (astroChartData: unknown): Array<{
     
     const data = astroChartData as Record<string, unknown>;
     
-    if (data?.aspects && Array.isArray(data.aspects)) {
+    if (data.aspects && Array.isArray(data.aspects)) {
       // Map aspect types to internal format
       const aspectTypeMapping: Record<string, string> = {
         'conjunction': 'conjunction',
@@ -1969,7 +1969,7 @@ export const parseAstroChartAspects = (astroChartData: unknown): Array<{
       // Process each aspect
       data.aspects.forEach((aspect: unknown) => {
         const aspectData = aspect as Record<string, unknown>;
-        if (aspectData?.aspectType && aspectData?.planet1 && aspectData?.planet2) {
+        if (aspectData.aspectType && aspectData.planet1 && aspectData.planet2) {
           aspects.push({
             type: aspectTypeMapping[String(aspectData.aspectType)] || String(aspectData.aspectType),
             planet1: String(aspectData.planet1),

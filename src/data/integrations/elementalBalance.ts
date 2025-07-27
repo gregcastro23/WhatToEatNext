@@ -75,7 +75,7 @@ export const elementalBalance = {
   },
 
   getRecipeHarmony(recipe: Recipe, targetProperties: ElementalProperties): number {
-      if (!recipe?.elementalProperties || !targetProperties) {
+      if (!recipe.elementalProperties || !targetProperties) {
           return 0;
       }
       return this.calculateHarmonyBetween(recipe.elementalProperties, targetProperties);

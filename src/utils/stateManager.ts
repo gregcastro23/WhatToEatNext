@@ -239,7 +239,7 @@ class StateManager {
   private async initializeState() {
     try {
       // Fix: Extract theme mode as string instead of passing the whole object
-      if (this.state?.user?.preferences?.theme) {
+      if (this.state.user.preferences.theme) {
         themeManager.updateTheme(this.state.user.preferences.theme.mode);
       } else {
         themeManager.updateTheme('light');

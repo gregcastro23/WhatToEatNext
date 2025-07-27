@@ -47,7 +47,7 @@ const CuisinesIndexPage = () => {
   // Get main cuisines (excluding regional variations for the main list)
   const mainCuisines = allCuisines.filter(cuisine => {
     const profile = cuisineFlavorProfiles[cuisine.id];
-    return !profile?.parentCuisine; // Only include cuisines that don't have a parent
+    return !profile.parentCuisine; // Only include cuisines that don't have a parent
   });
 
   return (
@@ -83,12 +83,12 @@ const CuisinesIndexPage = () => {
               <p className="text-gray-600 mb-4 line-clamp-2">{cuisine.description}</p>
               
               {/* Regional Variants */}
-              {cuisineFlavorProfiles[cuisine.id]?.regionalVariants && 
-               (cuisineFlavorProfiles[cuisine.id]?.regionalVariants?.length ?? 0) > 0 && (
+              {cuisineFlavorProfiles[cuisine.id].regionalVariants && 
+               (cuisineFlavorProfiles[cuisine.id].regionalVariants?.length ?? 0) > 0 && (
                 <div className="mb-4">
                   <h4 className="text-sm font-semibold text-gray-500 mb-1">Regional Variations:</h4>
                   <div className="flex flex-wrap gap-1">
-                    {(cuisineFlavorProfiles[cuisine.id]?.regionalVariants ?? []).map(variant => {
+                    {(cuisineFlavorProfiles[cuisine.id].regionalVariants ?? []).map(variant => {
                       // Find the variant cuisine ID
                       const variantCuisineEntry = Object.entries(cuisineFlavorProfiles).find(
                         ([_, profile]) => profile.name.toLowerCase() === variant
@@ -110,7 +110,7 @@ const CuisinesIndexPage = () => {
               )}
               
               {/* Elemental Profile Preview */}
-              {cuisineFlavorProfiles[cuisine.id]?.elementalAlignment && (
+              {cuisineFlavorProfiles[cuisine.id].elementalAlignment && (
                 <div className="grid grid-cols-4 gap-1 mb-4">
                   {Object.entries(cuisineFlavorProfiles[cuisine.id].elementalAlignment).map(([element, value]) => (
                     <div key={element} className="text-center">

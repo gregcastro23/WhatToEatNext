@@ -55,12 +55,12 @@ export const CuisineSection: React.FC<CuisineSectionProps> = ({
       try {
         // Find cuisine by name (case insensitive)
         const cuisineKey = Object.keys(cuisinesMap).find(
-          key => key.toLowerCase() === cuisine?.toLowerCase()
+          key => key.toLowerCase() === cuisine.toLowerCase()
         );
         
         if (cuisineKey && cuisinesMap[cuisineKey]) {
           const cuisineData = cuisinesMap[cuisineKey] as Record<string, unknown>;
-          const saucesData = cuisineData?.traditionalSauces;
+          const saucesData = cuisineData.traditionalSauces;
           
           if (saucesData) {
             // Convert traditional sauces object to array
@@ -131,17 +131,17 @@ export const CuisineSection: React.FC<CuisineSectionProps> = ({
         const recipeData = recipe as Record<string, unknown>;
         
         // Match main cuisine
-        if (String(recipeData?.cuisine || '').toLowerCase() === cuisine?.toLowerCase()) return true;
+        if (String(recipeData.cuisine || '').toLowerCase() === cuisine.toLowerCase()) return true;
         
         // Match regional cuisine if specified
-        if (String(recipeData?.regionalCuisine || '').toLowerCase() === cuisine?.toLowerCase()) return true;
+        if (String(recipeData.regionalCuisine || '').toLowerCase() === cuisine.toLowerCase()) return true;
         
         // Try to match related cuisines
         try {
           const relatedCuisines = getRelatedCuisines(cuisine || '');
           if (relatedCuisines.some(rc => 
-            String(recipeData?.cuisine || '').toLowerCase() === rc?.toLowerCase() ||
-            String(recipeData?.regionalCuisine || '').toLowerCase() === rc?.toLowerCase()
+            String(recipeData.cuisine || '').toLowerCase() === rc.toLowerCase() ||
+            String(recipeData.regionalCuisine || '').toLowerCase() === rc.toLowerCase()
           )) {
             return true;
           }
@@ -150,46 +150,46 @@ export const CuisineSection: React.FC<CuisineSectionProps> = ({
         }
         
         // If no match but has high match score, include it
-        return (Number(recipeData?.matchScore) || 0) > 0.75;
+        return (Number(recipeData.matchScore) || 0) > 0.75;
       })
       .sort((a, b) => {
         const recipeA = a as Record<string, unknown>;
         const recipeB = b as Record<string, unknown>;
         
         // First sort by match score
-        const scoreA = Number(recipeA?.matchScore) || 0;
-        const scoreB = Number(recipeB?.matchScore) || 0;
+        const scoreA = Number(recipeA.matchScore) || 0;
+        const scoreB = Number(recipeB.matchScore) || 0;
         
         if (scoreB !== scoreA) return scoreB - scoreA;
         
         // If match scores are equal, prioritize direct cuisine matches
-        const directMatchA = String(recipeA?.cuisine || '').toLowerCase() === cuisine?.toLowerCase();
-        const directMatchB = String(recipeB?.cuisine || '').toLowerCase() === cuisine?.toLowerCase();
+        const directMatchA = String(recipeA.cuisine || '').toLowerCase() === cuisine.toLowerCase();
+        const directMatchB = String(recipeB.cuisine || '').toLowerCase() === cuisine.toLowerCase();
         
         if (directMatchA && !directMatchB) return -1;
         if (!directMatchA && directMatchB) return 1;
         
         // Default to alphabetical ordering
-        return String(recipeA?.name || '').localeCompare(String(recipeB?.name || ''));
+        return String(recipeA.name || '').localeCompare(String(recipeB.name || ''));
       })
       .slice(0, viewAllRecipes ? undefined : 4);
   }, [recipes, cuisine, elementalState, viewAllRecipes]);
 
   if (!cuisineRecipes.length) {
     // Special case for African and American cuisines
-    const isSpecialCase = cuisine?.toLowerCase() === 'african' || cuisine?.toLowerCase() === 'american';
+    const isSpecialCase = cuisine.toLowerCase() === 'african' || cuisine.toLowerCase() === 'american';
     if (isSpecialCase) {
       // Last-ditch effort to find recipes for these problematic cuisines
       try {
         // Try direct access with different capitalizations
         const importedCuisine = cuisinesMap[cuisine] || 
-                              cuisinesMap[cuisine?.toLowerCase()] || 
-                              cuisinesMap[cuisine?.charAt(0)?.toUpperCase() + cuisine?.slice(1)?.toLowerCase()];
+                              cuisinesMap[cuisine.toLowerCase()] || 
+                              cuisinesMap[cuisine.charAt(0).toUpperCase() + cuisine.slice(1).toLowerCase()];
                               
         if (importedCuisine) {
           const cuisineData = importedCuisine as Record<string, unknown>;
           
-          if (cuisineData?.dishes) {
+          if (cuisineData.dishes) {
             const specialRecipes: any[] = [];
             
             // Try to extract some recipes directly
@@ -210,8 +210,8 @@ export const CuisineSection: React.FC<CuisineSectionProps> = ({
                       const recipeData = recipe as Record<string, unknown>;
                       return (
                         <div key={i} className="border rounded-lg p-4 hover:shadow-md transition-shadow">
-                          <h3 className="text-lg font-medium">{String(recipeData?.name || 'Unnamed Recipe')}</h3>
-                          <p className="text-gray-600 text-sm mt-1">{String(recipeData?.description || 'No description available')}</p>
+                          <h3 className="text-lg font-medium">{String(recipeData.name || 'Unnamed Recipe')}</h3>
+                          <p className="text-gray-600 text-sm mt-1">{String(recipeData.description || 'No description available')}</p>
                         </div>
                       );
                     })}
@@ -228,7 +228,7 @@ export const CuisineSection: React.FC<CuisineSectionProps> = ({
     
     return (
       <div className="mb-8">
-        <h2 className="text-2xl font-bold capitalize mb-4">{cuisine?.replace('_', ' ')} Cuisine</h2>
+        <h2 className="text-2xl font-bold capitalize mb-4">{cuisine.replace('_', ' ')} Cuisine</h2>
         <p className="text-gray-600">No recipes available for this cuisine at the moment.</p>
       </div>
     );
@@ -239,17 +239,17 @@ export const CuisineSection: React.FC<CuisineSectionProps> = ({
     
     return (
       <div className="text-xs text-gray-500 flex flex-wrap gap-2 mt-2">
-        {Boolean(recipeData?.season) && (
+        {Boolean(recipeData.season) && (
           <span className="bg-blue-100 text-blue-700 px-2 py-1 rounded-full">
             {String(recipeData.season)}
           </span>
         )}
-        {Boolean(recipeData?.mealType) && (
+        {Boolean(recipeData.mealType) && (
           <span className="bg-green-100 text-green-700 px-2 py-1 rounded-full">
             {String(recipeData.mealType)}
           </span>
         )}
-        {Boolean(recipeData?.difficulty) && (
+        {Boolean(recipeData.difficulty) && (
           <span className="bg-orange-100 text-orange-700 px-2 py-1 rounded-full">
             {String(recipeData.difficulty)}
           </span>
@@ -289,8 +289,8 @@ export const CuisineSection: React.FC<CuisineSectionProps> = ({
     return (
       <div key={index} className="bg-white rounded-lg border shadow-sm p-4 hover:shadow-md transition-shadow">
         <div className="flex justify-between items-start mb-2">
-          <h4 className="font-medium text-lg text-gray-900">{String(sauceData?.name || 'Traditional Sauce')}</h4>
-          {Boolean(sauceData?.elementalProperties) && (
+          <h4 className="font-medium text-lg text-gray-900">{String(sauceData.name || 'Traditional Sauce')}</h4>
+          {Boolean(sauceData.elementalProperties) && (
             <div className="flex gap-1">
               {Object.entries(sauceData.elementalProperties || {}).map(([element, value]) => (
                 <span 
@@ -309,16 +309,16 @@ export const CuisineSection: React.FC<CuisineSectionProps> = ({
           )}
         </div>
         
-        {Boolean(sauceData?.description) && (
+        {Boolean(sauceData.description) && (
           <p className="text-gray-600 text-sm mb-3 line-clamp-2">{String(sauceData.description)}</p>
         )}
         
         <div className="space-y-2 text-sm">
-          {Boolean(sauceData?.base) && (
+          {Boolean(sauceData.base) && (
             <div><span className="font-medium text-gray-700">Base:</span> {String(sauceData.base)}</div>
           )}
           
-          {Boolean(sauceData?.keyIngredients && Array.isArray(sauceData.keyIngredients) && sauceData.keyIngredients.length > 0) && (
+          {Boolean(sauceData.keyIngredients && Array.isArray(sauceData.keyIngredients) && sauceData.keyIngredients.length > 0) && (
             <div>
               <span className="font-medium text-gray-700">Key Ingredients:</span>
               <div className="flex flex-wrap gap-1 mt-1">
@@ -342,35 +342,35 @@ export const CuisineSection: React.FC<CuisineSectionProps> = ({
 
   const renderRecipeCard = (recipe: Recipe, index: number) => {
     const recipeData = recipe as Record<string, unknown>;
-    const hasDualMatch = String(recipeData?.cuisine || '').toLowerCase() === cuisine?.toLowerCase() && 
-                        String(recipeData?.regionalCuisine || '').toLowerCase() === cuisine?.toLowerCase();
+    const hasDualMatch = String(recipeData.cuisine || '').toLowerCase() === cuisine.toLowerCase() && 
+                        String(recipeData.regionalCuisine || '').toLowerCase() === cuisine.toLowerCase();
     
     return (
-      <div key={String(recipeData?.id || index)} className="bg-white rounded-lg border shadow-sm overflow-hidden hover:shadow-md transition-shadow">
+      <div key={String(recipeData.id || index)} className="bg-white rounded-lg border shadow-sm overflow-hidden hover:shadow-md transition-shadow">
         <div className="p-4">
           <div className="flex justify-between items-start mb-2">
             <h3 className="text-lg font-medium text-gray-900 line-clamp-2">
-              {String(recipeData?.name || 'Unnamed Recipe')}
+              {String(recipeData.name || 'Unnamed Recipe')}
             </h3>
-            {renderScoreBadge(Number(recipeData?.matchScore) || 0, hasDualMatch)}
+            {renderScoreBadge(Number(recipeData.matchScore) || 0, hasDualMatch)}
           </div>
           
-          {Boolean(recipeData?.description) && (
+          {Boolean(recipeData.description) && (
             <p className="text-gray-600 text-sm mb-3 line-clamp-3">{String(recipeData.description)}</p>
           )}
           
           <div className="flex flex-wrap gap-2 text-xs text-gray-500 mb-3">
-            {Boolean(recipeData?.cookingTime) && (
+            {Boolean(recipeData.cookingTime) && (
               <span className="flex items-center gap-1">
                 ⏱️ {String(recipeData.cookingTime)}
               </span>
             )}
-            {Boolean(recipeData?.difficulty) && (
+            {Boolean(recipeData.difficulty) && (
               <span className="flex items-center gap-1">
                 📊 {String(recipeData.difficulty)}
               </span>
             )}
-            {Boolean(recipeData?.servings) && (
+            {Boolean(recipeData.servings) && (
               <span className="flex items-center gap-1">
                 👥 {String(recipeData.servings)}
               </span>
@@ -379,13 +379,13 @@ export const CuisineSection: React.FC<CuisineSectionProps> = ({
           
           {renderSeasonalInfo(recipe)}
           
-          {Boolean(recipeData?.ingredients && Array.isArray(recipeData.ingredients) && recipeData.ingredients.length > 0) && (
+          {Boolean(recipeData.ingredients && Array.isArray(recipeData.ingredients) && recipeData.ingredients.length > 0) && (
             <div className="mt-3 pt-3 border-t border-gray-100">
               <span className="text-xs font-medium text-gray-700">Key Ingredients:</span>
               <div className="flex flex-wrap gap-1 mt-1">
                 {(recipeData.ingredients as unknown[]).slice(0, 3).map((ingredient: Ingredient | UnifiedIngredient, i: number) => (
                   <span key={i} className="bg-gray-100 text-gray-600 px-2 py-1 rounded text-xs">
-                    {String((ingredient as unknown as Record<string, unknown>)?.name || ingredient)}
+                    {String((ingredient as unknown as Record<string, unknown>).name || ingredient)}
                   </span>
                 ))}
                 {(recipeData.ingredients as unknown[]).length > 3 && (

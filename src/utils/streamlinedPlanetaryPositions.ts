@@ -187,7 +187,7 @@ export function getCurrentPlanetaryPositions(): { [key: string]: CelestialPositi
   logger.info('Updated planetary positions cache with transit validation', {
     sunSign: validatedPositions.Sun.sign,
     moonSign: validatedPositions.moon.sign,
-    timestamp: new Date()?.toISOString()
+    timestamp: new Date().toISOString()
   });
 
   return validatedPositions;
@@ -205,7 +205,7 @@ function validatePositionsWithTransitDates(positions: { [key: string]: Celestial
   // Check each planet against its transit dates
   for (const [planetKey, position] of Object.entries(validatedPositions)) {
     // Convert planet key to proper case for transit validation
-    const planetName = planetKey.charAt(0)?.toUpperCase() + planetKey?.slice(1);
+    const planetName = planetKey.charAt(0).toUpperCase() + planetKey.slice(1);
     
     // Skip nodes and Ascendant as they don't have transit dates
     if (['northNode', 'southNode', 'ascendant'].includes(planetKey)) {
@@ -261,7 +261,7 @@ export function getPlanetaryPositionsForDate(date: Date): { [key: string]: Celes
 
   for (const [planet, position] of Object.entries(basePositions)) {
     const movement = dailyMovement[planet] || 0;
-    let adjustedLongitude = position?.exactLongitude ?? 0;
+    let adjustedLongitude = position.exactLongitude ?? 0;
 
     // Apply movement (retrograde planets move backwards)
     if (position.isRetrograde) {
@@ -386,12 +386,12 @@ export function getPositionsSummary(): string {
     const retrograde = position.isRetrograde ? ' (R)' : '';
     const degrees = Math.floor(position.degree ?? 0);
     const minutes = Math.floor((position.degree ?? 0 - degrees) * 60);
-    lines?.push(`${planet}: ${position.sign} ${degrees}° ${minutes}'${retrograde}`);
+    lines.push(`${planet}: ${position.sign} ${degrees}° ${minutes}'${retrograde}`);
   }
   
-  lines?.push(`Lunar Phase: ${getCurrentLunarPhaseName()} (${(getmoonIllumination() * 100).toFixed(0)}% illuminated)`);
+  lines.push(`Lunar Phase: ${getCurrentLunarPhaseName()} (${(getmoonIllumination() * 100).toFixed(0)}% illuminated)`);
   
-  return lines?.join('\n');
+  return lines.join('\n');
 }
 
 /**

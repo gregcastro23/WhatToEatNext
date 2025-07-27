@@ -53,7 +53,7 @@ export const getCelestialPositionsForDate = async (date: Date): Promise<Celestia
             // Handle numeric positions
             const degreeValue = typeof position === 'number' 
                 ? position 
-                : ((position as unknown) as Record<string, unknown>)?.degree as number || 0;
+                : ((position as unknown) as Record<string, unknown>).degree as number || 0;
                 
             const sign = getSignFromDegree(degreeValue);
             planetaryPositions[planet.toLowerCase()] = {
@@ -326,7 +326,7 @@ export function calculateElementalBalanceFromPositions(positions: Record<string,
     Object.entries(positions).forEach(([planet, data]) => {
         // Apply safe type casting for data property access
         const planetData = data as Record<string, unknown>;
-        if (!planetData?.sign) return;
+        if (!planetData.sign) return;
         
         const planetKey = planet.toLowerCase();
         const weight = planetaryWeights[planetKey as keyof typeof planetaryWeights] || 0.05;

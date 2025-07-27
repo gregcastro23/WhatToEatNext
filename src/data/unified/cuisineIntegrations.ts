@@ -583,7 +583,7 @@ export class UnifiedCuisineIntegrationSystem {
     // Validate input cuisines - only reject obviously invalid input
     if (!cuisine1 || !cuisine2 || 
         typeof cuisine1 !== 'string' || typeof cuisine2 !== 'string' ||
-        cuisine1?.trim() === '' || cuisine2?.trim() === '' ||
+        cuisine1.trim() === '' || cuisine2.trim() === '' ||
         cuisine1 === 'invalid_cuisine' || cuisine2 === 'invalid_cuisine') {
       return null;
     }
@@ -591,8 +591,8 @@ export class UnifiedCuisineIntegrationSystem {
     const cacheKey = `${cuisine1}-${cuisine2}`;
     
     // Check cache first
-    if (this?.cuisineCompatibilityCache?.has(cacheKey)) {
-      const cached = this?.cuisineCompatibilityCache?.get(cacheKey)!;
+    if (this.cuisineCompatibilityCache.has(cacheKey)) {
+      const cached = this.cuisineCompatibilityCache.get(cacheKey)!;
       if (cached[cuisine2]) {
         return cached[cuisine2];
       }
@@ -661,10 +661,10 @@ export class UnifiedCuisineIntegrationSystem {
     };
     
     // Cache the result
-    if (!this?.cuisineCompatibilityCache?.has(cacheKey)) {
-      this?.cuisineCompatibilityCache?.set(cacheKey, {});
+    if (!this.cuisineCompatibilityCache.has(cacheKey)) {
+      this.cuisineCompatibilityCache.set(cacheKey, {});
     }
-    const cache = this?.cuisineCompatibilityCache?.get(cacheKey);
+    const cache = this.cuisineCompatibilityCache.get(cacheKey);
     if (cache) {
       cache[cuisine2] = compatibility;
     }
@@ -810,7 +810,7 @@ export class UnifiedCuisineIntegrationSystem {
     for (const [category, ingredientMap] of Object.entries(enhancedCuisineMatrix)) {
       for (const [ingredient, cuisines] of Object.entries(ingredientMap)) {
         if (cuisines.includes(cuisine1) && cuisines.includes(cuisine2)) {
-          sharedIngredients?.push(ingredient);
+          sharedIngredients.push(ingredient);
         }
       }
     }
@@ -904,9 +904,9 @@ export class UnifiedCuisineIntegrationSystem {
     // Calculate compatibility for each season based on Monica modifiers
     for (const season of ['spring', 'summer', 'autumn', 'winter'] as Season[]) {
       // Get modifiers from the appropriate season (handle both 'autumn' and 'fall')
-      const modifier1 = monica1?.seasonalModifiers?.[season] || 
+      const modifier1 = monica1.seasonalModifiers[season] || 
                      (season === 'autumn' && monica1.seasonalModifiers['fall' as Season]) || 0;
-      const modifier2 = monica2?.seasonalModifiers?.[season] || 
+      const modifier2 = monica2.seasonalModifiers[season] || 
                      (season === 'autumn' && monica2.seasonalModifiers['fall' as Season]) || 0;
       
       const modifierDifference = Math.abs(modifier1 - modifier2);
@@ -1020,8 +1020,8 @@ export class UnifiedCuisineIntegrationSystem {
       'african': 'Afro'
     };
     
-    const prefix1 = nameMap[cuisine1] || cuisine1.charAt(0)?.toUpperCase() + cuisine1?.slice(1);
-    const prefix2 = nameMap[cuisine2] || cuisine2.charAt(0)?.toUpperCase() + cuisine2?.slice(1);
+    const prefix1 = nameMap[cuisine1] || cuisine1.charAt(0).toUpperCase() + cuisine1.slice(1);
+    const prefix2 = nameMap[cuisine2] || cuisine2.charAt(0).toUpperCase() + cuisine2.slice(1);
     
     return `${prefix1}-${prefix2} Fusion`;
   }
@@ -1045,7 +1045,7 @@ export class UnifiedCuisineIntegrationSystem {
     for (const ingredientName of sharedIngredients) {
       const ingredient = unifiedIngredients[ingredientName];
       if (ingredient) {
-        fusionIngredients?.push(ingredient);
+        fusionIngredients.push(ingredient);
       }
     }
     
@@ -1061,8 +1061,8 @@ export class UnifiedCuisineIntegrationSystem {
     const count1 = Math.floor((uniqueIngredients1 || []).length * blendRatio);
     const count2 = Math.floor((uniqueIngredients2 || []).length * (1 - blendRatio));
     
-    fusionIngredients?.push(...uniqueIngredients1?.slice(0, count1));
-    fusionIngredients?.push(...uniqueIngredients2?.slice(0, count2));
+    fusionIngredients.push(...uniqueIngredients1.slice(0, count1));
+    fusionIngredients.push(...uniqueIngredients2.slice(0, count2));
     
     return fusionIngredients;
   }
@@ -1079,7 +1079,7 @@ export class UnifiedCuisineIntegrationSystem {
         if (cuisines.includes(cuisine)) {
           const ingredient = unifiedIngredients[ingredientName];
           if (ingredient) {
-            ingredients?.push(ingredient);
+            ingredients.push(ingredient);
           }
         }
       }
@@ -1106,9 +1106,9 @@ export class UnifiedCuisineIntegrationSystem {
     // Get shared methods
     const sharedMethods = this.findSharedCookingMethods(cuisine1, cuisine2);
     for (const methodName of sharedMethods) {
-      const method = this?.enhancedCookingMethods?.[methodName];
+      const method = this.enhancedCookingMethods[methodName];
       if (method) {
-        fusionMethods?.push(method);
+        fusionMethods.push(method);
       }
     }
     
@@ -1122,17 +1122,17 @@ export class UnifiedCuisineIntegrationSystem {
     const count1 = Math.floor((uniqueMethods1 || []).length * blendRatio);
     const count2 = Math.floor((uniqueMethods2 || []).length * (1 - blendRatio));
     
-    for (const methodName of uniqueMethods1?.slice(0, count1)) {
-      const method = this?.enhancedCookingMethods?.[methodName];
+    for (const methodName of uniqueMethods1.slice(0, count1)) {
+      const method = this.enhancedCookingMethods[methodName];
       if (method) {
-        fusionMethods?.push(method);
+        fusionMethods.push(method);
       }
     }
     
-    for (const methodName of uniqueMethods2?.slice(0, count2)) {
-      const method = this?.enhancedCookingMethods?.[methodName];
+    for (const methodName of uniqueMethods2.slice(0, count2)) {
+      const method = this.enhancedCookingMethods[methodName];
       if (method) {
-        fusionMethods?.push(method);
+        fusionMethods.push(method);
       }
     }
     
@@ -1248,8 +1248,8 @@ export class UnifiedCuisineIntegrationSystem {
       }
     };
     
-    return dishCombinations[cuisine1]?.[cuisine2] || 
-           dishCombinations[cuisine2]?.[cuisine1] || 
+    return dishCombinations[cuisine1][cuisine2] || 
+           dishCombinations[cuisine2][cuisine1] || 
            [`${cuisine1}-${cuisine2} Fusion Bowl`, `${cuisine1}-${cuisine2} Fusion Platter`];
   }
 
@@ -1288,7 +1288,7 @@ export class UnifiedCuisineIntegrationSystem {
     for (const season of ['spring', 'summer', 'autumn', 'fall', 'winter'] as Season[]) {
       // Get seasonal ingredients with safe property access
       const seasonalSystem = unifiedSeasonalSystem as Record<string, unknown>;
-      const getSeasonalScore = seasonalSystem?.getSeasonalScore;
+      const getSeasonalScore = seasonalSystem.getSeasonalScore;
       
       const seasonalIngredients = (fusionIngredients || []).filter(ingredient => {
         if (typeof getSeasonalScore === 'function') {
@@ -1301,7 +1301,7 @@ export class UnifiedCuisineIntegrationSystem {
       const seasonalMethods = (fusionCookingMethods || []).filter(method => {
         const seasonalProfile = unifiedSeasonalProfiles[season];
         const profileData = seasonalProfile as Record<string, unknown>;
-        const optimalCookingMethods = profileData?.optimalCookingMethods;
+        const optimalCookingMethods = profileData.optimalCookingMethods;
         
         if (!seasonalProfile || !optimalCookingMethods) {
           return false; // Skip if seasonal profile is missing
@@ -1323,18 +1323,18 @@ export class UnifiedCuisineIntegrationSystem {
         seasonalModifiers: {
           temperatureAdjustment: (() => {
             const profileData = unifiedSeasonalProfiles[season] as Record<string, unknown>;
-            const monicaModifiers = profileData?.monicaModifiers as Record<string, unknown>;
-            return Number(monicaModifiers?.temperatureAdjustment || 0);
+            const monicaModifiers = profileData.monicaModifiers as Record<string, unknown>;
+            return Number(monicaModifiers.temperatureAdjustment || 0);
           })(),
           timingAdjustment: (() => {
             const profileData = unifiedSeasonalProfiles[season] as Record<string, unknown>;
-            const monicaModifiers = profileData?.monicaModifiers as Record<string, unknown>;
-            return Number(monicaModifiers?.timingAdjustment || 0);
+            const monicaModifiers = profileData.monicaModifiers as Record<string, unknown>;
+            return Number(monicaModifiers.timingAdjustment || 0);
           })(),
           intensityModifier: (() => {
             const profileData = unifiedSeasonalProfiles[season] as Record<string, unknown>;
-            const monicaModifiers = profileData?.monicaModifiers as Record<string, unknown>;
-            return String(monicaModifiers?.intensityModifier || 'normal');
+            const monicaModifiers = profileData.monicaModifiers as Record<string, unknown>;
+            return String(monicaModifiers.intensityModifier || 'normal');
           })()
         },
         traditionalSeasonalDishes: this.getTraditionalSeasonalDishes(cuisine1, cuisine2, season),
@@ -1359,8 +1359,8 @@ export class UnifiedCuisineIntegrationSystem {
     
     if (!monica1 || !monica2) return 0.5;
     
-    const seasonalModifier1 = monica1?.seasonalModifiers?.[season];
-    const seasonalModifier2 = monica2?.seasonalModifiers?.[season];
+    const seasonalModifier1 = monica1.seasonalModifiers[season];
+    const seasonalModifier2 = monica2.seasonalModifiers[season];
     
     // Average the seasonal modifiers
     const averageModifier = ((seasonalModifier1 || 0) + (seasonalModifier2 || 0)) / 2;
@@ -1383,15 +1383,15 @@ export class UnifiedCuisineIntegrationSystem {
     
     // Get dishes from first cuisine with safe property access
     const profileData = seasonalProfile as Record<string, unknown>;
-    const cuisines = profileData?.cuisines;
+    const cuisines = profileData.cuisines;
     
     if (cuisines?.[cuisine1]) {
-      dishes?.push(...cuisines[cuisine1].dishes);
+      dishes.push(...cuisines[cuisine1].dishes);
     }
     
     // Get dishes from second cuisine (if different)
     if (cuisine1 !== cuisine2 && cuisines?.[cuisine2]) {
-      dishes?.push(...cuisines[cuisine2].dishes);
+      dishes.push(...cuisines[cuisine2].dishes);
     }
     
     return (dishes || []).filter((dish, index, self) => self.indexOf(dish) === index);
@@ -1409,7 +1409,7 @@ export class UnifiedCuisineIntegrationSystem {
     }
     
     const elementalBonus = this.calculateSeasonalElementalBonus(cuisine, season);
-    const monicaConstant = cuisineMonicaConstants[cuisine]?.seasonalModifiers?.[season] || 0.5;
+    const monicaConstant = cuisineMonicaConstants[cuisine].seasonalModifiers[season] || 0.5;
     
     // Calculate score
     return (monicaConstant * 0.6) + (elementalBonus * 0.4);
@@ -1426,7 +1426,7 @@ export class UnifiedCuisineIntegrationSystem {
     for (const element of ['Fire', 'Water', 'Earth', 'Air'] as Element[]) {
       // Safe property access for elementalDominance
       const profileData = seasonalProfile as Record<string, unknown>;
-      const elementalDominance = profileData?.elementalDominance;
+      const elementalDominance = profileData.elementalDominance;
       const elementWeight = elementalDominance?.[element] || 0;
       
       if (elementWeight > 0) {
@@ -1484,7 +1484,7 @@ export class UnifiedCuisineIntegrationSystem {
     const cuisineIngredients = this.getCuisineIngredients(cuisine);
     // Safe property access for getSeasonalScore
     const seasonalSystem = unifiedSeasonalSystem as Record<string, unknown>;
-    const getSeasonalScore = seasonalSystem?.getSeasonalScore;
+    const getSeasonalScore = seasonalSystem.getSeasonalScore;
     
     const adaptedIngredients = (cuisineIngredients || []).filter(ingredient => {
       if (typeof getSeasonalScore === 'function') {
@@ -1501,12 +1501,12 @@ export class UnifiedCuisineIntegrationSystem {
       const seasonalProfile = unifiedSeasonalProfiles[season];
       // Safe property access for optimalCookingMethods
       const profileData = seasonalProfile as Record<string, unknown>;
-      const optimalCookingMethods = profileData?.optimalCookingMethods || [];
+      const optimalCookingMethods = profileData.optimalCookingMethods || [];
       
       for (const methodName of (optimalCookingMethods as string[]) || []) {
-        const method = this?.enhancedCookingMethods?.[methodName];
-        if (method && monica?.cookingMethodOptimization?.[methodName]) {
-          adaptedCookingMethods?.push(method);
+        const method = this.enhancedCookingMethods[methodName];
+        if (method && monica.cookingMethodOptimization[methodName]) {
+          adaptedCookingMethods.push(method);
         }
       }
     }
@@ -1515,12 +1515,12 @@ export class UnifiedCuisineIntegrationSystem {
     const seasonalProfile = unifiedSeasonalProfiles[season];
     // Safe property access for monicaModifiers
     const seasonalProfileData = unifiedSeasonalProfiles[season] as Record<string, unknown>;
-    const monicaModifiers = seasonalProfileData?.monicaModifiers;
+    const monicaModifiers = seasonalProfileData.monicaModifiers;
     
     const seasonalModifiers = {
-      temperatureAdjustment: Number((monicaModifiers as Record<string, unknown>)?.temperatureAdjustment || 0),
-      timingAdjustment: Number((monicaModifiers as Record<string, unknown>)?.timingAdjustment || 0),
-      intensityModifier: String((monicaModifiers as Record<string, unknown>)?.intensityModifier || 'normal')
+      temperatureAdjustment: Number((monicaModifiers as Record<string, unknown>).temperatureAdjustment || 0),
+      timingAdjustment: Number((monicaModifiers as Record<string, unknown>).timingAdjustment || 0),
+      intensityModifier: String((monicaModifiers as Record<string, unknown>).intensityModifier || 'normal')
     };
     
     // Get traditional seasonal dishes
@@ -1553,10 +1553,10 @@ export class UnifiedCuisineIntegrationSystem {
     const seasonalProfile = unifiedSeasonalProfiles[season];
     // Safe property access for kalchmRange
     const profileData = seasonalProfile as Record<string, unknown>;
-    const kalchmRange = profileData?.kalchmRange || { min: 0.8, max: 1.5 }; // Default range
+    const kalchmRange = profileData.kalchmRange || { min: 0.8, max: 1.5 }; // Default range
     const kalchmData = kalchmRange as Record<string, unknown>;
-    const min = kalchmData?.min || 0.8;
-    const max = kalchmData?.max || 1.5;
+    const min = kalchmData.min || 0.8;
+    const max = kalchmData.max || 1.5;
     
     let totalHarmony = 0;
     
@@ -1620,7 +1620,7 @@ export class UnifiedCuisineIntegrationSystem {
       const weight = averageCompatibility;
       const contribution = monica.baseMonicaConstant * weight;
       
-      contributingCuisines?.push({
+      contributingCuisines.push({
         cuisine,
         monica: monica.baseMonicaConstant,
         weight,
@@ -1768,9 +1768,9 @@ export class UnifiedCuisineIntegrationSystem {
     
     // Get seasonal ingredients with safe property access
     const seasonalSystem = unifiedSeasonalSystem as Record<string, unknown>;
-    const getSeasonalScore = seasonalSystem?.getSeasonalScore;
+    const getSeasonalScore = seasonalSystem.getSeasonalScore;
     
-    const seasonalIngredients = (fusionProfile?.fusionIngredients || []).filter(ingredient => {
+    const seasonalIngredients = (fusionProfile.fusionIngredients || []).filter(ingredient => {
       if (typeof getSeasonalScore === 'function') {
         return getSeasonalScore(ingredient.name, season) > 0.5;
       }
@@ -1780,9 +1780,9 @@ export class UnifiedCuisineIntegrationSystem {
     // Get seasonal cooking methods with safe property access
     const seasonalProfile = unifiedSeasonalProfiles[season];
     const profileData = seasonalProfile as Record<string, unknown>;
-    const optimalCookingMethods = profileData?.optimalCookingMethods;
+    const optimalCookingMethods = profileData.optimalCookingMethods;
     
-    const seasonalCookingMethods = (fusionProfile?.fusionCookingMethods || []).filter(method => {
+    const seasonalCookingMethods = (fusionProfile.fusionCookingMethods || []).filter(method => {
       if (!seasonalProfile || !optimalCookingMethods) {
         return false; // Skip if seasonal profile is missing
       }
@@ -1791,7 +1791,7 @@ export class UnifiedCuisineIntegrationSystem {
     
     // Calculate seasonal elemental balance with safe property access
     const seasonalProfileData = seasonalProfile as Record<string, unknown>;
-    const elementalDominance = seasonalProfileData?.elementalDominance || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
+    const elementalDominance = seasonalProfileData.elementalDominance || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
     
     const seasonalElementalBalance = this.blendElementalProfiles([
       fusionProfile.fusionElementalProfile,
@@ -1855,7 +1855,7 @@ export class UnifiedCuisineIntegrationSystem {
       if (categorizedIngredients[category]) {
         categorizedIngredients[category].push(ingredient);
       } else {
-        categorizedIngredients.other?.push(ingredient);
+        categorizedIngredients.other.push(ingredient);
       }
     }
     
@@ -1941,10 +1941,10 @@ export class UnifiedCuisineIntegrationSystem {
     const aggregate: ElementalProperties = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
     
     for (const ingredient of ingredients) {
-      aggregate.Fire += ingredient?.elementalProperties?.Fire;
-      aggregate.Water += ingredient?.elementalProperties?.Water;
-      aggregate.Earth += ingredient?.elementalProperties?.Earth;
-      aggregate.Air += ingredient?.elementalProperties?.Air;
+      aggregate.Fire += ingredient.elementalProperties.Fire;
+      aggregate.Water += ingredient.elementalProperties.Water;
+      aggregate.Earth += ingredient.elementalProperties.Earth;
+      aggregate.Air += ingredient.elementalProperties.Air;
     }
     
     // Normalize
@@ -1974,7 +1974,7 @@ export class UnifiedCuisineIntegrationSystem {
       let totalScore = 0;
       // Safe property access for getSeasonalScore
       const seasonalSystem = unifiedSeasonalSystem as Record<string, unknown>;
-      const getSeasonalScore = seasonalSystem?.getSeasonalScore;
+      const getSeasonalScore = seasonalSystem.getSeasonalScore;
       
       for (const ingredient of ingredients) {
         if (typeof getSeasonalScore === 'function') {
@@ -1999,7 +1999,7 @@ export class UnifiedCuisineIntegrationSystem {
     
     for (const [category, ingredientMap] of Object.entries(enhancedCuisineMatrix)) {
       if (ingredientMap[ingredient]) {
-        cuisines?.push(...ingredientMap[ingredient]);
+        cuisines.push(...ingredientMap[ingredient]);
       }
     }
     
@@ -2019,7 +2019,7 @@ export class UnifiedCuisineIntegrationSystem {
     if (season) {
       // Filter by seasonal availability with safe property access
       const seasonalSystem = unifiedSeasonalSystem as Record<string, unknown>;
-      const getSeasonalScore = seasonalSystem?.getSeasonalScore;
+      const getSeasonalScore = seasonalSystem.getSeasonalScore;
       
       ingredients = (ingredients || []).filter(ingredient => {
         if (typeof getSeasonalScore === 'function') {
@@ -2037,7 +2037,7 @@ export class UnifiedCuisineIntegrationSystem {
       return compatibilityA - compatibilityB;
     });
     
-    return ingredients?.slice(0, 20); // Return top 20 recommendations
+    return ingredients.slice(0, 20); // Return top 20 recommendations
   }
 }
 

@@ -40,15 +40,15 @@ const CuisineGroup: React.FC<Props> = ({ recipes, elementalState }) => {
             case 'night':
             case 'evening':
                 return mealTypes.some(type => 
-                    ['dinner', 'supper', 'evening', 'all'].includes(type?.toLowerCase() || "")
+                    ['dinner', 'supper', 'evening', 'all'].includes(type.toLowerCase() || "")
                 );
             case 'morning':
                 return mealTypes.some(type => 
-                    ['breakfast', 'brunch', 'all'].includes(type?.toLowerCase() || "")
+                    ['breakfast', 'brunch', 'all'].includes(type.toLowerCase() || "")
                 );
             case 'afternoon':
                 return mealTypes.some(type => 
-                    ['lunch', 'brunch', 'all'].includes(type?.toLowerCase() || "")
+                    ['lunch', 'brunch', 'all'].includes(type.toLowerCase() || "")
                 );
             default:
                 return true;
@@ -56,7 +56,7 @@ const CuisineGroup: React.FC<Props> = ({ recipes, elementalState }) => {
     }, [elementalState.timeOfDay]);
 
     const calculateMatchScore = React.useCallback((recipe: Recipe): number => {
-        if (!recipe?.elementalProperties) return 0;
+        if (!recipe.elementalProperties) return 0;
         if (!isAppropriateForTimeOfDay(recipe)) return 0;
 
         try {
@@ -85,7 +85,7 @@ const CuisineGroup: React.FC<Props> = ({ recipes, elementalState }) => {
                 score += bonusFactors.seasonMatch;
             }
             // 'All' season partial bonus
-            else if (seasons.some(s => s?.toLowerCase() === 'all')) {
+            else if (seasons.some(s => s.toLowerCase() === 'all')) {
                 score += bonusFactors.seasonMatch * 0.5;
             }
 

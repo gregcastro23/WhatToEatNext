@@ -158,7 +158,7 @@ export class DependencySecurityMonitor {
           result.securityReport = await this.scanSecurityVulnerabilities();
           result.vulnerabilitiesFound = result.securityReport.summary.total;
         } catch (error) {
-          result.errors.push(`Security scan failed: ${(error as Record<string, unknown>)?.message || 'Unknown error'}`);
+          result.errors.push(`Security scan failed: ${(error as Record<string, unknown>).message || 'Unknown error'}`);
         }
       }
 
@@ -168,7 +168,7 @@ export class DependencySecurityMonitor {
         result.updatesAvailable = result.updateReport.summary.total;
         result.dependenciesScanned = await this.getDependencyCount();
       } catch (error) {
-        result.errors.push(`Dependency update check failed: ${(error as Record<string, unknown>)?.message || 'Unknown error'}`);
+        result.errors.push(`Dependency update check failed: ${(error as Record<string, unknown>).message || 'Unknown error'}`);
       }
 
       // Step 3: Apply security patches automatically if enabled
@@ -178,7 +178,7 @@ export class DependencySecurityMonitor {
           result.securityPatchesApplied = securityUpdates.length;
           result.updateReport.appliedUpdates.push(...securityUpdates);
         } catch (error) {
-          result.errors.push(`Security patch application failed: ${(error as Record<string, unknown>)?.message || 'Unknown error'}`);
+          result.errors.push(`Security patch application failed: ${(error as Record<string, unknown>).message || 'Unknown error'}`);
         }
       }
 
@@ -189,7 +189,7 @@ export class DependencySecurityMonitor {
           result.updatesApplied = safeUpdates.length;
           result.updateReport.appliedUpdates.push(...safeUpdates);
         } catch (error) {
-          result.errors.push(`Safe update application failed: ${(error as Record<string, unknown>)?.message || 'Unknown error'}`);
+          result.errors.push(`Safe update application failed: ${(error as Record<string, unknown>).message || 'Unknown error'}`);
         }
       }
 
@@ -198,7 +198,7 @@ export class DependencySecurityMonitor {
         try {
           result.compatibilityTestsPassed = await this.runCompatibilityTests();
         } catch (error) {
-          result.errors.push(`Compatibility testing failed: ${(error as Record<string, unknown>)?.message || 'Unknown error'}`);
+          result.errors.push(`Compatibility testing failed: ${(error as Record<string, unknown>).message || 'Unknown error'}`);
           result.compatibilityTestsPassed = false;
         }
       }
@@ -221,7 +221,7 @@ export class DependencySecurityMonitor {
         updatesApplied: 0,
         securityPatchesApplied: 0,
         compatibilityTestsPassed: false,
-        errors: [String((error as Record<string, unknown>)?.message || 'Unknown error')],
+        errors: [String((error as Record<string, unknown>).message || 'Unknown error')],
         warnings: [],
         securityReport: {
           vulnerabilities: [],

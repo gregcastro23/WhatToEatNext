@@ -58,7 +58,7 @@ export function applyLunarInfluence(baseBalance: ElementalState, date: Date): El
  */
 export function getLunarElementalModifiers(phase: LunarPhase): Record<string, number> {
   const phaseKey = getLunarPhaseKey(phase);
-  return lunarInfluences[phaseKey.toUpperCase() as LunarPhaseWithUnderscores]?.elements || {
+  return lunarInfluences[phaseKey.toUpperCase() as LunarPhaseWithUnderscores].elements || {
     Fire: 0,
     Water: 0,
     Air: 0,

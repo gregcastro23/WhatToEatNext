@@ -246,7 +246,7 @@ export class AlchemicalEngineBase {
     };
 
     const astroStateData = astrologicalState as Record<string, unknown>;
-    const sunDegree = Number(astroStateData?.sunDegree) || 15;
+    const sunDegree = Number(astroStateData.sunDegree) || 15;
     const currentDecan = getCurrentDecan(sunDegree);
 
     if (
@@ -263,7 +263,7 @@ export class AlchemicalEngineBase {
 
     const recipeElement = this.zodiacElements[recipeSunSign].baseElement;
     const moonSignElementData = astrologicalState as Record<string, unknown>;
-    if (recipeElement === moonSignElementData?.moonSignElement) power += 0.3;
+    if (recipeElement === moonSignElementData.moonSignElement) power += 0.3;
 
     if (astrologicalState.activePlanets?.includes(decanRuler)) power += 0.25;
 
@@ -277,7 +277,7 @@ export class AlchemicalEngineBase {
     if (!ingredients || ingredients.length === 0) return 0;
 
     const matchCount = ingredients.filter((ingredient) =>
-      proteins[ingredient]?.astrologicalProfile?.rulingPlanets?.includes(planet)
+      proteins[ingredient].astrologicalProfile?.rulingPlanets?.includes(planet)
     ).length;
 
     return ingredients.length > 0 ? matchCount / ingredients.length : 0;
@@ -323,7 +323,7 @@ export class AlchemicalEngineBase {
     element2: keyof ElementalProperties
   ): number {
     if (element1 === element2) return 1;
-    if (this.elementalAffinities[element1]?.includes(element2 as string))
+    if (this.elementalAffinities[element1].includes(element2 as string))
       return 0.5;
     return 0;
   }
@@ -347,7 +347,7 @@ export class AlchemicalEngineBase {
   }
 
   calculateRecipeHarmony(recipe: Recipe): number {
-    if (!recipe?.elementalProperties) return 0;
+    if (!recipe.elementalProperties) return 0;
 
     const dominantElements = this.getDominantElements(recipe);
     const interactions = this.calculateIngredientInteractions(
@@ -447,7 +447,7 @@ export class AlchemicalEngineBase {
           }
           // Fallback calculation using recipe's elemental properties
           const seasonalBonus = this.getSeasonalInfluence(season, 'Fire');
-          return (_recipe.elementalProperties?.Fire || 0.25) * seasonalBonus;
+          return (_recipe.elementalProperties.Fire || 0.25) * seasonalBonus;
         })(),
       }))
       .sort((a, b) => b.seasonalScore - a.seasonalScore);
@@ -486,7 +486,7 @@ export class AlchemicalEngineBase {
   setAvailableRecipes(recipes: Recipe[]) {
     this.availableRecipes = recipes.filter(
       (_recipe) =>
-        _recipe?.elementalProperties &&
+        _recipe.elementalProperties &&
         validateElementalProperties(_recipe.elementalProperties)
     );
   }

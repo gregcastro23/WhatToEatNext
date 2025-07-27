@@ -9,10 +9,6 @@
 import { calculateElementalCompatibility } from '@/calculations/index';
 import { 
   PredictiveIntelligenceResult,
-  PredictiveRecipeAnalysis,
-  PredictiveIngredientAnalysis,
-  PredictiveCuisineAnalysis,
-  PredictiveAstrologicalAnalysis,
   AdvancedIntelligenceConfig,
   AdvancedIntelligenceMetrics
 } from '@/types/advancedIntelligence';
@@ -29,9 +25,37 @@ const calculateSeasonalOptimization = (seasonality: string, currentSeason: strin
   return 0.6;
 };
 
-const calculateAstrologicalAlignment = (recipe: any, zodiacSign: string, lunarPhase: string): number => {
-  // Placeholder implementation - would integrate with actual astrological calculations
-  return 0.75 + (Math.random() * 0.2); // 75-95% range
+const calculateAstrologicalAlignment = (recipe: Recipe, zodiacSign: string, lunarPhase: string): number => {
+  let alignment = 0.5; // Base alignment score
+  
+  // Check zodiac compatibility with recipe's astrological timing
+  if (recipe.astrologicalTiming?.zodiacCompatibility) {
+    const zodiacCompatibility = recipe.astrologicalTiming.zodiacCompatibility[zodiacSign as ZodiacSign];
+    if (zodiacCompatibility) {
+      alignment += zodiacCompatibility * 0.2; // Up to 20% bonus
+    }
+  }
+  
+  // Check lunar phase compatibility
+  if (recipe.astrologicalTiming?.lunarPhaseCompatibility) {
+    const lunarCompatibility = recipe.astrologicalTiming.lunarPhaseCompatibility[lunarPhase];
+    if (lunarCompatibility) {
+      alignment += lunarCompatibility * 0.15; // Up to 15% bonus
+    }
+  }
+  
+  // Check if any ingredients have zodiac influences matching the current zodiac
+  const zodiacIngredientBonus = recipe.ingredients.reduce((bonus, ingredient) => {
+    if (ingredient.zodiacInfluences?.includes(zodiacSign as ZodiacSign)) {
+      return bonus + 0.02; // 2% per matching ingredient
+    }
+    return bonus;
+  }, 0);
+  
+  alignment += Math.min(zodiacIngredientBonus, 0.15); // Cap at 15%
+  
+  // Ensure alignment stays within reasonable bounds
+  return Math.max(0.2, Math.min(0.95, alignment));
 };
 import { getCurrentSeason } from '@/utils/timeUtils';
 
@@ -638,53 +662,338 @@ export class PredictiveIntelligenceService {
   }
 
   private calculateIngredientDiversity(ingredients: Ingredient[]): number {
-    const uniqueTypes = new Set(ingredients.map(ing => ing.category || ing.type)).size;
-    return Math.min(1, uniqueTypes / Math.max(1, ingredients.length));
+    const categories = new Set();
+    const elements = new Set();
+    
+    ingredients.forEach(ingredient => {
+      // Count unique categories
+      if (ingredient.category) categories.add(ingredient.category);
+      if (ingredient.type) categories.add(ingredient.type);
+      
+      // Count unique elemental properties
+      if (ingredient.elementalProperties) {
+        Object.keys(ingredient.elementalProperties).forEach(element => {
+          if (Number(ingredient.elementalProperties?.[element]) > 0.3) {
+            elements.add(element);
+          }
+        });
+      }
+    });
+    
+    const categoryDiversity = categories.size / Math.max(1, ingredients.length);
+    const elementalDiversity = elements.size / 4; // 4 elements max
+    
+    return Math.min(1, (categoryDiversity + elementalDiversity) / 2);
   }
 
   private calculateAstrologicalFlexibility(context: any): number {
-    // Simplified astrological flexibility calculation
-    return 0.7; // Default moderate flexibility
+    const { zodiacSign, lunarPhase, elementalProperties } = context;
+    let flexibility = 0.5;
+    
+    // Air and Water signs are more flexible
+    const flexibleSigns = ['gemini', 'libra', 'aquarius', 'cancer', 'scorpio', 'pisces'];
+    if (flexibleSigns.includes(String(zodiacSign).toLowerCase())) {
+      flexibility += 0.2;
+    }
+    
+    // Waxing lunar phases are more adaptable
+    const adaptableLunarPhases = ['waxing_crescent', 'first_quarter', 'waxing_gibbous'];
+    if (adaptableLunarPhases.includes(String(lunarPhase).toLowerCase())) {
+      flexibility += 0.15;
+    }
+    
+    // Higher Air and Water elemental properties increase flexibility
+    if (elementalProperties?.Air && Number(elementalProperties.Air) > 0.6) {
+      flexibility += 0.1;
+    }
+    if (elementalProperties?.Water && Number(elementalProperties.Water) > 0.6) {
+      flexibility += 0.1;
+    }
+    
+    return Math.max(0.2, Math.min(1, flexibility));
   }
 
   private calculateElementalBalance(ingredients: Ingredient[]): number {
-    // Simplified elemental balance calculation
-    return 0.8; // Default good balance
+    const elementalTotals = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
+    let totalIngredients = 0;
+    
+    ingredients.forEach(ingredient => {
+      if (ingredient.elementalProperties) {
+        totalIngredients++;
+        Object.entries(ingredient.elementalProperties).forEach(([element, value]) => {
+          if (element in elementalTotals) {
+            elementalTotals[element as keyof typeof elementalTotals] += Number(value) || 0;
+          }
+        });
+      }
+    });
+    
+    if (totalIngredients === 0) return 0.7;
+    
+    // Calculate average for each element
+    const averages = Object.values(elementalTotals).map(total => total / totalIngredients);
+    
+    // Calculate balance score - closer to equal distribution = higher score
+    const target = 0.25; // Perfect balance would be 25% each
+    const variance = averages.reduce((sum, avg) => sum + Math.pow(avg - target, 2), 0) / 4;
+    const balance = Math.max(0, 1 - (variance * 4)); // Scale variance to 0-1
+    
+    return Math.max(0.3, Math.min(1, balance));
   }
 
   private calculateAstrologicalHarmony(context: any): number {
-    // Simplified astrological harmony calculation
-    return 0.75; // Default good harmony
+    const { zodiacSign, lunarPhase, elementalProperties, planetaryPositions } = context;
+    let harmony = 0.5;
+    
+    // Calculate zodiac harmony with current elemental properties
+    const zodiacElements = {
+      aries: 'Fire', taurus: 'Earth', gemini: 'Air', cancer: 'Water',
+      leo: 'Fire', virgo: 'Earth', libra: 'Air', scorpio: 'Water',
+      sagittarius: 'Fire', capricorn: 'Earth', aquarius: 'Air', pisces: 'Water'
+    };
+    
+    const primaryElement = zodiacElements[String(zodiacSign).toLowerCase() as keyof typeof zodiacElements];
+    if (primaryElement && elementalProperties?.[primaryElement]) {
+      harmony += Number(elementalProperties[primaryElement]) * 0.3;
+    }
+    
+    // Lunar phase harmony
+    const harmonicPhases = ['full_moon', 'new_moon'];
+    if (harmonicPhases.includes(String(lunarPhase).toLowerCase())) {
+      harmony += 0.2;
+    }
+    
+    // Planetary harmony (simplified)
+    if (planetaryPositions && Object.keys(planetaryPositions).length > 5) {
+      harmony += 0.1; // More planetary data = better harmony calculation
+    }
+    
+    return Math.max(0.3, Math.min(1, harmony));
   }
 
   private calculateNutritionalVariety(ingredients: Ingredient[]): number {
-    // Simplified nutritional variety calculation
-    return 0.8; // Default good variety
+    const nutritionalCategories = new Set();
+    const macronutrients = { protein: 0, carbs: 0, fat: 0, fiber: 0 };
+    let ingredientCount = 0;
+    
+    ingredients.forEach(ingredient => {
+      if (ingredient.category) {
+        nutritionalCategories.add(ingredient.category);
+      }
+      
+      // Analyze nutritional content if available
+      if (ingredient.nutritionalInfo) {
+        ingredientCount++;
+        const nutrition = ingredient.nutritionalInfo as Record<string, unknown>;
+        if (nutrition.protein && Number(nutrition.protein) > 5) macronutrients.protein++;
+        if (nutrition.carbohydrates && Number(nutrition.carbohydrates) > 10) macronutrients.carbs++;
+        if (nutrition.fat && Number(nutrition.fat) > 3) macronutrients.fat++;
+        if (nutrition.fiber && Number(nutrition.fiber) > 2) macronutrients.fiber++;
+      }
+    });
+    
+    const categoryVariety = Math.min(1, nutritionalCategories.size / 6); // Ideal 6 categories
+    const macroBalance = Object.values(macronutrients).filter(count => count > 0).length / 4;
+    
+    return Math.max(0.4, Math.min(1, (categoryVariety + macroBalance) / 2));
   }
 
   private calculateAstrologicalNutritionalNeeds(context: any): number {
-    // Simplified astrological nutritional needs calculation
-    return 0.7; // Default moderate needs
+    const { zodiacSign, lunarPhase, elementalProperties } = context;
+    let nutritionalAlignment = 0.5;
+    
+    // Zodiac-specific nutritional needs
+    const zodiacNutrition = {
+      aries: { protein: 0.3, iron: 0.2 }, taurus: { fiber: 0.3, calcium: 0.2 },
+      gemini: { omega3: 0.3, b_vitamins: 0.2 }, cancer: { calcium: 0.3, vitamin_d: 0.2 },
+      leo: { vitamin_e: 0.3, magnesium: 0.2 }, virgo: { fiber: 0.3, probiotics: 0.2 },
+      libra: { antioxidants: 0.3, vitamin_c: 0.2 }, scorpio: { protein: 0.3, zinc: 0.2 },
+      sagittarius: { b_vitamins: 0.3, potassium: 0.2 }, capricorn: { calcium: 0.3, vitamin_d: 0.2 },
+      aquarius: { omega3: 0.3, vitamin_e: 0.2 }, pisces: { omega3: 0.3, iron: 0.2 }
+    };
+    
+    const needs = zodiacNutrition[String(zodiacSign).toLowerCase() as keyof typeof zodiacNutrition];
+    if (needs) {
+      nutritionalAlignment += 0.2;
+    }
+    
+    // Elemental nutritional support
+    if (elementalProperties) {
+      const fireElement = Number(elementalProperties.Fire) || 0;
+      const waterElement = Number(elementalProperties.Water) || 0;
+      const earthElement = Number(elementalProperties.Earth) || 0;
+      const airElement = Number(elementalProperties.Air) || 0;
+      
+      // Fire needs warming, energizing foods
+      if (fireElement > 0.6) nutritionalAlignment += 0.1;
+      // Water needs hydrating, cooling foods
+      if (waterElement > 0.6) nutritionalAlignment += 0.1;
+      // Earth needs grounding, substantial foods
+      if (earthElement > 0.6) nutritionalAlignment += 0.1;
+      // Air needs light, easily digestible foods
+      if (airElement > 0.6) nutritionalAlignment += 0.1;
+    }
+    
+    // Lunar phase nutritional timing
+    const nourishingPhases = ['waxing_gibbous', 'full_moon'];
+    if (nourishingPhases.includes(String(lunarPhase).toLowerCase())) {
+      nutritionalAlignment += 0.1;
+    }
+    
+    return Math.max(0.3, Math.min(1, nutritionalAlignment));
   }
 
   private calculateCulturalCompatibility(cuisineData: any): number {
-    // Simplified cultural compatibility calculation
-    return 0.8; // Default good compatibility
+    if (!cuisineData) return 0.7;
+    
+    let compatibility = 0.5;
+    const cuisine = cuisineData as Record<string, unknown>;
+    
+    // Regional compatibility factors
+    const popularCuisines = ['italian', 'mexican', 'chinese', 'indian', 'american', 'french', 'japanese'];
+    const cuisineName = String(cuisine.name || cuisine.type || '').toLowerCase();
+    
+    if (popularCuisines.includes(cuisineName)) {
+      compatibility += 0.2; // Popular cuisines have higher compatibility
+    }
+    
+    // Fusion potential
+    if (cuisine.fusion || cuisine.isFusion) {
+      compatibility += 0.15; // Fusion cuisines are inherently more compatible
+    }
+    
+    // Spice level compatibility
+    const spiceLevel = String(cuisine.spiceLevel || '').toLowerCase();
+    if (['mild', 'medium'].includes(spiceLevel)) {
+      compatibility += 0.1; // Moderate spice levels are more universally compatible
+    }
+    
+    // Ingredient accessibility
+    const commonIngredients = cuisine.commonIngredients as string[] || [];
+    if (commonIngredients.length > 0) {
+      const accessibilityScore = Math.min(0.15, commonIngredients.length * 0.02);
+      compatibility += accessibilityScore;
+    }
+    
+    return Math.max(0.4, Math.min(1, compatibility));
   }
 
   private calculateAstrologicalInnovation(context: any): number {
-    // Simplified astrological innovation calculation
-    return 0.7; // Default moderate innovation
+    const { zodiacSign, lunarPhase, elementalProperties, planetaryPositions } = context;
+    let innovation = 0.5;
+    
+    // Innovation-oriented zodiac signs
+    const innovativeSigns = ['aquarius', 'gemini', 'sagittarius', 'aries'];
+    if (innovativeSigns.includes(String(zodiacSign).toLowerCase())) {
+      innovation += 0.2;
+    }
+    
+    // Lunar phases that support innovation
+    const innovativePhases = ['new_moon', 'waxing_crescent', 'first_quarter'];
+    if (innovativePhases.includes(String(lunarPhase).toLowerCase())) {
+      innovation += 0.15;
+    }
+    
+    // Elemental support for innovation
+    if (elementalProperties) {
+      const airElement = Number(elementalProperties.Air) || 0; // Mental agility
+      const fireElement = Number(elementalProperties.Fire) || 0; // Creative energy
+      
+      if (airElement > 0.6) innovation += 0.1;
+      if (fireElement > 0.6) innovation += 0.1;
+    }
+    
+    // Planetary positions supporting innovation
+    if (planetaryPositions) {
+      const planets = planetaryPositions as Record<string, Record<string, unknown>>;
+      if (planets.Uranus && Number(planets.Uranus.strength) > 0.7) {
+        innovation += 0.1; // Uranus = innovation planet
+      }
+      if (planets.Mercury && Number(planets.Mercury.strength) > 0.7) {
+        innovation += 0.05; // Mercury = mental agility
+      }
+    }
+    
+    return Math.max(0.3, Math.min(1, innovation));
   }
 
   private calculateCulturalRelevance(cuisineData: any): number {
-    // Simplified cultural relevance calculation
-    return 0.8; // Default good relevance
+    if (!cuisineData) return 0.6;
+    
+    let relevance = 0.5;
+    const cuisine = cuisineData as Record<string, unknown>;
+    
+    // Historical significance
+    const age = Number(cuisine.historicalAge) || 0;
+    if (age > 500) relevance += 0.2; // Ancient cuisines have high cultural relevance
+    else if (age > 100) relevance += 0.15;
+    else if (age > 50) relevance += 0.1;
+    
+    // Cultural preservation
+    if (cuisine.traditionalTechniques || cuisine.preservesHeritage) {
+      relevance += 0.15;
+    }
+    
+    // Modern adaptation
+    if (cuisine.modernAdaptation || cuisine.contemporary) {
+      relevance += 0.1; // Ability to adapt to modern times
+    }
+    
+    // Global recognition
+    const globalPopularity = Number(cuisine.globalPopularity) || 0.5;
+    relevance += globalPopularity * 0.1;
+    
+    // Regional authenticity
+    if (cuisine.authentic || cuisine.traditional) {
+      relevance += 0.1;
+    }
+    
+    return Math.max(0.3, Math.min(1, relevance));
   }
 
   private calculateAstrologicalCulturalAlignment(context: any): number {
-    // Simplified astrological cultural alignment calculation
-    return 0.75; // Default good alignment
+    const { zodiacSign, lunarPhase, elementalProperties } = context;
+    let alignment = 0.5;
+    
+    // Zodiac cultural associations
+    const zodiacCultures = {
+      aries: ['mediterranean', 'middle_eastern'], taurus: ['european', 'rustic'],
+      gemini: ['fusion', 'international'], cancer: ['home_cooking', 'comfort'],
+      leo: ['royal', 'luxurious'], virgo: ['health_conscious', 'organic'],
+      libra: ['balanced', 'aesthetic'], scorpio: ['intense', 'spicy'],
+      sagittarius: ['international', 'adventure'], capricorn: ['traditional', 'formal'],
+      aquarius: ['innovative', 'experimental'], pisces: ['seafood', 'fluid']
+    };
+    
+    const cultures = zodiacCultures[String(zodiacSign).toLowerCase() as keyof typeof zodiacCultures];
+    if (cultures && cultures.length > 0) {
+      alignment += 0.2;
+    }
+    
+    // Lunar phase cultural expression
+    const culturalPhases = {
+      new_moon: 0.1, waxing_crescent: 0.15, first_quarter: 0.1,
+      waxing_gibbous: 0.15, full_moon: 0.2, waning_gibbous: 0.1,
+      last_quarter: 0.05, waning_crescent: 0.05
+    };
+    
+    const phaseBonus = culturalPhases[String(lunarPhase).toLowerCase() as keyof typeof culturalPhases] || 0;
+    alignment += phaseBonus;
+    
+    // Elemental cultural expression
+    if (elementalProperties) {
+      const fireElement = Number(elementalProperties.Fire) || 0; // Bold, spicy cultures
+      const waterElement = Number(elementalProperties.Water) || 0; // Fluid, seafood cultures
+      const earthElement = Number(elementalProperties.Earth) || 0; // Traditional, grounded cultures
+      const airElement = Number(elementalProperties.Air) || 0; // Light, innovative cultures
+      
+      const dominantElement = Math.max(fireElement, waterElement, earthElement, airElement);
+      if (dominantElement > 0.6) {
+        alignment += 0.1;
+      }
+    }
+    
+    return Math.max(0.3, Math.min(1, alignment));
   }
 
   private calculateCuisineSeasonalRelevance(cuisineData: any, season: string): number {
@@ -797,7 +1106,7 @@ export class PredictiveIntelligenceService {
 
   private log(level: string, message: string, data?: any): void {
     if (this.shouldLog(level)) {
-      logger[level as keyof typeof logger]?.(`[PredictiveIntelligence] ${message}`, data);
+      logger[level as keyof typeof logger](`[PredictiveIntelligence] ${message}`, data);
     }
   }
 

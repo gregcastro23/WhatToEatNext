@@ -17,12 +17,12 @@ export const herbUtils = {
 
   findComplementary: (herbName: string, cuisine: string) => {
     const herb = herbs[herbName];
-    if (!herb?.culinary_traditions?.[cuisine]) return [];
+    if (!herb.culinary_traditions?.[cuisine]) return [];
     
     return herb.culinary_traditions[cuisine].pairings;
   },
 
   getSeasonalRecommendations: (season: string, cuisine: string) => {
-    return seasonalHerbGuide[season]?.cuisines[cuisine] || [];
+    return seasonalHerbGuide[season].cuisines[cuisine] || [];
   }
 };

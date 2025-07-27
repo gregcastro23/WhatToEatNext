@@ -58,7 +58,7 @@ const calculateElementalProperties = (
   ingredientData: Ingredient | UnifiedIngredient
 ): Record<string, number> => {
   // Use actual elemental properties if they exist
-  if (ingredientData?.elementalProperties && 
+  if (ingredientData.elementalProperties && 
       Object.keys(ingredientData.elementalProperties).length > 0) {
     
     const props = ingredientData.elementalProperties;
@@ -76,7 +76,7 @@ const calculateElementalProperties = (
   
   // Calculate from astrological correspondences if available
   const ingredientDataObj = ingredientData as unknown as Record<string, unknown>;
-  if (ingredientDataObj?.astrologicalCorrespondence) {
+  if (ingredientDataObj.astrologicalCorrespondence) {
     const astro = ingredientDataObj.astrologicalCorrespondence as Record<string, unknown>;
     const elementalProps = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
     
@@ -112,7 +112,7 @@ const calculateElementalProperties = (
   }
   
   // If no astrological data, calculate from ingredient category
-  return calculateElementalPropertiesFromCategory(ingredientData?.category || 'culinary_herb');
+  return calculateElementalPropertiesFromCategory(ingredientData.category || 'culinary_herb');
 };
 
 // Helper function to get planetary element
@@ -184,13 +184,13 @@ const processIngredient = (ingredient: unknown, name: string): Ingredient => {
   const ingredientData = ingredient as unknown as Record<string, unknown>;
   const standardized = standardizeIngredient({
     name: name,
-    category: ingredientData?.category || 'culinary_herb',
+    category: ingredientData.category || 'culinary_herb',
     elementalProperties: calculateElementalProperties(ingredientData as unknown as Ingredient | UnifiedIngredient),
-    qualities: Array.isArray(ingredientData?.qualities) ? ingredientData.qualities : [],
+    qualities: Array.isArray(ingredientData.qualities) ? ingredientData.qualities : [],
     lunarPhaseModifiers:
-      ingredientData?.lunarPhaseModifiers || defaultLunarPhaseModifiers,
-    storage: ingredientData?.storage || { duration: 'unknown' },
-    elementalTransformation: ingredientData?.elementalTransformation || {
+      ingredientData.lunarPhaseModifiers || defaultLunarPhaseModifiers,
+    storage: ingredientData.storage || { duration: 'unknown' },
+    elementalTransformation: ingredientData.elementalTransformation || {
       whenCooked: { Fire: 0.1, Air: 0.05 },
     },
     ...ingredientData,
@@ -212,18 +212,18 @@ const processIngredientCollection = (
         calculateAlchemicalProperties(processedIngredient as unknown as Ingredient);
       const thermodynamicProps = calculateThermodynamicProperties(
         alchemicalProps,
-        (processedIngredient as unknown as Record<string, unknown>)?.elementalProperties as ElementalProperties || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }
+        (processedIngredient as unknown as Record<string, unknown>).elementalProperties as ElementalProperties || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }
       );
 
       // Determine modality
       const modality = determineIngredientModality(
-        (processedIngredient as unknown as Record<string, unknown>)?.qualities as string[] || [],
-        (processedIngredient as unknown as Record<string, unknown>)?.elementalProperties as ElementalProperties || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }
+        (processedIngredient as unknown as Record<string, unknown>).qualities as string[] || [],
+        (processedIngredient as unknown as Record<string, unknown>).elementalProperties as ElementalProperties || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }
       );
 
       // Create elementalSignature (dominant elements in order)
       const elementalSignature = Object.entries(
-        (processedIngredient as unknown as Record<string, unknown>)?.elementalProperties || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }
+        (processedIngredient as unknown as Record<string, unknown>).elementalProperties || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }
       )
         .sort((a, b) => {
           // Pattern KK-10: Final Arithmetic Elimination for data processing
@@ -242,11 +242,11 @@ const processIngredientCollection = (
           elementalSignature.length > 0 ? elementalSignature : undefined,
         // Process other enhanced properties if they exist
         astrologicalCorrespondence:
-          (processedIngredient as unknown as Record<string, unknown>)?.astrologicalCorrespondence || undefined,
+          (processedIngredient as unknown as Record<string, unknown>).astrologicalCorrespondence || undefined,
         pairingRecommendations:
-          (processedIngredient as unknown as Record<string, unknown>)?.pairingRecommendations || undefined,
-        celestialBoost: (processedIngredient as unknown as Record<string, unknown>)?.celestialBoost || undefined,
-        planetaryInfluence: (processedIngredient as unknown as Record<string, unknown>)?.planetaryInfluence || undefined,
+          (processedIngredient as unknown as Record<string, unknown>).pairingRecommendations || undefined,
+        celestialBoost: (processedIngredient as unknown as Record<string, unknown>).celestialBoost || undefined,
+        planetaryInfluence: (processedIngredient as unknown as Record<string, unknown>).planetaryInfluence || undefined,
       } as unknown as Ingredient;
     } catch (error) {
       console.warn(`Skipping invalid ingredient ${key}:`, error);

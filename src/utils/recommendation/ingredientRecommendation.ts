@@ -480,11 +480,11 @@ export const getAllIngredients = async (): Promise<EnhancedIngredient[]> => {
   
   // Create eggs and dairy from proteins by filtering category
   const eggs = Object.entries(proteinsData || {})
-    .filter(([_, value]) => (value  as Record<string, unknown>)?.category === 'egg')
+    .filter(([_, value]) => (value  as Record<string, unknown>).category === 'egg')
     .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
   
   const dairy = Object.entries(proteinsData || {})
-    .filter(([_, value]) => (value  as Record<string, unknown>)?.category === 'dairy')
+    .filter(([_, value]) => (value  as Record<string, unknown>).category === 'dairy')
     .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
   
   // Define all categories with loaded data
@@ -545,8 +545,8 @@ export const getAllIngredients = async (): Promise<EnhancedIngredient[]> => {
   
   // Filter out ingredients without proper astrological profiles
   const validIngredients = allIngredients.filter(ing => 
-    ing?.astrologicalProfile && 
-    ((ing.astrologicalProfile.elementalAffinity as unknown as Record<string, unknown>)?.base) && 
+    ing.astrologicalProfile && 
+    ((ing.astrologicalProfile.elementalAffinity as unknown as Record<string, unknown>).base) && 
     ing.astrologicalProfile.rulingPlanets
   );
   
@@ -611,8 +611,8 @@ export async function getRecommendedIngredients(astroState: AstrologicalState): 
   // Sort by dominant element if available
   if (astroState.dominantElement) {
     filteredIngredients.sort((a, b) => {
-      const aValue = a.elementalProperties?.[astroState.dominantElement as keyof ElementalProperties] || 0;
-      const bValue = b.elementalProperties?.[astroState.dominantElement as keyof ElementalProperties] || 0;
+      const aValue = a.elementalProperties[astroState.dominantElement as keyof ElementalProperties] || 0;
+      const bValue = b.elementalProperties[astroState.dominantElement as keyof ElementalProperties] || 0;
       return bValue - aValue;
     });
   }
@@ -932,10 +932,10 @@ function calculateCulturalContextScore(
 function _isElementalProperties(obj: unknown): obj is ElementalProperties {
   return Boolean(obj && 
     typeof obj === 'object' &&
-    typeof (obj as Record<string, unknown>)?.Fire === 'number' &&
-    typeof (obj as Record<string, unknown>)?.Water === 'number' &&
-    typeof (obj as Record<string, unknown>)?.Earth === 'number' &&
-    typeof (obj as Record<string, unknown>)?.Air === 'number');
+    typeof (obj as Record<string, unknown>).Fire === 'number' &&
+    typeof (obj as Record<string, unknown>).Water === 'number' &&
+    typeof (obj as Record<string, unknown>).Earth === 'number' &&
+    typeof (obj as Record<string, unknown>).Air === 'number');
 }
 
 function createElementalProperties(values: Partial<ElementalProperties>): ElementalProperties {

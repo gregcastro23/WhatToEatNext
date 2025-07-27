@@ -81,13 +81,13 @@ export class EnhancedIngredientSystem {
       
       // Filter by season if specified - apply surgical type casting
       const optionsData = options as Record<string, unknown>;
-      const currentSeason = optionsData?.currentSeason;
+      const currentSeason = optionsData.currentSeason;
       if (currentSeason) {
         filtered = filtered.filter(ingredient => {
           const seasons = ingredient.seasonality || ingredient.currentSeason || [];
           const seasonArray = Array.isArray(seasons) ? seasons : [seasons];
           return seasonArray.some(s => typeof s === 'string' && 
-                                       s?.toLowerCase() === (typeof currentSeason === 'string' ? currentSeason.toLowerCase() : ''));
+                                       s.toLowerCase() === (typeof currentSeason === 'string' ? currentSeason.toLowerCase() : ''));
         });
       }
       
@@ -98,7 +98,7 @@ export class EnhancedIngredientSystem {
                         ingredient.astrologicalPropertiesProfile?.favorableZodiac || [];
           const zodiacArray = Array.isArray(zodiac) ? zodiac : [zodiac];
           return zodiacArray.some(z => typeof z === 'string' && 
-                                       z?.toLowerCase() === options.currentZodiacSign?.toLowerCase());
+                                       z.toLowerCase() === options.currentZodiacSign?.toLowerCase());
         });
       }
       
@@ -133,7 +133,7 @@ export class EnhancedIngredientSystem {
           filtered = filtered.filter(ingredient => {
             if (ingredient.category !== 'grains') return true;
             const glutenGrains = ['wheat', 'barley', 'rye', 'triticale'];
-            return !glutenGrains.some(g => ingredient.name?.toLowerCase()?.includes(g));
+            return !glutenGrains.some(g => ingredient.name.toLowerCase().includes(g));
           });
         }
         
@@ -146,7 +146,7 @@ export class EnhancedIngredientSystem {
       
       // Return the filtered results, limited by maxResults
       const maxResults = options.maxResults || 10;
-      return filtered?.slice(0, maxResults);
+      return filtered.slice(0, maxResults);
     } catch (error) {
       logger.error('Error getting recommended ingredients', error);
       return [];
@@ -165,7 +165,7 @@ export class EnhancedIngredientSystem {
     }
     
     const stateRecord = state as unknown as Record<string, unknown>;
-    const elements = stateRecord?.elements || stateRecord?.elementalPreference;
+    const elements = stateRecord.elements || stateRecord.elementalPreference;
     
     if (!elements || typeof elements !== 'object') {
       return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
@@ -193,7 +193,7 @@ export class EnhancedIngredientSystem {
       // Get ingredients for each planet
       (planets || []).forEach(planet => {
         const planetaryIngredients = consolidatedIngredientService.getIngredientsByPlanet(planet);
-        results?.push(...planetaryIngredients);
+        results.push(...planetaryIngredients);
       });
       
       // Remove duplicates
@@ -229,13 +229,13 @@ export class EnhancedIngredientSystem {
           maxResults * 2 // Get more than needed to allow for filtering
         );
         
-        allComplementary?.push(...complementary);
+        allComplementary.push(...complementary);
       });
       
       // Filter out any ingredients already in the base list
-      const baseIngredientNames = (ingredients || []).map(name => name?.toLowerCase());
+      const baseIngredientNames = (ingredients || []).map(name => name.toLowerCase());
       const filtered = (allComplementary || []).filter(ingredient => 
-        !baseIngredientNames.includes(ingredient.name?.toLowerCase() || '')
+        !baseIngredientNames.includes(ingredient.name.toLowerCase() || '')
       );
       
       // Remove duplicates and sort by calculated complementarity
@@ -249,7 +249,7 @@ export class EnhancedIngredientSystem {
       const unique = Array.from(uniqueMap.values());
       
       // Return the top results
-      return unique?.slice(0, maxResults);
+      return unique.slice(0, maxResults);
     } catch (error) {
       logger.error('Error finding complementary ingredients', error);
       return [];

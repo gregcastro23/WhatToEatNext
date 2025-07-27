@@ -35,9 +35,9 @@ const errorLog = (_message: string, ..._args: unknown[]): void => {
 // Type guard for PlanetaryPosition
 export function isPlanetaryPosition(obj: unknown): obj is PlanetaryPosition {
   return Boolean(obj) && typeof obj === 'object' &&
-    typeof (obj as Record<string, unknown>)?.sign === 'string' &&
-    typeof (obj as Record<string, unknown>)?.degree === 'number' &&
-    (typeof (obj as Record<string, unknown>)?.exactLongitude === 'number' || typeof (obj as Record<string, unknown>)?.exactLongitude === 'undefined');
+    typeof (obj as Record<string, unknown>).sign === 'string' &&
+    typeof (obj as Record<string, unknown>).degree === 'number' &&
+    (typeof (obj as Record<string, unknown>).exactLongitude === 'number' || typeof (obj as Record<string, unknown>).exactLongitude === 'undefined');
 }
 
 // Utility to normalize planetary position keys (e.g., Sun/sun)
@@ -162,7 +162,7 @@ export async function calculateActivePlanets(positions: Record<string, any>): Pr
       };
       
       // Check if planet is in a powerful sign position
-      if (dignities[planetLower]?.includes(signLower)) {
+      if (dignities[planetLower].includes(signLower)) {
         activePlanets.push(planetLower);
       }
       
@@ -241,7 +241,6 @@ export async function calculateLunarPhase(date: Date = new Date()): Promise<numb
       throw new Error('Sun or Moon position missing');
     }
     // Calculate the angular distance between Sun and Moon
-    let angularDistance = (positions.Moon.exactLongitude || 0) - (positions.Sun.exactLongitude || 0);
     // Normalize to 0-360 range
     angularDistance = ((angularDistance % 360) + 360) % 360;
     // Convert to phase percentage (0 to 1)
@@ -388,8 +387,8 @@ export async function getCurrentAstrologicalState(date: Date = new Date()): Prom
     const planetaryHour = hourCalculator.calculatePlanetaryHour(date);
     
     // Get Sun and Moon signs
-    const sunSign = (positions.Sun?.sign?.toLowerCase() || 'aries') as unknown as ZodiacSign;
-    const moonSign = (positions.moon?.sign?.toLowerCase() || 'taurus') as unknown as ZodiacSign;
+    const sunSign = (positions.Sun.sign.toLowerCase() || 'aries') as unknown as ZodiacSign;
+    const moonSign = (positions.moon.sign.toLowerCase() || 'taurus') as unknown as ZodiacSign;
     
     // Get active planets
     const activePlanets = await calculateActivePlanets(positions);
@@ -464,7 +463,7 @@ export function getPlanetaryElementalInfluence(planet: PlanetName): Element {
     'Pluto': 'Water'
   };
   
-  return planetElements[planet?.toLowerCase()] || 'Fire';
+  return planetElements[planet.toLowerCase()] || 'Fire';
 }
 
 /**
@@ -571,7 +570,7 @@ export async function calculateElementalProfile(
   }
   
   // Normalize to percentages
-  const total = Object.values(elementCounts)?.reduce((sum, count) => sum + count, 0);
+  const total = Object.values(elementCounts).reduce((sum, count) => sum + count, 0);
   
   if (total === 0) {
     // Return balanced profile if no data
@@ -631,7 +630,7 @@ export async function calculateAspects(
     
     const signs = ['aries', 'taurus', 'gemini', 'cancer', 'leo', 'virgo', 
                   'libra', 'scorpio', 'sagittarius', 'capricorn', 'aquarius', 'pisces'];
-    const signIndex = signs.findIndex(s => s?.toLowerCase() === position.sign?.toLowerCase());
+    const signIndex = signs.findIndex(s => s.toLowerCase() === position.sign.toLowerCase());
     return signIndex * 30 + position.degree;
   };
   
@@ -666,8 +665,8 @@ export async function calculateAspects(
           const strength = 1 - (orb / definition.orb);
           
           // Get element of the sign for each planet
-          const element1 = getZodiacElement(pos1.sign as ZodiacSign)?.toLowerCase();
-          const element2 = getZodiacElement(pos2.sign as ZodiacSign)?.toLowerCase();
+          const element1 = getZodiacElement(pos1.sign as ZodiacSign).toLowerCase();
+          const element2 = getZodiacElement(pos2.sign as ZodiacSign).toLowerCase();
           
           // Base multiplier from definition
           let multiplier = definition.significance;
@@ -678,7 +677,7 @@ export async function calculateAspects(
           }
           
           // Add to aspects array
-          aspects?.push({
+          aspects.push({
             planet1,
             planet2,
             type: type as AspectType,

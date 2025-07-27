@@ -200,7 +200,7 @@ export class ExportTransformationEngine {
       // ✅ Pattern MM-1: Safe type assertion for error handling
       this.logError({
         type: TransformationErrorType.ANALYSIS_FAILED,
-        message: `Analysis failed: ${String((error as Error)?.message || 'Unknown error')}`,
+        message: `Analysis failed: ${String((error as Error).message || 'Unknown error')}`,
         severity: ErrorSeverity.CRITICAL,
         recoverable: false,
         timestamp: new Date()
@@ -341,7 +341,7 @@ export class ExportTransformationEngine {
     } catch (error) {
       this.logError({
         type: TransformationErrorType.VALIDATION_FAILED,
-        message: `Safety preparation failed: ${String((error as Error)?.message || 'Unknown error')}`,
+        message: `Safety preparation failed: ${String((error as Error).message || 'Unknown error')}`,
         severity: ErrorSeverity.CRITICAL,
         recoverable: false,
         timestamp: new Date()
@@ -443,11 +443,11 @@ export class ExportTransformationEngine {
       
     } catch (error) {
       // ✅ Pattern MM-1: Safe type assertion for batch error handling
-      console.error(`❌ Batch ${batch.id} failed:`, String((error as Error)?.message || 'Unknown error'));
+      console.error(`❌ Batch ${batch.id} failed:`, String((error as Error).message || 'Unknown error'));
       
       const transformationError: TransformationError = {
         type: TransformationErrorType.GENERATION_FAILED,
-        message: String((error as Error)?.message || 'Unknown error'),
+        message: String((error as Error).message || 'Unknown error'),
         severity: ErrorSeverity.HIGH,
         recoverable: true,
         timestamp: new Date()
@@ -466,10 +466,10 @@ export class ExportTransformationEngine {
           console.log('✅ Rollback completed successfully');
         } catch (rollbackError) {
           // ✅ Pattern MM-1: Safe type assertion for rollback error
-          console.error('❌ Rollback failed:', String((rollbackError as Error)?.message || 'Unknown rollback error'));
+          console.error('❌ Rollback failed:', String((rollbackError as Error).message || 'Unknown rollback error'));
           result.errors.push({
             type: TransformationErrorType.ROLLBACK_FAILED,
-            message: String((rollbackError as Error)?.message || 'Unknown rollback error'),
+            message: String((rollbackError as Error).message || 'Unknown rollback error'),
             severity: ErrorSeverity.CRITICAL,
             recoverable: false,
             timestamp: new Date()
@@ -515,7 +515,7 @@ export class ExportTransformationEngine {
     } catch (error) {
       this.logError({
         type: TransformationErrorType.VALIDATION_FAILED,
-        message: `Final validation failed: ${String((error as Error)?.message || 'Unknown error')}`,
+        message: `Final validation failed: ${String((error as Error).message || 'Unknown error')}`,
         severity: ErrorSeverity.HIGH,
         recoverable: true,
         timestamp: new Date()
@@ -555,7 +555,7 @@ export class ExportTransformationEngine {
         buildSuccess: false,
         testSuccess: false,
         lintSuccess: false,
-        errors: [String((error as Error)?.message || 'Unknown build error')],
+        errors: [String((error as Error).message || 'Unknown build error')],
         warnings: [],
         duration: (endTime - startTime) / 1000
       };
@@ -593,7 +593,7 @@ export class ExportTransformationEngine {
         buildSuccess: false,
         testSuccess: false,
         lintSuccess: false,
-        errors: [String((error as Error)?.message || 'Unknown test error')],
+        errors: [String((error as Error).message || 'Unknown test error')],
         warnings: [],
         duration: (endTime - startTime) / 1000
       };
@@ -612,7 +612,7 @@ export class ExportTransformationEngine {
         console.log('✅ Emergency rollback completed');
       }
     } catch (rollbackError) {
-      console.error('❌ Emergency rollback failed:', String((rollbackError as Error)?.message || 'Unknown rollback error'));
+      console.error('❌ Emergency rollback failed:', String((rollbackError as Error).message || 'Unknown rollback error'));
     }
     
     // Save error log
@@ -620,8 +620,8 @@ export class ExportTransformationEngine {
     await fs.promises.writeFile(errorLogPath, JSON.stringify({
       timestamp: new Date().toISOString(),
       // ✅ Pattern MM-1: Safe type assertion for error logging
-      error: String((error as Error)?.message || 'Unknown critical failure'),
-      stack: String((error as Error)?.stack || ''),
+      error: String((error as Error).message || 'Unknown critical failure'),
+      stack: String((error as Error).stack || ''),
       transformationLog: this.transformationLog
     }, null, 2));
     
@@ -640,8 +640,8 @@ export class ExportTransformationEngine {
     // ✅ Pattern KK-9: Safe arithmetic operations for summary calculations
     const totalFilesProcessed = results.reduce((sum, r) => Number(sum || 0) + Number(r.filesProcessed || 0), 0);
     const totalSystemsGenerated = results.reduce((sum, r) => Number(sum || 0) + Number(r.systemsGenerated || 0), 0);
-    const totalErrors = results.reduce((sum, r) => Number(sum || 0) + Number(r.errors?.length || 0), 0);
-    const totalWarnings = results.reduce((sum, r) => Number(sum || 0) + Number(r.warnings?.length || 0), 0);
+    const totalErrors = results.reduce((sum, r) => Number(sum || 0) + Number(r.errors.length || 0), 0);
+    const totalWarnings = results.reduce((sum, r) => Number(sum || 0) + Number(r.warnings.length || 0), 0);
     const averageBatchDuration = Number(results.length || 0) > 0 ? 
       results.reduce((sum, r) => Number(sum || 0) + Number(r.duration || 0), 0) / Number(results.length || 1) : 0;
     const successRate = Number(results.length || 0) > 0 ? (Number(successfulBatches || 0) / Number(results.length || 1)) * 100 : 0;

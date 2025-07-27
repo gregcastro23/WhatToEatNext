@@ -415,7 +415,7 @@ export class TransitAnalysisService {
    */
   static getRetrogradePeriods(planet: string, year: string): { start: Date; end: Date } | null {
     const yearData = COMPREHENSIVE_TRANSIT_DATABASE[year];
-    return yearData?.retrogradePeriods[planet] || null;
+    return yearData.retrogradePeriods[planet] || null;
   }
 
   /**
@@ -423,7 +423,7 @@ export class TransitAnalysisService {
    */
   static getEclipseSeasons(year: string): Date[] {
     const yearData = COMPREHENSIVE_TRANSIT_DATABASE[year];
-    return yearData?.eclipseSeasons || [];
+    return yearData.eclipseSeasons || [];
   }
 
   /**
@@ -431,7 +431,7 @@ export class TransitAnalysisService {
    */
   static getMajorTransits(year: string): PlanetaryAspect[] {
     const yearData = COMPREHENSIVE_TRANSIT_DATABASE[year];
-    return yearData?.majorTransits || [];
+    return yearData.majorTransits || [];
   }
 }
 

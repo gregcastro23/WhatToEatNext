@@ -41,15 +41,15 @@ export const IngredientRecommendations: React.FC<IngredientRecommendationsProps>
                 
                         // Check element filter if present
                         if (elementFilter && ingredient.elementalProperties) {
-                            const elementValue = (ingredient.elementalProperties as Record<string, unknown>)?.[elementFilter];
+                            const elementValue = (ingredient.elementalProperties as Record<string, unknown>)[elementFilter];
                             if (!elementValue || Number(elementValue) <= 0.2) return false;
                         }
                         
                         // Calculate nutritional balance if available
                         if (ingredient.nutritionalProfile) {
                             const nutrition = ingredient.nutritionalProfile;
-                            const calories = Number((nutrition as Record<string, unknown>)?.calories || 0);
-                            const macros = (nutrition as Record<string, unknown>)?.macros as Record<string, unknown> || {};
+                            const calories = Number((nutrition as Record<string, unknown>).calories || 0);
+                            const macros = (nutrition as Record<string, unknown>).macros as Record<string, unknown> || {};
                             
                             // Calculate protein density (protein per calorie)
                             const proteinDensity = calories > 0 ? 
@@ -61,12 +61,12 @@ export const IngredientRecommendations: React.FC<IngredientRecommendationsProps>
                                 
                             // Calculate vitamin/mineral richness
                             const nutritionData = nutrition as Record<string, unknown>;
-                            const vitaminCount = Object.keys(nutritionData?.vitamins as Record<string, unknown> || {}).length;
-                            const mineralCount = Object.keys(nutritionData?.minerals as Record<string, unknown> || {}).length;
+                            const vitaminCount = Object.keys(nutritionData.vitamins as Record<string, unknown> || {}).length;
+                            const mineralCount = Object.keys(nutritionData.minerals as Record<string, unknown> || {}).length;
                             const micronutrientScore = (vitaminCount + mineralCount) / 20; // Normalized to ~0-1 range
                             
                             // Calculate phytonutrient score
-                            const phytonutrientScore = Object.keys(nutritionData?.phytonutrients as Record<string, unknown> || {}).length / 10; // Normalized to ~0-1 range
+                            const phytonutrientScore = Object.keys(nutritionData.phytonutrients as Record<string, unknown> || {}).length / 10; // Normalized to ~0-1 range
                             
                             // Calculate macronutrient balance based on ratios
                             const totalMacros = Number(macros.protein || 0) + Number(macros.carbs || 0) + Number(macros.fat || 0);
@@ -144,33 +144,33 @@ export const IngredientRecommendations: React.FC<IngredientRecommendationsProps>
                             let nutritionalScore = 0;
                             if (ingredient.nutritionalProfile) {
                                 const nutrition = ingredient.nutritionalProfile;
-                                const calories = Number((nutrition as Record<string, unknown>)?.calories || 0);
-                                const macros = (nutrition as Record<string, unknown>)?.macros || {};
+                                const calories = Number((nutrition as Record<string, unknown>).calories || 0);
+                                const macros = (nutrition as Record<string, unknown>).macros || {};
                                 
                                 // Calculate protein density (protein per calorie)
                                 const proteinDensity = calories > 0 ? 
-                                    (Number((macros as Record<string, unknown>)?.protein || 0) / calories) : 0;
+                                    (Number((macros as Record<string, unknown>).protein || 0) / calories) : 0;
                                     
                                 // Calculate fiber density (fiber per calorie)
                                 const fiberDensity = calories > 0 ? 
-                                    (Number((macros as Record<string, unknown>)?.fiber || 0) / calories) : 0;
+                                    (Number((macros as Record<string, unknown>).fiber || 0) / calories) : 0;
                                     
                                 // Calculate vitamin/mineral richness
-                                const vitaminCount = Object.keys((nutrition as Record<string, unknown>)?.vitamins as Record<string, unknown> || {}).length;
-                                const mineralCount = Object.keys((nutrition as Record<string, unknown>)?.minerals as Record<string, unknown> || {}).length;
+                                const vitaminCount = Object.keys((nutrition as Record<string, unknown>).vitamins as Record<string, unknown> || {}).length;
+                                const mineralCount = Object.keys((nutrition as Record<string, unknown>).minerals as Record<string, unknown> || {}).length;
                                 const micronutrientScore = (vitaminCount + mineralCount) / 20; // Normalized to ~0-1 range
                                 
                                 // Calculate phytonutrient score
-                                const phytonutrientScore = Object.keys((nutrition as Record<string, unknown>)?.phytonutrients as Record<string, unknown> || {}).length / 10; // Normalized to ~0-1 range
+                                const phytonutrientScore = Object.keys((nutrition as Record<string, unknown>).phytonutrients as Record<string, unknown> || {}).length / 10; // Normalized to ~0-1 range
                                 
                                 // Calculate macronutrient balance based on ratios
-                                const totalMacros = Number((macros as Record<string, unknown>)?.protein || 0) + Number((macros as Record<string, unknown>)?.carbs || 0) + Number((macros as Record<string, unknown>)?.fat || 0);
+                                const totalMacros = Number((macros as Record<string, unknown>).protein || 0) + Number((macros as Record<string, unknown>).carbs || 0) + Number((macros as Record<string, unknown>).fat || 0);
                                 let macroBalanceScore = 0.5;
                                 
                                 if (totalMacros > 0) {
-                                    const proteinRatio = Number((macros as Record<string, unknown>)?.protein || 0) / totalMacros;
-                                    const carbsRatio = Number((macros as Record<string, unknown>)?.carbs || 0) / totalMacros;
-                                    const fatRatio = Number((macros as Record<string, unknown>)?.fat || 0) / totalMacros;
+                                    const proteinRatio = Number((macros as Record<string, unknown>).protein || 0) / totalMacros;
+                                    const carbsRatio = Number((macros as Record<string, unknown>).carbs || 0) / totalMacros;
+                                    const fatRatio = Number((macros as Record<string, unknown>).fat || 0) / totalMacros;
                                     
                                     // Define ideal targets for ratios
                                     const idealProtein = 0.25; // 25%

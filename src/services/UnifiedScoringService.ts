@@ -291,7 +291,7 @@ export function calculateLunarPhaseEffect(
     'waning crescent': { elemental: -0.05, seasonal: -0.05, astrological: -0.05, cultural: -0.05, nutritional: -0.05, ingredient: -0.05, recipe: 0, cuisine: 0.05, cooking_method: 0.1 }
   };
   
-  return LUNAR_PHASE_MODIFIERS[lunarPhase.name]?.[itemType] || 0;
+  return LUNAR_PHASE_MODIFIERS[lunarPhase.name][itemType] || 0;
 }
 
 /**
@@ -443,7 +443,7 @@ export function calculateRetrogradeEffect(
   
   for (const planet of itemRulers) {
     const planetData = astroData.planetaryPositions[planet];
-    if (planetData?.isRetrograde) {
+    if (planetData.isRetrograde) {
       // Retrograde planets generally reduce effectiveness
       score -= 0.1;
       

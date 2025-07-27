@@ -99,5 +99,5 @@ export function safeJoin<T>(
   separator: string = ', '
 ): string {
   const array = toArray(arr);
-  return array?.join(separator);
+  return array.join(separator);
 } 

@@ -307,7 +307,7 @@ const AstrologizeDemo: React.FC = () => {
                       data.birth_info.date,
                       data.birth_info.hour,
                       data.birth_info.minute
-                    )?.toLocaleString()}
+                    ).toLocaleString()}
                     {' at '}
                     {data.birth_info.latitude.toFixed(4)}, {data.birth_info.longitude.toFixed(4)}
                   </>

@@ -185,22 +185,22 @@ function buildCompleteRecipe(recipe: RecipeData, cuisineName: string): Recipe {
   const defaultElementalProperties: ElementalProperties = { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
 
   // Find the cuisine flavor profile to use its elemental properties as a base
-  const cuisineProfile = Object.values(cuisineFlavorProfiles)?.find(c => 
-    c.name?.toLowerCase() === cuisineName?.toLowerCase() ||
-    c.id?.toLowerCase() === cuisineName?.toLowerCase()
+  const cuisineProfile = Object.values(cuisineFlavorProfiles).find(c => 
+    c.name.toLowerCase() === cuisineName.toLowerCase() ||
+    c.id.toLowerCase() === cuisineName.toLowerCase()
   );
 
   // Apply safe type casting for cuisineProfile access
   const cuisineProfileData = cuisineProfile as unknown as { elementalAlignment?: ElementalProperties; elementalState?: ElementalProperties };
-  const elementalAlignment = cuisineProfileData?.elementalAlignment;
-  const elementalState = cuisineProfileData?.elementalState;
+  const elementalAlignment = cuisineProfileData.elementalAlignment;
+  const elementalState = cuisineProfileData.elementalState;
 
   // Extract recipe data with safe property access
   const recipeData = recipe as unknown as Record<string, unknown>;
 
   // Complete recipe with fallbacks - avoid duplicate properties
   const baseRecipe = {
-    id: recipe.id || `recipe-${Math.random()?.toString(36).substring(2, 9)}`,
+    id: recipe.id || `recipe-${Math.random().toString(36).substring(2, 9)}`,
     name: recipe.name || `${cuisineName} Recipe`,
     description: recipe.description || `A traditional recipe from ${cuisineName} cuisine.`,
     cuisine: recipe.cuisine || cuisineName,
@@ -245,20 +245,20 @@ export default function CuisineRecommender() {
 
   // TODO: Optimize alchemical context usage and state management
   const alchemicalContext = useAlchemical();
-  const planetaryPositions = alchemicalContext?.planetaryPositions ?? {};
-  const state = alchemicalContext?.state ?? { astrologicalState: {
+  const planetaryPositions = alchemicalContext.planetaryPositions ?? {};
+  const state = alchemicalContext.state ?? { astrologicalState: {
       currentZodiacSign: 'aries',
       lunarPhase: 'new moon' }
   };
-  const currentZodiac = state.astrologicalState?.currentZodiacSign;
-  const lunarPhase = state.astrologicalState?.lunarPhase;
+  const currentZodiac = state.astrologicalState.currentZodiacSign;
+  const lunarPhase = state.astrologicalState.lunarPhase;
 
   // Create a ref to store astrological state
   const astroStateRef = useRef({
     currentZodiacSign: currentZodiac,
     lunarPhase: lunarPhase,
-    elementalState: (alchemicalContext as unknown as { state?: { astrologicalState?: { elementalState?: ElementalProperties } } })?.state?.astrologicalState?.elementalState || 
-                   (state as unknown as { astrologicalState?: { elementalState?: ElementalProperties } })?.astrologicalState?.elementalState || 
+    elementalState: (alchemicalContext as unknown as { state?: { astrologicalState?: { elementalState?: ElementalProperties } } }).state?.astrologicalState?.elementalState || 
+                   (state as unknown as { astrologicalState?: { elementalState?: ElementalProperties } }).astrologicalState?.elementalState || 
                    createDefaultElementalProperties()
   });
 
@@ -273,8 +273,8 @@ export default function CuisineRecommender() {
     astroStateRef.current = {
       currentZodiacSign: currentZodiac,
       lunarPhase: lunarPhase,
-      elementalState: (alchemicalContext as unknown as { state?: { astrologicalState?: { elementalState?: ElementalProperties } } })?.state?.astrologicalState?.elementalState ||
-                      (state as unknown as { astrologicalState?: { elementalState?: ElementalProperties } })?.astrologicalState?.elementalState ||
+      elementalState: (alchemicalContext as unknown as { state?: { astrologicalState?: { elementalState?: ElementalProperties } } }).state?.astrologicalState?.elementalState ||
+                      (state as unknown as { astrologicalState?: { elementalState?: ElementalProperties } }).astrologicalState?.elementalState ||
                       createDefaultElementalProperties()
     };
   }, [alchemicalContext, state, currentZodiac, lunarPhase]);
@@ -303,8 +303,8 @@ export default function CuisineRecommender() {
   const [showCuisineSpecificDetails, setShowCuisineSpecificDetails] = useState(false);
   const [showPlanetaryInfluences, setShowPlanetaryInfluences] = useState(false);
   const [currentMomentElementalProfile, setCurrentMomentElementalProfile] = useState<ElementalProperties | undefined>(
-    (alchemicalContext as unknown as { state?: { astrologicalState?: { elementalState?: ElementalProperties } } })?.state?.astrologicalState?.elementalState ||
-    (alchemicalContext as unknown as { state?: { elementalState?: ElementalProperties } })?.state?.elementalState
+    (alchemicalContext as unknown as { state?: { astrologicalState?: { elementalState?: ElementalProperties } } }).state?.astrologicalState?.elementalState ||
+    (alchemicalContext as unknown as { state?: { elementalState?: ElementalProperties } }).state?.elementalState
   );
   const [matchingRecipes, setMatchingRecipes] = useState<unknown[]>([]);
   const [allRecipesData, setAllRecipesData] = useState<Recipe[]>([]);
@@ -316,12 +316,12 @@ export default function CuisineRecommender() {
   // Update current moment elemental profile when astrological state changes
   useEffect(() => {
     // Use a stable reference for comparisons by converting to a string
-    const elementalStateString = JSON.stringify((state as unknown as { astrologicalState?: { elementalState?: ElementalProperties } })?.astrologicalState?.elementalState || {});
+    const elementalStateString = JSON.stringify((state as unknown as { astrologicalState?: { elementalState?: ElementalProperties } }).astrologicalState?.elementalState || {});
     const currentProfileString = JSON.stringify(currentMomentElementalProfile || {});
     
     // Only update if the state has actually changed
     if (elementalStateString !== currentProfileString) {
-      const newElementalState = (state as unknown as { astrologicalState?: { elementalState?: ElementalProperties } })?.astrologicalState?.elementalState;
+      const newElementalState = (state as unknown as { astrologicalState?: { elementalState?: ElementalProperties } }).astrologicalState?.elementalState;
       
       if (newElementalState) {
         setCurrentMomentElementalProfile({ ...newElementalState });
@@ -376,7 +376,7 @@ export default function CuisineRecommender() {
       // Get current cuisine data
       const cuisineData = transformedCuisines.find((c: AlchemicalItem) => c.id === selectedCuisine);
       const recipeData = cuisineRecipes[0] || null;
-      const ingredientData = (recipeData as Record<string, unknown>)?.ingredients || [];
+      const ingredientData = (recipeData as Record<string, unknown>).ingredients || [];
       
       // Generate enterprise intelligence analysis
       const analysis = await enterpriseIntelligenceIntegration.performEnterpriseAnalysis(
@@ -410,7 +410,7 @@ export default function CuisineRecommender() {
       setLoading(true);
       setError(null);
       
-      const elementalProperties = (state as unknown as { elementalState?: ElementalProperties })?.elementalState || (state as unknown as { astrologicalState?: { elementalState?: ElementalProperties } })?.astrologicalState?.elementalState || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
+      const elementalProperties = (state as unknown as { elementalState?: ElementalProperties }).elementalState || (state as unknown as { astrologicalState?: { elementalState?: ElementalProperties } }).astrologicalState?.elementalState || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
        };
       
       // Use the recommendation service instead of direct utility function
@@ -421,15 +421,15 @@ export default function CuisineRecommender() {
       });
       
       // TODO: Implement proper cuisine data transformation and mapping
-      const cuisineList = (result?.items || []).map(cuisineName => {
+      const cuisineList = (result.items || []).map(cuisineName => {
         return {
-          id: cuisineName?.toLowerCase()?.replace(/\s+/g, '-') || `cuisine-${Math.random()}`,
+          id: cuisineName.toLowerCase().replace(/\s+/g, '-') || `cuisine-${Math.random()}`,
           name: cuisineName || 'Unknown Cuisine',
           description: `Traditional ${cuisineName} cuisine with rich flavors and heritage.`,
           elementalProperties: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
           astrologicalInfluences: [],
-          score: result?.scores?.[cuisineName] || 0.5,
-          matchPercentage: Math.round((result?.scores?.[cuisineName] || 0.5) * 100)
+          score: result.scores[cuisineName] || 0.5,
+          matchPercentage: Math.round((result.scores[cuisineName] || 0.5) * 100)
         };
       }).filter(Boolean);
       
@@ -479,10 +479,10 @@ export default function CuisineRecommender() {
       } else {
         const recipesForCuisine = (allRecipesData || []).filter(recipe => 
           recipe.cuisine && 
-          (recipe.cuisine?.toLowerCase() === cuisine.name?.toLowerCase() ||
+          (recipe.cuisine.toLowerCase() === cuisine.name.toLowerCase() ||
            (cuisine.regionalVariants && 
             (cuisine.regionalVariants || []).some(variant => 
-              recipe.cuisine?.toLowerCase() === variant?.toLowerCase())
+              recipe.cuisine?.toLowerCase() === variant.toLowerCase())
            )
           )
         );
@@ -645,28 +645,28 @@ export default function CuisineRecommender() {
               <div className="flex items-center space-x-1 mb-2">
                 <span className="text-xs font-medium text-gray-500">Elements:</span>
                 <div className="flex space-x-1">
-                  {(cuisine.elementalState?.Fire || cuisine.elementalProperties?.Fire || 0) >= 0.3 ? (
+                  {(cuisine.elementalState.Fire || cuisine.elementalProperties?.Fire || 0) >= 0.3 ? (
                     <div className="flex items-center" title={`fire: ${Math.round(cuisine.elementalState.Fire * 100)}%`}>
                       <Flame size={14} className="text-red-500" />
                       <span className="text-xs ml-1">{Math.round(cuisine.elementalState.Fire * 100)}%</span>
                     </div>
                   ) : null}
-                  {(cuisine.elementalState?.Water || cuisine.elementalProperties?.Water || 0) >= 0.3 ? (
-                    <div className="flex items-center" title={`water: ${Math.round((cuisine.elementalState?.Water || cuisine.elementalProperties?.Water || 0) * 100)}%`}>
+                  {(cuisine.elementalState.Water || cuisine.elementalProperties?.Water || 0) >= 0.3 ? (
+                    <div className="flex items-center" title={`water: ${Math.round((cuisine.elementalState.Water || cuisine.elementalProperties?.Water || 0) * 100)}%`}>
                       <Droplets size={14} className="text-blue-500" />
-                      <span className="text-xs ml-1">{Math.round((cuisine.elementalState?.Water || cuisine.elementalProperties?.Water || 0) * 100)}%</span>
+                      <span className="text-xs ml-1">{Math.round((cuisine.elementalState.Water || cuisine.elementalProperties?.Water || 0) * 100)}%</span>
                     </div>
                   ) : null}
-                  {(cuisine.elementalState?.Earth || cuisine.elementalProperties?.Earth || 0) >= 0.3 ? (
-                    <div className="flex items-center" title={`earth: ${Math.round((cuisine.elementalState?.Earth || cuisine.elementalProperties?.Earth || 0) * 100)}%`}>
+                  {(cuisine.elementalState.Earth || cuisine.elementalProperties?.Earth || 0) >= 0.3 ? (
+                    <div className="flex items-center" title={`earth: ${Math.round((cuisine.elementalState.Earth || cuisine.elementalProperties?.Earth || 0) * 100)}%`}>
                       <Mountain size={14} className="text-green-500" />
-                      <span className="text-xs ml-1">{Math.round((cuisine.elementalState?.Earth || cuisine.elementalProperties?.Earth || 0) * 100)}%</span>
+                      <span className="text-xs ml-1">{Math.round((cuisine.elementalState.Earth || cuisine.elementalProperties?.Earth || 0) * 100)}%</span>
                     </div>
                   ) : null}
-                  {(cuisine.elementalState?.Air || cuisine.elementalProperties?.Air || 0) >= 0.3 ? (
-                    <div className="flex items-center" title={`Air: ${Math.round((cuisine.elementalState?.Air || cuisine.elementalProperties?.Air || 0) * 100)}%`}>
+                  {(cuisine.elementalState.Air || cuisine.elementalProperties?.Air || 0) >= 0.3 ? (
+                    <div className="flex items-center" title={`Air: ${Math.round((cuisine.elementalState.Air || cuisine.elementalProperties?.Air || 0) * 100)}%`}>
                       <Wind size={14} className="text-yellow-500" />
-                      <span className="text-xs ml-1">{Math.round((cuisine.elementalState?.Air || cuisine.elementalProperties?.Air || 0) * 100)}%</span>
+                      <span className="text-xs ml-1">{Math.round((cuisine.elementalState.Air || cuisine.elementalProperties?.Air || 0) * 100)}%</span>
                     </div>
                   ) : null}
                 </div>
@@ -677,7 +677,7 @@ export default function CuisineRecommender() {
                 <div className="mt-1">
                   <span className="text-xs font-medium text-gray-500 block">Signature dishes:</span>
                   <span className="text-xs text-gray-600">
-                    {cuisine.signatureDishes?.slice(0, 3)?.join(", ")}
+                    {cuisine.signatureDishes.slice(0, 3).join(", ")}
                     {(cuisine.signatureDishes || []).length > 3 ? "..." : ""}
                   </span>
                 </div>
@@ -686,7 +686,7 @@ export default function CuisineRecommender() {
               {/* Show astrological influences if available */}
               {(cuisine.zodiacInfluences && (cuisine.zodiacInfluences || []).length > 0) ? (
                 <div className="mt-1 flex flex-wrap gap-1">
-                  {cuisine.zodiacInfluences?.slice(0, 3).map(sign => (
+                  {cuisine.zodiacInfluences.slice(0, 3).map(sign => (
                     <span 
                       key={sign} 
                       className={`inline-flex items-center px-1.5 py-0.5 rounded text-xs
@@ -772,7 +772,7 @@ export default function CuisineRecommender() {
                 {/* Show key ingredients if available */}
                 {sauce.ingredients && (sauce.ingredients || []).length > 0 && (
                   <div className="mt-2 flex flex-wrap gap-1">
-                    {sauce.ingredients?.slice(0, 3).map((ingredient, i) => (
+                    {sauce.ingredients.slice(0, 3).map((ingredient, i) => (
                       <span key={i} className="text-xs bg-white px-1.5 py-0.5 rounded border border-gray-100">
                         {ingredient}
                       </span>
@@ -834,7 +834,7 @@ export default function CuisineRecommender() {
                       <div className="mt-1">
                         <h6 className="font-medium mb-1">Ingredients:</h6>
                         <div className="flex flex-wrap gap-1">
-                          {(sauce?.ingredients || []).map((ingredient: string, i: number) => (
+                          {(sauce.ingredients || []).map((ingredient: string, i: number) => (
                               <span key={i} className="inline-block px-1.5 py-0.5 bg-gray-100 rounded">
                                 {ingredient}
                               </span>
@@ -915,7 +915,7 @@ export default function CuisineRecommender() {
             <div className="bg-gray-50 p-3 rounded border">
               <h4 className="text-sm font-medium mb-2">Elemental Properties</h4>
               <div className="grid grid-cols-2 gap-2">
-                {Object.entries((selectedCuisineData as Record<string, unknown>)?.elementalState as ElementalProperties || { Fire: 0, Water: 0, Earth: 0, Air: 0 }).map(([element, value]) => (
+                {Object.entries((selectedCuisineData as Record<string, unknown>).elementalState as ElementalProperties || { Fire: 0, Water: 0, Earth: 0, Air: 0 }).map(([element, value]) => (
                   <div key={element} className="flex items-center justify-between">
                     <div className="flex items-center">
                       {element === 'Fire' && <Flame size={16} className="text-red-500 mr-1" />}
@@ -1083,28 +1083,28 @@ export default function CuisineRecommender() {
 
                           <div className="flex space-x-1 mb-1">
                             {(() => {
-                              const elementalState = (recipe as Record<string, unknown>)?.elementalState;
+                              const elementalState = (recipe as Record<string, unknown>).elementalState;
                               const fireValue = typeof elementalState === 'object' && elementalState !== null && 'Fire' in elementalState 
                                 ? Number((elementalState as Record<string, unknown>).Fire || 0) 
                                 : 0;
                               return fireValue >= 0.3 ? <Flame size={12} className="text-red-500" /> : null;
                             })()}
                             {(() => {
-                              const elementalState = (recipe as Record<string, unknown>)?.elementalState;
+                              const elementalState = (recipe as Record<string, unknown>).elementalState;
                               const waterValue = typeof elementalState === 'object' && elementalState !== null && 'Water' in elementalState 
                                 ? Number((elementalState as Record<string, unknown>).Water || 0) 
                                 : 0;
                               return waterValue >= 0.3 ? <Droplets size={12} className="text-blue-500" /> : null;
                             })()}
                             {(() => {
-                              const elementalState = (recipe as Record<string, unknown>)?.elementalState;
+                              const elementalState = (recipe as Record<string, unknown>).elementalState;
                               const earthValue = typeof elementalState === 'object' && elementalState !== null && 'Earth' in elementalState 
                                 ? Number((elementalState as Record<string, unknown>).Earth || 0) 
                                 : 0;
                               return earthValue >= 0.3 ? <Mountain size={12} className="text-green-500" /> : null;
                             })()}
                             {(() => {
-                              const elementalState = (recipe as Record<string, unknown>)?.elementalState;
+                              const elementalState = (recipe as Record<string, unknown>).elementalState;
                               const airValue = typeof elementalState === 'object' && elementalState !== null && 'Air' in elementalState 
                                 ? Number((elementalState as Record<string, unknown>).Air || 0) 
                                 : 0;
@@ -1113,7 +1113,7 @@ export default function CuisineRecommender() {
                           </div>
 
                           {/* Show ingredients with proper type casting */}
-                          {((recipe  as Record<string, unknown>)?.ingredients && Array.isArray((recipe  as Record<string, unknown>).ingredients) && ((recipe  as Record<string, unknown>).ingredients as unknown[]).length > 0) ? (
+                          {((recipe  as Record<string, unknown>).ingredients && Array.isArray((recipe  as Record<string, unknown>).ingredients) && ((recipe  as Record<string, unknown>).ingredients as unknown[]).length > 0) ? (
                             <div className="mt-1">
                               <h6 className="text-xs font-semibold mb-1">Ingredients:</h6>
                               <ul className="pl-4 list-disc text-xs">
@@ -1180,7 +1180,7 @@ export default function CuisineRecommender() {
                             ) : null}
                           </div>
 
-                          {(recipe as Record<string, unknown>)?.dietaryInfo && Array.isArray((recipe as Record<string, unknown>).dietaryInfo) && ((recipe as Record<string, unknown>).dietaryInfo as unknown[]).length > 0 && (
+                          {(recipe as Record<string, unknown>).dietaryInfo && Array.isArray((recipe as Record<string, unknown>).dietaryInfo) && ((recipe as Record<string, unknown>).dietaryInfo as unknown[]).length > 0 && (
                             <div className="mt-2 flex flex-wrap gap-1">
                               {Array.isArray((recipe as Record<string, unknown>).dietaryInfo) ? ((recipe as Record<string, unknown>).dietaryInfo as unknown[] || []).map((diet, i) => (
                                 <span key={i} className="inline-block px-1.5 py-0.5 bg-blue-50 text-blue-700 rounded text-xs">
@@ -1228,7 +1228,7 @@ export default function CuisineRecommender() {
               </h4>
               <div className="text-sm text-gray-600 p-4 bg-gray-50 rounded border border-gray-200">
                 <p className="mb-2">
-                  No recipes available for {String((selectedCuisineData as Record<string, unknown>)?.name || "this cuisine")}.
+                  No recipes available for {String((selectedCuisineData as Record<string, unknown>).name || "this cuisine")}.
                 </p>
                 
                 <div className="flex gap-2 items-center mt-4">
@@ -1240,15 +1240,15 @@ export default function CuisineRecommender() {
                 
                 {/* Fallback placeholder recipes */}
                 <div className="mt-4 p-3 bg-white rounded border border-gray-100">
-                  <h5 className="text-sm font-medium">{String((selectedCuisineData as Record<string, unknown>)?.name || "Cuisine")} Dish Inspiration</h5>
+                  <h5 className="text-sm font-medium">{String((selectedCuisineData as Record<string, unknown>).name || "Cuisine")} Dish Inspiration</h5>
                   <p className="text-xs mt-1">
-                    Try exploring traditional {String((selectedCuisineData as Record<string, unknown>)?.name || "this cuisine")} recipes 
-                    {Array.isArray((selectedCuisineData as Record<string, unknown>)?.signatureDishes) && ((selectedCuisineData as Record<string, unknown>)?.signatureDishes as unknown[] || []).length > 0 
+                    Try exploring traditional {String((selectedCuisineData as Record<string, unknown>).name || "this cuisine")} recipes 
+                    {Array.isArray((selectedCuisineData as Record<string, unknown>).signatureDishes) && ((selectedCuisineData as Record<string, unknown>).signatureDishes as unknown[] || []).length > 0 
                       ? ` like ${Array.isArray((selectedCuisineData as Record<string, unknown>).signatureDishes) ? ((selectedCuisineData as Record<string, unknown>).signatureDishes as unknown[]).slice(0, 3).map(String).join(", ") : ''}, and more.`
                       : ' using ingredients typical to this cuisine.'}
                   </p>
                   
-                  {Array.isArray((selectedCuisineData as Record<string, unknown>)?.commonIngredients) && ((selectedCuisineData as Record<string, unknown>)?.commonIngredients as unknown[] || []).length > 0 && (
+                  {Array.isArray((selectedCuisineData as Record<string, unknown>).commonIngredients) && ((selectedCuisineData as Record<string, unknown>).commonIngredients as unknown[] || []).length > 0 && (
                     <div className="mt-2">
                       <p className="text-xs font-medium">Key Ingredients:</p>
                       <p className="text-xs">

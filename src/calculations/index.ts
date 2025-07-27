@@ -487,9 +487,9 @@ export async function calculateComprehensiveAlchemicalResult(
       recommendations: {
         elemental: elementalRecommendations,
         culinary: culinaryRecommendations,
-        cuisines: cuisineRecommendations?.slice(0, 5) // Top 5 cuisine recommendations
+        cuisines: cuisineRecommendations.slice(0, 5) // Top 5 cuisine recommendations
       },
-      timestamp: new Date()?.toISOString(),
+      timestamp: new Date().toISOString(),
       cacheKey
     };
 
@@ -589,7 +589,7 @@ function _calculateKalchmAlignment(
   Object.keys(recipeAlchemical).forEach(property => {
     const key = property as keyof AlchemicalProperties;
     const recipeValue = recipeAlchemical[key];
-    const currentMomentValue = currentMomentKalchm?.alchemicalProperties?.[key] ?? 0;
+    const currentMomentValue = currentMomentKalchm.alchemicalProperties[key] ?? 0;
     const weight = (recipeValue + currentMomentValue) / 2;
 
     alignment += (1 - Math.abs(recipeValue - currentMomentValue) / Math.max(recipeValue, currentMomentValue)) * weight;
@@ -612,7 +612,7 @@ export function calculatePlanetaryAlignment(
   }
 ): number {
   const recipeDominant = getDominantElement(recipeProperties);
-  const currentMomentDominantPlanets = currentMomentPlanetary.dominantPlanets?.slice(0, 3);
+  const currentMomentDominantPlanets = currentMomentPlanetary.dominantPlanets.slice(0, 3);
 
   let alignment = 0;
   let matches = 0;
@@ -759,7 +759,7 @@ function applySeasonalAdjustments(elementalProperties: ElementalProperties, seas
   const adjustment = 0.1;
   const adjustedProps = { ...elementalProperties };
   
-  switch (season?.toLowerCase()) {
+  switch (season.toLowerCase()) {
     case 'spring':
       adjustedProps.Air += adjustment;
       break;
@@ -783,7 +783,7 @@ function applyLunarPhaseAdjustments(elementalProperties: ElementalProperties, lu
   const adjustment = 0.05;
   const adjustedProps = { ...elementalProperties };
   
-  switch (lunarPhase?.toLowerCase()) {
+  switch (lunarPhase.toLowerCase()) {
     case 'new moon':
       adjustedProps.Water += adjustment;
       break;

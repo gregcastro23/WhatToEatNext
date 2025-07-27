@@ -63,7 +63,7 @@ export const validateIngredient = (ingredient: RecipeIngredient | null | undefin
         return false;
     }
     
-    if (!ingredient.unit || !VALID_UNITS.includes(ingredient.unit?.toLowerCase?.())) {
+    if (!ingredient.unit || !VALID_UNITS.includes(ingredient.unit.toLowerCase())) {
         return false;
     }
     

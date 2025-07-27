@@ -53,12 +53,12 @@ export default function MethodsRecommender() {
       // Convert currentPlanetaryAlignment to AstrologicalState format
       // Apply Pattern MM-1: Safe type assertions
       const alignmentData = currentPlanetaryAlignment as unknown as Record<string, unknown>;
-      const moonData = alignmentData?.Moon as Record<string, unknown>;
-      const sunData = alignmentData?.Sun as Record<string, unknown>;
+      const moonData = alignmentData.Moon as Record<string, unknown>;
+      const sunData = alignmentData.Sun as Record<string, unknown>;
       
       // Apply Pattern GG-6: Enhanced property access with type guards
-      const sunSign = typeof sunData?.sign === 'string' ? sunData.sign : 'Aries';
-      const moonPhase = typeof moonData?.phase === 'string' ? moonData.phase : 'New Moon';
+      const sunSign = typeof sunData.sign === 'string' ? sunData.sign : 'Aries';
+      const moonPhase = typeof moonData.phase === 'string' ? moonData.phase : 'New Moon';
       
       const astroState = {
         zodiacSign: sunSign,
@@ -83,10 +83,10 @@ export default function MethodsRecommender() {
           const methodDataObj = methodData as unknown as Record<string, unknown>;
           // Apply Pattern MM-1: Safe type assertions for CookingMethodModifier
           const safeMethodData = (methodData && typeof methodData === 'object') ? {
-            element: (typeof methodDataObj?.element === 'string' ? methodDataObj.element : 'Fire') as Element,
-            intensity: typeof methodDataObj?.intensity === 'number' ? methodDataObj.intensity : 0.5,
-            effect: (typeof methodDataObj?.effect === 'string' ? methodDataObj.effect : 'enhance') as 'enhance' | 'transmute' | 'diminish' | 'balance',
-            applicableTo: Array.isArray(methodDataObj?.applicableTo) ? methodDataObj.applicableTo : ['all'],
+            element: (typeof methodDataObj.element === 'string' ? methodDataObj.element : 'Fire') as Element,
+            intensity: typeof methodDataObj.intensity === 'number' ? methodDataObj.intensity : 0.5,
+            effect: (typeof methodDataObj.effect === 'string' ? methodDataObj.effect : 'enhance') as 'enhance' | 'transmute' | 'diminish' | 'balance',
+            applicableTo: Array.isArray(methodDataObj.applicableTo) ? methodDataObj.applicableTo : ['all'],
             ...methodDataObj
           } : {
             element: 'Fire' as Element,
@@ -117,14 +117,14 @@ export default function MethodsRecommender() {
           return {
             id: methodName,
             name: methodName.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase()), // Capitalize words
-            description: typeof methodInfoData?.description === 'string' ? methodInfoData.description : 'A cooking method that transforms food with heat, moisture, or chemical processes.',
+            description: typeof methodInfoData.description === 'string' ? methodInfoData.description : 'A cooking method that transforms food with heat, moisture, or chemical processes.',
             score: adjustedScore,
-            elementalEffect: methodInfoData?.elementalEffect || methodInfoData?.elementalProperties,
-            duration: methodInfoData?.duration,
-            suitable_for: Array.isArray(methodInfoData?.suitable_for) ? methodInfoData.suitable_for : [],
-            benefits: Array.isArray(methodInfoData?.benefits) ? methodInfoData.benefits : [],
-            astrologicalInfluences: methodInfoData?.astrologicalInfluences,
-            toolsRequired: methodInfoData?.toolsRequired
+            elementalEffect: methodInfoData.elementalEffect || methodInfoData.elementalProperties,
+            duration: methodInfoData.duration,
+            suitable_for: Array.isArray(methodInfoData.suitable_for) ? methodInfoData.suitable_for : [],
+            benefits: Array.isArray(methodInfoData.benefits) ? methodInfoData.benefits : [],
+            astrologicalInfluences: methodInfoData.astrologicalInfluences,
+            toolsRequired: methodInfoData.toolsRequired
           };
         })
         .sort((a, b) => b.score - a.score);

@@ -4,7 +4,7 @@
   "description": "Monitors your active campaigns and automatically advances phases. Tracks TypeScript errors, linting warnings, unused variables and provides background monitoring for campaign system integration.",
   "version": "1",
   "when": {
-    "type": "fileEdited",
+    "type": "userTriggered",
     "patterns": [
       "src/services/campaign/**/*.ts",
       "src/services/campaign/**/*.js",

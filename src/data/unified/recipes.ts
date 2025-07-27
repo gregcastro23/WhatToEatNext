@@ -150,7 +150,7 @@ export class RecipeEnhancer {
       }
       
       totalKalchm += kalchm;
-      breakdown?.push({
+      breakdown.push({
         name: ingredient.name,
         kalchm,
         contribution: kalchm / (ingredients || []).length,
@@ -176,9 +176,9 @@ export class RecipeEnhancer {
     if (direct) return direct;
     
     // Fuzzy matching
-    const normalizedName = ingredientName?.replace(/[^a-z0-9]/g, '')?.toLowerCase();
+    const normalizedName = ingredientName.replace(/[^a-z0-9]/g, '').toLowerCase();
     for (const [key, ingredient] of Object.entries(unifiedIngredients)) {
-      const normalizedKey = key.replace(/[^a-z0-9]/g, '')?.toLowerCase();
+      const normalizedKey = key.replace(/[^a-z0-9]/g, '').toLowerCase();
       if (normalizedKey.includes(normalizedName) || normalizedName.includes(normalizedKey)) {
         return ingredient;
       }
@@ -198,7 +198,7 @@ export class RecipeEnhancer {
       'Air': { Fire: 0.05, Water: 0.05, Earth: 0.1, Air: 0.8 }
     };
     
-    return elementMap[element?.toLowerCase()] || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
+    return elementMap[element.toLowerCase()] || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
   }
   
   /**
@@ -212,7 +212,7 @@ export class RecipeEnhancer {
       'Air': 1.05
     };
     
-    return elementKalchm[element?.toLowerCase()] || 1.0;
+    return elementKalchm[element.toLowerCase()] || 1.0;
   }
   
   /**
@@ -487,7 +487,7 @@ export class RecipeEnhancer {
         phase3Enhanced: true,
         kalchmCalculated: true,
         monicaCalculated: monicaConstant !== null,
-        enhancedAt: new Date()?.toISOString(),
+        enhancedAt: new Date().toISOString(),
         sourceFile,
         ingredientsMatched: kalchmResult.matchedIngredients,
         ingredientsTotal: (recipe.ingredients || []).length

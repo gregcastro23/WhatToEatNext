@@ -22,8 +22,8 @@ export const Clock: React.FC<ClockProps> = ({
     const updateTime = () => {
       const now = new Date();
       let hours = now.getHours();
-      const minutes = now.getMinutes()?.toString().padStart(2, '0');
-      const seconds = now.getSeconds()?.toString().padStart(2, '0');
+      const minutes = now.getMinutes().toString().padStart(2, '0');
+      const seconds = now.getSeconds().toString().padStart(2, '0');
       
       let timeString = '';
       
@@ -33,7 +33,7 @@ export const Clock: React.FC<ClockProps> = ({
         hours = hours ? hours : 12; // the hour '0' should be '12'
         timeString = `${hours}:${minutes}${showSeconds ? `:${seconds}` : ''} ${ampm}`;
       } else {
-        timeString = `${hours?.toString()?.padStart(2, '0')}:${minutes}${showSeconds ? `:${seconds}` : ''}`;
+        timeString = `${hours.toString().padStart(2, '0')}:${minutes}${showSeconds ? `:${seconds}` : ''}`;
       }
       
       setTime(timeString);
@@ -151,7 +151,7 @@ export const ZodiacSign: React.FC<ZodiacSignProps> = ({
   const elementColor: { [key: string]: string } = { Fire: '#FF5722', Earth: '#8D6E63', Air: '#03A9F4', Water: '#0288D1'
   };
 
-  const signName = sign?.toLowerCase();
+  const signName = sign.toLowerCase();
   const element = zodiacElement[signName] || 'Unknown';
   const emoji = zodiacEmoji[signName] || '?';
   
@@ -161,7 +161,7 @@ export const ZodiacSign: React.FC<ZodiacSignProps> = ({
     large: { fontSize: '3rem', padding: '0.8rem' }
   };
   
-  const formattedName = signName.charAt(0)?.toUpperCase() + signName?.slice(1);
+  const formattedName = signName.charAt(0).toUpperCase() + signName.slice(1);
   
   return (
     <div 

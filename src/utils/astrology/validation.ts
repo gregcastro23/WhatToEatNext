@@ -248,7 +248,7 @@ export function calculatePlanetaryAspects(positions: { [key: string]: CelestialP
     const planet1 = planets[i];
     const pos1 = positions[planet1];
     
-    if (!pos1 || !pos1?.exactLongitude) {
+    if (!pos1 || !pos1.exactLongitude) {
       // Skip planets without position data
       continue;
     }
@@ -257,13 +257,13 @@ export function calculatePlanetaryAspects(positions: { [key: string]: CelestialP
       const planet2 = planets[j];
       const pos2 = positions[planet2];
       
-      if (!pos2 || !pos2?.exactLongitude) {
+      if (!pos2 || !pos2.exactLongitude) {
         // Skip planets without position data
         continue;
       }
       
       // Get the angular difference
-      let angleDiff = Math.abs(pos1?.exactLongitude - pos2?.exactLongitude);
+      let angleDiff = Math.abs(pos1.exactLongitude - pos2.exactLongitude);
       
       // Normalize to 0-180 (we don't care about the direction)
       if (angleDiff > 180) {
@@ -277,7 +277,7 @@ export function calculatePlanetaryAspects(positions: { [key: string]: CelestialP
         const strength = calculateAspectStrength(aspect.type, aspect.orb);
         
         if (strength > 0.2) { // Only include significant aspects
-          aspects?.push({
+          aspects.push({
             planet1,
             planet2,
             type: aspect.type,
@@ -396,8 +396,8 @@ export function getCurrentAstrologicalState(): AstrologicalState {
     const lunarPhase = getLunarPhaseName(phase) as LunarPhase;
     
     // Provide Sun and Moon signs
-    const sunSign = positions.Sun?.sign as ZodiacSign || 'aries';
-    const moonSign = positions.moon?.sign as ZodiacSign || 'cancer';
+    const sunSign = positions.Sun.sign as ZodiacSign || 'aries';
+    const moonSign = positions.moon.sign as ZodiacSign || 'cancer';
     
     // Return formatted state
     return {
@@ -407,7 +407,7 @@ export function getCurrentAstrologicalState(): AstrologicalState {
       activePlanets,
       dominantElement,
       planetaryPositions: positions as Record<string, CelestialPosition>,
-      isDaytime: new Date()?.getHours() > 6 && new Date()?.getHours() < 18,
+      isDaytime: new Date().getHours() > 6 && new Date().getHours() < 18,
     };
   } catch (error) {
     errorLog('Error in getCurrentAstrologicalState:', error instanceof Error ? error.message : String(error));
@@ -431,7 +431,7 @@ export function getCurrentAstrologicalState(): AstrologicalState {
  */
 export const normalizeZodiacSign = (sign: string): ZodiacSign => {
   // Convert to lowercase and trim
-  const normalizedSign = sign?.toLowerCase()?.trim();
+  const normalizedSign = sign.toLowerCase().trim();
   
   // Check if it's a valid sign
   const validSigns: ZodiacSign[] = [
@@ -651,7 +651,7 @@ function countElements(positions: { [key: string]: CelestialPosition }): { [key:
   for (const [planet, position] of Object.entries(positions)) {
     if (!position.sign) continue;
     
-    const element = signElements[position.sign?.toLowerCase()];
+    const element = signElements[position.sign.toLowerCase()];
     if (!element) continue;
     
     // Weigh Sun and Moon more heavily

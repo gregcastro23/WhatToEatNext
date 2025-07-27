@@ -23,7 +23,7 @@ describe('Astrologize API Integration', () => {
       const result = await testAstrologizeApi();
       expect(typeof result)?.toBe('boolean');
       
-      if (result) {
+      if (result != null) {
         console.log('✅ Astrologize API connection successful');
       } else {
         console.log('❌ Astrologize API connection failed - this is expected in test environment');
@@ -37,8 +37,8 @@ describe('Astrologize API Integration', () => {
         const positions = await getCurrentPlanetaryPositions();
         
         // Verify structure
-        expect(typeof positions)?.toBe('object');
-        expect(positions)?.not.toBeNull();
+        expect(typeof positions).toBe('object');
+        expect(positions)?.not?.toBeNull();
         
         // Check for required planets
         const requiredPlanets = ['Sun', 'Moon', 'Mercury', 'Venus', 'Mars', 'Jupiter', 'Saturn'];
@@ -70,8 +70,8 @@ describe('Astrologize API Integration', () => {
         console.log('Timestamp:', new Date()?.toISOString());
         console.log('--------------------------------');
         
-        Object.entries(positions || []).forEach(([_planet, position]) => {
-          console.log(`${_planet.padEnd(10)}: ${(position as { sign?: string }).sign?.toUpperCase()?.padEnd(12)} ${(position as { degree: number }).degree.toFixed(2)?.padStart(5)}° (${(position as { exactLongitude?: number }).exactLongitude?.toFixed(2)?.padStart(6)}°)`);
+        Object?.entries(positions || []).forEach(([_planet, position]) => {
+          console.log(`${_planet?.padEnd(10)}: ${(position as { sign?: string }).sign?.toUpperCase()?.padEnd(12)} ${(position as { degree: number }).degree?.toFixed(2)?.padStart(5)}° (${(position as { exactLongitude?: number }).exactLongitude?.toFixed(2)?.padStart(6)}°)`);
         });
         
         console.log('================================\n');
@@ -87,7 +87,7 @@ describe('Astrologize API Integration', () => {
         const customLocation = { latitude: 51.5074, longitude: -0.1278 }; // London
         const positions = await getCurrentPlanetaryPositions(customLocation);
         
-        expect(typeof positions)?.toBe('object');
+        expect(typeof positions).toBe('object');
         console.log('✅ Successfully got positions for custom location (London)');
         
       } catch (error) {
@@ -102,16 +102,16 @@ describe('Astrologize API Integration', () => {
         const testDate = new Date('2024-06-21T12:00:00Z'); // Summer solstice
         const positions = await getPlanetaryPositionsForDateTime(testDate);
         
-        expect(typeof positions)?.toBe('object');
+        expect(typeof positions).toBe('object');
         
         console.log('\n🌞 SUMMER SOLSTICE 2024 POSITIONS:');
         console.log('===================================');
-        console.log('Date:', testDate.toISOString());
+        console.log('Date:', testDate?.toISOString());
         console.log('-----------------------------------');
         
-        if (positions.Sun) {
+        if (positions?.Sun) {
           console.log(`Sun should be at beginning of cancer (around 0° cancer)`);
-          console.log(`Actual: ${positions?.Sun?.sign?.toUpperCase()} ${(positions.Sun as { degree: number }).degree.toFixed(2)}°`);
+          console.log(`Actual: ${positions?.Sun?.sign?.toUpperCase()} ${(positions?.Sun as { degree: number }).degree?.toFixed(2)}°`);
         }
         
         console.log('===================================\n');
@@ -124,21 +124,21 @@ describe('Astrologize API Integration', () => {
     test('should get positions for birth date with location', async () => {
       try {
         const birthDate = new Date('1990-03-20T16:20:00Z');
-        const birthLocation = { latitude: 40.7498, longitude: -73.7976 }; // NYC
+        const birthLocation = { latitude: 40?.7498, longitude: -73?.7976 }; // NYC
         
         const positions = await getPlanetaryPositionsForDateTime(birthDate, birthLocation);
         
-        expect(typeof positions)?.toBe('object');
+        expect(typeof positions).toBe('object');
         
         console.log('\n🎂 EXAMPLE BIRTH CHART POSITIONS:');
         console.log('==================================');
-        console.log('Date:', birthDate.toISOString());
-        console.log('Location: NYC (40.7498, -73.7976)');
+        console.log('Date:', birthDate?.toISOString());
+        console.log('Location: NYC (40?.7498, -73?.7976)');
         console.log('----------------------------------');
         
-        Object.entries(positions || []).forEach(([_planet, position]) => {
+        Object?.entries(positions || []).forEach(([_planet, position]) => {
           const retrograde = (position as { isRetrograde?: boolean }).isRetrograde ? ' (R)' : '';
-          console.log(`${_planet.padEnd(10)}: ${(position as { sign?: string }).sign?.toUpperCase()?.padEnd(12)} ${(position as { degree: number }).degree.toFixed(2)?.padStart(5)}°${retrograde}`);
+          console.log(`${_planet?.padEnd(10)}: ${(position as { sign?: string }).sign?.toUpperCase()?.padEnd(12)} ${(position as { degree: number }).degree?.toFixed(2)?.padStart(5)}°${retrograde}`);
         });
         
         console.log('==================================\n');
@@ -173,13 +173,13 @@ describe('Astrologize API Integration', () => {
         const positions = await getCurrentPlanetaryPositions();
         
         // Test that all position objects have required properties
-        Object.entries(positions || []).forEach(([_planet, position]) => {
+        Object?.entries(positions || []).forEach(([_planet, position]) => {
           expect(position)?.toHaveProperty('sign');
           expect(position)?.toHaveProperty('degree');
           expect(position)?.toHaveProperty('exactLongitude');
           expect(position)?.toHaveProperty('isRetrograde');
           
-          expect(typeof position.sign)?.toBe('string');
+          expect(typeof position?.sign)?.toBe('string');
           expect(typeof (position as { degree: number })?.degree).toBe('number');
           expect(typeof (position as { exactLongitude?: number })?.exactLongitude).toBe('number');
           expect(typeof (position as { isRetrograde?: boolean })?.isRetrograde).toBe('boolean');
@@ -197,13 +197,13 @@ describe('Astrologize API Integration', () => {
     test('should work with browser geolocation simulation', async () => {
       // Simulate getting location from browser
       const mockGeolocation = {
-        latitude: 37.7749,
-        longitude: -122.4194 // San Francisco
+        latitude: 37?.7749,
+        longitude: -122?.4194 // San Francisco
       };
       
       try {
         const positions = await getCurrentPlanetaryPositions(mockGeolocation);
-        expect(typeof positions)?.toBe('object');
+        expect(typeof positions).toBe('object');
         console.log('✅ Integration with geolocation simulation working');
       } catch (error) {
         console.log('❌ Geolocation integration failed (expected in test environment)');
@@ -233,7 +233,7 @@ describe('Real-time Astrologize Output Demo', () => {
       const isConnected = await testAstrologizeApi();
       console.log(`API Connection Status: ${isConnected ? '✅ CONNECTED' : '❌ DISCONNECTED'}`);
       
-      if (isConnected) {
+      if (isConnected != null) {
         console.log('\n📡 LIVE API DATA:');
         console.log('-----------------');
         
@@ -251,36 +251,36 @@ describe('Real-time Astrologize Output Demo', () => {
           if (currentPositions[planet]) {
             const pos = currentPositions[planet];
             const retrograde = (pos as { isRetrograde?: boolean }).isRetrograde ? ' ℞' : '';
-            console.log(`  ${planet.padEnd(8)}: ${pos.sign.charAt(0)?.toUpperCase() + pos.sign?.slice(1)?.padEnd(11)} ${(pos as { degree: number }).degree.toFixed(2)?.padStart(5)}°${retrograde}`);
+            console.log(`  ${planet?.padEnd(8)}: ${pos?.sign.charAt(0)?.toUpperCase() + pos?.sign?.slice(1)?.padEnd(11)} ${(pos as { degree: number }).degree?.toFixed(2)?.padStart(5)}°${retrograde}`);
           }
         });
         
         // Calculate some basic interpretations
         console.log('\n📈 QUICK INSIGHTS:');
-        const sunPos = currentPositions.Sun;
-        const moonPos = currentPositions.moon;
+        const sunPos = currentPositions?.Sun;
+        const moonPos = currentPositions?.moon;
         
-        if (sunPos) {
-          console.log(`  🌞 Sun is in ${sunPos.sign?.toUpperCase()} - Currently ${getSeason(sunPos.sign)} season`);
+        if (sunPos != null) {
+          console.log(`  🌞 Sun is in ${sunPos?.sign?.toUpperCase()} - Currently ${getSeason(sunPos?.sign)} season`);
         }
         
-        if (moonPos) {
-          console.log(`  🌙 Moon is in ${moonPos.sign?.toUpperCase()} - Emotional focus on ${getElementDescription(getSignElement(moonPos.sign))} themes`);
+        if (moonPos != null) {
+          console.log(`  🌙 Moon is in ${moonPos?.sign?.toUpperCase()} - Emotional focus on ${getElementDescription(getSignElement(moonPos?.sign))} themes`);
         }
         
         // Count planets by element
         const elementCounts = { Fire: 0, Earth: 0, Air: 0, Water: 0 };
-        Object.values(currentPositions || []).forEach(pos => {
-          if (pos && pos.sign) {
-            const element = getSignElement(pos.sign);
-            if (element) elementCounts[element as keyof typeof elementCounts]++;
+        Object?.values(currentPositions || []).forEach(pos => {
+          if (pos && pos?.sign) {
+            const element = getSignElement(pos?.sign);
+            if (element != null) elementCounts[element as keyof typeof elementCounts]++;
           }
         });
         
         console.log('\n🔥 ELEMENTAL DISTRIBUTION:');
-        Object.entries(elementCounts || []).forEach(([element, count]) => {
+        Object?.entries(elementCounts || []).forEach(([element, count]) => {
           const emoji = { Fire: '🔥', Earth: '🌍', Air: '💨', Water: '🌊' }[element as keyof typeof elementCounts];
-          console.log(`  ${emoji} ${element.charAt(0)?.toUpperCase() + element?.slice(1)}: ${count} planets`);
+          console.log(`  ${emoji} ${element?.charAt(0)?.toUpperCase() + element?.slice(1)}: ${count} planets`);
         });
         
       } else {

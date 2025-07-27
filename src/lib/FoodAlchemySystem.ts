@@ -588,7 +588,7 @@ export class FoodAlchemySystem {
             // Add dignified planetary recommendations if applicable
             if (state.planetaryPositions) {
                 // Check day planet dignity
-                if (planetaryElements[planetaryDay]?.dignityEffect && 
+                if (planetaryElements[planetaryDay].dignityEffect && 
                     state.planetaryPositions[planetaryDay]) {
                     const daySign = state.planetaryPositions[planetaryDay].sign;
                     const dayDignity = planetaryElements[planetaryDay].dignityEffect?.[daySign];
@@ -601,7 +601,7 @@ export class FoodAlchemySystem {
                 }
                 
                 // Check hour planet dignity
-                if (planetaryElements[planetaryHour]?.dignityEffect && 
+                if (planetaryElements[planetaryHour].dignityEffect && 
                     state.planetaryPositions[planetaryHour]) {
                     const hourSign = state.planetaryPositions[planetaryHour].sign;
                     const hourDignity = planetaryElements[planetaryHour].dignityEffect?.[hourSign];
@@ -622,7 +622,7 @@ export class FoodAlchemySystem {
                     else if (planetDegree > 20) decan = '3rd Decan';
                     
                     // If food's planet rules the decan
-                    if (signInfo[planetSign]?.decanEffects[decan]?.includes(food.planet)) {
+                    if (signInfo[planetSign].decanEffects[decan].includes(food.planet)) {
                         recommendations.push(`${food.food} is especially potent as it's ruled by ${food.planet}, which rules the ${decan.toLowerCase()} of ${planetSign}.`);
                     }
                 }
@@ -698,7 +698,7 @@ export class FoodAlchemySystem {
         // Check for planetary conditions that might require caution
         if (state.planetaryPositions && state.planetaryPositions[food.planet]) {
             const planetSign = state.planetaryPositions[food.planet].sign;
-            const dignityEffect = planetaryElements[food.planet]?.dignityEffect?.[planetSign];
+            const dignityEffect = planetaryElements[food.planet].dignityEffect?.[planetSign];
             
             if (dignityEffect && dignityEffect < -1) {
                 warnings.push(`${food.planet} is currently in fall in ${planetSign}, making ${food.food} less effective unless prepared with extra care.`);

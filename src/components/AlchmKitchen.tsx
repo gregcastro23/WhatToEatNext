@@ -38,11 +38,11 @@ export default function AlchmKitchen() {
     const { elementalState, alchemicalValues, astrologicalState } = state;
 
     // Current Sun sign from astrologicalState
-    const currentSign = astrologicalState?.sunSign || astrologicalState?.currentZodiac || 'unknown';
+    const currentSign = astrologicalState.sunSign || astrologicalState.currentZodiac || 'unknown';
     // Planetary hour from astrologicalState
-    const planetaryHour = astrologicalState?.planetaryHour || 'Unknown';
+    const planetaryHour = astrologicalState.planetaryHour || 'Unknown';
     // Lunar phase from astrologicalState
-    const lunarPhase = astrologicalState?.lunarPhase || 'Unknown';
+    const lunarPhase = astrologicalState.lunarPhase || 'Unknown';
 
     // Mount effect - runs only once
     useEffect(() => {
@@ -143,10 +143,10 @@ export default function AlchmKitchen() {
                 <div>Planetary Hour: {planetaryHour as string}</div>
                 <div>Lunar Phase: {lunarPhase}</div>
                 <h4>Alchemical Tokens:</h4>
-                <div>⦿ Spirit: {alchemicalValues?.Spirit?.toFixed(4) || '0.0000'}</div>
-                <div>⦿ Essence: {alchemicalValues?.Essence?.toFixed(4) || '0.0000'}</div>
-                <div>⦿ Matter: {alchemicalValues?.Matter?.toFixed(4) || '0.0000'}</div>
-                <div>⦿ Substance: {alchemicalValues?.Substance?.toFixed(4) || '0.0000'}</div>
+                <div>⦿ Spirit: {alchemicalValues.Spirit.toFixed(4) || '0.0000'}</div>
+                <div>⦿ Essence: {alchemicalValues.Essence.toFixed(4) || '0.0000'}</div>
+                <div>⦿ Matter: {alchemicalValues.Matter.toFixed(4) || '0.0000'}</div>
+                <div>⦿ Substance: {alchemicalValues.Substance.toFixed(4) || '0.0000'}</div>
                 <h4>Elemental Balance:</h4>
                 <div>Fire: {elementalProperties.Fire}%</div>
                 <div>Water: {elementalProperties.Water}%</div>

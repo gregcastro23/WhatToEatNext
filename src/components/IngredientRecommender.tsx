@@ -154,7 +154,7 @@ export default function IngredientRecommender({
     const itemData = (item ) as Record<string, unknown>;
     
     // Toggle selected ingredient
-    if (selectedIngredient?.name === String(itemData?.name || '')) {
+    if (selectedIngredient?.name === String(itemData.name || '')) {
       setSelectedIngredient(null);
     } else {
       setSelectedIngredient(item as IngredientRecommendation);
@@ -167,8 +167,8 @@ export default function IngredientRecommender({
       // Store selection in session storage for context preservation
       try {
         sessionStorage.setItem('selectedIngredient', JSON.stringify({
-          name: String(itemData?.name || ''),
-          category: String(itemData?.category || ''),
+          name: String(itemData.name || ''),
+          category: String(itemData.category || ''),
           timestamp: Date.now()
         }));
       } catch (error) {
@@ -331,7 +331,7 @@ export default function IngredientRecommender({
   
   // Helper function to check if an ingredient is an oil
   const isOil = (ingredient: Ingredient | UnifiedIngredient): boolean => {
-    const _category = ingredient.category?.toLowerCase() || '';
+    const _category = ingredient.category.toLowerCase() || '';
     if (_category === 'oil' || _category === 'oils') return true;
     
     const name = ingredient.name.toLowerCase();
@@ -342,10 +342,10 @@ export default function IngredientRecommender({
   const isVinegar = (ingredient: unknown): boolean => {
     // ✅ Pattern MM-1: Safe type assertion for ingredient data
     const ingredientData = (ingredient ) as Record<string, unknown>;
-    const _category = String(ingredientData?.category || '').toLowerCase();
+    const _category = String(ingredientData.category || '').toLowerCase();
     if (_category === 'vinegar' || _category === 'vinegars') return true;
     
-    const name = String(ingredientData?.name || '').toLowerCase();
+    const name = String(ingredientData.name || '').toLowerCase();
     return vinegarTypes.some(vinegar => name.includes(vinegar.toLowerCase()));
   };
   
@@ -353,7 +353,7 @@ export default function IngredientRecommender({
   const getNormalizedCategory = (ingredient: unknown): string => {
     // ✅ Pattern MM-1: Safe type assertion for ingredient data
     const ingredientData = (ingredient ) as Record<string, unknown>;
-    const categoryProperty = ingredientData?.category;
+    const categoryProperty = ingredientData.category;
     
     if (!categoryProperty) return 'other';
     
@@ -613,8 +613,8 @@ export default function IngredientRecommender({
             Fire: 0.1 
           },
           // ✅ Pattern GG-6: Safe property access for vinegar qualities
-          qualities: Array.isArray(((vinegarData as unknown) as Record<string, unknown>)?.qualities) ? 
-            ((vinegarData as unknown) as Record<string, unknown>)?.qualities as string[] : 
+          qualities: Array.isArray(((vinegarData as unknown) as Record<string, unknown>).qualities) ? 
+            ((vinegarData as unknown) as Record<string, unknown>).qualities as string[] : 
             ['acidic', 'tangy', 'flavorful'],
           description: `${displayName} - A versatile acidic component for your culinary creations.`
         } as IngredientRecommendation;
@@ -626,7 +626,7 @@ export default function IngredientRecommender({
       const existingOilNames = new Set((categories.oils || []).map(oil => oil.name.toLowerCase()));
       const additionalOils = Object.entries(oilsCollection)
         .filter(([_, oilData]) => 
-          !existingOilNames.has(oilData.name?.toLowerCase() || '')
+          !existingOilNames.has(oilData.name.toLowerCase() || '')
         )
         .slice(0, 10) // Limit to 10 additional oils
         .map(([key, oilData]) => {
@@ -642,11 +642,11 @@ export default function IngredientRecommender({
               Air: 0.2 
             },
             // ✅ Pattern GG-6: Safe property access for oil qualities
-            qualities: Array.isArray(((oilData as unknown) as Record<string, unknown>)?.qualities) ? 
-              ((oilData as unknown) as Record<string, unknown>)?.qualities as string[] : 
+            qualities: Array.isArray(((oilData as unknown) as Record<string, unknown>).qualities) ? 
+              ((oilData as unknown) as Record<string, unknown>).qualities as string[] : 
               ['cooking', 'flavoring'],
             // ✅ Pattern MM-1: Safe type assertion for oil description
-            description: `${oilData.name || key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())} - ${String(((oilData as unknown) as Record<string, unknown>)?.description || "A versatile cooking oil with various applications.")}`
+            description: `${oilData.name || key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())} - ${String(((oilData as unknown) as Record<string, unknown>).description || "A versatile cooking oil with various applications.")}`
           } as IngredientRecommendation;
         });
       
@@ -1120,7 +1120,7 @@ export default function IngredientRecommender({
                                         if (typeof data === 'object') {
                                           // Extract data with safe property access
                                           const culinaryData = data as Record<string, unknown>;
-                                          const techniques = culinaryData?.techniques;
+                                          const techniques = culinaryData.techniques;
                                           if (Array.isArray(techniques)) {
                                             return techniques.slice(0, 2).join(', ');
                                           }
@@ -1151,7 +1151,7 @@ export default function IngredientRecommender({
                                     // Handle different data formats for cooking time
                                     // Extract details data with safe property access
                                     const detailsData = details as Record<string, unknown>;
-                                    const timing = detailsData?.timing;
+                                    const timing = detailsData.timing;
                                     
                                     if (timing) {
                                       if (typeof timing === 'string') {
@@ -1159,9 +1159,9 @@ export default function IngredientRecommender({
                                       } else if (typeof timing === 'object') {
                                         // Extract timing properties with safe access
                                         const timingData = timing as Record<string, unknown>;
-                                        const minimum = timingData?.minimum;
-                                        const maximum = timingData?.maximum;
-                                        const optimal = timingData?.optimal;
+                                        const minimum = timingData.minimum;
+                                        const maximum = timingData.maximum;
+                                        const optimal = timingData.optimal;
                                         
                                         if (minimum && maximum) {
                                           cookingTime = `${minimum}-${maximum}`;
@@ -1194,7 +1194,7 @@ export default function IngredientRecommender({
                                     // Handle different data formats for temperature
                                     // Extract details data with safe property access
                                     const tempDetailsData = details as Record<string, unknown>;
-                                    const temperature = tempDetailsData?.temperature;
+                                    const temperature = tempDetailsData.temperature;
                                     
                                     if (temperature) {
                                       if (typeof temperature === 'string') {
@@ -1202,10 +1202,10 @@ export default function IngredientRecommender({
                                       } else if (typeof temperature === 'object') {
                                         // Extract temperature properties with safe access
                                         const temperatureData = temperature as Record<string, unknown>;
-                                        const fahrenheit = temperatureData?.fahrenheit;
-                                        const min = temperatureData?.min;
-                                        const max = temperatureData?.max;
-                                        const unit = temperatureData?.unit;
+                                        const fahrenheit = temperatureData.fahrenheit;
+                                        const min = temperatureData.min;
+                                        const max = temperatureData.max;
+                                        const unit = temperatureData.unit;
                                         
                                         if (fahrenheit) {
                                           temp = `${fahrenheit}°F`;
@@ -1233,7 +1233,7 @@ export default function IngredientRecommender({
                                     if (typeof cut === 'object') {
                                       // Extract cut data with safe property access
                                       const cutData = cut as Record<string, unknown>;
-                                      const name = cutData?.name;
+                                      const name = cutData.name;
                                       return name ? name : '';
                                     }
                                     return '';

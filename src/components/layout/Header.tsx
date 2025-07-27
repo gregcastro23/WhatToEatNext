@@ -43,10 +43,10 @@ export default function Header({ setNumberOfPeople }: HeaderProps) {
         const data = await getCurrentCelestialPositions();
         
         // Extract degrees from planetary positions if available
-        const sunDegree = data.planetaryPositions?.sun?.degree || 0;
+        const sunDegree = data.planetaryPositions.sun.degree || 0;
         const sunMinutes = 0; // This data might not be available in the new API
         
-        const moonDegree = data.planetaryPositions?.moon?.degree || 0;
+        const moonDegree = data.planetaryPositions.moon.degree || 0;
         const moonMinutes = 0; // This data might not be available in the new API
         
         setAstroData({

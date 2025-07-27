@@ -61,7 +61,7 @@ export function useAstrologicalInfluence() {
       }
     });
 
-    const dominantElement = Object.entries(elementCounts)?.reduce((a, b) => 
+    const dominantElement = Object.entries(elementCounts).reduce((a, b) => 
       elementCounts[a[0] as keyof typeof elementCounts] > elementCounts[b[0] as keyof typeof elementCounts] ? a : b
     )[0];
 

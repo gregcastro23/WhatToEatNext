@@ -228,7 +228,7 @@ export const elementalUtils = {
   getMissingElements,
 
   calculateelementalState(recipe: Recipe | null | undefined): ElementalProperties {
-    if (!recipe?.ingredients?.length) {
+    if (!recipe?.ingredients.length) {
       return ElementalCalculator.getCurrentElementalState();
     }
 
@@ -236,7 +236,7 @@ export const elementalUtils = {
     const balance: ElementalProperties = { ...DEFAULT_ELEMENTAL_PROPERTIES };
     
     // Get total amount for percentage calculations
-    const totalAmount = recipe?.ingredients?.reduce((sum, ing) => {
+    const totalAmount = recipe.ingredients.reduce((sum, ing) => {
       const amount = ing.amount ?? 1; // Default to 1 if amount is missing
       return sum + amount;
     }, 0);
@@ -254,7 +254,7 @@ export const elementalUtils = {
     });
 
     // Process each ingredient
-    recipe?.ingredients?.forEach(ing => {
+    recipe.ingredients.forEach(ing => {
       const amount = ing.amount ?? 1; // Default to 1 if amount is missing
       
       if (ing.elementalProperties) {
@@ -289,11 +289,11 @@ export const elementalUtils = {
   },
 
   getelementalState(recipe: Recipe): ElementalProperties {
-    if (!recipe.ingredients?.length) {
+    if (!recipe.ingredients.length) {
       return ElementalCalculator.getCurrentElementalState();
     }
 
-    const combinedProperties = recipe?.ingredients?.reduce(
+    const combinedProperties = recipe.ingredients.reduce(
       (acc, ingredient) => {
         const props =
           ingredient.elementalProperties ||
@@ -381,25 +381,25 @@ export const elementalUtils = {
 
     if (properties.Fire > threshold) {
       techniques.push(
-        ...ELEMENTAL_CHARACTERISTICS?.Fire?.cookingTechniques.slice(0, 2)
+        ...ELEMENTAL_CHARACTERISTICS.Fire.cookingTechniques.slice(0, 2)
       );
     }
 
     if (properties.Water > threshold) {
       techniques.push(
-        ...ELEMENTAL_CHARACTERISTICS?.Water?.cookingTechniques.slice(0, 2)
+        ...ELEMENTAL_CHARACTERISTICS.Water.cookingTechniques.slice(0, 2)
       );
     }
 
     if (properties.Earth > threshold) {
       techniques.push(
-        ...ELEMENTAL_CHARACTERISTICS?.Earth?.cookingTechniques.slice(0, 2)
+        ...ELEMENTAL_CHARACTERISTICS.Earth.cookingTechniques.slice(0, 2)
       );
     }
 
     if (properties.Air > threshold) {
       techniques.push(
-        ...ELEMENTAL_CHARACTERISTICS?.Air?.cookingTechniques.slice(0, 2)
+        ...ELEMENTAL_CHARACTERISTICS.Air.cookingTechniques.slice(0, 2)
       );
     }
 
@@ -422,25 +422,25 @@ export const elementalUtils = {
     // Add times based on the elemental balance, weighted by their values
     if (properties.Fire > threshold) {
       for (let i = 0; i < Math.ceil(properties.Fire * 10); i++) {
-        weightedTimes.push(...ELEMENTAL_CHARACTERISTICS?.Fire?.timeOfDay);
+        weightedTimes.push(...ELEMENTAL_CHARACTERISTICS.Fire.timeOfDay);
       }
     }
 
     if (properties.Water > threshold) {
       for (let i = 0; i < Math.ceil(properties.Water * 10); i++) {
-        weightedTimes.push(...ELEMENTAL_CHARACTERISTICS?.Water?.timeOfDay);
+        weightedTimes.push(...ELEMENTAL_CHARACTERISTICS.Water.timeOfDay);
       }
     }
 
     if (properties.Earth > threshold) {
       for (let i = 0; i < Math.ceil(properties.Earth * 10); i++) {
-        weightedTimes.push(...ELEMENTAL_CHARACTERISTICS?.Earth?.timeOfDay);
+        weightedTimes.push(...ELEMENTAL_CHARACTERISTICS.Earth.timeOfDay);
       }
     }
 
     if (properties.Air > threshold) {
       for (let i = 0; i < Math.ceil(properties.Air * 10); i++) {
-        weightedTimes.push(...ELEMENTAL_CHARACTERISTICS?.Air?.timeOfDay);
+        weightedTimes.push(...ELEMENTAL_CHARACTERISTICS.Air.timeOfDay);
       }
     }
 
@@ -639,8 +639,8 @@ export function transformItemsWithPlanetaryPositions(
           if (typeof valA === 'object' && typeof valB === 'object') {
             const dataA = valA as Record<string, unknown>;
             const dataB = valB as Record<string, unknown>;
-            const strengthA = Number(dataA?.strength) || 0;
-            const strengthB = Number(dataB?.strength) || 0;
+            const strengthA = Number(dataA.strength) || 0;
+            const strengthB = Number(dataB.strength) || 0;
             return strengthB - strengthA;
           }
           // Default sort for simple numeric values
@@ -737,7 +737,7 @@ export function getPrimaryElement(
 ): string {
   const affinityData = elementalAffinity as unknown as Record<string, unknown>;
   return (
-    affinityData?.base || affinityData?.element || 'Fire'
+    affinityData.base || affinityData.element || 'Fire'
   ) as string;
 }
 
@@ -746,7 +746,7 @@ export function getElementStrength(
   elementalAffinity: ElementalAffinity
 ): number {
   const affinityData = elementalAffinity as unknown as Record<string, unknown>;
-  const strength = affinityData?.strength as number;
+  const strength = affinityData.strength as number;
   return typeof strength === 'number' ? strength : 1;
 }
 
@@ -1247,7 +1247,7 @@ export function enhanceOilProperties(
             const appData = application as Record<string, unknown>;
             enhancedOil.culinaryApplications[appType] = String(JSON.stringify({
               ...(application as Record<string, unknown>),
-              elementalEffect: appData?.elementalEffect || {
+              elementalEffect: appData.elementalEffect || {
                 Fire:
                   appType === 'frying' ||
                   appType === 'cooking' ||
@@ -1261,7 +1261,7 @@ export function enhanceOilProperties(
                 Air:
                   appType === 'emulsion' || appType === 'whipping' ? 0.2 : 0.1,
               },
-              alchemicalEffect: appData?.alchemicalEffect || {
+              alchemicalEffect: appData.alchemicalEffect || {
                 spirit:
                   appType === 'finishing' || appType === 'infusion' ? 0.2 : 0.1,
                 essence:
@@ -1278,7 +1278,7 @@ export function enhanceOilProperties(
     } else {
       // Create default culinary applications based on smoke point and oil type
       const smokePointData = (enhancedOil.smokePoint as unknown) as Record<string, unknown>;
-      const smokePoint = Number(smokePointData?.fahrenheit) || 0;
+      const smokePoint = Number(smokePointData.fahrenheit) || 0;
       const isHighHeat = smokePoint > 400;
       const isMediumHeat = smokePoint > 325 && smokePoint <= 400;
       const isLowHeat = smokePoint <= 325;
@@ -1367,7 +1367,7 @@ export function enhanceOilProperties(
     if (!enhancedOil.thermodynamicProperties) {
       // Base on smoke point if available
       const smokePointData = (enhancedOil.smokePoint as unknown) as Record<string, unknown>;
-      const smokePoint = Number(smokePointData?.fahrenheit) || 350;
+      const smokePoint = Number(smokePointData.fahrenheit) || 350;
       const normalizedSmokePoint = (smokePoint - 300) / 250; // Normalize between 300-550°F
       const heatValue = 0.5 + normalizedSmokePoint * 0.4; // Scale 0.5-0.9
 
@@ -1382,7 +1382,7 @@ export function enhanceOilProperties(
     // Add recommended cooking methods if they don't exist
     if (!enhancedOil.recommendedCookingMethods) {
       const smokePointData = (enhancedOil.smokePoint as unknown) as Record<string, unknown>;
-      const smokePoint = Number(smokePointData?.fahrenheit) || 0;
+      const smokePoint = Number(smokePointData.fahrenheit) || 0;
       const methods: Array<{ name: string; potency: number }> = [];
 
       if (smokePoint > 400) {
@@ -1508,11 +1508,11 @@ export function fixRawIngredientMappings(
     const valueData = value as Record<string, unknown>;
     // Ensure elemental properties are normalized
     const elementalProperties = normalizeProperties(
-      (valueData?.elementalProperties as Partial<ElementalProperties>) || {}
+      (valueData.elementalProperties as Partial<ElementalProperties>) || {}
     );
 
     // Create a standardized astrological profile if one doesn't exist
-    const astroProfile = (valueData?.astrologicalProfile as Record<string, unknown>) || {};
+    const astroProfile = (valueData.astrologicalProfile as Record<string, unknown>) || {};
 
     // Determine base elemental affinity if not provided
     if (!astroProfile.elementalAffinity) {
@@ -1527,8 +1527,8 @@ export function fixRawIngredientMappings(
 
     acc[key] = {
       ...(value as Record<string, unknown>),
-      name: valueData?.name || key.replace(/_/g, ' '),
-      category: valueData?.category || 'ingredient',
+      name: valueData.name || key.replace(/_/g, ' '),
+      category: valueData.category || 'ingredient',
       elementalProperties,
       astrologicalProfile: astroProfile,
     };

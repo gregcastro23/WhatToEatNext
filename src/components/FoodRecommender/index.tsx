@@ -45,11 +45,11 @@ if (typeof window !== 'undefined') {
 // Create wrapper component to combine both implementations
 const FoodRecommender = () => {
   const astroState = useAstrologicalState();
-  const planetaryPositions = (astroState as unknown as Record<string, unknown>)?.planetaryPositions;
-  const elementalProperties = (astroState as unknown as Record<string, unknown>)?.elementalProperties;
-  const activePlanets = (astroState as unknown as Record<string, unknown>)?.activePlanets;
-  const zodiacSign = (astroState as unknown as Record<string, unknown>)?.zodiacSign;
-  const lunarPhase = (astroState as unknown as Record<string, unknown>)?.lunarPhase;
+  const planetaryPositions = (astroState as unknown as Record<string, unknown>).planetaryPositions;
+  const elementalProperties = (astroState as unknown as Record<string, unknown>).elementalProperties;
+  const activePlanets = (astroState as unknown as Record<string, unknown>).activePlanets;
+  const zodiacSign = (astroState as unknown as Record<string, unknown>).zodiacSign;
+  const lunarPhase = (astroState as unknown as Record<string, unknown>).lunarPhase;
   
   // Create a full astrological state object to pass to components
   const astrologicalState = useMemo(() => ({

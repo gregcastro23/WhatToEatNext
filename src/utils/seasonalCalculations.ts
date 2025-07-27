@@ -293,7 +293,7 @@ const getSeasonalModifier = (_season: string, element: string): number => {
         winter: { Fire: 0.1, Water: 0.4, Air: 0.2, Earth: 0.3 }
     };
 
-    return modifiers[_season.toLowerCase()]?.[element] || 0.25;
+    return modifiers[_season.toLowerCase()][element] || 0.25;
 };
 
 const getRating = (score: number): SeasonalEffectiveness['rating'] => {
@@ -379,11 +379,11 @@ function _calculateSeasonalScores(
     });
 
     // Ingredient seasonality (20% of total)
-    recipe.ingredients?.forEach(ingredient => {
+    recipe.ingredients.forEach(ingredient => {
         if (ingredient.seasonality && Array.isArray(ingredient.seasonality)) {
             ingredient.seasonality.forEach(season => {
                 if (season in scores) {
-                    scores[season as Season] += 20 / (recipe.ingredients?.length || 1);
+                    scores[season as Season] += 20 / (recipe.ingredients.length || 1);
                 }
             });
         }

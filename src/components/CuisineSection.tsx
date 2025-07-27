@@ -51,11 +51,11 @@ export const CuisineSection: React.FC<CuisineSectionProps> = ({
     const loadSauces = () => {
       try {
         // Find cuisine by name (case insensitive)
-        const cuisineKey = Object.keys(cuisinesMap)?.find(
-          key => key?.toLowerCase() === cuisine?.toLowerCase()
+        const cuisineKey = Object.keys(cuisinesMap).find(
+          key => key.toLowerCase() === cuisine.toLowerCase()
         );
         
-        if (cuisineKey && cuisinesMap[cuisineKey]?.traditionalSauces) {
+        if (cuisineKey && cuisinesMap[cuisineKey].traditionalSauces) {
           // Convert traditional sauces object to array
           const saucesArray = Object.entries(cuisinesMap[cuisineKey].traditionalSauces || {}).map(([id, sauce]) => ({
               id,
@@ -114,14 +114,14 @@ export const CuisineSection: React.FC<CuisineSectionProps> = ({
         if (!recipe) return false;
         
         // Match main cuisine
-        if (recipe.cuisine?.toLowerCase() === cuisine?.toLowerCase()) return true;
+        if (recipe.cuisine?.toLowerCase() === cuisine.toLowerCase()) return true;
         
         // Match regional cuisine if specified
         // Apply surgical type casting with variable extraction
         const cuisineString = (cuisine || '').toString();
         const cuisineLower = cuisineString.toLowerCase();
         
-        if ((recipe.regionalCuisine as string)?.toLowerCase?.() === cuisineLower) return true;
+        if ((recipe.regionalCuisine as string).toLowerCase() === cuisineLower) return true;
         
         // Try to match related cuisines
         try {
@@ -132,7 +132,7 @@ export const CuisineSection: React.FC<CuisineSectionProps> = ({
             const rcLower = rcData.toLowerCase();
             return (
               recipe.cuisine?.toLowerCase() === rcLower ||
-              (recipe.regionalCuisine as string)?.toLowerCase?.() === rcLower
+              (recipe.regionalCuisine as string).toLowerCase() === rcLower
             );
           })) {
             return true;
@@ -173,14 +173,14 @@ export const CuisineSection: React.FC<CuisineSectionProps> = ({
     // Special case for African and American cuisines
     // Use safe type casting for string methods
     const cuisineString = cuisine ;
-    const isSpecialCase = cuisineString?.toLowerCase() === 'african' || cuisineString?.toLowerCase() === 'american';
+    const isSpecialCase = cuisineString.toLowerCase() === 'african' || cuisineString.toLowerCase() === 'american';
     if (isSpecialCase) {
       // Last-ditch effort to find recipes for these problematic cuisines
       try {
         // Try direct access with different capitalizations
         const importedCuisine = cuisinesMap[cuisine] || 
-                              cuisinesMap[cuisine?.toLowerCase()] || 
-                              cuisinesMap[cuisine?.charAt(0)?.toUpperCase() + cuisine?.slice(1)?.toLowerCase()];
+                              cuisinesMap[cuisine.toLowerCase()] || 
+                              cuisinesMap[cuisine.charAt(0).toUpperCase() + cuisine.slice(1).toLowerCase()];
                               
         if (importedCuisine && importedCuisine.dishes) {
           const specialRecipes: any[] = [];
@@ -188,9 +188,9 @@ export const CuisineSection: React.FC<CuisineSectionProps> = ({
           // Try to extract some recipes directly
           Object.entries(importedCuisine.dishes || {}).forEach(([_mealType, seasonalDishes]) => {
             const dishesData = seasonalDishes as Record<string, unknown>;
-            if (dishesData && Array.isArray(dishesData?.all)) {
+            if (dishesData && Array.isArray(dishesData.all)) {
               const recipesToAdd = dishesData.all.slice(0, 4);
-              specialRecipes?.push(...recipesToAdd);
+              specialRecipes.push(...recipesToAdd);
             }
           });
           
@@ -221,12 +221,12 @@ export const CuisineSection: React.FC<CuisineSectionProps> = ({
     <div className="flex flex-wrap gap-2 mt-2">
       {Boolean(recipe.currentSeason) && (
         <span className="text-sm px-2 py-1 bg-green-50 text-green-700 rounded">
-          {Array.isArray(recipe.currentSeason) ? recipe.currentSeason?.join(', ') : (recipe.currentSeason as string)}
+          {Array.isArray(recipe.currentSeason) ? recipe.currentSeason.join(', ') : (recipe.currentSeason as string)}
         </span>
       )}
       {recipe.mealType && (
         <span className="text-sm px-2 py-1 bg-blue-50 text-blue-700 rounded">
-          {Array.isArray(recipe.mealType) ? recipe.mealType?.join(', ') : recipe.mealType}
+          {Array.isArray(recipe.mealType) ? recipe.mealType.join(', ') : recipe.mealType}
         </span>
       )}
       {recipe.timeToMake && (
@@ -291,30 +291,30 @@ export const CuisineSection: React.FC<CuisineSectionProps> = ({
     const cuisineStringForRegional = (cuisine || '').toString();
     const cuisineLowerForRegional = cuisineStringForRegional.toLowerCase();
     
-    return String(recipeData?.regionalCuisine || '').toLowerCase() === cuisineLowerForRegional;
+    return String(recipeData.regionalCuisine || '').toLowerCase() === cuisineLowerForRegional;
   });
   const parentCuisineName = isRegionalVariant ? (() => {
     const foundRecipe = cuisineRecipes.find(r => {
       const recipeData = r as Record<string, unknown>;
-      return (recipeData?.regionalCuisine as string)?.toLowerCase() === (cuisine )?.toLowerCase();
+      return (recipeData.regionalCuisine as string).toLowerCase() === (cuisine ).toLowerCase();
     });
     const foundRecipeData = foundRecipe as Record<string, unknown>;
-    return foundRecipeData?.cuisine;
+    return foundRecipeData.cuisine;
   })() : null;
   
   // Check if this is a parent cuisine with regional variants shown
   const hasRegionalVariants = (cuisineRecipes || []).some(r => {
     const recipeData = r as Record<string, unknown>;
-    return recipeData?.regionalCuisine && (recipeData?.cuisine as string)?.toLowerCase() === (cuisine )?.toLowerCase();
+    return recipeData.regionalCuisine && (recipeData.cuisine as string).toLowerCase() === (cuisine ).toLowerCase();
   });
   const regionalVariantNames = [...new Set(cuisineRecipes
     .filter(r => {
       const recipeData = r as Record<string, unknown>;
-      return recipeData?.regionalCuisine && String(recipeData?.cuisine || '').toLowerCase() === String(cuisine || '').toLowerCase();
+      return recipeData.regionalCuisine && String(recipeData.cuisine || '').toLowerCase() === String(cuisine || '').toLowerCase();
     })
     .map(r => {
       const recipeData = r as Record<string, unknown>;
-      return recipeData?.regionalCuisine;
+      return recipeData.regionalCuisine;
     }))] as string[];
 
   // Render a sauce card
@@ -324,11 +324,11 @@ export const CuisineSection: React.FC<CuisineSectionProps> = ({
     }
     
     // Create a URL-friendly sauce ID
-    const cuisineKey = Object.keys(cuisinesMap)?.find(
-      key => key?.toLowerCase() === cuisine?.toLowerCase()
+    const cuisineKey = Object.keys(cuisinesMap).find(
+      key => key.toLowerCase() === cuisine.toLowerCase()
     );
     
-    const sauceUrlId = sauce.id?.toLowerCase()?.replace(/ /g, '-').replace(/[^\w-]/g, '');
+    const sauceUrlId = sauce.id.toLowerCase().replace(/ /g, '-').replace(/[^\w-]/g, '');
     const sauceUrl = `/sauces/${cuisineKey?.toLowerCase() || 'unknown'}/${sauceUrlId}`;
     
     return (
@@ -365,7 +365,7 @@ export const CuisineSection: React.FC<CuisineSectionProps> = ({
     }
     
     // Create URL-friendly recipe ID
-    const recipeId = recipe.name?.toLowerCase()?.replace(/ /g, '-').replace(/[^\w-]/g, '');
+    const recipeId = recipe.name.toLowerCase().replace(/ /g, '-').replace(/[^\w-]/g, '');
     
     return (
       <Link 

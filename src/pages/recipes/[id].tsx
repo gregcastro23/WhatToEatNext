@@ -177,7 +177,7 @@ const RecipeDetailsPage: NextPage = () => {
               <span className="text-xs text-gray-500 italic">Click an ingredient for details</span>
             </div>
             <ul className="space-y-2">
-              {recipe.ingredients?.map((ingredient, idx) => {
+              {recipe.ingredients.map((ingredient, idx) => {
                 const isSelected = selectedIngredient && 
                   (typeof ingredient === 'string' 
                     ? ingredient === selectedIngredient 
@@ -249,7 +249,7 @@ const RecipeDetailsPage: NextPage = () => {
           <div className="mb-8">
             <h2 className="text-xl font-semibold mb-4">Procedure</h2>
             <ol className="list-decimal pl-5 space-y-2">
-              {recipe.instructions?.map((step, idx) => (
+              {recipe.instructions.map((step, idx) => (
                 <li key={idx} className="py-1">
                   <span className="ml-2">{step}</span>
                 </li>

@@ -231,7 +231,7 @@ export class AlchemicalService {
       
       // Get current Sun sign as current zodiac
       const sunPosition = positions['Sun'];
-      const currentZodiac = sunPosition?.sign || null;
+      const currentZodiac = sunPosition.sign || null;
       
       // Set properties
       this.planetPositions = positions as unknown as PlanetaryPositionsType;
@@ -402,7 +402,7 @@ export class AlchemicalService {
     const calculateAverage = (items: AlchemicalItem[], property: keyof AlchemicalItem): number => {
       if ((items || []).length === 0) return 0;
       const sum = items.reduce((acc, item) => acc + (item[property] as number), 0);
-      return parseFloat((sum / (items || []).length)?.toFixed(2));
+      return parseFloat((sum / (items || []).length).toFixed(2));
     };
     
     return {
@@ -425,7 +425,7 @@ export class AlchemicalService {
   getOptimizedRecipes(recipes: Recipe[], count = 3): OptimizedRecipeResult[] {
     // Implementation from AlchemicalTransformationService
     // Would go here - simplified for brevity
-    return recipes?.slice(0, count).map(recipe => ({
+    return recipes.slice(0, count).map(recipe => ({
       recipe,
       compatibility: 0.5,
       dominantElement: 'Fire',
@@ -455,12 +455,12 @@ export class AlchemicalService {
       elementalProfile: DefaultElementalProperties,
       cookingTechniques: [], // elementalUtils.getSuggestedCookingTechniques(properties),
       complementaryIngredients: [], // elementalUtils.getComplementaryElement(properties),
-      flavorProfiles: ((profileData?.characteristics  as Record<string, unknown>)?.flavorProfiles as string[]) || [],
-      healthBenefits: ((profileData?.characteristics  as Record<string, unknown>)?.healthBenefits as string[]) || [],
-      timeOfDay: ((profileData?.characteristics  as Record<string, unknown>)?.timeOfDay as string[]) || [],
+      flavorProfiles: ((profileData.characteristics  as Record<string, unknown>).flavorProfiles as string[]) || [],
+      healthBenefits: ((profileData.characteristics  as Record<string, unknown>).healthBenefits as string[]) || [],
+      timeOfDay: ((profileData.characteristics  as Record<string, unknown>).timeOfDay as string[]) || [],
       seasonalBest: this.getSeasonalRecommendations(dominantElement as unknown as Element),
-      moodEffects: ((profileData?.characteristics  as Record<string, unknown>)?.moodEffects as string[]) || [],
-      culinaryHerbs: ((profileData?.characteristics  as Record<string, unknown>)?.culinaryHerbs as string[]) || [],
+      moodEffects: ((profileData.characteristics  as Record<string, unknown>).moodEffects as string[]) || [],
+      culinaryHerbs: ((profileData.characteristics  as Record<string, unknown>).culinaryHerbs as string[]) || [],
       compatibility: 0.5
     };
   }

@@ -20,10 +20,10 @@ async function getRecommendations(
   
   // ✅ Pattern MM-1: Safe type assertion for astrological data access
   const astroState = (astroData as unknown) as ElementalProperties;
-  const planetaryPositions = astroState?.planetaryPositions;
-  const moonPhase = astroState?.moonPhase;
-  const aspects = astroState?.aspects;
-  const currentZodiac = astroState?.currentZodiac;
+  const planetaryPositions = astroState.planetaryPositions;
+  const moonPhase = astroState.moonPhase;
+  const aspects = astroState.aspects;
+  const currentZodiac = astroState.currentZodiac;
   
   // Create an object with real astrological state data
   const astroStateData = {
@@ -148,7 +148,7 @@ export default function IngredientRecommendations({
     
     // ✅ Pattern MM-1: Safe type assertion for ingredient score
     const ingredientData = (ingredient as unknown) as ElementalProperties;
-    const score = Number(ingredientData?.score) || 0;
+    const score = Number(ingredientData.score) || 0;
     const matchPercentage = !isNaN(score) 
       ? `${Math.round(score * 100)}%`
       : '50%';
@@ -215,9 +215,9 @@ export default function IngredientRecommendations({
         {/* Flavor Profile */}
         <div className="flavor-profile">
           <h4>Flavor Profile</h4>
-          {ingredientData?.sensoryProfile && (
+          {ingredientData.sensoryProfile && (
             <div className={styles.sensoryHighlights}>
-              {Object.entries(((ingredientData?.sensoryProfile as unknown as ElementalProperties)?.taste as unknown as ElementalProperties) || {})
+              {Object.entries(((ingredientData.sensoryProfile as unknown as ElementalProperties).taste as unknown as ElementalProperties) || {})
                 .filter(([_, value]) => Number(value || 0) > 0.6)
                 .slice(0, 3)
                 .map(([type, value]) => (
@@ -284,7 +284,7 @@ export default function IngredientRecommendations({
   const renderCompactIngredientCard = (ingredient: IngredientRecommendation) => {
     // ✅ Pattern MM-1: Safe type assertion for ingredient access
     const ingredientData = (ingredient as unknown) as ElementalProperties;
-    const score = Number(ingredientData?.score) || 0;
+    const score = Number(ingredientData.score) || 0;
     
     // Get elemental properties
     const elementalProps = ingredient.elementalProperties || {

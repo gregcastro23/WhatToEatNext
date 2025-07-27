@@ -50,7 +50,7 @@ export interface AlchemicalItem extends ElementalItem {
  * @param item The original item with elemental data
  * @param planetPositions Current planetary positions/strengths
  * @param isDaytime Whether it's day or night
- * @param currentZodiac Current zodiac sign (optional)
+ * @param currentZodiac Current zodiac sign (optional, defaults to "aries")
  * @param lunarPhase Current lunar phase (optional)
  * @returns Item transformed with alchemical properties
  */
@@ -84,7 +84,7 @@ export const transformItemWithPlanetaryPositions = (
       calculatePlanetaryBoost(
         sanitizedItem, 
         planetPositions, 
-        currentZodiac || null,
+        currentZodiac || "aries",
         lunarPhase || null
       );
     
@@ -94,7 +94,7 @@ export const transformItemWithPlanetaryPositions = (
       sanitizedItem.elementalProperties,
       alchemicalResults,
       planetaryBoost,
-      currentZodiac?.toLowerCase() as ZodiacSign
+      (currentZodiac || "aries").toLowerCase() as ZodiacSign
     );
     
     // Calculate dominant element and alchemical property
@@ -145,35 +145,33 @@ export const transformItemWithPlanetaryPositions = (
     
     // Apply zodiac influence if available with stronger effect
     let zodiacModifier = 0;
-    if (currentZodiac?.toLowerCase() as ZodiacSign) {
-      const zodiacSign = currentZodiac.toLowerCase() as ZodiacSign;
-      const zodiacElementMap: Record<ZodiacSign, ElementalCharacter> = {
-        aries: 'Fire', leo: 'Fire', sagittarius: 'Fire',
-        taurus: 'Earth', virgo: 'Earth', capricorn: 'Earth',
-        gemini: 'Air', libra: 'Air', aquarius: 'Air',
-        cancer: 'Water', scorpio: 'Water', pisces: 'Water'
-      };
-      
-      const zodiacElement = zodiacElementMap[zodiacSign];
-      if (zodiacElement && zodiacElement === dominantElement) {
-        zodiacModifier = 0.25; // Increased bonus for matching zodiac element
-      } else if (zodiacElement) {
-        // Calculate compatibility based on elemental relationships with wider variance
-        if ((zodiacElement === 'Fire' && dominantElement === 'Air') || 
-            (zodiacElement === 'Air' && dominantElement === 'Fire')) {
-          zodiacModifier = 0.18; // Fire and Air are complementary
-        } else if ((zodiacElement === 'Earth' && dominantElement === 'Water') || 
-                  (zodiacElement === 'Water' && dominantElement === 'Earth')) {
-          zodiacModifier = 0.18; // Earth and Water are complementary
-        } else if ((zodiacElement === 'Fire' && dominantElement === 'Earth') || 
-                  (zodiacElement === 'Earth' && dominantElement === 'Fire')) {
-          zodiacModifier = 0.12; // Fire and Earth have moderate compatibility
-        } else if ((zodiacElement === 'Water' && dominantElement === 'Air') || 
-                  (zodiacElement === 'Air' && dominantElement === 'Water')) {
-          zodiacModifier = 0.12; // Water and Air have moderate compatibility
-        } else {
-          zodiacModifier = 0.05; // Other combinations have lower compatibility
-        }
+    const zodiacSign = (currentZodiac || "aries").toLowerCase() as ZodiacSign;
+    const zodiacElementMap: Record<ZodiacSign, ElementalCharacter> = {
+      aries: 'Fire', leo: 'Fire', sagittarius: 'Fire',
+      taurus: 'Earth', virgo: 'Earth', capricorn: 'Earth',
+      gemini: 'Air', libra: 'Air', aquarius: 'Air',
+      cancer: 'Water', scorpio: 'Water', pisces: 'Water'
+    };
+    
+    const zodiacElement = zodiacElementMap[zodiacSign];
+    if (zodiacElement && zodiacElement === dominantElement) {
+      zodiacModifier = 0.25; // Increased bonus for matching zodiac element
+    } else if (zodiacElement) {
+      // Calculate compatibility based on elemental relationships with wider variance
+      if ((zodiacElement === 'Fire' && dominantElement === 'Air') || 
+          (zodiacElement === 'Air' && dominantElement === 'Fire')) {
+        zodiacModifier = 0.18; // Fire and Air are complementary
+      } else if ((zodiacElement === 'Earth' && dominantElement === 'Water') || 
+                (zodiacElement === 'Water' && dominantElement === 'Earth')) {
+        zodiacModifier = 0.18; // Earth and Water are complementary
+      } else if ((zodiacElement === 'Fire' && dominantElement === 'Earth') || 
+                (zodiacElement === 'Earth' && dominantElement === 'Fire')) {
+        zodiacModifier = 0.12; // Fire and Earth have moderate compatibility
+      } else if ((zodiacElement === 'Water' && dominantElement === 'Air') || 
+                (zodiacElement === 'Air' && dominantElement === 'Water')) {
+        zodiacModifier = 0.12; // Water and Air have moderate compatibility
+      } else {
+        zodiacModifier = 0.05; // Other combinations have lower compatibility
       }
     }
     
@@ -247,7 +245,7 @@ export const transformItemsWithPlanetaryPositions = (
         item, 
         planetPositions, 
         isDaytime,
-        currentZodiac,
+        currentZodiac || "aries",
         lunarPhase
       )
     );

@@ -65,7 +65,7 @@ export function calculateBasicPlanetaryPositions(date: Date = new Date()) {
   try {
     // Apply surgical type casting with variable extraction
     const accurateAstronomyData = accurateAstronomy as Record<string, unknown>;
-    const calculateLunarNodesMethod = accurateAstronomyData?.calculateLunarNodes;
+    const calculateLunarNodesMethod = accurateAstronomyData.calculateLunarNodes;
     
     // First try to import and use the accurate astronomy module
     const nodeData = (calculateLunarNodesMethod && typeof calculateLunarNodesMethod === 'function') ? calculateLunarNodesMethod(date) : null;
@@ -76,8 +76,8 @@ export function calculateBasicPlanetaryPositions(date: Date = new Date()) {
     
     // Apply surgical type casting for node data access
     const nodeDataTyped = nodeData as Record<string, unknown>;
-    const northNodeValue = Number(nodeDataTyped?.northNode) || 0;
-    const southNodeValue = Number(nodeDataTyped?.southNode) || ((northNodeValue + 180) % 360);
+    const northNodeValue = Number(nodeDataTyped.northNode) || 0;
+    const southNodeValue = Number(nodeDataTyped.southNode) || ((northNodeValue + 180) % 360);
     
     // Convert longitude to sign and degree
     const northNodeSign = getSignFromLongitude(Number(northNodeValue));
@@ -88,7 +88,7 @@ export function calculateBasicPlanetaryPositions(date: Date = new Date()) {
     const southNodeDegree = southNodeLongitude % 30;
     
     // Apply surgical type casting for node data properties
-    const isRetrograde = nodeDataTyped?.isRetrograde || true;
+    const isRetrograde = nodeDataTyped.isRetrograde || true;
     
     northNode = {
       sign: northNodeSign,
@@ -107,8 +107,8 @@ export function calculateBasicPlanetaryPositions(date: Date = new Date()) {
     // If that fails, fall back to the simplified calculation
     try {
       const lunarNodes = astrologyUtils.calculateLunarNodes(date);
-      northNode = (lunarNodes as Record<string, unknown>)?.northNode;
-      southNode = (lunarNodes as Record<string, unknown>)?.southNode;
+      northNode = (lunarNodes as Record<string, unknown>).northNode;
+      southNode = (lunarNodes as Record<string, unknown>).southNode;
     } catch (fallbackError) {
       // Ultimate fallback with hardcoded values (current positions as of 2024)
       northNode = {

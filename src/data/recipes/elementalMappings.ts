@@ -20,7 +20,7 @@ const defaultAstrologicalInfluence: AstrologicalInfluence = {
 const safeGetAstrologicalInfluences = (method: unknown): AstrologicalInfluence[] => {
   if (!method) return [defaultAstrologicalInfluence];
   const methodData = method as { astrologicalInfluences?: AstrologicalInfluence | AstrologicalInfluence[] };
-  if (!methodData?.astrologicalInfluences) return [defaultAstrologicalInfluence];
+  if (!methodData.astrologicalInfluences) return [defaultAstrologicalInfluence];
   if (Array.isArray(methodData.astrologicalInfluences)) {
     return methodData.astrologicalInfluences;
   }
@@ -38,7 +38,7 @@ export const recipeElementalMappings: Record<string, RecipeElementalMapping> = {
       rulingPlanets: ['Venus', 'Mars'],
       favorableZodiac: ['taurus', 'capricorn'],
       optimalAspects: ['Venus trine Mars'],
-      techniqueEnhancers: safeGetAstrologicalInfluences(cookingMethods?.braising)
+      techniqueEnhancers: safeGetAstrologicalInfluences(cookingMethods.braising)
     },
     cuisine: culinaryTraditions.french,
     ingredientBalance: {
@@ -63,7 +63,7 @@ export const recipeElementalMappings: Record<string, RecipeElementalMapping> = {
       rulingPlanets: ['Moon', 'Mercury'],
       favorableZodiac: ['pisces', 'virgo'],
       optimalAspects: ['Moon conjunct Mercury'],
-      techniqueEnhancers: safeGetAstrologicalInfluences(cookingMethods?.steaming)
+      techniqueEnhancers: safeGetAstrologicalInfluences(cookingMethods.steaming)
     },
     cuisine: culinaryTraditions.japanese,
     ingredientBalance: {
@@ -88,7 +88,7 @@ export const recipeElementalMappings: Record<string, RecipeElementalMapping> = {
       rulingPlanets: ['Sun', 'Jupiter'],
       favorableZodiac: ['leo', 'sagittarius'],
       optimalAspects: ['Sun trine Jupiter'],
-      techniqueEnhancers: safeGetAstrologicalInfluences(cookingMethods?.simmering)
+      techniqueEnhancers: safeGetAstrologicalInfluences(cookingMethods.simmering)
     },
     cuisine: culinaryTraditions.mexican,
     ingredientBalance: {

@@ -351,8 +351,8 @@ export class ConsolidatedRecipeService {
    */
   calculateSimilarity(recipe1: Recipe, recipe2: Recipe): number {
     try {
-      const elementalProps1 = recipeElementalService.standardizeRecipe(recipe1)?.elementalState;
-      const elementalProps2 = recipeElementalService.standardizeRecipe(recipe2)?.elementalState;
+      const elementalProps1 = recipeElementalService.standardizeRecipe(recipe1).elementalState;
+      const elementalProps2 = recipeElementalService.standardizeRecipe(recipe2).elementalState;
       
       return recipeElementalService.calculateSimilarity(
         elementalProps1  as ElementalProperties, 

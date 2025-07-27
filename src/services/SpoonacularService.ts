@@ -141,7 +141,7 @@ export class SpoonacularService {
         localRecipes = localRecipes.filter(recipe =>
           recipe.name.toLowerCase().includes(queryLower) ||
           recipe.description?.toLowerCase().includes(queryLower) ||
-          recipe.ingredients?.some(ing => ing.name.toLowerCase().includes(queryLower))
+          recipe.ingredients.some(ing => ing.name.toLowerCase().includes(queryLower))
         );
       }
       
@@ -393,7 +393,7 @@ export class SpoonacularService {
       // Map Spoonacular data to our IngredientMapping format
       const elementalProperties = SpoonacularElementalMapper.mapRecipeToElemental({
         nutrition: {
-          nutrients: ((vegetableData.nutrition as Record<string, unknown>)?.nutrients as SpoonacularNutrient[]) || []
+          nutrients: ((vegetableData.nutrition as Record<string, unknown>).nutrients as SpoonacularNutrient[]) || []
         }
       });
 
@@ -452,7 +452,7 @@ export class SpoonacularService {
     
     // Extract method used from the instructions text
     const methodsUsed: string[] = [];
-    const instructions = spoonacularRecipe.analyzedInstructions?.[0]?.steps?.map((step) => step.step).join(' ').toLowerCase() || '';
+    const instructions = spoonacularRecipe.analyzedInstructions?.[0]?.steps.map((step) => step.step).join(' ').toLowerCase() || '';
     
     if (instructions.includes('bake') || instructions.includes('roast')) {
       methodsUsed.push('baking');
@@ -514,7 +514,7 @@ export class SpoonacularService {
       description: spoonacularRecipe.summary || '',
       ingredients,
       elementalProperties,
-      instructions: spoonacularRecipe.analyzedInstructions?.[0]?.steps?.map((step) => step.step) || [], // ← Pattern GG-4: Added missing instructions property
+      instructions: spoonacularRecipe.analyzedInstructions?.[0]?.steps.map((step) => step.step) || [], // ← Pattern GG-4: Added missing instructions property
       preparationTime: spoonacularRecipe.readyInMinutes || 30,
       methodsUsed,
       equipmentNeeded: Array.from(equipment),
@@ -524,7 +524,7 @@ export class SpoonacularService {
       isVegan: spoonacularRecipe.vegan || false,
       isGlutenFree: spoonacularRecipe.glutenFree || false,
       isDairyFree: spoonacularRecipe.dairyFree || false,
-      preparationSteps: spoonacularRecipe.analyzedInstructions?.[0]?.steps?.map((step) => step.step) || [],
+      preparationSteps: spoonacularRecipe.analyzedInstructions?.[0]?.steps.map((step) => step.step) || [],
       image: spoonacularRecipe.image || '',
       nutrition: {
         calories: getNutrientAmount('Calories'),

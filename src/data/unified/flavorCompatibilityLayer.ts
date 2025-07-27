@@ -105,7 +105,7 @@ export function calculateCuisineFlavorMatch(
 ): number {
   try {
     // Find cuisine profile in unified system
-    const cuisineProfile = unifiedFlavorEngine.getProfile(`cuisine-${cuisineName?.toLowerCase()?.replace(/\s+/g, '-')}`);
+    const cuisineProfile = unifiedFlavorEngine.getProfile(`cuisine-${cuisineName.toLowerCase().replace(/\s+/g, '-')}`);
     
     if (!cuisineProfile) {
       console.warn(`Cuisine profile not found: ${cuisineName}`);
@@ -166,7 +166,7 @@ export function calculatePlanetaryFlavorMatch(
  */
 export function getFlavorProfileForIngredient(ingredientName: string): LegacyFlavorProfile {
   try {
-    const ingredientProfile = unifiedFlavorEngine.getProfile(`ingredient-${ingredientName?.toLowerCase()?.replace(/\s+/g, '-')}`);
+    const ingredientProfile = unifiedFlavorEngine.getProfile(`ingredient-${ingredientName.toLowerCase().replace(/\s+/g, '-')}`);
     
     if (ingredientProfile) {
       return convertUnifiedToLegacyProfile(ingredientProfile);
@@ -208,7 +208,7 @@ export function findCompatibleProfiles(
  */
 export function getCuisineProfile(cuisineName: string): LegacyCuisineProfile | null {
   try {
-    const cuisineProfile = unifiedFlavorEngine.getProfile(`cuisine-${cuisineName?.toLowerCase()?.replace(/\s+/g, '-')}`);
+    const cuisineProfile = unifiedFlavorEngine.getProfile(`cuisine-${cuisineName.toLowerCase().replace(/\s+/g, '-')}`);
     
     if (!cuisineProfile) return null;
     

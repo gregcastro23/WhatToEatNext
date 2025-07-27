@@ -24,7 +24,7 @@ export class RecipeEngine {
     }
 
     getDominantElements(recipe: Recipe) {
-        if (!recipe.ingredients?.length || !recipe.ingredients.some(ing => ing.elementalProperties)) {
+        if (!recipe.ingredients.length || !recipe.ingredients.some(ing => ing.elementalProperties)) {
             return [];
         }
         
@@ -43,7 +43,7 @@ export class RecipeEngine {
     }
 
     calculateIngredientProportions(recipe: Recipe): ElementalProperties {
-        if (!recipe?.ingredients?.length) {
+        if (!recipe.ingredients.length) {
             return ElementalCalculator.getCurrentElementalState();
         }
 

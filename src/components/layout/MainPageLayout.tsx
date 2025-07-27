@@ -192,13 +192,13 @@ const MainPageLayout: React.FC<MainPageLayoutProps> = memo(function MainPageLayo
   useEffect(() => {
     const restoredState = getNavState();
     if (restoredState) {
-      if (restoredState.selectedIngredients?.length > 0) {
+      if (restoredState.selectedIngredients.length > 0) {
         setSelectedIngredients(restoredState.selectedIngredients);
       }
       if (restoredState.selectedCuisine) {
         setSelectedCuisine(restoredState.selectedCuisine);
       }
-      if (restoredState.selectedCookingMethods?.length > 0) {
+      if (restoredState.selectedCookingMethods.length > 0) {
         setSelectedCookingMethods(restoredState.selectedCookingMethods);
       }
       if (restoredState.currentRecipe) {
@@ -207,7 +207,7 @@ const MainPageLayout: React.FC<MainPageLayoutProps> = memo(function MainPageLayo
       if (restoredState.activeSection) {
         setActiveSection(restoredState.activeSection);
       }
-      if (restoredState.navigationHistory?.length > 0) {
+      if (restoredState.navigationHistory.length > 0) {
         setNavigationHistory(restoredState.navigationHistory);
       }
       
@@ -708,7 +708,7 @@ const MainPageLayout: React.FC<MainPageLayoutProps> = memo(function MainPageLayo
       >
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-2xl font-semibold text-gray-800">{title}</h2>
-          {sectionStates[id]?.loading && (
+          {sectionStates[id].loading && (
             <div className="flex items-center text-blue-600">
               <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-blue-600 mr-2"></div>
               <span className="text-sm">Loading...</span>
@@ -756,7 +756,7 @@ const MainPageLayout: React.FC<MainPageLayoutProps> = memo(function MainPageLayo
               <div className="flex items-center">
                 <div className="w-2 h-2 bg-green-500 rounded-full mr-2"></div>
                 <p className="text-sm text-gray-600">
-                  Connected • {isDaytime ? 'Day' : 'Night'} • {state.astrologicalState?.sunSign || 'Loading...'}
+                  Connected • {isDaytime ? 'Day' : 'Night'} • {state.astrologicalState.sunSign || 'Loading...'}
                 </p>
               </div>
             )}

@@ -1409,7 +1409,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
       snapshotCount: this.snapshots.length,
       alertCount: this.alerts.length,
       trendCount: this.trends.size,
-      latestHealthScore: latestSnapshot?.healthScore || 0
+      latestHealthScore: latestSnapshot.healthScore || 0
     };
   }
 

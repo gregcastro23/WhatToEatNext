@@ -104,11 +104,11 @@ function deriveAstrologicalInfluencesFromIngredients(recipe: Recipe): string[] {
   // Extract ingredient names from recipe
   if (recipe.ingredients) {
     (recipe.ingredients || []).forEach(ingredient => {
-      const ingredientName = ingredient.name?.toLowerCase();
+      const ingredientName = ingredient.name.toLowerCase();
       
       // Check for exact matches
       for (const [key, correspondences] of Object.entries(ingredientCorrespondences)) {
-        if (ingredientName?.includes(key)) {
+        if (ingredientName.includes(key)) {
           (correspondences || []).forEach(c => influences.add(c));
         }
       }
@@ -140,14 +140,14 @@ function deriveElementalProperties(recipe: Recipe): ElementalProperties {
   
   // Cuisine influences
   if (recipe.cuisine) {
-    const cuisine = recipe.cuisine?.toLowerCase();
-    if (cuisine?.includes('indian') || cuisine?.includes('thai') || cuisine?.includes('mexican')) {
+    const cuisine = recipe.cuisine.toLowerCase();
+    if (cuisine.includes('indian') || cuisine.includes('thai') || cuisine.includes('mexican')) {
       elementalProps.Fire += 0.2;
-    } else if (cuisine?.includes('japanese') || cuisine?.includes('chinese')) {
+    } else if (cuisine.includes('japanese') || cuisine.includes('chinese')) {
       elementalProps.Water += 0.2;
-    } else if (cuisine?.includes('mediterranean')) {
+    } else if (cuisine.includes('mediterranean')) {
       elementalProps.Air += 0.2;
-    } else if (cuisine?.includes('german') || cuisine?.includes('comfort')) {
+    } else if (cuisine.includes('german') || cuisine.includes('comfort')) {
       elementalProps.Earth += 0.2;
     }
   }
@@ -175,7 +175,7 @@ function enrichAndNormalizeSeasons(seasons?: string[]): string[] {
   const normalizedSeasons: string[] = [];
   
   (seasons || []).forEach(season => {
-    const s = season?.toLowerCase()?.trim();
+    const s = season.toLowerCase().trim();
     
     // Normalize season names
     if (s === 'spring' || s === 'aries' || s === 'taurus' || s === 'gemini') {
@@ -277,19 +277,19 @@ export function enhanceWithNutritionalEstimates(recipe: Recipe): Recipe {
   // Basic calorie estimation based on ingredients
   if (recipe.ingredients) {
     (recipe.ingredients || []).forEach(ingredient => {
-      const name = ingredient.name?.toLowerCase();
+      const name = ingredient.name.toLowerCase();
       
       // Rough calorie estimates per common ingredient
-      if (name?.includes('oil') || name?.includes('butter')) {
+      if (name.includes('oil') || name.includes('butter')) {
         estimatedNutrition.calories += 120;
         estimatedNutrition.fat += 14;
-      } else if (name?.includes('meat') || name?.includes('chicken') || name?.includes('beef')) {
+      } else if (name.includes('meat') || name.includes('chicken') || name.includes('beef')) {
         estimatedNutrition.calories += 200;
         estimatedNutrition.protein += 25;
-      } else if (name?.includes('rice') || name?.includes('pasta') || name?.includes('bread')) {
+      } else if (name.includes('rice') || name.includes('pasta') || name.includes('bread')) {
         estimatedNutrition.calories += 150;
         estimatedNutrition.carbs += 30;
-      } else if (name?.includes('vegetable') || name?.includes('fruit')) {
+      } else if (name.includes('vegetable') || name.includes('fruit')) {
         estimatedNutrition.calories += 25;
         estimatedNutrition.carbs += 6;
         estimatedNutrition.fiber += 2;

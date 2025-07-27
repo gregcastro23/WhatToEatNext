@@ -19,7 +19,7 @@ import { connectIngredientsToMappings } from './recipeMatching';
 export function findMatchedItalianDinnerRecipes() {
   // Get all Italian dinner recipes
   const italianCuisine = cuisinesMap.Italian;
-  const dinnerDishes = italianCuisine.dishes?.dinner;
+  const dinnerDishes = italianCuisine.dishes.dinner;
   const allDinnerRecipes = [
     ...(dinnerDishes?.spring || []),
     ...(dinnerDishes?.summer || []),
@@ -34,7 +34,7 @@ export function findMatchedItalianDinnerRecipes() {
     // Calculate mapping score (percentage of ingredients with a mapping)
     // Apply Pattern GG-6: Enhanced property access with type guards
     const recipeData = recipe as Record<string, unknown>;
-    const ingredients = recipeData?.ingredients || [];
+    const ingredients = recipeData.ingredients || [];
     
     // Apply Pattern GG-6: Safe property access with type guard
     const ingredientsArray = Array.isArray(ingredients) ? ingredients : [];
@@ -133,8 +133,8 @@ export function suggestIngredientSubstitutions(
   // Get the elemental properties of the ingredient
   // Apply surgical type casting with variable extraction
   const matchedToData = (ingredientMapping.matchedTo ?? {}) as Record<string, unknown>;
-  const elementalProperties = matchedToData?.elementalProperties;
-  const alchemicalProperties = matchedToData?.alchemicalProperties;
+  const elementalProperties = matchedToData.elementalProperties;
+  const alchemicalProperties = matchedToData.alchemicalProperties;
   
   // Find other ingredients with similar elemental properties
   // This is a simplified version that could be enhanced further

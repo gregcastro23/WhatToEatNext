@@ -597,12 +597,12 @@ export class LintingErrorAnalyzer {
     const mitigations: string[] = [];
     
     // Check for high-risk factors
-    if (categorized.byCategory['typescript']?.length > 50) {
+    if (categorized.byCategory['typescript'].length > 50) {
       factors.push('High number of TypeScript issues');
       mitigations.push('Implement gradual TypeScript fixes with validation');
     }
     
-    if (categorized.byCategory['domain']?.length > 0) {
+    if (categorized.byCategory['domain'].length > 0) {
       factors.push('Domain-specific issues require expert knowledge');
       mitigations.push('Manual review by domain experts required');
     }

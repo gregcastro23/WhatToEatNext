@@ -148,7 +148,7 @@ export function useAstrology(options: AstrologyOptions = {}) {
             response = await fetch(
               `/api/astrology?lat=${lat}&lng=${lng}&date=${dateParam}`
             );
-            if (response?.ok) break;
+            if (response.ok) break;
             
             // Only retry server errors, not client errors
             if (response && response.status < 500) break;
@@ -468,7 +468,7 @@ export function useAstrology(options: AstrologyOptions = {}) {
       Object.entries(positions).forEach(([planet, data]) => {
         const planetName = planet.toLowerCase();
         const weight = weights[planetName] || 0.5;
-        const sign = (data?.sign || 'aries').toLowerCase();
+        const sign = (data.sign || 'aries').toLowerCase();
         const element = signElements[sign];
         
         if (element) {

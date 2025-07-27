@@ -35,7 +35,7 @@ const SunDisplay: React.FC = () => {
     const getLocation = async () => {
       try {
         const astroService = AstrologicalService as unknown as Record<string, unknown>;
-        const requestLocation = astroService?.requestLocation;
+        const requestLocation = astroService.requestLocation;
         const coords = (requestLocation && typeof requestLocation === 'function') ? await requestLocation() : null;
         if (coords) {
           setCoordinates({
@@ -159,9 +159,9 @@ const SunDisplay: React.FC = () => {
         <div className="flex items-center">
           <span className="text-3xl mr-3">☉</span>
           <div>
-            <p className="font-medium">{String((sun as Record<string, unknown>)?.sign || 'Unknown')}</p>
+            <p className="font-medium">{String((sun as Record<string, unknown>).sign || 'Unknown')}</p>
             <p className="text-sm text-amber-200">
-              {sun && (sun as Record<string, unknown>)?.degree !== undefined ? formatDegree(Number((sun as Record<string, unknown>)?.degree)) : ''}
+              {sun && (sun as Record<string, unknown>).degree !== undefined ? formatDegree(Number((sun as Record<string, unknown>).degree)) : ''}
             </p>
           </div>
         </div>
@@ -181,7 +181,7 @@ const SunDisplay: React.FC = () => {
       {expanded && (
         <div className="mt-4 border-t border-amber-700 pt-4">
           <p className="text-sm text-amber-200 mb-3">
-            The Sun in {(sun as Record<string, unknown>)?.sign} brings energy of confidence, vitality, and creative expression.
+            The Sun in {(sun as Record<string, unknown>).sign} brings energy of confidence, vitality, and creative expression.
           </p>
           
           <div className="bg-amber-800 rounded p-3 mt-2">

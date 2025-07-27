@@ -176,9 +176,9 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
       }
       
       // Try case-insensitive search
-      const normalizedName = name?.toLowerCase();
-      return Object.values(unifiedIngredients)?.find(
-        ingredient => ingredient.name?.toLowerCase() === normalizedName
+      const normalizedName = name.toLowerCase();
+      return Object.values(unifiedIngredients).find(
+        ingredient => ingredient.name.toLowerCase() === normalizedName
       );
     } catch (error) {
       errorHandler.logError(error as ErrorWithMessage, {
@@ -196,7 +196,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
    */
   getIngredientsByCategory(category: string): UnifiedIngredient[] {
     try {
-      return Object.values(unifiedIngredients || {}).filter(ingredient => ingredient.category?.toLowerCase() === category?.toLowerCase()
+      return Object.values(unifiedIngredients || {}).filter(ingredient => ingredient.category.toLowerCase() === category.toLowerCase()
       );
     } catch (error) {
       errorHandler.logError(error as ErrorWithMessage, {
@@ -214,7 +214,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
    */
   getIngredientsBySubcategory(subcategory: string): UnifiedIngredient[] {
     try {
-      return Object.values(unifiedIngredients || {}).filter(ingredient => ingredient.subCategory?.toLowerCase() === subcategory?.toLowerCase()
+      return Object.values(unifiedIngredients || {}).filter(ingredient => ingredient.subCategory?.toLowerCase() === subcategory.toLowerCase()
       );
     } catch (error) {
       errorHandler.logError(error as ErrorWithMessage, {
@@ -265,7 +265,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
         
         // Apply seasonal filter if specified with safe type casting
         const filterData = filter as Record<string, unknown>;
-        const currentSeason = filterData?.currentSeason || filterData?.season;
+        const currentSeason = filterData.currentSeason || filterData.season;
         if (currentSeason) {
           filtered = this.applySeasonalFilter(filtered, currentSeason as Season[] | string[]);
         }
@@ -401,7 +401,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
       // Create basic elemental properties from the ingredient's element if available
       if (ingredient.element) {
         const basicProps = createElementalProperties({ Fire: 0, Water: 0, Earth: 0, Air: 0 });
-        const elementKey = ingredient.element?.toLowerCase() as keyof ElementalProperties;
+        const elementKey = ingredient.element.toLowerCase() as keyof ElementalProperties;
         
         if (elementKey in basicProps) {
           basicProps[elementKey] = 1;
@@ -450,7 +450,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
         
         // If similarity exceeds the threshold, add it to results
         if (similarity >= minMatchScore) {
-          results?.push({ ingredient, score: similarity });
+          results.push({ ingredient, score: similarity });
         }
       });
       
@@ -514,11 +514,11 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
       // Default options with safe type casting
       const optionsData = options as Record<string, unknown>;
       const {
-        includeAlternatives = optionsData?.includeAlternatives ?? true,
-        optimizeForSeason = optionsData?.optimizeForSeason ?? true,
-        maxResults = optionsData?.maxResults ?? 20,
-        includeExotic = optionsData?.includeExotic ?? false,
-        sortByScore = optionsData?.sortByScore ?? true
+        includeAlternatives = optionsData.includeAlternatives ?? true,
+        optimizeForSeason = optionsData.optimizeForSeason ?? true,
+        maxResults = optionsData.maxResults ?? 20,
+        includeExotic = optionsData.includeExotic ?? false,
+        sortByScore = optionsData.sortByScore ?? true
       } = optionsData || {};
       
       // Get all ingredients
@@ -563,7 +563,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
         .sort((a, b) => sortByScore ? b.score - a.score : 0);
       
       // Return top results
-      const results = filtered?.slice(0, (maxResults as number) || 10).map(item => ({
+      const results = filtered.slice(0, (maxResults as number) || 10).map(item => ({
         ...item.ingredient,
         score: item.score
       }));
@@ -603,7 +603,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
         // Convert energyValues to ThermodynamicMetrics format with safe property access
         const energyData = ingredient.energyValues as BasicThermodynamicProperties;
         const { heat, entropy, reactivity } = energyData;
-        const gregsEnergy = ((energyData as unknown) as Record<string, unknown>)?.gregsEnergy || ((energyData as unknown) as Record<string, unknown>)?.energy || 0;
+        const gregsEnergy = ((energyData as unknown) as Record<string, unknown>).gregsEnergy || ((energyData as unknown) as Record<string, unknown>).energy || 0;
         
         return {
           heat,
@@ -798,8 +798,8 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
       
       // Check dominant element if specified
       if (filter.dominantElement) {
-        const elementKey = filter.dominantElement.charAt(0)?.toUpperCase() + 
-                           filter.dominantElement?.slice(1)?.toLowerCase() as keyof ElementalProperties;
+        const elementKey = filter.dominantElement.charAt(0).toUpperCase() + 
+                           filter.dominantElement.slice(1).toLowerCase() as keyof ElementalProperties;
         
         // Get the dominant element of this ingredient
         const dominantElement = this.getDominantElement(ingredient);
@@ -880,7 +880,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
       // Check low-sodium constraint
       if (filter.isLowSodium) {
         if (!ingredient.nutritionalPropertiesProfile?.minerals) return false;
-        const sodium = ingredient?.nutritionalPropertiesProfile?.minerals?.sodium || 0;
+        const sodium = ingredient.nutritionalPropertiesProfile?.minerals?.sodium || 0;
         if (sodium > 140) return false; // 140mg is the FDA threshold for "low sodium"
       }
       
@@ -888,7 +888,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
       if (filter.isLowSugar) {
         if (!ingredient.nutritionalPropertiesProfile?.macros) return false;
         // Sugar might be a direct property or included in macros
-        const sugar = ingredient?.nutritionalPropertiesProfile?.macros?.sugar || 
+        const sugar = ingredient.nutritionalPropertiesProfile?.macros?.sugar || 
                      (ingredient.nutritionalPropertiesProfile.sugar || 0);
         if (sugar > 5) return false; // 5g is a common threshold for "low sugar"
       }
@@ -923,8 +923,8 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
     // Check dietary properties with safe type casting
     type WithIsGlutenFree = { isGlutenFree?: boolean };
     const dietaryData = ingredient.dietaryProperties as WithIsGlutenFree;
-    if (dietaryData?.isGlutenFree === true) return true;
-    if (dietaryData?.isGlutenFree === false) return false;
+    if (dietaryData.isGlutenFree === true) return true;
+    if (dietaryData.isGlutenFree === false) return false;
     // Check if ingredient has gluten content (unsafe method check)
     const hasGlutenArray = Array.isArray(ingredient.glutenContent) ? ingredient.glutenContent : [ingredient.glutenContent];
     if (hasGlutenArray.some(item => item === true)) return false;
@@ -962,7 +962,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
       return seasonArray.some(filterSeason => 
         ingredientSeasonArray.some(ingredientSeason => 
           typeof ingredientSeason === 'string' && 
-          ingredientSeason?.toLowerCase() === filterSeason?.toLowerCase()
+          ingredientSeason.toLowerCase() === filterSeason.toLowerCase()
         )
       );
     });
@@ -977,16 +977,16 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
   ): UnifiedIngredient[] {
     if (!query) return ingredients;
     
-    const normalizedQuery = query?.toLowerCase();
+    const normalizedQuery = query.toLowerCase();
     
     return (ingredients || []).filter(ingredient => {
       // Check name
-      if (ingredient.name?.toLowerCase()?.includes(normalizedQuery)) {
+      if (ingredient.name.toLowerCase().includes(normalizedQuery)) {
         return true;
       }
       
       // Check category
-      if (ingredient.category?.toLowerCase()?.includes(normalizedQuery)) {
+      if (ingredient.category.toLowerCase().includes(normalizedQuery)) {
         return true;
       }
       
@@ -997,12 +997,12 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
       
       // Check qualities/tags
       if (isNonEmptyArray(ingredient.qualities) && 
-          safeSome(ingredient.qualities, q => q?.toLowerCase()?.includes(normalizedQuery))) {
+          safeSome(ingredient.qualities, q => q.toLowerCase().includes(normalizedQuery))) {
         return true;
       }
       
       if (isNonEmptyArray(ingredient.tags) && 
-          safeSome(Array.isArray(ingredient.tags) ? ingredient.tags : [ingredient.tags], tag => tag?.toLowerCase()?.includes(normalizedQuery))) {
+          safeSome(Array.isArray(ingredient.tags) ? ingredient.tags : [ingredient.tags], tag => tag.toLowerCase().includes(normalizedQuery))) {
         return true;
       }
       
@@ -1026,10 +1026,10 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
       return ingredients;
     }
     
-    const normalizedExclusions = (excludedIngredients || []).map(i => i?.toLowerCase());
+    const normalizedExclusions = (excludedIngredients || []).map(i => i.toLowerCase());
     
     return (ingredients || []).filter(ingredient => 
-      !normalizedExclusions.includes(ingredient.name?.toLowerCase() || '')
+      !normalizedExclusions.includes(ingredient.name.toLowerCase() || '')
     );
   }
   
@@ -1054,7 +1054,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
       
       // Check if the specified zodiac sign is in the affinity array
       return affinityArray.some(sign => 
-        typeof sign === 'string' && sign?.toLowerCase() === currentZodiacSign?.toLowerCase()
+        typeof sign === 'string' && sign.toLowerCase() === currentZodiacSign.toLowerCase()
       );
     });
   }
@@ -1077,13 +1077,13 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
       
       // If it's a single value
       if (typeof planetaryRuler === 'string') {
-        return planetaryRuler?.toLowerCase() === planet?.toLowerCase();
+        return planetaryRuler.toLowerCase() === planet.toLowerCase();
       }
       
       // If it's an array
       if (Array.isArray(planetaryRuler)) {
         return (planetaryRuler || []).some(p => 
-          typeof p === 'string' && p?.toLowerCase() === planet?.toLowerCase()
+          typeof p === 'string' && p.toLowerCase() === planet.toLowerCase()
         );
       }
       
@@ -1115,7 +1115,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
         // Check if any of the specified seasons match any of the ingredient's seasons
         return seasonArray.some(s => 
           ingredientSeasonArray.some(is => 
-            typeof is === 'string' && is?.toLowerCase() === s?.toLowerCase()
+            typeof is === 'string' && is.toLowerCase() === s.toLowerCase()
           )
         );
       });
@@ -1148,13 +1148,13 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
         
         // If it's a string
         if (typeof ruler === 'string') {
-          return ruler?.toLowerCase() === planet?.toLowerCase();
+          return ruler.toLowerCase() === planet.toLowerCase();
         }
         
         // If it's an array
         if (Array.isArray(ruler)) {
           return (ruler || []).some(p => 
-            typeof p === 'string' && p?.toLowerCase() === planet?.toLowerCase()
+            typeof p === 'string' && p.toLowerCase() === planet.toLowerCase()
           );
         }
         
@@ -1189,13 +1189,13 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
         
         // If it's a string
         if (typeof zodiac === 'string') {
-          return zodiac?.toLowerCase() === sign?.toLowerCase();
+          return zodiac.toLowerCase() === sign.toLowerCase();
         }
         
         // If it's an array
         if (Array.isArray(zodiac)) {
           return (zodiac || []).some(z => 
-            typeof z === 'string' && z?.toLowerCase() === sign?.toLowerCase()
+            typeof z === 'string' && z.toLowerCase() === sign.toLowerCase()
           );
         }
         
@@ -1326,9 +1326,9 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
     seasonsArray1.forEach(s1 => {
       if (typeof s1 !== 'string') return;
       
-      const s1Lower = s1?.toLowerCase();
+      const s1Lower = s1.toLowerCase();
       if (seasonsArray2.some(s2 => 
-        typeof s2 === 'string' && s2?.toLowerCase() === s1Lower
+        typeof s2 === 'string' && s2.toLowerCase() === s1Lower
       )) {
         matchCount++;
       }
@@ -1497,7 +1497,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
           
           const compatibility = this.calculateIngredientCompatibility(ing1, ing2);
           
-          pairings?.push({
+          pairings.push({
             pair: [ing1.name, ing2.name],
             score: compatibility.score
           });
@@ -1702,7 +1702,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
         : this.getIngredientsByCategory(baseIngredient.category);
       
       // Filter out the original ingredient
-      const potentialAlternatives = (candidates || []).filter(ing => ing.name?.toLowerCase() !== ingredientName?.toLowerCase()
+      const potentialAlternatives = (candidates || []).filter(ing => ing.name.toLowerCase() !== ingredientName.toLowerCase()
       );
       
       // Calculate similarity scores

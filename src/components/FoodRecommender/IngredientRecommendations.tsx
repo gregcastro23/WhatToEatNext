@@ -28,12 +28,12 @@ export const IngredientRecommendations: React.FC<IngredientRecommendationsProps>
           <li key={ingredient.name} className={styles.item}>
             <div className={styles.name}>{ingredient.name}</div>
             <div className={styles.details}>
-              <div>Element: {typeof ingredient.astrologicalProfile?.elementalAffinity === 'object' 
+              <div>Element: {typeof ingredient.astrologicalProfile.elementalAffinity === 'object' 
                 ? ingredient.astrologicalProfile.elementalAffinity.base 
-                : (typeof ingredient.astrologicalProfile?.elementalAffinity === 'string' 
+                : (typeof ingredient.astrologicalProfile.elementalAffinity === 'string' 
                   ? ingredient.astrologicalProfile.elementalAffinity 
                   : 'Unknown')}</div>
-              <div>Planets: {Array.isArray(ingredient.astrologicalProfile?.rulingPlanets) 
+              <div>Planets: {Array.isArray(ingredient.astrologicalProfile.rulingPlanets) 
                 ? ingredient.astrologicalProfile.rulingPlanets.join(', ') 
                 : 'Unknown'}</div>
             </div>

@@ -37,8 +37,8 @@ export const PlanetaryPositionDisplayMigrated: React.FC<PlanetaryPositionDisplay
     SouthNode: '☋'
   };
 
-  const symbol = planetSymbols[planet?.toLowerCase()] || planet;
-  const displayName = planet.charAt(0)?.toUpperCase() + planet?.slice(1);
+  const symbol = planetSymbols[planet.toLowerCase()] || planet;
+  const displayName = planet.charAt(0).toUpperCase() + planet.slice(1);
 
   return (
     <div className="flex justify-between items-center py-1">
@@ -47,7 +47,7 @@ export const PlanetaryPositionDisplayMigrated: React.FC<PlanetaryPositionDisplay
         {displayName}:
       </span>
       <span className="text-cyan-200">
-        {position.sign.charAt(0)?.toUpperCase() + position.sign?.slice(1)} {formatDegree(position.degree)}
+        {position.sign.charAt(0).toUpperCase() + position.sign.slice(1)} {formatDegree(position.degree)}
         {position.isRetrograde && <span className="text-orange-300 ml-1">℞</span>}
       </span>
     </div>

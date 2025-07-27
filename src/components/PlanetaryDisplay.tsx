@@ -60,7 +60,7 @@ const formatDegree = (degree: number): string => {
 };
 
 const getPlanetSymbol = (planet: string): string => {
-  return PLANET_SYMBOLS[planet?.toLowerCase()] || planet;
+  return PLANET_SYMBOLS[planet.toLowerCase()] || planet;
 };
 
 const getPlanetEmoji = (planetName: string): string => {
@@ -73,7 +73,7 @@ const PlanetaryPositionDisplay: React.FC<PlanetaryPositionDisplayProps> = ({
   position 
 }) => {
   const symbol = getPlanetSymbol(planet);
-  const displayName = planet.charAt(0)?.toUpperCase() + planet?.slice(1);
+  const displayName = planet.charAt(0).toUpperCase() + planet.slice(1);
 
   return (
     <div className="flex justify-between items-center py-1">
@@ -82,7 +82,7 @@ const PlanetaryPositionDisplay: React.FC<PlanetaryPositionDisplayProps> = ({
         {displayName}:
       </span>
       <span className="text-cyan-200">
-        {position.sign.charAt(0)?.toUpperCase() + position.sign?.slice(1)} {formatDegree(position.degree)}
+        {position.sign.charAt(0).toUpperCase() + position.sign.slice(1)} {formatDegree(position.degree)}
         {position.isRetrograde && <span className="text-orange-300 ml-1">℞</span>}
       </span>
     </div>

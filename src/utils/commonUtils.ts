@@ -37,7 +37,7 @@ export const clamp = (value: number, min: number, max: number): number => {
  */
 export function capitalizeFirstLetter(str: string): string {
   if (!str) return '';
-  return str.charAt(0)?.toUpperCase() + str?.slice(1);
+  return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
 /**
@@ -57,7 +57,7 @@ export function formatToTitleCase(str: string): string {
   // Capitalize first letter of each word and trim extra spaces
   return withSpaces
     .split(' ')
-    .map(word => word.charAt(0)?.toUpperCase() + word?.slice(1)?.toLowerCase())
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
     .join(' ')
     .trim();
 }
@@ -71,7 +71,7 @@ export function formatToTitleCase(str: string): string {
 export function truncateString(str: string, length: number): string {
   if (!str) return '';
   if ((str || []).length <= length) return str;
-  return str?.substring(0, length) + '...';
+  return str.substring(0, length) + '...';
 }
 
 /**

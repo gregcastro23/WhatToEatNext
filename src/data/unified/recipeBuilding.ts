@@ -632,7 +632,7 @@ export class UnifiedRecipeBuildingSystem {
     if (seasonCriteria) {
       const seasonalProfile = this.seasonalSystem.getSeasonalRecommendations(seasonCriteria);
       // Safe property access with fallback for monicaOptimization
-      const monicaOptimization = (seasonalProfile as Record<string, unknown>)?.monicaOptimization || 1.0;
+      const monicaOptimization = (seasonalProfile as Record<string, unknown>).monicaOptimization || 1.0;
       optimalMonica *= monicaOptimization;
     }
     
@@ -655,23 +655,121 @@ export class UnifiedRecipeBuildingSystem {
   // (Temperature adjustments, timing calculations, ingredient selection, etc.)
   
   private calculateTemperatureAdjustments(originalMonica: number | null, targetMonica: number): number[] {
-    // Implementation for temperature adjustments based on Monica optimization
-    return [0]; // Placeholder
+    const adjustments: number[] = [];
+    const currentMonica = originalMonica || 50; // Default to neutral if not provided
+    const monicaDiff = targetMonica - currentMonica;
+    
+    // Monica scoring affects temperature preferences
+    // Higher Monica = higher energy = higher temperatures
+    if (monicaDiff > 20) {
+      // Need significant temperature increase
+      adjustments.push(25, 50); // Increase by 25-50°F
+    } else if (monicaDiff > 10) {
+      // Moderate temperature increase
+      adjustments.push(10, 25); // Increase by 10-25°F
+    } else if (monicaDiff < -20) {
+      // Need temperature decrease for lower Monica
+      adjustments.push(-25, -10); // Decrease by 10-25°F
+    } else if (monicaDiff < -10) {
+      // Slight temperature decrease
+      adjustments.push(-15, -5); // Decrease by 5-15°F
+    } else {
+      // Monica is close to target
+      adjustments.push(-5, 5); // Minor adjustments only
+    }
+    
+    return adjustments;
   }
   
   private calculateTimingAdjustments(originalMonica: number | null, targetMonica: number): number[] {
-    // Implementation for timing adjustments based on Monica optimization
-    return [0]; // Placeholder
+    const adjustments: number[] = [];
+    const currentMonica = originalMonica || 50;
+    const monicaDiff = targetMonica - currentMonica;
+    
+    // Higher Monica scores require shorter cooking times (more energy preserved)
+    // Lower Monica scores benefit from longer cooking times (gentler transformation)
+    if (monicaDiff > 20) {
+      // Reduce cooking time to preserve energy
+      adjustments.push(-0.3, -0.2); // Reduce by 20-30%
+    } else if (monicaDiff > 10) {
+      // Slightly reduce cooking time
+      adjustments.push(-0.15, -0.1); // Reduce by 10-15%
+    } else if (monicaDiff < -20) {
+      // Increase cooking time for gentler transformation
+      adjustments.push(0.2, 0.4); // Increase by 20-40%
+    } else if (monicaDiff < -10) {
+      // Slightly increase cooking time
+      adjustments.push(0.1, 0.2); // Increase by 10-20%
+    } else {
+      // Minor timing adjustments
+      adjustments.push(-0.05, 0.05); // ±5%
+    }
+    
+    return adjustments;
   }
   
   private calculateIntensityModifications(originalMonica: number | null, targetMonica: number): string[] {
-    // Implementation for intensity modifications based on Monica optimization
-    return ['maintain']; // Placeholder
+    const modifications: string[] = [];
+    const currentMonica = originalMonica || 50;
+    const monicaDiff = targetMonica - currentMonica;
+    
+    // Determine intensity modifications based on Monica gap
+    if (monicaDiff > 30) {
+      modifications.push('intensify-strong', 'add-power-ingredients', 'increase-spice-level');
+    } else if (monicaDiff > 15) {
+      modifications.push('intensify-moderate', 'enhance-aromatics', 'boost-umami');
+    } else if (monicaDiff > 0) {
+      modifications.push('intensify-mild', 'brighten-flavors', 'add-acid');
+    } else if (monicaDiff < -30) {
+      modifications.push('mellow-strong', 'add-cooling-ingredients', 'reduce-spices');
+    } else if (monicaDiff < -15) {
+      modifications.push('mellow-moderate', 'add-dairy', 'increase-sweetness');
+    } else if (monicaDiff < 0) {
+      modifications.push('mellow-mild', 'round-flavors', 'add-fat');
+    } else {
+      modifications.push('maintain', 'balance-existing', 'fine-tune');
+    }
+    
+    return modifications;
   }
   
   private calculatePlanetaryTiming(targetMonica: number, criteria: RecipeBuildingCriteria): string[] {
-    // Implementation for planetary timing recommendations
-    return ['Cook during favorable planetary hours']; // Placeholder
+    const recommendations: string[] = [];
+    
+    // High Monica recipes benefit from Fire/Mars hours
+    if (targetMonica > 75) {
+      recommendations.push('Cook during Mars hour for maximum energy');
+      recommendations.push('Sun hour amplifies vitality and power');
+      if (criteria.zodiacSign && ['aries', 'leo', 'sagittarius'].includes(criteria.zodiacSign)) {
+        recommendations.push('Fire sign alignment enhances Monica score');
+      }
+    }
+    // Medium-high Monica benefits from balanced planetary hours
+    else if (targetMonica > 60) {
+      recommendations.push('Jupiter hour enhances abundance and satisfaction');
+      recommendations.push('Mercury hour aids in complex flavor development');
+    }
+    // Medium Monica works well with Earth/Venus hours  
+    else if (targetMonica > 40) {
+      recommendations.push('Venus hour enhances pleasure and harmony');
+      recommendations.push('Earth sign moons ground the energy perfectly');
+    }
+    // Low Monica benefits from Water/Moon hours
+    else {
+      recommendations.push('Moon hour enhances comfort and nurturing');
+      recommendations.push('Neptune aspects add subtle complexity');
+      if (criteria.lunarPhase === 'new' || criteria.lunarPhase === 'waning') {
+        recommendations.push('Waning moon phase aligns with gentle energy');
+      }
+    }
+    
+    // Add seasonal timing if provided
+    if (criteria.season) {
+      const seasonalTiming = this.getSeasonalPlanetaryTiming(criteria.season, targetMonica);
+      recommendations.push(seasonalTiming);
+    }
+    
+    return recommendations;
   }
   
   private calculateOptimizationScore(
@@ -680,13 +778,143 @@ export class UnifiedRecipeBuildingSystem {
     temperatureAdjustments: number[],
     timingAdjustments: number[]
   ): number {
-    // Implementation for optimization score calculation
-    return 0.85; // Placeholder
+    const currentMonica = originalMonica || 50;
+    const monicaDiff = Math.abs(targetMonica - currentMonica);
+    
+    // Base score starts high and decreases with difficulty
+    let score = 1.0;
+    
+    // Deduct for large Monica differences (harder to achieve)
+    score -= (monicaDiff / 100) * 0.3; // Up to 30% deduction
+    
+    // Factor in adjustment ranges
+    const tempRange = Math.abs(temperatureAdjustments[1] - temperatureAdjustments[0]);
+    const timeRange = Math.abs(timingAdjustments[1] - timingAdjustments[0]);
+    
+    // Smaller adjustment ranges = more precise = better score
+    score -= (tempRange / 100) * 0.1; // Up to 10% for temperature variance
+    score -= (timeRange) * 0.1; // Up to 10% for timing variance
+    
+    // Bonus for staying within comfortable ranges
+    if (monicaDiff < 20) {
+      score += 0.1; // 10% bonus for achievable target
+    }
+    
+    // Ensure score stays within bounds
+    return Math.max(0.4, Math.min(1.0, score));
+  }
+  
+  private getSeasonalPlanetaryTiming(season: Season, targetMonica: number): string {
+    const timingMap: Record<Season, Record<string, string>> = {
+      'spring': {
+        high: 'Dawn cooking aligns with Spring\'s rising energy',
+        medium: 'Mid-morning preparation captures growth energy',
+        low: 'Evening cooking grounds Spring\'s active energy'
+      },
+      'summer': {
+        high: 'Noon cooking maximizes Summer\'s peak energy',
+        medium: 'Late afternoon balances Summer intensity',
+        low: 'Early morning or late evening for cooling'
+      },
+      'autumn': {
+        high: 'Afternoon cooking gathers Autumn\'s harvest energy',
+        medium: 'Sunset preparation for balanced transformation',
+        low: 'Evening cooking enhances Autumn\'s introspection'
+      },
+      'fall': {
+        high: 'Afternoon cooking gathers Fall\'s harvest energy',
+        medium: 'Sunset preparation for balanced transformation',
+        low: 'Evening cooking enhances Fall\'s introspection'
+      },
+      'winter': {
+        high: 'Midday cooking counters Winter\'s dormancy',
+        medium: 'Late afternoon for warming comfort',
+        low: 'Long, slow evening cooking for deep nourishment'
+      },
+      'all': {
+        high: 'Solar noon maximizes any season\'s energy',
+        medium: 'Golden hour cooking for balanced energy',
+        low: 'Blue hour cooking for gentle transformation'
+      }
+    };
+    
+    const intensity = targetMonica > 65 ? 'high' : targetMonica > 35 ? 'medium' : 'low';
+    return timingMap[season]?.[intensity] || 'Cook during planetary hours aligned with your intention';
   }
   
   private calculateSeasonalScore(recipe: EnhancedRecipe, season: Season): number {
-    // Implementation for seasonal score calculation
-    return 0.8; // Placeholder
+    let score = 0.5; // Base seasonal score
+    
+    // Check if recipe has explicit seasonality
+    if (recipe.seasonality === season) {
+      score = 0.95; // Perfect match
+    } else if (recipe.seasonality === 'all') {
+      score = 0.75; // Universal recipes work in any season
+    } else if (recipe.seasonality && recipe.seasonality.includes(season)) {
+      score = 0.85; // Good match for multi-season recipes
+    }
+    
+    // Analyze ingredient seasonality
+    const seasonalIngredientScore = recipe.ingredients.reduce((total, ingredient) => {
+      if (ingredient.seasonality === season) {
+        return total + 1.0;
+      } else if (ingredient.seasonality === 'all') {
+        return total + 0.7;
+      } else if (ingredient.seasonality?.includes(season)) {
+        return total + 0.85;
+      }
+      return total + 0.3; // Out of season ingredient
+    }, 0) / recipe.ingredients.length;
+    
+    // Weight recipe seasonality more heavily than ingredients
+    score = (score * 0.6) + (seasonalIngredientScore * 0.4);
+    
+    // Cooking method seasonal appropriateness
+    const methodScore = this.getCookingMethodSeasonalScore(recipe.cookingMethod, season);
+    score = (score * 0.8) + (methodScore * 0.2);
+    
+    return Math.max(0.2, Math.min(1.0, score));
+  }
+  
+  private getCookingMethodSeasonalScore(method: string, season: Season): number {
+    const seasonalMethodScores: Record<Season, Record<string, number>> = {
+      'summer': {
+        'grill': 1.0, 'raw': 0.95, 'chill': 0.9, 'saute': 0.7,
+        'roast': 0.5, 'braise': 0.3, 'stew': 0.2
+      },
+      'winter': {
+        'braise': 1.0, 'stew': 0.95, 'roast': 0.9, 'bake': 0.85,
+        'simmer': 0.8, 'saute': 0.6, 'grill': 0.4, 'raw': 0.2
+      },
+      'spring': {
+        'steam': 0.95, 'saute': 0.9, 'blanch': 0.85, 'raw': 0.8,
+        'grill': 0.7, 'roast': 0.6, 'stew': 0.4
+      },
+      'autumn': {
+        'roast': 0.95, 'bake': 0.9, 'braise': 0.85, 'saute': 0.8,
+        'stew': 0.75, 'grill': 0.6, 'raw': 0.4
+      },
+      'fall': {
+        'roast': 0.95, 'bake': 0.9, 'braise': 0.85, 'saute': 0.8,
+        'stew': 0.75, 'grill': 0.6, 'raw': 0.4
+      },
+      'all': {
+        'saute': 0.8, 'roast': 0.75, 'bake': 0.75, 'steam': 0.7,
+        'grill': 0.7, 'braise': 0.7, 'raw': 0.65, 'stew': 0.7
+      }
+    };
+    
+    const methodLower = method.toLowerCase();
+    const scores = seasonalMethodScores[season] || seasonalMethodScores['all'];
+    
+    // Find best match for method
+    for (const [key, score] of Object.entries(scores)) {
+      if (methodLower.includes(key)) {
+        return score;
+      }
+    }
+    
+    return 0.5; // Default neutral score
   }
   
   private generateSeasonalIngredientSubstitutions(
@@ -716,9 +944,9 @@ export class UnifiedRecipeBuildingSystem {
     const ingredientAlignment = this.calculateIngredientAlignment(recipe, cuisineAnalysis);
     
     // Apply Kalchm profile influence
-    const kalchmInfluence = cuisineAnalysis.kalchmProfile?.averageKalchm || 1.0;
+    const kalchmInfluence = cuisineAnalysis.kalchmProfile.averageKalchm || 1.0;
     let optimalMonica = this.calculateOptimalMonica(recipe, { cuisine });
-    optimalMonica *= cuisineAnalysis.kalchmProfile?.averageKalchm || 1.0;
+    optimalMonica *= cuisineAnalysis.kalchmProfile.averageKalchm || 1.0;
     
     return Math.min(1.0, (ingredientAlignment * 0.7) + (kalchmInfluence * 0.3));
   }
@@ -792,7 +1020,7 @@ export class UnifiedRecipeBuildingSystem {
       monicaOptimization: 0.9,
       seasonalAlignment: 0.8,
       cuisineAuthenticity: 0.75,
-      generatedAt: new Date()?.toISOString(),
+      generatedAt: new Date().toISOString(),
       generationMethod: 'unified-recipe-builder'
     }; // Placeholder
   }

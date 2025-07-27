@@ -226,7 +226,7 @@ export default function RecipeFiltersMigrated({
               <label className="block text-sm font-medium mb-2">Cuisine</label>
               <select
                 multiple
-                value={filters.cuisineTypes?.map(cuisine => cuisine?.toString())}
+                value={filters.cuisineTypes.map(cuisine => cuisine.toString())}
                 onChange={(e) => updateFilters({
                   cuisineTypes: Array.from(e.target.selectedOptions, option => option.value as unknown as CuisineType)
                 })}

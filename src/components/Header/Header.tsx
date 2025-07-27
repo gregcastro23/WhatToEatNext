@@ -51,13 +51,13 @@ export default function Header({ onServingsChange }: HeaderProps) {
             
             {/* Celestial Indicators */}
             <div className="hidden md:flex items-center space-x-4 text-sm text-gray-500">
-              {Boolean(planetaryPositions?.sun) && (
+              {Boolean(planetaryPositions.sun) && (
                 <div className="flex items-center">
                   <Sun className="w-4 h-4 mr-1" />
                   <span>{(planetaryPositions.sun as any)?.sign}</span>
                 </div>
               )}
-              {Boolean(planetaryPositions?.moon) && (
+              {Boolean(planetaryPositions.moon) && (
                 <div className="flex items-center">
                   <Moon className="w-4 h-4 mr-1" />
                   <span>{(planetaryPositions.moon as any)?.sign}</span>
@@ -98,7 +98,7 @@ export default function Header({ onServingsChange }: HeaderProps) {
         {isMenuOpen && (
           <div className="md:hidden py-4 border-t">
             <div className="space-y-4">
-              {Boolean(planetaryPositions?.sun) && (
+              {Boolean(planetaryPositions.sun) && (
                 <div className="flex items-center">
                   <Sun className="w-4 h-4 mr-2" />
                   <span className="text-sm text-gray-500">
@@ -106,7 +106,7 @@ export default function Header({ onServingsChange }: HeaderProps) {
                   </span>
                 </div>
               )}
-              {Boolean(planetaryPositions?.moon) && (
+              {Boolean(planetaryPositions.moon) && (
                 <div className="flex items-center">
                   <Moon className="w-4 h-4 mr-2" />
                   <span className="text-sm text-gray-500">

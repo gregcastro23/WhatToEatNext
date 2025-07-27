@@ -197,9 +197,9 @@ export function isRecipeIngredient(ingredient: unknown): ingredient is RecipeIng
   const ingredientData = ingredient as Record<string, unknown>;
   return (
     Boolean(ingredient) &&
-    typeof ingredientData?.name === 'string' &&
-    typeof ingredientData?.amount === 'number' &&
-    typeof ingredientData?.unit === 'string'
+    typeof ingredientData.name === 'string' &&
+    typeof ingredientData.amount === 'number' &&
+    typeof ingredientData.unit === 'string'
   );
 }
 
@@ -210,12 +210,12 @@ export function isFullIngredient(ingredient: unknown): ingredient is Ingredient 
   const ingredientData = ingredient as Record<string, unknown>;
   return (
     Boolean(ingredient) &&
-    typeof ingredientData?.name === 'string' &&
-    typeof ingredientData?.category === 'string' &&
-    ingredientData?.elementalProperties &&
-    Array.isArray(ingredientData?.qualities) &&
-    ingredientData?.storage &&
-    typeof ingredientData?.storage === 'object'
+    typeof ingredientData.name === 'string' &&
+    typeof ingredientData.category === 'string' &&
+    ingredientData.elementalProperties &&
+    Array.isArray(ingredientData.qualities) &&
+    ingredientData.storage &&
+    typeof ingredientData.storage === 'object'
   );
 }
 
@@ -252,7 +252,7 @@ export function validateIngredient(ingredient: Partial<Ingredient> & {
   // Fix specific property access errors
   if (ingredient.qualities && Array.isArray(ingredient.qualities)) {
     // Check each quality is a string
-    const invalidQualities = ingredient?.qualities?.filter((q: unknown) => typeof q !== 'string');
+    const invalidQualities = ingredient.qualities.filter((q: unknown) => typeof q !== 'string');
     if (invalidQualities.length > 0) {
       errors.push('All qualities must be strings');
     }
@@ -408,11 +408,11 @@ export function ingredientToRecipeIngredient(
     unit,
     category: (ingredient.category ) || 'culinary_herb',
     elementalProperties: ingredient.elementalProperties as Record<string, unknown>,
-    qualities: (ingredient as unknown as Record<string, unknown>)?.qualities || [],
+    qualities: (ingredient as unknown as Record<string, unknown>).qualities || [],
     astrologicalProfile: ingredient.astrologicalProfile,
     // Include other relevant properties that exist in RecipeIngredient - safe property access
-    origin: (ingredient as unknown as Record<string, unknown>)?.origin || undefined,
-    seasonality: (ingredient as unknown as Record<string, unknown>)?.seasonality || undefined
+    origin: (ingredient as unknown as Record<string, unknown>).origin || undefined,
+    seasonality: (ingredient as unknown as Record<string, unknown>).seasonality || undefined
   } as RecipeIngredient;
 }
 

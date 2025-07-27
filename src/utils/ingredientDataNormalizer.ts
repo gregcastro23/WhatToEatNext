@@ -319,8 +319,8 @@ export function normalizeIngredientData(ingredient: Record<string, unknown>): an
  */
 export function safeGetNutritionalData(ingredient: Record<string, unknown>, field: string): any {
   try {
-    const profile = ingredient?.nutritionalProfile  as Record<string, unknown>;
-    return profile?.[field] || null;
+    const profile = ingredient.nutritionalProfile  as Record<string, unknown>;
+    return profile[field] || null;
   } catch (error) {
     // console.warn(`Error accessing nutritional field ${field}:`, error);
     return null;
@@ -331,7 +331,7 @@ export function safeGetNutritionalData(ingredient: Record<string, unknown>, fiel
  * Check if ingredient has rich nutritional data
  */
 export function hasRichNutritionalData(ingredient: Record<string, unknown>): boolean {
-  const profile = ingredient?.nutritionalProfile  as Record<string, unknown>;
+  const profile = ingredient.nutritionalProfile  as Record<string, unknown>;
   if (!profile) return false;
   
   const vitamins = profile.vitamins  as Record<string, unknown> | unknown[];

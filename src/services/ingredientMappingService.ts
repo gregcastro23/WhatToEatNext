@@ -49,7 +49,7 @@ class IngredientMappingService {
     
     // Collect recipes from specified cuisines
     cuisines.forEach(cuisine => {
-      if (!cuisine?.dishes) return;
+      if (!cuisine.dishes) return;
       
       // Define which meal types to include
       const mealTypes = options.mealType

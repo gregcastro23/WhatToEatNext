@@ -110,11 +110,11 @@ function testKalchmMonicaCalculations() {
   console.log('\n📝 Formula Verification:');
   console.log('K_alchm = (Spirit^Spirit * Essence^Essence) / (Matter^Matter * Substance^Substance)');
   console.log(`K_alchm = (${Spirit}^${Spirit} * ${Essence}^${Essence}) / (${Matter}^${Matter} * ${Substance}^${Substance})`);
-  console.log(`K_alchm = (${Math.pow(Spirit, Spirit)?.toFixed(2)} * ${Math.pow(Essence, Essence)?.toFixed(2)}) / (${Math.pow(Matter, Matter)?.toFixed(2)} * ${Math.pow(Substance, Substance)?.toFixed(2)})`);
+  console.log(`K_alchm = (${Math.pow(Spirit, Spirit).toFixed(2)} * ${Math.pow(Essence, Essence).toFixed(2)}) / (${Math.pow(Matter, Matter).toFixed(2)} * ${Math.pow(Substance, Substance).toFixed(2)})`);
   console.log(`K_alchm = ${K_alchm.toFixed(6)}`);
   
   console.log('\nMonica = -Greg\'s Energy / (Reactivity × ln(K_alchm))');
-  console.log(`Monica = -${gregsEnergy.toFixed(6)} / (${reactivity.toFixed(6)} × ${Math.log(K_alchm)?.toFixed(6)})`);
+  console.log(`Monica = -${gregsEnergy.toFixed(6)} / (${reactivity.toFixed(6)} × ${Math.log(K_alchm).toFixed(6)})`);
   console.log(`Monica = ${monicaConstant.toFixed(6)}`);
   
   return {

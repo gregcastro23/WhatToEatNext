@@ -71,7 +71,7 @@ class AstrologizeApiCache {
    */
   private calculateElementalValues(alchemicalResult: StandardizedAlchemicalResult) {
     const resultData = (alchemicalResult as unknown) as Record<string, unknown>;
-    const elementalBalance = (resultData?.elementalBalance as Record<string, unknown>) || {};
+    const elementalBalance = (resultData.elementalBalance as Record<string, unknown>) || {};
     const Fire = Number(elementalBalance.Fire) || 0;
     const Water = Number(elementalBalance.Water) || 0;
     const Earth = Number(elementalBalance.Earth) || 0;
@@ -124,12 +124,12 @@ class AstrologizeApiCache {
       elementalAbsolutes,
       elementalRelatives,
       thermodynamics: {
-        heat: Number(resultData?.heat) || 0,
-        entropy: Number(resultData?.entropy) || 0,
-        reactivity: Number(resultData?.reactivity) || 0,
-        gregsEnergy: Number(resultData?.energy) || 0,
-        kalchm: Number(resultData?.kalchm) || 1,
-        monica: Number(resultData?.monica) || 1
+        heat: Number(resultData.heat) || 0,
+        entropy: Number(resultData.entropy) || 0,
+        reactivity: Number(resultData.reactivity) || 0,
+        gregsEnergy: Number(resultData.energy) || 0,
+        kalchm: Number(resultData.kalchm) || 1,
+        monica: Number(resultData.monica) || 1
       },
       quality: this.assessDataQuality(alchemicalResult)
     };
@@ -216,9 +216,9 @@ class AstrologizeApiCache {
     for (const [planet, position] of Object.entries(baseData.planetaryPositions)) {
       const planetData = (position as unknown) as Record<string, unknown>;
       predictedPositions[planet] = {
-        sign: (String(planetData?.sign) || 'aries') as any,
-        degree: Number(planetData?.degree) || 0,
-        isRetrograde: Boolean(planetData?.isRetrograde) || false
+        sign: (String(planetData.sign) || 'aries') as any,
+        degree: Number(planetData.degree) || 0,
+        isRetrograde: Boolean(planetData.isRetrograde) || false
       };
       sources.push(`${planet}:${baseData.date.toISOString()}`);
     }
@@ -285,15 +285,15 @@ class AstrologizeApiCache {
     };
     const resultData = result as WithAlchemical;
     // Assess based on completeness and reasonableness of data
-    const hasAllElements = resultData?.elementalBalance && 
+    const hasAllElements = resultData.elementalBalance && 
       Object.values(resultData.elementalBalance).every(v => typeof v === 'number' && v >= 0);
-    const hasThermodynamics = typeof resultData?.heat === 'number' && 
-      typeof resultData?.entropy === 'number' && 
-      typeof resultData?.reactivity === 'number';
-    const hasAlchemical = typeof resultData?.Spirit === 'number' && 
-      typeof resultData?.Essence === 'number' && 
-      typeof resultData?.Matter === 'number' && 
-      typeof resultData?.Substance === 'number';
+    const hasThermodynamics = typeof resultData.heat === 'number' && 
+      typeof resultData.entropy === 'number' && 
+      typeof resultData.reactivity === 'number';
+    const hasAlchemical = typeof resultData.Spirit === 'number' && 
+      typeof resultData.Essence === 'number' && 
+      typeof resultData.Matter === 'number' && 
+      typeof resultData.Substance === 'number';
     if (hasAllElements && hasThermodynamics && hasAlchemical) {
       return 'high';
     } else if (hasAllElements && (hasThermodynamics || hasAlchemical)) {

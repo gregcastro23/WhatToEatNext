@@ -126,7 +126,7 @@ export class SpoonacularElementalMapper {
     } catch (error) {
       logger.error('Error mapping Spoonacular ingredient:', error);
       return { 
-        name: spoonacularIngredient?.name || 'Unknown',
+        name: spoonacularIngredient.name || 'Unknown',
         elementalProperties: this.getDefaultElements()
       };
     }

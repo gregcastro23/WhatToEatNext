@@ -173,7 +173,7 @@ export function getElementalColor(
   type: keyof ElementalColor = 'text',
 ): string {
   if (!element || !ELEMENTAL_COLORS[element]) {
-    return ELEMENTAL_COLORS?.Fire?.[type]; // Default to Fire
+    return ELEMENTAL_COLORS.Fire[type]; // Default to Fire
   }
   return ELEMENTAL_COLORS[element][type];
 }
@@ -473,8 +473,8 @@ function generateCompatibilityRecommendation(
   userDominant: keyof ElementalProperties,
 ): string {
   // Use safe type casting for string operations
-  const recipeDominantStr = (recipeDominant as string)?.toLowerCase();
-  const userDominantStr = (userDominant as string)?.toLowerCase();
+  const recipeDominantStr = (recipeDominant as string).toLowerCase();
+  const userDominantStr = (userDominant as string).toLowerCase();
   
   if (score >= 0.8) {
     return `Excellent match! This ${recipeDominantStr}-dominant recipe aligns perfectly with your ${userDominantStr} energy.`;
@@ -511,7 +511,7 @@ export async function standardizeRecipeElements<T>(
 
   // Use safe type casting for property access
   const recipeData = recipe as Record<string, unknown>;
-  const elementalProperties = recipeData?.elementalState 
+  const elementalProperties = recipeData.elementalState 
     ? normalizeProperties(recipeData.elementalState)
     : getCurrentElementalState();
 

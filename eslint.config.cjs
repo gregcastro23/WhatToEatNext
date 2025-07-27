@@ -213,20 +213,26 @@ module.exports = [
       
       // Enhanced TypeScript rules
       '@typescript-eslint/no-unused-vars': [
-        'warn',
+        'error',
         {
           'argsIgnorePattern': '^_',
-          'varsIgnorePattern': '^_',
+          'varsIgnorePattern': '^(_|UNUSED_)',
           'caughtErrorsIgnorePattern': '^_',
-          'destructuredArrayIgnorePattern': '^_'
+          'destructuredArrayIgnorePattern': '^_',
+          'ignoreRestSiblings': true
         }
       ],
-      '@typescript-eslint/no-explicit-any': 'warn',
+      '@typescript-eslint/no-explicit-any': 'error',
       '@typescript-eslint/prefer-as-const': 'error',
       '@typescript-eslint/no-non-null-assertion': 'warn',
       '@typescript-eslint/no-unnecessary-type-assertion': 'warn',
       '@typescript-eslint/prefer-optional-chain': 'warn',
       '@typescript-eslint/prefer-nullish-coalescing': 'off', // Temporarily disabled due to plugin bug
+      '@typescript-eslint/no-unnecessary-condition': 'warn',
+      '@typescript-eslint/strict-boolean-expressions': 'off', // Too strict for existing codebase
+      '@typescript-eslint/no-floating-promises': 'error',
+      '@typescript-eslint/no-misused-promises': 'error',
+      '@typescript-eslint/await-thenable': 'error',
       'no-undef': 'off', // TypeScript handles this
       
       // React Hooks rules with enhanced configuration
@@ -296,10 +302,24 @@ module.exports = [
       'import/no-cycle': 'warn',
       'import/no-self-import': 'error',
       'import/no-useless-path-segments': 'error',
+      // Temporarily disabled due to flat config compatibility issue
+      // 'import/no-unused-modules': [
+      //   'warn',
+      //   {
+      //     'unusedExports': true,
+      //     'missingExports': false,
+      //     'ignoreExports': [
+      //       '**/pages/**',
+      //       '**/app/**',
+      //       '**/*.config.*',
+      //       '**/scripts/**'
+      //     ]
+      //   }
+      // ],
       
       // General JavaScript rules
       'no-unused-vars': 'off', // Handled by @typescript-eslint/no-unused-vars
-      'no-console': ['warn', { 'allow': ['warn', 'error'] }],
+      'no-console': ['error', { 'allow': ['warn', 'error', 'info'] }],
       'no-var': 'error',
       'prefer-const': 'error',
       'eqeqeq': 'error',
@@ -383,11 +403,12 @@ module.exports = [
       'no-magic-numbers': 'off',
       // Preserve critical astrological calculation variables
       '@typescript-eslint/no-unused-vars': [
-        'warn',
+        'error',
         {
           'argsIgnorePattern': '^(_|planet|position|degree|sign)',
-          'varsIgnorePattern': '^(_|FALLBACK|RELIABLE|POSITIONS|TRANSIT)',
-          'caughtErrorsIgnorePattern': '^_'
+          'varsIgnorePattern': '^(_|FALLBACK|RELIABLE|POSITIONS|TRANSIT|UNUSED_)',
+          'caughtErrorsIgnorePattern': '^_',
+          'ignoreRestSiblings': true
         }
       ],
       // Allow console statements for astronomical debugging
@@ -426,11 +447,12 @@ module.exports = [
       'max-depth': ['warn', 6],
       // Preserve campaign system variable patterns
       '@typescript-eslint/no-unused-vars': [
-        'warn',
+        'error',
         {
           'argsIgnorePattern': '^(_|campaign|progress|metrics|safety)',
-          'varsIgnorePattern': '^(_|CAMPAIGN|PROGRESS|METRICS|SAFETY|ERROR)',
-          'caughtErrorsIgnorePattern': '^_'
+          'varsIgnorePattern': '^(_|CAMPAIGN|PROGRESS|METRICS|SAFETY|ERROR|UNUSED_)',
+          'caughtErrorsIgnorePattern': '^_',
+          'ignoreRestSiblings': true
         }
       ],
       // Allow dynamic imports for campaign tools
@@ -532,11 +554,12 @@ module.exports = [
       'no-console': 'off',
       // Allow unused variables in test setup
       '@typescript-eslint/no-unused-vars': [
-        'warn',
+        'error',
         {
           'argsIgnorePattern': '^(_|mock|stub)',
-          'varsIgnorePattern': '^(_|mock|stub|test)',
-          'caughtErrorsIgnorePattern': '^_'
+          'varsIgnorePattern': '^(_|mock|stub|test|UNUSED_)',
+          'caughtErrorsIgnorePattern': '^_',
+          'ignoreRestSiblings': true
         }
       ],
       // Allow non-null assertions in tests

@@ -318,7 +318,7 @@ function calculateElementalProperties(ingredient: EnhancedIngredient): Elemental
   }
   
   // Adjust based on astrological profile
-  if (ingredient.astrologicalProfile?.elementalAffinity) {
+  if (ingredient.astrologicalProfile.elementalAffinity) {
     const affinity = typeof ingredient.astrologicalProfile.elementalAffinity === 'string' 
       ? ingredient.astrologicalProfile.elementalAffinity 
       : ingredient.astrologicalProfile.elementalAffinity.base;
@@ -330,7 +330,7 @@ function calculateElementalProperties(ingredient: EnhancedIngredient): Elemental
   }
   
   // Adjust based on ruling planets
-  if (ingredient.astrologicalProfile?.rulingPlanets) {
+  if (ingredient.astrologicalProfile.rulingPlanets) {
     for (const planet of ingredient.astrologicalProfile.rulingPlanets) {
       switch(planet) {
         case 'Sun':
@@ -671,10 +671,10 @@ export const getRecommendedIngredients = (astroState: AstrologicalState): Enhanc
       if (astroState.aspects && astroState.aspects.length > 0) {
         // Check for specific aspect enhancers in the ingredient data
         const profileData = profile as Record<string, unknown>;
-        if (profileData?.aspectEnhancers && (profileData.aspectEnhancers as unknown[]).length > 0) {
+        if (profileData.aspectEnhancers && (profileData.aspectEnhancers as unknown[]).length > 0) {
           const relevantAspects = astroState.aspects.filter(aspect => {
             // Check if this aspect type is specifically listed as an enhancer
-            return (profileData.aspectEnhancers as string[])?.includes(aspect.type);
+            return (profileData.aspectEnhancers as string[]).includes(aspect.type);
           });
           
           if (relevantAspects.length > 0) {
@@ -775,7 +775,7 @@ export const getRecommendedIngredients = (astroState: AstrologicalState): Enhanc
       // Get user preferences from the state manager if available
       // instead of using a placeholder assumption
       const astroStateData = astroState as Record<string, unknown>;
-      const userPreferences = astroStateData?.userPreferences || {};
+      const userPreferences = astroStateData.userPreferences || {};
       const tastePreferences = (userPreferences as Record<string, unknown>).taste || {
         sweet: 0.5,
         salty: 0.5,
@@ -789,7 +789,7 @@ export const getRecommendedIngredients = (astroState: AstrologicalState): Enhanc
         const sensory = standardized.sensoryProfile as Record<string, unknown>;
         
         // Calculate weighted scores based on user preferences
-        if (sensory?.taste) {
+        if (sensory.taste) {
           let tasteScore = 0;
           let weightSum = 0;
           
@@ -815,7 +815,7 @@ export const getRecommendedIngredients = (astroState: AstrologicalState): Enhanc
         }
         
         // Factor in aromatic qualities
-        if (sensory?.aroma) {
+        if (sensory.aroma) {
           // Pattern KK-9: Cross-Module Arithmetic Safety for aroma calculations
           const avgAroma = (Object.values(sensory.aroma).map(val => Number(val) || 0)
                            .reduce((acc: number, val: number) => acc + val, 0) || 0) / 
@@ -826,7 +826,7 @@ export const getRecommendedIngredients = (astroState: AstrologicalState): Enhanc
         }
         
         // Texture is less significant but still a factor
-        if (sensory?.texture) {
+        if (sensory.texture) {
           // Pattern KK-9: Cross-Module Arithmetic Safety for texture calculations
           const avgTexture = (Object.values(sensory.texture).map(val => Number(val) || 0)
                              .reduce((acc: number, val: number) => acc + val, 0) || 0) / 
@@ -843,11 +843,11 @@ export const getRecommendedIngredients = (astroState: AstrologicalState): Enhanc
         const nutrition = standardized.nutritionalProfile;
         
         // Calculate protein density (protein per calorie)
-        const proteinDensity = nutrition.calories > 0 && nutrition?.macros ? 
+        const proteinDensity = nutrition.calories > 0 && nutrition.macros ? 
           (nutrition.macros.protein / nutrition.calories) : 0;
           
         // Calculate fiber density (fiber per calorie)
-        const fiberDensity = nutrition.calories > 0 && nutrition?.macros ? 
+        const fiberDensity = nutrition.calories > 0 && nutrition.macros ? 
           (nutrition.macros.fiber / nutrition.calories) : 0;
           
         // Calculate vitamin/mineral richness
@@ -859,12 +859,12 @@ export const getRecommendedIngredients = (astroState: AstrologicalState): Enhanc
         const phytonutrientScore = Object.keys(nutrition.phytonutrients || {}).length / 10; // Normalized to ~0-1 range
         
         // Calculate macronutrient balance based on ratios rather than absolute values
-        const totalMacros = nutrition?.macros ? (
+        const totalMacros = nutrition.macros ? (
           nutrition.macros.protein + nutrition.macros.carbs + nutrition.macros.fat
         ) : 0;
         let macroBalanceScore = 0.5;
         
-        if (totalMacros > 0 && nutrition?.macros) {
+        if (totalMacros > 0 && nutrition.macros) {
           const proteinRatio = nutrition.macros.protein / totalMacros;
           const carbsRatio = nutrition.macros.carbs / totalMacros;
           const fatRatio = nutrition.macros.fat / totalMacros;
@@ -1030,9 +1030,9 @@ export const getRecommendedIngredients = (astroState: AstrologicalState): Enhanc
   const minItemsPerCategory = 8; // Increased from 5 to get more variety
   targetCategories.forEach(category => {
     // If we don't have enough items in this category, look for items with similar properties
-    if (categoryGroups[category]?.length < minItemsPerCategory) {
+    if (categoryGroups[category].length < minItemsPerCategory) {
       // Need to find additional items for this category
-      const missingCount = minItemsPerCategory - (categoryGroups[category]?.length || 0);
+      const missingCount = minItemsPerCategory - (categoryGroups[category].length || 0);
       
       // For vegetables, make a special effort to include all possible vegetables
       if (category === 'vegetables') {
@@ -1046,7 +1046,7 @@ export const getRecommendedIngredients = (astroState: AstrologicalState): Enhanc
         
         // Filter out vegetables we already have
         const missingVegetables = knownVegetables.filter(vegName => 
-          !categoryGroups[category]?.some(item => 
+          !categoryGroups[category].some(item => 
             item.name.toLowerCase() === vegName.toLowerCase() ||
             item.name.toLowerCase().includes(vegName.toLowerCase())
           )
@@ -1058,7 +1058,7 @@ export const getRecommendedIngredients = (astroState: AstrologicalState): Enhanc
             ingredient.name.toLowerCase() === vegName.toLowerCase() ||
             ingredient.name.toLowerCase().includes(vegName.toLowerCase())
           ) &&
-          !categoryGroups[category]?.some(item => item.name === ingredient.name)
+          !categoryGroups[category].some(item => item.name === ingredient.name)
         );
         
         // Add these items to the category
@@ -1071,26 +1071,26 @@ export const getRecommendedIngredients = (astroState: AstrologicalState): Enhanc
       // Find additional ingredients from the full list that would fit this category
       const additionalItems = allScoredIngredients.filter(ingredient => {
         // Skip if already in this category
-        if (categoryGroups[category]?.some(item => item.name === ingredient.name)) {
+        if (categoryGroups[category].some(item => item.name === ingredient.name)) {
           return false;
         }
         
         // For vegetables: check for plant-based items with high nutritional profile
         if (category === 'vegetables' && 
-            (ingredient.elementalProperties?.Earth > 0.3 || 
-             (ingredient.nutritionalProfile?.macros?.fiber ?? 0) > 2)) {
+            (ingredient.elementalProperties.Earth > 0.3 || 
+             (ingredient.nutritionalProfile?.macros.fiber ?? 0) > 2)) {
           return true;
         }
         
         // For proteins: check for high protein content
         if (category === 'proteins' && 
-            (ingredient.nutritionalProfile?.macros?.protein ?? 0) > 5) {
+            (ingredient.nutritionalProfile?.macros.protein ?? 0) > 5) {
           return true;
         }
         
         // For grains: check for carb-rich items
         if (category === 'grains' && 
-            (ingredient.nutritionalProfile?.macros?.carbs ?? 0) > 15) {
+            (ingredient.nutritionalProfile?.macros.carbs ?? 0) > 15) {
           return true;
         }
         

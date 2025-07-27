@@ -184,7 +184,7 @@ export const useTarotAstrologyData = (): TarotAstrologyResult => {
       const currentDate = new Date();
       
       // Get sun position from planetary alignment if available
-      const sunPosition = currentPlanetaryAlignment?.sun ? {
+      const sunPosition = currentPlanetaryAlignment.sun ? {
         sign: currentPlanetaryAlignment.sun.sign,
         degree: currentPlanetaryAlignment.sun.degree || 0
       } : undefined;
@@ -195,8 +195,8 @@ export const useTarotAstrologyData = (): TarotAstrologyResult => {
       // Calculate cards with sun position - don't use cache to ensure fresh calculation
       const cards = getTarotCardsForDate(currentDate, sunPosition);
       setTarotCards({
-        minorCard: cards?.minorCard || null,
-        majorCard: cards?.majorCard ? {
+        minorCard: cards.minorCard || null,
+        majorCard: cards.majorCard ? {
           name: cards.majorCard.name,
           planet: cards.majorCard.planet,
           element: cards.majorCard.element,

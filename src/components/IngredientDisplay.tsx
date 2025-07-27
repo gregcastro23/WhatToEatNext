@@ -67,7 +67,7 @@ export const IngredientDisplay = ({ ingredient, showDetails = false }: Ingredien
       {/* Show description if available with safe property access */}
       {(() => {
         const ingredientData = ingredient as unknown as Record<string, unknown>;
-        const description = ingredientData?.description;
+        const description = ingredientData.description;
         return description ? (
           <p className="text-sm text-gray-600 mt-2 italic">{String(description)}</p>
         ) : null;
@@ -114,7 +114,7 @@ export const IngredientDisplay = ({ ingredient, showDetails = false }: Ingredien
           {/* Energy Profile Section with safe property access */}
           {(() => {
             const ingredientData = ingredient as unknown as Record<string, unknown>;
-            const energyProfile = ingredientData?.energyProfile as Record<string, unknown>;
+            const energyProfile = ingredientData.energyProfile as Record<string, unknown>;
             
             if (!energyProfile) return null;
             
@@ -126,8 +126,8 @@ export const IngredientDisplay = ({ ingredient, showDetails = false }: Ingredien
                 </div>
                 <div className="text-xs space-y-1">
                   {(() => {
-                    const zodiac = energyProfile?.zodiac as unknown[];
-                    return zodiac?.length > 0 ? (
+                    const zodiac = energyProfile.zodiac as unknown[];
+                    return zodiac.length > 0 ? (
                       <div className="flex flex-wrap gap-1">
                         <span className="font-medium">Zodiac:</span>
                         {zodiac.map((sign: unknown) => (
@@ -138,8 +138,8 @@ export const IngredientDisplay = ({ ingredient, showDetails = false }: Ingredien
                   })()}
                   
                   {(() => {
-                    const lunar = energyProfile?.lunar as unknown[];
-                    return lunar?.length > 0 ? (
+                    const lunar = energyProfile.lunar as unknown[];
+                    return lunar.length > 0 ? (
                       <div className="flex flex-wrap gap-1">
                         <span className="font-medium">Lunar:</span>
                         {lunar.map((phase: unknown) => (
@@ -150,8 +150,8 @@ export const IngredientDisplay = ({ ingredient, showDetails = false }: Ingredien
                   })()}
                   
                   {(() => {
-                    const planetary = energyProfile?.planetary as unknown[];
-                    return planetary?.length > 0 ? (
+                    const planetary = energyProfile.planetary as unknown[];
+                    return planetary.length > 0 ? (
                       <div className="flex flex-wrap gap-1">
                         <span className="font-medium">Planetary:</span>
                         {planetary.map((alignment: unknown) => (
@@ -168,7 +168,7 @@ export const IngredientDisplay = ({ ingredient, showDetails = false }: Ingredien
           {/* Sensory Profile Section with safe property access */}
           {(() => {
             const ingredientData = ingredient as unknown as Record<string, unknown>;
-            const sensoryProfile = ingredientData?.sensoryProfile as Record<string, unknown>;
+            const sensoryProfile = ingredientData.sensoryProfile as Record<string, unknown>;
             
             if (!sensoryProfile) return null;
             
@@ -179,7 +179,7 @@ export const IngredientDisplay = ({ ingredient, showDetails = false }: Ingredien
                   <h4 className="text-sm font-medium">Sensory Profile</h4>
                 </div>
                 {(() => {
-                  const taste = sensoryProfile?.taste as Record<string, unknown>;
+                  const taste = sensoryProfile.taste as Record<string, unknown>;
                   return taste ? (
                     <div>
                       <h5 className="text-xs font-medium mb-1">Taste</h5>
@@ -201,7 +201,7 @@ export const IngredientDisplay = ({ ingredient, showDetails = false }: Ingredien
                 })()}
                 
                 {(() => {
-                  const aroma = sensoryProfile?.aroma as Record<string, unknown>;
+                  const aroma = sensoryProfile.aroma as Record<string, unknown>;
                   return aroma ? (
                     <div className="mt-2">
                       <h5 className="text-xs font-medium mb-1">Aroma</h5>
@@ -225,7 +225,7 @@ export const IngredientDisplay = ({ ingredient, showDetails = false }: Ingredien
           {/* Cooking Methods Section with safe property access */}
           {(() => {
             const ingredientData = ingredient as unknown as Record<string, unknown>;
-            const recommendedCookingMethods = ingredientData?.recommendedCookingMethods as unknown[];
+            const recommendedCookingMethods = ingredientData.recommendedCookingMethods as unknown[];
             
             return Array.isArray(recommendedCookingMethods) && recommendedCookingMethods.length > 0 ? (
               <div className="bg-white/60 rounded-md p-3 shadow-sm">
@@ -247,7 +247,7 @@ export const IngredientDisplay = ({ ingredient, showDetails = false }: Ingredien
           {/* Pairing Recommendations with safe property access */}
           {(() => {
             const ingredientData = ingredient as unknown as Record<string, unknown>;
-            const pairingRecommendations = ingredientData?.pairingRecommendations as Record<string, unknown>;
+            const pairingRecommendations = ingredientData.pairingRecommendations as Record<string, unknown>;
             
             if (!pairingRecommendations) return null;
             
@@ -256,7 +256,7 @@ export const IngredientDisplay = ({ ingredient, showDetails = false }: Ingredien
                 <h4 className="text-sm font-medium mb-2">Pairing Recommendations</h4>
                 
                 {(() => {
-                  const complementary = pairingRecommendations?.complementary as unknown[];
+                  const complementary = pairingRecommendations.complementary as unknown[];
                   return Array.isArray(complementary) && complementary.length > 0 ? (
                     <div className="mb-2">
                       <h5 className="text-xs font-medium text-green-600 mb-1">Complementary</h5>
@@ -272,7 +272,7 @@ export const IngredientDisplay = ({ ingredient, showDetails = false }: Ingredien
                 })()}
                 
                 {(() => {
-                  const contrasting = pairingRecommendations?.contrasting as unknown[];
+                  const contrasting = pairingRecommendations.contrasting as unknown[];
                   return Array.isArray(contrasting) && contrasting.length > 0 ? (
                     <div className="mb-2">
                       <h5 className="text-xs font-medium text-amber-600 mb-1">Contrasting</h5>
@@ -288,7 +288,7 @@ export const IngredientDisplay = ({ ingredient, showDetails = false }: Ingredien
                 })()}
                 
                 {(() => {
-                  const toAvoid = pairingRecommendations?.toAvoid as unknown[];
+                  const toAvoid = pairingRecommendations.toAvoid as unknown[];
                   return Array.isArray(toAvoid) && toAvoid.length > 0 ? (
                     <div>
                       <h5 className="text-xs font-medium text-red-600 mb-1">To Avoid</h5>
@@ -309,7 +309,7 @@ export const IngredientDisplay = ({ ingredient, showDetails = false }: Ingredien
           {/* Nutrition Details with safe property access */}
           {(() => {
             const ingredientData = ingredient as unknown as Record<string, unknown>;
-            const nutrition = ingredientData?.nutrition as Record<string, unknown>;
+            const nutrition = ingredientData.nutrition as Record<string, unknown>;
             
             return nutrition ? (
               <div className="bg-white/60 rounded-md p-3 shadow-sm">

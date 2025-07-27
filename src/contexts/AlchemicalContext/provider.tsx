@@ -109,7 +109,7 @@ export const AlchemicalProvider: React.FC<{children: React.ReactNode}> = ({ chil
   // Synchronize alchemical values between state and astrologicalState
   useEffect(() => {
     // Check if astrologicalState exists and has alchemicalValues
-    if (state.astrologicalState?.alchemicalValues) {
+    if (state.astrologicalState.alchemicalValues) {
       // If the values differ, update the main state alchemicalValues
       if (!deepEqual(state.alchemicalValues, state.astrologicalState.alchemicalValues)) {
         logger.debug('Synchronizing alchemical values from astrologicalState to root state');
@@ -146,8 +146,8 @@ export const AlchemicalProvider: React.FC<{children: React.ReactNode}> = ({ chil
       }
       
       logger.info('Updating planetary positions', {
-        sun: positions.Sun?.sign,
-        moon: positions.Moon?.sign,
+        sun: positions.Sun.sign,
+        moon: positions.Moon.sign,
         timestamp: new Date().toISOString()
       });
       return positions;
@@ -213,8 +213,8 @@ export const AlchemicalProvider: React.FC<{children: React.ReactNode}> = ({ chil
       
       // Update state with calculated values
       const activePlanets = calculateActivePlanets(normalizedPositions);
-      const sunSign = normalizedPositions.Sun?.sign || 'aries';
-      const moonSign = normalizedPositions.Moon?.sign || 'taurus';
+      const sunSign = normalizedPositions.Sun.sign || 'aries';
+      const moonSign = normalizedPositions.Moon.sign || 'taurus';
       
       // First update the alchemical values at the root of the state
       dispatch({

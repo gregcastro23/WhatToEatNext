@@ -671,7 +671,7 @@ const calculateDecanEffects = (
   const normalizedPlanet = planet.charAt(0).toUpperCase() + planet.slice(1).toLowerCase();
   
   // Check if planet is a decan ruler
-  if (decanRulers[sign.toLowerCase()]?.[decanString]?.includes(normalizedPlanet)) {
+  if (decanRulers[sign.toLowerCase()][decanString].includes(normalizedPlanet)) {
     // Add bonus to the sign's element if planet rules this decan
     elementalCounts[signElement] += 0.5;
     debugLog(`${planet} rules the ${decanString} of ${sign} - adding bonus to ${signElement}`);
@@ -690,7 +690,7 @@ const calculateDegreeEffects = (
   const signLower = sign.toLowerCase();
   
   // Check if planet has special effects in this degree range
-  if (degreeEffects[signLower]?.[planetLower] && degreeEffects[signLower][planetLower].length === 2) {
+  if (degreeEffects[signLower][planetLower] && degreeEffects[signLower][planetLower].length === 2) {
     const [minDegree, maxDegree] = degreeEffects[signLower][planetLower];
     if (degree >= minDegree && degree < maxDegree) {
       // Add bonus to planet's natural element
@@ -870,7 +870,7 @@ export function alchemize(planetaryPositions: Record<string, PlanetaryPosition>,
     
     // Add elemental influences
     const elementKey = isDaytime ? 'Diurnal Element' : 'Nocturnal Element';
-    const element = planetData[elementKey]?.toLowerCase() || '';
+    const element = planetData[elementKey].toLowerCase() || '';
     
     if (element && (element === 'fire' || element === 'earth' || element === 'air' || element === 'water')) {
       _elementalBalance[element ] += 1;
@@ -1101,7 +1101,7 @@ function calculatePlanetaryDignity(planet: string, sign: string): PlanetaryDigni
   };
   
   // Check rulership (strongest dignity)
-  if (rulerships[signLower]?.includes(planetLower)) {
+  if (rulerships[signLower].includes(planetLower)) {
     return {
       type: 'rulership',
       value: dignityStrengthModifiers.rulership,
@@ -1119,7 +1119,7 @@ function calculatePlanetaryDignity(planet: string, sign: string): PlanetaryDigni
   }
   
   // Check detriment (weakness)
-  if (detriments[signLower]?.includes(planetLower)) {
+  if (detriments[signLower].includes(planetLower)) {
     return {
       type: 'detriment',
       value: dignityStrengthModifiers.detriment,

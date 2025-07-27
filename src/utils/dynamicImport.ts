@@ -205,13 +205,13 @@ export async function safeImportAndExecute<R, A extends any[] = any[]>(
         
         // Return the function result directly since we're executing specific methods
         if (_args.length === 1 && functionName === 'solar' && 
-            typeof (subModule as Record<string, unknown>)?.apparentLongitude === 'function') {
+            typeof (subModule as Record<string, unknown>).apparentLongitude === 'function') {
           return ((subModule as Record<string, unknown>).apparentLongitude as (...args: unknown[]) => unknown)(_args[0]) as R;
         } else if (_args.length === 1 && functionName === 'moon' && 
-                  typeof (subModule as Record<string, unknown>)?.position === 'function') {
+                  typeof (subModule as Record<string, unknown>).position === 'function') {
           return ((subModule as Record<string, unknown>).position as (...args: unknown[]) => unknown)(_args[0]) as R;
         } else if (_args.length === 1 && functionName === 'julian' && 
-                  typeof (subModule as Record<string, unknown>)?.fromDate === 'function') {
+                  typeof (subModule as Record<string, unknown>).fromDate === 'function') {
           return ((subModule as Record<string, unknown>).fromDate as (...args: unknown[]) => unknown)(_args[0]) as R;
         } else {
           // Generic case - try to execute the function

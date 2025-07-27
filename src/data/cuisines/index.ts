@@ -81,13 +81,13 @@ const processCuisineRecipes = (cuisine: Partial<Cuisine>): Cuisine => {
     
     // Extract the "all" recipes that should be added to each season
     // Make sure "all" is an array even if it's not defined
-    const allRecipes = Array.isArray(mealData?.all) ? mealData.all : [];
+    const allRecipes = Array.isArray(mealData.all) ? mealData.all : [];
     
     return {
-      spring: [...(Array.isArray(mealData?.spring) ? mealData.spring : []), ...allRecipes],
-      summer: [...(Array.isArray(mealData?.summer) ? mealData.summer : []), ...allRecipes],
-      autumn: [...(Array.isArray(mealData?.autumn) ? mealData.autumn : []), ...allRecipes],
-      winter: [...(Array.isArray(mealData?.winter) ? mealData.winter : []), ...allRecipes]
+      spring: [...(Array.isArray(mealData.spring) ? mealData.spring : []), ...allRecipes],
+      summer: [...(Array.isArray(mealData.summer) ? mealData.summer : []), ...allRecipes],
+      autumn: [...(Array.isArray(mealData.autumn) ? mealData.autumn : []), ...allRecipes],
+      winter: [...(Array.isArray(mealData.winter) ? mealData.winter : []), ...allRecipes]
     };
   };
   

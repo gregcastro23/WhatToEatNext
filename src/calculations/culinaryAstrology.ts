@@ -204,7 +204,7 @@ export class CulinaryAstrologer {
     
     // Calculate ruling planet boost if the cuisine has ruling planets
     let planetaryBoost = 0;
-    if (cuisine.astrologicalProfile?.rulingPlanets?.length > 0) {
+    if (cuisine.astrologicalProfile.rulingPlanets.length > 0) {
       // More ruling planets = higher base boost
       planetaryBoost = Math.min(0.1 * cuisine.astrologicalProfile.rulingPlanets.length, 0.3);
     }

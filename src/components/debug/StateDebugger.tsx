@@ -44,9 +44,9 @@ export function StateDebugger() {
   const sunSign =
     astrologicalData?._celestialBodies?.sun?.Sign?.key || 'N/A'
   const chartRuler =
-    alchemicalData?.metadata?.chartRuler || 'N/A'
+    alchemicalData?.metadata.chartRuler || 'N/A'
   const dominantElement =
-    recommendationData?.dominantElement || alchemicalData?.metadata?.dominantElement || 'N/A'
+    recommendationData?.dominantElement || alchemicalData?.metadata.dominantElement || 'N/A'
 
   const statusColor = error
     ? 'bg-red-800/90'
@@ -137,19 +137,19 @@ export function StateDebugger() {
             <div className="space-y-1 pl-2">
               <div className="flex justify-between">
                 <span>⦿ Spirit:</span>
-                <span className="text-red-300">{alchemicalTokens.spirit?.toFixed(4) || '0.0000'}</span>
+                <span className="text-red-300">{alchemicalTokens.spirit.toFixed(4) || '0.0000'}</span>
               </div>
               <div className="flex justify-between">
                 <span>⦿ Essence:</span>
-                <span className="text-blue-300">{alchemicalTokens.essence?.toFixed(4) || '0.0000'}</span>
+                <span className="text-blue-300">{alchemicalTokens.essence.toFixed(4) || '0.0000'}</span>
               </div>
               <div className="flex justify-between">
                 <span>⦿ Matter:</span>
-                <span className="text-green-300">{alchemicalTokens.matter?.toFixed(4) || '0.0000'}</span>
+                <span className="text-green-300">{alchemicalTokens.matter.toFixed(4) || '0.0000'}</span>
               </div>
               <div className="flex justify-between">
                 <span>⦿ Substance:</span>
-                <span className="text-purple-300">{alchemicalTokens.substance?.toFixed(4) || '0.0000'}</span>
+                <span className="text-purple-300">{alchemicalTokens.substance.toFixed(4) || '0.0000'}</span>
               </div>
             </div>
           </div>
@@ -160,19 +160,19 @@ export function StateDebugger() {
             <div className="space-y-1 pl-2">
               <div className="flex justify-between">
                 <span>🔥 Heat:</span>
-                <span className="text-red-300">{thermodynamics?.heat?.toFixed(4) || '0.0000'}</span>
+                <span className="text-red-300">{thermodynamics?.heat.toFixed(4) || '0.0000'}</span>
               </div>
               <div className="flex justify-between">
                 <span>🌀 Entropy:</span>
-                <span className="text-cyan-300">{thermodynamics?.entropy?.toFixed(4) || '0.0000'}</span>
+                <span className="text-cyan-300">{thermodynamics?.entropy.toFixed(4) || '0.0000'}</span>
               </div>
               <div className="flex justify-between">
                 <span>⚡ Reactivity:</span>
-                <span className="text-yellow-300">{thermodynamics?.reactivity?.toFixed(4) || '0.0000'}</span>
+                <span className="text-yellow-300">{thermodynamics?.reactivity.toFixed(4) || '0.0000'}</span>
               </div>
               <div className="flex justify-between">
                 <span>💫 Greg's Energy:</span>
-                <span className="text-pink-300">{thermodynamics?.gregsEnergy?.toFixed(4) || '0.0000'}</span>
+                <span className="text-pink-300">{thermodynamics?.gregsEnergy.toFixed(4) || '0.0000'}</span>
               </div>
             </div>
           </div>

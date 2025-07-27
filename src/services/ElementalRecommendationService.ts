@@ -29,18 +29,18 @@ export class ElementalRecommendationService {
       cookingTechniques: elementalUtils.getSuggestedCookingTechniques(properties),
       // ✅ Pattern MM-1: getComplementaryElement returns element key, convert to string and wrap in array
       complementaryIngredients: [elementalUtils.getComplementaryElement(dominantElement) as string],
-      flavorProfiles: (utilsService?.getFlavorProfileRecommendations && typeof utilsService.getFlavorProfileRecommendations === 'function') ? utilsService.getFlavorProfileRecommendations(properties) : [],
-      healthBenefits: (utilsService?.getHealthBenefits && typeof utilsService.getHealthBenefits === 'function') ? utilsService.getHealthBenefits(properties) : [],
+      flavorProfiles: (utilsService.getFlavorProfileRecommendations && typeof utilsService.getFlavorProfileRecommendations === 'function') ? utilsService.getFlavorProfileRecommendations(properties) : [],
+      healthBenefits: (utilsService.getHealthBenefits && typeof utilsService.getHealthBenefits === 'function') ? utilsService.getHealthBenefits(properties) : [],
       timeOfDay: elementalUtils.getRecommendedTimeOfDay(properties),
       seasonalBest: this.getSeasonalRecommendations(dominantElement),
       // Fix TS2339: Property access on array type using safe type casting
       moodEffects: (() => {
         const characteristics = profile.characteristics as unknown as Record<string, unknown>;
-        return Array.isArray(characteristics?.moodEffects) ? characteristics.moodEffects as string[] : [];
+        return Array.isArray(characteristics.moodEffects) ? characteristics.moodEffects as string[] : [];
       })(),
       culinaryHerbs: (() => {
         const characteristics = profile.characteristics as unknown as Record<string, unknown>;
-        return Array.isArray(characteristics?.culinaryHerbs) ? characteristics.culinaryHerbs as string[] : [];
+        return Array.isArray(characteristics.culinaryHerbs) ? characteristics.culinaryHerbs as string[] : [];
       })()
     };
   }
@@ -81,10 +81,10 @@ export class ElementalRecommendationService {
     };
 
     const properties = {
-      Fire: lunarElementalMap[lunarPhase]?.Fire || 0.25,
-      Water: lunarElementalMap[lunarPhase]?.Water || 0.25,
-      Earth: lunarElementalMap[lunarPhase]?.Earth || 0.25,
-      Air: lunarElementalMap[lunarPhase]?.Air || 0.25
+      Fire: lunarElementalMap[lunarPhase].Fire || 0.25,
+      Water: lunarElementalMap[lunarPhase].Water || 0.25,
+      Earth: lunarElementalMap[lunarPhase].Earth || 0.25,
+      Air: lunarElementalMap[lunarPhase].Air || 0.25
     };
 
     return this.generateRecommendation(elementalUtils.normalizeProperties(properties));

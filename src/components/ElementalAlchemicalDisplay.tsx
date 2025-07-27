@@ -14,7 +14,7 @@ export default function ElementalAlchemicalDisplay() {
   const { state } = useAlchemical();
   
   // Get values from the correct location (state.alchemicalValues) with fallbacks
-  const alchemicalValues = state?.alchemicalValues || { 
+  const alchemicalValues = state.alchemicalValues || { 
     Spirit: 0.25, 
     Essence: 0.25, 
     Matter: 0.25, 
@@ -22,7 +22,7 @@ export default function ElementalAlchemicalDisplay() {
   };
   
   // Get elemental balance values from elementalState instead of elementalPreference
-  const elementalState = state?.elementalState || { 
+  const elementalState = state.elementalState || { 
     Fire: 0.25, 
     Water: 0.25, 
     Earth: 0.25, 

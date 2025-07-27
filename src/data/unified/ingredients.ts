@@ -66,9 +66,9 @@ function calculateMonica(
   
   // ✅ Pattern MM-1: Safe type assertion for thermodynamics access
   const thermoData = (thermodynamics as unknown) as Record<string, unknown>;
-  const reactivity = Number(thermoData?.reactivity) || 0;
-  const gregsEnergy = Number(thermoData?.gregsEnergy);
-  const energy = Number(thermoData?.energy) || 0;
+  const reactivity = Number(thermoData.reactivity) || 0;
+  const gregsEnergy = Number(thermoData.gregsEnergy);
+  const energy = Number(thermoData.energy) || 0;
   
   // Use gregsEnergy if available, otherwise use energy
   const energyValue = gregsEnergy !== undefined ? gregsEnergy : (energy || 0);
@@ -92,10 +92,10 @@ function enhanceIngredient(ingredient: IngredientMapping, sourceCategory: string
   // ✅ Pattern GG-6: Safe property access for alchemical properties
   const alchemicalData = (ingredient.alchemicalProperties as unknown) as Record<string, unknown>;
   const alchemicalProperties: AlchemicalProperties = {
-    Spirit: Number(alchemicalData?.Spirit) || 0.25,
-    Essence: Number(alchemicalData?.Essence) || 0.25,
-    Matter: Number(alchemicalData?.Matter) || 0.25,
-    Substance: Number(alchemicalData?.Substance) || 0.25
+    Spirit: Number(alchemicalData.Spirit) || 0.25,
+    Essence: Number(alchemicalData.Essence) || 0.25,
+    Matter: Number(alchemicalData.Matter) || 0.25,
+    Substance: Number(alchemicalData.Substance) || 0.25
   };
   
   // Calculate Kalchm value
@@ -288,8 +288,8 @@ export function getIngredientsByElement(element: keyof ElementalProperties, thre
       return props && Number(props[element] || 0) >= threshold;
     })
     .sort((a, b) => {
-      const valueA = Number((a?.elementalProperties?.[element]) || 0);
-      const valueB = Number((b?.elementalProperties?.[element]) || 0);
+      const valueA = Number((a.elementalProperties[element]) || 0);
+      const valueB = Number((b.elementalProperties[element]) || 0);
       return valueB - valueA;
     });
 }

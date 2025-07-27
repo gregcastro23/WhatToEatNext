@@ -202,11 +202,11 @@ export default function IngredientRecommender() {
     mode: 'standard',
     limit: 300 
   } as any);
-  const foodRecommendations = (alchemicalHookResult as unknown as Record<string, unknown>)?.enhancedRecommendations;
-  const chakraEnergies = (alchemicalHookResult as unknown as Record<string, unknown>)?.chakraEnergies;
-  const foodLoading = (alchemicalHookResult as unknown as Record<string, unknown>)?.loading || false;
-  const foodError = (alchemicalHookResult as unknown as Record<string, unknown>)?.error;
-  const refreshRecommendations = (alchemicalHookResult as unknown as Record<string, unknown>)?.refreshRecommendations;
+  const foodRecommendations = (alchemicalHookResult as unknown as Record<string, unknown>).enhancedRecommendations;
+  const chakraEnergies = (alchemicalHookResult as unknown as Record<string, unknown>).chakraEnergies;
+  const foodLoading = (alchemicalHookResult as unknown as Record<string, unknown>).loading || false;
+  const foodError = (alchemicalHookResult as unknown as Record<string, unknown>).error;
+  const refreshRecommendations = (alchemicalHookResult as unknown as Record<string, unknown>).refreshRecommendations;
 
   // Add timeout for loading state
   useEffect(() => {
@@ -351,9 +351,9 @@ export default function IngredientRecommender() {
           // Ensure each array item has the required IngredientRecommendation structure
           convertedRecommendations[key] = value.map(item => ({
             ...item,
-            name: item?.name || 'Unknown',
-            type: item?.type || 'ingredient',
-            matchScore: item?.matchScore || 0.5
+            name: item.name || 'Unknown',
+            type: item.type || 'ingredient',
+            matchScore: item.matchScore || 0.5
           })) as IngredientRecommendation[];
         } else {
           convertedRecommendations[key] = [];
@@ -378,11 +378,11 @@ export default function IngredientRecommender() {
       (herbsCollection || []).map((herb: unknown) => {
         // Apply surgical type casting with variable extraction
         const herbData = herb as Record<string, unknown>;
-        return herbData?.name;
+        return herbData.name;
       }) : 
       Object.values(herbsCollection || {}).map((herb: unknown) => {
         const herbData = herb as Record<string, unknown>;
-        return herbData?.name;
+        return herbData.name;
       });
   }, []);
 
@@ -392,11 +392,11 @@ export default function IngredientRecommender() {
       (oilsCollection || []).map((oil: unknown) => {
         // Apply surgical type casting with variable extraction
         const oilData = oil as Record<string, unknown>;
-        return String(oilData?.name || '').toLowerCase();
+        return String(oilData.name || '').toLowerCase();
       }) : 
       Object.values(oilsCollection || {}).map((oil: unknown) => {
         const oilData = oil as Record<string, unknown>;
-        return String(oilData?.name || '').toLowerCase();
+        return String(oilData.name || '').toLowerCase();
       });
   }, []);
 
@@ -406,11 +406,11 @@ export default function IngredientRecommender() {
       (vinegarsCollection || []).map((vinegar: unknown) => {
         // Apply surgical type casting with variable extraction
         const vinegarData = vinegar as Record<string, unknown>;
-        return String(vinegarData?.name || '').toLowerCase();
+        return String(vinegarData.name || '').toLowerCase();
       }) : 
       Object.values(vinegarsCollection || {}).map((vinegar: unknown) => {
         const vinegarData = vinegar as Record<string, unknown>;
-        return String(vinegarData?.name || '').toLowerCase();
+        return String(vinegarData.name || '').toLowerCase();
       });
   }, []);
   
@@ -418,9 +418,9 @@ export default function IngredientRecommender() {
   const isOil = (ingredient: IngredientRecommendation): boolean => {
     if (!ingredient) return false;
     
-    const name = ingredient.name?.toLowerCase();
+    const name = ingredient.name.toLowerCase();
     // Check if the name contains any oil type
-    const containsOilName = (oilTypes || []).some(oil => name?.includes?.(oil));
+    const containsOilName = (oilTypes || []).some(oil => name.includes(oil));
     
     // Check if the category is specified as oil
     const isOilCategory = ingredient.category?.toLowerCase() === 'oil' || 
@@ -435,9 +435,9 @@ export default function IngredientRecommender() {
   const isVinegar = (ingredient: IngredientRecommendation): boolean => {
     if (!ingredient) return false;
     
-    const name = ingredient.name?.toLowerCase();
+    const name = ingredient.name.toLowerCase();
     // Check if the name contains any vinegar type
-    const containsVinegarName = (vinegarTypes || []).some(vinegar => name?.includes?.(vinegar));
+    const containsVinegarName = (vinegarTypes || []).some(vinegar => name.includes(vinegar));
     
     // Check if the category is specified as vinegar
     const isVinegarCategory = ingredient.category?.toLowerCase() === 'vinegar' || 
@@ -452,7 +452,7 @@ export default function IngredientRecommender() {
   const getNormalizedCategory = (ingredient: IngredientRecommendation): string => {
     if (!ingredient.category) return 'other';
     
-    const _category = ingredient.category?.toLowerCase();
+    const _category = ingredient.category.toLowerCase();
     
     // Map categories to our standard ones
     if (['vegetable', 'vegetables'].includes(_category)) return 'vegetables';
@@ -521,8 +521,8 @@ export default function IngredientRecommender() {
     // Enhance score based on time of day (diurnal/nocturnal)
     if (ingredient.elementalProperties) {
       const timeBonus = isDaytime ? 
-        (ingredient?.elementalProperties?.Fire || 0) * 0.1 + (ingredient?.elementalProperties?.Air || 0) * 0.05 :
-        (ingredient?.elementalProperties?.Water || 0) * 0.1 + (ingredient?.elementalProperties?.Earth || 0) * 0.05;
+        (ingredient.elementalProperties.Fire || 0) * 0.1 + (ingredient.elementalProperties.Air || 0) * 0.05 :
+        (ingredient.elementalProperties.Water || 0) * 0.1 + (ingredient.elementalProperties.Earth || 0) * 0.05;
       score += timeBonus;
     }
     
@@ -590,61 +590,61 @@ export default function IngredientRecommender() {
 
   // Helper function to determine category from ingredient name
   const determineCategoryArrow = (name: string): string => {
-    const lowercaseName = name?.toLowerCase();
+    const lowercaseName = name.toLowerCase();
     
     // Proteins
     if (
-      lowercaseName?.includes('beef') || lowercaseName?.includes('chicken') || 
-      lowercaseName?.includes('pork') || lowercaseName?.includes('lamb') || 
-      lowercaseName?.includes('fish') || lowercaseName?.includes('seafood') ||
-      lowercaseName?.includes('tofu') || lowercaseName?.includes('tempeh') ||
-      lowercaseName?.includes('seitan') || lowercaseName?.includes('protein')
+      lowercaseName.includes('beef') || lowercaseName.includes('chicken') || 
+      lowercaseName.includes('pork') || lowercaseName.includes('lamb') || 
+      lowercaseName.includes('fish') || lowercaseName.includes('seafood') ||
+      lowercaseName.includes('tofu') || lowercaseName.includes('tempeh') ||
+      lowercaseName.includes('seitan') || lowercaseName.includes('protein')
     ) {
       return 'proteins';
     }
     
     // Vegetables
     if (
-      lowercaseName?.includes('carrot') || lowercaseName?.includes('broccoli') || 
-      lowercaseName?.includes('tomato') || lowercaseName?.includes('onion') ||
-      lowercaseName?.includes('garlic') || lowercaseName?.includes('spinach') ||
-      lowercaseName?.includes('lettuce') || lowercaseName?.includes('pepper')
+      lowercaseName.includes('carrot') || lowercaseName.includes('broccoli') || 
+      lowercaseName.includes('tomato') || lowercaseName.includes('onion') ||
+      lowercaseName.includes('garlic') || lowercaseName.includes('spinach') ||
+      lowercaseName.includes('lettuce') || lowercaseName.includes('pepper')
     ) {
       return 'vegetables';
     }
     
     // Fruits
     if (
-      lowercaseName?.includes('apple') || lowercaseName?.includes('orange') || 
-      lowercaseName?.includes('lemon') || lowercaseName?.includes('berry') ||
-      lowercaseName?.includes('melon') || lowercaseName?.includes('grape')
+      lowercaseName.includes('apple') || lowercaseName.includes('orange') || 
+      lowercaseName.includes('lemon') || lowercaseName.includes('berry') ||
+      lowercaseName.includes('melon') || lowercaseName.includes('grape')
     ) {
       return 'fruits';
     }
     
     // Herbs
     if (
-      lowercaseName?.includes('basil') || lowercaseName?.includes('oregano') || 
-      lowercaseName?.includes('thyme') || lowercaseName?.includes('rosemary') ||
-      lowercaseName?.includes('sage') || lowercaseName?.includes('parsley')
+      lowercaseName.includes('basil') || lowercaseName.includes('oregano') || 
+      lowercaseName.includes('thyme') || lowercaseName.includes('rosemary') ||
+      lowercaseName.includes('sage') || lowercaseName.includes('parsley')
     ) {
       return 'herbs';
     }
     
     // Spices
     if (
-      lowercaseName?.includes('cinnamon') || lowercaseName?.includes('cumin') || 
-      lowercaseName?.includes('turmeric') || lowercaseName?.includes('paprika') ||
-      lowercaseName?.includes('cardamom') || lowercaseName?.includes('ginger')
+      lowercaseName.includes('cinnamon') || lowercaseName.includes('cumin') || 
+      lowercaseName.includes('turmeric') || lowercaseName.includes('paprika') ||
+      lowercaseName.includes('cardamom') || lowercaseName.includes('ginger')
     ) {
       return 'spices';
     }
     
     // Grains
     if (
-      lowercaseName?.includes('rice') || lowercaseName?.includes('wheat') || 
-      lowercaseName?.includes('oat') || lowercaseName?.includes('barley') ||
-      lowercaseName?.includes('quinoa') || lowercaseName?.includes('pasta')
+      lowercaseName.includes('rice') || lowercaseName.includes('wheat') || 
+      lowercaseName.includes('oat') || lowercaseName.includes('barley') ||
+      lowercaseName.includes('quinoa') || lowercaseName.includes('pasta')
     ) {
       return 'grains';
     }
@@ -723,7 +723,7 @@ export default function IngredientRecommender() {
           ingredient.category?.toLowerCase() === 'protein' ||
           ingredient.category?.toLowerCase() === 'proteins'
         ) {
-          categories.proteins?.push({
+          categories.proteins.push({
             ...ingredient,
             matchScore: ingredient.score || 0.5
           } as EnhancedIngredientRecommendation);
@@ -748,7 +748,7 @@ export default function IngredientRecommender() {
           (Array.isArray(name) ? name.includes('spice') : name === 'spice') || 
           (Array.isArray(name) ? name.includes('seasoning') : name === 'seasoning')
         ) {
-          categories.spices?.push({
+          categories.spices.push({
             ...ingredient,
             matchScore: ingredient.score || 0.5
           });
@@ -764,28 +764,28 @@ export default function IngredientRecommender() {
           (Array.isArray(name) ? name.includes('chili pepper') : name === 'chili pepper') || 
           (Array.isArray(name) ? name.includes('paprika') : name === 'paprika')
         ) {
-          categories.vegetables?.push({
+          categories.vegetables.push({
             ...ingredient,
             matchScore: ingredient.score || 0.5
           });
         }
         // Oils
         else if (isOil(ingredient)) {
-          categories.oils?.push({
+          categories.oils.push({
             ...ingredient,
             matchScore: ingredient.score || 0.5
           });
         }
         // Vinegars
         else if (isVinegar(ingredient)) {
-          categories.vinegars?.push({
+          categories.vinegars.push({
             ...ingredient,
             matchScore: ingredient.score || 0.5
           });
         }
         // Herbs
         else if (ingredient.category === 'herb' || (Array.isArray(name) ? name.includes('herb') : name === 'herb') || (herbNames || []).some(herb => name?.includes?.(String(herb || '').toLowerCase()))) {
-          categories.herbs?.push({
+          categories.herbs.push({
             ...ingredient,
             matchScore: ingredient.score || 0.5
           });
@@ -810,7 +810,7 @@ export default function IngredientRecommender() {
               (Array.isArray(name) ? name.includes('arugula') : name === 'arugula') || (Array.isArray(name) ? name.includes('turnip') : name === 'turnip') || (Array.isArray(name) ? name.includes('leek') : name === 'leek') ||
               ingredient.category?.toLowerCase() === 'vegetable' || ingredient.category?.toLowerCase() === 'vegetables'
             ) {
-              categories.vegetables?.push({
+              categories.vegetables.push({
                 ...ingredient,
                 matchScore: ingredient.score || 0.5
               });
@@ -818,13 +818,13 @@ export default function IngredientRecommender() {
               (Array.isArray(name) ? name.includes('apple') : name === 'apple') || (Array.isArray(name) ? name.includes('orange') : name === 'orange') || (Array.isArray(name) ? name.includes('lemon') : name === 'lemon') || 
               (Array.isArray(name) ? name.includes('melon') : name === 'melon') || (Array.isArray(name) ? name.includes('berry') : name === 'berry') || (Array.isArray(name) ? name.includes('pineapple') : name === 'pineapple')
             ) {
-              categories.fruits?.push({
+              categories.fruits.push({
                 ...ingredient,
                 matchScore: ingredient.score || 0.5
               });
             } else {
               // Default to vegetables for unmatched items
-              categories.vegetables?.push({
+              categories.vegetables.push({
                 ...ingredient,
                 matchScore: ingredient.score || 0.5
               });
@@ -868,7 +868,7 @@ export default function IngredientRecommender() {
     // Ensure vinegars are always present by adding them from the collection if needed
     if (!categories.vinegars || categories.vinegars  || [].length === 0) {
       categories.vinegars = Object.entries(vinegarsCollection || {}).map(([key, vinegarData]) => {
-        const displayName = vinegarData.name || key.replace(/_/g, ' ')?.replace(/\b\w/g, l => l?.toUpperCase());
+        const displayName = vinegarData.name || key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
         return {
           name: displayName,
           type: 'vinegars',
@@ -888,22 +888,22 @@ export default function IngredientRecommender() {
     
     // Add any missing oils from the oils collection
     if (!categories.oils || categories.oils  || [].length < 3) {
-      const existingOilNames = new Set((categories.oils || [])?.map(oil => oil.name?.toLowerCase()));
+      const existingOilNames = new Set((categories.oils || []).map(oil => oil.name.toLowerCase()));
       const additionalOils = Object.entries(oilsCollection)
         .filter(([_, oilData]) => 
-          !existingOilNames.has(oilData.name?.toLowerCase() || '')
+          !existingOilNames.has(oilData.name.toLowerCase() || '')
         )
         .slice(0, 10) // Limit to 10 additional oils
         .map(([key, oilData]) => {
           return {
-            name: oilData.name || key.replace(/_/g, ' ')?.replace(/\b\w/g, l => l?.toUpperCase()),
+            name: oilData.name || key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase()),
             type: 'oils',
             category: 'oils',
             matchScore: 0.6,
             elementalProperties: oilData.elementalProperties || { Fire: 0.3, Water: 0.2, Earth: 0.3, Air: 0.2 
              },
             qualities: ((oilData as unknown as Record<string, unknown>).qualities as string[]) || ['cooking', 'flavoring'],
-            description: `${oilData.name || key.replace(/_/g, ' ')?.replace(/\b\w/g, l => l?.toUpperCase())} - ${String((oilData as unknown as Record<string, unknown>)?.description || "A versatile cooking oil with various applications.")}`
+            description: `${oilData.name || key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())} - ${String((oilData as unknown as Record<string, unknown>).description || "A versatile cooking oil with various applications.")}`
           } as IngredientRecommendation;
         });
       
@@ -926,7 +926,7 @@ export default function IngredientRecommender() {
   
   // Helper function to determine the category of a food by name
   function determineCategory(name: string): string {
-    const lowercaseName = name?.toLowerCase();
+    const lowercaseName = name.toLowerCase();
     
     // Proteins
     if (
@@ -1077,15 +1077,15 @@ export default function IngredientRecommender() {
     
     // Fallback comparison using elemental properties
     if (ingredient1.elementalProperties && ingredient2.elementalProperties) {
-      const fire1 = ingredient1?.elementalProperties?.Fire || 0;
-      const water1 = ingredient1?.elementalProperties?.Water || 0;
-      const earth1 = ingredient1?.elementalProperties?.Earth || 0;
-      const Air1 = ingredient1?.elementalProperties?.Air || 0;
+      const fire1 = ingredient1.elementalProperties.Fire || 0;
+      const water1 = ingredient1.elementalProperties.Water || 0;
+      const earth1 = ingredient1.elementalProperties.Earth || 0;
+      const Air1 = ingredient1.elementalProperties.Air || 0;
       
-      const fire2 = ingredient2?.elementalProperties?.Fire || 0;
-      const water2 = ingredient2?.elementalProperties?.Water || 0;
-      const earth2 = ingredient2?.elementalProperties?.Earth || 0;
-      const Air2 = ingredient2?.elementalProperties?.Air || 0;
+      const fire2 = ingredient2.elementalProperties.Fire || 0;
+      const water2 = ingredient2.elementalProperties.Water || 0;
+      const earth2 = ingredient2.elementalProperties.Earth || 0;
+      const Air2 = ingredient2.elementalProperties.Air || 0;
       
       // Calculate simple compatibility based on elemental similarity
       const fireDiff = Math.abs(fire1 - fire2);
@@ -1171,7 +1171,7 @@ export default function IngredientRecommender() {
             ? (ingredients || []).length 
             : (CATEGORY_DISPLAY_COUNTS[category] || 6);
           
-          const displayedItems = ingredients?.slice(0, displayCount);
+          const displayedItems = ingredients.slice(0, displayCount);
             
             return (
             <div key={category} className={'categorySection-class'}>
@@ -1203,19 +1203,19 @@ export default function IngredientRecommender() {
                       <div className={'elementalState-class'}>
                         {getElementIcon('Fire')}
                         <span className={'elementValue-class'}>
-                          {Math.round((item?.elementalProperties?.Fire || 0) * 100)}%
+                          {Math.round((item.elementalProperties.Fire || 0) * 100)}%
                             </span>
                         {getElementIcon('Water')}
                         <span className={'elementValue-class'}>
-                          {Math.round((item?.elementalProperties?.Water || 0) * 100)}%
+                          {Math.round((item.elementalProperties.Water || 0) * 100)}%
                         </span>
                         {getElementIcon('Earth')}
                         <span className={'elementValue-class'}>
-                          {Math.round((item?.elementalProperties?.Earth || 0) * 100)}%
+                          {Math.round((item.elementalProperties.Earth || 0) * 100)}%
                         </span>
                         {getElementIcon('Air')}
                         <span className={'elementValue-class'}>
-                          {Math.round((item?.elementalProperties?.Air || 0) * 100)}%
+                          {Math.round((item.elementalProperties.Air || 0) * 100)}%
                         </span>
                           </div>
                         )}
@@ -1230,7 +1230,7 @@ export default function IngredientRecommender() {
                           <div className={'qualities-class'}>
                             <span className={'detailLabel-class'}>Qualities:</span>
                             <div className={'tagsList-class'}>
-                              {item?.qualities || [].map(quality => (
+                              {item.qualities || [].map(quality => (
                                 <span key={quality} className={'tag-class'}>
                                   {quality}
                                       </span>
@@ -1245,15 +1245,15 @@ export default function IngredientRecommender() {
                             {/* Find matching enhanced recommendation */}
                             {enhancedRecommendations.recommendations
                               .filter(rec => 
-                                rec?.ingredient?.name?.toLowerCase() === item.name?.toLowerCase())
+                                rec.ingredient.name.toLowerCase() === item.name.toLowerCase())
                               .map(enhancedRec => (
-                                <div key={`enhanced-${enhancedRec?.ingredient?.name}`} className={'enhancedDetails-class'}>
+                                <div key={`enhanced-${enhancedRec.ingredient.name}`} className={'enhancedDetails-class'}>
                                   {enhancedRec.chakraAlignment && (
                                     <div className={'chakraAlignment-class'}>
                                     <ChakraIndicator 
-                                        chakra={enhancedRec?.chakraAlignment?.dominantChakra}
-                                        energyLevel={enhancedRec?.chakraAlignment?.energyLevel}
-                                        balanceState={enhancedRec?.chakraAlignment?.balanceState}
+                                        chakra={enhancedRec.chakraAlignment.dominantChakra}
+                                        energyLevel={enhancedRec.chakraAlignment.energyLevel}
+                                        balanceState={enhancedRec.chakraAlignment.balanceState}
                                     />
                                   </div>
                                 )}
@@ -1262,7 +1262,7 @@ export default function IngredientRecommender() {
                                     <div className={'recommendations-class'}>
                                       <h5 className={'recommendationsTitle-class'}>Why this ingredient:</h5>
                                       <ul className={'reasonsList-class'}>
-                                        {enhancedRec?.reasons || [].map((reason, idx) => (
+                                        {enhancedRec.reasons || [].map((reason, idx) => (
                                           <li key={idx} className={'reason-class'}>{reason}</li>
                                         ))}
                                       </ul>
@@ -1396,7 +1396,7 @@ export default function IngredientRecommender() {
         }}>
           {availableCategories.map(category => {
             const isSelected = selectedCategories.includes(category);
-            const count = combinedCategorizedRecommendations[category]?.length || 0;
+            const count = combinedCategorizedRecommendations[category].length || 0;
             
             return (
               <button
@@ -1417,13 +1417,13 @@ export default function IngredientRecommender() {
                   gap: '6px'
                 }}
                 onMouseEnter={(e) => {
-                  if (!isSelected && e?.currentTarget) {
+                  if (!isSelected && e.currentTarget) {
                     e.currentTarget.style.backgroundColor = '#f1f5f9';
                     e.currentTarget.style.borderColor = '#94a3b8';
                   }
                 }}
                 onMouseLeave={(e) => {
-                  if (!isSelected && e?.currentTarget) {
+                  if (!isSelected && e.currentTarget) {
                     e.currentTarget.style.backgroundColor = '#ffffff';
                     e.currentTarget.style.borderColor = '#d1d5db';
                   }
@@ -1941,8 +1941,8 @@ function areSimilarIngredients(name1: string, name2: string): boolean {
   if (!name1 || !name2) return false;
   
   // Normalize both names
-  const normalized1 = name1?.toLowerCase()?.trim();
-  const normalized2 = name2?.toLowerCase()?.trim();
+  const normalized1 = name1.toLowerCase().trim();
+  const normalized2 = name2.toLowerCase().trim();
   
   // Direct match
   if (normalized1 === normalized2) return true;

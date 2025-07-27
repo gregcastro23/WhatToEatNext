@@ -539,12 +539,12 @@ export function calculateBaseElementalProperties(
   Object.entries(planetaryPositions || {}).forEach(([planet, position]) => {
     if (!position.sign) return;
 
-    const element = ZODIAC_ELEMENTS[position.sign?.toLowerCase() as ZodiacSign];
+    const element = ZODIAC_ELEMENTS[position.sign.toLowerCase() as ZodiacSign];
     if (!element) return;
 
     // Weight by planet importance
     let weight = 1.0;
-    const planetLower = planet?.toLowerCase();
+    const planetLower = planet.toLowerCase();
     
     if (planetLower === 'Sun' || planetLower === 'Moon') {
       weight = 2.5;
@@ -572,7 +572,7 @@ export function applySeasonalAdjustments(
   baseProperties: ElementalProperties,
   season: string
 ): ElementalProperties {
-  const seasonalMod = SEASONAL_MODIFIERS[season?.toLowerCase()] || SEASONAL_MODIFIERS.spring;
+  const seasonalMod = SEASONAL_MODIFIERS[season.toLowerCase()] || SEASONAL_MODIFIERS.spring;
   
   return { Fire: baseProperties.Fire * (1 + seasonalMod.Fire * 0.2), Water: baseProperties.Water * (1 + seasonalMod.Water * 0.2), Air: baseProperties.Air * (1 + seasonalMod.Air * 0.2), Earth: baseProperties.Earth * (1 + seasonalMod.Earth * 0.2)
    };
@@ -585,7 +585,7 @@ export function applyLunarPhaseAdjustments(
   baseProperties: ElementalProperties,
   lunarPhase: string
 ): ElementalProperties {
-  const lunarMod = LUNAR_PHASE_MODIFIERS[lunarPhase?.toLowerCase()] || LUNAR_PHASE_MODIFIERS['full moon'];
+  const lunarMod = LUNAR_PHASE_MODIFIERS[lunarPhase.toLowerCase()] || LUNAR_PHASE_MODIFIERS['full moon'];
   
   return { Fire: baseProperties.Fire * (1 + lunarMod.Fire * 0.15), Water: baseProperties.Water * (1 + lunarMod.Water * 0.15), Air: baseProperties.Air * (1 + lunarMod.Air * 0.15), Earth: baseProperties.Earth * (1 + lunarMod.Earth * 0.15)
    };
@@ -655,7 +655,7 @@ export function combineElementalProperties(
  * Normalize elemental properties to sum to 1.0
  */
 export function normalizeElementalProperties(properties: ElementalProperties): ElementalProperties {
-  const total = Object.values(properties)?.reduce((sum, val) => sum + val, 0);
+  const total = Object.values(properties).reduce((sum, val) => sum + val, 0);
   
   if (total === 0) {
     return { Fire: 0.25, Water: 0.25, Air: 0.25, Earth: 0.25  };
@@ -679,10 +679,10 @@ function getDignityModifier(planet: string, sign: string): number {
     Saturn: { capricorn: 1.5, aquarius: 1.5, libra: 1.3, cancer: 0.7, leo: 0.7, aries: 0.5 }
   };
 
-  const planetKey = planet?.toLowerCase();
-  const signKey = sign?.toLowerCase();
+  const planetKey = planet.toLowerCase();
+  const signKey = sign.toLowerCase();
   
-  return dignities[planetKey]?.[signKey] || 1.0;
+  return dignities[planetKey][signKey] || 1.0;
 }
 
 /**

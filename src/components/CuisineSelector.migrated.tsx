@@ -79,7 +79,7 @@ function CuisineSelectorMigrated({
         
         // Use safe method access for lunar phase
         const lunarPhase = propCurrentLunarPhase || 
-          (serviceData?.getCurrentLunarPhase ? await (serviceData.getCurrentLunarPhase as () => Promise<string>)() : 'full moon');
+          (serviceData.getCurrentLunarPhase ? await (serviceData.getCurrentLunarPhase as () => Promise<string>)() : 'full moon');
         setResolvedLunarPhase(lunarPhase as LunarPhaseWithSpaces);
       } catch (err) {
         console.error('Error loading astrological data:', err);
@@ -109,10 +109,10 @@ function CuisineSelectorMigrated({
         
         // Get recommended cuisines based on planetary positions
         const result = await recommendationService.getRecommendedCuisines({
-          planetaryPositions: Object.entries(resolvedPlanetaryPositions)?.reduce((acc, [planet, degree]) => {
+          planetaryPositions: Object.entries(resolvedPlanetaryPositions).reduce((acc, [planet, degree]) => {
             // Apply safe type casting for astrology service access
             const serviceData = astrologyService as unknown as Record<string, unknown>;
-            const getZodiacSignForDegree = serviceData?.getZodiacSignForDegree as ((degree: number) => string) | undefined;
+            const getZodiacSignForDegree = serviceData.getZodiacSignForDegree as ((degree: number) => string) | undefined;
             const zodiacSign = getZodiacSignForDegree ? 
               getZodiacSignForDegree(Number(degree)) : 'aries';
             
@@ -126,17 +126,17 @@ function CuisineSelectorMigrated({
         });
         
         // Transform to ElementalItem format for compatibility with existing component
-        const cuisines: ElementalItem[] = (result?.items || []).map((cuisine, _index) => {
+        const cuisines: ElementalItem[] = (result.items || []).map((cuisine, _index) => {
           // Extract elemental properties from context if available
           const elementalProps = result.context?.elementalState?.[cuisine] || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
           };
           
           // Get score from result
-          const score = result?.scores?.[cuisine] || 0.5;
+          const score = result.scores[cuisine] || 0.5;
           
           // Create ElementalItem
           return {
-            id: cuisine?.toLowerCase()?.replace(/\s+/g, ''),
+            id: cuisine.toLowerCase().replace(/\s+/g, ''),
             name: cuisine,
             elementalProperties: elementalProps,
             // Add compatibility score as gregsEnergy for sorting
@@ -186,10 +186,10 @@ function CuisineSelectorMigrated({
     const cuisineData = cuisine as unknown as Record<string, unknown>;
     
     // If cuisine already has modality defined, use it
-    if (cuisineData?.modality) return cuisineData.modality as Modality;
+    if (cuisineData.modality) return cuisineData.modality as Modality;
     
     // Otherwise determine from elemental state
-    const elementalState = cuisineData?.elementalState as ElementalProperties || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
+    const elementalState = cuisineData.elementalState as ElementalProperties || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
     return determineModalityFromElements(elementalState);
   };
   
@@ -319,7 +319,7 @@ function CuisineSelectorMigrated({
               <option value="all">All Signs</option>
               {(currentZodiacSigns || []).map(sign => (
                 <option key={sign} value={sign}>
-                  {sign.charAt(0)?.toUpperCase() + sign?.slice(1)}
+                  {sign.charAt(0).toUpperCase() + sign.slice(1)}
                   {sign === resolvedCurrentZodiac ? ' (Current)' : ''}
                 </option>
               ))}
@@ -366,7 +366,7 @@ function CuisineSelectorMigrated({
             <option value="all">All Signs</option>
             {(currentZodiacSigns || []).map(sign => (
               <option key={sign} value={sign}>
-                {sign.charAt(0)?.toUpperCase() + sign?.slice(1)}
+                {sign.charAt(0).toUpperCase() + sign.slice(1)}
                 {sign === resolvedCurrentZodiac ? ' (Current)' : ''}
               </option>
             ))}
@@ -389,9 +389,9 @@ function CuisineSelectorMigrated({
       
       {resolvedCurrentZodiac && (
         <div className="current-influences p-3 bg-blue-50 rounded-lg mb-4">
-          <p>Current influences: <span className="font-semibold">{resolvedCurrentZodiac.charAt(0)?.toUpperCase() + resolvedCurrentZodiac?.slice(1)}</span> 
+          <p>Current influences: <span className="font-semibold">{resolvedCurrentZodiac.charAt(0).toUpperCase() + resolvedCurrentZodiac.slice(1)}</span> 
             {resolvedLunarPhase && (
-              <span> - {resolvedLunarPhase?.split(/(?=[A-Z])/).join(" ")}</span>
+              <span> - {resolvedLunarPhase.split(/(?=[A-Z])/).join(" ")}</span>
             )}
           </p>
         </div>
@@ -426,7 +426,7 @@ function CuisineSelectorMigrated({
               <span className="text-lg font-medium">{cuisine.name}</span>
               
               <div className="cuisine-modality flex justify-between items-center mt-2">
-                <span className={`modality-badge ${getCuisineModality(cuisine as unknown as CuisineType)?.toLowerCase()}`}>
+                <span className={`modality-badge ${getCuisineModality(cuisine as unknown as CuisineType).toLowerCase()}`}>
                   {getCuisineModality(cuisine as unknown as CuisineType)}
                 </span>
                 
@@ -449,7 +449,7 @@ function CuisineSelectorMigrated({
                     <span>Zodiac influences: </span>
                     {zodiacInfluences.map((sign: string, i: number) => (
                       <span key={sign} className={`${resolvedCurrentZodiac === sign ? 'font-bold' : ''}`}>
-                        {sign.charAt(0)?.toUpperCase() + sign?.slice(1)}
+                        {sign.charAt(0).toUpperCase() + sign.slice(1)}
                         {i < zodiacInfluences.length - 1 ? ', ' : ''}
                       </span>
                     ))}

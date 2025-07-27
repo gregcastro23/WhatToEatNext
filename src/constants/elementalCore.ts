@@ -297,7 +297,7 @@ export function getDominantElement(properties: ElementalProperties): Element {
  * Normalize elemental properties to sum to 1
  */
 export function normalizeElementalProperties(properties: ElementalProperties): ElementalProperties {
-  const total = Object.values(properties)?.reduce((sum, val) => sum + (val || 0), 0);
+  const total = Object.values(properties).reduce((sum, val) => sum + (val || 0), 0);
   
   if (total === 0) {
     return { ...DEFAULT_ELEMENTAL_PROPERTIES };
@@ -340,8 +340,8 @@ export function calculateElementalCompatibility(
  * Validate elemental properties
  */
 export function validateElementalProperties(properties: ElementalProperties): boolean {
-  const total = Object.values(properties)?.reduce((sum, val) => sum + val, 0);
-  const isValidRange = Object.values(properties)?.every(val => 
+  const total = Object.values(properties).reduce((sum, val) => sum + val, 0);
+  const isValidRange = Object.values(properties).every(val => 
     val >= VALIDATION_THRESHOLDS.MINIMUM_ELEMENT && 
     val <= VALIDATION_THRESHOLDS.MAXIMUM_ELEMENT
   );

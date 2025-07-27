@@ -97,7 +97,7 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
           'leo': 120, 'virgo': 150, 'libra': 180, 'scorpio': 210,
           'sagittarius': 240, 'capricorn': 270, 'aquarius': 300, 'pisces': 330
         };
-        return signMapping[sign?.toLowerCase()] || 0;
+        return signMapping[sign.toLowerCase()] || 0;
       };
       
       const result: Record<RulingPlanet, number> = { ...defaultPositions };
@@ -136,11 +136,11 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
   
   const resolvedIsDaytime = isDaytime !== undefined ? isDaytime : alchemicalContext.isDaytime;
   const resolvedCurrentZodiac: ZodiacSignType | null = currentZodiac || 
-    (alchemicalContext.state?.astrologicalState?.zodiacSign as ZodiacSignType) || null;
+    (alchemicalContext.state.astrologicalState.zodiacSign as ZodiacSignType) || null;
   
   // Fix the lunar phase type resolution
   const resolvedLunarPhase: LunarPhaseType = lunarPhase || 
-    (alchemicalContext.state?.astrologicalState?.lunarPhase as LunarPhaseType) || 
+    (alchemicalContext.state.astrologicalState.lunarPhase as LunarPhaseType) || 
     'new moon';
   
   // State for targeting specific elements or properties using type aliases
@@ -259,7 +259,7 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
         // Calculate based on cooking method characteristics
         elementalEffect = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
         
-        const methodName = (method?.name || key).toLowerCase();
+        const methodName = (method.name || key).toLowerCase();
         
         // Adjust by cooking method type
         if (methodName.includes('grill') || methodName.includes('roast') || methodName.includes('bake') ||
@@ -325,8 +325,8 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
         // Calculate based on cuisine characteristics
         elementalState = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
         
-        const cuisineName = ((cuisine as Record<string, unknown>)?.name || key).toString().toLowerCase();
-        const region = ((cuisine as Record<string, unknown>)?.region || '').toString().toLowerCase();
+        const cuisineName = ((cuisine as Record<string, unknown>).name || key).toString().toLowerCase();
+        const region = ((cuisine as Record<string, unknown>).region || '').toString().toLowerCase();
         
         // Adjust by cuisine type/region
         if (cuisineName.includes('indian') || cuisineName.includes('thai') || 

@@ -28,7 +28,7 @@ export function adaptRecipeData(recipeData: RecipeData): Recipe {
     name: recipeData.name || 'Unnamed Recipe',
     ingredients,
     instructions: recipeData.instructions || ['Combine ingredients and cook as desired.'],
-    elementalProperties: (recipeData as unknown as Record<string, unknown>)?.elementalState as ElementalProperties || {
+    elementalProperties: (recipeData as unknown as Record<string, unknown>).elementalState as ElementalProperties || {
       Fire: 0.25,
       Water: 0.25,
       Earth: 0.25,
@@ -51,17 +51,17 @@ export function adaptRecipeData(recipeData: RecipeData): Recipe {
 
   // Handle time-related properties
   const recipeDataAny = recipeData as unknown as Record<string, unknown>;
-  if (recipeDataAny?.timeToMake !== undefined) {
+  if (recipeDataAny.timeToMake !== undefined) {
     recipe.timeToMake = String(recipeDataAny.timeToMake);
   }
 
   // Handle serving-related properties
-  if (recipeDataAny?.servingSize !== undefined) {
+  if (recipeDataAny.servingSize !== undefined) {
     recipe.servings = recipeDataAny.servingSize as string;
   }
 
   // Handle elemental properties
-  if (recipeDataAny?.elementalState) {
+  if (recipeDataAny.elementalState) {
     recipe.elementalState = recipeDataAny.elementalState as ElementalProperties;
   } else {
     // Create default elemental properties
@@ -69,8 +69,8 @@ export function adaptRecipeData(recipeData: RecipeData): Recipe {
   }
 
   // Handle season
-  const energyProfile = recipeDataAny?.energyProfile as Record<string, unknown>;
-  if (energyProfile?.season) {
+  const energyProfile = recipeDataAny.energyProfile as Record<string, unknown>;
+  if (energyProfile.season) {
     recipe.currentSeason = energyProfile.currentSeason as string;
   }
 
@@ -100,7 +100,7 @@ export function adaptRecipeData(recipeData: RecipeData): Recipe {
   // Handle dietary properties
   const dietaryTags = (recipeData.tags || []).filter(tag => 
     ['vegetarian', 'vegan', 'gluten-free', 'dairy-free', 'nut-free', 'low-carb', 'keto', 'paleo']
-    .includes(tag?.toLowerCase())
+    .includes(tag.toLowerCase())
   );
 
   if (dietaryTags.includes('vegetarian')) {
@@ -123,7 +123,7 @@ export function adaptRecipeData(recipeData: RecipeData): Recipe {
   if (recipeData.tags) {
     const mealTypeValues = ['breakfast', 'lunch', 'dinner', 'snack', 'dessert', 'appetizer'];
     const mealTypes = (recipeData.tags || []).filter(tag => 
-      mealTypeValues.includes(tag?.toLowerCase())
+      mealTypeValues.includes(tag.toLowerCase())
     );
     if (mealTypes.length > 0) {
       recipe.mealType = mealTypes;
@@ -133,45 +133,45 @@ export function adaptRecipeData(recipeData: RecipeData): Recipe {
   // Handle nutrition information
   if (recipeData.nutrition) {
     const nutritionData = recipeData.nutrition as Record<string, unknown>;
-    const macronutrients = nutritionData?.macronutrients as Record<string, unknown> || {};
-    const micronutrients = nutritionData?.micronutrients as Record<string, unknown> || {};
+    const macronutrients = nutritionData.macronutrients as Record<string, unknown> || {};
+    const micronutrients = nutritionData.micronutrients as Record<string, unknown> || {};
     recipe.nutrition = {
-      calories: Number(nutritionData?.calories) || 0, 
-      protein: Number(nutritionData?.protein) || Number(macronutrients?.protein) || 0, 
-      carbs: Number(nutritionData?.carbs) || Number(macronutrients?.carbs) || 0, 
-      fat: Number(nutritionData?.fat) || Number(macronutrients?.fat) || 0, 
-      vitamins: (nutritionData?.vitamins as string[]) || (micronutrients?.vitamins as string[]) || [], 
-      minerals: (nutritionData?.minerals as string[]) || (micronutrients?.minerals as string[]) || [] 
+      calories: Number(nutritionData.calories) || 0, 
+      protein: Number(nutritionData.protein) || Number(macronutrients.protein) || 0, 
+      carbs: Number(nutritionData.carbs) || Number(macronutrients.carbs) || 0, 
+      fat: Number(nutritionData.fat) || Number(macronutrients.fat) || 0, 
+      vitamins: (nutritionData.vitamins as string[]) || (micronutrients.vitamins as string[]) || [], 
+      minerals: (nutritionData.minerals as string[]) || (micronutrients.minerals as string[]) || [] 
     };
   }
 
   // Handle substitutions
-  if (recipeDataAny?.substitutions && Array.isArray(recipeDataAny.substitutions)) {
+  if (recipeDataAny.substitutions && Array.isArray(recipeDataAny.substitutions)) {
     recipe.substitutions = recipeDataAny.substitutions;
   }
 
   // Handle tools
-  if (recipeDataAny?.tools && Array.isArray(recipeDataAny.tools)) {
+  if (recipeDataAny.tools && Array.isArray(recipeDataAny.tools)) {
     recipe.tools = recipeDataAny.tools;
   }
 
   // Handle spice level
-  if (recipeDataAny?.spiceLevel !== undefined) {
+  if (recipeDataAny.spiceLevel !== undefined) {
     recipe.spiceLevel = String(recipeDataAny.spiceLevel) as any;
   }
 
   // Handle preparation notes
-  if (recipeDataAny?.preparationNotes) {
+  if (recipeDataAny.preparationNotes) {
     recipe.preparationNotes = String(recipeDataAny.preparationNotes);
   }
 
   // Handle technical tips
-  if (recipeDataAny?.technicalTips && Array.isArray(recipeDataAny.technicalTips)) {
+  if (recipeDataAny.technicalTips && Array.isArray(recipeDataAny.technicalTips)) {
     recipe.technicalTips = recipeDataAny.technicalTips;
   }
 
   // Handle flavor profile
-  if (recipeDataAny?.flavorProfile) {
+  if (recipeDataAny.flavorProfile) {
     recipe.flavorProfile = recipeDataAny.flavorProfile;
   }
 
@@ -270,7 +270,7 @@ export function adaptAllRecipes(recipeDataArray: RecipeData[]): Recipe[] {
  */
 export function extractElementalProperties(recipeData: RecipeData): ElementalProperties {
   const recipeDataAny = (recipeData as unknown) as Record<string, unknown>;
-  if (recipeDataAny?.elementalState) {
+  if (recipeDataAny.elementalState) {
     return recipeDataAny.elementalState as ElementalProperties;
   }
   
@@ -293,8 +293,8 @@ export function getCookingMethodsFromRecipe(recipeData: RecipeData): string[] {
       'deep-frying', 'blanching', 'curing', 'pickling', 'fermenting', 'dehydrating'
     ];
     
-    const methods = (recipeData?.tags || []).filter(tag => 
-      cookingMethodKeywords.some(method => tag?.toLowerCase()?.includes(method))
+    const methods = (recipeData.tags || []).filter(tag => 
+      cookingMethodKeywords.some(method => tag.toLowerCase().includes(method))
     );
     
     if (methods.length > 0) {

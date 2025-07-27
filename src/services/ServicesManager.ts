@@ -152,7 +152,7 @@ export class ServicesManager {
       const result = alchemicalEngine.alchemize(dummyPositions);
       logger.info('AlchemicalEngine test calculation completed');
       
-      this._serviceResults?.push({
+      this._serviceResults.push({
         success: true,
         serviceName: 'AlchemicalEngine',
         message: 'Engine initialized successfully',
@@ -164,7 +164,7 @@ export class ServicesManager {
       const errorMessage = error instanceof Error ? error.message : String(error);
       logger.error('Error initializing AlchemicalEngine:', errorMessage);
       
-      this._serviceResults?.push({
+      this._serviceResults.push({
         success: false,
         serviceName: 'AlchemicalEngine',
         message: 'Failed to initialize engine',
@@ -188,7 +188,7 @@ export class ServicesManager {
       const positions = await astrologyService.getCurrentPlanetaryPositions();
       logger.info(`AstrologyService loaded positions for ${Object.keys(positions || {}).length} celestial bodies`);
       
-      this._serviceResults?.push({
+      this._serviceResults.push({
         success: true,
         serviceName: 'AstrologyService',
         message: 'Service initialized successfully',
@@ -200,7 +200,7 @@ export class ServicesManager {
       const errorMessage = error instanceof Error ? error.message : String(error);
       logger.error('Error initializing AstrologyService:', errorMessage);
       
-      this._serviceResults?.push({
+      this._serviceResults.push({
         success: false,
         serviceName: 'AstrologyService',
         message: 'Failed to initialize service',
@@ -224,7 +224,7 @@ export class ServicesManager {
       const ingredients = unifiedIngredientService.getAllIngredientsFlat();
       logger.info(`IngredientService loaded (${(ingredients  || []).length} ingredients`);
       
-      this._serviceResults?.push({
+      this._serviceResults.push({
         success: true,
         serviceName: 'IngredientService',
         message: `Loaded (${(ingredients  || []).length} ingredients`,
@@ -236,7 +236,7 @@ export class ServicesManager {
       const errorMessage = error instanceof Error ? error.message : String(error);
       logger.error('Error initializing IngredientService:', errorMessage);
       
-      this._serviceResults?.push({
+      this._serviceResults.push({
         success: false,
         serviceName: 'IngredientService',
         message: 'Failed to initialize service',
@@ -260,7 +260,7 @@ export class ServicesManager {
       const recipes = await unifiedRecipeService.getAllRecipes();
       logger.info(`RecipeService loaded (${(recipes  || []).length} recipes`);
       
-      this._serviceResults?.push({
+      this._serviceResults.push({
         success: true,
         serviceName: 'RecipeService',
         message: `Loaded (${(recipes  || []).length} recipes`,
@@ -272,7 +272,7 @@ export class ServicesManager {
       const errorMessage = error instanceof Error ? error.message : String(error);
       logger.error('Error initializing RecipeService:', errorMessage);
       
-      this._serviceResults?.push({
+      this._serviceResults.push({
         success: false,
         serviceName: 'RecipeService',
         message: 'Failed to initialize service',
@@ -304,7 +304,7 @@ export class ServicesManager {
       
       logger.info(`RecommendationService verification: ${compatibility}`);
       
-      this._serviceResults?.push({
+      this._serviceResults.push({
         success: true,
         serviceName: 'RecommendationService',
         message: 'Service initialized successfully',
@@ -316,7 +316,7 @@ export class ServicesManager {
       const errorMessage = error instanceof Error ? error.message : String(error);
       logger.error('Error initializing RecommendationService:', errorMessage);
       
-      this._serviceResults?.push({
+      this._serviceResults.push({
         success: false,
         serviceName: 'RecommendationService',
         message: 'Failed to initialize service',
@@ -366,7 +366,7 @@ export class ServicesManager {
       
       logger.info('AlchemicalRecommendationService test completed');
       
-      this._serviceResults?.push({
+      this._serviceResults.push({
         success: true,
         serviceName: 'AlchemicalRecommendationService',
         message: 'Service initialized successfully',
@@ -378,7 +378,7 @@ export class ServicesManager {
       const errorMessage = error instanceof Error ? error.message : String(error);
       logger.error('Error initializing AlchemicalRecommendationService:', errorMessage);
       
-      this._serviceResults?.push({
+      this._serviceResults.push({
         success: false,
         serviceName: 'AlchemicalRecommendationService',
         message: 'Failed to initialize service',

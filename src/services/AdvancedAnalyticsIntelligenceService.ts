@@ -8,14 +8,10 @@
 
 import { 
   AdvancedAnalyticsIntelligenceResult,
-  AdvancedRecipeAnalyticsAnalysis,
-  AdvancedIngredientAnalyticsAnalysis,
-  AdvancedCuisineAnalyticsAnalysis,
-  AdvancedAstrologicalAnalyticsAnalysis,
   AdvancedIntelligenceConfig,
   AdvancedIntelligenceMetrics
 } from '@/types/advancedIntelligence';
-import { Recipe, Ingredient, ZodiacSign } from '@/types/unified';
+import { Recipe, Ingredient, ZodiacSign, RecipeIngredient, ElementalProperties } from '@/types/unified';
 import { getCurrentSeason } from '@/utils/dateUtils';
 import { calculateElementalCompatibility } from '@/utils/elemental/elementalUtils';
 import { logger } from '@/utils/logger';
@@ -28,9 +24,37 @@ const calculateSeasonalOptimization = (seasonality: string, currentSeason: strin
   return 0.6;
 };
 
-const calculateAstrologicalAlignment = (recipe: any, zodiacSign: string, lunarPhase: string): number => {
-  // Placeholder implementation - would integrate with actual astrological calculations
-  return 0.75 + (Math.random() * 0.2); // 75-95% range
+const calculateAstrologicalAlignment = (recipe: Recipe, zodiacSign: string, lunarPhase: string): number => {
+  let alignment = 0.5; // Base alignment score
+  
+  // Check zodiac compatibility with recipe's astrological timing
+  if (recipe.astrologicalTiming?.zodiacCompatibility) {
+    const zodiacCompatibility = recipe.astrologicalTiming.zodiacCompatibility[zodiacSign as ZodiacSign];
+    if (zodiacCompatibility) {
+      alignment += zodiacCompatibility * 0.2; // Up to 20% bonus
+    }
+  }
+  
+  // Check lunar phase compatibility
+  if (recipe.astrologicalTiming?.lunarPhaseCompatibility) {
+    const lunarCompatibility = recipe.astrologicalTiming.lunarPhaseCompatibility[lunarPhase];
+    if (lunarCompatibility) {
+      alignment += lunarCompatibility * 0.15; // Up to 15% bonus
+    }
+  }
+  
+  // Check if any ingredients have zodiac influences matching the current zodiac
+  const zodiacIngredientBonus = recipe.ingredients.reduce((bonus, ingredient) => {
+    if (ingredient.zodiacInfluences?.includes(zodiacSign as ZodiacSign)) {
+      return bonus + 0.02; // 2% per matching ingredient
+    }
+    return bonus;
+  }, 0);
+  
+  alignment += Math.min(zodiacIngredientBonus, 0.15); // Cap at 15%
+  
+  // Ensure alignment stays within reasonable bounds
+  return Math.max(0.2, Math.min(0.95, alignment));
 };
 
 // ========== ADVANCED ANALYTICS INTELLIGENCE SERVICE ==========
@@ -395,7 +419,7 @@ export class AdvancedAnalyticsIntelligenceService {
 
     const recipeData = recipe as unknown as Record<string, unknown>;
     const seasonalDimension = calculateSeasonalOptimization(
-      String(recipeData?.seasonality || 'all'), 
+      String(recipeData.seasonality || 'all'), 
       getCurrentSeason()
     );
     const astrologicalDimension = calculateAstrologicalAlignment(
@@ -436,8 +460,22 @@ export class AdvancedAnalyticsIntelligenceService {
     // Analyze technique complexity
     const techniqueComplexity = this.calculateTechniqueComplexity(recipe);
     
-    // Analyze time complexity
-    const timeComplexity = this.calculateTimeComplexity(recipe);
+    // Analyze time complexity - adjusted based on astrological timing
+    let timeComplexity = this.calculateTimeComplexity(recipe);
+    
+    // Adjust complexity based on astrological context
+    if (astrologicalContext) {
+      // Mercury retrograde increases complexity
+      if (astrologicalContext.mercuryRetrograde) {
+        timeComplexity *= 1.15; // 15% increase during Mercury retrograde
+      }
+      
+      // Favorable planetary aspects reduce perceived complexity
+      if (astrologicalContext.favorableAspects?.length > 0) {
+        const reductionFactor = Math.min(0.1 * astrologicalContext.favorableAspects.length, 0.3);
+        timeComplexity *= (1 - reductionFactor);
+      }
+    }
     
     // Analyze skill complexity
     const skillComplexity = this.calculateSkillComplexity(recipe);
@@ -748,13 +786,13 @@ export class AdvancedAnalyticsIntelligenceService {
   }
 
   private calculateIngredientComplexity(recipe: Recipe): number {
-    const ingredientCount = recipe.ingredients?.length || 0;
+    const ingredientCount = recipe.ingredients.length || 0;
     return Math.min(1, ingredientCount / 20); // Normalize to 0-1 scale
   }
 
   private calculateTechniqueComplexity(recipe: Recipe): number {
     const recipeData = (recipe as unknown) as Record<string, unknown>;
-    const cookingMethods = recipeData?.cookingMethod as string[] || recipeData?.cookingMethods as string[] || [];
+    const cookingMethods = recipeData.cookingMethod as string[] || recipeData.cookingMethods as string[] || [];
     const techniqueCount = cookingMethods.length;
     return Math.min(1, techniqueCount / 10); // Normalize to 0-1 scale
   }
@@ -786,8 +824,100 @@ export class AdvancedAnalyticsIntelligenceService {
   }
 
   private calculateSeasonalOptimization(recipe: Recipe, astrologicalContext: any): number {
-    // TODO: Analyze seasonal ingredient availability and energetic alignment
-    return 0.75;
+    const currentSeason = getCurrentSeason();
+    let optimization = 0.5;
+    
+    // Direct seasonal match
+    if (recipe.seasonality === currentSeason) {
+      optimization = 0.9;
+    } else if (recipe.seasonality === 'all') {
+      optimization = 0.7;
+    } else if (recipe.seasonality?.includes(currentSeason)) {
+      optimization = 0.8;
+    }
+    
+    // Astrological seasonal considerations
+    if (astrologicalContext) {
+      // Sun sign seasonal alignment
+      const sunElement = this.getElementForZodiacSign(astrologicalContext.sunSign);
+      const seasonElement = this.getElementForSeason(currentSeason);
+      
+      if (sunElement === seasonElement) {
+        optimization += 0.1; // Elemental harmony bonus
+      }
+      
+      // Cardinal signs at season beginnings
+      const cardinalSigns = ['aries', 'cancer', 'libra', 'capricorn'];
+      if (cardinalSigns.includes(astrologicalContext.sunSign) && 
+          this.isSeasonBeginning(astrologicalContext.date)) {
+        optimization += 0.05; // Cardinal energy bonus
+      }
+    }
+    
+    return Math.max(0.3, Math.min(0.95, optimization));
+  }
+
+  // Helper methods for astrological calculations
+  private getElementForZodiacSign(sign: string): string {
+    const elementMap: Record<string, string> = {
+      aries: 'Fire', leo: 'Fire', sagittarius: 'Fire',
+      taurus: 'Earth', virgo: 'Earth', capricorn: 'Earth',
+      gemini: 'Air', libra: 'Air', aquarius: 'Air',
+      cancer: 'Water', scorpio: 'Water', pisces: 'Water'
+    };
+    return elementMap[sign.toLowerCase()] || 'Earth';
+  }
+
+  private getElementForSeason(season: string): string {
+    const seasonMap: Record<string, string> = {
+      spring: 'Air',
+      summer: 'Fire',
+      autumn: 'Earth',
+      fall: 'Earth',
+      winter: 'Water'
+    };
+    return seasonMap[season.toLowerCase()] || 'Earth';
+  }
+
+  private isSeasonBeginning(date: Date): boolean {
+    const month = date.getMonth();
+    const day = date.getDate();
+    
+    // Approximate season beginnings
+    return (month === 2 && day >= 19 && day <= 21) || // Spring equinox
+           (month === 5 && day >= 20 && day <= 22) || // Summer solstice
+           (month === 8 && day >= 21 && day <= 23) || // Fall equinox
+           (month === 11 && day >= 20 && day <= 22);  // Winter solstice
+  }
+
+  private calculateElementalHarmony(elements: ElementalProperties): number {
+    const values = Object.values(elements);
+    const max = Math.max(...values);
+    const min = Math.min(...values);
+    const range = max - min;
+    
+    // Lower range means better harmony
+    return 1 - (range / 100);
+  }
+
+  private calculateIngredientSynergies(ingredients: RecipeIngredient[]): number {
+    // Simple synergy calculation based on elemental compatibility
+    let synergy = 0;
+    for (let i = 0; i < ingredients.length - 1; i++) {
+      for (let j = i + 1; j < ingredients.length; j++) {
+        if (ingredients[i].elementalProperties && ingredients[j].elementalProperties) {
+          const compatibility = calculateElementalCompatibility(
+            ingredients[i].elementalProperties!,
+            ingredients[j].elementalProperties!
+          );
+          synergy += compatibility;
+        }
+      }
+    }
+    
+    // Normalize by number of pairs
+    const pairs = (ingredients.length * (ingredients.length - 1)) / 2;
+    return pairs > 0 ? synergy / pairs : 0.5;
   }
 
   // Recipe prediction calculations - TODO: Implement predictive modeling
@@ -855,7 +985,7 @@ export class AdvancedAnalyticsIntelligenceService {
     // Calculate diversity based on ingredient categories and types
     const uniqueTypes = new Set(ingredients.map(ing => {
       const ingData = (ing as unknown) as Record<string, unknown>;
-      return ingData?.category as string || ingData?.type as string || 'unknown';
+      return ingData.category as string || ingData.type as string || 'unknown';
     })).size;
     return Math.min(1, uniqueTypes / Math.max(1, ingredients.length));
   }

@@ -223,7 +223,7 @@ const RecipeCard: React.FC<RecipeCardProps> = ({
               <ul className="space-y-1 text-sm">
                 {recipe.ingredients.map((ingredient, index) => (
                   <li key={index}>
-                    • {typeof ingredient === 'string' ? ingredient : ingredient?.name || 'Unknown ingredient'}
+                    • {typeof ingredient === 'string' ? ingredient : ingredient.name || 'Unknown ingredient'}
                   </li>
                 ))}
               </ul>
@@ -236,7 +236,7 @@ const RecipeCard: React.FC<RecipeCardProps> = ({
               <ol className="list-decimal list-inside space-y-1 text-sm">
                 {recipe.instructions.map((instruction, index) => (
                   <li key={index}>
-                    {typeof instruction === 'string' ? instruction : String((instruction as unknown as Record<string, unknown>)?.step || 'Unknown step')}
+                    {typeof instruction === 'string' ? instruction : String((instruction as unknown as Record<string, unknown>).step || 'Unknown step')}
                   </li>
                 ))}
               </ol>
@@ -387,7 +387,7 @@ export const RecipeGrid: React.FC<RecipeGridProps> = ({
 
   const getElementalScore = (recipe: ScoredRecipe, element: ElementalFilter): number => {
     const standardizedRecipe = recipeElementalService.standardizeRecipe(recipe);
-    return element === 'all' ? 1 : (standardizedRecipe?.elementalState?.[element] || 0);
+    return element === 'all' ? 1 : (standardizedRecipe.elementalState?.[element] || 0);
   };
 
   const getSeasonalScore = (recipe: ScoredRecipe): number => {
@@ -441,7 +441,7 @@ export const RecipeGrid: React.FC<RecipeGridProps> = ({
       // Check planetary influences
       if ((recipe as Record<string, unknown>).astrologicalInfluences && activePlanets) {
         const influences = (recipe as unknown as Record<string, unknown>).astrologicalInfluences;
-        const favorablePlanets = (influences as string[])?.filter((planet: string) => 
+        const favorablePlanets = (influences as string[]).filter((planet: string) => 
           Array.isArray(activePlanets) ? activePlanets.includes(planet) : activePlanets === planet
         );
         
@@ -483,11 +483,11 @@ export const RecipeGrid: React.FC<RecipeGridProps> = ({
         if (searchQuery) {
           const query = searchQuery.toLowerCase();
           const matchesSearch = 
-            recipe.name?.toLowerCase().includes(query) ||
+            recipe.name.toLowerCase().includes(query) ||
             recipe.description?.toLowerCase().includes(query) ||
             recipe.cuisine?.toLowerCase().includes(query) ||
             (recipe.ingredients || []).some((ing: unknown) => 
-              typeof ing === 'string' ? ing.toLowerCase().includes(query) : String((ing  as Record<string, unknown>)?.name || '').toLowerCase().includes(query)
+              typeof ing === 'string' ? ing.toLowerCase().includes(query) : String((ing  as Record<string, unknown>).name || '').toLowerCase().includes(query)
             );
           if (!matchesSearch) return false;
         }
@@ -562,13 +562,13 @@ export const RecipeGrid: React.FC<RecipeGridProps> = ({
             comparison = getSeasonalScore(b) - getSeasonalScore(a);
             break;
           case 'calories':
-            comparison = (Number(((a as Record<string, unknown>)?.nutrition as Record<string, unknown>)?.calories) || 0) - (Number(((b as Record<string, unknown>)?.nutrition as Record<string, unknown>)?.calories) || 0);
+            comparison = (Number(((a as Record<string, unknown>).nutrition as Record<string, unknown>).calories) || 0) - (Number(((b as Record<string, unknown>).nutrition as Record<string, unknown>).calories) || 0);
             break;
           case 'difficulty':
-            comparison = (Number((a as unknown as Record<string, unknown>)?.difficulty || 1)) - (Number((b as unknown as Record<string, unknown>)?.difficulty || 1));
+            comparison = (Number((a as unknown as Record<string, unknown>).difficulty || 1)) - (Number((b as unknown as Record<string, unknown>).difficulty || 1));
             break;
           case 'rating':
-            comparison = (Number((b as unknown as Record<string, unknown>)?.rating || 0)) - (Number((a as unknown as Record<string, unknown>)?.rating || 0));
+            comparison = (Number((b as unknown as Record<string, unknown>).rating || 0)) - (Number((a as unknown as Record<string, unknown>).rating || 0));
             break;
           default:
             comparison = b.score - a.score;
@@ -863,7 +863,7 @@ export const RecipeGrid: React.FC<RecipeGridProps> = ({
         {timeFactors && (
           <span className="flex items-center gap-1">
             <Sun className="h-4 w-4" />
-            Current season: {String((timeFactors as unknown as Record<string, unknown>)?.season || getCurrentSeason())}
+            Current season: {String((timeFactors as unknown as Record<string, unknown>).season || getCurrentSeason())}
           </span>
         )}
       </div>

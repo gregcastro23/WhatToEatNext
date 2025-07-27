@@ -345,7 +345,7 @@ export const getTarotCardsForDate = (date: Date, sunPosition?: { sign: string, d
     name: majorArcanaName,
     planet: decanRuler || 'Sun', // Default to Sun if no planet found
     keywords: majorArcanaKeywords[majorArcanaName] || [],
-    element: MAJOR_ARCANA[majorArcanaName ]?.element || '' // Extract element from MAJOR_ARCANA
+    element: MAJOR_ARCANA[majorArcanaName ].element || '' // Extract element from MAJOR_ARCANA
   };
   
   return { minorCard, majorCard };
@@ -394,7 +394,7 @@ export function getRecipeFiltersFromTarot(tarotCards: { minorCard: TarotCard, ma
     associatedRecipes: [] as string[]
   };
   
-  if (tarotCards?.minorCard) {
+  if (tarotCards.minorCard) {
     // Only add element if it exists
     if (tarotCards.minorCard.element) {
       filters.elementalProperties[tarotCards.minorCard.element] = 1;
@@ -409,7 +409,7 @@ export function getRecipeFiltersFromTarot(tarotCards: { minorCard: TarotCard, ma
     }
   }
   
-  if (tarotCards?.majorCard && tarotCards.majorCard.element) {
+  if (tarotCards.majorCard && tarotCards.majorCard.element) {
     filters.elementalProperties[tarotCards.majorCard.element] =
       (filters.elementalProperties[tarotCards.majorCard.element] || 0) + 0.5;
   }
@@ -469,7 +469,7 @@ export const getTarotFoodRecommendations = (date: Date): {
     associatedRecipes: []
   };
   
-  const recommendedRecipes = tarotCard?.associatedRecipes || [];
+  const recommendedRecipes = tarotCard.associatedRecipes || [];
   
   // Generate flavor profiles based on elemental combinations
   const flavors = getFlavorProfile(element, foodElement);
@@ -529,5 +529,5 @@ function getFlavorProfile(element: string, foodElement: string): string[] {
     }
   };
   
-  return flavorProfiles[element]?.[foodElement] || ['balanced flavors', 'harmonious combinations'];
+  return flavorProfiles[element][foodElement] || ['balanced flavors', 'harmonious combinations'];
 } 

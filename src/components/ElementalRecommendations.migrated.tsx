@@ -203,7 +203,7 @@ const ElementalRecommendationsMigrated: React.FC<ElementalRecommendationsProps> 
                 className="font-medium"
                 style={{ color: getElementColor(rec.element) }}
               >
-                {rec.element.charAt(0)?.toUpperCase() + rec.element?.slice(1)} Recommendation
+                {rec.element.charAt(0).toUpperCase() + rec.element.slice(1)} Recommendation
               </span>
             </div>
             <p className="text-sm text-gray-700">{rec.recommendation}</p>

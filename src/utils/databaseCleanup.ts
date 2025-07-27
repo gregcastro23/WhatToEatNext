@@ -29,7 +29,7 @@ export function cleanupIngredientsDatabase() {
         
         // Safe property access using type assertion
         const data = ingredientWithAstrology as Record<string, unknown>;
-        const name = data?.name;
+        const name = data.name;
         
         // Ensure ingredient has a name
         if (!name) {
@@ -39,7 +39,7 @@ export function cleanupIngredientsDatabase() {
         }
         
         // Ensure elemental properties exist and are valid
-        const elementalProps = data?.elementalProperties;
+        const elementalProps = data.elementalProperties;
         if (!elementalProps) {
           data.elementalProperties = { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
           fixedEntries++;
@@ -50,7 +50,7 @@ export function cleanupIngredientsDatabase() {
           
           // Ensure all elemental properties are present and normalized
           elements.forEach(element => {
-            const elementalProperties = data?.elementalProperties;
+            const elementalProperties = data.elementalProperties;
             if (typeof elementalProperties?.[element] !== 'number') {
               if (elementalProperties) {
                 elementalProperties[element] = 0.25;
@@ -60,7 +60,7 @@ export function cleanupIngredientsDatabase() {
           });
           
           // Normalize to ensure sum = 1
-          const currentElementalProps = data?.elementalProperties;
+          const currentElementalProps = data.elementalProperties;
           // Apply Pattern KK-1: Explicit Type Assertion for arithmetic operations
           const sum = Object.values(currentElementalProps ?? {}).reduce((acc, val) => {
             const accValue = Number(acc) || 0;
@@ -69,7 +69,7 @@ export function cleanupIngredientsDatabase() {
           }, 0);
           if (Math.abs(Number(sum) - 1) > 0.01) {
             elements.forEach(element => {
-              const props = data?.elementalProperties;
+              const props = data.elementalProperties;
               if (props) {
                 const currentValue = Number(props[element]) || 0;
                 const sumValue = Number(sum) || 1;
@@ -87,7 +87,7 @@ export function cleanupIngredientsDatabase() {
         
         // Ensure astrologicalProfile exists
         if (!ingredientWithAstrology.astrologicalProfile) {
-          const currentElementalProps = data?.elementalProperties;
+          const currentElementalProps = data.elementalProperties;
           const dominantElement = currentElementalProps ? 
             Object.entries(currentElementalProps)
               .reduce((a, b) => a[1] > b[1] ? a : b, ['Fire', 0])[0] : 'Fire';
@@ -98,9 +98,9 @@ export function cleanupIngredientsDatabase() {
           } as AstrologicalProfile;
           fixedEntries++;
           logger.warn(`Added default astrological profile to ${data.name || name || 'unknown ingredient'}`);
-        } else if (!(ingredientWithAstrology.astrologicalProfile as Record<string, unknown>)?.elementalAffinity) {
+        } else if (!(ingredientWithAstrology.astrologicalProfile as Record<string, unknown>).elementalAffinity) {
           // Ensure elementalAffinity exists within the profile - safe property access
-          const currentElementalProps = data?.elementalProperties;
+          const currentElementalProps = data.elementalProperties;
           const dominantElement = currentElementalProps ? 
             Object.entries(currentElementalProps)
               .reduce((a, b) => a[1] > b[1] ? a : b, ['Fire', 0])[0] : 'Fire';

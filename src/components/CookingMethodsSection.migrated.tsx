@@ -96,7 +96,7 @@ export function CookingMethodsSectionMigrated({ methods,
       return scoreB - scoreA;
     });
     
-    return showAllMethods ? sortedMethods : sortedMethods?.slice(0, 8);
+    return showAllMethods ? sortedMethods : sortedMethods.slice(0, 8);
   }, [methods, showAllMethods]);
   
   // Auto-expand the section if we have methods and a pre-selected method
@@ -141,7 +141,7 @@ export function CookingMethodsSectionMigrated({ methods,
   
   // Handle ingredient compatibility calculation
   const calculateIngredientCompatibility = async () => {
-    if (!searchIngredient?.trim() || !ingredientService) return;
+    if (!searchIngredient.trim() || !ingredientService) return;
     
     try {
       setIsLoading(true);
@@ -289,7 +289,7 @@ export function CookingMethodsSectionMigrated({ methods,
     if (!method.alchemicalProperties) return null;
     
     const properties = method.alchemicalProperties;
-    const sortedProps = Object.entries(properties)?.sort((a, b) => b[1] - a[1]);
+    const sortedProps = Object.entries(properties).sort((a, b) => b[1] - a[1]);
     
     if ((sortedProps || []).length < 2) return null;
     
@@ -409,7 +409,7 @@ export function CookingMethodsSectionMigrated({ methods,
               />
               <button 
                 onClick={() => calculateIngredientCompatibility()}
-                disabled={isLoading || !searchIngredient?.trim()}
+                disabled={isLoading || !searchIngredient.trim()}
                 className={styles['search-button']}
               >
                 {isLoading ? 'Loading...' : 'Calculate Compatibility'}
@@ -448,8 +448,8 @@ export function CookingMethodsSectionMigrated({ methods,
                   
                   {/* Show ingredient compatibility if available */}
                   {ingredientCompatibility[method.id] !== undefined && (
-                    <div className={`${styles['ingredient-compatibility']} ${styles[getCompatibilityLabel(ingredientCompatibility[method.id])?.className]}`}>
-                      <span>{getCompatibilityLabel(ingredientCompatibility[method.id])?.label}</span>
+                    <div className={`${styles['ingredient-compatibility']} ${styles[getCompatibilityLabel(ingredientCompatibility[method.id]).className]}`}>
+                      <span>{getCompatibilityLabel(ingredientCompatibility[method.id]).label}</span>
                       <span className={styles['compatibility-value']}>{Math.round(ingredientCompatibility[method.id] * 100)}%</span>
                       <div className={styles['compatibility-bar']}>
                         <div className={styles['compatibility-bar-fill']} style={{width: `${Math.round(ingredientCompatibility[method.id] * 100)}%`}}></div>
@@ -544,7 +544,7 @@ export function CookingMethodsSectionMigrated({ methods,
                 {method.suitable_for && method.suitable_for.length > 0 && (
                   <div className={styles['method-suitable']}>
                     <ThumbsUp size={14} />
-                    <span>Best for: {method.suitable_for?.join(', ')}</span>
+                    <span>Best for: {method.suitable_for.join(', ')}</span>
                   </div>
                 )}
                 
@@ -567,8 +567,8 @@ export function CookingMethodsSectionMigrated({ methods,
                           
                           {/* Show ingredient compatibility for variation if available */}
                           {ingredientCompatibility[variation.id] !== undefined && (
-                            <div className={`${styles['variation-compatibility']} ${styles[getCompatibilityLabel(ingredientCompatibility[variation.id])?.className]}`}>
-                              <span>{getCompatibilityLabel(ingredientCompatibility[variation.id])?.label} match with {searchIngredient}</span>
+                            <div className={`${styles['variation-compatibility']} ${styles[getCompatibilityLabel(ingredientCompatibility[variation.id]).className]}`}>
+                              <span>{getCompatibilityLabel(ingredientCompatibility[variation.id]).label} match with {searchIngredient}</span>
                             </div>
                           )}
                         </div>

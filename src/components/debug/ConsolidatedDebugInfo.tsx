@@ -207,17 +207,17 @@ const ConsolidatedDebugInfo = memo(function ConsolidatedDebugInfo({
             <div>
               <h4 className="font-medium text-blue-400 mb-1">Astrological State</h4>
               <div className="space-y-1 text-xs">
-                <div>Sun Sign: {(planetaryPositions?.sun as any)?.sign || 'Unknown'}</div>
-                <div>Lunar Phase: {state?.lunarPhase || 'Unknown'}</div>
-                <div>Planetary Hour: {state?.planetaryHour || 'Unknown'}</div>
+                <div>Sun Sign: {(planetaryPositions.sun as any)?.sign || 'Unknown'}</div>
+                <div>Lunar Phase: {state.lunarPhase || 'Unknown'}</div>
+                <div>Planetary Hour: {state.planetaryHour || 'Unknown'}</div>
                 <div>Time of Day: {isDaytime ? 'Day' : 'Night'}</div>
-                <div>Dominant Element: {state?.dominantElement || 'Unknown'}</div>
+                <div>Dominant Element: {state.dominantElement || 'Unknown'}</div>
               </div>
             </div>
           )}
 
           {/* Elemental Balance */}
-          {showAstrologicalData && state?.elementalState && (
+          {showAstrologicalData && state.elementalState && (
             <div>
               <h4 className="font-medium text-green-400 mb-1">Elemental Balance</h4>
               <div className="space-y-1 text-xs">
@@ -232,7 +232,7 @@ const ConsolidatedDebugInfo = memo(function ConsolidatedDebugInfo({
           )}
 
           {/* Alchemical Values */}
-          {showAstrologicalData && state?.alchemicalValues && (
+          {showAstrologicalData && state.alchemicalValues && (
             <div>
               <h4 className="font-medium text-purple-400 mb-1">Alchemical Tokens</h4>
               <div className="space-y-1 text-xs">
@@ -257,20 +257,20 @@ const ConsolidatedDebugInfo = memo(function ConsolidatedDebugInfo({
                 </div>
                 <div className="flex justify-between">
                   <span>Data Loading:</span>
-                  <span className={state?.error ? 'text-red-400' : 'text-green-400'}>
-                    {state?.error ? 'Error' : 'OK'}
+                  <span className={state.error ? 'text-red-400' : 'text-green-400'}>
+                    {state.error ? 'Error' : 'OK'}
                   </span>
                 </div>
                 <div className="flex justify-between">
                   <span>Last Update:</span>
-                  <span>{formatTime(state?.lastUpdated || new Date())}</span>
+                  <span>{formatTime(state.lastUpdated || new Date())}</span>
                 </div>
               </div>
             </div>
           )}
 
           {/* Error Display */}
-          {state?.errors && state.errors.length > 0 && (
+          {state.errors && state.errors.length > 0 && (
             <div>
               <h4 className="font-medium text-red-400 mb-1">Recent Errors</h4>
               <div className="space-y-1 text-xs max-h-20 overflow-y-auto">

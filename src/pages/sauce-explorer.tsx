@@ -410,7 +410,7 @@ export default function SauceExplorer() {
               <Utensils className="w-5 h-5 mr-2" />
               {selectedCuisine
                 ? `${
-                    allCuisines[selectedCuisine]?.name || selectedCuisine
+                    allCuisines[selectedCuisine].name || selectedCuisine
                   } Sauces`
                 : 'All Cuisine Sauces'}
             </h2>

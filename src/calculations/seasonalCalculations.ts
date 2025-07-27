@@ -39,7 +39,7 @@ export function calculateSeasonalEffectiveness(recipe: Recipe, season: string): 
     totalScore += breakdown.elementalAlignment;
 
     // 2. Calculate Ingredient Seasonality (30% of total)
-    if (recipe.ingredients?.length) {
+    if (recipe.ingredients.length) {
         // Count ingredients that have this season in their seasonality array
         let seasonalCount = 0;
         for (const ingredient of recipe.ingredients) {

@@ -11,7 +11,7 @@ import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 export const SystemStatusIndicator: React.FC = React.memo(() => {
   const alchemicalData = useAlchemical();
   const planetaryPositions = alchemicalData.planetaryPositions;
-  const isLoading = (alchemicalData as { isLoading?: boolean })?.isLoading || false;
+  const isLoading = (alchemicalData as { isLoading?: boolean }).isLoading || false;
   const state = alchemicalData.state;
   const [dataSource, setDataSource] = useState<string>('unknown');
   const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
@@ -32,8 +32,8 @@ export const SystemStatusIndicator: React.FC = React.memo(() => {
     // This is a simple heuristic - in a real implementation we would get this from telemetry
     const sunPosition = planetaryPositions.Sun;
     if (sunPosition && 
-        (sunPosition as { sign?: string; degree?: number })?.sign === 'aries' && 
-        (sunPosition as { sign?: string; degree?: number })?.degree === 8.63) {
+        (sunPosition as { sign?: string; degree?: number }).sign === 'aries' && 
+        (sunPosition as { sign?: string; degree?: number }).degree === 8.63) {
       setDataSource('hardcoded');
     } else {
       setDataSource('api');

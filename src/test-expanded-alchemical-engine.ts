@@ -139,11 +139,11 @@ async function runComprehensiveTests() {
       'italian'
     );
     console.log('Basic Match Results:', {
-      score: basicMatch.result?.score?.toFixed(4),
-      elementalProperties: basicMatch.result?.elementalProperties,
-      thermodynamicProperties: basicMatch.result?.thermodynamicProperties,
-      kalchm: basicMatch.result?.kalchm,
-      monica: basicMatch.result?.monica,
+      score: basicMatch.result.score.toFixed(4),
+      elementalProperties: basicMatch.result.elementalProperties,
+      thermodynamicProperties: basicMatch.result.thermodynamicProperties,
+      kalchm: basicMatch.result.kalchm,
+      monica: basicMatch.result.monica,
       confidence: basicMatch.confidence,
       factors: basicMatch.factors,
     });
@@ -158,10 +158,10 @@ async function runComprehensiveTests() {
       testBirthInfo
     );
     console.log('Advanced Harmony Results:', {
-      overall: advancedHarmony.overall?.toFixed(4),
-      elemental: advancedHarmony.elemental?.toFixed(4),
-      astrological: advancedHarmony.astrological?.toFixed(4),
-      seasonal: advancedHarmony.seasonal?.toFixed(4),
+      overall: advancedHarmony.overall.toFixed(4),
+      elemental: advancedHarmony.elemental.toFixed(4),
+      astrological: advancedHarmony.astrological.toFixed(4),
+      seasonal: advancedHarmony.seasonal.toFixed(4),
       factors: advancedHarmony.factors,
     });
     console.log('✅ Advanced harmony test completed\n');
@@ -172,7 +172,7 @@ async function runComprehensiveTests() {
       'gemini',
       testAstrologicalState
     );
-    console.log('Astrological Power:', astrologicalPower?.toFixed(4));
+    console.log('Astrological Power:', astrologicalPower.toFixed(4));
     console.log('✅ Astrological power test completed\n');
 
     // Test 4: Elemental Affinity Analysis
@@ -235,12 +235,12 @@ async function runComprehensiveTests() {
     // Check for enhanced properties
     if ('kalchm' in legacyResult) {
       console.log('Enhanced Thermodynamic Properties:', {
-        kalchm: (legacyResult as Record<string, any>)?.kalchm?.toFixed(4),
-        monicaConstant: (legacyResult as Record<string, any>)?.monicaConstant?.toFixed(6),
-        gregsEnergy: (legacyResult as Record<string, any>)?.gregsEnergy?.toFixed(6),
-        heat: (legacyResult as Record<string, any>)?.heat?.toFixed(6),
-        entropy: (legacyResult as Record<string, any>)?.entropy?.toFixed(6),
-        reactivity: (legacyResult as Record<string, any>)?.reactivity?.toFixed(6)
+        kalchm: (legacyResult as Record<string, any>).kalchm?.toFixed(4),
+        monicaConstant: (legacyResult as Record<string, any>).monicaConstant?.toFixed(6),
+        gregsEnergy: (legacyResult as Record<string, any>).gregsEnergy?.toFixed(6),
+        heat: (legacyResult as Record<string, any>).heat?.toFixed(6),
+        entropy: (legacyResult as Record<string, any>).entropy?.toFixed(6),
+        reactivity: (legacyResult as Record<string, any>).reactivity?.toFixed(6)
       });
     }
     const elementalState = legacyResultData?.elementalState;
@@ -275,9 +275,9 @@ async function runComprehensiveTests() {
         'spring',
         cuisine
       );
-      cuisineResults?.push({
+      cuisineResults.push({
         cuisine,
-        score: result.result?.score?.toFixed(4),
+        score: result.result.score.toFixed(4),
         confidence: result.confidence,
       });
     }
@@ -333,7 +333,7 @@ async function runComprehensiveTests() {
 }
 
 // Run the tests
-runComprehensiveTests()?.then(() => {
+runComprehensiveTests().then(() => {
   console.log('\n🔬 Test execution completed');
 }).catch(error => {
   console.error('💥 Test execution failed:', error);

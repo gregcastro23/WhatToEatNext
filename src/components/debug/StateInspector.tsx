@@ -36,9 +36,9 @@ export function StateInspector() {
   }
 
   // Extract main planetary positions for display
-  const sunPosition = currentPlanetaryAlignment?.Sun;
-  const moonPosition = currentPlanetaryAlignment?.Moon;
-  const ascendantPosition = currentPlanetaryAlignment?.Ascendant;
+  const sunPosition = currentPlanetaryAlignment.Sun;
+  const moonPosition = currentPlanetaryAlignment.Moon;
+  const ascendantPosition = currentPlanetaryAlignment.Ascendant;
 
   // Helper function to format planetary position for display
   const formatPosition = (position: any): string => {
@@ -81,7 +81,7 @@ export function StateInspector() {
         </div>
         <div className="p-2 bg-gray-700 rounded col-span-2">
           <span className="font-semibold text-gray-400">Active Planets: </span>
-          <span>{activePlanets?.join(', ') || 'N/A'}</span>
+          <span>{activePlanets.join(', ') || 'N/A'}</span>
         </div>
       </div>
     </div>

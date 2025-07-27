@@ -360,7 +360,7 @@ export async function findBestMatches(
       // Apply safe type casting for astrological state access
       const astroData = enhancedCurrentEnergy ;
       const currentSign = astroData?.sign || astroData?.zodiacSign;
-      if (currentSign && (influences || []).some(influence => influence?.toLowerCase()?.includes(currentSign?.toLowerCase())
+      if (currentSign && (influences || []).some(influence => influence.toLowerCase().includes(currentSign?.toLowerCase())
       )) {
         score += 12;
       }
@@ -369,7 +369,7 @@ export async function findBestMatches(
     // Seasonal bonus
     if (matchFilters.currentSeason) {
       const recipeSeasons = await getRecipeSeasons(recipe);
-      if ((recipeSeasons || []).some(s => s?.toLowerCase() === matchFilters.currentSeason!.toLowerCase())) {
+      if ((recipeSeasons || []).some(s => s.toLowerCase() === matchFilters.currentSeason!.toLowerCase())) {
         score += 15;
       }
     }
@@ -377,7 +377,7 @@ export async function findBestMatches(
     // Meal type bonus
     if (matchFilters.mealType) {
       const recipeMealTypes = await getRecipeMealTypes(recipe);
-      if ((recipeMealTypes || []).some(mt => mt?.toLowerCase() === matchFilters.mealType!.toLowerCase())) {
+      if ((recipeMealTypes || []).some(mt => mt.toLowerCase() === matchFilters.mealType!.toLowerCase())) {
         score += 10;
       }
     }
@@ -472,7 +472,7 @@ async function applyMatchFilters(recipes: Recipe[], filters: MatchFilters): Prom
     if ((filters.cookingMethods && filters.cookingMethods.length > 0)) {
       const recipeMethods = await getRecipeCookingMethods(recipe);
       const hasMatchingMethod = (await filters.cookingMethods || []).some(async (method) =>
-        recipeMethods.some(async (m) => m?.toLowerCase() === method?.toLowerCase())
+        recipeMethods.some(async (m) => m.toLowerCase() === method.toLowerCase())
       );
       if (!hasMatchingMethod) return false;
     }
@@ -504,7 +504,7 @@ function calculateRecipeEnergyMatch(
   
   // Calculate match score based on dominant element
   if (currentEnergy.dominantElement) {
-    const matchElement = currentEnergy.dominantElement?.toLowerCase();
+    const matchElement = currentEnergy.dominantElement.toLowerCase();
     return recipeElements[matchElement] || 0;
   }
   
@@ -528,7 +528,7 @@ function calculateElementalAlignment(
   // Apply safe type casting for astrological state access
   const astroData = currentEnergy as any;
   const currentSign = astroData?.sign || astroData?.zodiacSign;
-  if (currentSign && (recipeInfluences || []).some(influence => influence?.toLowerCase()?.includes(currentSign?.toLowerCase())
+  if (currentSign && (recipeInfluences || []).some(influence => influence.toLowerCase().includes(currentSign?.toLowerCase())
   )) {
     score += 0.2;
   }
@@ -595,7 +595,7 @@ function calculateAstrologicalMatch(
   // Handle different types of astrological influences
   if (Array.isArray(recipeInfluence)) {
     return (recipeInfluence || []).some((influence: string) => 
-      influence?.toLowerCase()?.includes(userSign?.toLowerCase())
+      influence.toLowerCase().includes(userSign.toLowerCase())
     ) ? 0.9 : 0.3;
   }
   
@@ -719,7 +719,7 @@ class ElementMapper {
       'Pluto': 'Water'
     };
     
-    return planetToElement[planet?.toLowerCase()] || 'neutral';
+    return planetToElement[planet.toLowerCase()] || 'neutral';
   }
   
   getZodiacElement(sign: string): string {
@@ -738,7 +738,7 @@ class ElementMapper {
       'pisces': 'Water'
     };
     
-    return signToElement[sign?.toLowerCase()] || 'neutral';
+    return signToElement[sign.toLowerCase()] || 'neutral';
   }
 }
 
@@ -764,7 +764,7 @@ export async function connectIngredientsToMappings(
       const exactMatch = (Array.isArray(allIngredients) ? allIngredients : Object.values(allIngredients || {})).find((mapping) => 
         typeof mapping === 'object' && 
         mapping.name && 
-        mapping.name?.toLowerCase() === ingredientName?.toLowerCase()
+        mapping.name.toLowerCase() === ingredientName.toLowerCase()
       ) as unknown as IngredientMapping;
       
       if (exactMatch) {
@@ -779,8 +779,8 @@ export async function connectIngredientsToMappings(
       const partialMatches = (Array.isArray(allIngredients) ? allIngredients : Object.values(allIngredients || {})).filter((mapping) => 
         typeof mapping === 'object' && 
         mapping.name && 
-        (mapping.name?.toLowerCase()?.includes(ingredientName?.toLowerCase()) ||
-        ingredientName?.toLowerCase()?.includes(mapping.name?.toLowerCase()))
+        (mapping.name.toLowerCase().includes(ingredientName.toLowerCase()) ||
+        ingredientName.toLowerCase().includes(mapping.name.toLowerCase()))
       ) as unknown as IngredientMapping[];
       
       if ((partialMatches || []).length > 0) {
@@ -811,8 +811,8 @@ export async function connectIngredientsToMappings(
 // ===== STRING COMPARISON UTILITIES =====
 
 function getStringSimilarity(str1: string, str2: string): number {
-  const normalizedStr1 = str1?.toLowerCase();
-  const normalizedStr2 = str2?.toLowerCase();
+  const normalizedStr1 = str1.toLowerCase();
+  const normalizedStr2 = str2.toLowerCase();
   
   if (normalizedStr1 === normalizedStr2) return 1;
   if (normalizedStr1.includes(normalizedStr2) || normalizedStr2.includes(normalizedStr1)) return 0.8;
@@ -940,7 +940,7 @@ function calculateModalityScore(recipeModality: string, userModality: string): n
     }
   };
   
-  return compatibilityMatrix[recipeModality]?.[userModality] || 0.3;
+  return compatibilityMatrix[recipeModality][userModality] || 0.3;
 }
 
 // Re-export calculateMatchScore for other modules

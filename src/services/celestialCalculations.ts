@@ -346,7 +346,7 @@ class CelestialCalculator {
     let elementalAssociation: 'Fire' | 'Water' | 'Earth' | 'Air' | undefined = undefined;
     
     if (suit !== 'major') {
-      const element = TAROT_ELEMENTAL_MAPPING[suit]?.Element as 'Fire' | 'Water' | 'Earth' | 'Air';
+      const element = TAROT_ELEMENTAL_MAPPING[suit].Element as 'Fire' | 'Water' | 'Earth' | 'Air';
       elementalAssociation = element;
     }
     
@@ -772,7 +772,7 @@ class CelestialCalculator {
     outerPlanets.forEach(planet => {
       // Get the planet's current position from the passed positions or default values
       const position = planetaryPositions[planet.toLowerCase()] || { sign: '', degree: 0 };
-      const sign = position.sign?.toLowerCase() || '';
+      const sign = position.sign.toLowerCase() || '';
       
       // Base influence for outer planets
       let influence = 0.2;
@@ -797,7 +797,7 @@ class CelestialCalculator {
       // Apply safe type casting for module property access
       const calculator = astronomiaCalculator as Record<string, unknown>;
       if (typeof calculator !== 'undefined' && 
-          typeof calculator?.calculateLunarPhase === 'function') {
+          typeof calculator.calculateLunarPhase === 'function') {
         const lunarPhase = calculator.calculateLunarPhase(date);
         if (lunarPhase) return lunarPhase;
       }
@@ -1559,7 +1559,7 @@ class CelestialCalculator {
     
     // Return appropriate meanings based on suit, value, and orientation
     const orientation = isUpright ? 'upright' : 'reversed';
-    return meanings[suit as keyof typeof meanings]?.[orientation]?.slice(index * 3, (index * 3) + 3) || 
+    return meanings[suit as keyof typeof meanings][orientation].slice(index * 3, (index * 3) + 3) || 
       ['Balance', 'Harmony', 'Connection'];
   }
 }

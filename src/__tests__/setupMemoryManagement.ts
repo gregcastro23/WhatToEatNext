@@ -73,7 +73,7 @@ function performPeriodicMemoryCheck(): void {
  * Emergency memory cleanup procedure
  */
 function performEmergencyCleanup(): void {
-  if (globalMemoryMonitor) {
+  if (globalMemoryMonitor != null) {
     globalMemoryMonitor.cleanup('emergency-cleanup');
   }
   
@@ -113,7 +113,7 @@ function performEmergencyCleanup(): void {
 function setupMemoryHooks(): void {
   // Before each test suite
   beforeAll(() => {
-    if (globalMemoryMonitor) {
+    if (globalMemoryMonitor != null) {
       globalMemoryMonitor.takeSnapshot('suite-start');
     }
   });
@@ -138,7 +138,7 @@ function setupMemoryHooks(): void {
 
   // After each test
   afterEach(() => {
-    if (globalMemoryMonitor) {
+    if (globalMemoryMonitor != null) {
       const testName = expect.getState().currentTestName || 'unknown-test';
       const memoryCheck = globalMemoryMonitor.checkMemoryUsage(`after-${testName}`);
       
@@ -165,7 +165,7 @@ function setupMemoryHooks(): void {
 
   // After each test suite
   afterAll(() => {
-    if (globalMemoryMonitor) {
+    if (globalMemoryMonitor != null) {
       globalMemoryMonitor.takeSnapshot('suite-end');
       
       // Generate memory report for the suite
@@ -217,7 +217,7 @@ function addGarbageCollectionHints(): void {
   
   // Add cleanup utility
   global.cleanupTestMemory = () => {
-    if (globalMemoryMonitor) {
+    if (globalMemoryMonitor != null) {
       return globalMemoryMonitor.cleanup('manual-cleanup');
     }
     return null;
@@ -228,25 +228,25 @@ function addGarbageCollectionHints(): void {
  * Configure process-level memory management
  */
 function configureProcessMemory(): void {
-  // Set Node.js memory limits if not already set
+  // Set Node?.js memory limits if not already set
   if (!process.env.NODE_OPTIONS?.includes('--max-old-space-size')) {
     // Set reasonable memory limit for tests (2GB)
     process.env.NODE_OPTIONS = (process.env.NODE_OPTIONS || '') + ' --max-old-space-size=2048';
   }
   
   // Enable garbage collection exposure if not already enabled
-  if (!process.env.NODE_OPTIONS?.includes('--expose-gc')) {
+  if (!process.env.NODE_OPTIONS.includes('--expose-gc')) {
     process.env.NODE_OPTIONS = (process.env.NODE_OPTIONS || '') + ' --expose-gc';
   }
   
   // Handle process memory warnings
   process.on('warning', (warning) => {
     if (warning.name === 'MaxListenersExceededWarning' || 
-        warning.message?.includes('memory')) {
+        warning.message.includes('memory')) {
       console.warn('Process memory warning:', warning.message);
       
       // Trigger emergency cleanup on memory warnings
-      if (warning.message?.includes('memory') || warning.message?.includes('heap')) {
+      if (warning.message.includes('memory') || warning.message.includes('heap')) {
         performEmergencyCleanup();
       }
     }
@@ -254,8 +254,8 @@ function configureProcessMemory(): void {
   
   // Handle uncaught exceptions that might be memory-related
   process.on('uncaughtException', (error) => {
-    if (error.message?.includes('out of memory') || 
-        error.message?.includes('heap') ||
+    if (error.message.includes('out of memory') || 
+        error.message.includes('heap') ||
         error.name === 'RangeError') {
       console.error('Memory-related uncaught exception:', error.message);
       performEmergencyCleanup();

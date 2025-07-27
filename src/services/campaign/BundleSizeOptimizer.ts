@@ -127,7 +127,7 @@ export class BundleSizeOptimizer {
       return analysis;
 
     } catch (error) {
-      console.warn(`⚠️  Bundle analysis failed: ${(error as Record<string, unknown>)?.message || 'Unknown error'}`);
+      console.warn(`⚠️  Bundle analysis failed: ${(error as Record<string, unknown>).message || 'Unknown error'}`);
       
       // Return fallback analysis
       return {
@@ -163,7 +163,7 @@ export class BundleSizeOptimizer {
       return await this.estimateBundleSize();
 
     } catch (error) {
-      throw new Error(`Failed to get bundle information: ${(error as Record<string, unknown>)?.message || 'Unknown error'}`);
+      throw new Error(`Failed to get bundle information: ${(error as Record<string, unknown>).message || 'Unknown error'}`);
     }
   }
 
@@ -202,7 +202,7 @@ export class BundleSizeOptimizer {
       return { totalSize: sizeKB };
 
     } catch (error) {
-      throw new Error(`Failed to get Next.js bundle info: ${(error as Record<string, unknown>)?.message || 'Unknown error'}`);
+      throw new Error(`Failed to get Next.js bundle info: ${(error as Record<string, unknown>).message || 'Unknown error'}`);
     }
   }
 
@@ -220,7 +220,7 @@ export class BundleSizeOptimizer {
       return { totalSize: sizeKB };
 
     } catch (error) {
-      throw new Error(`Failed to get bundle info from ${buildDir}: ${(error as Record<string, unknown>)?.message || 'Unknown error'}`);
+      throw new Error(`Failed to get bundle info from ${buildDir}: ${(error as Record<string, unknown>).message || 'Unknown error'}`);
     }
   }
 
@@ -242,7 +242,7 @@ export class BundleSizeOptimizer {
       return { totalSize: estimatedKB };
 
     } catch (error) {
-      console.warn(`⚠️  Bundle size estimation failed: ${(error as Record<string, unknown>)?.message || 'Unknown error'}`);
+      console.warn(`⚠️  Bundle size estimation failed: ${(error as Record<string, unknown>).message || 'Unknown error'}`);
       return { totalSize: 400 }; // Conservative estimate
     }
   }
@@ -278,7 +278,7 @@ export class BundleSizeOptimizer {
       return chunks;
 
     } catch (error) {
-      console.warn(`⚠️  Chunk analysis failed: ${(error as Record<string, unknown>)?.message || 'Unknown error'}`);
+      console.warn(`⚠️  Chunk analysis failed: ${(error as Record<string, unknown>).message || 'Unknown error'}`);
       return [];
     }
   }
@@ -321,7 +321,7 @@ export class BundleSizeOptimizer {
       return assets.sort((a, b) => b.size - a.size); // Sort by size descending
 
     } catch (error) {
-      console.warn(`⚠️  Asset analysis failed: ${(error as Record<string, unknown>)?.message || 'Unknown error'}`);
+      console.warn(`⚠️  Asset analysis failed: ${(error as Record<string, unknown>).message || 'Unknown error'}`);
       return [];
     }
   }
@@ -365,7 +365,7 @@ export class BundleSizeOptimizer {
       return dependencies.sort((a, b) => b.size - a.size);
 
     } catch (error) {
-      console.warn(`⚠️  Dependency analysis failed: ${(error as Record<string, unknown>)?.message || 'Unknown error'}`);
+      console.warn(`⚠️  Dependency analysis failed: ${(error as Record<string, unknown>).message || 'Unknown error'}`);
       return [];
     }
   }
@@ -395,7 +395,7 @@ export class BundleSizeOptimizer {
       };
 
     } catch (error) {
-      console.warn(`⚠️  Lazy loading validation failed: ${(error as Record<string, unknown>)?.message || 'Unknown error'}`);
+      console.warn(`⚠️  Lazy loading validation failed: ${(error as Record<string, unknown>).message || 'Unknown error'}`);
       
       return {
         componentsAnalyzed: 0,
@@ -738,7 +738,7 @@ export class BundleSizeOptimizer {
       console.log(`📦 Bundle analysis data exported to: ${filePath}`);
 
     } catch (error) {
-      throw new Error(`Failed to export bundle data: ${(error as Record<string, unknown>)?.message || 'Unknown error'}`);
+      throw new Error(`Failed to export bundle data: ${(error as Record<string, unknown>).message || 'Unknown error'}`);
     }
   }
 }

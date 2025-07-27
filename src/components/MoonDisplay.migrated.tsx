@@ -118,18 +118,18 @@ const MoonDisplayMigrated: React.FC = () => {
 
   // Extract Moon info from planetaryPositions
   const Moon = useMemo(() => {
-    return planetaryPositions?.moon || { sign: 'unknown', degree: 0, exactLongitude: 0, isRetrograde: false };
+    return planetaryPositions.moon || { sign: 'unknown', degree: 0, exactLongitude: 0, isRetrograde: false };
   }, [planetaryPositions]);
   
   // Simplified lunar node handling
   const NorthNode = useMemo(() => {
-    if (!planetaryPositions?.NorthNode && !planetaryPositions?.NorthNode) {
+    if (!planetaryPositions.NorthNode && !planetaryPositions.NorthNode) {
       // If north node is missing completely, provide a default
       return { sign: 'virgo', degree: 15, exactLongitude: 165, isRetrograde: true };
     }
     
     // Try both possible property names
-    const node = planetaryPositions?.NorthNode || planetaryPositions?.NorthNode;
+    const node = planetaryPositions.NorthNode || planetaryPositions.NorthNode;
     
     // Ensure all required properties are present
     return {
@@ -141,13 +141,13 @@ const MoonDisplayMigrated: React.FC = () => {
   }, [planetaryPositions]);
   
   const SouthNode = useMemo(() => {
-    if (!planetaryPositions?.SouthNode && !planetaryPositions?.SouthNode) {
+    if (!planetaryPositions.SouthNode && !planetaryPositions.SouthNode) {
       // If south node is missing completely, provide a default
       return { sign: 'pisces', degree: 15, exactLongitude: 345, isRetrograde: true };
     }
     
     // Try both possible property names
-    const node = planetaryPositions?.SouthNode || planetaryPositions?.SouthNode;
+    const node = planetaryPositions.SouthNode || planetaryPositions.SouthNode;
     
     // Ensure all required properties are present
     return {
@@ -164,7 +164,7 @@ const MoonDisplayMigrated: React.FC = () => {
       const getLocation = async () => {
         try {
           const serviceData = astrologyService as unknown as Record<string, unknown>;
-          const getUserLocation = serviceData?.getUserLocation as (() => Promise<any>) | undefined;
+          const getUserLocation = serviceData.getUserLocation as (() => Promise<any>) | undefined;
           const location = await getUserLocation?.();
           if (location) {
             setCoordinates({
@@ -187,7 +187,7 @@ const MoonDisplayMigrated: React.FC = () => {
       const calculateTimes = async () => {
         try {
           const serviceData = astrologyService as unknown as Record<string, unknown>;
-          const getMoonTimes = serviceData?.getMoonTimes as ((date: Date, coords: any) => Promise<any>) | undefined;
+          const getMoonTimes = serviceData.getMoonTimes as ((date: Date, coords: any) => Promise<any>) | undefined;
           const times = await getMoonTimes?.(new Date(), coordinates);
           
           if (times) {
@@ -240,10 +240,10 @@ const MoonDisplayMigrated: React.FC = () => {
           if (phaseData) {
             const phaseDataObj = phaseData as unknown as Record<string, unknown>;
             setMoonPhase({
-              phase: String(phaseDataObj?.phaseName || phaseDataObj?.phase || 'new_moon'),
-              phaseValue: Number(phaseDataObj?.phaseValue || 0),
-              description: getLunarPhaseDescription(String(phaseDataObj?.phaseName || phaseDataObj?.phase || 'new_moon')),
-              illumination: Number(phaseDataObj?.illumination || 0)
+              phase: String(phaseDataObj.phaseName || phaseDataObj.phase || 'new_moon'),
+              phaseValue: Number(phaseDataObj.phaseValue || 0),
+              description: getLunarPhaseDescription(String(phaseDataObj.phaseName || phaseDataObj.phase || 'new_moon')),
+              illumination: Number(phaseDataObj.illumination || 0)
             });
           }
         } catch (error) {
@@ -281,7 +281,7 @@ const MoonDisplayMigrated: React.FC = () => {
 
   const capitalizeFirstLetter = (string: string | undefined | null): string => {
     if (!string) return '';
-    return string.charAt(0)?.toUpperCase() + string?.slice(1);
+    return string.charAt(0).toUpperCase() + string.slice(1);
   };
 
   // Show loading state

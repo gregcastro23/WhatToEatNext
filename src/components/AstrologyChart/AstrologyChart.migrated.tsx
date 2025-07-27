@@ -222,8 +222,8 @@ const AstrologyChartMigrated: React.FC<AstrologyChartProps> = ({
                     strokeWidth="0.5" 
                   />
                   <text 
-                    x={calculatePosition(sign.start + 15, radius + 20)?.x} 
-                    y={calculatePosition(sign.start + 15, radius + 20)?.y} 
+                    x={calculatePosition(sign.start + 15, radius + 20).x} 
+                    y={calculatePosition(sign.start + 15, radius + 20).y} 
                     fontSize="12" 
                     textAnchor="middle" 
                     dominantBaseline="middle"
@@ -315,8 +315,8 @@ const AstrologyChartMigrated: React.FC<AstrologyChartProps> = ({
                   
                   {/* Planet degree indicator on outer circle */}
                   <circle 
-                    cx={calculatePosition(degree)?.x} 
-                    cy={calculatePosition(degree)?.y} 
+                    cx={calculatePosition(degree).x} 
+                    cy={calculatePosition(degree).y} 
                     r="2" 
                     fill={signColor} 
                   />

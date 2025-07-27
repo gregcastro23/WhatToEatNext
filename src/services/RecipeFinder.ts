@@ -468,7 +468,7 @@ export class RecipeFinder implements RecipeServiceInterface {
           name: 'Error generating fusion recipe',
           ingredients: [],
           instructions: [],
-          cuisine: params.cuisines?.join('-'),
+          cuisine: params.cuisines.join('-'),
           elementalProperties: { Fire: 0, Water: 0, Earth: 0, Air: 0 }
         },
         error: {
@@ -514,7 +514,7 @@ export class RecipeFinder implements RecipeServiceInterface {
     try {
       return this.recipeService.calculateElementalProperties(recipe);
     } catch (error) {
-      errorHandler.log(error instanceof Error ? error : new Error(String(error)), { context: { service: 'RecipeFinder', action: 'calculateElementalProperties', data: { recipeId: recipe?.id || 'unknown' } } });
+      errorHandler.log(error instanceof Error ? error : new Error(String(error)), { context: { service: 'RecipeFinder', action: 'calculateElementalProperties', data: { recipeId: recipe.id || 'unknown' } } });
       // Return balanced elemental properties on error
       return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
     }
@@ -527,7 +527,7 @@ export class RecipeFinder implements RecipeServiceInterface {
     try {
       return this.recipeService.getDominantElement(recipe);
     } catch (error) {
-      errorHandler.log(error instanceof Error ? error : new Error(String(error)), { context: { service: 'RecipeFinder', action: 'getDominantElement', data: { recipeId: recipe?.id || 'unknown' } } });
+      errorHandler.log(error instanceof Error ? error : new Error(String(error)), { context: { service: 'RecipeFinder', action: 'getDominantElement', data: { recipeId: recipe.id || 'unknown' } } });
       // Return a default element on error
       return { element: 'Fire', value: 0 };
     }
@@ -540,7 +540,7 @@ export class RecipeFinder implements RecipeServiceInterface {
     try {
       return this.recipeService.calculateSimilarity(recipe1, recipe2);
     } catch (error) {
-      errorHandler.log(error instanceof Error ? error : new Error(String(error)), { context: { service: 'RecipeFinder', action: 'calculateSimilarity', data: { recipe1Id: recipe1?.id || 'unknown', recipe2Id: recipe2?.id || 'unknown' } } });
+      errorHandler.log(error instanceof Error ? error : new Error(String(error)), { context: { service: 'RecipeFinder', action: 'calculateSimilarity', data: { recipe1Id: recipe1.id || 'unknown', recipe2Id: recipe2.id || 'unknown' } } });
       // Return zero similarity on error
       return 0;
     }

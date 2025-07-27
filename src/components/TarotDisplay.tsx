@@ -151,9 +151,9 @@ export default function TarotDisplay({ mode = 'food', onTarotLoaded }: TarotDisp
     if (!card) return { Spirit: 0, Essence: 0, Matter: 0, Substance: 0 };
     
     const cardData = card as Record<string, unknown>;
-    const name = cardData?.name as string;
-    const suit = name?.split ? name.split(' of ')[1] : (cardData?.suit as string);
-    const number = Number(cardData?.number) || 0;
+    const name = cardData.name as string;
+    const suit = name.split ? name.split(' of ')[1] : (cardData.suit as string);
+    const number = Number(cardData.number) || 0;
     
     // Create base object with all values at 0
     const values = { Spirit: 0, Essence: 0, Matter: 0, Substance: 0 };
@@ -168,7 +168,7 @@ export default function TarotDisplay({ mode = 'food', onTarotLoaded }: TarotDisp
   };
 
   const getElementIcon = (element: Element) => {
-    switch (element?.toLowerCase()) {
+    switch (element.toLowerCase()) {
       case 'Fire': return <Flame className="w-4 h-4 text-orange-400" />;
       case 'Water': return <Droplets className="w-4 h-4 text-blue-400" />;
       case 'Earth': return <Mountain className="w-4 h-4 text-green-400" />;
@@ -178,7 +178,7 @@ export default function TarotDisplay({ mode = 'food', onTarotLoaded }: TarotDisp
   };
 
   const getElementColor = (element: Element) => {
-    switch (element?.toLowerCase()) {
+    switch (element.toLowerCase()) {
       case 'Fire': return 'bg-gradient-to-br from-orange-800 to-red-900 text-white';
       case 'Water': return 'bg-gradient-to-br from-blue-800 to-indigo-900 text-white';
       case 'Earth': return 'bg-gradient-to-br from-green-800 to-emerald-900 text-white';
@@ -210,7 +210,7 @@ export default function TarotDisplay({ mode = 'food', onTarotLoaded }: TarotDisp
               ))}
             </div>
             <div className="mt-3 text-sm text-gray-400">
-              Keywords: {tarotCards?.minorCard?.keywords?.join(', ')}
+              Keywords: {tarotCards.minorCard.keywords.join(', ')}
             </div>
           </div>
           <div className="bg-gray-800 rounded-lg p-4">
@@ -218,7 +218,7 @@ export default function TarotDisplay({ mode = 'food', onTarotLoaded }: TarotDisp
             <h5 className="text-lg text-yellow-300 mb-3">{tarotCards.majorCard.planet}</h5>
             <div className="text-purple-300 mb-3">{tarotCards.majorCard.name}</div>
             <div className="text-sm text-gray-400">
-              Planetary Influence: {tarotCards?.majorCard?.keywords?.join(', ')}
+              Planetary Influence: {tarotCards.majorCard.keywords.join(', ')}
             </div>
           </div>
         </div>
@@ -227,10 +227,10 @@ export default function TarotDisplay({ mode = 'food', onTarotLoaded }: TarotDisp
   }
 
   // Food mode - comprehensive display with food integration
-  const suit = tarotCards.minorCard?.name?.split(' ')[2] || tarotCards.minorCard?.suit;
+  const suit = tarotCards.minorCard.name.split(' ')[2] || tarotCards.minorCard.suit;
   const element = suit ? (SUIT_TO_ELEMENT[suit as keyof typeof SUIT_TO_ELEMENT] || 'Unknown') : 'Unknown';
   const token = suit ? (SUIT_TO_TOKEN[suit as keyof typeof SUIT_TO_TOKEN] || 'Quantum') : 'Quantum';
-  const value = tarotCards.minorCard?.number || 0;
+  const value = tarotCards.minorCard.number || 0;
 
   return (
     <div className="mb-6 mt-2">
@@ -267,7 +267,7 @@ export default function TarotDisplay({ mode = 'food', onTarotLoaded }: TarotDisp
           
           <div className="mt-4 text-sm">
             <div className="italic font-medium text-white bg-black bg-opacity-30 p-2 rounded-md">
-              {tarotCards.minorCard?.keywords?.join(' • ') || 'Mystical energies'}
+              {tarotCards.minorCard.keywords.join(' • ') || 'Mystical energies'}
             </div>
           </div>
         </div>
@@ -275,16 +275,16 @@ export default function TarotDisplay({ mode = 'food', onTarotLoaded }: TarotDisp
         <div className="rounded-lg p-4 bg-gradient-to-br from-indigo-800 to-purple-900 text-white bg-opacity-10">
           <div className="flex justify-between items-start">
             <div>
-              <h4 className="font-bold text-white text-lg drop-shadow-md">{tarotCards.majorCard?.name || 'Major Arcana'}</h4>
+              <h4 className="font-bold text-white text-lg drop-shadow-md">{tarotCards.majorCard.name || 'Major Arcana'}</h4>
               <div className="flex items-center mt-1 bg-black bg-opacity-20 rounded px-2 py-1 inline-block">
-                <span className="text-sm font-medium">Planet: {tarotCards.majorCard?.planet}</span>
+                <span className="text-sm font-medium">Planet: {tarotCards.majorCard.planet}</span>
               </div>
             </div>
           </div>
           
           <div className="mt-4 text-sm">
             <div className="italic font-medium text-white bg-black bg-opacity-30 p-2 rounded-md">
-              {tarotCards.majorCard?.keywords?.join(' • ') || 'Planetary wisdom'}
+              {tarotCards.majorCard.keywords.join(' • ') || 'Planetary wisdom'}
             </div>
           </div>
         </div>

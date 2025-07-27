@@ -1191,8 +1191,8 @@ export const ALCHEMY_TYPE_INTELLIGENCE_SYSTEM = {
     // Analyze calculation patterns
     const calculationAnalysis = calculations.map(calc => ({
       scoreRange: calc.score,
-      confidence: (calc as unknown as AlchemicalCalculationResult)?.confidence || 0,
-      factorCount: ((calc as unknown as AlchemicalCalculationResult)?.factors?.length) || 0,
+      confidence: (calc as unknown as AlchemicalCalculationResult).confidence || 0,
+      factorCount: ((calc as unknown as AlchemicalCalculationResult).factors.length) || 0,
       elementalBalance: Object.values(calc.elementalProperties).reduce((sum, val) => sum + val, 0)
     }));
     
@@ -1279,7 +1279,7 @@ export const ALCHEMY_TYPE_INTELLIGENCE_SYSTEM = {
       hasPlanetaryPositions: !!alignment.planetaryPositions,
       hasLunarPhase: !!alignment.lunarPhase,
       hasElementalDominance: !!alignment.elementalDominance,
-      aspectCount: alignment.aspectPatterns?.length || 0,
+      aspectCount: alignment.aspectPatterns.length || 0,
       energyFlow: alignment.energyFlow,
       hasThermodynamicMetrics: !!alignment.thermodynamicMetrics
     }));
@@ -1288,7 +1288,7 @@ export const ALCHEMY_TYPE_INTELLIGENCE_SYSTEM = {
     const positionAnalysis = positions.map(position => ({
       sign: position.sign,
       degree: position.degree,
-      hasExactLongitude: !!((position as unknown as Record<string, unknown>)?.exactLongitude),
+      hasExactLongitude: !!((position as unknown as Record<string, unknown>).exactLongitude),
       hasElement: !!position.element,
       hasDignity: !!position.dignity,
       isRetrograde: position.isRetrograde || false

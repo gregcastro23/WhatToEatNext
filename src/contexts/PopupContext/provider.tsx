@@ -19,7 +19,7 @@ export const PopupProvider = ({ children }: PopupProviderProps): React.ReactElem
     const moonElement = ZODIAC_ELEMENTS[moonSign.toLowerCase() as keyof typeof ZODIAC_ELEMENTS];
 
     const isHarmonious = sunElement && moonElement ? 
-      ELEMENT_AFFINITIES[sunElement ]?.includes(moonElement ) : 
+      ELEMENT_AFFINITIES[sunElement ].includes(moonElement ) : 
       false;
     
     return {

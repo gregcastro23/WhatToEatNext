@@ -102,13 +102,13 @@ export function describeWithMemoryManagement(
 
     beforeEach(() => {
       if (config.cleanupAfterEach) {
-        global.testUtils?.cleanupMemory();
+        global.testUtils.cleanupMemory();
       }
     });
 
     afterEach(() => {
       if (config.cleanupAfterEach) {
-        global.testUtils?.cleanupMemory();
+        global.testUtils.cleanupMemory();
       }
     });
 
@@ -238,7 +238,7 @@ export async function processBatchWithMemoryManagement<T, R>(
     
     // Cleanup between batches if requested
     if (cleanupBetweenBatches && i + batchSize < items.length) {
-      if (global.testUtils?.cleanupMemory) {
+      if (global.testUtils.cleanupMemory) {
         global.testUtils.cleanupMemory();
       }
       

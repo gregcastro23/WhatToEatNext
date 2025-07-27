@@ -225,7 +225,7 @@ export class ElementalCalculator {
         // Nested within tropical
         const positionsData = positions as Record<string, unknown>;
         const tropicalData = positionsData.tropical as Record<string, unknown>;
-        const celestialBodies = tropicalData?.CelestialBodies;
+        const celestialBodies = tropicalData.CelestialBodies;
         if (celestialBodies) {
           this.processCelestialBodies(celestialBodies, elementalValues);
         }
@@ -391,7 +391,7 @@ export class ElementalCalculator {
       const planetRecord = (planet as unknown) as Record<string, unknown>;
       const planetName = String(planetRecord.name || planetRecord.label || planetRecord.planet || '');
       const signData = planetRecord.Sign as Record<string, unknown>;
-      const sign = String(signData?.label || planetRecord.sign || '');
+      const sign = String(signData.label || planetRecord.sign || '');
       
       if (!planetName || !sign) return;
       
@@ -419,7 +419,7 @@ export class ElementalCalculator {
       const ascendantData = ascendant as Record<string, unknown>;
       const ascendantSign = typeof ascendant === 'string' 
         ? ascendant 
-        : String((ascendantData?.Sign as Record<string, unknown>)?.label || ascendantData?.sign || '');
+        : String((ascendantData.Sign as Record<string, unknown>).label || ascendantData.sign || '');
       
       if (ascendantSign) {
         const ascendantElement = this.getSignElement(ascendantSign);
@@ -527,7 +527,7 @@ export class ElementalCalculator {
   public static calculateIngredientMatch(ingredient: unknown): number {
     // Apply surgical type casting with variable extraction
     const ingredientData = ingredient as Record<string, unknown>;
-    const elementalProperties = ingredientData?.elementalProperties;
+    const elementalProperties = ingredientData.elementalProperties;
     
     // If the ingredient has elementalProperties, use those
     if (elementalProperties) {
@@ -732,8 +732,8 @@ export class ElementalCalculator {
     // Process dignity effect
     const planetStr = String(planet);
     const planetInfoData = planetInfo[planetStr] as Record<string, unknown>;
-    const dignityEffectData = planetInfoData?.["Dignity Effect"] as Record<string, unknown>;
-    if (dignityEffectData?.[sign]) {
+    const dignityEffectData = planetInfoData["Dignity Effect"] as Record<string, unknown>;
+    if (dignityEffectData[sign]) {
       const dignityEffectValue = Number(dignityEffectData[sign]);
       if (dignityEffectValue) {
         if (Math.abs(dignityEffectValue) === 1 || Math.abs(dignityEffectValue) === 3) {
@@ -742,8 +742,8 @@ export class ElementalCalculator {
         }
         
         if (Math.abs(dignityEffectValue) > 1) {
-          const diurnalElement = String(planetInfoData?.['Diurnal Element']) || 'Fire';
-          const nocturnalElement = String(planetInfoData?.['Nocturnal Element']) || 'Fire';
+          const diurnalElement = String(planetInfoData['Diurnal Element']) || 'Fire';
+          const nocturnalElement = String(planetInfoData['Nocturnal Element']) || 'Fire';
           
           elementalEffect[diurnalElement] += (1 * (dignityEffectValue / (Math.abs(dignityEffectValue || 1))));
           elementalEffect[nocturnalElement] += (1 * (dignityEffectValue / Math.abs(dignityEffectValue)));
@@ -767,8 +767,8 @@ export class ElementalCalculator {
       if (celestialData[planetKey.toLowerCase()]) {
         const planet = planetKey;
         const planetData = celestialData[planetKey.toLowerCase()] as Record<string, unknown>;
-        const signData = planetData?.Sign as Record<string, unknown>;
-        const sign = String(signData?.label || '');
+        const signData = planetData.Sign as Record<string, unknown>;
+        const sign = String(signData.label || '');
         
         if (sign) {
           const planetEffect = this.processPlanetElementalEffect((planet as unknown) as Planet, sign);

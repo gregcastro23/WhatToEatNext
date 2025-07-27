@@ -265,7 +265,7 @@ export class CulturalAnalyticsService {
       const culturalDiversityScore = this.calculateCulturalDiversityScore(cuisineName);
       
       // Extract traditional principles
-      const traditionalPrinciples = culturalRulesData?.principles || [];
+      const traditionalPrinciples = culturalRulesData.principles || [];
       
       // Generate modern adaptations
       const modernAdaptations = this.generateModernAdaptations(cuisineName, historicalContext);
@@ -344,7 +344,7 @@ export class CulturalAnalyticsService {
   
   private static calculateSeasonalCulturalBonus(cuisine: string, season: string): number {
     const culinaryTradition = culinaryTraditions[cuisine];
-    if (!culinaryTradition?.astrologicalProfile?.seasonalPreference) {
+    if (!culinaryTradition.astrologicalProfile.seasonalPreference) {
       return 0;
     }
     
@@ -361,7 +361,7 @@ export class CulturalAnalyticsService {
     astrologicalState: { zodiacSign: ZodiacSign; lunarPhase: LunarPhase }
   ): number {
     const culinaryTradition = culinaryTraditions[cuisine];
-    if (!culinaryTradition?.astrologicalProfile) {
+    if (!culinaryTradition.astrologicalProfile) {
       return 0.7; // Default compatibility
     }
     
@@ -514,7 +514,7 @@ export class CulturalAnalyticsService {
     const tradition1 = culinaryTraditions[cuisine1];
     const tradition2 = culinaryTraditions[cuisine2];
     
-    if (tradition1?.seasonalPreferences?.includes('all') || tradition2?.seasonalPreferences?.includes('all')) {
+    if (tradition1.seasonalPreferences?.includes('all') || tradition2.seasonalPreferences?.includes('all')) {
       Object.keys(optimization).forEach(season => {
         optimization[season] = 0.9;
       });

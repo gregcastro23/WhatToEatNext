@@ -68,10 +68,10 @@ export async function GET(request: Request) {
     // Find the best food by data type - prioritize SR Legacy and Foundation foods
     let bestMatchFood: any = null;
     // First try SR Legacy
-    bestMatchFood = searchData.foods.find((f: any) => f.dataType === 'SR Legacy');
+    bestMatchFood = searchData.foods.find((f: any) => (f ).dataType === 'SR Legacy');
     // If not found, try Foundation
     if (!bestMatchFood) {
-      bestMatchFood = searchData.foods.find((f: any) => f.dataType === 'Foundation');
+      bestMatchFood = searchData.foods.find((f: any) => (f ).dataType === 'Foundation');
     }
     // If still not found, use the first result
     if (!bestMatchFood && searchData.foods.length > 0) {
@@ -85,8 +85,8 @@ export async function GET(request: Request) {
       );
     }
     
-    const fdcId = bestMatchFood.fdcId;
-    console.log(`Found food: ${bestMatchFood.description} (${fdcId}) [${bestMatchFood.dataType}]`);
+    const fdcId = (bestMatchFood ).fdcId;
+    console.log(`Found food: ${(bestMatchFood ).description} (${fdcId}) [${(bestMatchFood ).dataType}]`);
     
     // Try multiple endpoints to get the most complete data
     // 1. First try the foods/list endpoint with the specific food id, which often has more vitamins

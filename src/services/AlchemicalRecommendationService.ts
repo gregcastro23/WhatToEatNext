@@ -164,7 +164,7 @@ export class AlchemicalRecommendationService {
         method,
         score: this.engine.calculateElementalCompatibility(
           elementalProperties,
-          (method as unknown as Record<string, unknown>)?.elementalState as ElementalProperties || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }
+          (method as unknown as Record<string, unknown>).elementalState as ElementalProperties || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }
         )
       }))
       .filter(({ score }) => score > 0.7)
@@ -186,41 +186,41 @@ export class AlchemicalRecommendationService {
     // Add recommendations based on dominant element
     switch (dominantElement) {
       case 'Fire':
-        recommendations?.push('Focus on cooking methods that enhance flavors through high heat.');
-        recommendations?.push('Use bold, bright spices and seasonings.');
+        recommendations.push('Focus on cooking methods that enhance flavors through high heat.');
+        recommendations.push('Use bold, bright spices and seasonings.');
         break;
       case 'Water':
-        recommendations?.push('Use moisture-based cooking methods for best results.');
-        recommendations?.push('Focus on aromatic and liquid-based ingredients.');
+        recommendations.push('Use moisture-based cooking methods for best results.');
+        recommendations.push('Focus on aromatic and liquid-based ingredients.');
         break;
       case 'Earth':
-        recommendations?.push('Root vegetables and hearty dishes will be most satisfying.');
-        recommendations?.push('Slow cooking methods will yield the best results.');
+        recommendations.push('Root vegetables and hearty dishes will be most satisfying.');
+        recommendations.push('Slow cooking methods will yield the best results.');
         break;
       case 'Air':
-        recommendations?.push('Light cooking methods will enhance flavors today.');
-        recommendations?.push('Incorporate aromatic herbs and light textures.');
+        recommendations.push('Light cooking methods will enhance flavors today.');
+        recommendations.push('Incorporate aromatic herbs and light textures.');
         break;
     }
     
     // Add recommendations based on thermodynamics
     if (thermodynamics.heat > 0.7) {
-      recommendations?.push('The planetary energy is highly active - cooking quickly will preserve this energy.');
+      recommendations.push('The planetary energy is highly active - cooking quickly will preserve this energy.');
     }
     
     if (thermodynamics.entropy > 0.7) {
-      recommendations?.push('Current conditions favor experimentation and fusion cooking.');
+      recommendations.push('Current conditions favor experimentation and fusion cooking.');
     }
     
     // Fix TS2339: Property 'kalchm' does not exist on type 'ThermodynamicProperties'
     const thermodynamicsData = thermodynamics as unknown as Record<string, unknown>;
-    if ((thermodynamicsData?.kalchm as number) > 2.0) {
-      recommendations?.push('Exceptional transformation potential - fermentation and aging processes are enhanced.');
+    if ((thermodynamicsData.kalchm as number) > 2.0) {
+      recommendations.push('Exceptional transformation potential - fermentation and aging processes are enhanced.');
     }
     
     // Add seasonal recommendation
     const currentSeason = getCurrentSeason();
-    recommendations?.push(`${currentSeason.charAt(0)?.toUpperCase() + currentSeason?.slice(1)} ingredients will be especially potent.`);
+    recommendations.push(`${currentSeason.charAt(0).toUpperCase() + currentSeason.slice(1)} ingredients will be especially potent.`);
     
     return recommendations;
   }
@@ -331,53 +331,53 @@ export class AlchemicalRecommendationService {
     const adjustments: string[] = [];
     
     if (compatibility > 0.8) {
-      suggestions?.push('This recipe is highly compatible with current planetary alignments.');
-      suggestions?.push('Focus on traditional preparation methods for best results.');
+      suggestions.push('This recipe is highly compatible with current planetary alignments.');
+      suggestions.push('Focus on traditional preparation methods for best results.');
     } else if (compatibility > 0.6) {
-      suggestions?.push('This recipe has good compatibility with current planetary alignments.');
-      suggestions?.push('Consider minor adjustments to enhance its elemental balance.');
+      suggestions.push('This recipe has good compatibility with current planetary alignments.');
+      suggestions.push('Consider minor adjustments to enhance its elemental balance.');
       
       // Generate specific adjustments
       const dominantElement = this.getDominantElement(currentElementalProperties);
       switch (dominantElement) {
         case 'Fire':
-          adjustments?.push('Add a touch of heat through spices or higher cooking temperature.');
+          adjustments.push('Add a touch of heat through spices or higher cooking temperature.');
           break;
         case 'Water':
-          adjustments?.push('Increase moisture content or cooking time in liquid.');
+          adjustments.push('Increase moisture content or cooking time in liquid.');
           break;
         case 'Earth':
-          adjustments?.push('Add root vegetables or earthy spices like cumin or coriander.');
+          adjustments.push('Add root vegetables or earthy spices like cumin or coriander.');
           break;
         case 'Air':
-          adjustments?.push('Incorporate aromatic herbs or use more whipping/folding techniques.');
+          adjustments.push('Incorporate aromatic herbs or use more whipping/folding techniques.');
           break;
       }
     } else {
-      suggestions?.push('This recipe may need significant adjustments for current planetary alignments.');
+      suggestions.push('This recipe may need significant adjustments for current planetary alignments.');
       
       // Generate more substantial adjustments
       const recipeElement = this.getDominantElement(recipeElementalProperties);
       const currentElement = this.getDominantElement(currentElementalProperties);
       
-      adjustments?.push(`Transform the recipe's dominant ${recipeElement} energy toward ${currentElement} energy.`);
+      adjustments.push(`Transform the recipe's dominant ${recipeElement} energy toward ${currentElement} energy.`);
       
       switch (currentElement) {
         case 'Fire':
-          adjustments?.push('Use direct heat cooking methods rather than indirect methods.');
-          adjustments?.push('Add warming spices like ginger, chili, or black pepper.');
+          adjustments.push('Use direct heat cooking methods rather than indirect methods.');
+          adjustments.push('Add warming spices like ginger, chili, or black pepper.');
           break;
         case 'Water':
-          adjustments?.push('Convert to a stew, soup, or braised preparation.');
-          adjustments?.push('Incorporate more liquid ingredients and Water-rich vegetables.');
+          adjustments.push('Convert to a stew, soup, or braised preparation.');
+          adjustments.push('Incorporate more liquid ingredients and Water-rich vegetables.');
           break;
         case 'Earth':
-          adjustments?.push('Add grounding ingredients like root vegetables or mushrooms.');
-          adjustments?.push('Use slow cooking methods to deepen flavors.');
+          adjustments.push('Add grounding ingredients like root vegetables or mushrooms.');
+          adjustments.push('Use slow cooking methods to deepen flavors.');
           break;
         case 'Air':
-          adjustments?.push('Lighten the dish with fresh herbs and citrus zest.');
-          adjustments?.push('Incorporate more whipping, aeration, or leavening.');
+          adjustments.push('Lighten the dish with fresh herbs and citrus zest.');
+          adjustments.push('Incorporate more whipping, aeration, or leavening.');
           break;
       }
     }

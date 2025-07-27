@@ -49,7 +49,7 @@ export function scaleElementalProperties(
   factor: number
 ): ElementalProperties { if (!props) return createElementalProperties({ Fire: 0, Water: 0, Earth: 0, Air: 0 });
   
-  return createElementalProperties({ Fire: ((props?.Fire ?? 0)) * factor, Water: ((props?.Water ?? 0)) * factor, Earth: ((props?.Earth ?? 0)) * factor, Air: ((props?.Air ?? 0)) * factor });
+  return createElementalProperties({ Fire: ((props.Fire ?? 0)) * factor, Water: ((props.Water ?? 0)) * factor, Earth: ((props.Earth ?? 0)) * factor, Air: ((props.Air ?? 0)) * factor });
 }
 
 /**

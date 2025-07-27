@@ -203,7 +203,7 @@ function calculateElementalEnergies(
   let totalWeight = 0;
 
   for (const [planet, position] of Object.entries(planetaryPositions)) {
-    const weight = planetWeights[planet?.toLowerCase()] || 0.05;
+    const weight = planetWeights[planet.toLowerCase()] || 0.05;
 
     // Skip if position doesn't have a sign
     if (!position?.sign) continue;
@@ -228,7 +228,7 @@ function calculateElementalEnergies(
   }
 
   // Normalize values to ensure they sum to 1
-  const sum = Object.values(energyValues)?.reduce(
+  const sum = Object.values(energyValues).reduce(
     (acc, value) => acc + value,
     0
   );
@@ -288,7 +288,7 @@ function getDefaultElementalEnergies(): ElementalEnergy[] {
 
 // Helper functions
 function capitalizeFirstLetter(string: string): string {
-  return string.charAt(0)?.toUpperCase() + string?.slice(1);
+  return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
 function getElementColor(elementType: ElementType, opacity: number = 1): string {

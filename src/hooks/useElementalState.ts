@@ -33,14 +33,14 @@ export function useElementalState() {
       }
     });
 
-    const total = Object.values(elementCounts)?.reduce((sum, count) => sum + count, 0);
+    const total = Object.values(elementCounts).reduce((sum, count) => sum + count, 0);
     
     // Normalize to percentages
     const normalized = { Fire: total > 0 ? elementCounts.Fire / total : 0.25, Water: total > 0 ? elementCounts.Water / total : 0.25, Earth: total > 0 ? elementCounts.Earth / total : 0.25, Air: total > 0 ? elementCounts.Air / total : 0.25
     };
 
     // Find dominant element
-    const dominant = Object.entries(normalized)?.reduce((a, b) => 
+    const dominant = Object.entries(normalized).reduce((a, b) => 
       normalized[a[0] as keyof ElementalState] > normalized[b[0] as keyof ElementalState] ? a : b
     )[0] as keyof ElementalState;
 

@@ -218,11 +218,11 @@ function generateBalancingMeals(
     // Generate general meals from primary foods if none of the specific meals were generated
     if (meals.length === 0 && primaryFoods.length > 0) {
         const proteins = primaryFoods.filter(food => 
-            FOOD_ITEMS_BY_GROUP['Proteins']?.includes(food) || false
+            FOOD_ITEMS_BY_GROUP['Proteins'].includes(food) || false
         );
         
         const vegetables = primaryFoods.filter(food => 
-            !FOOD_ITEMS_BY_GROUP['Proteins']?.includes(food) || false
+            !FOOD_ITEMS_BY_GROUP['Proteins'].includes(food) || false
         );
         
         if (proteins.length > 0 && vegetables.length > 0) {

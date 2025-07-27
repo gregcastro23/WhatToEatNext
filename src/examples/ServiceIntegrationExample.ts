@@ -57,7 +57,7 @@ export async function runServiceIntegrationExample() {
       limit: 5
     });
     console.log('Recommended ingredients:', 
-      (ingredientRecommendations?.items || [] as any[]).map(ing => ing.name),
+      (ingredientRecommendations.items || [] as any[]).map(ing => ing.name),
       'Scores:', ingredientRecommendations.scores
     );
     
@@ -68,7 +68,7 @@ export async function runServiceIntegrationExample() {
       limit: 3
     });
     console.log('Recommended recipes:', 
-      (recipeRecommendations?.items || [] as any[]).map(recipe => recipe.name),
+      (recipeRecommendations.items || [] as any[]).map(recipe => recipe.name),
       'Scores:', recipeRecommendations.scores
     );
     
@@ -79,7 +79,7 @@ export async function runServiceIntegrationExample() {
       limit: 3
     });
     console.log('Recommended cooking methods:', 
-      (cookingMethodRecommendations?.items || [] as any[]).map(method => method.name),
+      (cookingMethodRecommendations.items || [] as any[]).map(method => method.name),
       'Scores:', cookingMethodRecommendations.scores
     );
     
@@ -117,7 +117,7 @@ export async function runServiceIntegrationExample() {
 
 // If this file is run directly, execute the example
 if (require.main === module) {
-  runServiceIntegrationExample()?.catch(console.error);
+  runServiceIntegrationExample().catch(console.error);
 }
 
 export default runServiceIntegrationExample; 

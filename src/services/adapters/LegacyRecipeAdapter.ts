@@ -86,14 +86,14 @@ export class LegacyRecipeAdapter {
     try {
       // ✅ Pattern MM-1: Safe type conversion for search criteria
       const criteriaData = (criteria as unknown) as Record<string, unknown>;
-      const searchQuery = String(criteriaData?.query || JSON.stringify(criteria));
+      const searchQuery = String(criteriaData.query || JSON.stringify(criteria));
       const recipes = await unifiedRecipeService.searchRecipes(searchQuery);
       return recipes as unknown as Recipe[];
     } catch (error) {
       logger.error('Error in searchRecipes:', error);
       // ✅ Pattern MM-1: Safe argument type conversion for string parameter
       const criteriaData = (criteria as unknown) as Record<string, unknown>;
-      const queryValue = criteriaData?.query;
+      const queryValue = criteriaData.query;
       if (queryValue && typeof queryValue === 'string') {
         const recipes = await LocalRecipeService.searchRecipes(queryValue);
         return recipes as unknown as Recipe[];
@@ -138,7 +138,7 @@ export class LegacyRecipeAdapter {
       const allRecipes = await LocalRecipeService.getAllRecipes();
       const filtered = (allRecipes || []).filter(recipe => 
         (recipe.astrologicalInfluences || []).some(influence => 
-          influence?.toLowerCase()?.includes(zodiacSign?.toLowerCase())
+          influence.toLowerCase().includes(zodiacSign.toLowerCase())
         )
       );
       return filtered as unknown as Recipe[];
@@ -193,7 +193,7 @@ export class LegacyRecipeAdapter {
       const allRecipes = await LocalRecipeService.getAllRecipes();
       const filtered = (allRecipes || []).filter(recipe => 
         (recipe.lunarPhaseInfluences || []).some(influence => 
-          influence?.toLowerCase()?.includes(lunarPhase?.toLowerCase()?.replace(' ', ''))
+          influence.toLowerCase().includes(lunarPhase.toLowerCase().replace(' ', ''))
         )
       );
       return filtered as unknown as Recipe[];
@@ -266,7 +266,7 @@ export class LegacyRecipeAdapter {
       }
       // ✅ Pattern MM-1: Safe type conversion for criteria search
       const criteriaData = (criteria as unknown) as Record<string, unknown>;
-      const searchQuery = String(criteriaData?.query || JSON.stringify(criteria));
+      const searchQuery = String(criteriaData.query || JSON.stringify(criteria));
       const searchResults = await unifiedRecipeService.searchRecipes(searchQuery) ;
       if (searchResults.length > 0) {
         return searchResults[0];

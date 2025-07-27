@@ -201,7 +201,7 @@ export function calculateAlchemicalProperties(
 
   // Process each planet
   Object.entries(planetaryPositions || {}).forEach(([planet, position]) => {
-    const planetKey = planet?.charAt(0).toUpperCase() + planet?.slice(1).toLowerCase();
+    const planetKey = planet.charAt(0).toUpperCase() + planet.slice(1).toLowerCase();
     const mapping = planetaryMappings[planetKey as keyof typeof planetaryMappings];
     
     if (mapping && position) {
@@ -254,11 +254,11 @@ export function calculateElementalValues(
   // Process each planet's sign
   Object.entries(planetaryPositions || {}).forEach(([planet, position]) => {
     if (position.sign) {
-      const element = signElements[position.sign?.toLowerCase()];
+      const element = signElements[position.sign.toLowerCase()];
       if (element) {
         // Weight by planet importance
         let weight = 1.0;
-        const planetName = planet?.charAt(0).toUpperCase() + planet?.slice(1).toLowerCase();
+        const planetName = planet.charAt(0).toUpperCase() + planet.slice(1).toLowerCase();
         if (planetName === 'Sun' || planetName === 'Moon') {
           weight = 2.0;
         } else if (['Mercury', 'Venus', 'Mars'].includes(planetName)) {
@@ -297,10 +297,10 @@ function getDignityModifier(planet: string, sign: string): number {
     Saturn: { capricorn: 1.5, aquarius: 1.5, libra: 1.3, cancer: 0.7, leo: 0.7, aries: 0.5 }
   };
 
-  const planetKey = planet?.charAt(0).toUpperCase() + planet?.slice(1).toLowerCase();
-  const signKey = sign?.toLowerCase();
+  const planetKey = planet.charAt(0).toUpperCase() + planet.slice(1).toLowerCase();
+  const signKey = sign.toLowerCase();
   
-  return dignities[planetKey]?.[signKey] || 1.0;
+  return dignities[planetKey][signKey] || 1.0;
 }
 
 /**
@@ -387,7 +387,7 @@ export function calculateKalchmResults(
         },
         dominantElement,
         dominantProperty,
-        timestamp: new Date()?.toISOString()
+        timestamp: new Date().toISOString()
       };
     },
     300000 // 5 minute cache
@@ -398,7 +398,7 @@ export function calculateKalchmResults(
  * Convert KalchmResult to ElementalProperties format for compatibility
  */
 export function toElementalProperties(result: KalchmResult): ElementalProperties {
-  return { Fire: result?.elementalValues?.Fire, Water: result?.elementalValues?.Water, Air: result?.elementalValues?.Air, Earth: result.elementalValues.Earth
+  return { Fire: result.elementalValues.Fire, Water: result.elementalValues.Water, Air: result.elementalValues.Air, Earth: result.elementalValues.Earth
    };
 }
 
