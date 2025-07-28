@@ -1493,7 +1493,7 @@ export class EnterpriseIntelligenceOrchestrator extends EventEmitter {
    * Generate on-demand report
    */
   generateOnDemandReport(): EnterpriseIntelligenceReport {
-    const report = this.generateReport('ondemand');
+    const report = this.generateReport('daily'); // Use daily as fallback for on-demand reports
     this.reports.push(report);
     return report;
   }

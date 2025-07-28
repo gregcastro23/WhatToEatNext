@@ -120,7 +120,7 @@ export function initializeChromeApis(): void {
             }
             
             if (callback) {
-              setTimeout(() => callback(result), 0);
+              setTimeout(() => callback(result as Record<string, string[]>), 0);
             }
             return Promise.resolve(result);
           },

@@ -183,7 +183,9 @@ export function useSelectionState<T = any>(selectionId: string, initialSelection
   }, [getState]);
 
   const clearSelection = useCallback(() => {
-    saveState(initialSelection);
+    if (initialSelection !== undefined) {
+      saveState(initialSelection);
+    }
   }, [saveState, initialSelection]);
 
   return { saveSelection, restoreSelection, clearSelection };

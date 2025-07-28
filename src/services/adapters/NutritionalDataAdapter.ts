@@ -338,7 +338,7 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
         Air: targetElements.Air
       };
       
-      return evaluateNutritionalElementalBalance(profile as unknown, legacyTargetElements);
+      return evaluateNutritionalElementalBalance(profile as NutritionalProfile, legacyTargetElements);
     } catch (error) {
       // Use safe type casting for errorHandler service access
       const errorHandlerService = (errorHandler as unknown) as Record<string, unknown>;

@@ -15,7 +15,7 @@ function getUnusedVariables() {
     ).toString();
     const results = JSON.parse(output);
 
-    const unusedVars = [];
+    const unusedVars: Array<{filePath: string; varName: string; line: number; column: number}> = [];
 
     for (const result of results) {
       const filePath = result.filePath;

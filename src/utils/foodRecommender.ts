@@ -674,7 +674,7 @@ export const getRecommendedIngredients = (astroState: AstrologicalState): Enhanc
         if (profileData.aspectEnhancers && (profileData.aspectEnhancers as unknown[]).length > 0) {
           const relevantAspects = astroState.aspects.filter(aspect => {
             // Check if this aspect type is specifically listed as an enhancer
-            return (profileData.aspectEnhancers as string[]).includes(aspect.type);
+            return aspect.type && (profileData.aspectEnhancers as string[]).includes(aspect.type);
           });
           
           if (relevantAspects.length > 0) {

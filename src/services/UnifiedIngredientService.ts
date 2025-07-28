@@ -860,8 +860,8 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
       
       return (seasons || []).some(season => 
         Array.isArray(_ingredient.seasonality) 
-          ? _ingredient.seasonality.includes(season ) 
-          : _ingredient.seasonality === (season as unknown as Record<string, unknown>)
+          ? _ingredient.seasonality.includes(season as Season) 
+          : _ingredient.seasonality === (season as Season)
       );
     });
   }

@@ -51,7 +51,15 @@ async function getRecommendations(
   };
   
   // ✅ Pattern MM-1: Safe type assertion for ingredient recommendations
-  return await getIngredientRecommendations(astroStateData as unknown as ElementalProperties, options);
+  return await getIngredientRecommendations(astroStateData as ElementalProperties & {
+    timestamp: Date;
+    currentStability: number;
+    planetaryAlignment: Record<string, { sign: string; degree: number; }>;
+    zodiacSign: string;
+    activePlanets: string[];
+    lunarPhase: string;
+    aspects: Array<any>;
+  }, options);
 }
 
 interface IngredientRecommendationsProps {

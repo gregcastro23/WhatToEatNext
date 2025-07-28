@@ -235,7 +235,7 @@ export class LegacyRecommendationAdapter {
       return alchemicalRecommendationService.generateRecommendations(
         planetaryPositions as any,
         ingredients,
-        cookingMethods as unknown
+        cookingMethods as CookingMethod[]
       );
     } catch (error) {
       logger.error('Error in generateAlchemicalRecommendations:', error);
@@ -271,7 +271,7 @@ export class LegacyRecommendationAdapter {
     try {
       return alchemicalRecommendationService.getRecipeRecommendations(
         recipe as any,
-        planetaryPositions as unknown
+        planetaryPositions as Record<string, ZodiacSign>
       );
     } catch (error) {
       logger.error(`Error in getRecipeRecommendations for recipe "${recipe.name}":`, error);
