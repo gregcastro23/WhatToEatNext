@@ -300,9 +300,9 @@ export class MockCampaignController {
         percentage: 56
       },
       buildPerformance: {
-        currentTime: 8?.5,
+        currentTime: 8.5,
         targetTime: 10,
-        cacheHitRate: 0?.8,
+        cacheHitRate: 0.8,
         memoryUsage: 45
       },
       enterpriseSystems: {
@@ -531,9 +531,9 @@ export class MockProgressTracker {
         percentage: 56
       },
       buildPerformance: {
-        currentTime: 8?.5,
+        currentTime: 8.5,
         targetTime: 10,
-        cacheHitRate: 0?.8,
+        cacheHitRate: 0.8,
         memoryUsage: 45
       },
       enterpriseSystems: {
@@ -561,7 +561,7 @@ export class MockProgressTracker {
       buildPerformance: {
         currentTime: 8,
         targetTime: 10,
-        cacheHitRate: 0?.8,
+        cacheHitRate: 0.8,
         memoryUsage: 45
       },
       enterpriseSystems: {

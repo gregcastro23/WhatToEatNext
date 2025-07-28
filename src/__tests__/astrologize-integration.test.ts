@@ -124,7 +124,7 @@ describe('Astrologize API Integration', () => {
     test('should get positions for birth date with location', async () => {
       try {
         const birthDate = new Date('1990-03-20T16:20:00Z');
-        const birthLocation = { latitude: 40?.7498, longitude: -73?.7976 }; // NYC
+        const birthLocation = { latitude: 40.7498, longitude: -73.7976 }; // NYC
         
         const positions = await getPlanetaryPositionsForDateTime(birthDate, birthLocation);
         
@@ -197,8 +197,8 @@ describe('Astrologize API Integration', () => {
     test('should work with browser geolocation simulation', async () => {
       // Simulate getting location from browser
       const mockGeolocation = {
-        latitude: 37?.7749,
-        longitude: -122?.4194 // San Francisco
+        latitude: 37.7749,
+        longitude: -122.4194 // San Francisco
       };
       
       try {
