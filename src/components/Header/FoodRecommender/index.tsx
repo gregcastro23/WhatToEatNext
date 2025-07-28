@@ -709,7 +709,6 @@ const FoodRecommender: React.FC = () => {
                                     )}
                                     
                                     {/* ✅ Pattern GG-6: Safe property access for medicinal properties */}
-                                    {String('')}
                                     {Boolean((ingredient as Record<string, unknown>).medicinalProperties) && (
                                         <div className="mt-2 mb-3">
                                             <h5 className="text-xs text-gray-500 mb-1">Properties</h5>

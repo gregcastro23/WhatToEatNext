@@ -222,7 +222,7 @@ export default function IngredientMapper() {
         </button>
         
         {/* Display Result */}
-        {compatibilityResult && (
+        {Boolean(compatibilityResult) && (
           <div className="mt-4">
             {(compatibilityResult as unknown as Record<string, unknown>).success ? (
               <div className="p-3 border rounded">

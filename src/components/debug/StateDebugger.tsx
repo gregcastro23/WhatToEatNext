@@ -113,7 +113,7 @@ export function StateDebugger() {
             <div className="text-xs space-y-1">
               <div className="flex justify-between">
                 <span>Sun Sign:</span>
-                <span className="text-purple-300 font-bold">{sunSign}</span>
+                <span className="text-purple-300 font-bold">{String(sunSign)}</span>
               </div>
               <div className="flex justify-between">
                 <span>Chart Ruler:</span>

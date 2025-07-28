@@ -818,7 +818,7 @@ const IngredientCard: React.FC<IngredientCardProps> = ({
                     {(categoryPath as string[]).join(' > ')}
                   </div>
                 ) : null;
-              })()}
+              })() as React.ReactNode}
 
               {/* Possible substitutes with safe access */}
               {(() => {

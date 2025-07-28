@@ -941,7 +941,7 @@ export default function IngredientRecommender() {
         )}
         
         {/* Elemental Properties with improved visualization */}
-        {itemData.elementalProperties && (
+        {Boolean(itemData.elementalProperties) && (
           <div className={styles.detailSection}>
             <h4 className={styles.detailTitle}>
               <Beaker size={16} /> Elemental Properties

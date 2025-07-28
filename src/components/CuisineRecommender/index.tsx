@@ -194,7 +194,7 @@ export const CuisineRecommender: React.FC<CuisineRecommenderProps> = ({
                 </div>
 
                 {/* Alchemical Score Breakdown */}
-                {(Boolean(recipe.alchemicalScores) ) && (
+                {Boolean(recipe.alchemicalScores) && (
                   <div className="alchemical-breakdown">
                     <h5>Compatibility Breakdown:</h5>
                     <div className="score-details">

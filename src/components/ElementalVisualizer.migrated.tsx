@@ -191,7 +191,7 @@ const ElementalVisualizerMigrated: React.FC<ElementalVisualizerProps> = ({
       .map(([element]) => element);
     
     // Recommendations based on elemental properties
-    let recommendations = null;
+    let recommendations: { flavorProfile: string[]; cuisineAffinity: string[]; wellnessProperties: string[]; } | null = null;
     
     if (showRecommendations) {
       const flavorProfiles: Record<string, string[]> = { Fire: ['spicy', 'bold', 'aromatic'],
@@ -443,7 +443,7 @@ const ElementalVisualizerMigrated: React.FC<ElementalVisualizerProps> = ({
     const polygonPoints = (points || []).map(p => `${p.x},${p.y}`).join(' ');
     
     // Create the comparison polygon if applicable
-    let comparisonPoints = null;
+    let comparisonPoints: { x: number; y: number; }[] | null = null;
     if (showComparison && userProperties) {
       // Calculate total for normalization
       const userTotal = Object.values(userProperties).reduce((sum, value) => sum + value, 0);
