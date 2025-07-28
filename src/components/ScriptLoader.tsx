@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
+import { log } from '@/services/LoggingService';
 
 /**
  * Client-side component for loading scripts to avoid hydration mismatches
@@ -17,7 +18,7 @@ export default function ScriptLoader() {
             script.src = src;
             script.async = false;
             script.onload = () => {
-              console.log(`[ScriptLoader] Loaded: ${src}`);
+              log.info(`[ScriptLoader] Loaded: ${src}`);
               resolve();
             };
             script.onerror = (error) => {
@@ -44,7 +45,7 @@ export default function ScriptLoader() {
         setTimeout(() => {
           if (window.ClickFix && typeof window.ClickFix.fixAllComponents === 'function') {
             window.ClickFix.fixAllComponents();
-            console.log('[ScriptLoader] Applied component fixes');
+            log.info('[ScriptLoader] Applied component fixes');
           }
         }, 500);
       } catch (error) {

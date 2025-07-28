@@ -4,6 +4,7 @@ import '../../utils/foodRecommenderFix';
 import '../../utils/fixAssignmentError';
 // Import the IngredientDisplay component which has more detailed information
 import { useMemo } from 'react';
+import { log } from '@/services/LoggingService';
 
 import { useAstrologicalState } from '@/context/AstrologicalContext';
 
@@ -39,7 +40,7 @@ if (typeof window !== 'undefined') {
   }
   
   // Log that our component is initializing correctly
-  console.log('[FoodRecommender] Component loaded with fixes applied');
+  log.info('[FoodRecommender] Component loaded with fixes applied');
 }
 
 // Create wrapper component to combine both implementations

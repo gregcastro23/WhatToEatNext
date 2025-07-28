@@ -1,7 +1,8 @@
+import { log } from '@/services/LoggingService';
 export const logger = {
   info: (message: string, data?: unknown) => {
     if (process.env.NODE_ENV !== 'production') {
-      console.log(`[INFO] ${message}`, data || '');
+      log.info(`[INFO] ${message}`, data || '');
     }
   },
   warn: (message: string, data?: unknown) => {
@@ -14,7 +15,7 @@ export const logger = {
   },
   debug: (message: string, data?: unknown) => {
     if (process.env.NODE_ENV !== 'production') {
-      console.debug(`[DEBUG] ${message}`, data || '');
+      log.debug(`[DEBUG] ${message}`, data || '');
     }
   }
 };

@@ -2,6 +2,7 @@ import type { ZodiacSign } from '@/types/alchemy';
 import { PlanetaryPosition } from "@/types/celestial";
 import { astrologizeApiCircuitBreaker } from '@/utils/apiCircuitBreaker';
 import { PlanetPosition } from '@/utils/astrologyUtils';
+import { log } from '@/services/LoggingService';
 
 // Use local API endpoint instead of external
 const LOCAL_ASTROLOGIZE_API_URL = '/api/astrologize';
@@ -129,7 +130,7 @@ export async function fetchPlanetaryPositions(
 ): Promise<Record<string, PlanetPosition>> {
   
   const fallbackPositions = (): Record<string, PlanetPosition> => {
-    console.log('Using fallback planetary positions due to API failure');
+    log.info('Using fallback planetary positions due to API failure');
     return {
       Sun: { sign: 'gemini', degree: 13, minute: 54, exactLongitude: 73.9, isRetrograde: false },
       moon: { sign: 'virgo', degree: 26, minute: 31, exactLongitude: 176.52, isRetrograde: false },
@@ -153,7 +154,7 @@ export async function fetchPlanetaryPositions(
       ...customDateTime
     };
 
-    console.log('Calling local astrologize API with:', requestData);
+    log.info('Calling local astrologize API with:', requestData);
 
     // Determine if we should use GET or POST
     const isCurrentTime = !customDateTime || Object.keys(customDateTime).length === 0;
@@ -243,8 +244,8 @@ export async function fetchPlanetaryPositions(
       isRetrograde: false
     };
 
-    console.log('Successfully fetched planetary positions from local API:', Object.keys(positions));
-    console.log('🌟 Using', data.birth_info.ayanamsa || 'TROPICAL', 'zodiac system');
+    log.info('Successfully fetched planetary positions from local API:', Object.keys(positions));
+    log.info('🌟 Using', data.birth_info.ayanamsa || 'TROPICAL', 'zodiac system');
     return positions;
 
   }, fallbackPositions);

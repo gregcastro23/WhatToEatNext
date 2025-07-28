@@ -1,4 +1,5 @@
 import { useState, useEffect, useMemo } from 'react';
+import { log } from '@/services/LoggingService';
 
 import { cookingMethods } from '@/data/cooking/cookingMethods';
 import { allCookingMethods } from '@/data/cooking/methods';
@@ -114,7 +115,7 @@ export function useCookingMethods() {
 
   const selectMethod = (methodId: string) => {
     // This could be used to track selected methods or trigger other actions
-    console.log('Selected cooking method:', methodId);
+    log.info('Selected cooking method:', methodId);
   };
 
   return {

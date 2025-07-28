@@ -2,13 +2,14 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getRecommendations = exports.getmoonPhase = exports.getMealPeriod = exports.getTimeOfDay = exports.getDayOfYear = exports.getSeason = exports.getPreviousSeason = exports.getNextSeason = exports.isInSeason = exports.getSeasonForDate = exports.getCurrentSeason = void 0;
 const cuisines_1 = require("../data/cuisines");
+import { log } from '@/services/LoggingService';
 /**
  * A utility function for logging debug information
  * This is a safe replacement for console.log that can be disabled in production
  */
 const debugLog = (_message, ...args) => {
     // Comment out console.log to avoid linting warnings
-    // console.log(message, ...args);
+    // log.info(message, ...args);
 };
 /**
  * Get the current season based on the current date

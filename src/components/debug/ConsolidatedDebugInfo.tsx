@@ -126,7 +126,7 @@ const ConsolidatedDebugInfo = memo(function ConsolidatedDebugInfo({
 
   return (
     <div 
-      ref={draggableRef}
+      ref={draggableRef as React.Ref<HTMLDivElement>}
       className={getPositionClasses()}
       style={{ 
         opacity: settings.opacity,

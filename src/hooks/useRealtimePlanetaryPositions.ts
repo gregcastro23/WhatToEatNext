@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
+import { log } from '@/services/LoggingService';
 
 import { getCurrentPlanetaryPositions, getPlanetaryPositionsForDateTime, testAstrologizeApi } from '@/services/astrologizeApi';
 import { PlanetPosition } from '@/utils/astrologyUtils';
@@ -53,7 +54,7 @@ export function useRealtimePlanetaryPositions(
 
       try {
         positions = await getCurrentPlanetaryPositions(location, zodiacSystem);
-        console.log('🌟 Successfully fetched real-time positions from astrologize API using', zodiacSystem, 'zodiac');
+        log.info('🌟 Successfully fetched real-time positions from astrologize API using', zodiacSystem, 'zodiac');
       } catch (astrologizeError) {
         console.warn('Astrologize API failed, falling back to API endpoint:', astrologizeError);
         
@@ -82,7 +83,7 @@ export function useRealtimePlanetaryPositions(
         source
       });
 
-      console.log('🌟 Updated planetary positions from:', source);
+      log.info('🌟 Updated planetary positions from:', source);
     } catch (error) {
       setState(prev => ({
         ...prev,
@@ -144,7 +145,7 @@ export function usePlanetaryPositionsForDate(
 
       try {
         positions = await getPlanetaryPositionsForDateTime(date, location, zodiacSystem);
-        console.log('🌟 Successfully fetched positions for specific date from astrologize API using', zodiacSystem, 'zodiac');
+        log.info('🌟 Successfully fetched positions for specific date from astrologize API using', zodiacSystem, 'zodiac');
       } catch (astrologizeError) {
         console.warn('Astrologize API failed for custom date, falling back to API endpoint:', astrologizeError);
         

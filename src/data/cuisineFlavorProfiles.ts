@@ -1,5 +1,6 @@
 import type { ElementalProperties } from '@/types/alchemy';
 import { Recipe } from '@/types/unified';
+import { log } from '@/services/LoggingService';
 
 export interface CuisineFlavorProfile {
   id: string;
@@ -801,7 +802,7 @@ export function getRecipesForCuisineMatch(
       normalizedCuisineName === 'american' ||
       normalizedCuisineName === 'african'
     ) {
-      console.log(`Using specialized handling for ${cuisineName}`);
+      log.info(`Using specialized handling for ${cuisineName}`);
       try {
         // First, try LocalRecipeService
         const { LocalRecipeService } = require('../services/LocalRecipeService');
@@ -809,7 +810,7 @@ export function getRecipesForCuisineMatch(
         // Clear cache to ensure fresh data
         LocalRecipeService.clearCache();
         const localRecipes = LocalRecipeService.getRecipesByCuisine(cuisineName);
-        console.log(`LocalRecipeService returned ${localRecipes?.length || 0} recipes for ${cuisineName}`);
+        log.info(`LocalRecipeService returned ${localRecipes?.length || 0} recipes for ${cuisineName}`);
 
         if (localRecipes && localRecipes.length > 0) {
           // Apply high match scores to local recipes
@@ -837,7 +838,7 @@ export function getRecipesForCuisineMatch(
         }
 
         if (cuisine && cuisine.dishes) {
-          console.log(`Direct import successful for ${cuisineName}, extracting recipes from dishes`);
+          log.info(`Direct import successful for ${cuisineName}, extracting recipes from dishes`);
 
           // Extract recipes from all meal types
           const allRecipes: any[] = [];
@@ -848,7 +849,7 @@ export function getRecipesForCuisineMatch(
               cuisine.dishes[mealType]?.all &&
               Array.isArray(cuisine.dishes[mealType].all)
             ) {
-              console.log(`Found ${cuisine.dishes[mealType].all.length} ${mealType} recipes for ${cuisineName}`);
+              log.info(`Found ${cuisine.dishes[mealType].all.length} ${mealType} recipes for ${cuisineName}`);
 
               const mealRecipes = cuisine.dishes[mealType].all.map(
                 (recipe: unknown) => ({
@@ -870,7 +871,7 @@ export function getRecipesForCuisineMatch(
                 cuisine.dishes[mealType]?.[season] &&
                 Array.isArray(cuisine.dishes[mealType][season])
               ) {
-                console.log(`Found ${cuisine.dishes[mealType][season].length} ${season} ${mealType} recipes for ${cuisineName}`);
+                log.info(`Found ${cuisine.dishes[mealType][season].length} ${season} ${mealType} recipes for ${cuisineName}`);
 
                 const seasonalRecipes = cuisine.dishes[mealType][season].map(
                   (recipe: unknown) => ({
@@ -895,7 +896,7 @@ export function getRecipesForCuisineMatch(
           );
 
           if (uniqueRecipes.length > 0) {
-            console.log(`Returning ${uniqueRecipes.length} unique recipes for ${cuisineName}`);
+            log.info(`Returning ${uniqueRecipes.length} unique recipes for ${cuisineName}`);
             return uniqueRecipes.slice(0, limit);
           }
         }
@@ -910,10 +911,10 @@ export function getRecipesForCuisineMatch(
     // If no recipes are provided or empty array, try to fetch from LocalRecipeService
     if (!Array.isArray(recipes) || recipes.length === 0) {
       try {
-        console.log(`No recipes array provided, trying LocalRecipeService for ${cuisineName}`);
+        log.info(`No recipes array provided, trying LocalRecipeService for ${cuisineName}`);
         const { LocalRecipeService } = require('../services/LocalRecipeService');
         const localRecipes = LocalRecipeService.getRecipesByCuisine(cuisineName);
-        console.log(`Fetched ${localRecipes?.length || 0} recipes directly from LocalRecipeService for ${cuisineName}`);
+        log.info(`Fetched ${localRecipes?.length || 0} recipes directly from LocalRecipeService for ${cuisineName}`);
 
         if (localRecipes && localRecipes.length > 0) {
           // Apply high match scores to local recipes
@@ -925,7 +926,7 @@ export function getRecipesForCuisineMatch(
             }))
             .slice(0, limit);
         } else {
-          console.log(`LocalRecipeService returned no recipes for ${cuisineName}, using mock data`);
+          log.info(`LocalRecipeService returned no recipes for ${cuisineName}, using mock data`);
           return [];
         }
       } catch (error) {
@@ -954,7 +955,7 @@ export function getRecipesForCuisineMatch(
       }
     );
 
-    console.log(`Found ${exactCuisineMatches.length} exact cuisine matches for ${cuisineName}`);
+    log.info(`Found ${exactCuisineMatches.length} exact cuisine matches for ${cuisineName}`);
 
     // Regional variant matches
     const regionalMatches = recipes.filter(
@@ -969,7 +970,7 @@ export function getRecipesForCuisineMatch(
       }
     );
 
-    console.log(`Found ${regionalMatches.length} regional matches for ${cuisineName}`);
+    log.info(`Found ${regionalMatches.length} regional matches for ${cuisineName}`);
 
     // Calculate match scores for all other recipes
     const otherRecipes = recipes.filter(
@@ -978,7 +979,7 @@ export function getRecipesForCuisineMatch(
     );
 
     // Skip other recipe scoring if we already have enough direct matches
-    let scoredOtherRecipes = [];
+    let scoredOtherRecipes: Array<{ matchScore: number; matchPercentage: number; }> = [];
     if (exactCuisineMatches.length + regionalMatches.length < limit && cuisineProfile) {
       // Score recipe matches using various factors
       scoredOtherRecipes = otherRecipes
@@ -1081,7 +1082,7 @@ export function getRecipesForCuisineMatch(
         .sort((a, b) => Number((b as Record<string, unknown>).matchScore || 0) - Number((a as Record<string, unknown>).matchScore || 0)); // Sort by score (high to low)
     }
 
-    console.log(`Found ${scoredOtherRecipes.length} scored other recipes for ${cuisineName}`);
+    log.info(`Found ${scoredOtherRecipes.length} scored other recipes for ${cuisineName}`);
 
     // Combine all matches, prioritizing direct matches, then regional, then others
     const allMatches = [
@@ -1109,7 +1110,7 @@ export function getRecipesForCuisineMatch(
     // Sort by match score
     const sortedMatches = uniqueMatches.sort((a, b) => Number((b as Record<string, unknown>).matchScore || 0) - Number((a as Record<string, unknown>).matchScore || 0));
     
-    console.log(`Returning ${sortedMatches.length} sorted matches for ${cuisineName}`);
+    log.info(`Returning ${sortedMatches.length} sorted matches for ${cuisineName}`);
     
     // Use empty array if we didn't find enough recipes
     if (sortedMatches.length < Math.min(3, limit)) {

@@ -1,3 +1,4 @@
+import { log } from '@/services/LoggingService';
 /**
  * Chrome API Initializer
  * 
@@ -35,7 +36,7 @@ export function initializeChromeApis(): void {
     if (!chromeObj.tabs) {
       chromeObj.tabs = {
         create: function(options: { url?: string }) {
-          console.log('[ChromeAPI] Mocked chrome.tabs.create called with:', options);
+          log.info('[ChromeAPI] Mocked chrome.tabs.create called with:', options);
           
           // Safely handle URL opening
           if (options && options.url) {
@@ -72,7 +73,7 @@ export function initializeChromeApis(): void {
           return window.location.origin + '/' + path;
         },
         sendMessage: function(message: unknown) {
-          console.log('[ChromeAPI] Mocked chrome.runtime.sendMessage called:', message);
+          log.info('[ChromeAPI] Mocked chrome.runtime.sendMessage called:', message);
           return Promise.resolve({ success: true });
         },
         onMessage: {
@@ -120,7 +121,7 @@ export function initializeChromeApis(): void {
             }
             
             if (callback) {
-              setTimeout(() => callback(result as Record<string, string[]>), 0);
+              setTimeout(() => callback(result as unknown as Record<string, string[]>), 0);
             }
             return Promise.resolve(result);
           },
@@ -156,7 +157,7 @@ export function initializeChromeApis(): void {
       };
     }
 
-    console.log('[ChromeAPI] Successfully initialized Chrome extension API mocks');
+    log.info('[ChromeAPI] Successfully initialized Chrome extension API mocks');
   } catch (error) {
     console.warn('[ChromeAPI] Error initializing Chrome APIs:', error);
   }

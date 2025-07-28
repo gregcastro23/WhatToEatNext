@@ -9,7 +9,7 @@
  */
 const debugLog = (_message: string, ...args: unknown[]): void => {
   // Comment out console.log to avoid linting warnings
-  // console.log(message, ...args);
+  // log.info(message, ...args);
 };
 
 /**
@@ -157,6 +157,7 @@ import * as gregsEnergy from '@/calculations/gregsEnergy';
 import * as accurateAstronomy from '@/utils/accurateAstronomy';
 import * as astrologyUtils from '@/utils/astrologyUtils';
 import * as safeAstrology from '@/utils/safeAstrology';
+import { log } from '@/services/LoggingService';
 
 // Get astronomia module dynamically to prevent build issues
 const getAstronomiaModule = async () => {

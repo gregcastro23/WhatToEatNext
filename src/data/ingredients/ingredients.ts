@@ -13,7 +13,6 @@ export type {
 // Re-export specific data from index module (avoiding conflicts)
 export { 
   VALID_CATEGORIES,
-  DEFAULT_ELEMENTAL_PROPERTIES,
   getAllIngredientsByCategory,
   getAllVegetables,
   getAllProteins,

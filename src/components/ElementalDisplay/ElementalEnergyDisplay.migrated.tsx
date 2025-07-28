@@ -2,6 +2,7 @@
 
 import { isEqual } from 'lodash';
 import React, { useEffect, useState, useMemo, useCallback } from 'react';
+import { log } from '@/services/LoggingService';
 
 import { useServices } from '@/hooks/useServices';
 import { PlanetaryPosition } from "@/types/celestial";
@@ -28,7 +29,7 @@ const ElementalEnergyDisplayMigrated: React.FC<ElementalEnergyDisplayProps> = ({
   useEffect(() => {
     // Only increment on component mount, not on every render
     if (showDebug) {
-      console.log(`ElementalEnergyDisplay initial render`);
+      log.info(`ElementalEnergyDisplay initial render`);
     }
     // Empty dependency array ensures this runs only once on mount
   }, []);
@@ -37,7 +38,7 @@ const ElementalEnergyDisplayMigrated: React.FC<ElementalEnergyDisplayProps> = ({
   useEffect(() => {
     if (showDebug) {
       setRenderCount(prev => prev + 1);
-      console.log(`ElementalEnergyDisplay rendered ${renderCount} times`);
+      log.info(`ElementalEnergyDisplay rendered ${renderCount} times`);
     }
   }, [showDebug]); // Only update when showDebug changes
 
@@ -57,7 +58,7 @@ const ElementalEnergyDisplayMigrated: React.FC<ElementalEnergyDisplayProps> = ({
         
         // Skip calculation if positions haven't changed
         if (isEqual(lastPositions, positions)) {
-          if (showDebug) console.log('Skipping calculation - positions unchanged');
+          if (showDebug) log.info('Skipping calculation - positions unchanged');
           return;
         }
         
@@ -75,7 +76,7 @@ const ElementalEnergyDisplayMigrated: React.FC<ElementalEnergyDisplayProps> = ({
         
         // Only update state if energies have changed
         if (!isEqual(energies, result)) {
-          if (showDebug) console.log('Updating energy values:', result);
+          if (showDebug) log.info('Updating energy values:', result);
           setEnergies(result);
         }
         
@@ -86,7 +87,7 @@ const ElementalEnergyDisplayMigrated: React.FC<ElementalEnergyDisplayProps> = ({
     };
 
     loadPlanetaryData();
-  }, [isLoading, error, astrologyService, showDebug]);
+  }, [isLoading, error, astrologyService, showDebug, energies, lastPositions]);
 
   // Memoize the sorted energies array
   const sortedEnergies = useMemo(() => {

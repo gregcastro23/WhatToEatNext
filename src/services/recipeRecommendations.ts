@@ -1,6 +1,6 @@
 import type { ElementalProperties, Ingredient } from '../types/alchemy';
 import type { Recipe, ScoredRecipe } from '../types/recipe';
-import { createError } from '../utils/errorHandling';
+import { createEnhancedError } from '../utils/errorHandling';
 import { logger } from '../utils/logger';
 
 import { celestialCalculator } from './celestialCalculations';
@@ -37,7 +37,7 @@ export class RecipeRecommender {
   ): Promise<ScoredRecipe[]> {
     try {
       if (!Array.isArray(recipes) || recipes.length === 0) {
-        throw createError('INVALID_REQUEST', { context: 'Empty recipe list' });
+        throw createEnhancedError('Empty recipe list', 'VALIDATION' as any);
       }
 
       // Get current celestial influences if not provided

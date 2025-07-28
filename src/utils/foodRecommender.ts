@@ -11,6 +11,7 @@ import { vinegars } from '@/data/ingredients/vinegars';
 import { getCurrentSeason } from '@/data/integrations/seasonal';
 import type { ElementalProperties, ZodiacSign, LunarPhase, Season, Element, AstrologicalState } from '@/types';
 import type { Planet, Modality } from '@/types/celestial';
+import { log } from '@/services/LoggingService';
 
 // Create eggs and dairy from proteins by filtering category
 const eggs = (Object.entries(proteins) )
@@ -61,12 +62,12 @@ export const getAllIngredients = (): EnhancedIngredient[] => {
   const allIngredients: EnhancedIngredient[] = [];
   
   // Debug logs
-  console.log('Vegetables data:', Object.keys(vegetables).length, 'items');
-  console.log('Vegetable names:', Object.keys(vegetables));
-  console.log('Grains data:', Object.keys(grains).length, 'items');
-  console.log('Grain names:', Object.keys(grains));
-  console.log('Herbs data:', Object.keys(herbs).length, 'items');
-  console.log('Herbs names:', Object.keys(herbs));
+  log.info('Vegetables data:', Object.keys(vegetables).length, 'items');
+  log.info('Vegetable names:', Object.keys(vegetables));
+  log.info('Grains data:', Object.keys(grains).length, 'items');
+  log.info('Grain names:', Object.keys(grains));
+  log.info('Herbs data:', Object.keys(herbs).length, 'items');
+  log.info('Herbs names:', Object.keys(herbs));
   
   // Define all categories
   const categories = [
@@ -99,7 +100,7 @@ export const getAllIngredients = (): EnhancedIngredient[] => {
     }
     
     // Count the entries in this category
-    console.log(`${category.name} category has ${Object.keys(category.data).length} items`);
+    log.info(`${category.name} category has ${Object.keys(category.data).length} items`);
     
     Object.entries(category.data).forEach(([name, data]) => {
       // Make sure we add the name to the ingredient
@@ -144,7 +145,7 @@ export const getAllIngredients = (): EnhancedIngredient[] => {
     });
   });
   
-  console.log(`Added ${grainCount} grain ingredients and ${herbCount} herb ingredients`);
+  log.info(`Added ${grainCount} grain ingredients and ${herbCount} herb ingredients`);
   
   // Filter out ingredients without proper astrological profiles
   const validIngredients = allIngredients.filter(ing => 
@@ -153,13 +154,13 @@ export const getAllIngredients = (): EnhancedIngredient[] => {
     ing.astrologicalProfile.rulingPlanets
   );
   
-  console.log(`Total ingredients: ${allIngredients.length}, Valid ingredients: ${validIngredients.length}`);
+  log.info(`Total ingredients: ${allIngredients.length}, Valid ingredients: ${validIngredients.length}`);
   if (validIngredients.length < allIngredients.length) {
     const filteredOut = allIngredients.filter(ing => 
       !(ing.astrologicalProfile && ing.astrologicalProfile.elementalAffinity && ing.astrologicalProfile.rulingPlanets)
     );
-    console.log('Filtered out:', filteredOut.length, 'ingredients');
-    console.log('Categories of filtered ingredients:', 
+    log.info('Filtered out:', filteredOut.length, 'ingredients');
+    log.info('Categories of filtered ingredients:', 
       [...new Set(filteredOut.map(ing => ing.category))].join(', '));
   }
   

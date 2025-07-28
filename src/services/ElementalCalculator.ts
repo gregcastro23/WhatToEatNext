@@ -1,5 +1,6 @@
 import { getLatestAstrologicalState } from '@/services/AstrologicalService';
 import { createLogger } from '@/utils/logger';
+import { log } from '@/services/LoggingService';
 
 import { DEFAULT_ELEMENTAL_PROPERTIES } from '../constants/elementalConstants';
 import { planetInfo, signInfo } from '../data/astrology';
@@ -36,7 +37,7 @@ export class ElementalCalculator {
     this.debugMode = debugMode;
     
     if (this.debugMode) {
-      console.log("[ElementalCalculator] Instance created with debug mode");
+      log.info("[ElementalCalculator] Instance created with debug mode");
     }
   }
 
@@ -180,7 +181,7 @@ export class ElementalCalculator {
     Air: number;
   } {
     if (this.debugMode) {
-      console.log("[ElementalCalculator] Calculating elemental state from: ", positions);
+      log.info("[ElementalCalculator] Calculating elemental state from: ", positions);
     }
 
     // Initialize elemental values
@@ -194,7 +195,7 @@ export class ElementalCalculator {
     // Handle empty or invalid positions
     if (!positions || typeof positions !== 'object') {
       if (this.debugMode) {
-        console.log("[ElementalCalculator] No elemental data calculated, returning default values");
+        log.info("[ElementalCalculator] No elemental data calculated, returning default values");
       }
       return { ...DEFAULT_ELEMENTAL_PROPERTIES };
     }
@@ -202,7 +203,7 @@ export class ElementalCalculator {
     // Try to extract planet positions directly if they exist
     try {
       if (this.debugMode) {
-        console.log("[ElementalCalculator] Trying to extract planets from general structure");
+        log.info("[ElementalCalculator] Trying to extract planets from general structure");
       }
 
       // Handle different API response formats
@@ -244,7 +245,7 @@ export class ElementalCalculator {
       } else {
         // Return default values if we couldn't calculate anything
         if (this.debugMode) {
-          console.log("[ElementalCalculator] No elemental data calculated, returning default values");
+          log.info("[ElementalCalculator] No elemental data calculated, returning default values");
         }
         return { ...DEFAULT_ELEMENTAL_PROPERTIES };
       }

@@ -1,3 +1,4 @@
+import { log } from '@/services/LoggingService';
 /**
  * Test Kalchm and Monica Constants in Debug Component
  * 
@@ -67,13 +68,13 @@ const calculateMonicaConstant = (gregsEnergy: number, reactivity: number, K_alch
 
 // Run the test
 function testKalchmMonicaCalculations() {
-  console.log('🧪 Testing Kalchm and Monica Constant Calculations\n');
+  log.info('🧪 Testing Kalchm and Monica Constant Calculations\n');
   
   const { Spirit, Essence, Matter, Substance, Fire, Water, Air, Earth } = testValues;
   
-  console.log('📊 Input Values:');
-  console.log(`Spirit: ${Spirit}, Essence: ${Essence}, Matter: ${Matter}, Substance: ${Substance}`);
-  console.log(`Fire: ${Fire}, Water: ${Water}, Air: ${Air}, Earth: ${Earth}\n`);
+  log.info('📊 Input Values:');
+  log.info(`Spirit: ${Spirit}, Essence: ${Essence}, Matter: ${Matter}, Substance: ${Substance}`);
+  log.info(`Fire: ${Fire}, Water: ${Water}, Air: ${Air}, Earth: ${Earth}\n`);
   
   // Calculate thermodynamic properties
   const heat = calculateHeat(Spirit, Fire, Substance, Essence, Matter, Water, Air, Earth);
@@ -81,41 +82,41 @@ function testKalchmMonicaCalculations() {
   const reactivity = calculateReactivity(Spirit, Substance, Essence, Fire, Air, Water, Matter, Earth);
   const gregsEnergy = calculateGregsEnergy(heat, entropy, reactivity);
   
-  console.log('🔥 Thermodynamic Properties:');
-  console.log(`Heat: ${heat.toFixed(6)}`);
-  console.log(`Entropy: ${entropy.toFixed(6)}`);
-  console.log(`Reactivity: ${reactivity.toFixed(6)}`);
-  console.log(`Greg's Energy: ${gregsEnergy.toFixed(6)}\n`);
+  log.info('🔥 Thermodynamic Properties:');
+  log.info(`Heat: ${heat.toFixed(6)}`);
+  log.info(`Entropy: ${entropy.toFixed(6)}`);
+  log.info(`Reactivity: ${reactivity.toFixed(6)}`);
+  log.info(`Greg's Energy: ${gregsEnergy.toFixed(6)}\n`);
   
   // Calculate Kalchm and Monica constants
   const K_alchm = calculateKAlchm(Spirit, Essence, Matter, Substance);
   const monicaConstant = calculateMonicaConstant(gregsEnergy, reactivity, K_alchm);
   
-  console.log('⚗️ Kalchm & Monica Constants:');
-  console.log(`K_alchm: ${K_alchm.toFixed(2)}`);
-  console.log(`Monica Constant (M): ${monicaConstant.toFixed(6)}\n`);
+  log.info('⚗️ Kalchm & Monica Constants:');
+  log.info(`K_alchm: ${K_alchm.toFixed(2)}`);
+  log.info(`Monica Constant (M): ${monicaConstant.toFixed(6)}\n`);
   
   // Note: The expected values from the notepad are for different input values
   // These calculations are correct for the given inputs
-  console.log('✅ Validation:');
-  console.log('✅ Calculations are mathematically correct for the given inputs');
-  console.log('✅ Formulas match the exact specifications from the notepad');
-  console.log('✅ The debug component will display live values based on current astrological state');
+  log.info('✅ Validation:');
+  log.info('✅ Calculations are mathematically correct for the given inputs');
+  log.info('✅ Formulas match the exact specifications from the notepad');
+  log.info('✅ The debug component will display live values based on current astrological state');
   
-  console.log('\n🎯 Debug Component Integration:');
-  console.log('The enhanced DebugInfo component will now display:');
-  console.log(`- K_alchm: ${K_alchm > 1000000 ? K_alchm.toExponential(3) : K_alchm.toFixed(6)}`);
-  console.log(`- M (Monica): ${isNaN(monicaConstant) ? 'NaN' : Math.abs(monicaConstant) > 1000000 ? monicaConstant.toExponential(3) : monicaConstant.toFixed(6)}`);
+  log.info('\n🎯 Debug Component Integration:');
+  log.info('The enhanced DebugInfo component will now display:');
+  log.info(`- K_alchm: ${K_alchm > 1000000 ? K_alchm.toExponential(3) : K_alchm.toFixed(6)}`);
+  log.info(`- M (Monica): ${isNaN(monicaConstant) ? 'NaN' : Math.abs(monicaConstant) > 1000000 ? monicaConstant.toExponential(3) : monicaConstant.toFixed(6)}`);
   
-  console.log('\n📝 Formula Verification:');
-  console.log('K_alchm = (Spirit^Spirit * Essence^Essence) / (Matter^Matter * Substance^Substance)');
-  console.log(`K_alchm = (${Spirit}^${Spirit} * ${Essence}^${Essence}) / (${Matter}^${Matter} * ${Substance}^${Substance})`);
-  console.log(`K_alchm = (${Math.pow(Spirit, Spirit).toFixed(2)} * ${Math.pow(Essence, Essence).toFixed(2)}) / (${Math.pow(Matter, Matter).toFixed(2)} * ${Math.pow(Substance, Substance).toFixed(2)})`);
-  console.log(`K_alchm = ${K_alchm.toFixed(6)}`);
+  log.info('\n📝 Formula Verification:');
+  log.info('K_alchm = (Spirit^Spirit * Essence^Essence) / (Matter^Matter * Substance^Substance)');
+  log.info(`K_alchm = (${Spirit}^${Spirit} * ${Essence}^${Essence}) / (${Matter}^${Matter} * ${Substance}^${Substance})`);
+  log.info(`K_alchm = (${Math.pow(Spirit, Spirit).toFixed(2)} * ${Math.pow(Essence, Essence).toFixed(2)}) / (${Math.pow(Matter, Matter).toFixed(2)} * ${Math.pow(Substance, Substance).toFixed(2)})`);
+  log.info(`K_alchm = ${K_alchm.toFixed(6)}`);
   
-  console.log('\nMonica = -Greg\'s Energy / (Reactivity × ln(K_alchm))');
-  console.log(`Monica = -${gregsEnergy.toFixed(6)} / (${reactivity.toFixed(6)} × ${Math.log(K_alchm).toFixed(6)})`);
-  console.log(`Monica = ${monicaConstant.toFixed(6)}`);
+  log.info('\nMonica = -Greg\'s Energy / (Reactivity × ln(K_alchm))');
+  log.info(`Monica = -${gregsEnergy.toFixed(6)} / (${reactivity.toFixed(6)} × ${Math.log(K_alchm).toFixed(6)})`);
+  log.info(`Monica = ${monicaConstant.toFixed(6)}`);
   
   return {
     heat,
@@ -131,13 +132,13 @@ function testKalchmMonicaCalculations() {
 // Run the test
 const results = testKalchmMonicaCalculations();
 
-console.log('\n🏁 Test Results Summary:');
-console.log(`Overall Test: ${results.testPassed ? '✅ PASSED' : '❌ FAILED'}`);
-console.log('\n🎉 Success! The debug component is now enhanced with:');
-console.log('   • Kalchm constant (K_alchm) calculations');
-console.log('   • Monica constant (M) calculations');
-console.log('   • Thermodynamic properties (Heat, Entropy, Reactivity, Greg\'s Energy)');
-console.log('   • Real-time updates based on current astrological state');
-console.log('\n💡 The values will change dynamically as planetary positions update!');
+log.info('\n🏁 Test Results Summary:');
+log.info(`Overall Test: ${results.testPassed ? '✅ PASSED' : '❌ FAILED'}`);
+log.info('\n🎉 Success! The debug component is now enhanced with:');
+log.info('   • Kalchm constant (K_alchm) calculations');
+log.info('   • Monica constant (M) calculations');
+log.info('   • Thermodynamic properties (Heat, Entropy, Reactivity, Greg\'s Energy)');
+log.info('   • Real-time updates based on current astrological state');
+log.info('\n💡 The values will change dynamically as planetary positions update!');
 
 export default results; 

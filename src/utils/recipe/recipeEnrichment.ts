@@ -300,7 +300,7 @@ export function enhanceWithNutritionalEstimates(recipe: Recipe): Recipe {
   // Normalize per serving
   if (recipe.numberOfServings && recipe.numberOfServings > 1) {
     Object.keys(estimatedNutrition).forEach(key => {
-      estimatedNutrition[key] = Math.round(estimatedNutrition[key] / recipe.numberOfServings);
+      estimatedNutrition[key] = Math.round(estimatedNutrition[key] / (recipe.numberOfServings ?? 1));
     });
   }
   

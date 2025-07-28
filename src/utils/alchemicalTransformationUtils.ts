@@ -1,4 +1,5 @@
 import type { CelestialPosition } from '@/types/celestial';
+import { log } from '@/services/LoggingService';
 
 import { 
   transformItemWithPlanetaryPositions, 
@@ -230,21 +231,21 @@ export const getRecommendedCookingMethodsForIngredient = async (
   // For each method, calculate how well it transforms the ingredient using enhanced algorithm
   // that takes into account elemental character associations
   
-  console.log('\n===========================================');
-  console.log('COOKING METHOD RECOMMENDATIONS ENGINE START');
-  console.log('===========================================');
-  console.log(`Ingredient: ${ingredient.name}`);
-  console.log(`Element: ${ingredient.element || 'Not specified'}`);
-  console.log(`Elemental Character: ${ingredient.elementalCharacter || 'Not specified'}`);
-  console.log(`Spirit: ${ingredient.spirit || 0}, Essence: ${ingredient.essence || 0}, Matter: ${ingredient.matter || 0}, Substance: ${ingredient.substance || 0}`);
-  console.log(`Available cooking methods: ${cookingMethods.length}`);
+  log.info('\n===========================================');
+  log.info('COOKING METHOD RECOMMENDATIONS ENGINE START');
+  log.info('===========================================');
+  log.info(`Ingredient: ${ingredient.name}`);
+  log.info(`Element: ${ingredient.element || 'Not specified'}`);
+  log.info(`Elemental Character: ${ingredient.elementalCharacter || 'Not specified'}`);
+  log.info(`Spirit: ${ingredient.spirit || 0}, Essence: ${ingredient.essence || 0}, Matter: ${ingredient.matter || 0}, Substance: ${ingredient.substance || 0}`);
+  log.info(`Available cooking methods: ${cookingMethods.length}`);
   
   // Convert cookingMethods names to method strings for holistic recommendations
   const methodNames = cookingMethods.map(method => method.name);
-  console.log('Method names to evaluate:', methodNames.join(', '));
+  log.info('Method names to evaluate:', methodNames.join(', '));
   
   // Use our enhanced holistic recommendations that include elemental character
-  console.log('\nEvaluating methods with holistic cooking recommendations algorithm...');
+  log.info('\nEvaluating methods with holistic cooking recommendations algorithm...');
   const holisticRecommendations = await getHolisticCookingRecommendations(
     ingredient,
     undefined, // No specific planet influence
@@ -260,14 +261,14 @@ export const getRecommendedCookingMethodsForIngredient = async (
     compatibility: rec.compatibility
   }));
   
-  console.log('\nFINAL COOKING RECOMMENDATIONS (sorted by compatibility):');
+  log.info('\nFINAL COOKING RECOMMENDATIONS (sorted by compatibility):');
   results.forEach((rec, index) => {
-    console.log(`${index + 1}. ${rec.method} - Compatibility: ${Math.round(rec.compatibility)}%`);
+    log.info(`${index + 1}. ${rec.method} - Compatibility: ${Math.round(rec.compatibility)}%`);
   });
   
-  console.log('===========================================');
-  console.log('COOKING METHOD RECOMMENDATIONS ENGINE END');
-  console.log('===========================================\n');
+  log.info('===========================================');
+  log.info('COOKING METHOD RECOMMENDATIONS ENGINE END');
+  log.info('===========================================\n');
   
   return results;
 };

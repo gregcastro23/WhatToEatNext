@@ -11,6 +11,7 @@
 import { logger } from '@/utils/logger';
 import { getReliablePlanetaryPositions } from '@/utils/reliableAstronomy';
 import { ElementalProperties, getSteeringFileIntelligence } from '@/utils/steeringFileIntelligence';
+import { calculateElementalAffinity } from '@/utils/elementalUtils';
 
 // Quality assurance thresholds from campaign-integration.md
 export const QA_THRESHOLDS = {
@@ -222,7 +223,8 @@ export class AutomatedQualityAssurance {
       // Validate compatibility with other ingredients
       if (index > 0) {
         const prevIngredient = ingredients[index - 1];
-        const compatibility = intelligence.calculateCompatibility(
+        // Use calculateElementalCompatibility directly
+        const compatibility = calculateElementalAffinity(
           ingredient.elementalProperties,
           prevIngredient.elementalProperties
         );

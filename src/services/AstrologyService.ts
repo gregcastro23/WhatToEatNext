@@ -1,6 +1,7 @@
 import { getCurrentPlanetaryPositions, getPlanetaryPositionsForDateTime } from '@/services/astrologizeApi';
 import { PlanetaryAlignment, AstrologicalState, CelestialPosition, ZodiacSign, Planet, LunarPhase } from "@/types/celestial";
 import { normalizePlanetaryPositions } from '@/utils/astrology/core';
+import { log } from '@/services/LoggingService';
 
 /**
  * AstrologyService
@@ -198,7 +199,7 @@ export class AstrologyService {
           };
         });
         
-        console.log('🌟 Using real astrologize API data for astrological state');
+        log.info('🌟 Using real astrologize API data for astrological state');
       } catch (apiError) {
         console.warn('Astrologize API failed, using fallback calculations:', apiError);
         planetaryAlignment = this.calculatePlanetaryPositions(currentDate);

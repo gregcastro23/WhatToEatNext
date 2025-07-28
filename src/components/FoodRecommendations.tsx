@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { log } from '@/services/LoggingService';
 
 import type { ElementalProperties } from '@/types/alchemy';
 
@@ -18,7 +19,7 @@ const FoodRecommendations = (props: FoodRecommendationsProps) => {
   const [showDebug, setShowDebug] = useState(false);
   
   const runDebugTest = () => {
-    console.log("Running cooking method recommendations test...");
+    log.info("Running cooking method recommendations test...");
     testCookingMethodRecommendations();
   };
   

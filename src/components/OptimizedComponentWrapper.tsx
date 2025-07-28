@@ -1,4 +1,5 @@
 import React, { useState, useEffect, ReactNode, memo } from 'react';
+import { log } from '@/services/LoggingService';
 
 interface WrapperProps {
   children: ReactNode;
@@ -18,7 +19,7 @@ const OptimizedComponentWrapper: React.FC<WrapperProps> = ({ children, name }) =
     
     setRenderCount(prev => {
       const newCount = prev + 1;
-      console.log(`${name} wrapper rendered ${newCount} times`);
+      log.info(`${name} wrapper rendered ${newCount} times`);
       return newCount;
     });
     

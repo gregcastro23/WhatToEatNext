@@ -7,6 +7,7 @@ declare global {
 
 import alchemicalEngine from '@/app/alchemicalEngine';
 import { StandardizedAlchemicalResult } from '@/types/alchemy';
+import { log } from '@/services/LoggingService';
 
 // Use the standardized interface we created
 export type AlchemicalResult = StandardizedAlchemicalResult;
@@ -20,7 +21,7 @@ export function initializeAlchemicalEngine() {
   try {
     // Assign the core alchemize function to the window object
     window.alchemize = alchemicalEngine.alchemize;
-    console.log("Alchemical engine initialized successfully");
+    log.info("Alchemical engine initialized successfully");
   } catch (error) {
     console.error("Failed to initialize alchemize function:", error);
   }

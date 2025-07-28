@@ -644,7 +644,7 @@ const applyPlanetaryElements = (
     
     // Get the element based on time of day
     const activeElement = isDaytime ? planetData.diurnal : planetData.nocturnal;
-    const positionData = position as Record<string, unknown>;
+    const positionData = position as unknown as Record<string, unknown>;
     const strength = Number(positionData.strength) || 0.5;
     
     // Enhance the corresponding elemental property

@@ -16,6 +16,7 @@
 import { execSync } from 'child_process';
 import fs from 'fs';
 import path from 'path';
+import { log } from '@/services/LoggingService';
 
 import { CAMPAIGN_ENTERPRISE_INTELLIGENCE } from './campaign/CampaignIntelligenceSystem';
 import { TypeScriptErrorAnalyzer, ErrorCategory, ErrorSeverity, TypeScriptError } from './campaign/TypeScriptErrorAnalyzer';
@@ -98,12 +99,12 @@ export class ErrorTrackingEnterpriseSystem {
    */
   startRealTimeMonitoring(intervalMinutes: number = 5): void {
     if (this.isMonitoring) {
-      console.log('⚠️  Error monitoring already active');
+      log.info('⚠️  Error monitoring already active');
       return;
     }
 
     this.isMonitoring = true;
-    console.log(`🔄 Starting real-time error monitoring (${intervalMinutes}min intervals)`);
+    log.info(`🔄 Starting real-time error monitoring (${intervalMinutes}min intervals)`);
 
     this.monitoringInterval = setInterval(async () => {
       try {
@@ -122,7 +123,7 @@ export class ErrorTrackingEnterpriseSystem {
    */
   stopRealTimeMonitoring(): void {
     if (!this.isMonitoring) {
-      console.log('⚠️  Error monitoring not active');
+      log.info('⚠️  Error monitoring not active');
       return;
     }
 
@@ -132,7 +133,7 @@ export class ErrorTrackingEnterpriseSystem {
       this.monitoringInterval = null;
     }
 
-    console.log('🛑 Real-time error monitoring stopped');
+    log.info('🛑 Real-time error monitoring stopped');
   }
 
   /**
@@ -140,7 +141,7 @@ export class ErrorTrackingEnterpriseSystem {
    */
   async performAutomatedAnalysis(): Promise<ErrorTrackingSnapshot> {
     const startTime = Date.now();
-    console.log('🔍 Performing automated error analysis...');
+    log.info('🔍 Performing automated error analysis...');
 
     // Get current error state
     const analysisResult = await this.analyzer.analyzeErrors();
@@ -189,8 +190,8 @@ export class ErrorTrackingEnterpriseSystem {
     await this.persistData();
 
     const executionTime = Date.now() - startTime;
-    console.log(`✅ Automated analysis completed in ${executionTime}ms`);
-    console.log(`📊 Current state: ${currentErrorCount} errors, ${systemHealth} health`);
+    log.info(`✅ Automated analysis completed in ${executionTime}ms`);
+    log.info(`📊 Current state: ${currentErrorCount} errors, ${systemHealth} health`);
 
     return snapshot;
   }
@@ -773,7 +774,7 @@ export class ErrorTrackingEnterpriseSystem {
    * Force immediate analysis
    */
   async forceAnalysis(): Promise<ErrorTrackingSnapshot> {
-    console.log('🔄 Forcing immediate error analysis...');
+    log.info('🔄 Forcing immediate error analysis...');
     return await this.performAutomatedAnalysis();
   }
 
@@ -796,7 +797,7 @@ export class ErrorTrackingEnterpriseSystem {
       console.error('⚠️  Failed to delete persisted files:', error);
     }
     
-    console.log('🔄 All tracking data reset');
+    log.info('🔄 All tracking data reset');
   }
 }
 

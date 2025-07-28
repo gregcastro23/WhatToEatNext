@@ -2,6 +2,7 @@
 
 import dynamic from 'next/dynamic';
 import React, { useEffect, useState } from 'react';
+import { log } from '@/services/LoggingService';
 
 import AstrologicalClock from '@/components/AstrologicalClock';
 import CookingMethods from '@/components/CookingMethods';
@@ -32,7 +33,7 @@ export function ClientPage() {
   
   useEffect(() => {
     setRenderCount(prev => {
-      console.log(`ClientPage rendered ${prev + 1} times`);
+      log.info(`ClientPage rendered ${prev + 1} times`);
       return prev + 1;
     });
   }, []);

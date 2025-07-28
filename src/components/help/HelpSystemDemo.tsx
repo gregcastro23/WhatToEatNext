@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { log } from '@/services/LoggingService';
 
 import { InteractiveHelpSystem, Tooltip, useContextualHelp } from './index';
 
@@ -9,7 +10,7 @@ export const HelpSystemDemo: React.FC = () => {
 
   const handleCodeInsert = (code: string) => {
     setInsertedCode(code);
-    console.log('Code inserted:', code);
+    log.info('Code inserted:', { code });
   };
 
   return (

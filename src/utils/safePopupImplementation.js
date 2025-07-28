@@ -1,3 +1,4 @@
+import { log } from '@/services/LoggingService';
 /**
  * safePopupImplementation.js
  * A standalone, dependency-free implementation of popup functionality that won't
@@ -9,7 +10,7 @@
   // Only run in browser environment
   if (typeof window === 'undefined') return;
   
-  console.log('[SafePopupImpl] Installing standalone popup implementation');
+  log.info('[SafePopupImpl] Installing standalone popup implementation');
   
   // Create a standalone popup implementation
   const createStandalonePopup = () => {
@@ -35,7 +36,7 @@
         callback = null
       } = options;
       
-      console.log('[SafePopupImpl] Creating popup:', content);
+      log.info('[SafePopupImpl] Creating popup:', content);
       
       // Store current state
       state.content = content || '';
@@ -45,7 +46,7 @@
       // Return control methods
       return {
         show: function() {
-          console.log('[SafePopupImpl] Showing popup');
+          log.info('[SafePopupImpl] Showing popup');
           state.isShown = true;
           
           // Create popup element if it doesn't exist
@@ -138,7 +139,7 @@
         },
         
         hide: function() {
-          console.log('[SafePopupImpl] Hiding popup');
+          log.info('[SafePopupImpl] Hiding popup');
           state.isShown = false;
           
           if (state.element) {
@@ -157,7 +158,7 @@
         },
         
         update: function(content) {
-          console.log('[SafePopupImpl] Updating popup');
+          log.info('[SafePopupImpl] Updating popup');
           state.content = content || state.content;
           
           if (state.element) {
@@ -181,11 +182,11 @@
         },
         
         on: function(event, _handler) {
-          console.log('[SafePopupImpl] Adding event listener:', event);
+          log.info('[SafePopupImpl] Adding event listener:', event);
           // Return an object with off method
           return {
             off: function() {
-              console.log('[SafePopupImpl] Removing event listener:', event);
+              log.info('[SafePopupImpl] Removing event listener:', event);
               // Implementation here if needed
             }
           };
@@ -239,10 +240,10 @@
   
   // Safely install it if window.popup doesn't exist or doesn't have create
   if (!window.popup || !window.popup.create) {
-    console.log('[SafePopupImpl] Installing standalone popup');
+    log.info('[SafePopupImpl] Installing standalone popup');
     window.popup = standalonePopup;
   } else {
-    console.log('[SafePopupImpl] popup.create already exists, preserving original with fallback');
+    log.info('[SafePopupImpl] popup.create already exists, preserving original with fallback');
     // Backup the original create method
     const originalCreate = window.popup.create;
     
@@ -260,7 +261,7 @@
   // Expose a safe reference that can be imported directly
   window.__safePopup = standalonePopup;
   
-  console.log('[SafePopupImpl] Standalone popup installed successfully');
+  log.info('[SafePopupImpl] Standalone popup installed successfully');
 })();
 
 // Export empty object for ESM compatibility

@@ -13,6 +13,7 @@
 import { execSync } from 'child_process';
 import fs from 'fs';
 import path from 'path';
+import { log } from '@/services/LoggingService';
 
 interface UnusedImport {
   file: string;
@@ -71,7 +72,7 @@ export class SafeUnusedImportRemover {
    * Analyze and remove unused imports safely
    */
   public async processUnusedImports(dryRun: boolean = true): Promise<ImportRemovalResult> {
-    console.log('🔍 Starting Safe Unused Import Analysis...\n');
+    log.info('🔍 Starting Safe Unused Import Analysis...\n');
     
     const result: ImportRemovalResult = {
       totalAnalyzed: 0,
@@ -90,7 +91,7 @@ export class SafeUnusedImportRemover {
       result.totalAnalyzed = unusedImports.length;
 
       if (unusedImports.length === 0) {
-        console.log('✅ No unused imports found!');
+        log.info('✅ No unused imports found!');
         result.buildValid = true;
         return result;
       }
@@ -105,8 +106,8 @@ export class SafeUnusedImportRemover {
       this.displayAnalysisResults(categorized);
 
       if (dryRun) {
-        console.log('\n🔍 DRY RUN MODE - No changes will be made');
-        console.log('Use processUnusedImports(false) to execute removal');
+        log.info('\n🔍 DRY RUN MODE - No changes will be made');
+        log.info('Use processUnusedImports(false) to execute removal');
         return result;
       }
 
@@ -120,9 +121,9 @@ export class SafeUnusedImportRemover {
       result.buildValid = await this.validateChanges();
 
       if (result.buildValid) {
-        console.log('\n🎉 Safe unused import removal completed successfully!');
-        console.log(`✅ Removed ${result.actuallyRemoved} unused imports`);
-        console.log(`🛡️  Preserved ${result.preserved} critical imports`);
+        log.info('\n🎉 Safe unused import removal completed successfully!');
+        log.info(`✅ Removed ${result.actuallyRemoved} unused imports`);
+        log.info(`🛡️  Preserved ${result.preserved} critical imports`);
       } else {
         result.errors.push('Build validation failed after import removal');
       }
@@ -139,7 +140,7 @@ export class SafeUnusedImportRemover {
    * Analyze unused imports from ESLint output
    */
   private async analyzeUnusedImports(): Promise<UnusedImport[]> {
-    console.log('🔍 Analyzing unused imports from ESLint...');
+    log.info('🔍 Analyzing unused imports from ESLint...');
 
     try {
       const lintOutput = execSync('yarn lint --format=compact 2>&1', { 
@@ -177,7 +178,7 @@ export class SafeUnusedImportRemover {
         }
       }
 
-      console.log(`📊 Found ${unusedImports.length} unused imports`);
+      log.info(`📊 Found ${unusedImports.length} unused imports`);
       return unusedImports;
 
     } catch (error) {
@@ -194,7 +195,7 @@ export class SafeUnusedImportRemover {
     review: UnusedImport[];
     preserve: UnusedImport[];
   } {
-    console.log('📋 Categorizing imports by safety level...');
+    log.info('📋 Categorizing imports by safety level...');
 
     const categorized = {
       safe: [] as UnusedImport[],
@@ -298,29 +299,29 @@ export class SafeUnusedImportRemover {
     review: UnusedImport[];
     preserve: UnusedImport[];
   }): void {
-    console.log('\n📊 Import Analysis Results:');
-    console.log(`✅ Safe to remove: ${categorized.safe.length}`);
-    console.log(`⚠️  Requires review: ${categorized.review.length}`);
-    console.log(`🛡️  Preserved (critical): ${categorized.preserve.length}\n`);
+    log.info('\n📊 Import Analysis Results:');
+    log.info(`✅ Safe to remove: ${categorized.safe.length}`);
+    log.info(`⚠️  Requires review: ${categorized.review.length}`);
+    log.info(`🛡️  Preserved (critical): ${categorized.preserve.length}\n`);
 
     if (categorized.safe.length > 0) {
-      console.log('✅ Safe to Remove:');
+      log.info('✅ Safe to Remove:');
       this.displayImportsByFile(categorized.safe);
     }
 
     if (categorized.preserve.length > 0) {
-      console.log('\n🛡️  Preserved (Critical):');
+      log.info('\n🛡️  Preserved (Critical):');
       this.displayImportsByFile(categorized.preserve.slice(0, 10)); // Show first 10
       if (categorized.preserve.length > 10) {
-        console.log(`   ... and ${categorized.preserve.length - 10} more`);
+        log.info(`   ... and ${categorized.preserve.length - 10} more`);
       }
     }
 
     if (categorized.review.length > 0) {
-      console.log('\n⚠️  Requires Manual Review:');
+      log.info('\n⚠️  Requires Manual Review:');
       this.displayImportsByFile(categorized.review.slice(0, 5)); // Show first 5
       if (categorized.review.length > 5) {
-        console.log(`   ... and ${categorized.review.length - 5} more`);
+        log.info(`   ... and ${categorized.review.length - 5} more`);
       }
     }
   }
@@ -337,9 +338,9 @@ export class SafeUnusedImportRemover {
     }, {} as Record<string, UnusedImport[]>);
 
     Object.entries(groupedByFile).forEach(([file, fileImports]) => {
-      console.log(`   📄 ${file}:`);
+      log.info(`   📄 ${file}:`);
       fileImports.forEach(imp => {
-        console.log(`      - Line ${imp.line}: '${imp.importName}' (${imp.reason})`);
+        log.info(`      - Line ${imp.line}: '${imp.importName}' (${imp.reason})`);
       });
     });
   }
@@ -348,7 +349,7 @@ export class SafeUnusedImportRemover {
    * Remove safe imports using ESLint auto-fix
    */
   private async removeSafeImports(safeImports: UnusedImport[]): Promise<boolean> {
-    console.log(`\n🗑️  Removing ${safeImports.length} safe unused imports...`);
+    log.info(`\n🗑️  Removing ${safeImports.length} safe unused imports...`);
 
     try {
       // Run ESLint auto-fix with focused unused variable removal
@@ -357,13 +358,13 @@ export class SafeUnusedImportRemover {
         encoding: 'utf8'
       });
 
-      console.log('✅ Safe import removal completed');
+      log.info('✅ Safe import removal completed');
       return true;
 
     } catch (error: any) {
       // ESLint returns non-zero exit code even for successful fixes
       if (error.stdout && !error.stdout.includes('error')) {
-        console.log('✅ Safe import removal completed');
+        log.info('✅ Safe import removal completed');
         return true;
       } else {
         console.error('❌ Safe import removal failed:', error.message);
@@ -376,7 +377,7 @@ export class SafeUnusedImportRemover {
    * Validate changes by running TypeScript check and build
    */
   private async validateChanges(): Promise<boolean> {
-    console.log('\n🔍 Validating changes...');
+    log.info('\n🔍 Validating changes...');
     
     try {
       // Check TypeScript compilation
@@ -384,7 +385,7 @@ export class SafeUnusedImportRemover {
         stdio: 'pipe',
         encoding: 'utf8'
       });
-      console.log('✅ TypeScript validation passed');
+      log.info('✅ TypeScript validation passed');
 
       return true;
     } catch (error) {

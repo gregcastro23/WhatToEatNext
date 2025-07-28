@@ -1,4 +1,5 @@
 import { Element, ZodiacSign, Planet } from '@/types/alchemy';
+import { log } from '@/services/LoggingService';
 
 // Define NutritionalProfile locally
 interface NutritionalProfile {
@@ -425,7 +426,7 @@ export async function fetchNutritionalData(foodName: string): Promise<Nutritiona
     const data = await response.json();
     
     if (!data.foods || !data.foods.length) {
-      console.log(`No results found for: ${foodName}`);
+      log.info(`No results found for: ${foodName}`);
       return null;
     }
     
@@ -474,7 +475,7 @@ function transformUSDADataToNutritionalProfile(food: USDAFoodData): NutritionalP
     };
   }
   
-  console.log(`Transforming food data: ${(food as Record<string, unknown>).description || food.foodClass || 'Unknown'} [${food.dataType || 'Unknown type'}]`);
+  log.info(`Transforming food data: ${(food as Record<string, unknown>).description || food.foodClass || 'Unknown'} [${food.dataType || 'Unknown type'}]`);
   
   // Initialize nutrition values
   const nutrients: Record<string, number> = {};
@@ -498,7 +499,7 @@ function transformUSDADataToNutritionalProfile(food: USDAFoodData): NutritionalP
     
     // Debug output for vitamins
     if (typeof name === 'string' && name.toLowerCase().includes('vitamin')) {
-      console.log(`Found vitamin: ${name}, ID: ${id || legacyId}, Value: ${value}`);
+      log.info(`Found vitamin: ${name}, ID: ${id || legacyId}, Value: ${value}`);
     }
   });
   
@@ -603,7 +604,7 @@ function transformUSDADataToNutritionalProfile(food: USDAFoodData): NutritionalP
   // Log the total number of vitamins and minerals found
   const vitaminCount = Object.values(vitamins).filter(v => v > 0).length;
   const mineralCount = Object.values(minerals).filter(m => m > 0).length;
-  console.log(`Found ${vitaminCount} vitamins and ${mineralCount} minerals with non-zero values`);
+  log.info(`Found ${vitaminCount} vitamins and ${mineralCount} minerals with non-zero values`);
   
   // Construct final nutritional profile
   const profile: NutritionalProfile = {

@@ -8,7 +8,9 @@ import { culinaryTraditions } from '@/data/cuisines/culinaryTraditions';
 import { seasonalPatterns } from '@/data/integrations/seasonalPatterns';
 import { recipeElementalMappings } from '@/data/recipes/elementalMappings';
 import ErrorHandler from '@/services/errorHandler';
+import { log } from '@/services/LoggingService';
 import type {
+  Element,
   ElementalProperties,
   LunarPhase,
   ZodiacSign,
@@ -40,7 +42,7 @@ import { getZodiacElementalInfluence } from '@/utils/zodiacUtils';
  */
 const debugLog = (_message: string, ...args: unknown[]): void => {
   // Comment out console.log to avoid linting warnings
-  // console.log(message, ...args);
+  // log.info(message, ...args);
 };
 
 // Define interfaces
@@ -484,7 +486,7 @@ export class AlchemicalEngineAdvanced {
     return {
       planet: 'Sun', // Default to Sun as primary influence
       sign: (astrologicalState.currentZodiac || "aries") ?? 'aries',
-      element: element as Element,
+      element: element as unknown as Element,
       strength: this.seasonalModifiers[season][element] || 0.5};
   }
 
@@ -1115,8 +1117,8 @@ export function alchemize(
         
         // Log for debugging
         if (!silent_mode) {
-          console.log('');
-          console.log(`Processing planet ${celestial_bodies_index}: ${planet}`);
+          log.info('');
+          log.info(`Processing planet ${celestial_bodies_index}: ${planet}`);
         }
         
         // Get the sign
@@ -2021,7 +2023,7 @@ async function getCurrentAstrologicalState(): Promise<AstrologicalState> {
     const moonSign = moonPosition.sign.toLowerCase() as ZodiacSign || 'taurus';
     
     // Calculate dominant element based on zodiac sign
-    const dominantElement = (getElementFromSign(sunSign) as Element) || 'Fire';
+    const dominantElement = (getElementFromSign(sunSign) as unknown as Element) || 'Fire';
     
     // Determine current lunar phase
     const lunarPhase = (moonPosition as any)?.phase?.toLowerCase() as LunarPhase || 'full moon';
@@ -2211,7 +2213,7 @@ function alchemizeWithSafety(
     
     // In a production system, we would implement a full version of alchemize
     // that uses safetyWrapper.planetInfo, safetyWrapper.signInfo, etc.
-    console.log('Using safe alchemize with cloned constants');
+    log.info('Using safe alchemize with cloned constants');
     
     // Return simplified, but useful result that won't cause errors
     const horoscopeData = horoscopeDict as Record<string, unknown>;

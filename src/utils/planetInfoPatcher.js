@@ -1,3 +1,4 @@
+import { log } from '@/services/LoggingService';
 /**
  * This file provides safe runtime patches for the planetInfo data structure
  * to prevent "Assignment to constant variable" errors when interacting with it.
@@ -81,7 +82,7 @@ if (typeof window !== 'undefined') {
       
       // Attempt to fix any existing usages in the planetInfo object
       if (window.planetInfo) {
-        console.log('[PlanetInfoPatcher] Found planetInfo object, applying fixes...');
+        log.info('[PlanetInfoPatcher] Found planetInfo object, applying fixes...');
         
         // Create a proxy around planetInfo to intercept problematic operations
         const originalPlanetInfo = window.planetInfo;
@@ -96,7 +97,7 @@ if (typeof window !== 'undefined') {
         });
       }
       
-      console.log('[PlanetInfoPatcher] Successfully applied planetInfo patches');
+      log.info('[PlanetInfoPatcher] Successfully applied planetInfo patches');
     } catch (e) {
       console.error('[PlanetInfoPatcher] Error applying patches:', e);
     }

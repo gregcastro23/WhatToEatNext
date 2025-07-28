@@ -18,6 +18,7 @@ import { execSync } from 'child_process';
 import { EventEmitter } from 'events';
 import fs from 'fs';
 import path from 'path';
+import { log } from '@/services/LoggingService';
 
 // ========== UNUSED VARIABLE INTERFACES ==========
 
@@ -201,12 +202,12 @@ export class UnusedVariableDetector extends EventEmitter {
     }
 
     this.isAnalyzing = true;
-    console.log('🔍 Starting comprehensive unused variable detection...');
+    log.info('🔍 Starting comprehensive unused variable detection...');
 
     try {
       // Build file list
       const files = await this.buildFileList(targetPath, mergedOptions);
-      console.log(`📁 Analyzing ${files.length} files...`);
+      log.info(`📁 Analyzing ${files.length} files...`);
 
       // Build global symbol table
       await this.buildGlobalSymbolTable(files);
@@ -231,7 +232,7 @@ export class UnusedVariableDetector extends EventEmitter {
       // Persist results
       await this.persistResults();
 
-      console.log(`✅ Detection completed. Found ${results.length} files with unused variables.`);
+      log.info(`✅ Detection completed. Found ${results.length} files with unused variables.`);
       this.emit('detection-completed', results);
 
       return results;
@@ -280,7 +281,7 @@ export class UnusedVariableDetector extends EventEmitter {
    * Build global symbol table for cross-file analysis
    */
   private async buildGlobalSymbolTable(files: string[]): Promise<void> {
-    console.log('🔍 Building global symbol table...');
+    log.info('🔍 Building global symbol table...');
     
     this.globalSymbolTable.clear();
     this.crossFileReferences.clear();
@@ -1206,7 +1207,7 @@ export class UnusedVariableDetector extends EventEmitter {
     results: DetectionResult[],
     options: DetectionOptions
   ): Promise<void> {
-    console.log('🔍 Performing cross-file analysis...');
+    log.info('🔍 Performing cross-file analysis...');
     
     // Update usage counts based on cross-file references
     for (const result of results) {
@@ -1228,7 +1229,7 @@ export class UnusedVariableDetector extends EventEmitter {
   }
 
   private generateComprehensiveRecommendations(results: DetectionResult[]): void {
-    console.log('💡 Generating comprehensive recommendations...');
+    log.info('💡 Generating comprehensive recommendations...');
     
     // Could add cross-file recommendations here
     // For now, individual file recommendations are sufficient
@@ -1252,9 +1253,9 @@ export class UnusedVariableDetector extends EventEmitter {
     const warnings: string[] = [];
 
     if (options.dryRun) {
-      console.log('🧪 Performing dry run cleanup...');
+      log.info('🧪 Performing dry run cleanup...');
     } else {
-      console.log('🔧 Performing automated cleanup...');
+      log.info('🔧 Performing automated cleanup...');
     }
 
     try {

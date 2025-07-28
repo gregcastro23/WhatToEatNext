@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { log } from '@/services/LoggingService';
 
 
 // Interfaces for nutrition data handling
@@ -37,7 +38,7 @@ export async function GET(request: Request) {
     let targetFoodId = foodId;
     
     if (!targetFoodId && query) {
-      console.log(`Searching for: ${query}`);
+      log.info(`Searching for: ${query}`);
       const searchResponse = await fetch(
         `${USDA_API_BASE}/foods/search?query=${encodeURIComponent(query)}&pageSize=10&dataType=SR%20Legacy,Foundation,Survey%20(FNDDS)&sortBy=dataType.keyword&sortOrder=asc&api_key=${USDA_API_KEY}`,
         { cache: 'no-store' }
@@ -63,7 +64,7 @@ export async function GET(request: Request) {
       }
       
       targetFoodId = bestMatch.fdcId;
-      console.log(`Found food: ${bestMatch.description} (${targetFoodId}) [${bestMatch.dataType}]`);
+      log.info(`Found food: ${bestMatch.description} (${targetFoodId}) [${bestMatch.dataType}]`);
     }
     
     // Step 2: Fetch detailed nutritional data using all available endpoints

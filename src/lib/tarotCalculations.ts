@@ -1,3 +1,4 @@
+import { log } from '@/services/LoggingService';
 import { DECANS } from '@/constants/elementalConstants';
 import { 
   tarotCardQuantumValues, 
@@ -296,7 +297,7 @@ export const getTarotCardsForDate = (date: Date, sunPosition?: { sign: string, d
   }
   
   // Log the decan, sun position, and selected card for debugging
-  console.log(`Tarot Card Debug - Decan: ${decan}, Sun Position:`, sunPosition, `Selected Card: ${minorArcanaKey || '10_of_cups'}`);
+  log.info(`Tarot Card Debug - Decan: ${decan}, Sun Position:`, sunPosition, `Selected Card: ${minorArcanaKey || '10_of_cups'}`);
   
   // Get the minor arcana card details
   const cardKey = minorArcanaKey || '10_of_cups' as TarotCardKey; // Default if not found

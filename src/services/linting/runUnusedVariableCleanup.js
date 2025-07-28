@@ -9,6 +9,7 @@
 
 import { execSync } from 'child_process';
 import fs from 'fs';
+import { log } from '@/services/LoggingService';
 
 // Get unused variable count
 function getUnusedCount() {
@@ -24,22 +25,22 @@ function getUnusedCount() {
 
 // Run import organization
 function organizeImports() {
-  console.log('📋 Organizing imports...');
+  log.info('📋 Organizing imports...');
   
   try {
     execSync('yarn lint --fix --rule "import/order: error"', { 
       stdio: 'pipe',
       encoding: 'utf8'
     });
-    console.log('✅ Import organization completed');
+    log.info('✅ Import organization completed');
   } catch (error) {
-    console.log('⚠️  Import organization completed with warnings');
+    log.info('⚠️  Import organization completed with warnings');
   }
 }
 
 // Apply targeted fixes using ESLint auto-fix
 function applyTargetedFixes() {
-  console.log('🔧 Applying targeted unused variable fixes...');
+  log.info('🔧 Applying targeted unused variable fixes...');
   
   // Create a temporary ESLint config that's more aggressive for safe files
   const tempConfig = {
@@ -84,9 +85,9 @@ function applyTargetedFixes() {
       stdio: 'pipe',
       encoding: 'utf8'
     });
-    console.log('✅ Targeted fixes applied');
+    log.info('✅ Targeted fixes applied');
   } catch (error) {
-    console.log('⚠️  Targeted fixes applied with warnings');
+    log.info('⚠️  Targeted fixes applied with warnings');
   } finally {
     // Clean up temporary config
     try {
@@ -99,14 +100,14 @@ function applyTargetedFixes() {
 
 // Validate build
 function validateBuild() {
-  console.log('🔍 Validating build...');
+  log.info('🔍 Validating build...');
   
   try {
     execSync('yarn build', { 
       stdio: 'pipe',
       encoding: 'utf8'
     });
-    console.log('✅ Build validation passed');
+    log.info('✅ Build validation passed');
     return true;
   } catch (error) {
     console.error('❌ Build validation failed');
@@ -116,13 +117,13 @@ function validateBuild() {
 
 // Main execution
 async function main() {
-  console.log('🚀 Starting Unused Variable Cleanup\n');
+  log.info('🚀 Starting Unused Variable Cleanup\n');
   
   const initialCount = getUnusedCount();
-  console.log(`📊 Initial unused variable count: ${initialCount}\n`);
+  log.info(`📊 Initial unused variable count: ${initialCount}\n`);
   
   if (initialCount === 0) {
-    console.log('✅ No unused variables found. Nothing to clean up!');
+    log.info('✅ No unused variables found. Nothing to clean up!');
     return;
   }
   
@@ -139,26 +140,26 @@ async function main() {
   const finalCount = getUnusedCount();
   const reduction = initialCount - finalCount;
   
-  console.log('\n📊 Cleanup Results:');
-  console.log(`Initial unused variables: ${initialCount}`);
-  console.log(`Final unused variables: ${finalCount}`);
-  console.log(`Variables cleaned up: ${reduction}`);
-  console.log(`Reduction percentage: ${Math.round((reduction / initialCount) * 100)}%\n`);
+  log.info('\n📊 Cleanup Results:');
+  log.info(`Initial unused variables: ${initialCount}`);
+  log.info(`Final unused variables: ${finalCount}`);
+  log.info(`Variables cleaned up: ${reduction}`);
+  log.info(`Reduction percentage: ${Math.round((reduction / initialCount) * 100)}%\n`);
   
   // Step 5: Validate build
   const buildValid = validateBuild();
   
   if (buildValid && reduction > 0) {
-    console.log('\n🎉 Unused variable cleanup completed successfully!');
-    console.log('✅ Build validation passed');
-    console.log('✅ No functionality was broken');
-    console.log(`📈 Successfully cleaned up ${reduction} unused variables`);
-    console.log('🛡️  Critical astrological and campaign variables preserved');
+    log.info('\n🎉 Unused variable cleanup completed successfully!');
+    log.info('✅ Build validation passed');
+    log.info('✅ No functionality was broken');
+    log.info(`📈 Successfully cleaned up ${reduction} unused variables`);
+    log.info('🛡️  Critical astrological and campaign variables preserved');
   } else if (buildValid) {
-    console.log('\n✅ Cleanup completed with no changes needed');
+    log.info('\n✅ Cleanup completed with no changes needed');
   } else {
-    console.log('\n⚠️  Cleanup completed but build validation failed');
-    console.log('Please review the changes manually');
+    log.info('\n⚠️  Cleanup completed but build validation failed');
+    log.info('Please review the changes manually');
     process.exit(1);
   }
 }

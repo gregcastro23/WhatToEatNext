@@ -1,4 +1,5 @@
 import type { ZodiacSign } from '@/types/alchemy';
+import { log } from '@/services/LoggingService';
 
 import type { ElementalCharacter } from '../constants/planetaryElements';
 
@@ -10,7 +11,7 @@ import { getZodiacElement } from './astrologyUtils';
  */
 const debugLog = (_message: string, ...args: unknown[]): void => {
   // Comment out console.log to avoid linting warnings
-  // console.log(message, ...args);
+  // log.info(message, ...args);
 };
 
 /**

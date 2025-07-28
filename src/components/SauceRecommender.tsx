@@ -582,7 +582,7 @@ export default function SauceRecommender({
     );
     
     return uniqueResults
-      .sort((a, b) => ((b as Record<string, unknown>).matchScore || 0) - ((a as Record<string, unknown>).matchScore || 0))
+      .sort((a, b) => Number((b as Record<string, unknown>).matchScore || 0) - Number((a as Record<string, unknown>).matchScore || 0))
       .slice(0, maxResults);
   };
 

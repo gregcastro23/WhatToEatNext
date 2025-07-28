@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import { log } from '@/services/LoggingService';
 
 import { useAstrologize } from '@/hooks/useAstrologize';
 
@@ -45,7 +46,7 @@ const AstrologizeDemo: React.FC = () => {
         },
         // Error callback
         (error) => {
-          console.log('Geolocation error:', error.message);
+          log.info('Geolocation error:', { error: error.message });
           setLocationDetectionStatus('error');
         },
         // Options

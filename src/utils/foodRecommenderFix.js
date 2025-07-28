@@ -1,3 +1,4 @@
+import { log } from '@/services/LoggingService';
 /**
  * foodRecommenderFix.js
  * 
@@ -9,15 +10,15 @@
 (function() {
   if (typeof window === 'undefined') return;
   
-  console.log('[FoodRecommenderFix] Initializing fixes for FoodRecommender component');
+  log.info('[FoodRecommenderFix] Initializing fixes for FoodRecommender component');
 
   // Make sure Chrome API is properly mocked
   if (typeof window.chrome === 'undefined' || !window.chrome.tabs) {
-    console.log('[FoodRecommenderFix] Setting up Chrome API');
+    log.info('[FoodRecommenderFix] Setting up Chrome API');
     window.chrome = window.chrome || {};
     window.chrome.tabs = window.chrome.tabs || {
       create: (options) => {
-        console.log('[FoodRecommenderFix] chrome.tabs.create intercepted:', options);
+        log.info('[FoodRecommenderFix] chrome.tabs.create intercepted:', options);
         return Promise.resolve({id: 999, url: options?.url || 'about:blank'});
       }
     };
@@ -127,7 +128,7 @@
   
   // Fix IngredientFilterService if needed
   if (window.ingredientFilterService) {
-    console.log('[FoodRecommenderFix] Patching IngredientFilterService');
+    log.info('[FoodRecommenderFix] Patching IngredientFilterService');
     
     // Create safe wrappers for key methods that might fail
     const originalMethods = {
@@ -154,7 +155,7 @@
   // This flag helps the component know our fixes are applied
   window.__foodRecommenderFixApplied = true;
   
-  console.log('[FoodRecommenderFix] Fixes applied successfully');
+  log.info('[FoodRecommenderFix] Fixes applied successfully');
 })();
 
 export default {}; 

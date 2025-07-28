@@ -567,8 +567,8 @@ export default function AlchemicalRecommendations({
         </Box>
 
         {/* Expandable content */}
-        {Boolean(expandedItems[String((item as Record<string, unknown>).id) || `item-${index}`]) && (
-          <Box sx={{ mt: 2 } as any}>
+        {(Boolean(expandedItems[String((item as Record<string, unknown>).id) || `item-${index}`]) ? (
+          <Box sx={{ mt: 2 }} component="div">
             <Divider sx={{ mb: 2 }} />
             {(item as Record<string, unknown>).modality && (
               <Typography variant="body2">
@@ -581,7 +581,7 @@ export default function AlchemicalRecommendations({
               </Typography>
             )}
           </Box>
-        ) as any}
+        ) : null) as React.ReactNode}
       </CardContent>
     </Card>
   );

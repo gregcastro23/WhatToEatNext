@@ -1,3 +1,4 @@
+import { log } from '@/services/LoggingService';
 import { 
   Add as AddIcon,
   Delete as DeleteIcon,
@@ -503,7 +504,7 @@ export default function RecipeBuilder({
       id: generateRecipeId(),
       name: recipeName || 'Untitled Recipe',
       ingredients: selectedIngredients,
-      methods: selectedMethods,
+      methods: selectedMethods as any,
       instructions: finalInstructions,
       timing,
       servings: timing.servings,
@@ -606,7 +607,7 @@ export default function RecipeBuilder({
           text: shareableText,
         });
       } catch (error) {
-        console.log('Sharing cancelled or failed:', error);
+        log.info('Sharing cancelled or failed:', error);
       }
     } else {
       // Fallback: copy to clipboard

@@ -291,7 +291,7 @@ const RecipeCard: React.FC<RecipeCardProps> = ({
               <ChefHat className="h-4 w-4 mr-1" />
               <span>{typeof recipe.cuisine === 'string' ? recipe.cuisine : 'Unknown'}</span>
             </div>
-            {recipe.difficulty && (
+            {Boolean(recipe.difficulty) && (
               <div className="flex items-center">
                 <span className="text-sm text-gray-600">
                   Difficulty: {typeof recipe.difficulty === 'number' ? recipe.difficulty : 'Unknown'}/5

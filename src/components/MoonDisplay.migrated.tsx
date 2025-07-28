@@ -2,6 +2,7 @@
 
 import { ArrowDown, Sunrise, Sunset, Navigation } from 'lucide-react';
 import React, { useState, useEffect, useMemo } from 'react';
+import { log } from '@/services/LoggingService';
 
 import { useServices } from '@/hooks/useServices';
 
@@ -11,7 +12,7 @@ import { useServices } from '@/hooks/useServices';
  */
 const debugLog = (_message: string, ...args: unknown[]): void => {
   // Comment out console.log to avoid linting warnings
-  // console.log(message, ...args);
+  // log.info(message, ...args);
 };
 
 /**

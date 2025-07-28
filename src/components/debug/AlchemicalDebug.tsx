@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { log } from '@/services/LoggingService';
 
 import { testCookingMethodRecommendations } from '../../utils/testRecommendations';
 
@@ -21,10 +22,10 @@ const AlchemicalDebug: React.FC = () => {
     setError(null);
     
     try {
-      console.log('Running cooking method recommendations test...');
+      log.info('Running cooking method recommendations test...');
       const results = await testCookingMethodRecommendations();
       setTestResults(results);
-      console.log('Test complete, results:', results);
+      log.info('Test complete, results:', results);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Unknown error');
       console.error('Test failed:', err);

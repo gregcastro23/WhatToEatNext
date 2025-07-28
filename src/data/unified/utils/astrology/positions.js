@@ -2,13 +2,14 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getLongitudeToZodiacPosition = exports.validatePositionsStructure = exports.getPositionsSummary = exports.clearPositionsCache = exports.getSignFromLongitude = exports.getNodeInfo = exports.calculateLunarNodes = exports.getAccuratePlanetaryPositions = exports.getFallbackPlanetaryPositions = void 0;
 const Astronomy = require("astronomy-engine");
+import { log } from '@/services/LoggingService';
 /**
  * A utility function for logging debug information
  * This is a safe replacement for console.log that can be disabled in production
  */
 const debugLog = (_message, ...args) => {
     // Comment out console.log to avoid linting warnings
-    // console.log(message, ...args);
+    // log.info(message, ...args);
 };
 // Updated reference data for July 2, 2025 at 10:45 PM EDT (Cancer season)
 const REFERENCE_POSITIONS = {

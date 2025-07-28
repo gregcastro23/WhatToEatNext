@@ -1,6 +1,7 @@
 import { cuisines } from "@/data/cuisines";
 import type { Dish } from "@/types";
 import type { LunarPhaseWithSpaces, Season } from '@/types/alchemy';
+import { log } from '@/services/LoggingService';
 
 /**
  * A utility function for logging debug information
@@ -8,7 +9,7 @@ import type { LunarPhaseWithSpaces, Season } from '@/types/alchemy';
  */
 const debugLog = (_message: string, ...args: unknown[]): void => {
   // Comment out console.log to avoid linting warnings
-  // console.log(message, ...args);
+  // log.info(message, ...args);
 };
 
 /**

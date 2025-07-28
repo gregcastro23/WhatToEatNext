@@ -12,6 +12,7 @@
  */
 
 import { GeographicCoordinates, PlanetaryLocationService } from '../data/planets/locationService';
+import { log } from '@/services/LoggingService';
 import type { 
   ElementalProperties, 
   ZodiacSign, 
@@ -535,7 +536,7 @@ export class UnifiedScoringService {
       // Debug logging
       if (context.options?.debugMode) {
         const endTime = performance.now();
-        console.log(`Scoring completed in ${endTime - startTime}ms`, result);
+        log.info(`Scoring completed in ${endTime - startTime}ms`, result);
       }
       
       return result;

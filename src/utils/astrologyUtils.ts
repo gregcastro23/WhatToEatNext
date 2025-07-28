@@ -1,4 +1,5 @@
 import SunCalc from 'suncalc';
+import { log } from '@/services/LoggingService';
 
 import { DignityType as AlchemicalDignityType } from "@/calculations/alchemicalCalculations";
 import type { AlchemicalProperty } from '@/constants/planetaryElements';
@@ -41,7 +42,7 @@ import { calculateAllHouseEffects } from './houseEffects';
  */
 const debugLog = (_message: string, ...args: unknown[]): void => {
   // Comment out console.log to avoid linting warnings
-  // console.log(message, ...args);
+  // log.info(message, ...args);
 };
 
 /**

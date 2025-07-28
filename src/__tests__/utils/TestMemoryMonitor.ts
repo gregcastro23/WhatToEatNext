@@ -178,7 +178,7 @@ export class TestMemoryMonitor {
     }
 
     const recentSnapshots = this.snapshots.slice(-5); // Last 5 snapshots
-    const increases = [];
+    const increases: number[] = [];
 
     for (let i = 1; i < recentSnapshots.length; i++) {
       const increase = recentSnapshots[i].heapUsed - recentSnapshots[i - 1].heapUsed;
@@ -255,7 +255,7 @@ export class TestMemoryMonitor {
       return {
         success: false,
         freedMemory: '0MB',
-        actions: [...actions, `Cleanup failed: ${error.message}`]
+        actions: [...actions, `Cleanup failed: ${(error as Error).message}`]
       };
     }
   }

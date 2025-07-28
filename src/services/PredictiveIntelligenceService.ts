@@ -29,16 +29,17 @@ const calculateAstrologicalAlignment = (recipe: Recipe, zodiacSign: string, luna
   let alignment = 0.5; // Base alignment score
   
   // Check zodiac compatibility with recipe's astrological timing
-  if (recipe.astrologicalTiming?.zodiacCompatibility) {
-    const zodiacCompatibility = recipe.astrologicalTiming.zodiacCompatibility[zodiacSign as ZodiacSign];
+  const astroTiming = recipe.astrologicalTiming as Record<string, unknown>;
+  if (astroTiming?.zodiacCompatibility) {
+    const zodiacCompatibility = (astroTiming.zodiacCompatibility as Record<ZodiacSign, number>)[zodiacSign as ZodiacSign];
     if (zodiacCompatibility) {
       alignment += zodiacCompatibility * 0.2; // Up to 20% bonus
     }
   }
   
   // Check lunar phase compatibility
-  if (recipe.astrologicalTiming?.lunarPhaseCompatibility) {
-    const lunarCompatibility = recipe.astrologicalTiming.lunarPhaseCompatibility[lunarPhase];
+  if (astroTiming?.lunarPhaseCompatibility) {
+    const lunarCompatibility = (astroTiming.lunarPhaseCompatibility as Record<string, number>)[lunarPhase];
     if (lunarCompatibility) {
       alignment += lunarCompatibility * 0.15; // Up to 15% bonus
     }
@@ -1106,7 +1107,7 @@ export class PredictiveIntelligenceService {
 
   private log(level: string, message: string, data?: any): void {
     if (this.shouldLog(level)) {
-      logger[level as keyof typeof logger](`[PredictiveIntelligence] ${message}`, data);
+      logger[level as keyof typeof logger](`[PredictiveIntelligence] ${message}${data ? ` - ${JSON.stringify(data)}` : ''}`);
     }
   }
 

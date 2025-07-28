@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import { log } from '@/services/LoggingService';
 
 import { DebugHub } from '@/components/debug/DebugHub';
 import { StateInspector } from '@/components/debug/StateInspector';
@@ -51,10 +52,10 @@ function DebugContent() {
     setError(null);
     
     try {
-      console.log('Running cooking method recommendations test...');
+      log.info('Running cooking method recommendations test...');
       const results = testCookingMethodRecommendations();
       setTestResults(results as any);
-      console.log('Test complete, results:', results);
+      log.info('Test complete, results:', results);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Unknown error');
       console.error('Test failed:', err);

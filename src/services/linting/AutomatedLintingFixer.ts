@@ -8,6 +8,7 @@
 import { execSync } from 'child_process';
 import * as fs from 'fs';
 import * as path from 'path';
+import { log } from '@/services/LoggingService';
 
 import { LintingIssue, CategorizedErrors } from './LintingErrorAnalyzer';
 import { ResolutionStrategy } from './ResolutionStrategyGenerator';
@@ -139,7 +140,7 @@ export class AutomatedLintingFixer {
     options: Partial<BatchProcessingOptions> = {}
   ): Promise<AutomatedFixResult> {
     const startTime = new Date();
-    console.log('🔧 Starting automated linting fixes with safety protocols...');
+    log.info('🔧 Starting automated linting fixes with safety protocols...');
     
     const batchOptions: BatchProcessingOptions = {
       batchSize: 10,
@@ -174,7 +175,7 @@ export class AutomatedLintingFixer {
     try {
       // Step 1: Pre-fix validation
       if (this.safetyProtocols.validateBeforeFix) {
-        console.log('🔍 Running pre-fix validation...');
+        log.info('🔍 Running pre-fix validation...');
         const preValidation = await this.runValidation();
         result.validationResults.push(...preValidation);
         
@@ -185,7 +186,7 @@ export class AutomatedLintingFixer {
 
       // Step 2: Create backup/stash if enabled
       if (batchOptions.createBackups && this.safetyProtocols.enableRollback) {
-        console.log('💾 Creating backup...');
+        log.info('💾 Creating backup...');
         this.currentRollbackInfo = await this.createBackup();
         result.rollbackInfo = this.currentRollbackInfo;
       }
@@ -195,14 +196,14 @@ export class AutomatedLintingFixer {
         this.isSafeToAutoFix(issue)
       );
 
-      console.log(`🎯 Processing ${autoFixableIssues.length} auto-fixable issues in batches of ${batchOptions.batchSize}`);
+      log.info(`🎯 Processing ${autoFixableIssues.length} auto-fixable issues in batches of ${batchOptions.batchSize}`);
       
       const batches = this.createBatches(autoFixableIssues, batchOptions.batchSize);
       let failureCount = 0;
 
       for (let i = 0; i < batches.length; i++) {
         const batch = batches[i];
-        console.log(`📦 Processing batch ${i + 1}/${batches.length} (${batch.length} issues)`);
+        log.info(`📦 Processing batch ${i + 1}/${batches.length} (${batch.length} issues)`);
         
         try {
           const batchResult = await this.processBatch(batch, batchOptions);
@@ -248,7 +249,7 @@ export class AutomatedLintingFixer {
 
       // Step 4: Final validation
       if (this.safetyProtocols.validateAfterFix) {
-        console.log('✅ Running final validation...');
+        log.info('✅ Running final validation...');
         const finalValidation = await this.runValidation();
         result.validationResults.push(...finalValidation);
         
@@ -267,7 +268,7 @@ export class AutomatedLintingFixer {
       result.metrics.issuesFixed = result.fixedIssues;
       result.metrics.issuesFailed = result.failedIssues;
 
-      console.log(`✅ Automated fixes complete: ${result.fixedIssues} fixed, ${result.failedIssues} failed`);
+      log.info(`✅ Automated fixes complete: ${result.fixedIssues} fixed, ${result.failedIssues} failed`);
       
       return result;
 
@@ -276,7 +277,7 @@ export class AutomatedLintingFixer {
       
       // Attempt rollback on critical failure
       if (this.currentRollbackInfo && this.safetyProtocols.enableRollback) {
-        console.log('🔄 Performing emergency rollback...');
+        log.info('🔄 Performing emergency rollback...');
         await this.performRollback();
         result.metrics.rollbacksPerformed++;
       }
@@ -301,7 +302,7 @@ export class AutomatedLintingFixer {
     issues: LintingIssue[],
     options: Partial<UnusedVariableFixOptions> = {}
   ): Promise<AutomatedFixResult> {
-    console.log('🧹 Handling unused variables...');
+    log.info('🧹 Handling unused variables...');
     
     const fixOptions: UnusedVariableFixOptions = {
       prefixWithUnderscore: true,
@@ -345,19 +346,19 @@ export class AutomatedLintingFixer {
       try {
         // Skip if file should be preserved
         if (this.shouldPreserveFile(issue.file, fixOptions.preservePatterns)) {
-          console.log(`⏭️ Skipping preserved file: ${issue.file}`);
+          log.info(`⏭️ Skipping preserved file: ${issue.file}`);
           continue;
         }
 
         // Skip domain files if configured
         if (fixOptions.skipDomainFiles && issue.domainContext?.requiresSpecialHandling) {
-          console.log(`⏭️ Skipping domain file: ${issue.file}`);
+          log.info(`⏭️ Skipping domain file: ${issue.file}`);
           continue;
         }
 
         // Skip test files if configured
         if (fixOptions.skipTestFiles && issue.domainContext?.isTestFile) {
-          console.log(`⏭️ Skipping test file: ${issue.file}`);
+          log.info(`⏭️ Skipping test file: ${issue.file}`);
           continue;
         }
 
@@ -390,7 +391,7 @@ export class AutomatedLintingFixer {
     result.metrics.issuesFixed = result.fixedIssues;
     result.metrics.issuesFailed = result.failedIssues;
 
-    console.log(`🧹 Unused variables handled: ${result.fixedIssues} fixed, ${result.failedIssues} failed`);
+    log.info(`🧹 Unused variables handled: ${result.fixedIssues} fixed, ${result.failedIssues} failed`);
     return result;
   }
 
@@ -401,7 +402,7 @@ export class AutomatedLintingFixer {
     issues: LintingIssue[],
     options: Partial<ImportOptimizationOptions> = {}
   ): Promise<AutomatedFixResult> {
-    console.log('📦 Optimizing import statements...');
+    log.info('📦 Optimizing import statements...');
     
     const importOptions: ImportOptimizationOptions = {
       removeDuplicates: true,
@@ -450,7 +451,7 @@ export class AutomatedLintingFixer {
       try {
         // Skip if file should be preserved
         if (this.shouldPreserveFile(filePath, this.safetyProtocols.preservePatterns)) {
-          console.log(`⏭️ Skipping preserved file: ${filePath}`);
+          log.info(`⏭️ Skipping preserved file: ${filePath}`);
           continue;
         }
 
@@ -481,7 +482,7 @@ export class AutomatedLintingFixer {
     result.metrics.issuesFixed = result.fixedIssues;
     result.metrics.issuesFailed = result.failedIssues;
 
-    console.log(`📦 Import optimization complete: ${result.fixedIssues} fixed, ${result.failedIssues} failed`);
+    log.info(`📦 Import optimization complete: ${result.fixedIssues} fixed, ${result.failedIssues} failed`);
     return result;
   }
 
@@ -492,7 +493,7 @@ export class AutomatedLintingFixer {
     issues: LintingIssue[],
     options: Partial<TypeAnnotationOptions> = {}
   ): Promise<AutomatedFixResult> {
-    console.log('🏷️ Improving type annotations...');
+    log.info('🏷️ Improving type annotations...');
     
     const typeOptions: TypeAnnotationOptions = {
       inferFromUsage: true,
@@ -535,13 +536,13 @@ export class AutomatedLintingFixer {
       try {
         // Skip if file should preserve explicit any
         if (this.shouldPreserveFile(issue.file, typeOptions.preserveExplicitAny)) {
-          console.log(`⏭️ Preserving explicit any in: ${issue.file}`);
+          log.info(`⏭️ Preserving explicit any in: ${issue.file}`);
           continue;
         }
 
         // Only handle simple cases based on complexity setting
         if (typeOptions.maxComplexity === 'simple' && !this.isSimpleTypeIssue(issue)) {
-          console.log(`⏭️ Skipping complex type issue: ${issue.rule} in ${issue.file}`);
+          log.info(`⏭️ Skipping complex type issue: ${issue.rule} in ${issue.file}`);
           continue;
         }
 
@@ -574,7 +575,7 @@ export class AutomatedLintingFixer {
     result.metrics.issuesFixed = result.fixedIssues;
     result.metrics.issuesFailed = result.failedIssues;
 
-    console.log(`🏷️ Type annotation improvement complete: ${result.fixedIssues} fixed, ${result.failedIssues} failed`);
+    log.info(`🏷️ Type annotation improvement complete: ${result.fixedIssues} fixed, ${result.failedIssues} failed`);
     return result;
   }
 
@@ -582,7 +583,7 @@ export class AutomatedLintingFixer {
    * Validate fixes with comprehensive checks
    */
   async validateFixes(): Promise<ValidationResult[]> {
-    console.log('🔍 Running comprehensive validation...');
+    log.info('🔍 Running comprehensive validation...');
     return await this.runValidation();
   }
 
@@ -596,13 +597,13 @@ export class AutomatedLintingFixer {
     }
 
     try {
-      console.log(`🔄 Rolling back to stash: ${this.currentRollbackInfo.stashId}`);
+      log.info(`🔄 Rolling back to stash: ${this.currentRollbackInfo.stashId}`);
       execSync(this.currentRollbackInfo.rollbackCommand, {
         cwd: this.workspaceRoot,
         stdio: 'pipe'
       });
       
-      console.log('✅ Rollback completed successfully');
+      log.info('✅ Rollback completed successfully');
       return true;
       
     } catch (error) {
@@ -733,7 +734,7 @@ export class AutomatedLintingFixer {
     }
 
     const validationTime = Date.now() - validationStart;
-    console.log(`🔍 Validation completed in ${validationTime}ms`);
+    log.info(`🔍 Validation completed in ${validationTime}ms`);
 
     return results;
   }
@@ -814,7 +815,7 @@ export class AutomatedLintingFixer {
     for (const [filePath, fileIssues] of issuesByFile) {
       try {
         if (options.dryRun) {
-          console.log(`🔍 [DRY RUN] Would fix ${fileIssues.length} issues in ${filePath}`);
+          log.info(`🔍 [DRY RUN] Would fix ${fileIssues.length} issues in ${filePath}`);
           result.fixedIssues += fileIssues.length;
         } else {
           const fixed = await this.fixFileIssues(filePath, fileIssues);

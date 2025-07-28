@@ -1,3 +1,4 @@
+import { log } from '@/services/LoggingService';
 /**
  * Swiss Ephemeris Parser
  * 
@@ -39,7 +40,7 @@ export class EphemerisParser {
   };
 
   constructor() {
-    console.log('Ephemeris Parser initialized');
+    log.info('Ephemeris Parser initialized');
   }
 
   /**

@@ -18,7 +18,7 @@ export interface FlexibleAstrologicalData {
   [key: string]: unknown;
   elementalProperties?: ElementalProperties;
   planetaryInfluences?: PlanetaryPosition[];
-  zodiacSign?: ZodiacSign;
+  zodiacSign?: import('../alchemy').ZodiacSign;
   lunarPhase?: LunarPhase;
 }
 

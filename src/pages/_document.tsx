@@ -1,4 +1,5 @@
 import Document, { Html, Head, Main, NextScript } from 'next/document';
+import { log } from '@/services/LoggingService';
 
 class MyDocument extends Document {
   render() {
@@ -18,7 +19,7 @@ class MyDocument extends Document {
                     window.chrome = {
                       tabs: {
                         create: function(options) {
-                          console.log('[CriticalInit] Intercepting chrome.tabs.create early');
+                          log.info('[CriticalInit] Intercepting chrome.tabs.create early');
                           return Promise.resolve({id: 999, url: options?.url || 'about:blank'});
                         }
                       },
@@ -45,20 +46,20 @@ class MyDocument extends Document {
                   // Also protect window.open
                   const originalWindowOpen = window.open;
                   window.open = function(url, target, features) {
-                    console.log('[CriticalInit] Window.open intercepted:', url);
+                    log.info('[CriticalInit] Window.open intercepted:', url);
                     // For known extension URLs, don't actually open them
                     if (url && (
                       url.startsWith('chrome-extension:') || 
                       url.includes('popup') ||
                       url.includes('chrome')
                     )) {
-                      console.log('[CriticalInit] Prevented opening extension URL:', url);
+                      log.info('[CriticalInit] Prevented opening extension URL:', url);
                       return null;
                     }
                     return originalWindowOpen.apply(window, arguments);
                   };
                   
-                  console.log('[CriticalInit] Chrome API protection initialized');
+                  log.info('[CriticalInit] Chrome API protection initialized');
                 } catch (e) {
                   console.error('[CriticalInit] Error during initialization:', e);
                 }

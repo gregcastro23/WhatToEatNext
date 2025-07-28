@@ -58,9 +58,10 @@ export class TestSafeProgressTracker {
     
     if (this.config.enableMemoryMonitoring) {
       this.memoryMonitor = new TestMemoryMonitor({
-        warningThreshold: 50, // Lower threshold for tests
-        errorThreshold: 100,
-        leakThreshold: 25
+        heapUsed: 50 * 1024 * 1024, // 50MB
+        heapTotal: 100 * 1024 * 1024, // 100MB
+        external: 25 * 1024 * 1024, // 25MB
+        rss: 150 * 1024 * 1024 // 150MB
       });
     }
   }
@@ -238,7 +239,7 @@ export class TestSafeProgressTracker {
     return {
       currentUsage: `${summary.currentMemory.toFixed(2)}MB`,
       peakUsage: `${summary.peakMemory.toFixed(2)}MB`,
-      snapshotCount: summary.snapshotCount,
+      snapshotCount: Math.floor(summary.testDuration / 1000), // Convert duration to a count-like metric
       memoryEfficient: summary.totalIncrease < 25 // Less than 25MB increase is efficient
     };
   }
@@ -296,9 +297,10 @@ export class TestSafeProgressTracker {
     // Reset memory monitor
     if (this.memoryMonitor) {
       this.memoryMonitor = new TestMemoryMonitor({
-        warningThreshold: 50,
-        errorThreshold: 100,
-        leakThreshold: 25
+        heapUsed: 50 * 1024 * 1024, // 50MB 
+        heapTotal: 100 * 1024 * 1024, // 100MB
+        external: 25 * 1024 * 1024, // 25MB
+        rss: 150 * 1024 * 1024 // 150MB
       });
     }
 

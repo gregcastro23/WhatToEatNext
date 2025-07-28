@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { log } from '@/services/LoggingService';
 
 
 // Interfaces for nutrition data handling
@@ -45,7 +46,7 @@ export async function GET(request: Request) {
   }
   
   try {
-    console.log(`Fetching nutritional data for: ${query}`);
+    log.info(`Fetching nutritional data for: ${query}`);
     
     // Step 1: First search for foods matching the query with more specific format parameters
     const searchResponse = await fetch(
@@ -61,7 +62,7 @@ export async function GET(request: Request) {
     
     // No results found
     if (!searchData.foods || !searchData.foods.length) {
-      console.log(`No results found for: ${query}`);
+      log.info(`No results found for: ${query}`);
       return NextResponse.json({ foods: [] });
     }
     
@@ -86,7 +87,7 @@ export async function GET(request: Request) {
     }
     
     const fdcId = (bestMatchFood ).fdcId;
-    console.log(`Found food: ${(bestMatchFood ).description} (${fdcId}) [${(bestMatchFood ).dataType}]`);
+    log.info(`Found food: ${(bestMatchFood ).description} (${fdcId}) [${(bestMatchFood ).dataType}]`);
     
     // Try multiple endpoints to get the most complete data
     // 1. First try the foods/list endpoint with the specific food id, which often has more vitamins
@@ -100,10 +101,10 @@ export async function GET(request: Request) {
         const listData = await listResponse.json();
         if (listData && listData.length > 0) {
           const vitamins = countVitamins(listData[0].foodNutrients || []);
-          console.log(`foods/list endpoint found ${vitamins} vitamins`);
+          log.info(`foods/list endpoint found ${vitamins} vitamins`);
           
           if (vitamins > 0) {
-            console.log(`Using data from foods/list endpoint (${vitamins} vitamins found)`);
+            log.info(`Using data from foods/list endpoint (${vitamins} vitamins found)`);
             return NextResponse.json({
               foods: [listData[0]]
             });
@@ -125,10 +126,10 @@ export async function GET(request: Request) {
         const fullData = await fullResponse.json();
         if (fullData && fullData.foodNutrients) {
           const vitamins = countVitamins(fullData.foodNutrients);
-          console.log(`food endpoint with format=full found ${vitamins} vitamins`);
+          log.info(`food endpoint with format=full found ${vitamins} vitamins`);
           
           if (vitamins > 0) {
-            console.log(`Using data from food endpoint with format=full (${vitamins} vitamins found)`);
+            log.info(`Using data from food endpoint with format=full (${vitamins} vitamins found)`);
             return NextResponse.json({
               foods: [fullData]
             });
@@ -150,10 +151,10 @@ export async function GET(request: Request) {
         const basicData = await basicResponse.json();
         if (basicData && basicData.foodNutrients) {
           const vitamins = countVitamins(basicData.foodNutrients);
-          console.log(`basic food endpoint found ${vitamins} vitamins`);
+          log.info(`basic food endpoint found ${vitamins} vitamins`);
           
           if (vitamins > 0) {
-            console.log(`Using data from basic food endpoint (${vitamins} vitamins found)`);
+            log.info(`Using data from basic food endpoint (${vitamins} vitamins found)`);
             return NextResponse.json({
               foods: [basicData]
             });
@@ -166,7 +167,7 @@ export async function GET(request: Request) {
     
     // 4. As a last resort, return the search result directly
     // This is useful for Branded foods which sometimes don't have detailed endpoints
-    console.log('Using original search result (no detailed vitamin data found in specialized endpoints)');
+    log.info('Using original search result (no detailed vitamin data found in specialized endpoints)');
     return NextResponse.json({
       foods: [bestMatchFood]
     });

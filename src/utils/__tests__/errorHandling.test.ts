@@ -210,7 +210,7 @@ describe('ErrorHandler', () => {
 
   it('maintains error queue size limit', async () => {
     // Create more errors than the max queue size (50)
-    const promises = [];
+    const promises: Promise<any>[] = [];
     for (let i = 0; i < 60; i++) {
       promises.push(
         errorHandler.handleError(new Error(`Error ${i}`)).catch(() => {})

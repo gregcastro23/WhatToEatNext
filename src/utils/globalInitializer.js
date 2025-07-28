@@ -1,3 +1,4 @@
+import { log } from '@/services/LoggingService';
 /**
  * globalInitializer.js
  * This file must be imported FIRST in _app.tsx to guarantee it runs before any other scripts.
@@ -9,7 +10,7 @@
   // Only run in browser environment
   if (typeof window === 'undefined') return;
   
-  console.log('[GlobalInitializer] Starting early initialization');
+  log.info('[GlobalInitializer] Starting early initialization');
   
   // Store original values of methods that might be affected by lockdown
   const safeObjectDefineProperty = Object.defineProperty;
@@ -22,17 +23,17 @@
   const createSafePopup = () => {
     const popupMethods = {
       create: function() {
-        console.log('[SafePopup] create() called');
+        log.info('[SafePopup] create() called');
         return {
-          show: function() { console.log('[SafePopup] show() called'); return this; },
-          hide: function() { console.log('[SafePopup] hide() called'); return this; },
-          update: function() { console.log('[SafePopup] update() called'); return this; },
+          show: function() { log.info('[SafePopup] show() called'); return this; },
+          hide: function() { log.info('[SafePopup] hide() called'); return this; },
+          update: function() { log.info('[SafePopup] update() called'); return this; },
           on: function() { return { off: function() {} }; }
         };
       },
-      show: function() { console.log('[SafePopup] root show() called'); return this; },
-      hide: function() { console.log('[SafePopup] root hide() called'); return this; },
-      update: function() { console.log('[SafePopup] root update() called'); return this; }
+      show: function() { log.info('[SafePopup] root show() called'); return this; },
+      hide: function() { log.info('[SafePopup] root hide() called'); return this; },
+      update: function() { log.info('[SafePopup] root update() called'); return this; }
     };
     
     // Return a function that always gives access to these methods
@@ -47,7 +48,7 @@
   // Check if popup object already exists and preserve its methods
   const existingPopupMethods = {};
   if (window.popup) {
-    console.log('[GlobalInitializer] Preserving existing popup methods');
+    log.info('[GlobalInitializer] Preserving existing popup methods');
     const methods = ['create', 'show', 'hide', 'update'];
     methods.forEach(method => {
       if (typeof window.popup[method] === 'function') {
@@ -201,7 +202,7 @@
       
       // Reinitialize popup if needed
       if (event.message.includes('popup')) {
-        console.log('[GlobalInitializer] Reinitializing popup object');
+        log.info('[GlobalInitializer] Reinitializing popup object');
         // Force a get on popup to trigger our getter
         const _ = window.popup;
       }
@@ -212,7 +213,7 @@
     return false;
   }, true);
   
-  console.log('[GlobalInitializer] Initialization complete');
+  log.info('[GlobalInitializer] Initialization complete');
 })();
 
 export default {}; 

@@ -201,7 +201,7 @@ export type { RecipeIngredient } from './recipeIngredient';
 export type { UnifiedIngredient } from '../data/unified/unifiedTypes';
 
 // Export unified types that are missing
-export type { UnifiedRecipe } from './unified';
+export type { Recipe as UnifiedRecipe } from './unified';
 export type { UnifiedFlavorProfile, BaseFlavorNotes } from '../data/unified/flavorProfiles';
 
 // Export recommendation types

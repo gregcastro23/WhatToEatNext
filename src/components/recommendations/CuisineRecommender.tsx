@@ -1,5 +1,6 @@
 'use client';
 
+import { log } from '@/services/LoggingService';
 import { Flame,
   Droplets,
   Wind,
@@ -239,7 +240,7 @@ export default function CuisineRecommender() {
   // TODO: Implement comprehensive analytics tracking system
   const trackEvent = (eventName: string, eventValue: string) => {
     if (process.env.NODE_ENV === 'development') {
-      console.log(`[Analytics] ${eventName}: ${eventValue}`);
+      log.info(`[Analytics] ${eventName}: ${eventValue}`);
     }
   };
 
@@ -446,7 +447,7 @@ export default function CuisineRecommender() {
   }
 
   const handleCuisineSelect = (_cuisineId: string) => {
-    // console.log(`Cuisine selected: ${_cuisineId}`);
+    // log.info(`Cuisine selected: ${_cuisineId}`);
     
     if (selectedCuisine === _cuisineId) {
       // If already selected, toggle showing details
@@ -1136,8 +1137,7 @@ export default function CuisineRecommender() {
                             </div>
                           ) : null}
 
-                          {/* Show preparation steps with proper fallbacks */}
-                          {((recipe as Record<string, unknown>).instructions || (recipe as Record<string, unknown>).preparationSteps || (recipe as Record<string, unknown>).procedure) ? (
+                          {Boolean((recipe as Record<string, unknown>).instructions || (recipe as Record<string, unknown>).preparationSteps || (recipe as Record<string, unknown>).procedure) && (
                             <div className="mt-2">
                               <h6 className="text-xs font-semibold mb-1">Procedure:</h6>
                               <p className="text-xs text-gray-600">
@@ -1147,7 +1147,7 @@ export default function CuisineRecommender() {
                                        'No detailed instructions available.')}
                               </p>
                             </div>
-                          ) : null}
+                          )}
 
                           {/* Additional recipe information */}
                           <div className="mt-2 pt-1 border-t border-gray-100 grid grid-cols-2 gap-x-2 gap-y-1 text-xs">

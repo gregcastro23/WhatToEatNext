@@ -8,22 +8,23 @@
  */
 
 import { execSync } from 'child_process';
+import { log } from '@/services/LoggingService';
 
 import { UnusedVariableProcessor } from './UnusedVariableProcessor';
 
 async function main() {
-  console.log('🚀 Starting Unused Variable Cleanup Campaign');
-  console.log('============================================\n');
+  log.info('🚀 Starting Unused Variable Cleanup Campaign');
+  log.info('============================================\n');
 
   // Get initial count
   const initialCount = await getUnusedVariableCount();
-  console.log(`📊 Initial unused variable warnings: ${initialCount}\n`);
+  log.info(`📊 Initial unused variable warnings: ${initialCount}\n`);
 
   const processor = new UnusedVariableProcessor();
 
   try {
     // Create backup
-    console.log('💾 Creating backup...');
+    log.info('💾 Creating backup...');
     execSync('git stash push -m "Pre unused-variable-cleanup backup"', { stdio: 'inherit' });
     
     // Process unused variables
@@ -36,28 +37,28 @@ async function main() {
     const isValid = await processor.validateChanges();
     
     if (!isValid) {
-      console.log('\n❌ Validation failed, restoring backup...');
+      log.info('\n❌ Validation failed, restoring backup...');
       execSync('git stash pop', { stdio: 'inherit' });
       process.exit(1);
     }
 
     // Get final count
     const finalCount = await getUnusedVariableCount();
-    console.log(`\n📊 Final unused variable warnings: ${finalCount}`);
+    log.info(`\n📊 Final unused variable warnings: ${finalCount}`);
     
     const reduction = initialCount - finalCount;
     const reductionPercentage = initialCount > 0 
       ? ((reduction / initialCount) * 100).toFixed(1)
       : '0';
     
-    console.log(`✨ Total reduction: ${reduction} warnings (${reductionPercentage}%)`);
+    log.info(`✨ Total reduction: ${reduction} warnings (${reductionPercentage}%)`);
     
     if (reduction > 0) {
-      console.log('\n✅ Unused variable cleanup completed successfully!');
-      console.log('💡 Consider running additional linting to catch any remaining issues.');
+      log.info('\n✅ Unused variable cleanup completed successfully!');
+      log.info('💡 Consider running additional linting to catch any remaining issues.');
     } else {
-      console.log('\n⚠️  No unused variables were processed.');
-      console.log('This might indicate all variables are critical or already properly prefixed.');
+      log.info('\n⚠️  No unused variables were processed.');
+      log.info('This might indicate all variables are critical or already properly prefixed.');
     }
 
   } catch (error) {
@@ -66,7 +67,7 @@ async function main() {
     // Restore backup on error
     try {
       execSync('git stash pop', { stdio: 'inherit' });
-      console.log('🔄 Backup restored successfully');
+      log.info('🔄 Backup restored successfully');
     } catch (restoreError) {
       console.error('❌ Failed to restore backup:', (restoreError as Error).message);
     }

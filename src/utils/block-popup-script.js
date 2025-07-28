@@ -1,3 +1,4 @@
+import { log } from '@/services/LoggingService';
 /**
  * block-popup-script.js
  * This script intercepts all script loading and blocks popup.js from loading
@@ -7,25 +8,25 @@
 (function() {
   if (typeof window === 'undefined') return;
 
-  console.log('[BlockPopupScript] Installing popup.js blocking');
+  log.info('[BlockPopupScript] Installing popup.js blocking');
 
   // Create a robust popup implementation upfront
   window.popup = window.popup || {
     create: function() {
-      console.log('[BlockedPopup] Using safe create');
+      log.info('[BlockedPopup] Using safe create');
       return {
-        show: function() { console.log('[BlockedPopup] show called'); return this; },
-        hide: function() { console.log('[BlockedPopup] hide called'); return this; },
-        update: function() { console.log('[BlockedPopup] update called'); return this; },
+        show: function() { log.info('[BlockedPopup] show called'); return this; },
+        hide: function() { log.info('[BlockedPopup] hide called'); return this; },
+        update: function() { log.info('[BlockedPopup] update called'); return this; },
         on: function() { 
-          console.log('[BlockedPopup] on called'); 
-          return { off: function() { console.log('[BlockedPopup] off called'); } }; 
+          log.info('[BlockedPopup] on called'); 
+          return { off: function() { log.info('[BlockedPopup] off called'); } }; 
         }
       };
     },
-    show: function() { console.log('[BlockedPopup] root show called'); return this; },
-    hide: function() { console.log('[BlockedPopup] root hide called'); return this; },
-    update: function() { console.log('[BlockedPopup] root update called'); return this; }
+    show: function() { log.info('[BlockedPopup] root show called'); return this; },
+    hide: function() { log.info('[BlockedPopup] root hide called'); return this; },
+    update: function() { log.info('[BlockedPopup] root update called'); return this; }
   };
 
   // Block popupjs script loading via XHR interception
@@ -36,7 +37,7 @@
       if (arguments[1].includes('popup.js')) {
         console.warn('[BlockPopupScript] Blocked XHR request to popup.js');
         // Use a different URL to avoid loading the actual popup.js
-        arguments[1] = 'data:text / (javascript || 1),console.log("[BlockPopupScript] Dummy popup.js loaded");';
+        arguments[1] = 'data:text / (javascript || 1),log.info("[BlockPopupScript] Dummy popup.js loaded");';
       }
     }
     return originalOpen.apply(this, arguments);
@@ -53,14 +54,14 @@
               console.warn('[BlockPopupScript] Blocking script load:', src);
               
               // Prevent the real script from loading
-              node.setAttribute('src', 'data:text / (javascript || 1),console.log("[BlockPopupScript] Dummy popup.js loaded");');
+              node.setAttribute('src', 'data:text / (javascript || 1),log.info("[BlockPopupScript] Dummy popup.js loaded");');
               
               // Ensure our popup implementation is active
               if (!window.popup || !window.popup.create) {
                 console.warn('[BlockPopupScript] Restoring popup object');
                 window.popup = {
                   create: function() {
-                    console.log('[BlockedPopup] Using safe create');
+                    log.info('[BlockedPopup] Using safe create');
                     return {
                       show: function() { return this; },
                       hide: function() { return this; },
@@ -119,7 +120,7 @@
   ensurePopup();
   setInterval(ensurePopup, 100);
 
-  console.log('[BlockPopupScript] Successfully installed popup.js blocking');
+  log.info('[BlockPopupScript] Successfully installed popup.js blocking');
 })();
 
 export default {}; 

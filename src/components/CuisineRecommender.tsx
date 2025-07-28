@@ -941,7 +941,7 @@ export default function CuisineRecommender() {
       analyticsActions.recordLoadTime(errorLoadTime);
       endTiming();
     }
-  }, [currentMomentElementalProfile, astrologicalStateForRecommendations, analyticsActions]);
+  }, [currentMomentElementalProfile, astrologicalStateForRecommendations, analyticsActions, fusionRecommendations]);
 
   // ========== EFFECTS ==========
 
@@ -971,7 +971,7 @@ export default function CuisineRecommender() {
     setSelectedCuisine(cuisineId);
     setShowCuisineDetails(true);
 
-    if (selectedData?.recipes?.length > 0) {
+    if ((selectedData?.recipes?.length ?? 0) > 0) {
       setMatchingRecipes(selectedData?.recipes ?? []);
     } else {
       setMatchingRecipes([]);

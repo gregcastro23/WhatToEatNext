@@ -4,6 +4,7 @@ const axios = {
   post: async (_url: string, _data?: any, _config?: any) => ({ data: {} as Record<string, unknown> })
 };
 import type { ElementalProperties } from '@/types/alchemy';
+import { log } from '@/services/LoggingService';
 
 import type { NutritionalProfile } from '../types/nutrition';
 import type { Recipe } from '../types/recipe';
@@ -73,11 +74,11 @@ export class SpoonacularService {
   static async searchRecipes(params: SpoonacularSearchParams): Promise<Recipe[]> {
     // First check if we have enough local recipes that match the criteria
     const localRecipes = await this.searchLocalRecipes(params);
-    console.log(`Found ${localRecipes.length} matching local recipes`);
+    log.info(`Found ${localRecipes.length} matching local recipes`);
     
     // If we have enough local recipes (5 or more), just return those
     if (localRecipes.length >= 5) {
-      console.log('Using only local recipes - no API call needed');
+      log.info('Using only local recipes - no API call needed');
       return localRecipes;
     }
     
@@ -99,7 +100,7 @@ export class SpoonacularService {
       }
       
       // Make API request
-      console.log(`Making API request for ${numberToRequest} additional recipes`);
+      log.info(`Making API request for ${numberToRequest} additional recipes`);
       const response = await axios.get(`${this.API_BASE_URL}/recipes/complexSearch?${queryParams.toString()}`);
       const apiRecipes = response.data.results as SpoonacularApiRecipe[];
       

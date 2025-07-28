@@ -9,6 +9,7 @@
 
 import { execSync } from 'child_process';
 import fs from 'fs';
+import { log } from '@/services/LoggingService';
 
 interface ImportCleanupResult {
   filesProcessed: number;
@@ -34,7 +35,7 @@ export class UnusedImportProcessor {
    * Process import cleanup across the codebase
    */
   public async processImportCleanup(): Promise<ImportCleanupResult> {
-    console.log('🧹 Processing import cleanup...\n');
+    log.info('🧹 Processing import cleanup...\n');
     
     const result: ImportCleanupResult = {
       filesProcessed: 0,
@@ -65,7 +66,7 @@ export class UnusedImportProcessor {
    * Organize imports using ESLint import/order rule
    */
   private async organizeImports(result: ImportCleanupResult): Promise<void> {
-    console.log('📋 Organizing imports...');
+    log.info('📋 Organizing imports...');
     
     try {
       const output = execSync('yarn lint --fix --rule "import/order: error" 2>&1', { 
@@ -77,17 +78,17 @@ export class UnusedImportProcessor {
       const processedFiles = (output.match(/✓/g) || []).length;
       result.importsOrganized += processedFiles;
       
-      console.log(`✅ Import organization completed (${processedFiles} files processed)`);
+      log.info(`✅ Import organization completed (${processedFiles} files processed)`);
       
     } catch (error: any) {
       // ESLint returns non-zero exit code even for successful fixes
       if (error.stdout) {
         const processedFiles = (error.stdout.match(/✓/g) || []).length;
         result.importsOrganized += processedFiles;
-        console.log(`✅ Import organization completed (${processedFiles} files processed)`);
+        log.info(`✅ Import organization completed (${processedFiles} files processed)`);
       } else {
         result.warnings.push('Import organization completed with warnings');
-        console.log('⚠️  Import organization completed with warnings');
+        log.info('⚠️  Import organization completed with warnings');
       }
     }
   }
@@ -96,7 +97,7 @@ export class UnusedImportProcessor {
    * Remove unused imports using ESLint auto-fix
    */
   private async removeUnusedImports(result: ImportCleanupResult): Promise<void> {
-    console.log('🗑️  Removing unused imports...');
+    log.info('🗑️  Removing unused imports...');
     
     try {
       // Create a focused ESLint config for unused imports
@@ -112,17 +113,17 @@ export class UnusedImportProcessor {
       const processedFiles = (output.match(/✓/g) || []).length;
       result.filesProcessed += processedFiles;
       
-      console.log(`✅ Unused import removal completed (${processedFiles} files processed)`);
+      log.info(`✅ Unused import removal completed (${processedFiles} files processed)`);
       
     } catch (error: any) {
       // ESLint returns non-zero exit code even for successful fixes
       if (error.stdout) {
         const processedFiles = (error.stdout.match(/✓/g) || []).length;
         result.filesProcessed += processedFiles;
-        console.log(`✅ Unused import removal completed (${processedFiles} files processed)`);
+        log.info(`✅ Unused import removal completed (${processedFiles} files processed)`);
       } else {
         result.warnings.push('Unused import removal completed with warnings');
-        console.log('⚠️  Unused import removal completed with warnings');
+        log.info('⚠️  Unused import removal completed with warnings');
       }
     } finally {
       // Clean up temporary config
@@ -188,7 +189,7 @@ export class UnusedImportProcessor {
    * Validate changes by running TypeScript check
    */
   public async validateChanges(): Promise<boolean> {
-    console.log('\n🔍 Validating import changes...');
+    log.info('\n🔍 Validating import changes...');
     
     try {
       // Check TypeScript compilation
@@ -196,7 +197,7 @@ export class UnusedImportProcessor {
         stdio: 'pipe',
         encoding: 'utf8'
       });
-      console.log('✅ TypeScript validation passed');
+      log.info('✅ TypeScript validation passed');
       return true;
     } catch (error) {
       console.error('❌ TypeScript validation failed');

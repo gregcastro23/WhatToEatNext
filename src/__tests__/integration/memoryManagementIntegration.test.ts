@@ -114,9 +114,10 @@ describe('Memory Management Integration', () => {
 
   it('should handle memory-intensive operations safely', async () => {
     const monitor = new TestMemoryMonitor({
-      warningThreshold: 100,
-      errorThreshold: 500,
-      leakThreshold: 50
+      heapUsed: 100 * 1024 * 1024, // 100MB
+      heapTotal: 500 * 1024 * 1024, // 500MB
+      external: 50 * 1024 * 1024, // 50MB
+      rss: 600 * 1024 * 1024 // 600MB
     });
 
     const initialMemory = monitor.takeSnapshot('memory-intensive-start');
@@ -135,7 +136,7 @@ describe('Memory Management Integration', () => {
     largeArrays.length = 0;
     
     const cleanupResult = monitor.cleanup('memory-intensive-cleanup');
-    expect(cleanupResult.cleanupEffective).toBe(true);
+    expect(cleanupResult.success).toBe(true);
   });
 });
 

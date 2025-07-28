@@ -1,3 +1,4 @@
+import { log } from '@/services/LoggingService';
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getCurrentTransitPositions = exports.getBaseSignLongitude = exports.validatePlanetaryPositions = exports.getCurrentTransitSign = exports.normalizeZodiacSign = exports.getCurrentAstrologicalState = exports.calculateAspectStrength = exports.identifyAspect = exports.calculatePlanetaryAspects = exports.getZodiacPositionInDegrees = exports.calculateSunSign = exports.getmoonIllumination = exports.getLunarPhaseName = exports.calculateLunarPhase = exports.getReliablePlanetaryPositions = void 0;
@@ -7,7 +8,7 @@ exports.getCurrentTransitPositions = exports.getBaseSignLongitude = exports.vali
  */
 const debugLog = (_message, ...args) => {
     // Comment out console.log to avoid linting warnings
-    // console.log(message, ...args);
+    // log.info(message, ...args);
 };
 /**
  * A utility function for logging errors

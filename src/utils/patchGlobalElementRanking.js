@@ -1,3 +1,4 @@
+import { log } from '@/services/LoggingService';
 /**
  * Global patch for element_rank_dict and other assignment errors
  * related to element_rank_dict and other problematic variables.
@@ -7,7 +8,7 @@
   // Only run in browser environment
   if (typeof window === 'undefined') return;
   
-  console.log('[ElementRankingPatch] Installing global protection for element_rank_dict');
+  log.info('[ElementRankingPatch] Installing global protection for element_rank_dict');
 
   // The most important function to patch
   window.getElementRanking = function(element_object, _rank) {
@@ -109,7 +110,7 @@
     }
   }, true);
 
-  console.log('[ElementRankingPatch] Successfully installed global protection for element_rank_dict');
+  log.info('[ElementRankingPatch] Successfully installed global protection for element_rank_dict');
 })();
 
 export default {

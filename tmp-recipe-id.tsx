@@ -148,7 +148,7 @@ const RecipeDetailsPage: NextPage = () => {
           >
             -
           </button>
-          <span className="bg-gray-100 py-1 px-4">{Math.round(recipe.numberOfServings * servingsMultiplier)}</span>
+          <span className="bg-gray-100 py-1 px-4">{Math.round((recipe.numberOfServings ?? 4) * servingsMultiplier)}</span>
           <button 
             onClick={increaseServings}
             className="bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-1 px-3 rounded-r"

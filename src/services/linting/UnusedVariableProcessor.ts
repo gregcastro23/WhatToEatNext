@@ -11,6 +11,7 @@
 import { execSync } from 'child_process';
 import * as fs from 'fs';
 import * as path from 'path';
+import { log } from '@/services/LoggingService';
 
 interface UnusedVariableIssue {
   file: string;
@@ -59,7 +60,7 @@ export class UnusedVariableProcessor {
   ];
 
   async processUnusedVariables(): Promise<ProcessingResult> {
-    console.log('🔍 Analyzing unused variable warnings...');
+    log.info('🔍 Analyzing unused variable warnings...');
     
     const issues = await this.detectUnusedVariables();
     const result: ProcessingResult = {
@@ -70,7 +71,7 @@ export class UnusedVariableProcessor {
       preservedCritical: []
     };
 
-    console.log(`Found ${issues.length} unused variable issues`);
+    log.info(`Found ${issues.length} unused variable issues`);
 
     // Group issues by file for efficient processing
     const issuesByFile = this.groupIssuesByFile(issues);
@@ -282,7 +283,7 @@ export class UnusedVariableProcessor {
         lines[lineIndex] = modifiedLine;
         modified = true;
         fixed++;
-        console.log(`  ✓ Prefixed ${issue.variableName} in ${path.basename(filePath)}:${issue.line}`);
+        log.info(`  ✓ Prefixed ${issue.variableName} in ${path.basename(filePath)}:${issue.line}`);
       } else {
         skipped++;
       }
@@ -381,15 +382,15 @@ export class UnusedVariableProcessor {
 
   async validateChanges(): Promise<boolean> {
     try {
-      console.log('🔍 Validating changes...');
+      log.info('🔍 Validating changes...');
       
       // Check if TypeScript compilation still works
       execSync('yarn tsc --noEmit --skipLibCheck', { stdio: 'pipe' });
-      console.log('  ✓ TypeScript compilation successful');
+      log.info('  ✓ TypeScript compilation successful');
       
       // Check if build still works
       execSync('yarn build', { stdio: 'pipe' });
-      console.log('  ✓ Build successful');
+      log.info('  ✓ Build successful');
       
       return true;
     } catch (error) {
@@ -399,23 +400,23 @@ export class UnusedVariableProcessor {
   }
 
   async generateReport(result: ProcessingResult): Promise<void> {
-    console.log('\n📊 Unused Variable Processing Report');
-    console.log('=====================================');
-    console.log(`Total issues found: ${result.totalIssues}`);
-    console.log(`Successfully processed: ${result.processed}`);
-    console.log(`Skipped (safe): ${result.skipped}`);
-    console.log(`Critical variables preserved: ${result.preservedCritical.length}`);
+    log.info('\n📊 Unused Variable Processing Report');
+    log.info('=====================================');
+    log.info(`Total issues found: ${result.totalIssues}`);
+    log.info(`Successfully processed: ${result.processed}`);
+    log.info(`Skipped (safe): ${result.skipped}`);
+    log.info(`Critical variables preserved: ${result.preservedCritical.length}`);
     
     if (result.errors.length > 0) {
-      console.log(`\n❌ Errors encountered: ${result.errors.length}`);
-      result.errors.forEach(error => console.log(`  - ${error}`));
+      log.info(`\n❌ Errors encountered: ${result.errors.length}`);
+      result.errors.forEach(error => log.info(`  - ${error}`));
     }
 
     if (result.preservedCritical.length > 0) {
-      console.log('\n🔒 Critical variables preserved:');
-      result.preservedCritical.slice(0, 10).forEach(item => console.log(`  - ${item}`));
+      log.info('\n🔒 Critical variables preserved:');
+      result.preservedCritical.slice(0, 10).forEach(item => log.info(`  - ${item}`));
       if (result.preservedCritical.length > 10) {
-        console.log(`  ... and ${result.preservedCritical.length - 10} more`);
+        log.info(`  ... and ${result.preservedCritical.length - 10} more`);
       }
     }
 
@@ -423,6 +424,6 @@ export class UnusedVariableProcessor {
       ? ((result.processed / result.totalIssues) * 100).toFixed(1)
       : '0';
     
-    console.log(`\n✨ Reduction achieved: ${reductionPercentage}%`);
+    log.info(`\n✨ Reduction achieved: ${reductionPercentage}%`);
   }
 }

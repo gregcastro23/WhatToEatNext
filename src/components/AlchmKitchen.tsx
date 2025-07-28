@@ -93,7 +93,7 @@ export default function AlchmKitchen() {
         };
 
         fetchData();
-    }, [mounted, planetaryPositions.Sun, currentSign]); // Removed renderCount from deps
+    }, [mounted, planetaryPositions.Sun, currentSign, planetaryHour]); // Added planetaryHour to deps
 
     if (error) {
         return <div className={styles.error}>Error: {error}</div>;

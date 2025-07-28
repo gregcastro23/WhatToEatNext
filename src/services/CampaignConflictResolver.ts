@@ -6,6 +6,7 @@
  * for campaign coordination within Kiro.
  */
 
+import { log } from '@/services/LoggingService';
 import type {
   CampaignConfig,
   CampaignPhase,
@@ -472,7 +473,7 @@ export class CampaignConflictResolver {
         resolutionStrategy: conflict.resolutionStrategy!,
         executionTime: 0,
         affectedCampaigns: [],
-        sideEffects: [`Resolution failed: ${error.message}`]
+        sideEffects: [`Resolution failed: ${(error as Error).message}`]
       };
     }
   }
@@ -724,7 +725,7 @@ export class CampaignConflictResolver {
   }
 
   private async executeResolutionStep(step: ResolutionStep, conflict: CampaignConflict): Promise<void> {
-    console.log(`Executing resolution step: ${step.description}`);
+    log.info(`Executing resolution step: ${step.description}`);
     
     switch (step.action) {
       case ResolutionAction.PAUSE_CAMPAIGN:
@@ -741,15 +742,15 @@ export class CampaignConflictResolver {
         
       case ResolutionAction.RESCHEDULE_CAMPAIGN:
         // Implementation would reschedule the campaign
-        console.log('Rescheduling campaign:', step.parameters);
+        log.info('Rescheduling campaign:', step.parameters);
         break;
         
       case ResolutionAction.NOTIFY_USER:
-        console.log('Notifying user:', step.parameters.message);
+        log.info('Notifying user:', step.parameters.message);
         break;
         
       default:
-        console.log('Unknown resolution action:', step.action);
+        log.info('Unknown resolution action:', step.action);
     }
   }
 

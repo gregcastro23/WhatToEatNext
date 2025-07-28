@@ -484,7 +484,7 @@ export class ProgressTracker {
       console.log(`📊 Metrics exported to: ${filePath}`);
 
     } catch (error) {
-      throw new Error(`Failed to export metrics: ${error.message}`);
+      throw new Error(`Failed to export metrics: ${(error as Error).message}`);
     }
   }
 

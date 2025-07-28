@@ -119,7 +119,7 @@ const ElementalEnergyDisplay: FC = (): ReactNode => {
       setRenderCount(1);
       logger.debug(`ElementalEnergyDisplay mounted`);
     }
-  }, []); // Empty dependency array means this runs only once
+  }, [renderCount]); // Added renderCount to deps
   
   const [alchemicalResults, setAlchemicalResults] = useState<AlchemicalResults>(() => {
     // Start with defaults

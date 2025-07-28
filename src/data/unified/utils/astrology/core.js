@@ -5,13 +5,14 @@ const dateUtils_1 = require("../dateUtils");
 const PlanetaryHourCalculator_1 = require("../../lib/PlanetaryHourCalculator");
 const positions_1 = require("./positions");
 const validation_1 = require("./validation");
+import { log } from '@/services/LoggingService';
 /**
  * A utility function for logging debug information
  * This is a safe replacement for console.log that can be disabled in production
  */
 const debugLog = (_message, ...args) => {
     // Comment out console.log to avoid linting warnings
-    // console.log(message, ...args);
+    // log.info(message, ...args);
 };
 /**
  * A utility function for logging errors

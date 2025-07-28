@@ -140,7 +140,7 @@ export class RecipeEnhancer {
       // Try to find ingredient in unified ingredients
       const unifiedIngredient = this.findUnifiedIngredient(ingredientName);
       if (unifiedIngredient) {
-        kalchm = unifiedIngredient.kalchm;
+        kalchm = unifiedIngredient.kalchm ?? 1.0;
         elementalContribution = unifiedIngredient.elementalState;
         matchedIngredients++;
       } else {

@@ -5,6 +5,7 @@
  * error analysis, classification, domain detection, and resolution strategy generation.
  */
 
+import { log } from '@/services/LoggingService';
 import { DomainContextDetector, FileAnalysis, DomainContext } from './DomainContextDetector';
 import { ErrorClassificationSystem, ErrorClassification } from './ErrorClassificationSystem';
 import { LintingErrorAnalyzer, CategorizedErrors, LintingIssue } from './LintingErrorAnalyzer';
@@ -93,21 +94,21 @@ export class LintingAnalysisService {
   ): Promise<ComprehensiveAnalysisResult> {
     const startTime = Date.now();
     
-    console.log('🚀 Starting comprehensive linting analysis...');
+    log.info('🚀 Starting comprehensive linting analysis...');
     
     try {
       // Step 1: Analyze all linting issues
-      console.log('📊 Analyzing linting issues...');
+      log.info('📊 Analyzing linting issues...');
       const categorizedErrors = await this.errorAnalyzer.analyzeAllIssues();
       
       // Step 2: Classify errors with detailed analysis
-      console.log('🔍 Classifying errors...');
+      log.info('🔍 Classifying errors...');
       const classifications = await this.classifyErrors(categorizedErrors, options.focusAreas);
       
       // Step 3: Analyze files for domain context (if requested)
       let fileAnalyses: FileAnalysis[] = [];
       if (options.includeFileAnalysis !== false) {
-        console.log('🏗️ Analyzing domain contexts...');
+        log.info('🏗️ Analyzing domain contexts...');
         fileAnalyses = await this.analyzeFileContexts(categorizedErrors);
       }
       
@@ -116,7 +117,7 @@ export class LintingAnalysisService {
       let optimizedPlan: OptimizedResolutionPlan = this.createEmptyPlan();
       
       if (options.generateStrategies !== false) {
-        console.log('🎯 Generating resolution strategies...');
+        log.info('🎯 Generating resolution strategies...');
         const strategyResult = await this.generateResolutionStrategies(
           categorizedErrors,
           classifications,
@@ -128,7 +129,7 @@ export class LintingAnalysisService {
       }
       
       // Step 5: Generate summary and recommendations
-      console.log('📋 Generating recommendations...');
+      log.info('📋 Generating recommendations...');
       const summary = this.generateSummary(categorizedErrors, classifications, resolutionStrategies);
       const recommendations = this.generateRecommendations(
         categorizedErrors, 
@@ -156,7 +157,7 @@ export class LintingAnalysisService {
         metrics
       };
       
-      console.log('✅ Comprehensive analysis complete!');
+      log.info('✅ Comprehensive analysis complete!');
       this.logAnalysisResults(result);
       
       return result;
@@ -176,7 +177,7 @@ export class LintingAnalysisService {
     quickWins: LintingIssue[];
     criticalIssues: LintingIssue[];
   }> {
-    console.log('⚡ Performing quick linting analysis...');
+    log.info('⚡ Performing quick linting analysis...');
     
     const categorizedErrors = await this.errorAnalyzer.analyzeAllIssues();
     const classifications = await this.classifyErrors(categorizedErrors);
@@ -535,32 +536,32 @@ export class LintingAnalysisService {
    * Log analysis results
    */
   private logAnalysisResults(result: ComprehensiveAnalysisResult): void {
-    console.log('\n🎯 COMPREHENSIVE LINTING ANALYSIS RESULTS');
-    console.log('==========================================');
-    console.log(`📊 Total Issues: ${result.summary.totalIssues}`);
-    console.log(`❌ Errors: ${result.summary.errorCount}`);
-    console.log(`⚠️  Warnings: ${result.summary.warningCount}`);
-    console.log(`🔧 Auto-fixable: ${result.summary.autoFixableCount}`);
-    console.log(`🏗️ Domain-specific: ${result.summary.domainSpecificCount}`);
-    console.log(`🚨 Critical: ${result.summary.criticalIssuesCount}`);
-    console.log(`⏱️ Estimated Resolution Time: ${result.summary.estimatedResolutionTime} minutes`);
-    console.log(`🎚️ Overall Risk Level: ${result.summary.overallRiskLevel.toUpperCase()}`);
+    log.info('\n🎯 COMPREHENSIVE LINTING ANALYSIS RESULTS');
+    log.info('==========================================');
+    log.info(`📊 Total Issues: ${result.summary.totalIssues}`);
+    log.info(`❌ Errors: ${result.summary.errorCount}`);
+    log.info(`⚠️  Warnings: ${result.summary.warningCount}`);
+    log.info(`🔧 Auto-fixable: ${result.summary.autoFixableCount}`);
+    log.info(`🏗️ Domain-specific: ${result.summary.domainSpecificCount}`);
+    log.info(`🚨 Critical: ${result.summary.criticalIssuesCount}`);
+    log.info(`⏱️ Estimated Resolution Time: ${result.summary.estimatedResolutionTime} minutes`);
+    log.info(`🎚️ Overall Risk Level: ${result.summary.overallRiskLevel.toUpperCase()}`);
     
-    console.log('\n📋 TOP RECOMMENDATIONS:');
+    log.info('\n📋 TOP RECOMMENDATIONS:');
     result.recommendations
       .filter(r => r.priority === 'critical' || r.priority === 'high')
       .slice(0, 3)
       .forEach((rec, index) => {
-        console.log(`${index + 1}. ${rec.title} (${rec.priority.toUpperCase()})`);
-        console.log(`   ${rec.description}`);
+        log.info(`${index + 1}. ${rec.title} (${rec.priority.toUpperCase()})`);
+        log.info(`   ${rec.description}`);
       });
     
-    console.log('\n📈 ANALYSIS METRICS:');
-    console.log(`⏱️ Analysis Time: ${result.metrics.analysisTime}ms`);
-    console.log(`📁 Files Analyzed: ${result.metrics.filesAnalyzed}`);
-    console.log(`📏 Rules Triggered: ${result.metrics.rulesTriggered.length}`);
-    console.log(`🎯 Average Confidence: ${Math.round(result.metrics.confidenceScores.average * 100)}%`);
+    log.info('\n📈 ANALYSIS METRICS:');
+    log.info(`⏱️ Analysis Time: ${result.metrics.analysisTime}ms`);
+    log.info(`📁 Files Analyzed: ${result.metrics.filesAnalyzed}`);
+    log.info(`📏 Rules Triggered: ${result.metrics.rulesTriggered.length}`);
+    log.info(`🎯 Average Confidence: ${Math.round(result.metrics.confidenceScores.average * 100)}%`);
     
-    console.log('==========================================\n');
+    log.info('==========================================\n');
   }
 }

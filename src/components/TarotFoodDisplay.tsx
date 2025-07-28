@@ -35,12 +35,12 @@ export default function TarotFoodDisplay({ onTarotLoaded }: TarotFoodDisplayProp
 
   // Type guard to check if currentPlanetaryAlignment has sun property with the right shape
   const hasSunPosition = (alignment: Record<string, unknown>): alignment is { sun: PlanetaryPosition } => {
-    return alignment && 
+    return Boolean(alignment && 
            typeof alignment === 'object' && 
            'sun' in alignment && 
            alignment.sun && 
            typeof alignment.sun === 'object' &&
-           'sign' in alignment.sun;
+           'sign' in alignment.sun);
   };
 
   // Update the ref when onTarotLoaded changes
@@ -71,7 +71,7 @@ export default function TarotFoodDisplay({ onTarotLoaded }: TarotFoodDisplayProp
       // Get sun position from planetary alignment if available
       let sunPosition;
       if (hasSunPosition(currentPlanetaryAlignment as unknown as Record<string, unknown>)) {
-        const sunData = currentPlanetaryAlignment.Sun as Record<string, unknown>;
+        const sunData = currentPlanetaryAlignment.Sun as unknown as Record<string, unknown>;
         sunPosition = {
           sign: String(sunData.sign || ''),
           degree: Number(sunData.degree || 0)

@@ -1043,8 +1043,7 @@ export default function IngredientRecommender() {
           </div>
         )}
         
-        {/* Pairings with improved visualization */}
-        {(item as ExtendedIngredientRecommendation).pairings && (
+        {Boolean((item as ExtendedIngredientRecommendation).pairings) ? (
           <div className={styles.detailSection}>
             <h4 className={styles.detailTitle}>
               <Tag size={16} /> Pairs Well With
@@ -1083,7 +1082,7 @@ export default function IngredientRecommender() {
               }
             </div>
           </div>
-        )}
+        ) : null}
         
         {/* Nutritional Highlights if available */}
         {(item as ExtendedIngredientRecommendation).nutritionalHighlights && Object.keys((item as ExtendedIngredientRecommendation).nutritionalHighlights || {}).length > 0 && (

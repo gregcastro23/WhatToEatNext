@@ -17,6 +17,7 @@
 import { EventEmitter } from 'events';
 import fs from 'fs';
 import path from 'path';
+import { log } from '@/services/LoggingService';
 
 import { EnterpriseIntelligenceIntegration } from './EnterpriseIntelligenceIntegration';
 import { ErrorTrackingEnterpriseSystem, ErrorTrackingSnapshot } from './ErrorTrackingEnterpriseSystem';
@@ -320,11 +321,11 @@ export class EnterpriseIntelligenceOrchestrator extends EventEmitter {
    */
   async initialize(): Promise<void> {
     if (this.isInitialized) {
-      console.log('⚠️  Enterprise Intelligence Orchestrator already initialized');
+      log.info('⚠️  Enterprise Intelligence Orchestrator already initialized');
       return;
     }
 
-    console.log('🚀 Initializing Enterprise Intelligence Orchestrator...');
+    log.info('🚀 Initializing Enterprise Intelligence Orchestrator...');
 
     try {
       // Initialize services
@@ -343,7 +344,7 @@ export class EnterpriseIntelligenceOrchestrator extends EventEmitter {
       await this.runIntegrationTests();
 
       this.isInitialized = true;
-      console.log('✅ Enterprise Intelligence Orchestrator initialized successfully');
+      log.info('✅ Enterprise Intelligence Orchestrator initialized successfully');
       this.emit('initialized');
     } catch (error) {
       console.error('❌ Failed to initialize Enterprise Intelligence Orchestrator:', error);
@@ -355,7 +356,7 @@ export class EnterpriseIntelligenceOrchestrator extends EventEmitter {
    * Initialize all enterprise intelligence services
    */
   private async initializeServices(): Promise<void> {
-    console.log('📋 Initializing enterprise intelligence services...');
+    log.info('📋 Initializing enterprise intelligence services...');
 
     // Initialize Error Tracking System
     if (this.config.services.errorTracking.enabled) {
@@ -418,14 +419,14 @@ export class EnterpriseIntelligenceOrchestrator extends EventEmitter {
     this.services.set('enterpriseIntelligence', enterpriseIntelligence);
     this.updateServiceStatus('enterpriseIntelligence', 'active', 'excellent');
 
-    console.log(`✅ Initialized ${this.services.size} enterprise intelligence services`);
+    log.info(`✅ Initialized ${this.services.size} enterprise intelligence services`);
   }
 
   /**
    * Setup integration monitoring
    */
   private async setupIntegrationMonitoring(): Promise<void> {
-    console.log('📊 Setting up integration monitoring...');
+    log.info('📊 Setting up integration monitoring...');
 
     // Setup cross-service event coordination
     this.setupCrossServiceEvents();
@@ -502,7 +503,7 @@ export class EnterpriseIntelligenceOrchestrator extends EventEmitter {
    * Setup health monitoring
    */
   private async setupHealthMonitoring(): Promise<void> {
-    console.log('🏥 Setting up health monitoring...');
+    log.info('🏥 Setting up health monitoring...');
 
     if (!this.config.integration.healthChecks) return;
 
@@ -515,7 +516,7 @@ export class EnterpriseIntelligenceOrchestrator extends EventEmitter {
    * Setup reporting
    */
   private async setupReporting(): Promise<void> {
-    console.log('📈 Setting up reporting...');
+    log.info('📈 Setting up reporting...');
 
     if (!this.config.reporting.enabled) return;
 
@@ -547,7 +548,7 @@ export class EnterpriseIntelligenceOrchestrator extends EventEmitter {
    * Run comprehensive integration tests
    */
   async runIntegrationTests(): Promise<IntegrationTestResult[]> {
-    console.log('🧪 Running integration tests...');
+    log.info('🧪 Running integration tests...');
 
     const testResults: IntegrationTestResult[] = [];
 
@@ -577,7 +578,7 @@ export class EnterpriseIntelligenceOrchestrator extends EventEmitter {
     const passedTests = testResults.filter(r => r.status === 'passed').length;
     const failedTests = testResults.filter(r => r.status === 'failed').length;
 
-    console.log(`🧪 Integration tests completed: ${passedTests} passed, ${failedTests} failed`);
+    log.info(`🧪 Integration tests completed: ${passedTests} passed, ${failedTests} failed`);
     this.emit('integration-tests-completed', testResults);
 
     return testResults;
@@ -1099,7 +1100,7 @@ export class EnterpriseIntelligenceOrchestrator extends EventEmitter {
   }
 
   private handleQualityGateFailure(report: QualityReport): void {
-    console.log('🚨 Quality gate failure detected - triggering recovery actions');
+    log.info('🚨 Quality gate failure detected - triggering recovery actions');
     
     // Implement automatic recovery mechanisms
     if (this.config.integration.automaticRecovery) {
@@ -1109,7 +1110,7 @@ export class EnterpriseIntelligenceOrchestrator extends EventEmitter {
 
   private async triggerAutomaticRecovery(report: QualityReport): Promise<void> {
     // Implement recovery logic based on failure type
-    console.log('🔄 Triggering automatic recovery mechanisms...');
+    log.info('🔄 Triggering automatic recovery mechanisms...');
     
     // Could implement:
     // - Automatic error fixing
@@ -1242,7 +1243,7 @@ export class EnterpriseIntelligenceOrchestrator extends EventEmitter {
 
   private optimizeSystemPerformance(): void {
     // Implement performance optimization logic
-    console.log('🔧 Optimizing system performance...');
+    log.info('🔧 Optimizing system performance...');
     
     // Could implement:
     // - Resource reallocation
@@ -1502,7 +1503,7 @@ export class EnterpriseIntelligenceOrchestrator extends EventEmitter {
    * Shutdown orchestrator
    */
   async shutdown(): Promise<void> {
-    console.log('🔄 Shutting down Enterprise Intelligence Orchestrator...');
+    log.info('🔄 Shutting down Enterprise Intelligence Orchestrator...');
 
     // Stop monitoring intervals
     if (this.healthCheckInterval) {
@@ -1530,7 +1531,7 @@ export class EnterpriseIntelligenceOrchestrator extends EventEmitter {
     await this.persistState();
 
     this.isInitialized = false;
-    console.log('✅ Enterprise Intelligence Orchestrator shutdown completed');
+    log.info('✅ Enterprise Intelligence Orchestrator shutdown completed');
     this.emit('shutdown');
   }
 

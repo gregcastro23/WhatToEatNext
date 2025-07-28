@@ -10,6 +10,7 @@ import { AutomatedLintingFixer, AutomatedFixResult, BatchProcessingOptions, Safe
 import { LintingAnalysisService, ComprehensiveAnalysisResult } from './LintingAnalysisService';
 import { LintingIssue, CategorizedErrors } from './LintingErrorAnalyzer';
 import { ResolutionStrategy } from './ResolutionStrategyGenerator';
+import { log } from '@/services/LoggingService';
 
 export interface AutomatedLintingWorkflowOptions {
   analysisOptions?: {
@@ -90,11 +91,11 @@ export class AutomatedLintingIntegration {
     options: AutomatedLintingWorkflowOptions = {}
   ): Promise<AutomatedLintingWorkflowResult> {
     const workflowStart = Date.now();
-    console.log('🚀 Starting automated linting workflow...');
+    log.info('🚀 Starting automated linting workflow...');
 
     try {
       // Step 1: Comprehensive Analysis
-      console.log('📊 Phase 1: Comprehensive Linting Analysis');
+      log.info('📊 Phase 1: Comprehensive Linting Analysis');
       const analysisStart = Date.now();
       
       const analysis = await this.analysisService.performComprehensiveAnalysis({
@@ -104,26 +105,26 @@ export class AutomatedLintingIntegration {
       });
       
       const analysisTime = Date.now() - analysisStart;
-      console.log(`✅ Analysis complete in ${analysisTime}ms`);
+      log.info(`✅ Analysis complete in ${analysisTime}ms`);
 
       // Step 2: Configure Safety Protocols
-      console.log('🛡️ Phase 2: Configuring Safety Protocols');
+      log.info('🛡️ Phase 2: Configuring Safety Protocols');
       const safetyProtocols = this.configureSafetyProtocols(analysis, options);
       
       // Reinitialize fixer with configured safety protocols
       this.automatedFixer = new AutomatedLintingFixer(this.workspaceRoot, safetyProtocols);
 
       // Step 3: Automated Fixing
-      console.log('🔧 Phase 3: Automated Error Resolution');
+      log.info('🔧 Phase 3: Automated Error Resolution');
       const fixingStart = Date.now();
       
       const fixResults = await this.executeAutomatedFixes(analysis, options);
       
       const fixingTime = Date.now() - fixingStart;
-      console.log(`✅ Automated fixes complete in ${fixingTime}ms`);
+      log.info(`✅ Automated fixes complete in ${fixingTime}ms`);
 
       // Step 4: Generate Summary and Recommendations
-      console.log('📋 Phase 4: Generating Summary and Recommendations');
+      log.info('📋 Phase 4: Generating Summary and Recommendations');
       const summary = this.generateWorkflowSummary(analysis, fixResults, workflowStart);
       const recommendations = this.generateWorkflowRecommendations(analysis, fixResults, summary);
       
@@ -144,7 +145,7 @@ export class AutomatedLintingIntegration {
         metrics
       };
 
-      console.log('🎉 Automated linting workflow complete!');
+      log.info('🎉 Automated linting workflow complete!');
       this.logWorkflowResults(result);
 
       return result;
@@ -161,7 +162,7 @@ export class AutomatedLintingIntegration {
   async executeQuickFixes(
     options: Partial<AutomatedLintingWorkflowOptions> = {}
   ): Promise<AutomatedFixResult> {
-    console.log('⚡ Executing quick automated fixes...');
+    log.info('⚡ Executing quick automated fixes...');
 
     try {
       // Quick analysis to identify auto-fixable issues
@@ -208,7 +209,7 @@ export class AutomatedLintingIntegration {
 
       const result = await quickFixer.applyAutomatedFixes(categorizedQuickWins, batchOptions);
       
-      console.log(`⚡ Quick fixes complete: ${result.fixedIssues} issues fixed`);
+      log.info(`⚡ Quick fixes complete: ${result.fixedIssues} issues fixed`);
       return result;
 
     } catch (error) {
@@ -229,7 +230,7 @@ export class AutomatedLintingIntegration {
       dryRun?: boolean;
     } = {}
   ): Promise<AutomatedFixResult> {
-    console.log('🧹 Executing unused variable cleanup...');
+    log.info('🧹 Executing unused variable cleanup...');
 
     try {
       // Analyze for unused variable issues
@@ -246,7 +247,7 @@ export class AutomatedLintingIntegration {
         );
 
       if (unusedVarIssues.length === 0) {
-        console.log('✅ No unused variable issues found');
+        log.info('✅ No unused variable issues found');
         return {
           success: true,
           fixedIssues: 0,
@@ -295,7 +296,7 @@ export class AutomatedLintingIntegration {
         ]
       });
 
-      console.log(`🧹 Unused variable cleanup complete: ${result.fixedIssues} variables handled`);
+      log.info(`🧹 Unused variable cleanup complete: ${result.fixedIssues} variables handled`);
       return result;
 
     } catch (error) {
@@ -316,7 +317,7 @@ export class AutomatedLintingIntegration {
       dryRun?: boolean;
     } = {}
   ): Promise<AutomatedFixResult> {
-    console.log('📦 Executing import optimization...');
+    log.info('📦 Executing import optimization...');
 
     try {
       // Analyze for import-related issues
@@ -328,7 +329,7 @@ export class AutomatedLintingIntegration {
       const importIssues = analysis.categorizedErrors.byCategory['import'] || [];
 
       if (importIssues.length === 0) {
-        console.log('✅ No import issues found');
+        log.info('✅ No import issues found');
         return this.createEmptyFixResult();
       }
 
@@ -354,7 +355,7 @@ export class AutomatedLintingIntegration {
         sortImports: options.sortImports ?? true
       });
 
-      console.log(`📦 Import optimization complete: ${result.fixedIssues} imports optimized`);
+      log.info(`📦 Import optimization complete: ${result.fixedIssues} imports optimized`);
       return result;
 
     } catch (error) {
@@ -447,7 +448,7 @@ export class AutomatedLintingIntegration {
         .filter(issue => issue.rule.includes('no-unused-vars'));
 
       if (unusedVarIssues.length > 0) {
-        console.log('🧹 Running specialized unused variable cleanup...');
+        log.info('🧹 Running specialized unused variable cleanup...');
         fixResults.unusedVariables = await this.automatedFixer.handleUnusedVariables(
           unusedVarIssues,
           {
@@ -461,7 +462,7 @@ export class AutomatedLintingIntegration {
       // Import optimization
       const importIssues = analysis.categorizedErrors.byCategory['import'] || [];
       if (importIssues.length > 0) {
-        console.log('📦 Running specialized import optimization...');
+        log.info('📦 Running specialized import optimization...');
         fixResults.imports = await this.automatedFixer.optimizeImports(importIssues, {
           removeDuplicates: true,
           organizeImports: true,
@@ -475,7 +476,7 @@ export class AutomatedLintingIntegration {
         .filter(issue => issue.rule.includes('no-explicit-any'));
 
       if (typeIssues.length > 0 && options.automationLevel !== 'conservative') {
-        console.log('🏷️ Running type annotation improvements...');
+        log.info('🏷️ Running type annotation improvements...');
         fixResults.typeAnnotations = await this.automatedFixer.improveTypeAnnotations(
           typeIssues,
           {
@@ -662,32 +663,32 @@ export class AutomatedLintingIntegration {
   }
 
   private logWorkflowResults(result: AutomatedLintingWorkflowResult): void {
-    console.log('\n🎯 AUTOMATED LINTING WORKFLOW RESULTS');
-    console.log('=====================================');
-    console.log(`📊 Issues Analyzed: ${result.summary.totalIssuesAnalyzed}`);
-    console.log(`✅ Issues Fixed: ${result.summary.totalIssuesFixed}`);
-    console.log(`❌ Issues Failed: ${result.summary.totalIssuesFailed}`);
-    console.log(`📈 Success Rate: ${Math.round(result.summary.automationSuccessRate * 100)}%`);
-    console.log(`⏱️ Total Time: ${Math.round(result.summary.timeToCompletion / 1000)}s`);
-    console.log(`🛡️ Safety Events: ${result.summary.safetyEventsTriggered}`);
-    console.log(`🔄 Rollbacks: ${result.summary.rollbacksPerformed}`);
-    console.log(`🎚️ Overall Success: ${result.summary.overallSuccess ? 'YES' : 'NO'}`);
+    log.info('\n🎯 AUTOMATED LINTING WORKFLOW RESULTS');
+    log.info('=====================================');
+    log.info(`📊 Issues Analyzed: ${result.summary.totalIssuesAnalyzed}`);
+    log.info(`✅ Issues Fixed: ${result.summary.totalIssuesFixed}`);
+    log.info(`❌ Issues Failed: ${result.summary.totalIssuesFailed}`);
+    log.info(`📈 Success Rate: ${Math.round(result.summary.automationSuccessRate * 100)}%`);
+    log.info(`⏱️ Total Time: ${Math.round(result.summary.timeToCompletion / 1000)}s`);
+    log.info(`🛡️ Safety Events: ${result.summary.safetyEventsTriggered}`);
+    log.info(`🔄 Rollbacks: ${result.summary.rollbacksPerformed}`);
+    log.info(`🎚️ Overall Success: ${result.summary.overallSuccess ? 'YES' : 'NO'}`);
     
-    console.log('\n📋 TOP RECOMMENDATIONS:');
+    log.info('\n📋 TOP RECOMMENDATIONS:');
     result.recommendations
       .filter(r => r.priority === 'critical' || r.priority === 'high')
       .slice(0, 3)
       .forEach((rec, index) => {
-        console.log(`${index + 1}. ${rec.title} (${rec.priority.toUpperCase()})`);
-        console.log(`   ${rec.description}`);
+        log.info(`${index + 1}. ${rec.title} (${rec.priority.toUpperCase()})`);
+        log.info(`   ${rec.description}`);
       });
     
-    console.log('\n📈 WORKFLOW METRICS:');
-    console.log(`⚡ Issues/Minute: ${Math.round(result.metrics.issuesPerMinute * 100) / 100}`);
-    console.log(`🎯 Automation Efficiency: ${Math.round(result.metrics.automationEfficiency * 100)}%`);
-    console.log(`🛡️ Safety Effectiveness: ${Math.round(result.metrics.safetyProtocolEffectiveness * 100)}%`);
-    console.log(`📊 Quality Improvement: ${Math.round(result.metrics.qualityImprovement)}%`);
-    console.log('=====================================\n');
+    log.info('\n📈 WORKFLOW METRICS:');
+    log.info(`⚡ Issues/Minute: ${Math.round(result.metrics.issuesPerMinute * 100) / 100}`);
+    log.info(`🎯 Automation Efficiency: ${Math.round(result.metrics.automationEfficiency * 100)}%`);
+    log.info(`🛡️ Safety Effectiveness: ${Math.round(result.metrics.safetyProtocolEffectiveness * 100)}%`);
+    log.info(`📊 Quality Improvement: ${Math.round(result.metrics.qualityImprovement)}%`);
+    log.info('=====================================\n');
   }
 
   private groupIssuesByCategory(issues: LintingIssue[]): Record<string, LintingIssue[]> {

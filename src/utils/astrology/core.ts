@@ -241,6 +241,9 @@ export async function calculateLunarPhase(date: Date = new Date()): Promise<numb
       throw new Error('Sun or Moon position missing');
     }
     // Calculate the angular distance between Sun and Moon
+    const moonLong = (positions.Moon as any)?.longitude || 0;
+    const sunLong = (positions.Sun as any)?.longitude || 0;
+    let angularDistance = moonLong - sunLong;
     // Normalize to 0-360 range
     angularDistance = ((angularDistance % 360) + 360) % 360;
     // Convert to phase percentage (0 to 1)

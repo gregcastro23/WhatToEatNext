@@ -18,6 +18,7 @@ import { execSync } from 'child_process';
 import { EventEmitter } from 'events';
 import fs from 'fs';
 import path from 'path';
+import { log } from '@/services/LoggingService';
 
 // ========== PERFORMANCE METRICS INTERFACES ==========
 
@@ -209,12 +210,12 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
    */
   startMonitoring(intervalMinutes: number = 5): void {
     if (this.isMonitoring) {
-      console.log('⚠️  Performance monitoring already active');
+      log.info('⚠️  Performance monitoring already active');
       return;
     }
 
     this.isMonitoring = true;
-    console.log(`🔄 Starting performance monitoring (${intervalMinutes}min intervals)`);
+    log.info(`🔄 Starting performance monitoring (${intervalMinutes}min intervals)`);
 
     this.monitoringInterval = setInterval(async () => {
       try {
@@ -234,7 +235,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
    */
   stopMonitoring(): void {
     if (!this.isMonitoring) {
-      console.log('⚠️  Performance monitoring not active');
+      log.info('⚠️  Performance monitoring not active');
       return;
     }
 
@@ -244,7 +245,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
       this.monitoringInterval = null;
     }
 
-    console.log('🛑 Performance monitoring stopped');
+    log.info('🛑 Performance monitoring stopped');
     this.emit('monitoring-stopped');
   }
 
@@ -255,7 +256,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
    */
   async capturePerformanceSnapshot(): Promise<PerformanceSnapshot> {
     const startTime = Date.now();
-    console.log('📊 Capturing performance snapshot...');
+    log.info('📊 Capturing performance snapshot...');
 
     const [systemMetrics, processMetrics, buildMetrics, typeScriptMetrics, testMetrics] = 
       await Promise.all([
@@ -294,8 +295,8 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
     await this.persistData();
 
     const captureTime = Date.now() - startTime;
-    console.log(`✅ Performance snapshot captured in ${captureTime}ms`);
-    console.log(`📊 Health Score: ${snapshot.healthScore.toFixed(2)}, Alerts: ${snapshot.alerts.length}`);
+    log.info(`✅ Performance snapshot captured in ${captureTime}ms`);
+    log.info(`📊 Health Score: ${snapshot.healthScore.toFixed(2)}, Alerts: ${snapshot.alerts.length}`);
 
     this.emit('snapshot-captured', snapshot);
     return snapshot;
@@ -1339,12 +1340,12 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
 
   private setupEventHandlers(): void {
     this.on('alert-generated', (alert: PerformanceAlert) => {
-      console.log(`🚨 Performance Alert: ${alert.message} (${alert.currentValue})`);
+      log.info(`🚨 Performance Alert: ${alert.message} (${alert.currentValue})`);
     });
     
     this.on('trend-updated', (trend: PerformanceTrend) => {
       if (trend.direction !== 'stable') {
-        console.log(`📈 Trend Update: ${trend.metric} is ${trend.direction}`);
+        log.info(`📈 Trend Update: ${trend.metric} is ${trend.direction}`);
       }
     });
   }

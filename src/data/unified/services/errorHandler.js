@@ -1,3 +1,4 @@
+import { log } from '@/services/LoggingService';
 "use strict";
 /**
  * Error Handler Service
@@ -13,7 +14,7 @@ const logWarning = (message, data) => {
     console.warn(`[WARNING] ${message}`, data);
 };
 const logInfo = (message, data) => {
-    console.info(`[INFO] ${message}`, data);
+    log.info(`[INFO] ${message}`, data);
 };
 // Error types
 let ErrorType;

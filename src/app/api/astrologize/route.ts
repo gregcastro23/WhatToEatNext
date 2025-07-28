@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { log } from '@/services/LoggingService';
 
 import { onAstrologizeApiCall } from '@/services/CurrentMomentManager';
 import { PlanetPosition } from '@/utils/astrologyUtils';
@@ -62,7 +63,7 @@ export async function POST(request: Request) {
 
     // Development logging for API payload
     if (process.env.NODE_ENV === 'development') {
-      console.log('Making API call to astrologize with payload:', apiPayload);
+      log.info('Making API call to astrologize with payload:', apiPayload);
     }
 
     // Make the API call

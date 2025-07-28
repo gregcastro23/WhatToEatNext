@@ -1048,7 +1048,7 @@ export class MLIntelligenceService {
 
   private log(level: string, message: string, data?: any): void {
     if (this.shouldLog(level)) {
-      logger[level as keyof typeof logger](`[MLIntelligence] ${message}`, data);
+      logger[level as keyof typeof logger](`[MLIntelligence] ${message}${data ? ` - ${JSON.stringify(data)}` : ''}`);
     }
   }
 

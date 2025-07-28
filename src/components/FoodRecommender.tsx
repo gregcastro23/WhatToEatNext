@@ -2,6 +2,7 @@
 
 import '../utils/foodRecommenderFix';
 import '../utils/scriptReplacer';
+import { log } from '@/services/LoggingService';
 
 import dynamic from 'next/dynamic';
 import React, { useEffect, useState, Suspense } from 'react';
@@ -84,7 +85,7 @@ function FoodRecommenderWrapper() {
     // Prevent multiple initializations
     if (isInitialized) return;
     
-    console.log('[FoodRecommenderWrapper] Initializing with fix providers');
+    log.info('[FoodRecommenderWrapper] Initializing with fix providers');
     
     if (typeof window === 'undefined') {
       setIsInitialized(true);
@@ -93,7 +94,7 @@ function FoodRecommenderWrapper() {
     
     // Create a minimal implementation of the popup object (backup to our other fixes)
     if (!window.popup) {
-      console.log('[FoodRecommenderWrapper] Ensuring popup object is available');
+      log.info('[FoodRecommenderWrapper] Ensuring popup object is available');
       window.popup = {
         create: function(_options?: any) {
           return {
@@ -124,19 +125,19 @@ function FoodRecommenderWrapper() {
 
     // If fixes were applied successfully, mark as initialized
     if (window.__foodRecommenderFixApplied) {
-      console.log('[FoodRecommenderWrapper] Fixes are already applied');
+      log.info('[FoodRecommenderWrapper] Fixes are already applied');
       setIsInitialized(true);
       return;
     }
     
     // If not yet fixed, load our fix script and retry
     if (loadAttempts < 2) {
-      console.log('[FoodRecommenderWrapper] Loading fixes...');
+      log.info('[FoodRecommenderWrapper] Loading fixes...');
       
       // Dynamic import in browser context
       import('../utils/foodRecommenderFix')
         .then(() => {
-          console.log('[FoodRecommenderWrapper] Successfully loaded fixes');
+          log.info('[FoodRecommenderWrapper] Successfully loaded fixes');
           setIsInitialized(true);
         })
         .catch((err) => {
@@ -145,7 +146,7 @@ function FoodRecommenderWrapper() {
         });
     } else {
       // If still not working after attempts, fall back to direct settings
-      console.log('[FoodRecommenderWrapper] Using fallback initialization');
+      log.info('[FoodRecommenderWrapper] Using fallback initialization');
       
       // Apply minimal fixes directly 
       window.getElementRanking = window.getElementRanking || function() {
@@ -178,7 +179,7 @@ function FoodRecommenderWrapper() {
     <ErrorBoundary 
       FallbackComponent={ErrorFallback}
       onReset={() => {
-        console.log('[FoodRecommenderWrapper] Error boundary reset');
+        log.info('[FoodRecommenderWrapper] Error boundary reset');
       }}
     >
       <Suspense fallback={<LoadingFallback />}>

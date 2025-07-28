@@ -181,7 +181,7 @@ const SunDisplay: React.FC = () => {
       {expanded && (
         <div className="mt-4 border-t border-amber-700 pt-4">
           <p className="text-sm text-amber-200 mb-3">
-            The Sun in {(sun as Record<string, unknown>).sign} brings energy of confidence, vitality, and creative expression.
+            The Sun in {String((sun as Record<string, unknown>).sign || 'your sign')} brings energy of confidence, vitality, and creative expression.
           </p>
           
           <div className="bg-amber-800 rounded p-3 mt-2">

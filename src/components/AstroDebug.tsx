@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import { log } from '@/services/LoggingService';
 
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 
@@ -33,11 +34,11 @@ const AstroDebug: React.FC = () => {
           
           <button 
             onClick={() => {
-              console.log('Current state:', state);
-              console.log('Planetary positions:', planetaryPositions);
+              log.info('Current state:', state);
+              log.info('Planetary positions:', planetaryPositions);
               try {
                 const SunCalc = require('suncalc');
-                console.log('SunCalc moon illumination:', SunCalc.getMoonIllumination(new Date()));
+                log.info('SunCalc moon illumination:', SunCalc.getMoonIllumination(new Date()));
               } catch (error) {
                 console.error('SunCalc test failed:', error);
               }

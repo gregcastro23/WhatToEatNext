@@ -10,6 +10,7 @@
 import { execSync } from 'child_process';
 import fs from 'fs';
 import path from 'path';
+import { log } from '@/services/LoggingService';
 
 interface FixResult {
   filesProcessed: number;
@@ -42,7 +43,7 @@ export class UnusedVariableTargetedFixer {
    * Fix unused function parameters by prefixing with underscore
    */
   public async fixUnusedFunctionParameters(): Promise<FixResult> {
-    console.log('🔧 Fixing unused function parameters...\n');
+    log.info('🔧 Fixing unused function parameters...\n');
     
     const result: FixResult = {
       filesProcessed: 0,
@@ -61,9 +62,9 @@ export class UnusedVariableTargetedFixer {
       const unusedParams = this.extractUnusedParameters(lintOutput);
       const safeParams = unusedParams.filter(param => !this.shouldPreserveFile(param.file));
 
-      console.log(`Found ${unusedParams.length} unused parameters`);
-      console.log(`Safe to fix: ${safeParams.length}`);
-      console.log(`Preserved: ${unusedParams.length - safeParams.length}\n`);
+      log.info(`Found ${unusedParams.length} unused parameters`);
+      log.info(`Safe to fix: ${safeParams.length}`);
+      log.info(`Preserved: ${unusedParams.length - safeParams.length}\n`);
 
       // Group by file for efficient processing
       const fileGroups = this.groupByFile(safeParams);
@@ -73,7 +74,7 @@ export class UnusedVariableTargetedFixer {
           const fixed = await this.fixParametersInFile(filePath, params);
           result.filesProcessed++;
           result.variablesFixed += fixed;
-          console.log(`✅ ${filePath.replace(process.cwd(), '')}: ${fixed} parameters fixed`);
+          log.info(`✅ ${filePath.replace(process.cwd(), '')}: ${fixed} parameters fixed`);
         } catch (error) {
           result.errors.push(`Error fixing ${filePath}: ${error}`);
           console.error(`❌ Error fixing ${filePath}:`, error);
@@ -91,7 +92,7 @@ export class UnusedVariableTargetedFixer {
    * Fix unused destructured variables by prefixing with underscore
    */
   public async fixUnusedDestructuredVariables(): Promise<FixResult> {
-    console.log('🔧 Fixing unused destructured variables...\n');
+    log.info('🔧 Fixing unused destructured variables...\n');
     
     const result: FixResult = {
       filesProcessed: 0,
@@ -109,9 +110,9 @@ export class UnusedVariableTargetedFixer {
       const unusedVars = this.extractUnusedDestructuredVariables(lintOutput);
       const safeVars = unusedVars.filter(v => !this.shouldPreserveFile(v.file));
 
-      console.log(`Found ${unusedVars.length} unused destructured variables`);
-      console.log(`Safe to fix: ${safeVars.length}`);
-      console.log(`Preserved: ${unusedVars.length - safeVars.length}\n`);
+      log.info(`Found ${unusedVars.length} unused destructured variables`);
+      log.info(`Safe to fix: ${safeVars.length}`);
+      log.info(`Preserved: ${unusedVars.length - safeVars.length}\n`);
 
       // Group by file for efficient processing
       const fileGroups = this.groupByFile(safeVars);
@@ -121,7 +122,7 @@ export class UnusedVariableTargetedFixer {
           const fixed = await this.fixDestructuredVariablesInFile(filePath, vars);
           result.filesProcessed++;
           result.variablesFixed += fixed;
-          console.log(`✅ ${filePath.replace(process.cwd(), '')}: ${fixed} variables fixed`);
+          log.info(`✅ ${filePath.replace(process.cwd(), '')}: ${fixed} variables fixed`);
         } catch (error) {
           result.errors.push(`Error fixing ${filePath}: ${error}`);
           console.error(`❌ Error fixing ${filePath}:`, error);
@@ -139,7 +140,7 @@ export class UnusedVariableTargetedFixer {
    * Remove obvious unused imports
    */
   public async removeUnusedImports(): Promise<FixResult> {
-    console.log('🔧 Removing unused imports...\n');
+    log.info('🔧 Removing unused imports...\n');
     
     const result: FixResult = {
       filesProcessed: 0,
@@ -162,11 +163,11 @@ export class UnusedVariableTargetedFixer {
       });
 
       result.warnings.push('Used ESLint auto-fix for import cleanup');
-      console.log('✅ ESLint auto-fix completed for imports');
+      log.info('✅ ESLint auto-fix completed for imports');
 
     } catch (error) {
       result.warnings.push('ESLint auto-fix completed with warnings');
-      console.log('⚠️  ESLint auto-fix completed with warnings');
+      log.info('⚠️  ESLint auto-fix completed with warnings');
     }
 
     return result;
@@ -328,14 +329,14 @@ export class UnusedVariableTargetedFixer {
    * Validate changes by running build
    */
   public async validateChanges(): Promise<boolean> {
-    console.log('\n🔍 Validating changes...');
+    log.info('\n🔍 Validating changes...');
     
     try {
       execSync('yarn build', { 
         stdio: 'pipe',
         encoding: 'utf8'
       });
-      console.log('✅ Build validation passed');
+      log.info('✅ Build validation passed');
       return true;
     } catch (error) {
       console.error('❌ Build validation failed');

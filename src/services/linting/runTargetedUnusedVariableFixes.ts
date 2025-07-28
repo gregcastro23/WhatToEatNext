@@ -8,11 +8,12 @@
  */
 
 import { execSync } from 'child_process';
+import { log } from '@/services/LoggingService';
 
 import { UnusedVariableTargetedFixer } from './UnusedVariableTargetedFixer';
 
 async function main() {
-  console.log('🚀 Starting Targeted Unused Variable Fixes\n');
+  log.info('🚀 Starting Targeted Unused Variable Fixes\n');
   
   const fixer = new UnusedVariableTargetedFixer();
   
@@ -29,83 +30,83 @@ async function main() {
   };
 
   const initialCount = getUnusedCount();
-  console.log(`📊 Initial unused variable count: ${initialCount}\n`);
+  log.info(`📊 Initial unused variable count: ${initialCount}\n`);
 
   let totalFixed = 0;
   let totalErrors = 0;
 
   // Step 1: Fix unused function parameters
-  console.log('='.repeat(50));
-  console.log('STEP 1: Fixing Unused Function Parameters');
-  console.log('='.repeat(50));
+  log.info('='.repeat(50));
+  log.info('STEP 1: Fixing Unused Function Parameters');
+  log.info('='.repeat(50));
   
   const paramResult = await fixer.fixUnusedFunctionParameters();
   totalFixed += paramResult.variablesFixed;
   totalErrors += paramResult.errors.length;
   
-  console.log(`\n📊 Parameters fixed: ${paramResult.variablesFixed}`);
-  console.log(`📄 Files processed: ${paramResult.filesProcessed}`);
+  log.info(`\n📊 Parameters fixed: ${paramResult.variablesFixed}`);
+  log.info(`📄 Files processed: ${paramResult.filesProcessed}`);
   if (paramResult.errors.length > 0) {
-    console.log(`❌ Errors: ${paramResult.errors.length}`);
+    log.info(`❌ Errors: ${paramResult.errors.length}`);
   }
 
   // Step 2: Fix unused destructured variables
-  console.log('\n' + '='.repeat(50));
-  console.log('STEP 2: Fixing Unused Destructured Variables');
-  console.log('='.repeat(50));
+  log.info('\n' + '='.repeat(50));
+  log.info('STEP 2: Fixing Unused Destructured Variables');
+  log.info('='.repeat(50));
   
   const destructuredResult = await fixer.fixUnusedDestructuredVariables();
   totalFixed += destructuredResult.variablesFixed;
   totalErrors += destructuredResult.errors.length;
   
-  console.log(`\n📊 Variables fixed: ${destructuredResult.variablesFixed}`);
-  console.log(`📄 Files processed: ${destructuredResult.filesProcessed}`);
+  log.info(`\n📊 Variables fixed: ${destructuredResult.variablesFixed}`);
+  log.info(`📄 Files processed: ${destructuredResult.filesProcessed}`);
   if (destructuredResult.errors.length > 0) {
-    console.log(`❌ Errors: ${destructuredResult.errors.length}`);
+    log.info(`❌ Errors: ${destructuredResult.errors.length}`);
   }
 
   // Step 3: Remove unused imports
-  console.log('\n' + '='.repeat(50));
-  console.log('STEP 3: Removing Unused Imports');
-  console.log('='.repeat(50));
+  log.info('\n' + '='.repeat(50));
+  log.info('STEP 3: Removing Unused Imports');
+  log.info('='.repeat(50));
   
   const importResult = await fixer.removeUnusedImports();
   totalErrors += importResult.errors.length;
   
   if (importResult.warnings.length > 0) {
-    console.log(`⚠️  Warnings: ${importResult.warnings.length}`);
+    log.info(`⚠️  Warnings: ${importResult.warnings.length}`);
   }
 
   // Get final count
   const finalCount = getUnusedCount();
   const reduction = initialCount - finalCount;
 
-  console.log('\n' + '='.repeat(50));
-  console.log('FINAL RESULTS');
-  console.log('='.repeat(50));
-  console.log(`Initial unused variables: ${initialCount}`);
-  console.log(`Final unused variables: ${finalCount}`);
-  console.log(`Variables fixed: ${totalFixed}`);
-  console.log(`Total reduction: ${reduction}`);
-  console.log(`Reduction percentage: ${Math.round((reduction / initialCount) * 100)}%`);
-  console.log(`Total errors: ${totalErrors}`);
+  log.info('\n' + '='.repeat(50));
+  log.info('FINAL RESULTS');
+  log.info('='.repeat(50));
+  log.info(`Initial unused variables: ${initialCount}`);
+  log.info(`Final unused variables: ${finalCount}`);
+  log.info(`Variables fixed: ${totalFixed}`);
+  log.info(`Total reduction: ${reduction}`);
+  log.info(`Reduction percentage: ${Math.round((reduction / initialCount) * 100)}%`);
+  log.info(`Total errors: ${totalErrors}`);
 
   // Validate changes
   const isValid = await fixer.validateChanges();
   
   if (isValid) {
-    console.log('\n🎉 Targeted unused variable fixes completed successfully!');
-    console.log('✅ Build validation passed');
-    console.log('✅ No functionality was broken');
+    log.info('\n🎉 Targeted unused variable fixes completed successfully!');
+    log.info('✅ Build validation passed');
+    log.info('✅ No functionality was broken');
     
     if (totalFixed > 0) {
-      console.log(`\n📈 Successfully fixed ${totalFixed} unused variables`);
-      console.log('🔧 All fixes used safe prefixing with underscore');
-      console.log('🛡️  Critical astrological and campaign variables preserved');
+      log.info(`\n📈 Successfully fixed ${totalFixed} unused variables`);
+      log.info('🔧 All fixes used safe prefixing with underscore');
+      log.info('🛡️  Critical astrological and campaign variables preserved');
     }
   } else {
-    console.log('\n⚠️  Fixes completed but build validation failed');
-    console.log('Please review the changes manually');
+    log.info('\n⚠️  Fixes completed but build validation failed');
+    log.info('Please review the changes manually');
     process.exit(1);
   }
 }

@@ -11,6 +11,7 @@
  */
 
 import { getCurrentPlanetaryPositions } from '@/services/astrologizeApi';
+import { log } from '@/services/LoggingService';
 import type { ElementalProperties, 
   PlanetaryPosition, 
   ZodiacSign} from '@/types/alchemy';
@@ -676,7 +677,7 @@ async function getFallbackResult(input: CalculationInput, cacheKey: string): Pro
 
     const realPositions = await getCurrentPlanetaryPositions();
     
-    console.log('🌟 Using astrologize API for fallback calculations');
+    log.info('🌟 Using astrologize API for fallback calculations');
     
     // Create a new input with real positions
     const enhancedInput: CalculationInput = {

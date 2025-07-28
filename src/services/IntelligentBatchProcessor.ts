@@ -18,6 +18,7 @@ import { execSync } from 'child_process';
 import { EventEmitter } from 'events';
 import fs from 'fs';
 import path from 'path';
+import { log } from '@/services/LoggingService';
 
 import { TypeScriptError, ErrorCategory } from './campaign/TypeScriptErrorAnalyzer';
 import { ErrorPattern, ErrorTrackingSnapshot } from './ErrorTrackingEnterpriseSystem';
@@ -280,7 +281,7 @@ export class IntelligentBatchProcessor extends EventEmitter {
     patterns: ErrorPattern[],
     optimizationStrategy: string = 'hybrid'
   ): Promise<BatchJob[]> {
-    console.log(`🧠 Creating intelligent batches using ${optimizationStrategy} strategy...`);
+    log.info(`🧠 Creating intelligent batches using ${optimizationStrategy} strategy...`);
     
     const optimization = this.optimizations.get(optimizationStrategy);
     if (!optimization) {
@@ -327,7 +328,7 @@ export class IntelligentBatchProcessor extends EventEmitter {
       }
     }
 
-    console.log(`✅ Created ${batches.length} intelligent batches`);
+    log.info(`✅ Created ${batches.length} intelligent batches`);
     return batches;
   }
 
@@ -645,14 +646,14 @@ export class IntelligentBatchProcessor extends EventEmitter {
     }
 
     if (queue.status !== 'idle') {
-      console.log(`⚠️  Queue ${queueId} is already ${queue.status}`);
+      log.info(`⚠️  Queue ${queueId} is already ${queue.status}`);
       return;
     }
 
     queue.status = 'processing';
     this.isProcessing = true;
 
-    console.log(`🚀 Processing batch queue ${queueId} with ${queue.jobs.length} jobs`);
+    log.info(`🚀 Processing batch queue ${queueId} with ${queue.jobs.length} jobs`);
 
     try {
       while (queue.jobs.length > 0 && queue.processing.size < queue.maxConcurrency) {
@@ -670,7 +671,7 @@ export class IntelligentBatchProcessor extends EventEmitter {
       }
 
       queue.status = 'completed';
-      console.log(`✅ Batch queue ${queueId} completed successfully`);
+      log.info(`✅ Batch queue ${queueId} completed successfully`);
     } catch (error) {
       console.error(`❌ Error processing batch queue ${queueId}:`, error);
       queue.status = 'idle';
@@ -700,7 +701,7 @@ export class IntelligentBatchProcessor extends EventEmitter {
     job.startedAt = new Date();
     queue.processing.add(job.jobId);
 
-    console.log(`🔄 Processing job ${job.jobId} (${job.errors.length} errors)`);
+    log.info(`🔄 Processing job ${job.jobId} (${job.errors.length} errors)`);
 
     try {
       // Create rollback point
@@ -721,7 +722,7 @@ export class IntelligentBatchProcessor extends EventEmitter {
         queue.completed.push(job);
         queue.totalCompleted++;
         
-        console.log(`✅ Job ${job.jobId} completed successfully`);
+        log.info(`✅ Job ${job.jobId} completed successfully`);
         this.emit('job-completed', job);
       } else {
         await this.handleJobFailure(job, queue, new Error(validationResult.error || 'Validation failed'));
@@ -877,7 +878,7 @@ export class IntelligentBatchProcessor extends EventEmitter {
     job.retryCount++;
     
     if (job.retryCount <= job.maxRetries) {
-      console.log(`🔄 Retrying job ${job.jobId} (attempt ${job.retryCount}/${job.maxRetries})`);
+      log.info(`🔄 Retrying job ${job.jobId} (attempt ${job.retryCount}/${job.maxRetries})`);
       job.status = 'pending';
       job.startedAt = undefined;
       
@@ -958,13 +959,13 @@ export class IntelligentBatchProcessor extends EventEmitter {
           encoding: 'utf8',
           timeout: 30000
         });
-        console.log(`🔄 Rolled back job ${job.jobId} using git stash`);
+        log.info(`🔄 Rolled back job ${job.jobId} using git stash`);
       } else {
         // Use file-based rollback
         for (const file of rollbackData.modifiedFiles) {
           fs.writeFileSync(file.filePath, file.originalContent);
         }
-        console.log(`🔄 Rolled back job ${job.jobId} using file restore`);
+        log.info(`🔄 Rolled back job ${job.jobId} using file restore`);
       }
     } catch (error) {
       console.error(`❌ Failed to rollback job ${job.jobId}:`, error);
@@ -1002,7 +1003,7 @@ export class IntelligentBatchProcessor extends EventEmitter {
     // Adapt parameters based on performance
     this.adaptOptimizationParameters(optimization, result);
     
-    console.log(`📊 Updated ${optimizationStrategy} optimization: ${(optimization.effectiveness * 100).toFixed(1)}% effectiveness`);
+    log.info(`📊 Updated ${optimizationStrategy} optimization: ${(optimization.effectiveness * 100).toFixed(1)}% effectiveness`);
   }
 
   /**
@@ -1257,7 +1258,7 @@ export class IntelligentBatchProcessor extends EventEmitter {
 
   private setupEventHandlers(): void {
     this.on('job-completed', (job: BatchJob) => {
-      console.log(`✅ Job ${job.jobId} completed: ${job.result?.errorsFixed} errors fixed`);
+      log.info(`✅ Job ${job.jobId} completed: ${job.result?.errorsFixed} errors fixed`);
     });
     
     this.on('job-failed', (job: BatchJob, error: Error) => {

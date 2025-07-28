@@ -135,8 +135,8 @@ describe('Simplified Main Page Validation - Task 12', () => {
       const ChildComponent = () =>
         React.createElement('span', {}, 'Child');
 
-      const composed = React.createElement(ParentComponent, {},
-        React.createElement(ChildComponent)
+      const composed = React.createElement(ParentComponent as any, {},
+        React.createElement(ChildComponent as any)
       );
 
       expect(composed).toBeDefined();

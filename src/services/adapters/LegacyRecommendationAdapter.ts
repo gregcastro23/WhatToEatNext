@@ -235,7 +235,7 @@ export class LegacyRecommendationAdapter {
       return alchemicalRecommendationService.generateRecommendations(
         planetaryPositions as any,
         ingredients,
-        cookingMethods as CookingMethod[]
+        cookingMethods as any
       );
     } catch (error) {
       logger.error('Error in generateAlchemicalRecommendations:', error);

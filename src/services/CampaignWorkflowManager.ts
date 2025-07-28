@@ -6,6 +6,7 @@
  * within the Kiro environment.
  */
 
+import { log } from '@/services/LoggingService';
 import {
   CampaignConfig,
   CampaignPhase,
@@ -481,7 +482,7 @@ export class CampaignWorkflowManager {
   async executeRollback(rollbackPlan: RollbackPlan): Promise<boolean> {
     try {
       for (const step of rollbackPlan.rollbackSteps) {
-        console.log(`Executing rollback step: ${step.description}`);
+        log.info(`Executing rollback step: ${step.description}`);
         
         switch (step.action) {
           case 'restore_files':
@@ -859,22 +860,22 @@ export class CampaignWorkflowManager {
 
   private async restoreFiles(parameters: any): Promise<void> {
     // Mock implementation
-    console.log('Restoring files with parameters:', parameters);
+    log.info('Restoring files with parameters:', parameters);
   }
 
   private async revertConfiguration(campaignId: string, targetVersion: string): Promise<void> {
     // Mock implementation
-    console.log(`Reverting campaign ${campaignId} to version ${targetVersion}`);
+    log.info(`Reverting campaign ${campaignId} to version ${targetVersion}`);
   }
 
   private async rebuildProject(): Promise<void> {
     // Mock implementation
-    console.log('Rebuilding project...');
+    log.info('Rebuilding project...');
   }
 
   private async validateRollback(parameters: any): Promise<void> {
     // Mock implementation
-    console.log('Validating rollback with parameters:', parameters);
+    log.info('Validating rollback with parameters:', parameters);
   }
 
   private getDefaultConfig(): CampaignConfig {

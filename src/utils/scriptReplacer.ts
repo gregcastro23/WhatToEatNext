@@ -1,3 +1,4 @@
+import { log } from '@/services/LoggingService';
 /**
  * Script Replacer Utility
  * 
@@ -24,7 +25,7 @@ if (typeof window !== 'undefined') {
   // Setup global properties for lockdown
   if (!(window as unknown as Record<string, unknown>).lockdown) {
     (window as unknown as Record<string, unknown>).lockdown = function() {
-      console.log('[ScriptReplacer] Safely intercepted lockdown() call');
+      log.info('[ScriptReplacer] Safely intercepted lockdown() call');
       return true;
     };
   }
@@ -71,7 +72,7 @@ if (typeof window !== 'undefined') {
   if (!window.chrome.tabs) {
     window.chrome.tabs = {
       create: function() {
-        console.log('[ScriptReplacer] Intercepted chrome.tabs.create call');
+        log.info('[ScriptReplacer] Intercepted chrome.tabs.create call');
         return Promise.resolve({ id: 999 });
       },
       query: function(queryInfo: unknown, callback?: Function) {
@@ -86,7 +87,7 @@ if (typeof window !== 'undefined') {
     };
   }
 
-  console.log('[ScriptReplacer] Successfully initialized environment protection');
+  log.info('[ScriptReplacer] Successfully initialized environment protection');
 }
 
 export default {}; 

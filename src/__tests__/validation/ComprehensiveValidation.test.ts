@@ -29,7 +29,7 @@ jest.mock('child_process', () => ({
   spawn: jest.fn()
 }));
 
-const mockExecSync = execSync as jest.MockedFunction<typeof execSync>;
+const mockExecSync = execSync as jest.MockedFunction<any>;
 
 describe('Comprehensive Validation Test Suite - Task 12', () => {
   let memoryMonitor: TestMemoryMonitor;
@@ -185,7 +185,7 @@ describe('Comprehensive Validation Test Suite - Task 12', () => {
         const startTime = performance.now();
         
         // Mock fast ESLint execution
-        mockExecSync.mockImplementation(() => {
+        mockExecSync.mockImplementation((command: string) => {
           // Simulate processing time
           const processingTime = 1500; // 1.5 seconds
           const start = Date.now();

@@ -88,7 +88,7 @@ export function useAstrologicalState(): AstrologyHookData {
       setRenderCount(1);
       logger.debug(`Hook initialized`);
     }
-  }, []); // Empty dependency array means this runs only once
+  }, [renderCount]); // Added renderCount to deps
   
   // Initial state
   const [astroState, setAstroState] = useState<{

@@ -1,3 +1,4 @@
+import { log } from '@/services/LoggingService';
 /**
  * Advanced logger utility to standardize logging across the application.
  * This module provides component-specific logging capabilities and consistent formatting.
@@ -41,21 +42,21 @@ class Logger {
           this.debug(message, ...args, { component });
         } catch (e) {
           // Fallback to console if logger fails
-          console.debug(`[DEBUG][${component}] ${message}`, ...args);
+          log.debug(`[DEBUG][${component}] ${message}`, ...args);
         }
       },
       log: (message: string, ...args: unknown[]): void => {
         try {
           this.info(message, ...args, { component });
         } catch (e) {
-          console.log(`[INFO][${component}] ${message}`, ...args);
+          log.info(`[INFO][${component}] ${message}`, ...args);
         }
       },
       info: (message: string, ...args: unknown[]): void => {
         try {
           this.info(message, ...args, { component });
         } catch (e) {
-          console.info(`[INFO][${component}] ${message}`, ...args);
+          log.info(`[INFO][${component}] ${message}`, ...args);
         }
       },
       warn: (message: string, ...args: unknown[]): void => {
@@ -82,7 +83,7 @@ class Logger {
     if (this.shouldLog('debug')) {
       const options = this.extractOptions(args);
       const component = options.component ? `[${options.component}]` : '';
-      console.debug(`[DEBUG]${component} ${message}`, ...options.rest);
+      log.debug(`[DEBUG]${component} ${message}`, ...options.rest);
     }
   }
 
@@ -93,7 +94,7 @@ class Logger {
     if (this.shouldLog('info')) {
       const options = this.extractOptions(args);
       const component = options.component ? `[${options.component}]` : '';
-      console.info(`[INFO]${component} ${message}`, ...options.rest);
+      log.info(`[INFO]${component} ${message}`, ...options.rest);
     }
   }
 

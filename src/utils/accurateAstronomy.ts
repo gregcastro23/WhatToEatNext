@@ -1,4 +1,5 @@
 import * as Astronomy from 'astronomy-engine';
+import { log } from '@/services/LoggingService';
 
 import type { PlanetaryPosition, ZodiacSign } from '@/types/alchemy';
 
@@ -8,7 +9,7 @@ import type { PlanetaryPosition, ZodiacSign } from '@/types/alchemy';
  */
 const debugLog = (_message: string, ...args: unknown[]): void => {
   // Comment out console.log to avoid linting warnings
-  // console.log(message, ...args);
+  // log.info(message, ...args);
 };
 
 // Updated reference data based on accurate positions for July 2, 2025 at 10:45 PM EDT

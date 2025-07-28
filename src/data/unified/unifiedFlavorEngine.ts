@@ -1,3 +1,4 @@
+import { log } from '@/services/LoggingService';
 import type { 
   Element,
   AlchemicalProperties,
@@ -171,7 +172,7 @@ export class UnifiedFlavorEngine {
     
     // Only initialize once
     if (!globalState.initializing && !globalState.initialized) {
-      console.log('Creating new UnifiedFlavorEngine instance');
+      log.info('Creating new UnifiedFlavorEngine instance');
       
       // Initialize profiles synchronously using require instead of import
       try {
@@ -201,7 +202,7 @@ export class UnifiedFlavorEngine {
         }
         
         // Log successful initialization
-        console.log('🚀 Unified Flavor Engine initialized with', (profiles || []).length, 'profiles');
+        log.info('🚀 Unified Flavor Engine initialized with', (profiles || []).length, 'profiles');
         
         // Log category stats
         const categoryStats = profiles.reduce((acc, profile: {}) => {
@@ -209,7 +210,7 @@ export class UnifiedFlavorEngine {
           return acc;
         }, {});
         
-        console.log('📊 Categories:', JSON.stringify(categoryStats));
+        log.info('📊 Categories:', { categoryStats });
         
         // Mark as initialized
         setGlobalState(this, false, true);
@@ -909,7 +910,7 @@ export class UnifiedFlavorEngine {
    * Warm up cache with common profile combinations
    */
   public async warmupCache(): Promise<void> {
-    console.log('🔥 Warming up UnifiedFlavorEngine cache...');
+    log.info('🔥 Warming up UnifiedFlavorEngine cache...');
     
     const profiles = Array.from(this.profiles.values());
     const commonProfiles = profiles.slice(0, Math.min(20, (profiles || []).length));
@@ -921,7 +922,7 @@ export class UnifiedFlavorEngine {
       }
     }
     
-    console.log(`✅ Cache warmed with ${this.compatibilityCache.size} pre-calculated combinations`);
+    log.info(`✅ Cache warmed with ${this.compatibilityCache.size} pre-calculated combinations`);
   }
 }
 

@@ -8,6 +8,7 @@
 import { execSync } from 'child_process';
 import * as fs from 'fs';
 import * as path from 'path';
+import { log } from '@/services/LoggingService';
 
 // Core interfaces for error analysis
 export interface LintingIssue {
@@ -131,14 +132,14 @@ export class LintingErrorAnalyzer {
    * Analyze all linting issues in the codebase
    */
   async analyzeAllIssues(): Promise<CategorizedErrors> {
-    console.log('🔍 Starting comprehensive linting error analysis...');
+    log.info('🔍 Starting comprehensive linting error analysis...');
     
     try {
       // Run ESLint to get all issues
       const eslintOutput = await this.runESLint();
       const rawIssues = this.parseESLintOutput(eslintOutput);
       
-      console.log(`📊 Found ${rawIssues.length} total linting issues`);
+      log.info(`📊 Found ${rawIssues.length} total linting issues`);
       
       // Categorize and analyze each issue
       const analyzedIssues = rawIssues.map(issue => this.analyzeIssue(issue));
@@ -146,7 +147,7 @@ export class LintingErrorAnalyzer {
       // Categorize issues
       const categorized = this.categorizeIssues(analyzedIssues);
       
-      console.log('✅ Linting error analysis complete');
+      log.info('✅ Linting error analysis complete');
       this.logAnalysisSummary(categorized);
       
       return categorized;
@@ -161,7 +162,7 @@ export class LintingErrorAnalyzer {
    * Generate resolution strategies for categorized errors
    */
   generateResolutionPlan(categorizedErrors: CategorizedErrors): ResolutionPlan {
-    console.log('🎯 Generating resolution plan...');
+    log.info('🎯 Generating resolution plan...');
     
     const phases: ResolutionPhase[] = [];
     let totalTime = 0;
@@ -257,7 +258,7 @@ export class LintingErrorAnalyzer {
       successProbability
     };
     
-    console.log(`📋 Resolution plan generated: ${phases.length} phases, ${totalTime} minutes estimated`);
+    log.info(`📋 Resolution plan generated: ${phases.length} phases, ${totalTime} minutes estimated`);
     
     return plan;
   }
@@ -646,24 +647,24 @@ export class LintingErrorAnalyzer {
    * Log analysis summary
    */
   private logAnalysisSummary(categorized: CategorizedErrors): void {
-    console.log('\n📊 LINTING ANALYSIS SUMMARY');
-    console.log('============================');
-    console.log(`Total Issues: ${categorized.total}`);
-    console.log(`Errors: ${categorized.errors}`);
-    console.log(`Warnings: ${categorized.warnings}`);
-    console.log(`Auto-fixable: ${categorized.autoFixable.length}`);
-    console.log(`Manual Review Required: ${categorized.requiresManualReview.length}`);
+    log.info('\n📊 LINTING ANALYSIS SUMMARY');
+    log.info('============================');
+    log.info(`Total Issues: ${categorized.total}`);
+    log.info(`Errors: ${categorized.errors}`);
+    log.info(`Warnings: ${categorized.warnings}`);
+    log.info(`Auto-fixable: ${categorized.autoFixable.length}`);
+    log.info(`Manual Review Required: ${categorized.requiresManualReview.length}`);
     
-    console.log('\n📋 BY CATEGORY:');
+    log.info('\n📋 BY CATEGORY:');
     Object.entries(categorized.byCategory).forEach(([category, issues]) => {
-      console.log(`  ${category}: ${issues.length} issues`);
+      log.info(`  ${category}: ${issues.length} issues`);
     });
     
-    console.log('\n🎯 BY PRIORITY:');
+    log.info('\n🎯 BY PRIORITY:');
     Object.entries(categorized.byPriority).forEach(([priority, issues]) => {
-      console.log(`  Priority ${priority}: ${issues.length} issues`);
+      log.info(`  Priority ${priority}: ${issues.length} issues`);
     });
     
-    console.log('============================\n');
+    log.info('============================\n');
   }
 }

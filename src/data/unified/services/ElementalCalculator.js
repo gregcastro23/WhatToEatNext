@@ -4,6 +4,7 @@ exports.ElementalCalculator = void 0;
 const elementalUtils_1 = require("../utils/elementalUtils");
 const elementalCore_1 = require("../constants/elementalCore");
 const logger_1 = require("../utils/logger");
+import { log } from '@/services/LoggingService';
 const logger = (0, logger_1.createLogger)('ElementalCalculator');
 class ElementalCalculator {
     constructor(debugMode = false) {
@@ -11,7 +12,7 @@ class ElementalCalculator {
         this.initialized = false;
         this.debugMode = debugMode;
         if (this.debugMode) {
-            console.log("[ElementalCalculator] Instance created with debug mode");
+            log.info("[ElementalCalculator] Instance created with debug mode");
         }
     }
     /**
@@ -206,7 +207,7 @@ class ElementalCalculator {
     processPlanetData(planet, elementalValues) {
         if (!planet || !planet.sign) {
             if (this.debugMode) {
-                console.log("[ElementalCalculator] Skipping planet with no sign: ", planet);
+                log.info("[ElementalCalculator] Skipping planet with no sign: ", planet);
             }
             return;
         }
@@ -215,7 +216,7 @@ class ElementalCalculator {
         const element = this.getSignElement(sign);
         if (!element) {
             if (this.debugMode) {
-                console.log(`[ElementalCalculator] Unknown element for sign: ${sign}`);
+                log.info(`[ElementalCalculator] Unknown element for sign: ${sign}`);
             }
             return;
         }
@@ -227,7 +228,7 @@ class ElementalCalculator {
         // Add to the elemental value based on element and weight
         elementalValues[element] += weight;
         if (this.debugMode) {
-            console.log(`[ElementalCalculator] Processed planet ${planet.name} in sign ${sign} (${element}) with weight ${weight}`);
+            log.info(`[ElementalCalculator] Processed planet ${planet.name} in sign ${sign} (${element}) with weight ${weight}`);
         }
     }
     processAscendantData(Ascendant, elementalValues) {
@@ -239,14 +240,14 @@ class ElementalCalculator {
             (Ascendant.sign || Ascendant.Sign || '');
         if (!sign) {
             if (this.debugMode)
-                console.log(`[ElementalCalculator] No sign found for ascendant:`, Ascendant);
+                log.info(`[ElementalCalculator] No sign found for ascendant:`, Ascendant);
             return;
         }
         // Get the element associated with the sign
         const element = this.getSignElement(sign.toString());
         if (!element) {
             if (this.debugMode)
-                console.log(`[ElementalCalculator] No element found for Ascendant sign: ${sign}`);
+                log.info(`[ElementalCalculator] No element found for Ascendant sign: ${sign}`);
             return;
         }
         // Ascendant has a fixed weight
@@ -255,7 +256,7 @@ class ElementalCalculator {
         const elementKey = element;
         elementalValues[elementKey] += weight;
         if (this.debugMode) {
-            console.log(`[ElementalCalculator] Processed Ascendant in sign ${sign} (${element}), weight: ${weight}`);
+            log.info(`[ElementalCalculator] Processed Ascendant in sign ${sign} (${element}), weight: ${weight}`);
         }
     }
     /**

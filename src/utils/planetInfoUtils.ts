@@ -1,6 +1,7 @@
 import { PLANET_TO_MAJOR_ARCANA, MAJOR_ARCANA } from '@/constants/tarotCards';
 import { getPlanetaryDignityInfo, calculateAspects } from '@/utils/astrologyUtils';
 import { planetaryModifiers } from '@/utils/planetaryCycles';
+import { log } from '@/services/LoggingService';
 
 /**
  * Interface for planetary information
@@ -58,7 +59,7 @@ export function getPlanetInfo(
     const planetIsRetrograde = positionData?.isRetrograde;
 
     if (!planetPosition) {
-      console.log(`No position data found for planet: ${planetName}`);
+      log.info(`No position data found for planet: ${planetName}`);
       return null;
     }
 

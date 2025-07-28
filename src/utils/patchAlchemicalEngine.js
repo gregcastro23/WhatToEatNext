@@ -1,3 +1,4 @@
+import { log } from '@/services/LoggingService';
 /**
  * patchAlchemicalEngine.js
  * 
@@ -11,11 +12,11 @@
   try {
     // Don't re-apply patches
     if (window.__alchemicalEnginePatchApplied) {
-      console.log('[PatchAlchemicalEngine] Patches already applied');
+      log.info('[PatchAlchemicalEngine] Patches already applied');
       return;
     }
 
-    console.log('[PatchAlchemicalEngine] Applying patches...');
+    log.info('[PatchAlchemicalEngine] Applying patches...');
 
     // PATCH 1: Fix the getElementRanking function
     // This function has an issue where it tries to reassign const variables
@@ -74,7 +75,7 @@
     // Mark that patches have been applied
     window.__alchemicalEnginePatchApplied = true;
     
-    console.log('[PatchAlchemicalEngine] Successfully applied all patches');
+    log.info('[PatchAlchemicalEngine] Successfully applied all patches');
   } catch (error) {
     console.error('[PatchAlchemicalEngine] Failed to apply patches:', error);
   }

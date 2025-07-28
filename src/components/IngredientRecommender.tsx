@@ -1,6 +1,7 @@
 import { Flame, Droplets, Mountain, Wind, Info, Clock, Tag, Leaf, X, ChevronDown, ChevronUp, Beaker, Brain, ExternalLink, ArrowRight } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState, useMemo } from 'react';
+import { log } from '@/services/LoggingService';
 
 import EnterpriseIntelligencePanel from '@/components/intelligence/EnterpriseIntelligencePanel';
 import { normalizeChakraKey } from '@/constants/chakraSymbols';
@@ -880,7 +881,7 @@ export default function IngredientRecommender({
               autoAnalyze={true}
               onAnalysisComplete={(analysis) => {
                 setEnterpriseIntelligenceAnalysis(analysis);
-                console.log('Enterprise Intelligence Analysis completed:', {
+                log.info('Enterprise Intelligence Analysis completed:', {
                   overallScore: analysis.overallScore,
                   systemHealth: analysis.systemHealth
                 });

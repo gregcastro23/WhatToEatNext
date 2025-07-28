@@ -1,3 +1,4 @@
+import { log } from '@/services/LoggingService';
 /**
  * lockdown-mitigation.js
  * This file mitigates the effects of lockdown.js removing crucial objects.
@@ -6,7 +7,7 @@
 (function() {
   if (typeof window === 'undefined') return;
 
-  console.log('[LockdownMitigation] Installing lockdown mitigation');
+  log.info('[LockdownMitigation] Installing lockdown mitigation');
 
   // Store original methods that might be affected by lockdown
   const originals = {
@@ -161,7 +162,7 @@
       clearInterval(recoveryInterval);
     };
 
-    console.log('[LockdownMitigation] Successfully installed lockdown mitigations');
+    log.info('[LockdownMitigation] Successfully installed lockdown mitigations');
   } catch (e) {
     console.error('[LockdownMitigation] Error installing mitigations:', e);
   }

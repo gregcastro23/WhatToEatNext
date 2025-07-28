@@ -129,7 +129,14 @@ export class ExportTransformationEngine {
     this.analyzer = new UnusedExportAnalyzer();
     // ✅ Pattern MM-1: Safe constructor call with proper arguments
     this.generator = new EnterpriseIntelligenceGenerator(this.config.outputDirectory);
-    this.safetyProtocol = new SafetyProtocol();
+    this.safetyProtocol = new SafetyProtocol({
+      maxFilesPerBatch: 10,
+      buildValidationFrequency: 5,
+      testValidationFrequency: 10,
+      corruptionDetectionEnabled: true,
+      automaticRollbackEnabled: true,
+      stashRetentionDays: 7
+    });
     this.progressTracker = new ProgressTracker();
     this.transformationLog = [];
   }

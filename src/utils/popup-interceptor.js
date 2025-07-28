@@ -1,3 +1,4 @@
+import { log } from '@/services/LoggingService';
 /**
  * popup-interceptor.js
  * This file intercepts requests to popup.js and ensures the popup object
@@ -8,7 +9,7 @@
 (function() {
   if (typeof window === 'undefined') return;
 
-  console.log('[PopupInterceptor] Installing popup.js interceptor');
+  log.info('[PopupInterceptor] Installing popup.js interceptor');
 
   // Create a failsafe popup object that will survive lockdown
   const failsafePopup = {
@@ -86,7 +87,7 @@
     return element;
   };
 
-  console.log('[PopupInterceptor] Script interception active');
+  log.info('[PopupInterceptor] Script interception active');
 })();
 
 export default {}; 

@@ -99,7 +99,7 @@ export function InfiniteLoopDetector({
       renderCount.current = 0;
       loopDetectedRef.current = false;
     }
-  });
+  }, [threshold, timeWindow, reportOnly]); // Added dependencies
   
   // If loop detected and not in report-only mode, show warning
   if (isLooping && !reportOnly) {

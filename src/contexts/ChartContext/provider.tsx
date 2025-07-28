@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import { log } from '@/services/LoggingService';
 
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 import { getCurrentSeason } from '@/data/integrations/seasonal';
@@ -113,19 +114,19 @@ export const ChartProvider: React.FC<{children: React.ReactNode}> = ({ children 
     setError(null);
     
     try {
-      console.log('Refreshing chart...');
+      log.info('Refreshing chart...');
       
       // Use alchemicalPositions if available, otherwise calculate new positions
       let positions = {};
       if (alchemicalPositions && Object.keys(alchemicalPositions).length > 0) {
         positions = alchemicalPositions;
-        console.log('Using positions from AlchemicalContext');
+        log.info('Using positions from AlchemicalContext');
       } else {
         try {
           const astroResponse = await getLatestAstrologicalState();
           if (astroResponse.success && astroResponse.data) {
             positions = astroResponse.data.planetaryPositions;
-            console.log('Successfully calculated planetary positions');
+            log.info('Successfully calculated planetary positions');
           } else {
             console.error('Astrological service returned error:', astroResponse.error);
             positions = alchemicalPositions || {};

@@ -308,13 +308,13 @@ function CuisineSelector({
               </div>
               
               {/* Display zodiac influences if available */}
-              {(cuisine as CuisineData).zodiacInfluences && (cuisine as CuisineData).zodiacInfluences.length > 0 && (
+              {(cuisine as CuisineData).zodiacInfluences && ((cuisine as CuisineData).zodiacInfluences?.length ?? 0) > 0 && (
                 <div className="zodiac-influences text-xs mt-2">
                   <span>Zodiac influences: </span>
                   {((cuisine as CuisineData).zodiacInfluences as string[]).map((sign: string, i: number) => (
                     <span key={sign} className={`${currentZodiac === sign ? 'font-bold' : ''}`}>
                       {sign.charAt(0).toUpperCase() + sign.slice(1)}
-                      {i < (cuisine as CuisineData).zodiacInfluences.length - 1 ? ', ' : ''}
+                      {i < ((cuisine as CuisineData).zodiacInfluences?.length ?? 0) - 1 ? ', ' : ''}
                     </span>
                   ))}
                 </div>

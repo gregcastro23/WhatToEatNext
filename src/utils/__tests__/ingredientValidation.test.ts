@@ -64,9 +64,9 @@ jest.mock('../logger', () => ({
   }
 }));
 
-import { calculateElementalCompatibility } from '../elementalUtils';
+import { calculateElementalAffinity } from '../elementalUtils';
 
-const mockCalculateElementalCompatibility = calculateElementalCompatibility as jest.MockedFunction<typeof calculateElementalCompatibility>;
+const mockCalculateElementalCompatibility = calculateElementalAffinity as jest.MockedFunction<typeof calculateElementalAffinity>;
 
 describe('Ingredient Data Validation', () => {
   beforeEach(() => {

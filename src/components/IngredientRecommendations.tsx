@@ -2,6 +2,7 @@
 
 import { Flame, Droplets, Mountain, Wind } from 'lucide-react';
 import { useState, useEffect } from 'react';
+import { log } from '@/services/LoggingService';
 
 import type { Modality } from '@/data/ingredients/types';
 import { useAstrologicalState } from '@/hooks/useAstrologicalState';
@@ -51,7 +52,7 @@ async function getRecommendations(
   };
   
   // ✅ Pattern MM-1: Safe type assertion for ingredient recommendations
-  return await getIngredientRecommendations(astroStateData as ElementalProperties & {
+  return await getIngredientRecommendations(astroStateData as unknown as ElementalProperties & {
     timestamp: Date;
     currentStability: number;
     planetaryAlignment: Record<string, { sign: string; degree: number; }>;
@@ -422,7 +423,7 @@ export default function IngredientRecommendations({
             className={`${styles.select} ${styles.modalitySelect}`}
             value={modalityFilter}
             onChange={(e) => {
-              console.log("Setting modality filter to:", e.target.value);
+              log.info("Setting modality filter to:", { value: e.target.value });
               setModalityFilter(e.target.value);
             }}
           >
@@ -487,7 +488,7 @@ export default function IngredientRecommendations({
               ))
           ) : (
             // Render only the selected category
-            recommendations[categoryFilter] && recommendations[categoryFilter]?.length > 0 ? (
+            recommendations[categoryFilter] && (recommendations[categoryFilter]?.length ?? 0) > 0 ? (
               <div className={styles.categorySection} data-category={categoryFilter}>
                 <h3 className={styles.categoryTitle}>{categoryFilter}</h3>
                 <div className={styles.compactGrid}>

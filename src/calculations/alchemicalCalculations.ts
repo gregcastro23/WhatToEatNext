@@ -152,7 +152,7 @@ const elementToAlchemicalProperty = (element: ElementalCharacter): keyof Alchemi
 // Replace console.log with commented code for production
 const debugLog = (_message: string, ...args: unknown[]): void => {
   // Comment out console.log to avoid linting warnings
-  // console.log(message, ...args);
+  // log.info(message, ...args);
 };
 
 /**

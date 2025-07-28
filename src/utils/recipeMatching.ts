@@ -1,4 +1,5 @@
 import { LocalRecipeService } from '@/services/LocalRecipeService';
+import { log } from '@/services/LoggingService';
 import type {
   Recipe,
   ElementalProperties,
@@ -88,7 +89,7 @@ export async function findBestMatches(
   currentEnergy: ElementalProperties | null = null,
   limit = 10
 ): Promise<MatchResult[]> {
-  // console.log(`Finding best matches from ${recipes?.length || 0} recipes with filters:`, matchFilters);
+  // log.info(`Finding best matches from ${recipes?.length || 0} recipes with filters:`, matchFilters);
 
   // Generate a cache key based on inputs
   const cacheKey = getCacheKey(recipes, matchFilters, currentEnergy, limit);
@@ -96,17 +97,17 @@ export async function findBestMatches(
 
   // Check if we have a valid cache entry
   if (cachedEntry && Date.now() - cachedEntry.timestamp < CACHE_TTL) {
-    // console.log('Using cached recipe matches');
+    // log.info('Using cached recipe matches');
     return cachedEntry.data;
   }
 
   // If recipes is null, undefined, or not an array, fetch recipes using LocalRecipeService
   if (!recipes || !Array.isArray(recipes) || recipes.length === 0) {
     try {
-      // console.log('No recipes provided, fetching from LocalRecipeService');
+      // log.info('No recipes provided, fetching from LocalRecipeService');
       const recipeService = new LocalRecipeService();
       recipes = await LocalRecipeService.getAllRecipes() as unknown as Recipe[];
-      // console.log(`Fetched ${recipes.length} recipes from LocalRecipeService`);
+      // log.info(`Fetched ${recipes.length} recipes from LocalRecipeService`);
     } catch (error) {
       // console.error('Error fetching recipes from LocalRecipeService:', error);
       return []; // Return empty array if we can't fetch recipes
@@ -123,7 +124,7 @@ export async function findBestMatches(
         // Apply Pattern KK-1: Explicit Type Assertion for comparison operations
         !recipe.cookingTime || Number(recipe.cookingTime) <= matchFilters.maxCookingTime!
     );
-    // console.log(`After maxCookingTime filter: ${filteredRecipes.length} recipes remain`);
+    // log.info(`After maxCookingTime filter: ${filteredRecipes.length} recipes remain`);
   }
 
   if (
@@ -145,7 +146,7 @@ export async function findBestMatches(
       // If recipe has the restricted tag, exclude it
       return !hasRestrictedTag;
     });
-    // console.log(`After dietaryRestrictions filter: ${filteredRecipes.length} recipes remain`);
+    // log.info(`After dietaryRestrictions filter: ${filteredRecipes.length} recipes remain`);
   }
 
   if (matchFilters.season) {
@@ -160,7 +161,7 @@ export async function findBestMatches(
       if (!aIsInSeason && bIsInSeason) return 1;
       return 0;
     });
-    // console.log(`After season sorting (${(matchFilters as any)?.season}): prioritized seasonal recipes`);
+    // log.info(`After season sorting (${(matchFilters as any)?.season}): prioritized seasonal recipes`);
   }
 
   if (matchFilters.servings) {
@@ -170,7 +171,7 @@ export async function findBestMatches(
         // Apply Pattern KK-1: Explicit Type Assertion for comparison operations
         !recipe.servings || Number(recipe.servings) >= matchFilters.servings!
     );
-    // console.log(`After servings filter: ${filteredRecipes.length} recipes remain`);
+    // log.info(`After servings filter: ${filteredRecipes.length} recipes remain`);
   }
 
   if (
@@ -201,7 +202,7 @@ export async function findBestMatches(
       // If recipe has excluded ingredient, filter it out
       return !hasExcludedIngredient;
     });
-    // console.log(`After excludeIngredients filter: ${filteredRecipes.length} recipes remain`);
+    // log.info(`After excludeIngredients filter: ${filteredRecipes.length} recipes remain`);
   }
 
   if (matchFilters.cookingMethods && matchFilters.cookingMethods.length > 0) {
@@ -227,12 +228,12 @@ export async function findBestMatches(
       if (!aUsesMethod && bUsesMethod) return 1;
       return 0;
     });
-    // console.log(`After cookingMethods sorting: prioritized recipes with preferred methods`);
+    // log.info(`After cookingMethods sorting: prioritized recipes with preferred methods`);
   }
 
   // If no recipes passed the filtering, return empty array
   if (filteredRecipes.length === 0) {
-    // console.log('No recipes passed all filters');
+    // log.info('No recipes passed all filters');
     return [];
   }
 
@@ -940,7 +941,7 @@ export const connectIngredientsToMappings = (
     try {
       cached = window.localStorage.getItem(cacheKey);
     } catch (e) {
-      // console.debug('localStorage not available:', e);
+      // log.debug('localStorage not available:', e);
     }
   }
 

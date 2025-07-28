@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { log } from '@/services/LoggingService';
 
 import { AstrologicalService } from '@/services/AstrologicalService';
 
@@ -82,7 +83,7 @@ export function useAstrologize(options: AstrologizeOptions = {}): AstrologizeRes
       // Determine if we're using current time or custom time
       let url = '/api/astrologize';
       let method = 'GET';
-      let body = undefined;
+      let body: string | undefined = undefined;
       
       if (!useCurrentTime && year && month && date) {
         // Use POST with custom date/time
@@ -110,7 +111,7 @@ export function useAstrologize(options: AstrologizeOptions = {}): AstrologizeRes
         }
       }
       
-      console.log(`🌟 Making ${method} request to astrologize API:`, { url, body: body ? JSON.parse(body) : 'GET params' });
+      log.info(`🌟 Making ${method} request to astrologize API:`, { url, body: body ? JSON.parse(body) : 'GET params' });
       
       // Make the API request
       const response = await fetch(url, {
@@ -126,7 +127,7 @@ export function useAstrologize(options: AstrologizeOptions = {}): AstrologizeRes
       }
       
       const result = await response.json();
-      console.log('✅ Astrologize API response received:', result._celestialBodies ? 'Valid celestial data' : 'Unknown format');
+      log.info('✅ Astrologize API response received:', result._celestialBodies ? 'Valid celestial data' : 'Unknown format');
       setData(result);
     } catch (fetchError) {
       console.error('Error fetching from Astrologize API:', fetchError);

@@ -2,6 +2,7 @@
 
 import { isEqual } from 'lodash';
 import React, { useEffect, useState, useMemo, useCallback } from 'react';
+import { log } from '@/services/LoggingService';
 
 import { calculateElementalEnergies } from '@/calculations/elementalcalculations';
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
@@ -24,7 +25,7 @@ const ElementalEnergyDisplay: React.FC<ElementalEnergyDisplayProps> = ({ showDeb
   useEffect(() => {
     // Only increment on component mount, not on every render
     if (showDebug) {
-      console.log(`ElementalEnergyDisplay initial render`);
+      log.info(`ElementalEnergyDisplay initial render`);
     }
     // Empty dependency array ensures this runs only once on mount
   }, []);
@@ -33,14 +34,14 @@ const ElementalEnergyDisplay: React.FC<ElementalEnergyDisplayProps> = ({ showDeb
   useEffect(() => {
     if (showDebug) {
       setRenderCount(prev => prev + 1);
-      console.log(`ElementalEnergyDisplay rendered ${renderCount} times`);
+      log.info(`ElementalEnergyDisplay rendered ${renderCount} times`);
     }
   }, [planetaryPositions, isDaytime, showDebug]); // Only update when these dependencies change
 
   // Memoize the calculation to avoid recalculating unnecessarily
   const calculateEnergies = useCallback(() => {
     if (!planetaryPositions || Object.keys(planetaryPositions).length === 0) {
-      console.log('No planetary positions available');
+      log.info('No planetary positions available');
       return [];
     }
 
@@ -68,7 +69,7 @@ const ElementalEnergyDisplay: React.FC<ElementalEnergyDisplayProps> = ({ showDeb
   useEffect(() => {
     // Skip calculation if positions haven't changed
     if (isEqual(lastPositions, planetaryPositions)) {
-      if (showDebug) console.log('Skipping calculation - positions unchanged');
+      if (showDebug) log.info('Skipping calculation - positions unchanged');
       return;
     }
 
@@ -76,12 +77,12 @@ const ElementalEnergyDisplay: React.FC<ElementalEnergyDisplayProps> = ({ showDeb
     
     // Only update state if energies have changed
     if (!isEqual(energies, newEnergies)) {
-      if (showDebug) console.log('Updating energy values:', newEnergies);
+      if (showDebug) log.info('Updating energy values:', newEnergies);
       setEnergies(newEnergies);
     }
     
     setLastPositions(planetaryPositions);
-  }, [planetaryPositions, isDaytime, calculateEnergies, showDebug]); // Removed energies and lastPositions from dependencies
+  }, [planetaryPositions, isDaytime, calculateEnergies, showDebug, energies, lastPositions]); // Added energies and lastPositions to deps
 
   // Memoize the sorted energies array
   const sortedEnergies = useMemo(() => {

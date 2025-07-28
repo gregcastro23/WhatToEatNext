@@ -1,5 +1,6 @@
 // Import script replacer before anything else
 import '../utils/scriptReplacer';
+import { log } from '@/services/LoggingService';
 
 import '@/styles/globals.css';
 import type { AppProps } from 'next/app';
@@ -20,7 +21,7 @@ declare global {
 
 export default function App({ Component, pageProps }: AppProps) {
   useEffect(() => {
-    console.log('[App] Initializing with Chrome API protection');
+    log.info('[App] Initializing with Chrome API protection');
     
     // Setup global error handler for Chrome Extension API and lockdown errors
     const errorHandler = function(event: ErrorEvent) {
@@ -60,7 +61,7 @@ export default function App({ Component, pageProps }: AppProps) {
       // Force load the dummy-popup.js script
       if (!window.__reloadedDummyPopup) {
         window.__reloadedDummyPopup = true;
-        console.log('[App] Loading dummy-popup.js for Chrome API mocking');
+        log.info('[App] Loading dummy-popup.js for Chrome API mocking');
         
         const script = document.createElement('script');
         script.src = '/dummy-popup.js';
@@ -109,7 +110,7 @@ export default function App({ Component, pageProps }: AppProps) {
     window.addEventListener('error', errorHandler, true);
     
     return () => {
-      console.log('[App] Removing Chrome API error handler');
+      log.info('[App] Removing Chrome API error handler');
       window.removeEventListener('error', errorHandler, true);
     };
   }, []);

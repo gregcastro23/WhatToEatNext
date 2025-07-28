@@ -388,7 +388,7 @@ export class EnhancedErrorFixerIntegration {
       return parseInt(output.trim()) || 0;
     } catch (error) {
       // If grep finds no matches, it returns exit code 1, or timeout occurred
-      console.warn('TypeScript error count check failed or timed out:', error.message);
+      console.warn('TypeScript error count check failed or timed out:', (error as Error).message);
       return 0;
     }
   }

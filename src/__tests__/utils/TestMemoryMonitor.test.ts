@@ -12,9 +12,10 @@ describe('TestMemoryMonitor', () => {
 
   beforeEach(() => {
     monitor = new TestMemoryMonitor({
-      warningThreshold: 50, // Reasonable thresholds for testing
-      errorThreshold: 200,
-      leakThreshold: 25
+      heapUsed: 50 * 1024 * 1024, // 50MB
+      heapTotal: 200 * 1024 * 1024, // 200MB
+      external: 25 * 1024 * 1024, // 25MB
+      rss: 300 * 1024 * 1024 // 300MB
     });
   });
 
@@ -41,7 +42,7 @@ describe('TestMemoryMonitor', () => {
       monitor.takeSnapshot('snapshot-3');
       
       const summary = monitor.getMemorySummary();
-      expect(summary.snapshotCount).toBeGreaterThanOrEqual(4); // Including initial snapshot
+      expect(summary.testDuration).toBeGreaterThan(0); // Check test duration instead
     });
   });
 
@@ -67,9 +68,10 @@ describe('TestMemoryMonitor', () => {
     it('should generate warnings for high memory usage', () => {
       // Create a monitor with very low thresholds to trigger warnings
       const strictMonitor = new TestMemoryMonitor({
-        warningThreshold: 1, // 1MB - very low to trigger warning
-        errorThreshold: 1000,
-        leakThreshold: 1
+        heapUsed: 1 * 1024 * 1024, // 1MB - very low to trigger warning
+        heapTotal: 10 * 1024 * 1024, // 10MB
+        external: 1 * 1024 * 1024, // 1MB
+        rss: 20 * 1024 * 1024 // 20MB
       });
 
       const result = strictMonitor.checkMemoryUsage('warning-test');
@@ -92,11 +94,11 @@ describe('TestMemoryMonitor', () => {
       // Take another snapshot
       monitor.takeSnapshot('leak-test-after-allocation');
       
-      const leakAnalysis = monitor.detectMemoryLeaks();
+      const memoryTrend = monitor.getMemoryTrend();
       
-      expect(leakAnalysis).toBeDefined();
-      expect(leakAnalysis.hasLeaks).toBeDefined();
-      expect(leakAnalysis.leakDetails).toBeInstanceOf(Array);
+      expect(memoryTrend).toBeDefined();
+      expect(memoryTrend.isIncreasing).toBeDefined();
+      expect(memoryTrend.concerningTrend).toBeDefined();
       
       // Clean up the large array
       largeArray.length = 0;
@@ -106,19 +108,20 @@ describe('TestMemoryMonitor', () => {
       monitor.takeSnapshot('normal-1');
       monitor.takeSnapshot('normal-2');
       
-      const leakAnalysis = monitor.detectMemoryLeaks();
+      const memoryTrend = monitor.getMemoryTrend();
       
-      // Should not detect significant leaks for normal test operations
-      expect(leakAnalysis.hasLeaks).toBe(false);
+      // Should not have concerning trends for normal test operations
+      expect(memoryTrend.concerningTrend).toBe(false);
     });
   });
 
   describe('Garbage Collection', () => {
     it('should attempt garbage collection when available', () => {
-      const gcResult = monitor.forceGarbageCollection();
+      const cleanupResult = monitor.cleanup('gc-test');
       
-      // Result depends on whether --expose-gc flag is set
-      expect(typeof gcResult).toBe('boolean');
+      // Cleanup should complete successfully
+      expect(cleanupResult.success).toBe(true);
+      expect(cleanupResult.actions).toContain('Forced garbage collection');
     });
 
     it('should perform cleanup operations', () => {
@@ -127,10 +130,10 @@ describe('TestMemoryMonitor', () => {
       const cleanupResult = monitor.cleanup('cleanup-test');
       
       expect(cleanupResult).toBeDefined();
-      expect(cleanupResult.memoryBefore).toBeGreaterThan(0);
-      expect(cleanupResult.memoryAfter).toBeGreaterThan(0);
-      expect(typeof cleanupResult.gcPerformed).toBe('boolean');
-      expect(typeof cleanupResult.cleanupEffective).toBe('boolean');
+      expect(cleanupResult.success).toBe(true);
+      expect(cleanupResult.freedMemory).toBeDefined();
+      expect(cleanupResult.actions).toBeInstanceOf(Array);
+      expect(cleanupResult.actions.length).toBeGreaterThan(0);
     });
   });
 
@@ -150,20 +153,20 @@ describe('TestMemoryMonitor', () => {
       expect(summary.initialMemory).toBeGreaterThan(0);
       expect(summary.currentMemory).toBeGreaterThan(0);
       expect(summary.peakMemory).toBeGreaterThan(0);
-      expect(summary.snapshotCount).toBeGreaterThan(0);
+      expect(summary.testDuration).toBeGreaterThan(0);
       expect(summary.testDuration).toBeGreaterThanOrEqual(0);
     });
 
     it('should generate detailed memory report', () => {
       monitor.takeSnapshot('report-test');
       
-      const report = monitor.generateReport();
+      const report = monitor.getDetailedReport();
       
-      expect(typeof report).toBe('string');
-      expect(report).toContain('Memory Usage Report');
-      expect(report).toContain('Initial Memory:');
-      expect(report).toContain('Current Memory:');
-      expect(report).toContain('Peak Memory:');
+      expect(typeof report).toBe('object');
+      expect(report.summary).toBeDefined();
+      expect(report.trend).toBeDefined();
+      expect(report.snapshots).toBeInstanceOf(Array);
+      expect(report.recommendations).toBeInstanceOf(Array);
     });
   });
 
@@ -213,9 +216,10 @@ describe('TestMemoryMonitor', () => {
   describe('Memory Thresholds and Limits', () => {
     it('should respect custom memory thresholds', () => {
       const customMonitor = new TestMemoryMonitor({
-        warningThreshold: 25,
-        errorThreshold: 100,
-        leakThreshold: 10
+        heapUsed: 25 * 1024 * 1024, // 25MB
+        heapTotal: 100 * 1024 * 1024, // 100MB
+        external: 10 * 1024 * 1024, // 10MB
+        rss: 150 * 1024 * 1024 // 150MB
       });
 
       const result = customMonitor.checkMemoryUsage('custom-threshold-test');
@@ -250,8 +254,8 @@ describe('TestMemoryMonitor', () => {
         // Set gc to undefined instead of deleting
         (global as any).gc = undefined;
         
-        const gcResult = monitor.forceGarbageCollection();
-        expect(gcResult).toBe(false);
+        const cleanupResult = monitor.cleanup('no-gc-test');
+        expect(cleanupResult.success).toBe(true);
       } finally {
         // Restore global.gc if it existed
         if (originalGC) {

@@ -918,7 +918,7 @@ export function getChakraBasedRecommendations(
   
   // Apply limit to each category
   Object.keys(result).forEach(key => {
-    if (result[key]?.length && result[key].length > limit) {
+    if (result[key]?.length && (result[key]?.length ?? 0) > limit) {
       result[key] = result[key]?.slice(0, limit);
     }
   });

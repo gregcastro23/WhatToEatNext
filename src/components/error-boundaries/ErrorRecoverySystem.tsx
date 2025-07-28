@@ -236,7 +236,7 @@ export function ErrorRecoverySystem({
 const ErrorRecoveryContext = React.createContext<{
   isRecovering: boolean;
   recoveryAttempts: Record<string, number>;
-  manualRecovery: (errorId: string) => Promise<boolean>;
+  manualRecovery: (errorId: string) => Promise<boolean | undefined>;
   availableStrategies: RecoveryStrategy[];
 } | null>(null);
 

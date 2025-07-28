@@ -28,7 +28,7 @@ export function cleanupIngredientsDatabase() {
         const ingredientWithAstrology = ingredient as unknown as IngredientWithAstrology;
         
         // Safe property access using type assertion
-        const data = ingredientWithAstrology as Record<string, unknown>;
+        const data = ingredientWithAstrology as unknown as Record<string, unknown>;
         const name = data.name;
         
         // Ensure ingredient has a name

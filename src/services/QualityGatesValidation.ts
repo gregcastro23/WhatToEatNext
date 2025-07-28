@@ -19,8 +19,9 @@ import { execSync } from 'child_process';
 import { EventEmitter } from 'events';
 import fs from 'fs';
 import path from 'path';
+import { log } from '@/services/LoggingService';
 
-import { PerformanceMetrics } from './PerformanceMetricsAnalytics';
+import { createPerformanceMetrics } from './PerformanceMetricsAnalytics';
 
 // ========== QUALITY GATES INTERFACES ==========
 
@@ -546,7 +547,7 @@ export class QualityGatesValidation extends EventEmitter {
     }
 
     this.isExecuting = true;
-    console.log('🚦 Starting quality gates execution...');
+    log.info('🚦 Starting quality gates execution...');
 
     const startTime = Date.now();
     const reportId = `report_${Date.now()}`;
@@ -577,7 +578,7 @@ export class QualityGatesValidation extends EventEmitter {
           
           // Check fail-fast condition
           if (options.failFast && result.status === 'failed') {
-            console.log(`⚠️  Fail-fast triggered by gate: ${gate.name}`);
+            log.info(`⚠️  Fail-fast triggered by gate: ${gate.name}`);
             break;
           }
         }
@@ -600,7 +601,7 @@ export class QualityGatesValidation extends EventEmitter {
       this.executionHistory.push(...gateResults);
       this.persistResults();
 
-      console.log(`✅ Quality gates execution completed: ${overallStatus} (${overallScore.toFixed(1)})`);
+      log.info(`✅ Quality gates execution completed: ${overallStatus} (${overallScore.toFixed(1)})`);
       this.emit('gates-executed', report);
 
       return report;
@@ -617,7 +618,7 @@ export class QualityGatesValidation extends EventEmitter {
    */
   async executeQualityGate(gate: QualityGate): Promise<QualityGateResult> {
     const startTime = Date.now();
-    console.log(`🔍 Executing quality gate: ${gate.name}`);
+    log.info(`🔍 Executing quality gate: ${gate.name}`);
 
     const result: QualityGateResult = {
       resultId: `result_${gate.gateId}_${Date.now()}`,
@@ -675,7 +676,7 @@ export class QualityGatesValidation extends EventEmitter {
 
       result.executionTime = Date.now() - startTime;
       
-      console.log(`✅ Quality gate ${gate.name} completed: ${result.status} (${result.overallScore.toFixed(1)})`);
+      log.info(`✅ Quality gate ${gate.name} completed: ${result.status} (${result.overallScore.toFixed(1)})`);
       this.emit('gate-executed', gate, result);
 
       return result;
@@ -989,7 +990,7 @@ export class QualityGatesValidation extends EventEmitter {
     result: ActionResult
   ): Promise<void> {
     const message = `Quality gate ${gateResult.gateId} ${gateResult.status} with score ${gateResult.overallScore.toFixed(1)}`;
-    console.log(`📢 Notification: ${message}`);
+    log.info(`📢 Notification: ${message}`);
     result.output = message;
   }
 
@@ -1031,7 +1032,7 @@ export class QualityGatesValidation extends EventEmitter {
     gateResult: QualityGateResult, 
     result: ActionResult
   ): Promise<void> {
-    console.log('🔄 Executing rollback action...');
+    log.info('🔄 Executing rollback action...');
     // Rollback implementation would go here
     result.output = 'Rollback executed';
   }
@@ -1044,7 +1045,7 @@ export class QualityGatesValidation extends EventEmitter {
     gateResult: QualityGateResult, 
     result: ActionResult
   ): Promise<void> {
-    console.log('🛑 Executing stop action...');
+    log.info('🛑 Executing stop action...');
     // Stop implementation would go here
     result.output = 'Stop executed';
   }
@@ -1057,7 +1058,7 @@ export class QualityGatesValidation extends EventEmitter {
     gateResult: QualityGateResult, 
     result: ActionResult
   ): Promise<void> {
-    console.log('🔧 Executing fix action...');
+    log.info('🔧 Executing fix action...');
     // Fix implementation would go here
     result.output = 'Fix executed';
   }

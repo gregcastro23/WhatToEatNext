@@ -1,7 +1,7 @@
 'use client';
 
 
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import React, { createContext, useContext, useState, useEffect, useCallback, ReactNode } from 'react';
 
 import alchemicalEngine from '@/calculations/alchemicalEngine';
 import { ZodiacSign , ChakraEnergies } from '@/types/alchemy';
@@ -55,7 +55,7 @@ export function AstrologicalProvider({ children }: AstrologicalProviderProps) {
   };
 
   // Calculate astrological state based on zodiac
-  const calculateAstrologicalState = async (zodiac: string) => {
+  const calculateAstrologicalState = useCallback(async (zodiac: string) => {
     setLoading(true);
     setError(null);
     
@@ -114,12 +114,12 @@ export function AstrologicalProvider({ children }: AstrologicalProviderProps) {
     } finally {
       setLoading(false);
     }
-  };
+  }, []); // Empty dependency array since this function doesn't depend on any external values
 
   // Initialize with current zodiac on mount
   useEffect(() => {
     calculateAstrologicalState(currentZodiac);
-  }, []);
+  }, [calculateAstrologicalState, currentZodiac]);
 
   const value: AstrologicalContextType = {
     currentZodiac,

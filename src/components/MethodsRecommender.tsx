@@ -73,7 +73,7 @@ export default function MethodsRecommender() {
       };
       
       // Calculate scores for each cooking method and transform into our format
-      const methodsWithScores: CookingMethodWithScore[] = Object.entries(allCookingMethods)
+      const methodsWithScores = Object.entries(allCookingMethods)
         .map(([methodName, methodData]) => {
           // Apply Pattern MM-1: Safe type assertions
           const methodInfo = methodData as unknown as CookingMethod;
@@ -127,7 +127,7 @@ export default function MethodsRecommender() {
             toolsRequired: methodInfoData.toolsRequired
           };
         })
-        .sort((a, b) => b.score - a.score);
+        .sort((a, b) => b.score - a.score) as CookingMethodWithScore[];
       
       // Store the scores in the ref to make sure they don't change on re-renders
       const scoreMap: Record<string, number> = {};

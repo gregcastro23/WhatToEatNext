@@ -1,6 +1,7 @@
 "use client"
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import { log } from '@/services/LoggingService';
 
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 import { getCurrentSeason } from '@/data/integrations/seasonal';
@@ -149,18 +150,18 @@ export const CurrentChartProvider: React.FC<{children: React.ReactNode}> = ({ ch
     setError(null);
     
     try {
-      console.log('Refreshing chart...');
+      log.info('Refreshing chart...');
       
       // Use alchemicalPositions if available, otherwise calculate new positions
       let positions = {};
       if (alchemicalPositions && Object.keys(alchemicalPositions).length > 0) {
         positions = alchemicalPositions;
-        console.log('Using positions from AlchemicalContext');
+        log.info('Using positions from AlchemicalContext');
       } else {
         try {
           const response = await getLatestAstrologicalState();
           positions = response.data?.planetaryPositions || {};
-          console.log('Successfully calculated planetary positions');
+          log.info('Successfully calculated planetary positions');
         } catch (posError) {
           console.error('Error calculating planetary positions:', posError);
           // Use alchemicalPositions from context as fallback, or empty object if not available

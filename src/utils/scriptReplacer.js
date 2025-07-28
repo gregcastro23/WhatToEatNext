@@ -1,3 +1,4 @@
+import { log } from '@/services/LoggingService';
 /**
  * scriptReplacer.js
  * Focused on handling Chrome Extension API issues by replacing problematic scripts
@@ -7,11 +8,11 @@
 (function() {
   if (typeof window === 'undefined') return;
   
-  console.log('[ScriptReplacer] Initializing script interceptor for Chrome Extension APIs');
+  log.info('[ScriptReplacer] Initializing script interceptor for Chrome Extension APIs');
   
   // Track initialization to prevent double initialization
   if (window.__scriptReplacerInitialized) {
-    console.log('[ScriptReplacer] Already initialized, skipping');
+    log.info('[ScriptReplacer] Already initialized, skipping');
     return;
   }
   window.__scriptReplacerInitialized = true;
@@ -21,11 +22,11 @@
   
   // Create a Chrome API mock early to prevent any errors
   if (typeof window.chrome === 'undefined') {
-    console.log('[ScriptReplacer] Setting up Chrome API mock structure');
+    log.info('[ScriptReplacer] Setting up Chrome API mock structure');
     window.chrome = {
       tabs: {
         create: function(options) {
-          console.log('[ScriptReplacer] chrome.tabs.create intercepted with:', options);
+          log.info('[ScriptReplacer] chrome.tabs.create intercepted with:', options);
           // Redirect to dummy-popup.js implementation
           window.location.href = options?.url || window.location.href;
           return Promise.resolve({id: 999, url: options?.url});
@@ -52,7 +53,7 @@
       const isProblematic = PROBLEMATIC_SCRIPTS.some(script => url.includes(script));
       
       if (isProblematic) {
-        console.log(`[ScriptReplacer] Intercepted XHR request for problematic script: ${url}`);
+        log.info(`[ScriptReplacer] Intercepted XHR request for problematic script: ${url}`);
         // Replace with dummy implementation
         arguments[1] = '/dummy-popup.js';
       }
@@ -72,7 +73,7 @@
           const isProblematic = PROBLEMATIC_SCRIPTS.some(script => value.includes(script));
           
           if (isProblematic) {
-            console.log(`[ScriptReplacer] Intercepted script src attribute: ${value}`);
+            log.info(`[ScriptReplacer] Intercepted script src attribute: ${value}`);
             return originalSetAttribute.call(this, name, '/dummy-popup.js');
           }
         }
@@ -92,7 +93,7 @@
           const isProblematic = PROBLEMATIC_SCRIPTS.some(script => value.includes(script));
           
           if (isProblematic) {
-            console.log(`[ScriptReplacer] Intercepted direct script.src assignment: ${value}`);
+            log.info(`[ScriptReplacer] Intercepted direct script.src assignment: ${value}`);
             value = '/dummy-popup.js';
           }
         }
@@ -110,7 +111,7 @@
       const isProblematic = PROBLEMATIC_SCRIPTS.some(script => node.src.includes(script));
       
       if (isProblematic) {
-        console.log(`[ScriptReplacer] Intercepted script append for: ${node.src}`);
+        log.info(`[ScriptReplacer] Intercepted script append for: ${node.src}`);
         node.src = '/dummy-popup.js';
       }
     }
@@ -124,7 +125,7 @@
       const isProblematic = PROBLEMATIC_SCRIPTS.some(script => newNode.src.includes(script));
       
       if (isProblematic) {
-        console.log(`[ScriptReplacer] Intercepted insertBefore for script: ${newNode.src}`);
+        log.info(`[ScriptReplacer] Intercepted insertBefore for script: ${newNode.src}`);
         newNode.src = '/dummy-popup.js';
       }
     }
@@ -144,7 +145,7 @@
       
       // Ensure Chrome API is available to prevent cascading errors
       if (typeof window.chrome === 'undefined' || typeof window.chrome.tabs === 'undefined') {
-        console.log('[ScriptReplacer] Re-initializing Chrome API after error');
+        log.info('[ScriptReplacer] Re-initializing Chrome API after error');
         
         // Force browser to load our dummy implementation
         const script = document.createElement('script');
@@ -166,7 +167,7 @@
     return false;
   }, true);
   
-  console.log('[ScriptReplacer] Chrome API protection active');
+  log.info('[ScriptReplacer] Chrome API protection active');
 })();
 
 export default {}; 

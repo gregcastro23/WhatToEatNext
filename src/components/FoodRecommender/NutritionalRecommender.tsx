@@ -806,8 +806,7 @@ const IngredientCard: React.FC<IngredientCardProps> = ({
                 ) : null;
               })()}
 
-              {/* Additional properties with safe access */}
-              {(() => {
+              {((): React.ReactNode => {
                 const enhancedDataObj = enhancedData as Record<string, unknown>;
                 const categoryPath = enhancedDataObj.categoryPath;
                 
@@ -818,7 +817,7 @@ const IngredientCard: React.FC<IngredientCardProps> = ({
                     {(categoryPath as string[]).join(' > ')}
                   </div>
                 ) : null;
-              })() as React.ReactNode}
+              })()}
 
               {/* Possible substitutes with safe access */}
               {(() => {

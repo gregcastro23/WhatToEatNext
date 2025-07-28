@@ -1,5 +1,6 @@
 import { ElementalProperties } from '@/types/alchemy';
 import { Recipe, RecipeElementalMapping } from '@/types/recipes';
+import { log } from '@/services/LoggingService';
 
 /**
  * A utility function for logging debug information
@@ -7,7 +8,7 @@ import { Recipe, RecipeElementalMapping } from '@/types/recipes';
  */
 const debugLog = (_message: string, ...args: unknown[]): void => {
   // Comment out console.log to avoid linting warnings
-  // console.log(message, ...args);
+  // log.info(message, ...args);
 };
 
 /**

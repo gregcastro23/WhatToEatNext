@@ -1,3 +1,4 @@
+import { log } from '@/services/LoggingService';
 /**
  * Enhanced Popup Safety Patch
  * 
@@ -11,19 +12,19 @@
   // Only run in browser environment
   if (typeof window === 'undefined') return;
   
-  console.log('[PopupSafety] Applying aggressive popup safety patch');
+  log.info('[PopupSafety] Applying aggressive popup safety patch');
   
   // Create the popup object if it doesn't exist
   if (!window.popup) {
-    console.log('[PopupSafety] Creating missing popup object');
+    log.info('[PopupSafety] Creating missing popup object');
     window.popup = {};
   }
   
   // Check for create method which is the most commonly used
   if (!window.popup.create) {
-    console.log('[PopupSafety] Installing popup.create method');
+    log.info('[PopupSafety] Installing popup.create method');
     window.popup.create = function() {
-      console.log('[PopupSafety] Using safe popup.create fallback');
+      log.info('[PopupSafety] Using safe popup.create fallback');
       return {
         show: function() { return this; },
         hide: function() { return this; },
@@ -52,7 +53,7 @@
   // Add all essential methods with protection
   Object.entries(essentialMethods).forEach(([method, implementation]) => {
     if (!window.popup[method]) {
-      console.log(`[PopupSafety] Installing missing method: popup.${method}`);
+      log.info(`[PopupSafety] Installing missing method: popup.${method}`);
       window.popup[method] = implementation;
     }
   });
@@ -73,7 +74,7 @@
           return originalMethod;
         },
         set: function(newMethod) {
-          console.log(`[PopupSafety] Method replaced: popup.${method}`);
+          log.info(`[PopupSafety] Method replaced: popup.${method}`);
           originalMethods[method] = newMethod;
         },
         configurable: true
@@ -86,7 +87,7 @@
     window.popup._safetyInstalled = true;
   }
   
-  console.log('[PopupSafety] Popup safety patch complete');
+  log.info('[PopupSafety] Popup safety patch complete');
 })();
 
 // Export for direct import if needed

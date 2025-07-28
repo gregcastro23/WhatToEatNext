@@ -1,5 +1,6 @@
 import { ElementalProperties , Recipe , Element } from '@/types/alchemy';
 import { PlanetaryPosition } from "@/types/celestial";
+import { log } from '@/services/LoggingService';
 
 import { servicesManager } from '../services';
 
@@ -12,15 +13,15 @@ import { servicesManager } from '../services';
 
 // Usage example function
 export async function runServiceIntegrationExample() {
-  console.log('=== Starting Service Integration Example ===');
+  log.info('=== Starting Service Integration Example ===');
   
   try {
     // Step 1: Initialize the services
-    console.log('\n1. Initializing services...');
+    log.info('\n1. Initializing services...');
     await servicesManager.initialize();
     
     // Step 2: Get service references from the manager
-    console.log('\n2. Getting service references...');
+    log.info('\n2. Getting service references...');
     const {
       alchemicalEngine,
       astrologyService,
@@ -30,61 +31,61 @@ export async function runServiceIntegrationExample() {
     } = servicesManager.getServices();
     
     // Step 3: Get current planetary positions
-    console.log('\n3. Getting current planetary positions...');
+    log.info('\n3. Getting current planetary positions...');
     const planetaryPositions = await astrologyService.getCurrentPlanetaryPositions();
-    console.log('Current planetary positions:', planetaryPositions);
+    log.info('Current planetary positions:', planetaryPositions);
     
     // Step 4: Calculate elemental properties from planetary positions
-    console.log('\n4. Calculating elemental properties from planetary positions...');
+    log.info('\n4. Calculating elemental properties from planetary positions...');
     // Apply surgical type casting with variable extraction
     const astrologyServiceData = astrologyService as any;
     const calculateElementalProperties = astrologyServiceData?.calculateElementalProperties;
     const elementalProperties = calculateElementalProperties ? calculateElementalProperties() : null;
-    console.log('Current elemental properties:', elementalProperties);
+    log.info('Current elemental properties:', elementalProperties);
     
     // Step 5: Calculate thermodynamic metrics
-    console.log('\n5. Calculating thermodynamic metrics...');
+    log.info('\n5. Calculating thermodynamic metrics...');
     // Apply surgical type casting with variable extraction
     const alchemicalEngineData = alchemicalEngine as any;
     const calculateThermodynamicMetrics = alchemicalEngineData?.calculateThermodynamicMetrics;
     const thermodynamicMetrics = calculateThermodynamicMetrics ? calculateThermodynamicMetrics(elementalProperties) : null;
-    console.log('Thermodynamic metrics:', thermodynamicMetrics);
+    log.info('Thermodynamic metrics:', thermodynamicMetrics);
     
     // Step 6: Get ingredient recommendations based on elemental properties
-    console.log('\n6. Getting ingredient recommendations...');
+    log.info('\n6. Getting ingredient recommendations...');
     const ingredientRecommendations = await recommendationService.getRecommendedIngredients({
       elementalProperties,
       limit: 5
     });
-    console.log('Recommended ingredients:', 
+    log.info('Recommended ingredients:', 
       (ingredientRecommendations.items || [] as any[]).map(ing => ing.name),
       'Scores:', ingredientRecommendations.scores
     );
     
     // Step 7: Get recipe recommendations based on elemental properties
-    console.log('\n7. Getting recipe recommendations...');
+    log.info('\n7. Getting recipe recommendations...');
     const recipeRecommendations = await recommendationService.getRecommendedRecipes({
       elementalProperties,
       limit: 3
     });
-    console.log('Recommended recipes:', 
+    log.info('Recommended recipes:', 
       (recipeRecommendations.items || [] as any[]).map(recipe => recipe.name),
       'Scores:', recipeRecommendations.scores
     );
     
     // Step 8: Get cooking method recommendations based on elemental properties
-    console.log('\n8. Getting cooking method recommendations...');
+    log.info('\n8. Getting cooking method recommendations...');
     const cookingMethodRecommendations = await recommendationService.getRecommendedCookingMethods({
       elementalProperties,
       limit: 3
     });
-    console.log('Recommended cooking methods:', 
+    log.info('Recommended cooking methods:', 
       (cookingMethodRecommendations.items || [] as any[]).map(method => method.name),
       'Scores:', cookingMethodRecommendations.scores
     );
     
     // Step 9: Calculate elemental compatibility between two recipes
-    console.log('\n9. Calculating elemental compatibility between recipes...');
+    log.info('\n9. Calculating elemental compatibility between recipes...');
     // For this example, we'll create mock recipes
     const recipe1ElementalProps: ElementalProperties = { Fire: 0.7, Water: 0.1, Earth: 0.1, Air: 0.1 };
     const recipe2ElementalProps: ElementalProperties = { Fire: 0.1, Water: 0.1, Earth: 0.7, Air: 0.1 };
@@ -96,10 +97,10 @@ export async function runServiceIntegrationExample() {
       calculateElementalCompatibility(recipe1ElementalProps, recipe2ElementalProps) : 
       null;
     
-    console.log('Elemental compatibility:', compatibility);
+    log.info('Elemental compatibility:', compatibility);
     
     // Step 10: Generate a fusion recipe
-    console.log('\n10. Generating a fusion recipe...');
+    log.info('\n10. Generating a fusion recipe...');
     // Apply surgical type casting with variable extraction
     const recipeServiceData = recipeService as any;
     const generateFusionRecipe = recipeServiceData?.generateFusionRecipe;
@@ -107,9 +108,9 @@ export async function runServiceIntegrationExample() {
       await generateFusionRecipe(['Italian', 'Japanese'], { query: 'pasta with umami' }) : 
       null;
     
-    console.log('Fusion recipe:', fusionRecipe?.name, fusionRecipe?.description);
+    log.info('Fusion recipe:', fusionRecipe?.name, fusionRecipe?.description);
     
-    console.log('\n=== Service Integration Example Completed ===');
+    log.info('\n=== Service Integration Example Completed ===');
   } catch (error) {
     console.error('Error in Service Integration Example:', error);
   }

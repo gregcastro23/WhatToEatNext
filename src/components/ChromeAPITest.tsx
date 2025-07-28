@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
+import { log } from '@/services/LoggingService';
 
 const ChromeAPITest = () => {
   const [apiReady, setApiReady] = useState(false);
@@ -11,14 +12,14 @@ const ChromeAPITest = () => {
     if (typeof window !== 'undefined') {
       // Initialize Chrome API if not already available
       if (!window.chrome) {
-        console.log('Initializing Chrome API');
+        log.info('Initializing Chrome API');
         window.chrome = {};
       }
       
       if (!window.chrome.tabs) {
         window.chrome.tabs = {
           create: function(options) {
-            console.log('Mock chrome.tabs.create called with:', options);
+            log.info('Mock chrome.tabs.create called with:', options);
             try {
               window.open(options?.url || 'about:blank', '_blank');
               return Promise.resolve({id: 999, url: options?.url});
@@ -35,7 +36,7 @@ const ChromeAPITest = () => {
       script.src = '/dummy-popup.js';
       script.async = true;
       script.onload = () => {
-        console.log('dummy-popup.js loaded successfully');
+        log.info('dummy-popup.js loaded successfully');
         setApiReady(true);
       };
       script.onerror = (error) => {
@@ -49,13 +50,13 @@ const ChromeAPITest = () => {
 
   const handleOpenFormSwift = () => {
     try {
-      console.log('Attempting to open FormSwift URL');
+      log.info('Attempting to open FormSwift URL');
       // Use our guaranteed available Chrome API
-      window.chrome?.tabs?.create({
+      window.chrome?.tabs?.create?.({
         url: "https://formswift.com / (sem || 1) / (edit || 1)-pdf",
         active: true,
       }).then(result => {
-        console.log('Chrome tabs create result:', result);
+        log.info('Chrome tabs create result:', result);
       }).catch(error => {
         console.error('Chrome tabs create error:', error);
         // Fallback in case the Promise fails

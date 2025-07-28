@@ -14,9 +14,10 @@ interface MemorySafeTestConfig {
   enableMonitoring?: boolean;
   cleanupAfterEach?: boolean;
   memoryThresholds?: {
-    warningThreshold?: number;
-    errorThreshold?: number;
-    leakThreshold?: number;
+    heapUsed?: number;
+    heapTotal?: number;
+    external?: number;
+    rss?: number;
   };
   timeoutOverride?: number;
 }
@@ -143,9 +144,10 @@ export function itMemoryIntensive(
     enableMonitoring: true,
     cleanupAfterEach: true,
     memoryThresholds: {
-      warningThreshold: 50,  // Lower thresholds for memory-intensive tests
-      errorThreshold: 200,
-      leakThreshold: 25
+      heapUsed: 50 * 1024 * 1024,  // 50MB
+      heapTotal: 200 * 1024 * 1024, // 200MB
+      external: 25 * 1024 * 1024,   // 25MB
+      rss: 300 * 1024 * 1024        // 300MB
     }
   }), timeout || 30000); // Longer timeout for memory-intensive tests
 }

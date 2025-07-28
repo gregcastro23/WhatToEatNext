@@ -146,13 +146,12 @@ const RecipeCard: React.FC<RecipeCardProps> = ({ recipe, isExpanded, onToggle })
         </Box>
 
         {(recipe as unknown as Record<string, unknown>).rating && (
-          <Box display="flex" alignItems="center" gap={1} mb={2}>
+          <Box display="flex" alignItems="center" sx={{ gap: 1, mb: 2 }}>
             <Rating 
               value={Number((recipe as unknown as Record<string, unknown>).rating) || 0} 
               precision={0.5} 
               size="small" 
               readOnly
-              max={5} 
             />
             <Typography variant="caption">
               {Number((recipe as unknown as Record<string, unknown>).rating) || 0}/5

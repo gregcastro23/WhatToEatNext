@@ -1,3 +1,4 @@
+import { log } from '@/services/LoggingService';
 /**
  * This file contains fixes for the "Assignment to constant variable" error.
  * It provides implementations of the problematic functions that use let instead of const.
@@ -274,7 +275,7 @@ if (typeof window !== 'undefined') {
             const safeFn = window.__safetyPatches[methodName === 'alchemize' ? 'safeAlchemize' : methodName];
             if (safeFn) {
               obj[methodName] = safeFn;
-              console.log(`[FixAssignmentError] Patched ${objName}.${methodName}`);
+              log.info(`[FixAssignmentError] Patched ${objName}.${methodName}`);
             }
           }
         });
@@ -283,7 +284,7 @@ if (typeof window !== 'undefined') {
         if (obj.default && typeof obj.default === 'object') {
           if (typeof obj.default.alchemize === 'function') {
             obj.default.alchemize = safeAlchemize;
-            console.log(`[FixAssignmentError] Patched ${objName}.default.alchemize`);
+            log.info(`[FixAssignmentError] Patched ${objName}.default.alchemize`);
           }
         }
       }
@@ -292,5 +293,5 @@ if (typeof window !== 'undefined') {
     }
   });
   
-  console.log('[FixAssignmentError] Successfully patched problematic functions');
+  log.info('[FixAssignmentError] Successfully patched problematic functions');
 } 

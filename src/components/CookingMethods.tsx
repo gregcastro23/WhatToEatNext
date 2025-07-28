@@ -13,6 +13,7 @@ interface CookingMethodData {
 
 import { ChevronDown, ChevronUp } from 'lucide-react';
 import React, { useState, useEffect, useMemo, useCallback, useRef } from 'react';
+import { log } from '@/services/LoggingService';
 
 // Type Harmony imports
 
@@ -1293,7 +1294,7 @@ export default function CookingMethods() {
   
   // Add this function to run our test
   const runDebugTest = useCallback(() => {
-    console.log("Running cooking method recommendations test...");
+    log.info("Running cooking method recommendations test...");
     // testCookingMethodRecommendations(); // TODO: Implement or remove
   }, []);
   
@@ -1463,7 +1464,7 @@ export default function CookingMethods() {
         setLoading(false);
       }
     }
-  }, [isMountedRef, normalizeAstroState]);
+  }, [isMountedRef, normalizeAstroState, commonCookingMethods, domElements]);
 
   // Fetch methods when component mounts or fetchMethods changes
   useEffect(() => {

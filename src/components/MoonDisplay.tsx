@@ -2,6 +2,7 @@
 
 import { Moon, ArrowDown, Sunrise, Sunset, Navigation } from 'lucide-react';
 import React, { useState, useEffect, useMemo } from 'react';
+import { log } from '@/services/LoggingService';
 
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 import { AstrologicalService } from '@/services/AstrologicalService';
@@ -14,7 +15,7 @@ import { safeImportAndExecute, safeImportFunction } from '@/utils/dynamicImport'
  */
 const debugLog = (_message: string, ...args: unknown[]): void => {
   // Comment out console.log to avoid linting warnings
-  // console.log(message, ...args);
+  // log.info(message, ...args);
 };
 
 /**
@@ -150,7 +151,7 @@ const MoonDisplay: React.FC = () => {
       try {
         // Use safe method call checking if requestLocation exists
         if (typeof (AstrologicalService as unknown as Record<string, unknown>).requestLocation === 'function') {
-          const coords = await (AstrologicalService as unknown as Record<string, unknown>).requestLocation();
+          const coords = await ((AstrologicalService as any).requestLocation as Function)();
           if (coords) {
             setCoordinates({
               latitude: coords.latitude,
