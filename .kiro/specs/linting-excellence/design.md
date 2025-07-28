@@ -2,9 +2,9 @@
 
 ## Overview
 
-This design document outlines the comprehensive approach to achieving linting excellence in the WhatToEatNext codebase. The solution involves a multi-phase approach that optimizes ESLint configuration, implements systematic error resolution strategies, and integrates with our existing campaign system for automated quality improvement.
+This design document outlines the comprehensive approach to achieving linting excellence in the WhatToEatNext codebase. The solution involves a multi-phase approach that leverages recent ESLint configuration enhancements, implements systematic error resolution strategies, and integrates with our existing campaign system for automated quality improvement.
 
-The design addresses 5,749 current linting issues (242 errors + 5,507 warnings) through intelligent categorization, automated fixing where safe, and manual resolution for complex cases that require domain knowledge.
+The design addresses approximately 9,014 current linting issues through intelligent categorization, automated fixing where safe, and manual resolution for complex cases that require domain knowledge. Recent enhancements include React 19 compatibility, enhanced TypeScript rules, domain-specific configurations, and performance optimizations achieving 60-80% faster execution.
 
 ## Architecture
 
@@ -26,30 +26,34 @@ eslint.config.cjs (Enhanced)
 ```
 
 **Configuration Layers:**
-1. **Foundation Layer**: Core JavaScript/TypeScript rules
-2. **Framework Layer**: React, Next.js, and testing framework rules
-3. **Domain Layer**: Astrological and campaign-specific rules
-4. **Environment Layer**: File-type specific rule overrides
-5. **Integration Layer**: Prettier, TypeScript, and build tool integration
+1. **Foundation Layer**: Core JavaScript/TypeScript rules with React 19 compatibility
+2. **Framework Layer**: React, Next.js 15, and testing framework rules with enhanced hooks support
+3. **Domain Layer**: Astrological and campaign-specific rules with mathematical constant allowances
+4. **Environment Layer**: File-type specific rule overrides (tests, scripts, config files, Next.js pages)
+5. **Performance Layer**: Enhanced caching, parallel processing, and memory optimization
+6. **Integration Layer**: Prettier, TypeScript, and build tool integration with comprehensive workflow support
 
 ### Error Resolution Strategy
 
-**Categorization System:**
+**Enhanced Categorization System:**
 ```typescript
-interface LintingIssueCategory {
+interface EnhancedLintingIssueCategory {
   type: 'error' | 'warning';
-  category: 'import' | 'typescript' | 'react' | 'style' | 'domain';
+  category: 'parser' | 'import' | 'typescript' | 'react' | 'style' | 'domain';
   severity: 'critical' | 'high' | 'medium' | 'low';
   autoFixable: boolean;
   requiresManualReview: boolean;
+  domainContext: 'astrological' | 'campaign' | 'test' | 'config' | 'general';
+  enhancedRule: boolean; // New rules from enhanced configuration
 }
 ```
 
-**Resolution Priority Matrix:**
-1. **Critical Errors** (Build-blocking): Import resolution, syntax errors
-2. **High Priority** (Type safety): Explicit any, unused variables, type errors
-3. **Medium Priority** (Code quality): Console statements, formatting issues
-4. **Low Priority** (Style): Import ordering, spacing preferences
+**Enhanced Resolution Priority Matrix:**
+1. **Critical Errors** (Build-blocking): Parser errors, syntax errors, import resolution failures
+2. **High Priority** (Type safety): Explicit any (now ERROR level), unnecessary conditions, unused variables with domain patterns
+3. **Medium Priority** (Code quality): React hooks dependencies, console statements, import organization with alphabetical sorting
+4. **Low Priority** (Style): Formatting preferences, spacing, comment formatting
+5. **Domain-Specific** (Special handling): Astrological calculations, campaign system patterns, test file exceptions
 
 ## Components and Interfaces
 

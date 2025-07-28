@@ -1,5 +1,5 @@
 import { UnifiedIngredient } from '@/data/unified/unifiedTypes';
-import type { ElementalProperties, Element, AlchemicalProperties, ThermodynamicMetrics } from "@/types/alchemy";
+import type { ElementalProperties, Element, AlchemicalProperties, ThermodynamicMetrics, Season } from "@/types/alchemy";
 import { Recipe } from '@/types/recipe';
 
 import { 
@@ -30,6 +30,7 @@ export interface EnhancedRecipe {
     element?: string;
     optional?: boolean;
     preparation?: string;
+    seasonality?: Season | 'all' | Season[];
   }>;
   substitutions?: Record<string, string[]> | Array<{ original: string; alternatives: string[] }>;
   servingSize?: number;
@@ -49,6 +50,7 @@ export interface EnhancedRecipe {
     minerals?: string[];
   };
   season?: string[];
+  seasonality?: Season | 'all' | Season[];
   mealType?: string[];
   elementalProperties?: ElementalProperties;
   lunarPhaseInfluences?: string[];

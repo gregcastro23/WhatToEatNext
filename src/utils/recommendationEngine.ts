@@ -62,6 +62,7 @@ function calculateElementalScore(recipeElement: Element, userElement: Element): 
 // Calculate planetary affinity score
 function calculatePlanetaryScore(recipe: Recipe, planetName: PlanetName): number {
   const cuisineAffinity = PLANET_CUISINE_AFFINITIES[planetName];
+  if (cuisineAffinity && recipe.cuisine && cuisineAffinity.includes(recipe.cuisine)) {
     return 1;
   }
   return 0.3;
@@ -121,7 +122,11 @@ function calculateZodiacScore(recipe: Recipe, sunSign: ZodiacSign): number {
   };
   
   const signAffinity = zodiacAffinities[sunSign];
-    return 1;
+  if (signAffinity && recipe.name) {
+    const recipeName = recipe.name.toLowerCase();
+    if (signAffinity.some(affinity => recipeName.includes(affinity.toLowerCase()))) {
+      return 1;
+    }
   }
   return 0.5;
 }

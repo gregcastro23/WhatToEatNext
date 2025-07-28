@@ -1363,11 +1363,17 @@ export default function CookingMethods() {
             }
             
             // Apply dominant elements adjustment
-            if (domElements && domElements.length > 0) {
-              const dominantElement = domElements[0];
-              const methodElement = method.element || method.dominantElement;
-              if (methodElement === dominantElement) {
-                adjustedScore *= 1.15; // 15% bonus for matching dominant element
+            if (domElements && typeof domElements === 'object') {
+              const elementEntries = Object.entries(domElements as Record<string, number>);
+              if (elementEntries.length > 0) {
+                const dominantElement = elementEntries.reduce((max, current) => 
+                  current[1] > max[1] ? current : max
+                )[0];
+                const methodData = method as Record<string, unknown>;
+                const methodElement = methodData.element || methodData.dominantElement;
+                if (methodElement === dominantElement) {
+                  adjustedScore *= 1.15; // 15% bonus for matching dominant element
+                }
               }
             }
             

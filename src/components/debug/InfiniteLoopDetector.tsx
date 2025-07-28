@@ -81,10 +81,13 @@ export function InfiniteLoopDetector({
           }
           
           // Add a hook to React DevTools
+          if (typeof window !== 'undefined' && (window as any).__REACT_DEVTOOLS_GLOBAL_HOOK__) {
+            const hook = (window as any).__REACT_DEVTOOLS_GLOBAL_HOOK__;
+            hook.emit('infinite-loop-detected', {
               componentStack: componentStackRef.current,
               rendersPerSecond: (renderCount.current / timeElapsed) * 1000,
               timestamp: new Date()?.toISOString()
-            };
+            });
           }
         }
       }

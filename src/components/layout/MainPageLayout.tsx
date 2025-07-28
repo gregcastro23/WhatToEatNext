@@ -493,8 +493,8 @@ const MainPageLayout: React.FC<MainPageLayoutProps> = memo(function MainPageLayo
       logger.debug('Quality Metrics:', qualityMetrics);
       logger.debug('Agent Hook State:', agentHookState);
       
-      if (planetaryValidation && !planetaryValidation.isValid) {
-        logger.warn('Planetary validation issues:', planetaryValidation.issues);
+      if (planetaryValidation && !(planetaryValidation as Record<string, unknown>).isValid) {
+        logger.warn('Planetary validation issues:', (planetaryValidation as Record<string, unknown>).issues);
       }
       
       if (typescriptTrigger?.triggered) {

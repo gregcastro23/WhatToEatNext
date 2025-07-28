@@ -225,6 +225,7 @@ export interface Recipe {
   
   // Additional properties from various interfaces
   season?: Season[];
+  seasonality?: Season | 'all' | Season[];
   mealType?: string[];
   source?: string;
   category?: string;
@@ -275,6 +276,8 @@ export interface AstrologicalTiming {
   favorableZodiac?: ZodiacSign[];
   seasonalPreference?: string[];
   planetaryHours?: string[];
+  zodiacCompatibility?: Record<ZodiacSign, number>;
+  lunarPhaseCompatibility?: Record<string, number>;
 }
 
 // Recommendation types

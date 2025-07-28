@@ -42,7 +42,7 @@ export function StateDebugger() {
   }, [])
 
   const sunSign =
-    astrologicalData?._celestialBodies?.sun?.Sign?.key || 'N/A'
+    (((astrologicalData?._celestialBodies as Record<string, unknown>)?.sun as Record<string, unknown>)?.Sign as Record<string, unknown>)?.key || 'N/A'
   const chartRuler =
     alchemicalData?.metadata.chartRuler || 'N/A'
   const dominantElement =

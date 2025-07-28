@@ -50,6 +50,7 @@ export interface RecipeBuildingCriteria {
   kalchmTolerance?: number;
   targetMonica?: number;
   elementalPreference?: Partial<ElementalProperties>;
+  zodiacSign?: ZodiacSign;
   
   // Cooking Preferences
   cookingMethods?: string[];
