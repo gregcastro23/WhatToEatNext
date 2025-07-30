@@ -80,7 +80,7 @@ export function UnifiedLayout({
               <main className="flex-1 overflow-auto">
                 {children}
               </main>
-              {showFooter &amp;&amp; <Footer />}
+              {showFooter && <Footer />}
             </div>
           </div>
         );
@@ -91,7 +91,7 @@ export function UnifiedLayout({
             <main className="flex-1">
               {children}
             </main>
-            {showFooter &amp;&amp; <Footer />}
+            {showFooter && <Footer />}
           </div>
         );
         
@@ -109,7 +109,7 @@ export function UnifiedLayout({
     <ErrorBoundary componentName="UnifiedLayout">
       <div id="app-root" className="min-h-screen">
         {renderContent()}
-        {showDebugger &amp;&amp; <StateDebugger />}
+        {showDebugger && <StateDebugger />}
       </div>
     </ErrorBoundary>
   );

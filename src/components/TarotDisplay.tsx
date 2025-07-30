@@ -240,7 +240,7 @@ export default function TarotDisplay({ mode = 'food', onTarotLoaded }: TarotDisp
         <span>Biweekly Period: {currentPeriod}</span>
         <Clock className="w-3 h-3 ml-3 mr-1" />
         <span>Updated daily with planetary positions</span>
-        {hasSunPosition(currentPlanetaryAlignment) &amp;&amp; (
+        {hasSunPosition(currentPlanetaryAlignment) && (
           <span className="ml-3">
             • Sun: {currentPlanetaryAlignment.Sun.sign} {Math.floor(currentPlanetaryAlignment.Sun.degree || 0)}°
           </span>
@@ -266,7 +266,7 @@ export default function TarotDisplay({ mode = 'food', onTarotLoaded }: TarotDisp
           
           <div className="mt-4 text-sm">
             <div className="italic font-medium text-white bg-black bg-opacity-30 p-2 rounded-md">
-              {tarotCards.minorCard.keywords.join(' • ') || 'Mystical energies&apos;}
+              {tarotCards.minorCard.keywords.join(' • ') || 'Mystical energies'}
             </div>
           </div>
         </div>
@@ -274,7 +274,7 @@ export default function TarotDisplay({ mode = 'food', onTarotLoaded }: TarotDisp
         <div className="rounded-lg p-4 bg-gradient-to-br from-indigo-800 to-purple-900 text-white bg-opacity-10">
           <div className="flex justify-between items-start">
             <div>
-              <h4 className="font-bold text-white text-lg drop-shadow-md">{tarotCards.majorCard.name || 'Major Arcana&apos;}</h4>
+              <h4 className="font-bold text-white text-lg drop-shadow-md">{tarotCards.majorCard.name || 'Major Arcana'}</h4>
               <div className="flex items-center mt-1 bg-black bg-opacity-20 rounded px-2 py-1 inline-block">
                 <span className="text-sm font-medium">Planet: {tarotCards.majorCard.planet}</span>
               </div>
@@ -283,7 +283,7 @@ export default function TarotDisplay({ mode = 'food', onTarotLoaded }: TarotDisp
           
           <div className="mt-4 text-sm">
             <div className="italic font-medium text-white bg-black bg-opacity-30 p-2 rounded-md">
-              {tarotCards.majorCard.keywords.join(' • ') || 'Planetary wisdom&apos;}
+              {tarotCards.majorCard.keywords.join(' • ') || 'Planetary wisdom'}
             </div>
           </div>
         </div>

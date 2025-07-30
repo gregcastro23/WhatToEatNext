@@ -292,22 +292,22 @@ export const CampaignWorkflowBuilder: React.FC<CampaignWorkflowBuilderProps> = (
               <p>{getCurrentStep()?.description}</p>
               
               {/* Step-specific content */}
-              {getCurrentStep()?.type === 'configuration&apos; &amp;&amp; (
+              {getCurrentStep()?.type === 'configuration' && (
                 <ConfigurationStep
                   workflow={currentWorkflow}
                   template={selectedTemplate}
                 />
               )}
               
-              {getCurrentStep()?.type === 'validation&apos; &amp;&amp; validationResults &amp;&amp; (
+              {getCurrentStep()?.type === 'validation' && validationResults && (
                 <ValidationResults results={validationResults} />
               )}
               
-              {getCurrentStep()?.type === 'dry_run&apos; &amp;&amp; dryRunResults &amp;&amp; (
+              {getCurrentStep()?.type === 'dry_run' && dryRunResults && (
                 <DryRunResults results={dryRunResults} />
               )}
               
-              {getCurrentStep()?.type === 'approval&apos; &amp;&amp; (
+              {getCurrentStep()?.type === 'approval' && (
                 <ApprovalStep
                   workflow={currentWorkflow}
                   validationResults={validationResults}
@@ -461,7 +461,7 @@ const ValidationResults: React.FC<{
     <div className="validation-results">
       <h5>Validation Results</h5>
       <div className={`validation-status ${results.success ? 'success' : 'failed'}`}>
-        {results.success ? 'Configuration Valid&apos; : 'Validation Failed&apos;}
+        {results.success ? 'Configuration Valid' : 'Validation Failed'}
       </div>
       
       {results.errors.length > 0 && (
@@ -536,7 +536,7 @@ const ApprovalStep: React.FC<{
       <div className="approval-checklist">
         <div className={`checklist-item ${validationResults?.success ? 'passed' : 'failed'}`}>
           <span>✓ Configuration Validation</span>
-          <span>{validationResults?.success ? 'Passed&apos; : 'Failed&apos;}</span>
+          <span>{validationResults?.success ? 'Passed' : 'Failed'}</span>
         </div>
         
         <div className={`checklist-item ${dryRunResults && dryRunResults.safetyScore >= 0.7 ? 'passed' : 'warning'}`}>
@@ -544,7 +544,7 @@ const ApprovalStep: React.FC<{
           <span>
             {dryRunResults 
               ? `${(dryRunResults.safetyScore * 100).toFixed(1)}% Safe`
-              : 'Not Performed&apos;
+              : 'Not Performed'
             }
           </span>
         </div>

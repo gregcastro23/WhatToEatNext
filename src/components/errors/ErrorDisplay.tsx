@@ -17,7 +17,7 @@ export function ErrorDisplay({
     <div className="error-display">
       <h3>{title}</h3>
       <p>{errorMessage}</p>
-      {showDetails &amp;&amp; typeof error === 'object&apos; &amp;&amp; (
+      {showDetails && typeof error === 'object' && (
         <details>
           <summary>Error Details</summary>
           <pre>{error.stack}</pre>

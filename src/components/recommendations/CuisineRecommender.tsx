@@ -65,7 +65,7 @@ function renderRecipeSteps(
           ))}
           
           {/* Show more steps button if needed */}
-          {(stepsArray.length > 3 &amp;&amp; !expandedRecipes[`${index}-steps`]) ? (
+          {(stepsArray.length > 3 && !expandedRecipes[`${index}-steps`]) ? (
             <li className="list-none mt-1">
               <button
                 className="text-xs text-blue-500 hover:underline"
@@ -83,7 +83,7 @@ function renderRecipeSteps(
         </ol>
       ) : (
         <p className="text-xs text-gray-600">
-          {typeof (instructions || preparationSteps || procedure) === 'string&apos; 
+          {typeof (instructions || preparationSteps || procedure) === 'string' 
             ? String(instructions || preparationSteps || procedure)
             : 'No detailed instructions available.'
           }
@@ -564,7 +564,7 @@ export default function CuisineRecommender() {
           onClick={() => setShowSauceRecommendations(!showSauceRecommendations)}
           className={`px-3 py-1 rounded-full text-xs font-medium transition-colors ${
             showSauceRecommendations 
-              ? 'bg-orange-500 text-white&apos; 
+              ? 'bg-orange-500 text-white' 
               : 'bg-white/90 text-orange-600 hover:bg-orange-100'
           }`}
         >
@@ -574,7 +574,7 @@ export default function CuisineRecommender() {
           onClick={() => setShowCuisineSpecificDetails(!showCuisineSpecificDetails)}
           className={`px-3 py-1 rounded-full text-xs font-medium transition-colors ${
             showCuisineSpecificDetails 
-              ? 'bg-green-500 text-white&apos; 
+              ? 'bg-green-500 text-white' 
               : 'bg-white/90 text-green-600 hover:bg-green-100'
           }`}
         >
@@ -584,7 +584,7 @@ export default function CuisineRecommender() {
           onClick={() => setShowPlanetaryInfluences(!showPlanetaryInfluences)}
           className={`px-3 py-1 rounded-full text-xs font-medium transition-colors ${
             showPlanetaryInfluences 
-              ? 'bg-purple-500 text-white&apos; 
+              ? 'bg-purple-500 text-white' 
               : 'bg-white/90 text-purple-600 hover:bg-purple-100'
           }`}
         >
@@ -622,7 +622,7 @@ export default function CuisineRecommender() {
                   {isRegionalVariant ? (
                     <span className="text-xs text-gray-500">Regional variant of {cuisine.parentCuisine}</span>
                   ) : null}
-                  {(cuisine.regionalVariants &amp;&amp; (cuisine.regionalVariants || []).length > 0) ? (
+                  {(cuisine.regionalVariants && (cuisine.regionalVariants || []).length > 0) ? (
                     <span className="text-xs text-gray-500 block">
                       {(cuisine.regionalVariants || []).length} regional variants
                     </span>
@@ -709,7 +709,7 @@ export default function CuisineRecommender() {
         <div className="mt-6 pt-4 border-t border-gray-200">
           <h3 className="text-lg font-medium mb-3">🍯 Celestial Sauce Harmonizer</h3>
           <p className="text-sm text-gray-600 mb-4">
-            Discover sauces that complement the current moment&apos;s alchemical alignment and enhance your culinary experience.
+            Discover sauces that complement the current moment's alchemical alignment and enhance your culinary experience.
           </p>
         
         {loading ? (
@@ -748,7 +748,7 @@ export default function CuisineRecommender() {
                 
                 {/* Show elemental properties */}
                 <div className="flex space-x-1 mt-2">
-                  {(sauce.elementalState?.Fire || 0) >= 0.3 &amp;&amp; (
+                  {(sauce.elementalState?.Fire || 0) >= 0.3 && (
                     <div className="flex items-center" title="Fire">
                       <Flame size={12} className="text-red-500" />
                     </div>
@@ -778,7 +778,7 @@ export default function CuisineRecommender() {
                         {ingredient}
                       </span>
                     ))}
-                    {(sauce.ingredients || []).length > 3 &amp;&amp; (
+                    {(sauce.ingredients || []).length > 3 && (
                       <span className="text-xs text-gray-500">+{(sauce.ingredients || []).length - 3} more</span>
                     )}
                   </div>
@@ -919,10 +919,10 @@ export default function CuisineRecommender() {
                 {Object.entries((selectedCuisineData as Record<string, unknown>).elementalState as ElementalProperties || { Fire: 0, Water: 0, Earth: 0, Air: 0 }).map(([element, value]) => (
                   <div key={element} className="flex items-center justify-between">
                     <div className="flex items-center">
-                      {element === 'Fire&apos; &amp;&amp; <Flame size={16} className="text-red-500 mr-1" />}
-                      {element === 'Water&apos; &amp;&amp; <Droplets size={16} className="text-blue-500 mr-1" />}
-                      {element === 'Earth&apos; &amp;&amp; <Mountain size={16} className="text-green-500 mr-1" />}
-                      {element === 'Air&apos; &amp;&amp; <Wind size={16} className="text-yellow-500 mr-1" />}
+                      {element === 'Fire' && <Flame size={16} className="text-red-500 mr-1" />}
+                      {element === 'Water' && <Droplets size={16} className="text-blue-500 mr-1" />}
+                      {element === 'Earth' && <Mountain size={16} className="text-green-500 mr-1" />}
+                      {element === 'Air' && <Wind size={16} className="text-yellow-500 mr-1" />}
                       <span className="text-sm">{element}</span>
                     </div>
                     <div className="w-20 bg-gray-200 rounded-full h-2.5">
@@ -944,7 +944,7 @@ export default function CuisineRecommender() {
             {/* Astrological influences */}
             <div className="bg-gray-50 p-3 rounded border">
               <h4 className="text-sm font-medium mb-2">Astrological Influences</h4>
-              {(selectedCuisineData as Record<string, unknown>).zodiacInfluences &amp;&amp; Array.isArray((selectedCuisineData as Record<string, unknown>).zodiacInfluences) &amp;&amp; ((selectedCuisineData as Record<string, unknown>).zodiacInfluences as unknown[]).length > 0 ? (
+              {(selectedCuisineData as Record<string, unknown>).zodiacInfluences && Array.isArray((selectedCuisineData as Record<string, unknown>).zodiacInfluences) && ((selectedCuisineData as Record<string, unknown>).zodiacInfluences as unknown[]).length > 0 ? (
                 <div>
                   <span className="text-xs font-medium text-gray-500 block mb-1">Zodiac:</span>
                   <div className="flex flex-wrap gap-1 mb-2">
@@ -955,7 +955,7 @@ export default function CuisineRecommender() {
                           ${currentZodiac === sign ? 'bg-blue-100 text-blue-800 font-medium' : 'bg-gray-100 text-gray-700'}`}
                       >
                         {String(sign)}
-                        {currentZodiac === sign &amp;&amp; <span className="ml-1">✓</span>}
+                        {currentZodiac === sign && <span className="ml-1">✓</span>}
                       </span>
                     ))}
                   </div>
@@ -975,7 +975,7 @@ export default function CuisineRecommender() {
                           ${lunarPhase === phase ? 'bg-blue-100 text-blue-800 font-medium' : 'bg-gray-100 text-gray-700'}`}
                       >
                         {String(phase)}
-                        {lunarPhase === phase &amp;&amp; <span className="ml-1">✓</span>}
+                        {lunarPhase === phase && <span className="ml-1">✓</span>}
                       </span>
                     ))}
                   </div>
@@ -1030,11 +1030,11 @@ export default function CuisineRecommender() {
                   .map((recipe, index) => (
                     <div
                       key={`${(recipe as Record<string, unknown>).id || (recipe as Record<string, unknown>).name}-${index}`}
-                      className={`border rounded p-3 bg-white cursor-pointer hover:shadow-md transition-all duration-200 ${expandedRecipes[index] ? 'shadow-md&apos; : ''}`}
+                      className={`border rounded p-3 bg-white cursor-pointer hover:shadow-md transition-all duration-200 ${expandedRecipes[index] ? 'shadow-md' : ''}`}
                       onClick={(e) => toggleRecipeExpansion(index, e as React.MouseEvent)}
                       data-recipe-index={index}
                       data-recipe-name={(recipe as Record<string, unknown>).name}
-                      data-is-expanded={expandedRecipes[index] ? 'true&apos; : 'false&apos;}
+                      data-is-expanded={expandedRecipes[index] ? 'true' : 'false'}
                     >
                       <div className="flex justify-between items-center mb-1">
                         <div>
@@ -1044,7 +1044,7 @@ export default function CuisineRecommender() {
                               {String((recipe as Record<string, unknown>).regionalVariant || '')} style
                             </span>
                           ) : null}
-                          {((recipe as Record<string, unknown>).fromParentCuisine &amp;&amp; (recipe as Record<string, unknown>).parentCuisine) ? (
+                          {((recipe as Record<string, unknown>).fromParentCuisine && (recipe as Record<string, unknown>).parentCuisine) ? (
                             <span className="text-xs text-gray-500">
                               From {String((recipe as Record<string, unknown>).parentCuisine || '')}
                             </span>
@@ -1085,28 +1085,28 @@ export default function CuisineRecommender() {
                           <div className="flex space-x-1 mb-1">
                             {(() => {
                               const elementalState = (recipe as Record<string, unknown>).elementalState;
-                              const fireValue = typeof elementalState === 'object&apos; &amp;&amp; elementalState !== null &amp;&amp; 'Fire&apos; in elementalState 
+                              const fireValue = typeof elementalState === 'object' && elementalState !== null && 'Fire' in elementalState 
                                 ? Number((elementalState as Record<string, unknown>).Fire || 0) 
                                 : 0;
                               return fireValue >= 0.3 ? <Flame size={12} className="text-red-500" /> : null;
                             })()}
                             {(() => {
                               const elementalState = (recipe as Record<string, unknown>).elementalState;
-                              const waterValue = typeof elementalState === 'object&apos; &amp;&amp; elementalState !== null &amp;&amp; 'Water&apos; in elementalState 
+                              const waterValue = typeof elementalState === 'object' && elementalState !== null && 'Water' in elementalState 
                                 ? Number((elementalState as Record<string, unknown>).Water || 0) 
                                 : 0;
                               return waterValue >= 0.3 ? <Droplets size={12} className="text-blue-500" /> : null;
                             })()}
                             {(() => {
                               const elementalState = (recipe as Record<string, unknown>).elementalState;
-                              const earthValue = typeof elementalState === 'object&apos; &amp;&amp; elementalState !== null &amp;&amp; 'Earth&apos; in elementalState 
+                              const earthValue = typeof elementalState === 'object' && elementalState !== null && 'Earth' in elementalState 
                                 ? Number((elementalState as Record<string, unknown>).Earth || 0) 
                                 : 0;
                               return earthValue >= 0.3 ? <Mountain size={12} className="text-green-500" /> : null;
                             })()}
                             {(() => {
                               const elementalState = (recipe as Record<string, unknown>).elementalState;
-                              const airValue = typeof elementalState === 'object&apos; &amp;&amp; elementalState !== null &amp;&amp; 'Air&apos; in elementalState 
+                              const airValue = typeof elementalState === 'object' && elementalState !== null && 'Air' in elementalState 
                                 ? Number((elementalState as Record<string, unknown>).Air || 0) 
                                 : 0;
                               return airValue >= 0.3 ? <Wind size={12} className="text-yellow-500" /> : null;
@@ -1120,7 +1120,7 @@ export default function CuisineRecommender() {
                               <ul className="pl-4 list-disc text-xs">
                                 {Array.isArray((recipe  as Record<string, unknown>).ingredients) ? ((recipe  as Record<string, unknown>).ingredients as unknown[] || []).map((ingredient, i) => (
                                   <li key={i} className="mb-0.5">
-                                    {typeof ingredient === 'string&apos;
+                                    {typeof ingredient === 'string'
                                       ? ingredient
                                       : `${(ingredient as Record<string, unknown>).amount || ''} ${
                                           (ingredient as Record<string, unknown>).unit || ''
@@ -1228,7 +1228,7 @@ export default function CuisineRecommender() {
               </h4>
               <div className="text-sm text-gray-600 p-4 bg-gray-50 rounded border border-gray-200">
                 <p className="mb-2">
-                  No recipes available for {String((selectedCuisineData as Record<string, unknown>).name || "this cuisine&quot;)}.
+                  No recipes available for {String((selectedCuisineData as Record<string, unknown>).name || "this cuisine")}.
                 </p>
                 
                 <div className="flex gap-2 items-center mt-4">
@@ -1240,15 +1240,15 @@ export default function CuisineRecommender() {
                 
                 {/* Fallback placeholder recipes */}
                 <div className="mt-4 p-3 bg-white rounded border border-gray-100">
-                  <h5 className="text-sm font-medium">{String((selectedCuisineData as Record<string, unknown>).name || "Cuisine&quot;)} Dish Inspiration</h5>
+                  <h5 className="text-sm font-medium">{String((selectedCuisineData as Record<string, unknown>).name || "Cuisine")} Dish Inspiration</h5>
                   <p className="text-xs mt-1">
-                    Try exploring traditional {String((selectedCuisineData as Record<string, unknown>).name || "this cuisine&quot;)} recipes 
-                    {Array.isArray((selectedCuisineData as Record<string, unknown>).signatureDishes) &amp;&amp; ((selectedCuisineData as Record<string, unknown>).signatureDishes as unknown[] || []).length > 0 
+                    Try exploring traditional {String((selectedCuisineData as Record<string, unknown>).name || "this cuisine")} recipes 
+                    {Array.isArray((selectedCuisineData as Record<string, unknown>).signatureDishes) && ((selectedCuisineData as Record<string, unknown>).signatureDishes as unknown[] || []).length > 0 
                       ? ` like ${Array.isArray((selectedCuisineData as Record<string, unknown>).signatureDishes) ? ((selectedCuisineData as Record<string, unknown>).signatureDishes as unknown[]).slice(0, 3).map(String).join(", ") : ''}, and more.`
                       : ' using ingredients typical to this cuisine.'}
                   </p>
                   
-                  {Array.isArray((selectedCuisineData as Record<string, unknown>).commonIngredients) &amp;&amp; ((selectedCuisineData as Record<string, unknown>).commonIngredients as unknown[] || []).length > 0 &amp;&amp; (
+                  {Array.isArray((selectedCuisineData as Record<string, unknown>).commonIngredients) && ((selectedCuisineData as Record<string, unknown>).commonIngredients as unknown[] || []).length > 0 && (
                     <div className="mt-2">
                       <p className="text-xs font-medium">Key Ingredients:</p>
                       <p className="text-xs">

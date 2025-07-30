@@ -20,7 +20,7 @@ export function ClientLayout({ children }: { children: React.ReactNode }) {
       <RecoveryProvider>
         <AlchemicalProvider>
           {children}
-          {process.env.NODE_ENV === 'development&apos; &amp;&amp; <StateDebugger />}
+          {process.env.NODE_ENV === 'development' && <StateDebugger />}
         </AlchemicalProvider>
       </RecoveryProvider>
     </ErrorBoundary>

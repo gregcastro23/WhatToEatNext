@@ -82,7 +82,7 @@ export const ZodiacSign: React.FC<ZodiacSignProps> = ({
         }}
       >
         {emoji}
-        {showLabel &amp;&amp; (
+        {showLabel && (
           <Box sx={{ fontSize: '0.7em', mt: 0.5 }}>
             {formattedName}
           </Box>

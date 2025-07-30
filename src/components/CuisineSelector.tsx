@@ -262,7 +262,7 @@ function CuisineSelector({
       {currentZodiac && (
         <div className="current-influences p-3 bg-blue-50 rounded-lg mb-4">
           <p>Current influences: <span className="font-semibold">{currentZodiac.charAt(0).toUpperCase() + currentZodiac.slice(1)}</span> 
-            {currentLunarPhase &amp;&amp; (
+            {currentLunarPhase && (
               <span> - {currentLunarPhase.split(/(?=[A-Z])/).join(" ")}</span>
             )}
           </p>
@@ -272,7 +272,7 @@ function CuisineSelector({
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
         {filteredCuisines.map((cuisine) => {
           // Determine if current zodiac is favorable for this cuisine
-          const isZodiacFavorable = currentZodiac &amp;&amp; 
+          const isZodiacFavorable = currentZodiac && 
             ((cuisine as CuisineData).zodiacInfluences?.includes(currentZodiac) ||
              Object.values((cuisine as CuisineData).planetaryDignities || {}).some(
                (dignity) => (dignity as PlanetaryDignityDetails).favorableZodiacSigns?.includes(currentZodiac)
@@ -285,7 +285,7 @@ function CuisineSelector({
               className={`
                 p-4 rounded-lg shadow-md transition-all
                 ${selectedCuisine === (cuisine as CuisineData).name
-                  ? 'bg-primary text-white&apos;
+                  ? 'bg-primary text-white'
                   : isZodiacFavorable
                     ? 'bg-blue-50 hover:bg-blue-100'
                     : 'bg-white hover:bg-gray-50'
@@ -300,7 +300,7 @@ function CuisineSelector({
                 </span>
                 
                 {/* Display alchemical compatibility if available */}
-                {'gregsEnergy&apos; in cuisine &amp;&amp; (
+                {'gregsEnergy' in cuisine && (
                   <span className="alchemical-score text-sm">
                     Compatibility: {Math.round(((cuisine as CuisineData).gregsEnergy as number) * 100)}%
                   </span>

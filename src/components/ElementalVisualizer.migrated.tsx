@@ -285,7 +285,7 @@ const ElementalVisualizerMigrated: React.FC<ElementalVisualizerProps> = ({
                 style={animated ? { animationDelay: `${index * 100}ms` } : {}}
               />
               {/* Element label */}
-              {showLabels &amp;&amp; (
+              {showLabels && (
                 <text
                   x={sizeConfig.padding + 10}
                   y={y + (barHeight / 2) + 5}
@@ -297,7 +297,7 @@ const ElementalVisualizerMigrated: React.FC<ElementalVisualizerProps> = ({
                 </text>
               )}
               {/* Percentage label */}
-              {showPercentages &amp;&amp; (
+              {showPercentages && (
                 <text
                   x={sizeConfig.width - sizeConfig.padding - 40}
                   y={y + (barHeight / 2) + 5}
@@ -393,7 +393,7 @@ const ElementalVisualizerMigrated: React.FC<ElementalVisualizerProps> = ({
               />
               
               {/* Labels (conditionally rendered) */}
-              {showLabels &amp;&amp; slice.percentage > 5 &amp;&amp; (
+              {showLabels && slice.percentage > 5 && (
                 <text
                   x={labelX}
                   y={labelY}
@@ -404,7 +404,7 @@ const ElementalVisualizerMigrated: React.FC<ElementalVisualizerProps> = ({
                   dominantBaseline="middle"
                 >
                   {slice.element}
-                  {showPercentages &amp;&amp; ` (${slice.percentage.toFixed(1)}%)`}
+                  {showPercentages && ` (${slice.percentage.toFixed(1)}%)`}
                 </text>
               )}
             </g>
@@ -504,7 +504,7 @@ const ElementalVisualizerMigrated: React.FC<ElementalVisualizerProps> = ({
         />
         
         {/* Comparison polygon if applicable */}
-        {comparisonPoints &amp;&amp; (
+        {comparisonPoints && (
           <polygon
             points={(comparisonPoints as any).map((p: any) => `${p.x},${p.y}`)?.join(' ')}
             fill="rgba(255, 87, 34, 0.3)"
@@ -512,8 +512,8 @@ const ElementalVisualizerMigrated: React.FC<ElementalVisualizerProps> = ({
             strokeWidth={2}
             strokeDasharray="5 5"
             opacity={animated ? 0 : 1}
-            className={animated ? 'elemental-polygon animate-scale&apos; : ''}
-            style={{ animationDelay: '300ms&apos; }}
+            className={animated ? 'elemental-polygon animate-scale' : ''}
+            style={{ animationDelay: '300ms' }}
           />
         )}
         
@@ -532,17 +532,17 @@ const ElementalVisualizerMigrated: React.FC<ElementalVisualizerProps> = ({
         ))}
         
         {/* Labels */}
-        {showLabels &amp;&amp; (points || []).map((point, i) => {
+        {showLabels && (points || []).map((point, i) => {
           // Calculate anchor position based on angle
           const textAnchor = 
-            point.angle > -Math.PI/4 &amp;&amp; point.angle < Math.PI/4 ? "start" :
+            point.angle > -Math.PI/4 && point.angle < Math.PI/4 ? "start" :
             point.angle > 3*Math.PI/4 || point.angle < -3*Math.PI/4 ? "end" :
             "middle";
           
           // Calculate baseline position based on angle
           const baseline = 
-            point.angle > Math.PI/4 &amp;&amp; point.angle < 3*Math.PI/4 ? "hanging" :
-            point.angle > -3*Math.PI/4 &amp;&amp; point.angle < -Math.PI/4 ? "text-top" :
+            point.angle > Math.PI/4 && point.angle < 3*Math.PI/4 ? "hanging" :
+            point.angle > -3*Math.PI/4 && point.angle < -Math.PI/4 ? "text-top" :
             "middle";
             
           return (
@@ -557,7 +557,7 @@ const ElementalVisualizerMigrated: React.FC<ElementalVisualizerProps> = ({
               dominantBaseline={baseline}
             >
               {point.element}
-              {showPercentages &amp;&amp; ` (${(normalizedValues[point.element] || 0).toFixed(1)}%)`}
+              {showPercentages && ` (${(normalizedValues[point.element] || 0).toFixed(1)}%)`}
             </text>
           );
         })}
@@ -707,7 +707,7 @@ const ElementalVisualizerMigrated: React.FC<ElementalVisualizerProps> = ({
       {renderVisualization()}
       
       {/* Legend (if enabled) */}
-      {showLegend &amp;&amp; visualizationType !== 'interactive&apos; &amp;&amp; (
+      {showLegend && visualizationType !== 'interactive' && (
         <div className="elemental-legend mt-4 flex flex-wrap justify-center gap-3">
           {Object.entries(ELEMENT_COLORS || {}).map(([element, color]) => (
             <div key={element} className="flex items-center">

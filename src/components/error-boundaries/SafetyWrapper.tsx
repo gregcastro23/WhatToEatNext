@@ -32,7 +32,7 @@ export function SafetyWrapper({
 
   const handleError = (error: Error, errorInfo: React.ErrorInfo) => {
     // Log the error with appropriate severity based on level
-    const severity = level === 'feature&apos; ? 'high&apos; : level === 'section&apos; ? 'medium&apos; : 'low&apos;;
+    const severity = level === 'feature' ? 'high' : level === 'section' ? 'medium' : 'low';
     logError(error, `${componentName} error boundary`, severity);
 
     // Call any additional error handler

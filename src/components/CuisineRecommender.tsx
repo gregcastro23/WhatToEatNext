@@ -1121,7 +1121,7 @@ export default function CuisineRecommender() {
                   ? 'bg-purple-100 text-purple-700' 
                   : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
               }`}
-              title="Toggle Enterprise Intelligence&quot;
+              title="Toggle Enterprise Intelligence"
             >
               <Brain size={14} />
               <span>Intelligence</span>
@@ -1133,7 +1133,7 @@ export default function CuisineRecommender() {
                   ? 'bg-blue-100 text-blue-700' 
                   : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
               }`}
-              title="Toggle Performance Analytics&quot;
+              title="Toggle Performance Analytics"
             >
               <BarChart3 size={14} />
               <span>Analytics</span>
@@ -1142,7 +1142,7 @@ export default function CuisineRecommender() {
         </div>
 
         {/* Performance Analytics Dashboard */}
-        {showPerformanceAnalytics &amp;&amp; (
+        {showPerformanceAnalytics && (
           <div className="mb-6">
             <PerformanceAnalyticsDashboard 
               className="border-t pt-4"
@@ -1153,7 +1153,7 @@ export default function CuisineRecommender() {
         )}
 
         {/* Enterprise Intelligence Panel */}
-        {showEnterpriseIntelligence &amp;&amp; (
+        {showEnterpriseIntelligence && (
           <div className="mb-6">
             <EnterpriseIntelligencePanel
               recipeData={selectedCuisine ? cuisineRecommendations.find(c => c.id === selectedCuisine) : null}
@@ -1179,7 +1179,7 @@ export default function CuisineRecommender() {
         )}
 
         {/* Compact Performance Indicator (always visible) */}
-        {!showPerformanceAnalytics &amp;&amp; analyticsState.metrics &amp;&amp; (
+        {!showPerformanceAnalytics && analyticsState.metrics && (
           <div className="mb-4 flex items-center justify-between text-xs text-gray-500 bg-gray-50 px-3 py-2 rounded">
             <div className="flex items-center space-x-4">
               <div className="flex items-center space-x-1">
@@ -1195,7 +1195,7 @@ export default function CuisineRecommender() {
             </div>
             <button
               onClick={() => setShowPerformanceAnalytics(true)}
-              className="text-blue-600 hover:text-blue-800 underline&quot;
+              className="text-blue-600 hover:text-blue-800 underline"
             >
               View Details
             </button>
@@ -1212,7 +1212,7 @@ export default function CuisineRecommender() {
           />
           
           {/* Search Intent Display */}
-          {searchIntent &amp;&amp; searchIntent.confidence > 0.5 &amp;&amp; (
+          {searchIntent && searchIntent.confidence > 0.5 && (
             <div className="mb-4 p-3 bg-blue-50 border border-blue-200 rounded-lg">
               <div className="flex items-center space-x-2 mb-2">
                 <Sparkles size={16} className="text-blue-500" />
@@ -1221,7 +1221,7 @@ export default function CuisineRecommender() {
                   {Math.round(searchIntent.confidence * 100)}% confidence
                 </span>
               </div>
-              {searchIntent.suggestions.length > 0 &amp;&amp; (
+              {searchIntent.suggestions.length > 0 && (
                 <div className="text-sm text-blue-600">
                   <span className="font-medium">Suggestions: </span>
                   {searchIntent.suggestions.slice(0, 3).join(', ')}
@@ -1234,9 +1234,9 @@ export default function CuisineRecommender() {
           <div className="flex items-center justify-between mb-4 text-sm text-gray-600">
             <span>
               Showing {filteredCuisines.length} of {originalCuisines.length} cuisines
-              {searchFilters.query &amp;&amp; ` for "${searchFilters.query}"`}
+              {searchFilters.query && ` for "${searchFilters.query}"`}
             </span>
-            {filteredCuisines.length !== originalCuisines.length &amp;&amp; (
+            {filteredCuisines.length !== originalCuisines.length && (
               <button
                 onClick={() => {
                   setSearchFilters({
@@ -1252,7 +1252,7 @@ export default function CuisineRecommender() {
                   setFilteredCuisines(originalCuisines);
                   setSearchIntent(null);
                 }}
-                className="text-blue-600 hover:text-blue-800 underline&quot;
+                className="text-blue-600 hover:text-blue-800 underline"
               >
                 Clear filters
               </button>
@@ -1283,9 +1283,9 @@ export default function CuisineRecommender() {
                 <Sparkles size={14} className="text-yellow-500" />
                 <span>{cuisine.reasoning?.[0]}</span>
               </div>
-              {cuisine.reasoning?.[1] &amp;&amp; (
+              {cuisine.reasoning?.[1] && (
                 <div className="flex items-center space-x-2 text-xs text-gray-500 mt-1">
-                  {cuisine.reasoning[1].includes('Favorable&apos;) ? 
+                  {cuisine.reasoning[1].includes('Favorable') ? 
                     <Star size={14} className="text-green-500" /> : 
                     <Moon size={14} className="text-blue-500" />
                   }
@@ -1313,7 +1313,7 @@ export default function CuisineRecommender() {
         </div>
 
         {/* Selected Cuisine Details */}
-        {selectedCuisineData &amp;&amp; showCuisineDetails &amp;&amp; (
+        {selectedCuisineData && showCuisineDetails && (
           <div className="mt-4 pt-3 border-t border-gray-200">
             <div className="flex justify-between items-center mb-2">
               <h3 className="font-semibold text-lg">{selectedCuisineData.name} Cuisine</h3>
@@ -1349,7 +1349,7 @@ export default function CuisineRecommender() {
             </div>
 
             {/* Monica/Kalchm Thermodynamic Metrics */}
-            {(selectedCuisineData as any).monicaCompatibility &amp;&amp; (
+            {(selectedCuisineData as any).monicaCompatibility && (
               <div className="mb-4 bg-gradient-to-r from-purple-50 to-blue-50 p-4 rounded-lg border">
                 <h4 className="text-sm font-medium mb-3 flex items-center">
                   <Sparkles size={16} className="text-purple-500 mr-2" />
@@ -1388,7 +1388,7 @@ export default function CuisineRecommender() {
             )}
 
             {/* Enhanced Thermodynamic Metrics Display */}
-            {(selectedCuisineData as any).enhancedAnalysis &amp;&amp; (
+            {(selectedCuisineData as any).enhancedAnalysis && (
               <div className="mb-4 bg-gradient-to-r from-green-50 to-teal-50 p-4 rounded-lg border">
                 <h4 className="text-sm font-medium mb-3 flex items-center">
                   <Star size={16} className="text-green-500 mr-2" />
@@ -1417,7 +1417,7 @@ export default function CuisineRecommender() {
                     <div className="text-lg font-semibold text-purple-600">
                       {((selectedCuisineData as any).enhancedAnalysis?.thermodynamicMetrics?.gregsEnergy || 0).toFixed(2)}
                     </div>
-                    <div className="text-xs text-gray-600">Greg&apos;s Energy</div>
+                    <div className="text-xs text-gray-600">Greg's Energy</div>
                   </div>
                 </div>
                 
@@ -1469,7 +1469,7 @@ export default function CuisineRecommender() {
             )}
 
             {/* Alchemical Properties Display */}
-            {(selectedCuisineData as any).enhancedAnalysis?.alchemicalProperties &amp;&amp; (
+            {(selectedCuisineData as any).enhancedAnalysis?.alchemicalProperties && (
               <div className="mb-4 bg-gradient-to-r from-yellow-50 to-amber-50 p-4 rounded-lg border">
                 <h4 className="text-sm font-medium mb-3 flex items-center">
                   <Sparkles size={16} className="text-yellow-500 mr-2" />
@@ -1498,7 +1498,7 @@ export default function CuisineRecommender() {
             )}
 
             {/* Cultural Analytics and Intelligence Section */}
-            {culturalAnalytics[selectedCuisineData.id] &amp;&amp; (
+            {culturalAnalytics[selectedCuisineData.id] && (
               <div className="mb-4 bg-gradient-to-r from-amber-50 to-orange-50 p-4 rounded-lg border">
                 <div className="flex justify-between items-center mb-3">
                   <h4 className="text-sm font-medium flex items-center">
@@ -1507,9 +1507,9 @@ export default function CuisineRecommender() {
                   </h4>
                   <button
                     onClick={() => setShowCulturalAnalytics(!showCulturalAnalytics)}
-                    className="text-xs px-2 py-1 bg-amber-100 hover:bg-amber-200 rounded transition-colors&quot;
+                    className="text-xs px-2 py-1 bg-amber-100 hover:bg-amber-200 rounded transition-colors"
                   >
-                    {showCulturalAnalytics ? 'Hide Details&apos; : 'Show Details&apos;}
+                    {showCulturalAnalytics ? 'Hide Details' : 'Show Details'}
                   </button>
                 </div>
                 
@@ -1540,7 +1540,7 @@ export default function CuisineRecommender() {
                   </div>
                 </div>
                 
-                {showCulturalAnalytics &amp;&amp; (
+                {showCulturalAnalytics && (
                   <div className="space-y-3 mt-4">
                     <div className="bg-white p-3 rounded border">
                       <h5 className="text-sm font-medium mb-2">Historical Significance</h5>
@@ -1581,7 +1581,7 @@ export default function CuisineRecommender() {
             )}
 
             {/* Fusion Cuisine Recommendations */}
-            {fusionRecommendations.length > 0 &amp;&amp; (
+            {fusionRecommendations.length > 0 && (
               <div className="mb-4 bg-gradient-to-r from-indigo-50 to-purple-50 p-4 rounded-lg border">
                 <div className="flex justify-between items-center mb-3">
                   <h4 className="text-sm font-medium flex items-center">
@@ -1590,13 +1590,13 @@ export default function CuisineRecommender() {
                   </h4>
                   <button
                     onClick={() => setShowFusionRecommendations(!showFusionRecommendations)}
-                    className="text-xs px-2 py-1 bg-indigo-100 hover:bg-indigo-200 rounded transition-colors&quot;
+                    className="text-xs px-2 py-1 bg-indigo-100 hover:bg-indigo-200 rounded transition-colors"
                   >
-                    {showFusionRecommendations ? 'Hide Fusion&apos; : 'Show Fusion&apos;}
+                    {showFusionRecommendations ? 'Hide Fusion' : 'Show Fusion'}
                   </button>
                 </div>
                 
-                {showFusionRecommendations &amp;&amp; (
+                {showFusionRecommendations && (
                   <div className="space-y-3">
                     {fusionRecommendations.map((fusion, index) => (
                       <div key={index} className="bg-white p-3 rounded border">
@@ -1656,7 +1656,7 @@ export default function CuisineRecommender() {
             </div>
 
             {/* Recipe Intelligence Analytics */}
-            {matchingRecipes.length > 0 &amp;&amp; (
+            {matchingRecipes.length > 0 && (
               <div className="mt-6 bg-gradient-to-r from-blue-50 to-cyan-50 p-4 rounded-lg border">
                 <h4 className="text-sm font-medium mb-3 flex items-center">
                   <Brain size={16} className="text-blue-500 mr-2" />
@@ -1664,7 +1664,7 @@ export default function CuisineRecommender() {
                 </h4>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
                   {matchingRecipes.slice(0, 3).map((recipe, index) => (
-                    recipe.intelligenceAnalysis &amp;&amp; (
+                    recipe.intelligenceAnalysis && (
                       <div key={index} className="bg-white p-3 rounded border">
                         <div className="flex justify-between items-center mb-2">
                           <h5 className="text-sm font-medium">{recipe.name}</h5>
@@ -1712,7 +1712,7 @@ export default function CuisineRecommender() {
                           </div>
                         </div>
                         
-                        {recipe.intelligenceAnalysis.compatibility.recommendations.length > 0 &amp;&amp; (
+                        {recipe.intelligenceAnalysis.compatibility.recommendations.length > 0 && (
                           <div className="mt-2 pt-2 border-t border-gray-100">
                             <div className="text-xs text-gray-600 mb-1">Recommendations:</div>
                             <div className="text-xs text-gray-700">
@@ -1731,7 +1731,7 @@ export default function CuisineRecommender() {
             )}
 
             {/* Phase 2B: Ingredient Intelligence Analytics */}
-            {matchingRecipes.length > 0 &amp;&amp; matchingRecipes.some(recipe => recipe.intelligenceAnalysis?.ingredientIntelligence) &amp;&amp; (
+            {matchingRecipes.length > 0 && matchingRecipes.some(recipe => recipe.intelligenceAnalysis?.ingredientIntelligence) && (
               <div className="mt-6 bg-gradient-to-r from-green-50 to-emerald-50 p-4 rounded-lg border">
                 <h4 className="text-sm font-medium mb-3 flex items-center">
                   <Leaf size={16} className="text-green-500 mr-2" />
@@ -1739,7 +1739,7 @@ export default function CuisineRecommender() {
                 </h4>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
                   {matchingRecipes.slice(0, 3).map((recipe, index) => (
-                    recipe.intelligenceAnalysis?.ingredientIntelligence &amp;&amp; (
+                    recipe.intelligenceAnalysis?.ingredientIntelligence && (
                       <div key={index} className="bg-white p-3 rounded border">
                         <div className="flex justify-between items-center mb-2">
                           <h5 className="text-sm font-medium">{recipe.name}</h5>
@@ -1799,7 +1799,7 @@ export default function CuisineRecommender() {
                           </div>
                         </div>
                         
-                        {recipe.intelligenceAnalysis.ingredientIntelligence.recommendations.length > 0 &amp;&amp; (
+                        {recipe.intelligenceAnalysis.ingredientIntelligence.recommendations.length > 0 && (
                           <div className="mt-2 pt-2 border-t border-gray-100">
                             <div className="text-xs text-gray-600 mb-1">Ingredient Recommendations:</div>
                             <div className="text-xs text-gray-700">
@@ -1808,7 +1808,7 @@ export default function CuisineRecommender() {
                           </div>
                         )}
                         
-                        {recipe.intelligenceAnalysis.ingredientIntelligence.categorizationAnalysis.ingredientDistribution.length > 0 &amp;&amp; (
+                        {recipe.intelligenceAnalysis.ingredientIntelligence.categorizationAnalysis.ingredientDistribution.length > 0 && (
                           <div className="mt-2 pt-2 border-t border-gray-100">
                             <div className="text-xs text-gray-600 mb-1">Ingredient Distribution:</div>
                             <div className="space-y-1">
@@ -1834,7 +1834,7 @@ export default function CuisineRecommender() {
             )}
 
             {/* Phase 2C: Cuisine Intelligence Analytics */}
-            {matchingRecipes.length > 0 &amp;&amp; matchingRecipes.some(recipe => recipe.intelligenceAnalysis?.cuisineIntelligence) &amp;&amp; (
+            {matchingRecipes.length > 0 && matchingRecipes.some(recipe => recipe.intelligenceAnalysis?.cuisineIntelligence) && (
               <div className="mt-6 bg-gradient-to-r from-purple-50 to-violet-50 p-4 rounded-lg border">
                 <h4 className="text-sm font-medium mb-3 flex items-center">
                   <Sparkles size={16} className="text-purple-500 mr-2" />
@@ -1842,7 +1842,7 @@ export default function CuisineRecommender() {
                 </h4>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
                   {matchingRecipes.slice(0, 3).map((recipe, index) => (
-                    recipe.intelligenceAnalysis?.cuisineIntelligence &amp;&amp; (
+                    recipe.intelligenceAnalysis?.cuisineIntelligence && (
                       <div key={index} className="bg-white p-3 rounded border">
                         <div className="flex justify-between items-center mb-2">
                           <h5 className="text-sm font-medium">{recipe.name}</h5>
@@ -1920,7 +1920,7 @@ export default function CuisineRecommender() {
                           </div>
                         </div>
                         
-                        {recipe.intelligenceAnalysis.cuisineIntelligence.recommendations.length > 0 &amp;&amp; (
+                        {recipe.intelligenceAnalysis.cuisineIntelligence.recommendations.length > 0 && (
                           <div className="mt-2 pt-2 border-t border-gray-100">
                             <div className="text-xs text-gray-600 mb-1">Cuisine Recommendations:</div>
                             <div className="text-xs text-gray-700">
@@ -1929,7 +1929,7 @@ export default function CuisineRecommender() {
                           </div>
                         )}
                         
-                        {recipe.intelligenceAnalysis.cuisineIntelligence.fusionAnalysis.fusionRecommendations.length > 0 &amp;&amp; (
+                        {recipe.intelligenceAnalysis.cuisineIntelligence.fusionAnalysis.fusionRecommendations.length > 0 && (
                           <div className="mt-2 pt-2 border-t border-gray-100">
                             <div className="text-xs text-gray-600 mb-1">Fusion Recommendations:</div>
                             <div className="space-y-1">
@@ -1953,7 +1953,7 @@ export default function CuisineRecommender() {
             )}
 
             {/* Recipe-Specific Sauce Recommendations */}
-            {selectedRecipe &amp;&amp; (
+            {selectedRecipe && (
               <div className="mt-6 pt-4 border-t border-gray-200">
                 <SauceRecommendations
                   sauces={sauceRecommendations}
@@ -1965,7 +1965,7 @@ export default function CuisineRecommender() {
                   currentSeason={getCurrentSeason()}
                   maxDisplayed={4}
                   onSauceSelect={(sauce) => {
-                    logger.info('Sauce selected for recipe:', sauce.name, 'with&apos;, selectedRecipe.name);
+                    logger.info('Sauce selected for recipe:', sauce.name, 'with', selectedRecipe.name);
                     // Future: Add sauce-recipe pairing logic here
                   }}
                 />

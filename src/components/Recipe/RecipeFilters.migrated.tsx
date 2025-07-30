@@ -230,7 +230,7 @@ export default function RecipeFiltersMigrated({
                 onChange={(e) => updateFilters({
                   cuisineTypes: Array.from(e.target.selectedOptions, option => option.value as unknown as CuisineType)
                 })}
-                className="w-full p-2 border rounded&quot;
+                className="w-full p-2 border rounded"
               >
                 {Object.keys(availableCuisines || {}).map(cuisine => (
                   <option key={cuisine} value={cuisine}>
@@ -249,7 +249,7 @@ export default function RecipeFiltersMigrated({
                 onChange={(e) => updateFilters({
                   mealType: Array.from(e.target.selectedOptions, option => option.value)
                 })}
-                className="w-full p-2 border rounded&quot;
+                className="w-full p-2 border rounded"
               >
                 {(availableMealTypes || []).map(type => (
                   <option key={type} value={type}>
@@ -268,7 +268,7 @@ export default function RecipeFiltersMigrated({
                 onChange={(e) => updateFilters({
                   dietary: Array.from(e.target.selectedOptions, option => option.value as DietaryRestriction)
                 })}
-                className="w-full p-2 border rounded&quot;
+                className="w-full p-2 border rounded"
               >
                 {(availableDietaryOptions || []).map(option => (
                   <option key={option} value={option}>

@@ -167,8 +167,8 @@ export const IngredientCard: React.FC<IngredientCardProps> = ({
           borderRadius: '6px'
         }}>
           <strong>{ingredient.amount} {ingredient.unit}</strong>
-          {ingredient.preparation &amp;&amp; <span style={{ fontStyle: 'italic' }}> ({ingredient.preparation})</span>}
-          {ingredient.optional &amp;&amp; (
+          {ingredient.preparation && <span style={{ fontStyle: 'italic' }}> ({ingredient.preparation})</span>}
+          {ingredient.optional && (
             <span className={ingredientCardStyles.optionalBadge}>Optional</span>
           )}
         </div>
@@ -250,7 +250,7 @@ export const IngredientCard: React.FC<IngredientCardProps> = ({
                 const ingredientData = ingredient as any;
                 const qualities = ingredientData?.qualities;
                 
-                return qualities &amp;&amp; qualities.length > 0 &amp;&amp; (
+                return qualities && qualities.length > 0 && (
                   <div style={{ marginBottom: '12px' }}>
                     <div className={ingredientCardStyles.sectionHeader}>
                       <Tag size={14} />

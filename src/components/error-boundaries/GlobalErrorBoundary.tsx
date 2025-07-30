@@ -156,7 +156,7 @@ export class GlobalErrorBoundary extends Component<GlobalErrorBoundaryProps, Glo
                   Application Error
                 </h1>
                 <p className="text-red-700">
-                  We&apos;re sorry, but something went wrong with the application.
+                  We're sorry, but something went wrong with the application.
                 </p>
               </div>
 
@@ -167,9 +167,9 @@ export class GlobalErrorBoundary extends Component<GlobalErrorBoundaryProps, Glo
                 <p className="text-sm text-red-700 break-words">
                   {error.message}
                 </p>
-                {retryCount > 0 &amp;&amp; (
+                {retryCount > 0 && (
                   <p className="text-xs text-red-600 mt-2">
-                    Recovery attempted {retryCount} time{retryCount !== 1 ? 's&apos; : ''}
+                    Recovery attempted {retryCount} time{retryCount !== 1 ? 's' : ''}
                   </p>
                 )}
               </div>

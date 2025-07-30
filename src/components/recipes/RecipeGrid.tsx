@@ -137,7 +137,7 @@ const RecipeCard: React.FC<RecipeCardProps> = ({
           <span className={`px-2 py-1 rounded text-xs ${getMatchScoreClass(recipe.matchPercentage)}`}>
             {recipe.matchPercentage}%
           </span>
-          {recipe.elementalState &amp;&amp; renderElementIcon(recipe.elementalState)}
+          {recipe.elementalState && renderElementIcon(recipe.elementalState)}
         </div>
       </div>
     );
@@ -193,7 +193,7 @@ const RecipeCard: React.FC<RecipeCardProps> = ({
 
       <div className="flex flex-wrap gap-2 mb-3">
         {renderDietaryBadges()}
-        {recipe.astrologicalCompatibility && recipe.astrologicalCompatibility > 0.5 &amp;&amp; (
+        {recipe.astrologicalCompatibility && recipe.astrologicalCompatibility > 0.5 && (
           <span className="px-2 py-1 bg-purple-100 text-purple-800 text-xs rounded-full">
             Astrologically Favorable
           </span>
@@ -211,19 +211,19 @@ const RecipeCard: React.FC<RecipeCardProps> = ({
           onClick={onToggleExpanded}
           className="text-blue-600 hover:text-blue-800 text-sm font-medium"
         >
-          {isExpanded ? 'Hide Details&apos; : 'View Details&apos;}
+          {isExpanded ? 'Hide Details' : 'View Details'}
         </button>
       </div>
 
       {isExpanded && (
         <div className="mt-4 pt-4 border-t space-y-4">
-          {recipe.ingredients && recipe.ingredients.length > 0 &amp;&amp; (
+          {recipe.ingredients && recipe.ingredients.length > 0 && (
             <div>
               <h4 className="font-medium text-gray-900 mb-2">Ingredients:</h4>
               <ul className="space-y-1 text-sm">
                 {recipe.ingredients.map((ingredient, index) => (
                   <li key={index}>
-                    • {typeof ingredient === 'string&apos; ? ingredient : ingredient.name || 'Unknown ingredient&apos;}
+                    • {typeof ingredient === 'string' ? ingredient : ingredient.name || 'Unknown ingredient'}
                   </li>
                 ))}
               </ul>
@@ -236,7 +236,7 @@ const RecipeCard: React.FC<RecipeCardProps> = ({
               <ol className="list-decimal list-inside space-y-1 text-sm">
                 {recipe.instructions.map((instruction, index) => (
                   <li key={index}>
-                    {typeof instruction === 'string&apos; ? instruction : String((instruction as unknown as Record<string, unknown>).step || 'Unknown step&apos;)}
+                    {typeof instruction === 'string' ? instruction : String((instruction as unknown as Record<string, unknown>).step || 'Unknown step')}
                   </li>
                 ))}
               </ol>
@@ -618,7 +618,7 @@ export const RecipeGrid: React.FC<RecipeGridProps> = ({
             placeholder="Search recipes, ingredients, or cuisines..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent&quot;
+            className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           />
         </div>
 
@@ -629,33 +629,33 @@ export const RecipeGrid: React.FC<RecipeGridProps> = ({
             <div className="relative">
               <button
                 onClick={() => setShowSortMenu(!showSortMenu)}
-                className="flex items-center gap-2 px-4 py-2 bg-white rounded-lg shadow hover:bg-gray-50 border&quot;
+                className="flex items-center gap-2 px-4 py-2 bg-white rounded-lg shadow hover:bg-gray-50 border"
               >
                 <SlidersHorizontal className="h-4 w-4" />
                 <span>Sort By</span>
-                {sortDirection === 'desc&apos; ? <SortDesc className="h-4 w-4" /> : <SortAsc className="h-4 w-4" />}
+                {sortDirection === 'desc' ? <SortDesc className="h-4 w-4" /> : <SortAsc className="h-4 w-4" />}
               </button>
               
-              {showSortMenu &amp;&amp; (
+              {showSortMenu && (
                 <div className="absolute top-full mt-2 w-48 bg-white rounded-lg shadow-lg py-1 z-10 border">
                   {[
-                    { value: 'score&apos;, label: 'Match Score&apos; },
-                    { value: 'name&apos;, label: 'Name&apos; },
-                    { value: 'time&apos;, label: 'Prep Time&apos; },
-                    { value: 'rating&apos;, label: 'Rating&apos; },
-                    { value: 'difficulty&apos;, label: 'Difficulty&apos; },
-                    { value: 'seasonal&apos;, label: 'Seasonal&apos; },
-                    { value: 'elemental&apos;, label: 'Elemental&apos; },
-                    { value: 'calories&apos;, label: 'Calories&apos; }
+                    { value: 'score', label: 'Match Score' },
+                    { value: 'name', label: 'Name' },
+                    { value: 'time', label: 'Prep Time' },
+                    { value: 'rating', label: 'Rating' },
+                    { value: 'difficulty', label: 'Difficulty' },
+                    { value: 'seasonal', label: 'Seasonal' },
+                    { value: 'elemental', label: 'Elemental' },
+                    { value: 'calories', label: 'Calories' }
                   ].map((option) => (
                     <button
                       key={option.value}
                       onClick={() => {
                         if (sortBy === option.value) {
-                          setSortDirection(prev => prev === 'desc&apos; ? 'asc&apos; : 'desc&apos;);
+                          setSortDirection(prev => prev === 'desc' ? 'asc' : 'desc');
                         } else {
                           setSortBy(option.value as SortOption);
-                          setSortDirection('desc&apos;);
+                          setSortDirection('desc');
                         }
                         setShowSortMenu(false);
                       }}
@@ -674,24 +674,24 @@ export const RecipeGrid: React.FC<RecipeGridProps> = ({
             <div className="relative">
               <button
                 onClick={() => setShowElementalMenu(!showElementalMenu)}
-                className="flex items-center gap-2 px-4 py-2 bg-white rounded-lg shadow hover:bg-gray-50 border&quot;
+                className="flex items-center gap-2 px-4 py-2 bg-white rounded-lg shadow hover:bg-gray-50 border"
               >
-                {elementalFilter === 'Fire&apos; &amp;&amp; <Flame className="h-4 w-4 text-red-500" />}
-                {elementalFilter === 'Water&apos; &amp;&amp; <Droplets className="h-4 w-4 text-blue-500" />}
-                {elementalFilter === 'Earth&apos; &amp;&amp; <Mountain className="h-4 w-4 text-green-500" />}
-                {elementalFilter === 'Air&apos; &amp;&amp; <Wind className="h-4 w-4 text-gray-500" />}
-                {elementalFilter === 'all&apos; &amp;&amp; <CircleDashed className="h-4 w-4" />}
-                <span>{elementalFilter === 'all&apos; ? 'All Elements&apos; : elementalFilter}</span>
+                {elementalFilter === 'Fire' && <Flame className="h-4 w-4 text-red-500" />}
+                {elementalFilter === 'Water' && <Droplets className="h-4 w-4 text-blue-500" />}
+                {elementalFilter === 'Earth' && <Mountain className="h-4 w-4 text-green-500" />}
+                {elementalFilter === 'Air' && <Wind className="h-4 w-4 text-gray-500" />}
+                {elementalFilter === 'all' && <CircleDashed className="h-4 w-4" />}
+                <span>{elementalFilter === 'all' ? 'All Elements' : elementalFilter}</span>
               </button>
               
-              {showElementalMenu &amp;&amp; (
+              {showElementalMenu && (
                 <div className="absolute top-full mt-2 w-40 bg-white rounded-lg shadow-lg py-1 z-10 border">
                   {[
-                    { value: 'all&apos;, label: 'All Elements&apos;, icon: CircleDashed, color: 'text-gray-500' },
-                    { value: 'Fire&apos;, label: 'Fire&apos;, icon: Flame, color: 'text-red-500' },
-                    { value: 'Water&apos;, label: 'Water&apos;, icon: Droplets, color: 'text-blue-500' },
-                    { value: 'Earth&apos;, label: 'Earth&apos;, icon: Mountain, color: 'text-green-500' },
-                    { value: 'Air&apos;, label: 'Air&apos;, icon: Wind, color: 'text-gray-500' }
+                    { value: 'all', label: 'All Elements', icon: CircleDashed, color: 'text-gray-500' },
+                    { value: 'Fire', label: 'Fire', icon: Flame, color: 'text-red-500' },
+                    { value: 'Water', label: 'Water', icon: Droplets, color: 'text-blue-500' },
+                    { value: 'Earth', label: 'Earth', icon: Mountain, color: 'text-green-500' },
+                    { value: 'Air', label: 'Air', icon: Wind, color: 'text-gray-500' }
                   ].map((option) => {
                     const IconComponent = option.icon;
                     return (
@@ -740,29 +740,29 @@ export const RecipeGrid: React.FC<RecipeGridProps> = ({
           {/* View Mode Controls */}
           <div className="flex gap-1 bg-gray-100 rounded-lg p-1">
             <button
-              onClick={() => setViewMode('grid&apos;)}
+              onClick={() => setViewMode('grid')}
               className={`p-2 rounded ${
-                viewMode === 'grid&apos; ? 'bg-white shadow&apos; : 'hover:bg-gray-200'
+                viewMode === 'grid' ? 'bg-white shadow' : 'hover:bg-gray-200'
               }`}
-              title="Grid View&quot;
+              title="Grid View"
             >
               <LayoutGrid className="h-4 w-4" />
             </button>
             <button
-              onClick={() => setViewMode('list&apos;)}
+              onClick={() => setViewMode('list')}
               className={`p-2 rounded ${
-                viewMode === 'list&apos; ? 'bg-white shadow&apos; : 'hover:bg-gray-200'
+                viewMode === 'list' ? 'bg-white shadow' : 'hover:bg-gray-200'
               }`}
-              title="List View&quot;
+              title="List View"
             >
               <LayoutList className="h-4 w-4" />
             </button>
             <button
-              onClick={() => setViewMode('compact&apos;)}
+              onClick={() => setViewMode('compact')}
               className={`p-2 rounded ${
-                viewMode === 'compact&apos; ? 'bg-white shadow&apos; : 'hover:bg-gray-200'
+                viewMode === 'compact' ? 'bg-white shadow' : 'hover:bg-gray-200'
               }`}
-              title="Compact View&quot;
+              title="Compact View"
             >
               <Grid className="h-4 w-4" />
             </button>
@@ -779,7 +779,7 @@ export const RecipeGrid: React.FC<RecipeGridProps> = ({
                   Dietary Preferences
                 </label>
                 <div className="space-y-2">
-                  {['vegetarian&apos;, 'vegan&apos;, 'gluten-free&apos;, 'dairy-free&apos;].map(diet => (
+                  {['vegetarian', 'vegan', 'gluten-free', 'dairy-free'].map(diet => (
                     <label key={diet} className="flex items-center">
                       <input
                         type="checkbox"
@@ -808,8 +808,8 @@ export const RecipeGrid: React.FC<RecipeGridProps> = ({
                   type="number"
                   value={maxPrepTime || ''}
                   onChange={(e) => setMaxPrepTime(e.target.value ? parseInt(e.target.value) : null)}
-                  placeholder="No limit&quot;
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md&quot;
+                  placeholder="No limit"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md"
                 />
               </div>
 
@@ -821,7 +821,7 @@ export const RecipeGrid: React.FC<RecipeGridProps> = ({
                 <select
                   value={minRating}
                   onChange={(e) => setMinRating(parseInt(e.target.value))}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md&quot;
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md"
                 >
                   <option value={0}>Any Rating</option>
                   <option value={1}>1+ Stars</option>
@@ -840,7 +840,7 @@ export const RecipeGrid: React.FC<RecipeGridProps> = ({
                     setMaxPrepTime(null);
                     setMinRating(0);
                     setSearchQuery('');
-                    setElementalFilter('all&apos;);
+                    setElementalFilter('all');
                     setShowFavoritesOnly(false);
                   }}
                   className="w-full px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300"
@@ -857,10 +857,10 @@ export const RecipeGrid: React.FC<RecipeGridProps> = ({
       <div className="mb-4 flex justify-between items-center text-sm text-gray-600">
         <span>
           Showing {filteredAndSortedRecipes.length} recipes
-          {searchQuery &amp;&amp; ` for "${searchQuery}"`}
-          {selectedCuisine &amp;&amp; ` in ${selectedCuisine}`}
+          {searchQuery && ` for "${searchQuery}"`}
+          {selectedCuisine && ` in ${selectedCuisine}`}
         </span>
-        {timeFactors &amp;&amp; (
+        {timeFactors && (
           <span className="flex items-center gap-1">
             <Sun className="h-4 w-4" />
             Current season: {String((timeFactors as unknown as Record<string, unknown>).season || getCurrentSeason())}

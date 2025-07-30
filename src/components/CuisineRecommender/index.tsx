@@ -165,9 +165,9 @@ export const CuisineRecommender: React.FC<CuisineRecommenderProps> = ({
       <div className="recommendations-panel">
         <h3>
           Astrologically-Aligned Recipe Recommendations
-          {cuisine &amp;&amp; ` for ${cuisine} Cuisine`}
-          {mealType &amp;&amp; ` for ${mealType}`}
-          {season &amp;&amp; ` for ${season}`}
+          {cuisine && ` for ${cuisine} Cuisine`}
+          {mealType && ` for ${mealType}`}
+          {season && ` for ${season}`}
         </h3>
         
         {(recommendations || []).length === 0 ? (
@@ -239,7 +239,7 @@ export const CuisineRecommender: React.FC<CuisineRecommenderProps> = ({
 
                 {/* Astrological Influences */}
                 <div className="astrological-influences">
-                  {recipe.zodiacInfluences && (recipe.zodiacInfluences || []).length > 0 &amp;&amp; (
+                  {recipe.zodiacInfluences && (recipe.zodiacInfluences || []).length > 0 && (
                     <div className="influences-section">
                       <strong>Zodiac Influences:</strong>
                       {(recipe.zodiacInfluences || []).map(sign => (
@@ -276,7 +276,7 @@ export const CuisineRecommender: React.FC<CuisineRecommenderProps> = ({
                         {ingredient.name}
                       </span>
                     ))}
-                    {(recipe.ingredients || []).length > 5 &amp;&amp; (
+                    {(recipe.ingredients || []).length > 5 && (
                       <span className="more-ingredients">
                         +{(recipe.ingredients || []).length - 5} more
                       </span>

@@ -269,37 +269,37 @@ export default function Settings() {
             key={activeSection}
             className="space-y-6 animate-fade-in"
           >
-            {activeSection === 'appearance&apos; &amp;&amp; (
+            {activeSection === 'appearance' && (
               <AppearanceSettings
                 settings={settings.appearance}
                 onChange={(key, value) => 
-                  handleSettingChange('appearance&apos;, key, value)
+                  handleSettingChange('appearance', key, value)
                 }
               />
             )}
             {/* Other settings components are commented out for now until implemented */}
             {/* 
-            {activeSection === 'notifications&apos; &amp;&amp; (
+            {activeSection === 'notifications' && (
               <NotificationSettings
                 settings={settings.notifications}
                 onChange={(key, value) => 
-                  handleSettingChange('notifications&apos;, key, value)
+                  handleSettingChange('notifications', key, value)
                 }
               />
             )}
-            {activeSection === 'preferences&apos; &amp;&amp; (
+            {activeSection === 'preferences' && (
               <PreferenceSettings
                 settings={settings.preferences}
                 onChange={(key, value) => 
-                  handleSettingChange('preferences&apos;, key, value)
+                  handleSettingChange('preferences', key, value)
                 }
               />
             )}
-            {activeSection === 'dietary&apos; &amp;&amp; (
+            {activeSection === 'dietary' && (
               <DietarySettings
                 settings={settings.dietary}
                 onChange={(key, value) => 
-                  handleSettingChange('dietary&apos;, key, value)
+                  handleSettingChange('dietary', key, value)
                 }
               />
             )}
@@ -328,7 +328,7 @@ export default function Settings() {
           `}
         >
           <Save className="w-4 h-4" />
-          {isSaving ? 'Saving...' : 'Save Changes&apos;}
+          {isSaving ? 'Saving...' : 'Save Changes'}
         </button>
       </div>
     </div>
@@ -352,13 +352,13 @@ function AppearanceSettings({
           <label className="block text-sm font-medium mb-2">Theme</label>
           <div className="grid grid-cols-3 gap-4">
             {[
-              { value: 'light&apos;, label: 'Light&apos;, icon: Sun },
-              { value: 'dark&apos;, label: 'Dark&apos;, icon: Moon },
-              { value: 'system&apos;, label: 'System&apos;, icon: Monitor },
+              { value: 'light', label: 'Light', icon: Sun },
+              { value: 'dark', label: 'Dark', icon: Moon },
+              { value: 'system', label: 'System', icon: Monitor },
             ].map(({ value, label, icon: Icon }) => (
               <button
                 key={value}
-                onClick={() => onChange('theme&apos;, value)}
+                onClick={() => onChange('theme', value)}
                 className={`
                   p-4 rounded-lg border flex flex-col items-center gap-2
                   ${settings.theme === value
@@ -377,8 +377,8 @@ function AppearanceSettings({
           <label className="block text-sm font-medium mb-2">Color Scheme</label>
           <select
             value={settings.accent}
-            onChange={(e) => onChange('accent&apos;, e.target.value)}
-            className="w-full p-2 border rounded&quot;
+            onChange={(e) => onChange('accent', e.target.value)}
+            className="w-full p-2 border rounded"
           >
             <option value="blue">Blue</option>
             <option value="green">Green</option>
@@ -394,8 +394,8 @@ function AppearanceSettings({
             min="12"
             max="20"
             value={settings.fontSize}
-            onChange={(e) => onChange('fontSize&apos;, parseInt(e.target.value))}
-            className="w-full&quot;
+            onChange={(e) => onChange('fontSize', parseInt(e.target.value))}
+            className="w-full"
           />
           <div className="flex justify-between text-sm text-gray-500">
             <span>Small</span>
@@ -407,7 +407,7 @@ function AppearanceSettings({
         <div className="flex items-center justify-between">
           <label className="text-sm font-medium">Enable Animations</label>
           <button
-            onClick={() => onChange('animations&apos;, !settings.animations)}
+            onClick={() => onChange('animations', !settings.animations)}
             className={`
               w-12 h-6 rounded-full transition-colors
               ${settings.animations ? 'bg-blue-500' : 'bg-gray-200'}

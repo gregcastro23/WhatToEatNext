@@ -51,7 +51,7 @@ export const LocationButton = ({ onLocationUpdate }: LocationButtonProps) => {
       >
         Use My Location
       </button>
-      {locationStatus &amp;&amp; (
+      {locationStatus && (
         <div className="location-status mt-2 text-sm text-gray-600">
           {locationStatus}
         </div>
@@ -61,8 +61,8 @@ export const LocationButton = ({ onLocationUpdate }: LocationButtonProps) => {
           type="text"
           value={manualLocation}
           onChange={(e) => setManualLocation(e.target.value)}
-          placeholder="Enter city or coordinates&quot;
-          className="p-2 border rounded&quot;
+          placeholder="Enter city or coordinates"
+          className="p-2 border rounded"
         />
         <button type="submit" className="ml-2 p-2 bg-green-500 text-white rounded">
           Set Location

@@ -274,8 +274,8 @@ export function RecoveryStatus() {
             Error Recovery Status
           </h4>
           <p className="text-sm text-yellow-700">
-            {unrecoveredErrors.length} unrecovered error{unrecoveredErrors.length !== 1 ? 's&apos; : ''}
-            {isRecovering &amp;&amp; ' (recovery in progress...)'}
+            {unrecoveredErrors.length} unrecovered error{unrecoveredErrors.length !== 1 ? 's' : ''}
+            {isRecovering && ' (recovery in progress...)'}
           </p>
         </div>
         

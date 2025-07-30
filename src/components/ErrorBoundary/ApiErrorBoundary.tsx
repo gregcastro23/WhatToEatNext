@@ -107,7 +107,7 @@ export class ApiErrorBoundary extends Component<ApiErrorBoundaryProps, ApiErrorB
     this.setState({
       hasError: false,
       error: null,
-      errorType: 'generic&apos;
+      errorType: 'generic'
     });
   };
 
@@ -130,7 +130,7 @@ export class ApiErrorBoundary extends Component<ApiErrorBoundaryProps, ApiErrorB
     const defaultNetworkErrorFallback = (
       <div className="error-container">
         <h3>Network Error</h3>
-        <p>We couldn&apos;t connect to the server. Please check your internet connection and try again.</p>
+        <p>We couldn't connect to the server. Please check your internet connection and try again.</p>
         <button onClick={this.resetError}>Try Again</button>
       </div>
     );
@@ -162,11 +162,11 @@ export class ApiErrorBoundary extends Component<ApiErrorBoundaryProps, ApiErrorB
 
     // Choose the appropriate fallback based on the error type
     switch (errorType) {
-      case 'network&apos;:
+      case 'network':
         return networkErrorFallback || defaultNetworkErrorFallback;
-      case 'timeout&apos;:
+      case 'timeout':
         return timeoutErrorFallback || defaultTimeoutErrorFallback;
-      case 'api&apos;:
+      case 'api':
         return apiFallback || defaultApiFallback;
       default:
         return genericFallback || defaultGenericFallback;

@@ -15,13 +15,13 @@ export default function RecipeComponent({ recipe, showDetails = true, isExpanded
       <h2>{recipe.name}</h2>
       <p>{recipe.description}</p>
       
-      {showDetails &amp;&amp; (
+      {showDetails && (
         <div className="recipe-details">
           <div className="ingredients">
             <h3>Ingredients</h3>
             <ul>
               {recipe.ingredients.map((ingredient, index) => (
-                <li key={index}>{typeof ingredient === 'string&apos; ? ingredient : ingredient.name || String(ingredient)}</li>
+                <li key={index}>{typeof ingredient === 'string' ? ingredient : ingredient.name || String(ingredient)}</li>
               ))}
             </ul>
           </div>

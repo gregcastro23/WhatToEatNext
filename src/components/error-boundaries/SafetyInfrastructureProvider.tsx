@@ -71,7 +71,7 @@ export function SafetyInfrastructureProvider({
           {children}
           
           {/* Error Monitoring Dashboard */}
-          {enableMonitoring &amp;&amp; showMonitoringDashboard &amp;&amp; (
+          {enableMonitoring && showMonitoringDashboard && (
             <ErrorMonitoringDashboard
               isVisible={isDashboardVisible}
               onToggleVisibility={() => setIsDashboardVisible(!isDashboardVisible)}

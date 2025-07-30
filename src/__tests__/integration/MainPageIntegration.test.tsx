@@ -37,11 +37,11 @@ jest.mock('@/components/CuisineRecommender', () => {
       <div data-testid="cuisine-recommender">
         <h3>Cuisine Recommendations</h3>
         <div className="cuisine-list">
-          {['Italian&apos;, 'Chinese&apos;, 'Mexican&apos;, 'Indian&apos;].map(cuisine => (
+          {['Italian', 'Chinese', 'Mexican', 'Indian'].map(cuisine => (
             <button
               key={cuisine}
               onClick={() => setSelectedCuisine(cuisine)}
-              className={selectedCuisine === cuisine ? 'selected&apos; : ''}
+              className={selectedCuisine === cuisine ? 'selected' : ''}
               data-testid={`cuisine-${cuisine.toLowerCase()}`}
             >
               {cuisine}
@@ -81,7 +81,7 @@ jest.mock('@/components/IngredientRecommender', () => {
             <button
               key={ingredient}
               onClick={() => toggleIngredient(ingredient)}
-              className={selectedIngredients.includes(ingredient) ? 'selected&apos; : ''}
+              className={selectedIngredients.includes(ingredient) ? 'selected' : ''}
               data-testid={`ingredient-${ingredient.toLowerCase()}`}
             >
               {ingredient}
@@ -117,7 +117,7 @@ jest.mock('@/components/CookingMethodsSection', () => {
             <button
               key={method}
               onClick={() => setSelectedMethod(method)}
-              className={selectedMethod === method ? 'selected&apos; : ''}
+              className={selectedMethod === method ? 'selected' : ''}
               data-testid={`method-${method.toLowerCase()}`}
             >
               {method}
@@ -161,7 +161,7 @@ jest.mock('@/components/recipes/RecipeBuilderSimple', () => {
           placeholder="Recipe Name"
           value={recipeName}
           onChange={(e) => setRecipeName(e.target.value)}
-          data-testid="recipe-name-input&quot;
+          data-testid="recipe-name-input"
         />
         <div>
           <button onClick={addIngredient} data-testid="add-ingredient">
@@ -266,27 +266,27 @@ describe('Main Page Integration Tests', () => {
 
     // Wait for all components to load
     await waitFor(() => {
-      expect(screen.getByTestId('cuisine-recommender&apos;)).toBeInTheDocument();
-      expect(screen.getByTestId('ingredient-recommender&apos;)).toBeInTheDocument();
-      expect(screen.getByTestId('cooking-methods&apos;)).toBeInTheDocument();
-      expect(screen.getByTestId('recipe-builder&apos;)).toBeInTheDocument();
+      expect(screen.getByTestId('cuisine-recommender')).toBeInTheDocument();
+      expect(screen.getByTestId('ingredient-recommender')).toBeInTheDocument();
+      expect(screen.getByTestId('cooking-methods')).toBeInTheDocument();
+      expect(screen.getByTestId('recipe-builder')).toBeInTheDocument();
     });
 
     // Test cuisine selection
-    const italianButton = screen.getByTestId('cuisine-italian&apos;);
+    const italianButton = screen.getByTestId('cuisine-italian');
     await act(async () => {
       fireEvent.click(italianButton);
     });
 
-    expect(screen.getByText('Selected: Italian&apos;)).toBeInTheDocument();
+    expect(screen.getByText('Selected: Italian')).toBeInTheDocument();
 
     // Test ingredient selection
-    const tomatoButton = screen.getByTestId('ingredient-tomatoes&apos;);
+    const tomatoButton = screen.getByTestId('ingredient-tomatoes');
     await act(async () => {
       fireEvent.click(tomatoButton);
     });
 
-    expect(screen.getByText('Selected: Tomatoes&apos;)).toBeInTheDocument();
+    expect(screen.getByText('Selected: Tomatoes')).toBeInTheDocument();
 
     // Test cooking method selection
     const sauteButton = screen.getByTestId('method-sauté');
@@ -297,7 +297,7 @@ describe('Main Page Integration Tests', () => {
     expect(screen.getByText('Selected: Sauté')).toBeInTheDocument();
   });
 
-  it('handles navigation between sections correctly&apos;, async () => {
+  it('handles navigation between sections correctly', async () => {
     const mockOnSectionNavigate = jest.fn();
     
     await act(async () => {
@@ -305,34 +305,34 @@ describe('Main Page Integration Tests', () => {
     });
 
     // Test navigation to cuisine section
-    const cuisineNavButton = screen.getByText('Cuisine Recommendations&apos;);
+    const cuisineNavButton = screen.getByText('Cuisine Recommendations');
     await act(async () => {
       fireEvent.click(cuisineNavButton);
     });
 
-    expect(mockOnSectionNavigate).toHaveBeenCalledWith('cuisine&apos;);
+    expect(mockOnSectionNavigate).toHaveBeenCalledWith('cuisine');
 
     // Test navigation to ingredients section
-    const ingredientsNavButton = screen.getByText('Ingredient Recommendations&apos;);
+    const ingredientsNavButton = screen.getByText('Ingredient Recommendations');
     await act(async () => {
       fireEvent.click(ingredientsNavButton);
     });
 
-    expect(mockOnSectionNavigate).toHaveBeenCalledWith('ingredients&apos;);
+    expect(mockOnSectionNavigate).toHaveBeenCalledWith('ingredients');
   });
 
-  it('preserves state across component interactions&apos;, async () => {
+  it('preserves state across component interactions', async () => {
     await act(async () => {
       render(<MainPageLayout />);
     });
 
     await waitFor(() => {
-      expect(screen.getByTestId('cuisine-recommender&apos;)).toBeInTheDocument();
+      expect(screen.getByTestId('cuisine-recommender')).toBeInTheDocument();
     });
 
     // Make selections in different components
-    const italianButton = screen.getByTestId('cuisine-italian&apos;);
-    const tomatoButton = screen.getByTestId('ingredient-tomatoes&apos;);
+    const italianButton = screen.getByTestId('cuisine-italian');
+    const tomatoButton = screen.getByTestId('ingredient-tomatoes');
     const sauteButton = screen.getByTestId('method-sauté');
 
     await act(async () => {
@@ -342,8 +342,8 @@ describe('Main Page Integration Tests', () => {
     });
 
     // Verify selections are maintained
-    expect(screen.getByText('Selected: Italian&apos;)).toBeInTheDocument();
-    expect(screen.getByText('Selected: Tomatoes&apos;)).toBeInTheDocument();
+    expect(screen.getByText('Selected: Italian')).toBeInTheDocument();
+    expect(screen.getByText('Selected: Tomatoes')).toBeInTheDocument();
     expect(screen.getByText('Selected: Sauté')).toBeInTheDocument();
 
     // Verify state saving was called
@@ -352,7 +352,7 @@ describe('Main Page Integration Tests', () => {
     });
   });
 
-  it('handles recipe building workflow&apos;, async () => {
+  it('handles recipe building workflow', async () => {
     const user = userEvent.setup();
     
     await act(async () => {
@@ -360,16 +360,16 @@ describe('Main Page Integration Tests', () => {
     });
 
     await waitFor(() => {
-      expect(screen.getByTestId('recipe-builder&apos;)).toBeInTheDocument();
+      expect(screen.getByTestId('recipe-builder')).toBeInTheDocument();
     });
 
     // Enter recipe name
-    const recipeNameInput = screen.getByTestId('recipe-name-input&apos;);
-    await user.type(recipeNameInput, 'Test Recipe&apos;);
+    const recipeNameInput = screen.getByTestId('recipe-name-input');
+    await user.type(recipeNameInput, 'Test Recipe');
 
     // Add ingredients and steps
-    const addIngredientButton = screen.getByTestId('add-ingredient&apos;);
-    const addStepButton = screen.getByTestId('add-step&apos;);
+    const addIngredientButton = screen.getByTestId('add-ingredient');
+    const addStepButton = screen.getByTestId('add-step');
 
     await user.click(addIngredientButton);
     await user.click(addIngredientButton);
@@ -380,17 +380,17 @@ describe('Main Page Integration Tests', () => {
     expect(screen.getByText('Steps: 1')).toBeInTheDocument();
 
     // Save button should be enabled
-    const saveButton = screen.getByTestId('save-recipe&apos;);
+    const saveButton = screen.getByTestId('save-recipe');
     expect(saveButton).toBeEnabled();
   });
 
-  it('handles error states gracefully&apos;, async () => {
+  it('handles error states gracefully', async () => {
     // Mock console.error to avoid noise in test output
-    const consoleSpy = jest.spyOn(console, 'error&apos;).mockImplementation(() => {});
+    const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
 
     // Create a component that throws an error
     const ErrorComponent = () => {
-      throw new Error('Test integration error&apos;);
+      throw new Error('Test integration error');
     };
 
     await act(async () => {

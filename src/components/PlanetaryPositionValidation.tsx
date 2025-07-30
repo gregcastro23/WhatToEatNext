@@ -22,7 +22,7 @@ export default function PlanetaryPositionValidation() {
           className="text-sm px-3 py-1 bg-purple-700 text-white font-medium rounded hover:bg-purple-600"
           onClick={() => setExpanded(!expanded)}
         >
-          {expanded ? 'Hide Details&apos; : 'Show Details&apos;}
+          {expanded ? 'Hide Details' : 'Show Details'}
         </button>
       </div>
       

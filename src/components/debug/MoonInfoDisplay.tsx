@@ -52,10 +52,10 @@ export const MoonInfoDisplay: React.FC<MoonInfoDisplayProps> = ({ className = ''
           <h4>Position</h4>
           <div className="moon-position">
             <span className="moon-sign">
-              {moonPosition?.sign ? formatSign(moonPosition.sign) : 'Unknown&apos;}
+              {moonPosition?.sign ? formatSign(moonPosition.sign) : 'Unknown'}
             </span>
             <span className="moon-degree">
-              {moonPosition?.degree ? `${moonPosition.degree.toFixed(1)}°` : 'N/A&apos;}
+              {moonPosition?.degree ? `${moonPosition.degree.toFixed(1)}°` : 'N/A'}
             </span>
           </div>
         </div>
@@ -69,13 +69,13 @@ export const MoonInfoDisplay: React.FC<MoonInfoDisplayProps> = ({ className = ''
             </div>
             <div className="phase-info">
               <span className="phase-name">
-                {(lunarPhase as unknown as Record<string, unknown>).name ? formatPhaseName((lunarPhase as unknown as Record<string, unknown>).name as string) : 'Unknown&apos;}
+                {(lunarPhase as unknown as Record<string, unknown>).name ? formatPhaseName((lunarPhase as unknown as Record<string, unknown>).name as string) : 'Unknown'}
               </span>
               <span className="phase-illumination">
-                {(lunarPhase as unknown as Record<string, unknown>).illumination ? `${(((lunarPhase as unknown as Record<string, unknown>).illumination as number) * 100).toFixed(0)}% illuminated` : 'N/A&apos;}
+                {(lunarPhase as unknown as Record<string, unknown>).illumination ? `${(((lunarPhase as unknown as Record<string, unknown>).illumination as number) * 100).toFixed(0)}% illuminated` : 'N/A'}
               </span>
               <span className="phase-effect">
-                {String((lunarPhase as unknown as Record<string, unknown>).effect || 'Neutral&apos;)}
+                {String((lunarPhase as unknown as Record<string, unknown>).effect || 'Neutral')}
               </span>
             </div>
           </div>
@@ -127,13 +127,13 @@ export const MoonInfoDisplay: React.FC<MoonInfoDisplayProps> = ({ className = ''
               moonAspects.map((aspect, index) => (
                 <div key={index} className="aspect-item">
                   <span className="aspect-planets">
-                    {aspect.planet1 === 'Moon&apos; ? 
+                    {aspect.planet1 === 'Moon' ? 
                       `Moon ${getAspectSymbol(aspect.type)} ${aspect.planet2}` :
                       `${aspect.planet1} ${getAspectSymbol(aspect.type)} Moon`
                     }
                   </span>
                   <span className="aspect-strength">
-                    {aspect.strength ? `${(aspect.strength * 100).toFixed(0)}%` : 'N/A&apos;}
+                    {aspect.strength ? `${(aspect.strength * 100).toFixed(0)}%` : 'N/A'}
                   </span>
                 </div>
               ))

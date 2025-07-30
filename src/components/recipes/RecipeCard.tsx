@@ -211,7 +211,7 @@ const RecipeCard: React.FC<RecipeCardProps> = ({
             }`} 
           />
         ))}
-        <span className="text-sm text-gray-600 ml-1">({typeof recipe.rating === 'number&apos; ? recipe.rating : 0})</span>
+        <span className="text-sm text-gray-600 ml-1">({typeof recipe.rating === 'number' ? recipe.rating : 0})</span>
       </div>
     );
   };
@@ -256,7 +256,7 @@ const RecipeCard: React.FC<RecipeCardProps> = ({
             `}>
               {matchPercentage}% Match
             </Badge>
-            {onToggleFavorite &amp;&amp; (
+            {onToggleFavorite && (
               <Button
                 variant="ghost"
                 size="sm"
@@ -270,7 +270,7 @@ const RecipeCard: React.FC<RecipeCardProps> = ({
             )}
           </div>
         </div>
-        {recipe.description &amp;&amp; (
+        {recipe.description && (
           <p className="text-gray-600 text-sm line-clamp-2">{recipe.description}</p>
         )}
       </CardHeader>
@@ -289,12 +289,12 @@ const RecipeCard: React.FC<RecipeCardProps> = ({
             </div>
             <div className="flex items-center">
               <ChefHat className="h-4 w-4 mr-1" />
-              <span>{typeof recipe.cuisine === 'string&apos; ? recipe.cuisine : 'Unknown&apos;}</span>
+              <span>{typeof recipe.cuisine === 'string' ? recipe.cuisine : 'Unknown'}</span>
             </div>
-            {Boolean(recipe.difficulty) &amp;&amp; (
+            {Boolean(recipe.difficulty) && (
               <div className="flex items-center">
                 <span className="text-sm text-gray-600">
-                  Difficulty: {typeof recipe.difficulty === 'number&apos; ? recipe.difficulty : 'Unknown&apos;}/5
+                  Difficulty: {typeof recipe.difficulty === 'number' ? recipe.difficulty : 'Unknown'}/5
                 </span>
               </div>
             )}
@@ -315,32 +315,32 @@ const RecipeCard: React.FC<RecipeCardProps> = ({
           {renderElementalState()}
 
           {/* Planetary Influences */}
-          {(planetaryDayInfluence || planetaryHourInfluence) &amp;&amp; (
+          {(planetaryDayInfluence || planetaryHourInfluence) && (
             <div className="bg-gray-50 p-3 rounded-lg">
               <h4 className="text-sm font-medium mb-2">Astrological Timing</h4>
-              {planetaryDayInfluence &amp;&amp; (
+              {planetaryDayInfluence && (
                 <div className={`text-xs p-2 rounded ${
                   planetaryDayInfluence.isFavorable ? 'bg-green-100 text-green-800' :
                   planetaryDayInfluence.isUnfavorable ? 'bg-red-100 text-red-800' :
                   'bg-gray-100 text-gray-600'
                 }`}>
                   Day of {planetaryDayInfluence.planet}: {
-                    planetaryDayInfluence.isFavorable ? 'Favorable&apos; :
-                    planetaryDayInfluence.isUnfavorable ? 'Challenging&apos; :
-                    'Neutral&apos;
+                    planetaryDayInfluence.isFavorable ? 'Favorable' :
+                    planetaryDayInfluence.isUnfavorable ? 'Challenging' :
+                    'Neutral'
                   }
                 </div>
               )}
-              {planetaryHourInfluence &amp;&amp; (
+              {planetaryHourInfluence && (
                 <div className={`text-xs p-2 rounded mt-1 ${
                   planetaryHourInfluence.isFavorable ? 'bg-green-100 text-green-800' :
                   planetaryHourInfluence.isUnfavorable ? 'bg-red-100 text-red-800' :
                   'bg-gray-100 text-gray-600'
                 }`}>
                   Hour of {planetaryHourInfluence.planet}: {
-                    planetaryHourInfluence.isFavorable ? 'Favorable&apos; :
-                    planetaryHourInfluence.isUnfavorable ? 'Challenging&apos; :
-                    'Neutral&apos;
+                    planetaryHourInfluence.isFavorable ? 'Favorable' :
+                    planetaryHourInfluence.isUnfavorable ? 'Challenging' :
+                    'Neutral'
                   }
                 </div>
               )}
@@ -348,16 +348,16 @@ const RecipeCard: React.FC<RecipeCardProps> = ({
           )}
 
           {/* Expandable Content */}
-          {isExpanded &amp;&amp; (
+          {isExpanded && (
             <div className="pt-3 border-t space-y-3">
               {/* Ingredients */}
-              {recipe.ingredients &amp;&amp; recipe.ingredients.length > 0 &amp;&amp; (
+              {recipe.ingredients && recipe.ingredients.length > 0 && (
                 <div>
                   <h4 className="font-medium text-sm mb-2">Ingredients (for {servings} servings):</h4>
                   <ul className="text-sm space-y-1">
                     {recipe.ingredients.map((ingredient, idx) => (
                       <li key={idx}>
-                        {typeof ingredient === 'string&apos; 
+                        {typeof ingredient === 'string' 
                           ? ingredient 
                           : `${calculateAdjustedAmount(ingredient.amount)} ${ingredient.unit} ${ingredient.name}`
                         }
@@ -390,14 +390,14 @@ const RecipeCard: React.FC<RecipeCardProps> = ({
               )}
 
               {/* Instructions */}
-              {recipe.instructions &amp;&amp; recipe.instructions.length > 0 &amp;&amp; (
+              {recipe.instructions && recipe.instructions.length > 0 && (
                 <div>
                   <h4 className="font-medium text-sm mb-2">Instructions:</h4>
                   <ol className="text-sm space-y-1 list-decimal list-inside">
                     {recipe.instructions.slice(0, 3).map((step, idx) => (
                       <li key={idx}>{step}</li>
                     ))}
-                    {recipe.instructions.length > 3 &amp;&amp; (
+                    {recipe.instructions.length > 3 && (
                       <li className="text-gray-500">
                         +{recipe.instructions.length - 3} more steps
                       </li>
@@ -407,11 +407,11 @@ const RecipeCard: React.FC<RecipeCardProps> = ({
               )}
 
               {/* Nutrition */}
-              {recipe.nutrition &amp;&amp; (
+              {recipe.nutrition && (
                 <div>
                   <h4 className="font-medium text-sm mb-2">Nutrition (per serving):</h4>
                   <div className="text-sm grid grid-cols-2 gap-2">
-                    {recipe.nutrition.calories &amp;&amp; <span>Calories: {Math.round(recipe.nutrition.calories * servings / (typeof recipe.numberOfServings === 'number&apos; ? recipe.numberOfServings : servings))}</span>}
+                    {recipe.nutrition.calories && <span>Calories: {Math.round(recipe.nutrition.calories * servings / (typeof recipe.numberOfServings === 'number' ? recipe.numberOfServings : servings))}</span>}
                     
                     {/* Apply safe type casting for macronutrients access */}
                     {(() => {
@@ -422,9 +422,9 @@ const RecipeCard: React.FC<RecipeCardProps> = ({
                       
                       return (
                         <>
-                          {protein &amp;&amp; <span>Protein: {(protein * servings / (typeof recipe.numberOfServings === 'number&apos; ? recipe.numberOfServings : servings)).toFixed(1)}g</span>}
-                          {carbs &amp;&amp; <span>Carbs: {(carbs * servings / (typeof recipe.numberOfServings === 'number&apos; ? recipe.numberOfServings : servings)).toFixed(1)}g</span>}
-                          {fat &amp;&amp; <span>Fat: {(fat * servings / (typeof recipe.numberOfServings === 'number&apos; ? recipe.numberOfServings : servings)).toFixed(1)}g</span>}
+                          {protein && <span>Protein: {(protein * servings / (typeof recipe.numberOfServings === 'number' ? recipe.numberOfServings : servings)).toFixed(1)}g</span>}
+                          {carbs && <span>Carbs: {(carbs * servings / (typeof recipe.numberOfServings === 'number' ? recipe.numberOfServings : servings)).toFixed(1)}g</span>}
+                          {fat && <span>Fat: {(fat * servings / (typeof recipe.numberOfServings === 'number' ? recipe.numberOfServings : servings)).toFixed(1)}g</span>}
                         </>
                       );
                     })()}
@@ -435,14 +435,14 @@ const RecipeCard: React.FC<RecipeCardProps> = ({
           )}
 
           {/* Expand/Collapse Button */}
-          {onToggleExpanded &amp;&amp; (
+          {onToggleExpanded && (
             <Button
               variant="ghost"
               size="sm"
               onClick={onToggleExpanded}
               className="w-full mt-3"
             >
-              {isExpanded ? 'Show Less&apos; : 'Show More&apos;}
+              {isExpanded ? 'Show Less' : 'Show More'}
             </Button>
           )}
         </div>

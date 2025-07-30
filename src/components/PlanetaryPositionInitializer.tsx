@@ -239,7 +239,7 @@ const PlanetaryPositionInitializer: React.FC = () => {
               Using current March 2025 planetary positions
             </p>
             <p className="text-yellow-600 text-xs">
-              {updateError || 'Unable to connect to astronomical data source&apos;}
+              {updateError || 'Unable to connect to astronomical data source'}
             </p>
           </div>
         </div>
@@ -254,7 +254,7 @@ const PlanetaryPositionInitializer: React.FC = () => {
           aria-label="Retry connection"
         >
           <RefreshCw className={`h-3 w-3 mr-1 ${retryStatus.isRetrying ? 'animate-spin' : ''}`} />
-          {retryStatus.isRetrying ? 'Connecting...' : 'Retry Connection&apos;}
+          {retryStatus.isRetrying ? 'Connecting...' : 'Retry Connection'}
         </button>
       </div>
     );

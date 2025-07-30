@@ -146,7 +146,7 @@ export default function Navigation() {
               className="w-full flex items-center space-x-3 px-4 py-3 rounded-lg
                 hover:bg-gray-50 text-gray-700"
             >
-              {theme === 'light&apos; ? (
+              {theme === 'light' ? (
                 <>
                   <Moon className="w-5 h-5" />
                   <span>Dark Mode</span>

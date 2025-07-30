@@ -83,8 +83,8 @@ const CuisinesIndexPage = () => {
               <p className="text-gray-600 mb-4 line-clamp-2">{cuisine.description}</p>
               
               {/* Regional Variants */}
-              {cuisineFlavorProfiles[cuisine.id].regionalVariants &amp;&amp; 
-               (cuisineFlavorProfiles[cuisine.id].regionalVariants?.length ?? 0) > 0 &amp;&amp; (
+              {cuisineFlavorProfiles[cuisine.id].regionalVariants && 
+               (cuisineFlavorProfiles[cuisine.id].regionalVariants?.length ?? 0) > 0 && (
                 <div className="mb-4">
                   <h4 className="text-sm font-semibold text-gray-500 mb-1">Regional Variations:</h4>
                   <div className="flex flex-wrap gap-1">

@@ -30,11 +30,11 @@ const DebugInfo = memo(function DebugInfo() {
     <div className="p-4 bg-gray-100 rounded-lg my-4">
       <h2 className="text-lg font-semibold mb-2">Debug Info</h2>
       <div className="space-y-2 text-sm">
-        <p>Mounted: {hasRenderedRef.current ? 'true&apos; : 'false&apos;}</p>
+        <p>Mounted: {hasRenderedRef.current ? 'true' : 'false'}</p>
         <p>Renders: {renderCountRef.current}</p>
-        <p>Current Sign: {(planetaryPositions.sun as any)?.sign || 'unknown&apos;}</p>
-        <p>Planetary Hour: {(state.astrologicalState.planetaryHour as string) || 'Unknown&apos;}</p>
-        <p>Lunar Phase: {state.lunarPhase || 'Unknown&apos;}</p>
+        <p>Current Sign: {(planetaryPositions.sun as any)?.sign || 'unknown'}</p>
+        <p>Planetary Hour: {(state.astrologicalState.planetaryHour as string) || 'Unknown'}</p>
+        <p>Lunar Phase: {state.lunarPhase || 'Unknown'}</p>
         
         <h3 className="font-medium mt-3">Alchemical Tokens:</h3>
         <ul className="space-y-1">

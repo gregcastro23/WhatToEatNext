@@ -107,7 +107,7 @@ export default function UnifiedScoringIntegrationTest() {
             disabled={loading}
             className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded disabled:opacity-50"
           >
-            {loading ? 'Testing...' : 'Run Test&apos;}
+            {loading ? 'Testing...' : 'Run Test'}
           </button>
         </div>
 
@@ -176,7 +176,7 @@ export default function UnifiedScoringIntegrationTest() {
                             {scoredIngredient.breakdown[effect] ? 
                               (scoredIngredient.breakdown[effect] >= 0 ? '+' : '') + 
                               (scoredIngredient.breakdown[effect] * 100).toFixed(1) + '%'
-                              : 'N/A&apos;
+                              : 'N/A'
                             }
                           </span>
                         </div>

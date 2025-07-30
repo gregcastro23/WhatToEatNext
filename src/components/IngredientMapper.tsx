@@ -63,7 +63,7 @@ export default function IngredientMapper() {
     <div className="p-4 max-w-4xl mx-auto">
       <h1 className="text-2xl font-bold mb-4">Ingredient Mapping Explorer</h1>
       
-      {error &amp;&amp; (
+      {error && (
         <div className="mb-4 p-3 bg-red-100 text-red-800 rounded">
           Error: {error}
         </div>
@@ -80,7 +80,7 @@ export default function IngredientMapper() {
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               placeholder="Enter ingredient (optional)"
-              className="w-full p-2 border rounded&quot;
+              className="w-full p-2 border rounded"
             />
           </div>
           <div>
@@ -88,7 +88,7 @@ export default function IngredientMapper() {
             <select
               value={selectedCuisine}
               onChange={(e) => setSelectedCuisine(e.target.value)}
-              className="w-full p-2 border rounded&quot;
+              className="w-full p-2 border rounded"
             >
               <option value="">All Cuisines</option>
               {Object.keys(cuisinesMap).map(cuisine => (
@@ -155,8 +155,8 @@ export default function IngredientMapper() {
             type="text"
             value={selectedIngredient}
             onChange={(e) => setSelectedIngredient(e.target.value)}
-            placeholder="Enter ingredient name&quot;
-            className="w-full p-2 border rounded&quot;
+            placeholder="Enter ingredient name"
+            className="w-full p-2 border rounded"
           />
         </div>
         <button
@@ -198,8 +198,8 @@ export default function IngredientMapper() {
               type="text"
               value={selectedIngredient}
               onChange={(e) => setSelectedIngredient(e.target.value)}
-              placeholder="Enter first ingredient&quot;
-              className="w-full p-2 border rounded&quot;
+              placeholder="Enter first ingredient"
+              className="w-full p-2 border rounded"
             />
           </div>
           <div>
@@ -208,8 +208,8 @@ export default function IngredientMapper() {
               type="text"
               value={secondIngredient}
               onChange={(e) => setSecondIngredient(e.target.value)}
-              placeholder="Enter second ingredient&quot;
-              className="w-full p-2 border rounded&quot;
+              placeholder="Enter second ingredient"
+              className="w-full p-2 border rounded"
             />
           </div>
         </div>

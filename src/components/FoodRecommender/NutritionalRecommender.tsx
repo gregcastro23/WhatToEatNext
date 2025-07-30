@@ -254,8 +254,8 @@ const NutritionalRecommender: React.FC<NutritionalRecommenderProps> = ({
             </select>
 
             {/* Display selected vitamins with remove option */}
-            {filter.nutritional?.vitamins &amp;&amp;
-              filter.nutritional.vitamins.length > 0 &amp;&amp; (
+            {filter.nutritional?.vitamins &&
+              filter.nutritional.vitamins.length > 0 && (
                 <div className="flex flex-wrap gap-2 mt-2">
                   {filter.nutritional.vitamins.map((vitamin) => (
                     <span
@@ -309,8 +309,8 @@ const NutritionalRecommender: React.FC<NutritionalRecommenderProps> = ({
             </select>
 
             {/* Display selected minerals with remove option */}
-            {filter.nutritional?.minerals &amp;&amp;
-              filter.nutritional.minerals.length > 0 &amp;&amp; (
+            {filter.nutritional?.minerals &&
+              filter.nutritional.minerals.length > 0 && (
                 <div className="flex flex-wrap gap-2 mt-2">
                   {filter.nutritional.minerals.map((mineral) => (
                     <span
@@ -420,7 +420,7 @@ const NutritionalRecommender: React.FC<NutritionalRecommenderProps> = ({
                   ? 'border-b-2 border-blue-600 text-blue-600'
                   : 'border-transparent hover:border-gray-300 hover:text-gray-600'
               }`}
-              onClick={() => handleTabChange('all&apos;)}
+              onClick={() => handleTabChange('all')}
             >
               All Categories
             </button>
@@ -703,7 +703,7 @@ const IngredientCard: React.FC<IngredientCardProps> = ({
             onClick={() => onToggleExpand(ingredientName)}
             className="text-xs text-blue-600 hover:text-blue-800"
           >
-            {isExpanded ? 'Show Less&apos; : 'Show More&apos;}
+            {isExpanded ? 'Show Less' : 'Show More'}
           </button>
         </div>
 
@@ -733,7 +733,7 @@ const IngredientCard: React.FC<IngredientCardProps> = ({
           <div className="grid grid-cols-1 gap-1 mt-1">
             {Boolean((nutritionalProfile ).vitamins &&
               Array.isArray((nutritionalProfile ).vitamins) &&
-              ((nutritionalProfile ).vitamins as string[]).length > 0) &amp;&amp; (
+              ((nutritionalProfile ).vitamins as string[]).length > 0) && (
                 <div className="text-xs">
                   Vitamins:{' '}
                   {((nutritionalProfile ).vitamins as string[])
@@ -758,7 +758,7 @@ const IngredientCard: React.FC<IngredientCardProps> = ({
         <div className="mt-3 border-t pt-2">
           <h5 className="text-sm font-medium mb-2">Detailed Nutrition</h5>
 
-          {!enhancedData &amp;&amp; !isSpoonacularLoading &amp;&amp; (
+          {!enhancedData && !isSpoonacularLoading && (
             <button
               onClick={onLoadSpoonacularData}
               className="text-xs px-2 py-1 bg-blue-500 text-white rounded hover:bg-blue-600"
@@ -767,7 +767,7 @@ const IngredientCard: React.FC<IngredientCardProps> = ({
             </button>
           )}
 
-          {isSpoonacularLoading &amp;&amp; (
+          {isSpoonacularLoading && (
             <div className="flex items-center text-xs text-gray-600">
               <div className="animate-spin rounded-full h-3 w-3 border border-gray-600 border-t-transparent mr-2"></div>
               Loading detailed nutrition data...
@@ -783,7 +783,7 @@ const IngredientCard: React.FC<IngredientCardProps> = ({
                 const nutrients = nutrition.nutrients;
                 
                 // ✅ Pattern GG-6: Safe property access for nutrients array
-                return nutrients &amp;&amp; Array.isArray(nutrients) ? (
+                return nutrients && Array.isArray(nutrients) ? (
                   <div className="grid grid-cols-2 gap-x-2 gap-y-1 text-xs">
                     {(nutrients as unknown[])
                       .slice(0, 8)

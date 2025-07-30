@@ -52,9 +52,9 @@ export default function NutritionalDisplay({
               placeholder="Search for an ingredient..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full p-2 border border-gray-300 rounded&quot;
+              className="w-full p-2 border border-gray-300 rounded"
             />
-            {searchTerm &amp;&amp; (
+            {searchTerm && (
               <div className="absolute z-10 w-full bg-white border border-gray-300 rounded-b mt-1 max-h-60 overflow-y-auto">
                 {availableIngredients
                   .filter(item => 

@@ -134,7 +134,7 @@ export default function Header({ setNumberOfPeople }: HeaderProps) {
             <div className="flex items-center space-x-4">
               <button
                 onClick={() => handlePeopleUpdate(peopleCount > 1 ? peopleCount - 1 : 1)}
-                className="p-2 bg-white/10 rounded-lg hover:bg-white/20 transition-colors&quot;
+                className="p-2 bg-white/10 rounded-lg hover:bg-white/20 transition-colors"
               >
                 <Users className="h-4 w-4" />
               </button>
@@ -143,7 +143,7 @@ export default function Header({ setNumberOfPeople }: HeaderProps) {
               </span>
               <button
                 onClick={() => handlePeopleUpdate(peopleCount + 1)}
-                className="p-2 bg-white/10 rounded-lg hover:bg-white/20 transition-colors&quot;
+                className="p-2 bg-white/10 rounded-lg hover:bg-white/20 transition-colors"
               >
                 <Users className="h-4 w-4" />
               </button>

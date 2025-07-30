@@ -257,7 +257,7 @@ export class ComponentErrorBoundary extends Component<ComponentErrorBoundaryProp
                 </h3>
                 
                 <p className={`text-sm ${theme.message}`}>
-                  This component encountered an error and couldn&apos;t load properly.
+                  This component encountered an error and couldn't load properly.
                 </p>
 
                 <div className={`text-sm ${theme.message} ${theme.details} rounded p-3`}>
@@ -282,10 +282,10 @@ export class ComponentErrorBoundary extends Component<ComponentErrorBoundaryProp
                       ) : (
                         <ChevronDown className="h-4 w-4 mr-1" />
                       )}
-                      {showDetails ? 'Hide Details&apos; : 'Show Details&apos;}
+                      {showDetails ? 'Hide Details' : 'Show Details'}
                     </button>
                     
-                    {showDetails &amp;&amp; (
+                    {showDetails && (
                       <pre className={`text-xs ${theme.details} p-3 rounded overflow-auto max-h-40`}>
                         {error.stack}
                       </pre>

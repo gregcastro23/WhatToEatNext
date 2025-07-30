@@ -75,7 +75,7 @@ const ChromeAPITest = () => {
       <h2 className="text-xl font-semibold mb-4">Chrome API Test</h2>
       <div className="mb-2">
         <span className={`inline-block px-2 py-1 rounded text-sm ${apiReady ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'}`}>
-          {apiReady ? 'Chrome API Ready&apos; : 'Initializing Chrome API...'}
+          {apiReady ? 'Chrome API Ready' : 'Initializing Chrome API...'}
         </span>
       </div>
       <button

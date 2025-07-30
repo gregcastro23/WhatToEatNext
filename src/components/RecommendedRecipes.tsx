@@ -68,7 +68,7 @@ const RecommendedRecipes: React.FC<RecommendedRecipesProps> = ({
         {recommendations.map((recipe) => (
           <Grid item xs={12} md={4} key={recipe.id}>
             <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
-              {Boolean(recipe.image) &amp;&amp; (
+              {Boolean(recipe.image) && (
                 <CardMedia
                   component="img"
                   height="140"

@@ -216,7 +216,7 @@ export default function EnterpriseIntelligencePanel({
     <div className="space-y-4">
       {hasRecommendations ? (
         <>
-          {highPriorityCount > 0 &amp;&amp; (
+          {highPriorityCount > 0 && (
             <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-3">
               <div className="flex items-center space-x-2 text-yellow-800">
                 <AlertTriangle size={16} />
@@ -329,7 +329,7 @@ export default function EnterpriseIntelligencePanel({
           {/* Issues and Warnings */}
           {(systemHealth.issues.length > 0 || systemHealth.warnings.length > 0) && (
             <div className="space-y-2">
-              {systemHealth.issues.length > 0 &amp;&amp; (
+              {systemHealth.issues.length > 0 && (
                 <div className="bg-red-50 border border-red-200 rounded-lg p-3">
                   <h5 className="font-medium text-red-800 mb-2">Issues</h5>
                   <ul className="text-sm text-red-600 space-y-1">
@@ -412,7 +412,7 @@ export default function EnterpriseIntelligencePanel({
               <span className={`text-sm font-medium ${
                 performanceStatus.isPerformant ? 'text-green-600' : 'text-red-600'
               }`}>
-                {performanceStatus.isPerformant ? 'Good&apos; : 'Needs Improvement&apos;}
+                {performanceStatus.isPerformant ? 'Good' : 'Needs Improvement'}
               </span>
             </div>
             <div className="flex justify-between items-center">
@@ -479,17 +479,17 @@ export default function EnterpriseIntelligencePanel({
           {/* Tab Navigation */}
           <div className="flex space-x-1 mb-4 bg-gray-100 rounded-lg p-1">
             {[
-              { id: 'overview&apos;, label: 'Overview&apos;, icon: BarChart3 },
-              { id: 'recommendations&apos;, label: 'Recommendations&apos;, icon: Lightbulb },
-              { id: 'health&apos;, label: 'Health&apos;, icon: Shield },
-              { id: 'performance&apos;, label: 'Performance&apos;, icon: TrendingUp }
+              { id: 'overview', label: 'Overview', icon: BarChart3 },
+              { id: 'recommendations', label: 'Recommendations', icon: Lightbulb },
+              { id: 'health', label: 'Health', icon: Shield },
+              { id: 'performance', label: 'Performance', icon: TrendingUp }
             ].map(tab => (
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id as any)}
                 className={`flex items-center space-x-2 px-3 py-2 rounded-md text-sm font-medium transition-colors ${
                   activeTab === tab.id
-                    ? 'bg-white text-blue-600 shadow-sm&apos;
+                    ? 'bg-white text-blue-600 shadow-sm'
                     : 'text-gray-600 hover:text-gray-900'
                 }`}
               >

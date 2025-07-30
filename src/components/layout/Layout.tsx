@@ -83,7 +83,7 @@ export default function Layout({ children }: LayoutProps) {
         <main className="flex-1 p-4 md:p-8">
           <div className="max-w-7xl mx-auto space-y-8">
             {/* Celestial Display */}
-            {showCelestial &amp;&amp; (
+            {showCelestial && (
               <div className="animate-fade-in-up">
                 <CelestialDisplay />
               </div>

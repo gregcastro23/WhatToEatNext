@@ -51,13 +51,13 @@ export default function Header({ onServingsChange }: HeaderProps) {
             
             {/* Celestial Indicators */}
             <div className="hidden md:flex items-center space-x-4 text-sm text-gray-500">
-              {Boolean(planetaryPositions.sun) &amp;&amp; (
+              {Boolean(planetaryPositions.sun) && (
                 <div className="flex items-center">
                   <Sun className="w-4 h-4 mr-1" />
                   <span>{(planetaryPositions.sun as any)?.sign}</span>
                 </div>
               )}
-              {Boolean(planetaryPositions.moon) &amp;&amp; (
+              {Boolean(planetaryPositions.moon) && (
                 <div className="flex items-center">
                   <Moon className="w-4 h-4 mr-1" />
                   <span>{(planetaryPositions.moon as any)?.sign}</span>
@@ -87,7 +87,7 @@ export default function Header({ onServingsChange }: HeaderProps) {
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               className="md:hidden p-2 rounded-md hover:bg-gray-100"
-              aria-label="Toggle menu&quot;
+              aria-label="Toggle menu"
             >
               {isMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
@@ -95,10 +95,10 @@ export default function Header({ onServingsChange }: HeaderProps) {
         </div>
 
         {/* Mobile Menu */}
-        {isMenuOpen &amp;&amp; (
+        {isMenuOpen && (
           <div className="md:hidden py-4 border-t">
             <div className="space-y-4">
-              {Boolean(planetaryPositions.sun) &amp;&amp; (
+              {Boolean(planetaryPositions.sun) && (
                 <div className="flex items-center">
                   <Sun className="w-4 h-4 mr-2" />
                   <span className="text-sm text-gray-500">
@@ -106,7 +106,7 @@ export default function Header({ onServingsChange }: HeaderProps) {
                   </span>
                 </div>
               )}
-              {Boolean(planetaryPositions.moon) &amp;&amp; (
+              {Boolean(planetaryPositions.moon) && (
                 <div className="flex items-center">
                   <Moon className="w-4 h-4 mr-2" />
                   <span className="text-sm text-gray-500">

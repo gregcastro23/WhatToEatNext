@@ -151,7 +151,7 @@ const AstrologicalClock: React.FC = () => {
       <div className="flex justify-center" ref={svgContainerRef}></div>
       
       <div className="mt-3 text-sm">
-        <p>Ascendant: {ZODIAC_SYMBOLS[chartData.ascendant || 'Libra&apos;]} {chartData.ascendant || 'Not available&apos;}</p>
+        <p>Ascendant: {ZODIAC_SYMBOLS[chartData.ascendant || 'Libra']} {chartData.ascendant || 'Not available'}</p>
         <p className="text-xs text-gray-500 mt-1">
           Showing current planetary positions
         </p>
@@ -184,12 +184,12 @@ const AstrologicalClock: React.FC = () => {
                   const isRetrograde = planetData?.isRetrograde;
                   
                   // Special handling for nodes
-                  const isNode = planet === 'NorthNode&apos; || planet === 'SouthNode&apos;;
-                  const nodeClass = planet === 'NorthNode&apos; ? 'text-blue-600' : 'text-red-600';
+                  const isNode = planet === 'NorthNode' || planet === 'SouthNode';
+                  const nodeClass = planet === 'NorthNode' ? 'text-blue-600' : 'text-red-600';
                   
                   // Only calculate dignity for actual planets, not nodes
                   const dignity = isNode 
-                    ? { type: 'N/A&apos;, strength: 0 } 
+                    ? { type: 'N/A', strength: 0 } 
                     : getPlanetaryDignity(planet, sign);
                     
                   const dignityClass = isNode
@@ -204,7 +204,7 @@ const AstrologicalClock: React.FC = () => {
                     <tr key={planet} className={`border-t border-gray-100 ${isNode ? 'bg-gray-50' : ''}`}>
                       <td className={`px-2 py-1 font-medium ${isNode ? nodeClass : ''}`}>
                         <span className="mr-1">{PLANET_SYMBOLS[planet]}</span>
-                        {planet === 'NorthNode&apos; ? 'North Node&apos; : planet === 'SouthNode&apos; ? 'South Node&apos; : planet}
+                        {planet === 'NorthNode' ? 'North Node' : planet === 'SouthNode' ? 'South Node' : planet}
                       </td>
                       <td className="px-2 py-1">
                         <span className="mr-1">{ZODIAC_SYMBOLS[sign]}</span>
@@ -212,7 +212,7 @@ const AstrologicalClock: React.FC = () => {
                       </td>
                       <td className="px-2 py-1">
                         {degree?.toFixed(1)}°
-                        {isRetrograde &amp;&amp; <span className="ml-1 text-orange-500">℞</span>}
+                        {isRetrograde && <span className="ml-1 text-orange-500">℞</span>}
                       </td>
                       <td className={`px-2 py-1 ${dignityClass}`}>
                         {dignity.type}

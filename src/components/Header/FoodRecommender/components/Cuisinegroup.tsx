@@ -290,7 +290,7 @@ const CuisineGroup: React.FC<Props> = ({ recipes, elementalState }) => {
                 <select 
                     className="p-2 border rounded"
                     value={sortBy}
-                    onChange={(e) => setSortBy(e.target.value as 'elemental&apos; | 'time&apos; | 'calories&apos;)}
+                    onChange={(e) => setSortBy(e.target.value as 'elemental' | 'time' | 'calories')}
                 >
                     <option value="elemental">Sort by Elemental Match</option>
                     <option value="time">Sort by Cooking Time</option>

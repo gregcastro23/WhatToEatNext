@@ -26,10 +26,10 @@ export const GenericFallback = memo(function GenericFallback({
         {componentName} Unavailable
       </h3>
       <p className="text-gray-600 mb-4">
-        We&apos;re having trouble loading this section. Please try again.
+        We're having trouble loading this section. Please try again.
       </p>
       
-      {showDetails &amp;&amp; error &amp;&amp; (
+      {showDetails && error && (
         <details className="mb-4 text-left">
           <summary className="cursor-pointer text-gray-500 text-sm mb-2">
             Technical Details
@@ -238,7 +238,7 @@ export const NetworkErrorFallback = memo(function NetworkErrorFallback({
         Connection Problem
       </h3>
       <p className="text-red-700 mb-4">
-        We&apos;re having trouble connecting to our servers. Please check your internet connection and try again.
+        We're having trouble connecting to our servers. Please check your internet connection and try again.
       </p>
       
       <div className="bg-white p-3 rounded border mb-4">

@@ -76,11 +76,11 @@ export function StateDebugger() {
     >
       <div className="flex justify-between items-center mb-2">
         <h3 className="font-bold text-blue-200">
-          🔮 Unified State Debugger {isLoading &amp;&amp; '⏳'}
+          🔮 Unified State Debugger {isLoading && '⏳'}
         </h3>
         <button
           onClick={() => setIsExpanded(!isExpanded)}
-          className="text-blue-200 hover:text-white transition-colors&quot;
+          className="text-blue-200 hover:text-white transition-colors"
         >
           {isExpanded ? '📉' : '📊'}
         </button>
@@ -171,7 +171,7 @@ export function StateDebugger() {
                 <span className="text-yellow-300">{thermodynamics?.reactivity.toFixed(4) || '0.0000'}</span>
               </div>
               <div className="flex justify-between">
-                <span>💫 Greg&apos;s Energy:</span>
+                <span>💫 Greg's Energy:</span>
                 <span className="text-pink-300">{thermodynamics?.gregsEnergy.toFixed(4) || '0.0000'}</span>
               </div>
             </div>
@@ -224,9 +224,9 @@ export function StateDebugger() {
               <button
                 onClick={(e) => {
                   e.stopPropagation()
-                  copyToClipboard(astrologicalData, 'Astrological Data&apos;)
+                  copyToClipboard(astrologicalData, 'Astrological Data')
                 }}
-                className="text-xs px-2 py-1 bg-purple-600 hover:bg-purple-500 rounded transition-colors&quot;
+                className="text-xs px-2 py-1 bg-purple-600 hover:bg-purple-500 rounded transition-colors"
               >
                 📋 Copy
               </button>
@@ -242,9 +242,9 @@ export function StateDebugger() {
               <button
                 onClick={(e) => {
                   e.stopPropagation()
-                  copyToClipboard(alchemicalData, 'Alchemical Data&apos;)
+                  copyToClipboard(alchemicalData, 'Alchemical Data')
                 }}
-                className="text-xs px-2 py-1 bg-purple-600 hover:bg-purple-500 rounded transition-colors&quot;
+                className="text-xs px-2 py-1 bg-purple-600 hover:bg-purple-500 rounded transition-colors"
               >
                 📋 Copy
               </button>
@@ -260,9 +260,9 @@ export function StateDebugger() {
               <button
                 onClick={(e) => {
                   e.stopPropagation()
-                  copyToClipboard(recommendationData, 'Recommendation Data&apos;)
+                  copyToClipboard(recommendationData, 'Recommendation Data')
                 }}
-                className="text-xs px-2 py-1 bg-purple-600 hover:bg-purple-500 rounded transition-colors&quot;
+                className="text-xs px-2 py-1 bg-purple-600 hover:bg-purple-500 rounded transition-colors"
               >
                 📋 Copy
               </button>
@@ -290,9 +290,9 @@ export function StateDebugger() {
                     monica
                   }
                 }
-                copyToClipboard(allData, 'All Debug Data&apos;)
+                copyToClipboard(allData, 'All Debug Data')
               }}
-              className="w-full text-xs px-3 py-2 bg-blue-600 hover:bg-blue-500 rounded transition-colors font-bold&quot;
+              className="w-full text-xs px-3 py-2 bg-blue-600 hover:bg-blue-500 rounded transition-colors font-bold"
             >
               📋 Copy All Data
             </button>

@@ -149,10 +149,10 @@ export default function UnifiedScoringDemo() {
               value={selectedLocation.timezone}
               onChange={(e) => {
                 const locations = {
-                  'America/New_York&apos;: { latitude: 40.7128, longitude: -74.0060, timezone: 'America/New_York&apos; },
-                  'America/Los_Angeles&apos;: { latitude: 34.0522, longitude: -118.2437, timezone: 'America/Los_Angeles&apos; },
-                  'Asia/Tokyo&apos;: { latitude: 35.6762, longitude: 139.6503, timezone: 'Asia/Tokyo&apos; },
-                  'Europe/London&apos;: { latitude: 51.5074, longitude: -0.1278, timezone: 'Europe/London&apos; }
+                  'America/New_York': { latitude: 40.7128, longitude: -74.0060, timezone: 'America/New_York' },
+                  'America/Los_Angeles': { latitude: 34.0522, longitude: -118.2437, timezone: 'America/Los_Angeles' },
+                  'Asia/Tokyo': { latitude: 35.6762, longitude: 139.6503, timezone: 'Asia/Tokyo' },
+                  'Europe/London': { latitude: 51.5074, longitude: -0.1278, timezone: 'Europe/London' }
                 };
                 setSelectedLocation(locations[e.target.value as keyof typeof locations]);
               }}
@@ -257,7 +257,7 @@ export default function UnifiedScoringDemo() {
                           {result.breakdown[effect] ? 
                             (result.breakdown[effect] >= 0 ? '+' : '') + 
                             (result.breakdown[effect] * 100).toFixed(1) + '%'
-                            : 'N/A&apos;
+                            : 'N/A'
                           }
                         </span>
                       </div>
@@ -321,7 +321,7 @@ export default function UnifiedScoringDemo() {
         </p>
         <ul className="text-sm text-gray-700 space-y-1">
           <li>• <strong>Elemental Compatibility:</strong> How well item elements align with current astrological state</li>
-          <li>• <strong>Transit Effects:</strong> Current planetary movements affecting the item&apos;s ruling planets</li>
+          <li>• <strong>Transit Effects:</strong> Current planetary movements affecting the item's ruling planets</li>
           <li>• <strong>Seasonal Alignment:</strong> Whether the item is in season</li>
           <li>• <strong>Location Influences:</strong> Geographic planetary effects</li>
           <li>• <strong>Thermodynamic State:</strong> Current alchemical energy levels</li>

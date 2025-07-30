@@ -133,7 +133,7 @@ interface ZodiacSignProps {
 
 export const ZodiacSign: React.FC<ZodiacSignProps> = ({ 
   sign, 
-  size = 'medium&apos;,
+  size = 'medium',
   showLabel = false
 }) => {
   const zodiacEmoji: { [key: string]: string } = {
@@ -143,22 +143,22 @@ export const ZodiacSign: React.FC<ZodiacSignProps> = ({
   };
 
   const zodiacElement: { [key: string]: string } = {
-    aries: 'Fire&apos;, taurus: 'Earth&apos;, gemini: 'Air&apos;, cancer: 'Water&apos;,
-    leo: 'Fire&apos;, virgo: 'Earth&apos;, libra: 'Air&apos;, scorpio: 'Water&apos;,
-    sagittarius: 'Fire&apos;, capricorn: 'Earth&apos;, aquarius: 'Air&apos;, pisces: 'Water&apos;
+    aries: 'Fire', taurus: 'Earth', gemini: 'Air', cancer: 'Water',
+    leo: 'Fire', virgo: 'Earth', libra: 'Air', scorpio: 'Water',
+    sagittarius: 'Fire', capricorn: 'Earth', aquarius: 'Air', pisces: 'Water'
   };
 
   const elementColor: { [key: string]: string } = { Fire: '#FF5722', Earth: '#8D6E63', Air: '#03A9F4', Water: '#0288D1'
   };
 
   const signName = sign.toLowerCase();
-  const element = zodiacElement[signName] || 'Unknown&apos;;
+  const element = zodiacElement[signName] || 'Unknown';
   const emoji = zodiacEmoji[signName] || '?';
   
   const sizeMap = {
-    small: { fontSize: '1rem&apos;, padding: '0.25rem&apos; },
-    medium: { fontSize: '2rem&apos;, padding: '0.5rem&apos; },
-    large: { fontSize: '3rem&apos;, padding: '0.8rem&apos; }
+    small: { fontSize: '1rem', padding: '0.25rem' },
+    medium: { fontSize: '2rem', padding: '0.5rem' },
+    large: { fontSize: '3rem', padding: '0.8rem' }
   };
   
   const formattedName = signName.charAt(0).toUpperCase() + signName.slice(1);
@@ -177,7 +177,7 @@ export const ZodiacSign: React.FC<ZodiacSignProps> = ({
       title={`${formattedName} (${element})`}
     >
       {emoji}
-      {showLabel &amp;&amp; (
+      {showLabel && (
         <div style={{ fontSize: '0.7em', marginTop: '0.5rem' }}>
           {formattedName}
         </div>

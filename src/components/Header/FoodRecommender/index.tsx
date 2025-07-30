@@ -534,7 +534,7 @@ const FoodRecommender: React.FC = () => {
             {error && (
                 <div className="bg-red-900 bg-opacity-20 p-4 rounded mb-4">
                     <p className="text-red-300">{error}</p>
-                    {debugInfo &amp;&amp; (
+                    {debugInfo && (
                         <details className="mt-2">
                             <summary className="text-sm text-gray-400 cursor-pointer">Technical Details</summary>
                             <pre className="mt-2 text-xs text-gray-500 overflow-x-auto">{debugInfo}</pre>
@@ -573,7 +573,7 @@ const FoodRecommender: React.FC = () => {
                             {isDaytime !== undefined && (
                                 <div className="bg-purple-900 bg-opacity-30 px-3 py-1 rounded-full text-xs flex items-center">
                                     <Clock className="w-3 h-3 mr-1 text-purple-400" />
-                                    <span className="text-purple-100">{isDaytime ? 'Daytime&apos; : 'Nighttime&apos;}</span>
+                                    <span className="text-purple-100">{isDaytime ? 'Daytime' : 'Nighttime'}</span>
                                 </div>
                             )}
                             
@@ -664,7 +664,7 @@ const FoodRecommender: React.FC = () => {
                                         <div className="mt-2 mb-3">
                                             <h5 className="text-xs text-gray-500 mb-1">Nutritional Information</h5>
                                             <div className="grid grid-cols-2 gap-2">
-                                                {Boolean(((ingredient as Record<string, unknown>).nutritionalInfo as Record<string, unknown>).calories) &amp;&amp; (
+                                                {Boolean(((ingredient as Record<string, unknown>).nutritionalInfo as Record<string, unknown>).calories) && (
                                                     <div className="text-xs">
                                                         <span className="text-gray-400">Calories:</span> 
                                                         <span className="text-white ml-1">{String(((ingredient as Record<string, unknown>).nutritionalInfo as Record<string, unknown>).calories || '')}</span>
@@ -714,7 +714,7 @@ const FoodRecommender: React.FC = () => {
                                         <div className="mt-2 mb-3">
                                             <h5 className="text-xs text-gray-500 mb-1">Properties</h5>
                                             <div className="flex flex-wrap gap-1">
-                                                {Array.isArray((ingredient as Record<string, unknown>).medicinalProperties) &amp;&amp; 
+                                                {Array.isArray((ingredient as Record<string, unknown>).medicinalProperties) && 
                                                  ((ingredient as Record<string, unknown>).medicinalProperties as string[]).slice(0, 3).map((property: string, idx: number) => (
                                                     <div key={idx} className="bg-green-900 bg-opacity-30 px-2 py-0.5 rounded-full text-xs">
                                                         {property}
@@ -757,16 +757,16 @@ const FoodRecommender: React.FC = () => {
                                                 // Get color based on element
                                                 const getElementColor = (elem: string) => {
                                                     switch((elem ).toLowerCase()) {
-                                                        case 'fire&apos;: return 'bg-orange-500';
-                                                        case 'water&apos;: return 'bg-blue-500';
-                                                        case 'earth&apos;: return 'bg-green-500';
-                                                        case 'air&apos;: return 'bg-purple-500';
+                                                        case 'fire': return 'bg-orange-500';
+                                                        case 'water': return 'bg-blue-500';
+                                                        case 'earth': return 'bg-green-500';
+                                                        case 'air': return 'bg-purple-500';
                                                         default: return 'bg-gray-500';
                                                     }
                                                 };
                                                 
                                                 // ✅ Pattern GG-6: Safe property access for tarot element matching
-                                                const isTarotElement = minorCard &amp;&amp; 
+                                                const isTarotElement = minorCard && 
                                                     (element ).toLowerCase() === ((minorCard as Record<string, unknown>).element as string).toLowerCase();
                                                 
                                                 return (
@@ -776,7 +776,7 @@ const FoodRecommender: React.FC = () => {
                                                                 {getElementIcon(element)}
                                                                 <span className={`ml-1 ${isTarotElement ? 'text-yellow-300 font-medium' : 'text-gray-300'}`}>
                                                                     {element}
-                                                                    {String(isTarotElement &amp;&amp; ' ✧')}
+                                                                    {String(isTarotElement && ' ✧')}
                                                                 </span>
                                                             </div>
                                                             <span className="text-gray-400">{String(safelyFormatNumber(normalizedValue * 100))}%</span>

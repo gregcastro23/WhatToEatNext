@@ -91,7 +91,7 @@ export const SystemStatusIndicator: React.FC = React.memo(() => {
       <div className="flex flex-col">
         <div className="flex justify-between items-center mb-1">
           <h4 className="text-xs font-medium text-gray-500 dark:text-gray-400">System Status</h4>
-          {lastUpdated &amp;&amp; (
+          {lastUpdated && (
             <span className="text-xs text-gray-400">
               Updated: {lastUpdated.toLocaleTimeString()}
             </span>

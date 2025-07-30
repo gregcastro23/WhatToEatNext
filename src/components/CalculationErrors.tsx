@@ -17,7 +17,7 @@ const CalculationErrors = () => {
       </h3>
       
       {/* Show individual errors if available */}
-      {state.errors &amp;&amp; state.errors.length > 0 &amp;&amp; (
+      {state.errors && state.errors.length > 0 && (
         <ul className="text-red-300/80 text-sm space-y-1">
           {state.errors.map((error, index) => (
             <li key={index}>⚠️ {error}</li>
@@ -26,7 +26,7 @@ const CalculationErrors = () => {
       )}
       
       {/* Show the main error message if available */}
-      {state.error &amp;&amp; (
+      {state.error && (
         <p className="text-red-300/80 text-sm mt-1">
           ⚠️ {state.errorMessage}
         </p>

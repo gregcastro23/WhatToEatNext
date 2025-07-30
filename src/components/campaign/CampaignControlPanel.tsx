@@ -221,7 +221,7 @@ export const CampaignControlPanel: React.FC<CampaignControlPanelProps> = ({
           <div className="safety-level-selection">
             <h4>Safety Level</h4>
             <div className="safety-options">
-              {(['conservative&apos;, 'standard&apos;, 'aggressive&apos;] as const).map(level => (
+              {(['conservative', 'standard', 'aggressive'] as const).map(level => (
                 <label key={level} className="safety-option">
                   <input
                     type="radio"
@@ -395,20 +395,20 @@ const CampaignStatusCard: React.FC<{
       <div className="campaign-controls">
         {campaign.status === 'running' && (
           <>
-            <button onClick={() => onControl(campaign.campaignId, 'pause&apos;)}>
+            <button onClick={() => onControl(campaign.campaignId, 'pause')}>
               Pause
             </button>
-            <button onClick={() => onControl(campaign.campaignId, 'stop&apos;)}>
+            <button onClick={() => onControl(campaign.campaignId, 'stop')}>
               Stop
             </button>
           </>
         )}
-        {campaign.status === 'paused&apos; &amp;&amp; (
+        {campaign.status === 'paused' && (
           <>
-            <button onClick={() => onControl(campaign.campaignId, 'resume&apos;)}>
+            <button onClick={() => onControl(campaign.campaignId, 'resume')}>
               Resume
             </button>
-            <button onClick={() => onControl(campaign.campaignId, 'stop&apos;)}>
+            <button onClick={() => onControl(campaign.campaignId, 'stop')}>
               Stop
             </button>
           </>
@@ -431,7 +431,7 @@ const CampaignResultCard: React.FC<{
       <div className="result-header">
         <h4>{result.phaseName}</h4>
         <div className={`result-status ${result.success ? 'success' : 'failed'}`}>
-          {result.success ? 'SUCCESS&apos; : 'FAILED&apos;}
+          {result.success ? 'SUCCESS' : 'FAILED'}
         </div>
       </div>
       

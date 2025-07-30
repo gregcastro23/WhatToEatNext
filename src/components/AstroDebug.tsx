@@ -14,12 +14,12 @@ const AstroDebug: React.FC = () => {
     <div className="fixed bottom-4 right-4 z-50">
       <button 
         onClick={() => setExpanded(!expanded)} 
-        className="bg-gray-800 text-gray-200 px-3 py-1 rounded&quot;
+        className="bg-gray-800 text-gray-200 px-3 py-1 rounded"
       >
-        {expanded ? 'Hide Debug&apos; : 'Show Debug&apos;}
+        {expanded ? 'Hide Debug' : 'Show Debug'}
       </button>
       
-      {expanded &amp;&amp; (
+      {expanded && (
         <div className="bg-gray-900 p-4 mt-2 rounded shadow-lg text-white overflow-auto max-h-96 w-96">
           <h3 className="font-bold mb-2">Astrological Debug Info</h3>
           
@@ -38,13 +38,13 @@ const AstroDebug: React.FC = () => {
               log.info('Current state:', state);
               log.info('Planetary positions:', planetaryPositions);
               try {
-                const SunCalc = require('suncalc&apos;);
+                const SunCalc = require('suncalc');
                 log.info('SunCalc moon illumination:', SunCalc.getMoonIllumination(new Date()));
               } catch (error) {
                 console.error('SunCalc test failed:', error);
               }
             }}
-            className="mt-2 bg-blue-700 px-2 py-1 rounded text-xs&quot;
+            className="mt-2 bg-blue-700 px-2 py-1 rounded text-xs"
           >
             Log Details to Console
           </button>

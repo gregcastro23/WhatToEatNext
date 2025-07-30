@@ -141,7 +141,7 @@ export function UnifiedDebug({ mode = 'compact', showTabs = true }: UnifiedDebug
       <div className="space-y-1">
         <p>Mounted: {String(mounted)}</p>
         <p>Renders: {renderCount}</p>
-        <p>Current Sign: {(state.astrologicalState.currentZodiacSign as string) || (state.astrologicalState.sunSign ) || 'unknown&apos;}</p>
+        <p>Current Sign: {(state.astrologicalState.currentZodiacSign as string) || (state.astrologicalState.sunSign ) || 'unknown'}</p>
         <p>Planetary Hour: {planetaryHour}</p>
         <p>Lunar Phase: {lunarPhase}</p>
         <div>
@@ -175,7 +175,7 @@ export function UnifiedDebug({ mode = 'compact', showTabs = true }: UnifiedDebug
           className="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 transition text-xs"
           disabled={loading}
         >
-          {loading ? 'Running Test...' : 'Test Cooking Methods&apos;}
+          {loading ? 'Running Test...' : 'Test Cooking Methods'}
         </button>
       </div>
       
@@ -190,7 +190,7 @@ export function UnifiedDebug({ mode = 'compact', showTabs = true }: UnifiedDebug
         <div className="space-y-2">
           <div>
             <h5 className="font-bold text-xs">Ingredient: {testResults.ingredient.name}</h5>
-            <p className="text-xs">Element: {testResults.ingredient.dominantElement || 'Unknown&apos;}</p>
+            <p className="text-xs">Element: {testResults.ingredient.dominantElement || 'Unknown'}</p>
           </div>
           
           <div>
@@ -215,17 +215,17 @@ export function UnifiedDebug({ mode = 'compact', showTabs = true }: UnifiedDebug
           <>
             <div className="flex mb-2 space-x-2">
               <button
-                onClick={() => setActiveTab('state&apos;)}
+                onClick={() => setActiveTab('state')}
                 className={`px-2 py-1 rounded text-xs ${
-                  activeTab === 'state&apos; ? 'bg-blue-600' : 'bg-gray-600'
+                  activeTab === 'state' ? 'bg-blue-600' : 'bg-gray-600'
                 }`}
               >
                 State
               </button>
               <button
-                onClick={() => setActiveTab('alchemical&apos;)}
+                onClick={() => setActiveTab('alchemical')}
                 className={`px-2 py-1 rounded text-xs ${
-                  activeTab === 'alchemical&apos; ? 'bg-blue-600' : 'bg-gray-600'
+                  activeTab === 'alchemical' ? 'bg-blue-600' : 'bg-gray-600'
                 }`}
               >
                 Alchemical
@@ -246,20 +246,20 @@ export function UnifiedDebug({ mode = 'compact', showTabs = true }: UnifiedDebug
     <div className="p-4 bg-white dark:bg-gray-800 rounded shadow">
       <h3 className="text-lg font-bold mb-4">Debug Tools</h3>
       
-      {showTabs &amp;&amp; (
+      {showTabs && (
         <div className="flex mb-4 space-x-2">
           <button
-            onClick={() => setActiveTab('state&apos;)}
+            onClick={() => setActiveTab('state')}
             className={`px-4 py-2 rounded ${
-              activeTab === 'state&apos; ? 'bg-blue-600 text-white&apos; : 'bg-gray-200'
+              activeTab === 'state' ? 'bg-blue-600 text-white' : 'bg-gray-200'
             }`}
           >
             State Debug
           </button>
           <button
-            onClick={() => setActiveTab('alchemical&apos;)}
+            onClick={() => setActiveTab('alchemical')}
             className={`px-4 py-2 rounded ${
-              activeTab === 'alchemical&apos; ? 'bg-blue-600 text-white&apos; : 'bg-gray-200'
+              activeTab === 'alchemical' ? 'bg-blue-600 text-white' : 'bg-gray-200'
             }`}
           >
             Alchemical Debug

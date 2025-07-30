@@ -83,7 +83,7 @@ const PlanetaryPositionDisplay: React.FC<PlanetaryPositionDisplayProps> = ({
       </span>
       <span className="text-cyan-200">
         {position.sign.charAt(0).toUpperCase() + position.sign.slice(1)} {formatDegree(position.degree)}
-        {position.isRetrograde &amp;&amp; <span className="text-orange-300 ml-1">℞</span>}
+        {position.isRetrograde && <span className="text-orange-300 ml-1">℞</span>}
       </span>
     </div>
   );
@@ -195,7 +195,7 @@ const PlanetaryDisplay: React.FC<PlanetaryDisplayProps> = ({
       return (
         <div className={`space-y-4 ${className}`}>
           <PlanetaryTimeDisplay compact={compact} />
-          {planet &amp;&amp; position &amp;&amp; (
+          {planet && position && (
             <div className="border-t border-gray-600 pt-4">
               <h4 className="text-sm font-medium mb-2">Current Position</h4>
               <PlanetaryPositionDisplay planet={planet} position={position} />

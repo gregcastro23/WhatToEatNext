@@ -224,14 +224,14 @@ export const CuisineSection: React.FC<CuisineSectionProps> = ({
           {Array.isArray(recipe.currentSeason) ? recipe.currentSeason.join(', ') : (recipe.currentSeason as string)}
         </span>
       )}
-      {recipe.mealType &amp;&amp; (
+      {recipe.mealType && (
         <span className="text-sm px-2 py-1 bg-blue-50 text-blue-700 rounded">
           {Array.isArray(recipe.mealType) ? recipe.mealType.join(', ') : recipe.mealType}
         </span>
       )}
-      {recipe.timeToMake &amp;&amp; (
+      {recipe.timeToMake && (
         <span className="text-sm px-2 py-1 bg-purple-50 text-purple-700 rounded">
-          {recipe.timeToMake} {typeof recipe.timeToMake === 'number&apos; ? 'min&apos; : ''}
+          {recipe.timeToMake} {typeof recipe.timeToMake === 'number' ? 'min' : ''}
         </span>
       )}
     </div>
@@ -338,18 +338,18 @@ export const CuisineSection: React.FC<CuisineSectionProps> = ({
         className="p-4 border rounded-lg bg-white hover:shadow-md transition-shadow"
       >
         <div className="flex justify-between items-start mb-2">
-          <h3 className="text-lg font-semibold">{sauce.name || 'Unnamed sauce&apos;}</h3>
-          {sauce.base &amp;&amp; (
+          <h3 className="text-lg font-semibold">{sauce.name || 'Unnamed sauce'}</h3>
+          {sauce.base && (
             <span className="text-xs px-2 py-1 bg-amber-50 text-amber-700 rounded">
               {sauce.base} base
             </span>
           )}
         </div>
         
-        <p className="text-sm text-gray-600 mb-3">{sauce.description || 'No description available&apos;}</p>
+        <p className="text-sm text-gray-600 mb-3">{sauce.description || 'No description available'}</p>
         
         {/* Seasonal info if available */}
-        {sauce.seasonality &amp;&amp; (
+        {sauce.seasonality && (
           <span className="text-xs px-2 py-1 bg-green-50 text-green-700 rounded mr-2">
             {sauce.seasonality}
           </span>
@@ -375,19 +375,19 @@ export const CuisineSection: React.FC<CuisineSectionProps> = ({
       >
         <div className="flex justify-between items-start mb-2">
           <h3 className="text-lg font-semibold">{recipe.name}</h3>
-          {recipe.matchScore !== undefined &amp;&amp; (
+          {recipe.matchScore !== undefined && (
             renderScoreBadge(Number(recipe.matchScore) || 0, !!recipe.dualMatch)
           )}
         </div>
         
         {/* Show regional cuisine if different from main cuisine */}
-        {Boolean(recipe.regionalCuisine &amp;&amp; recipe.regionalCuisine !== recipe.cuisine) &amp;&amp; (
+        {Boolean(recipe.regionalCuisine && recipe.regionalCuisine !== recipe.cuisine) && (
           <div className="text-xs text-gray-500 mb-2">
             Regional style: <span className="font-medium">{recipe.regionalCuisine as string}</span>
           </div>
         )}
         
-        <p className="text-sm text-gray-600 mb-3">{recipe.description || 'No description available&apos;}</p>
+        <p className="text-sm text-gray-600 mb-3">{recipe.description || 'No description available'}</p>
         
         {renderSeasonalInfo(recipe)}
       </Link>

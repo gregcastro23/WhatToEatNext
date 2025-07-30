@@ -134,7 +134,7 @@ const AstrologizeDemo: React.FC = () => {
               {planet.ChartPosition.Ecliptic.ArcDegrees.minutes}' 
               {planet.ChartPosition.Ecliptic.ArcDegrees.seconds.toFixed(0)}''
             </span>
-            {planet.isRetrograde &amp;&amp; <span className="text-red-500 ml-1">℞</span>}
+            {planet.isRetrograde && <span className="text-red-500 ml-1">℞</span>}
           </div>
         </div>
       );
@@ -158,7 +158,7 @@ const AstrologizeDemo: React.FC = () => {
                   name="zodiacSystem"
                   value="tropical"
                   checked={zodiacSystem === 'tropical'}
-                  onChange={() => setZodiacSystem('tropical&apos;)}
+                  onChange={() => setZodiacSystem('tropical')}
                   className="mr-2"
                 />
                 Tropical
@@ -169,7 +169,7 @@ const AstrologizeDemo: React.FC = () => {
                   name="zodiacSystem"
                   value="sidereal"
                   checked={zodiacSystem === 'sidereal'}
-                  onChange={() => setZodiacSystem('sidereal&apos;)}
+                  onChange={() => setZodiacSystem('sidereal')}
                   className="mr-2"
                 />
                 Sidereal
@@ -199,7 +199,7 @@ const AstrologizeDemo: React.FC = () => {
                     type="date"
                     value={customDate}
                     onChange={(e) => setCustomDate(e.target.value)}
-                    className="w-full p-2 border rounded&quot;
+                    className="w-full p-2 border rounded"
                     required={useCustom}
                   />
                 </div>
@@ -209,7 +209,7 @@ const AstrologizeDemo: React.FC = () => {
                     type="time"
                     value={customTime}
                     onChange={(e) => setCustomTime(e.target.value)}
-                    className="w-full p-2 border rounded&quot;
+                    className="w-full p-2 border rounded"
                     required={useCustom}
                   />
                 </div>
@@ -230,13 +230,13 @@ const AstrologizeDemo: React.FC = () => {
                 Use Custom Location
               </label>
               
-              {locationDetectionStatus === 'loading&apos; &amp;&amp; (
+              {locationDetectionStatus === 'loading' && (
                 <span className="ml-2 text-blue-500 text-sm">Detecting your location...</span>
               )}
-              {locationDetectionStatus === 'success&apos; &amp;&amp; (
+              {locationDetectionStatus === 'success' && (
                 <span className="ml-2 text-green-500 text-sm">Using your detected location</span>
               )}
-              {locationDetectionStatus === 'error&apos; &amp;&amp; (
+              {locationDetectionStatus === 'error' && (
                 <span className="ml-2 text-orange-500 text-sm">Using default location (New York)</span>
               )}
             </div>
@@ -249,7 +249,7 @@ const AstrologizeDemo: React.FC = () => {
                     type="text"
                     value={customLatitude}
                     onChange={(e) => setCustomLatitude(e.target.value)}
-                    className="w-full p-2 border rounded&quot;
+                    className="w-full p-2 border rounded"
                     required={useCustomLocation}
                     placeholder="40.7498"
                   />
@@ -260,7 +260,7 @@ const AstrologizeDemo: React.FC = () => {
                     type="text"
                     value={customLongitude}
                     onChange={(e) => setCustomLongitude(e.target.value)}
-                    className="w-full p-2 border rounded&quot;
+                    className="w-full p-2 border rounded"
                     required={useCustomLocation}
                     placeholder="-73.7976"
                   />
@@ -282,7 +282,7 @@ const AstrologizeDemo: React.FC = () => {
       <div className="bg-white shadow-md rounded-lg p-6">
         <h2 className="text-xl font-semibold mb-4">Results</h2>
         
-        {loading &amp;&amp; (
+        {loading && (
           <div className="text-center py-8">
             <div className="inline-block animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-blue-500 mb-2"></div>
             <p>Loading astrological data...</p>

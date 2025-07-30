@@ -37,7 +37,7 @@ function EmptyState() {
         Enter a food name in the search box above to see nutritional information and elemental properties.
       </p>
       <p className="mt-3 text-xs text-gray-500">
-        Try searching for foods like "apple&quot;, "chicken breast&quot;, or "quinoa&quot;.
+        Try searching for foods like "apple", "chicken breast", or "quinoa".
       </p>
     </div>
   );
@@ -61,7 +61,7 @@ function ZodiacRecommendations({ dominantElement }: { dominantElement: Element }
     <div className="mt-6 p-4 border border-purple-200 bg-purple-50 rounded">
       <h3 className="text-lg font-semibold mb-2 text-purple-800">Astrological Affinity</h3>
       <p className="text-sm text-purple-700 mb-3">
-        This food&apos;s dominant {dominantElement} element makes it especially beneficial for:
+        This food's dominant {dominantElement} element makes it especially beneficial for:
       </p>
       <div className="flex flex-wrap gap-2">
         {compatibleSigns.map(sign => (
@@ -131,15 +131,15 @@ export default function NutritionalDataFetcher() {
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           placeholder="Enter food name (e.g., apple, chicken)"
-          className="flex-1 p-2 border border-gray-300 rounded&quot;
-          onKeyDown={(e) => e.key === 'Enter&apos; &amp;&amp; handleSearch()}
+          className="flex-1 p-2 border border-gray-300 rounded"
+          onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
         />
         <button
           onClick={handleSearch}
           disabled={isLoading}
           className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 disabled:bg-gray-400"
         >
-          {isLoading ? 'Searching...' : 'Search&apos;}
+          {isLoading ? 'Searching...' : 'Search'}
         </button>
       </div>
       
@@ -157,7 +157,7 @@ export default function NutritionalDataFetcher() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="p-4 border rounded bg-white shadow">
             <h2 className="text-xl font-semibold mb-2">Nutritional Profile</h2>
-            {Boolean((nutritionalData as Record<string, unknown>).name) &amp;&amp; (
+            {Boolean((nutritionalData as Record<string, unknown>).name) && (
               <p className="text-lg font-medium mb-2">{String((nutritionalData as Record<string, unknown>).name)}</p>
             )}
             <p><strong>Calories:</strong> {((nutritionalData as Record<string, unknown>).calories as number || 0).toFixed(1)}</p>
@@ -170,7 +170,7 @@ export default function NutritionalDataFetcher() {
               <li>Fiber: {(((nutritionalData as Record<string, unknown>).macros as Record<string, unknown>).fiber as number || 0).toFixed(1)}g</li>
             </ul>
             
-            {nutritionalData.vitamins &amp;&amp; Object.keys(nutritionalData.vitamins).length > 0 &amp;&amp; (
+            {nutritionalData.vitamins && Object.keys(nutritionalData.vitamins).length > 0 && (
               <>
                 <h3 className="text-lg font-semibold mt-4 mb-2">Vitamins</h3>
                 
@@ -182,14 +182,14 @@ export default function NutritionalDataFetcher() {
                         const percentage = value * 100;
                         // Choose appropriate styling based on percentage
                         let textClass = "text-gray-500"; // Default for 0%
-                        if (percentage > 50) textClass = "text-green-600 font-medium&quot;;
+                        if (percentage > 50) textClass = "text-green-600 font-medium";
                         else if (percentage > 20) textClass = "text-blue-600";
                         else if (percentage > 0) textClass = "text-gray-700";
                         
                         return (
                           <li key={vitamin} className={textClass}>
                             Vitamin {vitamin}: {percentage.toFixed(1)}% DV
-                            {percentage > 20 &amp;&amp; " ★"}
+                            {percentage > 20 && " ★"}
                           </li>
                         );
                       })}
@@ -223,14 +223,14 @@ export default function NutritionalDataFetcher() {
                         const percentage = value * 100;
                         // Choose appropriate styling based on percentage
                         let textClass = "text-gray-500"; // Default for 0%
-                        if (percentage > 50) textClass = "text-green-600 font-medium&quot;;
+                        if (percentage > 50) textClass = "text-green-600 font-medium";
                         else if (percentage > 20) textClass = "text-blue-600";
                         else if (percentage > 0) textClass = "text-gray-700";
                         
                         return (
                           <li key={mineral} className={textClass}>
                             {mineral.charAt(0).toUpperCase() + mineral.slice(1)}: {percentage.toFixed(1)}% DV
-                            {percentage > 20 &amp;&amp; " ★"}
+                            {percentage > 20 && " ★"}
                           </li>
                         );
                       })}

@@ -140,7 +140,7 @@ const CuisineDetailsPage: NextPage = () => {
     return (
       <div className="container mx-auto px-4 py-8">
         <h1 className="text-3xl font-bold mb-8">Cuisine not found</h1>
-        <p>The cuisine you&apos;re looking for doesn&amp;apos;t exist.</p>
+        <p>The cuisine you're looking for doesn&amp;apos;t exist.</p>
       </div>
     );
   }
@@ -152,11 +152,11 @@ const CuisineDetailsPage: NextPage = () => {
       </h1>
       
       <div className="mb-8">
-        {cuisine.description &amp;&amp; (
+        {cuisine.description && (
           <p className="text-lg text-gray-700 mb-4">{cuisine.description}</p>
         )}
         
-        {cuisine.history &amp;&amp; (
+        {cuisine.history && (
           <div className="bg-amber-50 p-4 rounded-lg mb-4">
             <h2 className="text-xl font-semibold mb-2">Historical Context</h2>
             <p className="text-gray-800">{cuisine.history}</p>

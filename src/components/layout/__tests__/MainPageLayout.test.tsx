@@ -160,7 +160,7 @@ describe('MainPageLayout', () => {
     expect(screen.getByText('Loading astrological data...')).toBeInTheDocument();
   });
 
-  it('displays connected state when not loading&apos;, async () => {
+  it('displays connected state when not loading', async () => {
     await act(async () => {
       render(<MainPageLayout loading={false} />);
     });
@@ -168,18 +168,18 @@ describe('MainPageLayout', () => {
     expect(screen.getByText(/Connected • Day • aries/)).toBeInTheDocument();
   });
 
-  it('renders navigation buttons&apos;, async () => {
+  it('renders navigation buttons', async () => {
     await act(async () => {
       render(<MainPageLayout />);
     });
 
-    expect(screen.getByText('Cuisine Recommendations&apos;)).toBeInTheDocument();
-    expect(screen.getByText('Ingredient Recommendations&apos;)).toBeInTheDocument();
-    expect(screen.getByText('Cooking Methods&apos;)).toBeInTheDocument();
-    expect(screen.getByText('Recipe Builder&apos;)).toBeInTheDocument();
+    expect(screen.getByText('Cuisine Recommendations')).toBeInTheDocument();
+    expect(screen.getByText('Ingredient Recommendations')).toBeInTheDocument();
+    expect(screen.getByText('Cooking Methods')).toBeInTheDocument();
+    expect(screen.getByText('Recipe Builder')).toBeInTheDocument();
   });
 
-  it('handles section navigation&apos;, async () => {
+  it('handles section navigation', async () => {
     const mockOnSectionNavigate = jest.fn();
     
     // Mock getElementById
@@ -192,44 +192,44 @@ describe('MainPageLayout', () => {
       }
     };
     
-    jest.spyOn(document, 'getElementById&apos;).mockReturnValue(mockElement as any);
+    jest.spyOn(document, 'getElementById').mockReturnValue(mockElement as any);
 
     await act(async () => {
       render(<MainPageLayout onSectionNavigate={mockOnSectionNavigate} />);
     });
 
-    const cuisineButton = screen.getByText('Cuisine Recommendations&apos;);
+    const cuisineButton = screen.getByText('Cuisine Recommendations');
     
     await act(async () => {
       fireEvent.click(cuisineButton);
     });
 
     expect(mockElement.scrollIntoView).toHaveBeenCalledWith({
-      behavior: 'smooth&apos;,
-      block: 'start&apos;
+      behavior: 'smooth',
+      block: 'start'
     });
-    expect(mockOnSectionNavigate).toHaveBeenCalledWith('cuisine&apos;);
+    expect(mockOnSectionNavigate).toHaveBeenCalledWith('cuisine');
   });
 
-  it('renders debug panel in development mode&apos;, async () => {
+  it('renders debug panel in development mode', async () => {
     await act(async () => {
       render(<MainPageLayout debugMode={true} />);
     });
 
     await waitFor(() => {
-      expect(screen.getByTestId('debug-info&apos;)).toBeInTheDocument();
+      expect(screen.getByTestId('debug-info')).toBeInTheDocument();
     });
   });
 
-  it('does not render debug panel when debugMode is false&apos;, async () => {
+  it('does not render debug panel when debugMode is false', async () => {
     await act(async () => {
       render(<MainPageLayout debugMode={false} />);
     });
 
-    expect(screen.queryByTestId('debug-info&apos;)).not.toBeInTheDocument();
+    expect(screen.queryByTestId('debug-info')).not.toBeInTheDocument();
   });
 
-  it('provides context to child components&apos;, async () => {
+  it('provides context to child components', async () => {
     await act(async () => {
       render(
         <MainPageLayout>
@@ -299,7 +299,7 @@ describe('MainPageLayout', () => {
     }, { timeout: 200 });
   });
 
-  it('handles component loading states&apos;, async () => {
+  it('handles component loading states', async () => {
     await act(async () => {
       render(<MainPageLayout />);
     });
@@ -310,27 +310,27 @@ describe('MainPageLayout', () => {
     });
   });
 
-  it('renders all main sections&apos;, async () => {
+  it('renders all main sections', async () => {
     await act(async () => {
       render(<MainPageLayout />);
     });
 
     // Wait for components to load
     await waitFor(() => {
-      expect(screen.getByTestId('cuisine-recommender&apos;)).toBeInTheDocument();
-      expect(screen.getByTestId('ingredient-recommender&apos;)).toBeInTheDocument();
-      expect(screen.getByTestId('cooking-methods&apos;)).toBeInTheDocument();
-      expect(screen.getByTestId('recipe-builder&apos;)).toBeInTheDocument();
+      expect(screen.getByTestId('cuisine-recommender')).toBeInTheDocument();
+      expect(screen.getByTestId('ingredient-recommender')).toBeInTheDocument();
+      expect(screen.getByTestId('cooking-methods')).toBeInTheDocument();
+      expect(screen.getByTestId('recipe-builder')).toBeInTheDocument();
     });
   });
 
-  it('handles error boundaries correctly&apos;, async () => {
+  it('handles error boundaries correctly', async () => {
     // Mock console.error to avoid noise in test output
-    const consoleSpy = jest.spyOn(console, 'error&apos;).mockImplementation(() => {});
+    const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
 
     // Create a component that throws an error
     const ErrorComponent = () => {
-      throw new Error('Test error&apos;);
+      throw new Error('Test error');
     };
 
     await act(async () => {

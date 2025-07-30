@@ -180,28 +180,28 @@ const RecipeBuilderSimple: React.FC<RecipeBuilderProps> = memo(function RecipeBu
                 <input
                   type="text"
                   value={ingredient.quantity}
-                  onChange={(e) => updateIngredient(index, 'quantity&apos;, e.target.value)}
-                  placeholder="1 cup&quot;
+                  onChange={(e) => updateIngredient(index, 'quantity', e.target.value)}
+                  placeholder="1 cup"
                   className="w-24 px-2 py-1 border border-gray-300 rounded text-sm focus:outline-none focus:ring-1 focus:ring-indigo-500"
                 />
                 <input
                   type="text"
                   value={ingredient.name}
-                  onChange={(e) => updateIngredient(index, 'name&apos;, e.target.value)}
-                  placeholder="Ingredient name&quot;
+                  onChange={(e) => updateIngredient(index, 'name', e.target.value)}
+                  placeholder="Ingredient name"
                   className="flex-1 px-2 py-1 border border-gray-300 rounded text-sm focus:outline-none focus:ring-1 focus:ring-indigo-500"
                 />
                 <input
                   type="text"
                   value={ingredient.preparation}
-                  onChange={(e) => updateIngredient(index, 'preparation&apos;, e.target.value)}
+                  onChange={(e) => updateIngredient(index, 'preparation', e.target.value)}
                   placeholder="diced, chopped..."
                   className="w-32 px-2 py-1 border border-gray-300 rounded text-sm focus:outline-none focus:ring-1 focus:ring-indigo-500"
                 />
                 <button
                   onClick={() => removeIngredient(index)}
                   className="text-red-600 hover:text-red-800 p-1"
-                  title="Remove ingredient&quot;
+                  title="Remove ingredient"
                 >
                   ×
                 </button>
@@ -234,22 +234,22 @@ const RecipeBuilderSimple: React.FC<RecipeBuilderProps> = memo(function RecipeBu
                 </span>
                 <textarea
                   value={step.instruction}
-                  onChange={(e) => updateStep(index, 'instruction&apos;, e.target.value)}
+                  onChange={(e) => updateStep(index, 'instruction', e.target.value)}
                   placeholder="Describe this step..."
                   rows={2}
-                  className="flex-1 px-2 py-1 border border-gray-300 rounded text-sm focus:outline-none focus:ring-1 focus:ring-indigo-500 resize-none&quot;
+                  className="flex-1 px-2 py-1 border border-gray-300 rounded text-sm focus:outline-none focus:ring-1 focus:ring-indigo-500 resize-none"
                 />
                 <input
                   type="text"
                   value={step.timing || ''}
-                  onChange={(e) => updateStep(index, 'timing&apos;, e.target.value)}
-                  placeholder="5 min&quot;
+                  onChange={(e) => updateStep(index, 'timing', e.target.value)}
+                  placeholder="5 min"
                   className="w-20 px-2 py-1 border border-gray-300 rounded text-sm focus:outline-none focus:ring-1 focus:ring-indigo-500"
                 />
                 <button
                   onClick={() => removeStep(index)}
                   className="text-red-600 hover:text-red-800 p-1"
-                  title="Remove step&quot;
+                  title="Remove step"
                 >
                   ×
                 </button>

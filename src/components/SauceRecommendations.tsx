@@ -306,7 +306,7 @@ const SauceCard: React.FC<{
                 {ingredient}
               </span>
             ))}
-            {sauce.keyIngredients.length > 3 &amp;&amp; (
+            {sauce.keyIngredients.length > 3 && (
               <span className="text-xs text-gray-500">+{sauce.keyIngredients.length - 3} more</span>
             )}
           </div>
@@ -389,10 +389,10 @@ const SauceCard: React.FC<{
                 {Object.entries(sauce.elementalProperties).map(([element, value]) => (
                   <div key={element} className="flex items-center justify-between">
                     <div className="flex items-center space-x-1">
-                      {element === 'Fire&apos; &amp;&amp; <Flame size={12} className="text-red-500" />}
-                      {element === 'Water&apos; &amp;&amp; <Droplets size={12} className="text-blue-500" />}
-                      {element === 'Air&apos; &amp;&amp; <Wind size={12} className="text-gray-500" />}
-                      {element === 'Earth&apos; &amp;&amp; <Mountain size={12} className="text-green-500" />}
+                      {element === 'Fire' && <Flame size={12} className="text-red-500" />}
+                      {element === 'Water' && <Droplets size={12} className="text-blue-500" />}
+                      {element === 'Air' && <Wind size={12} className="text-gray-500" />}
+                      {element === 'Earth' && <Mountain size={12} className="text-green-500" />}
                       <span className="text-xs">{element}</span>
                     </div>
                     <div className="w-16 bg-gray-200 rounded-full h-2">
@@ -487,7 +487,7 @@ export const SauceRecommendations: React.FC<SauceRecommendationsProps> = ({
           <Droplets className="text-blue-500" size={20} />
           <h3 className="text-lg font-medium text-gray-900">
             Celestial Sauce Harmonizer
-            {cuisineName &amp;&amp; ` for ${cuisineName}`}
+            {cuisineName && ` for ${cuisineName}`}
           </h3>
         </div>
         <span className="text-sm text-gray-500">

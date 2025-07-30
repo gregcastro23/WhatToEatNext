@@ -612,12 +612,12 @@ const ElementalEnergyDisplay: FC = (): ReactNode => {
                   Initiating &amp; action-oriented energy. Favors starting new projects, leadership roles, and decisive action. Cardinal energy excels at breaking new ground and launching initiatives. Associated with aries, cancer, Libra, and capricorn.
                 </>
               )}
-              {alchemicalResults.dominantModality === 'Fixed&apos; &amp;&amp; (
+              {alchemicalResults.dominantModality === 'Fixed' && (
                 <>
                   Stabilizing &amp; persistent energy. Favors maintaining projects, consolidating efforts, and showing determination. Fixed energy excels at following through and creating lasting structures. Associated with taurus, leo, Scorpio, and aquarius.
                 </>
               )}
-              {alchemicalResults.dominantModality === 'Mutable&apos; &amp;&amp; (
+              {alchemicalResults.dominantModality === 'Mutable' && (
                 <>
                   Adaptable &amp; flexible energy. Favors versatility, adjusting to change, and multitasking. Mutable energy excels at transitioning between phases and finding creative solutions. Associated with gemini, virgo, sagittarius, and pisces.
                 </>

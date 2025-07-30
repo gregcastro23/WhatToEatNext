@@ -56,8 +56,8 @@ export const IngredientDisplay = ({ ingredient, showDetails = false }: Ingredien
       'from-gray-50 to-slate-50 border-l-4 border-gray-400'
     } hover:shadow-lg hover:-translate-y-1`}>
       <div className="flex justify-between items-start">
-        <h3 className="font-semibold text-lg">{ingredient.name || 'Unknown Ingredient&apos;}</h3>
-        {dominantElement &amp;&amp; (
+        <h3 className="font-semibold text-lg">{ingredient.name || 'Unknown Ingredient'}</h3>
+        {dominantElement && (
           <div className="element-badge flex items-center justify-center w-8 h-8 rounded-full bg-white shadow-sm">
             {getElementIcon(dominantElement)}
           </div>
@@ -257,7 +257,7 @@ export const IngredientDisplay = ({ ingredient, showDetails = false }: Ingredien
                 
                 {(() => {
                   const complementary = pairingRecommendations.complementary as unknown[];
-                  return Array.isArray(complementary) &amp;&amp; complementary.length > 0 ? (
+                  return Array.isArray(complementary) && complementary.length > 0 ? (
                     <div className="mb-2">
                       <h5 className="text-xs font-medium text-green-600 mb-1">Complementary</h5>
                       <div className="flex flex-wrap gap-1">

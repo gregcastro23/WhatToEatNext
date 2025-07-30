@@ -180,8 +180,8 @@ const PlanetaryHoursDisplay: React.FC<PlanetaryHoursDisplayProps> = ({ compact =
             <div className="flex items-center">
               <span className="text-sm text-gray-300">Planetary Hour:</span>
               <span className={`ml-1.5 text-sm font-medium ${currentHour ? getPlanetColor(currentHour) : ''}`}>
-                {getPlanetIcon(currentHour || 'Sun&apos;)}
-                <span className="ml-1">{currentHour || 'Unknown&apos;}</span>
+                {getPlanetIcon(currentHour || 'Sun')}
+                <span className="ml-1">{currentHour || 'Unknown'}</span>
               </span>
             </div>
           </div>
@@ -201,7 +201,7 @@ const PlanetaryHoursDisplay: React.FC<PlanetaryHoursDisplayProps> = ({ compact =
               </div>
               <div className={`flex items-center ${currentDay ? getPlanetColor(currentDay) : ''}`}>
                 {currentDay && getPlanetIcon(currentDay)}
-                <span className="ml-1 text-sm">{currentDay || 'Unknown&apos;}</span>
+                <span className="ml-1 text-sm">{currentDay || 'Unknown'}</span>
               </div>
             </div>
             
@@ -213,7 +213,7 @@ const PlanetaryHoursDisplay: React.FC<PlanetaryHoursDisplayProps> = ({ compact =
               </div>
               <div className={`flex items-center ${currentMinute ? getPlanetColor(currentMinute) : ''}`}>
                 {currentMinute && getPlanetIcon(currentMinute)}
-                <span className="ml-1 text-sm">{currentMinute || 'Unknown&apos;}</span>
+                <span className="ml-1 text-sm">{currentMinute || 'Unknown'}</span>
               </div>
             </div>
             
@@ -246,7 +246,7 @@ const PlanetaryHoursDisplay: React.FC<PlanetaryHoursDisplayProps> = ({ compact =
             </div>
             <div className={`flex items-center font-medium ${currentDay ? getPlanetColor(currentDay) : ''}`}>
               {currentDay && getPlanetIcon(currentDay)}
-              <span className="ml-1">{currentDay || 'Unknown&apos;}</span>
+              <span className="ml-1">{currentDay || 'Unknown'}</span>
             </div>
           </div>
         </div>
@@ -260,7 +260,7 @@ const PlanetaryHoursDisplay: React.FC<PlanetaryHoursDisplayProps> = ({ compact =
             </div>
             <div className={`flex items-center font-medium ${currentHour ? getPlanetColor(currentHour) : ''}`}>
               {currentHour && getPlanetIcon(currentHour)}
-              <span className="ml-1">{currentHour || 'Unknown&apos;}</span>
+              <span className="ml-1">{currentHour || 'Unknown'}</span>
             </div>
           </div>
         </div>
@@ -274,7 +274,7 @@ const PlanetaryHoursDisplay: React.FC<PlanetaryHoursDisplayProps> = ({ compact =
             </div>
             <div className={`flex items-center font-medium ${currentMinute ? getPlanetColor(currentMinute) : ''}`}>
               {currentMinute && getPlanetIcon(currentMinute)}
-              <span className="ml-1">{currentMinute || 'Unknown&apos;}</span>
+              <span className="ml-1">{currentMinute || 'Unknown'}</span>
             </div>
           </div>
         </div>
@@ -325,7 +325,7 @@ const PlanetaryHoursDisplay: React.FC<PlanetaryHoursDisplayProps> = ({ compact =
                 <span className="text-sm text-gray-300">
                   {hour.toString().padStart(2, '0')}:00 - {((hour + 1) % 24).toString().padStart(2, '0')}:00
                 </span>
-                {planet &amp;&amp; (
+                {planet && (
                   <div className={`flex items-center ${getPlanetColor(planet)}`}>
                     {getPlanetIcon(planet)}
                     <span className="ml-1 text-sm">{planet}</span>

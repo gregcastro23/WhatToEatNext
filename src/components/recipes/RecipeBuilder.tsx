@@ -681,7 +681,7 @@ export default function RecipeBuilder({
             value={recipeName}
             onChange={(e) => setRecipeName(e.target.value)}
             placeholder="Enter your recipe name..."
-            variant="outlined&quot;
+            variant="outlined"
           />
         </CardContent>
       </Card>
@@ -737,8 +737,8 @@ export default function RecipeBuilder({
                         border: '1px solid #e0e0e0', 
                         borderRadius: 1, 
                         mb: 1,
-                        cursor: 'move&apos;,
-                        '&amp;:hover&apos;: { backgroundColor: '#f5f5f5' }
+                        cursor: 'move',
+                        '&amp;:hover': { backgroundColor: '#f5f5f5' }
                       }}
                     >
                       <DragIcon sx={{ mr: 1, color: 'text.secondary' }} />
@@ -750,14 +750,14 @@ export default function RecipeBuilder({
                               size="small"
                               label="Quantity"
                               value={ingredient.quantity}
-                              onChange={(e) => updateIngredient(index, 'quantity&apos;, e.target.value)}
+                              onChange={(e) => updateIngredient(index, 'quantity', e.target.value)}
                               sx={{ width: 80 }}
                             />
                             <FormControl size="small" sx={{ width: 80 }}>
                               <InputLabel>Unit</InputLabel>
                               <Select
                                 value={ingredient.unit}
-                                onChange={(e) => updateIngredient(index, 'unit&apos;, e.target.value)}
+                                onChange={(e) => updateIngredient(index, 'unit', e.target.value)}
                               >
                                 <MenuItem value="cup">cup</MenuItem>
                                 <MenuItem value="tbsp">tbsp</MenuItem>
@@ -773,7 +773,7 @@ export default function RecipeBuilder({
                               <InputLabel>Timing</InputLabel>
                               <Select
                                 value={ingredient.timing}
-                                onChange={(e) => updateIngredient(index, 'timing&apos;, e.target.value)}
+                                onChange={(e) => updateIngredient(index, 'timing', e.target.value)}
                               >
                                 <MenuItem value="early">Early</MenuItem>
                                 <MenuItem value="middle">Middle</MenuItem>
@@ -784,7 +784,7 @@ export default function RecipeBuilder({
                         }
                       />
                       <ListItemSecondaryAction>
-                        <IconButton onClick={() => removeIngredient(index)} color="error&quot;>
+                        <IconButton onClick={() => removeIngredient(index)} color="error">
                           <DeleteIcon />
                         </IconButton>
                       </ListItemSecondaryAction>
@@ -824,7 +824,7 @@ export default function RecipeBuilder({
                 sx={{ mb: 2 }}
               />
 
-              {selectedMethods.length > 0 &amp;&amp; (
+              {selectedMethods.length > 0 && (
                 <Box>
                   <Typography variant="subtitle1" gutterBottom>
                     Selected Methods
@@ -859,7 +859,7 @@ export default function RecipeBuilder({
                     min={5}
                     max={120}
                     step={5}
-                    valueLabelDisplay="auto&quot;
+                    valueLabelDisplay="auto"
                   />
                 </Grid>
                 <Grid item xs={6}>
@@ -870,7 +870,7 @@ export default function RecipeBuilder({
                     min={5}
                     max={240}
                     step={5}
-                    valueLabelDisplay="auto&quot;
+                    valueLabelDisplay="auto"
                   />
                 </Grid>
                 <Grid item xs={6}>
@@ -915,14 +915,14 @@ export default function RecipeBuilder({
                   onClick={autoGenerateInstructions}
                   disabled={selectedIngredients.length === 0 || selectedMethods.length === 0}
                   startIcon={<RestaurantIcon />}
-                  size="small&quot;
+                  size="small"
                 >
                   Auto-Generate Instructions
                 </Button>
                 <Button
                   variant="text"
                   onClick={() => setInstructions([''])}
-                  size="small&quot;
+                  size="small"
                 >
                   Clear All
                 </Button>
@@ -941,7 +941,7 @@ export default function RecipeBuilder({
                   />
                   <IconButton 
                     onClick={() => removeInstruction(index)}
-                    color="error&quot;
+                    color="error"
                     disabled={instructions.length === 1}
                   >
                     <DeleteIcon />
@@ -952,7 +952,7 @@ export default function RecipeBuilder({
               <Button
                 startIcon={<AddIcon />}
                 onClick={addInstruction}
-                variant="outlined&quot;
+                variant="outlined"
                 fullWidth
               >
                 Add Step
@@ -1005,7 +1005,7 @@ export default function RecipeBuilder({
           variant="outlined"
           onClick={() => setShowElementalBalance(!showElementalBalance)}
         >
-          {showElementalBalance ? 'Hide&apos; : 'Show&apos;} Elemental Balance
+          {showElementalBalance ? 'Hide' : 'Show'} Elemental Balance
         </Button>
         <Button
           variant="contained"
@@ -1020,7 +1020,7 @@ export default function RecipeBuilder({
           onClick={saveRecipe}
           startIcon={<SaveIcon />}
           disabled={selectedIngredients.length === 0}
-          color="success&quot;
+          color="success"
         >
           Save Recipe
         </Button>
@@ -1029,27 +1029,27 @@ export default function RecipeBuilder({
           onClick={shareRecipe}
           startIcon={<ShareIcon />}
           disabled={selectedIngredients.length === 0}
-          color="primary&quot;
+          color="primary"
         >
           Share Recipe
         </Button>
         <Button
           variant="outlined"
-          onClick={() => exportRecipe('text&apos;)}
+          onClick={() => exportRecipe('text')}
           disabled={selectedIngredients.length === 0}
         >
           Export as Text
         </Button>
         <Button
           variant="outlined"
-          onClick={() => exportRecipe('json&apos;)}
+          onClick={() => exportRecipe('json')}
           disabled={selectedIngredients.length === 0}
         >
           Export as JSON
         </Button>
         <Button
           variant="outlined"
-          onClick={() => exportRecipe('markdown&apos;)}
+          onClick={() => exportRecipe('markdown')}
           disabled={selectedIngredients.length === 0}
         >
           Export as Markdown

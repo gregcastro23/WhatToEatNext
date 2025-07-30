@@ -57,7 +57,7 @@ export function StateInspector() {
       <div className="grid grid-cols-2 gap-4 text-sm">
         <div className="p-2 bg-gray-700 rounded">
           <span className="font-semibold text-gray-400">Sun Sign: </span>
-          <span>{formatPosition(sunPosition) || currentZodiac || 'N/A&apos;}</span>
+          <span>{formatPosition(sunPosition) || currentZodiac || 'N/A'}</span>
         </div>
         <div className="p-2 bg-gray-700 rounded">
           <span className="font-semibold text-gray-400">Moon Sign: </span>
@@ -69,19 +69,19 @@ export function StateInspector() {
         </div>
         <div className="p-2 bg-gray-700 rounded">
           <span className="font-semibold text-gray-400">Lunar Phase: </span>
-          <span>{lunarPhase || 'N/A&apos;}</span>
+          <span>{lunarPhase || 'N/A'}</span>
         </div>
         <div className="p-2 bg-gray-700 rounded">
           <span className="font-semibold text-gray-400">Planetary Hour: </span>
-          <span>{currentPlanetaryHour || 'N/A&apos;}</span>
+          <span>{currentPlanetaryHour || 'N/A'}</span>
         </div>
         <div className="p-2 bg-gray-700 rounded">
           <span className="font-semibold text-gray-400">Day/Night: </span>
-          <span>{isDaytime ? 'Day&apos; : 'Night&apos;}</span>
+          <span>{isDaytime ? 'Day' : 'Night'}</span>
         </div>
         <div className="p-2 bg-gray-700 rounded col-span-2">
           <span className="font-semibold text-gray-400">Active Planets: </span>
-          <span>{activePlanets.join(', ') || 'N/A&apos;}</span>
+          <span>{activePlanets.join(', ') || 'N/A'}</span>
         </div>
       </div>
     </div>

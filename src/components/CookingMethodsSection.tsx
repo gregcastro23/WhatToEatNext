@@ -457,7 +457,7 @@ export const CookingMethodsSection: React.FC<CookingMethodsSectionProps> = ({
           <span className={styles.titleCount}>({methods.length})</span>
         </h3>
         
-        {topMethod &amp;&amp; (
+        {topMethod && (
           <div className={styles['top-recommendation']}>
             Top: <span>{topMethod.name}</span>
           </div>
@@ -491,14 +491,14 @@ export const CookingMethodsSection: React.FC<CookingMethodsSectionProps> = ({
               placeholder="Enter ingredient name..."
               value={searchIngredient}
               onChange={(e) => setSearchIngredient(e.target.value)}
-              className={styles['ingredient-search-input&apos;]}
+              className={styles['ingredient-search-input']}
             />
             <button 
               onClick={calculateIngredientCompatibility}
               disabled={isLoading || !searchIngredient.trim()}
               className={styles['search-button']}
             >
-              {isLoading ? 'Loading...' : 'Check Compatibility&apos;}
+              {isLoading ? 'Loading...' : 'Check Compatibility'}
             </button>
           </div>
           
@@ -526,7 +526,7 @@ export const CookingMethodsSection: React.FC<CookingMethodsSectionProps> = ({
                 <div className={styles['method-header']}>
                   <h4 className={styles['method-name']}>{method.name}</h4>
                   
-                  {method.score !== undefined &amp;&amp; (
+                  {method.score !== undefined && (
                     <div className={`${styles['method-score']} ${getScoreClass(method.score)}`}>
                       <span className={styles['score-value']}>{Math.round(method.score * 100)}%</span>
                       <div className={styles['score-bar']}>
@@ -577,7 +577,7 @@ export const CookingMethodsSection: React.FC<CookingMethodsSectionProps> = ({
                         const displayIntensity = Math.min(Math.round(intensity * 100), 100); // 0-100 range
                         
                         // Skip elements with no significant change
-                        if (direction === 'neutral&apos;) return null;
+                        if (direction === 'neutral') return null;
                         
                         return (
                           <div 
@@ -586,16 +586,16 @@ export const CookingMethodsSection: React.FC<CookingMethodsSectionProps> = ({
                             title={`${direction === 'increase' ? 'Increases' : 'Decreases'} ${element} by ${displayIntensity}%`}
                           >
                             <div className={styles['element-icon']}>
-                              {element === 'Fire&apos; &amp;&amp; <Flame size={16} />}
-                              {element === 'Water&apos; &amp;&amp; <Droplets size={16} />}
-                              {element === 'Earth&apos; &amp;&amp; <Mountain size={16} />}
-                              {element === 'Air&apos; &amp;&amp; <Wind size={16} />}
+                              {element === 'Fire' && <Flame size={16} />}
+                              {element === 'Water' && <Droplets size={16} />}
+                              {element === 'Earth' && <Mountain size={16} />}
+                              {element === 'Air' && <Wind size={16} />}
                             </div>
                             
                             <div className={styles['transformation-label']}>
                               <span className={styles['element-name']}>{element}</span>
                               <div className={styles['direction-indicator']}>
-                                {direction === 'increase&apos; ? <ArrowUp size={14} /> : direction === 'decrease&apos; ? <ArrowDown size={14} /> : <Minus size={14} />}
+                                {direction === 'increase' ? <ArrowUp size={14} /> : direction === 'decrease' ? <ArrowDown size={14} /> : <Minus size={14} />}
                               </div>
                             </div>
                             
@@ -621,7 +621,7 @@ export const CookingMethodsSection: React.FC<CookingMethodsSectionProps> = ({
                     {getAlchemicalLabel(method) && (
                       <div className={styles['alchemy-label']}>
                         Primary: <span className={styles['alchemy-value']}>{getAlchemicalLabel(method)?.primary}</span>
-                        {getAlchemicalLabel(method)?.secondary &amp;&amp; (
+                        {getAlchemicalLabel(method)?.secondary && (
                           <> | Secondary: <span className={styles['alchemy-value']}>{getAlchemicalLabel(method)?.secondary}</span></>
                         )}
                       </div>
@@ -644,10 +644,10 @@ export const CookingMethodsSection: React.FC<CookingMethodsSectionProps> = ({
                           <span className={styles['timing-value']}>
                             {method.astrologicalInfluences.dominantPlanets.slice(0, 2).join(', ')} hours
                           </span>
-                          {astroState.currentPlanetaryHour &amp;&amp; 
+                          {astroState.currentPlanetaryHour && 
                            method.astrologicalInfluences.dominantPlanets.some(
                              (planet: string) => planet.toLowerCase() === astroState.currentPlanetaryHour?.toLowerCase()
-                           ) &amp;&amp; (
+                           ) && (
                             <span className={styles['timing-active']}>• Active Now</span>
                           )}
                         </div>
@@ -664,9 +664,9 @@ export const CookingMethodsSection: React.FC<CookingMethodsSectionProps> = ({
                               .map(([phase]) => phase.replace('_', ' '))
                               .join(', ')}
                           </span>
-                          {astroState.lunarPhase &amp;&amp; 
-                           method.astrologicalInfluences.lunarPhaseEffect[astroState.lunarPhase] &amp;&amp; 
-                           method.astrologicalInfluences.lunarPhaseEffect[astroState.lunarPhase] > 0.6 &amp;&amp; (
+                          {astroState.lunarPhase && 
+                           method.astrologicalInfluences.lunarPhaseEffect[astroState.lunarPhase] && 
+                           method.astrologicalInfluences.lunarPhaseEffect[astroState.lunarPhase] > 0.6 && (
                             <span className={styles['timing-active']}>• Favorable</span>
                           )}
                         </div>
@@ -704,7 +704,7 @@ export const CookingMethodsSection: React.FC<CookingMethodsSectionProps> = ({
                       <span className={styles['detail-label']}>Ideal for:</span> 
                       <span className={styles['detail-value']}>
                         {method.suitable_for.slice(0, 3).join(', ')}
-                        {method.suitable_for.length > 3 &amp;&amp; '...'}
+                        {method.suitable_for.length > 3 && '...'}
                       </span>
                     </div>
                   )}
@@ -714,7 +714,7 @@ export const CookingMethodsSection: React.FC<CookingMethodsSectionProps> = ({
                       <span className={styles['detail-label']}>Benefits:</span> 
                       <span className={styles['detail-value']}>
                         {method.benefits.slice(0, 1).join(', ')}
-                        {method.benefits.length > 1 &amp;&amp; '...'}
+                        {method.benefits.length > 1 && '...'}
                       </span>
                     </div>
                   )}
@@ -734,17 +734,17 @@ export const CookingMethodsSection: React.FC<CookingMethodsSectionProps> = ({
                           className={`${styles['variation-item']} ${selectedMethodId === variation.id ? styles.selected : ''}`}
                           onClick={(e) => {
                             e.stopPropagation(); // Prevent parent click
-                            onSelectMethod &amp;&amp; onSelectMethod(variation);
+                            onSelectMethod && onSelectMethod(variation);
                           }}
                         >
                           <div className={styles['variation-header']}>
                             <span className={styles['variation-name']}>{variation.name}</span>
-                            {variation.culturalOrigin &amp;&amp; (
+                            {variation.culturalOrigin && (
                               <span className={styles['cultural-origin']}>{variation.culturalOrigin}</span>
                             )}
                             
                             {/* Show ingredient compatibility for variations if available */}
-                            {ingredientCompatibility[variation.id] !== undefined &amp;&amp; (
+                            {ingredientCompatibility[variation.id] !== undefined && (
                               <div className={`${styles['ingredient-compatibility']} ${styles.small} ${styles[getCompatibilityLabel(ingredientCompatibility[variation.id]).className]}`}>
                                 <span>{getCompatibilityLabel(ingredientCompatibility[variation.id]).label}</span>
                                 <span className={styles['compatibility-value']}>
@@ -777,7 +777,7 @@ export const CookingMethodsSection: React.FC<CookingMethodsSectionProps> = ({
                                   const displayIntensity = Math.min(Math.round(intensity * 100), 100); // 0-100 range
                                   
                                   // Skip elements with no significant change
-                                  if (direction === 'neutral&apos; || displayIntensity < 5) return null;
+                                  if (direction === 'neutral' || displayIntensity < 5) return null;
                                   
                                   return (
                                     <div 
@@ -786,10 +786,10 @@ export const CookingMethodsSection: React.FC<CookingMethodsSectionProps> = ({
                                       title={`${direction === 'increase' ? 'Increases' : 'Decreases'} ${element} by ${displayIntensity}%`}
                                     >
                                       <div className={styles['element-icon-small']}>
-                                        {element === 'Fire&apos; &amp;&amp; <Flame size={12} />}
-                                        {element === 'Water&apos; &amp;&amp; <Droplets size={12} />}
-                                        {element === 'Earth&apos; &amp;&amp; <Mountain size={12} />}
-                                        {element === 'Air&apos; &amp;&amp; <Wind size={12} />}
+                                        {element === 'Fire' && <Flame size={12} />}
+                                        {element === 'Water' && <Droplets size={12} />}
+                                        {element === 'Earth' && <Mountain size={12} />}
+                                        {element === 'Air' && <Wind size={12} />}
                                       </div>
                                       
                                       <div className={styles['direction-indicator-small']}>

@@ -180,7 +180,7 @@ export default function IngredientRecommendations({
           <h4>Elemental Balance</h4>
           <div className={styles.elementBars}>
             <div className={styles.elementBar}>
-              <span className={styles.elementIcon}>{getElementIcon('Fire&apos;)}</span>
+              <span className={styles.elementIcon}>{getElementIcon('Fire')}</span>
               <div className={styles.barContainer}>
                 <div 
                   className={`${styles.bar} ${styles.fireBar}`}
@@ -190,7 +190,7 @@ export default function IngredientRecommendations({
               <span className={styles.elementValue}>{Math.round(elementalProps.Fire * 100)}%</span>
             </div>
             <div className={styles.elementBar}>
-              <span className={styles.elementIcon}>{getElementIcon('Water&apos;)}</span>
+              <span className={styles.elementIcon}>{getElementIcon('Water')}</span>
               <div className={styles.barContainer}>
                 <div 
                   className={`${styles.bar} ${styles.waterBar}`}
@@ -200,7 +200,7 @@ export default function IngredientRecommendations({
               <span className={styles.elementValue}>{Math.round(elementalProps.Water * 100)}%</span>
             </div>
             <div className={styles.elementBar}>
-              <span className={styles.elementIcon}>{getElementIcon('Earth&apos;)}</span>
+              <span className={styles.elementIcon}>{getElementIcon('Earth')}</span>
               <div className={styles.barContainer}>
                 <div 
                   className={`${styles.bar} ${styles.earthBar}`}
@@ -210,7 +210,7 @@ export default function IngredientRecommendations({
               <span className={styles.elementValue}>{Math.round(elementalProps.Earth * 100)}%</span>
             </div>
             <div className={styles.elementBar}>
-              <span className={styles.elementIcon}>{getElementIcon('Air&apos;)}</span>
+              <span className={styles.elementIcon}>{getElementIcon('Air')}</span>
               <div className={styles.barContainer}>
                 <div 
                   className={`${styles.bar} ${styles.airBar}`}
@@ -225,7 +225,7 @@ export default function IngredientRecommendations({
         {/* Flavor Profile */}
         <div className="flavor-profile">
           <h4>Flavor Profile</h4>
-          {ingredientData.sensoryProfile &amp;&amp; (
+          {ingredientData.sensoryProfile && (
             <div className={styles.sensoryHighlights}>
               {Object.entries(((ingredientData.sensoryProfile as unknown as ElementalProperties).taste as unknown as ElementalProperties) || {})
                 .filter(([_, value]) => Number(value || 0) > 0.6)
@@ -317,7 +317,7 @@ export default function IngredientRecommendations({
       >
         <div className={styles.compactCardHeader}>
           <h3 className={styles.compactIngredientName}>{ingredient.name}</h3>
-          {matchPercentage &amp;&amp; (
+          {matchPercentage && (
             <span className={styles.compactScore}>{matchPercentage}</span>
           )}
         </div>
@@ -325,7 +325,7 @@ export default function IngredientRecommendations({
         {/* Simplified Element Display */}
         <div className={styles.compactElementBars}>
           <div className={styles.elementBar}>
-            <span className={styles.elementIcon}>{getElementIcon('Fire&apos;)}</span>
+            <span className={styles.elementIcon}>{getElementIcon('Fire')}</span>
             <div className={styles.barContainer}>
               <div 
                 className={`${styles.bar} ${styles.fireBar}`}
@@ -334,7 +334,7 @@ export default function IngredientRecommendations({
             </div>
           </div>
           <div className={styles.elementBar}>
-            <span className={styles.elementIcon}>{getElementIcon('Water&apos;)}</span>
+            <span className={styles.elementIcon}>{getElementIcon('Water')}</span>
             <div className={styles.barContainer}>
               <div 
                 className={`${styles.bar} ${styles.waterBar}`}
@@ -343,7 +343,7 @@ export default function IngredientRecommendations({
             </div>
           </div>
           <div className={styles.elementBar}>
-            <span className={styles.elementIcon}>{getElementIcon('Earth&apos;)}</span>
+            <span className={styles.elementIcon}>{getElementIcon('Earth')}</span>
             <div className={styles.barContainer}>
               <div 
                 className={`${styles.bar} ${styles.earthBar}`}
@@ -352,7 +352,7 @@ export default function IngredientRecommendations({
             </div>
           </div>
           <div className={styles.elementBar}>
-            <span className={styles.elementIcon}>{getElementIcon('Air&apos;)}</span>
+            <span className={styles.elementIcon}>{getElementIcon('Air')}</span>
             <div className={styles.barContainer}>
               <div 
                 className={`${styles.bar} ${styles.airBar}`}
@@ -367,7 +367,7 @@ export default function IngredientRecommendations({
           {ingredient.category && (
             <span className={styles.compactCategory}>{ingredient.category}</span>
           )}
-          {ingredient.modality &amp;&amp; (
+          {ingredient.modality && (
             <span className={`${styles.modalityBadge} ${styles[ingredient.modality.toLowerCase()]}`}>
               {ingredient.modality}
             </span>
@@ -460,14 +460,14 @@ export default function IngredientRecommendations({
             className={`${styles.toggleButton} ${showSensoryProfiles ? styles.active : ''}`}
             onClick={() => setShowSensoryProfiles(!showSensoryProfiles)}
           >
-            {showSensoryProfiles ? 'Hide Sensory Profiles&apos; : 'Show Sensory Profiles&apos;}
+            {showSensoryProfiles ? 'Hide Sensory Profiles' : 'Show Sensory Profiles'}
           </button>
           
           <button 
             className={`${styles.toggleButton} ${showAlchemicalProperties ? styles.active : ''}`}
             onClick={() => setShowAlchemicalProperties(!showAlchemicalProperties)}
           >
-            {showAlchemicalProperties ? 'Hide Alchemical Properties&apos; : 'Show Alchemical Properties&apos;}
+            {showAlchemicalProperties ? 'Hide Alchemical Properties' : 'Show Alchemical Properties'}
           </button>
         </div>
       </div>
@@ -478,7 +478,7 @@ export default function IngredientRecommendations({
           {categoryFilter === 'all' ? (
             // Render all categories
             Object.entries(recommendations)
-              .filter(([_category, items]) => items &amp;&amp; items.length > 0)
+              .filter(([_category, items]) => items && items.length > 0)
               .map(([category, items]) => (
                 <div key={category} className={styles.categorySection} data-category={category}>
                   <h3 className={styles.categoryTitle}>{category}</h3>

@@ -132,8 +132,8 @@ const RecipeCard: React.FC<{
           </Typography>
           <Chip 
             label={`${Math.round(matchPercentage)}%`}
-            color={matchPercentage > 75 ? 'success&apos; : matchPercentage > 50 ? 'warning&apos; : 'default&apos;}
-            size="small&quot;
+            color={matchPercentage > 75 ? 'success' : matchPercentage > 50 ? 'warning' : 'default'}
+            size="small"
           />
         </Box>
 
@@ -145,26 +145,26 @@ const RecipeCard: React.FC<{
           <Chip 
             icon={<RestaurantIcon />}
             label={recipe.cuisine}
-            size="small&quot;
-            variant="outlined&quot;
+            size="small"
+            variant="outlined"
           />
           <Chip 
             icon={<AccessTimeIcon />}
             label={recipe.timeToMake}
-            size="small&quot;
-            variant="outlined&quot;
+            size="small"
+            variant="outlined"
           />
-          {recipe.numberOfServings &amp;&amp; (
+          {recipe.numberOfServings && (
             <Chip 
               icon={<PeopleIcon />}
               label={`${recipe.numberOfServings} servings`}
-              size="small&quot;
-              variant="outlined&quot;
+              size="small"
+              variant="outlined"
             />
           )}
         </Box>
 
-        {seasons.length > 0 &amp;&amp; (
+        {seasons.length > 0 && (
           <Box mb={1}>
             <Typography variant="caption" color="text.secondary">
               Seasons: {seasons.join(', ')}
@@ -172,7 +172,7 @@ const RecipeCard: React.FC<{
           </Box>
         )}
 
-        {mealTypes.length > 0 &amp;&amp; (
+        {mealTypes.length > 0 && (
           <Box mb={2}>
             <Typography variant="caption" color="text.secondary">
               Meal Types: {mealTypes.join(', ')}
@@ -180,7 +180,7 @@ const RecipeCard: React.FC<{
           </Box>
         )}
 
-        {recipe.elementalProperties &amp;&amp; (
+        {recipe.elementalProperties && (
           <Box mb={2}>
             <Typography variant="caption" color="text.secondary" gutterBottom>
               Elemental Properties:
@@ -221,11 +221,11 @@ const RecipeCard: React.FC<{
           onClick={() => setExpanded(!expanded)}
           endIcon={<ExpandMoreIcon />}
         >
-          {expanded ? 'Less Details&apos; : 'More Details&apos;}
+          {expanded ? 'Less Details' : 'More Details'}
         </Button>
       </CardActions>
 
-      {expanded &amp;&amp; (
+      {expanded && (
         <CardContent>
           <Accordion>
             <AccordionSummary expandIcon={<ExpandMoreIcon />}>
@@ -237,7 +237,7 @@ const RecipeCard: React.FC<{
               <Box>
                 {ingredients.map((ingredient, index) => (
                   <Typography key={index} variant="body2" gutterBottom>
-                    • {typeof ingredient === 'string&apos; ? ingredient : 
+                    • {typeof ingredient === 'string' ? ingredient : 
                        `${ingredient.amount} ${ingredient.unit} ${ingredient.name}`}
                   </Typography>
                 ))}
@@ -245,7 +245,7 @@ const RecipeCard: React.FC<{
             </AccordionDetails>
           </Accordion>
 
-          {instructions.length > 0 &amp;&amp; (
+          {instructions.length > 0 && (
             <Accordion>
               <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                 <Typography variant="subtitle2">

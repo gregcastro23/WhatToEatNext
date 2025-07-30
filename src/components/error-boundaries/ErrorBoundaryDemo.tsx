@@ -41,7 +41,7 @@ function ErrorThrowingComponent({ errorType }: { errorType: string }) {
       </p>
       <button
         onClick={() => setShouldThrow(true)}
-        className="px-3 py-1 bg-red-500 text-white text-sm rounded hover:bg-red-600 transition-colors&quot;
+        className="px-3 py-1 bg-red-500 text-white text-sm rounded hover:bg-red-600 transition-colors"
       >
         Throw {errorType} Error
       </button>
@@ -191,7 +191,7 @@ export function ErrorBoundaryDemo() {
           <div className="p-4 border border-green-200 rounded-lg bg-green-50">
             <h4 className="font-medium mb-2">Working Component</h4>
             <p className="text-sm text-green-700">
-              This component works normally and doesn&apos;t throw any errors.
+              This component works normally and doesn't throw any errors.
             </p>
             <div className="mt-2">
               <span className="inline-block px-2 py-1 bg-green-200 text-green-800 text-xs rounded">

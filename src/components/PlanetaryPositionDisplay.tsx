@@ -46,7 +46,7 @@ export const PlanetaryPositionDisplay: React.FC<PlanetaryPositionDisplayProps> =
       </span>
       <span className="text-cyan-200">
         {position.sign.charAt(0).toUpperCase() + position.sign.slice(1)} {formatDegree(position.degree)}
-        {position.isRetrograde &amp;&amp; <span className="text-orange-300 ml-1">℞</span>}
+        {position.isRetrograde && <span className="text-orange-300 ml-1">℞</span>}
       </span>
     </div>
   );

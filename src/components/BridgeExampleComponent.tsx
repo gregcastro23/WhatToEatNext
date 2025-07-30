@@ -67,7 +67,7 @@ export default function BridgeExampleComponent() {
         <h2 className="text-xl font-semibold">Planetary Positions</h2>
         
         {/* Only show toggle if services are ready */}
-        {servicesReady &amp;&amp; (
+        {servicesReady && (
           <div>
             <button
               onClick={toggleDataSource}
@@ -77,7 +77,7 @@ export default function BridgeExampleComponent() {
                   : 'bg-gray-300 text-gray-700'
               }`}
             >
-              {showServiceData ? 'Using Service Data&apos; : 'Using Context Data&apos;}
+              {showServiceData ? 'Using Service Data' : 'Using Context Data'}
             </button>
           </div>
         )}
@@ -85,18 +85,18 @@ export default function BridgeExampleComponent() {
       
       <div className="bg-white rounded-md p-3 mb-3">
         <p className="text-sm text-gray-500 mb-1">Time of day:</p>
-        <p className="font-medium">{isDaytime ? 'Daytime&apos; : 'Nighttime&apos;}</p>
+        <p className="font-medium">{isDaytime ? 'Daytime' : 'Nighttime'}</p>
       </div>
       
       <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
         {Object.entries(dataSource)
-          .filter(([planet]) => ['Sun&apos;, 'Moon&apos;, 'Mercury&apos;, 'Venus&apos;, 'Mars&apos;].includes(planet.toLowerCase()))
+          .filter(([planet]) => ['Sun', 'Moon', 'Mercury', 'Venus', 'Mars'].includes(planet.toLowerCase()))
           .map(([planet, data]: [string, any]) => (
             <div key={planet} className="bg-white rounded-md p-3 shadow-sm">
               <div className="flex justify-between">
                 <h3 className="font-medium capitalize">{planet}</h3>
                 <span className="text-xs bg-blue-100 text-blue-800 px-2 py-0.5 rounded-full">
-                  {showServiceData &amp;&amp; servicesReady ? 'Service&apos; : 'Context&apos;}
+                  {showServiceData && servicesReady ? 'Service' : 'Context'}
                 </span>
               </div>
               
@@ -113,9 +113,9 @@ export default function BridgeExampleComponent() {
       
       <div className="mt-4 text-xs text-gray-500">
         <p>
-          Data source: {showServiceData &amp;&amp; servicesReady 
-            ? 'New Service Architecture&apos; 
-            : 'Legacy Context API&apos;}
+          Data source: {showServiceData && servicesReady 
+            ? 'New Service Architecture' 
+            : 'Legacy Context API'}
         </p>
       </div>
     </div>

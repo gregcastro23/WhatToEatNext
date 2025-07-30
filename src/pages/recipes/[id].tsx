@@ -78,7 +78,7 @@ const RecipeDetailsPage: NextPage = () => {
     return (
       <div className="container mx-auto px-4 py-16">
         <h1 className="text-3xl font-bold mb-8">Recipe not found</h1>
-        <p className="text-lg mb-8">The recipe you&apos;re looking for doesn&amp;apos;t exist or may have been removed.</p>
+        <p className="text-lg mb-8">The recipe you're looking for doesn&amp;apos;t exist or may have been removed.</p>
         <Link href="/recipes" className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
           Browse all recipes
         </Link>
@@ -106,7 +106,7 @@ const RecipeDetailsPage: NextPage = () => {
         <Link href="/recipes" className="text-blue-600 hover:text-blue-800">
           ← Back to recipes
         </Link>
-        {recipe.cuisine &amp;&amp; (
+        {recipe.cuisine && (
           <Link 
             href={`/cuisines/${recipe.cuisine.toLowerCase().replace(/ /g, '-')}`}
             className="ml-4 text-blue-600 hover:text-blue-800"
@@ -119,32 +119,32 @@ const RecipeDetailsPage: NextPage = () => {
       <div className="bg-white rounded-lg shadow-lg p-6">
         <header className="mb-8">
           <h1 className="text-3xl font-bold mb-3">{recipe.name}</h1>
-          {recipe.description &amp;&amp; (
+          {recipe.description && (
             <p className="text-lg text-gray-700">{recipe.description}</p>
           )}
           
           <div className="flex flex-wrap gap-2 mt-4">
-            {recipe.cuisine &amp;&amp; (
+            {recipe.cuisine && (
               <span className="text-sm px-3 py-1 bg-amber-100 text-amber-800 rounded-full">
                 {recipe.cuisine}
               </span>
             )}
-            {recipe.season &amp;&amp; (
+            {recipe.season && (
               <span className="text-sm px-3 py-1 bg-green-100 text-green-800 rounded-full">
                 {Array.isArray(recipe.season) ? recipe.season.join(', ') : recipe.season}
               </span>
             )}
-            {recipe.timeToMake &amp;&amp; (
+            {recipe.timeToMake && (
               <span className="text-sm px-3 py-1 bg-purple-100 text-purple-800 rounded-full">
                 {recipe.timeToMake}
               </span>
             )}
-            {recipe.isVegetarian &amp;&amp; (
+            {recipe.isVegetarian && (
               <span className="text-sm px-3 py-1 bg-green-100 text-green-800 rounded-full">
                 Vegetarian
               </span>
             )}
-            {recipe.isVegan &amp;&amp; (
+            {recipe.isVegan && (
               <span className="text-sm px-3 py-1 bg-green-100 text-green-800 rounded-full">
                 Vegan
               </span>
@@ -178,8 +178,8 @@ const RecipeDetailsPage: NextPage = () => {
             </div>
             <ul className="space-y-2">
               {recipe.ingredients.map((ingredient, idx) => {
-                const isSelected = selectedIngredient &amp;&amp; 
-                  (typeof ingredient === 'string&apos; 
+                const isSelected = selectedIngredient && 
+                  (typeof ingredient === 'string' 
                     ? ingredient === selectedIngredient 
                     : (ingredient as any)?.name === (selectedIngredient as any)?.name);
                 
@@ -189,8 +189,8 @@ const RecipeDetailsPage: NextPage = () => {
                     className={`flex justify-between py-2 border-b border-gray-100 hover:bg-gray-50 cursor-pointer transition duration-150 ${isSelected ? 'bg-blue-50 border-l-4 border-l-blue-500 pl-2' : ''}`}
                     onClick={() => handleIngredientClick(ingredient)}
                   >
-                    <span>{typeof ingredient === 'string&apos; ? ingredient : ingredient.name}</span>
-                    {typeof ingredient !== 'string&apos; &amp;&amp; (
+                    <span>{typeof ingredient === 'string' ? ingredient : ingredient.name}</span>
+                    {typeof ingredient !== 'string' && (
                       <span className="text-gray-600">
                         {(Number(ingredient.amount) || 0) * servingsMultiplier} {ingredient.unit || ''}
                       </span>
@@ -205,7 +205,7 @@ const RecipeDetailsPage: NextPage = () => {
               <div className="mt-4 p-4 bg-blue-50 rounded-lg animate-fade-in">
                 <div className="flex justify-between items-center mb-2">
                   <h3 className="font-semibold text-lg">
-                    {typeof selectedIngredient === 'string&apos; ? selectedIngredient : selectedIngredient.name}
+                    {typeof selectedIngredient === 'string' ? selectedIngredient : selectedIngredient.name}
                   </h3>
                   <span className="text-xs text-blue-600 bg-blue-100 px-2 py-1 rounded">Ingredient Details</span>
                 </div>
@@ -216,13 +216,13 @@ const RecipeDetailsPage: NextPage = () => {
                     {selectedIngredient.amount && (
                       <li><span className="font-medium">Amount:</span> {selectedIngredient.amount * servingsMultiplier} {selectedIngredient.unit}</li>
                     )}
-                    {selectedIngredient.notes &amp;&amp; (
+                    {selectedIngredient.notes && (
                       <li><span className="font-medium">Notes:</span> {selectedIngredient.notes}</li>
                     )}
-                    {selectedIngredient.category &amp;&amp; (
+                    {selectedIngredient.category && (
                       <li><span className="font-medium">Category:</span> {selectedIngredient.category}</li>
                     )}
-                    {selectedIngredient.substitutes &amp;&amp; (
+                    {selectedIngredient.substitutes && (
                       <li>
                         <span className="font-medium">Substitutes:</span> {
                           Array.isArray(selectedIngredient.substitutes) 
@@ -236,7 +236,7 @@ const RecipeDetailsPage: NextPage = () => {
                 <div className="mt-3 flex justify-end">
                   <button 
                     onClick={() => setSelectedIngredient(null)}
-                    className="px-3 py-1 text-sm text-blue-600 hover:text-blue-800 bg-white rounded shadow-sm hover:shadow transition&quot;
+                    className="px-3 py-1 text-sm text-blue-600 hover:text-blue-800 bg-white rounded shadow-sm hover:shadow transition"
                   >
                     Close Details
                   </button>
@@ -263,25 +263,25 @@ const RecipeDetailsPage: NextPage = () => {
           <section className="mt-8 p-4 bg-gray-50 rounded-lg">
             <h2 className="text-xl font-semibold mb-4">Nutritional Information</h2>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              {recipe.nutrition.calories &amp;&amp; (
+              {recipe.nutrition.calories && (
                 <div className="text-center p-3 bg-white rounded shadow-sm">
                   <div className="text-lg font-bold">{recipe.nutrition.calories}</div>
                   <div className="text-sm text-gray-600">Calories</div>
                 </div>
               )}
-              {recipe.nutrition.protein &amp;&amp; (
+              {recipe.nutrition.protein && (
                 <div className="text-center p-3 bg-white rounded shadow-sm">
                   <div className="text-lg font-bold">{recipe.nutrition.protein}g</div>
                   <div className="text-sm text-gray-600">Protein</div>
                 </div>
               )}
-              {recipe.nutrition.carbs &amp;&amp; (
+              {recipe.nutrition.carbs && (
                 <div className="text-center p-3 bg-white rounded shadow-sm">
                   <div className="text-lg font-bold">{recipe.nutrition.carbs}g</div>
                   <div className="text-sm text-gray-600">Carbs</div>
                 </div>
               )}
-              {recipe.nutrition.fat &amp;&amp; (
+              {recipe.nutrition.fat && (
                 <div className="text-center p-3 bg-white rounded shadow-sm">
                   <div className="text-lg font-bold">{recipe.nutrition.fat}g</div>
                   <div className="text-sm text-gray-600">Fat</div>

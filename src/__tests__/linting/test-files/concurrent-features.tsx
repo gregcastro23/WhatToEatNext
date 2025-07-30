@@ -16,7 +16,7 @@ export function ConcurrentComponent() {
     <Suspense fallback={<div>Loading...</div>}>
       <div>
         <button onClick={handleClick} disabled={isPending}>
-          {isPending ? 'Loading...' : 'Click me&apos;}
+          {isPending ? 'Loading...' : 'Click me'}
         </button>
         <p>Deferred: {deferredValue}</p>
       </div>

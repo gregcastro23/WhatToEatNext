@@ -166,7 +166,7 @@ export default function KalchmRecommender({
     <div className="ingredient-recommender p-4">
       <h2 className="text-2xl font-bold mb-4">What to Eat Next</h2>
       
-      {thermodynamicMetrics &amp;&amp; (
+      {thermodynamicMetrics && (
         <div className="mb-6 p-4 rounded-lg bg-white shadow-sm">
           <h3 className="text-lg font-semibold mb-2">Current Alchemical Metrics</h3>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
