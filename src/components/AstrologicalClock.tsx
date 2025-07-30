@@ -108,7 +108,7 @@ const AstrologicalClock: React.FC = () => {
         <button 
           onClick={() => setShowLegend(!showLegend)} 
           className="text-blue-500 hover:text-blue-700"
-          title="Show symbol legend&quot;
+          title="Show symbol legend"
         >
           <Info size={16} />
         </button>
