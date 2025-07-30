@@ -46,7 +46,7 @@ export default function IngredientDisplay() {
       }
     };
 
-    loadIngredients();
+    void loadIngredients();
   }, [elementalProperties, planetaryPositions]); // Re-run when these change
 
   // Helper function to get element color

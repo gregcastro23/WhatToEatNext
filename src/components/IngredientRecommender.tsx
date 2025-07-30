@@ -1,11 +1,10 @@
-import { Flame, Droplets, Mountain, Wind, Info, Clock, Tag, Leaf, X, ChevronDown, ChevronUp, Beaker, Brain, ExternalLink, ArrowRight } from 'lucide-react';
+import { Flame, Droplets, Mountain, Wind, Clock, Tag, Leaf, X, ChevronDown, ChevronUp, Beaker, Brain, ExternalLink } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState, useMemo } from 'react';
 
 
 import EnterpriseIntelligencePanel from '@/components/intelligence/EnterpriseIntelligencePanel';
-import { normalizeChakraKey } from '@/constants/chakraSymbols';
-import { herbsCollection, oilsCollection, vinegarsCollection, grainsCollection } from '@/data/ingredients';
+import { herbsCollection, oilsCollection, vinegarsCollection } from '@/data/ingredients';
 import { useAstrologicalState } from '@/hooks/useAstrologicalState';
 import { useChakraInfluencedFood } from '@/hooks/useChakraInfluencedFood';
 import { ElementalCalculator } from '@/services/ElementalCalculator';
@@ -27,7 +26,7 @@ interface IngredientRecommenderProps {
 /**
  * Maps planets to their elemental influences (diurnal and nocturnal elements)
  */
-const planetaryElements: Record<string, { diurnal: string, nocturnal: string }> = {
+const UNUSED_planetaryElements: Record<string, { diurnal: string, nocturnal: string }> = {
   'Sun': { diurnal: 'Fire', nocturnal: 'Fire' },
   'Moon': { diurnal: 'Water', nocturnal: 'Water' },
   'Mercury': { diurnal: 'Air', nocturnal: 'Earth' },
@@ -41,7 +40,7 @@ const planetaryElements: Record<string, { diurnal: string, nocturnal: string }> 
 };
 
 // Define a styles object for animations and custom styles
-const customStyles = {
+const UNUSED_customStyles = {
   '@keyframes fadeIn': {
     '0%': { opacity: 0 },
     '100%': { opacity: 1 }
@@ -80,7 +79,7 @@ export default function IngredientRecommender({
   initialCategory = null,
   initialSelectedIngredient = null,
   isFullPageVersion = false,
-  maxDisplayed = 12,
+  maxDisplayed: _maxDisplayed = 12,
   onCategorySelect,
   onIngredientSelect
 }: IngredientRecommenderProps = {}) {
@@ -91,7 +90,7 @@ export default function IngredientRecommender({
     currentZodiac, 
     currentPlanetaryAlignment, 
     loading: astroLoading, 
-    isDaytime 
+    isDaytime: UNUSED_isDaytime 
   } = astroState;
   
   // Note: chakraEnergies are not available from useAstrologicalState
@@ -118,15 +117,15 @@ export default function IngredientRecommender({
   
   // Enterprise Intelligence state
   const [showEnterpriseIntelligence, setShowEnterpriseIntelligence] = useState<boolean>(false);
-  const [enterpriseIntelligenceAnalysis, setEnterpriseIntelligenceAnalysis] = useState<any>(null);
+  const [_enterpriseIntelligenceAnalysis, setEnterpriseIntelligenceAnalysis] = useState<unknown>(null);
   
   // Use the custom hook for food recommendations
   const { 
     recommendations: foodRecommendations, 
-    chakraEnergies,
+    chakraEnergies: UNUSED_chakraEnergies,
     loading: foodLoading, 
     error: foodError,
-    refreshRecommendations
+    refreshRecommendations: UNUSED_refreshRecommendations
   } = useChakraInfluencedFood({ limit: 300 }); // Increased from 200 to 300 to ensure all categories have plenty of items
   
   // Helper function to get element icon with inline styles
@@ -242,8 +241,8 @@ export default function IngredientRecommender({
       // Determine current planetary day and hour
       const now = new Date();
       // Extract planetary day and hour from context if available
-      const planetaryDay = (planetaryPositions as any)?.planetaryDay?.planet || 'Sun';
-      const planetaryHour = (planetaryPositions as any)?.planetaryHour?.planet || 'Sun';
+      const planetaryDay = (planetaryPositions as Record<string, unknown>)?.planetaryDay?.planet || 'Sun';
+      const planetaryHour = (planetaryPositions as Record<string, unknown>)?.planetaryHour?.planet || 'Sun';
       const isDaytime = now.getHours() >= 6 && now.getHours() < 18;
       
       // Create an object with astrological state data
@@ -272,7 +271,7 @@ export default function IngredientRecommender({
         ...astroState,
         lunarPhase: 'new moon',
         aspects: []
-      } as any, { limit: 40 });
+      } as Record<string, unknown>, { limit: 40 });
       
       // Merge the recommendations, prioritizing chakra-based ones
       const mergedRecommendations: GroupedIngredientRecommendations = {};
@@ -377,7 +376,7 @@ export default function IngredientRecommender({
   // Combine and categorize all recommendations
   const combinedCategorizedRecommendations = useMemo(() => {
     // Start with empty categories
-    const categories: Record<string, any[]> = {
+    const categories: Record<string, unknown[]> = {
       proteins: [],
       vegetables: [],
       grains: [],
@@ -504,7 +503,7 @@ export default function IngredientRecommender({
           });
         }
         // Oils
-        else if (isOil(ingredient as any)) {
+        else if (isOil(ingredient as Record<string, unknown>)) {
           categories.oils.push({
             ...ingredient,
             matchScore: ingredient.score || 0.5
@@ -870,9 +869,9 @@ export default function IngredientRecommender({
               recipeData={null}
               ingredientData={{ ingredients: Object.values(combinedCategorizedRecommendations).flat() }}
               astrologicalContext={{
-                zodiacSign: (currentZodiac || 'aries') as any,
-                lunarPhase: 'new moon' as any,
-                elementalProperties: (astroState as any).elementalProperties || {
+                zodiacSign: (currentZodiac || 'aries') as string,
+                lunarPhase: 'new moon' as string,
+                elementalProperties: (astroState as Record<string, unknown>).elementalProperties || {
                   Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
                 },
                 planetaryPositions: currentPlanetaryAlignment

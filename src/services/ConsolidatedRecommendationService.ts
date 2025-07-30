@@ -102,7 +102,7 @@ export class ConsolidatedRecommendationService implements RecommendationServiceI
           const recipeData = recipe as Record<string, unknown>;
           const recipeIngredients = recipeData.ingredients || [];
           
-          return criteria.includeIngredients!.every(ingredient => 
+          return criteria.includeIngredients ?? undefined.every(ingredient => 
             (recipeIngredients as unknown[]).some((recipeIngredient: unknown) => 
               String((recipeIngredient as Record<string, unknown>).name || '').toLowerCase().includes(String(ingredient || '').toLowerCase())
             )
@@ -115,7 +115,7 @@ export class ConsolidatedRecommendationService implements RecommendationServiceI
           const recipeData = recipe as Record<string, unknown>;
           const recipeIngredients = recipeData.ingredients || [];
           
-          return !criteria.excludeIngredients!.some(ingredient => 
+          return !criteria.excludeIngredients ?? undefined.some(ingredient => 
             (recipeIngredients as unknown[]).some((recipeIngredient: unknown) => 
               String((recipeIngredient as Record<string, unknown>).name || '').toLowerCase().includes(String(ingredient || '').toLowerCase())
             )
@@ -238,7 +238,7 @@ export class ConsolidatedRecommendationService implements RecommendationServiceI
       if (criteria.excludeIngredients && criteria.excludeIngredients.length > 0) {
         filteredIngredients = filteredIngredients.filter(ingredient => {
           const ingredientData = ingredient as Record<string, unknown>;
-          return !criteria.excludeIngredients!.some(excludeIngredient => 
+          return !criteria.excludeIngredients ?? undefined.some(excludeIngredient => 
             String(ingredientData.name || '').toLowerCase().includes(String(excludeIngredient || '').toLowerCase())
           );
         });
@@ -324,7 +324,7 @@ export class ConsolidatedRecommendationService implements RecommendationServiceI
       let filteredItems = items;
       if (criteria.excludeCuisines && criteria.excludeCuisines.length > 0) {
         filteredItems = items.filter(cuisine => 
-          !criteria.excludeCuisines!.includes(cuisine)
+          !criteria.excludeCuisines ?? undefined.includes(cuisine)
         );
       }
       
@@ -394,7 +394,7 @@ export class ConsolidatedRecommendationService implements RecommendationServiceI
       let filteredItems = items;
       if (criteria.excludeMethods && criteria.excludeMethods.length > 0) {
         filteredItems = items.filter(method => 
-          !criteria.excludeMethods!.includes(method.name)
+          !criteria.excludeMethods ?? undefined.includes(method.name)
         );
       }
       

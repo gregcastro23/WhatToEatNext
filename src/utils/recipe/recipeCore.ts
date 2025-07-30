@@ -232,11 +232,11 @@ export function getMatchScoreClass(score: number): string {
  */
 export function getMatchRating(score: number): { stars: string, tooltip: string } {
   if (score >= 95) {
-    return { stars: '★★★★★', tooltip: 'Perfect match - highly recommended!' };
+    return { stars: '★★★★★', tooltip: 'Perfect match - highly recommended ?? undefined' };
   } else if (score >= 85) {
-    return { stars: '★★★★☆', tooltip: 'Excellent match - great choice!' };
+    return { stars: '★★★★☆', tooltip: 'Excellent match - great choice ?? undefined' };
   } else if (score >= 75) {
-    return { stars: '★★★☆☆', tooltip: 'Good match - worth trying!' };
+    return { stars: '★★★☆☆', tooltip: 'Good match - worth trying ?? undefined' };
   } else if (score >= 65) {
     return { stars: '★★☆☆☆', tooltip: 'FAir match - might work for you' };
   } else {
@@ -477,7 +477,7 @@ function scoreRecipe(
   if (
     recipe.lunarPhaseInfluences && 
     (Array.isArray(recipe.lunarPhaseInfluences) 
-      ? recipe.lunarPhaseInfluences.includes(astrologicalState.lunarPhase!) 
+      ? recipe.lunarPhaseInfluences.includes(astrologicalState.lunarPhase ?? undefined) 
       : recipe.lunarPhaseInfluences === astrologicalState.lunarPhase)
   ) {
     score += 10;
@@ -576,7 +576,7 @@ function generateExplanation(scoredRecipe: RecommendationScore): string {
   let explanation = '';
 
   if (score >= 90) {
-    explanation = `${recipe.name} is a perfect choice right now! `;
+    explanation = `${recipe.name} is a perfect choice right now ?? undefined `;
   } else if (score >= 75) {
     explanation = `${recipe.name} is highly recommended at this time. `;
   } else if (score >= 60) {

@@ -46,7 +46,7 @@ export function useAlchemicalBridge() {
         }
       };
       
-      fetchData();
+      void fetchData();
     }
   }, [isLoading, error, astrologyService]);
 
@@ -113,7 +113,7 @@ export function useChakraBridge() {
         }
       };
       
-      fetchChakraData();
+      void fetchChakraData();
     }
   }, [isLoading, error, chakraService]);
 
@@ -173,10 +173,10 @@ export function usePlanetaryHoursBridge() {
         }
       };
       
-      fetchPlanetaryHoursData();
+      void fetchPlanetaryHoursData();
       
       // Update every minute
-      const interval = setInterval(fetchPlanetaryHoursData, 60000);
+      const interval = setInterval(() => void fetchPlanetaryHoursData(), 60000);
       return () => clearInterval(interval);
     }
   }, [isLoading, error, astrologyService]);
@@ -222,7 +222,7 @@ export function createServiceBridge<T, S>(
           }
         };
         
-        fetchData();
+        void fetchData();
       }
     }, [isLoading, error, service]);
     

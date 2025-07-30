@@ -44,7 +44,7 @@ export default function CuisineSectionTestPage() {
       }
     };
     
-    loadRecipes();
+    void loadRecipes();
   }, [selectedCuisine, recipeService]);
   
   // Element color classes for better visualization

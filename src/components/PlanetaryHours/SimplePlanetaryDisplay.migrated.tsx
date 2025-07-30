@@ -51,10 +51,10 @@ export default function SimplePlanetaryDisplayMigrated() {
     };
     
     // Initial update
-    updateInfo();
+    void updateInfo();
     
     // Update every minute
-    const intervalId = setInterval(updateInfo, 60000);
+    const intervalId = setInterval(() => void updateInfo(), 60000);
     
     // Cleanup
     return () => clearInterval(intervalId);

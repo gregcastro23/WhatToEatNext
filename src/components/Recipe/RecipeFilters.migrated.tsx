@@ -143,7 +143,7 @@ export default function RecipeFiltersMigrated({
       }
     };
 
-    loadReferenceData();
+    void loadReferenceData();
   }, [servicesLoading, recipeService]);
 
   // Handle loading state

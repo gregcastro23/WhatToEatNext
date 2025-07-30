@@ -67,7 +67,7 @@ const ElementalRecommendationsMigrated: React.FC<ElementalRecommendationsProps> 
       }
     };
     
-    loadElementalData();
+    void loadElementalData();
   }, [isLoading, astrologyService, recommendationService, targetElement]);
 
   // Helper function to get element color

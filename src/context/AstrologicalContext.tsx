@@ -51,7 +51,7 @@ export function AstrologicalProvider({ children }: AstrologicalProviderProps) {
   // Function to update zodiac and recalculate state
   const updateZodiac = (zodiac: string) => {
     setCurrentZodiac(zodiac);
-    calculateAstrologicalState(zodiac);
+    void calculateAstrologicalState(zodiac);
   };
 
   // Calculate astrological state based on zodiac
@@ -118,7 +118,7 @@ export function AstrologicalProvider({ children }: AstrologicalProviderProps) {
 
   // Initialize with current zodiac on mount
   useEffect(() => {
-    calculateAstrologicalState(currentZodiac);
+    void calculateAstrologicalState(currentZodiac);
   }, [calculateAstrologicalState, currentZodiac]);
 
   const value: AstrologicalContextType = {

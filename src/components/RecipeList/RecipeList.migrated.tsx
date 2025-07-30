@@ -375,12 +375,12 @@ export default function RecipeListMigrated() {
         console.error('Failed to load astrological data:', err);
       }
     };
-    fetchAstroData();
+    void fetchAstroData();
   }, []);
 
   // Fetch recipes
   useEffect(() => {
-    fetchRecipes();
+    void fetchRecipes();
   }, [page]);
 
   // Enhanced recipes with scoring

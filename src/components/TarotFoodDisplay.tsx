@@ -111,7 +111,7 @@ export default function TarotFoodDisplay({ onTarotLoaded }: TarotFoodDisplayProp
     let isMounted = true;
     
     if (isMounted) {
-      loadTarotCards();
+      void loadTarotCards();
     }
 
     return () => {

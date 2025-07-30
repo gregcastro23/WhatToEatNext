@@ -5,10 +5,12 @@
  * and provides comprehensive quality assessment for CI/CD pipelines.
  */
 
-import { LintingProgressTracker, LintingMetrics } from './LintingProgressTracker';
-import { logger } from '@/utils/logger';
-import { writeFileSync, readFileSync, existsSync } from 'fs';
 import { execSync } from 'child_process';
+import { writeFileSync, readFileSync, existsSync } from 'fs';
+
+import { logger } from '@/utils/logger';
+
+import { LintingProgressTracker, LintingMetrics } from './LintingProgressTracker';
 
 /**
  * Quality gate configuration

@@ -54,7 +54,7 @@ export default function ScriptLoader() {
       }
     };
 
-    loadScripts();
+    void loadScripts();
 
     // Cleanup function
     return () => {

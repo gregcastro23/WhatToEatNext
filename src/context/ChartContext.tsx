@@ -56,7 +56,7 @@ export function ChartProvider({ children }: { children: ReactNode }) {
       }
     };
 
-    loadInitialChart();
+    void loadInitialChart();
   }, []);
 
   return (

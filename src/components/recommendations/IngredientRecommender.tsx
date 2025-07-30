@@ -1,35 +1,33 @@
 // React imports
+import { Flame, Droplets, Mountain, Wind, ChevronDown, ChevronUp, Beaker } from 'lucide-react';
 import { useEffect, useState, useMemo, useCallback } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 
 // External libraries
-import { Flame, Droplets, Mountain, Wind, ChevronDown, ChevronUp, Beaker } from 'lucide-react';
-
 // Types
 import type { 
   Element, 
   AstrologicalState
 } from "@/types";
-
 // Utils
 import { logger } from '@/utils/logger';
+
+import { useFlavorEngine } from '../../contexts/FlavorEngineContext';
+import { herbsCollection, oilsCollection, vinegarsCollection } from '../../data/ingredients';
+import { useAlchemicalRecommendations } from '../../hooks/useAlchemicalRecommendations';
+import { useAstrologicalState } from '../../hooks/useAstrologicalState';
+import { enhancedRecommendationService, EnhancedRecommendationResult } from '../../services/EnhancedRecommendationService';
 import { 
   getChakraBasedRecommendations, 
   GroupedIngredientRecommendations, 
   IngredientRecommendation,
   EnhancedIngredientRecommendation 
 } from '../../utils/ingredientRecommender';
-
 // Services
-import { enhancedRecommendationService, EnhancedRecommendationResult } from '../../services/EnhancedRecommendationService';
 
 // Hooks
-import { useFlavorEngine } from '../../contexts/FlavorEngineContext';
-import { useAlchemicalRecommendations } from '../../hooks/useAlchemicalRecommendations';
-import { useAstrologicalState } from '../../hooks/useAstrologicalState';
 
 // Data
-import { herbsCollection, oilsCollection, vinegarsCollection } from '../../data/ingredients';
 
 // Components
 import { IngredientCard } from '../IngredientCard';
@@ -289,7 +287,7 @@ export default function IngredientRecommender() {
   }, [astroLoading, astroError, showEnhancedFeatures, contextChakraEnergies, planetaryPositions, currentZodiac]);
 
   useEffect(() => {
-    loadEnhancedRecommendations();
+    void loadEnhancedRecommendations();
   }, [loadEnhancedRecommendations]);
   
   // Use chakra energies and planetary positions to generate ingredient recommendations
@@ -1038,7 +1036,7 @@ export default function IngredientRecommender() {
   // Effect to load enhanced recommendations when features are toggled
   useEffect(() => {
     if (showEnhancedFeatures) {
-      loadEnhancedRecommendations();
+      void loadEnhancedRecommendations();
     }
   }, [showEnhancedFeatures, loadEnhancedRecommendations]);
   

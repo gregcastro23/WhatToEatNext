@@ -306,7 +306,7 @@ export function useTypeScriptCampaignHook(autoCheck: boolean = true) {
       checkErrorThreshold();
       
       // Check every 10 minutes
-      const interval = setInterval(checkErrorThreshold, 10 * 60 * 1000);
+      const interval = setInterval(() => void checkErrorThreshold(), 10 * 60 * 1000);
       return () => clearInterval(interval);
     }
   }, [autoCheck, checkErrorThreshold]);
@@ -382,7 +382,7 @@ export function useQualityMetricsHook(updateInterval: number = 30000) { // 30 se
 
   // Update metrics periodically
   useEffect(() => {
-    const interval = setInterval(updateMetrics, updateInterval);
+    const interval = setInterval(() => void updateMetrics(), updateInterval);
     return () => clearInterval(interval);
   }, [updateMetrics, updateInterval]);
 

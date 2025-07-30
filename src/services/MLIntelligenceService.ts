@@ -123,7 +123,10 @@ export class MLIntelligenceService {
       if (this.config.cacheResults && this.cache.has(cacheKey)) {
         this.updateCacheHitRate();
         this.log('debug', 'Using cached ML intelligence analysis');
-        return this.cache.get(cacheKey)!;
+        const cachedResult = this.cache.get(cacheKey);
+        if (cachedResult) {
+          return cachedResult;
+        }
       }
 
       // Generate comprehensive ML analysis
@@ -328,8 +331,10 @@ export class MLIntelligenceService {
 
   private calculateMLOptimizedScore(recipe: Recipe, astrologicalContext: MLContext): number {
     // Calculate base optimization score
-    const elementalAlignment = recipe.elementalProperties ? 
-      calculateElementalCompatibility(recipe.elementalProperties, astrologicalContext.elementalProperties) : 0.5;
+    const elementalAlignment = calculateElementalCompatibility(
+      recipe.elementalProperties, 
+      astrologicalContext.elementalProperties
+    );
 
     const recipeData = (recipe as unknown) as Record<string, unknown>;
     const seasonalOptimization = calculateSeasonalOptimization(recipeData.seasonality as string || 'all', getCurrentSeason());
@@ -361,14 +366,12 @@ export class MLIntelligenceService {
     const recommendations: string[] = [];
     
     // Analyze recipe ingredients for potential substitutions
-    if (recipe.ingredients) {
-      recipe.ingredients.forEach(ingredient => {
-        const substitution = this.findOptimalSubstitution(ingredient, astrologicalContext);
-        if (substitution) {
-          recommendations.push(`Consider substituting ${ingredient.name} with ${substitution} for better astrological alignment`);
-        }
-      });
-    }
+    recipe.ingredients.forEach(ingredient => {
+      const substitution = this.findOptimalSubstitution(ingredient, _astrologicalContext);
+      if (substitution) {
+        recommendations.push(`Consider substituting ${ingredient.name} with ${substitution} for better astrological alignment`);
+      }
+    });
 
     // Add seasonal substitution recommendations
     const currentSeason = getCurrentSeason();
@@ -378,10 +381,8 @@ export class MLIntelligenceService {
     }
 
     // Add elemental balance recommendations
-    if (recipe.elementalProperties) {
-      const elementalRecommendations = this.generateElementalSubstitutionRecommendations(recipe, astrologicalContext);
-      recommendations.push(...elementalRecommendations);
-    }
+    const elementalRecommendations = this.generateElementalSubstitutionRecommendations(recipe, _astrologicalContext);
+    recommendations.push(...elementalRecommendations);
 
     return recommendations.slice(0, 5); // Limit to top 5 recommendations
   }
@@ -672,8 +673,11 @@ export class MLIntelligenceService {
       'onion': ['shallot', 'leek'],
       'garlic': ['garlic powder', 'shallot']
     };
-    const subs = basicSubstitutions[ingredient.name.toLowerCase()];
-    return subs ? subs[0] : null;
+    const key = ingredient.name.toLowerCase();
+    if (key in basicSubstitutions) {
+      return basicSubstitutions[key][0];
+    }
+    return null;
   }
 
   private generateElementalSubstitutionRecommendations(_recipe: Recipe, _astrologicalContext: MLContext): string[] {
@@ -705,8 +709,10 @@ export class MLIntelligenceService {
       }
     };
     
-    const optimizations = methodOptimizations[method.toLowerCase()] || 
-                         { 'default': `Optimize ${method} based on ingredient properties` };
+    const key = method.toLowerCase();
+    const optimizations = key in methodOptimizations ? 
+      methodOptimizations[key] : 
+      { 'default': `Optimize ${method} based on ingredient properties` };
     
     if (astrologicalContext) {
       const planetaryElement = this.getDominantPlanetaryElement(astrologicalContext).toLowerCase();
@@ -794,7 +800,9 @@ export class MLIntelligenceService {
     };
     
     const ingredientLower = ingredient.toLowerCase();
-    const elementIngredients = elementalIngredients[element.toLowerCase()] || [];
+    const elementKey = element.toLowerCase();
+    const elementIngredients = elementKey in elementalIngredients ? 
+      elementalIngredients[elementKey] : [];
     
     return elementIngredients.some(el => ingredientLower.includes(el));
   }
@@ -833,8 +841,10 @@ export class MLIntelligenceService {
   // Ingredient analysis methods - TODO: Implement comprehensive ML ingredient analysis
   private calculatePairwiseCompatibility(ing1: Ingredient, ing2: Ingredient, _astrologicalContext: MLContext): number {
     // TODO: Implement ML-based pairwise compatibility analysis
-    const elementalCompatibility = ing1.elementalProperties && ing2.elementalProperties ?
-      calculateElementalCompatibility(ing1.elementalProperties, ing2.elementalProperties) : 0.7;
+    const elementalCompatibility = calculateElementalCompatibility(
+      ing1.elementalProperties, 
+      ing2.elementalProperties
+    );
     return Math.max(0, Math.min(1, elementalCompatibility));
   }
 
@@ -845,7 +855,8 @@ export class MLIntelligenceService {
       'onion': ['shallot', 'leek'],
       'garlic': ['garlic powder', 'shallot']
     };
-    return basicSubstitutions[ingredient.name.toLowerCase()] || [];
+    const key = ingredient.name.toLowerCase();
+    return key in basicSubstitutions ? basicSubstitutions[key] : [];
   }
 
   private calculateFlavorSynergy(_ing1: Ingredient, _ing2: Ingredient, _astrologicalContext: MLContext): number {
@@ -983,11 +994,11 @@ export class MLIntelligenceService {
 
   private generateCacheKey(recipeData: Recipe, ingredientData: Ingredient[], cuisineData: Record<string, unknown>, astrologicalContext: MLContext): string {
     return `ml_${JSON.stringify({
-      recipeId: recipeData?.id,
-      ingredientCount: ingredientData?.length,
-      cuisineName: cuisineData?.name,
-      zodiac: astrologicalContext?.zodiacSign,
-      lunar: astrologicalContext?.lunarPhase
+      recipeId: recipeData.id,
+      ingredientCount: ingredientData.length,
+      cuisineName: cuisineData.name,
+      zodiac: astrologicalContext.zodiacSign,
+      lunar: astrologicalContext.lunarPhase
     })}`;
   }
 

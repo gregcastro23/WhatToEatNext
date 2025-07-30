@@ -211,7 +211,7 @@ export class ErrorTrackingEnterpriseSystem {
       if (!patternMap.has(patternKey)) {
         patternMap.set(patternKey, { count: 0, errors: [] });
       }
-      const pattern = patternMap.get(patternKey)!;
+      const pattern = patternMap.get(patternKey) ?? undefined;
       pattern.count++;
       pattern.errors.push(error);
     });

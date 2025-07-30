@@ -380,7 +380,7 @@ class ErrorTrackingSystem {
       const patternKey = `TS:${error.code}`;
       
       if (patterns.has(patternKey)) {
-        const pattern = patterns.get(patternKey)!;
+        const pattern = patterns.get(patternKey) ?? undefined;
         pattern.frequency++;
         if (!pattern.files.includes(error.file)) {
           pattern.files.push(error.file);
@@ -403,7 +403,7 @@ class ErrorTrackingSystem {
       const patternKey = `LINT:${violation.rule}`;
       
       if (patterns.has(patternKey)) {
-        const pattern = patterns.get(patternKey)!;
+        const pattern = patterns.get(patternKey) ?? undefined;
         pattern.frequency++;
         if (!pattern.files.includes(violation.file)) {
           pattern.files.push(violation.file);

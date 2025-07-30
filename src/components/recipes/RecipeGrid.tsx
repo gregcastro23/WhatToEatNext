@@ -291,7 +291,7 @@ export const RecipeGrid: React.FC<RecipeGridProps> = ({
       }
     };
 
-    loadTimeFactors();
+    void loadTimeFactors();
   }, []);
 
   // Extract recipes from cuisines data if not provided via props

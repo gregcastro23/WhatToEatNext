@@ -538,7 +538,7 @@ export function useAstrology(options: AstrologyOptions = {}) {
       const THROTTLE_TIME = 5000; // 5 seconds
       
       if (!state.lastUpdated || (now - state.lastUpdated > THROTTLE_TIME)) {
-        fetchAstrologyData(latitude, longitude, dateRef.current);
+        void fetchAstrologyData(latitude, longitude, dateRef.current);
       }
     }
   }, [isClient, autoLoad, latitude, longitude, fetchAstrologyData, state.lastUpdated]);
@@ -546,7 +546,7 @@ export function useAstrology(options: AstrologyOptions = {}) {
   // Force refresh data method
   const refreshData = useCallback(() => {
     if (latitude !== null && longitude !== null) {
-      fetchAstrologyData(latitude, longitude, dateRef.current);
+      void fetchAstrologyData(latitude, longitude, dateRef.current);
     }
   }, [latitude, longitude, fetchAstrologyData]);
 

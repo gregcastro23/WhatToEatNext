@@ -86,7 +86,7 @@ export default function IngredientDisplayMigrated() {
       }
     };
 
-    loadIngredients();
+    void loadIngredients();
   }, [servicesLoading, servicesError, astrologyService, recommendationService]);
 
   // Helper function to get element color

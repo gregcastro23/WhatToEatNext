@@ -317,7 +317,7 @@ export const CampaignWorkflowBuilder: React.FC<CampaignWorkflowBuilderProps> = (
 
               {/* Step Actions */}
               <div className="step-actions">
-                {getStepActions(getCurrentStep()!)}
+                {getStepActions(getCurrentStep() ?? undefined)}
               </div>
             </div>
           )}

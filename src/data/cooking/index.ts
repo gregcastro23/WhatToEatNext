@@ -4,6 +4,14 @@
  * This file exports cooking methods from the new modular structure
  */
 
+import type {
+  CookingMethod,
+  ElementalProperties,
+  AstrologicalState,
+  Season,
+} from '@/types/alchemy';
+import type { CookingMethodData } from '@/types/cookingMethod';
+
 // Export everything from the new methods system
 export * from './methods';
 
@@ -18,14 +26,6 @@ import {
 
 // For backwards compatibility - provide cookingMethods export from the new allCookingMethods
 export const cookingMethods = allCookingMethods;
-
-// Functions previously in cookingMethods.ts now reimplemented here for backwards compatibility
-import type {
-  CookingMethod,
-  ElementalProperties,
-  AstrologicalState,
-  Season,
-} from '@/types/alchemy';
 
 /**
  * Get astrological effect for a cooking method (simplified version for backwards compatibility)
@@ -121,8 +121,6 @@ import {
   traditionalCookingMethods,
   rawCookingMethods,
 } from './methods';
-
-import type { CookingMethodData } from '@/types/cookingMethod';
 
 // Re-export everything
 export {

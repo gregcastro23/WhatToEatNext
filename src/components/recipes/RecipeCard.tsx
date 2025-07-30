@@ -58,7 +58,7 @@ const RecipeCard: React.FC<RecipeCardProps> = ({
       }
     };
     
-    loadTimeFactors();
+    void loadTimeFactors();
   }, []);
 
   // Check planetary day influence

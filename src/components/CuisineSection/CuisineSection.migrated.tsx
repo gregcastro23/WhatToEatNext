@@ -155,7 +155,7 @@ export function CuisineSectionMigrated({
     };
     
     if (cuisine) {
-      loadCuisineData();
+      void loadCuisineData();
     }
   }, [servicesLoading, recipeService, cuisine]);
 

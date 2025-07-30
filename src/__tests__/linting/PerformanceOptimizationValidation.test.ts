@@ -10,6 +10,7 @@
 
 import { execSync } from 'child_process';
 import { existsSync, writeFileSync, unlinkSync, statSync } from 'fs';
+
 import { LintingPerformanceValidator } from '../../scripts/validateLintingPerformance';
 
 describe('Performance Optimization Validation', () => {

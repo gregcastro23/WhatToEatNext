@@ -7,6 +7,7 @@
 
 import { ElementalProperties } from '@/types/alchemy';
 import { logger } from '@/utils/logger';
+
 import { 
   validateElementalProperties, 
   normalizeElementalProperties,
@@ -294,7 +295,7 @@ export function validateAstrologicalElementalProperties(
       return { isValid: false, errors, warnings, correctedData };
     }
 
-    const props = properties as ElementalProperties;
+    const props = properties ;
     
     // Check for elemental balance
     const total = Object.values(props).reduce((sum, val) => sum + val, 0);

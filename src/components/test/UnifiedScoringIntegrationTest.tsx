@@ -78,7 +78,7 @@ export default function UnifiedScoringIntegrationTest() {
   };
 
   useEffect(() => {
-    runTest();
+    void runTest();
   }, []);
 
   const formatScore = (score: number) => {

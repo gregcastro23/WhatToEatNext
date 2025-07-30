@@ -115,7 +115,7 @@ const AstrologyChartMigrated: React.FC<AstrologyChartProps> = ({
       }
     };
 
-    loadAstrologicalData();
+    void loadAstrologicalData();
   }, [isLoading, astrologyService]);
 
   // Calculate elemental balance

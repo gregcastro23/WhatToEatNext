@@ -253,7 +253,7 @@ const MainPageLayout: React.FC<MainPageLayoutProps> = memo(function MainPageLayo
       }
     };
 
-    initializeGuidance();
+    void initializeGuidance();
   }, [steeringIntelligence, selectedCuisine, selectedIngredients]);
 
   // Monitor performance metrics using steering file guidance
@@ -384,7 +384,7 @@ const MainPageLayout: React.FC<MainPageLayoutProps> = memo(function MainPageLayo
     };
 
     // Monitor quality every 30 seconds
-    const qualityInterval = setInterval(monitorQuality, 30000);
+    const qualityInterval = setInterval(() => void monitorQuality(), 30000);
     
     // Initial quality check
     monitorQuality();
@@ -482,7 +482,7 @@ const MainPageLayout: React.FC<MainPageLayoutProps> = memo(function MainPageLayo
     applyDevOptimizations();
 
     // Set up periodic optimization monitoring
-    const devOptimizationInterval = setInterval(applyDevOptimizations, 60000); // Every minute
+    const devOptimizationInterval = setInterval(() => void applyDevOptimizations(), 60000); // Every minute
 
     return () => clearInterval(devOptimizationInterval);
   }, [performanceMetrics, updateDevMetrics, getDevOptimizationRecommendations, applyAutomaticOptimizations, getDevelopmentMetrics, debugMode]);

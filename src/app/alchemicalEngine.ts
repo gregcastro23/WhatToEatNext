@@ -24,7 +24,7 @@ export { alchemize };
 const alchemicalEngine = {
   alchemize: (birthInfo: BirthInfo, horoscopeDict: HoroscopeData): StandardizedAlchemicalResult => {
     try {
-      return alchemize(birthInfo , horoscopeDict as HoroscopeData);
+      return alchemize(birthInfo , horoscopeDict );
     } catch (error) {
       console.error('Error in alchemize:', error);
       

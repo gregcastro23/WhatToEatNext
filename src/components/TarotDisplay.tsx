@@ -137,7 +137,7 @@ export default function TarotDisplay({ mode = 'food', onTarotLoaded }: TarotDisp
     let isMounted = true;
     
     if (isMounted) {
-      loadTarotCards();
+      void loadTarotCards();
     }
 
     return () => {

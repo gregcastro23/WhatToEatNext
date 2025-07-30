@@ -7,8 +7,8 @@
  * quality gates, and progress tracking.
  */
 
-import { LintingProgressTracker } from '../services/linting/LintingProgressTracker';
 import { LintingCampaignIntegration } from '../services/linting/LintingCampaignIntegration';
+import { LintingProgressTracker } from '../services/linting/LintingProgressTracker';
 import { LintingQualityGates } from '../services/linting/LintingQualityGates';
 import { logger } from '../utils/logger';
 

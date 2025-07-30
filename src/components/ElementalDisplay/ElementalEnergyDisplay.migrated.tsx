@@ -86,7 +86,7 @@ const ElementalEnergyDisplayMigrated: React.FC<ElementalEnergyDisplayProps> = ({
       }
     };
 
-    loadPlanetaryData();
+    void loadPlanetaryData();
   }, [isLoading, error, astrologyService, showDebug, energies, lastPositions]);
 
   // Memoize the sorted energies array

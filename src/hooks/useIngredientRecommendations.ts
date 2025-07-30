@@ -166,7 +166,7 @@ export function useIngredientRecommendations(_criteria?: RecommendationCriteria)
       }
     }
 
-    fetchIngredients();
+    void fetchIngredients();
   }, [isLoading, currentElementalProfile, state.filters]);
 
   const updateFilters = (newFilters: Partial<IngredientRecommendationsData['filters']>) => {

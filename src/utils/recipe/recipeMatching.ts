@@ -207,8 +207,8 @@ const calculateEnergyMatch = async (
     const recipeKalchmData = typeof recipeKalchmResult === 'object' ? recipeKalchmResult as Record<string, unknown> : { kalchm: recipeKalchmResult };
     const currentKalchmData = typeof currentKalchmResult === 'object' ? currentKalchmResult as Record<string, unknown> : { kalchm: currentKalchmResult };
     
-    const recipeKalchmValue = recipeKalchmData?.kalchm ?? recipeKalchmResult ?? 0;
-    const currentKalchmValue = currentKalchmData?.kalchm ?? currentKalchmResult ?? 0;
+    const recipeKalchmValue = recipeKalchmData.kalchm ?? recipeKalchmResult ?? 0;
+    const currentKalchmValue = currentKalchmData.kalchm ?? currentKalchmResult ?? 0;
     
     if (recipeKalchmValue > 0 && currentKalchmValue > 0) {
       const kalchmRatio = Math.min(recipeKalchmValue, currentKalchmValue) / 
@@ -241,7 +241,7 @@ export async function findBestMatches(
   // Check for cached astrological data to enhance matching
   // Apply safe type casting for cache method access
   const cacheData = astrologizeCache as Record<string, unknown>;
-  const cachedData = cacheData?.getLatestCachedData ? await cacheData.getLatestCachedData() : null;
+  const cachedData = cacheData.getLatestCachedData ? await cacheData.getLatestCachedData() : null;
   
   // Use enhanced energy if available from cache
   const enhancedCurrentEnergy = cachedData?.elementalAbsolutes || currentEnergy || getCurrentElementalState();
@@ -339,7 +339,7 @@ export async function findBestMatches(
     // Seasonal bonus
     if (matchFilters.currentSeason) {
       const recipeSeasons = await getRecipeSeasons(recipe);
-      if ((recipeSeasons || []).some(s => s.toLowerCase() === matchFilters.currentSeason!.toLowerCase())) {
+      if ((recipeSeasons || []).some(s => s.toLowerCase() === matchFilters.currentSeason ?? undefined.toLowerCase())) {
         score += 15;
       }
     }
@@ -347,7 +347,7 @@ export async function findBestMatches(
     // Meal type bonus
     if (matchFilters.mealType) {
       const recipeMealTypes = await getRecipeMealTypes(recipe);
-      if ((recipeMealTypes || []).some(mt => mt.toLowerCase() === matchFilters.mealType!.toLowerCase())) {
+      if ((recipeMealTypes || []).some(mt => mt.toLowerCase() === matchFilters.mealType ?? undefined.toLowerCase())) {
         score += 10;
       }
     }
@@ -497,8 +497,8 @@ function calculateElementalAlignment(
   // Boost score if recipe has astrological influence matching current Sun sign
   // Apply safe type casting for astrological state access
   const astroData = currentEnergy as Record<string, unknown>;
-  const currentSign = astroData?.sign || astroData?.zodiacSign;
-  if (currentSign && (recipeInfluences || []).some(influence => influence.toLowerCase().includes(currentSign?.toLowerCase())
+  const currentSign = astroData.sign || astroData.zodiacSign;
+  if (currentSign && (recipeInfluences || []).some(influence => influence.toLowerCase().includes(currentSign.toLowerCase())
   )) {
     score += 0.2;
   }

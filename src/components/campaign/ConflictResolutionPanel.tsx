@@ -60,10 +60,10 @@ export const ConflictResolutionPanel: React.FC<ConflictResolutionPanelProps> = (
       }
     };
 
-    loadConflicts();
+    void loadConflicts();
     
     // Refresh every 30 seconds
-    const interval = setInterval(loadConflicts, 30000);
+    const interval = setInterval(() => void loadConflicts(), 30000);
     return () => clearInterval(interval);
   }, []);
 

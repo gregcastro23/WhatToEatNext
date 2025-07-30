@@ -75,9 +75,9 @@ export default function FilterSection({
       }
     };
 
-    updateNaturalInfluences();
+    void updateNaturalInfluences();
     // Update every hour
-    const interval = setInterval(updateNaturalInfluences, 3600000);
+    const interval = setInterval(() => void updateNaturalInfluences(), 3600000);
     return () => clearInterval(interval);
   }, [currentSunSign, sunDegrees, calculator, dispatch]);
 

@@ -92,7 +92,7 @@ export default function AlchmKitchen() {
             }
         };
 
-        fetchData();
+        void fetchData();
     }, [mounted, planetaryPositions.Sun, currentSign, planetaryHour]); // Added planetaryHour to deps
 
     if (error) {

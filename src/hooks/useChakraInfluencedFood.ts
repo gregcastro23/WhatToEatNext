@@ -306,7 +306,7 @@ export const useChakraInfluencedFood = (options?: {
       }
     };
     
-    fetchRecommendations();
+    void fetchRecommendations();
   }, [astroState, chakraEnergies, options?.filter, options?.limit]);
   
   // Function to manually refresh recommendations

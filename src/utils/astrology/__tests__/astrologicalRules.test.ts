@@ -5,9 +5,9 @@
  * validate astrological calculations, planetary positions, and elemental properties.
  */
 
+import { validatePlanetaryPositions, quickValidate } from '../astrologicalValidation';
 import { validateElementalProperties, normalizeElementalProperties } from '../elementalValidation';
 import { validateTransitDate, getCurrentTransitSign } from '../transitValidation';
-import { validatePlanetaryPositions, quickValidate } from '../astrologicalValidation';
 
 describe('Astrological ESLint Rules Integration', () => {
   describe('Elemental Properties Validation', () => {

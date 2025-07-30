@@ -357,7 +357,7 @@ const FoodRecommender: React.FC = () => {
         };
 
         if (!chartLoading) {
-            fetchData();
+            void fetchData();
         }
         
         return () => controller.abort();

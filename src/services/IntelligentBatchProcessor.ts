@@ -890,7 +890,7 @@ export class IntelligentBatchProcessor extends EventEmitter {
       console.error(`💥 Job ${job.jobId} failed permanently after ${job.maxRetries} retries`);
       job.status = 'failed';
       job.completedAt = new Date();
-      job.actualTime = job.completedAt.getTime() - job.startedAt!.getTime();
+      job.actualTime = job.completedAt.getTime() - job.startedAt ?? undefined.getTime();
       
       queue.failed.push(job);
       queue.totalFailed++;

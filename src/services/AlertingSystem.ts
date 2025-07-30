@@ -519,7 +519,7 @@ class AlertingSystem {
 
     // Execute auto-response if enabled
     if (rule.autoResponse) {
-      this.executeAlertActions(alert, rule.responseActions);
+      void this.executeAlertActions(alert, rule.responseActions);
     }
 
     // Send notifications
@@ -563,7 +563,7 @@ class AlertingSystem {
         if (response.retryCount < action.retryCount) {
           response.retryCount++;
           setTimeout(() => {
-            this.executeAlertActions(alert, [action]);
+            void this.executeAlertActions(alert, [action]);
           }, 30000); // Retry after 30 seconds
         }
       }
@@ -735,7 +735,7 @@ class AlertingSystem {
     log.info(`[ESCALATION] Alert ${alert.id} escalated using rule ${escalationRule.name}`);
 
     // Execute escalation actions
-    this.executeAlertActions(alert, escalationRule.escalationActions);
+    void this.executeAlertActions(alert, escalationRule.escalationActions);
   }
 
   private cleanupOldAlerts() {
@@ -905,7 +905,7 @@ class AlertingSystem {
     if (resolvedAlerts.length === 0) return 0;
     
     const totalResolutionTime = resolvedAlerts.reduce((sum, alert) => {
-      return sum + (alert.resolvedAt!.getTime() - alert.timestamp.getTime());
+      return sum + (alert.resolvedAt ?? undefined.getTime() - alert.timestamp.getTime());
     }, 0);
     
     return totalResolutionTime / resolvedAlerts.length / (60 * 1000); // Return in minutes

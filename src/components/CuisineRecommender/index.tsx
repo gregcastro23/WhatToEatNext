@@ -35,7 +35,7 @@ export const CuisineRecommender: React.FC<CuisineRecommenderProps> = ({
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    loadRecommendations();
+    void loadRecommendations();
   }, [cuisine, mealType, season, limit]);
 
   const loadRecommendations = async () => {

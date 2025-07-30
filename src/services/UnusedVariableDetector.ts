@@ -487,7 +487,7 @@ export class UnusedVariableDetector extends EventEmitter {
           name: match[2],
           type: 'variable',
           line: lineNumber,
-          column: match.index! + match[0].indexOf(match[2]),
+          column: match.index ?? undefined + match[0].indexOf(match[2]),
           declarationType: match[1] as UnusedVariable['declarationType']
         });
       }
@@ -499,7 +499,7 @@ export class UnusedVariableDetector extends EventEmitter {
           name: match[1],
           type: 'function',
           line: lineNumber,
-          column: match.index! + match[0].indexOf(match[1]),
+          column: match.index ?? undefined + match[0].indexOf(match[1]),
           declarationType: 'function'
         });
       }
@@ -511,7 +511,7 @@ export class UnusedVariableDetector extends EventEmitter {
           name: match[1],
           type: 'class',
           line: lineNumber,
-          column: match.index! + match[0].indexOf(match[1]),
+          column: match.index ?? undefined + match[0].indexOf(match[1]),
           declarationType: 'class'
         });
       }
@@ -523,7 +523,7 @@ export class UnusedVariableDetector extends EventEmitter {
           name: match[1],
           type: 'interface',
           line: lineNumber,
-          column: match.index! + match[0].indexOf(match[1]),
+          column: match.index ?? undefined + match[0].indexOf(match[1]),
           declarationType: 'interface'
         });
       }

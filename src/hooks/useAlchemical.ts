@@ -50,7 +50,7 @@ export function useAlchemical() {
   }, []);
 
   useEffect(() => {
-    fetchPlanetaryPositions();
+    void fetchPlanetaryPositions();
   }, [fetchPlanetaryPositions]);
 
   return {

@@ -233,7 +233,7 @@ const AlchemicalRecommendationsMigrated: React.FC<AlchemicalRecommendationsProps
       }
     };
 
-    loadAstrologyData();
+    void loadAstrologyData();
   }, [servicesLoading, astrologyService, elementalCalculator, planetPositions, isDaytime, currentZodiac, lunarPhase]);
 
   // Load ingredient data
@@ -337,7 +337,7 @@ const AlchemicalRecommendationsMigrated: React.FC<AlchemicalRecommendationsProps
       }
     };
 
-    loadIngredientData();
+    void loadIngredientData();
   }, [servicesLoading, ingredientService]);
 
   // Load cooking methods and cuisines data
@@ -475,7 +475,7 @@ const AlchemicalRecommendationsMigrated: React.FC<AlchemicalRecommendationsProps
       }
     };
 
-    loadCookingAndCuisineData();
+    void loadCookingAndCuisineData();
   }, [servicesLoading, recommendationService]);
 
   // Filter ingredients array by modality

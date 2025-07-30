@@ -40,7 +40,7 @@ export default function Layout({ children }: LayoutProps) {
       }
     };
 
-    initializeLayout();
+    void initializeLayout();
   }, [pathname]);
 
   // Handle loading state

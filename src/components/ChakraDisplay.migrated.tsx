@@ -115,7 +115,7 @@ const ChakraDisplayMigrated: React.FC<ChakraDisplayProps> = ({ compact = false }
       }
     };
     
-    loadChakraData();
+    void loadChakraData();
   }, [isLoading, astrologyService]);
 
   // Get chakra symbol from enhanced set

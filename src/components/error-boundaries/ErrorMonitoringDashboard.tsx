@@ -44,8 +44,8 @@ export function ErrorMonitoringDashboard({
       setMetrics(getMetrics());
     };
 
-    updateMetrics();
-    const interval = setInterval(updateMetrics, 5000); // Update every 5 seconds
+    void updateMetrics();
+    const interval = setInterval(() => void updateMetrics(), 5000); // Update every 5 seconds
 
     return () => clearInterval(interval);
   }, [getMetrics]);

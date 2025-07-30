@@ -329,7 +329,7 @@ export function useEnterpriseIntelligence(
     };
 
     // Update metrics every 10 seconds
-    const metricsTimer = setInterval(updateMetrics, 10000);
+    const metricsTimer = setInterval(() => void updateMetrics(), 10000);
     
     return () => clearInterval(metricsTimer);
   }, [intelligenceService]);

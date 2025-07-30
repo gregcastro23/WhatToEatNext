@@ -111,7 +111,7 @@ export default function IngredientRecommendations({
       }
     };
     
-    loadRecommendations();
+    void loadRecommendations();
   }, [targetElements, currentZodiac, selectedSeason, dietaryFilter, modalityFilter, zodiacSign]);
   
   const getElementIcon = (element: string) => {

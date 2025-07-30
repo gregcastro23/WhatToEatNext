@@ -693,7 +693,7 @@ export class AlgorithmPerformanceValidator {
       if (!groups.has(benchmark.name)) {
         groups.set(benchmark.name, []);
       }
-      groups.get(benchmark.name)!.push(benchmark);
+      groups.get(benchmark.name) ?? undefined.push(benchmark);
     }
     
     // Sort each group by timestamp

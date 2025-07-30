@@ -117,7 +117,10 @@ export class PredictiveIntelligenceService {
       if (this.config.cacheResults && this.cache.has(cacheKey)) {
         this.updateCacheHitRate();
         this.log('debug', 'Using cached predictive intelligence analysis');
-        return this.cache.get(cacheKey)!;
+        const cachedResult = this.cache.get(cacheKey);
+        if (cachedResult) {
+          return cachedResult;
+        }
       }
 
       // Generate comprehensive predictive analysis
@@ -679,10 +682,10 @@ export class PredictiveIntelligenceService {
     }
     
     // Higher Air and Water elemental properties increase flexibility
-    if (elementalProperties?.Air && Number(elementalProperties.Air) > 0.6) {
+    if (elementalProperties.Air && Number(elementalProperties.Air) > 0.6) {
       flexibility += 0.1;
     }
-    if (elementalProperties?.Water && Number(elementalProperties.Water) > 0.6) {
+    if (elementalProperties.Water && Number(elementalProperties.Water) > 0.6) {
       flexibility += 0.1;
     }
     
@@ -729,7 +732,7 @@ export class PredictiveIntelligenceService {
     };
     
     const primaryElement = zodiacElements[String(zodiacSign).toLowerCase() as keyof typeof zodiacElements];
-    if (primaryElement && elementalProperties?.[primaryElement]) {
+    if (primaryElement && elementalProperties[primaryElement]) {
       harmony += Number(elementalProperties[primaryElement]) * 0.3;
     }
     
@@ -823,7 +826,7 @@ export class PredictiveIntelligenceService {
     if (!cuisineData) return 0.7;
     
     let compatibility = 0.5;
-    const cuisine = cuisineData as Record<string, unknown>;
+    const cuisine = cuisineData ;
     
     // Regional compatibility factors
     const popularCuisines = ['italian', 'mexican', 'chinese', 'indian', 'american', 'french', 'japanese'];
@@ -897,7 +900,7 @@ export class PredictiveIntelligenceService {
     if (!cuisineData) return 0.6;
     
     let relevance = 0.5;
-    const cuisine = cuisineData as Record<string, unknown>;
+    const cuisine = cuisineData ;
     
     // Historical significance
     const age = Number(cuisine.historicalAge) || 0;
@@ -1049,9 +1052,9 @@ export class PredictiveIntelligenceService {
     return `predictive_${JSON.stringify({
       recipeId: recipeData?.id,
       ingredientCount: ingredientData?.length,
-      cuisineName: cuisineData?.name,
-      zodiac: astrologicalContext?.zodiacSign,
-      lunar: astrologicalContext?.lunarPhase
+      cuisineName: cuisineData.name,
+      zodiac: astrologicalContext.zodiacSign,
+      lunar: astrologicalContext.lunarPhase
     })}`;
   }
 

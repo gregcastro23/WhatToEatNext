@@ -1,19 +1,17 @@
 // Type Harmony imports
+import { validateTransitDate } from '@/utils/transitValidation';
 
 // Internal imports - constants
 import { DEFAULT_ELEMENTAL_PROPERTIES } from '@/constants/defaults';
 import { planetInfo } from '@/constants/planetInfo';
 import { PLANETARY_MODIFIERS, RulingPlanet } from '@/constants/planets';
-
 // Internal imports - data
 import signs, { signInfo } from '@/data/astrology';
 import { culinaryTraditions } from '@/data/cuisines/culinaryTraditions';
 import { seasonalPatterns } from '@/data/integrations/seasonalPatterns';
 import { recipeElementalMappings } from '@/data/recipes/elementalMappings';
-
 // Internal imports - services
 import { log } from '@/services/LoggingService';
-
 // Internal imports - types
 import type {
   Element,
@@ -32,7 +30,6 @@ import type {
 } from '@/types/alchemy';
 import type { ChakraEnergies, ChakraPosition } from '@/types/chakra';
 import type { PlanetPosition } from '@/types/unified';
-
 // Internal imports - utils
 import { getAccuratePlanetaryPositions } from '@/utils/accurateAstronomy';
 import { logger } from '@/utils/logger';
@@ -669,9 +666,8 @@ export class AlchemicalEngineAdvanced {
 
     // Use Type Harmony approach for safe property access
     const _bridge = createAstrologicalBridge();
-    const currentZodiacElement = (astrologicalState.currentZodiac || "aries") 
-      ? this.zodiacElements[(astrologicalState.currentZodiac || "aries")] || 'Fire'
-      : 'Fire';
+    const currentZodiac = astrologicalState.currentZodiac || "aries";
+    const currentZodiacElement = this.zodiacElements[currentZodiac] || 'Fire';
     const moonSignElement = astrologicalState.zodiacSign
       ? this.zodiacElements[astrologicalState.zodiacSign] || 'Water'
       : 'Water';
@@ -955,7 +951,7 @@ export function alchemize(
     
     // Use let for all variables that might be reassigned
     const horoscope = horoscopeDict.tropical;
-    const silent_mode = false;
+    const silentMode = false;
     
     // Validate horoscope has required data
     if (!horoscope.CelestialBodies || typeof horoscope.CelestialBodies !== 'object') {
@@ -966,10 +962,10 @@ export function alchemize(
     const celestialBodies = horoscope.CelestialBodies;
     
     // Determine if it's day or night based on birth hour
-    let _diurnal_or_nocturnal = 'Diurnal';
+    let diurnalOrNocturnal = 'Diurnal';
     const birthHour = birthInfo.date.getHours();
     if (birthHour < 5 || birthHour > 17) {
-      _diurnal_or_nocturnal = 'Nocturnal';
+      diurnalOrNocturnal = 'Nocturnal';
     }
     
     // Initialize metadata and result object
@@ -1057,7 +1053,7 @@ export function alchemize(
       // Use safe type casting for unknown property access
       const ascendantData = horoscope.Ascendant ;
       const signData = ascendantData.Sign;
-      const rising_sign = (signData && typeof signData === 'object' && 'label' in signData ? (signData as Record<string, unknown>).label : null) || "Aries";
+      const risingSign = (signData && typeof signData === 'object' && 'label' in signData ? (signData as Record<string, unknown>).label : null) || "Aries";
       
       // SAFELY update planet info with correct typing
       if (alchmInfo && alchmInfo['Planets'] && 'Ascendant' in alchmInfo['Planets']) {
@@ -2030,7 +2026,7 @@ async function getCurrentAstrologicalState(): Promise<AstrologicalState> {
     const dominantElement = (getElementFromSign(sunSign) as unknown as Element) || 'Fire';
     
     // Determine current lunar phase
-    const lunarPhase = ((moonPosition as Record<string, unknown>)?.phase as string)?.toLowerCase() as LunarPhase || 'full moon';
+    const lunarPhase = ((moonPosition as Record<string, unknown>).phase as string).toLowerCase() as LunarPhase || 'full moon';
     
     // Get current season based on sun sign
     const season = getSeasonFromSunSign(sunSign);

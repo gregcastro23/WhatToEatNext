@@ -385,7 +385,7 @@ async function runDemonstration() {
 
 // Run the demonstration if this file is executed directly
 if (require.main === module) {
-  runDemonstration();
+  void runDemonstration();
 }
 
 export { runDemonstration };

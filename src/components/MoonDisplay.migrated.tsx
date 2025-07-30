@@ -114,7 +114,7 @@ const MoonDisplayMigrated: React.FC = () => {
         }
       };
       
-      fetchPlanetaryPositions();
+      void fetchPlanetaryPositions();
     }
   }, [isLoading, error, astrologyService]);
 

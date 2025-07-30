@@ -13,17 +13,6 @@ import {
   quickValidate,
   VALIDATION_CONSTANTS
 } from '../astrologicalValidation';
-
-import {
-  validateTransitDate,
-  getCurrentTransitSign,
-  validateRetrogradePhase,
-  validateAllTransitDates,
-  loadPlanetTransitDates,
-  validatePlanetaryPosition,
-  TRANSIT_CONSTANTS
-} from '../transitValidation';
-
 import {
   validateElementalProperties,
   normalizeElementalProperties,
@@ -34,6 +23,15 @@ import {
   validateSelfReinforcement,
   ELEMENTAL_CONSTANTS
 } from '../elementalValidation';
+import {
+  validateTransitDate,
+  getCurrentTransitSign,
+  validateRetrogradePhase,
+  validateAllTransitDates,
+  loadPlanetTransitDates,
+  validatePlanetaryPosition,
+  TRANSIT_CONSTANTS
+} from '../transitValidation';
 
 describe('Astrological Validation Utilities', () => {
   describe('Planetary Position Validation', () => {

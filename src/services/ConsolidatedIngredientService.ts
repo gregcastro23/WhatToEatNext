@@ -22,6 +22,7 @@ interface ScoredItem {
  */
 
 import { unifiedIngredients } from '@/data/unified/ingredients';
+import { log } from '@/services/LoggingService';
 import type { ElementalProperties, 
   ThermodynamicMetrics,
   PlanetName,
@@ -39,7 +40,6 @@ import type { ZodiacSign } from '../types/zodiac';
 // Removed unused import: cache
 import { isNonEmptyArray, safeSome } from '../utils/common/arrayUtils';
 import { createElementalProperties, calculateElementalCompatibility } from '../utils/elemental/elementalUtils';
-import { log } from '@/services/LoggingService';
 // Replaced unused logger with enterprise logging service
 
 import type { IngredientServiceInterface, 

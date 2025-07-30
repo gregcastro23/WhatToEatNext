@@ -1,6 +1,7 @@
 import { AstrologicalState, Element, ElementalProperties, ZodiacSign } from '@/types/alchemy';
-import { AlchemicalEngineAdvanced } from '../alchemicalEngine';
 import { logger } from '@/utils/logger';
+
+import { AlchemicalEngineAdvanced } from '../alchemicalEngine';
 
 
 // --- Core Alchemizer Engine with Kalchm and Monica Constant ---
@@ -154,11 +155,11 @@ function alchemize(planetaryPositions: { [planet: string]: string }): Thermodyna
 
     // Sum alchemical properties
     for (const prop in planetData.Alchemy) {
-      totals[prop as keyof AlchemyTotals] += planetData?.Alchemy?.[prop];
+      totals[prop as keyof AlchemyTotals] += planetData.Alchemy[prop];
     }
 
     // Sum elemental properties (use signInfo for sign's element)
-    const signElement = signInfo[sign]?.Element;
+    const signElement = signInfo[sign].Element;
     if (signElement && totals[signElement] !== undefined) {
       totals[signElement] += 1;
     }

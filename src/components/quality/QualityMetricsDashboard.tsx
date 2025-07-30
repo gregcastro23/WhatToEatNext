@@ -99,7 +99,7 @@ const QualityMetricsDashboard: React.FC = () => {
       }
     };
 
-    loadDashboardData();
+    void loadDashboardData();
   }, [selectedTimeframe]);
 
   const getMetricCards = (): MetricCard[] => {

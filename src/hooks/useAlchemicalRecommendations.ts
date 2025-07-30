@@ -189,7 +189,7 @@ export const useAlchemicalRecommendations = ({
       }
     };
     
-    fetchRecommendations();
+    void fetchRecommendations();
   }, [
     ingredients,
     cookingMethods,

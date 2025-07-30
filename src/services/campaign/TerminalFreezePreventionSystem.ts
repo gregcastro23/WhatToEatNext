@@ -83,7 +83,7 @@ export class TerminalFreezePreventionSystem {
       });
 
       const processStatus: ProcessStatus = {
-        pid: child.pid!,
+        pid: child.pid ?? '',
         command: `${command} ${args.join(' ')}`,
         startTime: new Date(),
         isRunning: true,
@@ -92,7 +92,7 @@ export class TerminalFreezePreventionSystem {
         hasTimedOut: false
       };
 
-      this.runningProcesses.set(child.pid!, processStatus);
+      this.runningProcesses.set(child.pid ?? '', processStatus);
 
       let stdout = '';
       let stderr = '';
@@ -124,7 +124,7 @@ export class TerminalFreezePreventionSystem {
       child.on('close', (code) => {
         clearTimeout(timeout);
         processStatus.isRunning = false;
-        this.runningProcesses.delete(child.pid!);
+        this.runningProcesses.delete(child.pid ?? '');
 
         if (processStatus.hasTimedOut) {
           reject(new Error(`Process timeout: ${processStatus.command}`));
@@ -140,7 +140,7 @@ export class TerminalFreezePreventionSystem {
       child.on('error', (error) => {
         clearTimeout(timeout);
         processStatus.isRunning = false;
-        this.runningProcesses.delete(child.pid!);
+        this.runningProcesses.delete(child.pid ?? '');
         reject(error);
       });
     });

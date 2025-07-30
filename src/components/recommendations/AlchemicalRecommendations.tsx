@@ -246,7 +246,7 @@ export default function AlchemicalRecommendations({
         setLoading(false);
       }
     };
-    loadTimeFactors();
+    void loadTimeFactors();
   }, []);
 
   // Resolve context values with fallbacks

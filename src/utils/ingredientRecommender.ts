@@ -55,16 +55,16 @@ import { LUNAR_PHASES } from '@/constants/lunar';
 // Data
 import { ingredientCategories } from '@/data/ingredientCategories';
 import { fruits } from '@/data/ingredients/fruits';
-import { vegetables } from '@/data/ingredients/vegetables';
-import { herbs } from '@/data/ingredients/herbs';
-import { spices } from '@/data/ingredients/spices';
-import { proteins } from '@/data/ingredients/proteins';
 import { grains } from '@/data/ingredients/grains';
-import { seasonings } from '@/data/ingredients/seasonings';
+import { herbs } from '@/data/ingredients/herbs';
 import { oils } from '@/data/ingredients/oils';
+import { proteins } from '@/data/ingredients/proteins';
+import { seasonings } from '@/data/ingredients/seasonings';
+import { spices } from '@/data/ingredients/spices';
 
 // Types
 import type { Modality, Ingredient } from '@/data/ingredients/types';
+import { vegetables } from '@/data/ingredients/vegetables';
 import { AstrologicalState } from '@/types';
 import { ElementalProperties, ChakraEnergies, Season, ZodiacSign, LunarPhase } from '@/types/alchemy';
 import { createAstrologicalBridge } from '@/types/bridges/astrologicalBridge';
@@ -106,11 +106,11 @@ interface EnhancedIngredient {
 // Moved seasonings and oils imports to organized section above
 
 // Import planet data
-import venusData from '@/data/planets/venus';
 import marsData from '@/data/planets/mars';
 import mercuryData from '@/data/planets/mercury';
 import jupiterData from '@/data/planets/jupiter';
 import saturnData from '@/data/planets/saturn';
+import venusData from '@/data/planets/venus';
 import { calculateLunarPhase, calculatePlanetaryPositions } from '@/utils/astrologyUtils';
 import { useEnterpriseIntelligence } from '@/hooks/useEnterpriseIntelligence';
 
@@ -196,8 +196,8 @@ export interface RecommendationOptions {
 function calculateEnhancedPlanetaryInfluence(planetaryDay: string, planetaryData: { jupiterData: unknown; saturnData: unknown }): number {
   // Use Jupiter and Saturn data to enhance planetary calculations
   const { jupiterData: jupiter, saturnData: saturn } = planetaryData;
-  const jupiterInfluence = (jupiter as { influence?: number })?.influence || 1.0;
-  const saturnInfluence = (saturn as { influence?: number })?.influence || 1.0;
+  const jupiterInfluence = (jupiter as { influence?: number }).influence || 1.0;
+  const saturnInfluence = (saturn as { influence?: number }).influence || 1.0;
   
   // Apply planetary day specific calculations
   if (planetaryDay === 'Jupiter') return jupiterInfluence;
@@ -208,13 +208,13 @@ function calculateEnhancedPlanetaryInfluence(planetaryDay: string, planetaryData
 function calculateLunarPhaseModifier(lunarPhaseData: unknown): number {
   // Use lunar phase data to calculate modifiers
   const phaseData = lunarPhaseData as { modifier?: number };
-  return phaseData?.modifier || 1.0;
+  return phaseData.modifier || 1.0;
 }
 
 function calculateAstrologicalBridgeModifier(astrologicalBridge: unknown): number {
   // Use astrological bridge for enhanced compatibility scoring
   const bridge = astrologicalBridge as { compatibility?: number };
-  return bridge?.compatibility || 1.0;
+  return bridge.compatibility || 1.0;
 }
 
 // Combine all real ingredients data
@@ -605,13 +605,13 @@ export async function getIngredientRecommendations(
         seasonalScore: safeGetNumber(ingredient.seasonalScore),
         dietary: safeGetStringArray(ingredientData.dietary),
         // Enterprise Intelligence Enhanced Properties
-        flavorProfile: ingredientIntelligence.categorizationAnalysis?.flavorProfile || {},
-        cuisine: ingredientIntelligence.categorizationAnalysis?.cuisine || 'universal',
-        regionalCuisine: ingredientIntelligence.categorizationAnalysis?.regionalCuisine || 'global',
-        season: ingredientIntelligence.seasonalAnalysis?.currentSeason || 'all',
-        mealType: ingredientIntelligence.categorizationAnalysis?.mealType || 'any',
-        timing: ingredientIntelligence.seasonalAnalysis?.optimalTiming || 'flexible',
-        duration: ingredientIntelligence.seasonalAnalysis?.preparationTime || 'standard'
+        flavorProfile: ingredientIntelligence.categorizationAnalysis.flavorProfile || {},
+        cuisine: ingredientIntelligence.categorizationAnalysis.cuisine || 'universal',
+        regionalCuisine: ingredientIntelligence.categorizationAnalysis.regionalCuisine || 'global',
+        season: ingredientIntelligence.seasonalAnalysis.currentSeason || 'all',
+        mealType: ingredientIntelligence.categorizationAnalysis.mealType || 'any',
+        timing: ingredientIntelligence.seasonalAnalysis.optimalTiming || 'flexible',
+        duration: ingredientIntelligence.seasonalAnalysis.preparationTime || 'standard'
       };
       groupedRecommendations[category]?.push(ingredientRecommendation);
       categoryCounts[category]++;

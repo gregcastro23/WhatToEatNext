@@ -72,7 +72,7 @@ export const IngredientRecommendations: React.FC<IngredientRecommendationsProps>
       }
     };
 
-    fetchRecommendations();
+    void fetchRecommendations();
   }, [astrologicalState]);
 
   if (isLoading) {

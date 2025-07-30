@@ -102,7 +102,7 @@ export const AlchemicalProvider: React.FC<{children: React.ReactNode}> = ({ chil
     if (!isInitialized) {
       logger.debug(`AlchemicalProvider initializing`);
       setIsInitialized(true);
-      refreshPlanetaryPositions(); // Initial fetch of planetary positions
+      void refreshPlanetaryPositions(); // Initial fetch of planetary positions
     }
   }, [isInitialized]);
 
@@ -287,7 +287,7 @@ export const AlchemicalProvider: React.FC<{children: React.ReactNode}> = ({ chil
     logger.debug(`Setting isDaytime to ${value}`);
     // Refresh planetary positions on daytime change
     if (isInitialized) {
-      refreshPlanetaryPositions();
+      void refreshPlanetaryPositions();
     }
   }, [isInitialized, refreshPlanetaryPositions]);
 

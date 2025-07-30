@@ -1,6 +1,6 @@
 
-import { useState, useEffect, useMemo } from 'react';
 import { NextPage } from 'next';
+import { useState, useEffect, useMemo } from 'react';
 
 import { CustomComponent } from '@/components/CustomComponent';
 import { useCustomHook } from '@/hooks/useCustomHook';

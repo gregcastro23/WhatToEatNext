@@ -8,8 +8,9 @@
  */
 
 import { execSync } from 'child_process';
-import { LintingValidationDashboard } from '../services/linting/LintingValidationDashboard';
+
 import { LintingAlertingSystem } from '../services/linting/LintingAlertingSystem';
+import { LintingValidationDashboard } from '../services/linting/LintingValidationDashboard';
 
 interface CLIOptions {
   command: string;

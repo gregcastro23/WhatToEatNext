@@ -5,8 +5,8 @@
  * by directly testing the rule logic and integration patterns.
  */
 
-import { validateElementalProperties, normalizeElementalProperties } from '@/utils/astrology/elementalValidation';
 import { validatePlanetaryPositions } from '@/utils/astrology/astrologicalValidation';
+import { validateElementalProperties, normalizeElementalProperties } from '@/utils/astrology/elementalValidation';
 import { validateTransitDate } from '@/utils/astrology/transitValidation';
 
 describe('Domain-Specific Rule Behavior', () => {

@@ -6,10 +6,10 @@
  */
 
 import { execSync } from 'child_process';
-import { performance } from 'perf_hooks';
 import { writeFileSync, readFileSync, existsSync, mkdirSync, rmSync } from 'fs';
-import path from 'path';
 import { tmpdir } from 'os';
+import path from 'path';
+import { performance } from 'perf_hooks';
 
 // Mock dependencies for controlled testing
 jest.mock('child_process');
@@ -67,7 +67,7 @@ describe('Linting Performance and Memory Usage', () => {
       expect(actualExecutionTime).toBeLessThan(5000); // 5 seconds max for test
       
       // Verify output structure
-      const parsedResult = JSON.parse(result as string);
+      const parsedResult = JSON.parse(result );
       expect(parsedResult).toHaveLength(50);
       expect(parsedResult[0].messages).toHaveLength(3);
     });
@@ -123,7 +123,7 @@ describe('Linting Performance and Memory Usage', () => {
       const lintResult = mockExecSync(`yarn lint ${changedFiles.join(' ')} --format=json`, { encoding: 'utf8' });
 
       expect(changedFilesResult).toBe(gitDiffOutput);
-      expect(JSON.parse(lintResult as string)).toHaveLength(2);
+      expect(JSON.parse(lintResult )).toHaveLength(2);
     });
 
     test('should optimize performance for large codebases', async () => {
@@ -149,7 +149,7 @@ describe('Linting Performance and Memory Usage', () => {
       // Should handle large codebase efficiently
       expect(executionTime).toBeLessThan(10000); // 10 seconds max
       
-      const parsedResult = JSON.parse(result as string);
+      const parsedResult = JSON.parse(result );
       expect(parsedResult).toHaveLength(500);
     });
 
@@ -169,7 +169,7 @@ describe('Linting Performance and Memory Usage', () => {
 
       // Parallel processing should be efficient
       expect(parallelTime).toBeLessThan(3000); // 3 seconds max
-      expect(JSON.parse(result as string)).toHaveLength(3);
+      expect(JSON.parse(result )).toHaveLength(3);
     });
   });
 
@@ -230,7 +230,7 @@ describe('Linting Performance and Memory Usage', () => {
       // Test TypeScript parser memory efficiency
       const result = mockExecSync('yarn lint --parser-options.project=tsconfig.json --format=json', { encoding: 'utf8' });
       
-      expect(JSON.parse(result as string)).toHaveLength(1);
+      expect(JSON.parse(result )).toHaveLength(1);
       // Memory usage is monitored by the test framework
     });
 
@@ -248,7 +248,7 @@ describe('Linting Performance and Memory Usage', () => {
 
       // Simulate cache usage
       const cacheContent = mockReadFileSync(path.join(cacheDir, 'cache.json'), 'utf8');
-      const cacheData = JSON.parse(cacheContent as string);
+      const cacheData = JSON.parse(cacheContent );
 
       expect(cacheData.files).toBeDefined();
       expect(Object.keys(cacheData.files)).toHaveLength(1);
@@ -268,7 +268,7 @@ describe('Linting Performance and Memory Usage', () => {
       mockReadFileSync.mockReturnValue(JSON.stringify(cacheMetrics));
       mockExistsSync.mockReturnValue(true);
 
-      const metricsData = JSON.parse(mockReadFileSync('.eslint-cache-metrics.json', 'utf8') as string);
+      const metricsData = JSON.parse(mockReadFileSync('.eslint-cache-metrics.json', 'utf8') );
       
       expect(metricsData.cacheHitRate).toBeGreaterThan(0.8); // 80% hit rate target
       expect(metricsData.cacheHits).toBeGreaterThan(metricsData.cacheMisses);
@@ -309,7 +309,7 @@ describe('Linting Performance and Memory Usage', () => {
       mockReadFileSync.mockReturnValue(JSON.stringify(largeCacheData));
       mockExistsSync.mockReturnValue(true);
 
-      const cacheContent = mockReadFileSync('.eslint-cache.json', 'utf8') as string;
+      const cacheContent = mockReadFileSync('.eslint-cache.json', 'utf8') ;
       const cacheSize = Buffer.byteLength(cacheContent, 'utf8');
 
       // Cache should be reasonably sized (less than 10MB)
@@ -329,7 +329,7 @@ describe('Linting Performance and Memory Usage', () => {
       // Should handle corrupted cache without failing
       expect(() => {
         try {
-          JSON.parse(mockReadFileSync('.eslint-cache.json', 'utf8') as string);
+          JSON.parse(mockReadFileSync('.eslint-cache.json', 'utf8') );
         } catch (error) {
           // Simulate graceful handling
           return mockExecSync('yarn lint --no-cache --format=json', { encoding: 'utf8' });
@@ -379,7 +379,7 @@ describe('Linting Performance and Memory Usage', () => {
       
       expect(results).toHaveLength(3);
       results.forEach((result, index) => {
-        expect(JSON.parse(result as string)[0].filePath).toContain(`file${index + 1}.ts`);
+        expect(JSON.parse(result )[0].filePath).toContain(`file${index + 1}.ts`);
       });
     });
 
@@ -401,7 +401,7 @@ describe('Linting Performance and Memory Usage', () => {
 
       // Import resolution should be fast
       expect(resolutionTime).toBeLessThan(2000); // 2 seconds
-      expect(JSON.parse(result as string)).toHaveLength(1);
+      expect(JSON.parse(result )).toHaveLength(1);
     });
 
     test('should measure rule execution performance', async () => {
@@ -417,7 +417,7 @@ describe('Linting Performance and Memory Usage', () => {
       mockReadFileSync.mockReturnValue(JSON.stringify(rulePerformanceData));
       mockExistsSync.mockReturnValue(true);
 
-      const perfData = JSON.parse(mockReadFileSync('.eslint-rule-performance.json', 'utf8') as string);
+      const perfData = JSON.parse(mockReadFileSync('.eslint-rule-performance.json', 'utf8') );
       
       // Each rule should execute efficiently
       Object.entries(perfData.rules).forEach(([ruleName, data]: [string, any]) => {
@@ -474,7 +474,7 @@ describe('Linting Performance and Memory Usage', () => {
 
       // Should handle large output without memory issues
       const result = mockExecSync('yarn lint --format=json', { encoding: 'utf8' });
-      const parsedResult = JSON.parse(result as string);
+      const parsedResult = JSON.parse(result );
       
       expect(parsedResult).toHaveLength(1000);
       expect(parsedResult[0].messages).toHaveLength(20);
@@ -497,7 +497,7 @@ describe('Linting Performance and Memory Usage', () => {
 
       // CI execution should be optimized
       expect(ciExecutionTime).toBeLessThan(5000); // 5 seconds max
-      expect(JSON.parse(result as string)).toHaveLength(1);
+      expect(JSON.parse(result )).toHaveLength(1);
 
       // Clean up environment
       delete process.env.CI;
@@ -525,8 +525,8 @@ describe('Linting Performance and Memory Usage', () => {
         .mockReturnValueOnce(JSON.stringify(baselineMetrics))
         .mockReturnValueOnce(JSON.stringify(currentMetrics));
 
-      const baseline = JSON.parse(mockReadFileSync('baseline-metrics.json', 'utf8') as string);
-      const current = JSON.parse(mockReadFileSync('current-metrics.json', 'utf8') as string);
+      const baseline = JSON.parse(mockReadFileSync('baseline-metrics.json', 'utf8') );
+      const current = JSON.parse(mockReadFileSync('current-metrics.json', 'utf8') );
 
       // Detect regressions
       const executionRegression = (current.executionTime - baseline.executionTime) / baseline.executionTime;
@@ -548,7 +548,7 @@ describe('Linting Performance and Memory Usage', () => {
 
       mockReadFileSync.mockReturnValue(JSON.stringify(performanceHistory));
 
-      const history = JSON.parse(mockReadFileSync('performance-history.json', 'utf8') as string);
+      const history = JSON.parse(mockReadFileSync('performance-history.json', 'utf8') );
       
       // Calculate trend
       const executionTrend = history[history.length - 1].executionTime - history[0].executionTime;

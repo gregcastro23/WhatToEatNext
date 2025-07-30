@@ -68,7 +68,7 @@ export async function POST(request: Request) {
       logger.info('Fetching planetary positions from astrologize API');
       
       if (useCustomDate) {
-        const customDate = new Date(year!, month! - 1, date, hour, minute);
+        const customDate = new Date(year ?? 2024, (month ?? 1) - 1, date, hour, minute);
         planetaryPositions = await getPlanetaryPositionsForDateTime(
           customDate,
           { latitude, longitude },
@@ -91,7 +91,7 @@ export async function POST(request: Request) {
 
     // Step 2: Update current moment data across all storage locations
     if (useCustomDate) {
-      const customDate = new Date(year!, month! - 1, date, hour, minute);
+      const customDate = new Date(year ?? 2024, (month ?? 1) - 1, date, hour, minute);
       await updateCurrentMoment(customDate, { latitude, longitude });
     } else {
       // Trigger update with current moment
@@ -123,7 +123,7 @@ export async function POST(request: Request) {
       timestamp: new Date().toISOString(),
       request: {
         useCustomDate,
-        customDateTime: useCustomDate ? new Date(year!, month! - 1, date, hour, minute).toISOString() : null,
+        customDateTime: useCustomDate ? new Date(year ?? 2024, (month ?? 1) - 1, date, hour, minute).toISOString() : null,
         location: { latitude, longitude },
         zodiacSystem
       },

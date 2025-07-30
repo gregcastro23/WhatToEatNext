@@ -141,7 +141,7 @@ export function useAstrologize(options: AstrologizeOptions = {}): AstrologizeRes
   // Fetch data when dependencies change
   useEffect(() => {
     if ((useCurrentLocation && location) || !useCurrentLocation) {
-      fetchData();
+      void fetchData();
     }
   }, [
     useCurrentTime, 

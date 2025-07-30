@@ -143,7 +143,7 @@ export class ResolutionStrategyGenerator {
    * Get base strategy template for a rule
    */
   private getBaseStrategy(ruleId: string): Partial<ResolutionStrategy> {
-    return this.strategyTemplates.get(ruleId) || this.strategyTemplates.get('default')!;
+    return this.strategyTemplates.get(ruleId) || this.strategyTemplates.get('default') ?? undefined;
   }
 
   /**

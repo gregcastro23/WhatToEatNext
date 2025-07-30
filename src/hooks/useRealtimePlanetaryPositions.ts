@@ -95,13 +95,13 @@ export function useRealtimePlanetaryPositions(
   }, [location, zodiacSystem]);
 
   const forceRefresh = useCallback(() => {
-    fetchPositions();
+    void fetchPositions();
   }, [fetchPositions]);
 
   // Auto-fetch on mount
   useEffect(() => {
     if (autoStart) {
-      fetchPositions();
+      void fetchPositions();
     }
   }, [fetchPositions, autoStart]);
 
@@ -109,7 +109,7 @@ export function useRealtimePlanetaryPositions(
   useEffect(() => {
     if (!refreshInterval || refreshInterval <= 0) return;
 
-    const interval = setInterval(fetchPositions, refreshInterval);
+    const interval = setInterval(() => void fetchPositions(), refreshInterval);
     return () => clearInterval(interval);
   }, [fetchPositions, refreshInterval]);
 
@@ -188,7 +188,7 @@ export function usePlanetaryPositionsForDate(
   }, [date, location, zodiacSystem]);
 
   useEffect(() => {
-    fetchPositions();
+    void fetchPositions();
   }, [fetchPositions]);
 
   return {

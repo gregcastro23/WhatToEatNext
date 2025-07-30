@@ -22,7 +22,7 @@ export default function AlchemizeDemoPage() {
       }
     };
 
-    loadAlchemicalData();
+    void loadAlchemicalData();
   }, []);
 
   if (loading) {

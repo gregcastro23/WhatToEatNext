@@ -313,7 +313,7 @@ export class SwissEphemerisService {
     
     if (this.cache.has(cacheKey)) {
       logger.debug('Using cached Swiss Ephemeris data');
-      return this.cache.get(cacheKey)!;
+      return this.cache.get(cacheKey) ?? undefined;
     }
 
     try {

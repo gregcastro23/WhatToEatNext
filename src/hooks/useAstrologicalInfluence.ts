@@ -30,7 +30,7 @@ export function useAstrologicalInfluence() {
       }
     }
     
-    fetchAstrologicalState();
+    void fetchAstrologicalState();
   }, []);
 
   const influence = useMemo((): AstrologicalInfluence => {

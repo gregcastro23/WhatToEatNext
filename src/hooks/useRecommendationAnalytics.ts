@@ -87,12 +87,12 @@ export function useRecommendationAnalytics(
       // Start periodic metrics collection
       metricsIntervalRef.current = setInterval(() => {
         if (mountedRef.current) {
-          updateMetrics();
+          void updateMetrics();
         }
       }, metricsUpdateInterval);
 
       // Initial metrics update
-      updateMetrics();
+      void updateMetrics();
     }
 
     return () => {
@@ -206,7 +206,7 @@ export function useRecommendationAnalytics(
 
   const clearAnalytics = useCallback(() => {
     recommendationAnalytics.clearAnalytics();
-    updateMetrics();
+    void updateMetrics();
   }, [updateMetrics]);
 
   // ========== RETURN ==========

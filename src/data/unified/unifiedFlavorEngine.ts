@@ -243,7 +243,7 @@ export class UnifiedFlavorEngine {
       if (this.performanceMetrics) {
         this.performanceMetrics.totalCacheHits = (this.performanceMetrics.totalCacheHits ?? 0) + 1;
       }
-      const result = this.compatibilityCache.get(cacheKey)!;
+      const result = this.compatibilityCache.get(cacheKey) ?? undefined;
       
       // Update cache access time for LRU tracking
       this.compatibilityCache.delete(cacheKey);
@@ -688,7 +688,7 @@ export class UnifiedFlavorEngine {
     const cacheKey = JSON.stringify(criteria);
     
     if (this.searchCache.has(cacheKey)) {
-      return this.searchCache.get(cacheKey)!;
+      return this.searchCache.get(cacheKey) ?? undefined;
     }
 
     let results = this.getAllProfiles();
@@ -699,31 +699,31 @@ export class UnifiedFlavorEngine {
     }
 
     if (criteria.elementalFocus) {
-      results = (results || []).filter(p => (p.elementalFlavors[criteria.elementalFocus!] || 0) > 0.3);
+      results = (results || []).filter(p => (p.elementalFlavors[criteria.elementalFocus ?? undefined] || 0) > 0.3);
     }
 
     if (criteria.intensityRange) {
       results = (results || []).filter(p => 
-        p.intensity >= criteria.intensityRange!.min && 
-        p.intensity <= criteria.intensityRange!.max
+        p.intensity >= criteria.intensityRange ?? undefined.min && 
+        p.intensity <= criteria.intensityRange ?? undefined.max
       );
     }
 
     if (criteria.complexityRange) {
       results = (results || []).filter(p => 
-        p.complexity >= criteria.complexityRange!.min && 
-        p.complexity <= criteria.complexityRange!.max
+        p.complexity >= criteria.complexityRange ?? undefined.min && 
+        p.complexity <= criteria.complexityRange ?? undefined.max
       );
     }
 
     if (criteria.seasonalAlignment) {
-      results = results.filter(p => p.seasonalPeak.includes(criteria.seasonalAlignment!));
+      results = results.filter(p => p.seasonalPeak.includes(criteria.seasonalAlignment ?? undefined));
     }
 
     if (criteria.culturalOrigin) {
       results = (results || []).filter(p => 
         (p.culturalOrigins  || []).some(origin => 
-          origin.toLowerCase().includes(criteria.culturalOrigin!.toLowerCase())
+          origin.toLowerCase().includes(criteria.culturalOrigin ?? undefined.toLowerCase())
         )
       );
     }
@@ -731,17 +731,17 @@ export class UnifiedFlavorEngine {
     if (criteria.preparationMethod) {
       results = (results || []).filter(p => 
         (p.preparationMethods  || []).some(method => 
-          method.toLowerCase().includes(criteria.preparationMethod!.toLowerCase())
+          method.toLowerCase().includes(criteria.preparationMethod ?? undefined.toLowerCase())
         )
       );
     }
 
     if (criteria.minKalchm !== undefined) {
-      results = (results || []).filter(p => p.kalchm >= criteria.minKalchm!);
+      results = (results || []).filter(p => p.kalchm >= criteria.minKalchm ?? undefined);
     }
 
     if (criteria.maxKalchm !== undefined) {
-      results = (results || []).filter(p => p.kalchm <= criteria.maxKalchm!);
+      results = (results || []).filter(p => p.kalchm <= criteria.maxKalchm ?? undefined);
     }
 
     if (criteria.tags && criteria.tags  || [].length > 0) {

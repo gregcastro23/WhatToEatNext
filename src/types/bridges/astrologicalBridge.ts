@@ -22,7 +22,7 @@ export const createAstrologicalBridge = (): AstrologicalBridge => ({
     const keys = path.split('.');
     let current: Record<string, unknown> = obj as Record<string, unknown>;
     for (const key of keys) {
-      if (current?.[key] === undefined) return undefined;
+      if (current[key] === undefined) return undefined;
       current = current[key];
     }
     return current as T;

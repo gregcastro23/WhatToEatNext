@@ -166,7 +166,7 @@ const PlanetaryPositionInitializer: React.FC = () => {
   // Apply fallback positions immediately on first render
   useEffect(() => {
     // Initialize the alchemical engine
-    initializeAlchemicalEngine();
+    void initializeAlchemicalEngine();
     
     try {
       // Apply fallback positions immediately to ensure data is shown

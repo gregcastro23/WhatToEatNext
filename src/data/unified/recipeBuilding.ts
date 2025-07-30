@@ -990,7 +990,7 @@ export class UnifiedRecipeBuildingSystem {
   
   private calculateIngredientAlignment(recipe: EnhancedRecipe, cuisineAnalysis: CuisineIngredientAnalysis): number {
     // Calculate ingredient alignment based on cuisine analysis
-    const recipeIngredients = recipe.ingredients?.map(ing => ing.name) || [];
+    const recipeIngredients = recipe.ingredients.map(ing => ing.name) || [];
     const cuisineIngredients = cuisineAnalysis.commonIngredients || [];
     
     if (recipeIngredients.length === 0) return 0.5;
@@ -1004,7 +1004,7 @@ export class UnifiedRecipeBuildingSystem {
   
   private calculateFusionPotential(recipe: EnhancedRecipe, cuisine: string): number {
     // Calculate fusion potential based on recipe complexity and cuisine characteristics
-    const recipeComplexity = (recipe.ingredients?.length || 0) / 20; // Normalize by typical ingredient count
+    const recipeComplexity = (recipe.ingredients.length || 0) / 20; // Normalize by typical ingredient count
     const cuisineVersatility = this.getCuisineVersatility(cuisine);
     
     return Math.min(1.0, (recipeComplexity * 0.6) + (cuisineVersatility * 0.4));
@@ -1031,7 +1031,7 @@ export class UnifiedRecipeBuildingSystem {
     notes.push(`Traditional ${cuisine} influences`);
     
     // Add ingredient-based cultural notes
-    const recipeIngredients = recipe.ingredients?.map(ing => ing.name) || [];
+    const recipeIngredients = recipe.ingredients.map(ing => ing.name) || [];
     if (recipeIngredients.length > 10) {
       notes.push('Complex ingredient profile reflects authentic culinary traditions');
     }

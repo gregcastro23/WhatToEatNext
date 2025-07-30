@@ -87,7 +87,7 @@ function CuisineSelectorMigrated({
       }
     };
 
-    loadAstrologyData();
+    void loadAstrologyData();
   }, [
     servicesLoading, 
     astrologyService, 
@@ -157,7 +157,7 @@ function CuisineSelectorMigrated({
       }
     };
 
-    loadCuisines();
+    void loadCuisines();
   }, [servicesLoading, recommendationService, resolvedPlanetaryPositions, astrologyService]);
 
   // Sort cuisines when sort preference changes

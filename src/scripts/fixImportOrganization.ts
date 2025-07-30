@@ -149,7 +149,7 @@ class ImportOrganizationFixer {
             if (!importSources.has(source)) {
               importSources.set(source, []);
             }
-            importSources.get(source)!.push(index + 1);
+            importSources.get(source) ?? undefined.push(index + 1);
           }
         }
         
@@ -230,7 +230,7 @@ class ImportOrganizationFixer {
               });
             }
             
-            const group = importGroups.get(source)!;
+            const group = importGroups.get(source) ?? undefined;
             group.lines.push(i);
             
             // Parse import types
@@ -568,7 +568,7 @@ Generated: ${new Date().toISOString()}
       console.log(`   - Named import issues: ${analysis.namedImportIssues.length}`);
       
       if (analysis.totalIssues === 0) {
-        console.log('✅ No import issues found!');
+        console.log('✅ No import issues found ?? undefined');
         return;
       }
       
@@ -600,7 +600,7 @@ Generated: ${new Date().toISOString()}
       this.generateReport(analysis, this.fixedIssues);
       
       console.log('=' .repeat(60));
-      console.log(`✅ Import organization completed successfully!`);
+      console.log(`✅ Import organization completed successfully ?? undefined`);
       console.log(`   Files processed: ${this.processedFiles}`);
       console.log(`   Issues fixed: ${this.fixedIssues}`);
       console.log(`   Backup location: ${this.backupDir}`);

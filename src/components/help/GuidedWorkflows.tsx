@@ -250,7 +250,7 @@ export const GuidedWorkflows: React.FC<GuidedWorkflowsProps> = ({ className = ''
                   <div className="p-3 bg-blue-50 border border-blue-200 rounded-lg">
                     <h6 className="font-medium text-blue-800 mb-2">Tips</h6>
                     <ul className="text-sm text-blue-700 space-y-1">
-                      {selectedWorkflow.steps[currentStep].tips!.map((tip, index) => (
+                      {selectedWorkflow.steps[currentStep].tips ?? undefined.map((tip, index) => (
                         <li key={index}>• {tip}</li>
                       ))}
                     </ul>

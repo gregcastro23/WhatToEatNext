@@ -9,8 +9,9 @@
  * Requirements: 5.1, 5.2, 5.3
  */
 
-import { LintingPerformanceValidator } from './validateLintingPerformance';
 import { PerformanceMonitoringService } from '../services/linting/PerformanceMonitoringService';
+
+import { LintingPerformanceValidator } from './validateLintingPerformance';
 
 interface CLIOptions {
   command: 'validate' | 'monitor' | 'report' | 'test';

@@ -250,7 +250,7 @@ export class EnterpriseIntelligenceIntegration {
     try {
       // Use the existing Recipe Compatibility Intelligence system
       const compatibilityAnalysis = RECIPE_COMPATIBILITY_INTELLIGENCE.analyzeRecipeCompatibility(
-        recipeData.elementalProperties || astrologicalContext.elementalProperties,
+        recipeData.elementalProperties ?? astrologicalContext.elementalProperties,
         astrologicalContext
       );
 
@@ -262,7 +262,7 @@ export class EnterpriseIntelligenceIntegration {
       
       // Generate intelligent recommendations
       const recommendations = [
-        ...compatibilityAnalysis.recommendations || [],
+        ...compatibilityAnalysis.recommendations ?? [],
         ...this.generateRecipeIntelligenceRecommendations(compatibilityAnalysis)
       ];
 
@@ -459,7 +459,7 @@ export class EnterpriseIntelligenceIntegration {
       
       // Elemental harmony validation
       const elementalHarmony = this.validateElementalHarmony(
-        recipeData.elementalProperties || astrologicalContext.elementalProperties
+        recipeData.elementalProperties ?? astrologicalContext.elementalProperties
       );
 
       // Overall validation assessment
@@ -790,7 +790,7 @@ export class EnterpriseIntelligenceIntegration {
   }
 
   private validateIngredient(ingredient: Record<string, unknown>): boolean {
-    return ingredient && ingredient.name && ingredient.elementalProperties;
+    return !!(ingredient?.name && ingredient?.elementalProperties);
   }
 
   private calculateIngredientOptimizationScore(analyses: Record<string, unknown>): number {
@@ -889,7 +889,7 @@ export class EnterpriseIntelligenceIntegration {
     const warnings: string[] = [];
     let score = 1.0;
 
-    if (!elementalProperties) {
+    if (elementalProperties === null || elementalProperties === undefined) {
       issues.push('Missing elemental properties');
       return { score: 0, issues, warnings };
     }
@@ -1124,7 +1124,7 @@ export class EnterpriseIntelligenceIntegration {
    * Calculate elemental alignment between ingredients and context
    */
   private calculateElementalAlignment(ingredients: unknown[], contextElemental: ElementalProperties): number {
-    if (!ingredients.length || !contextElemental) return 0.5;
+    if (ingredients.length === 0 || contextElemental === null || contextElemental === undefined) return 0.5;
     
     const avgAlignment = ingredients.reduce((sum, ing) => {
       if (!ing.elementalProperties) return sum;
@@ -1363,30 +1363,30 @@ export class EnterpriseIntelligenceIntegration {
 
   private calculateCuisineOptimizationScore(analyses: CuisineAnalyses): number {
     const scores = [
-      analyses.culturalAnalysis?.culturalSynergy || 0.7,
-      analyses.fusionAnalysis?.fusionScore || 0.7,
-      analyses.seasonalAnalysis?.seasonalOptimization || 0.7,
-      analyses.compatibilityAnalysis?.compatibilityScore || 0.7,
-      analyses.astrologicalAnalysis?.astrologicalAlignment || 0.7
+      analyses.culturalAnalysis.culturalSynergy || 0.7,
+      analyses.fusionAnalysis.fusionScore || 0.7,
+      analyses.seasonalAnalysis.seasonalOptimization || 0.7,
+      analyses.compatibilityAnalysis.compatibilityScore || 0.7,
+      analyses.astrologicalAnalysis.astrologicalAlignment || 0.7
     ];
     
     return scores.reduce((sum, score) => sum + score, 0) / scores.length;
   }
 
   private calculateCuisineSafetyScore(analyses: CuisineAnalyses): number {
-    const validationScore = analyses.validationResults?.validationScore || 0.7;
-    const culturalScore = analyses.culturalAnalysis?.culturalCompatibility || 0.7;
+    const validationScore = analyses.validationResults.validationScore || 0.7;
+    const culturalScore = analyses.culturalAnalysis.culturalCompatibility || 0.7;
     
     return (validationScore + culturalScore) / 2;
   }
 
   private calculateCuisineConfidence(analyses: CuisineAnalyses): number {
     const scores = [
-      analyses.culturalAnalysis?.culturalSynergy || 0.7,
-      analyses.fusionAnalysis?.fusionPotential || 0.7,
-      analyses.seasonalAnalysis?.seasonalOptimization || 0.7,
-      analyses.compatibilityAnalysis?.compatibilityScore || 0.7,
-      analyses.astrologicalAnalysis?.astrologicalAlignment || 0.7
+      analyses.culturalAnalysis.culturalSynergy || 0.7,
+      analyses.fusionAnalysis.fusionPotential || 0.7,
+      analyses.seasonalAnalysis.seasonalOptimization || 0.7,
+      analyses.compatibilityAnalysis.compatibilityScore || 0.7,
+      analyses.astrologicalAnalysis.astrologicalAlignment || 0.7
     ];
     
     const average = scores.reduce((sum, score) => sum + score, 0) / scores.length;
@@ -1398,19 +1398,19 @@ export class EnterpriseIntelligenceIntegration {
   private generateCuisineIntelligenceRecommendations(analyses: CuisineAnalyses): string[] {
     const recommendations: string[] = [];
     
-    if (analyses.culturalAnalysis?.culturalSynergy < 0.7) {
+    if (analyses.culturalAnalysis.culturalSynergy < 0.7) {
       recommendations.push('Consider cultural context for better cuisine selection');
     }
     
-    if (analyses.fusionAnalysis?.fusionPotential > 0.8) {
+    if (analyses.fusionAnalysis.fusionPotential > 0.8) {
       recommendations.push('Explore fusion cuisine possibilities for enhanced variety');
     }
     
-    if (analyses.seasonalAnalysis?.seasonalOptimization < 0.7) {
+    if (analyses.seasonalAnalysis.seasonalOptimization < 0.7) {
       recommendations.push('Consider seasonal alternatives for optimal timing');
     }
     
-    if (analyses.compatibilityAnalysis?.compatibilityScore < 0.7) {
+    if (analyses.compatibilityAnalysis.compatibilityScore < 0.7) {
       recommendations.push('Enhance cuisine compatibility matching');
     }
     

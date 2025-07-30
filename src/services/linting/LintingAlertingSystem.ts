@@ -7,6 +7,7 @@
 
 import { execSync } from 'child_process';
 import { writeFileSync, readFileSync, existsSync } from 'fs';
+
 import { LintingMetrics, Alert, AlertThreshold } from './LintingValidationDashboard';
 
 export interface AlertingConfig {

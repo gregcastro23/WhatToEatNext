@@ -303,10 +303,10 @@ export function {{HOOK_NAME}}(
 
   // Initial load and periodic refresh
   useEffect(() => {
-    refresh();
+    void refresh();
     
     if (refreshInterval > 0) {
-      const interval = setInterval(refresh, refreshInterval);
+      const interval = setInterval(() => void refresh(), refreshInterval);
       return () => clearInterval(interval);
     }
   }, [refresh, refreshInterval]);
@@ -314,7 +314,7 @@ export function {{HOOK_NAME}}(
   // Refresh when planetary positions change
   useEffect(() => {
     if (planetaryPositions && !astroLoading) {
-      refresh();
+      void refresh();
     }
   }, [planetaryPositions, astroLoading, refresh]);
 

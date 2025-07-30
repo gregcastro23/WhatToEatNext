@@ -69,8 +69,8 @@ export default function Header({ setNumberOfPeople }: HeaderProps) {
       }
     };
 
-    fetchAstroData();
-    const interval = setInterval(fetchAstroData, 5 * 60 * 1000);
+    void fetchAstroData();
+    const interval = setInterval(() => void fetchAstroData(), 5 * 60 * 1000);
     return () => clearInterval(interval);
   }, []);
 

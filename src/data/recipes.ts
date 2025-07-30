@@ -697,8 +697,8 @@ async function applyAdditionalFilters(
   if (criteria.season) {
     logger.debug(`Filtering by season: ${criteria.season}`);
     const seasonRecipes = candidateRecipes.filter(recipe => 
-      recipe.energyProfile.season?.includes(criteria.season!) ||
-      (Array.isArray(recipe.season) && recipe.season.includes(criteria.season!)) ||
+      recipe.energyProfile.season?.includes(criteria.season ?? undefined) ||
+      (Array.isArray(recipe.season) && recipe.season.includes(criteria.season ?? undefined)) ||
       (typeof recipe.season === 'string' && recipe.season === criteria.season)
     );
     

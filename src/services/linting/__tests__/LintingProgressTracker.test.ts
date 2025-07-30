@@ -5,9 +5,10 @@
  * progress reporting, and campaign integration.
  */
 
-import { LintingProgressTracker, LintingMetrics, LintingProgressReport } from '../LintingProgressTracker';
 import { execSync } from 'child_process';
 import { writeFileSync, readFileSync, existsSync, unlinkSync } from 'fs';
+
+import { LintingProgressTracker, LintingMetrics, LintingProgressReport } from '../LintingProgressTracker';
 
 // Mock dependencies
 jest.mock('child_process');

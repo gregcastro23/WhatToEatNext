@@ -147,7 +147,10 @@ export class AdvancedAnalyticsIntelligenceService {
       if (this.config.cacheResults && this.cache.has(cacheKey)) {
         this.updateCacheHitRate();
         this.log('debug', 'Using cached advanced analytics intelligence analysis');
-        return this.cache.get(cacheKey)!;
+        const cachedResult = this.cache.get(cacheKey);
+        if (cachedResult) {
+          return cachedResult;
+        }
       }
 
       // Generate comprehensive advanced analytics analysis
@@ -404,8 +407,10 @@ export class AdvancedAnalyticsIntelligenceService {
 
   private calculateMultiDimensionalScore(recipe: Recipe, astrologicalContext: AstrologicalContext): number {
     // Calculate base dimensions
-    const elementalDimension = recipe.elementalProperties ? 
-      calculateElementalCompatibility(recipe.elementalProperties, astrologicalContext.elementalProperties) : 0.5;
+    const elementalDimension = calculateElementalCompatibility(
+      recipe.elementalProperties, 
+      astrologicalContext.elementalProperties
+    );
 
     const recipeData = recipe as unknown as Record<string, unknown>;
     const seasonalDimension = calculateSeasonalOptimization(
@@ -731,7 +736,7 @@ export class AdvancedAnalyticsIntelligenceService {
 
   private calculateTechniqueComplexity(recipe: Recipe): number {
     const recipeData = (recipe as unknown) as Record<string, unknown>;
-    const cookingMethods = recipeData.cookingMethod as string[] || recipeData.cookingMethods as string[] || [];
+    const cookingMethods = (recipeData.cookingMethod as string[] | undefined) || (recipeData.cookingMethods as string[] | undefined) || [];
     const techniqueCount = cookingMethods.length;
     return Math.min(1, techniqueCount / 10); // Normalize to 0-1 scale
   }
@@ -877,8 +882,10 @@ export class AdvancedAnalyticsIntelligenceService {
 
   private calculateIngredientInteraction(ing1: Ingredient, ing2: Ingredient, _astrologicalContext: AstrologicalContext): number {
     // Simplified ingredient interaction calculation
-    const elementalCompatibility = ing1.elementalProperties && ing2.elementalProperties ?
-      calculateElementalCompatibility(ing1.elementalProperties, ing2.elementalProperties) : 0.7;
+    const elementalCompatibility = calculateElementalCompatibility(
+      ing1.elementalProperties, 
+      ing2.elementalProperties
+    );
     
     return Math.max(0, Math.min(1, elementalCompatibility));
   }
@@ -912,7 +919,11 @@ export class AdvancedAnalyticsIntelligenceService {
       'onion': ['shallot', 'leek', 'scallion'],
       'garlic': ['garlic powder', 'shallot', 'chive']
     };
-    return basicSubstitutions[ingredient.name.toLowerCase()] || [];
+    const key = ingredient.name.toLowerCase();
+    if (key in basicSubstitutions) {
+      return basicSubstitutions[key];
+    }
+    return [];
   }
 
   private calculateIngredientSynergyScore(_ingredient: Ingredient, _astrologicalContext: AstrologicalContext): number {
@@ -1088,11 +1099,11 @@ export class AdvancedAnalyticsIntelligenceService {
 
   private generateCacheKey(recipeData: Recipe, ingredientData: Ingredient[], cuisineData: CuisineData, astrologicalContext: AstrologicalContext): string {
     return `advanced_analytics_${JSON.stringify({
-      recipeId: recipeData?.id,
-      ingredientCount: ingredientData?.length,
-      cuisineName: cuisineData?.name,
-      zodiac: astrologicalContext?.zodiacSign,
-      lunar: astrologicalContext?.lunarPhase
+      recipeId: recipeData.id,
+      ingredientCount: ingredientData.length,
+      cuisineName: cuisineData.name,
+      zodiac: astrologicalContext.zodiacSign,
+      lunar: astrologicalContext.lunarPhase
     })}`;
   }
 
@@ -1123,7 +1134,7 @@ export class AdvancedAnalyticsIntelligenceService {
 
   private log(level: string, message: string, data?: unknown): void {
     if (this.shouldLog(level)) {
-      (logger as { [key: string]: (message: string, data?: unknown) => void })[level]?.(`[AdvancedAnalytics] ${message}`, data);
+      (logger as { [key: string]: (message: string, data?: unknown) => void })[level](`[AdvancedAnalytics] ${message}`, data);
     }
   }
 

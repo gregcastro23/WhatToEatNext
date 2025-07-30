@@ -1468,7 +1468,7 @@ export default function CookingMethods() {
 
   // Fetch methods when component mounts or fetchMethods changes
   useEffect(() => {
-    fetchMethods();
+    void fetchMethods();
   }, [fetchMethods]);
 
   if (loading) {
@@ -1520,7 +1520,7 @@ export default function CookingMethods() {
     const newCulture = e.target.value;
     setSelectedCulture(newCulture);
     // Refetch methods with the new culture filter
-    fetchMethods();
+    void fetchMethods();
   };
 
   // Enhance the renderMethodCard function to display score details

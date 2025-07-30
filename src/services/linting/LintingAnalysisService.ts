@@ -158,7 +158,7 @@ export class LintingAnalysisService {
         metrics
       };
       
-      log.info('✅ Comprehensive analysis complete!');
+      log.info('✅ Comprehensive analysis complete ?? undefined');
       this.logAnalysisResults(result);
       
       return result;
@@ -193,7 +193,7 @@ export class LintingAnalysisService {
     const topIssues = Array.from(issueFrequency.entries())
       .sort((a, b) => b[1] - a[1])
       .slice(0, 5)
-      .map(([rule]) => Object.values(categorizedErrors.byCategory).flat().find(i => i.rule === rule)!)
+      .map(([rule]) => Object.values(categorizedErrors.byCategory).flat().find(i => i.rule === rule) ?? undefined)
       .filter(Boolean);
     
     // Get quick wins (auto-fixable, low risk)

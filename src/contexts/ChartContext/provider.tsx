@@ -206,7 +206,7 @@ export const ChartProvider: React.FC<{children: React.ReactNode}> = ({ children 
   };
 
   useEffect(() => {
-    refreshChart();
+    void refreshChart();
   }, [alchemicalPositions]);
 
   return (

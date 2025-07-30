@@ -71,7 +71,7 @@ export function useIngredientSearch() {
       }
     };
 
-    loadIngredients();
+    void loadIngredients();
   }, []);
 
   // Fuzzy search function

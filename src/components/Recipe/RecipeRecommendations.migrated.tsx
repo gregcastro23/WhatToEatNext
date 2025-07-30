@@ -325,7 +325,7 @@ const RecipeRecommendationsMigrated: React.FC<RecipeRecommendationsProps> = ({ f
         setIsLoading(false);
       }
     };
-    fetchAstroData();
+    void fetchAstroData();
   }, []);
 
   // Load astrological data when services are available
@@ -394,7 +394,7 @@ const RecipeRecommendationsMigrated: React.FC<RecipeRecommendationsProps> = ({ f
       }
     };
     
-    loadAstrologicalData();
+    void loadAstrologicalData();
   }, [servicesLoading, astrologyService, elementalCalculatorService]);
 
   // Load cuisines data when services are available
@@ -423,7 +423,7 @@ const RecipeRecommendationsMigrated: React.FC<RecipeRecommendationsProps> = ({ f
       }
     };
     
-    loadCuisinesData();
+    void loadCuisinesData();
   }, [servicesLoading, recipeService]);
 
   // Convert cuisine data to ElementalItem format for recommendations
@@ -461,7 +461,7 @@ const RecipeRecommendationsMigrated: React.FC<RecipeRecommendationsProps> = ({ f
       }
     };
 
-    fetchRecipes();
+    void fetchRecipes();
   }, [servicesLoading, recipeService, filters]);
 
   // Get all recipes with proper type casting and null safety

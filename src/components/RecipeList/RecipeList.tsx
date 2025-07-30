@@ -198,7 +198,7 @@ export default function RecipeList() {
       }
     };
     
-    loadRecipes();
+    void loadRecipes();
   }, []);
 
   return (

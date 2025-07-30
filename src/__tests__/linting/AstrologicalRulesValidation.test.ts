@@ -6,8 +6,9 @@
  * and transit date validation patterns.
  */
 
-import { ESLint } from 'eslint';
 import path from 'path';
+
+import { ESLint } from 'eslint';
 
 describe('Astrological ESLint Rules', () => {
   let eslint: ESLint;

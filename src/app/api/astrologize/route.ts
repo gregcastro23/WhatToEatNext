@@ -143,7 +143,7 @@ export async function GET(request: Request) {
 function extractPlanetaryPositions(data: Record<string, unknown>): Record<string, PlanetPosition> | null {
   try {
     // Try to extract from _celestialBodies structure
-    const celestialBodies = data?._celestialBodies;
+    const celestialBodies = data._celestialBodies;
     if (celestialBodies) {
       const positions: Record<string, PlanetPosition> = {};
       
@@ -183,7 +183,7 @@ function extractPlanetaryPositions(data: Record<string, unknown>): Record<string
     }
     
     // Try alternative structure if available
-    const astrology_info = data?.astrology_info?.horoscope_parameters?.planets;
+    const astrology_info = data.astrology_info?.horoscope_parameters?.planets;
     if (astrology_info) {
       const positions: Record<string, PlanetPosition> = {};
       

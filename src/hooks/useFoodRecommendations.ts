@@ -76,7 +76,7 @@ export const useFoodRecommendations = (options?: {
     };
     
     // Always try to fetch recommendations, even with fallback data
-    fetchRecommendations();
+    void fetchRecommendations();
   }, [astroState, options?.filter, options?.limit]);
   
   // Get the current season

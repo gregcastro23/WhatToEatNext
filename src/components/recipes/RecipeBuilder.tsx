@@ -243,8 +243,8 @@ export default function RecipeBuilder({
       }
     };
 
-    loadIngredients();
-    loadMethods();
+    void loadIngredients();
+    void loadMethods();
   }, []);
 
   // Initialize with provided ingredients and methods

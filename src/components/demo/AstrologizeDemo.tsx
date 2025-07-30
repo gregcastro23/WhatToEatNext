@@ -106,7 +106,7 @@ const AstrologizeDemo: React.FC = () => {
   
   const handleRefresh = (e: React.FormEvent) => {
     e.preventDefault();
-    refetch();
+    void refetch();
   };
   
   // Format planetary positions for display from _celestialBodies structure

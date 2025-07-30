@@ -646,14 +646,14 @@ export async function getIngredientRecommendations(
   // Filter by excluded ingredients
   if (_options.excludeIngredients && _options.excludeIngredients.length > 0) {
     filteredIngredients = filteredIngredients.filter(ing => 
-      !_options.excludeIngredients!.includes(ing.name)
+      !_options.excludeIngredients ?? undefined.includes(ing.name)
     );
   }
   
   // Filter by included ingredients only
   if (_options.includeOnly && _options.includeOnly.length > 0) {
     filteredIngredients = filteredIngredients.filter(ing => 
-      _options.includeOnly!.includes(ing.name)
+      _options.includeOnly ?? undefined.includes(ing.name)
     );
   }
   
@@ -728,8 +728,8 @@ export async function getIngredientRecommendations(
     if (!recommendations[category]) {
       recommendations[category] = [];
     }
-    if (recommendations[category]!.length < limit) {
-      recommendations[category]!.push(ingredient);
+    if (recommendations[category] ?? undefined.length < limit) {
+      recommendations[category] ?? undefined.push(ingredient);
     }
   });
   
@@ -755,7 +755,7 @@ export const getTopIngredientMatches = async (
     // Planetary compatibility
     if (astroState.activePlanets && ingredient.astrologicalProfile?.rulingPlanets) {
       const planetMatch = ingredient.astrologicalProfile.rulingPlanets.some(planet => 
-        astroState.activePlanets!.includes(planet)
+        astroState.activePlanets ?? undefined.includes(planet)
       );
       if (planetMatch) score += 0.2;
     }

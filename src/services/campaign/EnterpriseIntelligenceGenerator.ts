@@ -111,7 +111,7 @@ export class EnterpriseIntelligenceGenerator {
       }
     }
 
-    console.log(`🎉 Generated ${results.length} intelligence systems!`);
+    console.log(`🎉 Generated ${results.length} intelligence systems ?? undefined`);
     return results;
   }
 
@@ -157,17 +157,17 @@ export class EnterpriseIntelligenceGenerator {
     
     switch (exportType) {
       case 'function':
-        return this.templates.get('FUNCTION_INTELLIGENCE') || this.templates.get('DEFAULT')!;
+        return this.templates.get('FUNCTION_INTELLIGENCE') || this.templates.get('DEFAULT') ?? undefined;
       case 'class':
-        return this.templates.get('CLASS_INTELLIGENCE') || this.templates.get('DEFAULT')!;
+        return this.templates.get('CLASS_INTELLIGENCE') || this.templates.get('DEFAULT') ?? undefined;
       case 'interface':
       case 'type':
-        return this.templates.get('TYPE_INTELLIGENCE') || this.templates.get('DEFAULT')!;
+        return this.templates.get('TYPE_INTELLIGENCE') || this.templates.get('DEFAULT') ?? undefined;
       case 'const':
       case 'variable':
-        return this.templates.get('DATA_INTELLIGENCE') || this.templates.get('DEFAULT')!;
+        return this.templates.get('DATA_INTELLIGENCE') || this.templates.get('DEFAULT') ?? undefined;
       default:
-        return this.templates.get('DEFAULT')!;
+        return this.templates.get('DEFAULT') ?? undefined;
     }
   }
 

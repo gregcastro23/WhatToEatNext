@@ -270,7 +270,7 @@ export class EnhancedIngredientsSystem {
     // Filter by elemental focus
     if (criteria.elementalFocus) {
       results = (results || []).filter(ingredient => {
-        const elementValue = ingredient.elementalProperties[criteria.elementalFocus!] || 0;
+        const elementValue = ingredient.elementalProperties[criteria.elementalFocus ?? undefined] || 0;
         return elementValue > 0.3; // Must have significant presence
       });
     }
@@ -278,8 +278,8 @@ export class EnhancedIngredientsSystem {
     // Filter by Kalchm range
     if (criteria.kalchmRange) {
       results = (results || []).filter(ingredient => 
-        (ingredient.kalchm || 0) >= criteria.kalchmRange!.min && 
-        (ingredient.kalchm || 0) <= criteria.kalchmRange!.max
+        (ingredient.kalchm || 0) >= criteria.kalchmRange ?? undefined.min && 
+        (ingredient.kalchm || 0) <= criteria.kalchmRange ?? undefined.max
       );
     }
 
@@ -301,7 +301,7 @@ export class EnhancedIngredientsSystem {
     // Filter by cooking methods
     if (criteria.cookingMethods && (criteria.cookingMethods  || []).length > 0) {
       results = (results || []).filter(ingredient => 
-        (criteria.cookingMethods!  || []).some(method => 
+        (criteria.cookingMethods ?? undefined  || []).some(method => 
           ingredient.culinaryProperties.cookingMethods.includes(method)
         )
       );
@@ -310,7 +310,7 @@ export class EnhancedIngredientsSystem {
     // Filter by qualities
     if (criteria.qualities && (criteria.qualities  || []).length > 0) {
       results = (results || []).filter(ingredient => 
-        (criteria.qualities!  || []).some(quality => 
+        (criteria.qualities ?? undefined  || []).some(quality => 
           (Array.isArray(ingredient.qualities) ? ingredient.qualities.includes(quality) : ingredient.qualities === quality)
         )
       );
@@ -373,7 +373,7 @@ export class EnhancedIngredientsSystem {
         
         // Calculate compatibility
         const compatibility = this.flavorProfileSystem.calculateFlavorCompatibility(
-          targetProfile!, 
+          targetProfile ?? undefined, 
           ingredient.unifiedFlavorProfile
         );
         
@@ -381,13 +381,13 @@ export class EnhancedIngredientsSystem {
       })
       .sort((a, b) => {
         const compatA = this.flavorProfileSystem.calculateFlavorCompatibility(
-          targetProfile!, 
-          a.unifiedFlavorProfile!
+          targetProfile ?? undefined, 
+          a.unifiedFlavorProfile ?? undefined
         ).compatibility;
         
         const compatB = this.flavorProfileSystem.calculateFlavorCompatibility(
-          targetProfile!, 
-          b.unifiedFlavorProfile!
+          targetProfile ?? undefined, 
+          b.unifiedFlavorProfile ?? undefined
         ).compatibility;
         
         return compatB - compatA;

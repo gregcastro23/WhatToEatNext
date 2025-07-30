@@ -9,8 +9,9 @@
 import { execSync } from 'child_process';
 import { writeFileSync, readFileSync, existsSync, mkdirSync } from 'fs';
 import { join } from 'path';
-import { LintingValidationDashboard, LintingMetrics, Alert, ValidationResult } from './LintingValidationDashboard';
+
 import { LintingAlertingSystem } from './LintingAlertingSystem';
+import { LintingValidationDashboard, LintingMetrics, Alert, ValidationResult } from './LintingValidationDashboard';
 
 export interface ZeroErrorTarget {
   metric: string;

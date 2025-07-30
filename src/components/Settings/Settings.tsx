@@ -93,7 +93,7 @@ export default function Settings() {
   const [hasChanges, setHasChanges] = useState(false);
 
   useEffect(() => {
-    loadSettings();
+    void loadSettings();
   }, []);
 
   const loadSettings = async () => {

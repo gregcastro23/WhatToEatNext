@@ -147,7 +147,7 @@ export function useRecipeRecommendations(initialFilters?: Partial<RecipeRecommen
       }
     }
 
-    fetchRecipes();
+    void fetchRecipes();
   }, [astroLoading, currentElementalProfile, state.filters]);
 
   const updateFilters = (newFilters: Partial<RecipeRecommendationsData['filters']>) => {

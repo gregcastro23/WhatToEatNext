@@ -132,7 +132,7 @@ export function ErrorRecoverySystem({
 
     if (unrecoveredErrors.length > 0 && !isRecovering) {
       const latestError = unrecoveredErrors[0];
-      attemptRecovery(latestError);
+      void attemptRecovery(latestError);
     }
   }, [errorLog, autoRecovery, maxAutoRecoveryAttempts, recoveryAttempts, isRecovering]);
 

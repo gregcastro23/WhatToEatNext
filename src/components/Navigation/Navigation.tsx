@@ -68,7 +68,7 @@ export default function Navigation() {
       }
     };
     
-    initStateManager();
+    void initStateManager();
 
     return () => {
       if (unsubscribeFunction) {

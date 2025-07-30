@@ -305,7 +305,7 @@ export class LintingWarningAnalyzer {
         fileWarningCounts.set(file, { total: 0, explicitAny: 0, unused: 0, console: 0 });
       }
       
-      const counts = fileWarningCounts.get(file)!;
+      const counts = fileWarningCounts.get(file) ?? undefined;
       counts.total++;
       
       switch (warning.category) {

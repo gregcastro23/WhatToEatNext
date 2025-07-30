@@ -58,7 +58,7 @@ export function useServices() {
       }
     };
 
-    initializeServices();
+    void initializeServices();
 
     // Cleanup function
     return () => {

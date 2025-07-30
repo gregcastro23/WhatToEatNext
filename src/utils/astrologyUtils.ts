@@ -2104,7 +2104,7 @@ export function calculateDominantElement(
   };
   
   // Sun sign (strongest influence)
-  elementalCounts[getZodiacElementalInfluence(astroState.sunSign!)] += 3;
+  elementalCounts[getZodiacElementalInfluence(astroState.sunSign ?? undefined)] += 3;
   
   // Moon sign (second strongest)
   if (astroState.moonSign) {
@@ -2152,7 +2152,7 @@ export function calculateElementalProfile(
   };
   
   // Sun sign (strongest influence)
-  elementalCounts[getZodiacElementalInfluence(astroState.sunSign!)] += 3;
+  elementalCounts[getZodiacElementalInfluence(astroState.sunSign ?? undefined)] += 3;
   
   // Moon sign (second strongest)
   if (astroState.moonSign) {

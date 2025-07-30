@@ -5,9 +5,10 @@
  * and domain-specific configurations to ensure proper setup.
  */
 
-import { ESLint } from 'eslint';
 import { readFileSync } from 'fs';
 import path from 'path';
+
+import { ESLint } from 'eslint';
 
 describe('ESLint Configuration Validation', () => {
   let eslint: ESLint;

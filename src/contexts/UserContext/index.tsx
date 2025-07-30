@@ -86,7 +86,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   };
 
   useEffect(() => {
-    loadProfile();
+    void loadProfile();
   }, []);
 
   const value = { 

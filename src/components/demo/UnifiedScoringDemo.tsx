@@ -109,7 +109,7 @@ export default function UnifiedScoringDemo() {
   };
 
   useEffect(() => {
-    runScoring();
+    void runScoring();
   }, []);
 
   const formatScore = (score: number) => {

@@ -5,11 +5,13 @@
  * and quality gates to ensure the system works end-to-end.
  */
 
-import { LintingProgressTracker } from '../LintingProgressTracker';
-import { LintingCampaignIntegration } from '../LintingCampaignIntegration';
-import { LintingQualityGates } from '../LintingQualityGates';
 import { execSync } from 'child_process';
 import { writeFileSync, readFileSync, existsSync } from 'fs';
+
+import { LintingCampaignIntegration } from '../LintingCampaignIntegration';
+import { LintingProgressTracker } from '../LintingProgressTracker';
+import { LintingQualityGates } from '../LintingQualityGates';
+
 
 // Mock dependencies
 jest.mock('child_process');

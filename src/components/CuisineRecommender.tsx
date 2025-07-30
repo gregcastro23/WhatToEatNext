@@ -946,7 +946,7 @@ export default function CuisineRecommender() {
   // ========== EFFECTS ==========
 
   useEffect(() => {
-    loadCuisineData();
+    void loadCuisineData();
   }, [loadCuisineData]);
 
   // ========== EVENT HANDLERS ==========
@@ -980,7 +980,7 @@ export default function CuisineRecommender() {
 
   const handleRetry = useCallback(() => {
     setError(null);
-    loadCuisineData();
+    void loadCuisineData();
   }, [loadCuisineData]);
 
   // ========== ADVANCED SEARCH AND FILTERING HANDLERS ==========

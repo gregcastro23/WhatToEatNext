@@ -61,7 +61,7 @@ export class EnhancedAstrologyService {
     const cacheKey = date.toISOString().split('T')[0];
     
     if (this.cache.has(cacheKey)) {
-      const cached = this.cache.get(cacheKey)!;
+      const cached = this.cache.get(cacheKey) ?? undefined;
       if (Date.now() - cached.lastUpdated.getTime() < this.cacheExpiration) {
         logger.debug('Using cached enhanced astrological data');
         return cached;

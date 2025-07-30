@@ -365,7 +365,7 @@ export default function CuisineRecommender() {
 
   // Load cuisines when component mounts or astrological state changes
   useEffect(() => {
-    loadCuisines();
+    void loadCuisines();
   }, [currentZodiac, lunarPhase]);
 
   // Phase 2D: Advanced Intelligence Systems Integration

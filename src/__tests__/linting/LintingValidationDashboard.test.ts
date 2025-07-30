@@ -5,10 +5,11 @@
  * domain-specific tracking and performance monitoring.
  */
 
-import { LintingValidationDashboard, LintingMetrics, ValidationResult } from '../../services/linting/LintingValidationDashboard';
-import { LintingAlertingSystem } from '../../services/linting/LintingAlertingSystem';
 import { execSync } from 'child_process';
 import { writeFileSync, readFileSync, existsSync, unlinkSync } from 'fs';
+
+import { LintingAlertingSystem } from '../../services/linting/LintingAlertingSystem';
+import { LintingValidationDashboard, LintingMetrics, ValidationResult } from '../../services/linting/LintingValidationDashboard';
 
 // Mock child_process
 jest.mock('child_process');

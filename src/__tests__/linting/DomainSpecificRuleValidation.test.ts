@@ -10,10 +10,11 @@
  * Requirements: 4.1, 4.2, 4.3, 4.4
  */
 
-const { DomainSpecificRuleValidator } = require('../../scripts/validateDomainSpecificRules.cjs');
 import { execSync } from 'child_process';
 import { existsSync, writeFileSync, readFileSync } from 'fs';
 import { join } from 'path';
+
+const { DomainSpecificRuleValidator } = require('../../scripts/validateDomainSpecificRules.cjs');
 
 describe('Domain-Specific Rule Validation', () => {
   let validator: DomainSpecificRuleValidator;

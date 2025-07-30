@@ -228,11 +228,11 @@ export const useCampaignMonitoring = (
   // Setup auto-refresh
   useEffect(() => {
     // Initial data load
-    refreshData();
+    void refreshData();
 
     // Setup auto-refresh if enabled
     if (autoRefresh) {
-      refreshIntervalRef.current = setInterval(refreshData, refreshInterval);
+      refreshIntervalRef.current = setInterval(() => void refreshData(), refreshInterval);
     }
 
     // Cleanup
@@ -289,10 +289,10 @@ export const useCampaignStatus = (campaignId: string) => {
   }, [campaignId]);
 
   useEffect(() => {
-    refreshStatus();
+    void refreshStatus();
     
     // Refresh every 10 seconds for active campaigns
-    const interval = setInterval(refreshStatus, 10000);
+    const interval = setInterval(() => void refreshStatus(), 10000);
     return () => clearInterval(interval);
   }, [refreshStatus]);
 
@@ -321,10 +321,10 @@ export const useSystemHealth = () => {
   }, []);
 
   useEffect(() => {
-    refreshHealth();
+    void refreshHealth();
     
     // Refresh every 30 seconds
-    const interval = setInterval(refreshHealth, 30000);
+    const interval = setInterval(() => void refreshHealth(), 30000);
     return () => clearInterval(interval);
   }, [refreshHealth]);
 

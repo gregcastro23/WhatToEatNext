@@ -209,7 +209,7 @@ const IngredientRecommenderMigrated: React.FC = () => {
       }
     };
     
-    loadAstrologicalData();
+    void loadAstrologicalData();
   }, [servicesLoading, astrologyService, chakraService]);
 
   // Load ingredient data when services are available
@@ -252,7 +252,7 @@ const IngredientRecommenderMigrated: React.FC = () => {
       }
     };
     
-    loadIngredientData();
+    void loadIngredientData();
   }, [servicesLoading, ingredientService]);
 
   // Load ingredient recommendations when services and data are available
@@ -305,7 +305,7 @@ const IngredientRecommenderMigrated: React.FC = () => {
       }
     };
     
-    loadRecommendations();
+    void loadRecommendations();
   }, [
     servicesLoading,
     recommendationService,

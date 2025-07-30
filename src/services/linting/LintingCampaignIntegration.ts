@@ -5,10 +5,12 @@
  * for comprehensive quality improvement campaigns.
  */
 
-import { LintingProgressTracker, LintingProgressReport, CampaignIntegrationData } from './LintingProgressTracker';
-import { logger } from '@/utils/logger';
 import { execSync } from 'child_process';
 import { writeFileSync, readFileSync, existsSync } from 'fs';
+
+import { logger } from '@/utils/logger';
+
+import { LintingProgressTracker, LintingProgressReport, CampaignIntegrationData } from './LintingProgressTracker';
 
 /**
  * Linting campaign configuration

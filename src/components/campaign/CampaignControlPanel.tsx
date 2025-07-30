@@ -48,10 +48,10 @@ export const CampaignControlPanel: React.FC<CampaignControlPanelProps> = ({
       }
     };
 
-    loadControlPanel();
+    void loadControlPanel();
     
     // Refresh every 30 seconds
-    const interval = setInterval(loadControlPanel, 30000);
+    const interval = setInterval(() => void loadControlPanel(), 30000);
     return () => clearInterval(interval);
   }, []);
 

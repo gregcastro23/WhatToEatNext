@@ -151,14 +151,14 @@ export const getAllIngredients = (): EnhancedIngredient[] => {
   
   // Filter out ingredients without proper astrological profiles (using optional chaining)
   const validIngredients = allIngredients.filter(ing => 
-    ing.astrologicalProfile?.elementalAffinity && 
-    ing.astrologicalProfile?.rulingPlanets
+    ing.astrologicalProfile.elementalAffinity && 
+    ing.astrologicalProfile.rulingPlanets
   );
   
   log.info(`Total ingredients: ${allIngredients.length}, Valid ingredients: ${validIngredients.length}`);
   if (validIngredients.length < allIngredients.length) {
     const filteredOut = allIngredients.filter(ing => 
-      !(ing.astrologicalProfile?.elementalAffinity && ing.astrologicalProfile?.rulingPlanets)
+      !(ing.astrologicalProfile.elementalAffinity && ing.astrologicalProfile.rulingPlanets)
     );
     log.info('Filtered out:', { count: filteredOut.length, type: 'ingredients' });
     log.info('Categories of filtered ingredients:', { categories: [...new Set(filteredOut.map(ing => ing.category))].join(', ') });
@@ -202,7 +202,6 @@ function standardizeIngredient(ingredient: EnhancedIngredient): EnhancedIngredie
     rulingPlanets: standardized.category?.toLowerCase().includes('vegetable') ? 
                    ['Moon', 'Venus'] : ['Mercury']
   };
-  }
   
   // Ensure favorableZodiac exists
   if (!standardized.astrologicalProfile.favorableZodiac) {

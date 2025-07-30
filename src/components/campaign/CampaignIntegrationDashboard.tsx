@@ -61,10 +61,10 @@ export const CampaignIntegrationDashboard: React.FC<CampaignIntegrationDashboard
       setDebugSessions(sessions);
     };
 
-    loadHealthData();
+    void loadHealthData();
     
     // Refresh every minute
-    const interval = setInterval(loadHealthData, 60000);
+    const interval = setInterval(() => void loadHealthData(), 60000);
     return () => clearInterval(interval);
   }, []);
 
