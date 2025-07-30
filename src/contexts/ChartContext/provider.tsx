@@ -1,11 +1,12 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { log } from '@/services/LoggingService';
+
 
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 import { getCurrentSeason } from '@/data/integrations/seasonal';
 import { getLatestAstrologicalState } from '@/services/AstrologicalService';
+import { log } from '@/services/LoggingService';
 import { calculatePlanetaryPositions, calculateAspects } from '@/utils/astrologyUtils';
 
 import { ChartContext } from './context';

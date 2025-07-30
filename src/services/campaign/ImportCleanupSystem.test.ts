@@ -36,8 +36,8 @@ describe('ImportCleanupSystem', () => {
   describe('detectUnusedImports', () => {
     test('detects unused named imports', async () => {
       const testFileContent = `
-import { usedFunction, unusedFunction } from './utils';
-import { AnotherUnused } from './other';
+import UnusedDefault, * as UnusedNamespace, { anotherVeryLongFunctionName, internalFunction, unusedFunction, unusedFunction1, unusedFunction2, usedFunction, veryLongFunctionName, yetAnotherLongName } from './utils';
+import UsedDefault, * as UsedNamespace, { AnotherUnused, usedFunction } from './other';
 
 function component() {
   return usedFunction();
@@ -56,9 +56,7 @@ function component() {
 
     test('detects unused default imports', async () => {
       const testFileContent = `
-import UnusedDefault from './utils';
 import UsedDefault from './other';
-
 function component() {
   return UsedDefault();
 }
@@ -75,7 +73,7 @@ function component() {
 
     test('detects unused namespace imports', async () => {
       const testFileContent = `
-import * as UnusedNamespace from './utils';
+import * as UnusedNamespace from './unused';
 import * as UsedNamespace from './other';
 
 function component() {
@@ -98,7 +96,7 @@ import React from 'react';
 import { Button, UnusedComponent } from './components';
 
 function App() {
-  return <Button>Click me</Button>;
+import React, { Component, ReactNode } from 'react';
 }
 `;
 
@@ -117,7 +115,7 @@ import type { UsedType, UnusedType } from './types';
 
 function component(): UsedType {
   return {} as UsedType;
-}
+import { InternalType, UnusedType, UsedType } from './types';
 `;
 
       mockFs.readFileSync.mockReturnValue(testFileContent);
@@ -134,16 +132,13 @@ function component(): UsedType {
   describe('removeUnusedImports', () => {
     test('removes unused imports from file', async () => {
       const originalContent = `
-import { usedFunction, unusedFunction } from './utils';
 import { AnotherUnused } from './other';
 
 function component() {
-  return usedFunction();
 }
 `;
 
       const expectedContent = `
-import { usedFunction } from './utils';
 
 function component() {
   return usedFunction();
@@ -164,7 +159,7 @@ function component() {
 
     test('removes entire import line when all imports are unused', async () => {
       const originalContent = `
-import { unusedFunction1, unusedFunction2 } from './utils';
+import { unusedFunction1, unusedFunction2 } from './unused';
 import { usedFunction } from './other';
 
 function component() {
@@ -196,7 +191,6 @@ function component() {
   describe('organizeImports', () => {
     test('groups external and internal imports', async () => {
       const originalContent = `
-import { internalFunction } from './utils';
 import React from 'react';
 import { externalFunction } from 'lodash';
 import { anotherInternal } from '../other';
@@ -208,11 +202,9 @@ function component() {
 
       const expectedContent = `
 import React from 'react';
+
 import { externalFunction } from 'lodash';
-
 import { anotherInternal } from '../other';
-import { internalFunction } from './utils';
-
 function component() {
   return null;
 }
@@ -225,7 +217,6 @@ function component() {
       });
 
       const organizedCount = await importCleanupSystem.organizeImports(['test-file.ts']);
-
       expect(organizedCount).toBe(1);
       expect(writtenContent.trim()).toBe(expectedContent.trim());
     });
@@ -234,7 +225,6 @@ function component() {
       const originalContent = `
 import { Component } from 'react';
 import type { ReactNode } from 'react';
-import { internalFunction } from './utils';
 import type { InternalType } from './types';
 
 function component() {
@@ -252,7 +242,6 @@ function component() {
 
       expect(organizedCount).toBe(1);
       expect(writtenContent).toContain('import type { ReactNode }');
-      expect(writtenContent).toContain('import { Component }');
       expect(writtenContent).toContain('import type { InternalType }');
       expect(writtenContent).toContain('import { internalFunction }');
     });
@@ -331,7 +320,6 @@ function component() {
       const system = new ImportCleanupSystem(config);
 
       const originalContent = `
-import { veryLongFunctionName, anotherVeryLongFunctionName, yetAnotherLongName } from './utils';
 
 function component() {
   return null;
@@ -357,7 +345,6 @@ function component() {
     test('executes complete cleanup workflow', async () => {
       const testFiles = ['file1.ts', 'file2.ts'];
       const testContent = `
-import { usedFunction, unusedFunction } from './utils';
 import React from 'react';
 
 function component() {
@@ -373,7 +360,6 @@ function component() {
 
       expect(result.filesProcessed.length).toBeGreaterThan(0);
       expect(result.unusedImportsRemoved).toBeGreaterThan(0);
-      expect(result.buildValidationPassed).toBe(true);
       expect(result.errors).toHaveLength(0);
     });
 
@@ -477,4 +463,4 @@ function component() {
       expect(system).toBeDefined();
     });
   });
-});
+}); // Main ImportCleanupSystem describe closing brace

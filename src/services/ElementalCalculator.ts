@@ -1,6 +1,6 @@
 import { getLatestAstrologicalState } from '@/services/AstrologicalService';
-import { createLogger } from '@/utils/logger';
 import { log } from '@/services/LoggingService';
+import { createLogger } from '@/utils/logger';
 
 import { DEFAULT_ELEMENTAL_PROPERTIES } from '../constants/elementalConstants';
 import { planetInfo, signInfo } from '../data/astrology';

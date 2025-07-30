@@ -29,7 +29,7 @@ interface RecommendationItem {
 
 import { Clock, Flame, Droplets, Mountain, Wind, Leaf, ThermometerSun, ThermometerSnowflake, Pill, Sparkles, Star, RefreshCw } from 'lucide-react';
 import React, { useState, useEffect, useCallback, ReactNode } from 'react';
-import { log } from '@/services/LoggingService';
+
 
 
 
@@ -45,6 +45,7 @@ import allIngredients from '@/data/ingredients';
 import { getCurrentSeason } from '@/data/integrations/seasonal';
 import { useCurrentChart } from '@/hooks/useCurrentChart';
 import { useTarotAstrologyData } from '@/hooks/useTarotAstrologyData';
+import { log } from '@/services/LoggingService';
 import { RecommendationAdapter } from '@/services/RecommendationAdapter';
 import { LunarPhase, LunarPhaseWithSpaces, PlanetaryAspect } from '@/types/alchemy';
 import { createAstrologicalBridge } from '@/types/bridges/astrologicalBridge';
@@ -659,7 +660,7 @@ const FoodRecommender: React.FC = () => {
                                         )}
                                     
                                     {String(/* ✅ Pattern GG-6: Safe property access for nutritional information */)}
-                                    {Boolean((ingredient as Record<string, unknown>).nutritionalInfo) ? (
+                                    {(ingredient as Record<string, unknown>).nutritionalInfo ? (
                                         <div className="mt-2 mb-3">
                                             <h5 className="text-xs text-gray-500 mb-1">Nutritional Information</h5>
                                             <div className="grid grid-cols-2 gap-2">
@@ -692,7 +693,7 @@ const FoodRecommender: React.FC = () => {
                                     ) : null}
 
                                     {/* ✅ Pattern GG-6: Safe property access for sensory profile */}
-                                    {Boolean(!(ingredient as Record<string, unknown>).nutritionalInfo && (ingredient as Record<string, unknown>).sensoryProfile) ? (
+                                    {!(ingredient as Record<string, unknown>).nutritionalInfo && (ingredient as Record<string, unknown>).sensoryProfile ? (
                                         <div className="mt-2 mb-3">
                                             <h5 className="text-xs text-gray-500 mb-1">Flavor Profile</h5>
                                             <div className="flex flex-wrap gap-1">

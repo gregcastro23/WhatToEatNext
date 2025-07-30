@@ -8,6 +8,7 @@
  */
 
 import { execSync } from 'child_process';
+
 import { log } from '@/services/LoggingService';
 
 import { UnusedVariableProcessor } from './UnusedVariableProcessor';

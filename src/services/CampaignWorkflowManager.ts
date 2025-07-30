@@ -7,6 +7,7 @@
  */
 
 import { log } from '@/services/LoggingService';
+
 import {
   CampaignConfig,
   CampaignPhase,
@@ -66,7 +67,7 @@ export interface ToolTemplate {
 export interface ParameterTemplate {
   type: 'string' | 'number' | 'boolean';
   description: string;
-  defaultValue: any;
+  defaultValue: unknown;
   required: boolean;
   validation?: string; // Validation rule description
 }
@@ -91,7 +92,7 @@ export interface WorkflowStep {
   description: string;
   type: 'template_selection' | 'configuration' | 'validation' | 'dry_run' | 'approval' | 'execution';
   status: 'pending' | 'in_progress' | 'completed' | 'skipped' | 'failed';
-  data?: any;
+  data?: Record<string, unknown>;
   validationRules?: ValidationRule[];
 }
 
@@ -259,7 +260,7 @@ export class CampaignWorkflowManager {
   /**
    * Complete current workflow step
    */
-  async completeWorkflowStep(workflowId: string, stepData?: any): Promise<boolean> {
+  async completeWorkflowStep(workflowId: string, stepData?: Record<string, unknown>): Promise<boolean> {
     const workflow = this.workflows.get(workflowId);
     if (!workflow) return false;
 
@@ -819,7 +820,7 @@ export class CampaignWorkflowManager {
           Object.entries(toolTemplate.parameters).map(([key, param]) => [key, param.defaultValue])
         ),
         batchSize: toolTemplate.batchSize,
-        safetyLevel: toolTemplate.safetyLevel as any
+        safetyLevel: toolTemplate.safetyLevel as string
       })),
       successCriteria: phaseTemplate.successCriteria,
       safetyCheckpoints: []
@@ -843,7 +844,7 @@ export class CampaignWorkflowManager {
     };
   }
 
-  private async analyzeToolImpact(tool: any): Promise<{
+  private async analyzeToolImpact(tool: Record<string, unknown>): Promise<{
     files: string[];
     changes: number;
     issues: string[];
@@ -858,7 +859,7 @@ export class CampaignWorkflowManager {
     };
   }
 
-  private async restoreFiles(parameters: any): Promise<void> {
+  private async restoreFiles(parameters: Record<string, unknown>): Promise<void> {
     // Mock implementation
     log.info('Restoring files with parameters:', parameters);
   }
@@ -873,7 +874,7 @@ export class CampaignWorkflowManager {
     log.info('Rebuilding project...');
   }
 
-  private async validateRollback(parameters: any): Promise<void> {
+  private async validateRollback(parameters: Record<string, unknown>): Promise<void> {
     // Mock implementation
     log.info('Validating rollback with parameters:', parameters);
   }

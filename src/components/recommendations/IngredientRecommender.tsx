@@ -1,57 +1,45 @@
-import { Flame, Droplets, Mountain, Wind, Info, Clock, Tag, Leaf, X, ChevronDown, ChevronUp, Beaker, Settings } from 'lucide-react';
+// React imports
 import { useEffect, useState, useMemo, useCallback } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 
+// External libraries
+import { Flame, Droplets, Mountain, Wind, ChevronDown, ChevronUp, Beaker } from 'lucide-react';
 
-
-import { ingredientCategories } from "@/data/ingredientCategories";
+// Types
 import type { 
-  ElementalProperties, 
   Element, 
-  AstrologicalState, 
-  ChakraEnergies,
-  AlchemicalProperties,
-  UnifiedFlavorProfile 
+  AstrologicalState
 } from "@/types";
-import { createAstrologicalBridge } from '@/types/bridges/astrologicalBridge';
 
-import { normalizeChakraKey } from '../../constants/chakraSymbols';
-import { useFlavorEngine } from '../../contexts/FlavorEngineContext';
-import { herbsCollection, oilsCollection, vinegarsCollection, grainsCollection } from '../../data/ingredients';
-import { useAlchemicalRecommendations } from '../../hooks/useAlchemicalRecommendations';
-import { useAstrologicalState } from '../../hooks/useAstrologicalState';
-import { ElementalCalculator } from '../../services/ElementalCalculator';
-import { enhancedRecommendationService, EnhancedRecommendationResult } from '../../services/EnhancedRecommendationService';
+// Utils
+import { logger } from '@/utils/logger';
 import { 
   getChakraBasedRecommendations, 
   GroupedIngredientRecommendations, 
-  getIngredientRecommendations, 
   IngredientRecommendation,
   EnhancedIngredientRecommendation 
 } from '../../utils/ingredientRecommender';
+
+// Services
+import { enhancedRecommendationService, EnhancedRecommendationResult } from '../../services/EnhancedRecommendationService';
+
+// Hooks
+import { useFlavorEngine } from '../../contexts/FlavorEngineContext';
+import { useAlchemicalRecommendations } from '../../hooks/useAlchemicalRecommendations';
+import { useAstrologicalState } from '../../hooks/useAstrologicalState';
+
+// Data
+import { herbsCollection, oilsCollection, vinegarsCollection } from '../../data/ingredients';
+
+// Components
 import { IngredientCard } from '../IngredientCard';
 
-
-// Import the useFlavorEngine hook from our new context
-// TODO: Fix CSS module import - was: import from "./IngredientRecommender?.module?.css.ts"
-
-
+// Styles
 import styles from './CookingMethods.module.css';
 /**
  * Maps planets to their elemental influences (diurnal and nocturnal elements)
  */
-const planetaryElements: Record<string, { diurnal: Element, nocturnal: Element }> = {
-  'Sun': { diurnal: 'Fire', nocturnal: 'Fire' },
-  'Moon': { diurnal: 'Water', nocturnal: 'Water' },
-  'Mercury': { diurnal: 'Air', nocturnal: 'Earth' },
-  'Venus': { diurnal: 'Water', nocturnal: 'Earth' },
-  'Mars': { diurnal: 'Fire', nocturnal: 'Water' },
-  'Jupiter': { diurnal: 'Air', nocturnal: 'Fire' },
-  'Saturn': { diurnal: 'Air', nocturnal: 'Earth' },
-  'Uranus': { diurnal: 'Water', nocturnal: 'Air' },
-  'Neptune': { diurnal: 'Water', nocturnal: 'Water' },
-  'Pluto': { diurnal: 'Earth', nocturnal: 'Water' }
-};
+// Removed unused variable: planetaryElements
 
 // Chakra Indicator Component
 interface ChakraIndicatorProps {
@@ -107,16 +95,7 @@ const ChakraIndicator: React.FC<ChakraIndicatorProps> = ({ chakra, energyLevel, 
   );
 };
 
-// Define a styles object for animations and custom styles
-const customStyles = {
-  '@keyframes fadeIn': {
-    '0%': { opacity: 0 },
-    '100%': { opacity: 1 }
-  },
-  animateFadeIn: {
-    animation: 'fadeIn 0.3s ease-in-out'
-  }
-};
+// Removed unused styles object
 
 // Define category display names
 const CATEGORY_DISPLAY_NAMES: { [key: string]: string } = {
@@ -169,7 +148,7 @@ export default function IngredientRecommender() {
   // States for selected item and expansion
   const [selectedIngredient, setSelectedIngredient] = useState<IngredientRecommendation | null>(null);
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
-  const [activeCategory, setActiveCategory] = useState<string>('proteins');
+  const [_activeCategory, setActiveCategory] = useState<string>('proteins');
   
   // Category organization states
   const [selectedCategories, setSelectedCategories] = useState<string[]>(['proteins', 'vegetables', 'herbs', 'spices']);
@@ -184,14 +163,14 @@ export default function IngredientRecommender() {
   
   // Enhanced recommendations state
   const [enhancedRecommendations, setEnhancedRecommendations] = useState<EnhancedRecommendationResult | null>(null);
-  const [showEnhancedFeatures, setShowEnhancedFeatures] = useState(false);
-  const [showSensoryProfiles, setShowSensoryProfiles] = useState(false);
-  const [showAlchemicalProperties, setShowAlchemicalProperties] = useState(false);
+  const [showEnhancedFeatures, _setShowEnhancedFeatures] = useState(false);
+  const [_showSensoryProfiles, _setShowSensoryProfiles] = useState(false);
+  const [_showAlchemicalProperties, _setShowAlchemicalProperties] = useState(false);
   
   // Flavor compatibility UI state
   const [showFlavorCompatibility, setShowFlavorCompatibility] = useState(false);
   const [selectedIngredientForComparison, setSelectedIngredientForComparison] = useState<IngredientRecommendation | null>(null);
-  const [comparisonIngredients, setComparisonIngredients] = useState<IngredientRecommendation[]>([]);
+  const [comparisonIngredients, _setComparisonIngredients] = useState<IngredientRecommendation[]>([]);
   
   // Add a loading state for component-level loading management
   const [isComponentLoading, setIsComponentLoading] = useState(true);
@@ -201,9 +180,9 @@ export default function IngredientRecommender() {
   const alchemicalHookResult = useAlchemicalRecommendations({ 
     mode: 'standard',
     limit: 300 
-  } as any);
+  });
   const foodRecommendations = (alchemicalHookResult as unknown as Record<string, unknown>).enhancedRecommendations;
-  const chakraEnergies = (alchemicalHookResult as unknown as Record<string, unknown>).chakraEnergies;
+  const _chakraEnergies = (alchemicalHookResult as unknown as Record<string, unknown>).chakraEnergies;
   const foodLoading = (alchemicalHookResult as unknown as Record<string, unknown>).loading || false;
   const foodError = (alchemicalHookResult as unknown as Record<string, unknown>).error;
   const refreshRecommendations = (alchemicalHookResult as unknown as Record<string, unknown>).refreshRecommendations;
@@ -304,7 +283,7 @@ export default function IngredientRecommender() {
         
         setEnhancedRecommendations(result);
       } catch (err) {
-        console.error('Error loading enhanced recommendations:', err);
+        logger.error('Error loading enhanced recommendations:', err);
       }
     }
   }, [astroLoading, astroError, showEnhancedFeatures, contextChakraEnergies, planetaryPositions, currentZodiac]);
@@ -329,7 +308,7 @@ export default function IngredientRecommender() {
             ? rawRecommendations 
             : {};
         } catch (error) {
-          console.warn('Error getting chakra recommendations:', error);
+          logger.warn('Error getting chakra recommendations:', error);
           chakraRecommendations = {};
         }
       }
@@ -363,7 +342,7 @@ export default function IngredientRecommender() {
       setAstroRecommendations(convertedRecommendations as unknown as GroupedIngredientRecommendations); // Pattern HH-3: Safe type conversion
       
     } catch (error) {
-      console.error('Error generating recommendations:', error);
+      logger.error('Error generating recommendations:', error);
     }
   }, [astroLoading, foodLoading, contextChakraEnergies]);
   
@@ -510,7 +489,7 @@ export default function IngredientRecommender() {
     
     // Enhance score based on planetary influences
     if (planetaryPositions && Object.keys(planetaryPositions).length > 0) {
-      Object.entries(planetaryPositions).forEach(([planet, position]) => {
+      Object.entries(planetaryPositions).forEach(([planet, _position]) => {
         const planetElement = getPlanetaryElement(planet);
         if (planetElement && ingredient.elementalProperties?.[planetElement]) {
           score += (ingredient.elementalProperties[planetElement] || 0) * 0.1;
@@ -589,7 +568,7 @@ export default function IngredientRecommender() {
   };
 
   // Helper function to determine category from ingredient name
-  const determineCategoryArrow = (name: string): string => {
+  const _determineCategoryArrow = (name: string): string => {
     const lowercaseName = name.toLowerCase();
     
     // Proteins
@@ -654,7 +633,7 @@ export default function IngredientRecommender() {
   };
 
   // Helper function to check if ingredients are similar (for deduplication)
-  const areSimilarIngredients = (name1: string, name2: string): boolean => {
+  const _areSimilarIngredients = (name1: string, name2: string): boolean => {
     if (!name1 || !name2) return false;
     
     const normalize = (str: string) => str.toLowerCase().trim().replace(/\s+/g, ' ');
@@ -717,9 +696,9 @@ export default function IngredientRecommender() {
         if (
           name?.includes?.('beef') || name?.includes?.('chicken') || 
           name?.includes?.('pork') || name?.includes?.('lamb') || 
-          (Array.isArray(name) ? name.includes('fish') : name === 'fish') || (Array.isArray(name) ? name.includes('seafood') : name === 'seafood') ||
-          (Array.isArray(name) ? name.includes('tofu') : name === 'tofu') || (Array.isArray(name) ? name.includes('tempeh') : name === 'tempeh') ||
-          (Array.isArray(name) ? name.includes('seitan') : name === 'seitan') || (Array.isArray(name) ? name.includes('protein') : name === 'protein') ||
+          name?.includes('fish') || name?.includes('seafood') ||
+          name?.includes('tofu') || name?.includes('tempeh') ||
+          name?.includes('seitan') || name?.includes('protein') ||
           ingredient.category?.toLowerCase() === 'protein' ||
           ingredient.category?.toLowerCase() === 'proteins'
         ) {
@@ -733,20 +712,20 @@ export default function IngredientRecommender() {
           // Exclude common vegetable peppers
           (name?.includes?.('pepper') && 
            !name?.includes?.('bell pepper') && 
-           (Array.isArray(name) ? !name.includes('sweet pepper') : name !== 'sweet pepper') && 
-           (Array.isArray(name) ? !name.includes('jalapeno') : name !== 'jalapeno') && 
-           (Array.isArray(name) ? !name.includes('poblano') : name !== 'poblano') && 
-           (Array.isArray(name) ? !name.includes('anaheim') : name !== 'anaheim') && 
-           (Array.isArray(name) ? !name.includes('banana pepper') : name !== 'banana pepper') && 
-           (Array.isArray(name) ? !name.includes('chili pepper') : name !== 'chili pepper') && 
-           (Array.isArray(name) ? !name.includes('paprika') : name !== 'paprika')) || 
-          (Array.isArray(name) ? name.includes('cinnamon') : name === 'cinnamon') || 
-          (Array.isArray(name) ? name.includes('nutmeg') : name === 'nutmeg') || 
-          (Array.isArray(name) ? name.includes('cumin') : name === 'cumin') || 
-          (Array.isArray(name) ? name.includes('turmeric') : name === 'turmeric') || 
-          (Array.isArray(name) ? name.includes('cardamom') : name === 'cardamom') ||
-          (Array.isArray(name) ? name.includes('spice') : name === 'spice') || 
-          (Array.isArray(name) ? name.includes('seasoning') : name === 'seasoning')
+           !name?.includes('sweet pepper') && 
+           !name?.includes('jalapeno') && 
+           !name?.includes('poblano') && 
+           !name?.includes('anaheim') && 
+           !name?.includes('banana pepper') && 
+           !name?.includes('chili pepper') && 
+           !name?.includes('paprika')) || 
+          name?.includes('cinnamon') || 
+          name?.includes('nutmeg') || 
+          name?.includes('cumin') || 
+          name?.includes('turmeric') || 
+          name?.includes('cardamom') ||
+          name?.includes('spice') || 
+          name?.includes('seasoning')
         ) {
           categories.spices.push({
             ...ingredient,
@@ -755,14 +734,14 @@ export default function IngredientRecommender() {
         }
         // Vegetable Peppers
         else if (
-          (Array.isArray(name) ? name.includes('bell pepper') : name === 'bell pepper') || 
-          (Array.isArray(name) ? name.includes('sweet pepper') : name === 'sweet pepper') || 
-          (Array.isArray(name) ? name.includes('jalapeno') : name === 'jalapeno') || 
-          (Array.isArray(name) ? name.includes('poblano') : name === 'poblano') || 
-          (Array.isArray(name) ? name.includes('anaheim') : name === 'anaheim') || 
-          (Array.isArray(name) ? name.includes('banana pepper') : name === 'banana pepper') || 
-          (Array.isArray(name) ? name.includes('chili pepper') : name === 'chili pepper') || 
-          (Array.isArray(name) ? name.includes('paprika') : name === 'paprika')
+          name?.includes('bell pepper') || 
+          name?.includes('sweet pepper') || 
+          name?.includes('jalapeno') || 
+          name?.includes('poblano') || 
+          name?.includes('anaheim') || 
+          name?.includes('banana pepper') || 
+          name?.includes('chili pepper') || 
+          name?.includes('paprika')
         ) {
           categories.vegetables.push({
             ...ingredient,
@@ -784,7 +763,7 @@ export default function IngredientRecommender() {
           });
         }
         // Herbs
-        else if (ingredient.category === 'herb' || (Array.isArray(name) ? name.includes('herb') : name === 'herb') || (herbNames || []).some(herb => name?.includes?.(String(herb || '').toLowerCase()))) {
+        else if (ingredient.category === 'herb' || name?.includes('herb') || (herbNames || []).some(herb => name?.includes?.(String(herb || '').toLowerCase()))) {
           categories.herbs.push({
             ...ingredient,
             matchScore: ingredient.score || 0.5
@@ -800,14 +779,14 @@ export default function IngredientRecommender() {
             });
           } else {
             if (
-              (Array.isArray(name) ? name.includes('ginger') : name === 'ginger') || (Array.isArray(name) ? name.includes('garlic') : name === 'garlic') || (Array.isArray(name) ? name.includes('onion') : name === 'onion') || 
-              (Array.isArray(name) ? name.includes('carrot') : name === 'carrot') || (Array.isArray(name) ? name.includes('broccoli') : name === 'broccoli') || (Array.isArray(name) ? name.includes('tomato') : name === 'tomato') ||
-              (Array.isArray(name) ? name.includes('zucchini') : name === 'zucchini') || (Array.isArray(name) ? name.includes('cucumber') : name === 'cucumber') || (Array.isArray(name) ? name.includes('lettuce') : name === 'lettuce') ||
-              (Array.isArray(name) ? name.includes('spinach') : name === 'spinach') || (Array.isArray(name) ? name.includes('kale') : name === 'kale') || (Array.isArray(name) ? name.includes('cabbage') : name === 'cabbage') ||
-              (Array.isArray(name) ? name.includes('cauliflower') : name === 'cauliflower') || (Array.isArray(name) ? name.includes('celery') : name === 'celery') || (Array.isArray(name) ? name.includes('potato') : name === 'potato') ||
-              (Array.isArray(name) ? name.includes('squash') : name === 'squash') || (Array.isArray(name) ? name.includes('eggplant') : name === 'eggplant') || (Array.isArray(name) ? name.includes('beet') : name === 'beet') ||
-              (Array.isArray(name) ? name.includes('asparagus') : name === 'asparagus') || (Array.isArray(name) ? name.includes('artichoke') : name === 'artichoke') || (Array.isArray(name) ? name.includes('radish') : name === 'radish') ||
-              (Array.isArray(name) ? name.includes('arugula') : name === 'arugula') || (Array.isArray(name) ? name.includes('turnip') : name === 'turnip') || (Array.isArray(name) ? name.includes('leek') : name === 'leek') ||
+              name?.includes('ginger') || name?.includes('garlic') || name?.includes('onion') || 
+              name?.includes('carrot') || name?.includes('broccoli') || name?.includes('tomato') ||
+              name?.includes('zucchini') || name?.includes('cucumber') || name?.includes('lettuce') ||
+              name?.includes('spinach') || name?.includes('kale') || name?.includes('cabbage') ||
+              name?.includes('cauliflower') || name?.includes('celery') || name?.includes('potato') ||
+              name?.includes('squash') || name?.includes('eggplant') || name?.includes('beet') ||
+              name?.includes('asparagus') || name?.includes('artichoke') || name?.includes('radish') ||
+              name?.includes('arugula') || name?.includes('turnip') || name?.includes('leek') ||
               ingredient.category?.toLowerCase() === 'vegetable' || ingredient.category?.toLowerCase() === 'vegetables'
             ) {
               categories.vegetables.push({
@@ -815,8 +794,8 @@ export default function IngredientRecommender() {
                 matchScore: ingredient.score || 0.5
               });
             } else if (
-              (Array.isArray(name) ? name.includes('apple') : name === 'apple') || (Array.isArray(name) ? name.includes('orange') : name === 'orange') || (Array.isArray(name) ? name.includes('lemon') : name === 'lemon') || 
-              (Array.isArray(name) ? name.includes('melon') : name === 'melon') || (Array.isArray(name) ? name.includes('berry') : name === 'berry') || (Array.isArray(name) ? name.includes('pineapple') : name === 'pineapple')
+              name?.includes('apple') || name?.includes('orange') || name?.includes('lemon') || 
+              name?.includes('melon') || name?.includes('berry') || name?.includes('pineapple')
             ) {
               categories.fruits.push({
                 ...ingredient,
@@ -843,7 +822,7 @@ export default function IngredientRecommender() {
         if (categories[targetCategory]) {
           // Check if this item already exists in the category (with improved duplicate detection)
           const existingItemIndex = categories[targetCategory].findIndex(
-            existing => areSimilarIngredients(existing.name, item.name)
+            existing => _areSimilarIngredients(existing.name, item.name)
           );
           
           if (existingItemIndex >= 0) {
@@ -866,7 +845,7 @@ export default function IngredientRecommender() {
     });
     
     // Ensure vinegars are always present by adding them from the collection if needed
-    if (!categories.vinegars || categories.vinegars  || [].length === 0) {
+    if (!categories.vinegars || categories.vinegars.length === 0) {
       categories.vinegars = Object.entries(vinegarsCollection || {}).map(([key, vinegarData]) => {
         const displayName = vinegarData.name || key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
         return {
@@ -887,7 +866,7 @@ export default function IngredientRecommender() {
     }
     
     // Add any missing oils from the oils collection
-    if (!categories.oils || categories.oils  || [].length < 3) {
+    if (!categories.oils || categories.oils.length < 3) {
       const existingOilNames = new Set((categories.oils || []).map(oil => oil.name.toLowerCase()));
       const additionalOils = Object.entries(oilsCollection)
         .filter(([_, oilData]) => 
@@ -930,21 +909,21 @@ export default function IngredientRecommender() {
     
     // Proteins
     if (
-      (Array.isArray(lowercaseName) ? lowercaseName.includes('beef') : lowercaseName === 'beef') || (Array.isArray(lowercaseName) ? lowercaseName.includes('chicken') : lowercaseName === 'chicken') || 
-      (Array.isArray(lowercaseName) ? lowercaseName.includes('pork') : lowercaseName === 'pork') || (Array.isArray(lowercaseName) ? lowercaseName.includes('lamb') : lowercaseName === 'lamb') || 
-      (Array.isArray(lowercaseName) ? lowercaseName.includes('fish') : lowercaseName === 'fish') || (Array.isArray(lowercaseName) ? lowercaseName.includes('seafood') : lowercaseName === 'seafood') ||
-      (Array.isArray(lowercaseName) ? lowercaseName.includes('tofu') : lowercaseName === 'tofu') || (Array.isArray(lowercaseName) ? lowercaseName.includes('tempeh') : lowercaseName === 'tempeh') ||
-      (Array.isArray(lowercaseName) ? lowercaseName.includes('seitan') : lowercaseName === 'seitan') || (Array.isArray(lowercaseName) ? lowercaseName.includes('protein') : lowercaseName === 'protein')
+      lowercaseName.includes('beef') || lowercaseName.includes('chicken') || 
+      lowercaseName.includes('pork') || lowercaseName.includes('lamb') || 
+      lowercaseName.includes('fish') || lowercaseName.includes('seafood') ||
+      lowercaseName.includes('tofu') || lowercaseName.includes('tempeh') ||
+      lowercaseName.includes('seitan') || lowercaseName.includes('protein')
     ) {
       return 'proteins';
     }
     
     // Herbs
     if (
-      (Array.isArray(lowercaseName) ? lowercaseName.includes('basil') : lowercaseName === 'basil') || (Array.isArray(lowercaseName) ? lowercaseName.includes('oregano') : lowercaseName === 'oregano') || 
-      (Array.isArray(lowercaseName) ? lowercaseName.includes('thyme') : lowercaseName === 'thyme') || (Array.isArray(lowercaseName) ? lowercaseName.includes('rosemary') : lowercaseName === 'rosemary') || 
-      (Array.isArray(lowercaseName) ? lowercaseName.includes('mint') : lowercaseName === 'mint') || (Array.isArray(lowercaseName) ? lowercaseName.includes('cilantro') : lowercaseName === 'cilantro') ||
-      (Array.isArray(lowercaseName) ? lowercaseName.includes('sage') : lowercaseName === 'sage') || (Array.isArray(lowercaseName) ? lowercaseName.includes('herb') : lowercaseName === 'herb')
+      lowercaseName.includes('basil') || lowercaseName.includes('oregano') || 
+      lowercaseName.includes('thyme') || lowercaseName.includes('rosemary') || 
+      lowercaseName.includes('mint') || lowercaseName.includes('cilantro') ||
+      lowercaseName.includes('sage') || lowercaseName.includes('herb')
     ) {
       return 'herbs';
     }
@@ -952,80 +931,80 @@ export default function IngredientRecommender() {
     // Spices
     if (
       (lowercaseName.includes('pepper') && 
-       (Array.isArray(lowercaseName) ? !lowercaseName.includes('bell pepper') : lowercaseName !== 'bell pepper') && 
-       (Array.isArray(lowercaseName) ? !lowercaseName.includes('sweet pepper') : lowercaseName !== 'sweet pepper') && 
-       (Array.isArray(lowercaseName) ? !lowercaseName.includes('jalapeno') : lowercaseName !== 'jalapeno') && 
-       (Array.isArray(lowercaseName) ? !lowercaseName.includes('poblano') : lowercaseName !== 'poblano') && 
-       (Array.isArray(lowercaseName) ? !lowercaseName.includes('anaheim') : lowercaseName !== 'anaheim') && 
-       (Array.isArray(lowercaseName) ? !lowercaseName.includes('banana pepper') : lowercaseName !== 'banana pepper') && 
-       (Array.isArray(lowercaseName) ? !lowercaseName.includes('chili pepper') : lowercaseName !== 'chili pepper') && 
-       (Array.isArray(lowercaseName) ? !lowercaseName.includes('paprika') : lowercaseName !== 'paprika')) || 
-      (Array.isArray(lowercaseName) ? lowercaseName.includes('cinnamon') : lowercaseName === 'cinnamon') || 
-      (Array.isArray(lowercaseName) ? lowercaseName.includes('nutmeg') : lowercaseName === 'nutmeg') || 
-      (Array.isArray(lowercaseName) ? lowercaseName.includes('cumin') : lowercaseName === 'cumin') || 
-      (Array.isArray(lowercaseName) ? lowercaseName.includes('turmeric') : lowercaseName === 'turmeric') || 
-      (Array.isArray(lowercaseName) ? lowercaseName.includes('cardamom') : lowercaseName === 'cardamom') ||
-      (Array.isArray(lowercaseName) ? lowercaseName.includes('spice') : lowercaseName === 'spice') || 
-      (Array.isArray(lowercaseName) ? lowercaseName.includes('seasoning') : lowercaseName === 'seasoning')
+       !lowercaseName.includes('bell pepper') && 
+       !lowercaseName.includes('sweet pepper') && 
+       !lowercaseName.includes('jalapeno') && 
+       !lowercaseName.includes('poblano') && 
+       !lowercaseName.includes('anaheim') && 
+       !lowercaseName.includes('banana pepper') && 
+       !lowercaseName.includes('chili pepper') && 
+       !lowercaseName.includes('paprika')) || 
+      lowercaseName.includes('cinnamon') || 
+      lowercaseName.includes('nutmeg') || 
+      lowercaseName.includes('cumin') || 
+      lowercaseName.includes('turmeric') || 
+      lowercaseName.includes('cardamom') ||
+      lowercaseName.includes('spice') || 
+      lowercaseName.includes('seasoning')
     ) {
       return 'spices';
     }
     
     // Vegetable Peppers
     if (
-      (Array.isArray(lowercaseName) ? lowercaseName.includes('bell pepper') : lowercaseName === 'bell pepper') || 
-      (Array.isArray(lowercaseName) ? lowercaseName.includes('sweet pepper') : lowercaseName === 'sweet pepper') || 
-      (Array.isArray(lowercaseName) ? lowercaseName.includes('jalapeno') : lowercaseName === 'jalapeno') || 
-      (Array.isArray(lowercaseName) ? lowercaseName.includes('poblano') : lowercaseName === 'poblano') || 
-      (Array.isArray(lowercaseName) ? lowercaseName.includes('anaheim') : lowercaseName === 'anaheim') || 
-      (Array.isArray(lowercaseName) ? lowercaseName.includes('banana pepper') : lowercaseName === 'banana pepper') || 
-      (Array.isArray(lowercaseName) ? lowercaseName.includes('chili pepper') : lowercaseName === 'chili pepper') || 
-      (Array.isArray(lowercaseName) ? lowercaseName.includes('paprika') : lowercaseName === 'paprika')
+      lowercaseName.includes('bell pepper') || 
+      lowercaseName.includes('sweet pepper') || 
+      lowercaseName.includes('jalapeno') || 
+      lowercaseName.includes('poblano') || 
+      lowercaseName.includes('anaheim') || 
+      lowercaseName.includes('banana pepper') || 
+      lowercaseName.includes('chili pepper') || 
+      lowercaseName.includes('paprika')
     ) {
       return 'vegetables';
     }
     
     // Vinegars
     if (
-      (Array.isArray(lowercaseName) ? lowercaseName.includes('vinegar') : lowercaseName === 'vinegar') || (Array.isArray(lowercaseName) ? lowercaseName.includes('balsamic') : lowercaseName === 'balsamic') || 
-      (Array.isArray(lowercaseName) ? lowercaseName.includes('cider') : lowercaseName === 'cider') || (Array.isArray(lowercaseName) ? lowercaseName.includes('rice wine') : lowercaseName === 'rice wine') || 
-      (Array.isArray(lowercaseName) ? lowercaseName.includes('sherry vinegar') : lowercaseName === 'sherry vinegar') || (Array.isArray(lowercaseName) ? lowercaseName.includes('red wine vinegar') : lowercaseName === 'red wine vinegar') ||
-      (Array.isArray(lowercaseName) ? lowercaseName.includes('white wine vinegar') : lowercaseName === 'white wine vinegar') || (Array.isArray(lowercaseName) ? lowercaseName.includes('champagne vinegar') : lowercaseName === 'champagne vinegar')
+      lowercaseName.includes('vinegar') || lowercaseName.includes('balsamic') || 
+      lowercaseName.includes('cider') || lowercaseName.includes('rice wine') || 
+      lowercaseName.includes('sherry vinegar') || lowercaseName.includes('red wine vinegar') ||
+      lowercaseName.includes('white wine vinegar') || lowercaseName.includes('champagne vinegar')
     ) {
       return 'vinegars';
     }
     
     // Grains
     if (
-      (Array.isArray(lowercaseName) ? lowercaseName.includes('rice') : lowercaseName === 'rice') || (Array.isArray(lowercaseName) ? lowercaseName.includes('pasta') : lowercaseName === 'pasta') || 
-      (Array.isArray(lowercaseName) ? lowercaseName.includes('bread') : lowercaseName === 'bread') || (Array.isArray(lowercaseName) ? lowercaseName.includes('quinoa') : lowercaseName === 'quinoa') || 
-      (Array.isArray(lowercaseName) ? lowercaseName.includes('barley') : lowercaseName === 'barley') || (Array.isArray(lowercaseName) ? lowercaseName.includes('oat') : lowercaseName === 'oat') ||
-      (Array.isArray(lowercaseName) ? lowercaseName.includes('grain') : lowercaseName === 'grain') || (Array.isArray(lowercaseName) ? lowercaseName.includes('wheat') : lowercaseName === 'wheat')
+      lowercaseName.includes('rice') || lowercaseName.includes('pasta') || 
+      lowercaseName.includes('bread') || lowercaseName.includes('quinoa') || 
+      lowercaseName.includes('barley') || lowercaseName.includes('oat') ||
+      lowercaseName.includes('grain') || lowercaseName.includes('wheat')
     ) {
       return 'grains';
     }
     
     // Fruits
     if (
-      (Array.isArray(lowercaseName) ? lowercaseName.includes('apple') : lowercaseName === 'apple') || (Array.isArray(lowercaseName) ? lowercaseName.includes('orange') : lowercaseName === 'orange') || 
-      (Array.isArray(lowercaseName) ? lowercaseName.includes('banana') : lowercaseName === 'banana') || (Array.isArray(lowercaseName) ? lowercaseName.includes('berry') : lowercaseName === 'berry') || 
-      (Array.isArray(lowercaseName) ? lowercaseName.includes('melon') : lowercaseName === 'melon') || (Array.isArray(lowercaseName) ? lowercaseName.includes('pear') : lowercaseName === 'pear') ||
-      (Array.isArray(lowercaseName) ? lowercaseName.includes('grape') : lowercaseName === 'grape') || (Array.isArray(lowercaseName) ? lowercaseName.includes('fruit') : lowercaseName === 'fruit')
+      lowercaseName.includes('apple') || lowercaseName.includes('orange') || 
+      lowercaseName.includes('banana') || lowercaseName.includes('berry') || 
+      lowercaseName.includes('melon') || lowercaseName.includes('pear') ||
+      lowercaseName.includes('grape') || lowercaseName.includes('fruit')
     ) {
       return 'fruits';
     }
     
     // Vegetables
     if (
-      (Array.isArray(lowercaseName) ? lowercaseName.includes('ginger') : lowercaseName === 'ginger') || (Array.isArray(lowercaseName) ? lowercaseName.includes('garlic') : lowercaseName === 'garlic') || (Array.isArray(lowercaseName) ? lowercaseName.includes('onion') : lowercaseName === 'onion') || 
-      (Array.isArray(lowercaseName) ? lowercaseName.includes('carrot') : lowercaseName === 'carrot') || (Array.isArray(lowercaseName) ? lowercaseName.includes('broccoli') : lowercaseName === 'broccoli') || (Array.isArray(lowercaseName) ? lowercaseName.includes('tomato') : lowercaseName === 'tomato') ||
-      (Array.isArray(lowercaseName) ? lowercaseName.includes('zucchini') : lowercaseName === 'zucchini') || (Array.isArray(lowercaseName) ? lowercaseName.includes('cucumber') : lowercaseName === 'cucumber') || (Array.isArray(lowercaseName) ? lowercaseName.includes('lettuce') : lowercaseName === 'lettuce') ||
-      (Array.isArray(lowercaseName) ? lowercaseName.includes('spinach') : lowercaseName === 'spinach') || (Array.isArray(lowercaseName) ? lowercaseName.includes('kale') : lowercaseName === 'kale') || (Array.isArray(lowercaseName) ? lowercaseName.includes('cabbage') : lowercaseName === 'cabbage') ||
-      (Array.isArray(lowercaseName) ? lowercaseName.includes('cauliflower') : lowercaseName === 'cauliflower') || (Array.isArray(lowercaseName) ? lowercaseName.includes('celery') : lowercaseName === 'celery') || (Array.isArray(lowercaseName) ? lowercaseName.includes('potato') : lowercaseName === 'potato') ||
-      (Array.isArray(lowercaseName) ? lowercaseName.includes('squash') : lowercaseName === 'squash') || (Array.isArray(lowercaseName) ? lowercaseName.includes('eggplant') : lowercaseName === 'eggplant') || (Array.isArray(lowercaseName) ? lowercaseName.includes('beet') : lowercaseName === 'beet') ||
-      (Array.isArray(lowercaseName) ? lowercaseName.includes('asparagus') : lowercaseName === 'asparagus') || (Array.isArray(lowercaseName) ? lowercaseName.includes('artichoke') : lowercaseName === 'artichoke') || (Array.isArray(lowercaseName) ? lowercaseName.includes('radish') : lowercaseName === 'radish') ||
-      (Array.isArray(lowercaseName) ? lowercaseName.includes('arugula') : lowercaseName === 'arugula') || (Array.isArray(lowercaseName) ? lowercaseName.includes('turnip') : lowercaseName === 'turnip') || (Array.isArray(lowercaseName) ? lowercaseName.includes('leek') : lowercaseName === 'leek') ||
-      (Array.isArray(lowercaseName) ? lowercaseName.includes('vegetable') : lowercaseName === 'vegetable')
+      lowercaseName.includes('ginger') || lowercaseName.includes('garlic') || lowercaseName.includes('onion') || 
+      lowercaseName.includes('carrot') || lowercaseName.includes('broccoli') || lowercaseName.includes('tomato') ||
+      lowercaseName.includes('zucchini') || lowercaseName.includes('cucumber') || lowercaseName.includes('lettuce') ||
+      lowercaseName.includes('spinach') || lowercaseName.includes('kale') || lowercaseName.includes('cabbage') ||
+      lowercaseName.includes('cauliflower') || lowercaseName.includes('celery') || lowercaseName.includes('potato') ||
+      lowercaseName.includes('squash') || lowercaseName.includes('eggplant') || lowercaseName.includes('beet') ||
+      lowercaseName.includes('asparagus') || lowercaseName.includes('artichoke') || lowercaseName.includes('radish') ||
+      lowercaseName.includes('arugula') || lowercaseName.includes('turnip') || lowercaseName.includes('leek') ||
+      lowercaseName.includes('vegetable')
     ) {
       return 'vegetables';
     }
@@ -1068,9 +1047,9 @@ export default function IngredientRecommender() {
     // Use flavor engine context for comparison if available
     if (calculateCompatibility) {
       try {
-        return calculateCompatibility(ingredient1 as any, ingredient2 as any);
+        return calculateCompatibility(ingredient1 as unknown as Parameters<typeof calculateCompatibility>[0], ingredient2 as unknown as Parameters<typeof calculateCompatibility>[1]);
       } catch (error) {
-        console.error('Error calculating compatibility:', error);
+        logger.error('Error calculating compatibility:', error);
         return 0.5; // Default compatibility
       }
     }
@@ -1104,7 +1083,7 @@ export default function IngredientRecommender() {
   }, [calculateCompatibility]);
   
   // Function to render different ingredient categories
-  const renderContent = () => {
+  const _renderContent = () => {
     // Show ingredient compatibility UI if in that mode
     if (showFlavorCompatibility && selectedIngredientForComparison) {
                       return (
@@ -1226,7 +1205,7 @@ export default function IngredientRecommender() {
                           <p className={'description-class'}>{item.description}</p>
                               )}
                               
-                              {item.qualities && item.qualities  || [].length > 0 && (
+                              {item.qualities && item.qualities.length > 0 && (
                           <div className={'qualities-class'}>
                             <span className={'detailLabel-class'}>Qualities:</span>
                             <div className={'tagsList-class'}>
@@ -1258,7 +1237,7 @@ export default function IngredientRecommender() {
                                   </div>
                                 )}
                                 
-                                  {enhancedRec.reasons && enhancedRec.reasons  || [].length > 0 && (
+                                  {enhancedRec.reasons && enhancedRec.reasons.length > 0 && (
                                     <div className={'recommendations-class'}>
                                       <h5 className={'recommendationsTitle-class'}>Why this ingredient:</h5>
                                       <ul className={'reasonsList-class'}>
@@ -1716,7 +1695,7 @@ export default function IngredientRecommender() {
     
     return (
       <IngredientCard
-        ingredient={ingredient as any}
+        ingredient={ingredient as unknown as Parameters<typeof IngredientCard>[0]['ingredient']}
         isSelected={isSelected}
         isExpandable={true}
         showAstrologicalInfo={true}
@@ -1937,7 +1916,7 @@ export default function IngredientRecommender() {
 }
 
 // Helper function to check if ingredients are similar (to avoid duplicates)
-function areSimilarIngredients(name1: string, name2: string): boolean {
+function _areSimilarIngredients(name1: string, name2: string): boolean {
   if (!name1 || !name2) return false;
   
   // Normalize both names
@@ -1948,7 +1927,7 @@ function areSimilarIngredients(name1: string, name2: string): boolean {
   if (normalized1 === normalized2) return true;
   
   // One is a substring of the other
-  if ((normalized1.includes && normalized1.includes(normalized2)) || (normalized1 === normalized2) || (normalized2.includes && normalized2.includes(normalized1)) || (normalized2 === normalized1)) {
+  if (normalized1.includes(normalized2) || normalized2.includes(normalized1)) {
     return true;
   }
   

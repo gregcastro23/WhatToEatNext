@@ -224,24 +224,24 @@ export default function IngredientMapper() {
         {/* Display Result */}
         {Boolean(compatibilityResult) && (
           <div className="mt-4">
-            {(compatibilityResult as unknown as Record<string, unknown>).success ? (
+            {(compatibilityResult  as Record<string, unknown>).success ? (
               <div className="p-3 border rounded">
                 <div className="text-lg font-semibold mb-1">
-                  {String((compatibilityResult as unknown as Record<string, unknown>).type || '').charAt(0).toUpperCase() + String((compatibilityResult as unknown as Record<string, unknown>).type || '').slice(1)} Compatibility
+                  {String((compatibilityResult  as Record<string, unknown>).type || '').charAt(0).toUpperCase() + String((compatibilityResult  as Record<string, unknown>).type || '').slice(1)} Compatibility
                 </div>
                 <div className="relative h-4 bg-gray-200 rounded-full overflow-hidden mt-2">
                   <div 
                     className="absolute top-0 left-0 h-full bg-blue-500"
-                    style={{ width: `${Number((compatibilityResult as unknown as Record<string, unknown>).compatibility || 0) * 100}%` }}
+                    style={{ width: `${Number((compatibilityResult  as Record<string, unknown>).compatibility || 0) * 100}%` }}
                   ></div>
                 </div>
                 <div className="text-right text-sm mt-1">
-                  {(Number((compatibilityResult as unknown as Record<string, unknown>).compatibility || 0) * 100).toFixed(0)}%
+                  {(Number((compatibilityResult  as Record<string, unknown>).compatibility || 0) * 100).toFixed(0)}%
                 </div>
               </div>
             ) : (
               <div className="p-3 bg-red-100 text-red-800 rounded">
-                {String((compatibilityResult as unknown as Record<string, unknown>).message || '')}
+                {String((compatibilityResult  as Record<string, unknown>).message || '')}
               </div>
             )}
           </div>

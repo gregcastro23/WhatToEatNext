@@ -7,9 +7,8 @@
  */
 
 // Import Season, ZodiacSign, CookingMethod as types from constants.ts
-import type { Season, ZodiacSign, CookingMethod, ElementType, Planet } from './constants';
+import { CookingMethod, ElementType, LunarPhase, Planet, Season, ZodiacSign } from './constants';
 // Import LunarPhase as type from constants.ts
-import type { LunarPhase } from './constants';
 
 // Define types directly since they're not exported from constants
 type Element = 'Fire' | 'Water' | 'Earth' | 'Air';

@@ -4,9 +4,10 @@ import '../../utils/foodRecommenderFix';
 import '../../utils/fixAssignmentError';
 // Import the IngredientDisplay component which has more detailed information
 import { useMemo } from 'react';
-import { log } from '@/services/LoggingService';
 
 import { useAstrologicalState } from '@/context/AstrologicalContext';
+import { log } from '@/services/LoggingService';
+
 
 import { 
   calculateElementalScore,

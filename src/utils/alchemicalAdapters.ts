@@ -22,10 +22,9 @@ export function toEngineElementalAffinity(standardAffinity: ElementalAffinity): 
   const affinityData = standardAffinity as any;
   
   return {
+    ...standardAffinity,
     element: affinityData?.base,
     strength: affinityData?.strength || 1,
-    source: affinityData?.source || 'default',
-    // Preserve other properties
-    ...standardAffinity
+    source: affinityData?.source || 'default'
   };
 } 

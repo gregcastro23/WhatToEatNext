@@ -1,7 +1,7 @@
 import { cuisines } from "@/data/cuisines";
+import { log } from '@/services/LoggingService';
 import type { Dish } from "@/types";
 import type { LunarPhaseWithSpaces, Season } from '@/types/alchemy';
-import { log } from '@/services/LoggingService';
 
 /**
  * A utility function for logging debug information

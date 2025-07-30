@@ -1,8 +1,9 @@
 import { useState, useEffect, useMemo } from 'react';
-import { log } from '@/services/LoggingService';
+
 
 import { cookingMethods } from '@/data/cooking/cookingMethods';
 import { allCookingMethods } from '@/data/cooking/methods';
+import { log } from '@/services/LoggingService';
 
 // Define the interface for cooking methods that the component expects
 interface CookingMethod {
@@ -115,7 +116,7 @@ export function useCookingMethods() {
 
   const selectMethod = (methodId: string) => {
     // This could be used to track selected methods or trigger other actions
-    log.info('Selected cooking method:', methodId);
+    log.info('Selected cooking method:', { methodId });
   };
 
   return {

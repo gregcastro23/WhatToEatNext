@@ -2,9 +2,9 @@
 
 import { isEqual } from 'lodash';
 import React, { useEffect, useState, useMemo, useCallback } from 'react';
-import { log } from '@/services/LoggingService';
 
 import { useServices } from '@/hooks/useServices';
+import { log } from '@/services/LoggingService';
 import { PlanetaryPosition } from "@/types/celestial";
 import { ElementType, ElementalEnergy } from '@/types/elements';
 import { getCachedCalculation } from '@/utils/calculationCache';

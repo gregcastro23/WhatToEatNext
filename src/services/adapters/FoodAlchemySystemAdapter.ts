@@ -7,8 +7,7 @@
  */
 
 import { enhancedIngredientSystem } from '@/services/adapters/IngredientServiceAdapter';
-import type { ElementalProperties, Season, ZodiacSign, LunarPhase, Recipe } from "@/types/alchemy";
-import { Element } from "@/types/alchemy";
+import { Element, ElementalProperties, LunarPhase, Recipe, Season, ZodiacSign } from '@/types/alchemy';
 import { PlanetaryAlignment } from "@/types/celestial";
 import type { ScoredRecipe } from '@/types/recipe';
 

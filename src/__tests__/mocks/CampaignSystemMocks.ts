@@ -57,30 +57,30 @@ export class MockCampaignController {
     this._isRunning = true;
     this.currentPhase = phase;
     
-    const startTime = Date?.now();
+    const startTime = Date.now();
     
     // Add mock safety event
     this.addSafetyEvent({
-      type: SafetyEventType?.CHECKPOINT_CREATED,
+      type: SafetyEventType.CHECKPOINT_CREATED,
       timestamp: new Date(),
-      description: `Mock phase execution: ${phase?.name}`,
-      severity: SafetyEventSeverity?.INFO,
+      description: `Mock phase execution: ${phase.name}`,
+      severity: SafetyEventSeverity.INFO,
       action: 'MOCK_PHASE_START'
     });
 
     // Simulate phase execution without running actual scripts
     const mockResult = await this.simulatePhaseExecution(phase);
     
-    const executionTime = Date?.now() - startTime;
+    const executionTime = Date.now() - startTime;
     this._isRunning = false;
 
     return {
-      phaseId: phase?.id,
-      success: mockResult?.success,
-      metricsImprovement: mockResult?.metricsImprovement,
-      filesProcessed: mockResult?.filesProcessed,
-      errorsFixed: mockResult?.errorsFixed,
-      warningsFixed: mockResult?.warningsFixed,
+      phaseId: phase.id,
+      success: mockResult.success,
+      metricsImprovement: mockResult.metricsImprovement,
+      filesProcessed: mockResult.filesProcessed,
+      errorsFixed: mockResult.errorsFixed,
+      warningsFixed: mockResult.warningsFixed,
       executionTime,
       safetyEvents: [...this.safetyEvents]
     };
@@ -95,8 +95,8 @@ export class MockCampaignController {
     const mockWarnings: string[] = [];
 
     // Simulate validation logic without actual checks
-    if (phase?.successCriteria.typeScriptErrors !== undefined) {
-      if (this.mockMetrics.typeScriptErrors?.current > phase?.successCriteria.typeScriptErrors) {
+    if (phase.successCriteria.typeScriptErrors !== undefined) {
+      if (this.mockMetrics.typeScriptErrors.current > phase.successCriteria.typeScriptErrors) {
         mockErrors.push(`Mock: TypeScript errors not met`);
       }
     }
@@ -113,7 +113,7 @@ export class MockCampaignController {
    * Mock safety checkpoint creation
    */
   async createSafetyCheckpoint(description: string): Promise<string> {
-    const checkpointId = `mock_checkpoint_${Date?.now()}`;
+    const checkpointId = `mock_checkpoint_${Date.now()}`;
     
     // Create mock stash
     const mockStash: GitStash = {
@@ -127,10 +127,10 @@ export class MockCampaignController {
     this.mockStashes.set(checkpointId, mockStash);
     
     this.addSafetyEvent({
-      type: SafetyEventType?.CHECKPOINT_CREATED,
+      type: SafetyEventType.CHECKPOINT_CREATED,
       timestamp: new Date(),
       description: `Mock checkpoint created: ${description}`,
-      severity: SafetyEventSeverity?.INFO,
+      severity: SafetyEventSeverity.INFO,
       action: 'MOCK_CHECKPOINT_CREATE'
     });
 
@@ -147,10 +147,10 @@ export class MockCampaignController {
     }
 
     this.addSafetyEvent({
-      type: SafetyEventType?.ROLLBACK_TRIGGERED,
+      type: SafetyEventType.ROLLBACK_TRIGGERED,
       timestamp: new Date(),
       description: `Mock rollback to: ${checkpointId}`,
-      severity: SafetyEventSeverity?.WARNING,
+      severity: SafetyEventSeverity.WARNING,
       action: 'MOCK_ROLLBACK'
     });
 
@@ -172,13 +172,13 @@ export class MockCampaignController {
     const validation = await this.validatePhaseCompletion(phase);
 
     return {
-      phaseId: phase?.id,
-      phaseName: phase?.name,
+      phaseId: phase.id,
+      phaseName: phase.name,
       startTime: new Date(),
-      status: validation?.success ? PhaseStatus?.COMPLETED : PhaseStatus?.IN_PROGRESS,
+      status: validation.success ? PhaseStatus.COMPLETED : PhaseStatus.IN_PROGRESS,
       metrics: this.mockMetrics,
       achievements: ['Mock achievement 1', 'Mock achievement 2'],
-      issues: validation?.errors,
+      issues: validation.errors,
       recommendations: ['Mock recommendation 1']
     };
   }
@@ -189,10 +189,10 @@ export class MockCampaignController {
   pauseCampaign(): void {
     this._isPaused = true;
     this.addSafetyEvent({
-      type: SafetyEventType?.CHECKPOINT_CREATED,
+      type: SafetyEventType.CHECKPOINT_CREATED,
       timestamp: new Date(),
       description: 'Campaign paused for test isolation',
-      severity: SafetyEventSeverity?.INFO,
+      severity: SafetyEventSeverity.INFO,
       action: 'CAMPAIGN_PAUSED'
     });
   }
@@ -203,10 +203,10 @@ export class MockCampaignController {
   resumeCampaign(): void {
     this._isPaused = false;
     this.addSafetyEvent({
-      type: SafetyEventType?.CHECKPOINT_CREATED,
+      type: SafetyEventType.CHECKPOINT_CREATED,
       timestamp: new Date(),
       description: 'Campaign resumed after test isolation',
-      severity: SafetyEventSeverity?.INFO,
+      severity: SafetyEventSeverity.INFO,
       action: 'CAMPAIGN_RESUMED'
     });
   }
@@ -319,14 +319,14 @@ export class MockCampaignController {
       {
         id: 'mock_stash_1',
         description: 'Initial mock stash',
-        timestamp: new Date(Date?.now() - 3600000), // 1 hour ago
+        timestamp: new Date(Date.now() - 3600000), // 1 hour ago
         branch: 'mock-branch',
         ref: 'stash@{0}'
       },
       {
         id: 'mock_stash_2',
         description: 'Secondary mock stash',
-        timestamp: new Date(Date?.now() - 1800000), // 30 minutes ago
+        timestamp: new Date(Date.now() - 1800000), // 30 minutes ago
         branch: 'mock-branch',
         ref: 'stash@{1}'
       }
@@ -363,7 +363,7 @@ export class MockProgressTracker {
    * Mock TypeScript error count - does not run actual tsc
    */
   async getTypeScriptErrorCount(): Promise<number> {
-    return this.mockMetrics.typeScriptErrors?.current;
+    return this.mockMetrics.typeScriptErrors.current;
   }
 
   /**
@@ -382,7 +382,7 @@ export class MockProgressTracker {
    * Mock linting warning count - does not run actual linting
    */
   async getLintingWarningCount(): Promise<number> {
-    return this.mockMetrics.lintingWarnings?.current;
+    return this.mockMetrics.lintingWarnings.current;
   }
 
   /**
@@ -401,28 +401,28 @@ export class MockProgressTracker {
    * Mock build time measurement - does not run actual build
    */
   async getBuildTime(): Promise<number> {
-    return this.mockMetrics.buildPerformance?.currentTime;
+    return this.mockMetrics.buildPerformance.currentTime;
   }
 
   /**
    * Mock enterprise system count - does not run actual analysis
    */
   async getEnterpriseSystemCount(): Promise<number> {
-    return this.mockMetrics.enterpriseSystems?.current;
+    return this.mockMetrics.enterpriseSystems.current;
   }
 
   /**
    * Mock cache hit rate - returns simulated value
    */
   async getCacheHitRate(): Promise<number> {
-    return this.mockMetrics.buildPerformance?.cacheHitRate;
+    return this.mockMetrics.buildPerformance.cacheHitRate;
   }
 
   /**
    * Mock memory usage - returns simulated value
    */
   async getMemoryUsage(): Promise<number> {
-    return this.mockMetrics.buildPerformance?.memoryUsage;
+    return this.mockMetrics.buildPerformance.memoryUsage;
   }
 
   /**
@@ -457,7 +457,7 @@ export class MockProgressTracker {
           phaseId: 'phase1',
           phaseName: 'Mock Phase 1',
           startTime: new Date(),
-          status: PhaseStatus?.COMPLETED,
+          status: PhaseStatus.COMPLETED,
           metrics: currentMetrics,
           achievements: ['Mock achievement'],
           issues: [],
@@ -466,7 +466,7 @@ export class MockProgressTracker {
       ],
       currentMetrics,
       targetMetrics,
-      estimatedCompletion: new Date(Date?.now() + 3600000) // 1 hour from now
+      estimatedCompletion: new Date(Date.now() + 3600000) // 1 hour from now
     };
   }
 
@@ -603,10 +603,10 @@ export class MockSafetyProtocol {
     this.mockStashes.set(stashId, mockStash);
     
     this.addSafetyEvent({
-      type: SafetyEventType?.CHECKPOINT_CREATED,
+      type: SafetyEventType.CHECKPOINT_CREATED,
       timestamp: new Date(),
       description: `Mock stash created: ${stashId}`,
-      severity: SafetyEventSeverity?.INFO,
+      severity: SafetyEventSeverity.INFO,
       action: 'MOCK_STASH_CREATE'
     });
     
@@ -623,10 +623,10 @@ export class MockSafetyProtocol {
     }
 
     this.addSafetyEvent({
-      type: SafetyEventType?.ROLLBACK_TRIGGERED,
+      type: SafetyEventType.ROLLBACK_TRIGGERED,
       timestamp: new Date(),
       description: `Mock stash applied: ${stashId}`,
-      severity: SafetyEventSeverity?.WARNING,
+      severity: SafetyEventSeverity.WARNING,
       action: 'MOCK_STASH_APPLY'
     });
   }
@@ -639,8 +639,8 @@ export class MockSafetyProtocol {
     return {
       detectedFiles: [],
       corruptionPatterns: [],
-      severity: CorruptionSeverity?.LOW,
-      recommendedAction: RecoveryAction?.CONTINUE
+      severity: CorruptionSeverity.LOW,
+      recommendedAction: RecoveryAction.CONTINUE
     };
   }
 
@@ -660,10 +660,10 @@ export class MockSafetyProtocol {
    */
   async emergencyRollback(): Promise<void> {
     this.addSafetyEvent({
-      type: SafetyEventType?.EMERGENCY_RECOVERY,
+      type: SafetyEventType.EMERGENCY_RECOVERY,
       timestamp: new Date(),
       description: 'Mock emergency rollback performed',
-      severity: SafetyEventSeverity?.WARNING,
+      severity: SafetyEventSeverity.WARNING,
       action: 'MOCK_EMERGENCY_ROLLBACK'
     });
   }
@@ -700,7 +700,7 @@ export class MockSafetyProtocol {
       {
         id: 'mock_initial_stash',
         description: 'Initial mock stash for testing',
-        timestamp: new Date(Date?.now() - 3600000), // 1 hour ago
+        timestamp: new Date(Date.now() - 3600000), // 1 hour ago
         branch: 'mock-branch',
         ref: 'stash@{0}'
       }
@@ -861,7 +861,7 @@ export class CampaignTestIsolationManager {
     this.originalProcessEnv = { ...process.env };
 
     // Set test environment flags to prevent actual operations
-    Object?.defineProperty(process.env, 'NODE_ENV', { value: 'test', writable: true });
+    Object.defineProperty(process.env, 'NODE_ENV', { value: 'test', writable: true });
     process.env.CAMPAIGN_TEST_MODE = 'true';
     process.env.DISABLE_ACTUAL_BUILDS = 'true';
     process.env.DISABLE_GIT_OPERATIONS = 'true';
@@ -873,8 +873,8 @@ export class CampaignTestIsolationManager {
    */
   restoreEnvironment(): void {
     // Restore original environment variables
-    Object?.keys(process.env).forEach(key => {
-      if (key?.startsWith('CAMPAIGN_') || key?.startsWith('DISABLE_') || key?.startsWith('MOCK_')) {
+    Object.keys(process.env).forEach(key => {
+      if (key.startsWith('CAMPAIGN_') || key.startsWith('DISABLE_') || key.startsWith('MOCK_')) {
         delete process.env[key];
       }
     });
@@ -898,6 +898,6 @@ export class CampaignTestIsolationManager {
 }
 
 // Export singleton instance for easy access
-export const campaignTestIsolation = CampaignTestIsolationManager?.getInstance();
+export const campaignTestIsolation = CampaignTestIsolationManager.getInstance();
 
 // Classes are already exported at their declarations above

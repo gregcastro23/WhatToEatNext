@@ -1,7 +1,6 @@
-import type { ElementalProperties , AstrologicalState, ZodiacSign } from "@/types/alchemy";
-import { Element } from "@/types/alchemy";
-
+import { AstrologicalState, Element, ElementalProperties, ZodiacSign } from '@/types/alchemy';
 import { AlchemicalEngineAdvanced } from '../alchemicalEngine';
+import { logger } from '@/utils/logger';
 
 
 // --- Core Alchemizer Engine with Kalchm and Monica Constant ---
@@ -14,7 +13,15 @@ const signs = {
 };
 
 // Planetary alchemy and element info
-const planetInfo: any = {
+interface PlanetInfo {
+  'Dignity Effect': Record<string, number>;
+  Elements: Element[];
+  Alchemy: { Spirit: number; Essence: number; Matter: number; Substance: number };
+  'Diurnal Element': Element;
+  'Nocturnal Element': Element;
+}
+
+const planetInfo: Record<string, PlanetInfo> = {
   Sun: {
     'Dignity Effect': { leo: 1, aries: 2, aquarius: -1, libra: -2 },
     Elements: ['Fire', 'Fire'],
@@ -92,7 +99,11 @@ const planetInfo: any = {
 };
 
 // Zodiac sign info (abbreviated for brevity, expand as needed)
-const signInfo: any = {
+interface SignInfo {
+  Element: Element;
+}
+
+const signInfo: Record<string, SignInfo> = {
   aries: { Element: 'Fire' },
   taurus: { Element: 'Earth' },
   gemini: { Element: 'Air' },
@@ -219,10 +230,10 @@ export class AlchemicalEngine {
   ): number {
     // Use getElementalAffinity which returns ElementalAffinity object, extract compatibility score
     // Determine dominant element from properties1
-    const dominantElement = (Object.entries(properties1).sort(([, a], [, b]) => b - a)[0]?.[0] as Element) || 'Fire';
-    const affinity = this.advanced.getElementalAffinity(dominantElement, dominantElement); // Use dominant element for both
+    const _dominantElement = (Object.entries(properties1).sort(([, a], [, b]) => b - a)[0]?.[0] as Element) || 'Fire';
+    const affinity = this.advanced.getElementalAffinity(_dominantElement, _dominantElement); // Use dominant element for both
     // Extract the compatibility score for the dominant element
-    return typeof affinity.compatibility[dominantElement] === 'number' ? affinity.compatibility[dominantElement] : 0.5;
+    return typeof affinity.compatibility[_dominantElement] === 'number' ? affinity.compatibility[_dominantElement] : 0.5;
   }
 
   // Proxy legacy/advanced methods for compatibility
@@ -240,7 +251,7 @@ export class AlchemicalEngine {
     recipeName: string,
     userElements: ElementalProperties,
     astroState: AstrologicalState,
-    birthInfo?: any // optional, legacy signature
+    _birthInfo?: unknown // optional, legacy signature
   ) {
     return this.advanced.calculateRecipeHarmony(recipeName, userElements, astroState);
   }
@@ -253,7 +264,7 @@ export class AlchemicalEngine {
     return this.advanced.getElementalAffinity(element1, element2);
   }
 
-  calculateNaturalInfluences(params: any) {
+  calculateNaturalInfluences(params: unknown) {
     return this.advanced.calculateNaturalInfluences(params);
   }
 

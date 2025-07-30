@@ -1,6 +1,6 @@
 import * as Astronomy from 'astronomy-engine';
-import { log } from '@/services/LoggingService';
 
+import { log } from '@/services/LoggingService';
 import type { PlanetaryPosition, ZodiacSign } from '@/types/alchemy';
 
 /**

@@ -6,8 +6,8 @@ declare global {
 }
 
 import alchemicalEngine from '@/app/alchemicalEngine';
-import { StandardizedAlchemicalResult } from '@/types/alchemy';
 import { log } from '@/services/LoggingService';
+import { StandardizedAlchemicalResult } from '@/types/alchemy';
 
 // Use the standardized interface we created
 export type AlchemicalResult = StandardizedAlchemicalResult;

@@ -489,7 +489,7 @@ export type SystemHealth = 'excellent' | 'good' | 'fair' | 'poor';
 
 export interface IntelligenceRequest {
   type: IntelligenceType;
-  data: any;
+  data: Record<string, unknown> | string | number | boolean | null;
   context: {
     astrologicalState: {
       zodiacSign: ZodiacSign;

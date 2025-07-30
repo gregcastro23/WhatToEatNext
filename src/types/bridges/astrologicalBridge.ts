@@ -20,7 +20,7 @@ export const createAstrologicalBridge = (): AstrologicalBridge => ({
   safeAccess<T>(obj: unknown, path: string): T | undefined {
     if (!obj || typeof obj !== 'object') return undefined;
     const keys = path.split('.');
-    let current: any = obj;
+    let current: Record<string, unknown> = obj as Record<string, unknown>;
     for (const key of keys) {
       if (current?.[key] === undefined) return undefined;
       current = current[key];

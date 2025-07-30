@@ -1,11 +1,11 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.calculateAspects = exports.calculateElementalProfile = exports.calculateDominantElement = exports.calculateElementalCompatibility = exports.getZodiacElementalInfluence = exports.getPlanetaryElementalInfluence = exports.getCurrentAstrologicalState = exports.getZodiacSign = exports.longitudeToZodiacPosition = exports.getDefaultPlanetaryPositions = exports.calculatePlanetaryPositions = exports.calculatemoonSign = exports.calculateSunSign = exports.getmoonIllumination = exports.getLunarPhaseName = exports.calculateLunarPhase = exports.getZodiacElement = exports.getLunarPhaseModifier = exports.calculatePlanetaryAspects = void 0;
+import { log } from '@/services/LoggingService';
 const dateUtils_1 = require("../dateUtils");
 const PlanetaryHourCalculator_1 = require("../../lib/PlanetaryHourCalculator");
 const positions_1 = require("./positions");
 const validation_1 = require("./validation");
-import { log } from '@/services/LoggingService';
 /**
  * A utility function for logging debug information
  * This is a safe replacement for console.log that can be disabled in production

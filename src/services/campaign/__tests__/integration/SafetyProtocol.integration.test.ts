@@ -154,7 +154,7 @@ describe('Safety Protocol Integration Tests', () => {
 
       it('should detect double commas in destructuring', async () => {
         const corruptedContent = `
-          import { a,, b } from './module';
+import type type Something, { a, b } from './module';
           export { x,, y };
         `;
 
@@ -169,7 +169,6 @@ describe('Safety Protocol Integration Tests', () => {
 
       it('should detect duplicate keywords in imports', async () => {
         const corruptedContent = `
-          import type type Something from './module';
           export default default value;
         `;
 

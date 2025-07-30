@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+
 import { log } from '@/services/LoggingService';
 
 
@@ -67,12 +68,12 @@ export async function GET(request: Request) {
     }
     
     // Find the best food by data type - prioritize SR Legacy and Foundation foods
-    let bestMatchFood: any = null;
+    let bestMatchFood: Record<string, unknown> | null = null;
     // First try SR Legacy
-    bestMatchFood = searchData.foods.find((f: any) => (f ).dataType === 'SR Legacy');
+    bestMatchFood = searchData.foods.find((f: Record<string, unknown>) => (f ).dataType === 'SR Legacy');
     // If not found, try Foundation
     if (!bestMatchFood) {
-      bestMatchFood = searchData.foods.find((f: any) => (f ).dataType === 'Foundation');
+      bestMatchFood = searchData.foods.find((f: Record<string, unknown>) => (f ).dataType === 'Foundation');
     }
     // If still not found, use the first result
     if (!bestMatchFood && searchData.foods.length > 0) {

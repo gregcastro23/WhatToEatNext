@@ -1,8 +1,8 @@
 // TODO: Fix import - add what to import from "./calculations/index.ts"
+import { log } from '@/services/LoggingService';
 import { Element } from "@/types/alchemy";
 import { PlanetaryPosition } from "@/types/celestial";
 import { Recipe } from '@/types/recipe';
-import { log } from '@/services/LoggingService';
 
 import { calculateComprehensiveAlchemicalResult } from './calculations/index';
 // TODO: Fix import - add what to import from "./types/alchemy.ts"

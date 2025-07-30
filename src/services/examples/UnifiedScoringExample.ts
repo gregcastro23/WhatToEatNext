@@ -6,9 +6,9 @@
  * astrological and alchemical data.
  */
 
+import { log } from '@/services/LoggingService';
 import type { Season , ElementalProperties } from '@/types/alchemy';
 import type { Planet } from '@/types/celestial';
-import { log } from '@/services/LoggingService';
 
 import { UnifiedScoringService, scoreRecommendation, ScoringContext, ScoringResult } from '../UnifiedScoringService';
 
@@ -204,7 +204,7 @@ export class UnifiedScoringExample {
       log.info(`Confidence: ${basilScore.confidence.toFixed(3)}`);
       log.info('Dominant Effects:', basilScore.metadata.dominantEffects);
       log.info('Notes:', basilScore.notes);
-      log.info('Breakdown:', JSON.stringify(basilScore.breakdown, null, 2));
+      log.info('Breakdown:', { breakdown: JSON.stringify(basilScore.breakdown, null, 2) });
       log.info('\n');
 
       // Test cooking method scoring
@@ -257,7 +257,7 @@ export class UnifiedScoringExample {
     };
 
     const result = await scoringService.scoreRecommendation(context);
-    log.info('Singleton Example - Sage Score:', result.score);
+    log.info('Singleton Example - Sage Score:', { score: result.score });
   }
 
   /**

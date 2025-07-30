@@ -1,67 +1,38 @@
-import { calculatePlanetaryAlignment } from '@/calculations/index';
+// Removed unused import: calculatePlanetaryAlignment
+import kalchmEngine from '@/calculations/core/kalchmEngine';
+import astrologizeCache from '@/services/AstrologizeApiCache';
 import { LocalRecipeService } from '@/services/LocalRecipeService';
-import type { AstrologicalState , IngredientMapping , Season } from "@/types/alchemy";
-import { Element } from "@/types/alchemy";
+import { AstrologicalState, /* Element, */ IngredientMapping, Season } from '@/types/alchemy';
+// Removed unused import: Element
 import type { Recipe,
-  ElementalProperties,
-  nutritionInfo } from "@/types/recipe";
+  ElementalProperties
+  // nutritionInfo // unused - removed for performance
+} from "@/types/recipe";
 
 // Add missing imports for TS2304 fixes
 
-// Phase 10: Calculation Type Interfaces
-interface CalculationData {
-  value: number;
-  weight?: number;
-  score?: number;
-}
+// Removed unused interface: CalculationData
 
 interface ScoredItem {
   score: number;
   [key: string]: unknown;
 }
 
-interface ElementalData {
-  Fire: number;
-  Water: number;
-  Earth: number;
-  Air: number;
-  [key: string]: unknown;
-}
+// Removed unused interface: ElementalData
 
-interface CuisineData {
-  id: string;
-  name: string;
-  zodiacInfluences?: string[];
-  planetaryDignities?: Record<string, unknown>;
-  elementalState?: ElementalData;
-  elementalProperties?: ElementalData;
-  modality?: string;
-  gregsEnergy?: number;
-  [key: string]: unknown;
-}
+// Removed unused interface: CuisineData
 
-interface NutrientData {
-  nutrient?: { name?: string };
-  nutrientName?: string;
-  name?: string;
-  vitaminCount?: number;
-  data?: unknown;
-  [key: string]: unknown;
-}
+// Removed unused interface: NutrientData
 
-interface MatchingResult {
-  score: number;
-  elements: ElementalData;
-  recipe?: unknown;
-  [key: string]: unknown;
-}
+// Removed unused interface: MatchingResult
 
 
-import { allIngredients } from '../../data/ingredients';
-import { isNonEmptyArray, safeFilter, safeSome, toArray } from '../common/arrayUtils';
-import { createElementalProperties, getElementalProperty } from '../elemental/elementalUtils';
-import { calculateMatchScore } from '../ElementalCalculator';
-import { elementalUtils , getCurrentElementalState } from '../elementalUtils';
+// Removed unused import: allIngredients
+// Removed unused imports: isNonEmptyArray, safeFilter, safeSome, toArray
+// Removed unused imports: createElementalProperties, getElementalProperty
+// Removed unused import: calculateMatchScore
+import { /* elementalUtils , */ getCurrentElementalState } from '../elementalUtils';
+// Removed unused import: elementalUtils
 
 
 
@@ -74,14 +45,13 @@ import {
   getRecipeCookingTime,
   getRecipeMealTypes,
   getRecipeSeasons,
-  recipeHasTag,
+  // recipeHasTag, // unused - removed for performance
   isRecipeDietaryCompatible,
   recipeHasIngredient
 } from './recipeUtils';
 
-import kalchmEngine from '@/calculations/core/kalchmEngine';
-import astrologizeCache from '@/services/AstrologizeApiCache';
-import { getLatestAstrologicalState } from '@/services/AstrologicalService';
+// Moved imports to top of file for proper order
+// Removed unused import: getLatestAstrologicalState
 
 // ===== INTERFACES =====
 
@@ -105,7 +75,7 @@ interface MatchFilters {
   servings?: number;
   excludeIngredients?: string[];
   cookingMethods?: string[];
-  nutritionalGoals?: { [key: string]: any };
+  nutritionalGoals?: { [key: string]: unknown };
   astrologicalSign?: string;
   mealType?: string;
   preferHigherContrast?: boolean;
@@ -234,8 +204,8 @@ const calculateEnergyMatch = async (
     );
     
     // Apply safe casting for kalchm property access
-    const recipeKalchmData = typeof recipeKalchmResult === 'object' ? recipeKalchmResult as any : { kalchm: recipeKalchmResult };
-    const currentKalchmData = typeof currentKalchmResult === 'object' ? currentKalchmResult as any : { kalchm: currentKalchmResult };
+    const recipeKalchmData = typeof recipeKalchmResult === 'object' ? recipeKalchmResult as Record<string, unknown> : { kalchm: recipeKalchmResult };
+    const currentKalchmData = typeof currentKalchmResult === 'object' ? currentKalchmResult as Record<string, unknown> : { kalchm: currentKalchmResult };
     
     const recipeKalchmValue = recipeKalchmData?.kalchm ?? recipeKalchmResult ?? 0;
     const currentKalchmValue = currentKalchmData?.kalchm ?? currentKalchmResult ?? 0;
@@ -270,7 +240,7 @@ export async function findBestMatches(
 ): Promise<MatchResult[]> {
   // Check for cached astrological data to enhance matching
   // Apply safe type casting for cache method access
-  const cacheData = astrologizeCache as any;
+  const cacheData = astrologizeCache as Record<string, unknown>;
   const cachedData = cacheData?.getLatestCachedData ? await cacheData.getLatestCachedData() : null;
   
   // Use enhanced energy if available from cache
@@ -526,7 +496,7 @@ function calculateElementalAlignment(
   
   // Boost score if recipe has astrological influence matching current Sun sign
   // Apply safe type casting for astrological state access
-  const astroData = currentEnergy as any;
+  const astroData = currentEnergy as Record<string, unknown>;
   const currentSign = astroData?.sign || astroData?.zodiacSign;
   if (currentSign && (recipeInfluences || []).some(influence => influence.toLowerCase().includes(currentSign?.toLowerCase())
   )) {
@@ -686,7 +656,7 @@ async function calculateMonicaCompatibility(recipe: Recipe, monicaConstant: numb
   
   // Recipes with transformation-heavy cooking methods benefit from higher monica values
   const transformationMethods = ['fermentation', 'curing', 'smoking', 'aging', 'reduction'];
-  const cookingMethod = (recipe as any).cookingMethod?.toLowerCase() || '';
+  const cookingMethod = (recipe as Record<string, unknown>).cookingMethod?.toString().toLowerCase() || '';
   
   const isTransformational = transformationMethods.some(method => 
     cookingMethod.includes(method)

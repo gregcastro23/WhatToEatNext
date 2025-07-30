@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
-import { log } from '@/services/LoggingService';
 
 import { onAstrologizeApiCall } from '@/services/CurrentMomentManager';
+import { log } from '@/services/LoggingService';
 import { PlanetPosition } from '@/utils/astrologyUtils';
 import { createLogger } from '@/utils/logger';
 
@@ -140,7 +140,7 @@ export async function GET(request: Request) {
 /**
  * Extract planetary positions from astrologize API response
  */
-function extractPlanetaryPositions(data: any): Record<string, PlanetPosition> | null {
+function extractPlanetaryPositions(data: Record<string, unknown>): Record<string, PlanetPosition> | null {
   try {
     // Try to extract from _celestialBodies structure
     const celestialBodies = data?._celestialBodies;

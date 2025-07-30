@@ -42,8 +42,7 @@ import type {
   Element,
   Recipe
 } from '@/types/alchemy';
-import type { TimeFactors } from '@/types/time';
-import { getTimeFactors } from '@/types/time';
+import { TimeFactors, getTimeFactors } from '@/types/time';
 
 
 // Core Types and Constants
@@ -567,7 +566,7 @@ export default function AlchemicalRecommendations({
         </Box>
 
         {/* Expandable content */}
-        {(Boolean(expandedItems[String((item as Record<string, unknown>).id) || `item-${index}`]) ? (
+        {(expandedItems[String((item as Record<string, unknown>).id) || `item-${index}`] ? (
           <Box sx={{ mt: 2 }} component="div">
             <Divider sx={{ mb: 2 }} />
             {(item as Record<string, unknown>).modality && (

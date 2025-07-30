@@ -1,7 +1,3 @@
-import { seafood , seafood as seafoodData } from './proteins/seafood';
-import { poultry , poultry as poultryData } from './proteins/poultry';
-import { plantBased , plantBased as plantBasedData } from './proteins/plantBased';
-import { spices } from './spices';
 
 import { french } from '@/data/cuisines/french';
 import { italian } from '@/data/cuisines/italian';
@@ -9,10 +5,6 @@ import { middleEastern } from '@/data/cuisines/middle-eastern';
 import { thai } from '@/data/cuisines/thai';
 import type { Ingredient } from '@/types';
 import { UnifiedIngredient } from '@/types/unified';
-
-import { enhancedVegetables, standardizedVegetables } from './vegetables';
-import { seasonings } from './seasonings';
-
 import { standardizeIngredient } from '@/utils/dataStandardization';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
 import {
@@ -28,7 +20,12 @@ import { wholeGrains } from './grains/wholeGrains';
 import { herbs, allHerbs } from './herbs';
 import { medicinalHerbs } from './herbs/medicinalHerbs';
 import { processedOils, allOils } from './oils';
-import { meats } from './proteins/meat';
+import { meats, meats as meatsData } from './proteins/meat';
+import { plantBased , plantBased as plantBasedData } from './proteins/plantBased';
+import { poultry , poultry as poultryData } from './proteins/poultry';
+import { seafood , seafood as seafoodData } from './proteins/seafood';
+import { seasonings } from './seasonings';
+import { spices } from './spices';
 
 // Add explicit exports needed by imports elsewhere in the codebase
 export { fruits } from './fruits';
@@ -42,8 +39,8 @@ export { vinegars } from './vinegars/vinegars';
 export { meats, poultry, seafood, plantBased } from './proteins/index';
 
 // Create a combined proteins object for easier imports
-import { meats as meatsData } from './proteins/meat';
 import { warmSpices } from './spices/warmSpices';
+import { enhancedVegetables, standardizedVegetables } from './vegetables';
 import { vinegars, allVinegars, artisanalVinegars } from './vinegars/vinegars';
 
 export const proteins = {

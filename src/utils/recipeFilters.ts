@@ -5,11 +5,8 @@ import type {
   IngredientMapping,
 } from "@/types/alchemy";
 import { createAstrologicalBridge } from '@/types/bridges/astrologicalBridge';
-import { CuisineType } from '@/types/cuisine';
-import type { Cuisine } from '@/types/cuisine';
-import { Recipe, RecipeFilters } from '@/types/recipe';
-import type { ScoredRecipe } from '@/types/recipe';
-
+import { Cuisine, CuisineType } from '@/types/cuisine';
+import { Recipe, RecipeFilters , ScoredRecipe } from '@/types/recipe';
 
 import { logger } from './logger';
 import { connectIngredientsToMappings } from './recipeMatching';

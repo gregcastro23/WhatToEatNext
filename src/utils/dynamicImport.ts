@@ -154,10 +154,10 @@ export async function safeImportFunctionKnown<T extends (...args: unknown[]) => 
 // Add back specific module imports for known paths instead of using dynamic imports
 import * as alchemicalCalculations from '@/calculations/alchemicalCalculations';
 import * as gregsEnergy from '@/calculations/gregsEnergy';
+import { log } from '@/services/LoggingService';
 import * as accurateAstronomy from '@/utils/accurateAstronomy';
 import * as astrologyUtils from '@/utils/astrologyUtils';
 import * as safeAstrology from '@/utils/safeAstrology';
-import { log } from '@/services/LoggingService';
 
 // Get astronomia module dynamically to prevent build issues
 const getAstronomiaModule = async () => {
@@ -248,12 +248,12 @@ export async function safeImportAndExecute<R, A extends any[] = any[]>(
       }
     }
     
-    if (typeof (importedModule as any)[functionName] !== 'function') {
+    if (typeof (importedModule as Record<string, unknown>)[functionName] !== 'function') {
       errorLog(`Function ${functionName} not found in module ${path}`);
       return null;
     }
     
-    return (importedModule as any)[functionName](..._args) as R;
+    return (importedModule as Record<string, unknown>)[functionName] as (...args: unknown[]) => R;
   } catch (error) {
     errorLog(`Safe import and execute failed for ${functionName} from ${path}:`, error);
     

@@ -993,7 +993,7 @@ export const TYPE_INTELLIGENCE_DEMO = {
     ingredientSearchResults: ReturnType<typeof TYPE_VALIDATION_INTELLIGENCE.analyzeIngredientSearchCriteria>;
     celestialBodyResults: ReturnType<typeof CELESTIAL_ALIGNMENT_INTELLIGENCE.analyzeCelestialBody>;
     chakraPositionResults: ReturnType<typeof CELESTIAL_ALIGNMENT_INTELLIGENCE.analyzeChakraPosition>;
-    cookingMethodResults: { thermodynamicHarmonyMetrics: { overallHarmony: 0.8 } };
+    cookingMethodResults: { thermodynamicHarmonyMetrics: { overallHarmony: number } };
     integrationMetrics: Record<string, number>;
     comprehensiveTypeAnalysis: Record<string, unknown>;
   } => {

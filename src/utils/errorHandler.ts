@@ -23,7 +23,7 @@ export enum ErrorSeverity {
 }
 
 interface ErrorContext {
-  [key: string]: any;
+  [key: string]: unknown; // Enterprise intelligence: flexible error context
 }
 
 interface ErrorOptions {

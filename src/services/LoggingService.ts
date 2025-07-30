@@ -1,4 +1,3 @@
-import { log } from '@/services/LoggingService';
 /**
  * Centralized Logging Service for WhatToEatNext
  * 

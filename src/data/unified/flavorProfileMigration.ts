@@ -6,8 +6,7 @@ import type {
   UnifiedFlavorProfile, 
   BaseFlavorNotes
 } from '@/types';
-import type { ElementalProperties, AlchemicalProperties, AlchemicalValues, Season, PlanetName } from "@/types/alchemy";
-import { Element } from "@/types/alchemy";
+import { AlchemicalProperties, AlchemicalValues, Element, ElementalProperties, PlanetName, Season } from '@/types/alchemy';
 import type { CookingMethod } from "@/types/constants";
 import { getCurrentElementalState } from '@/utils/elementalUtils';
 

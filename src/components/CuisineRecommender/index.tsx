@@ -194,33 +194,33 @@ export const CuisineRecommender: React.FC<CuisineRecommenderProps> = ({
                 </div>
 
                 {/* Alchemical Score Breakdown */}
-                {(recipe.alchemicalScores ? (
+                {recipe.alchemicalScores ? (
                   <div className="alchemical-breakdown">
                     <h5>Compatibility Breakdown:</h5>
                     <div className="score-details">
                       <div className="score-item">
                         <span>Elemental:</span>
-                        <span>{((recipe.alchemicalScores?.elementalScore ?? 0) * 100).toFixed(0)}%</span>
+                        <span>{((recipe.alchemicalScores.elementalScore ?? 0) * 100).toFixed(0)}%</span>
                       </div>
                       <div className="score-item">
                         <span>Zodiacal:</span>
-                        <span>{((recipe.alchemicalScores?.zodiacalScore ?? 0) * 100).toFixed(0)}%</span>
+                        <span>{((recipe.alchemicalScores.zodiacalScore ?? 0) * 100).toFixed(0)}%</span>
                       </div>
                       <div className="score-item">
                         <span>Lunar:</span>
-                        <span>{((recipe.alchemicalScores?.lunarScore ?? 0) * 100).toFixed(0)}%</span>
+                        <span>{((recipe.alchemicalScores.lunarScore ?? 0) * 100).toFixed(0)}%</span>
                       </div>
                       <div className="score-item">
                         <span>Planetary:</span>
-                        <span>{((recipe.alchemicalScores?.planetaryScore ?? 0) * 100).toFixed(0)}%</span>
+                        <span>{((recipe.alchemicalScores.planetaryScore ?? 0) * 100).toFixed(0)}%</span>
                       </div>
                       <div className="score-item">
                         <span>Seasonal:</span>
-                        <span>{((recipe.alchemicalScores?.seasonalScore ?? 0) * 100).toFixed(0)}%</span>
+                        <span>{((recipe.alchemicalScores.seasonalScore ?? 0) * 100).toFixed(0)}%</span>
                       </div>
                     </div>
                   </div>
-                ) : null) as React.ReactNode}
+                ) : null}
 
                 {/* Elemental Properties */}
                 {recipe.elementalState && (

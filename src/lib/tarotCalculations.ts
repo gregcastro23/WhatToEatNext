@@ -1,4 +1,3 @@
-import { log } from '@/services/LoggingService';
 import { DECANS } from '@/constants/elementalConstants';
 import { 
   tarotCardQuantumValues, 
@@ -12,6 +11,7 @@ import {
   PLANET_TO_MAJOR_ARCANA,
   DECAN_RULERS 
 } from '@/constants/tarotCards';
+import { log } from '@/services/LoggingService';
 import { ZodiacSign, Decan, Element } from '@/types/alchemy';
 
 // Type definitions for the imported constants to improve type safety

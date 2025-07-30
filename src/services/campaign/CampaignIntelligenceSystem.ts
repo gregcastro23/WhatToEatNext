@@ -69,7 +69,7 @@ export interface EnterpriseIntelligenceResult {
  * Analyzes TypeScript error patterns and provides predictive analytics
  */
 export const ERROR_PATTERN_INTELLIGENCE = {
-  analyzeErrorPatterns: (errors: any[], historicalData?: any[]): ErrorPatternIntelligence => {
+  analyzeErrorPatterns: (errors: Record<string, unknown>[], historicalData?: Record<string, unknown>[]): ErrorPatternIntelligence => {
     const patternRecognition: Record<string, number> = {};
     const fixSuccessRates: Record<string, number> = {};
     const errorCategoryTrends: Record<ErrorCategory, number> = {

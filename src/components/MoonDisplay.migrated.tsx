@@ -2,9 +2,10 @@
 
 import { ArrowDown, Sunrise, Sunset, Navigation } from 'lucide-react';
 import React, { useState, useEffect, useMemo } from 'react';
-import { log } from '@/services/LoggingService';
 
 import { useServices } from '@/hooks/useServices';
+import { log } from '@/services/LoggingService';
+
 
 /**
  * A utility function for logging debug information

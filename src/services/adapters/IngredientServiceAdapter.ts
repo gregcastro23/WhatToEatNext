@@ -6,8 +6,7 @@
  * modern service architecture.
  */
 
-import type { ElementalProperties, Season, ZodiacSign, PlanetName } from "@/types/alchemy";
-import { Element } from "@/types/alchemy";
+import { Element, ElementalProperties, PlanetName, Season, ZodiacSign } from '@/types/alchemy';
 
 import type { UnifiedIngredient } from '../../data/unified/unifiedTypes';
 import { createElementalProperties } from '../../utils/elemental/elementalUtils';

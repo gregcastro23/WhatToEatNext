@@ -8,10 +8,10 @@
  * - Build quality monitoring for performance tracking
  */
 
+import { calculateElementalAffinity } from '@/utils/elementalUtils';
 import { logger } from '@/utils/logger';
 import { getReliablePlanetaryPositions } from '@/utils/reliableAstronomy';
 import { ElementalProperties, getSteeringFileIntelligence } from '@/utils/steeringFileIntelligence';
-import { calculateElementalAffinity } from '@/utils/elementalUtils';
 
 // Quality assurance thresholds from campaign-integration.md
 export const QA_THRESHOLDS = {

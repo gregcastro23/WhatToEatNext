@@ -5,8 +5,7 @@
  * and calculates planetary influences on culinary recommendations.
  */
 
-import type { PlanetaryPosition, ElementalProperties } from "@/types/alchemy";
-import { Element } from "@/types/alchemy";
+import { Element, ElementalProperties, PlanetaryPosition } from '@/types/alchemy';
 
 import { getCachedCalculation } from '../../utils/calculationCache';
 

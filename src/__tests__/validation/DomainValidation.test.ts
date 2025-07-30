@@ -5,8 +5,9 @@
  * Requirements: 6.4
  */
 
-import { jest } from '@jest/globals';
 import { execSync } from 'child_process';
+
+import { jest } from '@jest/globals';
 
 // Mock child_process for controlled testing
 jest.mock('child_process', () => ({

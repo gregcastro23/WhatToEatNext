@@ -7,6 +7,7 @@
  */
 
 import { log } from '@/services/LoggingService';
+
 import type {
   CampaignConfig,
   CampaignPhase,

@@ -9,18 +9,19 @@
  * Requirements: 5.1, 5.2, 6.4
  */
 
-import { jest } from '@jest/globals';
 import { execSync } from 'child_process';
-import { performance } from 'perf_hooks';
 import { readFileSync, existsSync } from 'fs';
 import path from 'path';
+import { performance } from 'perf_hooks';
+
+import { jest } from '@jest/globals';
 
 // Import test utilities
-import { TestMemoryMonitor } from '../utils/TestMemoryMonitor';
-import { performEmergencyCleanup } from '../setupMemoryManagement';
 
 // Import system components for testing
 import { logger } from '../../utils/logger';
+import { performEmergencyCleanup } from '../setupMemoryManagement';
+import { TestMemoryMonitor } from '../utils/TestMemoryMonitor';
 
 // Mock external dependencies that might cause issues in tests
 jest.mock('child_process', () => ({

@@ -27,10 +27,9 @@ import {
 // TODO: Fix import - add what to import from "./nutritional.ts"
 
 import { unifiedCuisineIntegrationSystem } from "./cuisineIntegrations";
-import type { UnifiedFlavorProfile } from "./flavorProfiles";
+import { UnifiedFlavorProfile, unifiedFlavorProfileSystem } from './flavorProfiles';
 
 // Import unified systems
-import { unifiedFlavorProfileSystem } from "./flavorProfiles";
 import { unifiedIngredients } from "./ingredients";
 import { unifiedNutritionalSystem } from "./nutritional";
 import { unifiedSeasonalSystem } from "./seasonal";
@@ -54,7 +53,7 @@ export interface EnhancedIngredient {
   
   // Enhanced Culinary Properties
   culinaryProperties: {
-    cookingMethods: string[];
+    cookingMethods: CookingMethod[];
     pairings: string[];
     substitutions: string[];
     storage: {
@@ -64,25 +63,27 @@ export interface EnhancedIngredient {
       method: string;
     };
     seasonality: {
-      peak: string[];
-      available: string[];
-      optimal: string[];
+      peak: Season[];
+      available: Season[];
+      optimal: Season[];
     };
     preparationMethods: string[];
+    flavorProfile?: FlavorProfile;
   };
   
   // Enhanced Astrological Properties
   astrologicalProfile: {
-    planetaryRuler: string;
-    zodiacRuler: string;
+    planetaryRuler: PlanetName;
+    zodiacRuler: ZodiacSign;
     element: Element;
     energyType: string;
     seasonalPeak: {
       northern: number[];
       southern: number[];
     };
-    lunarAffinity: string[];
+    lunarAffinity: LunarPhase[];
     planetaryHours: string[];
+    thermodynamicProperties?: ThermodynamicProperties;
   };
   
   // Enhanced Nutritional Profile
@@ -113,7 +114,15 @@ export interface EnhancedIngredient {
   };
   
   // Allow additional properties from UnifiedIngredient
-  [key: string]: any;
+  [key: string]: unknown;
+}
+
+// Storage recommendation interface
+interface StorageRecommendation {
+  temperature: string;
+  humidity: string;
+  duration: string;
+  method: string;
 }
 
 // Ingredient search criteria
@@ -164,7 +173,7 @@ export function isEnhancedIngredient(obj: unknown): obj is EnhancedIngredient {
     typeof ingredient.name === 'string' &&
     typeof ingredient.category === 'string' &&
     ingredient.elementalProperties !== undefined &&
-    typeof ingredient.elementalProperties === 'object' &&
+    isElementalProperties(ingredient.elementalProperties) && // Use imported validation utility
     ingredient.culinaryProperties !== undefined &&
     typeof ingredient.culinaryProperties === 'object' &&
     ingredient.astrologicalProfile !== undefined &&
@@ -1023,9 +1032,9 @@ export class EnhancedIngredientsSystem {
   /**
    * Get storage recommendations for a category
    */
-  private getStorageForCategory(category: string): any {
+  private getStorageForCategory(category: string): StorageRecommendation {
     // Default storage recommendations by category
-    const storageRecs: { [key: string]: any } = {
+    const storageRecs: { [key: string]: StorageRecommendation } = {
       fruits: {
         temperature: 'cool',
         humidity: 'moderate',

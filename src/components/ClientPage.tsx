@@ -2,7 +2,7 @@
 
 import dynamic from 'next/dynamic';
 import React, { useEffect, useState } from 'react';
-import { log } from '@/services/LoggingService';
+
 
 import AstrologicalClock from '@/components/AstrologicalClock';
 import CookingMethods from '@/components/CookingMethods';
@@ -13,6 +13,7 @@ import OptimizedComponentWrapper from '@/components/OptimizedComponentWrapper';
 import PlanetaryPositionInitializer from '@/components/PlanetaryPositionInitializer';
 import SunDisplay from '@/components/SunDisplay';
 import Loading from '@/components/ui/Loading';
+import { log } from '@/services/LoggingService';
 
 // Wrap components with optimization
 const OptimizedElementalEnergyDisplay = React.memo(ElementalEnergyDisplay);

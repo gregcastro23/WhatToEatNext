@@ -1,4 +1,3 @@
-import { log } from '@/services/LoggingService';
 import { 
   Add as AddIcon,
   Delete as DeleteIcon,
@@ -39,6 +38,7 @@ import {
 import React, { useState, useEffect, useCallback } from 'react';
 
 import { getAllEnhancedCookingMethods, type EnhancedCookingMethod } from '@/constants/alchemicalPillars';
+import { log } from '@/services/LoggingService';
 import type { 
   ElementalProperties, 
   Element, 
@@ -607,7 +607,7 @@ export default function RecipeBuilder({
           text: shareableText,
         });
       } catch (error) {
-        log.info('Sharing cancelled or failed:', error);
+        log.info('Sharing cancelled or failed:', { error });
       }
     } else {
       // Fallback: copy to clipboard

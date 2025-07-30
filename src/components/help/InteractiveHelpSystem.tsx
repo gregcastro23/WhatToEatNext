@@ -97,7 +97,7 @@ const position = { sign: 'Aries', degree: 15 };`}
         </p>
         <div className="bg-blue-50 p-3 rounded-lg">
           <pre className="text-sm text-blue-700">
-{`import { getReliablePlanetaryPositions } from '@/utils/reliableAstronomy';
+import {`import { getReliablePlanetaryPositions } from '@/utils/reliableAstronomy';
 
 async function calculateInfluences(date: Date = new Date()) {
   try {

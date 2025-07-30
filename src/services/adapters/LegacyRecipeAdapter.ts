@@ -21,10 +21,9 @@ import type {
 } from '@/types/alchemy';
 
 // Import ScoredRecipe from correct location
-import type { ScoredRecipe } from '@/types/recipe';
+import { RecipeSearchCriteria, ScoredRecipe } from '@/types/recipe';
 
 // Import recipe search criteria from recipe types if needed
-import type { RecipeSearchCriteria } from '@/types/recipe';
 
 import { createLogger } from '../../utils/logger';
 import { RecipeRecommendationOptions } from '../interfaces/RecipeServiceInterface';

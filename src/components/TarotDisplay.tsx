@@ -3,8 +3,7 @@
 import { Flame, Droplets, Mountain, Wind, Sparkles, Clock, Calendar } from 'lucide-react';
 import { useEffect, useState, useCallback, useRef } from 'react';
 
-import type { PlanetaryPosition } from '@/types/alchemy';
-import { Element } from "@/types/alchemy";
+import { Element, PlanetaryPosition } from '@/types/alchemy';
 import { PlanetaryAlignment , AstrologicalState } from "@/types/celestial";
 import { Recipe } from '@/types/recipe';
 

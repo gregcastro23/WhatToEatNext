@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
-import { log } from '@/services/LoggingService';
 
 import { AstrologicalService } from '@/services/AstrologicalService';
+import { log } from '@/services/LoggingService';
+
 
 interface AstrologizeOptions {
   useCurrentTime?: boolean;
@@ -127,7 +128,7 @@ export function useAstrologize(options: AstrologizeOptions = {}): AstrologizeRes
       }
       
       const result = await response.json();
-      log.info('✅ Astrologize API response received:', result._celestialBodies ? 'Valid celestial data' : 'Unknown format');
+      log.info('✅ Astrologize API response received:', { dataType: result._celestialBodies ? 'Valid celestial data' : 'Unknown format' });
       setData(result);
     } catch (fetchError) {
       console.error('Error fetching from Astrologize API:', fetchError);

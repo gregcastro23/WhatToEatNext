@@ -1,10 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ElementalCalculator = void 0;
+import { log } from '@/services/LoggingService';
 const elementalUtils_1 = require("../utils/elementalUtils");
 const elementalCore_1 = require("../constants/elementalCore");
 const logger_1 = require("../utils/logger");
-import { log } from '@/services/LoggingService';
 const logger = (0, logger_1.createLogger)('ElementalCalculator');
 class ElementalCalculator {
     constructor(debugMode = false) {

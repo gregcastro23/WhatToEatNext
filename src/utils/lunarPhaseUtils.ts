@@ -1,7 +1,6 @@
 import type { ElementalState } from '@/types/elemental';
 
-import type { ElementalProperties, LunarPhase, LunarPhaseWithSpaces, LunarPhaseWithUnderscores } from '../types/alchemy';
-import { LUNAR_PHASE_MAPPING, LUNAR_PHASE_REVERSE_MAPPING } from '../types/alchemy';
+import { ElementalProperties, LUNAR_PHASE_MAPPING, LUNAR_PHASE_REVERSE_MAPPING, LunarPhase, LunarPhaseWithSpaces, LunarPhaseWithUnderscores } from '../types/alchemy';
 import type { LunarPhaseModifier } from '../types/lunar';
 
 // Define missing types

@@ -1,6 +1,6 @@
+import { log } from '@/services/LoggingService';
 import type { ElementalProperties } from '@/types/alchemy';
 import { Recipe } from '@/types/unified';
-import { log } from '@/services/LoggingService';
 
 export interface CuisineFlavorProfile {
   id: string;

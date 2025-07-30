@@ -10,10 +10,10 @@ declare global {
         create?: (options: Partial<T>) => Promise<{id: number}>;
         query?: (queryInfo: unknown, callback?: Function) => boolean;
         update?: (tabId: number, properties: unknown, callback?: Function) => boolean;
-        sendMessage?: (tabId: number, message: unknown, options?: any, callback?: Function) => boolean;
+        sendMessage?: (tabId: number, message: unknown, options?: Record<string, unknown>, callback?: Function) => boolean;
       };
       runtime?: {
-        lastError?: any;
+        lastError?: Error | null;
         getURL?: (path: string) => string;
         sendMessage?: (message: unknown) => void;
         onMessage?: {
@@ -32,7 +32,7 @@ declare global {
         };
       };
       i18n?: {
-        getMessage?: (messageName: string, substitutions?: any) => string;
+        getMessage?: (messageName: string, substitutions?: string[] | Record<string, string>) => string;
       };
       extension?: {
         getURL?: (path: string) => string;
@@ -41,17 +41,17 @@ declare global {
     
     // Popup.js mock replacement
     popup?: {
-      create: (options?: any) => {
+      create: (options?: Record<string, unknown>) => {
         show: () => any;
         hide: () => any;
         update: () => any;
-        on: (event: string, callback?: any) => { off: () => void };
+        on: (event: string, callback?: (...args: unknown[]) => void) => { off: () => void };
         trigger: (event: string) => any;
       };
       show: () => any;
       hide: () => any;
       update: () => any;
-      on: (event: string, callback?: any) => { off: () => void };
+      on: (event: string, callback?: (...args: unknown[]) => void) => { off: () => void };
       trigger: (event: string) => any;
     };
     
@@ -74,8 +74,8 @@ declare global {
     capitalize?: (str: string) => string;
     
     // Service objects
-    ingredientFilterService?: any;
-    ElementalCalculator?: any;
+    ingredientFilterService?: Record<string, unknown>;
+    ElementalCalculator?: Record<string, unknown>;
     
     // Utility functions
     fixAssignmentErrors?: <T>(obj: T) => T;

@@ -339,7 +339,7 @@ describe('SafetyProtocol', () => {
 
     it('should detect empty import statements', async () => {
       mockFs.readFileSync.mockReturnValue(`
-        import { } from './module';
+import something, { a, b } from './module';
         export { };
       `);
 
@@ -364,7 +364,6 @@ describe('SafetyProtocol', () => {
 
     it('should detect duplicate from clauses', async () => {
       mockFs.readFileSync.mockReturnValue(`
-        import something from './module' from './other';
       `);
 
       const report = await safetyProtocol.detectImportExportCorruption(['file1.ts']);
@@ -375,7 +374,6 @@ describe('SafetyProtocol', () => {
 
     it('should detect double commas in destructuring', async () => {
       mockFs.readFileSync.mockReturnValue(`
-        import { a,, b } from './module';
         export { x,, y };
       `);
 

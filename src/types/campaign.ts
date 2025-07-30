@@ -32,7 +32,7 @@ export interface ScriptParameters {
   validateSafety?: boolean;
   resetMetrics?: boolean;
   dryRun?: boolean;
-  [key: string]: any;
+  [key: string]: unknown; // Enterprise intelligence: allow additional configuration options
 }
 
 export interface SuccessCriteria {

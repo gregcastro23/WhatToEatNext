@@ -13,7 +13,7 @@ interface CookingMethodData {
 
 import { ChevronDown, ChevronUp } from 'lucide-react';
 import React, { useState, useEffect, useMemo, useCallback, useRef } from 'react';
-import { log } from '@/services/LoggingService';
+
 
 // Type Harmony imports
 
@@ -23,8 +23,8 @@ import { useTarotContext } from '@/contexts/TarotContext';
 import { cookingMethods } from '@/data/cooking/cookingMethods';
 import type { Modality } from '@/data/ingredients/types';
 import { useAstrologicalState } from '@/hooks/useAstrologicalState';
-import { COOKING_METHOD_THERMODYNAMICS } from '@/types/alchemy';
-import type { ElementalProperties, CookingMethod, BasicThermodynamicProperties } from '@/types/alchemy';
+import { log } from '@/services/LoggingService';
+import { BasicThermodynamicProperties, COOKING_METHOD_THERMODYNAMICS, CookingMethod, ElementalProperties } from '@/types/alchemy';
 import { createAstrologicalBridge } from '@/types/bridges/astrologicalBridge';
 import { ZodiacSign, Ingredient, UnifiedIngredient } from '@/types/unified';
 import { staticAlchemize } from '@/utils/alchemyInitializer';

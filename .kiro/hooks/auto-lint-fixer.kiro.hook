@@ -1,0 +1,23 @@
+{
+  "enabled": true,
+  "name": "Auto-Lint Fixer",
+  "description": "Automatically fixes common linting issues (trailing whitespace, semicolons, etc.) on save of source files with comprehensive safety protocols including backups, validation, and rollback on failure",
+  "version": "1",
+  "when": {
+    "type": "userTriggered",
+    "patterns": [
+      "src/**/*.ts",
+      "src/**/*.tsx",
+      "src/**/*.js",
+      "src/**/*.jsx",
+      "*.ts",
+      "*.tsx",
+      "*.js",
+      "*.jsx"
+    ]
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "A source file has been saved and needs automatic linting fixes applied. Please:\n\n1. **Safety First**: Create a timestamped backup of the file before making any changes\n2. **Apply ESLint Auto-Fix**: Run ESLint with --fix flag using the project's eslint.config.cjs configuration\n3. **Apply Safe Pattern Fixes**: \n   - Remove trailing whitespace\n   - Fix double semicolons\n   - Normalize multiple empty lines\n   - Add missing semicolons (conservative approach only)\n4. **Comprehensive Validation**: \n   - Run TypeScript compilation check with --noEmit --skipLibCheck\n   - Validate syntax integrity \n   - Check for corruption patterns (undefined undefined, null null, double semicolons)\n   - Ensure file can be parsed correctly\n5. **Automatic Rollback**: If any validation fails, restore the original file from backup\n6. **Preserve Critical Patterns**: \n   - Maintain astrological calculation constants\n   - Preserve fallback values and error handling\n   - Respect domain-specific rules for planetary calculations\n   - Keep campaign system intelligence patterns intact\n7. **Rate Limiting**: Respect the 20/hour limit and 5-second cooldown between executions\n8. **Logging**: Log all actions, successes, and any rollbacks performed\n\nThe file path will be: ${filePath}\n\nFocus on conservative fixes only - never break working code. If there's any doubt about a fix, skip it and preserve the original code."
+  }
+}

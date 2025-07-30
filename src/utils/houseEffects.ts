@@ -1,5 +1,5 @@
-import type { ZodiacSign } from '@/types/alchemy';
 import { log } from '@/services/LoggingService';
+import type { ZodiacSign } from '@/types/alchemy';
 
 import type { ElementalCharacter } from '../constants/planetaryElements';
 

@@ -1,5 +1,4 @@
-import type { ZodiacSign } from '@/types/alchemy';
-import { ElementalProperties } from '@/types/alchemy';
+import { ElementalProperties, ZodiacSign } from '@/types/alchemy';
 import { ZodiacAffinity, DEFAULT_ZODIAC_AFFINITY } from '@/types/zodiacAffinity';
 
 /**

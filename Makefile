@@ -48,6 +48,30 @@ help:
 	@echo "  make lint-domain-astro   - Domain-specific astrological linting"
 	@echo "  make lint-domain-campaign - Domain-specific campaign linting"
 	@echo "  make lint-watch          - Continuous linting with auto-fix"
+	@echo ""
+	@echo "📊 Zero-Error Achievement Dashboard:"
+	@echo "  make dashboard           - Generate comprehensive zero-error dashboard"
+	@echo "  make dashboard-monitor   - Start real-time monitoring (5-min intervals)"
+	@echo "  make dashboard-status    - Show current zero-error achievement status"
+	@echo "  make dashboard-verbose   - Generate dashboard with verbose output"
+	@echo ""
+	@echo "📊 Performance validation commands:"
+	@echo "  make performance-validate    - Run comprehensive performance validation"
+	@echo "  make performance-monitor     - Monitor performance metrics"
+	@echo "  make performance-report      - Generate performance report"
+	@echo "  make performance-test        - Run performance validation tests"
+	@echo "  make performance-baseline    - Establish performance baseline"
+	@echo "  make performance-continuous  - Continuous performance monitoring"
+	@echo ""
+	@echo "🚀 Linting campaign commands:"
+	@echo "  make lint-campaign-metrics   - Collect current linting metrics"
+	@echo "  make lint-campaign-report    - Generate comprehensive progress report"
+	@echo "  make lint-campaign-start     - Start standard linting campaign"
+	@echo "  make lint-campaign-dry       - Preview campaign execution"
+	@echo "  make lint-campaign-gates     - Evaluate quality gates"
+	@echo "  make lint-campaign-deploy    - Check deployment readiness"
+	@echo "  make lint-campaign-trends    - Monitor quality trends"
+	@echo "  make lint-campaign-cicd      - Generate CI/CD report"
 	@echo "  make lint-cache-clear    - Clear ESLint cache"
 	@echo ""
 	@echo "🚀 Comprehensive workflow commands:"
@@ -224,6 +248,26 @@ check:
 errors:
 	@echo "📊 Analyzing current TypeScript errors..."
 	@echo "Total error count:"
+
+# Zero-Error Achievement Dashboard Commands
+dashboard:
+	@echo "🎯 Generating Zero-Error Achievement Dashboard..."
+	@node src/scripts/zero-error-dashboard.ts generate
+	@echo "📊 Dashboard generated: .kiro/dashboard/zero-error-achievement-dashboard.md"
+
+dashboard-monitor:
+	@echo "👀 Starting Zero-Error Achievement Monitoring..."
+	@echo "📊 Real-time monitoring with 5-minute intervals"
+	@echo "Press Ctrl+C to stop monitoring"
+	@node src/scripts/zero-error-dashboard.ts monitor
+
+dashboard-status:
+	@echo "📊 Zero-Error Achievement Status:"
+	@node src/scripts/zero-error-dashboard.ts status
+
+dashboard-verbose:
+	@echo "🎯 Generating Verbose Zero-Error Dashboard..."
+	@node src/scripts/zero-error-dashboard.ts generate --verbose
 	@yarn tsc --noEmit --skipLibCheck 2>&1 | grep -E "error TS" | wc -l || echo "0"
 	@echo ""
 	@echo "Error breakdown by type:"
@@ -681,3 +725,121 @@ docs:
 	@echo "  CI/CD pipeline: docs/CICD_PIPELINE.md"
 	@echo "  Scripts: scripts/QUICK_REFERENCE.md"
 	@echo "  Inventory: scripts/INVENTORY.md" 
+# Linting Campaign System
+lint-campaign-metrics:
+	@echo "📊 Collecting linting metrics..."
+	@yarn lint:campaign:metrics
+
+lint-campaign-report:
+	@echo "📈 Generating progress report..."
+	@yarn lint:campaign:report
+
+lint-campaign-start:
+	@echo "🚀 Starting linting campaign..."
+	@yarn lint:campaign:start
+
+lint-campaign-dry:
+	@echo "🔍 Preview campaign execution..."
+	@yarn lint:campaign:dry
+
+lint-campaign-gates:
+	@echo "🚪 Evaluating quality gates..."
+	@yarn lint:campaign:gates
+
+lint-campaign-deploy:
+	@echo "🚢 Checking deployment readiness..."
+	@yarn lint:campaign:deploy
+
+lint-campaign-trends:
+	@echo "📈 Monitoring quality trends..."
+	@yarn lint:campaign:trends
+
+lint-campaign-cicd:
+	@echo "🔄 Generating CI/CD report..."
+	@yarn lint:campaign:cicd
+
+lint-campaign-help:
+	@echo "🔧 Linting Campaign System Help"
+	@echo ""
+	@echo "Available campaign commands:"
+	@echo "  make lint-campaign-metrics  - Collect current linting metrics with detailed breakdown"
+	@echo "  make lint-campaign-report   - Generate comprehensive progress report with trends"
+	@echo "  make lint-campaign-start    - Start standard linting improvement campaign"
+	@echo "  make lint-campaign-dry      - Preview what the campaign would execute"
+	@echo "  make lint-campaign-gates    - Evaluate quality gates for deployment approval"
+	@echo "  make lint-campaign-deploy   - Check if codebase is ready for deployment"
+	@echo "  make lint-campaign-trends   - Monitor quality trends over time"
+	@echo "  make lint-campaign-cicd     - Generate CI/CD integration report"
+	@echo ""
+	@echo "Campaign workflow:"
+	@echo "  1. Run 'make lint-campaign-metrics' to see current state"
+	@echo "  2. Run 'make lint-campaign-dry' to preview improvements"
+	@echo "  3. Run 'make lint-campaign-start' to execute campaign"
+	@echo "  4. Run 'make lint-campaign-gates' to check quality gates"
+	@echo "  5. Run 'make lint-campaign-deploy' for deployment readiness"
+	@echo ""
+	@echo "For CI/CD integration:"
+	@echo "  - Use 'make lint-campaign-cicd' for pipeline reports"
+	@echo "  - Use 'make lint-campaign-deploy' with exit codes for gates"
+	@echo "  - Monitor trends with 'make lint-campaign-trends'"#
+ Performance Validation Commands
+performance-validate:
+	@echo "📊 Running comprehensive performance validation..."
+	@echo "Validating 60-80% performance improvement with enhanced caching..."
+	@node src/scripts/validateLintingPerformance.js
+
+performance-monitor:
+	@echo "📈 Starting performance monitoring..."
+	@node src/scripts/runPerformanceValidation.js monitor --verbose
+
+performance-monitor-continuous:
+	@echo "🔄 Starting continuous performance monitoring..."
+	@node src/scripts/runPerformanceValidation.js monitor --continuous --interval 300000
+
+performance-report:
+	@echo "📋 Generating performance report..."
+	@node src/scripts/runPerformanceValidation.js report --output performance-report.json
+
+performance-test:
+	@echo "🧪 Running performance validation tests..."
+	@node src/scripts/runPerformanceValidation.js test
+
+performance-baseline:
+	@echo "📊 Establishing performance baseline..."
+	@echo "Step 1: Clear all caches..."
+	@rm -f .eslintcache .eslint-results.json
+	@echo "Step 2: Run baseline measurement..."
+	@node src/scripts/runPerformanceValidation.js monitor --baseline
+
+performance-trends:
+	@echo "📈 Analyzing performance trends..."
+	@node src/scripts/runPerformanceValidation.js report --trends
+
+performance-validate-all:
+	@echo "🚀 Running complete performance validation suite..."
+	@echo "Step 1: Establish baseline..."
+	@make performance-baseline
+	@echo "Step 2: Run comprehensive validation..."
+	@make performance-validate
+	@echo "Step 3: Generate report..."
+	@make performance-report
+	@echo "Step 4: Run tests..."
+	@make performance-test
+	@echo "✅ Complete performance validation completed!"
+
+performance-health:
+	@echo "🏥 Checking performance health status..."
+	@echo "Cache status:"
+	@ls -la .eslintcache 2>/dev/null || echo "  No cache file found"
+	@echo "Memory usage:"
+	@ps aux | grep -E "(eslint|node)" | grep -v grep | head -5 || echo "  No active processes"
+	@echo "Recent performance metrics:"
+	@test -f linting-performance-metrics.json && tail -5 linting-performance-metrics.json || echo "  No metrics file found"
+
+performance-clean:
+	@echo "🧹 Cleaning performance monitoring files..."
+	@rm -f linting-performance-metrics.json
+	@rm -f linting-performance-alerts.json
+	@rm -f linting-performance-validation-report.json
+	@rm -f performance-report.json
+	@echo "✅ Performance monitoring files cleaned"

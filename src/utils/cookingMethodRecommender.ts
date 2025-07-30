@@ -34,9 +34,7 @@ interface PlanetaryDataStructure {
   };
 }
 
-interface SignArrays {
-  includes?: (sign: string) => boolean;
-}
+// Removed unused interface: SignArrays
 
 import { allCookingMethods, cookingMethods as detailedCookingMethods } from '@/data/cooking';
 import { getCurrentSeason } from '@/data/integrations/seasonal';
@@ -49,11 +47,12 @@ import saturnData from '@/data/planets/saturn';
 import uranusData from '@/data/planets/uranus';
 import venusData from '@/data/planets/venus';
 import type { ZodiacSign, ElementalProperties } from '@/types';
-import type { CookingMethod as CookingMethodEnum } from '@/types/alchemy';
-import { PlanetaryAspect, LunarPhase, AstrologicalState, BasicThermodynamicProperties, CookingMethodProfile, MethodRecommendationOptions, MethodRecommendation, COOKING_METHOD_THERMODYNAMICS } from '@/types/alchemy';
+import { AstrologicalState, BasicThermodynamicProperties, COOKING_METHOD_THERMODYNAMICS, /* CookingMethod as CookingMethodEnum, */ CookingMethodProfile, LunarPhase, MethodRecommendation, MethodRecommendationOptions, PlanetaryAspect } from '@/types/alchemy';
+// Removed unused import: CookingMethodEnum
 import type { CookingMethod } from '@/types/cooking';
 import { calculateLunarPhase, getLunarPhaseName } from '@/utils/astrologyUtils';
-import { culturalCookingMethods, getCulturalVariations } from '@/utils/culturalMethodsAggregator';
+import { culturalCookingMethods /* , getCulturalVariations */ } from '@/utils/culturalMethodsAggregator';
+// Removed unused import: getCulturalVariations
 
 // Define interfaces for the various method types we work with
 interface BaseCookingMethod {
@@ -234,7 +233,7 @@ interface MethodWithThermodynamics {
   [key: string]: unknown;
 }
 
-function getMethodThermodynamics(method: CookingMethodProfile): BasicThermodynamicProperties {
+export function getMethodThermodynamics(method: CookingMethodProfile): BasicThermodynamicProperties {
   // ✅ Pattern MM-1: Safe type assertion for method with thermodynamics
   const methodData = (method as unknown) as MethodWithThermodynamics;
   const methodName = methodData.name || '';
@@ -247,10 +246,10 @@ function getMethodThermodynamics(method: CookingMethodProfile): BasicThermodynam
   if (detailedMethodData && detailedMethodData.thermodynamicProperties) {
     const thermoProps = detailedMethodData.thermodynamicProperties;
     return {
-      heat: thermoProps.heat ?? 0.5,
-      entropy: thermoProps.entropy ?? 0.5,
-      reactivity: thermoProps.reactivity ?? 0.5,
-      gregsEnergy: (thermoProps as { gregsEnergy?: number }).gregsEnergy ?? 0.5,
+      heat: Number(thermoProps.heat) || 0.5,
+      entropy: Number(thermoProps.entropy) || 0.5,
+      reactivity: Number(thermoProps.reactivity) || 0.5,
+      gregsEnergy: Number((thermoProps as { gregsEnergy?: number }).gregsEnergy) || 0.5,
     };
   }
 

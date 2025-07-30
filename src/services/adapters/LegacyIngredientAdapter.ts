@@ -15,8 +15,7 @@ import type {
   Season,
   ZodiacSign,
   PlanetName } from '@/types/ingredient';
-import { RecipeIngredient } from '@/types/recipe';
-import type { Recipe } from "@/types/recipe";
+import { Recipe, RecipeIngredient } from '@/types/recipe';
 import { Ingredient } from '@/types/unified';
 
 import { createLogger } from '../../utils/logger';

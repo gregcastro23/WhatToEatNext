@@ -13,8 +13,7 @@
  */
 
 import { Element } from "@/types/alchemy";
-import type { CelestialPosition, ZodiacSign } from '@/types/celestial';
-import { PlanetaryPosition } from "@/types/celestial";
+import { CelestialPosition, PlanetaryPosition, ZodiacSign } from '@/types/celestial';
 import { createLogger } from '@/utils/logger';
 import * as safeAstrology from '@/utils/safeAstrology';
 

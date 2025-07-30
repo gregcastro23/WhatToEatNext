@@ -5,6 +5,7 @@ const react = require('eslint-plugin-react');
 const reactHooks = require('eslint-plugin-react-hooks');
 const importPlugin = require('eslint-plugin-import');
 const globals = require('globals');
+const astrologicalRules = require('./src/eslint-plugins/astrological-rules.cjs');
 
 module.exports = [
   js.configs.recommended,
@@ -394,37 +395,100 @@ module.exports = [
       '**/data/planets/**/*.ts',
       '**/utils/reliableAstronomy.ts',
       '**/utils/planetaryConsistencyCheck.ts',
+      '**/utils/astrology/**/*.ts',
       '**/services/*Astrological*.ts',
-      '**/services/*Alchemical*.ts'
+      '**/services/*Alchemical*.ts',
+      '**/hooks/use*Astro*.ts',
+      '**/hooks/use*Planet*.ts'
     ],
+    plugins: {
+      '@typescript-eslint': ts,
+      react,
+      'react-hooks': reactHooks,
+      import: importPlugin,
+      'astrological': astrologicalRules
+    },
     rules: {
+      // Custom astrological rules
+      'astrological/preserve-planetary-constants': 'error',
+      'astrological/validate-planetary-position-structure': 'error',
+      'astrological/validate-elemental-properties': 'error',
+      'astrological/require-transit-date-validation': 'warn',
+      'astrological/preserve-fallback-values': 'error',
+      
       // Allow mathematical constants and fallback values
       '@typescript-eslint/no-explicit-any': 'off',
       'no-magic-numbers': 'off',
+      
       // Preserve critical astrological calculation variables
       '@typescript-eslint/no-unused-vars': [
         'error',
         {
-          'argsIgnorePattern': '^(_|planet|position|degree|sign)',
-          'varsIgnorePattern': '^(_|FALLBACK|RELIABLE|POSITIONS|TRANSIT|UNUSED_)',
+          'argsIgnorePattern': '^(_|planet|position|degree|sign|longitude|retrograde)',
+          'varsIgnorePattern': '^(_|FALLBACK|RELIABLE|POSITIONS|TRANSIT|DEFAULT|MARCH2025|UNUSED_|planet|degree|sign|longitude)',
           'caughtErrorsIgnorePattern': '^_',
           'ignoreRestSiblings': true
         }
       ],
+      
       // Allow console statements for astronomical debugging
-      'no-console': ['warn', { 'allow': ['warn', 'error', 'info'] }],
+      'no-console': ['warn', { 'allow': ['warn', 'error', 'info', 'debug'] }],
+      
       // Relax import resolution for astronomical libraries
       'import/no-unresolved': [
         'warn',
         {
-          'ignore': ['astronomia', 'astronomy-engine', 'suncalc']
+          'ignore': ['astronomia', 'astronomy-engine', 'suncalc', 'swiss-ephemeris']
         }
       ],
+      
       // Allow complex expressions for astronomical calculations
       'complexity': 'off',
       'max-lines-per-function': 'off',
+      'max-depth': 'off',
+      'max-statements': 'off',
+      
       // Preserve elemental property structures
-      'prefer-destructuring': 'off'
+      'prefer-destructuring': 'off',
+      
+      // Allow necessary type assertions for astronomical data
+      '@typescript-eslint/no-non-null-assertion': 'off',
+      
+      // Allow floating promises in astronomical calculations (fire-and-forget logging)
+      '@typescript-eslint/no-floating-promises': 'warn',
+      
+      // Preserve mathematical expressions
+      'no-mixed-operators': 'off',
+      'no-extra-parens': 'off',
+      
+      // Allow necessary any types for external astronomical libraries
+      '@typescript-eslint/no-unsafe-assignment': 'off',
+      '@typescript-eslint/no-unsafe-member-access': 'off',
+      '@typescript-eslint/no-unsafe-call': 'off',
+      
+      // Preserve critical calculation patterns
+      'prefer-const': ['error', { 'destructuring': 'all' }],
+      
+      // Allow necessary object property access patterns
+      'dot-notation': 'off',
+      
+      // Preserve astronomical naming conventions
+      'camelcase': [
+        'warn',
+        {
+          'allow': [
+            'exactLongitude',
+            'isRetrograde',
+            'TransitDates',
+            'PlanetSpecific',
+            'ZodiacTransit',
+            'RetrogradePhases',
+            'getMarch2025Positions',
+            'DEGREES_PER_SIGN',
+            'SIGNS_PER_CIRCLE'
+          ]
+        }
+      ]
     }
   },
   

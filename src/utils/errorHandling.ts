@@ -190,7 +190,7 @@ export class ErrorHandler {
   }
 
   // Attempt error recovery
-  private async attemptRecovery(error: EnhancedError): Promise<{ success: boolean; data?: any }> {
+  private async attemptRecovery(error: EnhancedError): Promise<{ success: boolean; data?: unknown }> {
     for (const strategy of this.recoveryStrategies) {
       if (strategy.canRecover(error)) {
         try {
@@ -389,7 +389,7 @@ export function useErrorHandler() {
 // Error boundary helper for specific error types
 export function createErrorBoundaryForType(errorType: ErrorType) {
   return function ErrorBoundaryForType({ children }: { children: React.ReactNode }) {
-    return React.createElement(ErrorBoundary as any, {
+    return React.createElement(ErrorBoundary as React.ComponentType, {
       fallback: (error: Error, errorInfo: React.ErrorInfo) => {
         const enhancedError = createEnhancedError(
           error.message,

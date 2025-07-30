@@ -2,10 +2,11 @@
 
 import { isEqual } from 'lodash';
 import React, { useEffect, useState, useMemo, useCallback } from 'react';
-import { log } from '@/services/LoggingService';
+
 
 import { calculateElementalEnergies } from '@/calculations/elementalcalculations';
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
+import { log } from '@/services/LoggingService';
 import { ElementType, ElementalEnergy } from '@/types/elements';
 import { getCachedCalculation } from '@/utils/calculationCache';
 

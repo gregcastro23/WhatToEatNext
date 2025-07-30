@@ -10,7 +10,7 @@ export function isValidElementalProperties(obj: unknown): obj is ElementalProper
   if (!obj || typeof obj !== 'object') return false;
   const props = obj as Record<string, unknown>;
   return ['Fire', 'Water', 'Earth', 'Air'].every(
-    element => typeof props[element] === 'number' && props[element] >= 0
+    element => typeof props[element] === 'number' && (props[element] as number) >= 0
   );
 }
 

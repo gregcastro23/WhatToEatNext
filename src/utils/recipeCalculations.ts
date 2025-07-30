@@ -1,6 +1,6 @@
+import { log } from '@/services/LoggingService';
 import { ElementalProperties } from '@/types/alchemy';
 import { Recipe, RecipeElementalMapping } from '@/types/recipes';
-import { log } from '@/services/LoggingService';
 
 /**
  * A utility function for logging debug information

@@ -6,8 +6,7 @@ import type {
   RecipeIngredient, 
   IngredientMapping
 } from '@/types';
-import type { ElementalProperties } from '@/types/alchemy';
-import { FlavorProfile } from '@/types/alchemy';
+import { ElementalProperties, FlavorProfile } from '@/types/alchemy';
 import { createAstrologicalBridge } from '@/types/bridges/astrologicalBridge';
 import type { SimpleIngredient } from '@/types/recipeIngredient';
 

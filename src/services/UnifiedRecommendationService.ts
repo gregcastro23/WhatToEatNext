@@ -1,17 +1,18 @@
 import alchemicalEngine from '@/calculations/core/alchemicalEngine';
 import { recipeDataService } from '@/services/recipeData';
 import { 
-  Planet, 
-  ZodiacSign, 
-  ThermodynamicProperties,
+  // Planet, // unused - removed for performance
+  // ZodiacSign, // unused - removed for performance  
+  // ThermodynamicProperties, // unused - removed for performance
   ThermodynamicMetrics,
-  Element,
+  // Element, // unused - removed for performance
   ElementalProperties
 } from '@/types/alchemy';
-import { PlanetaryAlignment } from "@/types/celestial";
+// Removed unused import: PlanetaryAlignment
 
 import { CookingMethod } from '../types/cooking';
-import { Ingredient , UnifiedIngredient } from '../types/ingredient';
+import { Ingredient } from '../types/ingredient';
+// Removed unused import: UnifiedIngredient
 import { Recipe } from '../types/recipe';
 
 import { 
@@ -91,22 +92,22 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
       }
       
       // Check for ingredient inclusion
-      if (criteria.includeIngredients && (criteria.includeIngredients || []).length > 0) {
-        const recipeIngredients = (recipe.ingredients || [] as any[]).map(ing => ing.name?.toLowerCase());
+      if (criteria.includeIngredients && criteria.includeIngredients.length > 0) {
+        const recipeIngredients = (recipe.ingredients || [] as Ingredient[]).map(ing => ing.name?.toLowerCase());
         
-        const includedCount = (criteria.includeIngredients || []).filter(ing =>
+        const includedCount = criteria.includeIngredients.filter(ing =>
           Array.isArray(recipeIngredients) ? recipeIngredients.includes(ing.toLowerCase() || '') : recipeIngredients === (ing.toLowerCase() || '')
         ).length;
         
-        const inclusionRatio = includedCount / (criteria.includeIngredients || []).length;
+        const inclusionRatio = includedCount / criteria.includeIngredients.length;
         score += inclusionRatio * 0.1;
       }
       
       // Check for ingredient exclusion
-      if (criteria.excludeIngredients && (criteria.excludeIngredients || []).length > 0) {
-        const recipeIngredients = (recipe.ingredients || [] as any[]).map(ing => ing.name?.toLowerCase());
+      if (criteria.excludeIngredients && criteria.excludeIngredients.length > 0) {
+        const recipeIngredients = (recipe.ingredients || [] as Ingredient[]).map(ing => ing.name?.toLowerCase());
         
-        const excludedCount = (criteria.excludeIngredients || []).filter(ing =>
+        const excludedCount = criteria.excludeIngredients.filter(ing =>
           Array.isArray(recipeIngredients) ? recipeIngredients.includes(ing.toLowerCase() || '') : recipeIngredients === (ing.toLowerCase() || '')
         ).length;
         
@@ -202,7 +203,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
       }
       
       // Check for ingredient exclusion
-      if (criteria.excludeIngredients && (criteria.excludeIngredients || []).length > 0) {
+      if (criteria.excludeIngredients && criteria.excludeIngredients.length > 0) {
         if ((criteria.excludeIngredients || []).some(ing =>
           ing.toLowerCase() === ingredient.name.toLowerCase()
         )) {

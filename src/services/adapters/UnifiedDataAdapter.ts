@@ -7,8 +7,7 @@
  */
 
 import { UnifiedIngredient } from '@/data/unified/unifiedTypes';
-import type { ElementalProperties, Season, PlanetName, IngredientSearchCriteria } from "@/types/alchemy";
-import { Element } from "@/types/alchemy";
+import { Element, ElementalProperties, IngredientSearchCriteria, PlanetName, Season } from '@/types/alchemy';
 
 import { EnhancedIngredient, getEnhancedIngredient, searchIngredients, getIngredientsByCategory, generateIngredientRecommendations } from '../../data/unified/enhancedIngredients';
 import { UnifiedFlavorProfile, unifiedFlavorProfileSystem, getFlavorProfile } from '../../data/unified/flavorProfiles';
@@ -69,7 +68,7 @@ class UnifiedDataAdapter implements UnifiedDataAdapterInterface {
    */
   searchIngredients(criteria: IngredientSearchCriteria): EnhancedIngredient[] {
     try {
-      return searchIngredients(criteria as IngredientSearchCriteria);
+      return searchIngredients(criteria );
     } catch (error) {
       console.error('Error searching ingredients:', error);
       return [];

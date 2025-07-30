@@ -714,7 +714,7 @@ export { allCookingMethodsCombined as getAllCookingMethods };
  */
 export function getHolisticCookingRecommendations(
   ingredient: Ingredient | UnifiedIngredient,
-  astroState?: any,
+  astroState?: Record<string, unknown>,
   season?: string,
   includeReasons = false,
   availableMethods: string[] = [],
@@ -730,7 +730,7 @@ export function getHolisticCookingRecommendations(
       elementalProperties,
       undefined, // zodiac sign
       undefined, // planets
-      (season as any) || 'spring'
+      (season as string) || 'spring'
     );
     
     // Filter by available methods if provided

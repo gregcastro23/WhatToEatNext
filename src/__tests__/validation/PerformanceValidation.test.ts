@@ -5,9 +5,11 @@
  * Requirements: 5.1, 5.2
  */
 
-import { jest } from '@jest/globals';
-import { performance } from 'perf_hooks';
 import { execSync } from 'child_process';
+import { performance } from 'perf_hooks';
+
+import { jest } from '@jest/globals';
+
 import { TestMemoryMonitor } from '../utils/TestMemoryMonitor';
 
 // Mock child_process for controlled testing

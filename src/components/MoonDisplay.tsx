@@ -2,10 +2,11 @@
 
 import { Moon, ArrowDown, Sunrise, Sunset, Navigation } from 'lucide-react';
 import React, { useState, useEffect, useMemo } from 'react';
-import { log } from '@/services/LoggingService';
+
 
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 import { AstrologicalService } from '@/services/AstrologicalService';
+import { log } from '@/services/LoggingService';
 import { getSignFromLongitude } from '@/utils/astrologyUtils';
 import { safeImportAndExecute, safeImportFunction } from '@/utils/dynamicImport';
 

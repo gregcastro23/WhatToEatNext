@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getLongitudeToZodiacPosition = exports.validatePositionsStructure = exports.getPositionsSummary = exports.clearPositionsCache = exports.getSignFromLongitude = exports.getNodeInfo = exports.calculateLunarNodes = exports.getAccuratePlanetaryPositions = exports.getFallbackPlanetaryPositions = void 0;
-const Astronomy = require("astronomy-engine");
 import { log } from '@/services/LoggingService';
+const Astronomy = require("astronomy-engine");
 /**
  * A utility function for logging debug information
  * This is a safe replacement for console.log that can be disabled in production

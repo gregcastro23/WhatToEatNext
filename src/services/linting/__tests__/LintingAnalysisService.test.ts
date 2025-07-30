@@ -39,8 +39,7 @@ jest.mock('child_process', () => ({
 jest.mock('fs', () => ({
   existsSync: jest.fn().mockReturnValue(true),
   readFileSync: jest.fn().mockReturnValue(`
-    import React from 'react';
-    import { useState } from 'react';
+import React, { useState } from 'react';
     
     const component: any = {};
     

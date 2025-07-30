@@ -6,11 +6,12 @@
  * safety protocols and validation mechanisms.
  */
 
+import { log } from '@/services/LoggingService';
+
 import { AutomatedLintingFixer, AutomatedFixResult, BatchProcessingOptions, SafetyProtocols } from './AutomatedLintingFixer';
 import { LintingAnalysisService, ComprehensiveAnalysisResult } from './LintingAnalysisService';
 import { LintingIssue, CategorizedErrors } from './LintingErrorAnalyzer';
 import { ResolutionStrategy } from './ResolutionStrategyGenerator';
-import { log } from '@/services/LoggingService';
 
 export interface AutomatedLintingWorkflowOptions {
   analysisOptions?: {

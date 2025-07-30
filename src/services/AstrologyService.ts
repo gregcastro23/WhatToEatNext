@@ -1,7 +1,7 @@
 import { getCurrentPlanetaryPositions, getPlanetaryPositionsForDateTime } from '@/services/astrologizeApi';
+import { log } from '@/services/LoggingService';
 import { PlanetaryAlignment, AstrologicalState, CelestialPosition, ZodiacSign, Planet, LunarPhase } from "@/types/celestial";
 import { normalizePlanetaryPositions } from '@/utils/astrology/core';
-import { log } from '@/services/LoggingService';
 
 /**
  * AstrologyService

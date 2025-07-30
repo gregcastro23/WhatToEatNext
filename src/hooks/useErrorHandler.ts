@@ -52,11 +52,11 @@ export default function useErrorHandler({ componentName }: UseErrorHandlerProps)
     });
 
     // Handle the error through the error system
-    handleError(errorObj, {
-      source: componentName,
+    handleError.log(errorObj, {
+      component: componentName,
       severity: ErrorSeverity.WARNING,
-      type: ((ErrorType as Record<string, unknown>).FOOD_RECOMMENDATION as string) || 'General',
-      context
+      type: ErrorType.DATA,
+      context: { details: context }
     });
 
     // Update state

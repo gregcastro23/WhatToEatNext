@@ -1,7 +1,7 @@
 import { Flame, Droplets, Mountain, Wind, Info, Clock, Tag, Leaf, X, ChevronDown, ChevronUp, Beaker, Brain, ExternalLink, ArrowRight } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState, useMemo } from 'react';
-import { log } from '@/services/LoggingService';
+
 
 import EnterpriseIntelligencePanel from '@/components/intelligence/EnterpriseIntelligencePanel';
 import { normalizeChakraKey } from '@/constants/chakraSymbols';
@@ -9,6 +9,7 @@ import { herbsCollection, oilsCollection, vinegarsCollection, grainsCollection }
 import { useAstrologicalState } from '@/hooks/useAstrologicalState';
 import { useChakraInfluencedFood } from '@/hooks/useChakraInfluencedFood';
 import { ElementalCalculator } from '@/services/ElementalCalculator';
+import { log } from '@/services/LoggingService';
 import { ElementalProperties } from '@/types/alchemy';
 import type { Ingredient , UnifiedIngredient } from '@/types/ingredient';
 import { getChakraBasedRecommendations, GroupedIngredientRecommendations, getIngredientRecommendations, IngredientRecommendation } from '@/utils/ingredientRecommender';

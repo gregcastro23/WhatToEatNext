@@ -1,29 +1,32 @@
-import { CHAKRA_NUTRITIONAL_CORRELATIONS, CHAKRA_HERBS } from "@/constants/chakraSymbols";
+// Removed unused imports: CHAKRA_NUTRITIONAL_CORRELATIONS, CHAKRA_HERBS
 import { ChakraService, ChakraEnergyState } from '@/services/ChakraService';
 import { WiccanCorrespondenceService } from '@/services/WiccanCorrespondenceService';
-import { AstrologicalState, ElementalProperties, ChakraEnergies, Season , Element } from '@/types/alchemy';
+import { AstrologicalState, ElementalProperties, ChakraEnergies, /* Season, */ Element } from '@/types/alchemy';
+// Removed unused import: Season
 
-import { CHAKRA_BALANCING_FOODS, calculateChakraEnergies } from '../constants/chakraMappings';
+import { /* CHAKRA_BALANCING_FOODS, */ calculateChakraEnergies } from '../constants/chakraMappings';
+// Removed unused import: CHAKRA_BALANCING_FOODS
 import { SignEnergyState, ZodiacSign } from '../constants/signEnergyStates';
 import { 
 // NEW: Phase 7 unified flavor system integration
   calculateFlavorCompatibility,
-  UnifiedFlavorProfile,
-  getFlavorProfile,
-  unifiedFlavorEngine
+  UnifiedFlavorProfile
+  // Removed unused imports: getFlavorProfile, unifiedFlavorEngine
 } from '../data/unified/unifiedFlavorEngine';
-import { getTarotCardsForDate, getTarotFoodRecommendations } from '../lib/tarotCalculations';
+import { /* getTarotCardsForDate, */ getTarotFoodRecommendations } from '../lib/tarotCalculations';
+// Removed unused import: getTarotCardsForDate
 import { getCurrentSeason } from '../utils/dateUtils';
 import { getRecommendedIngredients } from '../utils/recommendation/foodRecommendation';
 import { EnhancedIngredient } from '../utils/recommendation/ingredientRecommendation';
 
 // Phase 8: Performance optimization imports
 import { 
-  flavorCompatibilityCache, 
+  // flavorCompatibilityCache, // unused - removed for performance
   astrologicalProfileCache, 
-  ingredientProfileCache, 
-  performanceMonitor 
+  ingredientProfileCache 
+  // performanceMonitor // unused - removed for performance
 } from './PerformanceCache';
+// Removed unused imports: flavorCompatibilityCache, performanceMonitor
 
 
 export interface EnhancedRecommendation {
@@ -147,6 +150,9 @@ export class EnhancedRecommendationService {
     try {
       // Get base recommendations
       const baseRecommendations = await getRecommendedIngredients(astroState);
+      
+      // Apply user preference filtering if provided
+      const filteredRecommendations = this.applyUserPreferenceFiltering(baseRecommendations, userPreferences);
 
       // Calculate chakra energies from astrological state
       const chakraEnergies = this.calculateChakraEnergiesFromAstroState(astroState);
@@ -163,7 +169,7 @@ export class EnhancedRecommendationService {
 
       // Enhance each recommendation with additional data including unified flavor system
       const enhancedRecommendations = await Promise.all(
-        baseRecommendations.slice(0, 20).map(async (ingredient) => {
+        filteredRecommendations.slice(0, 20).map(async (ingredient) => {
           // Create a proper EnhancedIngredient from the base recommendation
           const ingredientData = ingredient as unknown as Record<string, unknown>;
           const enhancedIngredient: EnhancedIngredient = {
@@ -333,7 +339,7 @@ export class EnhancedRecommendationService {
       score: Math.min(1.0, enhancedScore),
       reasons,
       chakraAlignment,
-      flavorCompatibility: flavorCompatibility as any,
+      flavorCompatibility: flavorCompatibility as Record<string, unknown>,
       tarotInfluence,
       wiccanProperties
     };
@@ -474,7 +480,7 @@ export class EnhancedRecommendationService {
       zodiacEnergies['aquarius'] += elementalState.Air * 0.3;
     }
 
-    const chakraRecord = calculateChakraEnergies(zodiacEnergies as any);
+    const chakraRecord = calculateChakraEnergies(zodiacEnergies as Record<string, number>);
     // Map from Record<Chakra, number> to ChakraEnergies interface
     return {
       root: chakraRecord['Root'] || 0.14,
@@ -741,6 +747,39 @@ export class EnhancedRecommendationService {
         monica: 0.5
       } as unknown as UnifiedFlavorProfile;
     }
+  }
+  
+  /**
+   * Apply user preference filtering to recommendations (enterprise intelligence pattern)
+   */
+  private applyUserPreferenceFiltering(
+    recommendations: EnhancedIngredient[], 
+    userPreferences?: {
+      dietary?: string[];
+      taste?: { [key: string]: number };
+      chakraFocus?: string[];
+    }
+  ): EnhancedIngredient[] {
+    if (!userPreferences) {
+      return recommendations;
+    }
+    
+    return recommendations.filter(ingredient => {
+      // Filter by dietary restrictions
+      if (userPreferences.dietary && userPreferences.dietary.length > 0) {
+        const ingredientCategory = ingredient.category?.toLowerCase() || '';
+        const hasDietaryConflict = userPreferences.dietary.some(restriction => {
+          const restrictionLower = restriction.toLowerCase();
+          if (restrictionLower === 'vegetarian' && ['meat', 'poultry', 'seafood'].includes(ingredientCategory)) return true;
+          if (restrictionLower === 'vegan' && ['meat', 'poultry', 'seafood', 'dairy', 'egg'].includes(ingredientCategory)) return true;
+          if (restrictionLower === 'gluten-free' && ingredientCategory.includes('grain')) return true;
+          return false;
+        });
+        if (hasDietaryConflict) return false;
+      }
+      
+      return true;
+    });
   }
 }
 

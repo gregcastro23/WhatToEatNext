@@ -233,7 +233,7 @@ class CelestialCalculator {
           strength: aspect.influence
         } as PlanetaryAspect)),
         astrologicalInfluences: astroInfluences // Ensure this is always present and includes tarot influences and 'all'
-      } as any as CelestialAlignment;
+      } as unknown as CelestialAlignment;
       
       // Cache for 1 hour (alignments don't change that quickly)
       cache.set(this.CACHE_KEY, alignment, 60 * 60);
@@ -383,7 +383,7 @@ class CelestialCalculator {
       },
       aspectInfluences: [],
       astrologicalInfluences: ['Sun', 'Moon', 'libra', 'all']
-    } as any as CelestialAlignment;
+    } as unknown as CelestialAlignment;
     
     // Override with any valid properties from the input
     if (typeof alignment.date === 'string') {
@@ -454,7 +454,7 @@ class CelestialCalculator {
       },
       aspectInfluences: [],
       astrologicalInfluences: ['Sun', 'Moon', 'libra', 'all'] // Ensure this is always present and has values
-    } as any as CelestialAlignment;
+    } as unknown as CelestialAlignment;
   }
 
   /**

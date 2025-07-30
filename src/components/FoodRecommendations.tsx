@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { log } from '@/services/LoggingService';
 
+import { log } from '@/services/LoggingService';
 import type { ElementalProperties } from '@/types/alchemy';
 
 // Define FoodRecommendationsProps interface

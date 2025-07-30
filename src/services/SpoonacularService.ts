@@ -3,8 +3,8 @@ const axios = {
   get: async (_url: string, _config?: any) => ({ data: {} as Record<string, unknown> }),
   post: async (_url: string, _data?: any, _config?: any) => ({ data: {} as Record<string, unknown> })
 };
-import type { ElementalProperties } from '@/types/alchemy';
 import { log } from '@/services/LoggingService';
+import type { ElementalProperties } from '@/types/alchemy';
 
 import type { NutritionalProfile } from '../types/nutrition';
 import type { Recipe } from '../types/recipe';

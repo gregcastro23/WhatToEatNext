@@ -8,8 +8,8 @@ import saturnData from '@/data/planets/saturn';
 import sunData from '@/data/planets/sun';
 import uranusData from '@/data/planets/uranus';
 import venusData from '@/data/planets/venus';
-import { ZodiacSign } from '@/types';
 import { log } from '@/services/LoggingService';
+import { ZodiacSign } from '@/types';
 
 import { PlanetPosition } from './astrologyUtils';
 

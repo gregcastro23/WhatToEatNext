@@ -1,5 +1,5 @@
-import type { CelestialPosition } from '@/types/celestial';
 import { log } from '@/services/LoggingService';
+import type { CelestialPosition } from '@/types/celestial';
 
 import { 
   transformItemWithPlanetaryPositions, 

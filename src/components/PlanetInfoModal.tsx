@@ -1,9 +1,9 @@
 'use client';
 
 import React, { useState, useEffect, useCallback } from 'react';
-import { log } from '@/services/LoggingService';
 
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
+import { log } from '@/services/LoggingService';
 import { getPlanetInfo, getDignityDescription, getAspectDescription, PlanetInfo } from '@/utils/planetInfoUtils';
 
 interface PlanetInfoModalProps {
@@ -24,7 +24,7 @@ export function PlanetInfoModal({ planetName, isOpen, onClose }: PlanetInfoModal
       setError(null);
       
       try {
-        log.info(`Processing planet info for ${planetName}:`, planetaryPositions[planetName.toLowerCase()]);
+        log.info(`Processing planet info for ${planetName}:`, { planetData: planetaryPositions[planetName.toLowerCase()] });
         const info = getPlanetInfo(planetName, planetaryPositions);
         
         if (!info) {

@@ -53,15 +53,15 @@ interface MatchingResult {
 
 
 // Phase 8: Lazy loading imports for performance optimization
-let vegetables: { [key: string]: any } = {};
-let fruits: { [key: string]: any } = {};
-let herbs: { [key: string]: any } = {};
-let spices: { [key: string]: any } = {};
-let proteins: { [key: string]: any } = {};
-let grains: { [key: string]: any } = {};
-let seasonings: { [key: string]: any } = {};
-let oils: { [key: string]: any } = {};
-let vinegars: { [key: string]: any } = {};
+let vegetables: { [key: string]: Record<string, unknown> } = {};
+let fruits: { [key: string]: Record<string, unknown> } = {};
+let herbs: { [key: string]: Record<string, unknown> } = {};
+let spices: { [key: string]: Record<string, unknown> } = {};
+let proteins: { [key: string]: Record<string, unknown> } = {};
+let grains: { [key: string]: Record<string, unknown> } = {};
+let seasonings: { [key: string]: Record<string, unknown> } = {};
+let oils: { [key: string]: Record<string, unknown> } = {};
+let vinegars: { [key: string]: Record<string, unknown> } = {};
 
 // Lazy loading functions
 const loadVegetables = async (): Promise<Record<string, unknown>> => {
@@ -241,7 +241,7 @@ export interface IngredientRecommendation {
   flavorProfile?: { [key: string]: number };
   season?: string[];
   subCategory?: string;
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 export interface GroupedIngredientRecommendations {
@@ -277,7 +277,7 @@ export interface EnhancedIngredient {
   elementalProperties: ElementalProperties;
   astrologicalProfile?: {
     base?: string;
-    decanModifiers?: { [key: string]: any };
+    decanModifiers?: { [key: string]: unknown };
     rulingPlanets?: string[];
     favorableZodiac?: string[];
     signAffinities?: string[];
@@ -301,11 +301,11 @@ export interface EnhancedIngredient {
   subCategory?: string;
   qualities?: string[];
   seasonality?: string[];
-  lunarPhaseModifiers?: { [key: string]: any };
+  lunarPhaseModifiers?: { [key: string]: unknown };
   sensoryProfile?: SensoryProfile;
   recommendedCookingMethods?: CookingMethod[];
   culturalOrigins?: string[];
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 export interface EnhancedIngredientRecommendation extends IngredientRecommendation {
@@ -352,7 +352,7 @@ export interface EnhancedIngredientRecommendation extends IngredientRecommendati
 // ===== PERFORMANCE-OPTIMIZED DATA LOADING =====
 
 export const loadIngredientCategories = async (categories: string[]): Promise<Record<string, Ingredient>> => {
-  const result: { [key: string]: any } = {};
+  const result: { [key: string]: Record<string, unknown> } = {};
   try {
     if (categories.includes("vegetables")) {
       result.vegetables = await loadVegetables();
@@ -662,7 +662,7 @@ export async function getIngredientRecommendations(
     try {
       // Traditional scoring factors
       const elementalScore = calculateElementalScore(ingredient.elementalProperties, _elementalProps);
-      const seasonalScore = await calculateSeasonalScore(ingredient as any, _elementalProps.timestamp);
+      const seasonalScore = await calculateSeasonalScore(ingredient as Record<string, unknown>, _elementalProps.timestamp);
       const modalityScore = await calculateModalityScore(ingredient.qualities || [], _options.modalityPreference);
       
       // NEW: Unified flavor compatibility scoring

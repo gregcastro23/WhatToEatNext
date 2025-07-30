@@ -41,8 +41,7 @@ export const mockIngredients = {
 // IngredientRecommendations Component
 import React, { useMemo } from 'react';
 
-import type { AstrologicalState, ElementalProperties, ThermodynamicMetrics } from "@/types/alchemy";
-import { Element } from "@/types/alchemy";
+import { AstrologicalState, Element, ElementalProperties, ThermodynamicMetrics } from '@/types/alchemy';
 
 import { getTopIngredientMatches } from '../../utils/recommendation/foodRecommendation';
 

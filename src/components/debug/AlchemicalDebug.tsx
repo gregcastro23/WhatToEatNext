@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+
 import { log } from '@/services/LoggingService';
 
 import { testCookingMethodRecommendations } from '../../utils/testRecommendations';

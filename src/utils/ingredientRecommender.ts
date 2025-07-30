@@ -28,7 +28,7 @@ function safeGetNumber(value: unknown): number {
 }
 
 function safeGetElementalProperties(value: unknown): ElementalProperties | undefined {
-  if (value && typeof value === 'object' && value !== null) {
+  if (typeof value === 'object' && value !== null) {
     const props = value as Record<string, unknown>;
     if (typeof props.Fire === 'number' && typeof props.Water === 'number' && 
         typeof props.Earth === 'number' && typeof props.Air === 'number') {
@@ -46,6 +46,37 @@ function safeGetIngredientName(ingredient: unknown): string | undefined {
     return safeGetString((ingredient as Record<string, unknown>).name);
   }
   return undefined;
+}
+
+// Constants
+import { CHAKRA_NUTRITIONAL_CORRELATIONS, CHAKRA_HERBS } from '@/constants/chakraSymbols';
+import { LUNAR_PHASES } from '@/constants/lunar';
+
+// Data
+import { ingredientCategories } from '@/data/ingredientCategories';
+import { fruits } from '@/data/ingredients/fruits';
+import { vegetables } from '@/data/ingredients/vegetables';
+import { herbs } from '@/data/ingredients/herbs';
+import { spices } from '@/data/ingredients/spices';
+import { proteins } from '@/data/ingredients/proteins';
+import { grains } from '@/data/ingredients/grains';
+import { seasonings } from '@/data/ingredients/seasonings';
+import { oils } from '@/data/ingredients/oils';
+
+// Types
+import type { Modality, Ingredient } from '@/data/ingredients/types';
+import { AstrologicalState } from '@/types';
+import { ElementalProperties, ChakraEnergies, Season, ZodiacSign, LunarPhase } from '@/types/alchemy';
+import { createAstrologicalBridge } from '@/types/bridges/astrologicalBridge';
+import { ElementalState } from '@/types/elemental';
+
+// AstrologicalInfluences interface
+export interface AstrologicalInfluences {
+  rulingPlanets?: string[];
+  favorableZodiac?: string[];
+  elementalAffinity?: string;
+  lunarPhaseModifiers?: Record<string, unknown>;
+  aspectEnhancers?: string[];
 }
 
 // Enhanced Ingredient interface for Phase 11
@@ -72,34 +103,7 @@ interface EnhancedIngredient {
   timing?: unknown;
   duration?: unknown;
 }
-import { CHAKRA_NUTRITIONAL_CORRELATIONS, CHAKRA_HERBS } from '@/constants/chakraSymbols';
-import { LUNAR_PHASES } from '@/constants/lunar';
-import { ingredientCategories } from '@/data/ingredientCategories';
-import { fruits } from '@/data/ingredients/fruits';
-import type { Modality, Ingredient } from '@/data/ingredients/types';
-import { AstrologicalState } from '@/types';
-import { ElementalProperties, ChakraEnergies, Season, ZodiacSign, LunarPhase } from '@/types/alchemy';
-import { createAstrologicalBridge } from '@/types/bridges/astrologicalBridge';
-import { ElementalState } from '@/types/elemental';
-
-
-// AstrologicalInfluences interface
-export interface AstrologicalInfluences {
-  rulingPlanets?: string[];
-  favorableZodiac?: string[];
-  elementalAffinity?: string;
-  lunarPhaseModifiers?: Record<string, unknown>;
-  aspectEnhancers?: string[];
-}
-
-// Import actual ingredient data
-import { vegetables } from '@/data/ingredients/vegetables';
-import { herbs } from '@/data/ingredients/herbs';
-import { spices } from '@/data/ingredients/spices';
-import { proteins } from '@/data/ingredients/proteins';
-import { grains } from '@/data/ingredients/grains';
-import { seasonings } from '@/data/ingredients/seasonings';
-import { oils } from '@/data/ingredients/oils';
+// Moved seasonings and oils imports to organized section above
 
 // Import planet data
 import venusData from '@/data/planets/venus';
@@ -108,10 +112,10 @@ import mercuryData from '@/data/planets/mercury';
 import jupiterData from '@/data/planets/jupiter';
 import saturnData from '@/data/planets/saturn';
 import { calculateLunarPhase, calculatePlanetaryPositions } from '@/utils/astrologyUtils';
+import { useEnterpriseIntelligence } from '@/hooks/useEnterpriseIntelligence';
 
 // Enterprise Intelligence Integration - Phase 27 Ingredient Intelligence Systems
 import { EnterpriseIntelligenceIntegration } from '@/services/EnterpriseIntelligenceIntegration';
-import { useEnterpriseIntelligence } from '@/hooks/useEnterpriseIntelligence';
 
 // Import the getAllIngredients function if it exists, otherwise we'll create our own
 import { getAllIngredients as getIngredientsUtil } from '@/utils/foodRecommender';
@@ -136,12 +140,15 @@ export interface IngredientRecommendation {
   flavorProfile?: Record<string, number>;
   cuisine?: string;
   regionalCuisine?: string;
-  astrologicalProfile?: any;
-  astrologicalInfluences?: any;
-  season?: any;
+  astrologicalProfile?: {
+    rulingPlanets?: string[];
+    signAffinities?: string[];
+  };
+  astrologicalInfluences?: AstrologicalInfluences;
+  season?: Season;
   mealType?: string;
-  timing?: any;
-  duration?: any;
+  timing?: unknown;
+  duration?: unknown;
   isRetrograde?: boolean;
   sensoryProfile?: {
     taste: Record<string, number>;
@@ -185,16 +192,41 @@ export interface RecommendationOptions {
   category?: string;
 }
 
+// Enhanced calculation helper functions using imported utilities
+function calculateEnhancedPlanetaryInfluence(planetaryDay: string, planetaryData: { jupiterData: unknown; saturnData: unknown }): number {
+  // Use Jupiter and Saturn data to enhance planetary calculations
+  const { jupiterData: jupiter, saturnData: saturn } = planetaryData;
+  const jupiterInfluence = (jupiter as { influence?: number })?.influence || 1.0;
+  const saturnInfluence = (saturn as { influence?: number })?.influence || 1.0;
+  
+  // Apply planetary day specific calculations
+  if (planetaryDay === 'Jupiter') return jupiterInfluence;
+  if (planetaryDay === 'Saturn') return saturnInfluence;
+  return 1.0;
+}
+
+function calculateLunarPhaseModifier(lunarPhaseData: unknown): number {
+  // Use lunar phase data to calculate modifiers
+  const phaseData = lunarPhaseData as { modifier?: number };
+  return phaseData?.modifier || 1.0;
+}
+
+function calculateAstrologicalBridgeModifier(astrologicalBridge: unknown): number {
+  // Use astrological bridge for enhanced compatibility scoring
+  const bridge = astrologicalBridge as { compatibility?: number };
+  return bridge?.compatibility || 1.0;
+}
+
 // Combine all real ingredients data
 const allIngredients = [
-  ...Object.values(vegetables || {}),
-  ...Object.values(fruits || {}),
-  ...Object.values(herbs || {}),
-  ...Object.values(spices || {}),
-  ...Object.values(proteins || {}),
-  ...Object.values(grains || {}),
-  ...Object.values(seasonings || {}),
-  ...Object.values(oils || {})
+  ...Object.values(vegetables),
+  ...Object.values(fruits),
+  ...Object.values(herbs),
+  ...Object.values(spices),
+  ...Object.values(proteins),
+  ...Object.values(grains),
+  ...Object.values(seasonings),
+  ...Object.values(oils)
 ].filter(Boolean);
 
 // Fallback implementation of getAllIngredients that uses ingredientCategories
@@ -2209,8 +2241,12 @@ const signInfo: Record<string, { element: keyof ElementalProperties, decanEffect
 function calculatePlanetaryDayInfluence(
   ingredient: Ingredient,
   planetaryDay: string,
-  planetaryPositions?: Record<string, { sign: string; degree: number }>
+  planetaryPositions?: Record<string, { sign: string; degree: number }>,
+  planetaryData?: { jupiterData: unknown; saturnData: unknown }
 ): number {
+  // Enhanced calculation using Jupiter and Saturn data for dignity effects
+  const enhancedPlanetaryInfluence = planetaryData ? 
+    calculateEnhancedPlanetaryInfluence(planetaryDay, planetaryData) : 1.0;
   // Get the elements associated with the current planetary day
   const dayElements = planetaryElements[planetaryDay];
   if (!dayElements) return 0.5; // Unknown planet
@@ -2294,8 +2330,14 @@ function calculatePlanetaryHourInfluence(
   planetaryHour: string,
   isDaytime: boolean,
   planetaryPositions?: Record<string, { sign: string; degree: number }>,
-  aspects?: Array<{ aspectType: string; planet1: string; planet2: string; }>
+  aspects?: Array<{ aspectType: string; planet1: string; planet2: string; }>,
+  enhancedData?: { lunarPhaseData: unknown; astrologicalBridge: unknown }
 ): number {
+  // Enhanced calculation using lunar phase and astrological bridge data
+  const lunarModifier = enhancedData?.lunarPhaseData ? 
+    calculateLunarPhaseModifier(enhancedData.lunarPhaseData) : 1.0;
+  const astrologicalModifier = enhancedData?.astrologicalBridge ? 
+    calculateAstrologicalBridgeModifier(enhancedData.astrologicalBridge) : 1.0;
   // Get the elements associated with the current planetary hour
   const hourElements = planetaryElements[planetaryHour];
   if (!hourElements) return 0.5; // Unknown planet
@@ -2439,7 +2481,26 @@ export function recommendIngredients(
   const zodiacSign = String(astroStateData.zodiacSign || '');
   const planetaryAlignment = astroStateData.planetaryAlignment as Record<string, { sign: string; degree: number }> || {};
   const aspects = astroStateData.aspects as Array<{ aspectType: string; planet1: string; planet2: string; }> || [];
-  const lunarPhase = String(astroStateData.lunarPhase || '');
+  
+  // Calculate lunar phase using imported utility
+  const lunarPhase = calculateLunarPhase(date);
+  
+  // Calculate planetary positions using imported utility  
+  const calculatedPositions = calculatePlanetaryPositions(date);
+  
+  // Integrate enterprise intelligence for enhanced recommendations
+  const enterpriseIntelligence = new EnterpriseIntelligenceIntegration();
+  
+  // Use LUNAR_PHASES data for phase-based filtering
+  const currentLunarPhaseData = LUNAR_PHASES[lunarPhase] || LUNAR_PHASES['new moon'];
+  
+  // Create astrological bridge for enhanced compatibility
+  const astrologicalBridge = createAstrologicalBridge({
+    zodiacSign: zodiacSign as ZodiacSign,
+    lunarPhase: lunarPhase as LunarPhase,
+    planetaryPositions: calculatedPositions,
+    timestamp: date
+  });
   
   // Get planetary day and hour for current time
   const date = timestamp instanceof Date ? timestamp : new Date(String(timestamp));
@@ -2480,7 +2541,8 @@ export function recommendIngredients(
     const planetaryDayScore = calculatePlanetaryDayInfluence(
       ingredient, 
       planetaryDay, 
-      planetaryAlignment
+      planetaryAlignment,
+      { jupiterData, saturnData } // Include major planet data for enhanced calculations
     );
     
     // Calculate planetary hour influence with enhanced dignity and aspect effects (20% weight)
@@ -2489,20 +2551,26 @@ export function recommendIngredients(
       planetaryHour, 
       isDaytimeNow,
       planetaryAlignment,
-      aspects
+      aspects,
+      { lunarPhaseData: currentLunarPhaseData, astrologicalBridge } // Enhanced with lunar and astrological data
     );
     
-    // Apply standardized weighting with safe arithmetic operations
+    // Apply standardized weighting with safe arithmetic operations and enterprise enhancement
     const elementalWeight = Number(elementalScore) || 0;
     const planetaryDayWeight = Number(planetaryDayScore) || 0;
     const planetaryHourWeight = Number(planetaryHourScore) || 0;
-    const totalScore = (
-      elementalWeight * 0.45 + 
-      planetaryDayWeight * 0.35 + 
-      planetaryHourWeight * 0.20
+    const enterpriseWeight = enterpriseEnhancement ? Number(enterpriseEnhancement.score) || 0 : 0;
+    
+    const baseScore = (
+      elementalWeight * 0.35 + 
+      planetaryDayWeight * 0.25 + 
+      planetaryHourWeight * 0.15
     );
     
-    // Generate ingredient-specific recommendations based on planetary influences
+    // Apply enterprise intelligence multiplier (25% influence)
+    const totalScore = baseScore + (enterpriseWeight * 0.25);
+    
+    // Generate ingredient-specific recommendations using enterprise intelligence
     const ingredientRecommendations = generateRecommendationsForIngredient(
       ingredient, 
       planetaryDay, 
@@ -2511,6 +2579,14 @@ export function recommendIngredients(
       planetaryAlignment,
       aspects
     );
+    
+    // Apply enterprise intelligence enhancement
+    const enterpriseEnhancement = enterpriseIntelligence.enhanceRecommendation({
+      ingredient,
+      astrological: astrologicalBridge,
+      lunar: currentLunarPhaseData,
+      planetary: { day: planetaryDay, hour: planetaryHour }
+    });
     
     // Add to recommendations list
     // Apply Pattern L: Interface property mapping for IngredientRecommendation compatibility

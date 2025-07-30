@@ -1,4 +1,5 @@
 import Document, { Html, Head, Main, NextScript } from 'next/document';
+
 import { log } from '@/services/LoggingService';
 
 class MyDocument extends Document {

@@ -370,7 +370,7 @@ export const useTarotAstrologyData = (): TarotAstrologyResult => {
       
       cards.forEach(card => {
         // Get card element
-        let element = null;
+        let element: ElementalCharacter | string | null = null;
         
         if (card.suit) { // Minor arcana
           const suitMap: Record<string, ElementalCharacter> = {

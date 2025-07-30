@@ -11,8 +11,9 @@
  * - Tarot effects and other mystical influences
  */
 
-import { GeographicCoordinates, PlanetaryLocationService } from '../data/planets/locationService';
 import { log } from '@/services/LoggingService';
+
+import { GeographicCoordinates, PlanetaryLocationService } from '../data/planets/locationService';
 import type { 
   ElementalProperties, 
   ZodiacSign, 

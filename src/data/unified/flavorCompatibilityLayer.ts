@@ -1,5 +1,4 @@
-import type { ElementalProperties, Season } from "@/types/alchemy";
-import { Element } from "@/types/alchemy";
+import { Element, ElementalProperties, Season } from '@/types/alchemy';
 
 import { 
 // ===== BACKWARD COMPATIBILITY LAYER - PHASE 4 =====

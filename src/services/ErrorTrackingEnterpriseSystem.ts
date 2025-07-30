@@ -16,6 +16,7 @@
 import { execSync } from 'child_process';
 import fs from 'fs';
 import path from 'path';
+
 import { log } from '@/services/LoggingService';
 
 import { CAMPAIGN_ENTERPRISE_INTELLIGENCE } from './campaign/CampaignIntelligenceSystem';
@@ -370,7 +371,7 @@ export class ErrorTrackingEnterpriseSystem {
    * Generate intelligent recommendations based on analysis
    */
   private generateIntelligentRecommendations(
-    analysisResult: any,
+    analysisResult: Record<string, unknown>,
     metrics: ErrorTrackingMetrics,
     trends: ErrorTrend[]
   ): IntelligentRecommendation[] {
@@ -474,7 +475,7 @@ export class ErrorTrackingEnterpriseSystem {
   /**
    * Calculate comprehensive tracking metrics
    */
-  private calculateMetrics(analysisResult: any, currentErrorCount: number): ErrorTrackingMetrics {
+  private calculateMetrics(analysisResult: Record<string, unknown>, currentErrorCount: number): ErrorTrackingMetrics {
     const previousSnapshot = this.metricsHistory[this.metricsHistory.length - 1];
     const timeElapsed = previousSnapshot ? 
       (Date.now() - previousSnapshot.timestamp.getTime()) / (1000 * 60) : 1; // minutes
@@ -678,7 +679,7 @@ export class ErrorTrackingEnterpriseSystem {
       // Load metrics history
       if (fs.existsSync(this.METRICS_FILE)) {
         const metricsData = JSON.parse(fs.readFileSync(this.METRICS_FILE, 'utf8'));
-        this.metricsHistory = metricsData.map((item: any) => ({
+        this.metricsHistory = metricsData.map((item: Record<string, unknown>) => ({
           ...item,
           timestamp: new Date(item.timestamp)
         }));

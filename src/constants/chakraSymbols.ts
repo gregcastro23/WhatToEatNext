@@ -119,7 +119,7 @@ export const CHAKRA_MANTRA_INTELLIGENCE = {
    * @param context - Additional context for analysis
    * @returns Enhanced mantra analysis with vibrational insights
    */
-  analyzeMantraVibrations: (mantras: typeof CHAKRA_BIJA_MANTRAS, context: any = {}) => {
+  analyzeMantraVibrations: (mantras: typeof CHAKRA_BIJA_MANTRAS, context: Record<string, unknown> = {}) => {
     const mantraAnalysis = {
       // Vibrational frequency analysis
       vibrationalFrequencies: {
@@ -170,7 +170,7 @@ export const CHAKRA_MANTRA_INTELLIGENCE = {
    * @param analysis - The mantra analysis results
    * @returns Array of intelligent recommendations
    */
-  generateRecommendations: (analysis: any) => {
+  generateRecommendations: (analysis: Record<string, unknown>) => {
     const recommendations: string[] = [];
     
     if (analysis.effectiveness.pronunciationAccuracy < 0.85) {
@@ -248,7 +248,7 @@ export const CHAKRA_VISUAL_INTELLIGENCE = {
    * @param analysis - The visual analysis results
    * @returns Array of intelligent recommendations
    */
-  generateRecommendations: (analysis: any) => {
+  generateRecommendations: (analysis: Record<string, unknown>) => {
     const recommendations: string[] = [];
     
     if (analysis.symbolicEffectiveness.visualClarity < 0.85) {
@@ -325,7 +325,7 @@ export const CHAKRA_NUTRITIONAL_INTELLIGENCE = {
    * @param analysis - The nutritional analysis results
    * @returns Array of intelligent recommendations
    */
-  generateRecommendations: (analysis: any) => {
+  generateRecommendations: (analysis: Record<string, unknown>) => {
     const recommendations: string[] = [];
     
     if (analysis.nutritionalEffectiveness.dietaryAlignment < 0.85) {
@@ -403,7 +403,7 @@ export const CHAKRA_FUNCTIONAL_INTELLIGENCE = {
    * @param analysis - The functional analysis results
    * @returns Array of intelligent recommendations
    */
-  generateRecommendations: (analysis: any) => {
+  generateRecommendations: (analysis: Record<string, unknown>) => {
     const recommendations: string[] = [];
     
     if (analysis.functionalEffectiveness.operationalEfficiency < 0.85) {
@@ -480,7 +480,7 @@ export const CHAKRA_DEMONSTRATION_PLATFORM = {
    * @param analysis - The platform analysis results
    * @returns Array of intelligent recommendations
    */
-  generateRecommendations: (analysis: any) => {
+  generateRecommendations: (analysis: Record<string, unknown>) => {
     const recommendations: string[] = [];
     
     if (analysis.platformEffectiveness.demonstrationClarity < 0.85) {

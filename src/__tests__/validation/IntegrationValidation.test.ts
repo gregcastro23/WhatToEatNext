@@ -5,10 +5,11 @@
  * Requirements: 5.1, 5.2
  */
 
-import { jest } from '@jest/globals';
 import { execSync } from 'child_process';
 import { readFileSync, existsSync } from 'fs';
 import path from 'path';
+
+import { jest } from '@jest/globals';
 
 // Mock child_process for controlled testing
 jest.mock('child_process', () => ({

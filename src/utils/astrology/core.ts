@@ -7,8 +7,7 @@ import type { LunarPhase,
   PlanetaryAspect as ImportedPlanetaryAspect,
   AspectType as ImportedAspectType,
   PlanetName } from "@/types/alchemy";
-import { AstrologicalState, Element , PlanetaryPosition } from "@/types/celestial";
-import type { CelestialPosition } from "@/types/celestial";
+import { AstrologicalState, CelestialPosition, Element, PlanetaryPosition } from '@/types/celestial';
 import type { TimeFactors, Season, TimeOfDay } from "@/types/time";
 
 

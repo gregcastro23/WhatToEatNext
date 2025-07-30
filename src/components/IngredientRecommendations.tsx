@@ -2,10 +2,11 @@
 
 import { Flame, Droplets, Mountain, Wind } from 'lucide-react';
 import { useState, useEffect } from 'react';
-import { log } from '@/services/LoggingService';
+
 
 import type { Modality } from '@/data/ingredients/types';
 import { useAstrologicalState } from '@/hooks/useAstrologicalState';
+import { log } from '@/services/LoggingService';
 import type { ElementalProperties, Season, Ingredient } from '@/types/alchemy';
 import { getIngredientRecommendations, IngredientRecommendation, RecommendationOptions, GroupedIngredientRecommendations } from '@/utils/ingredientRecommender';
 import { toZodiacSign } from '@/utils/zodiacUtils';

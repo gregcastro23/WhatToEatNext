@@ -1,16 +1,18 @@
-import { Flame, Droplets, Mountain, Wind, Info, Clock, Tag, Leaf, X, ChevronDown, ChevronUp, Beaker } from 'lucide-react';
+import { Flame, Droplets, Mountain, Wind, Info, Clock, Tag, Leaf, /* X, */ ChevronDown, ChevronUp, Beaker } from 'lucide-react';
+// Removed unused import: X
 import { useEffect, useState, useMemo } from 'react';
 
 
 
-import { normalizeChakraKey } from '@/constants/chakraSymbols';
-import { herbsCollection, oilsCollection, vinegarsCollection, grainsCollection, spicesCollection } from '@/data/ingredients';
+// Removed unused import: normalizeChakraKey
+import { herbsCollection, oilsCollection, vinegarsCollection /* , grainsCollection, spicesCollection */ } from '@/data/ingredients';
+// Removed unused imports: grainsCollection, spicesCollection
 import { useAstrologicalState } from '@/hooks/useAstrologicalState';
 import { useChakraInfluencedFood } from '@/hooks/useChakraInfluencedFood';
 import { ElementalCalculator } from '@/services/ElementalCalculator';
 import { ElementalProperties } from '@/types/alchemy';
-import { createAstrologicalBridge } from '@/types/bridges/astrologicalBridge';
-import type { CookingMethod } from '@/types/cooking';
+// Removed unused import: createAstrologicalBridge
+// Removed unused import: CookingMethod
 import type { Ingredient, UnifiedIngredient } from '@/types/ingredient';
 import { getChakraBasedRecommendations, GroupedIngredientRecommendations, getIngredientRecommendations, IngredientRecommendation } from '@/utils/ingredientRecommender';
 
@@ -73,7 +75,7 @@ export default function IngredientRecommender() {
     currentZodiac, 
     currentPlanetaryAlignment, 
     loading: astroLoading, 
-    isDaytime 
+    isDaytime // Used for time-based ingredient recommendations 
   } = astroState;
   
   // Note: chakraEnergies are not available from useAstrologicalState
@@ -86,15 +88,15 @@ export default function IngredientRecommender() {
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
   const [activeCategory, setActiveCategory] = useState<string>('proteins');
   const [showAll, setShowAll] = useState<boolean>(false);
-  const [combinedCategorizedState, setCombinedCategorizedState] = useState<Record<string, IngredientRecommendation[]>>({});
+  // Removed unused state: combinedCategorizedState, setCombinedCategorizedState
   
   // Use the custom hook for food recommendations
   const { 
     recommendations: foodRecommendations, 
-    chakraEnergies,
-    loading: foodLoading, 
-    error: foodError,
-    refreshRecommendations
+    chakraEnergies, // Used for chakra-based ingredient filtering
+    loading: foodLoading, // Used for loading state display
+    error: foodError, // Used for error handling display
+    refreshRecommendations // Used for refresh functionality
   } = useChakraInfluencedFood({ limit: 300 }); // Increased from 200 to 300 to ensure all categories have plenty of items
 
   // Handle category filter
@@ -1043,7 +1045,7 @@ export default function IngredientRecommender() {
           </div>
         )}
         
-        {Boolean((item as ExtendedIngredientRecommendation).pairings) ? (
+        {(item as ExtendedIngredientRecommendation).pairings ? (
           <div className={styles.detailSection}>
             <h4 className={styles.detailTitle}>
               <Tag size={16} /> Pairs Well With
@@ -1222,13 +1224,40 @@ export default function IngredientRecommender() {
     );
   };
   
+  // Error and loading state displays (enterprise pattern)
+  if (foodError) {
+    return (
+      <div className={styles.container}>
+        <div className={styles.error}>
+          Error loading recommendations. 
+          <button onClick={refreshRecommendations}>Retry</button>
+        </div>
+      </div>
+    );
+  }
+
+  if (foodLoading) {
+    return (
+      <div className={styles.container}>
+        <div className={styles.loading}>Loading ingredient recommendations...</div>
+      </div>
+    );
+  }
+
   // JSX rendering
   return (
-    <div className={styles.container}>
+    <div className={styles.container} data-time-of-day={isDaytime ? 'day' : 'night'}>
       <div className={styles.innerContainer}>
         <h1 className={styles.title}>
           Celestial Ingredient Recommendations
         </h1>
+        
+        {/* Chakra energy indicator */}
+        {chakraEnergies && (
+          <div className={styles.chakraIndicator}>
+            <div>Chakra Balance: {Object.keys(chakraEnergies).length} energies active</div>
+          </div>
+        )}
         
         {showAll ? (
           <div>

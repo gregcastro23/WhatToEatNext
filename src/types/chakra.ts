@@ -153,6 +153,17 @@ export const CHAKRAS: ChakraProperties = {
     balanceIndicators: ['Enlightenment', 'Spiritual connection', 'Inner wisdom'],
     imbalanceIndicators: ['Closed-mindedness', 'Isolation', 'Over-intellectualization'],
     planet: 'Sun'
+  },
+  thirdEye: {
+    name: 'Third Eye Chakra',
+    sanskritName: 'Ajna',
+    element: 'Light',
+    color: 'Indigo',
+    description: 'Intuition, insight, vision',
+    governs: ['Intuition', 'Imagination', 'Vision'],
+    balanceIndicators: ['Clear insight', 'Strong intuition', 'Wisdom'],
+    imbalanceIndicators: ['Confusion', 'Poor intuition', 'Lack of focus'],
+    planet: 'Moon'
   }
 };
 

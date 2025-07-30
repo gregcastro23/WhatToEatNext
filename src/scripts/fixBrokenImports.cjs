@@ -1,9 +1,10 @@
 #!/usr/bin/env node
 
 /**
- * Fix Broken Import Statements
+ * Fix Broken Imports Script
  * 
- * Fixes import statements that were broken by the console replacement script
+ * This script fixes import statements that are missing the 'import' keyword
+ * due to previous processing errors.
  */
 
 const fs = require('fs');
@@ -12,173 +13,115 @@ const path = require('path');
 class BrokenImportFixer {
   constructor() {
     this.srcDir = path.join(process.cwd(), 'src');
+    this.fixedFiles = 0;
+    this.fixedImports = 0;
   }
 
-  async fixBrokenImports() {
-    console.log('🔧 Fixing Broken Import Statements');
-    console.log('===================================');
-    
-    const files = this.getFilesWithBrokenImports();
-    console.log(`📁 Found ${files.length} files with broken imports\n`);
-
-    let fixedCount = 0;
-    
-    for (const file of files) {
-      try {
-        if (this.fixFileImports(file)) {
-          console.log(`✅ Fixed: ${path.relative(process.cwd(), file)}`);
-          fixedCount++;
-        }
-      } catch (error) {
-        console.error(`❌ Error fixing ${file}:`, error.message);
-      }
-    }
-    
-    console.log(`\n🎉 Fixed ${fixedCount} files`);
-    return fixedCount;
-  }
-
-  getFilesWithBrokenImports() {
+  getAllTypeScriptFiles() {
     const files = [];
     
-    const walkDir = (dir) => {
-      const entries = fs.readdirSync(dir);
-      
-      for (const entry of entries) {
-        const fullPath = path.join(dir, entry);
-        const stat = fs.statSync(fullPath);
+    const scanDirectory = (dir) => {
+      try {
+        const entries = fs.readdirSync(dir, { withFileTypes: true });
         
-        if (stat.isDirectory()) {
-          walkDir(fullPath);
-        } else if (this.isTypeScriptFile(fullPath) && this.hasBrokenImports(fullPath)) {
-          files.push(fullPath);
+        for (const entry of entries) {
+          const fullPath = path.join(dir, entry.name);
+          
+          if (entry.isDirectory() && !entry.name.startsWith('.') && entry.name !== 'node_modules') {
+            scanDirectory(fullPath);
+          } else if (entry.isFile() && /\.(ts|tsx)$/.test(entry.name)) {
+            files.push(fullPath);
+          }
         }
+      } catch (error) {
+        console.warn(`⚠️ Failed to scan directory ${dir}:`, error.message);
       }
     };
     
-    walkDir(this.srcDir);
+    scanDirectory(this.srcDir);
     return files;
   }
 
-  isTypeScriptFile(filePath) {
-    return /\.(ts|tsx)$/.test(filePath);
-  }
-
-  hasBrokenImports(filePath) {
+  fixBrokenImports(filePath) {
     try {
       const content = fs.readFileSync(filePath, 'utf8');
+      const lines = content.split('\n');
+      let hasChanges = false;
       
-      // Check for various broken patterns
-      return content.includes("import { \nimport { log } from '@/services/LoggingService';") ||
-             content.includes("import type {\nimport { log } from '@/services/LoggingService';") ||
-             content.includes("} from '@/services/LoggingService';\n}") ||
-             content.includes("} from '@/services/LoggingService';\n  ");
+      for (let i = 0; i < lines.length; i++) {
+        const line = lines[i];
+        const trimmedLine = line.trim();
+        
+        // Check for lines that look like broken import statements
+        // Pattern: starts with whitespace, then named imports, then 'from'
+        const brokenImportMatch = trimmedLine.match(/^(\s*)([\w\s,{}]+)\s+from\s+['"`]([^'"`]+)['"`];?\s*$/);
+        
+        if (brokenImportMatch && !trimmedLine.startsWith('import')) {
+          const [, leadingSpace, importPart, source] = brokenImportMatch;
+          
+          // Check if this looks like a valid import part (contains { } or valid identifiers)
+          if (importPart.includes('{') || /^[a-zA-Z_$][a-zA-Z0-9_$]*(\s*,\s*[a-zA-Z_$][a-zA-Z0-9_$]*)*$/.test(importPart.trim())) {
+            // Fix the import by adding the 'import' keyword
+            const fixedLine = `${leadingSpace}import ${importPart} from '${source}';`;
+            lines[i] = fixedLine;
+            hasChanges = true;
+            this.fixedImports++;
+            
+            console.log(`   Fixed broken import in ${path.relative(this.srcDir, filePath)}:${i + 1}`);
+            console.log(`     Before: ${trimmedLine}`);
+            console.log(`     After:  import ${importPart} from '${source}';`);
+          }
+        }
+      }
+      
+      if (hasChanges) {
+        fs.writeFileSync(filePath, lines.join('\n'));
+        this.fixedFiles++;
+        return true;
+      }
+      
+      return false;
     } catch (error) {
+      console.warn(`⚠️ Failed to fix broken imports in ${filePath}:`, error.message);
       return false;
     }
   }
 
-  fixFileImports(filePath) {
-    let content = fs.readFileSync(filePath, 'utf8');
-    const originalContent = content;
+  async run() {
+    console.log('🚀 Starting Broken Import Fixer');
+    console.log('=' .repeat(50));
     
-    // Fix pattern 1: import { \nimport { log }
-    content = content.replace(
-      /import \{ \nimport \{ log \} from '@\/services\/LoggingService';\n/g,
-      "import { log } from '@/services/LoggingService';\nimport { \n"
-    );
-    
-    // Fix pattern 2: import type {\nimport { log }
-    content = content.replace(
-      /import type \{\nimport \{ log \} from '@\/services\/LoggingService';\n/g,
-      "import { log } from '@/services/LoggingService';\nimport type {\n"
-    );
-    
-    // Fix pattern 3: logging import in middle of multiline import
-    content = content.replace(
-      /(\w+,\s*\n)import \{ log \} from '@\/services\/LoggingService';\n(\s+)/g,
-      "$1$2"
-    );
-    
-    // Fix pattern 4: logging import breaking closing brace
-    content = content.replace(
-      /import \{ log \} from '@\/services\/LoggingService';\n(\s*[^}]*)\} from/g,
-      "$1} from"
-    );
-    
-    // Add logging import at the top if it was removed
-    if (originalContent.includes("import { log } from '@/services/LoggingService';") && 
-        !content.includes("import { log } from '@/services/LoggingService';")) {
+    try {
+      const files = this.getAllTypeScriptFiles();
+      console.log(`📁 Found ${files.length} TypeScript files`);
       
-      // Find the best place to add it
-      const lines = content.split('\n');
-      let insertIndex = 0;
-      
-      for (let i = 0; i < lines.length; i++) {
-        const line = lines[i].trim();
-        if (line.startsWith('import ')) {
-          insertIndex = i + 1;
-        } else if (line === '' && insertIndex > 0) {
-          break;
-        } else if (line && !line.startsWith('//') && !line.startsWith('/*') && insertIndex > 0) {
-          break;
-        }
+      if (files.length === 0) {
+        console.log('✅ No TypeScript files to process');
+        return;
       }
       
-      lines.splice(insertIndex, 0, "import { log } from '@/services/LoggingService';");
-      content = lines.join('\n');
+      console.log('🔧 Processing files...');
+      
+      for (const file of files) {
+        this.fixBrokenImports(file);
+      }
+      
+      console.log('=' .repeat(50));
+      console.log(`✅ Broken import fixing completed!`);
+      console.log(`   Files fixed: ${this.fixedFiles}`);
+      console.log(`   Imports fixed: ${this.fixedImports}`);
+      
+    } catch (error) {
+      console.error('❌ Broken import fixing failed:', error);
+      process.exit(1);
     }
-    
-    if (content !== originalContent) {
-      fs.writeFileSync(filePath, content);
-      return true;
-    }
-    
-    return false;
   }
 }
 
-async function main() {
-  const fixer = new BrokenImportFixer();
-  
-  try {
-    const fixedCount = await fixer.fixBrokenImports();
-    
-    if (fixedCount > 0) {
-      console.log('\n🔍 Validating fixes...');
-      const { execSync } = require('child_process');
-      
-      try {
-        execSync('yarn tsc --noEmit --skipLibCheck', { stdio: 'pipe' });
-        console.log('✅ TypeScript compilation successful');
-        console.log('🎉 All import issues fixed!');
-      } catch (error) {
-        console.log('⚠️  Some TypeScript errors remain, checking specific issues...');
-        
-        try {
-          const output = execSync('yarn tsc --noEmit --skipLibCheck 2>&1', { encoding: 'utf8' });
-          const errorLines = output.split('\n').filter(line => line.includes('error TS'));
-          console.log(`Found ${errorLines.length} remaining TypeScript errors`);
-          
-          if (errorLines.length < 20) {
-            console.log('Remaining errors:');
-            errorLines.slice(0, 10).forEach(line => console.log(`  ${line}`));
-          }
-        } catch (e) {
-          // Ignore
-        }
-      }
-    } else {
-      console.log('✨ No broken imports found');
-    }
-  } catch (error) {
-    console.error('❌ Failed to fix imports:', error);
-    process.exit(1);
-  }
-}
-
+// Run the script
 if (require.main === module) {
-  main().catch(console.error);
+  const fixer = new BrokenImportFixer();
+  fixer.run().catch(console.error);
 }
 
-module.exports = { BrokenImportFixer };
+module.exports = BrokenImportFixer;

@@ -96,7 +96,6 @@ function calculateElementalInfluences(positions: any): ElementalProperties {
     description: 'Template for service class with astrological calculations',
     category: 'service',
     template: `import { getReliablePlanetaryPositions } from '@/utils/reliableAstronomy';
-import { ElementalProperties } from '@/types/elemental';
 import { ZodiacSign } from '@/types/astrological';
 
 export class {{SERVICE_NAME}} {
@@ -230,9 +229,7 @@ export class {{SERVICE_NAME}} {
     description: 'Template for custom React hook with astrological state management',
     category: 'hook',
     template: `import { useState, useEffect, useCallback, useContext } from 'react';
-import { AstrologicalContext } from '@/contexts/AstrologicalContext';
 import { ElementalProperties } from '@/types/elemental';
-
 interface {{HOOK_NAME}}Options {
   refreshInterval?: number;
   enableCache?: boolean;
@@ -394,7 +391,6 @@ function getFallback{{CALCULATION_NAME}}(): {{RESULT_TYPE}} {
     category: 'test',
     template: `import { {{FUNCTION_NAME}} } from '../{{MODULE_NAME}}';
 import { ElementalProperties } from '@/types/elemental';
-
 // Mock planetary positions for consistent testing
 const mockPlanetaryPositions = {
   Sun: { sign: 'aries' as const, degree: 15, exactLongitude: 15, isRetrograde: false },

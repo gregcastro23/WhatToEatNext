@@ -86,18 +86,19 @@ export interface CuisineCompatibilityProfile {
   recommendedBlendRatio: number;      // Optimal blend ratio
   seasonalCompatibility: Record<Season, number>; // Seasonal integration
   sharedIngredients: string[];        // Common ingredients
-  sharedCookingMethods: string[];     // Common cooking methods
+  sharedCookingMethods: CookingMethod[];     // Common cooking methods
   elementalAlignment: number;         // Elemental compatibility score
 }
 
 export interface CuisineSeasonalAdaptation {
   season: Season;
   adaptedIngredients: UnifiedIngredient[]; // Season-appropriate ingredients
-  adaptedCookingMethods: EnhancedCookingMethod[]; // Season-appropriate methods
+  adaptedCookingMethods: CookingMethod[]; // Season-appropriate methods
   seasonalModifiers: {
     temperatureAdjustment: number;
     timingAdjustment: number;
     intensityModifier: string;
+    zodiacAlignment?: ZodiacSign; // Astrological alignment for season
   };
   traditionalSeasonalDishes: string[];
   monicaOptimization: number;
@@ -566,6 +567,24 @@ export class UnifiedCuisineIntegrationSystem {
     this.enhancedCookingMethods = {} as { [key: string]: EnhancedCookingMethod }; // getAllEnhancedCookingMethods() not yet implemented;
     this.cuisineCompatibilityCache = new Map();
   }
+  
+  /**
+   * Get shared ingredients between cuisines using imported utility
+   */
+  getSharedIngredientsForCuisines(cuisine1: string, cuisine2: string): string[] {
+    return getSharedIngredients(cuisine1, cuisine2);
+  }
+  
+  /**
+   * Create astrological bridge for cuisine analysis
+   */
+  createCuisineAstrologicalBridge(cuisineProfile: any, astrologicalData: any) {
+    return createAstrologicalBridge({
+      cuisine: cuisineProfile,
+      astrological: astrologicalData,
+      timestamp: new Date()
+    });
+  }
 
   // ===== CUISINE COMPATIBILITY CALCULATIONS =====
 
@@ -575,7 +594,7 @@ export class UnifiedCuisineIntegrationSystem {
   calculateCuisineCompatibility(
     cuisine1: string,
     cuisine2: string,
-    options?: {
+    _options?: {
       includeSeasonalAnalysis?: boolean;
       season?: Season;
     }

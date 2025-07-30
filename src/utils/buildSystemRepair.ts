@@ -11,7 +11,7 @@ import { NextConfigOptimizer } from './nextConfigOptimizer';
 export class BuildSystemRepair {
   private readonly buildValidator: BuildValidator;
   private readonly configOptimizer: NextConfigOptimizer;
-  private readonly logger: (message: string, ...args: any[]) => void;
+  private readonly logger: (message: string, ...args: unknown[]) => void;
 
   constructor(logger = console.log) {
     this.buildValidator = new BuildValidator('.next', logger);
@@ -233,7 +233,7 @@ export interface BuildSystemReport {
   timestamp: Date;
   validation: BuildValidationResult;
   health: BuildHealthReport;
-  configValidation: any;
+  configValidation: Record<string, unknown>;
   recommendations: string[];
 }
 

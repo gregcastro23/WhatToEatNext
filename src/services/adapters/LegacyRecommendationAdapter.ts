@@ -271,7 +271,7 @@ export class LegacyRecommendationAdapter {
     try {
       return alchemicalRecommendationService.getRecipeRecommendations(
         recipe as any,
-        planetaryPositions as Record<string, ZodiacSign>
+        planetaryPositions 
       );
     } catch (error) {
       logger.error(`Error in getRecipeRecommendations for recipe "${recipe.name}":`, error);

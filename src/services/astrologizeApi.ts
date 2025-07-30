@@ -1,8 +1,8 @@
+import { log } from '@/services/LoggingService';
 import type { ZodiacSign } from '@/types/alchemy';
 import { PlanetaryPosition } from "@/types/celestial";
 import { astrologizeApiCircuitBreaker } from '@/utils/apiCircuitBreaker';
 import { PlanetPosition } from '@/utils/astrologyUtils';
-import { log } from '@/services/LoggingService';
 
 // Use local API endpoint instead of external
 const LOCAL_ASTROLOGIZE_API_URL = '/api/astrologize';
@@ -245,7 +245,7 @@ export async function fetchPlanetaryPositions(
     };
 
     log.info('Successfully fetched planetary positions from local API:', Object.keys(positions));
-    log.info('🌟 Using', data.birth_info.ayanamsa || 'TROPICAL', 'zodiac system');
+    log.info('🌟 Using zodiac system:', { system: data.birth_info.ayanamsa || 'TROPICAL' });
     return positions;
 
   }, fallbackPositions);

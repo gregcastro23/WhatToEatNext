@@ -19,6 +19,7 @@ import { execSync } from 'child_process';
 import { EventEmitter } from 'events';
 import fs from 'fs';
 import path from 'path';
+
 import { log } from '@/services/LoggingService';
 
 import { createPerformanceMetrics } from './PerformanceMetricsAnalytics';

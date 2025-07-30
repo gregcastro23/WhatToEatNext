@@ -39,38 +39,38 @@ class Logger {
     return {
       debug: (message: string, ...args: unknown[]): void => {
         try {
-          this.debug(message, ...args, { component });
+          this.debug(message, { component, args });
         } catch (e) {
-          // Fallback to console if logger fails
-          log.debug(`[DEBUG][${component}] ${message}`, ...args);
+          // Silent failure - logging errors should not break application
+          console.warn(`[LOGGER-ERROR] Failed to log debug message for ${component}:`, e);
         }
       },
       log: (message: string, ...args: unknown[]): void => {
         try {
-          this.info(message, ...args, { component });
+          this.info(message, { component, args });
         } catch (e) {
-          log.info(`[INFO][${component}] ${message}`, ...args);
+          console.warn(`[LOGGER-ERROR] Failed to log message for ${component}:`, e);
         }
       },
       info: (message: string, ...args: unknown[]): void => {
         try {
-          this.info(message, ...args, { component });
+          this.info(message, { component, args });
         } catch (e) {
-          log.info(`[INFO][${component}] ${message}`, ...args);
+          console.warn(`[LOGGER-ERROR] Failed to log info message for ${component}:`, e);
         }
       },
       warn: (message: string, ...args: unknown[]): void => {
         try {
-          this.warn(message, ...args, { component });
+          this.warn(message, { component, args });
         } catch (e) {
-          console.warn(`[WARN][${component}] ${message}`, ...args);
+          console.warn(`[LOGGER-ERROR] Failed to log warning for ${component}:`, e);
         }
       },
       error: (message: string, ...args: unknown[]): void => {
         try {
-          this.error(message, ...args, { component });
+          this.error(message, { component, args });
         } catch (e) {
-          console.error(`[ERROR][${component}] ${message}`, ...args);
+          console.error(`[LOGGER-ERROR] Failed to log error for ${component}:`, e);
         }
       },
     };

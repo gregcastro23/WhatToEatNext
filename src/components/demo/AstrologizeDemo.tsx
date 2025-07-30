@@ -1,9 +1,10 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { log } from '@/services/LoggingService';
 
 import { useAstrologize } from '@/hooks/useAstrologize';
+import { log } from '@/services/LoggingService';
+
 
 // Default coordinates (New York City)
 const DEFAULT_COORDINATES = {

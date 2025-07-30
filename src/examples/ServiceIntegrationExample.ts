@@ -1,6 +1,6 @@
+import { log } from '@/services/LoggingService';
 import { ElementalProperties , Recipe , Element } from '@/types/alchemy';
 import { PlanetaryPosition } from "@/types/celestial";
-import { log } from '@/services/LoggingService';
 
 import { servicesManager } from '../services';
 
@@ -57,10 +57,10 @@ export async function runServiceIntegrationExample() {
       elementalProperties,
       limit: 5
     });
-    log.info('Recommended ingredients:', 
-      (ingredientRecommendations.items || [] as any[]).map(ing => ing.name),
-      'Scores:', ingredientRecommendations.scores
-    );
+    log.info('Recommended ingredients:', {
+      items: (ingredientRecommendations.items || [] as any[]).map(ing => ing.name),
+      scores: ingredientRecommendations.scores
+    });
     
     // Step 7: Get recipe recommendations based on elemental properties
     log.info('\n7. Getting recipe recommendations...');
@@ -68,10 +68,10 @@ export async function runServiceIntegrationExample() {
       elementalProperties,
       limit: 3
     });
-    log.info('Recommended recipes:', 
-      (recipeRecommendations.items || [] as any[]).map(recipe => recipe.name),
-      'Scores:', recipeRecommendations.scores
-    );
+    log.info('Recommended recipes:', {
+      items: (recipeRecommendations.items || [] as any[]).map(recipe => recipe.name),
+      scores: recipeRecommendations.scores
+    });
     
     // Step 8: Get cooking method recommendations based on elemental properties
     log.info('\n8. Getting cooking method recommendations...');
@@ -79,10 +79,10 @@ export async function runServiceIntegrationExample() {
       elementalProperties,
       limit: 3
     });
-    log.info('Recommended cooking methods:', 
-      (cookingMethodRecommendations.items || [] as any[]).map(method => method.name),
-      'Scores:', cookingMethodRecommendations.scores
-    );
+    log.info('Recommended cooking methods:', {
+      items: (cookingMethodRecommendations.items || [] as any[]).map(method => method.name),
+      scores: cookingMethodRecommendations.scores
+    });
     
     // Step 9: Calculate elemental compatibility between two recipes
     log.info('\n9. Calculating elemental compatibility between recipes...');

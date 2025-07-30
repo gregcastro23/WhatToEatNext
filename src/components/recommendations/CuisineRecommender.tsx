@@ -1,6 +1,5 @@
 'use client';
 
-import { log } from '@/services/LoggingService';
 import { Flame,
   Droplets,
   Wind,
@@ -15,6 +14,7 @@ import {
   enterpriseIntelligenceIntegration,
   EnterpriseIntelligenceAnalysis 
 } from '@/services/EnterpriseIntelligenceIntegration';
+import { log } from '@/services/LoggingService';
 import { 
   PredictiveIntelligenceResult,
   MLIntelligenceResult,

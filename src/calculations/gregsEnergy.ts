@@ -1,5 +1,6 @@
-import { ElementalCharacter, AlchemicalProperty } from '../constants/planetaryElements';
 import { log } from '@/services/LoggingService';
+
+import { ElementalCharacter, AlchemicalProperty } from '../constants/planetaryElements';
 
 /**
  * A utility function for logging debug information

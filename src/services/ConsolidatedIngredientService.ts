@@ -5,13 +5,7 @@ interface ScoredItem {
   [key: string]: unknown;
 }
 
-interface ElementalData {
-  Fire: number;
-  Water: number;
-  Earth: number;
-  Air: number;
-  [key: string]: unknown;
-}
+// Removed unused interface: ElementalData
 
 
 
@@ -42,10 +36,11 @@ interface ErrorWithMessage {
 import type { UnifiedIngredient } from '../data/unified/unifiedTypes';
 import type { Recipe } from '../types/unified';
 import type { ZodiacSign } from '../types/zodiac';
-import { cache } from '../utils/cache';
+// Removed unused import: cache
 import { isNonEmptyArray, safeSome } from '../utils/common/arrayUtils';
 import { createElementalProperties, calculateElementalCompatibility } from '../utils/elemental/elementalUtils';
-import { logger } from '../utils/logger';
+import { log } from '@/services/LoggingService';
+// Replaced unused logger with enterprise logging service
 
 import type { IngredientServiceInterface, 
   IngredientFilter, 
@@ -129,13 +124,13 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
       Object.values(unifiedIngredients || {}).forEach(ingredient => {
         const category = ingredient.category;
         
-        if (!result[category]) {
-          result[category] = [];
-        }
+        // Initialize category array if not exists
+        result[category] = result[category] || [];
         
         result[category].push(ingredient);
       });
       
+      log.info(`[ConsolidatedIngredientService] Retrieved ${Object.keys(result).length} ingredient categories`);
       return result;
     } catch (error) {
       errorHandler.logError(error as ErrorWithMessage, {

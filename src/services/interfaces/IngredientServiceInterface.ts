@@ -5,7 +5,7 @@ import type { ElementalProperties,
   Season,
   PlanetName,
   ZodiacSign } from "@/types/alchemy";
-import { RecipeIngredient } from '@/types/unified';
+import { Recipe, RecipeIngredient } from '@/types/unified';
 
 /**
  * IngredientServiceInterface.ts
@@ -19,7 +19,6 @@ import { RecipeIngredient } from '@/types/unified';
  * The goal is to create a single, consistent API for all ingredient operations.
  */
 
-import type { Recipe } from "@/types/unified";
 
 import type { UnifiedIngredient } from '../../data/unified/unifiedTypes';
 

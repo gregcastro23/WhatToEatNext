@@ -1,7 +1,7 @@
 import { PLANET_TO_MAJOR_ARCANA, MAJOR_ARCANA } from '@/constants/tarotCards';
+import { log } from '@/services/LoggingService';
 import { getPlanetaryDignityInfo, calculateAspects } from '@/utils/astrologyUtils';
 import { planetaryModifiers } from '@/utils/planetaryCycles';
-import { log } from '@/services/LoggingService';
 
 /**
  * Interface for planetary information
