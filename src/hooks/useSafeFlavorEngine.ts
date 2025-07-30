@@ -138,6 +138,10 @@ export function useSafeFlavorEngine() {
     }
   }, [isReady, flavorEngine]);
   
+  // Extract values to avoid complex expressions in dependency array
+  const profileCount = isReady ? flavorEngine.profileCount : 0;
+  const categoriesString = isReady ? JSON.stringify(flavorEngine.categories) : '{}';
+  
   // Memoize the complete API to prevent unnecessary re-renders
   return useMemo(() => ({
     isReady,
@@ -145,7 +149,7 @@ export function useSafeFlavorEngine() {
     getProfile,
     searchProfiles,
     calculateCompatibility,
-    profileCount: isReady ? flavorEngine.profileCount : 0,
+    profileCount,
     categories: isReady ? flavorEngine.categories : {}
   }), [
     isReady,
@@ -153,9 +157,8 @@ export function useSafeFlavorEngine() {
     getProfile,
     searchProfiles,
     calculateCompatibility,
-    // Only include these if ready to prevent unnecessary re-renders
-    isReady ? flavorEngine.profileCount : 0,
-    isReady ? JSON.stringify(flavorEngine.categories) : '{}'
+    profileCount,
+    categoriesString
   ]);
 }
 

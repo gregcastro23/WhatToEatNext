@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, useCallback } from 'react';
 
 import { ElementalCharacter } from '@/constants/planetaryElements';
 import { LunarPhase as FoodAssociationsLunarPhase } from '@/constants/planetaryFoodAssociations';
@@ -149,9 +149,9 @@ export const useTarotAstrologyData = (): TarotAstrologyResult => {
   });
   
   // Move the function declaration before any usage
-  function calculatePlanetaryEnergy(planet: string): number {
+  const calculatePlanetaryEnergy = useCallback((planet: string): number => {
     try {
-      if (currentPlanetaryAlignment && currentPlanetaryAlignment[planet.toLowerCase()]) {
+      if (currentPlanetaryAlignment?.[planet.toLowerCase()]) {
           const position = currentPlanetaryAlignment[planet.toLowerCase()];
           
           // Check if position has a sign property and it's defined
@@ -176,7 +176,7 @@ export const useTarotAstrologyData = (): TarotAstrologyResult => {
       logger.error(`Error calculating planetary energy for ${planet}`, error);
       return 0.5; // Default on error
     }
-  }
+  }, [currentPlanetaryAlignment, signEnergyStates]);
   
   // Get Tarot cards for current date - only recalculate when the date changes
   useEffect(() => {
@@ -219,7 +219,7 @@ export const useTarotAstrologyData = (): TarotAstrologyResult => {
     const cardMap: Record<string, TarotCard> = {};
     
     try {
-      if (activePlanets && activePlanets.length) {
+      if (activePlanets?.length) {
         activePlanets.forEach(planet => {
           const planetName = planet.charAt(0).toUpperCase() + planet.slice(1);
           // Type guard to check if planetName is a valid key in PLANET_TO_MAJOR_ARCANA
@@ -239,7 +239,7 @@ export const useTarotAstrologyData = (): TarotAstrologyResult => {
       logger.error('Error calculating planetary cards', error);
       return {};
     }
-  }, [activePlanets, currentPlanetaryAlignment, signEnergyStates]);
+  }, [activePlanets, currentPlanetaryAlignment, signEnergyStates, calculatePlanetaryEnergy]);
   
   // Calculate elemental boosts from tarot cards
   useEffect(() => {
@@ -297,7 +297,7 @@ export const useTarotAstrologyData = (): TarotAstrologyResult => {
     } catch (error) {
       logger.error('Error calculating tarot element boosts', error);
     }
-  }, [tarotCards]);
+  }, [tarotCards, calculateTarotEnergyBoosts]);
   
   // Determine lunar phase
   useEffect(() => {
@@ -346,7 +346,7 @@ export const useTarotAstrologyData = (): TarotAstrologyResult => {
   };
   
   // This function will calculate alchemical values from tarot cards
-  const calculateTarotEnergyBoosts = (cards: TarotCard[]): { 
+  const calculateTarotEnergyBoosts = useCallback((cards: TarotCard[]): { 
     Spirit: number;
     Essence: number;
     Matter: number;
@@ -412,7 +412,7 @@ export const useTarotAstrologyData = (): TarotAstrologyResult => {
         Substance: 0.25
       };
     }
-  };
+  }, []);
   
   // Load sign energy states on init
   useEffect(() => {

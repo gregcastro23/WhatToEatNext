@@ -1,7 +1,7 @@
 'use client';
 
 import { AlertTriangle, RefreshCw } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 import { CelestialPosition } from '@/types/celestial';
@@ -51,7 +51,7 @@ const PlanetaryPositionInitializer: React.FC = () => {
   const [updateError, setUpdateError] = useState<string | null>(null);
 
   // Function to update positions with comprehensive retry logic
-  const attemptPositionUpdate = async (force = false): Promise<boolean> => {
+  const attemptPositionUpdate = useCallback(async (force = false): Promise<boolean> => {
     if (retryStatus.isRetrying && !force) return false;
     
     try {
@@ -118,10 +118,10 @@ const PlanetaryPositionInitializer: React.FC = () => {
       
       return false;
     }
-  };
+  }, [retryStatus.isRetrying, retryStatus.count, refreshPlanetaryPositions]);
 
   // Function to apply fallback positions
-  const applyFallbackPositions = (): void => {
+  const applyFallbackPositions = useCallback((): void => {
     logger.warn('Applying fallback positions...');
     const now = new Date();
     
@@ -161,7 +161,7 @@ const PlanetaryPositionInitializer: React.FC = () => {
         needsFallback: false
       }));
     }
-  };
+  }, [updatePlanetaryPositions]);
 
   // Apply fallback positions immediately on first render
   useEffect(() => {
@@ -219,14 +219,14 @@ const PlanetaryPositionInitializer: React.FC = () => {
       clearInterval(refreshInterval);
       clearInterval(retryInterval);
     };
-  }, []);
+  }, [applyFallbackPositions, attemptPositionUpdate, retryStatus.count, retryStatus.isRetrying, retryStatus.lastAttempt, retryStatus.usingFallback]);
 
   // Also handle the fallback positions when needed
   useEffect(() => {
     if (retryStatus.needsFallback) {
       applyFallbackPositions();
     }
-  }, [retryStatus.needsFallback]);
+  }, [retryStatus.needsFallback, applyFallbackPositions]);
 
   // Render fallback notification with retry button if we're using fallback positions
   if (retryStatus.usingFallback) {

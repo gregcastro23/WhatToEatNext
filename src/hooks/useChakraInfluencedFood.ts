@@ -108,13 +108,16 @@ export const useChakraInfluencedFood = (options?: {
     state.astrologicalState.tarotPlanetaryBoosts
   ]);
   
+  // Extract moon sign to avoid complex expression in dependency array
+  const moonSign = (planetaryPositions.moon as Record<string, unknown>)?.sign;
+  
   // Calculate chakra energies based on astrological data
   useEffect(() => {
     if (!astroLoading && currentZodiac && activePlanets) {
       // Calculate chakra energies
       const energies = chakraService.calculateChakraEnergies(
         currentZodiac || 'aries',
-        ((planetaryPositions.moon  as Record<string, unknown>).sign || 'taurus') as ZodiacSign,
+        (moonSign || 'taurus') as ZodiacSign,
         // Pattern Y: Safe Planet array casting with validation and null checking
         (activePlanets ? activePlanets.slice(0, 3).map(p => typeof p === 'string' ? p.toLowerCase() : p) : ['sun', 'moon', 'mercury']) as unknown as Planet[],
         planetaryHour
@@ -126,7 +129,7 @@ export const useChakraInfluencedFood = (options?: {
     astroLoading,
     currentZodiac,
     activePlanets,
-    (planetaryPositions.moon as Record<string, unknown>).sign,
+    moonSign,
     planetaryHour,
     chakraService
   ]);
@@ -317,7 +320,7 @@ export const useChakraInfluencedFood = (options?: {
       // Recalculate chakra energies
       const energies = chakraService.calculateChakraEnergies(
         currentZodiac || 'aries',
-        ((planetaryPositions.moon  as Record<string, unknown>).sign || 'taurus') as ZodiacSign,
+        (moonSign || 'taurus') as ZodiacSign,
         // Pattern Z: Safe Planet array casting with validation and null checking for refresh function
         (activePlanets ? activePlanets.slice(0, 3).map(p => typeof p === 'string' ? p.toLowerCase() : p) : ['sun', 'moon', 'mercury']) as unknown as Planet[],
         planetaryHour

@@ -284,7 +284,7 @@ export default function IngredientRecommender() {
         logger.error('Error loading enhanced recommendations:', err);
       }
     }
-  }, [astroLoading, astroError, showEnhancedFeatures, contextChakraEnergies, planetaryPositions, currentZodiac]);
+  }, [astroLoading, astroError, showEnhancedFeatures, planetaryPositions, currentZodiac]);
 
   useEffect(() => {
     void loadEnhancedRecommendations();

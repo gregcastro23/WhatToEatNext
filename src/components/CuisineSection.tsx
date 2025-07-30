@@ -167,7 +167,7 @@ export const CuisineSection: React.FC<CuisineSectionProps> = ({
         return (a.name || '').localeCompare(b.name || '');
       })
       .slice(0, viewAllRecipes ? undefined : 4);
-  }, [recipes, cuisine, elementalState, viewAllRecipes]);
+  }, [recipes, cuisine, viewAllRecipes]);
 
   if (!(cuisineRecipes || []).length) {
     // Special case for African and American cuisines
@@ -182,7 +182,7 @@ export const CuisineSection: React.FC<CuisineSectionProps> = ({
                               cuisinesMap[cuisine.toLowerCase()] || 
                               cuisinesMap[cuisine.charAt(0).toUpperCase() + cuisine.slice(1).toLowerCase()];
                               
-        if (importedCuisine && importedCuisine.dishes) {
+        if (importedCuisine?.dishes) {
           const specialRecipes: any[] = [];
           
           // Try to extract some recipes directly

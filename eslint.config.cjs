@@ -189,7 +189,8 @@ module.exports = [
       '@typescript-eslint': ts,
       react,
       'react-hooks': reactHooks,
-      import: importPlugin
+      import: importPlugin,
+      'astrological': astrologicalRules
     },
     rules: {
       // React 19 specific rules
@@ -629,7 +630,20 @@ module.exports = [
       // Allow non-null assertions in tests
       '@typescript-eslint/no-non-null-assertion': 'off',
       // Allow magic numbers in tests
-      'no-magic-numbers': 'off'
+      'no-magic-numbers': 'off',
+      // Allow any types in test mocks and stubs
+      '@typescript-eslint/no-unsafe-assignment': 'off',
+      '@typescript-eslint/no-unsafe-member-access': 'off',
+      '@typescript-eslint/no-unsafe-call': 'off',
+      '@typescript-eslint/no-unsafe-return': 'off',
+      // Allow empty functions in test setup
+      '@typescript-eslint/no-empty-function': 'off',
+      // Allow flexible imports in tests
+      'import/no-extraneous-dependencies': 'off',
+      // Relax complexity rules for comprehensive tests
+      'complexity': 'off',
+      'max-statements': 'off',
+      'max-lines-per-function': 'off'
     }
   },
   // Script files configuration

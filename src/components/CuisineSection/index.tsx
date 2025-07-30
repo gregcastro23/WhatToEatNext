@@ -173,7 +173,7 @@ export const CuisineSection: React.FC<CuisineSectionProps> = ({
         return String(recipeA.name || '').localeCompare(String(recipeB.name || ''));
       })
       .slice(0, viewAllRecipes ? undefined : 4);
-  }, [recipes, cuisine, elementalState, viewAllRecipes]);
+  }, [recipes, cuisine, viewAllRecipes]);
 
   if (!cuisineRecipes.length) {
     // Special case for African and American cuisines
@@ -195,7 +195,7 @@ export const CuisineSection: React.FC<CuisineSectionProps> = ({
             // Try to extract some recipes directly
             Object.entries(cuisineData.dishes).forEach(([_mealType, seasonalDishes]) => {
               const dishesData = seasonalDishes as Record<string, unknown>;
-              if (dishesData && dishesData.all && Array.isArray(dishesData.all)) {
+              if (dishesData?.all && Array.isArray(dishesData.all)) {
                 specialRecipes.push(...dishesData.all.slice(0, 4));
               }
             });
