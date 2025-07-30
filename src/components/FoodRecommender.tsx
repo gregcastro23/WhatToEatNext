@@ -40,10 +40,10 @@ const ErrorFallback = ({
     <div className="p-4 bg-red-50 border border-red-200 rounded-lg">
       <h3 className="text-lg font-medium text-red-800">Something went wrong</h3>
       <p className="mt-2 text-sm text-red-600">
-        {error.message || "An error occurred while loading recommendations&quot;}
+        {error.message || "An error occurred while loading recommendations"}
       </p>
       <div className="mt-2 text-xs text-gray-600">
-        {error.stack &amp;&amp; <details>
+        {error.stack && <details>
           <summary>Error details</summary>
           <pre className="mt-2 whitespace-pre-wrap">{error.stack}</pre>
         </details>}
