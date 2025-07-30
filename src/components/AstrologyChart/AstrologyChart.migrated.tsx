@@ -236,7 +236,7 @@ const AstrologyChartMigrated: React.FC<AstrologyChartProps> = ({
             })}
             
             {/* Aspects (only major ones) */}
-            {showAspects && (majorAspects || []).map((aspect, index) => {
+            {showAspects &amp;&amp; (majorAspects || []).map((aspect, index) => {
               if (!planetaryPositions[aspect.planet1] || !planetaryPositions[aspect.planet2]) {
                 return null;
               }
@@ -244,26 +244,26 @@ const AstrologyChartMigrated: React.FC<AstrologyChartProps> = ({
               const pos1 = calculatePosition(planetaryPositions[aspect.planet1], radius - 40);
               const pos2 = calculatePosition(planetaryPositions[aspect.planet2], radius - 40);
               
-              let strokeColor = "#aaa";
+              let strokeColor = "#aaa&quot;;
               let strokeWidth = 0.5;
               let strokeDasharray = "";
               
               // Style based on aspect type
               switch (aspect.type) {
-                case 'conjunction':
-                  strokeColor = "#66bb6a"; // Green
+                case 'conjunction&apos;:
+                  strokeColor = "#66bb6a&quot;; // Green
                   strokeWidth = 1;
                   break;
-                case 'opposition':
+                case 'opposition&apos;:
                   strokeColor = "#ef5350"; // Red
                   strokeWidth = 1;
                   strokeDasharray = "2 2";
                   break;
-                case 'trine':
+                case 'trine&apos;:
                   strokeColor = "#42a5f5"; // Blue
                   strokeWidth = 1;
                   break;
-                case 'square':
+                case 'square&apos;:
                   strokeColor = "#ff9800"; // Orange
                   strokeWidth = 1;
                   strokeDasharray = "5 2";

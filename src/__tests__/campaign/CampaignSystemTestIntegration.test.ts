@@ -6,20 +6,17 @@
  */
 
 import {
-  SafetyEventType,
-  SafetyEventSeverity,
-  PhaseStatus
+  SafetyEventType
+  // Note: SafetyEventSeverity and PhaseStatus imported but not currently used
 } from '../../types/campaign';
 import { campaignTestController } from '../utils/CampaignTestController';
 import {
   setupCampaignTest,
   cleanupCampaignTest,
   createMockCampaignConfig,
-  createMockProgressMetrics,
-  simulateCampaignPhase,
-  simulateProgressTracking,
   validateCampaignTestIsolation,
   executeCampaignTestScenario,
+  // Note: createMockProgressMetrics, simulateCampaignPhase, simulateProgressTracking imported but not used
   withCampaignTestIsolation,
   campaignTestAssertions,
   campaignTestData,
@@ -381,10 +378,8 @@ describe('Campaign System Test Integration', () => {
     });
 
     it('should cleanup resources properly after test completion', async () => {
-      let context: CampaignTestContext;
-      
       // Setup and use campaign test
-      context = await setupCampaignTest({
+      const context = await setupCampaignTest({
         testName: 'resource-cleanup-test',
         enableMemoryMonitoring: true
       });

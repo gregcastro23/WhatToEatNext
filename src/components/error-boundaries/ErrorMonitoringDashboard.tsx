@@ -117,7 +117,7 @@ export function ErrorMonitoringDashboard({
             <h3 className="text-sm font-medium text-gray-900">Error Monitor</h3>
           </div>
           <div className="flex items-center space-x-2">
-            {errorLog.length > 0 && (
+            {errorLog.length > 0 &amp;&amp; (
               <button
                 onClick={clearErrorLog}
                 className="text-gray-400 hover:text-gray-600"
@@ -177,7 +177,7 @@ export function ErrorMonitoringDashboard({
           <div className="flex items-center space-x-2">
             <XCircle className="h-4 w-4 text-red-500" />
             <span className="text-sm text-red-800">
-              {criticalErrors.length} critical error{criticalErrors.length !== 1 ? 's' : ''} need attention
+              {criticalErrors.length} critical error{criticalErrors.length !== 1 ? 's&apos; : ''} need attention
             </span>
           </div>
         </div>

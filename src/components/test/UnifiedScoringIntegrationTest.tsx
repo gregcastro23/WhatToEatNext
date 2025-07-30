@@ -51,7 +51,7 @@ export default function UnifiedScoringIntegrationTest() {
     setError(null);
 
     try {
-      console.log('🧪 Running Unified Scoring Integration Test...');
+      // Running Unified Scoring Integration Test
       
       const scoredIngredients = await getRecommendedIngredients(
         SAMPLE_INGREDIENTS,
@@ -67,7 +67,7 @@ export default function UnifiedScoringIntegrationTest() {
         }
       );
 
-      console.log('✅ Test completed successfully:', scoredIngredients);
+      // Test completed successfully
       setResults(scoredIngredients);
     } catch (err) {
       console.error('❌ Test failed:', err);
@@ -107,7 +107,7 @@ export default function UnifiedScoringIntegrationTest() {
             disabled={loading}
             className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded disabled:opacity-50"
           >
-            {loading ? 'Testing...' : 'Run Test'}
+            {loading ? 'Testing...' : 'Run Test&apos;}
           </button>
         </div>
 
@@ -176,7 +176,7 @@ export default function UnifiedScoringIntegrationTest() {
                             {scoredIngredient.breakdown[effect] ? 
                               (scoredIngredient.breakdown[effect] >= 0 ? '+' : '') + 
                               (scoredIngredient.breakdown[effect] * 100).toFixed(1) + '%'
-                              : 'N/A'
+                              : 'N/A&apos;
                             }
                           </span>
                         </div>

@@ -26,8 +26,8 @@ const Filters: React.FC<FiltersProps> = ({ onFilterChange }) => {
           }))}
           className="w-full p-2 bg-gray-50 border border-gray-200 rounded-xl
                      text-gray-700 text-sm focus:ring-2 focus:ring-indigo-500
-                     focus:border-transparent"
-          defaultValue="all"
+                     focus:border-transparent&quot;
+          defaultValue="all&quot;
         >
           <option value="all">Any size</option>
           <option value="1">1 person</option>
@@ -49,8 +49,8 @@ const Filters: React.FC<FiltersProps> = ({ onFilterChange }) => {
           }))}
           className="w-full p-2 bg-gray-50 border border-gray-200 rounded-xl
                      text-gray-700 text-sm focus:ring-2 focus:ring-indigo-500
-                     focus:border-transparent"
-          defaultValue="all"
+                     focus:border-transparent&quot;
+          defaultValue="all&quot;
         >
           <option value="all">No preference</option>
           <option value="vegetarian">Vegetarian</option>
@@ -72,8 +72,8 @@ const Filters: React.FC<FiltersProps> = ({ onFilterChange }) => {
           }))}
           className="w-full p-2 bg-gray-50 border border-gray-200 rounded-xl
                      text-gray-700 text-sm focus:ring-2 focus:ring-indigo-500
-                     focus:border-transparent"
-          defaultValue="all"
+                     focus:border-transparent&quot;
+          defaultValue="all&quot;
         >
           <option value="all">Any duration</option>
           <option value="5">Under 5 mins</option>

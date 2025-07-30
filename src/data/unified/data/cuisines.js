@@ -44,7 +44,7 @@ const exampleRecipe = {
 // Helper function to adapt ElementalProperties from cuisine.ts to alchemy.ts format
 function adaptElementalProperties(props) {
     // If it already has the index signature, return as is
-    if (props && typeof props === 'object' && props.hasOwnProperty('Fire')) {
+    if (props && typeof props === 'object' && Object.prototype.hasOwnProperty.call(props, 'Fire')) {
         return props;
     }
     // Convert to the format expected by alchemy.ts

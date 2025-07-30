@@ -952,8 +952,8 @@ export default function IngredientRecommender() {
               {Object.entries(itemData.elementalProperties as Record<string, unknown>)
                 .sort(([, a], [, b]) => {
                   // Pattern KK-1: Safe arithmetic comparison with type validation
-                  const numericA = typeof a === 'number' ? a : 0;
-                  const numericB = typeof b === 'number' ? b : 0;
+                  const numericA = typeof a === 'number&apos; ? a : 0;
+                  const numericB = typeof b === 'number&apos; ? b : 0;
                   return numericB - numericA;
                 })
                 .map(([element, value]) => {
@@ -1215,7 +1215,7 @@ export default function IngredientRecommender() {
             className={`${styles.detailsButton} ${isSelected ? styles.detailsButtonActive : ''}`}
             onClick={(e) => handleIngredientSelect(item, e)}
           >
-            {isSelected ? 'Hide Details' : 'View Details'}
+            {isSelected ? 'Hide Details&apos; : 'View Details&apos;}
           </button>
           
           {isSelected && renderIngredientDetails(item)}
@@ -1253,7 +1253,7 @@ export default function IngredientRecommender() {
         </h1>
         
         {/* Chakra energy indicator */}
-        {chakraEnergies && (
+        {chakraEnergies &amp;&amp; (
           <div className={styles.chakraIndicator}>
             <div>Chakra Balance: {Object.keys(chakraEnergies).length} energies active</div>
           </div>
@@ -1334,7 +1334,7 @@ export default function IngredientRecommender() {
           <div className={styles.categoryFilters}>
             <div className={styles.categoryFilterRow}>
               {ORDERED_CATEGORIES.slice(0, 3).map(category => (
-                Object.keys(combinedCategorizedRecommendations).includes(category) && (
+                Object.keys(combinedCategorizedRecommendations).includes(category) &amp;&amp; (
                   <button
                     key={category}
                     className={`${styles.categoryButton} ${activeCategory === category ? styles.activeCategory : ''}`}
@@ -1347,7 +1347,7 @@ export default function IngredientRecommender() {
             </div>
             <div className={styles.categoryFilterRow}>
               {ORDERED_CATEGORIES.slice(3, 6).map(category => (
-                Object.keys(combinedCategorizedRecommendations).includes(category) && (
+                Object.keys(combinedCategorizedRecommendations).includes(category) &amp;&amp; (
                   <button
                     key={category}
                     className={`${styles.categoryButton} ${activeCategory === category ? styles.activeCategory : ''}`}
@@ -1360,7 +1360,7 @@ export default function IngredientRecommender() {
             </div>
             <div className={styles.categoryFilterRow}>
               {ORDERED_CATEGORIES.slice(6).map(category => (
-                Object.keys(combinedCategorizedRecommendations).includes(category) && (
+                Object.keys(combinedCategorizedRecommendations).includes(category) &amp;&amp; (
                   <button
                     key={category}
                     className={`${styles.categoryButton} ${activeCategory === category ? styles.activeCategory : ''}`}

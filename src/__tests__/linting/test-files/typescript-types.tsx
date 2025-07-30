@@ -16,7 +16,7 @@ export const TypedComponent: FC<PropsWithChildren<CustomProps>> = ({
   return (
     <div>
       <h1>{title}</h1>
-      {optional && <p>Optional content</p>}
+      {optional &amp;&amp; <p>Optional content</p>}
       {children}
     </div>
   );

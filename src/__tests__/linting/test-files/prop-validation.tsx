@@ -13,7 +13,7 @@ export function PropValidationComponent({ required, optional, callback }: Props)
   return (
     <div>
       <p>{required}</p>
-      {optional && <p>{optional}</p>}
+      {optional &amp;&amp; <p>{optional}</p>}
       <button onClick={handleClick}>Click</button>
     </div>
   );

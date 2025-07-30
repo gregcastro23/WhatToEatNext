@@ -1494,7 +1494,7 @@ export default function CookingMethods() {
             onClick={() => setShowDebug(!showDebug)}
             className="text-sm text-blue-600 hover:text-blue-800"
           >
-            {showDebug ? 'Hide' : 'Show'}
+            {showDebug ? 'Hide&apos; : 'Show&apos;}
           </button>
         </div>
         
@@ -1560,7 +1560,7 @@ export default function CookingMethods() {
             <div className={styles.scoreDetails}>
               <h4>Score Breakdown:</h4>
               <ul className={styles.scoreDetailsList}>
-                {method.scoreDetails.elemental !== undefined && (
+                {method.scoreDetails.elemental !== undefined &amp;&amp; (
                   <li>
                     <span>Elemental:</span> 
                     <div className={styles.scoreBar}>

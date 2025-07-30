@@ -69,7 +69,7 @@ export function PlanetInfoModal({ planetName, isOpen, onClose }: PlanetInfoModal
       <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-lg w-full max-h-[90vh] overflow-auto">
         <div className="sticky top-0 bg-white dark:bg-gray-800 p-4 border-b border-gray-200 dark:border-gray-700 flex justify-between items-center">
           <h2 className="text-xl font-bold">
-            {loading ? 'Loading...' : error ? 'Error' : `${planetInfo?.name} in ${planetInfo?.sign}`}
+            {loading ? 'Loading...' : error ? 'Error&apos; : `${planetInfo?.name} in ${planetInfo?.sign}`}
           </h2>
           <button 
             onClick={onClose}
@@ -99,7 +99,7 @@ export function PlanetInfoModal({ planetName, isOpen, onClose }: PlanetInfoModal
                 <div>
                   <h3 className="font-semibold text-lg">{planetInfo.name}</h3>
                   <p className="capitalize">{planetInfo.sign} {planetInfo.degree.toFixed(1)}°</p>
-                  {planetInfo.isRetrograde && (
+                  {planetInfo.isRetrograde &amp;&amp; (
                     <p className="text-red-500 dark:text-red-400">Retrograde</p>
                   )}
                 </div>

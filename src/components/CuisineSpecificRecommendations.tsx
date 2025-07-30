@@ -165,7 +165,7 @@ const CuisineSpecificRecommendations: React.FC<CuisineSpecificRecommendationsPro
             <div className="mt-3">
               <h4 className="font-medium mb-1">Key Ingredients:</h4>
               <div className="flex flex-wrap gap-1">
-                {recipe.ingredients && recipe.ingredients.slice(0, 3).map((ingredient: unknown, idx: number) => {
+                {recipe.ingredients &amp;&amp; recipe.ingredients.slice(0, 3).map((ingredient: unknown, idx: number) => {
                   // Apply safe type casting for ingredient property access
                   const ingredientData = ingredient as any;
                   return (
@@ -173,11 +173,11 @@ const CuisineSpecificRecommendations: React.FC<CuisineSpecificRecommendationsPro
                       key={idx} 
                       className="inline-block px-2 py-1 rounded-full bg-gray-100 text-xs"
                     >
-                      {ingredientData?.name || 'Unknown'}
+                      {ingredientData?.name || 'Unknown&apos;}
                     </span>
                   );
                 })}
-                {recipe.ingredients && recipe.ingredients.length > 3 && (
+                {recipe.ingredients &amp;&amp; recipe.ingredients.length > 3 &amp;&amp; (
                   <span className="inline-block px-2 py-1 rounded-full bg-gray-100 text-xs">
                     +{recipe.ingredients.length - 3} more
                   </span>
@@ -194,7 +194,7 @@ const CuisineSpecificRecommendations: React.FC<CuisineSpecificRecommendationsPro
                   {tag}
                 </span>
               ))}
-              {recipe.season.includes(timeFactors.season.toLowerCase()) && (
+              {recipe.season.includes(timeFactors.season.toLowerCase()) &amp;&amp; (
                 <span className="inline-block px-2 py-1 rounded-full bg-green-100 text-green-800 text-xs">
                   In Season
                 </span>

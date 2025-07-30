@@ -90,7 +90,7 @@ const MetricCard: React.FC<MetricCardProps> = ({
             onMouseLeave={() => setShowTooltip(false)}
           >
             <Info size={16} className="text-gray-400 cursor-help" />
-            {showTooltip && (
+            {showTooltip &amp;&amp; (
               <div className="absolute right-0 top-6 bg-gray-800 text-white text-xs rounded p-2 whitespace-nowrap z-10">
                 {description}
               </div>
@@ -105,10 +105,10 @@ const MetricCard: React.FC<MetricCardProps> = ({
           <span className="text-2xl font-bold text-gray-900">
             {formatValue(value)}
           </span>
-          {unit && (
+          {unit &amp;&amp; (
             <span className="text-sm text-gray-500">{unit}</span>
           )}
-          {trend !== undefined && (
+          {trend !== undefined &amp;&amp; (
             <span className={`text-sm font-medium ${getTrendColor(trend)}`}>
               {getTrendIcon(trend)} {Math.abs(trend).toFixed(1)}%
             </span>
@@ -262,10 +262,10 @@ export const PerformanceAnalyticsDashboard: React.FC<PerformanceAnalyticsDashboa
             Clear Data
           </button>
           
-          {compact && (
+          {compact &amp;&amp; (
             <button
               onClick={() => setIsExpanded(!isExpanded)}
-              className="p-1 hover:bg-gray-100 rounded"
+              className="p-1 hover:bg-gray-100 rounded&quot;
             >
               <ChevronUp size={16} />
             </button>
@@ -303,7 +303,7 @@ export const PerformanceAnalyticsDashboard: React.FC<PerformanceAnalyticsDashboa
             unit="ms"
             icon={<Clock size={16} className="text-white" />}
             color="bg-blue-500"
-            description="Average time to load recommendations"
+            description="Average time to load recommendations&quot;
           />
           
           <MetricCard
@@ -312,7 +312,7 @@ export const PerformanceAnalyticsDashboard: React.FC<PerformanceAnalyticsDashboa
             unit="%"
             icon={<Database size={16} className="text-white" />}
             color="bg-green-500"
-            description="Percentage of requests served from cache"
+            description="Percentage of requests served from cache&quot;
           />
           
           <MetricCard
@@ -321,7 +321,7 @@ export const PerformanceAnalyticsDashboard: React.FC<PerformanceAnalyticsDashboa
             unit="/100"
             icon={<TrendingUp size={16} className="text-white" />}
             color="bg-purple-500"
-            description="Overall performance rating"
+            description="Overall performance rating&quot;
           />
           
           <MetricCard
@@ -330,7 +330,7 @@ export const PerformanceAnalyticsDashboard: React.FC<PerformanceAnalyticsDashboa
             unit="/min"
             icon={<Users size={16} className="text-white" />}
             color="bg-orange-500"
-            description="User interactions per minute"
+            description="User interactions per minute&quot;
           />
         </div>
       )}
@@ -341,7 +341,7 @@ export const PerformanceAnalyticsDashboard: React.FC<PerformanceAnalyticsDashboa
           <div className="bg-white rounded-lg border border-gray-200 p-4">
             <PerformanceChart
               data={(performanceTrends as Record<string, unknown>).loadTimeTrend as number[] || []}
-              label="Load Time Trend"
+              label="Load Time Trend&quot;
               color="#3B82F6"
             />
           </div>
@@ -349,7 +349,7 @@ export const PerformanceAnalyticsDashboard: React.FC<PerformanceAnalyticsDashboa
           <div className="bg-white rounded-lg border border-gray-200 p-4">
             <PerformanceChart
               data={(performanceTrends as Record<string, unknown>).cacheHitRateTrend as number[] || []}
-              label="Cache Hit Rate Trend"
+              label="Cache Hit Rate Trend&quot;
               color="#10B981"
             />
           </div>

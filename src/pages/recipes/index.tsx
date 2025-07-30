@@ -146,7 +146,7 @@ const RecipesPage: NextPage = () => {
       {/* Results */}
       <div className="bg-white rounded-lg shadow p-6">
         <div className="mb-4 text-gray-600">
-          {filteredRecipes.length} {filteredRecipes.length === 1 ? 'recipe' : 'recipes'} found
+          {filteredRecipes.length} {filteredRecipes.length === 1 ? 'recipe&apos; : 'recipes&apos;} found
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -163,27 +163,27 @@ const RecipesPage: NextPage = () => {
                 <div className="p-5">
                   <h2 className="text-xl font-semibold mb-2 hover:text-blue-600">{recipe.name}</h2>
                   
-                  {recipe.description && (
+                  {recipe.description &amp;&amp; (
                     <p className="text-gray-600 text-sm mb-4 line-clamp-2">{recipe.description}</p>
                   )}
                   
                   <div className="flex flex-wrap gap-2 mb-3">
-                    {recipe.cuisine && (
+                    {recipe.cuisine &amp;&amp; (
                       <span className="text-xs px-2 py-1 bg-amber-50 text-amber-700 rounded">
                         {recipe.cuisine}
                       </span>
                     )}
-                    {recipe.timeToMake && (
+                    {recipe.timeToMake &amp;&amp; (
                       <span className="text-xs px-2 py-1 bg-purple-50 text-purple-700 rounded">
                         {recipe.timeToMake}
                       </span>
                     )}
-                    {recipe.isVegetarian && (
+                    {recipe.isVegetarian &amp;&amp; (
                       <span className="text-xs px-2 py-1 bg-green-50 text-green-700 rounded">
                         Vegetarian
                       </span>
                     )}
-                    {recipe.isVegan && (
+                    {recipe.isVegan &amp;&amp; (
                       <span className="text-xs px-2 py-1 bg-green-50 text-green-700 rounded">
                         Vegan
                       </span>

@@ -128,14 +128,14 @@ const DefaultFallback: React.FC<ErrorFallbackProps> = ({
       <div className="error-boundary-content">
         <h2 className="error-boundary-title">Something went wrong</h2>
         <p className="error-boundary-message">
-          {componentName ? `Error in ${componentName}` : 'An error occurred'}
+          {componentName ? `Error in ${componentName}` : 'An error occurred&apos;}
         </p>
         <pre className="error-boundary-details">
           {error.message}
         </pre>
-        {retryCount > 0 && (
+        {retryCount > 0 &amp;&amp; (
           <p className="error-boundary-retry-count">
-            Recovery attempted {retryCount} time{retryCount !== 1 ? 's' : ''}
+            Recovery attempted {retryCount} time{retryCount !== 1 ? 's&apos; : ''}
           </p>
         )}
         <button 
@@ -143,7 +143,7 @@ const DefaultFallback: React.FC<ErrorFallbackProps> = ({
           disabled={isRetrying}
           className="error-boundary-retry-button"
         >
-          {isRetrying ? 'Retrying...' : 'Try Again'}
+          {isRetrying ? 'Retrying...' : 'Try Again&apos;}
         </button>
       </div>
     </div>

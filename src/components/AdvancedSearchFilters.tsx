@@ -328,7 +328,7 @@ export default function AdvancedSearchFilters({
             key={range.label}
             onClick={() => handleTimeRangeChange(range.min, range.max)}
             className={`px-3 py-1 text-xs rounded-full border transition-colors ${
-              filters.cookingTime.min === range.min && filters.cookingTime.max === range.max
+              filters.cookingTime.min === range.min &amp;&amp; filters.cookingTime.max === range.max
                 ? 'bg-blue-100 border-blue-300 text-blue-700'
                 : 'bg-gray-50 border-gray-200 text-gray-600 hover:bg-gray-100'
             }`}
@@ -353,7 +353,7 @@ export default function AdvancedSearchFilters({
             value={searchQuery}
             onChange={(e) => handleSearchChange(e.target.value)}
             placeholder="Search cuisines, recipes, or ingredients..."
-            className="w-full pl-10 pr-12 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className="w-full pl-10 pr-12 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent&quot;
           />
           <button
             type="button"
@@ -361,8 +361,8 @@ export default function AdvancedSearchFilters({
             className={`absolute right-3 top-1/2 transform -translate-y-1/2 p-1 rounded transition-colors ${
               isExpanded ? 'text-blue-600 bg-blue-50' : 'text-gray-400 hover:text-gray-600'
             }`}
-            aria-label="Toggle filters"
-            title="Toggle filters"
+            aria-label="Toggle filters&quot;
+            title="Toggle filters&quot;
           >
             <Filter size={16} />
           </button>
@@ -389,7 +389,7 @@ export default function AdvancedSearchFilters({
               >
                 <span className="text-blue-500 text-xs">{chip.category}:</span>
                 <span>{chip.label}</span>
-                {chip.removable && (
+                {chip.removable &amp;&amp; (
                   <button
                     onClick={() => handleRemoveFilter(chip.id)}
                     className="ml-1 text-blue-500 hover:text-blue-700"
@@ -412,16 +412,16 @@ export default function AdvancedSearchFilters({
             <Utensils size={16} className="text-green-500" />,
             DIETARY_RESTRICTIONS,
             filters.dietaryRestrictions,
-            'dietaryRestrictions'
+            'dietaryRestrictions&apos;
           )}
 
           {/* Difficulty Level */}
           {renderFilterSection(
-            'Difficulty Level',
+            'Difficulty Level&apos;,
             <ChefHat size={16} className="text-orange-500" />,
             DIFFICULTY_LEVELS,
             filters.difficultyLevel,
-            'difficultyLevel'
+            'difficultyLevel&apos;
           )}
 
           {/* Cooking Time */}
@@ -429,29 +429,29 @@ export default function AdvancedSearchFilters({
 
           {/* Cuisine Types */}
           {renderFilterSection(
-            'Cuisine Types',
+            'Cuisine Types&apos;,
             <Globe size={16} className="text-purple-500" />,
             availableCuisines,
             filters.cuisineTypes,
-            'cuisineTypes'
+            'cuisineTypes&apos;
           )}
 
           {/* Meal Types */}
           {renderFilterSection(
-            'Meal Types',
+            'Meal Types&apos;,
             <Utensils size={16} className="text-blue-500" />,
             MEAL_TYPES,
             filters.mealTypes,
-            'mealTypes'
+            'mealTypes&apos;
           )}
 
           {/* Spiciness */}
           {renderFilterSection(
-            'Spiciness Level',
+            'Spiciness Level&apos;,
             <span className="text-red-500">🌶️</span>,
             SPICINESS_LEVELS,
             filters.spiciness,
-            'spiciness'
+            'spiciness&apos;
           )}
         </div>
       )}

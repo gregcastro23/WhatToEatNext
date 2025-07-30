@@ -36,7 +36,7 @@ const FoodRecommendations = (props: FoodRecommendationsProps) => {
               onClick={() => setShowDebug(!showDebug)}
               className="text-sm text-blue-600 hover:text-blue-800"
             >
-              {showDebug ? 'Hide' : 'Show'}
+              {showDebug ? 'Hide&apos; : 'Show&apos;}
             </button>
           </div>
           

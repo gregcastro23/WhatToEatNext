@@ -1,5 +1,5 @@
 // Type Harmony imports
-import { validateTransitDate } from '@/utils/transitValidation';
+import { validateTransitDate as _validateTransitDate } from '@/utils/transitValidation';
 
 // Internal imports - constants
 import { DEFAULT_ELEMENTAL_PROPERTIES } from '@/constants/defaults';
@@ -951,7 +951,7 @@ export function alchemize(
     
     // Use let for all variables that might be reassigned
     const horoscope = horoscopeDict.tropical;
-    const silentMode = false;
+    const _silentMode = false;
     
     // Validate horoscope has required data
     if (!horoscope.CelestialBodies || typeof horoscope.CelestialBodies !== 'object') {
@@ -962,10 +962,10 @@ export function alchemize(
     const celestialBodies = horoscope.CelestialBodies;
     
     // Determine if it's day or night based on birth hour
-    let diurnalOrNocturnal = 'Diurnal';
+    let _diurnalOrNocturnal = 'Diurnal';
     const birthHour = birthInfo.date.getHours();
     if (birthHour < 5 || birthHour > 17) {
-      diurnalOrNocturnal = 'Nocturnal';
+      _diurnalOrNocturnal = 'Nocturnal';
     }
     
     // Initialize metadata and result object
@@ -1053,7 +1053,7 @@ export function alchemize(
       // Use safe type casting for unknown property access
       const ascendantData = horoscope.Ascendant ;
       const signData = ascendantData.Sign;
-      const risingSign = (signData && typeof signData === 'object' && 'label' in signData ? (signData as Record<string, unknown>).label : null) || "Aries";
+      const _risingSign = (signData && typeof signData === 'object' && 'label' in signData ? (signData as Record<string, unknown>).label : null) || "Aries";
       
       // SAFELY update planet info with correct typing
       if (alchmInfo && alchmInfo['Planets'] && 'Ascendant' in alchmInfo['Planets']) {
@@ -1075,28 +1075,28 @@ export function alchemize(
     
     // Process planets and celestial bodies
     try {
-      let celestial_bodies_index = 0;
+      let celestialBodiesIndex = 0;
       
       // Use while loop to ensure proper iteration
-      while (celestial_bodies_index < 11) {
+      while (celestialBodiesIndex < 11) {
         let planet = '';
         let entry: unknown = {};
         
         // SAFELY get planet and entry
         try {
-          if (celestial_bodies_index === 10) {
+          if (celestialBodiesIndex === 10) {
             entry = horoscope.Ascendant || {};
             planet = "Ascendant";
           } else {
             const celestialArray = celestialBodies['all'] as Array<unknown> || [];
-            entry = celestialArray[celestial_bodies_index] || {};
+            entry = celestialArray[celestialBodiesIndex] || {};
             // Use safe type casting for entry property access
             const entryData = entry as Record<string, unknown>;
             planet = (entryData.label as string) || '';
           }
         } catch (error) {
-          console.error(`Error getting planet at index ${celestial_bodies_index}:`, error);
-          celestial_bodies_index++;
+          console.error(`Error getting planet at index ${celestialBodiesIndex}:`, error);
+          celestialBodiesIndex++;
           continue; // Skip this iteration if error
         }
         
@@ -1111,14 +1111,14 @@ export function alchemize(
         
         // Skip if planet name is not available
         if (!planet) {
-          celestial_bodies_index++;
+          celestialBodiesIndex++;
           continue;
         }
         
         // Log for debugging
         if (!silent_mode) {
           log.info('');
-          log.info(`Processing planet ${celestial_bodies_index}: ${planet}`);
+          log.info(`Processing planet ${celestialBodiesIndex}: ${planet}`);
         }
         
         // Get the sign
@@ -1202,7 +1202,7 @@ export function alchemize(
             
             // Process degree and decan
             let degree = 0;
-            let decan_string = "1st Decan";
+            let decanString = "1st Decan";
             
             try {
               const degreeRaw = (celestialBodies[planet.toLowerCase()]?.['ChartPosition']?.['Ecliptic']?.['ArcDegreesFormatted30'] || '0°').split('°')[0];
@@ -1210,17 +1210,17 @@ export function alchemize(
               
               // Calculate decan
               if (degree < 10) {
-                decan_string = "1st Decan";
+                decanString = "1st Decan";
               } else if (degree < 20) {
-                decan_string = "2nd Decan";
+                decanString = "2nd Decan";
               } else {
-                decan_string = "3rd Decan";
+                decanString = "3rd Decan";
               }
               
               // Update planet info
               if (alchmInfo['Planets'] && alchmInfo['Planets'][planet]) {
                 alchmInfo['Planets'][planet]['Degree'] = degree;
-                alchmInfo['Planets'][planet]['Decan'] = decan_string;
+                alchmInfo['Planets'][planet]['Decan'] = decanString;
               }
             } catch (error) {
               console.error(`Error processing degree for ${planet}:`, error);
@@ -1289,7 +1289,7 @@ export function alchemize(
         }
         
         // Move to next planet
-        celestial_bodies_index++;
+        celestialBodiesIndex++;
       }
     } catch (error) {
       console.error('Error in planet processing:', error);

@@ -26,7 +26,7 @@ export const MockMainPageLayout: React.FC<MainPageLayoutProps> = ({
 }) => {
   return (
     <div data-testid="mock-main-page-layout">
-      <div data-testid="debug-mode">{debugMode ? 'debug' : 'production'}</div>
+      <div data-testid="debug-mode">{debugMode ? 'debug&apos; : 'production&apos;}</div>
       <div data-testid="loading-state">{loading ? 'loading' : 'loaded'}</div>
       {children}
     </div>

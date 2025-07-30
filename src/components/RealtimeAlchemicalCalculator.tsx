@@ -185,9 +185,9 @@ export default function RealtimeAlchemicalCalculator() {
         <div className="flex items-center justify-between">
           <div>
             <h2 className="text-2xl font-bold">Real-time Alchemical Calculator</h2>
-            <p className="opacity-90">Kalchm & Monica Constant System</p>
+            <p className="opacity-90">Kalchm &amp; Monica Constant System</p>
             <p className="text-sm opacity-75">
-              {source?.includes('astrologize') ? '✨ Using Real Astrologize Calculations' : '⚠️ Using Fallback Data'}
+              {source?.includes('astrologize&apos;) ? '✨ Using Real Astrologize Calculations&apos; : '⚠️ Using Fallback Data&apos;}
             </p>
           </div>
           <div className="text-right">
@@ -299,7 +299,7 @@ export default function RealtimeAlchemicalCalculator() {
               <span className="text-yellow-600">{reactivity.toFixed(4)}</span>
             </div>
             <div className="flex justify-between">
-              <span className="font-medium">Greg's Energy:</span>
+              <span className="font-medium">Greg&apos;s Energy:</span>
               <span className="text-green-600">{gregsEnergy.toFixed(4)}</span>
             </div>
           </div>
@@ -314,7 +314,7 @@ export default function RealtimeAlchemicalCalculator() {
               <div className="flex justify-between">
                 <span>Monica Constant:</span>
                 <span className="text-indigo-600">
-                  {isNaN(monicaConstant) ? 'Undefined' : monicaConstant.toFixed(4)}
+                  {isNaN(monicaConstant) ? 'Undefined&apos; : monicaConstant.toFixed(4)}
                 </span>
               </div>
             </div>
@@ -345,8 +345,8 @@ export default function RealtimeAlchemicalCalculator() {
           <p>
             <strong>System State:</strong> {
               gregsEnergy > 0 ? 
-                gregsEnergy > 0.1 ? 'High Energy - Dynamic Phase' : 'Moderate Energy - Balanced Phase' :
-                'Low Energy - Consolidation Phase'
+                gregsEnergy > 0.1 ? 'High Energy - Dynamic Phase&apos; : 'Moderate Energy - Balanced Phase&apos; :
+                'Low Energy - Consolidation Phase&apos;
             }
           </p>
         </div>

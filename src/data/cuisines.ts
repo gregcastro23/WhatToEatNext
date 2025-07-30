@@ -49,7 +49,7 @@ const exampleRecipe: Recipe = {
 function adaptElementalProperties(props: unknown): ElementalProperties {
   const propsData = props as any;
   // If it already has the index signature, return as is
-  if (propsData && typeof propsData === 'object' && propsData.hasOwnProperty('Fire')) {
+  if (propsData && typeof propsData === 'object' && Object.prototype.hasOwnProperty.call(propsData, 'Fire')) {
     return propsData as ElementalProperties;
   }
   

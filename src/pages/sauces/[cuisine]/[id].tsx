@@ -106,7 +106,7 @@ const SauceDetailsPage: NextPage = () => {
       <div className="container mx-auto px-4 py-16">
         <h1 className="text-3xl font-bold mb-8">Sauce not found</h1>
         <p className="text-lg mb-8">
-          The sauce you&apos;re looking for doesn&apos;t exist or may have been
+          The sauce you&apos;re looking for doesn&amp;apos;t exist or may have been
           removed.
         </p>
         <Link
@@ -134,17 +134,17 @@ const SauceDetailsPage: NextPage = () => {
         <header className="mb-8">
           <h1 className="text-3xl font-bold mb-3">{sauce.name}</h1>
 
-          {sauce.description && (
+          {sauce.description &amp;&amp; (
             <p className="text-lg text-gray-700 mb-4">{sauce.description}</p>
           )}
 
           <div className="flex flex-wrap gap-2 mt-4">
-            {sauce.base && (
+            {sauce.base &amp;&amp; (
               <span className="text-sm px-3 py-1 bg-amber-100 text-amber-800 rounded-full">
                 {sauce.base} base
               </span>
             )}
-            {sauce.seasonality && (
+            {sauce.seasonality &amp;&amp; (
               <span className="text-sm px-3 py-1 bg-green-100 text-green-800 rounded-full">
                 {sauce.seasonality}
               </span>
@@ -154,7 +154,7 @@ const SauceDetailsPage: NextPage = () => {
 
         <div className="grid md:grid-cols-2 gap-8">
           {/* Key Ingredients Section */}
-          {sauce.keyIngredients && sauce.keyIngredients.length > 0 && (
+          {sauce.keyIngredients && sauce.keyIngredients.length > 0 &amp;&amp; (
             <section>
               <h2 className="text-xl font-semibold mb-4">Key Ingredients</h2>
               <div className="flex flex-wrap gap-2">
@@ -236,7 +236,7 @@ const SauceDetailsPage: NextPage = () => {
                             : 'rgb(109, 40, 217)',
                       }}
                     >
-                      {typeof value === 'number'
+                      {typeof value === 'number&apos;
                         ? Math.round(value * 100)
                         : value}
                       %

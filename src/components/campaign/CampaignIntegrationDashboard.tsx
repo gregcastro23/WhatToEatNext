@@ -37,17 +37,17 @@ export const CampaignIntegrationDashboard: React.FC<CampaignIntegrationDashboard
     autoRefresh: true,
     refreshInterval: 30000,
     onCampaignStart: (campaignId) => {
-      console.log(`Campaign started: ${campaignId}`);
+      // Campaign started callback
     },
     onCampaignComplete: (campaignId) => {
-      console.log(`Campaign completed: ${campaignId}`);
+      // Campaign completed callback
     },
     onCampaignFailed: (campaignId, error) => {
-      console.log(`Campaign failed: ${campaignId} - ${error}`);
+      // Log failure for debugging
       handleCampaignFailure(campaignId);
     },
     onSystemHealthChange: (health) => {
-      console.log('System health changed:', health.overallHealth);
+      // System health monitoring callback
     }
   });
 
@@ -138,7 +138,7 @@ export const CampaignIntegrationDashboard: React.FC<CampaignIntegrationDashboard
         <div className="nav-header">
           <h1>Campaign Management System</h1>
           <div className="system-status">
-            {systemHealth && (
+            {systemHealth &amp;&amp; (
               <div className={`status-indicator ${systemHealth.status}`}>
                 <span className="status-dot"></span>
                 <span className="status-text">{systemHealth.status.toUpperCase()}</span>
@@ -150,46 +150,46 @@ export const CampaignIntegrationDashboard: React.FC<CampaignIntegrationDashboard
         <nav className="nav-tabs">
           <button
             className={`nav-tab ${activeView === 'overview' ? 'active' : ''}`}
-            onClick={() => setActiveView('overview')}
+            onClick={() => setActiveView('overview&apos;)}
           >
             Overview
           </button>
           <button
             className={`nav-tab ${activeView === 'control' ? 'active' : ''}`}
-            onClick={() => setActiveView('control')}
+            onClick={() => setActiveView('control&apos;)}
           >
             Control Panel
-            {campaignState.activeCampaigns.length > 0 && (
+            {campaignState.activeCampaigns.length > 0 &amp;&amp; (
               <span className="badge">{campaignState.activeCampaigns.length}</span>
             )}
           </button>
           <button
             className={`nav-tab ${activeView === 'workflows' ? 'active' : ''}`}
-            onClick={() => setActiveView('workflows')}
+            onClick={() => setActiveView('workflows&apos;)}
           >
             Workflows
           </button>
           <button
             className={`nav-tab ${activeView === 'scheduler' ? 'active' : ''}`}
-            onClick={() => setActiveView('scheduler')}
+            onClick={() => setActiveView('scheduler&apos;)}
           >
             Scheduler
           </button>
           <button
             className={`nav-tab ${activeView === 'conflicts' ? 'active' : ''}`}
-            onClick={() => setActiveView('conflicts')}
+            onClick={() => setActiveView('conflicts&apos;)}
           >
             Conflicts
-            {activeIssues > 0 && (
+            {activeIssues > 0 &amp;&amp; (
               <span className="badge warning">{activeIssues}</span>
             )}
           </button>
           <button
             className={`nav-tab ${activeView === 'debugging' ? 'active' : ''}`}
-            onClick={() => setActiveView('debugging')}
+            onClick={() => setActiveView('debugging&apos;)}
           >
-            Debug & Recovery
-            {activeDebugSessions > 0 && (
+            Debug &amp; Recovery
+            {activeDebugSessions > 0 &amp;&amp; (
               <span className="badge error">{activeDebugSessions}</span>
             )}
           </button>
@@ -200,7 +200,7 @@ export const CampaignIntegrationDashboard: React.FC<CampaignIntegrationDashboard
       <div className="dashboard-content">
         <div className="content-header">
           <h2>{getViewTitle(activeView)}</h2>
-          {campaignState.lastUpdate && (
+          {campaignState.lastUpdate &amp;&amp; (
             <div className="last-update">
               Last updated: {campaignState.lastUpdate.toLocaleTimeString()}
             </div>
@@ -221,10 +221,10 @@ export const CampaignIntegrationDashboard: React.FC<CampaignIntegrationDashboard
           {activeView === 'control' && (
             <CampaignControlPanel
               onCampaignStart={(campaignId) => {
-                console.log(`Campaign started from control panel: ${campaignId}`);
+                // Campaign started from control panel
               }}
               onCampaignComplete={(campaignId) => {
-                console.log(`Campaign completed from control panel: ${campaignId}`);
+                // Campaign completed from control panel
               }}
             />
           )}
@@ -232,34 +232,34 @@ export const CampaignIntegrationDashboard: React.FC<CampaignIntegrationDashboard
           {activeView === 'workflows' && (
             <CampaignWorkflowBuilder
               onWorkflowCreated={(workflowId) => {
-                console.log(`Workflow created: ${workflowId}`);
+                // Workflow created callback
               }}
               onWorkflowExecuted={(workflowId) => {
-                console.log(`Workflow executed: ${workflowId}`);
+                // Workflow executed callback
               }}
             />
           )}
 
-          {activeView === 'scheduler' && (
+          {activeView === 'scheduler&apos; &amp;&amp; (
             <CampaignScheduler
               onScheduleCreated={(scheduleId) => {
-                console.log(`Schedule created: ${scheduleId}`);
+                // Schedule created callback
               }}
             />
           )}
 
-          {activeView === 'conflicts' && (
+          {activeView === 'conflicts&apos; &amp;&amp; (
             <ConflictResolutionPanel
               onConflictResolved={(conflictId, result) => {
-                console.log(`Conflict resolved: ${conflictId}`, result);
+                // Conflict resolved callback
               }}
               onManualOverride={(conflictId, action) => {
-                console.log(`Manual override applied: ${conflictId} - ${action}`);
+                // Manual override applied callback
               }}
             />
           )}
 
-          {activeView === 'debugging' && (
+          {activeView === 'debugging&apos; &amp;&amp; (
             <DebuggingPanel
               healthReports={healthReports}
               debugSessions={debugSessions}
@@ -317,7 +317,7 @@ const OverviewPanel: React.FC<{
       <div className="overview-section">
         <h3>Active Campaigns</h3>
         <div className="campaigns-summary">
-          <div className="summary-card" onClick={() => onViewChange('control')}>
+          <div className="summary-card" onClick={() => onViewChange('control&apos;)}>
             <div className="card-value">{activeCampaigns.length}</div>
             <div className="card-label">Running Campaigns</div>
           </div>
@@ -379,9 +379,9 @@ const OverviewPanel: React.FC<{
       <div className="overview-section">
         <h3>Debug Sessions</h3>
         <div className="debug-sessions-summary">
-          <div className="summary-card" onClick={() => onViewChange('debugging')}>
+          <div className="summary-card" onClick={() => onViewChange('debugging&apos;)}>
             <div className="card-value">
-              {debugSessions.filter(s => s.status === 'active').length}
+              {debugSessions.filter(s => s.status === 'active&apos;).length}
             </div>
             <div className="card-label">Active Sessions</div>
           </div>
@@ -419,7 +419,7 @@ const DebuggingPanel: React.FC<{
         <div className="actions-grid">
           <button 
             className="action-btn"
-            onClick={() => onStartDebugSession('test-campaign')}
+            onClick={() => onStartDebugSession('test-campaign&apos;)}
           >
             Start Debug Session
           </button>

@@ -206,7 +206,7 @@ export const CampaignScheduler: React.FC<CampaignSchedulerProps> = ({
         <div className="schedule-form-overlay">
           <div className="schedule-form-modal">
             <div className="form-header">
-              <h3>{editingSchedule ? 'Edit Schedule' : 'Create New Schedule'}</h3>
+              <h3>{editingSchedule ? 'Edit Schedule&apos; : 'Create New Schedule&apos;}</h3>
               <button className="close-btn" onClick={handleCancelEdit}>×</button>
             </div>
             
@@ -218,7 +218,7 @@ export const CampaignScheduler: React.FC<CampaignSchedulerProps> = ({
                   type="text"
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  placeholder="e.g., Daily TypeScript Cleanup"
+                  placeholder="e.g., Daily TypeScript Cleanup&quot;
                   required
                 />
               </div>
@@ -292,7 +292,7 @@ export const CampaignScheduler: React.FC<CampaignSchedulerProps> = ({
                   Cancel
                 </button>
                 <button type="submit" disabled={formData.phases.length === 0}>
-                  {editingSchedule ? 'Update Schedule' : 'Create Schedule'}
+                  {editingSchedule ? 'Update Schedule&apos; : 'Create Schedule&apos;}
                 </button>
               </div>
             </form>
@@ -340,7 +340,7 @@ const ScheduleCard: React.FC<{
         <h4>{schedule.name}</h4>
         <div className="schedule-status">
           <span className={`status-badge ${schedule.enabled ? 'enabled' : 'disabled'}`}>
-            {schedule.enabled ? 'Enabled' : 'Disabled'}
+            {schedule.enabled ? 'Enabled&apos; : 'Disabled&apos;}
           </span>
         </div>
       </div>

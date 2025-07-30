@@ -898,14 +898,14 @@ export default function IngredientRecommender({
             
             // Define icons for each category
             let icon;
-            if (category === 'proteins') icon = <Tag className="mr-1 text-rose-500" size={14} />;
-            else if (category === 'vegetables') icon = <Leaf className="mr-1 text-emerald-500" size={14} />;
-            else if (category === 'grains') icon = <Wind className="mr-1 text-amber-500" size={14} />;
-            else if (category === 'herbs') icon = <Leaf className="mr-1 text-green-500" size={14} />;
-            else if (category === 'spices') icon = <Flame className="mr-1 text-orange-500" size={14} />;
-            else if (category === 'fruits') icon = <Droplets className="mr-1 text-cyan-500" size={14} />;
-            else if (category === 'oils') icon = <Droplets className="mr-1 text-yellow-500" size={14} />;
-            else if (category === 'vinegars') icon = <Beaker className="mr-1 text-purple-500" size={14} />;
+            if (category === 'proteins&apos;) icon = <Tag className="mr-1 text-rose-500" size={14} />;
+            else if (category === 'vegetables&apos;) icon = <Leaf className="mr-1 text-emerald-500" size={14} />;
+            else if (category === 'grains&apos;) icon = <Wind className="mr-1 text-amber-500" size={14} />;
+            else if (category === 'herbs&apos;) icon = <Leaf className="mr-1 text-green-500" size={14} />;
+            else if (category === 'spices&apos;) icon = <Flame className="mr-1 text-orange-500" size={14} />;
+            else if (category === 'fruits&apos;) icon = <Droplets className="mr-1 text-cyan-500" size={14} />;
+            else if (category === 'oils&apos;) icon = <Droplets className="mr-1 text-yellow-500" size={14} />;
+            else if (category === 'vinegars&apos;) icon = <Beaker className="mr-1 text-purple-500" size={14} />;
             
             return (
               <a 
@@ -915,13 +915,13 @@ export default function IngredientRecommender({
                   e.preventDefault();
                   const element = document.getElementById(category);
                   if (element) {
-                    element.scrollIntoView({ behavior: 'smooth' });
+                    element.scrollIntoView({ behavior: 'smooth&apos; });
                     handleCategorySelect(category);
                   }
                 }}
                 className={`px-3 py-1.5 rounded-full text-xs font-medium flex items-center shadow-sm transition-colors duration-200 ${
                   isActive 
-                    ? 'bg-indigo-500 text-white' 
+                    ? 'bg-indigo-500 text-white&apos; 
                     : 'bg-white/90 dark:bg-gray-700/90 text-gray-700 dark:text-gray-300 hover:bg-indigo-100 dark:hover:bg-indigo-900/40 hover:text-indigo-600 dark:hover:text-indigo-300'
                 }`}
               >
@@ -948,14 +948,14 @@ export default function IngredientRecommender({
                   onClick={(e) => toggleCategoryExpansion(category, e)}
                 >
                   <h3 className="text-lg font-semibold capitalize text-gray-800 dark:text-gray-200 flex items-center">
-                    {category === 'proteins' && <Tag className="mr-2 text-rose-500" size={18} />}
-                    {category === 'vegetables' && <Leaf className="mr-2 text-emerald-500" size={18} />}
-                    {category === 'grains' && <Wind className="mr-2 text-amber-500" size={18} />}
-                    {category === 'herbs' && <Leaf className="mr-2 text-green-500" size={18} />}
-                    {category === 'spices' && <Flame className="mr-2 text-orange-500" size={18} />}
-                    {category === 'fruits' && <Droplets className="mr-2 text-cyan-500" size={18} />}
-                    {category === 'oils' && <Droplets className="mr-2 text-yellow-500" size={18} />}
-                    {category === 'vinegars' && <Beaker className="mr-2 text-purple-500" size={18} />}
+                    {category === 'proteins&apos; &amp;&amp; <Tag className="mr-2 text-rose-500" size={18} />}
+                    {category === 'vegetables&apos; &amp;&amp; <Leaf className="mr-2 text-emerald-500" size={18} />}
+                    {category === 'grains&apos; &amp;&amp; <Wind className="mr-2 text-amber-500" size={18} />}
+                    {category === 'herbs&apos; &amp;&amp; <Leaf className="mr-2 text-green-500" size={18} />}
+                    {category === 'spices&apos; &amp;&amp; <Flame className="mr-2 text-orange-500" size={18} />}
+                    {category === 'fruits&apos; &amp;&amp; <Droplets className="mr-2 text-cyan-500" size={18} />}
+                    {category === 'oils&apos; &amp;&amp; <Droplets className="mr-2 text-yellow-500" size={18} />}
+                    {category === 'vinegars&apos; &amp;&amp; <Beaker className="mr-2 text-purple-500" size={18} />}
                     {displayName}
                   </h3>
                   <button className="text-gray-500 hover:text-gray-700 focus:outline-none">
@@ -984,21 +984,21 @@ export default function IngredientRecommender({
                       })[0][0];
                     
                     const elementColor = {
-                      'Fire': 'border-red-400 bg-red-50/70 dark:bg-red-900/30',
-                      'Water': 'border-blue-400 bg-blue-50/70 dark:bg-blue-900/30',
-                      'Earth': 'border-green-400 bg-green-50/70 dark:bg-green-900/30',
-                      'Air': 'border-purple-400 bg-purple-50/70 dark:bg-purple-900/30'
+                      'Fire&apos;: 'border-red-400 bg-red-50/70 dark:bg-red-900/30',
+                      'Water&apos;: 'border-blue-400 bg-blue-50/70 dark:bg-blue-900/30',
+                      'Earth&apos;: 'border-green-400 bg-green-50/70 dark:bg-green-900/30',
+                      'Air&apos;: 'border-purple-400 bg-purple-50/70 dark:bg-purple-900/30'
                     }[dominantElement] || 'border-gray-400 bg-gray-50/70 dark:bg-gray-900/30';
                     
                     // Find sensory properties if available
-                    const defaultSeason = ['Spring', 'Summer', 'Fall', 'Winter'][Math.floor(Math.random() * 4)];
+                    const defaultSeason = ['Spring&apos;, 'Summer&apos;, 'Fall&apos;, 'Winter&apos;][Math.floor(Math.random() * 4)];
                     let seasonality;
                     
                     // Handle both string and object seasonality formats
                     if (item.seasonality) {
-                      if (typeof item.seasonality === 'string') {
+                      if (typeof item.seasonality === 'string&apos;) {
                         seasonality = item.seasonality;
-                      } else if (typeof item.seasonality === 'object') {
+                      } else if (typeof item.seasonality === 'object&apos;) {
                         // Handle both array and object formats
                         if (Array.isArray(item.seasonality)) {
                           seasonality = item.seasonality.join(', ');
@@ -1042,7 +1042,7 @@ export default function IngredientRecommender({
                             </span>
                           )}
                           
-                          {seasonality && (
+                          {seasonality &amp;&amp; (
                             <span className="flex items-center">
                               <Clock size={10} className="mr-0.5" />
                               {seasonality}
@@ -1061,7 +1061,7 @@ export default function IngredientRecommender({
                                   setSelectedIngredient(null);
                                 }}
                                 className="text-gray-400 hover:text-gray-600 p-1 rounded-full hover:bg-gray-200/50 dark:hover:bg-gray-700/50"
-                                aria-label="Close details"
+                                aria-label="Close details&quot;
                               >
                                 <X size={14} />
                               </button>
@@ -1073,7 +1073,7 @@ export default function IngredientRecommender({
                                 <p>{item.description}</p>
                               )}
                               
-                              {item.qualities && item.qualities.length > 0 && (
+                              {item.qualities &amp;&amp; item.qualities.length > 0 &amp;&amp; (
                                 <div>
                                   <span className="font-semibold">Qualities:</span> {item.qualities.join(', ')}
                                 </div>
@@ -1100,7 +1100,7 @@ export default function IngredientRecommender({
                                 <div>
                                   <span className="font-semibold">Storage:</span>{' '}
                                   {item.storage.duration}
-                                  {item.storage.temperature && typeof item.storage.temperature === 'object' && 
+                                  {item.storage.temperature &amp;&amp; typeof item.storage.temperature === 'object&apos; &amp;&amp; 
                                    ` at ${item.storage.temperature.fahrenheit}°F`}
                                 </div>
                               )}
@@ -1118,7 +1118,7 @@ export default function IngredientRecommender({
                                   <span className="font-semibold">Best for:</span> {
                                     Object.entries(item.culinaryApplications)
                                       .map(([type, data]) => {
-                                        if (typeof data === 'object') {
+                                        if (typeof data === 'object&apos;) {
                                           // Extract data with safe property access
                                           const culinaryData = data as Record<string, unknown>;
                                           const techniques = culinaryData.techniques;
@@ -1155,21 +1155,21 @@ export default function IngredientRecommender({
                                     const timing = detailsData.timing;
                                     
                                     if (timing) {
-                                      if (typeof timing === 'string') {
+                                      if (typeof timing === 'string&apos;) {
                                         cookingTime = timing;
-                                      } else if (typeof timing === 'object') {
+                                      } else if (typeof timing === 'object&apos;) {
                                         // Extract timing properties with safe access
                                         const timingData = timing as Record<string, unknown>;
                                         const minimum = timingData.minimum;
                                         const maximum = timingData.maximum;
                                         const optimal = timingData.optimal;
                                         
-                                        if (minimum && maximum) {
+                                        if (minimum &amp;&amp; maximum) {
                                           cookingTime = `${minimum}-${maximum}`;
                                         } else if (optimal) {
                                           cookingTime = optimal as string;
                                         } else {
-                                          const times = Object.values(timing).filter(t => typeof t === 'string');
+                                          const times = Object.values(timing).filter(t => typeof t === 'string&apos;);
                                           if (times.length) cookingTime = times.join('-');
                                         }
                                       }
@@ -1198,9 +1198,9 @@ export default function IngredientRecommender({
                                     const temperature = tempDetailsData.temperature;
                                     
                                     if (temperature) {
-                                      if (typeof temperature === 'string') {
+                                      if (typeof temperature === 'string&apos;) {
                                         temp = temperature;
-                                      } else if (typeof temperature === 'object') {
+                                      } else if (typeof temperature === 'object&apos;) {
                                         // Extract temperature properties with safe access
                                         const temperatureData = temperature as Record<string, unknown>;
                                         const fahrenheit = temperatureData.fahrenheit;
@@ -1210,8 +1210,8 @@ export default function IngredientRecommender({
                                         
                                         if (fahrenheit) {
                                           temp = `${fahrenheit}°F`;
-                                        } else if (min && max) {
-                                          temp = `${min}-${max}°${unit === 'celsius' ? 'C' : 'F'}`;
+                                        } else if (min &amp;&amp; max) {
+                                          temp = `${min}-${max}°${unit === 'celsius&apos; ? 'C&apos; : 'F&apos;}`;
                                         }
                                       }
                                     }
@@ -1231,7 +1231,7 @@ export default function IngredientRecommender({
                                 <div>
                                   <span className="font-semibold">Available Cuts:</span>{' '}
                                   {Object.values(item.cuts).map(cut => {
-                                    if (typeof cut === 'object') {
+                                    if (typeof cut === 'object&apos;) {
                                       // Extract cut data with safe property access
                                       const cutData = cut as Record<string, unknown>;
                                       const name = cutData.name;
@@ -1248,7 +1248,7 @@ export default function IngredientRecommender({
                                   <span className="font-semibold">Health Benefits:</span>{' '}
                                   {Array.isArray(item.healthBenefits) 
                                     ? item.healthBenefits.slice(0, 2).join(', ')
-                                    : typeof item.healthBenefits === 'string' ? item.healthBenefits : ''}
+                                    : typeof item.healthBenefits === 'string&apos; ? item.healthBenefits : ''}
                                 </div>
                               )}
                               
@@ -1257,7 +1257,7 @@ export default function IngredientRecommender({
                                 <div>
                                   <span className="font-semibold">Properties:</span> {
                                     Object.entries(item.thermodynamicProperties)
-                                      .filter(([key]) => ['heat', 'reactivity', 'energy'].includes(key))
+                                      .filter(([key]) => ['heat&apos;, 'reactivity&apos;, 'energy&apos;].includes(key))
                                       .map(([key, value]) => `${key}: ${Math.round((Number(value) || 0) * 100)}%`)
                                       .join(', ')
                                   }
@@ -1274,8 +1274,8 @@ export default function IngredientRecommender({
                               {item.nutritionalProfile && (
                                 <div>
                                   <span className="font-semibold">Nutrition:</span>{' '}
-                                  {item.nutritionalProfile.calories && `${item.nutritionalProfile.calories} cal`}
-                                  {item.nutritionalProfile.macros && item.nutritionalProfile.macros.protein && 
+                                  {item.nutritionalProfile.calories &amp;&amp; `${item.nutritionalProfile.calories} cal`}
+                                  {item.nutritionalProfile.macros &amp;&amp; item.nutritionalProfile.macros.protein &amp;&amp; 
                                    `, ${item.nutritionalProfile.macros.protein}g protein`}
                                 </div>
                               )}
@@ -1360,7 +1360,7 @@ export default function IngredientRecommender({
                                 <span className="font-medium">Cook:</span>{' '}
                                 {Object.keys(item.culinaryApplications).slice(0, 2).map((method, idx) => (
                                   <span key={method}>
-                                    {idx > 0 && ', '}
+                                    {idx > 0 &amp;&amp; ', '}
                                     {method.replace(/_/g, ' ')}
                                   </span>
                                 ))}

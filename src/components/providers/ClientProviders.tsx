@@ -22,7 +22,7 @@ export default function ClientProviders({ children }: ClientProvidersProps) {
     <ErrorBoundary fallback={ErrorFallback}>
       <RecoveryProvider>
         {children}
-        {process.env.NODE_ENV === 'development' && <StateDebugger />}
+        {process.env.NODE_ENV === 'development&apos; &amp;&amp; <StateDebugger />}
       </RecoveryProvider>
     </ErrorBoundary>
   )

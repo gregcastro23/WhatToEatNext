@@ -162,7 +162,7 @@ const ConsolidatedDebugInfo = memo(function ConsolidatedDebugInfo({
           <span className="text-xs text-gray-400">
             {formatTime(metrics.lastUpdated)}
           </span>
-          {collapsible && (
+          {collapsible &amp;&amp; (
             <button
               onClick={toggleCollapsed}
               className="text-gray-400 hover:text-white transition-colors"
@@ -207,7 +207,7 @@ const ConsolidatedDebugInfo = memo(function ConsolidatedDebugInfo({
             <div>
               <h4 className="font-medium text-blue-400 mb-1">Astrological State</h4>
               <div className="space-y-1 text-xs">
-                <div>Sun Sign: {(planetaryPositions.sun as any)?.sign || 'Unknown'}</div>
+                <div>Sun Sign: {(planetaryPositions.sun as any)?.sign || 'Unknown&apos;}</div>
                 <div>Lunar Phase: {state.lunarPhase || 'Unknown'}</div>
                 <div>Planetary Hour: {state.planetaryHour || 'Unknown'}</div>
                 <div>Time of Day: {isDaytime ? 'Day' : 'Night'}</div>
@@ -258,7 +258,7 @@ const ConsolidatedDebugInfo = memo(function ConsolidatedDebugInfo({
                 <div className="flex justify-between">
                   <span>Data Loading:</span>
                   <span className={state.error ? 'text-red-400' : 'text-green-400'}>
-                    {state.error ? 'Error' : 'OK'}
+                    {state.error ? 'Error&apos; : 'OK&apos;}
                   </span>
                 </div>
                 <div className="flex justify-between">
@@ -332,7 +332,7 @@ const ConsolidatedDebugInfo = memo(function ConsolidatedDebugInfo({
                     max="100"
                     value={settings.opacity * 100}
                     onChange={(e) => setOpacity(parseInt(e.target.value) / 100)}
-                    className="w-full h-2 bg-gray-600 rounded-lg appearance-none cursor-pointer"
+                    className="w-full h-2 bg-gray-600 rounded-lg appearance-none cursor-pointer&quot;
                   />
                 </div>
 

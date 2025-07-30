@@ -242,7 +242,7 @@ export default function RecipeList() {
                   onChange={(e) => updateFilters({
                     cuisineTypes: Array.from(e.target.selectedOptions, option => option.value as unknown as CuisineType)
                   })}
-                  className="w-full p-2 border rounded"
+                  className="w-full p-2 border rounded&quot;
                 >
                   {Object.keys(cuisineTypes).map(cuisine => (
                     <option key={cuisine} value={cuisine}>
@@ -261,7 +261,7 @@ export default function RecipeList() {
                   onChange={(e) => updateFilters({
                     mealType: Array.from(e.target.selectedOptions, option => option.value)
                   })}
-                  className="w-full p-2 border rounded"
+                  className="w-full p-2 border rounded&quot;
                 >
                   {mealTypes.map(type => (
                     <option key={type} value={type}>
@@ -280,7 +280,7 @@ export default function RecipeList() {
                   onChange={(e) => updateFilters({
                     dietary: Array.from(e.target.selectedOptions, option => option.value as DietaryRestriction)
                   })}
-                  className="w-full p-2 border rounded"
+                  className="w-full p-2 border rounded&quot;
                 >
                   {dietaryOptions.map(option => (
                     <option key={option} value={option}>
@@ -312,7 +312,7 @@ export default function RecipeList() {
       {/* Recipe Groups */}
       <div className="space-y-8">
         {/* Recommended Recipes */}
-        {groupedRecipes.recommended.length > 0 && (
+        {groupedRecipes.recommended.length > 0 &amp;&amp; (
           <section>
             <h2 className="text-xl font-semibold mb-4">Recommended for You</h2>
             <div className="space-y-4">

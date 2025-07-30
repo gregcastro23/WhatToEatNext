@@ -35,10 +35,10 @@ export const AlchemicalPropertiesDisplay: React.FC<AlchemicalPropertiesDisplayPr
     <div className="p-4 bg-white rounded-lg shadow-md">
       <h3 className="text-lg font-semibold mb-2">Alchemical Properties</h3>
       
-      {showDebug && (
+      {showDebug &amp;&amp; (
         <div className="mb-2 p-2 bg-gray-100 rounded text-xs">
-          <p>Context state available: {state ? 'Yes' : 'No'}</p>
-          <p>Values defined: {alchemicalValues ? 'Yes' : 'No'}</p>
+          <p>Context state available: {state ? 'Yes&apos; : 'No&apos;}</p>
+          <p>Values defined: {alchemicalValues ? 'Yes&apos; : 'No&apos;}</p>
         </div>
       )}
       
@@ -126,7 +126,7 @@ export const ChakraEnergiesDisplay: React.FC<ChakraEnergiesDisplayProps> = ({ co
           <div key={chakra} className={`flex ${compact ? 'flex-col items-center' : 'items-center justify-between'}`}>
             <div className="flex items-center">
               <span className="text-lg mr-2">{getChakraSymbol(chakra)}</span>
-              {!compact && <span className="text-sm capitalize">{chakra.replace('_', ' ')}</span>}
+              {!compact &amp;&amp; <span className="text-sm capitalize">{chakra.replace('_', ' ')}</span>}
             </div>
             <div className={`${compact ? 'w-full mt-1' : 'flex-1 mx-3'}`}>
               <div className="w-full bg-gray-200 rounded-full h-2">
@@ -221,7 +221,7 @@ export const ElementalEnergyDisplay: React.FC<ElementalEnergyDisplayProps> = ({ 
         
         <div className={styles.elementBars}>
           {Object.entries(elementalState || {}).filter(([key]) => 
-            ['Fire', 'Water', 'Earth', 'Air'].includes(key)
+            ['Fire&apos;, 'Water&apos;, 'Earth&apos;, 'Air&apos;].includes(key)
            || []).map(([element, value]) => (
             <div key={element} className={styles.elementBar}>
               <div className={styles.elementLabel}>

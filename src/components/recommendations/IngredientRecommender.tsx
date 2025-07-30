@@ -392,7 +392,7 @@ export default function IngredientRecommender() {
   }, []);
   
   // Helper function to check if an ingredient is an oil
-  const isOil = (ingredient: IngredientRecommendation): boolean => {
+  const isOil = useCallback((ingredient: IngredientRecommendation): boolean => {
     if (!ingredient) return false;
     
     const name = ingredient.name.toLowerCase();
@@ -406,10 +406,10 @@ export default function IngredientRecommender() {
                          ingredient.category?.toLowerCase() === 'fats';
     
     return containsOilName || isOilCategory || name.endsWith(' oil');
-  };
+  }, [oilTypes]);
   
   // Helper function to check if an ingredient is a vinegar
-  const isVinegar = (ingredient: IngredientRecommendation): boolean => {
+  const isVinegar = useCallback((ingredient: IngredientRecommendation): boolean => {
     if (!ingredient) return false;
     
     const name = ingredient.name.toLowerCase();
@@ -423,7 +423,7 @@ export default function IngredientRecommender() {
                              ingredient.category?.toLowerCase() === 'acidifiers';
     
     return containsVinegarName || isVinegarCategory || name.endsWith(' vinegar');
-  };
+  }, [vinegarTypes]);
   
   // Helper function to get normalized category
   const getNormalizedCategory = (ingredient: IngredientRecommendation): string => {
@@ -474,7 +474,7 @@ export default function IngredientRecommender() {
   };
 
   // Calculate astrological score for an ingredient
-  const calculateAstrologicalScore = (ingredient: EnhancedIngredientRecommendation): number => {
+  const calculateAstrologicalScore = useCallback((ingredient: EnhancedIngredientRecommendation): number => {
     let score = ingredient.matchScore || 0.5;
     
     // Enhance score based on current astrological conditions
@@ -504,7 +504,7 @@ export default function IngredientRecommender() {
     }
     
     return Math.min(1.0, score);
-  };
+  }, [currentZodiac, planetaryPositions, isDaytime]);
 
   // Get zodiac element helper
   const getZodiacElement = (zodiac: string): Element | null => {
@@ -529,7 +529,7 @@ export default function IngredientRecommender() {
   };
 
   // Filter ingredients based on astrological criteria
-  const applyAstrologicalFiltering = (ingredients: EnhancedIngredientRecommendation[]): EnhancedIngredientRecommendation[] => {
+  const applyAstrologicalFiltering = useCallback((ingredients: EnhancedIngredientRecommendation[]): EnhancedIngredientRecommendation[] => {
     return ingredients.filter(ingredient => {
       // Apply elemental filter
       if (elementalFilter !== 'all' && ingredient.elementalProperties) {
@@ -563,7 +563,7 @@ export default function IngredientRecommender() {
       ...ingredient,
       matchScore: calculateAstrologicalScore(ingredient)
     })).sort((a, b) => b.matchScore - a.matchScore);
-  };
+  }, [elementalFilter, planetaryFilter, astrologicalFilter, currentZodiac, calculateAstrologicalScore]);
 
   // Helper function to determine category from ingredient name
   const _determineCategoryArrow = (name: string): string => {
@@ -899,7 +899,7 @@ export default function IngredientRecommender() {
     return Object.fromEntries(
       Object.entries(categories || {}).filter(([_, items]) => (items || []).length > 0)
     );
-  }, [foodRecommendations, astroRecommendations, herbNames, oilTypes, vinegarTypes, isComponentLoading]);
+  }, [foodRecommendations, astroRecommendations, herbNames, isComponentLoading, isOil, isVinegar]);
   
   // Helper function to determine the category of a food by name
   function determineCategory(name: string): string {
@@ -1079,6 +1079,45 @@ export default function IngredientRecommender() {
     
     return 0.5; // Default compatibility score
   }, [calculateCompatibility]);
+
+  // Filter recommendations based on selected categories and astrological filters
+  const filteredRecommendations = useMemo(() => {
+    if (!combinedCategorizedRecommendations) return {};
+    
+    const filtered: EnhancedGroupedRecommendations = {};
+    
+    Object.entries(combinedCategorizedRecommendations).forEach(([category, ingredients]) => {
+      // Apply category filter
+      if (categoryFilter !== 'all' && category !== categoryFilter) return;
+      
+      // Apply selected categories filter
+      if (!showAllCategories && !selectedCategories.includes(category)) return;
+      
+      // Apply astrological filtering
+      let filteredIngredients = ingredients;
+      
+      // Apply astrological filters if any are active
+      if (astrologicalFilter !== 'all' || elementalFilter !== 'all' || planetaryFilter !== 'all') {
+        filteredIngredients = applyAstrologicalFiltering(ingredients);
+      }
+      
+      // Only include categories with ingredients after filtering
+      if (filteredIngredients.length > 0) {
+        filtered[category] = filteredIngredients;
+      }
+    });
+    
+    return filtered;
+  }, [
+    combinedCategorizedRecommendations, 
+    categoryFilter, 
+    selectedCategories, 
+    showAllCategories,
+    astrologicalFilter,
+    elementalFilter,
+    planetaryFilter,
+    applyAstrologicalFiltering
+  ]);
   
   // Function to render different ingredient categories
   const _renderContent = () => {
@@ -1094,7 +1133,7 @@ export default function IngredientRecommender() {
               setShowFlavorCompatibility(false);
                         setSelectedIngredientForComparison(null);
                       }}
-            className={'backButton-class'}
+            className={'backButton-class&apos;}
                     >
             Back to Recommendations
                     </button>
@@ -1182,15 +1221,15 @@ export default function IngredientRecommender() {
                         <span className={'elementValue-class'}>
                           {Math.round((item.elementalProperties.Fire || 0) * 100)}%
                             </span>
-                        {getElementIcon('Water')}
+                        {getElementIcon('Water&apos;)}
                         <span className={'elementValue-class'}>
                           {Math.round((item.elementalProperties.Water || 0) * 100)}%
                         </span>
-                        {getElementIcon('Earth')}
+                        {getElementIcon('Earth&apos;)}
                         <span className={'elementValue-class'}>
                           {Math.round((item.elementalProperties.Earth || 0) * 100)}%
                         </span>
-                        {getElementIcon('Air')}
+                        {getElementIcon('Air&apos;)}
                         <span className={'elementValue-class'}>
                           {Math.round((item.elementalProperties.Air || 0) * 100)}%
                         </span>
@@ -1203,7 +1242,7 @@ export default function IngredientRecommender() {
                           <p className={'description-class'}>{item.description}</p>
                               )}
                               
-                              {item.qualities && item.qualities.length > 0 && (
+                              {item.qualities &amp;&amp; item.qualities.length > 0 &amp;&amp; (
                           <div className={'qualities-class'}>
                             <span className={'detailLabel-class'}>Qualities:</span>
                             <div className={'tagsList-class'}>
@@ -1225,7 +1264,7 @@ export default function IngredientRecommender() {
                                 rec.ingredient.name.toLowerCase() === item.name.toLowerCase())
                               .map(enhancedRec => (
                                 <div key={`enhanced-${enhancedRec.ingredient.name}`} className={'enhancedDetails-class'}>
-                                  {enhancedRec.chakraAlignment && (
+                                  {enhancedRec.chakraAlignment &amp;&amp; (
                                     <div className={'chakraAlignment-class'}>
                                     <ChakraIndicator 
                                         chakra={enhancedRec.chakraAlignment.dominantChakra}
@@ -1299,12 +1338,12 @@ export default function IngredientRecommender() {
       <div className="p-6 rounded-lg bg-gradient-to-br from-purple-900/20 to-blue-900/20">
         <div className="text-center py-8">
           <h3 className="text-xl font-semibold text-red-300 mb-4">
-            {loadingTimedOut ? "Loading took too long" : "Something went wrong"}
+            {loadingTimedOut ? "Loading took too long&quot; : "Something went wrong&quot;}
           </h3>
           <p className="text-indigo-200 mb-6">
             {loadingTimedOut 
-              ? "We couldn't load your celestial influences in time. Please try again." 
-              : "We couldn't properly calculate your ingredient recommendations."}
+              ? "We couldn&apos;t load your celestial influences in time. Please try again." 
+              : "We couldn&apos;t properly calculate your ingredient recommendations."}
           </p>
           <button 
             onClick={() => {
@@ -1313,7 +1352,7 @@ export default function IngredientRecommender() {
               (refreshRecommendations as () => void)();
               generateRecommendations();
             }}
-            className="px-4 py-2 bg-indigo-700 text-white rounded-md hover:bg-indigo-600 transition-colors"
+            className="px-4 py-2 bg-indigo-700 text-white rounded-md hover:bg-indigo-600 transition-colors&quot;
           >
             Try Again
                       </button>
@@ -1351,17 +1390,17 @@ export default function IngredientRecommender() {
           <button
             onClick={() => setShowAllCategories(!showAllCategories)}
             style={{
-              padding: '6px 12px',
+              padding: '6px 12px&apos;,
               backgroundColor: showAllCategories ? '#3b82f6' : '#e2e8f0',
-              color: showAllCategories ? 'white' : '#64748b',
-              border: 'none',
-              borderRadius: '6px',
-              fontSize: '14px',
-              cursor: 'pointer',
-              transition: 'all 0.2s ease'
+              color: showAllCategories ? 'white&apos; : '#64748b&apos;,
+              border: 'none&apos;,
+              borderRadius: '6px&apos;,
+              fontSize: '14px&apos;,
+              cursor: 'pointer&apos;,
+              transition: 'all 0.2s ease&apos;
             }}
           >
-            {showAllCategories ? 'Show Selected' : 'Show All'}
+            {showAllCategories ? 'Show Selected&apos; : 'Show All&apos;}
           </button>
         </div>
         
@@ -1380,29 +1419,29 @@ export default function IngredientRecommender() {
                 key={category}
                 onClick={() => handleCategoryToggle(category)}
                 style={{
-                  padding: '8px 16px',
-                  backgroundColor: isSelected ? '#3b82f6' : '#ffffff',
-                  color: isSelected ? 'white' : '#475569',
-                  border: `1px solid ${isSelected ? '#3b82f6' : '#d1d5db'}`,
-                  borderRadius: '20px',
-                  fontSize: '14px',
+                  padding: '8px 16px&apos;,
+                  backgroundColor: isSelected ? '#3b82f6' : '#ffffff&apos;,
+                  color: isSelected ? 'white&apos; : '#475569',
+                  border: `1px solid ${isSelected ? '#3b82f6' : '#d1d5db&apos;}`,
+                  borderRadius: '20px&apos;,
+                  fontSize: '14px&apos;,
                   fontWeight: '500',
-                  cursor: 'pointer',
-                  transition: 'all 0.2s ease',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '6px'
+                  cursor: 'pointer&apos;,
+                  transition: 'all 0.2s ease&apos;,
+                  display: 'flex&apos;,
+                  alignItems: 'center&apos;,
+                  gap: '6px&apos;
                 }}
                 onMouseEnter={(e) => {
-                  if (!isSelected && e.currentTarget) {
+                  if (!isSelected &amp;&amp; e.currentTarget) {
                     e.currentTarget.style.backgroundColor = '#f1f5f9';
                     e.currentTarget.style.borderColor = '#94a3b8';
                   }
                 }}
                 onMouseLeave={(e) => {
-                  if (!isSelected && e.currentTarget) {
-                    e.currentTarget.style.backgroundColor = '#ffffff';
-                    e.currentTarget.style.borderColor = '#d1d5db';
+                  if (!isSelected &amp;&amp; e.currentTarget) {
+                    e.currentTarget.style.backgroundColor = '#ffffff&apos;;
+                    e.currentTarget.style.borderColor = '#d1d5db&apos;;
                   }
                 }}
               >
@@ -1429,31 +1468,31 @@ export default function IngredientRecommender() {
           flexWrap: 'wrap'
         }}>
           <button
-            onClick={() => handleCategoryFilter('all')}
+            onClick={() => handleCategoryFilter('all&apos;)}
             style={{
-              padding: '6px 12px',
-              backgroundColor: categoryFilter === 'all' ? '#10b981' : '#f3f4f6',
-              color: categoryFilter === 'all' ? 'white' : '#6b7280',
-              border: 'none',
-              borderRadius: '6px',
-              fontSize: '13px',
-              cursor: 'pointer'
+              padding: '6px 12px&apos;,
+              backgroundColor: categoryFilter === 'all&apos; ? '#10b981' : '#f3f4f6',
+              color: categoryFilter === 'all&apos; ? 'white&apos; : '#6b7280',
+              border: 'none&apos;,
+              borderRadius: '6px&apos;,
+              fontSize: '13px&apos;,
+              cursor: 'pointer&apos;
             }}
           >
             All Categories
           </button>
-          {['proteins', 'vegetables', 'herbs', 'spices'].map(category => (
+          {['proteins&apos;, 'vegetables&apos;, 'herbs&apos;, 'spices&apos;].map(category => (
             <button
               key={category}
               onClick={() => handleCategoryFilter(category)}
               style={{
-                padding: '6px 12px',
+                padding: '6px 12px&apos;,
                 backgroundColor: categoryFilter === category ? '#10b981' : '#f3f4f6',
-                color: categoryFilter === category ? 'white' : '#6b7280',
-                border: 'none',
-                borderRadius: '6px',
-                fontSize: '13px',
-                cursor: 'pointer'
+                color: categoryFilter === category ? 'white&apos; : '#6b7280',
+                border: 'none&apos;,
+                borderRadius: '6px&apos;,
+                fontSize: '13px&apos;,
+                cursor: 'pointer&apos;
               }}
             >
               {CATEGORY_DISPLAY_NAMES[category]}
@@ -1470,18 +1509,18 @@ export default function IngredientRecommender() {
           <button
             onClick={() => setShowAstrologicalFilters(!showAstrologicalFilters)}
             style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '8px',
-              padding: '8px 12px',
-              backgroundColor: showAstrologicalFilters ? '#7c3aed' : '#f8fafc',
-              color: showAstrologicalFilters ? 'white' : '#64748b',
-              border: `1px solid ${showAstrologicalFilters ? '#7c3aed' : '#d1d5db'}`,
-              borderRadius: '8px',
-              fontSize: '14px',
+              display: 'flex&apos;,
+              alignItems: 'center&apos;,
+              gap: '8px&apos;,
+              padding: '8px 12px&apos;,
+              backgroundColor: showAstrologicalFilters ? '#7c3aed&apos; : '#f8fafc&apos;,
+              color: showAstrologicalFilters ? 'white&apos; : '#64748b&apos;,
+              border: `1px solid ${showAstrologicalFilters ? '#7c3aed&apos; : '#d1d5db&apos;}`,
+              borderRadius: '8px&apos;,
+              fontSize: '14px&apos;,
               fontWeight: '500',
-              cursor: 'pointer',
-              transition: 'all 0.2s ease'
+              cursor: 'pointer&apos;,
+              transition: 'all 0.2s ease&apos;
             }}
           >
             <Beaker size={16} />
@@ -1490,7 +1529,7 @@ export default function IngredientRecommender() {
           </button>
           
           {/* Astrological Filter Options */}
-          {showAstrologicalFilters && (
+          {showAstrologicalFilters &amp;&amp; (
             <div style={{
               marginTop: '12px',
               padding: '16px',
@@ -1515,23 +1554,23 @@ export default function IngredientRecommender() {
                   flexWrap: 'wrap'
                 }}>
                   {[
-                    { value: 'all', label: 'All Ingredients' },
-                    { value: 'high-compatibility', label: 'High Compatibility (70%+)' },
-                    { value: 'current-zodiac', label: `Current ${currentZodiac || 'Aries'} Energy` }
+                    { value: 'all&apos;, label: 'All Ingredients&apos; },
+                    { value: 'high-compatibility&apos;, label: 'High Compatibility (70%+)' },
+                    { value: 'current-zodiac&apos;, label: `Current ${currentZodiac || 'Aries&apos;} Energy` }
                   ].map(option => (
                     <button
                       key={option.value}
                       onClick={() => handleAstrologicalFilter(option.value)}
                       style={{
-                        padding: '6px 12px',
-                        backgroundColor: astrologicalFilter === option.value ? '#7c3aed' : '#ffffff',
-                        color: astrologicalFilter === option.value ? 'white' : '#64748b',
-                        border: `1px solid ${astrologicalFilter === option.value ? '#7c3aed' : '#d1d5db'}`,
-                        borderRadius: '16px',
-                        fontSize: '12px',
+                        padding: '6px 12px&apos;,
+                        backgroundColor: astrologicalFilter === option.value ? '#7c3aed&apos; : '#ffffff&apos;,
+                        color: astrologicalFilter === option.value ? 'white&apos; : '#64748b&apos;,
+                        border: `1px solid ${astrologicalFilter === option.value ? '#7c3aed&apos; : '#d1d5db&apos;}`,
+                        borderRadius: '16px&apos;,
+                        fontSize: '12px&apos;,
                         fontWeight: '500',
-                        cursor: 'pointer',
-                        transition: 'all 0.2s ease'
+                        cursor: 'pointer&apos;,
+                        transition: 'all 0.2s ease&apos;
                       }}
                     >
                       {option.label}
@@ -1557,42 +1596,42 @@ export default function IngredientRecommender() {
                   flexWrap: 'wrap'
                 }}>
                   <button
-                    onClick={() => handleElementalFilter('all')}
+                    onClick={() => handleElementalFilter('all&apos;)}
                     style={{
-                      padding: '6px 12px',
-                      backgroundColor: elementalFilter === 'all' ? '#6b7280' : '#ffffff',
-                      color: elementalFilter === 'all' ? 'white' : '#64748b',
-                      border: `1px solid ${elementalFilter === 'all' ? '#6b7280' : '#d1d5db'}`,
-                      borderRadius: '16px',
-                      fontSize: '12px',
+                      padding: '6px 12px&apos;,
+                      backgroundColor: elementalFilter === 'all&apos; ? '#6b7280' : '#ffffff&apos;,
+                      color: elementalFilter === 'all&apos; ? 'white&apos; : '#64748b&apos;,
+                      border: `1px solid ${elementalFilter === 'all&apos; ? '#6b7280' : '#d1d5db&apos;}`,
+                      borderRadius: '16px&apos;,
+                      fontSize: '12px&apos;,
                       fontWeight: '500',
-                      cursor: 'pointer'
+                      cursor: 'pointer&apos;
                     }}
                   >
                     All Elements
                   </button>
-                  {(['Fire', 'Water', 'Earth', 'Air'] as Element[]).map(element => (
+                  {(['Fire&apos;, 'Water&apos;, 'Earth&apos;, 'Air&apos;] as Element[]).map(element => (
                     <button
                       key={element}
                       onClick={() => handleElementalFilter(element)}
                       style={{
-                        padding: '6px 12px',
+                        padding: '6px 12px&apos;,
                         backgroundColor: elementalFilter === element ? 
-                          (element === 'Fire' ? '#ef4444' : 
-                           element === 'Water' ? '#3b82f6' :
-                           element === 'Earth' ? '#10b981' : '#8b5cf6') : '#ffffff',
-                        color: elementalFilter === element ? 'white' : '#64748b',
+                          (element === 'Fire&apos; ? '#ef4444' : 
+                           element === 'Water&apos; ? '#3b82f6' :
+                           element === 'Earth&apos; ? '#10b981' : '#8b5cf6') : '#ffffff&apos;,
+                        color: elementalFilter === element ? 'white&apos; : '#64748b&apos;,
                         border: `1px solid ${elementalFilter === element ? 
-                          (element === 'Fire' ? '#ef4444' : 
-                           element === 'Water' ? '#3b82f6' :
-                           element === 'Earth' ? '#10b981' : '#8b5cf6') : '#d1d5db'}`,
-                        borderRadius: '16px',
-                        fontSize: '12px',
+                          (element === 'Fire&apos; ? '#ef4444' : 
+                           element === 'Water&apos; ? '#3b82f6' :
+                           element === 'Earth&apos; ? '#10b981' : '#8b5cf6') : '#d1d5db&apos;}`,
+                        borderRadius: '16px&apos;,
+                        fontSize: '12px&apos;,
                         fontWeight: '500',
-                        cursor: 'pointer',
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '4px'
+                        cursor: 'pointer&apos;,
+                        display: 'flex&apos;,
+                        alignItems: 'center&apos;,
+                        gap: '4px&apos;
                       }}
                     >
                       {getElementIcon(element)}
@@ -1619,33 +1658,33 @@ export default function IngredientRecommender() {
                   flexWrap: 'wrap'
                 }}>
                   <button
-                    onClick={() => handlePlanetaryFilter('all')}
+                    onClick={() => handlePlanetaryFilter('all&apos;)}
                     style={{
-                      padding: '6px 12px',
-                      backgroundColor: planetaryFilter === 'all' ? '#6b7280' : '#ffffff',
-                      color: planetaryFilter === 'all' ? 'white' : '#64748b',
-                      border: `1px solid ${planetaryFilter === 'all' ? '#6b7280' : '#d1d5db'}`,
-                      borderRadius: '16px',
-                      fontSize: '12px',
+                      padding: '6px 12px&apos;,
+                      backgroundColor: planetaryFilter === 'all&apos; ? '#6b7280' : '#ffffff&apos;,
+                      color: planetaryFilter === 'all&apos; ? 'white&apos; : '#64748b&apos;,
+                      border: `1px solid ${planetaryFilter === 'all&apos; ? '#6b7280' : '#d1d5db&apos;}`,
+                      borderRadius: '16px&apos;,
+                      fontSize: '12px&apos;,
                       fontWeight: '500',
-                      cursor: 'pointer'
+                      cursor: 'pointer&apos;
                     }}
                   >
                     All Planets
                   </button>
-                  {['Sun', 'Moon', 'Mercury', 'Venus', 'Mars', 'Jupiter', 'Saturn'].map(planet => (
+                  {['Sun&apos;, 'Moon&apos;, 'Mercury&apos;, 'Venus&apos;, 'Mars&apos;, 'Jupiter&apos;, 'Saturn&apos;].map(planet => (
                     <button
                       key={planet}
                       onClick={() => handlePlanetaryFilter(planet)}
                       style={{
-                        padding: '6px 12px',
-                        backgroundColor: planetaryFilter === planet ? '#f59e0b' : '#ffffff',
-                        color: planetaryFilter === planet ? 'white' : '#64748b',
-                        border: `1px solid ${planetaryFilter === planet ? '#f59e0b' : '#d1d5db'}`,
-                        borderRadius: '16px',
-                        fontSize: '12px',
+                        padding: '6px 12px&apos;,
+                        backgroundColor: planetaryFilter === planet ? '#f59e0b&apos; : '#ffffff&apos;,
+                        color: planetaryFilter === planet ? 'white&apos; : '#64748b&apos;,
+                        border: `1px solid ${planetaryFilter === planet ? '#f59e0b&apos; : '#d1d5db&apos;}`,
+                        borderRadius: '16px&apos;,
+                        fontSize: '12px&apos;,
                         fontWeight: '500',
-                        cursor: 'pointer'
+                        cursor: 'pointer&apos;
                       }}
                     >
                       {planet}
@@ -1675,7 +1714,7 @@ export default function IngredientRecommender() {
                   color: '#6b46c1',
                   lineHeight: '1.4'
                 }}>
-                  <div>Zodiac: {currentZodiac || 'Aries'} ({getZodiacElement(currentZodiac || 'aries')} element)</div>
+                  <div>Zodiac: {currentZodiac || 'Aries&apos;} ({getZodiacElement(currentZodiac || 'aries&apos;)} element)</div>
                   <div>Time: {isDaytime ? 'Diurnal (Day)' : 'Nocturnal (Night)'}</div>
                   <div>Active Planets: {Object.keys(planetaryPositions || {}).length} planetary influences</div>
                 </div>
@@ -1706,46 +1745,6 @@ export default function IngredientRecommender() {
     );
   };
 
-  // Filter recommendations based on selected categories and astrological filters
-  const filteredRecommendations = useMemo(() => {
-    if (!combinedCategorizedRecommendations) return {};
-    
-    const filtered: EnhancedGroupedRecommendations = {};
-    
-    Object.entries(combinedCategorizedRecommendations).forEach(([category, ingredients]) => {
-      // Apply category filter
-      if (categoryFilter !== 'all' && category !== categoryFilter) return;
-      
-      // Apply selected categories filter
-      if (!showAllCategories && !selectedCategories.includes(category)) return;
-      
-      // Apply astrological filtering
-      let filteredIngredients = ingredients;
-      
-      // Apply astrological filters if any are active
-      if (astrologicalFilter !== 'all' || elementalFilter !== 'all' || planetaryFilter !== 'all') {
-        filteredIngredients = applyAstrologicalFiltering(ingredients);
-      }
-      
-      // Only include categories with ingredients after filtering
-      if (filteredIngredients.length > 0) {
-        filtered[category] = filteredIngredients;
-      }
-    });
-    
-    return filtered;
-  }, [
-    combinedCategorizedRecommendations, 
-    categoryFilter, 
-    selectedCategories, 
-    showAllCategories,
-    astrologicalFilter,
-    elementalFilter,
-    planetaryFilter,
-    currentZodiac,
-    planetaryPositions,
-    isDaytime
-  ]);
 
   // Display the recommendations
   return (
@@ -1845,13 +1844,13 @@ export default function IngredientRecommender() {
                       <button
                         onClick={(e) => toggleCategoryExpansion(category, e)}
                         style={{
-                          padding: '8px',
+                          padding: '8px&apos;,
                           backgroundColor: '#f1f5f9',
-                          border: 'none',
-                          borderRadius: '6px',
-                          cursor: 'pointer',
-                          display: 'flex',
-                          alignItems: 'center',
+                          border: 'none&apos;,
+                          borderRadius: '6px&apos;,
+                          cursor: 'pointer&apos;,
+                          display: 'flex&apos;,
+                          alignItems: 'center&apos;,
                           color: '#475569'
                         }}
                       >
@@ -1884,18 +1883,18 @@ export default function IngredientRecommender() {
                       <button
                         onClick={(e) => toggleCategoryExpansion(category, e)}
                         style={{
-                          padding: '12px 24px',
+                          padding: '12px 24px&apos;,
                           backgroundColor: '#3b82f6',
-                          color: 'white',
-                          border: 'none',
-                          borderRadius: '8px',
-                          fontSize: '14px',
+                          color: 'white&apos;,
+                          border: 'none&apos;,
+                          borderRadius: '8px&apos;,
+                          fontSize: '14px&apos;,
                           fontWeight: '500',
-                          cursor: 'pointer',
-                          display: 'flex',
-                          alignItems: 'center',
-                          gap: '8px',
-                          margin: '0 auto'
+                          cursor: 'pointer&apos;,
+                          display: 'flex&apos;,
+                          alignItems: 'center&apos;,
+                          gap: '8px&apos;,
+                          margin: '0 auto&apos;
                         }}
                       >
                         Show {ingredients.length - displayedItems.length} more ingredients

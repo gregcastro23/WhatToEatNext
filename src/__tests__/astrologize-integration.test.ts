@@ -23,7 +23,7 @@ describe('Astrologize API Integration', () => {
       const result = await testAstrologizeApi();
       expect(typeof result).toBe('boolean');
       
-      if (result != null) {
+      if (result !== null) {
         console.log('✅ Astrologize API connection successful');
       } else {
         console.log('❌ Astrologize API connection failed - this is expected in test environment');
@@ -233,7 +233,7 @@ describe('Real-time Astrologize Output Demo', () => {
       const isConnected = await testAstrologizeApi();
       console.log(`API Connection Status: ${isConnected ? '✅ CONNECTED' : '❌ DISCONNECTED'}`);
       
-      if (isConnected != null) {
+      if (isConnected !== null) {
         console.log('\n📡 LIVE API DATA:');
         console.log('-----------------');
         
@@ -260,11 +260,11 @@ describe('Real-time Astrologize Output Demo', () => {
         const sunPos = currentPositions.Sun;
         const moonPos = currentPositions.moon;
         
-        if (sunPos != null) {
+        if (sunPos !== null) {
           console.log(`  🌞 Sun is in ${sunPos.sign.toUpperCase()} - Currently ${getSeason(sunPos.sign)} season`);
         }
         
-        if (moonPos != null) {
+        if (moonPos !== null) {
           console.log(`  🌙 Moon is in ${moonPos.sign.toUpperCase()} - Emotional focus on ${getElementDescription(getSignElement(moonPos.sign))} themes`);
         }
         
@@ -273,7 +273,7 @@ describe('Real-time Astrologize Output Demo', () => {
         Object.values(currentPositions || []).forEach(pos => {
           if (pos && pos.sign) {
             const element = getSignElement(pos.sign);
-            if (element != null) elementCounts[element as keyof typeof elementCounts]++;
+            if (element !== null) elementCounts[element as keyof typeof elementCounts]++;
           }
         });
         

@@ -390,7 +390,7 @@ function CuisineSelectorMigrated({
       {resolvedCurrentZodiac && (
         <div className="current-influences p-3 bg-blue-50 rounded-lg mb-4">
           <p>Current influences: <span className="font-semibold">{resolvedCurrentZodiac.charAt(0).toUpperCase() + resolvedCurrentZodiac.slice(1)}</span> 
-            {resolvedLunarPhase && (
+            {resolvedLunarPhase &amp;&amp; (
               <span> - {resolvedLunarPhase.split(/(?=[A-Z])/).join(" ")}</span>
             )}
           </p>
@@ -400,7 +400,7 @@ function CuisineSelectorMigrated({
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
         {(filteredCuisines || []).map((cuisine) => {
           // Determine if current zodiac is favorable for this cuisine
-          const isZodiacFavorable = resolvedCurrentZodiac && 
+          const isZodiacFavorable = resolvedCurrentZodiac &amp;&amp; 
             ((Array.isArray(cuisine.zodiacInfluences) ? cuisine.zodiacInfluences.includes(resolvedCurrentZodiac) : cuisine.zodiacInfluences === resolvedCurrentZodiac) ||
              Object.values(cuisine.planetaryDignities || {}).some((dignity) => {
                const signs = (dignity as PlanetaryDignityDetails).favorableZodiacSigns;
@@ -416,7 +416,7 @@ function CuisineSelectorMigrated({
               className={`
                 p-4 rounded-lg shadow-md transition-all
                 ${selectedCuisine === cuisine.name
-                  ? 'bg-primary text-white'
+                  ? 'bg-primary text-white&apos;
                   : isZodiacFavorable
                     ? 'bg-blue-50 hover:bg-blue-100'
                     : 'bg-white hover:bg-gray-50'
@@ -431,7 +431,7 @@ function CuisineSelectorMigrated({
                 </span>
                 
                 {/* Display alchemical compatibility if available */}
-                {'gregsEnergy' in cuisine && (
+                {'gregsEnergy&apos; in cuisine &amp;&amp; (
                   <span className="alchemical-score text-sm">
                     Compatibility: {Math.round((cuisine.gregsEnergy as number) * 100)}%
                   </span>

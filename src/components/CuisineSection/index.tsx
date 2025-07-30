@@ -210,8 +210,8 @@ export const CuisineSection: React.FC<CuisineSectionProps> = ({
                       const recipeData = recipe as Record<string, unknown>;
                       return (
                         <div key={i} className="border rounded-lg p-4 hover:shadow-md transition-shadow">
-                          <h3 className="text-lg font-medium">{String(recipeData.name || 'Unnamed Recipe')}</h3>
-                          <p className="text-gray-600 text-sm mt-1">{String(recipeData.description || 'No description available')}</p>
+                          <h3 className="text-lg font-medium">{String(recipeData.name || 'Unnamed Recipe&apos;)}</h3>
+                          <p className="text-gray-600 text-sm mt-1">{String(recipeData.description || 'No description available&apos;)}</p>
                         </div>
                       );
                     })}
@@ -244,12 +244,12 @@ export const CuisineSection: React.FC<CuisineSectionProps> = ({
             {String(recipeData.season)}
           </span>
         )}
-        {Boolean(recipeData.mealType) && (
+        {Boolean(recipeData.mealType) &amp;&amp; (
           <span className="bg-green-100 text-green-700 px-2 py-1 rounded-full">
             {String(recipeData.mealType)}
           </span>
         )}
-        {Boolean(recipeData.difficulty) && (
+        {Boolean(recipeData.difficulty) &amp;&amp; (
           <span className="bg-orange-100 text-orange-700 px-2 py-1 rounded-full">
             {String(recipeData.difficulty)}
           </span>
@@ -274,7 +274,7 @@ export const CuisineSection: React.FC<CuisineSectionProps> = ({
         <span className={`px-2 py-1 rounded-full text-xs font-medium ${getMatchScoreClass(score)}`}>
           {Math.round(score * 100)}%
         </span>
-        {hasDualMatch && (
+        {hasDualMatch &amp;&amp; (
           <span className="px-2 py-1 rounded-full text-xs font-medium bg-purple-500 text-white">
             Dual Match
           </span>
@@ -289,8 +289,8 @@ export const CuisineSection: React.FC<CuisineSectionProps> = ({
     return (
       <div key={index} className="bg-white rounded-lg border shadow-sm p-4 hover:shadow-md transition-shadow">
         <div className="flex justify-between items-start mb-2">
-          <h4 className="font-medium text-lg text-gray-900">{String(sauceData.name || 'Traditional Sauce')}</h4>
-          {Boolean(sauceData.elementalProperties) && (
+          <h4 className="font-medium text-lg text-gray-900">{String(sauceData.name || 'Traditional Sauce&apos;)}</h4>
+          {Boolean(sauceData.elementalProperties) &amp;&amp; (
             <div className="flex gap-1">
               {Object.entries(sauceData.elementalProperties || {}).map(([element, value]) => (
                 <span 
@@ -327,7 +327,7 @@ export const CuisineSection: React.FC<CuisineSectionProps> = ({
                     {ingredient}
                   </span>
                 ))}
-                {(sauceData.keyIngredients as string[]).length > 4 && (
+                {(sauceData.keyIngredients as string[]).length > 4 &amp;&amp; (
                   <span className="bg-gray-200 text-gray-600 px-2 py-1 rounded text-xs">
                     +{(sauceData.keyIngredients as string[]).length - 4} more
                   </span>
@@ -350,7 +350,7 @@ export const CuisineSection: React.FC<CuisineSectionProps> = ({
         <div className="p-4">
           <div className="flex justify-between items-start mb-2">
             <h3 className="text-lg font-medium text-gray-900 line-clamp-2">
-              {String(recipeData.name || 'Unnamed Recipe')}
+              {String(recipeData.name || 'Unnamed Recipe&apos;)}
             </h3>
             {renderScoreBadge(Number(recipeData.matchScore) || 0, hasDualMatch)}
           </div>
@@ -365,12 +365,12 @@ export const CuisineSection: React.FC<CuisineSectionProps> = ({
                 ⏱️ {String(recipeData.cookingTime)}
               </span>
             )}
-            {Boolean(recipeData.difficulty) && (
+            {Boolean(recipeData.difficulty) &amp;&amp; (
               <span className="flex items-center gap-1">
                 📊 {String(recipeData.difficulty)}
               </span>
             )}
-            {Boolean(recipeData.servings) && (
+            {Boolean(recipeData.servings) &amp;&amp; (
               <span className="flex items-center gap-1">
                 👥 {String(recipeData.servings)}
               </span>
@@ -388,7 +388,7 @@ export const CuisineSection: React.FC<CuisineSectionProps> = ({
                     {String((ingredient as unknown as Record<string, unknown>).name || ingredient)}
                   </span>
                 ))}
-                {(recipeData.ingredients as unknown[]).length > 3 && (
+                {(recipeData.ingredients as unknown[]).length > 3 &amp;&amp; (
                   <span className="bg-gray-200 text-gray-500 px-2 py-1 rounded text-xs">
                     +{(recipeData.ingredients as unknown[]).length - 3} more
                   </span>

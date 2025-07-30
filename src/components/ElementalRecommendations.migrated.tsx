@@ -147,7 +147,7 @@ const ElementalRecommendationsMigrated: React.FC<ElementalRecommendationsProps> 
     <div className="p-4 bg-white rounded-lg shadow-sm">
       <div className="flex justify-between items-center mb-4">
         <h3 className="text-lg font-semibold">Elemental Recommendations</h3>
-        {dominantElement && (
+        {dominantElement &amp;&amp; (
           <span 
             className="px-2 py-1 rounded-full text-xs font-medium"
             style={{ 

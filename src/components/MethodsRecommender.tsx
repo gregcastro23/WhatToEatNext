@@ -181,7 +181,7 @@ export default function MethodsRecommender() {
       >
         <h3>Recommended Cooking Methods</h3>
         
-        {showToggle && (
+        {showToggle &amp;&amp; (
           <button className={styles['toggle-button']}>
             {isExpanded ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
           </button>
@@ -212,7 +212,7 @@ export default function MethodsRecommender() {
               {/* Show elemental balance - Phase 3.16A Pattern GG-6 */}
               {method.elementalEffect && (
                 <div className={styles['elemental-balance']}>
-                  {(method.elementalEffect.Fire || 0) > 0.2 && (
+                  {(method.elementalEffect.Fire || 0) > 0.2 &amp;&amp; (
                     <div className={`${styles.element} ${styles.fire}`} title={`Fire: ${Math.round((method.elementalEffect.Fire || 0) * 100)}%`}>
                       <Flame size={14} />
                       <span>{Math.round((method.elementalEffect.Fire || 0) * 100)}%</span>
@@ -251,7 +251,7 @@ export default function MethodsRecommender() {
                   <div className={styles['suitable-for']}>
                     <span className={styles['detail-label']}>Ideal for:</span> 
                     {method.suitable_for.slice(0, 3).join(', ')}
-                    {method.suitable_for.length > 3 && '...'}
+                    {method.suitable_for.length > 3 &amp;&amp; '...'}
                   </div>
                 )}
                 
@@ -260,7 +260,7 @@ export default function MethodsRecommender() {
                   <div className={styles['benefits']}>
                     <span className={styles['detail-label']}>Benefits:</span> 
                     {method.benefits[0]}
-                    {method.benefits.length > 1 && '...'}
+                    {method.benefits.length > 1 &amp;&amp; '...'}
                   </div>
                 )}
               </div>

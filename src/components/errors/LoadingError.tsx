@@ -31,7 +31,7 @@ export function LoadingError({ message = 'Failed to load content', retry }: Load
         />
       </svg>
       <h3 className="mt-2 text-sm font-medium text-gray-900">{message}</h3>
-      {retry && (
+      {retry &amp;&amp; (
         <button
           onClick={retry}
           className="mt-4 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-primary hover:bg-primary/80 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"

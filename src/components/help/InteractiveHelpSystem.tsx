@@ -45,7 +45,7 @@ const QUICK_HELP_ITEMS: QuickHelpItem[] = [
         <div className="bg-red-50 p-3 rounded-lg">
           <h6 className="font-medium text-red-800 mb-2">❌ Incorrect Usage</h6>
           <pre className="text-sm text-red-700">
-{`// Don't use lowercase
+{`// Don&apos;t use lowercase
 { fire: 0.8, water: 0.2, earth: 0.1, air: 0.0 }`}
           </pre>
         </div>
@@ -68,18 +68,18 @@ const QUICK_HELP_ITEMS: QuickHelpItem[] = [
         <div className="bg-green-50 p-3 rounded-lg">
           <h6 className="font-medium text-green-800 mb-2">✅ Correct Usage</h6>
           <pre className="text-sm text-green-700">
-{`type ZodiacSign = 'aries' | 'taurus' | 'gemini' | 'cancer' | 
-                  'leo' | 'virgo' | 'libra' | 'scorpio' |
-                  'sagittarius' | 'capricorn' | 'aquarius' | 'pisces';
+{`type ZodiacSign = 'aries&apos; | 'taurus&apos; | 'gemini&apos; | 'cancer&apos; | 
+                  'leo&apos; | 'virgo&apos; | 'libra&apos; | 'scorpio&apos; |
+                  'sagittarius&apos; | 'capricorn&apos; | 'aquarius&apos; | 'pisces&apos;;
 
-const position = { sign: 'aries', degree: 15 };`}
+const position = { sign: 'aries&apos;, degree: 15 };`}
           </pre>
         </div>
         <div className="bg-red-50 p-3 rounded-lg">
           <h6 className="font-medium text-red-800 mb-2">❌ Incorrect Usage</h6>
           <pre className="text-sm text-red-700">
-{`// Don't capitalize zodiac signs
-const position = { sign: 'Aries', degree: 15 };`}
+{`// Don&apos;t capitalize zodiac signs
+const position = { sign: 'Aries&apos;, degree: 15 };`}
           </pre>
         </div>
       </div>
@@ -97,14 +97,14 @@ const position = { sign: 'Aries', degree: 15 };`}
         </p>
         <div className="bg-blue-50 p-3 rounded-lg">
           <pre className="text-sm text-blue-700">
-import {`import { getReliablePlanetaryPositions } from '@/utils/reliableAstronomy';
+import {`import { getReliablePlanetaryPositions } from '@/utils/reliableAstronomy&apos;;
 
 async function calculateInfluences(date: Date = new Date()) {
   try {
     const positions = await getReliablePlanetaryPositions(date);
     return processPositions(positions);
   } catch (error) {
-    console.warn('Using fallback positions', error);
+    console.warn('Using fallback positions&apos;, error);
     return getFallbackPositions();
   }
 }`}
@@ -274,7 +274,7 @@ export const InteractiveHelpSystem: React.FC<HelpSystemProps> = ({
                   onClick={() => setActiveTab(tab.id)}
                   className={`w-full text-left px-3 py-2 rounded-lg text-sm transition-colors ${
                     activeTab === tab.id
-                      ? 'bg-blue-100 text-blue-800 font-medium'
+                      ? 'bg-blue-100 text-blue-800 font-medium&apos;
                       : 'text-gray-600 hover:bg-gray-100'
                   }`}
                 >
@@ -296,9 +296,9 @@ export const InteractiveHelpSystem: React.FC<HelpSystemProps> = ({
 
           {/* Tab Content */}
           <div className="flex-1 pl-4 overflow-y-auto">
-            {activeTab === 'quick-help' && (
+            {activeTab === 'quick-help&apos; &amp;&amp; (
               <div className="space-y-3">
-                <h4 className="font-medium text-gray-900 mb-3">Quick Help & Reference</h4>
+                <h4 className="font-medium text-gray-900 mb-3">Quick Help &amp; Reference</h4>
                 {filteredQuickHelp.map(item => (
                   <div
                     key={item.id}
@@ -323,21 +323,21 @@ export const InteractiveHelpSystem: React.FC<HelpSystemProps> = ({
               </div>
             )}
 
-            {activeTab === 'suggestions' && (
+            {activeTab === 'suggestions&apos; &amp;&amp; (
               <AstrologicalCodeSuggestions
                 onInsertCode={onCodeInsert}
                 className="border-0 shadow-none"
               />
             )}
 
-            {activeTab === 'templates' && (
+            {activeTab === 'templates&apos; &amp;&amp; (
               <CodeTemplates
                 onInsertTemplate={onCodeInsert}
                 className="border-0 shadow-none"
               />
             )}
 
-            {activeTab === 'workflows' && (
+            {activeTab === 'workflows&apos; &amp;&amp; (
               <GuidedWorkflows className="border-0 shadow-none" />
             )}
           </div>

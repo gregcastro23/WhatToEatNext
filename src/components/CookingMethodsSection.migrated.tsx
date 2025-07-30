@@ -370,7 +370,7 @@ export function CookingMethodsSectionMigrated({ methods,
           <span className={'titleCount-class'}>({methods.length})</span>
         </h3>
         
-        {topMethod && (
+        {topMethod &amp;&amp; (
           <div className={styles['top-recommendation']}>
             Top: <span>{topMethod.name}</span>
           </div>
@@ -405,14 +405,14 @@ export function CookingMethodsSectionMigrated({ methods,
                 value={searchIngredient}
                 onChange={(e) => setSearchIngredient(e.target.value)}
                 placeholder="Enter ingredient name..."
-                className={styles['search-input']}
+                className={styles['search-input&apos;]}
               />
               <button 
                 onClick={() => calculateIngredientCompatibility()}
                 disabled={isLoading || !searchIngredient.trim()}
-                className={styles['search-button']}
+                className={styles['search-button&apos;]}
               >
-                {isLoading ? 'Loading...' : 'Calculate Compatibility'}
+                {isLoading ? 'Loading...' : 'Calculate Compatibility&apos;}
               </button>
             </div>
             
@@ -432,12 +432,12 @@ export function CookingMethodsSectionMigrated({ methods,
               <div 
                 key={method.id} 
                 className={`${styles['method-card']} ${selectedMethodId === method.id ? 'selected-class' : ''}`}
-                onClick={() => onSelectMethod && onSelectMethod(method)}
+                onClick={() => onSelectMethod &amp;&amp; onSelectMethod(method)}
               >
                 <div className={styles['method-header']}>
                   <h4 className={styles['method-name']}>{method.name}</h4>
                   
-                  {method.score !== undefined && (
+                  {method.score !== undefined &amp;&amp; (
                     <div className={`${styles['method-score']} ${getScoreClass(method.score)}`}>
                       <span className={styles['score-value']}>{Math.round(method.score * 100)}%</span>
                       <div className={styles['score-bar']}>
@@ -483,14 +483,14 @@ export function CookingMethodsSectionMigrated({ methods,
                         const { direction, intensity } = getElementalDirection(value);
                         return (
                           <div key={element} className={`${styles['elemental-effect']} ${styles[`effect-${direction}`]}`}>
-                            {element === 'Fire' && <Flame size={14} />}
-                            {element === 'Water' && <Droplets size={14} />}
-                            {element === 'Earth' && <Mountain size={14} />}
-                            {element === 'Air' && <Wind size={14} />}
+                            {element === 'Fire&apos; &amp;&amp; <Flame size={14} />}
+                            {element === 'Water&apos; &amp;&amp; <Droplets size={14} />}
+                            {element === 'Earth&apos; &amp;&amp; <Mountain size={14} />}
+                            {element === 'Air&apos; &amp;&amp; <Wind size={14} />}
                             <span>{element}</span>
-                            {direction !== 'neutral' && (
+                            {direction !== 'neutral&apos; &amp;&amp; (
                               <span className={styles['effect-icon']}>
-                                {direction === 'increase' ? <ArrowUp size={14} /> : <ArrowDown size={14} />}
+                                {direction === 'increase&apos; ? <ArrowUp size={14} /> : <ArrowDown size={14} />}
                               </span>
                             )}
                           </div>
@@ -527,7 +527,7 @@ export function CookingMethodsSectionMigrated({ methods,
                     <Clock size={14} />
                     <span>
                       {method.duration.min}
-                      {method.duration.max !== method.duration.min && `-${method.duration.max}`} min
+                      {method.duration.max !== method.duration.min &amp;&amp; `-${method.duration.max}`} min
                     </span>
                   </div>
                 )}
@@ -559,14 +559,14 @@ export function CookingMethodsSectionMigrated({ methods,
                           className={`${styles['variation-item']} ${selectedMethodId === variation.id ? 'selected-class' : ''}`}
                           onClick={(e) => {
                             e.stopPropagation();
-                            onSelectMethod && onSelectMethod(variation);
+                            onSelectMethod &amp;&amp; onSelectMethod(variation);
                           }}
                         >
                           <h5 className={styles['variation-name']}>{variation.name}</h5>
                           <p className={styles['variation-description']}>{variation.description}</p>
                           
                           {/* Show ingredient compatibility for variation if available */}
-                          {ingredientCompatibility[variation.id] !== undefined && (
+                          {ingredientCompatibility[variation.id] !== undefined &amp;&amp; (
                             <div className={`${styles['variation-compatibility']} ${styles[getCompatibilityLabel(ingredientCompatibility[variation.id]).className]}`}>
                               <span>{getCompatibilityLabel(ingredientCompatibility[variation.id]).label} match with {searchIngredient}</span>
                             </div>
@@ -587,7 +587,7 @@ export function CookingMethodsSectionMigrated({ methods,
                 className={styles['toggle-all-button']}
                 onClick={() => setShowAllMethods(!showAllMethods)}
               >
-                {showAllMethods ? 'Show Less' : `Show All (${methods.length})`}
+                {showAllMethods ? 'Show Less&apos; : `Show All (${methods.length})`}
               </button>
             </div>
           )}

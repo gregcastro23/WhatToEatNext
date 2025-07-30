@@ -239,7 +239,7 @@ const ChakraDisplayMigrated: React.FC<ChakraDisplayProps> = ({ compact = false }
       <div className="flex justify-between items-center mb-2">
         <h2 className="text-xl font-semibold">Chakra Planetary Energies</h2>
         <div className="text-xs text-gray-500 bg-gray-50 px-2 py-1 rounded">
-          {isDaytime ? "☀️ Daytime" : "🌙 Nighttime"} • Energy scale: 0-10
+          {isDaytime ? "☀️ Daytime&quot; : "🌙 Nighttime&quot;} • Energy scale: 0-10
         </div>
       </div>
       
@@ -265,7 +265,7 @@ const ChakraDisplayMigrated: React.FC<ChakraDisplayProps> = ({ compact = false }
           const energyLevel = formatEnergyLevel(energy);
 
           // Get recommendations for this chakra
-          const recommendations = chakraRecommendations && chakraRecommendations[normalizedKey] 
+          const recommendations = chakraRecommendations &amp;&amp; chakraRecommendations[normalizedKey] 
             ? chakraRecommendations[normalizedKey].slice(0, 3) 
             : [];
 
@@ -282,7 +282,7 @@ const ChakraDisplayMigrated: React.FC<ChakraDisplayProps> = ({ compact = false }
                   </div>
                   <div className="text-xs text-gray-500 flex flex-wrap items-center">
                     <span className="mr-3">Energy state: {energyState}</span>
-                    {(planets || []).length > 0 && (
+                    {(planets || []).length > 0 &amp;&amp; (
                       <span>Planets: {planets.join(', ')}</span>
                     )}
                   </div>

@@ -254,10 +254,10 @@ const RecipeCard: React.FC<{
               <div className="flex flex-wrap gap-1">
                 {recipe.ingredients.slice(0, 8).map((ing, index) => (
                   <span key={index} className="text-xs bg-gray-100 px-2 py-1 rounded">
-                    {typeof ing === 'string' ? ing : (ing as any).name || 'ingredient'}
+                    {typeof ing === 'string&apos; ? ing : (ing as any).name || 'ingredient&apos;}
                   </span>
                 ))}
-                {recipe.ingredients.length > 8 && (
+                {recipe.ingredients.length > 8 &amp;&amp; (
                   <span className="text-xs text-gray-500">+{recipe.ingredients.length - 8} more</span>
                 )}
               </div>
@@ -333,7 +333,7 @@ export const RecipeRecommendations: React.FC<RecipeRecommendationsProps> = ({
           {cuisineName} Recipe Recommendations
         </h3>
         <span className="text-sm text-gray-500">
-          {scoredRecipes.length} recipe{scoredRecipes.length !== 1 ? 's' : ''} found
+          {scoredRecipes.length} recipe{scoredRecipes.length !== 1 ? 's&apos; : ''} found
         </span>
       </div>
 

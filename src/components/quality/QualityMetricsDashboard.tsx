@@ -230,7 +230,7 @@ const QualityMetricsDashboard: React.FC = () => {
           }`}>
             <span className="text-sm font-medium">{metric.trendValue}</span>
             <span className="ml-1">
-              {metric.trend === 'up' ? '↗' : metric.trend === 'down' ? '↘' : '→'}
+              {metric.trend === 'up&apos; ? '↗' : metric.trend === 'down&apos; ? '↘' : '→'}
             </span>
           </div>
         </div>
@@ -242,7 +242,7 @@ const QualityMetricsDashboard: React.FC = () => {
     <div key={index} className="bg-white rounded-lg shadow-md p-6">
       <h3 className="text-lg font-semibold text-gray-900 mb-4">{chart.title}</h3>
       <div className="h-64 flex items-center justify-center">
-        {chart.type === 'line' && (
+        {chart.type === 'line&apos; &amp;&amp; (
           <div className="w-full h-full relative">
             <svg className="w-full h-full" viewBox="0 0 400 200">
               {chart.data.map((point, i) => (
@@ -323,7 +323,7 @@ const QualityMetricsDashboard: React.FC = () => {
     <div className="space-y-6">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {getMetricCards().filter(m => 
-          m.title.includes('Performance') || m.title.includes('Cache')
+          m.title.includes('Performance&apos;) || m.title.includes('Cache&apos;)
         ).map(renderMetricCard)}
       </div>
       
@@ -369,7 +369,7 @@ const QualityMetricsDashboard: React.FC = () => {
     <div className="space-y-6">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {getMetricCards().filter(m => 
-          m.title.includes('Error') || m.title.includes('Quality') || m.title.includes('Debt')
+          m.title.includes('Error&apos;) || m.title.includes('Quality&apos;) || m.title.includes('Debt&apos;)
         ).map(renderMetricCard)}
       </div>
       
@@ -383,7 +383,7 @@ const QualityMetricsDashboard: React.FC = () => {
                   <div>
                     <p className="text-sm font-medium text-gray-900">{pattern.pattern}</p>
                     <p className="text-xs text-gray-500">
-                      {pattern.files.length} files affected • {pattern.automatable ? 'Automatable' : 'Manual fix required'}
+                      {pattern.files.length} files affected • {pattern.automatable ? 'Automatable&apos; : 'Manual fix required&apos;}
                     </p>
                   </div>
                   <div className="text-right">
@@ -457,13 +457,13 @@ const QualityMetricsDashboard: React.FC = () => {
       {/* Timeframe and View Selection */}
       <div className="mb-6 flex flex-wrap gap-4">
         <div className="flex space-x-1 bg-gray-100 rounded-lg p-1">
-          {(['1h', '1d', '1w', '1m'] as const).map((timeframe) => (
+          {(['1h&apos;, '1d&apos;, '1w&apos;, '1m&apos;] as const).map((timeframe) => (
             <button
               key={timeframe}
               onClick={() => setSelectedTimeframe(timeframe)}
               className={`px-3 py-1 rounded-md text-sm font-medium transition-colors ${
                 selectedTimeframe === timeframe
-                  ? 'bg-white text-blue-600 shadow-sm'
+                  ? 'bg-white text-blue-600 shadow-sm&apos;
                   : 'text-gray-600 hover:text-gray-900'
               }`}
             >
@@ -479,7 +479,7 @@ const QualityMetricsDashboard: React.FC = () => {
               onClick={() => setSelectedView(view)}
               className={`px-3 py-1 rounded-md text-sm font-medium transition-colors capitalize ${
                 selectedView === view
-                  ? 'bg-white text-blue-600 shadow-sm'
+                  ? 'bg-white text-blue-600 shadow-sm&apos;
                   : 'text-gray-600 hover:text-gray-900'
               }`}
             >

@@ -104,20 +104,20 @@ export function withRenderTracking<P extends object>(
           <div 
             style={{
               fontSize: '10px',
-              color: renderCount > 10 ? '#ff6b6b' : renderCount > 5 ? '#ffa94d' : '#74c0fc',
-              textAlign: 'right',
-              padding: '2px 4px',
+              color: renderCount > 10 ? '#ff6b6b&apos; : renderCount > 5 ? '#ffa94d&apos; : '#74c0fc&apos;,
+              textAlign: 'right&apos;,
+              padding: '2px 4px&apos;,
               backgroundColor: 'rgba(0,0,0,0.03)',
-              borderRadius: '2px',
+              borderRadius: '2px&apos;,
               margin: '2px 0',
-              display: 'flex',
-              justifyContent: 'space-between'
+              display: 'flex&apos;,
+              justifyContent: 'space-between&apos;
             }}
           >
             <span>{componentName}</span>
             <span>
               Renders: <strong>{renderCount}</strong> 
-              {renderTime > 0 && <span> ({renderTime.toFixed(1)}ms)</span>}
+              {renderTime > 0 &amp;&amp; <span> ({renderTime.toFixed(1)}ms)</span>}
             </span>
           </div>
         )}

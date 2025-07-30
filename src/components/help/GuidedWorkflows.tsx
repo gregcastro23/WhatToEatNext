@@ -276,7 +276,7 @@ export const GuidedWorkflows: React.FC<GuidedWorkflowsProps> = ({ className = ''
                             handleStepComplete(selectedWorkflow.steps[currentStep].id);
                           }
                         }}
-                        className="rounded"
+                        className="rounded&quot;
                       />
                       Mark as complete
                     </label>
@@ -286,7 +286,7 @@ export const GuidedWorkflows: React.FC<GuidedWorkflowsProps> = ({ className = ''
                       disabled={currentStep === selectedWorkflow.steps.length - 1}
                       className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:opacity-50"
                     >
-                      {currentStep === selectedWorkflow.steps.length - 1 ? 'Finish' : 'Next'}
+                      {currentStep === selectedWorkflow.steps.length - 1 ? 'Finish&apos; : 'Next&apos;}
                     </button>
                   </div>
                 </div>

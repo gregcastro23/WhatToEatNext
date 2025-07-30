@@ -53,10 +53,10 @@ const DefaultErrorFallback = memo(function DefaultErrorFallback({
       
       <div className="mb-4">
         <p className="text-red-700 mb-2">
-          We encountered an unexpected error. This has been logged and we're working to fix it.
+          We encountered an unexpected error. This has been logged and we&apos;re working to fix it.
         </p>
         
-        {isDevelopment && (
+        {isDevelopment &amp;&amp; (
           <details className="mt-4">
             <summary className="cursor-pointer text-red-600 font-medium mb-2">
               Technical Details (Development Mode)
@@ -101,7 +101,7 @@ const DefaultErrorFallback = memo(function DefaultErrorFallback({
           Reload Page
         </button>
         
-        {retryCount >= maxRetries && (
+        {retryCount >= maxRetries &amp;&amp; (
           <p className="text-red-600 text-sm">
             Maximum retry attempts reached. Please reload the page or contact support.
           </p>
@@ -159,7 +159,7 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
     }
 
     // Report to external error tracking service if available
-    if (typeof window !== 'undefined' && (window as any).reportError) {
+    if (typeof window !== 'undefined&apos; &amp;&amp; (window as any).reportError) {
       (window as any).reportError(error, {
         componentStack: errorInfo.componentStack,
         errorId: this.state.errorId
@@ -172,7 +172,7 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
     const { hasError, lastResetKeys } = this.state;
 
     // Reset error state if resetKeys have changed
-    if (hasError && resetKeys && lastResetKeys) {
+    if (hasError &amp;&amp; resetKeys &amp;&amp; lastResetKeys) {
       const hasResetKeyChanged = resetKeys.some((key, index) => 
         key !== lastResetKeys[index]
       );
@@ -183,7 +183,7 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
     }
 
     // Reset error state if resetOnPropsChange is true and props have changed
-    if (hasError && resetOnPropsChange && prevProps !== this.props) {
+    if (hasError &amp;&amp; resetOnPropsChange &amp;&amp; prevProps !== this.props) {
       this.resetErrorBoundary();
     }
   }
@@ -220,7 +220,7 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
     const { hasError, error, errorInfo, retryCount } = this.state;
     const { children, fallback, isolate } = this.props;
 
-    if (hasError && error && errorInfo) {
+    if (hasError &amp;&amp; error &amp;&amp; errorInfo) {
       // Use custom fallback if provided
       if (fallback) {
         return fallback(error, errorInfo);

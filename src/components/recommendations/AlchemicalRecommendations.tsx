@@ -545,7 +545,7 @@ export default function AlchemicalRecommendations({
             onClick={() => toggleExpansion((item as Record<string, unknown>).id as string || `item-${index}`)}
             endIcon={expandedItems[(item as Record<string, unknown>).id as string || `item-${index}`] ? <ExpandLess /> : <ExpandMore />}
           >
-            {expandedItems[(item as Record<string, unknown>).id as string || `item-${index}`] ? 'Less' : 'More'}
+            {expandedItems[(item as Record<string, unknown>).id as string || `item-${index}`] ? 'Less&apos; : 'More&apos;}
           </Button>
         </Box>
 
@@ -569,12 +569,12 @@ export default function AlchemicalRecommendations({
         {(expandedItems[String((item as Record<string, unknown>).id) || `item-${index}`] ? (
           <Box sx={{ mt: 2 }} component="div">
             <Divider sx={{ mb: 2 }} />
-            {(item as Record<string, unknown>).modality && (
+            {(item as Record<string, unknown>).modality &amp;&amp; (
               <Typography variant="body2">
                 <strong>Modality:</strong> {String((item as Record<string, unknown>).modality)}
               </Typography>
             )}
-            {(item as Record<string, unknown>).qualities && (
+            {(item as Record<string, unknown>).qualities &amp;&amp; (
               <Typography variant="body2">
                 <strong>Qualities:</strong> {((item as Record<string, unknown>).qualities as string[]).join(', ')}
               </Typography>
@@ -596,10 +596,10 @@ export default function AlchemicalRecommendations({
         <Tab label="Recipe Recommendations" />
       </Tabs>
 
-      {activeTab === 0 && (
+      {activeTab === 0 &amp;&amp; (
         <Box>
           {/* Energetic Profile */}
-          {energeticProfile && (
+          {energeticProfile &amp;&amp; (
             <Card sx={{ mb: 3 }}>
               <CardContent>
                 <Typography variant="h6" gutterBottom>Current Energetic Profile</Typography>
@@ -611,7 +611,7 @@ export default function AlchemicalRecommendations({
                   </Grid>
                   <Grid item xs={6}>
                     <Typography variant="body2">
-                      <strong>Dominant Property:</strong> {String((energeticProfile as Record<string, unknown>).dominantAlchemicalProperty || 'Unknown')}
+                      <strong>Dominant Property:</strong> {String((energeticProfile as Record<string, unknown>).dominantAlchemicalProperty || 'Unknown&apos;)}
                     </Typography>
                   </Grid>
                 </Grid>
@@ -625,7 +625,7 @@ export default function AlchemicalRecommendations({
             <Grid item xs={12} md={4}>
               <Typography variant="h6" gutterBottom>Recommended Ingredients</Typography>
               {recommendations.topIngredients.map((item, index) => 
-                renderExpandableCard(item, index, 'ingredient')
+                renderExpandableCard(item, index, 'ingredient&apos;)
               )}
             </Grid>
 
@@ -633,7 +633,7 @@ export default function AlchemicalRecommendations({
             <Grid item xs={12} md={4}>
               <Typography variant="h6" gutterBottom>Recommended Methods</Typography>
               {recommendations.topMethods.map((item, index) => 
-                renderExpandableCard(item, index, 'method')
+                renderExpandableCard(item, index, 'method&apos;)
               )}
             </Grid>
 
@@ -641,7 +641,7 @@ export default function AlchemicalRecommendations({
             <Grid item xs={12} md={4}>
               <Typography variant="h6" gutterBottom>Recommended Cuisines</Typography>
               {recommendations.topCuisines.map((item, index) => 
-                renderExpandableCard(item, index, 'cuisine')
+                renderExpandableCard(item, index, 'cuisine&apos;)
               )}
             </Grid>
           </Grid>
@@ -655,7 +655,7 @@ export default function AlchemicalRecommendations({
             {recipeRecommendations.map((recipe, index) => (
               <Grid item xs={12} sm={6} md={4} key={recipe.id || index}>
                 <Card>
-                  {String(recipe.image) && (
+                  {String(recipe.image) &amp;&amp; (
                     <CardMedia
                       component="img"
                       height={140}
@@ -668,7 +668,7 @@ export default function AlchemicalRecommendations({
                       {String(recipe.name)}
                     </Typography>
                     <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
-                      {String(recipe.cuisine || 'Unknown Cuisine')}
+                      {String(recipe.cuisine || 'Unknown Cuisine&apos;)}
                     </Typography>
                     
                     <Box sx={{ mb: 1 }}>
@@ -680,7 +680,7 @@ export default function AlchemicalRecommendations({
                         />
                       ) : null) as any}
                       
-                      {recipe.cookTime && (
+                      {recipe.cookTime &amp;&amp; (
                         <Chip 
                           label={`${recipe.cookTime} min`}
                           size="small"
@@ -688,7 +688,7 @@ export default function AlchemicalRecommendations({
                         />
                       )}
                       
-                      {recipe.matchPercentage && (
+                      {recipe.matchPercentage &amp;&amp; (
                         <Chip 
                           label={`${recipe.matchPercentage}% Match`}
                           color="primary"

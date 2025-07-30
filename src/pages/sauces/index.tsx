@@ -216,7 +216,7 @@ const SaucesPage: NextPage = () => {
               >
                 <span>{element}</span>
                 <span>{Math.round(Number(value) * 100)}%</span>
-                {element === dominantElement && (
+                {element === dominantElement &amp;&amp; (
                   <span className="ml-1">★</span>
                 )}
               </div>
@@ -249,7 +249,7 @@ const SaucesPage: NextPage = () => {
       {/* Results */}
       <div className="bg-white rounded-lg shadow p-6">
         <div className="mb-4 text-gray-600">
-          {filteredSauces.length} {filteredSauces.length === 1 ? 'sauce' : 'sauces'} found
+          {filteredSauces.length} {filteredSauces.length === 1 ? 'sauce&apos; : 'sauces&apos;} found
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -267,7 +267,7 @@ const SaucesPage: NextPage = () => {
                 <div className="p-5">
                   <h2 className="text-xl font-semibold mb-2 hover:text-blue-600">{sauce.name}</h2>
                   
-                  {sauce.description && (
+                  {sauce.description &amp;&amp; (
                     <p className="text-gray-600 text-sm mb-4 line-clamp-2">{sauce.description}</p>
                   )}
                   
@@ -276,13 +276,13 @@ const SaucesPage: NextPage = () => {
                       {sauce.cuisine}
                     </span>
                     
-                    {sauce.base && (
+                    {sauce.base &amp;&amp; (
                       <span className="text-xs px-2 py-1 bg-blue-50 text-blue-700 rounded">
                         {sauce.base} base
                       </span>
                     )}
                     
-                    {sauce.seasonality && (
+                    {sauce.seasonality &amp;&amp; (
                       <span className="text-xs px-2 py-1 bg-green-50 text-green-700 rounded">
                         {sauce.seasonality}
                       </span>
@@ -303,7 +303,7 @@ const SaucesPage: NextPage = () => {
                                    element === 'Earth' ? 'rgb(55, 65, 81)' :
                                    'rgb(109, 40, 217)'
                           }}>
-                            {typeof value === 'number' ? Math.round(value * 100) : value}%
+                            {typeof value === 'number&apos; ? Math.round(value * 100) : value}%
                           </div>
                           <div className="text-gray-600">{element}</div>
                         </div>

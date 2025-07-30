@@ -227,7 +227,7 @@ export class AlchemicalEngine {
    */
   calculateElementalCompatibility(
     properties1: ElementalProperties,
-    properties2: ElementalProperties
+    _properties2: ElementalProperties
   ): number {
     // Use getElementalAffinity which returns ElementalAffinity object, extract compatibility score
     // Determine dominant element from properties1

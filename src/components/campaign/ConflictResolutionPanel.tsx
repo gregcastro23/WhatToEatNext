@@ -191,7 +191,7 @@ export const ConflictResolutionPanel: React.FC<ConflictResolutionPanelProps> = (
             onClick={handleAutoResolve}
             disabled={loading}
           >
-            {loading ? 'Resolving...' : 'Auto-Resolve'}
+            {loading ? 'Resolving...' : 'Auto-Resolve&apos;}
           </button>
         </div>
       </div>
@@ -203,7 +203,7 @@ export const ConflictResolutionPanel: React.FC<ConflictResolutionPanelProps> = (
           <select
             id="statusFilter"
             value={filterStatus}
-            onChange={(e) => setFilterStatus(e.target.value as ConflictStatus | 'all')}
+            onChange={(e) => setFilterStatus(e.target.value as ConflictStatus | 'all&apos;)}
           >
             <option value="all">All</option>
             <option value="detected">Detected</option>
@@ -220,7 +220,7 @@ export const ConflictResolutionPanel: React.FC<ConflictResolutionPanelProps> = (
           <select
             id="severityFilter"
             value={filterSeverity}
-            onChange={(e) => setFilterSeverity(e.target.value as ConflictSeverity | 'all')}
+            onChange={(e) => setFilterSeverity(e.target.value as ConflictSeverity | 'all&apos;)}
           >
             <option value="all">All</option>
             <option value="low">Low</option>
@@ -240,13 +240,13 @@ export const ConflictResolutionPanel: React.FC<ConflictResolutionPanelProps> = (
           </div>
           <div className="stat">
             <span className="stat-value">
-              {conflicts.filter(c => c.status === 'detected' || c.status === 'pending_resolution').length}
+              {conflicts.filter(c => c.status === 'detected&apos; || c.status === 'pending_resolution&apos;).length}
             </span>
             <span className="stat-label">Unresolved</span>
           </div>
           <div className="stat">
             <span className="stat-value">
-              {conflicts.filter(c => c.severity === 'high' || c.severity === 'critical').length}
+              {conflicts.filter(c => c.severity === 'high&apos; || c.severity === 'critical&apos;).length}
             </span>
             <span className="stat-label">High Priority</span>
           </div>
@@ -258,7 +258,7 @@ export const ConflictResolutionPanel: React.FC<ConflictResolutionPanelProps> = (
         {filteredConflicts.length === 0 ? (
           <div className="no-conflicts">
             <p>No conflicts found</p>
-            {filterStatus !== 'all' || filterSeverity !== 'all' ? (
+            {filterStatus !== 'all&apos; || filterSeverity !== 'all&apos; ? (
               <p>Try adjusting the filters to see more conflicts</p>
             ) : (
               <p>All campaigns are running smoothly!</p>
@@ -561,7 +561,7 @@ const ManualOverrideForm: React.FC<{
         </select>
       </div>
 
-      {selectedAction === ResolutionAction.PAUSE_CAMPAIGN && (
+      {selectedAction === ResolutionAction.PAUSE_CAMPAIGN &amp;&amp; (
         <div className="form-group">
           <label htmlFor="campaignId">Campaign to Pause:</label>
           <select

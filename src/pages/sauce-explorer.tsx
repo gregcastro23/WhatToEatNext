@@ -412,26 +412,26 @@ export default function SauceExplorer() {
                 ? `${
                     allCuisines[selectedCuisine].name || selectedCuisine
                   } Sauces`
-                : 'All Cuisine Sauces'}
+                : 'All Cuisine Sauces&apos;}
             </h2>
 
             {/* Active filters display */}
             <div className="flex flex-wrap gap-2 mt-2">
-              {selectedProtein && (
+              {selectedProtein &amp;&amp; (
                 <span className="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded-full flex items-center">
                   <Beef className="w-3 h-3 mr-1" />
                   Protein: {selectedProtein}
                 </span>
               )}
 
-              {selectedVegetable && (
+              {selectedVegetable &amp;&amp; (
                 <span className="text-xs bg-green-100 text-green-700 px-2 py-1 rounded-full flex items-center">
                   <Carrot className="w-3 h-3 mr-1" />
                   Vegetable: {selectedVegetable}
                 </span>
               )}
 
-              {selectedCookingMethod && (
+              {selectedCookingMethod &amp;&amp; (
                 <span className="text-xs bg-orange-100 text-orange-700 px-2 py-1 rounded-full flex items-center">
                   <ChefHat className="w-3 h-3 mr-1" />
                   Method: {selectedCookingMethod}
@@ -441,29 +441,29 @@ export default function SauceExplorer() {
               {/* Display dominant element */}
               {Object.entries(elementalProfile).sort(
                 ([, a], [, b]) => b - a
-              )[0][0] !== 'Fire' &&
+              )[0][0] !== 'Fire&apos; &amp;&amp;
                 Object.entries(elementalProfile).sort(
                   ([, a], [, b]) => b - a
-                )[0][1] > 0.3 && (
+                )[0][1] > 0.3 &amp;&amp; (
                   <span className="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded-full flex items-center">
                     {Object.entries(elementalProfile).sort(
                       ([, a], [, b]) => b - a
-                    )[0][0] === 'Water' && (
+                    )[0][0] === 'Water&apos; &amp;&amp; (
                       <Droplet className="w-3 h-3 mr-1 text-blue-500" />
                     )}
                     {Object.entries(elementalProfile).sort(
                       ([, a], [, b]) => b - a
-                    )[0][0] === 'Earth' && (
+                    )[0][0] === 'Earth&apos; &amp;&amp; (
                       <Mountain className="w-3 h-3 mr-1 text-amber-500" />
                     )}
                     {Object.entries(elementalProfile).sort(
                       ([, a], [, b]) => b - a
-                    )[0][0] === 'Air' && (
+                    )[0][0] === 'Air&apos; &amp;&amp; (
                       <Wind className="w-3 h-3 mr-1 text-purple-500" />
                     )}
                     {Object.entries(elementalProfile).sort(
                       ([, a], [, b]) => b - a
-                    )[0][0] === 'Fire' && (
+                    )[0][0] === 'Fire&apos; &amp;&amp; (
                       <Flame className="w-3 h-3 mr-1 text-red-500" />
                     )}
                     Dominant:{' '}

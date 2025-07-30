@@ -139,14 +139,14 @@ export default function Navigation() {
             })}
           </div>
 
-          {/* Theme Toggle & Settings */}
+          {/* Theme Toggle &amp; Settings */}
           <div className="border-t pt-4 space-y-2">
             <button
               onClick={toggleTheme}
               className="w-full flex items-center space-x-3 px-4 py-3 rounded-lg
                 hover:bg-gray-50 text-gray-700"
             >
-              {theme === 'light' ? (
+              {theme === 'light&apos; ? (
                 <>
                   <Moon className="w-5 h-5" />
                   <span>Dark Mode</span>

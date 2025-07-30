@@ -81,8 +81,8 @@ export class FlavorEngineErrorBoundary extends Component<Props, State> {
           <div className="p-4 bg-red-50 border border-red-200 rounded-md">
             <h3 className="text-lg font-medium text-red-800">
               {this.state.isRenderLoop 
-                ? "Render Loop Detected" 
-                : "Flavor Engine Error"}
+                ? "Render Loop Detected&quot; 
+                : "Flavor Engine Error&quot;}
             </h3>
             <p className="mt-2 text-sm text-red-700">
               {this.state.isRenderLoop
@@ -90,7 +90,7 @@ export class FlavorEngineErrorBoundary extends Component<Props, State> {
                 : "There was a problem initializing the flavor engine. Please refresh the page to try again."}
             </p>
             <p className="mt-1 text-xs text-red-500">
-              Error: {this.state.error?.message || 'Unknown error'}
+              Error: {this.state.error?.message || 'Unknown error&apos;}
             </p>
           </div>
         );

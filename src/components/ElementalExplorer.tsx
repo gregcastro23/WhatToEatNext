@@ -24,12 +24,12 @@ export default function ElementalExplorer() {
       <div>
         <h3>Qualities</h3>
         <div>
-          <button onClick={() => toggleQuality('initiating')}>Initiating</button>
-          <button onClick={() => toggleQuality('grounding')}>Grounding</button>
-          <button onClick={() => toggleQuality('adaptable')}>Adaptable</button>
-          <button onClick={() => toggleQuality('spicy')}>Spicy</button>
-          <button onClick={() => toggleQuality('stabilizing')}>Stabilizing</button>
-          <button onClick={() => toggleQuality('flexible')}>Flexible</button>
+          <button onClick={() => toggleQuality('initiating&apos;)}>Initiating</button>
+          <button onClick={() => toggleQuality('grounding&apos;)}>Grounding</button>
+          <button onClick={() => toggleQuality('adaptable&apos;)}>Adaptable</button>
+          <button onClick={() => toggleQuality('spicy&apos;)}>Spicy</button>
+          <button onClick={() => toggleQuality('stabilizing&apos;)}>Stabilizing</button>
+          <button onClick={() => toggleQuality('flexible&apos;)}>Flexible</button>
         </div>
       </div>
       <div>

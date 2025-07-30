@@ -178,7 +178,7 @@ export default function TarotFoodDisplay({ onTarotLoaded }: TarotFoodDisplayProp
         <span>Biweekly Period: {currentPeriod}</span>
         <Clock className="w-3 h-3 ml-3 mr-1" />
         <span>Updated daily with planetary positions</span>
-        {hasSunPosition(currentPlanetaryAlignment as unknown as Record<string, unknown>) && (
+        {hasSunPosition(currentPlanetaryAlignment as unknown as Record<string, unknown>) &amp;&amp; (
           <span className="ml-3">
             • Sun: {String((currentPlanetaryAlignment.Sun as unknown as Record<string, unknown>).sign)} {Math.floor(Number((currentPlanetaryAlignment.Sun as unknown as Record<string, unknown>).degree || 0))}°
           </span>
@@ -189,7 +189,7 @@ export default function TarotFoodDisplay({ onTarotLoaded }: TarotFoodDisplayProp
         <div className={`rounded-lg p-4 bg-opacity-10 ${getElementColor(element)}`}>
           <div className="flex justify-between items-start">
             <div>
-              <h4 className="font-bold text-white text-lg drop-shadow-md">{String(minorCardData.name || 'Minor Arcana')}</h4>
+              <h4 className="font-bold text-white text-lg drop-shadow-md">{String(minorCardData.name || 'Minor Arcana&apos;)}</h4>
               <div className="flex items-center mt-1 bg-black bg-opacity-20 rounded px-2 py-1 inline-block">
                 {getElementIcon(element)}
                 <span className="ml-1 text-sm font-medium">{element}</span>
@@ -203,7 +203,7 @@ export default function TarotFoodDisplay({ onTarotLoaded }: TarotFoodDisplayProp
           
           <div className="mt-4 text-sm">
                           <div className="italic font-medium text-white bg-black bg-opacity-30 p-2 rounded-md">
-                {String(minorCardData.meaning || 'Divine guidance flows through the cards')}
+                {String(minorCardData.meaning || 'Divine guidance flows through the cards&apos;)}
               </div>
           </div>
         </div>
@@ -211,7 +211,7 @@ export default function TarotFoodDisplay({ onTarotLoaded }: TarotFoodDisplayProp
         <div className="rounded-lg p-4 bg-gradient-to-br from-purple-900 to-indigo-900 text-white bg-opacity-10">
           <div className="flex justify-between items-start">
             <div>
-              <h4 className="font-bold text-white text-lg drop-shadow-md">{String((tarotCards.majorCard  as Record<string, unknown>).name || 'Major Arcana')}</h4>
+              <h4 className="font-bold text-white text-lg drop-shadow-md">{String((tarotCards.majorCard  as Record<string, unknown>).name || 'Major Arcana&apos;)}</h4>
               <div className="flex items-center mt-1 bg-black bg-opacity-20 rounded px-2 py-1 inline-block">
                 <Sparkles className="w-4 h-4 text-yellow-300" />
                 <span className="ml-1 text-sm font-medium">Archetypal</span>
@@ -224,7 +224,7 @@ export default function TarotFoodDisplay({ onTarotLoaded }: TarotFoodDisplayProp
           
           <div className="mt-4 text-sm">
                           <div className="italic font-medium text-white bg-black bg-opacity-30 p-2 rounded-md">
-                {String((tarotCards.majorCard  as Record<string, unknown>).meaning || 'The path reveals itself')}
+                {String((tarotCards.majorCard  as Record<string, unknown>).meaning || 'The path reveals itself&apos;)}
               </div>
           </div>
         </div>

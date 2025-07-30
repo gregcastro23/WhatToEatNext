@@ -14,7 +14,7 @@ const FoodBalanceTracker: React.FC<FoodBalanceTrackerProps> = ({
   return (
     <div className="food-balance-tracker" {...props}>
       <h3>Food Balance Tracker</h3>
-      {showCuisineSelection && (
+      {showCuisineSelection &amp;&amp; (
         <div className="cuisine-selection">
           <p>Cuisine Selection Available</p>
         </div>

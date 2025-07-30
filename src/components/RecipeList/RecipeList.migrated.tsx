@@ -105,11 +105,11 @@ const RecipeCard: React.FC<RecipeCardProps> = ({ recipe, isExpanded, onToggle })
           <Typography variant="h6" component="h3" gutterBottom>
             {recipe.name }
           </Typography>
-          {recipe.matchPercentage && (
+          {recipe.matchPercentage &amp;&amp; (
             <Chip 
               label={`${Math.round(recipe.matchPercentage)}%`}
-              color={recipe.matchPercentage > 75 ? 'success' : recipe.matchPercentage > 50 ? 'warning' : 'default'}
-              size="small"
+              color={recipe.matchPercentage > 75 ? 'success&apos; : recipe.matchPercentage > 50 ? 'warning&apos; : 'default&apos;}
+              size="small&quot;
             />
           )}
         </Box>
@@ -119,38 +119,38 @@ const RecipeCard: React.FC<RecipeCardProps> = ({ recipe, isExpanded, onToggle })
         </Typography>
 
         <Box display="flex" gap={1} flexWrap="wrap" mb={2}>
-          {recipe.cuisine && (
+          {recipe.cuisine &amp;&amp; (
             <Chip 
               icon={<Restaurant />}
               label={recipe.cuisine }
-              size="small"
-              variant="outlined"
+              size="small&quot;
+              variant="outlined&quot;
             />
           )}
-          {recipe.cookTime && (
+          {recipe.cookTime &amp;&amp; (
             <Chip 
               icon={<AccessTime />}
               label={`${recipe.cookTime} min`}
-              size="small"
-              variant="outlined"
+              size="small&quot;
+              variant="outlined&quot;
             />
           )}
-          {recipe.servings && (
+          {recipe.servings &amp;&amp; (
             <Chip 
               icon={<People />}
               label={`${recipe.servings} servings`}
-              size="small"
-              variant="outlined"
+              size="small&quot;
+              variant="outlined&quot;
             />
           )}
         </Box>
 
-        {(recipe as unknown as Record<string, unknown>).rating && (
+        {(recipe as unknown as Record<string, unknown>).rating &amp;&amp; (
           <Box display="flex" alignItems="center" sx={{ gap: 1, mb: 2 }}>
             <Rating 
               value={Number((recipe as unknown as Record<string, unknown>).rating) || 0} 
               precision={0.5} 
-              size="small" 
+              size="small&quot; 
               readOnly
             />
             <Typography variant="caption">
@@ -159,7 +159,7 @@ const RecipeCard: React.FC<RecipeCardProps> = ({ recipe, isExpanded, onToggle })
           </Box>
         )}
 
-        {tags.length > 0 && (
+        {tags.length > 0 &amp;&amp; (
           <Box mb={2}>
             <Typography variant="caption" color="text.secondary" gutterBottom>
               Tags:
@@ -174,7 +174,7 @@ const RecipeCard: React.FC<RecipeCardProps> = ({ recipe, isExpanded, onToggle })
                   sx={{ fontSize: '0.7rem', height: 20 }}
                 />
               ))}
-              {tags.length > 3 && (
+              {tags.length > 3 &amp;&amp; (
                 <Chip 
                   label={`+${tags.length - 3} more`}
                   size="small"
@@ -186,7 +186,7 @@ const RecipeCard: React.FC<RecipeCardProps> = ({ recipe, isExpanded, onToggle })
           </Box>
         )}
 
-        {recipe.elementalProperties && (
+        {recipe.elementalProperties &amp;&amp; (
           <Box mb={2}>
             <Typography variant="caption" color="text.secondary" gutterBottom>
               Elemental Balance:
@@ -217,7 +217,7 @@ const RecipeCard: React.FC<RecipeCardProps> = ({ recipe, isExpanded, onToggle })
           </Box>
         )}
 
-        {recipe.score && (
+        {recipe.score &amp;&amp; (
           <Box mb={2}>
             <Typography variant="caption" color="text.secondary" gutterBottom>
               Astrological Match: {Math.round(recipe.score.total)}%
@@ -237,11 +237,11 @@ const RecipeCard: React.FC<RecipeCardProps> = ({ recipe, isExpanded, onToggle })
           onClick={onToggle}
           endIcon={<ExpandMore sx={{ transform: isExpanded ? 'rotate(180deg)' : 'none' }} />}
         >
-          {isExpanded ? 'Less Details' : 'More Details'}
+          {isExpanded ? 'Less Details&apos; : 'More Details&apos;}
         </Button>
       </CardActions>
 
-      {isExpanded && (
+      {isExpanded &amp;&amp; (
         <CardContent>
           <Accordion>
             <AccordionSummary expandIcon={<ExpandMore />}>
@@ -253,7 +253,7 @@ const RecipeCard: React.FC<RecipeCardProps> = ({ recipe, isExpanded, onToggle })
               <Box>
                 {ingredients.map((ingredient, index) => (
                   <Typography key={index} variant="body2" gutterBottom>
-                    • {typeof ingredient === 'string' ? ingredient : 
+                    • {typeof ingredient === 'string&apos; ? ingredient : 
                        `${ingredient.amount || ''} ${ingredient.unit || ''} ${ingredient.name || ingredient}`}
                   </Typography>
                 ))}
@@ -261,7 +261,7 @@ const RecipeCard: React.FC<RecipeCardProps> = ({ recipe, isExpanded, onToggle })
             </AccordionDetails>
           </Accordion>
 
-          {instructions.length > 0 && (
+          {instructions.length > 0 &amp;&amp; (
             <Accordion>
               <AccordionSummary expandIcon={<ExpandMore />}>
                 <Typography variant="subtitle2">
@@ -280,7 +280,7 @@ const RecipeCard: React.FC<RecipeCardProps> = ({ recipe, isExpanded, onToggle })
             </Accordion>
           )}
 
-          {recipe.score && (
+          {recipe.score &amp;&amp; (
             <Accordion>
               <AccordionSummary expandIcon={<ExpandMore />}>
                 <Typography variant="subtitle2">
@@ -654,18 +654,18 @@ export default function RecipeListMigrated() {
             variant="outlined"
             size="small"
             value={filters.search}
-            onChange={(e) => handleFilterChange('search', e.target.value)}
+            onChange={(e) => handleFilterChange('search&apos;, e.target.value)}
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
                   <Search />
                 </InputAdornment>
               ),
-              endAdornment: filters.search && (
+              endAdornment: filters.search &amp;&amp; (
                 <InputAdornment position="end">
                   <IconButton
                     size="small"
-                    onClick={() => handleFilterChange('search', '')}
+                    onClick={() => handleFilterChange('search&apos;, '')}
                   >
                     <Clear />
                   </IconButton>
@@ -695,7 +695,7 @@ export default function RecipeListMigrated() {
                   <Select
                     multiple
                     value={filters.cuisineTypes}
-                    onChange={(e) => handleFilterChange('cuisineTypes', e.target.value)}
+                    onChange={(e) => handleFilterChange('cuisineTypes&apos;, e.target.value)}
                     renderValue={(selected) => (
                       <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
                         {(selected ).map((value) => (
@@ -721,7 +721,7 @@ export default function RecipeListMigrated() {
                   type="number"
                   label="Max Cook Time (min)"
                   value={filters.maxTime || ''}
-                  onChange={(e) => handleFilterChange('maxTime', e.target.value ? parseInt(e.target.value) : undefined)}
+                  onChange={(e) => handleFilterChange('maxTime&apos;, e.target.value ? parseInt(e.target.value) : undefined)}
                 />
               </Grid>
 
@@ -732,7 +732,7 @@ export default function RecipeListMigrated() {
                   </Typography>
                   <Rating
                     value={filters.minRating}
-                    onChange={(_, value) => handleFilterChange('minRating', value || 0)}
+                    onChange={(_, value) => handleFilterChange('minRating&apos;, value || 0)}
                   />
                 </Box>
               </Grid>
@@ -782,8 +782,8 @@ export default function RecipeListMigrated() {
                 count={totalPages}
                 page={page}
                 onChange={(_, newPage) => setPage(newPage)}
-                color="primary"
-                size="large"
+                color="primary&quot;
+                size="large&quot;
               />
             </Box>
           )}

@@ -60,7 +60,7 @@ export default function ElementalAlchemicalDisplay() {
 
   return (
     <div className="p-4 bg-white rounded-lg shadow-md">
-      <h3 className="text-lg font-semibold mb-3">Elemental & Alchemical Properties</h3>
+      <h3 className="text-lg font-semibold mb-3">Elemental &amp; Alchemical Properties</h3>
       
       {/* Alchemical Properties */}
       <div>

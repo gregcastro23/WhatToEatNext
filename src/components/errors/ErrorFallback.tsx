@@ -46,7 +46,7 @@ export function ErrorFallback({ error, resetErrorBoundary, context = 'unknown' }
             : error.message}
         </p>
         
-        {isUndefinedError && (
+        {isUndefinedError &amp;&amp; (
           <div className="text-xs text-gray-600 bg-gray-100 p-2 rounded">
             <p>This might be caused by:</p>
             <ul className="list-disc ml-4 mt-1">

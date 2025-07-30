@@ -472,7 +472,7 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
             <span className="value">{alchemicalRecommendations.reactivity.toFixed(2)}</span>
           </div>
           <div className="stat">
-            <span className="label">Greg's Energy:</span>
+            <span className="label">Greg&apos;s Energy:</span>
             <span className="value">{alchemicalRecommendations.gregsEnergy.toFixed(2)}</span>
           </div>
         </div>
@@ -551,7 +551,7 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
             <select 
               id="modality-filter" 
               value={modalityFilter}
-              onChange={(e) => setModalityFilter(e.target.value as Modality | 'all')}
+              onChange={(e) => setModalityFilter(e.target.value as Modality | 'all&apos;)}
             >
               <option value="all">All</option>
               <option value="Cardinal">Cardinal</option>
@@ -581,17 +581,17 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
                       <span className="value">{ingredient.dominantAlchemicalProperty}</span>
                     </div>
                     <div className="detail">
-                      <span className="label">Greg's Energy:</span>
+                      <span className="label">Greg&apos;s Energy:</span>
                       <span className="value">{ingredient.gregsEnergy.toFixed(2)}</span>
                     </div>
                   </div>
                   <div className="item-modality">
                     <span className={`modality-badge ${(() => {
                       const modalityData = ingredient.modality;
-                      const modalityStr = typeof modalityData === 'string' ? modalityData.toLowerCase() : (modalityData || '').toString().toLowerCase();
+                      const modalityStr = typeof modalityData === 'string&apos; ? modalityData.toLowerCase() : (modalityData || '').toString().toLowerCase();
                       return modalityStr;
                     })()}`}>
-                      {(ingredient.modality as React.ReactNode) || 'Unknown'}
+                      {(ingredient.modality as React.ReactNode) || 'Unknown&apos;}
                     </span>
                   </div>
                 </li>
@@ -623,10 +623,10 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
                   <div className="item-modality">
                     <span className={`modality-badge ${(() => {
                       const modalityData = method.modality;
-                      const modalityStr = typeof modalityData === 'string' ? modalityData.toLowerCase() : (modalityData || '').toString().toLowerCase();
+                      const modalityStr = typeof modalityData === 'string&apos; ? modalityData.toLowerCase() : (modalityData || '').toString().toLowerCase();
                       return modalityStr;
                     })()}`}>
-                      {(method.modality as React.ReactNode) || 'Unknown'}
+                      {(method.modality as React.ReactNode) || 'Unknown&apos;}
                     </span>
                   </div>
                 </li>
@@ -658,10 +658,10 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
                   <div className="item-modality">
                     <span className={`modality-badge ${(() => {
                       const modalityData = cuisine.modality;
-                      const modalityStr = typeof modalityData === 'string' ? modalityData.toLowerCase() : (modalityData || '').toString().toLowerCase();
+                      const modalityStr = typeof modalityData === 'string&apos; ? modalityData.toLowerCase() : (modalityData || '').toString().toLowerCase();
                       return modalityStr;
                     })()}`}>
-                      {(cuisine.modality as React.ReactNode) || 'Unknown'}
+                      {(cuisine.modality as React.ReactNode) || 'Unknown&apos;}
                     </span>
                   </div>
                 </li>

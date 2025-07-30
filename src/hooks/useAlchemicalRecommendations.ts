@@ -50,7 +50,7 @@ export const useAlchemicalRecommendations = ({
   planetPositions,
   isDaytime,
   targetElement,
-  targetAlchemicalProperty,
+  _targetAlchemicalProperty,
   count = 5,
   currentZodiac = null,
   lunarPhase,

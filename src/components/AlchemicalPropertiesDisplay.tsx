@@ -17,10 +17,10 @@ export default function AlchemicalPropertiesDisplay({ showDebug = false }) {
     <div className="p-4 bg-white rounded-lg shadow-md">
       <h3 className="text-lg font-semibold mb-2">Alchemical Properties</h3>
       
-      {showDebug && (
+      {showDebug &amp;&amp; (
         <div className="mb-2 p-2 bg-gray-100 rounded text-xs">
-          <p>Context state available: {state ? 'Yes' : 'No'}</p>
-          <p>Values defined: {alchemicalValues ? 'Yes' : 'No'}</p>
+          <p>Context state available: {state ? 'Yes&apos; : 'No&apos;}</p>
+          <p>Values defined: {alchemicalValues ? 'Yes&apos; : 'No&apos;}</p>
         </div>
       )}
       

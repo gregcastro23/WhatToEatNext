@@ -708,7 +708,7 @@ const MainPageLayout: React.FC<MainPageLayoutProps> = memo(function MainPageLayo
       >
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-2xl font-semibold text-gray-800">{title}</h2>
-          {sectionStates[id].loading && (
+          {sectionStates[id].loading &amp;&amp; (
             <div className="flex items-center text-blue-600">
               <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-blue-600 mr-2"></div>
               <span className="text-sm">Loading...</span>
@@ -766,26 +766,26 @@ const MainPageLayout: React.FC<MainPageLayoutProps> = memo(function MainPageLayo
         {/* Sticky Navigation with Jump Links */}
         <nav className="flex flex-wrap justify-center gap-4 mb-8 bg-white rounded-lg shadow-md p-4 sticky top-2 z-10">
           <button
-            onClick={() => handleSectionNavigate('cuisine')}
-            className="text-indigo-600 hover:text-indigo-800 font-medium px-3 py-1 rounded hover:bg-indigo-50 transition-colors"
+            onClick={() => handleSectionNavigate('cuisine&apos;)}
+            className="text-indigo-600 hover:text-indigo-800 font-medium px-3 py-1 rounded hover:bg-indigo-50 transition-colors&quot;
           >
             Cuisine Recommendations
           </button>
           <button
-            onClick={() => handleSectionNavigate('ingredients')}
-            className="text-indigo-600 hover:text-indigo-800 font-medium px-3 py-1 rounded hover:bg-indigo-50 transition-colors"
+            onClick={() => handleSectionNavigate('ingredients&apos;)}
+            className="text-indigo-600 hover:text-indigo-800 font-medium px-3 py-1 rounded hover:bg-indigo-50 transition-colors&quot;
           >
             Ingredient Recommendations
           </button>
           <button
-            onClick={() => handleSectionNavigate('cooking')}
-            className="text-indigo-600 hover:text-indigo-800 font-medium px-3 py-1 rounded hover:bg-indigo-50 transition-colors"
+            onClick={() => handleSectionNavigate('cooking&apos;)}
+            className="text-indigo-600 hover:text-indigo-800 font-medium px-3 py-1 rounded hover:bg-indigo-50 transition-colors&quot;
           >
             Cooking Methods
           </button>
           <button
-            onClick={() => handleSectionNavigate('recipe')}
-            className="text-indigo-600 hover:text-indigo-800 font-medium px-3 py-1 rounded hover:bg-indigo-50 transition-colors"
+            onClick={() => handleSectionNavigate('recipe&apos;)}
+            className="text-indigo-600 hover:text-indigo-800 font-medium px-3 py-1 rounded hover:bg-indigo-50 transition-colors&quot;
           >
             Recipe Builder
           </button>
@@ -842,7 +842,7 @@ const MainPageLayout: React.FC<MainPageLayoutProps> = memo(function MainPageLayo
                 <CookingMethodsSection 
                   isMainPageVersion={true}
                   maxDisplayed={6}
-                  onViewMore={() => router.push('/cooking-methods')}
+                  onViewMore={() => router.push('/cooking-methods&apos;)}
                 />
               </Suspense>
             </ErrorBoundary>

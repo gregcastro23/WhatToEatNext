@@ -99,10 +99,10 @@ export function ErrorDisplay({ error,
                 className="flex items-center text-xs text-red-600 hover:text-red-800"
               >
                 {detailsVisible ? <ChevronUp className="h-3 w-3 mr-1" /> : <ChevronDown className="h-3 w-3 mr-1" />}
-                {detailsVisible ? 'Hide Details' : 'Show Details'}
+                {detailsVisible ? 'Hide Details&apos; : 'Show Details&apos;}
               </button>
               
-              {detailsVisible && (
+              {detailsVisible &amp;&amp; (
                 <pre className="mt-2 text-xs bg-red-100 p-2 rounded overflow-auto max-h-40 text-red-800">
                   {errorDetails}
                 </pre>
@@ -121,7 +121,7 @@ export function ErrorDisplay({ error,
                   Try again
                 </button>
               )}
-              {reset && (
+              {reset &amp;&amp; (
                 <button
                   onClick={reset}
                   className="inline-flex items-center px-3 py-1 text-sm font-medium text-red-800 bg-red-100 rounded hover:bg-red-200 transition-colors"
@@ -151,7 +151,7 @@ export function LoadingError({ message = 'Failed to load content',
       <AlertTriangle className="h-12 w-12 text-red-400 mb-4" />
       <h3 className="text-lg font-medium text-gray-900 mb-2">Loading Error</h3>
       <p className="text-gray-600 mb-4">{message}</p>
-      {onRetry && (
+      {onRetry &amp;&amp; (
         <button
           onClick={onRetry}
           className="inline-flex items-center px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
@@ -225,8 +225,8 @@ const EnhancedFallback: React.FC<ErrorFallbackProps> = ({ error,
             Something went wrong
           </h2>
           <p className={`${theme.message}`}>
-            {componentName ? `Error in ${componentName}` : 'An error occurred'}
-            {context && ` (${context})`}
+            {componentName ? `Error in ${componentName}` : 'An error occurred&apos;}
+            {context &amp;&amp; ` (${context})`}
           </p>
         </div>
 
@@ -247,10 +247,10 @@ const EnhancedFallback: React.FC<ErrorFallbackProps> = ({ error,
               className={`flex items-center text-sm ${theme.message} hover:opacity-80`}
             >
               {detailsVisible ? <ChevronUp className="h-4 w-4 mr-1" /> : <ChevronDown className="h-4 w-4 mr-1" />}
-              {detailsVisible ? 'Hide Details' : 'Show Details'}
+              {detailsVisible ? 'Hide Details&apos; : 'Show Details&apos;}
             </button>
             
-            {detailsVisible && (
+            {detailsVisible &amp;&amp; (
               <pre className="mt-2 text-xs bg-white bg-opacity-70 p-3 rounded overflow-auto max-h-40 text-left">
                 {error.stack}
               </pre>

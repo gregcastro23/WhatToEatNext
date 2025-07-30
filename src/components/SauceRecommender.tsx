@@ -695,43 +695,43 @@ export default function SauceRecommender({
       {/* Filters */}
       <div className="flex flex-wrap gap-2 mb-4">
         <button 
-          onClick={() => setFilter('all')}
-          className={`text-xs px-3 py-1 rounded-full ${filter === 'all' ? 'bg-blue-100 text-blue-700' : 'bg-gray-100 text-gray-700'}`}
+          onClick={() => setFilter('all&apos;)}
+          className={`text-xs px-3 py-1 rounded-full ${filter === 'all&apos; ? 'bg-blue-100 text-blue-700' : 'bg-gray-100 text-gray-700'}`}
         >
           All
         </button>
         <button 
-          onClick={() => setFilter('traditional')}
-          className={`text-xs px-3 py-1 rounded-full ${filter === 'traditional' ? 'bg-amber-100 text-amber-700' : 'bg-gray-100 text-gray-700'}`}
+          onClick={() => setFilter('traditional&apos;)}
+          className={`text-xs px-3 py-1 rounded-full ${filter === 'traditional&apos; ? 'bg-amber-100 text-amber-700' : 'bg-gray-100 text-gray-700'}`}
         >
           Traditional
         </button>
         <button 
-          onClick={() => setFilter('fusion')}
-          className={`text-xs px-3 py-1 rounded-full ${filter === 'fusion' ? 'bg-purple-100 text-purple-700' : 'bg-gray-100 text-gray-700'}`}
+          onClick={() => setFilter('fusion&apos;)}
+          className={`text-xs px-3 py-1 rounded-full ${filter === 'fusion&apos; ? 'bg-purple-100 text-purple-700' : 'bg-gray-100 text-gray-700'}`}
         >
           Fusion
         </button>
-        {protein && (
+        {protein &amp;&amp; (
           <button 
-            onClick={() => setFilter('forProtein')}
-            className={`text-xs px-3 py-1 rounded-full ${filter === 'forProtein' ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-700'}`}
+            onClick={() => setFilter('forProtein&apos;)}
+            className={`text-xs px-3 py-1 rounded-full ${filter === 'forProtein&apos; ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-700'}`}
           >
             For {protein}
           </button>
         )}
-        {vegetable && (
+        {vegetable &amp;&amp; (
           <button 
-            onClick={() => setFilter('forVegetable')}
-            className={`text-xs px-3 py-1 rounded-full ${filter === 'forVegetable' ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-700'}`}
+            onClick={() => setFilter('forVegetable&apos;)}
+            className={`text-xs px-3 py-1 rounded-full ${filter === 'forVegetable&apos; ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-700'}`}
           >
             For {vegetable}
           </button>
         )}
-        {cookingMethod && (
+        {cookingMethod &amp;&amp; (
           <button 
-            onClick={() => setFilter('forCookingMethod')}
-            className={`text-xs px-3 py-1 rounded-full ${filter === 'forCookingMethod' ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-700'}`}
+            onClick={() => setFilter('forCookingMethod&apos;)}
+            className={`text-xs px-3 py-1 rounded-full ${filter === 'forCookingMethod&apos; ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-700'}`}
           >
             For {cookingMethod}
           </button>
@@ -790,12 +790,12 @@ export default function SauceRecommender({
                         {sauce.cuisine}
                       </span>
                     )}
-                    {sauce.base && (
+                    {sauce.base &amp;&amp; (
                       <span className="text-xs bg-amber-50 text-amber-700 px-1.5 py-0.5 rounded">
                         {sauce.base}
                       </span>
                     )}
-                    {sauce.isFusion && (
+                    {sauce.isFusion &amp;&amp; (
                       <span className="text-xs bg-purple-100 text-purple-700 px-1.5 py-0.5 rounded">
                         Fusion
                       </span>
@@ -816,11 +816,11 @@ export default function SauceRecommender({
                       <div className="text-xs text-gray-500">
                         {sauce.ingredients.slice(0, 3).map((ing, idx, arr) => (
                           <React.Fragment key={idx}>
-                            <span>{typeof ing === 'string' ? ing : String(ing)}</span>
+                            <span>{typeof ing === 'string&apos; ? ing : String(ing)}</span>
                             {idx < arr.length - 1 && idx < 2 && ", "}
                           </React.Fragment>
                         ))}
-                        {sauce.ingredients.length > 3 && <span> +{sauce.ingredients.length - 3}</span>}
+                        {sauce.ingredients.length > 3 &amp;&amp; <span> +{sauce.ingredients.length - 3}</span>}
                       </div>
                     ) : (
                       sauce.category === 'forProtein' ? (
@@ -843,12 +843,12 @@ export default function SauceRecommender({
                       <div>
                         <h5 className="text-xs font-medium mb-1">Key Ingredients:</h5>
                         <ul className="pl-2">
-                          {sauce.ingredients && sauce.ingredients.map((ing, idx) => (
+                          {sauce.ingredients &amp;&amp; sauce.ingredients.map((ing, idx) => (
                             <li key={idx} className="text-xs text-gray-600 flex items-start">
                               <span className="inline-block w-1 h-1 rounded-full bg-gray-400 mt-1.5 mr-2"></span>
                               <span>
-                                {typeof ing === 'string' ? ing : String(ing)}
-                                {` - ${getIngredientAmountRange(typeof ing === 'string' ? ing : String(ing))}`}
+                                {typeof ing === 'string&apos; ? ing : String(ing)}
+                                {` - ${getIngredientAmountRange(typeof ing === 'string&apos; ? ing : String(ing))}`}
                               </span>
                             </li>
                           ))}
@@ -859,7 +859,7 @@ export default function SauceRecommender({
                       <div>
                         <h5 className="text-xs font-medium mb-1">Uses:</h5>
                         <ul className="pl-2">
-                          {sauce.culinaryUses && sauce.culinaryUses.map((use, idx) => (
+                          {sauce.culinaryUses &amp;&amp; sauce.culinaryUses.map((use, idx) => (
                             <li key={idx} className="text-xs text-gray-600 flex items-start">
                               <span className="inline-block w-1 h-1 rounded-full bg-gray-400 mt-1.5 mr-2"></span>
                               <span>{use}</span>
@@ -874,10 +874,10 @@ export default function SauceRecommender({
                       <div className="bg-amber-50 p-2 rounded text-xs mb-2">
                         {sauce.preparationNotes && (
                           <p className="mb-1">
-                            <span className="font-medium">Chef's Notes:</span> {sauce.preparationNotes}
+                            <span className="font-medium">Chef&apos;s Notes:</span> {sauce.preparationNotes}
                           </p>
                         )}
-                        {sauce.technicalTips && (
+                        {sauce.technicalTips &amp;&amp; (
                           <p>
                             <span className="font-medium">Tips:</span> {sauce.technicalTips}
                           </p>

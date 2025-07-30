@@ -646,18 +646,18 @@ const AlchemicalRecommendationsMigrated: React.FC<AlchemicalRecommendationsProps
         </Tabs>
       </Box>
 
-      {activeTab === 0 && (
+      {activeTab === 0 &amp;&amp; (
         <>
           <div className="alchemical-stats">
             <h3>Dominant Influences</h3>
             <div className="stat-grid">
               <div className="stat">
                 <span className="label">Dominant Element:</span>
-                <span className="value">{String((recommendations as Record<string, unknown>).dominantElement || 'Fire')}</span>
+                <span className="value">{String((recommendations as Record<string, unknown>).dominantElement || 'Fire&apos;)}</span>
               </div>
               <div className="stat">
                 <span className="label">Dominant Alchemical Property:</span>
-                <span className="value">{String((recommendations as Record<string, unknown>).dominantAlchemicalProperty || 'Spirit')}</span>
+                <span className="value">{String((recommendations as Record<string, unknown>).dominantAlchemicalProperty || 'Spirit&apos;)}</span>
               </div>
               {resolvedCurrentZodiac && (
                 <div className="stat">
@@ -688,7 +688,7 @@ const AlchemicalRecommendationsMigrated: React.FC<AlchemicalRecommendationsProps
                 <span className="value">{(Number((recommendations as Record<string, unknown>).reactivity || 0)).toFixed(2)}</span>
               </div>
               <div className="stat">
-                <span className="label">Greg's Energy:</span>
+                <span className="label">Greg&apos;s Energy:</span>
                 <span className="value">{(Number((recommendations as Record<string, unknown>).gregsEnergy || 0)).toFixed(2)}</span>
               </div>
             </div>
@@ -728,7 +728,7 @@ const AlchemicalRecommendationsMigrated: React.FC<AlchemicalRecommendationsProps
               <select 
                 id="modality-filter" 
                 value={modalityFilter}
-                onChange={(e) => setModalityFilter(e.target.value as 'all' | Modality)}
+                onChange={(e) => setModalityFilter(e.target.value as 'all&apos; | Modality)}
               >
                 <option value="all">All Modalities</option>
                 <option value="cardinal">Cardinal</option>
@@ -750,7 +750,7 @@ const AlchemicalRecommendationsMigrated: React.FC<AlchemicalRecommendationsProps
                     const elementalState = itemData.elementalState as Record<string, unknown>;
                     return (
                       <li key={`ingredient-${index}`} className="recommendation-item">
-                        <h4>{String(itemData.name || 'Unknown')}</h4>
+                        <h4>{String(itemData.name || 'Unknown&apos;)}</h4>
                         <div className="item-details">
                           <div className="detail">
                             <strong>fire:</strong> {Math.round(Number(elementalState.Fire || 0) * 100)}%
@@ -853,7 +853,7 @@ const AlchemicalRecommendationsMigrated: React.FC<AlchemicalRecommendationsProps
             {(recommendedRecipes || []).map((_recipe, index) => (
               <Grid item xs={12} sm={6} md={4} key={`recipe-${index}`}>
                 <Card className="recipe-card">
-                  {_recipe.image && (
+                  {_recipe.image &amp;&amp; (
                     <CardMedia
                       component="img"
                       height="140"
@@ -870,29 +870,29 @@ const AlchemicalRecommendationsMigrated: React.FC<AlchemicalRecommendationsProps
                     </Typography>
                     
                     <div className="recipe-tags">
-                      {_recipe.mealType && (
+                      {_recipe.mealType &amp;&amp; (
                         <Chip 
                           icon={<Restaurant />}
                           label={Array.isArray(_recipe.mealType) ? _recipe?.mealType?.[0] : _recipe.mealType}
-                          size="small"
+                          size="small&quot;
                           sx={{ mr: 0.5, mb: 0.5 }}
                         />
                       )}
                       
-                      {_recipe.timeRequired && (
+                      {_recipe.timeRequired &amp;&amp; (
                         <Chip 
                           icon={<AccessTime />}
                           label={`${_recipe.timeRequired} min`}
-                          size="small"
+                          size="small&quot;
                           sx={{ mr: 0.5, mb: 0.5 }}
                         />
                       )}
                       
-                      {_recipe.currentSeason && (
+                      {_recipe.currentSeason &amp;&amp; (
                         <Chip 
                           icon={<WbSunny />}
                           label={Array.isArray(_recipe.currentSeason) ? _recipe?.currentSeason?.[0] : (_recipe.currentSeason as string)}
-                          size="small"
+                          size="small&quot;
                           sx={{ mr: 0.5, mb: 0.5 }}
                         />
                       )}

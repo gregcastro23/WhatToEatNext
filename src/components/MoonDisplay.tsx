@@ -372,7 +372,7 @@ const MoonDisplay: React.FC = () => {
         </h2>
         <button 
           onClick={() => setExpanded(!expanded)}
-          className="text-gray-400 hover:text-white"
+          className="text-gray-400 hover:text-white&quot;
         >
           <ArrowDown className={`w-5 h-5 transition-transform ${expanded ? 'rotate-180' : ''}`} />
         </button>

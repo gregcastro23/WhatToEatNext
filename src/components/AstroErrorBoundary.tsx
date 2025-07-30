@@ -36,7 +36,7 @@ class AstroErrorBoundary extends Component<Props, State> {
               <p className="font-semibold">Astrological calculation error</p>
               <p className="text-sm">
                 {this.state.error?.message ||
-                  'Something went wrong with astronomical calculations'}
+                  'Something went wrong with astronomical calculations&apos;}
               </p>
             </div>
           </div>

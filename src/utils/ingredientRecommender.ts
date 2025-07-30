@@ -1659,7 +1659,7 @@ function calculateMarsInfluence(
     const transit = marsData.PlanetSpecific.ZodiacTransit[zodiacSign];
     
     // Check if ingredient is in the transit's ingredient list
-    if (transit && transit.Ingredients) {
+    if (transit?.Ingredients) {
       for (const transitIngredient of transit.Ingredients) {
         if (name.includes(transitIngredient.toLowerCase()) || 
             transitIngredient.toLowerCase().includes(name)) {
@@ -1670,7 +1670,7 @@ function calculateMarsInfluence(
     }
     
     // Check element alignment with transit
-    if (transit && transit.Elements && ingredient.elementalProperties) {
+    if (transit?.Elements && ingredient.elementalProperties) {
       for (const element in transit.Elements) {
         const elemValue = element as keyof ElementalProperties;
         if (ingredient.elementalProperties[elemValue]) {
@@ -2278,7 +2278,7 @@ function calculatePlanetaryDayInfluence(
   let elementalScore = (diurnalMatch + nocturnalMatch) / 2;
   
   // Apply dignity effects if we have planet positions
-  if (planetaryPositions && planetaryPositions[planetaryDay]) {
+  if (planetaryPositions?.[planetaryDay]) {
     const planetSign = planetaryPositions[planetaryDay].sign;
     const planetDegree = planetaryPositions[planetaryDay].degree;
     
@@ -2362,7 +2362,7 @@ function calculatePlanetaryHourInfluence(
   }
   
   // Apply dignity effects if we have planet positions
-  if (planetaryPositions && planetaryPositions[planetaryHour]) {
+  if (planetaryPositions?.[planetaryHour]) {
     const planetSign = planetaryPositions[planetaryHour].sign;
     
     // Dignity effect bonus/penalty
@@ -2373,7 +2373,7 @@ function calculatePlanetaryHourInfluence(
   }
   
   // Apply aspect effects if available
-  if (aspects && aspects.length > 0) {
+  if (aspects?.length > 0) {
     // Find aspects involving the planetary hour ruler
     const hourAspects = aspects.filter(a => 
       a.planet1 === planetaryHour || a.planet2 === planetaryHour);
@@ -2681,7 +2681,7 @@ function generateRecommendationsForIngredient(
   }
   
   // Add aspect-based recommendations
-  if (aspects && aspects.length > 0) {
+  if (aspects?.length > 0) {
     const relevantAspects = aspects.filter(aspect => 
       (aspect.planet1 === planetaryDay || aspect.planet2 === planetaryDay) ||
       (aspect.planet1 === planetaryHour || aspect.planet2 === planetaryHour));

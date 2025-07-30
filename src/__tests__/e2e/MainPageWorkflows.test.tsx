@@ -149,12 +149,12 @@ jest.mock('@/components/IngredientRecommender', () => {
               <button
                 onClick={() => toggleExpanded(ingredient.name)}
                 data-testid={`expand-${ingredient.name.toLowerCase()}`}
-                className="expand-button"
+                className="expand-button&quot;
               >
                 {expandedIngredient === ingredient.name ? '▼' : '▶'}
               </button>
               
-              {expandedIngredient === ingredient.name && (
+              {expandedIngredient === ingredient.name &amp;&amp; (
                 <div data-testid={`details-${ingredient.name.toLowerCase()}`} className="ingredient-details">
                   <div>Category: {ingredient.category}</div>
                   <div>Properties: {ingredient.properties.join(', ')}</div>
@@ -208,7 +208,7 @@ jest.mock('@/components/CookingMethodsSection', () => {
             >
               <button
                 onClick={() => setSelectedMethod(method.name)}
-                className={selectedMethod === method.name ? 'selected' : ''}
+                className={selectedMethod === method.name ? 'selected&apos; : ''}
                 data-testid={`method-${method.name.toLowerCase()}`}
               >
                 <h4>{method.name}</h4>
@@ -293,7 +293,7 @@ jest.mock('@/components/recipes/RecipeBuilderSimple', () => {
               placeholder="Recipe Name"
               value={recipeName}
               onChange={(e) => setRecipeName(e.target.value)}
-              data-testid="recipe-name-input"
+              data-testid="recipe-name-input&quot;
             />
             
             <div className="recipe-meta">
@@ -301,21 +301,21 @@ jest.mock('@/components/recipes/RecipeBuilderSimple', () => {
                 type="number"
                 value={servings}
                 onChange={(e) => setServings(parseInt(e.target.value) || 1)}
-                data-testid="servings-input"
+                data-testid="servings-input&quot;
                 min="1"
               />
               <input
                 type="number"
                 value={prepTime}
                 onChange={(e) => setPrepTime(parseInt(e.target.value) || 0)}
-                data-testid="prep-time-input"
+                data-testid="prep-time-input&quot;
                 min="0"
               />
               <input
                 type="number"
                 value={cookTime}
                 onChange={(e) => setCookTime(parseInt(e.target.value) || 0)}
-                data-testid="cook-time-input"
+                data-testid="cook-time-input&quot;
                 min="0"
               />
             </div>
@@ -333,14 +333,14 @@ jest.mock('@/components/recipes/RecipeBuilderSimple', () => {
                   type="text"
                   placeholder="Quantity"
                   value={ingredient.quantity}
-                  onChange={(e) => updateIngredient(index, 'quantity', e.target.value)}
+                  onChange={(e) => updateIngredient(index, 'quantity&apos;, e.target.value)}
                   data-testid={`ingredient-quantity-${index}`}
                 />
                 <input
                   type="text"
                   placeholder="Ingredient name"
                   value={ingredient.name}
-                  onChange={(e) => updateIngredient(index, 'name', e.target.value)}
+                  onChange={(e) => updateIngredient(index, 'name&apos;, e.target.value)}
                   data-testid={`ingredient-name-${index}`}
                 />
                 <button
@@ -369,14 +369,14 @@ jest.mock('@/components/recipes/RecipeBuilderSimple', () => {
                 <textarea
                   placeholder="Describe this step..."
                   value={step.instruction}
-                  onChange={(e) => updateStep(index, 'instruction', e.target.value)}
+                  onChange={(e) => updateStep(index, 'instruction&apos;, e.target.value)}
                   data-testid={`step-instruction-${index}`}
                 />
                 <input
                   type="text"
                   placeholder="Timing"
                   value={step.timing}
-                  onChange={(e) => updateStep(index, 'timing', e.target.value)}
+                  onChange={(e) => updateStep(index, 'timing&apos;, e.target.value)}
                   data-testid={`step-timing-${index}`}
                 />
                 <button
@@ -395,7 +395,7 @@ jest.mock('@/components/recipes/RecipeBuilderSimple', () => {
           
           <div className="recipe-summary" data-testid="recipe-summary">
             <h4>Recipe Summary</h4>
-            <div>Name: {recipeName || 'Untitled Recipe'}</div>
+            <div>Name: {recipeName || 'Untitled Recipe&apos;}</div>
             <div>Servings: {servings}</div>
             <div>Total Time: {totalTime} minutes</div>
             <div>Ingredients: {ingredients.length}</div>
