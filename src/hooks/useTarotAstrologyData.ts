@@ -151,7 +151,7 @@ export const useTarotAstrologyData = (): TarotAstrologyResult => {
   // Move the function declaration before any usage
   const calculatePlanetaryEnergy = useCallback((planet: string): number => {
     try {
-      if (currentPlanetaryAlignment?.[planet.toLowerCase()]) {
+      if (currentPlanetaryAlignment[planet.toLowerCase()]) {
           const position = currentPlanetaryAlignment[planet.toLowerCase()];
           
           // Check if position has a sign property and it's defined
@@ -219,7 +219,7 @@ export const useTarotAstrologyData = (): TarotAstrologyResult => {
     const cardMap: Record<string, TarotCard> = {};
     
     try {
-      if (activePlanets?.length) {
+      if (activePlanets.length) {
         activePlanets.forEach(planet => {
           const planetName = planet.charAt(0).toUpperCase() + planet.slice(1);
           // Type guard to check if planetName is a valid key in PLANET_TO_MAJOR_ARCANA

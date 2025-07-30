@@ -1,5 +1,4 @@
 // Type Harmony imports
-import { validateTransitDate as _validateTransitDate } from '@/utils/transitValidation';
 
 // Internal imports - constants
 import { DEFAULT_ELEMENTAL_PROPERTIES } from '@/constants/defaults';
@@ -33,6 +32,7 @@ import type { PlanetPosition } from '@/types/unified';
 // Internal imports - utils
 import { getAccuratePlanetaryPositions } from '@/utils/accurateAstronomy';
 import { logger } from '@/utils/logger';
+import { validateTransitDate as _validateTransitDate } from '@/utils/transitValidation';
 import { getZodiacElementalInfluence } from '@/utils/zodiacUtils';
 
 // Import planetary and sign data for alchemical calculations

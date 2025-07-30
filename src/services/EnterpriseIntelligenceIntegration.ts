@@ -790,7 +790,7 @@ export class EnterpriseIntelligenceIntegration {
   }
 
   private validateIngredient(ingredient: Record<string, unknown>): boolean {
-    return !!(ingredient?.name && ingredient?.elementalProperties);
+    return !!(ingredient.name && ingredient.elementalProperties);
   }
 
   private calculateIngredientOptimizationScore(analyses: Record<string, unknown>): number {

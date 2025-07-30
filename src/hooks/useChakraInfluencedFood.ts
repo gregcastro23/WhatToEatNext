@@ -109,7 +109,7 @@ export const useChakraInfluencedFood = (options?: {
   ]);
   
   // Extract moon sign to avoid complex expression in dependency array
-  const moonSign = (planetaryPositions.moon as Record<string, unknown>)?.sign;
+  const moonSign = (planetaryPositions.moon as Record<string, unknown>).sign;
   
   // Calculate chakra energies based on astrological data
   useEffect(() => {
