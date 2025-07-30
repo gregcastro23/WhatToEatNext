@@ -228,8 +228,8 @@ export function explainRecommendation(
       // Apply surgical type casting with variable extraction
       const mealTypeData = timeFactors.mealType as unknown as Record<string, unknown>;
       const timeOfDayData = timeFactors.timeOfDay as unknown as Record<string, unknown>;
-      const mealTypeLower = typeof mealTypeData?.toLowerCase === 'function' ? mealTypeData.toLowerCase() : String(timeFactors.mealType || '');
-      const timeOfDayLower = typeof timeOfDayData?.toLowerCase === 'function' ? timeOfDayData.toLowerCase() : String(timeFactors.timeOfDay || '');
+      const mealTypeLower = typeof mealTypeData.toLowerCase === 'function' ? mealTypeData.toLowerCase() : String(timeFactors.mealType || '');
+      const timeOfDayLower = typeof timeOfDayData.toLowerCase === 'function' ? timeOfDayData.toLowerCase() : String(timeFactors.timeOfDay || '');
       
       reasons.push(`This is an ideal choice for ${mealTypeLower} during the ${timeOfDayLower}.`);
     }
@@ -252,7 +252,7 @@ export function explainRecommendation(
   // If we have dominant planets - safe property access
   if (astrologicalState.dominantPlanets && astrologicalState.dominantPlanets.length > 0) {
     for (const dominantPlanet of astrologicalState.dominantPlanets) {
-      const planetName = String((dominantPlanet as unknown as Record<string, unknown>)?.name || dominantPlanet);
+      const planetName = String((dominantPlanet as unknown as Record<string, unknown>).name || dominantPlanet);
       const planetScore = calculatePlanetaryScore(recipe, planetName as unknown as any);
       if (planetScore > 0.6) {
         reasons.push(`The influence of ${planetName} in your chart is complemented by this recipe.`);

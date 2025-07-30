@@ -59,10 +59,10 @@ export function InfiniteLoopDetector({
           loopDetectedRef.current = true;
           
           // Create a simplified stack trace that's easier to read
-          const errorLocation = new Error()?.stack
+          const errorLocation = new Error().stack
             ?.split('\n')
             .slice(2, 3)
-            .map(line => line?.trim())
+            .map(line => line.trim())
             .join(' ');
           
           console.error(
@@ -86,7 +86,7 @@ export function InfiniteLoopDetector({
             hook.emit('infinite-loop-detected', {
               componentStack: componentStackRef.current,
               rendersPerSecond: (renderCount.current / timeElapsed) * 1000,
-              timestamp: new Date()?.toISOString()
+              timestamp: new Date().toISOString()
             });
           }
         }
