@@ -1,0 +1,243 @@
+{
+  "timestamp": "2025-07-31T21:01:53.733Z",
+  "activeCampaigns": [
+    {
+      "type": "emergency-typescript-error-elimination",
+      "priority": "critical",
+      "timestamp": "2025-01-27T20:30:00Z",
+      "errorCount": 1119,
+      "errorIncrease": 348,
+      "baselineErrors": 771,
+      "criticalThreshold": 100,
+      "exceedsThresholdBy": 1019,
+      "errorBreakdown": {
+        "TS2345": 363,
+        "TS2322": 193,
+        "TS18048": 143,
+        "TS2339": 119,
+        "TS18046": 65,
+        "TS2352": 47,
+        "TS18047": 19,
+        "TS2783": 18,
+        "TS2769": 18,
+        "TS2411": 14
+      },
+      "campaignConfig": {
+        "safetyLevel": "MAXIMUM",
+        "batchSize": 10,
+        "validationFrequency": 5,
+        "buildValidationRequired": true,
+        "automaticRollbackEnabled": true,
+        "stashRetentionDays": 7,
+        "maxFilesPerBatch": 10,
+        "requireManualApproval": true
+      },
+      "targetReduction": {
+        "phase1Target": 800,
+        "phase2Target": 400,
+        "finalTarget": 100,
+        "estimatedReductionRate": "200-300 errors per phase"
+      },
+      "safetyProtocols": [
+        "git-stash-before-each-phase",
+        "build-validation-every-5-files",
+        "corruption-detection-enabled",
+        "automatic-rollback-on-failure",
+        "manual-approval-required",
+        "comprehensive-progress-tracking"
+      ],
+      "recommendedTools": [
+        {
+          "tool": "EnhancedErrorFixerIntegration",
+          "priority": "high",
+          "successRate": "92%",
+          "targetErrors": [
+            "TS2352",
+            "TS2304",
+            "TS2339"
+          ]
+        },
+        {
+          "tool": "TypeSafetyValidator",
+          "priority": "high",
+          "successRate": "88%",
+          "targetErrors": [
+            "TS2345",
+            "TS2322"
+          ]
+        },
+        {
+          "tool": "NullSafetyEnforcer",
+          "priority": "medium",
+          "successRate": "90%",
+          "targetErrors": [
+            "TS18048",
+            "TS18046",
+            "TS18047"
+          ]
+        }
+      ],
+      "estimatedDuration": "3-4 phases over 2-3 days",
+      "riskAssessment": "HIGH - Large error count requires careful batch processing",
+      "approvalRequired": true,
+      "triggerReason": "Error count (1,119) exceeds critical threshold (100) by 1,019 errors",
+      "filePath": "/Users/GregCastro/Desktop/WhatToEatNext/.kiro/campaign-triggers/emergency-typescript-elimination-1119.json",
+      "fileName": "emergency-typescript-elimination-1119.json",
+      "lastMetrics": {
+        "timestamp": "2025-07-31T21:01:46.481Z"
+      },
+      "lastUpdated": "2025-07-31T21:01:46.483Z"
+    },
+    {
+      "campaignId": "emergency-typescript-elimination-1122",
+      "type": "EMERGENCY_TYPESCRIPT_ELIMINATION",
+      "priority": "CRITICAL",
+      "triggerTime": "2025-01-27T20:30:00Z",
+      "errorCount": 1122,
+      "threshold": 100,
+      "safetyLevel": "MAXIMUM",
+      "config": {
+        "batchSize": 5,
+        "validationFrequency": 1,
+        "buildValidationRequired": true,
+        "gitStashEnabled": true,
+        "corruptionDetectionEnabled": true,
+        "automaticRollbackEnabled": true,
+        "manualApprovalRequired": true
+      },
+      "phases": [
+        {
+          "id": "phase1-critical-syntax-errors",
+          "name": "Critical Syntax Error Resolution",
+          "description": "Fix syntax errors causing cascading type failures",
+          "tools": [
+            {
+              "scriptPath": "targeted-error-fixer.cjs",
+              "parameters": {
+                "maxFiles": 5,
+                "focusOnSyntax": true,
+                "validateAfterEach": true
+              }
+            }
+          ],
+          "successCriteria": {
+            "syntaxErrorsResolved": true,
+            "buildStability": true,
+            "errorReduction": 50
+          }
+        },
+        {
+          "id": "phase2-type-definition-fixes",
+          "name": "Type Definition Resolution",
+          "description": "Fix missing type definitions and import issues",
+          "tools": [
+            {
+              "scriptPath": "emergency-targeted-fixer.cjs",
+              "parameters": {
+                "maxFiles": 10,
+                "focusOnTypes": true,
+                "preserveAstrological": true
+              }
+            }
+          ],
+          "successCriteria": {
+            "typeDefinitionsResolved": true,
+            "importIssuesFixed": true,
+            "errorReduction": 200
+          }
+        }
+      ],
+      "safetyProtocols": [
+        "BUILD_VALIDATION_AFTER_EACH_FILE",
+        "GIT_STASH_BEFORE_PHASE",
+        "CORRUPTION_DETECTION_ACTIVE",
+        "AUTOMATIC_ROLLBACK_ON_FAILURE",
+        "MANUAL_APPROVAL_CHECKPOINTS"
+      ],
+      "targetMetrics": {
+        "typeScriptErrors": 100,
+        "buildStability": true,
+        "astrologicalIntegrityPreserved": true
+      },
+      "filePath": "/Users/GregCastro/Desktop/WhatToEatNext/.kiro/campaign-triggers/emergency-typescript-elimination-1122.json",
+      "fileName": "emergency-typescript-elimination-1122.json",
+      "lastMetrics": {
+        "timestamp": "2025-07-31T21:01:46.485Z"
+      },
+      "lastUpdated": "2025-07-31T21:01:46.485Z"
+    },
+    {
+      "type": "typescript-error-elimination",
+      "priority": "EMERGENCY",
+      "safetyLevel": "MAXIMUM",
+      "targetErrors": 100,
+      "currentErrors": 1113,
+      "errorReduction": 1013,
+      "batchSize": 5,
+      "validationFrequency": 3,
+      "rollbackEnabled": true,
+      "gitStashEnabled": true,
+      "buildValidationRequired": true,
+      "createdAt": "2025-01-22T23:45:00.000Z",
+      "triggeredBy": "error-threshold-exceeded",
+      "approvalGranted": true,
+      "approvalGrantedAt": "2025-01-22T23:46:00.000Z",
+      "approvalGrantedBy": "developer",
+      "phases": [
+        {
+          "id": "phase1-emergency-stabilization",
+          "name": "Emergency Stabilization",
+          "target": "1113 → 800 errors",
+          "focus": "TS2352 errors (92% success rate)",
+          "status": "pending"
+        },
+        {
+          "id": "phase2-systematic-reduction",
+          "name": "Systematic Reduction",
+          "target": "800 → 400 errors",
+          "focus": "TS2345, TS18048 errors",
+          "status": "pending"
+        },
+        {
+          "id": "phase3-final-elimination",
+          "name": "Final Elimination",
+          "target": "400 → <100 errors",
+          "focus": "TS2322, TS2339 errors",
+          "status": "pending"
+        }
+      ],
+      "safetyProtocols": [
+        "git-stash-before-phase",
+        "build-validation-every-3-files",
+        "automatic-rollback-on-failure",
+        "corruption-detection-enabled",
+        "progress-tracking-enabled"
+      ],
+      "filePath": "/Users/GregCastro/Desktop/WhatToEatNext/.kiro/campaign-triggers/emergency-typescript-elimination.json",
+      "fileName": "emergency-typescript-elimination.json",
+      "lastMetrics": {
+        "typeScriptErrors": 445,
+        "errorBreakdown": {
+          "TS1005": 247,
+          "TS1109": 106,
+          "TS1128": 39,
+          "TS1434": 13,
+          "TS1136": 10,
+          "TS1011": 10,
+          "TS1003": 10,
+          "TS1002": 7,
+          "TS1359": 3
+        },
+        "timestamp": "2025-07-31T21:01:53.732Z"
+      },
+      "lastUpdated": "2025-07-31T21:01:53.732Z",
+      "phaseAdvancedAt": "2025-07-31T20:33:56.856Z",
+      "currentPhase": 1
+    }
+  ],
+  "systemMetrics": {
+    "typeScriptErrors": 445,
+    "lintingWarnings": -1,
+    "unusedVariables": 1124
+  }
+}

@@ -168,7 +168,7 @@ export class CuisineEnhancer {
         
         // Add each dish as a recipe
         for (const dish of dishes) {
-          if (dish && dish.name) {
+          if (dish?.name) {
             recipes.push({
               ...dish,
               mealType,
@@ -509,7 +509,7 @@ export class CuisineAnalyzer {
       // Use safe type casting for alchemicalProperties access
       const alchemicalData = cuisine.alchemicalProperties as Record<string, unknown>;
       const elementalBalance = alchemicalData.elementalBalance;
-      return elementalBalance && elementalBalance[element] >= threshold;
+      return elementalBalance?.[element] >= threshold;
     });
   }
   

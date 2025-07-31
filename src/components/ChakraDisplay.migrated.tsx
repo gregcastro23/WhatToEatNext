@@ -265,7 +265,7 @@ const ChakraDisplayMigrated: React.FC<ChakraDisplayProps> = ({ compact = false }
           const energyLevel = formatEnergyLevel(energy);
 
           // Get recommendations for this chakra
-          const recommendations = chakraRecommendations && chakraRecommendations[normalizedKey] 
+          const recommendations = chakraRecommendations?.[normalizedKey] 
             ? chakraRecommendations[normalizedKey].slice(0, 3) 
             : [];
 

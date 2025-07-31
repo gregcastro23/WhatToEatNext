@@ -83,7 +83,7 @@ export const CookingMethodsSection: React.FC<CookingMethodsSectionProps> = ({
   
   // Convert cooking methods data to component format and add astrological scoring
   const methods = useMemo(() => {
-    if (propMethods && propMethods.length > 0) {
+    if (propMethods?.length > 0) {
       return propMethods;
     }
     

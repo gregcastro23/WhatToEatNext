@@ -39,7 +39,7 @@ export class SpoonacularElementalMapper {
       ? recipe.nutrition.nutrients
       : Array.isArray(recipe.nutrition) ? recipe.nutrition : [];
     
-    if (nutrients && nutrients.length > 0) {
+    if (nutrients?.length > 0) {
       // Initialize counters for each element
       let fireCount = 0, waterCount = 0, earthCount = 0, airCount = 0;
       

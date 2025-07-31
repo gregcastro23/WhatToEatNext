@@ -339,7 +339,7 @@ describe('Astrological ESLint Rules', () => {
           sun: { sign: 'aries', degree: 8.5 }
         };
         
-        let RELIABLE_DATA = getReliableData();
+        await let RELIABLE_DATA = getReliableData
         RELIABLE_DATA = { updated: true };
       `;
 

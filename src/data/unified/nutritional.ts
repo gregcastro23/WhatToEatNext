@@ -323,7 +323,7 @@ export class UnifiedNutritionalSystem {
       const astroProfile = profileData.astrologicalProfile;
       
       const astroData = astroProfile as Record<string, unknown>;
-      if (astroData && astroData.seasonalPeak) {
+      if (astroData?.seasonalPeak) {
         validProfiles++;
         if (Array.isArray(astroData.seasonalPeak) && astroData.seasonalPeak.includes(season)) {
           totalAlignment += 1.0;
@@ -347,7 +347,7 @@ export class UnifiedNutritionalSystem {
       const astroProfile = profileData.astrologicalProfile;
       
       const astroData = astroProfile as Record<string, unknown>;
-      if (astroData && astroData.rulingPlanets) {
+      if (astroData?.rulingPlanets) {
         validProfiles++;
         if (Array.isArray(astroData.rulingPlanets) && astroData.rulingPlanets.includes(planet)) {
           totalResonance += 1.0;
@@ -545,7 +545,7 @@ export const calculateNutritionalBalance = (_ingredients: unknown[]): Nutritiona
     minerals: Record<string, unknown>;
   }, ingredient) => {
     const ingredientData = ingredient as Record<string, unknown>;
-    const nutritionData = (ingredientData && ingredientData.nutrition ? ingredientData.nutrition : {}) as Record<string, unknown>;
+    const nutritionData = (ingredientData?.nutrition ? ingredientData.nutrition : {}) as Record<string, unknown>;
     return {
       calories: acc.calories + Number((nutritionData ).calories || 0),
       protein: acc.protein + Number((nutritionData ).protein || 0),

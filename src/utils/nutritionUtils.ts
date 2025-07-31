@@ -138,7 +138,7 @@ export const calculateEstimatedNutrition = (ingredients: unknown[]): unknown => 
       ingredientName = ingredient.toLowerCase();
       // Try to extract amount from string
       const match = ingredient.match(/^([\d.]+)/);
-      if (match && match[1]) {
+      if (match?.[1]) {
         amount = parseFloat(match[1]) || 1;
       }
     } else if (typeof ingredient === 'object') {

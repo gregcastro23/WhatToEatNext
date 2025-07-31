@@ -460,7 +460,7 @@ function calculateAlchemicalProperties(
     const planetProps = PLANETARY_ALCHEMICAL_PROPERTIES[planet];
     if (!planetProps) continue;
     
-    const tarotBoost = (tarotPlanetaryBoosts && tarotPlanetaryBoosts[planet]) || 0;
+    const tarotBoost = (tarotPlanetaryBoosts?.[planet]) || 0;
     const totalStrength = influence.strength + influence.dignityBonus + tarotBoost;
     
     for (const [prop, value] of Object.entries(planetProps)) {

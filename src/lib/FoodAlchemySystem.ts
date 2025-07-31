@@ -417,7 +417,7 @@ export class FoodAlchemySystem {
         let decanBonus = 0;
         
         // Apply dignity effects if we have planet positions
-        if (planetaryPositions && planetaryPositions[planetaryDay]) {
+        if (planetaryPositions?.[planetaryDay]) {
             const planetSign = planetaryPositions[planetaryDay].sign;
             const planetDegree = planetaryPositions[planetaryDay].degree;
             

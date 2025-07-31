@@ -196,7 +196,7 @@ export class MemoryOptimizationScript {
     }
 
     // Clear Jest modules
-    if (jest && jest.resetModules) {
+    if (jest?.resetModules) {
       jest.resetModules();
       cleaned++;
     }

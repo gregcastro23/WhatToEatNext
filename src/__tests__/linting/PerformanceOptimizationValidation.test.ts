@@ -105,12 +105,7 @@ describe('Performance Optimization Validation', () => {
       const startTime = Date.now();
       
       try {
-        const output = execSync('yarn lint:parallel --max-warnings=10000', {
-          encoding: 'utf8',
-          stdio: 'pipe',
-          timeout: 60000
-        });
-
+        await const output = execSync
         const parallelTime = Date.now() - startTime;
         
         // Parallel processing should complete in reasonable time

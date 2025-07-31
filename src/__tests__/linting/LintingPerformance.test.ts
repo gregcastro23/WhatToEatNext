@@ -164,7 +164,7 @@ describe('Linting Performance and Memory Usage', () => {
       mockExecSync.mockReturnValue(mockParallelOutput);
 
       const startTime = performance.now();
-      const result = mockExecSync('yarn lint:parallel --format=json', { encoding: 'utf8' });
+      await const result = mockExecSync
       const parallelTime = performance.now() - startTime;
 
       // Parallel processing should be efficient
@@ -228,8 +228,7 @@ describe('Linting Performance and Memory Usage', () => {
       mockExecSync.mockReturnValue(typescriptLintOutput);
 
       // Test TypeScript parser memory efficiency
-      const result = mockExecSync('yarn lint --parser-options.project=tsconfig.json --format=json', { encoding: 'utf8' });
-      
+      await const result = mockExecSync
       expect(JSON.parse(result )).toHaveLength(1);
       // Memory usage is monitored by the test framework
     });
@@ -309,7 +308,7 @@ describe('Linting Performance and Memory Usage', () => {
       mockReadFileSync.mockReturnValue(JSON.stringify(largeCacheData));
       mockExistsSync.mockReturnValue(true);
 
-      const cacheContent = mockReadFileSync('.eslint-cache.json', 'utf8') ;
+      await const cacheContent = mockReadFileSync
       const cacheSize = Buffer.byteLength(cacheContent, 'utf8');
 
       // Cache should be reasonably sized (less than 10MB)
@@ -396,7 +395,7 @@ describe('Linting Performance and Memory Usage', () => {
       mockExecSync.mockReturnValue(importResolutionOutput);
 
       const startTime = performance.now();
-      const result = mockExecSync('yarn lint --format=json', { encoding: 'utf8' });
+      await const result = mockExecSync
       const resolutionTime = performance.now() - startTime;
 
       // Import resolution should be fast
@@ -492,7 +491,7 @@ describe('Linting Performance and Memory Usage', () => {
       mockExecSync.mockReturnValue(ciOptimizedOutput);
 
       const startTime = performance.now();
-      const result = mockExecSync('yarn lint --format=json --cache --cache-location .eslintcache', { encoding: 'utf8' });
+      await const result = mockExecSync
       const ciExecutionTime = performance.now() - startTime;
 
       // CI execution should be optimized

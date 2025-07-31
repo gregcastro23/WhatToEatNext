@@ -102,7 +102,7 @@ function performEmergencyCleanup(): void {
   }
   
   // Reset Jest modules to free memory
-  if (jest && jest.resetModules) {
+  if (jest?.resetModules) {
     jest.resetModules();
   }
 }

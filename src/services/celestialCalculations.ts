@@ -256,7 +256,7 @@ class CelestialCalculator {
       // Try to use the astronomy calculator
       if (typeof astronomiaCalculator.calculatePlanetaryPositions === 'function') {
         const positions = astronomiaCalculator.calculatePlanetaryPositions(date);
-        if (positions && positions.moon && positions.moon.sign) {
+        if (positions?.moon && positions.moon.sign) {
           return positions.moon.sign;
         }
       }
@@ -521,7 +521,7 @@ class CelestialCalculator {
     
     // Calculate base influences based on dignities
     let jupiterDignityName = '';
-    if (jupiterPos && jupiterPos.sign) {
+    if (jupiterPos?.sign) {
       const jupiterSign = jupiterPos.sign.toLowerCase();
       const dignity = jupiterDignities[jupiterSign];
       if (dignity) {
@@ -538,7 +538,7 @@ class CelestialCalculator {
     }
     
     let saturnDignityName = '';
-    if (saturnPos && saturnPos.sign) {
+    if (saturnPos?.sign) {
       const saturnSign = saturnPos.sign.toLowerCase();
       const dignity = saturnDignities[saturnSign];
       if (dignity) {
@@ -671,7 +671,7 @@ class CelestialCalculator {
     
     // Add Sun sign placement if it exists in planetary positions
     const sunPos = planetaryPositions['sun'] || planetaryPositions['Sun'];
-    if (sunPos && sunPos.sign) {
+    if (sunPos?.sign) {
       // Add the Sun with its sign placement if not already included
       if (!dominantPlanets.some(p => p.name === 'Sun')) {
         dominantPlanets.push({ 

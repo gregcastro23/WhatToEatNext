@@ -264,7 +264,7 @@ const calculateSeasonalOptimization = (cuisineName: string, season: string): num
   const cuisineKey = cuisineName.toLowerCase();
   const preferences = seasonalPreferences[cuisineKey];
   
-  if (preferences && preferences[season]) {
+  if (preferences?.[season]) {
     return preferences[season];
   }
   
@@ -1212,7 +1212,7 @@ export default function CuisineRecommender() {
           />
           
           {/* Search Intent Display */}
-          {searchIntent && searchIntent.confidence > 0.5 && (
+          {searchIntent?.confidence > 0.5 && (
             <div className="mb-4 p-3 bg-blue-50 border border-blue-200 rounded-lg">
               <div className="flex items-center space-x-2 mb-2">
                 <Sparkles size={16} className="text-blue-500" />

@@ -7,26 +7,11 @@
  * safety intelligence, and optimization recommendations.
  */
 
-import { RECIPE_COMPATIBILITY_INTELLIGENCE } from '@/calculations/index';
-import { 
-  PredictiveIntelligenceResult,
-  MLIntelligenceResult,
-  AdvancedAnalyticsIntelligenceResult,
-  IntegratedAdvancedIntelligenceResult
-} from '@/types/advancedIntelligence';
 import type { ElementalProperties } from '@/types/alchemy';
-import {
-  EnterpriseIntelligenceConfig,
-  RecipeIntelligenceResult,
-  IngredientIntelligenceResult,
-  CuisineIntelligenceResult,
-  ValidationIntelligenceResult,
-  SafetyIntelligenceResult,
-  OptimizationRecommendations,
-  EnterpriseIntelligenceResult,
-  EnterpriseIntelligenceInput
-} from '@/types/enterpriseIntelligence';
+import { RECIPE_COMPATIBILITY_INTELLIGENCE } from '@/calculations/index';
 import { logger } from '@/utils/logger';
+
+
 
 import { 
   AdvancedAnalyticsIntelligenceService,

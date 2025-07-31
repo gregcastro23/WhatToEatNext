@@ -559,7 +559,7 @@ export class EnhancedCuisineRecommender {
     // Check if any of the recipe's meal types are appropriate for the current time of day
     for (const mealType of recipe.mealType) {
       const appropriateTimes = mealTypeToTimeMap[mealType.toLowerCase()];
-      if (appropriateTimes && appropriateTimes.includes(timeOfDay)) {
+      if (appropriateTimes?.includes(timeOfDay)) {
         return 1.0; // Perfect match for time of day
       }
     }

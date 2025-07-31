@@ -809,7 +809,7 @@ export function calculateEnhancedStelliumEffects(
   const planetsBySign: Record<string, string[]> = {};
   
   Object.entries(planetPositions).forEach(([planet, position]) => {
-    if (position && position.sign) {
+    if (position?.sign) {
       const sign = position.sign.toLowerCase();
       if (!planetsBySign[sign]) {
         planetsBySign[sign] = [];

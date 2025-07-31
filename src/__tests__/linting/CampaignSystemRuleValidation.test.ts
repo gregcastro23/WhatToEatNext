@@ -515,9 +515,9 @@ describe('Campaign System Rule Validation', () => {
           public executeEmergencyShutdown(reason: string): void {
             console.error('EMERGENCY SHUTDOWN INITIATED:', reason);
             console.error('Saving current state...');
-            this.saveEmergencyState();
+            await this.saveEmergencyState
             console.error('Creating emergency backup...');
-            this.createEmergencyBackup();
+            await this.createEmergencyBackup
             console.error('Notifying administrators...');
             this.notifyAdministrators(reason);
             console.error('Emergency shutdown complete. Exiting process.');
@@ -727,7 +727,7 @@ describe('Campaign System Rule Validation', () => {
           public loadSynchronousTool(toolName: string): any {
             // Dynamic require should also be allowed
             const toolPath = \`./tools/\${toolName}\`;
-            return require(toolPath);
+            return await require
           }
           
           public loadEnvironmentTool(): any {
@@ -827,12 +827,7 @@ describe('Campaign System Rule Validation', () => {
       
       if (existsSync(campaignControllerPath)) {
         try {
-          const output = execSync(`npx eslint "${campaignControllerPath}" --no-eslintrc --config eslint.config.cjs --format json`, {
-            encoding: 'utf8',
-            cwd: projectRoot
-          });
-
-          const result = JSON.parse(output);
+               await const output = execSync      const result = JSON.parse(output);
           
           if (result.length > 0 && result[0].messages) {
             const restrictiveErrors = result[0].messages.filter((msg: any) => 
@@ -870,12 +865,7 @@ describe('Campaign System Rule Validation', () => {
       
       if (existsSync(progressTrackerPath)) {
         try {
-          const output = execSync(`npx eslint "${progressTrackerPath}" --no-eslintrc --config eslint.config.cjs --format json`, {
-            encoding: 'utf8',
-            cwd: projectRoot
-          });
-
-          const result = JSON.parse(output);
+               await const output = execSync      const result = JSON.parse(output);
           
           if (result.length > 0 && result[0].messages) {
             const restrictiveErrors = result[0].messages.filter((msg: any) => 

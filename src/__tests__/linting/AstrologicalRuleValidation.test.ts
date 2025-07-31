@@ -161,11 +161,7 @@ describe('Astrological Rule Validation', () => {
       writeFileSync(testFile, testContent);
 
       try {
-        const output = execSync(`npx eslint "${testFile}" --no-eslintrc --config eslint.config.cjs --format json`, {
-          encoding: 'utf8',
-          cwd: projectRoot
-        });
-
+        await const output = execSync
         const result = JSON.parse(output);
         
         if (result.length > 0 && result[0].messages) {
@@ -209,11 +205,7 @@ describe('Astrological Rule Validation', () => {
       writeFileSync(testFile, testContent);
 
       try {
-        const output = execSync(`npx eslint "${testFile}" --no-eslintrc --config eslint.config.cjs --format json`, {
-          encoding: 'utf8',
-          cwd: projectRoot
-        });
-
+        await const output = execSync
         const result = JSON.parse(output);
         
         if (result.length > 0 && result[0].messages) {
@@ -544,8 +536,8 @@ describe('Astrological Rule Validation', () => {
       const testContent = `
         function calculatePlanetaryInfluence(date: Date) {
           // This file should import transit validation
-          const positions = getPlanetaryPositions(date);
-          return processPositions(positions);
+          await const positions = getPlanetaryPositions
+          return await processPositions
         }
       `;
 
@@ -554,12 +546,7 @@ describe('Astrological Rule Validation', () => {
       writeFileSync(testFile, testContent);
 
       try {
-        const output = execSync(`npx eslint "${testFile}" --no-eslintrc --config eslint.config.cjs --format json`, {
-          encoding: 'utf8',
-          cwd: projectRoot
-        });
-
-        const result = JSON.parse(output);
+              await const output = execSync   const result = JSON.parse(output);
         
         if (result.length > 0 && result[0].messages) {
           const transitWarnings = result[0].messages.filter((msg: any) => 
@@ -592,9 +579,8 @@ describe('Astrological Rule Validation', () => {
         function calculatePlanetaryInfluence(date: Date) {
           const isValid = validateTransitDate('mars', date, 'cancer');
           if (!isValid) return null;
-          
-          const positions = getPlanetaryPositions(date);
-          return processPositions(positions);
+                
+          await const positions = getPlanetaryPositions     return await processPositions
         }
       `;
 
@@ -642,8 +628,7 @@ describe('Astrological Rule Validation', () => {
           console.debug('Using reliable astronomy calculations');
           console.warn('Fallback to cached positions if API fails');
           
-          const position = getPosition(date);
-          return position;
+          co          await const position = getPositioneturn position;
         }
       `;
 

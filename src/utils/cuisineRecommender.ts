@@ -86,7 +86,7 @@ export function generateTopSauceRecommendations(
     
     // 2. Astrological Match Score (30% weight)
     let astrologicalScore = 0.5; // Base score
-    if (planetaryInfluences && planetaryInfluences.includes(currentPlanetaryDay)) {
+    if (planetaryInfluences?.includes(currentPlanetaryDay)) {
       astrologicalScore = 0.9; // Bonus for matching the planetary day
     }
     if (astrologicalState?.zodiacSign && planetaryInfluences.includes(astrologicalState.zodiacSign)) {

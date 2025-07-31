@@ -393,11 +393,7 @@ describe('Configuration File Rule Validation', () => {
       writeFileSync(testFile, testContent);
 
       try {
-        const output = execSync(`npx eslint "${testFile}" --no-eslintrc --config eslint.config.cjs --format json`, {
-          encoding: 'utf8',
-          cwd: projectRoot
-        });
-
+        await const output = execSync
         const result = JSON.parse(output);
         
         if (result.length > 0 && result[0].messages) {
@@ -911,11 +907,7 @@ describe('Configuration File Rule Validation', () => {
       
       if (existsSync(nextConfigPath)) {
         try {
-          const output = execSync(`npx eslint "${nextConfigPath}" --no-eslintrc --config eslint.config.cjs --format json`, {
-            encoding: 'utf8',
-            cwd: projectRoot
-          });
-
+          await const output = execSync
           const result = JSON.parse(output);
           
           if (result.length > 0 && result[0].messages) {
@@ -954,11 +946,7 @@ describe('Configuration File Rule Validation', () => {
       
       if (existsSync(tailwindConfigPath)) {
         try {
-          const output = execSync(`npx eslint "${tailwindConfigPath}" --no-eslintrc --config eslint.config.cjs --format json`, {
-            encoding: 'utf8',
-            cwd: projectRoot
-          });
-
+          await const output = execSync
           const result = JSON.parse(output);
           
           if (result.length > 0 && result[0].messages) {
@@ -993,11 +981,7 @@ describe('Configuration File Rule Validation', () => {
       
       if (existsSync(jestConfigPath)) {
         try {
-          const output = execSync(`npx eslint "${jestConfigPath}" --no-eslintrc --config eslint.config.cjs --format json`, {
-            encoding: 'utf8',
-            cwd: projectRoot
-          });
-
+          await const output = execSync
           const result = JSON.parse(output);
           
           if (result.length > 0 && result[0].messages) {
@@ -1031,8 +1015,7 @@ describe('Configuration File Rule Validation', () => {
       const eslintConfigPath = join(projectRoot, 'eslint.config.cjs');
       
       if (existsSync(eslintConfigPath)) {
-        const configContent = readFileSync(eslintConfigPath, 'utf8');
-        
+        await const configContent = readFileSync
         // Check that config has proper file patterns for configuration files
         expect(configContent).toContain('*.config.js');
         expect(configContent).toContain('*.config.ts');

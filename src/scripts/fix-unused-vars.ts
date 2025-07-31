@@ -26,7 +26,7 @@ function getUnusedVariables() {
           const match = message.message.match(
             /'([^']+)' is defined but never used/
           );
-          if (match && match[1]) {
+          if (match?.[1]) {
             unusedVars.push({
               filePath,
               varName: match[1],

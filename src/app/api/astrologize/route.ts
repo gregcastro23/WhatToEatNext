@@ -162,7 +162,7 @@ function extractPlanetaryPositions(data: Record<string, unknown>): Record<string
       
       Object.entries(planetMap).forEach(([apiKey, planetName]) => {
         const planetData = celestialBodies[apiKey];
-        if (planetData && planetData.Sign && planetData.ChartPosition) {
+        if (planetData?.Sign && planetData.ChartPosition) {
           const sign = planetData.Sign.key?.toLowerCase();
           const arcDegrees = planetData.ChartPosition.Ecliptic?.ArcDegrees;
           const decimalDegrees = planetData.ChartPosition.Ecliptic?.DecimalDegrees;

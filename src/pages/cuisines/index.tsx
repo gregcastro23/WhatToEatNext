@@ -47,7 +47,7 @@ const CuisinesIndexPage = () => {
   // Get main cuisines (excluding regional variations for the main list)
   const mainCuisines = allCuisines.filter(cuisine => {
     const profile = cuisineFlavorProfiles[cuisine.id];
-    return !profile.parentCuisine; // Only include cuisines that don't have a parent
+    return profile && !profile.parentCuisine; // Only include cuisines that don't have a parent
   });
 
   return (

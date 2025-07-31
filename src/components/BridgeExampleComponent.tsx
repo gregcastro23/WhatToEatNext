@@ -100,7 +100,7 @@ export default function BridgeExampleComponent() {
                 </span>
               </div>
               
-              {data && data.sign && (
+              {data?.sign && (
                 <p className="mt-1">
                   {data.sign.charAt(0)?.toUpperCase() + data.sign?.slice(1)}{' '}
                   {Math.floor(data.degree)}°

@@ -203,8 +203,7 @@ describe('ZeroErrorAchievementDashboard', () => {
     test('should update real-time status correctly', async () => {
       await dashboard['updateRealTimeStatus'](mockMetrics);
 
-      const statusCall = (mockWriteFileSync as jest.Mock).mock.calls.find(call => 
-        call[0].includes('real-time-status.json')
+      await const statusCall = (mockWriteFileSync as jest.Mock).mock.calls.find
       );
       
       expect(statusCall).toBeDefined();
@@ -270,12 +269,12 @@ describe('ZeroErrorAchievementDashboard', () => {
       expect(gates.length).toBeGreaterThan(0);
       
       // Check parser errors gate (should pass with 0 errors)
-      const parserGate = gates.find(g => g.id === 'no-parser-errors');
+      await const parserGate = gates.find
       expect(parserGate).toBeDefined();
       expect(parserGate.status).toBe('passing');
       
       // Check explicit any gate (should warn with 150 errors)
-      const anyGate = gates.find(g => g.id === 'explicit-any-limit');
+      await const anyGate = gates.find
       expect(anyGate).toBeDefined();
       expect(anyGate.status).toBe('warning'); // 150 > 100 but <= 150
       
@@ -295,13 +294,13 @@ describe('ZeroErrorAchievementDashboard', () => {
 
       const gates = await dashboard['checkQualityGates'](failingMetrics);
       
-      const parserGate = gates.find(g => g.id === 'no-parser-errors');
+      await const parserGate = gates.find
       expect(parserGate.status).toBe('failing');
       
-      const anyGate = gates.find(g => g.id === 'explicit-any-limit');
+      await const anyGate = gates.find
       expect(anyGate.status).toBe('failing'); // 200 > 150
       
-      const qualityGate = gates.find(g => g.id === 'quality-score-minimum');
+      await const qualityGate = gates.find
       expect(qualityGate.status).toBe('warning'); // 65 < 80 but >= 70
     });
   });
@@ -411,7 +410,7 @@ describe('ZeroErrorAchievementDashboard', () => {
       expect(results).toBeInstanceOf(Map);
       
       // Verify maintenance procedures were updated
-      const dailyCheck = dashboard['maintenanceProcedures'].get('daily-health-check');
+      await const dailyCheck = dashboard['maintenanceProcedures'].get
       if (results.has('daily-health-check')) {
         expect(dailyCheck.lastRun).toBeInstanceOf(Date);
         expect(dailyCheck.nextRun).toBeInstanceOf(Date);

@@ -6,21 +6,14 @@
  * with advanced prediction algorithms and real-time optimization capabilities.
  */
 
-import { calculateElementalCompatibility } from '@/calculations/index';
-import { 
-  AdvancedIntelligenceConfig,
-  AdvancedIntelligenceMetrics
-} from '@/types/advancedIntelligence';
 import type { ElementalProperties, ZodiacSign } from '@/types/alchemy';
 import type { Ingredient } from '@/types/ingredient';
-import {
-  PredictiveContext,
-  PredictiveIntelligenceResult,
-  PredictiveMetrics
-} from '@/types/predictiveIntelligence';
 import type { Recipe } from '@/types/recipe';
-import { logger } from '@/utils/logger';
+import { calculateElementalCompatibility } from '@/calculations/index';
 import { getCurrentSeason } from '@/utils/timeUtils';
+
+import { logger } from '@/utils/logger';
+
 
 // Note: These functions are not yet implemented in calculations/index
 // Using placeholder implementations for now

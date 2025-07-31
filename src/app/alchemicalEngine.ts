@@ -35,7 +35,7 @@ const alchemicalEngine = {
         
         // Try to extract the variable name from the error message
         const match = error.message.match(/Assignment to constant variable: (.+)/);
-        if (match && match[1]) {
+        if (match?.[1]) {
           console.error(`Attempted to reassign constant variable: ${match[1]}`);
         }
       }

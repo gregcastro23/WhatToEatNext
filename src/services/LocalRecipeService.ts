@@ -255,7 +255,7 @@ export class LocalRecipeService {
                     normalizedName.includes(c.name.toLowerCase())
         );
         
-        if (byIdMatch && byIdMatch[1]) {
+        if (byIdMatch?.[1]) {
           return await this.getRecipesFromCuisine(byIdMatch[1] as ExtendedCuisine);
         }
         
@@ -413,7 +413,7 @@ export class LocalRecipeService {
             logger.debug(`Found ${seasonRecipes.length} dishes for ${season} in ${mealType}`);
             // Add only unique recipes based on name to avoid duplicates from 'all' merging
             seasonRecipes.forEach(dish => {
-              if (dish && dish.name && !recipes.some(r => r.name === dish.name)) {
+              if (dish?.name && !recipes.some(r => r.name === dish.name)) {
                 recipes.push(this.standardizeRecipe(dish, cuisine.name, [season], [mealType]));
               }
             });
@@ -437,9 +437,9 @@ export class LocalRecipeService {
               mealType: key,
               hasValue: !!value,
               seasonKeys: value ? Object.keys(value) : [],
-              hasAll: !!(value && value.all),
-              allIsArray: !!(value && value.all && Array.isArray(value.all)),
-              allLength: value && value.all && Array.isArray(value.all) ? value?.all?.length : 0
+              hasAll: !!(value?.all),
+              allIsArray: !!(value?.all && Array.isArray(value.all)),
+              allLength: value?.all && Array.isArray(value.all) ? value?.all?.length : 0
             }))
           }, null, 2)
         );
@@ -671,7 +671,7 @@ export class LocalRecipeService {
               ? ingredient 
               : ingredient.name;
             
-            if (ingredientName && ingredientName.toLowerCase().includes(normalizedQuery)) {
+            if (ingredientName?.toLowerCase().includes(normalizedQuery)) {
               return true;
             }
           }

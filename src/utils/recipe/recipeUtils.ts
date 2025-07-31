@@ -211,7 +211,7 @@ export function getRecipeCookingTime(recipe: Recipe): number {
   if (typeof recipeData.timeToMake === 'string') {
     // Try to extract number from string like "30 minutes"
     const match = recipeData.timeToMake.match(/(\d+)/);
-    if (match && match[1]) {
+    if (match?.[1]) {
       return parseInt(match[1], 10);
     }
   }

@@ -1,39 +1,20 @@
 // Type Harmony imports
 
 // Internal imports - constants
-import { DEFAULT_ELEMENTAL_PROPERTIES } from '@/constants/defaults';
-import { planetInfo } from '@/constants/planetInfo';
-import { PLANETARY_MODIFIERS, RulingPlanet } from '@/constants/planets';
-// Internal imports - data
 import signs, { signInfo } from '@/data/astrology';
-import { culinaryTraditions } from '@/data/cuisines/culinaryTraditions';
-import { seasonalPatterns } from '@/data/integrations/seasonalPatterns';
-import { recipeElementalMappings } from '@/data/recipes/elementalMappings';
-// Internal imports - services
-import { log } from '@/services/LoggingService';
-// Internal imports - types
-import type {
-  Element,
-  ElementalProperties,
-  LunarPhase,
-  ZodiacSign,
-  AstrologicalState,
-  AlchemicalCalculationResult,
-  ElementalAffinity,
-  _AstrologicalInfluence,
-  Season,
-  RecipeHarmonyResult,
-  LunarPhaseWithSpaces,
-  StandardizedAlchemicalResult,
-  BirthInfo as UnifiedBirthInfo
-} from '@/types/alchemy';
 import type { ChakraEnergies, ChakraPosition } from '@/types/chakra';
 import type { PlanetPosition } from '@/types/unified';
-// Internal imports - utils
+import { DEFAULT_ELEMENTAL_PROPERTIES } from '@/constants/defaults';
+import { PLANETARY_MODIFIERS, RulingPlanet } from '@/constants/planets';
+import { culinaryTraditions } from '@/data/cuisines/culinaryTraditions';
 import { getAccuratePlanetaryPositions } from '@/utils/accurateAstronomy';
-import { logger } from '@/utils/logger';
-import { validateTransitDate as _validateTransitDate } from '@/utils/transitValidation';
 import { getZodiacElementalInfluence } from '@/utils/zodiacUtils';
+
+import { log } from '@/services/LoggingService';
+import { logger } from '@/utils/logger';
+import { planetInfo } from '@/constants/planetInfo';
+import { recipeElementalMappings } from '@/data/recipes/elementalMappings';
+import { seasonalPatterns } from '@/data/integrations/seasonalPatterns';
 
 // Import planetary and sign data for alchemical calculations
 // Note: Removed circular import - these constants should be defined locally or in a separate constants file
@@ -975,7 +956,7 @@ export function alchemize(
       attributes: [] as Array<{trait_type: string; value: string}> // Add type annotation
     };
     
-    // Initialize alchemical info with default values - use let since it's modified later
+    // Initialize alchemical info with default values - use let UNUSED_since it's modified later
     const alchmInfo = {
       'Sun Sign': '',
       'Major Arcana': {
@@ -1056,7 +1037,7 @@ export function alchemize(
       const _risingSign = (signData && typeof signData === 'object' && 'label' in signData ? (signData as Record<string, unknown>).label : null) || "Aries";
       
       // SAFELY update planet info with correct typing
-      if (alchmInfo && alchmInfo['Planets'] && 'Ascendant' in alchmInfo['Planets']) {
+      if (alchmInfo?.['Planets'] && 'Ascendant' in alchmInfo['Planets']) {
         const ascendantInfo = alchmInfo['Planets']['Ascendant'] as Record<string, unknown>;
         if (typeof ascendantInfo === 'object') {
           ascendantInfo['Diurnal Element'] = signInfo[rising_sign]?.element || 'Air';
@@ -1065,7 +1046,7 @@ export function alchemize(
       }
       
       // SAFELY update alchmInfo
-      if (alchmInfo && alchmInfo['Major Arcana']) {
+      if (alchmInfo?.['Major Arcana']) {
         alchmInfo['Major Arcana']['Ascendant'] = signInfo[rising_sign]?.['Major Tarot Card'] || '';
       }
     } catch (error) {
@@ -1162,7 +1143,7 @@ export function alchemize(
             }
             
             // Safely update modality counts
-            if (alchmInfo && alchmInfo['# ' + modality] !== undefined) {
+            if (alchmInfo?.['# ' + modality] !== undefined) {
               alchmInfo['# ' + modality] = (alchmInfo['# ' + modality] || 0) + 1;
             }
           }
@@ -1807,7 +1788,7 @@ function calculateZodiacEnergies(
       let sign: string | null = null;
       
       // Check for data in expected format from accurate astronomy
-      if ('Sign' in data && data.Sign && typeof data.Sign === 'object' && 'label' in data.Sign) {
+      if ('Sign' in data?.Sign && typeof data.Sign === 'object' && 'label' in data.Sign) {
         const signLabel = data.Sign.label;
         if (typeof signLabel === 'string') {
           sign = signLabel.toLowerCase();
@@ -1934,7 +1915,7 @@ function calculateChakraEnergies(
       }
       
       const chakras = zodiacToChakraMap[sign];
-      if (chakras && chakras.length > 0) {
+      if (chakras?.length > 0) {
         // Distribute energy across linked chakras
         const energyPerChakra = energy / chakras.length;
         

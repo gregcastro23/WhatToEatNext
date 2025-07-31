@@ -101,7 +101,7 @@ export function CookingMethodsSectionMigrated({ methods,
   
   // Auto-expand the section if we have methods and a pre-selected method
   useEffect(() => {
-    if (methods && methods.length > 0) {
+    if (methods?.length > 0) {
       // Always keep expanded if ≤5 methods
       if (methods.length <= 5) {
         setIsExpanded(true);
@@ -212,7 +212,7 @@ export function CookingMethodsSectionMigrated({ methods,
   
   const toggleExpanded = () => {
     // Only allow toggling if there are more than 5 methods
-    if (methods && methods.length > 5) {
+    if (methods?.length > 5) {
       setIsExpanded(prev => !prev);
     }
   };

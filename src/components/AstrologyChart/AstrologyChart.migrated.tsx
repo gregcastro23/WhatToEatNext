@@ -149,8 +149,7 @@ const AstrologyChartMigrated: React.FC<AstrologyChartProps> = ({
       return [];
     }
     return (aspectsData || []).filter(aspect => 
-      aspect && 
-      aspect.type && 
+      aspect?.type && 
       ['conjunction', 'opposition', 'trine', 'square'].includes(aspect.type) &&
       aspect.planet1 && aspect.planet2 &&
       ['Sun', 'Moon', 'Mercury', 'Venus', 'Mars', 'Jupiter', 'Saturn', 'Uranus', 'Neptune', 'Pluto', 'Rising'].includes(aspect.planet1) &&

@@ -935,7 +935,7 @@ export function alchemize(planetaryPositions: Record<string, PlanetaryPosition>,
       const solarData = planetDataObj.PlanetSpecific.Solar;
       const transitData = solarData.ZodiacTransit[sign];
       
-      if (transitData && transitData.Elements) {
+      if (transitData?.Elements) {
         // Boost elements based on Sun's position
         Object.entries(transitData.Elements).forEach(([elemKey, value]) => {
           const elem = elemKey.toLowerCase();

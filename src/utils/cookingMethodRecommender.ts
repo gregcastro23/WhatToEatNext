@@ -243,7 +243,7 @@ export function getMethodThermodynamics(method: CookingMethodProfile): BasicTher
   // 1. Check the detailed data source first
   // ✅ Pattern KK-1: Safe type conversion for cooking method lookup
   const detailedMethodData = detailedCookingMethods[methodNameLower as keyof typeof detailedCookingMethods];
-  if (detailedMethodData && detailedMethodData.thermodynamicProperties) {
+  if (detailedMethodData?.thermodynamicProperties) {
     const thermoProps = detailedMethodData.thermodynamicProperties;
     return {
       heat: Number(thermoProps.heat) || 0.5,
@@ -786,7 +786,7 @@ export async function getRecommendedCookingMethods(
       
       // Calculate planetary day influence (35% of astrological score)
       let planetaryDayScore = 0;
-      if (planets && planets.length > 0) {
+      if (planets?.length > 0) {
         // Get the current day of the week
         const dayOfWeek = new Date().getDay();
         const weekDays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
@@ -808,7 +808,7 @@ export async function getRecommendedCookingMethods(
       
       // Calculate planetary hour influence (20% of astrological score)
       let planetaryHourScore = 0;
-      if (planets && planets.length > 0) {
+      if (planets?.length > 0) {
         // Simple approximation for the planetary hour
         // For a real app, you should use an accurate calculation based on sunrise/sunset
         const now = new Date();
@@ -842,7 +842,7 @@ export async function getRecommendedCookingMethods(
       
       // Add weighted planetary scores to the astrological score
       // Elemental match: 45%, Planetary day: 35%, Planetary hour: 20%
-      if (planets && planets.length > 0) {
+      if (planets?.length > 0) {
         // Base zodiac score already calculated (worth 45% of astrological score)
         // Add planetary day influence (35%)
         astrologicalScore += planetaryDayScore * 0.35;

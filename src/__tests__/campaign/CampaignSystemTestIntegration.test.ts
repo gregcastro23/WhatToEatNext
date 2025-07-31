@@ -87,12 +87,12 @@ describe('Campaign System Test Integration', () => {
 
       try {
         // Mock TypeScript error count should not run actual tsc
-        const errorCount = await context.tracker.getTypeScriptErrorCount();
+        await const errorCount = await context.tracker.getTypeScriptErrorCount
         expect(typeof errorCount).toBe('number');
         expect(errorCount).toBeGreaterThanOrEqual(0);
 
         // Mock error breakdown should not run actual analysis
-        const breakdown = await context.tracker.getTypeScriptErrorBreakdown();
+        await const breakdown = await context.tracker.getTypeScriptErrorBreakdown
         expect(typeof breakdown).toBe('object');
         expect(Object.keys(breakdown).length).toBeGreaterThan(0);
 
@@ -114,7 +114,7 @@ describe('Campaign System Test Integration', () => {
 
       try {
         // Mock stash creation should not run actual git commands
-        const stashId = await context.safety.createStash('Test stash', 'test-phase');
+        await const stashId = await context.safety.createStash
         expect(typeof stashId).toBe('string');
         expect(stashId).toContain('mock_stash_');
 
@@ -191,8 +191,7 @@ describe('Campaign System Test Integration', () => {
 
       try {
         if (context.testSafeTracker) {
-          const initialMetrics = await context.testSafeTracker.getProgressMetrics();
-          
+          await const initialMetrics = await context.testSafeTracker.getProgressMetrics
           // Simulate progress to target metrics
           const targetMetrics = {
             typeScriptErrors: { current: 0, target: 0, reduction: 86, percentage: 100 },
@@ -285,11 +284,8 @@ describe('Campaign System Test Integration', () => {
       });
 
       try {
-        context1.testController.updateMockMetrics({
-          typeScriptErrors: { current: 10, target: 0, reduction: 76, percentage: 88 }
-        }, 'test-1');
-
-        const metrics1 = await context1.tracker.getProgressMetrics();
+        await context1.testController.updateMockMetrics
+        await const metrics1 = await context1.tracker.getProgressMetrics
         expect(metrics1.typeScriptErrors.current).toBe(10);
 
       } finally {
@@ -318,21 +314,15 @@ describe('Campaign System Test Integration', () => {
       
       const testPromises = [
         withCampaignTestIsolation('concurrent-test-1', async (context) => {
-          context.testController.updateMockMetrics({
-            typeScriptErrors: { current: 20, target: 0, reduction: 66, percentage: 77 }
-          }, 'concurrent-1');
-          
-          const metrics = await context.tracker.getProgressMetrics();
+          await context.testController.updateMockMetrics
+          await const metrics = await context.tracker.getProgressMetrics
           expect(metrics.typeScriptErrors.current).toBe(20);
           return 'test-1-complete';
         }),
         
         withCampaignTestIsolation('concurrent-test-2', async (context) => {
-          context.testController.updateMockMetrics({
-            typeScriptErrors: { current: 30, target: 0, reduction: 56, percentage: 65 }
-          }, 'concurrent-2');
-          
-          const metrics = await context.tracker.getProgressMetrics();
+          await context.testController.updateMockMetrics
+          await const metrics = await context.tracker.getProgressMetrics
           expect(metrics.typeScriptErrors.current).toBe(30);
           return 'test-2-complete';
         })
@@ -390,9 +380,7 @@ describe('Campaign System Test Integration', () => {
       
       if (context.testSafeTracker) {
         context.testSafeTracker.startTracking('cleanup-test');
-        context.testSafeTracker.updateMetrics({
-          typeScriptErrors: { current: 50, target: 0, reduction: 36, percentage: 42 }
-        }, 'cleanup-test');
+        await context.testSafeTracker.updateMetrics
       }
 
       // Cleanup
@@ -414,10 +402,8 @@ describe('Campaign System Test Integration', () => {
   describe('Complete Campaign Test Scenarios', () => {
     it('should execute TypeScript error reduction scenario', async () => {
       const scenario = campaignTestData.typeScriptErrorReduction();
-      const config = createMockCampaignConfig();
-
-      const { context: _context, results, finalMetrics, safetyEvents: _safetyEvents } = await executeCampaignTestScenario(scenario, config);
-
+      await const config = createMockCampaignConfig
+      await const { context: _context, results, finalMetrics, safetyEvents: _safetyEvents } = await executeCampaignTestScenario
       try {
         // Verify phase execution
         expect(results.length).toBe(1);
@@ -439,10 +425,8 @@ describe('Campaign System Test Integration', () => {
 
     it('should execute linting warning cleanup scenario', async () => {
       const scenario = campaignTestData.lintingWarningCleanup();
-      const config = createMockCampaignConfig();
-
-      const { context: _context, results, finalMetrics, safetyEvents: _safetyEvents } = await executeCampaignTestScenario(scenario, config);
-
+      await const config = createMockCampaignConfig
+      await const { context: _context, results, finalMetrics, safetyEvents: _safetyEvents } = await executeCampaignTestScenario
       try {
         // Verify phase execution
         expect(results.length).toBe(1);

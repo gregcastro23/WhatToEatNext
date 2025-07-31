@@ -1,17 +1,21 @@
 import { Flame, Droplets, Mountain, Wind, Clock, Tag, Leaf, X, ChevronDown, ChevronUp, Beaker, Brain, ExternalLink } from 'lucide-react';
-import { useRouter } from 'next/navigation';
 import { useEffect, useState, useMemo } from 'react';
 
 
+import { useRouter } from 'next/navigation';
+
+
 import EnterpriseIntelligencePanel from '@/components/intelligence/EnterpriseIntelligencePanel';
+import type { Ingredient , UnifiedIngredient } from '@/types/ingredient';
+import { ElementalCalculator } from '@/services/ElementalCalculator';
+import { ElementalProperties } from '@/types/alchemy';
+import { getChakraBasedRecommendations, GroupedIngredientRecommendations, getIngredientRecommendations, IngredientRecommendation } from '@/utils/ingredientRecommender';
+
 import { herbsCollection, oilsCollection, vinegarsCollection } from '@/data/ingredients';
+import { log } from '@/services/LoggingService';
 import { useAstrologicalState } from '@/hooks/useAstrologicalState';
 import { useChakraInfluencedFood } from '@/hooks/useChakraInfluencedFood';
-import { ElementalCalculator } from '@/services/ElementalCalculator';
-import { log } from '@/services/LoggingService';
-import { ElementalProperties } from '@/types/alchemy';
-import type { Ingredient , UnifiedIngredient } from '@/types/ingredient';
-import { getChakraBasedRecommendations, GroupedIngredientRecommendations, getIngredientRecommendations, IngredientRecommendation } from '@/utils/ingredientRecommender';
+
 
 // Props interface for IngredientRecommender
 interface IngredientRecommenderProps {
@@ -444,7 +448,7 @@ export default function IngredientRecommender({
     };
 
     // Add food recommendations first (they are already categorized)
-    if (foodRecommendations && foodRecommendations.length > 0) {
+    if (foodRecommendations?.length > 0) {
       foodRecommendations.forEach(ingredient => {
         const name = ingredient.name.toLowerCase();
         

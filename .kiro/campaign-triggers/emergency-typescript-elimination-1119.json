@@ -48,23 +48,40 @@
       "tool": "EnhancedErrorFixerIntegration",
       "priority": "high",
       "successRate": "92%",
-      "targetErrors": ["TS2352", "TS2304", "TS2339"]
+      "targetErrors": [
+        "TS2352",
+        "TS2304",
+        "TS2339"
+      ]
     },
     {
       "tool": "TypeSafetyValidator",
-      "priority": "high", 
+      "priority": "high",
       "successRate": "88%",
-      "targetErrors": ["TS2345", "TS2322"]
+      "targetErrors": [
+        "TS2345",
+        "TS2322"
+      ]
     },
     {
       "tool": "NullSafetyEnforcer",
       "priority": "medium",
       "successRate": "90%",
-      "targetErrors": ["TS18048", "TS18046", "TS18047"]
+      "targetErrors": [
+        "TS18048",
+        "TS18046",
+        "TS18047"
+      ]
     }
   ],
   "estimatedDuration": "3-4 phases over 2-3 days",
   "riskAssessment": "HIGH - Large error count requires careful batch processing",
   "approvalRequired": true,
-  "triggerReason": "Error count (1,119) exceeds critical threshold (100) by 1,019 errors"
+  "triggerReason": "Error count (1,119) exceeds critical threshold (100) by 1,019 errors",
+  "filePath": "/Users/GregCastro/Desktop/WhatToEatNext/.kiro/campaign-triggers/emergency-typescript-elimination-1119.json",
+  "fileName": "emergency-typescript-elimination-1119.json",
+  "lastMetrics": {
+    "timestamp": "2025-07-31T21:16:51.518Z"
+  },
+  "lastUpdated": "2025-07-31T21:16:51.520Z"
 }

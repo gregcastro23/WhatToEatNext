@@ -12,7 +12,7 @@ export const IngredientDisplay = ({ ingredient, showDetails = false }: Ingredien
   // Safe accessor function for nested properties
   const safeGet = (obj: unknown, path: string, defaultValue: unknown = 'N/A') => {
     return path.split('.').reduce((prev, curr) => {
-      return prev && prev[curr] !== undefined ? prev[curr] : undefined;
+      return prev?.[curr] !== undefined ? prev[curr] : undefined;
     }, obj) ?? defaultValue;
   };
 

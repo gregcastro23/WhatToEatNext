@@ -94,7 +94,10 @@
     "performance:report": "node src/scripts/runPerformanceValidation.js report",
     "performance:test": "node src/scripts/runPerformanceValidation.js test",
     "performance:baseline": "node src/scripts/runPerformanceValidation.js monitor --baseline",
-    "performance:trends": "node src/scripts/runPerformanceValidation.js report --trends"
+    "performance:trends": "node src/scripts/runPerformanceValidation.js report --trends",
+    "auto-fix": "node fix-file-on-save.cjs",
+    "auto-fix:watch": "node src/scripts/watch-and-fix.cjs",
+    "auto-fix:watch-all": "node src/scripts/watch-and-fix.cjs ."
   },
   "dependencies": {
     "@emotion/react": "^11.11.1",

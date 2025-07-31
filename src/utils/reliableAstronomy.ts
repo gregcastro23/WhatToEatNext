@@ -28,8 +28,7 @@ export async function getReliablePlanetaryPositions(date: Date = new Date()): Pr
     const dateString = date.toISOString().split('T')[0];
     
     // Check cache first
-    if (positionsCache && 
-        positionsCache.date === dateString && 
+    if (positionsCache?.date === dateString && 
         (Date.now() - positionsCache.timestamp) < CACHE_DURATION) {
       logger.debug('Using cached planetary positions');
       return positionsCache.positions;
@@ -176,7 +175,7 @@ async function fetchHorizonsData(date: Date): Promise<Record<string, unknown>> {
         const data = await response.json();
         
         // Process and extract the ecliptic longitude from the response
-        if (data && data.result) {
+        if (data?.result) {
           const result = processHorizonsResponse(data.result, planet.name);
           if (result) {
             positions[planet.name] = result;
@@ -236,7 +235,7 @@ function processHorizonsResponse(result: string, planetName: string): unknown {
     
     // Check for retrograde motion
     const retroLine = lines.find(line => line.includes('retrograde'));
-    const isRetrograde = !!retroLine && retroLine.includes('Yes');
+    const isRetrograde = !!retroLine?.includes('Yes');
     
     return {
       sign,
@@ -510,7 +509,7 @@ async function fetchTimeAndDateData(date: Date): Promise<Record<string, unknown>
       // Process the response
       const positions: Record<string, unknown> = {};
       
-      if (data && data.objects && Array.isArray(data.objects)) {
+      if (data?.objects && Array.isArray(data.objects)) {
         data.objects.forEach((obj: unknown) => {
           const objData = obj as any;
           if (objData?.name && objData?.position && typeof objData.position?.eclipticLongitude === 'number') {

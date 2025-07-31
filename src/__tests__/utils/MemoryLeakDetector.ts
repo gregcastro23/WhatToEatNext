@@ -255,7 +255,7 @@ export class MemoryLeakDetector {
 
     try {
       // Fix 5: Reset Jest modules
-      if (jest && jest.resetModules) {
+      if (jest?.resetModules) {
         jest.resetModules();
         fixed.push('Reset Jest modules');
       }

@@ -296,7 +296,7 @@ export function alchemize(
     }
     
     // Adjust for retrograde
-    if (planetData.isRetrograde || (retrogrades && retrogrades[planetName])) {
+    if (planetData.isRetrograde || (retrogrades?.[planetName])) {
       planetWeight *= 0.8; // Reduce influence when retrograde
     }
     

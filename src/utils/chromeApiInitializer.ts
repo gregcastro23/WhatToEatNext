@@ -39,7 +39,7 @@ export function initializeChromeApis(): void {
           log.info('[ChromeAPI] Mocked chrome.tabs.create called with:', options);
           
           // Safely handle URL opening
-          if (options && options.url) {
+          if (options?.url) {
             try {
               // Use timeout to avoid popup blockers
               setTimeout(() => {

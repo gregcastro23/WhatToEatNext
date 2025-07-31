@@ -796,7 +796,7 @@ export class ElementalCalculator {
     // Extract all planet keys
     const planetKeys = Object.keys(planets).filter(key => 
       typeof planets[key] === 'object' && planets[key] !== null && 
-      (planetInfo && planetInfo[key] || false)
+      (planetInfo?.[key] || false)
     );
     
     // Process each planet

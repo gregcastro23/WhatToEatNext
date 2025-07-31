@@ -471,7 +471,7 @@ describe('Main Page E2E Workflows', () => {
     });
 
     // Step 1: Select a cuisine
-    const italianCuisine = screen.getByTestId('cuisine-italian');
+    await const italianCuisine = screen.getByTestId
     await user.click(italianCuisine);
 
     // Verify cuisine selection and recipe recommendations appear
@@ -560,7 +560,7 @@ describe('Main Page E2E Workflows', () => {
     });
 
     // Expand ingredient details
-    const expandTomatoes = screen.getByTestId('expand-tomatoes');
+    await const expandTomatoes = screen.getByTestId
     await user.click(expandTomatoes);
 
     // Verify details are shown
@@ -601,7 +601,7 @@ describe('Main Page E2E Workflows', () => {
     });
 
     // Select different cooking methods and view details
-    const roastMethod = screen.getByTestId('method-roast');
+    await const roastMethod = screen.getByTestId
     await user.click(roastMethod);
 
     expect(screen.getByTestId('method-details-roast')).toBeInTheDocument();
@@ -634,12 +634,12 @@ describe('Main Page E2E Workflows', () => {
     });
 
     // Create a complete recipe from scratch
-    const recipeNameInput = screen.getByTestId('recipe-name-input');
+    await const recipeNameInput = screen.getByTestId
     await user.type(recipeNameInput, 'Mediterranean Chicken');
 
     // Update recipe metadata
-    const servingsInput = screen.getByTestId('servings-input');
-    const prepTimeInput = screen.getByTestId('prep-time-input');
+    await const servingsInput = screen.getByTestId
+    await const prepTimeInput = screen.getByTestId
     const cookTimeInput = screen.getByTestId('cook-time-input');
 
     await user.clear(servingsInput);
@@ -727,7 +727,7 @@ describe('Main Page E2E Workflows', () => {
     await user.click(screen.getByTestId('method-sauté'));
 
     // Navigate between sections
-    const cuisineNavButton = screen.getByText('Cuisine Recommendations');
+    await const cuisineNavButton = screen.getByText
     await user.click(cuisineNavButton);
     expect(mockOnSectionNavigate).toHaveBeenCalledWith('cuisine');
 
@@ -761,7 +761,7 @@ describe('Main Page E2E Workflows', () => {
     });
 
     // Simulate user creating a recipe and encountering an error
-    const recipeNameInput = screen.getByTestId('recipe-name-input');
+    await const recipeNameInput = screen.getByTestId
     await user.type(recipeNameInput, 'Test Recipe');
 
     // Add ingredient

@@ -149,7 +149,7 @@ const transformCuisineData = async (): Promise<RecipeData[]> => {
       
       // Handle dishes
       const cuisineDataObj = cuisineData as unknown as Record<string, unknown>;
-      if (cuisineDataObj && cuisineDataObj.dishes && typeof cuisineDataObj.dishes === 'object') {
+      if (cuisineDataObj?.dishes && typeof cuisineDataObj.dishes === 'object') {
         // Log the dishes structure to debug
         logger.debug(`${cuisineName} dishes:`, Object.keys(cuisineDataObj.dishes));
         
@@ -384,7 +384,7 @@ export const getDominantPlanetaryInfluence = (recipe: RecipeData): string | null
 export const getRecommendedCookingTechniques = (recipe: RecipeData): string[] => {
   // First try to get techniques from cuisine profile
   const cuisineProfile = recipe.cuisine ? getCuisineProfile(recipe.cuisine) : null;
-  if (cuisineProfile && cuisineProfile.signatureTechniques) {
+  if (cuisineProfile?.signatureTechniques) {
     return [...cuisineProfile.signatureTechniques];
   }
 
@@ -531,7 +531,7 @@ export const getBestRecipeMatches = async (
       
       logger.debug(`getRecipesForCuisineMatch returned ${matchedCuisineRecipes.length} recipes`);
       
-      if (matchedCuisineRecipes && matchedCuisineRecipes.length > 0) {
+      if (matchedCuisineRecipes?.length > 0) {
         // Convert the recipes to ensure they match RecipeData format
         const formattedRecipes = matchedCuisineRecipes.map(recipe => {
           const recipeData = recipe as Record<string, unknown>;

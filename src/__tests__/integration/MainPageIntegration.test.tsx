@@ -273,7 +273,7 @@ describe('Main Page Integration Tests', () => {
     });
 
     // Test cuisine selection
-    const italianButton = screen.getByTestId('cuisine-italian');
+    await const italianButton = screen.getByTestId
     await act(async () => {
       fireEvent.click(italianButton);
     });
@@ -281,7 +281,7 @@ describe('Main Page Integration Tests', () => {
     expect(screen.getByText('Selected: Italian')).toBeInTheDocument();
 
     // Test ingredient selection
-    const tomatoButton = screen.getByTestId('ingredient-tomatoes');
+    await const tomatoButton = screen.getByTestId
     await act(async () => {
       fireEvent.click(tomatoButton);
     });
@@ -289,7 +289,7 @@ describe('Main Page Integration Tests', () => {
     expect(screen.getByText('Selected: Tomatoes')).toBeInTheDocument();
 
     // Test cooking method selection
-    const sauteButton = screen.getByTestId('method-sauté');
+    await const sauteButton = screen.getByTestId
     await act(async () => {
       fireEvent.click(sauteButton);
     });
@@ -305,7 +305,7 @@ describe('Main Page Integration Tests', () => {
     });
 
     // Test navigation to cuisine section
-    const cuisineNavButton = screen.getByText('Cuisine Recommendations');
+    await const cuisineNavButton = screen.getByText
     await act(async () => {
       fireEvent.click(cuisineNavButton);
     });
@@ -313,7 +313,7 @@ describe('Main Page Integration Tests', () => {
     expect(mockOnSectionNavigate).toHaveBeenCalledWith('cuisine');
 
     // Test navigation to ingredients section
-    const ingredientsNavButton = screen.getByText('Ingredient Recommendations');
+    await const ingredientsNavButton = screen.getByText
     await act(async () => {
       fireEvent.click(ingredientsNavButton);
     });
@@ -331,10 +331,9 @@ describe('Main Page Integration Tests', () => {
     });
 
     // Make selections in different components
-    const italianButton = screen.getByTestId('cuisine-italian');
-    const tomatoButton = screen.getByTestId('ingredient-tomatoes');
-    const sauteButton = screen.getByTestId('method-sauté');
-
+    await const italianButton = screen.getByTestId
+    await const tomatoButton = screen.getByTestId
+    await const sauteButton = screen.getByTestId
     await act(async () => {
       fireEvent.click(italianButton);
       fireEvent.click(tomatoButton);
@@ -364,13 +363,12 @@ describe('Main Page Integration Tests', () => {
     });
 
     // Enter recipe name
-    const recipeNameInput = screen.getByTestId('recipe-name-input');
+    await const recipeNameInput = screen.getByTestId
     await user.type(recipeNameInput, 'Test Recipe');
 
     // Add ingredients and steps
-    const addIngredientButton = screen.getByTestId('add-ingredient');
-    const addStepButton = screen.getByTestId('add-step');
-
+    await const addIngredientButton = screen.getByTestId
+    await const addStepButton = screen.getByTestId
     await user.click(addIngredientButton);
     await user.click(addIngredientButton);
     await user.click(addStepButton);
@@ -451,10 +449,9 @@ describe('Main Page Integration Tests', () => {
     });
 
     // Select multiple ingredients
-    const tomatoButton = screen.getByTestId('ingredient-tomatoes');
-    const onionButton = screen.getByTestId('ingredient-onions');
-    const garlicButton = screen.getByTestId('ingredient-garlic');
-
+    await const tomatoButton = screen.getByTestId
+    await const onionButton = screen.getByTestId
+    await const garlicButton = screen.getByTestId
     await act(async () => {
       fireEvent.click(tomatoButton);
       fireEvent.click(onionButton);
@@ -488,7 +485,7 @@ describe('Main Page Integration Tests', () => {
       expect(screen.getByTestId('cooking-methods')).toBeInTheDocument();
     });
 
-    const viewMoreButton = screen.getByTestId('view-more-methods');
+    await const viewMoreButton = screen.getByTestId
     await act(async () => {
       fireEvent.click(viewMoreButton);
     });

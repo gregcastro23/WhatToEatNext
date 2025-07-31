@@ -196,7 +196,7 @@ export function getMethodThermodynamics(method: CookingMethodProfile): BasicTher
 
   // 1. Check the detailed data source first
   const detailedMethodData = detailedCookingMethods[methodNameLower as keyof typeof detailedCookingMethods];
-  if (detailedMethodData && detailedMethodData.thermodynamicProperties) {
+  if (detailedMethodData?.thermodynamicProperties) {
     return {
       heat: detailedMethodData.thermodynamicProperties.heat ?? 0.5,
       entropy: detailedMethodData.thermodynamicProperties.entropy ?? 0.5,

@@ -133,7 +133,7 @@ export default function SauceRecommender({
     let elementalScore = (diurnalMatch + nocturnalMatch) / 2;
     
     // If the sauce has a direct planetary affinity, give bonus points
-    if (planetAffinity && planetAffinity.some(p => 
+    if (planetAffinity?.some(p => 
       p.toLowerCase() === planetaryDay.toLowerCase()
     )) {
       elementalScore = Math.min(1.0, elementalScore + 0.3);
@@ -163,7 +163,7 @@ export default function SauceRecommender({
     let elementalScore = elementalMatch;
     
     // If the sauce has a direct planetary affinity, give bonus points
-    if (planetAffinity && planetAffinity.some(p => 
+    if (planetAffinity?.some(p => 
       p.toLowerCase() === planetaryHour.toLowerCase()
     )) {
       elementalScore = Math.min(1.0, elementalScore + 0.3);

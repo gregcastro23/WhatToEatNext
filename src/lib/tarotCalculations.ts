@@ -21,7 +21,7 @@ type PlanetKey = keyof typeof PLANET_TO_MAJOR_ARCANA;
 type MajorArcanaKey = keyof typeof MAJOR_ARCANA;
 
 export function getCurrentDecan(date: Date, sunPosition?: { sign: string, degree: number }): DecanKey {
-  if (sunPosition && sunPosition.sign && typeof sunPosition.degree === 'number') {
+  if (sunPosition?.sign && typeof sunPosition.degree === 'number') {
     // Calculate the absolute degree in the zodiac (0-360)
     const signToStartDegree: Record<string, number> = {
       'aries': 0,

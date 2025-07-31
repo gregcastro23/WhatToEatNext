@@ -194,7 +194,7 @@ export default function RootLayout({
       const content = `
 // Next.js 15 Server Component
 async function ServerComponent() {
-  const data = await fetch('https://api.example.com/data');
+  await const data = await fetch
   const json = await data.json();
   
   return (
@@ -207,10 +207,8 @@ async function ServerComponent() {
 
 export default ServerComponent;
 `;
-      fs.writeFileSync(testFile, content);
-
-      const result = runESLintOnFile(testFile);
-      
+      await fs.writeFileSync
+      await const result = runESLintOnFile
       // Should handle async Server Components
       expect(result.exitCode).toBe(0);
     });

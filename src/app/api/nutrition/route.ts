@@ -100,7 +100,7 @@ export async function GET(request: Request) {
       
       if (listResponse.ok) {
         const listData = await listResponse.json();
-        if (listData && listData.length > 0) {
+        if (listData?.length > 0) {
           const vitamins = countVitamins(listData[0].foodNutrients || []);
           log.info(`foods/list endpoint found ${vitamins} vitamins`);
           
@@ -125,7 +125,7 @@ export async function GET(request: Request) {
       
       if (fullResponse.ok) {
         const fullData = await fullResponse.json();
-        if (fullData && fullData.foodNutrients) {
+        if (fullData?.foodNutrients) {
           const vitamins = countVitamins(fullData.foodNutrients);
           log.info(`food endpoint with format=full found ${vitamins} vitamins`);
           
@@ -150,7 +150,7 @@ export async function GET(request: Request) {
       
       if (basicResponse.ok) {
         const basicData = await basicResponse.json();
-        if (basicData && basicData.foodNutrients) {
+        if (basicData?.foodNutrients) {
           const vitamins = countVitamins(basicData.foodNutrients);
           log.info(`basic food endpoint found ${vitamins} vitamins`);
           

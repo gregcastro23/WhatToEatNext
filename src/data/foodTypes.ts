@@ -127,7 +127,7 @@ export function findComplementaryDishes(
   const recommendations: Dish[] = [];
   
   Object.values(availableDishes).forEach(cuisine => {
-    if (cuisine && cuisine.dishes) {
+    if (cuisine?.dishes) {
       Object.values(cuisine.dishes).forEach(mealTypes => {
         if (mealTypes) {
           Object.values(mealTypes).forEach(seasonalDishes => {

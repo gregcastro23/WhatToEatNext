@@ -454,10 +454,10 @@ const MoonDisplay: React.FC = () => {
               <div className="bg-gray-800 rounded p-3">
                 <div className="text-xs text-gray-400">North Node (☊)</div>
                 <div className="font-medium">
-                  {northNode && northNode.sign 
+                  {northNode?.sign 
                     ? `${capitalizeFirstLetter(String(northNode.sign))} ${formatDegree(Number(northNode.degree) || 0)}` 
                     : 'Calculating...'}
-                  {northNode && northNode.isRetrograde ? ' ℞' : ''}
+                  {northNode?.isRetrograde ? ' ℞' : ''}
                 </div>
                 <div className="text-xs text-gray-400 mt-1">Karma you're growing toward</div>
               </div>
@@ -465,10 +465,10 @@ const MoonDisplay: React.FC = () => {
               <div className="bg-gray-800 rounded p-3">
                 <div className="text-xs text-gray-400">South Node (☋)</div>
                 <div className="font-medium">
-                  {southNode && southNode.sign 
+                  {southNode?.sign 
                     ? `${capitalizeFirstLetter(String(southNode.sign))} ${formatDegree(Number(southNode.degree) || 0)}` 
                     : 'Calculating...'}
-                  {southNode && southNode.isRetrograde ? ' ℞' : ''}
+                  {southNode?.isRetrograde ? ' ℞' : ''}
                 </div>
                 <div className="text-xs text-gray-400 mt-1">Past life expertise</div>
               </div>

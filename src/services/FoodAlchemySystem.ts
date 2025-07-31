@@ -306,7 +306,7 @@ export class FoodAlchemySystem {
         let decanBonus = 0;
         
         // Apply dignity effects if we have planet positions
-        if (normalizedPositions && normalizedPositions[planetaryDay]) {
+        if (normalizedPositions?.[planetaryDay]) {
             const planetSign = normalizedPositions[planetaryDay].sign;
             const planetDegree = normalizedPositions[planetaryDay].degree;
             
@@ -383,7 +383,7 @@ export class FoodAlchemySystem {
         let aspectBonus = 0;
         
         // Apply dignity effects if we have planet positions
-        if (planetaryPositions && planetaryPositions[planetaryHour]) {
+        if (planetaryPositions?.[planetaryHour]) {
             const planetSign = planetaryPositions[planetaryHour].sign;
             
             // Dignity effect bonus/penalty
@@ -394,7 +394,7 @@ export class FoodAlchemySystem {
         }
         
         // Apply aspect effects if available
-        if (aspects && aspects.length > 0) {
+        if (aspects?.length > 0) {
             // Find aspects involving the planetary hour ruler
             const hourAspects = aspects.filter(a => 
                 a.planets.includes(planetaryHour));
@@ -550,7 +550,7 @@ export class FoodAlchemySystem {
             }
             
             // Add aspect-based recommendations
-            if (aspects && aspects.length > 0) {
+            if (aspects?.length > 0) {
                 // Find relevant aspects involving the food's ruling planet
                 const foodPlanetAspects = aspects.filter(a => 
                     a.planets.includes(food.planetaryRuler));
@@ -595,7 +595,7 @@ export class FoodAlchemySystem {
         }
         
         // Check for dignity challenges
-        if (planetaryPositions && planetaryPositions[food.planetaryRuler]) {
+        if (planetaryPositions?.[food.planetaryRuler]) {
             const foodPlanetSign = planetaryPositions[food.planetaryRuler].sign;
             const foodPlanetDignity = planetaryElements[food.planetaryRuler].dignityEffect?.[foodPlanetSign];
             

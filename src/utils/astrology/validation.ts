@@ -56,8 +56,7 @@ interface PlanetDataWithTransits {
  */
 export function getReliablePlanetaryPositions(): { [key: string]: CelestialPosition } {
   // Check cache first
-  if (reliablePositionsCache && 
-      reliablePositionsCache.timestamp && 
+  if (reliablePositionsCache?.timestamp && 
       Date.now() - reliablePositionsCache.timestamp < 5 * 60 * 1000) {
     return reliablePositionsCache.data;
   }
