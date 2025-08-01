@@ -2373,9 +2373,9 @@ function calculatePlanetaryHourInfluence(
   }
   
   // Apply aspect effects if available
-  if (aspects?.length > 0) {
+  if (aspects && aspects.length > 0) {
     // Find aspects involving the planetary hour ruler
-    const hourAspects = aspects.filter(a => 
+    const hourAspects = (aspects || []).filter(a => 
       a.planet1 === planetaryHour || a.planet2 === planetaryHour);
     
     for (const aspect of hourAspects) {
@@ -2434,10 +2434,10 @@ function isDaytime(date: Date = new Date()): boolean {
 /**
  * Recommend ingredients with enhanced planetary, dignity and aspect effects
  */
-export function recommendIngredients(
+export async function recommendIngredients(
   astroState: AstrologicalState,
   options: RecommendationOptions = {}
-): IngredientRecommendation[] {
+): Promise<IngredientRecommendation[]> {
   // Get all available ingredients
   const allIngredients = getAllIngredients();
   
@@ -2482,6 +2482,9 @@ export function recommendIngredients(
   const planetaryAlignment = astroStateData.planetaryAlignment as Record<string, { sign: string; degree: number }> || {};
   const aspects = astroStateData.aspects as Array<{ aspectType: string; planet1: string; planet2: string; }> || [];
   
+  // Get planetary day and hour for current time (moved up to fix declaration order)
+  const date = timestamp instanceof Date ? timestamp : new Date(String(timestamp));
+  
   // Calculate lunar phase using imported utility
   const lunarPhase = calculateLunarPhase(date);
   
@@ -2491,19 +2494,13 @@ export function recommendIngredients(
   // Integrate enterprise intelligence for enhanced recommendations
   const enterpriseIntelligence = new EnterpriseIntelligenceIntegration();
   
-  // Use LUNAR_PHASES data for phase-based filtering
-  const currentLunarPhaseData = LUNAR_PHASES[lunarPhase] || LUNAR_PHASES['new moon'];
+  // Use LUNAR_PHASES data for phase-based filtering (await lunarPhase since it's a Promise)
+  const lunarPhaseValue = await lunarPhase;
+  const currentLunarPhaseData = LUNAR_PHASES[lunarPhaseValue] || LUNAR_PHASES['new moon'];
   
   // Create astrological bridge for enhanced compatibility
-  const astrologicalBridge = createAstrologicalBridge({
-    zodiacSign: zodiacSign as ZodiacSign,
-    lunarPhase: lunarPhase as LunarPhase,
-    planetaryPositions: calculatedPositions,
-    timestamp: date
-  });
-  
-  // Get planetary day and hour for current time
-  const date = timestamp instanceof Date ? timestamp : new Date(String(timestamp));
+  const astrologicalBridge = createAstrologicalBridge();
+  // Note: Bridge configuration moved to separate initialization if needed
   const planetaryCalculator = {
     calculatePlanetaryDay: (date: Date) => {
       const days = ['Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn'];
@@ -2559,7 +2556,26 @@ export function recommendIngredients(
     const elementalWeight = Number(elementalScore) || 0;
     const planetaryDayWeight = Number(planetaryDayScore) || 0;
     const planetaryHourWeight = Number(planetaryHourScore) || 0;
-    const enterpriseWeight = enterpriseEnhancement ? Number(enterpriseEnhancement.score) || 0 : 0;
+    
+    // Apply enterprise intelligence enhancement (moved up to avoid declaration issues)
+    let enterpriseEnhancement = null;
+    try {
+      // Safe method access with fallback
+      const enhanceMethod = (enterpriseIntelligence as any)?.enhanceRecommendation;
+      if (typeof enhanceMethod === 'function') {
+        enterpriseEnhancement = enhanceMethod({
+          ingredient,
+          astrological: astrologicalBridge,
+          lunar: currentLunarPhaseData,
+          planetary: { day: planetaryDay, hour: planetaryHour }
+        });
+      }
+    } catch (error) {
+      // Enterprise enhancement failed, continue without it
+      enterpriseEnhancement = null;
+    }
+    
+    const enterpriseWeight = enterpriseEnhancement ? Number((enterpriseEnhancement as any)?.score) || 0 : 0;
     
     const baseScore = (
       elementalWeight * 0.35 + 
@@ -2580,13 +2596,7 @@ export function recommendIngredients(
       aspects
     );
     
-    // Apply enterprise intelligence enhancement
-    const enterpriseEnhancement = enterpriseIntelligence.enhanceRecommendation({
-      ingredient,
-      astrological: astrologicalBridge,
-      lunar: currentLunarPhaseData,
-      planetary: { day: planetaryDay, hour: planetaryHour }
-    });
+    // Enterprise enhancement already applied above
     
     // Add to recommendations list
     // Apply Pattern L: Interface property mapping for IngredientRecommendation compatibility
@@ -2681,8 +2691,8 @@ function generateRecommendationsForIngredient(
   }
   
   // Add aspect-based recommendations
-  if (aspects?.length > 0) {
-    const relevantAspects = aspects.filter(aspect => 
+  if (aspects && aspects.length > 0) {
+    const relevantAspects = (aspects || []).filter(aspect => 
       (aspect.planet1 === planetaryDay || aspect.planet2 === planetaryDay) ||
       (aspect.planet1 === planetaryHour || aspect.planet2 === planetaryHour));
     

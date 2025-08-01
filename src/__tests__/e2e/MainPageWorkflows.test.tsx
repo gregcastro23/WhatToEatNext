@@ -352,8 +352,8 @@ jest.mock('@/components/recipes/RecipeBuilderSimple', () => {
               </div>
             ))}
             
-            <div data-testid="ingredients-count">
-              Ingredients: {ingredients.length}
+            <div data-testid="ingredients-count">,
+  Ingredients: {ingredients.length}
             </div>
           </div>
           
@@ -388,8 +388,8 @@ jest.mock('@/components/recipes/RecipeBuilderSimple', () => {
               </div>
             ))}
             
-            <div data-testid="steps-count">
-              Steps: {steps.length}
+            <div data-testid="steps-count">,
+  Steps: {steps.length}
             </div>
           </div>
           
@@ -418,7 +418,7 @@ jest.mock('@/components/recipes/RecipeBuilderSimple', () => {
 describe('Main Page E2E Workflows', () => {
   const mockAlchemicalContext = {
     state: {
-      astrologicalState: { sunSign: 'aries' },
+  astrologicalState: { sunSign: 'aries' },
       elementalState: { Fire: 0.3, Water: 0.2, Earth: 0.3, Air: 0.2 }
     },
     planetaryPositions: { sun: { sign: 'aries' } },
@@ -426,12 +426,12 @@ describe('Main Page E2E Workflows', () => {
   };
 
   const mockNavigationState = {
-    saveState: jest.fn(),
+  saveState: jest.fn(),
     getState: jest.fn(() => ({}))
   };
 
   const mockScrollPreservation = {
-    restoreScrollPosition: jest.fn()
+  restoreScrollPosition: jest.fn()
   };
 
   beforeEach(() => {
@@ -445,7 +445,7 @@ describe('Main Page E2E Workflows', () => {
     // Mock DOM methods
     Object.defineProperty(window, 'scrollY', { value: 0, writable: true });
     jest.spyOn(document, 'getElementById').mockImplementation(() => ({
-      scrollIntoView: jest.fn(),
+  scrollIntoView: jest.fn(),
       style: {},
       classList: { add: jest.fn(), remove: jest.fn() }
     } as any));
@@ -458,7 +458,7 @@ describe('Main Page E2E Workflows', () => {
   it('completes full meal planning workflow', async () => {
     const user = userEvent.setup();
     
-    await act(async () => {
+    act(async () => {
       render(<MainPageLayout />);
     });
 
@@ -471,8 +471,8 @@ describe('Main Page E2E Workflows', () => {
     });
 
     // Step 1: Select a cuisine
-    await const italianCuisine = screen.getByTestId
-    await user.click(italianCuisine);
+    const italianCuisine = screen.getByTestId('italian-cuisine');
+    user.click(italianCuisine);
 
     // Verify cuisine selection and recipe recommendations appear
     expect(screen.getByTestId('recipe-recommendations')).toBeInTheDocument();
@@ -483,9 +483,9 @@ describe('Main Page E2E Workflows', () => {
     const basil = screen.getByTestId('ingredient-basil');
     const oliveOil = screen.getByTestId('ingredient-olive oil');
 
-    await user.click(tomatoes);
-    await user.click(basil);
-    await user.click(oliveOil);
+    user.click(tomatoes);
+    user.click(basil);
+    user.click(oliveOil);
 
     // Verify ingredient selection
     expect(screen.getByTestId('selected-ingredients-summary')).toBeInTheDocument();
@@ -493,54 +493,54 @@ describe('Main Page E2E Workflows', () => {
 
     // Step 3: Select cooking method
     const sauteMethod = screen.getByTestId('method-sauté');
-    await user.click(sauteMethod);
+    user.click(sauteMethod);
 
     // Verify method selection and details
     expect(screen.getByTestId('method-details-sauté')).toBeInTheDocument();
 
     // Step 4: Build a recipe
     const recipeNameInput = screen.getByTestId('recipe-name-input');
-    await user.type(recipeNameInput, 'Italian Tomato Basil Sauté');
+    user.type(recipeNameInput, 'Italian Tomato Basil Sauté');
 
     // Add ingredients to recipe
     const addIngredientButton = screen.getByTestId('add-ingredient');
-    await user.click(addIngredientButton);
-    await user.click(addIngredientButton);
-    await user.click(addIngredientButton);
+    user.click(addIngredientButton);
+    user.click(addIngredientButton);
+    user.click(addIngredientButton);
 
     // Fill in ingredient details
-    await user.type(screen.getByTestId('ingredient-quantity-0'), '2 cups');
-    await user.type(screen.getByTestId('ingredient-name-0'), 'Fresh Tomatoes');
+    user.type(screen.getByTestId('ingredient-quantity-0'), '2 cups');
+    user.type(screen.getByTestId('ingredient-name-0'), 'Fresh Tomatoes');
 
-    await user.type(screen.getByTestId('ingredient-quantity-1'), '1/4 cup');
-    await user.type(screen.getByTestId('ingredient-name-1'), 'Fresh Basil');
+    user.type(screen.getByTestId('ingredient-quantity-1'), '1/4 cup');
+    user.type(screen.getByTestId('ingredient-name-1'), 'Fresh Basil');
 
-    await user.type(screen.getByTestId('ingredient-quantity-2'), '2 tbsp');
-    await user.type(screen.getByTestId('ingredient-name-2'), 'Olive Oil');
+    user.type(screen.getByTestId('ingredient-quantity-2'), '2 tbsp');
+    user.type(screen.getByTestId('ingredient-name-2'), 'Olive Oil');
 
     // Add cooking steps
     const addStepButton = screen.getByTestId('add-step');
-    await user.click(addStepButton);
-    await user.click(addStepButton);
+    user.click(addStepButton);
+    user.click(addStepButton);
 
-    await user.type(
+    user.type(
       screen.getByTestId('step-instruction-0'),
       'Heat olive oil in a large pan over medium heat'
     );
-    await user.type(screen.getByTestId('step-timing-0'), '2 min');
+    user.type(screen.getByTestId('step-timing-0'), '2 min');
 
-    await user.type(
+    user.type(
       screen.getByTestId('step-instruction-1'),
       'Add tomatoes and basil, sauté until tender'
     );
-    await user.type(screen.getByTestId('step-timing-1'), '8 min');
+    user.type(screen.getByTestId('step-timing-1'), '8 min');
 
     // Verify recipe can be saved
     const saveButton = screen.getByTestId('save-recipe');
     expect(saveButton).toBeEnabled();
 
     // Save the recipe
-    await user.click(saveButton);
+    user.click(saveButton);
 
     // Verify the complete workflow
     expect(screen.getByDisplayValue('Italian Tomato Basil Sauté')).toBeInTheDocument();
@@ -551,7 +551,7 @@ describe('Main Page E2E Workflows', () => {
   it('handles ingredient exploration workflow', async () => {
     const user = userEvent.setup();
     
-    await act(async () => {
+    act(async () => {
       render(<MainPageLayout />);
     });
 
@@ -560,8 +560,8 @@ describe('Main Page E2E Workflows', () => {
     });
 
     // Expand ingredient details
-    await const expandTomatoes = screen.getByTestId
-    await user.click(expandTomatoes);
+    const expandTomatoes = screen.getByTestId('expand-tomatoes');
+    user.click(expandTomatoes);
 
     // Verify details are shown
     expect(screen.getByTestId('details-tomatoes')).toBeInTheDocument();
@@ -570,19 +570,19 @@ describe('Main Page E2E Workflows', () => {
 
     // Expand another ingredient
     const expandGarlic = screen.getByTestId('expand-garlic');
-    await user.click(expandGarlic);
+    user.click(expandGarlic);
 
     expect(screen.getByTestId('details-garlic')).toBeInTheDocument();
     expect(screen.getByText('Category: Aromatics')).toBeInTheDocument();
 
     // Collapse first ingredient
-    await user.click(expandTomatoes);
+    user.click(expandTomatoes);
     expect(screen.queryByTestId('details-tomatoes')).not.toBeInTheDocument();
 
     // Select multiple ingredients
-    await user.click(screen.getByTestId('ingredient-tomatoes'));
-    await user.click(screen.getByTestId('ingredient-garlic'));
-    await user.click(screen.getByTestId('ingredient-basil'));
+    user.click(screen.getByTestId('ingredient-tomatoes'));
+    user.click(screen.getByTestId('ingredient-garlic'));
+    user.click(screen.getByTestId('ingredient-basil'));
 
     // Verify selection summary
     expect(screen.getByText('Selected Ingredients (3)')).toBeInTheDocument();
@@ -592,7 +592,7 @@ describe('Main Page E2E Workflows', () => {
   it('handles cooking method exploration workflow', async () => {
     const user = userEvent.setup();
     
-    await act(async () => {
+    act(async () => {
       render(<MainPageLayout />);
     });
 
@@ -601,15 +601,15 @@ describe('Main Page E2E Workflows', () => {
     });
 
     // Select different cooking methods and view details
-    await const roastMethod = screen.getByTestId
-    await user.click(roastMethod);
+    const roastMethod = screen.getByTestId('method-roast');
+    user.click(roastMethod);
 
     expect(screen.getByTestId('method-details-roast')).toBeInTheDocument();
     expect(screen.getByText('Cooking in the oven with dry heat')).toBeInTheDocument();
 
     // Switch to another method
     const grillMethod = screen.getByTestId('method-grill');
-    await user.click(grillMethod);
+    user.click(grillMethod);
 
     expect(screen.getByTestId('method-details-grill')).toBeInTheDocument();
     expect(screen.getByText('Cooking over direct heat')).toBeInTheDocument();
@@ -625,7 +625,7 @@ describe('Main Page E2E Workflows', () => {
   it('handles complete recipe creation workflow', async () => {
     const user = userEvent.setup();
     
-    await act(async () => {
+    act(async () => {
       render(<MainPageLayout />);
     });
 
@@ -634,26 +634,26 @@ describe('Main Page E2E Workflows', () => {
     });
 
     // Create a complete recipe from scratch
-    await const recipeNameInput = screen.getByTestId
-    await user.type(recipeNameInput, 'Mediterranean Chicken');
+    const recipeNameInput = screen.getByTestId('recipe-name-input');
+    user.type(recipeNameInput, 'Mediterranean Chicken');
 
     // Update recipe metadata
-    await const servingsInput = screen.getByTestId
-    await const prepTimeInput = screen.getByTestId
+    const servingsInput = screen.getByTestId('servings-input');
+    const prepTimeInput = screen.getByTestId('prep-time-input');
     const cookTimeInput = screen.getByTestId('cook-time-input');
 
-    await user.clear(servingsInput);
-    await user.type(servingsInput, '6');
+    user.clear(servingsInput);
+    user.type(servingsInput, '6');
 
-    await user.clear(prepTimeInput);
-    await user.type(prepTimeInput, '20');
+    user.clear(prepTimeInput);
+    user.type(prepTimeInput, '20');
 
-    await user.clear(cookTimeInput);
-    await user.type(cookTimeInput, '45');
+    user.clear(cookTimeInput);
+    user.type(cookTimeInput, '45');
 
     // Add multiple ingredients
     for (let i = 0; i < 4; i++) {
-      await user.click(screen.getByTestId('add-ingredient'));
+      user.click(screen.getByTestId('add-ingredient'));
     }
 
     const ingredients = [
@@ -664,13 +664,13 @@ describe('Main Page E2E Workflows', () => {
     ];
 
     for (let i = 0; i < ingredients.length; i++) {
-      await user.type(screen.getByTestId(`ingredient-quantity-${i}`), ingredients[i].quantity);
-      await user.type(screen.getByTestId(`ingredient-name-${i}`), ingredients[i].name);
+      user.type(screen.getByTestId(`ingredient-quantity-${i}`), ingredients[i].quantity);
+      user.type(screen.getByTestId(`ingredient-name-${i}`), ingredients[i].name);
     }
 
     // Add cooking steps
     for (let i = 0; i < 3; i++) {
-      await user.click(screen.getByTestId('add-step'));
+      user.click(screen.getByTestId('add-step'));
     }
 
     const steps = [
@@ -680,8 +680,8 @@ describe('Main Page E2E Workflows', () => {
     ];
 
     for (let i = 0; i < steps.length; i++) {
-      await user.type(screen.getByTestId(`step-instruction-${i}`), steps[i].instruction);
-      await user.type(screen.getByTestId(`step-timing-${i}`), steps[i].timing);
+      user.type(screen.getByTestId(`step-instruction-${i}`), steps[i].instruction);
+      user.type(screen.getByTestId(`step-timing-${i}`), steps[i].timing);
     }
 
     // Verify recipe summary
@@ -698,11 +698,11 @@ describe('Main Page E2E Workflows', () => {
     expect(saveButton).toHaveClass('enabled');
 
     // Test ingredient removal
-    await user.click(screen.getByTestId('remove-ingredient-3'));
+    user.click(screen.getByTestId('remove-ingredient-3'));
     expect(screen.getByText('Ingredients: 3')).toBeInTheDocument();
 
     // Test step removal
-    await user.click(screen.getByTestId('remove-step-0'));
+    user.click(screen.getByTestId('remove-step-0'));
     expect(screen.getByText('Steps: 2')).toBeInTheDocument();
 
     // Verify step renumbering
@@ -713,7 +713,7 @@ describe('Main Page E2E Workflows', () => {
     const user = userEvent.setup();
     const mockOnSectionNavigate = jest.fn();
     
-    await act(async () => {
+    act(async () => {
       render(<MainPageLayout onSectionNavigate={mockOnSectionNavigate} />);
     });
 
@@ -722,17 +722,17 @@ describe('Main Page E2E Workflows', () => {
     });
 
     // Make selections across different components
-    await user.click(screen.getByTestId('cuisine-italian'));
-    await user.click(screen.getByTestId('ingredient-tomatoes'));
-    await user.click(screen.getByTestId('method-sauté'));
+    user.click(screen.getByTestId('cuisine-italian'));
+    user.click(screen.getByTestId('ingredient-tomatoes'));
+    user.click(screen.getByTestId('method-sauté'));
 
     // Navigate between sections
-    await const cuisineNavButton = screen.getByText
-    await user.click(cuisineNavButton);
+    const cuisineNavButton = screen.getByText('Cuisine Recommendations');
+    user.click(cuisineNavButton);
     expect(mockOnSectionNavigate).toHaveBeenCalledWith('cuisine');
 
     const ingredientsNavButton = screen.getByText('Ingredient Recommendations');
-    await user.click(ingredientsNavButton);
+    user.click(ingredientsNavButton);
     expect(mockOnSectionNavigate).toHaveBeenCalledWith('ingredients');
 
     // Verify state preservation was called
@@ -752,7 +752,7 @@ describe('Main Page E2E Workflows', () => {
     // Mock console.error to avoid noise
     const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
 
-    await act(async () => {
+    act(async () => {
       render(<MainPageLayout />);
     });
 
@@ -761,16 +761,16 @@ describe('Main Page E2E Workflows', () => {
     });
 
     // Simulate user creating a recipe and encountering an error
-    await const recipeNameInput = screen.getByTestId
-    await user.type(recipeNameInput, 'Test Recipe');
+    const recipeNameInput = screen.getByTestId('recipe-name-input');
+    user.type(recipeNameInput, 'Test Recipe');
 
     // Add ingredient
-    await user.click(screen.getByTestId('add-ingredient'));
-    await user.type(screen.getByTestId('ingredient-name-0'), 'Test Ingredient');
+    user.click(screen.getByTestId('add-ingredient'));
+    user.type(screen.getByTestId('ingredient-name-0'), 'Test Ingredient');
 
     // Add step
-    await user.click(screen.getByTestId('add-step'));
-    await user.type(screen.getByTestId('step-instruction-0'), 'Test step');
+    user.click(screen.getByTestId('add-step'));
+    user.type(screen.getByTestId('step-instruction-0'), 'Test step');
 
     // Verify recipe is valid
     expect(screen.getByTestId('save-recipe')).toBeEnabled();

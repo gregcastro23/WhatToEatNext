@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.validateRecipe = exports.validateIngredient = exports.validateElementalProperties = exports.normalizeElementalProperties = void 0;
 const seasonalConstants_1 = require("@/constants/seasonalConstants");
 const unitConstants_1 = require("@/constants/unitConstants");
-const VALID_MEAL_TIMES = ['breakfast', 'lunch', 'dinner'];
+const _VALID_MEAL_TIMES = ['breakfast', 'lunch', 'dinner'];
 /**
  * Normalizes elemental properties to ensure they sum to 1
  * @param properties The elemental properties to normalize

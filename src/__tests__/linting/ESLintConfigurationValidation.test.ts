@@ -164,28 +164,28 @@ describe('ESLint Configuration Validation', () => {
 
   describe('File Pattern Matching', () => {
     test('should match TypeScript files correctly', async () => {
-      const config = await eslint.calculateConfigForFile('src/test.ts');
+      const config = eslint.calculateConfigForFile('src/test.ts');
       expect(config.parser).toContain('@typescript-eslint/parser');
     });
 
     test('should match JavaScript files correctly', async () => {
-      const config = await eslint.calculateConfigForFile('src/test.js');
+      const config = eslint.calculateConfigForFile('src/test.js');
       expect(config.languageOptions.ecmaVersion).toBe(2022);
     });
 
     test('should apply astrological rules to calculation files', async () => {
-      const config = await eslint.calculateConfigForFile('src/calculations/test.ts');
+      const config = eslint.calculateConfigForFile('src/calculations/test.ts');
       expect(config.rules).toHaveProperty('astrological/preserve-planetary-constants');
     });
 
     test('should apply test-specific rules to test files', async () => {
-      const config = await eslint.calculateConfigForFile('src/__tests__/test.test.ts');
+      const config = eslint.calculateConfigForFile('src/__tests__/test.test.ts');
       expect(config.rules['no-console']).toBe('off');
       expect(config.rules['@typescript-eslint/no-explicit-any']).toBe('off');
     });
 
     test('should apply campaign rules to campaign files', async () => {
-      const config = await eslint.calculateConfigForFile('src/services/campaign/test.ts');
+      const config = eslint.calculateConfigForFile('src/services/campaign/test.ts');
       expect(config.rules['no-console']).toBe('off');
       expect(config.rules['complexity']).toEqual(['warn', 15]);
     });
@@ -260,10 +260,10 @@ describe('ESLint Configuration Validation', () => {
       expect(eslint).toBeDefined();
       
       // Test that we can get configuration for different file types
-      const tsConfig = await eslint.calculateConfigForFile('test.ts');
+      const tsConfig = eslint.calculateConfigForFile('test.ts');
       expect(tsConfig).toBeDefined();
       
-      const jsConfig = await eslint.calculateConfigForFile('test.js');
+      const jsConfig = eslint.calculateConfigForFile('test.js');
       expect(jsConfig).toBeDefined();
     });
 

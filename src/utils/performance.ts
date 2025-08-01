@@ -117,9 +117,9 @@ export function collectPerformanceMetrics(): PerformanceMetrics {
       const memory = (perf as { memory?: Record<string, unknown> }).memory;
       if (memory) {
         metrics.memoryUsage = {
-          jsHeapSizeLimit: memory.jsHeapSizeLimit,
-          totalJSHeapSize: memory.totalJSHeapSize,
-          usedJSHeapSize: memory.usedJSHeapSize
+          jsHeapSizeLimit: Number(memory.jsHeapSizeLimit) || undefined,
+          totalJSHeapSize: Number(memory.totalJSHeapSize) || undefined,
+          usedJSHeapSize: Number(memory.usedJSHeapSize) || undefined
         };
       }
       

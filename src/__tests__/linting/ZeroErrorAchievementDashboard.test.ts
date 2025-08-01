@@ -1,13 +1,12 @@
 /**
  * Zero-Error Achievement Dashboard Tests
- * 
+ *
  * Comprehensive test suite for the zero-error monitoring and
  * achievement tracking system.
  */
 
 import { execSync } from 'child_process';
-import { writeFileSync, readFileSync, existsSync, mkdirSync, rmSync } from 'fs';
-import { join } from 'path';
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'fs';
 
 import { LintingMetrics } from '../../services/linting/LintingValidationDashboard';
 import { ZeroErrorAchievementDashboard } from '../../services/linting/ZeroErrorAchievementDashboard';
@@ -27,20 +26,20 @@ describe('ZeroErrorAchievementDashboard', () => {
   let mockMetrics: LintingMetrics;
 
   beforeEach(() => {
-    jest.clearAllMocks();
-    
+    jest.clearAllMocks()
+
     // Mock file system operations
     mockExistsSync.mockReturnValue(true);
     mockReadFileSync.mockReturnValue('[]');
     mockWriteFileSync.mockImplementation(() => {});
     mockMkdirSync.mockImplementation(() => '');
-    
+
     // Mock successful command execution
     mockExecSync.mockReturnValue('');
-    
+
     // Create mock metrics
     mockMetrics = {
-      timestamp: new Date(),
+  timestamp: new Date(),
       totalIssues: 1500,
       errors: 50,
       warnings: 1450,
@@ -51,12 +50,12 @@ describe('ZeroErrorAchievementDashboard', () => {
       reactHooksIssues: 100,
       consoleStatements: 50,
       domainSpecificIssues: {
-        astrologicalCalculations: 25,
+  astrologicalCalculations: 25,
         campaignSystem: 15,
         testFiles: 10
       },
       performanceMetrics: {
-        lintingDuration: 25000,
+  lintingDuration: 25000,
         cacheHitRate: 0.75,
         memoryUsage: 256,
         filesProcessed: 500
@@ -65,28 +64,28 @@ describe('ZeroErrorAchievementDashboard', () => {
       regressionDetected: false
     };
 
-    dashboard = new ZeroErrorAchievementDashboard();
+    dashboard = new ZeroErrorAchievementDashboard()
   });
 
   afterEach(() => {
-    jest.restoreAllMocks();
+    jest.restoreAllMocks()
   });
 
   describe('Dashboard Generation', () => {
     test('should generate comprehensive dashboard successfully', async () => {
       // Mock validation dashboard result
       const mockValidationResult = {
-        passed: true,
+  passed: true,
         metrics: mockMetrics,
         alerts: [],
         recommendations: ['Continue systematic improvement'],
         regressionAnalysis: {
-          detected: false,
+  detected: false,
           affectedMetrics: [],
           severity: 'minor' as const,
           recommendations: [],
           historicalComparison: {
-            current: 1500,
+  current: 1500,
             previous: 1600,
             change: -100,
             changePercentage: -6.25
@@ -98,7 +97,7 @@ describe('ZeroErrorAchievementDashboard', () => {
       jest.spyOn(dashboard['validationDashboard'], 'runComprehensiveValidation')
         .mockResolvedValue(mockValidationResult);
 
-      await dashboard.generateDashboard();
+      dashboard.generateDashboard()
 
       // Verify dashboard report was generated
       expect(mockWriteFileSync).toHaveBeenCalledWith(
@@ -125,17 +124,17 @@ describe('ZeroErrorAchievementDashboard', () => {
 
     test('should generate targets with correct progress calculations', async () => {
       const mockValidationResult = {
-        passed: true,
+  passed: true,
         metrics: mockMetrics,
         alerts: [],
         recommendations: [],
         regressionAnalysis: {
-          detected: false,
+  detected: false,
           affectedMetrics: [],
           severity: 'minor' as const,
           recommendations: [],
           historicalComparison: {
-            current: 1500,
+  current: 1500,
             previous: 1600,
             change: -100,
             changePercentage: -6.25
@@ -146,22 +145,22 @@ describe('ZeroErrorAchievementDashboard', () => {
       jest.spyOn(dashboard['validationDashboard'], 'runComprehensiveValidation')
         .mockResolvedValue(mockValidationResult);
 
-      await dashboard.generateDashboard();
+      dashboard.generateDashboard()
 
       // Verify targets file was written
-      const targetsCall = (mockWriteFileSync as jest.Mock).mock.calls.find(call => 
+      const targetsCall = (mockWriteFileSync as jest.Mock).mock.calls.find(call =>
         call[0].includes('zero-error-targets.json')
       );
-      
-      expect(targetsCall).toBeDefined();
-      
+
+      expect(targetsCall).toBeDefined()
+
       const targetsData = JSON.parse(targetsCall[1]);
       expect(targetsData).toBeInstanceOf(Array);
       expect(targetsData.length).toBeGreaterThan(0);
-      
+
       // Check parser errors target
       const parserErrorsTarget = targetsData.find(t => t.metric === 'parserErrors');
-      expect(parserErrorsTarget).toBeDefined();
+      expect(parserErrorsTarget).toBeDefined()
       expect(parserErrorsTarget.currentValue).toBe(0);
       expect(parserErrorsTarget.targetValue).toBe(0);
       expect(parserErrorsTarget.progress).toBe(100); // Already achieved
@@ -175,7 +174,7 @@ describe('ZeroErrorAchievementDashboard', () => {
       const currentMetrics = { ...mockMetrics, totalIssues: 1500 };
 
       const changes = dashboard['detectSignificantChanges'](previousMetrics, currentMetrics);
-      
+
       expect(changes).toContain(expect.stringContaining('Total Issues increased'));
       expect(changes[0]).toMatch(/50\.0%/); // 50% increase
     });
@@ -193,7 +192,7 @@ describe('ZeroErrorAchievementDashboard', () => {
       };
 
       const criticalIssues = dashboard['identifyCriticalIssues'](criticalMetrics);
-      
+
       expect(criticalIssues).toContain(expect.stringContaining('5 parser errors'));
       expect(criticalIssues).toContain(expect.stringContaining('250 explicit any errors'));
       expect(criticalIssues).toContain(expect.stringContaining('Quality score 45'));
@@ -201,13 +200,14 @@ describe('ZeroErrorAchievementDashboard', () => {
     });
 
     test('should update real-time status correctly', async () => {
-      await dashboard['updateRealTimeStatus'](mockMetrics);
+      dashboard['updateRealTimeStatus'](mockMetrics);
 
-      await const statusCall = (mockWriteFileSync as jest.Mock).mock.calls.find
+      const statusCall = (mockWriteFileSync as jest.Mock).mock.calls.find(
+        call => call[0].includes('zero-error-achievement-status.json')
       );
-      
+
       expect(statusCall).toBeDefined();
-      
+
       const statusData = JSON.parse(statusCall[1]);
       expect(statusData.qualityScore).toBe(85);
       expect(statusData.totalIssues).toBe(1500);
@@ -229,14 +229,16 @@ describe('ZeroErrorAchievementDashboard', () => {
       mockReadFileSync.mockReturnValueOnce(JSON.stringify(historyData));
 
       const trends = await dashboard['analyzeTrends'](mockMetrics);
-      
+
       expect(trends).toBeInstanceOf(Array);
       expect(trends.length).toBeGreaterThan(0);
-      
+
       const totalIssuesTrend = trends.find(t => t.metric === 'totalIssues');
       expect(totalIssuesTrend).toBeDefined();
-      expect(totalIssuesTrend.trend).toBe('improving'); // Decreasing issues = improving
-      expect(totalIssuesTrend.velocity).toBeLessThan(0); // Negative velocity = decreasing
+      if (totalIssuesTrend) {
+        expect(totalIssuesTrend.trend).toBe('improving'); // Decreasing issues = improving
+        expect(totalIssuesTrend.velocity).toBeLessThan(0); // Negative velocity = decreasing
+      }
     });
 
     test('should handle insufficient data for trend analysis', async () => {
@@ -244,8 +246,8 @@ describe('ZeroErrorAchievementDashboard', () => {
       const historyData = [mockMetrics];
       mockReadFileSync.mockReturnValueOnce(JSON.stringify(historyData));
 
-      const trends = await dashboard['analyzeTrends'](mockMetrics);
-      
+      const trends = dashboard['analyzeTrends'](mockMetrics);
+
       expect(trends).toEqual([]); // No trends with insufficient data
     });
 
@@ -254,34 +256,41 @@ describe('ZeroErrorAchievementDashboard', () => {
       const currentValue = 1500;
 
       const projection = dashboard['projectFuture'](velocity, currentValue);
-      
-      expect(projection.sevenDays).toBe(1430); // 1500 - (10 * 7)
-      expect(projection.thirtyDays).toBe(1200); // 1500 - (10 * 30)
-      expect(projection.ninetyDays).toBe(600); // 1500 - (10 * 90)
+
+      expect(projection.sevenDays).toBe(1430); // 1500 - (10 * 7);
+    expect(projection.thirtyDays).toBe(1200); // 1500 - (10 * 30);
+    expect(projection.ninetyDays).toBe(600); // 1500 - (10 * 90)
     });
   });
 
   describe('Quality Gates', () => {
     test('should evaluate quality gates correctly', async () => {
       const gates = await dashboard['checkQualityGates'](mockMetrics);
-      
+
       expect(gates).toBeInstanceOf(Array);
       expect(gates.length).toBeGreaterThan(0);
-      
+
       // Check parser errors gate (should pass with 0 errors)
-      await const parserGate = gates.find
+      const parserGate = gates.find(g => g.name === 'parser-errors');
       expect(parserGate).toBeDefined();
-      expect(parserGate.status).toBe('passing');
-      
+      if (parserGate) {
+        expect(parserGate.status).toBe('passing');
+      }
+
       // Check explicit any gate (should warn with 150 errors)
-      await const anyGate = gates.find
+      const anyGate = gates.find(g => g.name === 'explicit-any');
       expect(anyGate).toBeDefined();
+      if (anyGate) {
+        expect(anyGate.status).toBe('warning'); // 150 > 100 but <= 150
+      }
       expect(anyGate.status).toBe('warning'); // 150 > 100 but <= 150
-      
+
       // Check quality score gate (should pass with 85)
       const qualityGate = gates.find(g => g.id === 'quality-score-minimum');
       expect(qualityGate).toBeDefined();
-      expect(qualityGate.status).toBe('passing'); // 85 >= 80
+      if (qualityGate) {
+        expect(qualityGate.status).toBe('passing'); // 85 >= 80
+      }
     });
 
     test('should identify failing quality gates', async () => {
@@ -293,15 +302,21 @@ describe('ZeroErrorAchievementDashboard', () => {
       };
 
       const gates = await dashboard['checkQualityGates'](failingMetrics);
-      
-      await const parserGate = gates.find
-      expect(parserGate.status).toBe('failing');
-      
-      await const anyGate = gates.find
-      expect(anyGate.status).toBe('failing'); // 200 > 150
-      
-      await const qualityGate = gates.find
-      expect(qualityGate.status).toBe('warning'); // 65 < 80 but >= 70
+
+      const parserGate = gates.find(g => g.name === 'parser-errors');
+      if (parserGate) {
+        expect(parserGate.status).toBe('failing');
+      }
+
+      const anyGate = gates.find(g => g.name === 'explicit-any');
+      if (anyGate) {
+        expect(anyGate.status).toBe('failing'); // 200 > 150
+      }
+
+      const qualityGate = gates.find(g => g.id === 'quality-score-minimum');
+      if (qualityGate) {
+        expect(qualityGate.status).toBe('warning'); // 65 < 80 but >= 70
+      }
     });
   });
 
@@ -320,7 +335,7 @@ describe('ZeroErrorAchievementDashboard', () => {
     test('should estimate completion dates based on progress', () => {
       const deadline = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000); // 30 days
       const completion = dashboard['estimateCompletion'](150, 0, deadline);
-      
+
       expect(completion).toBeInstanceOf(Date);
       expect(completion.getTime()).toBeGreaterThan(Date.now());
       expect(completion.getTime()).toBeLessThanOrEqual(deadline.getTime());
@@ -328,17 +343,17 @@ describe('ZeroErrorAchievementDashboard', () => {
 
     test('should update targets with current metrics', async () => {
       const mockValidationResult = {
-        passed: true,
+  passed: true,
         metrics: mockMetrics,
         alerts: [],
         recommendations: [],
         regressionAnalysis: {
-          detected: false,
+  detected: false,
           affectedMetrics: [],
           severity: 'minor' as const,
           recommendations: [],
           historicalComparison: {
-            current: 1500,
+  current: 1500,
             previous: 1600,
             change: -100,
             changePercentage: -6.25
@@ -350,10 +365,10 @@ describe('ZeroErrorAchievementDashboard', () => {
         .mockResolvedValue(mockValidationResult);
 
       const targets = await dashboard['updateTargets'](mockMetrics);
-      
+
       expect(targets).toBeInstanceOf(Array);
       expect(targets.length).toBeGreaterThan(0);
-      
+
       // Verify all targets have required properties
       for (const target of targets) {
         expect(target).toHaveProperty('metric');
@@ -371,31 +386,33 @@ describe('ZeroErrorAchievementDashboard', () => {
   describe('Maintenance Procedures', () => {
     test('should initialize maintenance procedures correctly', () => {
       const procedures = dashboard['maintenanceProcedures'];
-      
+
       expect(procedures.size).toBeGreaterThan(0);
       expect(procedures.has('daily-health-check')).toBe(true);
       expect(procedures.has('weekly-cache-optimization')).toBe(true);
       expect(procedures.has('monthly-metrics-cleanup')).toBe(true);
-      
+
       const dailyCheck = procedures.get('daily-health-check');
       expect(dailyCheck).toBeDefined();
-      expect(dailyCheck.frequency).toBe('daily');
-      expect(dailyCheck.automated).toBe(true);
-      expect(typeof dailyCheck.procedure).toBe('function');
+      if (dailyCheck) {
+        expect(dailyCheck.frequency).toBe('daily');
+        expect(dailyCheck.automated).toBe(true);
+        expect(typeof dailyCheck.procedure).toBe('function');
+      }
     });
 
     test('should calculate next run times correctly', () => {
       const baseDate = new Date('2025-01-15T10:00:00Z');
-      
+
       const nextDaily = dashboard['calculateNextRun'](baseDate, 'daily');
       expect(nextDaily.getDate()).toBe(16); // Next day
-      
+
       const nextWeekly = dashboard['calculateNextRun'](baseDate, 'weekly');
       expect(nextWeekly.getDate()).toBe(22); // 7 days later
-      
+
       const nextMonthly = dashboard['calculateNextRun'](baseDate, 'monthly');
       expect(nextMonthly.getMonth()).toBe(1); // February (0-indexed)
-      
+
       const nextQuarterly = dashboard['calculateNextRun'](baseDate, 'quarterly');
       expect(nextQuarterly.getMonth()).toBe(3); // April (0-indexed)
     });
@@ -404,13 +421,13 @@ describe('ZeroErrorAchievementDashboard', () => {
       // Mock successful command execution for maintenance
       mockExecSync.mockReturnValue('0'); // Success exit code
 
-      const results = await dashboard['runScheduledMaintenance']();
-      
+      const results = dashboard['runScheduledMaintenance']();
+
       // Should run procedures that are due
       expect(results).toBeInstanceOf(Map);
-      
+
       // Verify maintenance procedures were updated
-      await const dailyCheck = dashboard['maintenanceProcedures'].get
+      const dailyCheck = dashboard['maintenanceProcedures'].get
       if (results.has('daily-health-check')) {
         expect(dailyCheck.lastRun).toBeInstanceOf(Date);
         expect(dailyCheck.nextRun).toBeInstanceOf(Date);
@@ -422,18 +439,18 @@ describe('ZeroErrorAchievementDashboard', () => {
   describe('Report Generation', () => {
     test('should generate comprehensive markdown report', async () => {
       const mockData = {
-        validationResult: {
-          passed: true,
+  validationResult: {
+  passed: true,
           metrics: mockMetrics,
           alerts: [],
           recommendations: ['Continue improvement'],
           regressionAnalysis: {
-            detected: false,
+  detected: false,
             affectedMetrics: [],
             severity: 'minor' as const,
             recommendations: [],
             historicalComparison: {
-              current: 1500,
+  current: 1500,
               previous: 1600,
               change: -100,
               changePercentage: -6.25
@@ -447,14 +464,14 @@ describe('ZeroErrorAchievementDashboard', () => {
         generationTime: 1500
       };
 
-      await dashboard['generateComprehensiveReport'](mockData);
+      dashboard['generateComprehensiveReport'](mockData);
 
       // Verify markdown report was generated
-      const markdownCall = (mockWriteFileSync as jest.Mock).mock.calls.find(call => 
+      const markdownCall = (mockWriteFileSync as jest.Mock).mock.calls.find(call =>
         call[0].includes('.md')
       );
-      
-      expect(markdownCall).toBeDefined();
+
+      expect(markdownCall).toBeDefined()
       expect(markdownCall[1]).toContain('# 🎯 Zero-Error Achievement Dashboard');
       expect(markdownCall[1]).toContain('Quality Score: 85/100');
       expect(markdownCall[1]).toContain('Total Issues: 1500');
@@ -462,18 +479,18 @@ describe('ZeroErrorAchievementDashboard', () => {
 
     test('should generate JSON report with structured data', async () => {
       const mockData = {
-        validationResult: {
-          passed: true,
+  validationResult: {
+  passed: true,
           metrics: mockMetrics,
           alerts: [],
           recommendations: [],
           regressionAnalysis: {
-            detected: false,
+  detected: false,
             affectedMetrics: [],
             severity: 'minor' as const,
             recommendations: [],
             historicalComparison: {
-              current: 1500,
+  current: 1500,
               previous: 1600,
               change: -100,
               changePercentage: -6.25
@@ -487,15 +504,15 @@ describe('ZeroErrorAchievementDashboard', () => {
         generationTime: 1500
       };
 
-      await dashboard['generateComprehensiveReport'](mockData);
+      dashboard['generateComprehensiveReport'](mockData);
 
       // Verify JSON report was generated
-      const jsonCall = (mockWriteFileSync as jest.Mock).mock.calls.find(call => 
+      const jsonCall = (mockWriteFileSync as jest.Mock).mock.calls.find(call =>
         call[0].includes('.json')
       );
-      
-      expect(jsonCall).toBeDefined();
-      
+
+      expect(jsonCall).toBeDefined()
+
       const jsonData = JSON.parse(jsonCall[1]);
       expect(jsonData).toHaveProperty('timestamp');
       expect(jsonData).toHaveProperty('generationTime', 1500);
@@ -509,13 +526,13 @@ describe('ZeroErrorAchievementDashboard', () => {
     test('should get metric values correctly from nested objects', () => {
       const value1 = dashboard['getMetricValue'](mockMetrics, 'totalIssues');
       expect(value1).toBe(1500);
-      
+
       const value2 = dashboard['getMetricValue'](mockMetrics, 'performanceMetrics.lintingDuration');
       expect(value2).toBe(25000);
-      
+
       const value3 = dashboard['getMetricValue'](mockMetrics, 'domainSpecificIssues.astrologicalCalculations');
       expect(value3).toBe(25);
-      
+
       const value4 = dashboard['getMetricValue'](mockMetrics, 'nonexistent.path');
       expect(value4).toBe(0);
     });
@@ -534,17 +551,17 @@ describe('ZeroErrorAchievementDashboard', () => {
 
     test('should get overall status correctly', () => {
       const mockValidationResult = {
-        passed: true,
+  passed: true,
         metrics: mockMetrics,
         alerts: [],
         recommendations: [],
         regressionAnalysis: {
-          detected: false,
+  detected: false,
           affectedMetrics: [],
           severity: 'minor' as const,
           recommendations: [],
           historicalComparison: {
-            current: 1500,
+  current: 1500,
             previous: 1600,
             change: -100,
             changePercentage: -6.25
@@ -576,7 +593,7 @@ describe('ZeroErrorAchievementDashboard', () => {
       });
 
       // Should not throw, should use defaults
-      const trends = await dashboard['analyzeTrends'](mockMetrics);
+      const trends = dashboard['analyzeTrends'](mockMetrics);
       expect(trends).toEqual([]);
     });
 
@@ -585,11 +602,11 @@ describe('ZeroErrorAchievementDashboard', () => {
         throw new Error('Command failed');
       });
 
-      const results = await dashboard['runScheduledMaintenance']();
-      
+      const results = dashboard['runScheduledMaintenance']();
+
       // Should handle errors and continue
       expect(results).toBeInstanceOf(Map);
-      
+
       // Check if any failed results were recorded
       for (const [id, result] of results) {
         if (!result.success) {

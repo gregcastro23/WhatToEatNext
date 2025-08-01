@@ -17,7 +17,7 @@ import { join } from 'path';
 const { DomainSpecificRuleValidator } = require('../../scripts/validateDomainSpecificRules.cjs');
 
 describe('Domain-Specific Rule Validation', () => {
-  let validator: DomainSpecificRuleValidator;
+  let validator: typeof DomainSpecificRuleValidator;
   const projectRoot = process.cwd();
 
   beforeEach(() => {
@@ -48,7 +48,7 @@ describe('Domain-Specific Rule Validation', () => {
 
   describe('Overall Validation', () => {
     test('should validate all domain-specific rules', async () => {
-      const results = await validator.validateDomainSpecificRules();
+      const results = validator.validateDomainSpecificRules();
       
       expect(results).toBeDefined();
       expect(results.overall).toBeDefined();
@@ -63,7 +63,7 @@ describe('Domain-Specific Rule Validation', () => {
     });
 
     test('should generate validation report', async () => {
-      const results = await validator.validateDomainSpecificRules();
+      const results = validator.validateDomainSpecificRules();
       
       // Check that report file is created
       const reportPath = join(projectRoot, 'domain-specific-rule-validation-report.json');
@@ -96,7 +96,7 @@ describe('Domain-Specific Rule Validation', () => {
       try {
         // Run ESLint to check for violations
         execSync(`npx eslint "${testFile}" --no-eslintrc --config eslint.config.cjs`, {
-          stdio: 'pipe',
+  stdio: 'pipe',
           cwd: projectRoot
         });
         
@@ -129,7 +129,13 @@ describe('Domain-Specific Rule Validation', () => {
       writeFileSync(testFile, testContent);
 
       try {
-        await const output = execSync
+        const output = execSync(`npx eslint "${testFile}" --no-eslintrc --config eslint.config.cjs --format json`, {
+
+          encoding: 'utf8',
+
+          cwd: projectRoot
+
+        });
         const result = JSON.parse(output);
         
         if (result.length > 0 && result[0].messages) {
@@ -176,7 +182,7 @@ describe('Domain-Specific Rule Validation', () => {
 
       try {
         execSync(`npx eslint "${testFile}" --no-eslintrc --config eslint.config.cjs`, {
-          stdio: 'pipe',
+  stdio: 'pipe',
           cwd: projectRoot
         });
         
@@ -208,7 +214,7 @@ describe('Domain-Specific Rule Validation', () => {
 
       try {
         execSync(`npx eslint "${testFile}" --no-eslintrc --config eslint.config.cjs`, {
-          stdio: 'pipe',
+  stdio: 'pipe',
           cwd: projectRoot
         });
         
@@ -238,7 +244,7 @@ describe('Domain-Specific Rule Validation', () => {
 
       try {
         execSync(`npx eslint "${testFile}" --no-eslintrc --config eslint.config.cjs`, {
-          stdio: 'pipe',
+  stdio: 'pipe',
           cwd: projectRoot
         });
         
@@ -287,7 +293,7 @@ describe('Domain-Specific Rule Validation', () => {
 
       try {
         const output = execSync(`npx eslint "${testFile}" --no-eslintrc --config eslint.config.cjs --format json`, {
-          encoding: 'utf8',
+  encoding: 'utf8',
           cwd: projectRoot
         });
 
@@ -333,7 +339,13 @@ describe('Domain-Specific Rule Validation', () => {
       writeFileSync(testFile, testContent);
 
       try {
-        await const output = execSync
+        const output = execSync(`npx eslint "${testFile}" --no-eslintrc --config eslint.config.cjs --format json`, {
+
+          encoding: 'utf8',
+
+          cwd: projectRoot
+
+        });
         const result = JSON.parse(output);
         
         if (result.length > 0 && result[0].messages) {
@@ -376,7 +388,13 @@ describe('Domain-Specific Rule Validation', () => {
       writeFileSync(testFile, testContent);
 
       try {
-        await const output = execSync
+        const output = execSync(`npx eslint "${testFile}" --no-eslintrc --config eslint.config.cjs --format json`, {
+
+          encoding: 'utf8',
+
+          cwd: projectRoot
+
+        });
         const result = JSON.parse(output);
         
         if (result.length > 0 && result[0].messages) {
@@ -423,7 +441,13 @@ describe('Domain-Specific Rule Validation', () => {
       writeFileSync(testFile, testContent);
 
       try {
-        await const output = execSync
+        const output = execSync(`npx eslint "${testFile}" --no-eslintrc --config eslint.config.cjs --format json`, {
+
+          encoding: 'utf8',
+
+          cwd: projectRoot
+
+        });
         const result = JSON.parse(output);
         
         if (result.length > 0 && result[0].messages) {
@@ -468,7 +492,13 @@ describe('Domain-Specific Rule Validation', () => {
       writeFileSync(testFile, testContent);
 
       try {
-        await const output = execSync
+        const output = execSync(`npx eslint "${testFile}" --no-eslintrc --config eslint.config.cjs --format json`, {
+
+          encoding: 'utf8',
+
+          cwd: projectRoot
+
+        });
         const result = JSON.parse(output);
         
         if (result.length > 0 && result[0].messages) {
@@ -520,7 +550,13 @@ describe('Domain-Specific Rule Validation', () => {
       writeFileSync(testFile, testContent);
 
       try {
-        await const output = execSync
+        const output = execSync(`npx eslint "${testFile}" --no-eslintrc --config eslint.config.cjs --format json`, {
+
+          encoding: 'utf8',
+
+          cwd: projectRoot
+
+        });
         const result = JSON.parse(output);
         
         if (result.length > 0 && result[0].messages) {
@@ -566,7 +602,13 @@ describe('Domain-Specific Rule Validation', () => {
       writeFileSync(testFile, testContent);
 
       try {
-        await const output = execSync
+        const output = execSync(`npx eslint "${testFile}" --no-eslintrc --config eslint.config.cjs --format json`, {
+
+          encoding: 'utf8',
+
+          cwd: projectRoot
+
+        });
         const result = JSON.parse(output);
         
         if (result.length > 0 && result[0].messages) {
@@ -606,7 +648,13 @@ describe('Domain-Specific Rule Validation', () => {
       writeFileSync(testFile, testContent);
 
       try {
-        await const output = execSync
+        const output = execSync(`npx eslint "${testFile}" --no-eslintrc --config eslint.config.cjs --format json`, {
+
+          encoding: 'utf8',
+
+          cwd: projectRoot
+
+        });
         const result = JSON.parse(output);
         
         if (result.length > 0 && result[0].messages) {

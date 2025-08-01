@@ -174,7 +174,7 @@ function calculatePlanetaryScore(recipe: Recipe, planetName?: PlanetName): numbe
   const planetaryMatch = safeSome(recipe.astrologicalPropertiesInfluences as unknown[], influence => {
     // Apply surgical type casting with variable extraction
     const influenceData = influence as Record<string, unknown>;
-    const influenceLower = influenceData.toLowerCase?.();
+    const influenceLower = String(influenceData).toLowerCase();
     const planetNameLower = planetName.toLowerCase();
     
     return influenceLower?.includes(planetNameLower);
@@ -235,7 +235,7 @@ function _calculateZodiacScore(recipe: Recipe, sunSign: ZodiacSign): number {
   const zodiacMatch = safeSome(recipe.astrologicalPropertiesInfluences as unknown[], influence => {
     // Apply surgical type casting with variable extraction
     const influenceDataZodiac = influence as Record<string, unknown>;
-    const influenceLowerZodiac = influenceDataZodiac.toLowerCase?.();
+    const influenceLowerZodiac = String(influenceDataZodiac).toLowerCase();
     const sunSignLower = sunSign.toLowerCase();
     
     return influenceLowerZodiac?.includes(sunSignLower);

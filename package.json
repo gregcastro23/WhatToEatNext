@@ -97,7 +97,13 @@
     "performance:trends": "node src/scripts/runPerformanceValidation.js report --trends",
     "auto-fix": "node fix-file-on-save.cjs",
     "auto-fix:watch": "node src/scripts/watch-and-fix.cjs",
-    "auto-fix:watch-all": "node src/scripts/watch-and-fix.cjs ."
+    "auto-fix:watch-all": "node src/scripts/watch-and-fix.cjs .",
+    "lint:fix:syntax": "node fix-parsing-errors.cjs",
+    "lint:fix:any": "node scripts/typescript-fixes/fix-typescript-errors-enhanced-v3.js --auto-fix --max-files=15",
+    "lint:fix:unused": "node scripts/fix-unused-variables-final.cjs --max-files=20",
+    "lint:fix:await-thenable": "node fix-await-thenable-errors.cjs",
+    "lint:fix:await-thenable:dry": "node fix-await-thenable-errors.cjs --dry-run",
+    "lint:cache:clear": "rm -f .eslintcache .eslint-results.json .eslint-ts-cache/* && rm -rf .eslint-ts-cache/"
   },
   "dependencies": {
     "@emotion/react": "^11.11.1",

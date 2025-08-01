@@ -18,7 +18,7 @@ describe('Performance Optimization Validation', () => {
   const testTimeout = 180000; // 3 minutes
 
   beforeAll(() => {
-    validator = new LintingPerformanceValidator();
+    validator = new LintingPerformanceValidator()
   });
 
   describe('Enhanced Caching Performance', () => {
@@ -35,7 +35,7 @@ describe('Performance Optimization Validation', () => {
       // Run linting to create cache
       try {
         execSync('yarn lint:fast --max-warnings=10000 src/components/debug/ConsolidatedDebugInfo.tsx', {
-          stdio: 'pipe',
+  stdio: 'pipe',
           timeout: 30000
         });
       } catch (error) {
@@ -51,12 +51,12 @@ describe('Performance Optimization Validation', () => {
     });
 
     test('measures cache hit performance improvement', async () => {
-      const startTime = Date.now();
+      const startTime = Date.now()
       
       try {
         // Run with cache (should be faster)
         execSync('yarn lint:fast --max-warnings=10000 src/components/debug/ConsolidatedDebugInfo.tsx', {
-          stdio: 'pipe',
+  stdio: 'pipe',
           timeout: 30000
         });
       } catch (error) {
@@ -79,7 +79,7 @@ describe('Performance Optimization Validation', () => {
       setTimeout(() => {
         try {
           execSync('yarn lint:fast --max-warnings=10000 src/components/debug/ConsolidatedDebugInfo.tsx', {
-            stdio: 'pipe',
+  stdio: 'pipe',
             timeout: 30000
           });
         } catch (error) {
@@ -102,10 +102,16 @@ describe('Performance Optimization Validation', () => {
     });
 
     test('measures parallel processing performance', async () => {
-      const startTime = Date.now();
+      const startTime = Date.now()
       
       try {
-        await const output = execSync
+        const output = execSync('find src -name "*.ts" -o -name "*.tsx" | wc -l', {
+
+          encoding: 'utf8',
+
+          stdio: 'pipe'
+
+        });
         const parallelTime = Date.now() - startTime;
         
         // Parallel processing should complete in reasonable time
@@ -128,7 +134,7 @@ describe('Performance Optimization Validation', () => {
       // Estimate total files in src directory
       try {
         const output = execSync('find src -name "*.ts" -o -name "*.tsx" | wc -l', {
-          encoding: 'utf8',
+  encoding: 'utf8',
           stdio: 'pipe'
         });
         const totalFiles = parseInt(output.trim());
@@ -163,7 +169,7 @@ describe('Performance Optimization Validation', () => {
 
       try {
         execSync('yarn lint --max-warnings=10000 src/components/debug/ConsolidatedDebugInfo.tsx', {
-          stdio: 'pipe',
+  stdio: 'pipe',
           timeout: 30000,
           env: { ...process.env, NODE_OPTIONS: '--max-old-space-size=4096' }
         });
@@ -175,8 +181,8 @@ describe('Performance Optimization Validation', () => {
 
       const peakMemoryMB = peakMemoryUsage / 1024 / 1024;
       
-      // Memory usage should be reasonable (under 4GB limit)
-      expect(peakMemoryMB).toBeLessThan(4096);
+      // Memory usage should be reasonable (under 4GB limit);
+    expect(peakMemoryMB).toBeLessThan(4096);
       expect(peakMemoryMB).toBeGreaterThan(0);
     }, testTimeout);
 
@@ -186,7 +192,7 @@ describe('Performance Optimization Validation', () => {
       
       try {
         execSync('yarn lint:fast --max-warnings=10000 src/components/debug/ConsolidatedDebugInfo.tsx', {
-          stdio: 'pipe',
+  stdio: 'pipe',
           timeout: 30000
         });
       } catch (error) {
@@ -228,11 +234,11 @@ export function testFunction(): string {
 `;
       writeFileSync(testFile, testContent);
 
-      const startTime = Date.now();
+      const startTime = Date.now()
       
       try {
         execSync('yarn lint:changed --max-warnings=10000', {
-          stdio: 'pipe',
+  stdio: 'pipe',
           timeout: 15000 // 15 second timeout
         });
       } catch (error) {
@@ -252,7 +258,7 @@ export function testFunction(): string {
       // Run initial lint
       try {
         execSync('yarn lint:changed --max-warnings=10000', {
-          stdio: 'pipe',
+  stdio: 'pipe',
           timeout: 10000
         });
       } catch (error) {
@@ -262,11 +268,11 @@ export function testFunction(): string {
       // Modify file
       writeFileSync(testFile, 'export const modified = "test";');
       
-      const startTime = Date.now();
+      const startTime = Date.now()
       
       try {
         execSync('yarn lint:changed --max-warnings=10000', {
-          stdio: 'pipe',
+  stdio: 'pipe',
           timeout: 10000
         });
       } catch (error) {
@@ -287,11 +293,11 @@ export function testFunction(): string {
       const times: number[] = [];
       
       for (let i = 0; i < 2; i++) {
-        const startTime = Date.now();
+        const startTime = Date.now()
         
         try {
           execSync('yarn lint:changed --max-warnings=10000', {
-            stdio: 'pipe',
+  stdio: 'pipe',
             timeout: 10000
           });
         } catch (error) {
@@ -301,8 +307,8 @@ export function testFunction(): string {
         times.push(Date.now() - startTime);
       }
       
-      // Second run should be faster or similar (cache efficiency)
-      expect(times[1]).toBeLessThanOrEqual(times[0] * 1.2); // Allow 20% variance
+      // Second run should be faster or similar (cache efficiency);
+    expect(times[1]).toBeLessThanOrEqual(times[0] * 1.2); // Allow 20% variance
       expect(times[1]).toBeLessThan(10000); // Still under 10 seconds
     });
   });
@@ -311,17 +317,17 @@ export function testFunction(): string {
     test('validates performance improvement targets', async () => {
       // This test validates that the overall system meets performance targets
       const performanceTargets = {
-        cachingImprovement: 60, // Minimum 60% improvement
-        parallelProcessing: true,
-        memoryLimit: 4096, // MB
-        incrementalFeedback: 10000 // 10 seconds max
+  cachingImprovement: 60, // Minimum 60% improvement,
+  parallelProcessing: true,
+        memoryLimit: 4096, // MB,
+  incrementalFeedback: 10000 // 10 seconds max
       };
 
       // Test caching improvement
-      const startTime = Date.now();
+      const startTime = Date.now()
       try {
         execSync('yarn lint:fast --max-warnings=10000 src/components/debug/ConsolidatedDebugInfo.tsx', {
-          stdio: 'pipe',
+  stdio: 'pipe',
           timeout: 30000
         });
       } catch (error) {
@@ -338,7 +344,7 @@ export function testFunction(): string {
     test('validates comprehensive performance metrics', () => {
       // Test that all performance metrics are measurable
       const metrics = {
-        executionTime: expect.any(Number),
+  executionTime: expect.any(Number),
         memoryUsage: expect.any(Number),
         cacheHitRate: expect.any(Number),
         filesProcessed: expect.any(Number),
@@ -346,7 +352,7 @@ export function testFunction(): string {
       };
 
       expect(metrics).toMatchObject({
-        executionTime: expect.any(Number),
+  executionTime: expect.any(Number),
         memoryUsage: expect.any(Number),
         cacheHitRate: expect.any(Number),
         filesProcessed: expect.any(Number),
@@ -359,7 +365,7 @@ export function testFunction(): string {
       expect(existsSync('src/scripts/validateLintingPerformance.ts')).toBe(true);
       
       // Test that the validator class is properly exported
-      expect(LintingPerformanceValidator).toBeDefined();
+      expect(LintingPerformanceValidator).toBeDefined()
       expect(typeof LintingPerformanceValidator).toBe('function');
     });
   });

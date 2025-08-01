@@ -253,7 +253,8 @@ export async function safeImportAndExecute<R, A extends any[] = any[]>(
       return null;
     }
     
-    return (importedModule as Record<string, unknown>)[functionName] as (...args: unknown[]) => R;
+    const func = (importedModule as Record<string, unknown>)[functionName] as (...args: A) => R;
+    return func(..._args);
   } catch (error) {
     errorLog(`Safe import and execute failed for ${functionName} from ${path}:`, error);
     

@@ -160,7 +160,6 @@ export interface AstrologicalAspect {
 
 /* Example code - commented out to avoid type errors
 import { FoodAlchemySystem } from '@/services/FoodAlchemySystem';
-import { thermodynamicCalculator } from '@/calculations/gregsEnergy';
 import { Planet, PlanetName, ZodiacSign, LunarPhase } from '@/types/celestial';
 
 // Example usage

@@ -50,7 +50,7 @@ describe('RecipeBuilderSimple', () => {
 
     const nameInput = screen.getByLabelText('Recipe Name');
 
-    await user.type(nameInput, 'My Test Recipe');
+    user.type(nameInput, 'My Test Recipe');
 
     expect(nameInput).toHaveValue('My Test Recipe');
   });
@@ -63,14 +63,14 @@ describe('RecipeBuilderSimple', () => {
     const prepTimeInput = screen.getByLabelText('Prep Time (min)');
     const cookTimeInput = screen.getByLabelText('Cook Time (min)');
 
-    await user.clear(servingsInput);
-    await user.type(servingsInput, '6');
+    user.clear(servingsInput);
+    user.type(servingsInput, '6');
 
-    await user.clear(prepTimeInput);
-    await user.type(prepTimeInput, '20');
+    user.clear(prepTimeInput);
+    user.type(prepTimeInput, '20');
 
-    await user.clear(cookTimeInput);
-    await user.type(cookTimeInput, '45');
+    user.clear(cookTimeInput);
+    user.type(cookTimeInput, '45');
 
     expect(servingsInput).toHaveValue(6);
     expect(prepTimeInput).toHaveValue(20);
@@ -86,7 +86,7 @@ describe('RecipeBuilderSimple', () => {
 
     // Add ingredient
     const addIngredientButton = screen.getByText('Add Ingredient');
-    await user.click(addIngredientButton);
+    user.click(addIngredientButton);
 
     // Should now have one ingredient row
     const quantityInputs = screen.getAllByPlaceholderText('1 cup');
@@ -98,9 +98,9 @@ describe('RecipeBuilderSimple', () => {
     expect(prepInputs).toHaveLength(1);
 
     // Fill in ingredient details
-    await user.type(quantityInputs[0], '2 cups');
-    await user.type(nameInputs[0], 'Tomatoes');
-    await user.type(prepInputs[0], 'diced');
+    user.type(quantityInputs[0], '2 cups');
+    user.type(nameInputs[0], 'Tomatoes');
+    user.type(prepInputs[0], 'diced');
 
     expect(quantityInputs[0]).toHaveValue('2 cups');
     expect(nameInputs[0]).toHaveValue('Tomatoes');
@@ -108,7 +108,7 @@ describe('RecipeBuilderSimple', () => {
 
     // Remove ingredient
     const removeButton = screen.getByTitle('Remove ingredient');
-    await user.click(removeButton);
+    user.click(removeButton);
 
     // Should be back to no ingredients
     expect(screen.getByText('No ingredients added yet. Click "Add Ingredient" to start.')).toBeInTheDocument();
@@ -123,7 +123,7 @@ describe('RecipeBuilderSimple', () => {
 
     // Add step
     const addStepButton = screen.getByText('Add Step');
-    await user.click(addStepButton);
+    user.click(addStepButton);
 
     // Should now have one step
     const stepTextareas = screen.getAllByPlaceholderText('Describe this step...');
@@ -134,14 +134,14 @@ describe('RecipeBuilderSimple', () => {
     expect(screen.getByText('1')).toBeInTheDocument(); // Step number
 
     // Fill in step details
-    await user.type(stepTextareas[0], 'Heat oil in a large pan');
-    await user.type(timingInputs[0], '2 min');
+    user.type(stepTextareas[0], 'Heat oil in a large pan');
+    user.type(timingInputs[0], '2 min');
 
     expect(stepTextareas[0]).toHaveValue('Heat oil in a large pan');
     expect(timingInputs[0]).toHaveValue('2 min');
 
     // Add another step
-    await user.click(addStepButton);
+    user.click(addStepButton);
 
     // Should now have two steps with correct numbering
     expect(screen.getByText('1')).toBeInTheDocument();
@@ -149,7 +149,7 @@ describe('RecipeBuilderSimple', () => {
 
     // Remove first step
     const removeButtons = screen.getAllByTitle('Remove step');
-    await user.click(removeButtons[0]);
+    user.click(removeButtons[0]);
 
     // Should have one step, renumbered to 1
     const remainingSteps = screen.getAllByPlaceholderText('Describe this step...');
@@ -171,21 +171,21 @@ describe('RecipeBuilderSimple', () => {
 
     // Add recipe name
     const nameInput = screen.getByLabelText('Recipe Name');
-    await user.type(nameInput, 'Test Recipe');
+    user.type(nameInput, 'Test Recipe');
 
     // Add ingredient
     const addIngredientButton = screen.getByText('Add Ingredient');
-    await user.click(addIngredientButton);
+    user.click(addIngredientButton);
 
     const nameInputs = screen.getAllByPlaceholderText('Ingredient name');
-    await user.type(nameInputs[0], 'Tomatoes');
+    user.type(nameInputs[0], 'Tomatoes');
 
     // Add step
     const addStepButton = screen.getByText('Add Step');
-    await user.click(addStepButton);
+    user.click(addStepButton);
 
     const stepTextareas = screen.getAllByPlaceholderText('Describe this step...');
-    await user.type(stepTextareas[0], 'Cook the tomatoes');
+    user.type(stepTextareas[0], 'Cook the tomatoes');
 
     // Save button should now be enabled
     const saveButton = screen.getByText('Save Recipe');
@@ -203,23 +203,23 @@ describe('RecipeBuilderSimple', () => {
 
     // Create a valid recipe
     const nameInput = screen.getByLabelText('Recipe Name');
-    await user.type(nameInput, 'Test Recipe');
+    user.type(nameInput, 'Test Recipe');
 
     const addIngredientButton = screen.getByText('Add Ingredient');
-    await user.click(addIngredientButton);
+    user.click(addIngredientButton);
 
     const nameInputs = screen.getAllByPlaceholderText('Ingredient name');
-    await user.type(nameInputs[0], 'Tomatoes');
+    user.type(nameInputs[0], 'Tomatoes');
 
     const addStepButton = screen.getByText('Add Step');
-    await user.click(addStepButton);
+    user.click(addStepButton);
 
     const stepTextareas = screen.getAllByPlaceholderText('Describe this step...');
-    await user.type(stepTextareas[0], 'Cook the tomatoes');
+    user.type(stepTextareas[0], 'Cook the tomatoes');
 
     // Save the recipe
     const saveButton = screen.getByText('Save Recipe');
-    await user.click(saveButton);
+    user.click(saveButton);
 
     expect(mockOnSave).toHaveBeenCalledWith(
       expect.objectContaining({
@@ -250,14 +250,14 @@ describe('RecipeBuilderSimple', () => {
 
     // Add recipe name
     const nameInput = screen.getByLabelText('Recipe Name');
-    await user.type(nameInput, 'Test Recipe');
+    user.type(nameInput, 'Test Recipe');
 
     // Add ingredient
     const addIngredientButton = screen.getByText('Add Ingredient');
-    await user.click(addIngredientButton);
+    user.click(addIngredientButton);
 
     const nameInputs = screen.getAllByPlaceholderText('Ingredient name');
-    await user.type(nameInputs[0], 'Tomatoes');
+    user.type(nameInputs[0], 'Tomatoes');
 
     // Should show recipe summary
     await waitFor(() => {
@@ -276,21 +276,21 @@ describe('RecipeBuilderSimple', () => {
     const prepTimeInput = screen.getByLabelText('Prep Time (min)');
     const cookTimeInput = screen.getByLabelText('Cook Time (min)');
 
-    await user.clear(prepTimeInput);
-    await user.type(prepTimeInput, '15');
+    user.clear(prepTimeInput);
+    user.type(prepTimeInput, '15');
 
-    await user.clear(cookTimeInput);
-    await user.type(cookTimeInput, '30');
+    user.clear(cookTimeInput);
+    user.type(cookTimeInput, '30');
 
     // Add minimum required fields for summary
     const nameInput = screen.getByLabelText('Recipe Name');
-    await user.type(nameInput, 'Test Recipe');
+    user.type(nameInput, 'Test Recipe');
 
     const addIngredientButton = screen.getByText('Add Ingredient');
-    await user.click(addIngredientButton);
+    user.click(addIngredientButton);
 
     const nameInputs = screen.getAllByPlaceholderText('Ingredient name');
-    await user.type(nameInputs[0], 'Tomatoes');
+    user.type(nameInputs[0], 'Tomatoes');
 
     // Should show correct total time in summary
     await waitFor(() => {
@@ -304,16 +304,16 @@ describe('RecipeBuilderSimple', () => {
 
     // Add ingredient
     const addIngredientButton = screen.getByText('Add Ingredient');
-    await user.click(addIngredientButton);
+    user.click(addIngredientButton);
 
     const quantityInputs = screen.getAllByPlaceholderText('1 cup');
     const nameInputs = screen.getAllByPlaceholderText('Ingredient name');
     const prepInputs = screen.getAllByPlaceholderText('diced, chopped...');
 
     // Update all fields
-    await user.type(quantityInputs[0], '2 cups');
-    await user.type(nameInputs[0], 'Fresh Tomatoes');
-    await user.type(prepInputs[0], 'finely diced');
+    user.type(quantityInputs[0], '2 cups');
+    user.type(nameInputs[0], 'Fresh Tomatoes');
+    user.type(prepInputs[0], 'finely diced');
 
     expect(quantityInputs[0]).toHaveValue('2 cups');
     expect(nameInputs[0]).toHaveValue('Fresh Tomatoes');
@@ -326,14 +326,14 @@ describe('RecipeBuilderSimple', () => {
 
     // Add step
     const addStepButton = screen.getByText('Add Step');
-    await user.click(addStepButton);
+    user.click(addStepButton);
 
     const stepTextareas = screen.getAllByPlaceholderText('Describe this step...');
     const timingInputs = screen.getAllByPlaceholderText('5 min');
 
     // Update step details
-    await user.type(stepTextareas[0], 'Heat olive oil in a large skillet over medium heat');
-    await user.type(timingInputs[0], '3 min');
+    user.type(stepTextareas[0], 'Heat olive oil in a large skillet over medium heat');
+    user.type(timingInputs[0], '3 min');
 
     expect(stepTextareas[0]).toHaveValue('Heat olive oil in a large skillet over medium heat');
     expect(timingInputs[0]).toHaveValue('3 min');
@@ -345,9 +345,9 @@ describe('RecipeBuilderSimple', () => {
 
     // Add three steps
     const addStepButton = screen.getByText('Add Step');
-    await user.click(addStepButton);
-    await user.click(addStepButton);
-    await user.click(addStepButton);
+    user.click(addStepButton);
+    user.click(addStepButton);
+    user.click(addStepButton);
 
     // Should have steps 1, 2, 3
     expect(screen.getByText('1')).toBeInTheDocument();
@@ -356,7 +356,7 @@ describe('RecipeBuilderSimple', () => {
 
     // Remove middle step (step 2)
     const removeButtons = screen.getAllByTitle('Remove step');
-    await user.click(removeButtons[1]);
+    user.click(removeButtons[1]);
 
     // Should now have steps 1, 2 (renumbered)
     expect(screen.getByText('1')).toBeInTheDocument();
@@ -380,23 +380,23 @@ describe('RecipeBuilderSimple Performance', () => {
 
     // Add recipe details
     const nameInput = screen.getByLabelText('Recipe Name');
-    await user.type(nameInput, 'Performance Test Recipe');
+    user.type(nameInput, 'Performance Test Recipe');
 
     const prepTimeInput = screen.getByLabelText('Prep Time (min)');
     const cookTimeInput = screen.getByLabelText('Cook Time (min)');
 
-    await user.clear(prepTimeInput);
-    await user.type(prepTimeInput, '10');
+    user.clear(prepTimeInput);
+    user.type(prepTimeInput, '10');
 
-    await user.clear(cookTimeInput);
-    await user.type(cookTimeInput, '20');
+    user.clear(cookTimeInput);
+    user.type(cookTimeInput, '20');
 
     // Add ingredient to trigger summary
     const addIngredientButton = screen.getByText('Add Ingredient');
-    await user.click(addIngredientButton);
+    user.click(addIngredientButton);
 
     const nameInputs = screen.getAllByPlaceholderText('Ingredient name');
-    await user.type(nameInputs[0], 'Test Ingredient');
+    user.type(nameInputs[0], 'Test Ingredient');
 
     // Verify total time is calculated correctly
     await waitFor(() => {

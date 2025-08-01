@@ -33,7 +33,7 @@ export async function POST(request: Request) {
   try {
     // Get the request body
     const body = await request.json();
-    
+
     // Extract parameters from request or use defaults
     const {
       year = new Date().getFullYear(),
@@ -80,7 +80,7 @@ export async function POST(request: Request) {
     }
 
     const data = await response.json();
-    
+
     // Extract and update current moment positions
     try {
       const positions = extractPlanetaryPositions(data);
@@ -92,7 +92,7 @@ export async function POST(request: Request) {
       logger.warn('Failed to update current moment data:', updateError);
       // Don't fail the entire request if update fails
     }
-    
+
     return NextResponse.json(data);
 
   } catch (error) {
@@ -109,15 +109,15 @@ export async function POST(request: Request) {
  */
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
-  
+
   // Extract query parameters
   const latitude = parseFloat(searchParams.get('latitude') || String(DEFAULT_LOCATION.latitude));
   const longitude = parseFloat(searchParams.get('longitude') || String(DEFAULT_LOCATION.longitude));
   const zodiacSystem = searchParams.get('zodiacSystem') || 'tropical';
-  
+
   // Use current date/time
   const now = new Date();
-  
+
   const payload = {
     year: now.getFullYear(),
     month: now.getMonth(), // Send 0-indexed month directly since POST handler expects this format
@@ -146,7 +146,7 @@ function extractPlanetaryPositions(data: Record<string, unknown>): Record<string
     const celestialBodies = data._celestialBodies;
     if (celestialBodies) {
       const positions: Record<string, PlanetPosition> = {};
-      
+
       const planetMap = {
         'sun': 'Sun',
         'moon': 'Moon',
@@ -159,14 +159,14 @@ function extractPlanetaryPositions(data: Record<string, unknown>): Record<string
         'neptune': 'Neptune',
         'pluto': 'Pluto'
       };
-      
+
       Object.entries(planetMap).forEach(([apiKey, planetName]) => {
         const planetData = celestialBodies[apiKey];
         if (planetData?.Sign && planetData.ChartPosition) {
           const sign = planetData.Sign.key?.toLowerCase();
           const arcDegrees = planetData.ChartPosition.Ecliptic?.ArcDegrees;
           const decimalDegrees = planetData.ChartPosition.Ecliptic?.DecimalDegrees;
-          
+
           if (sign && arcDegrees && decimalDegrees !== undefined) {
             positions[planetName] = {
               sign: sign ,
@@ -178,21 +178,21 @@ function extractPlanetaryPositions(data: Record<string, unknown>): Record<string
           }
         }
       });
-      
+
       return Object.keys(positions).length > 0 ? positions : null;
     }
-    
+
     // Try alternative structure if available
-    const astrologyInfo = data.astrology_info?.horoscope_parameters?.planets;
+    const astrologyInfo = (data as any).astrology_info?.horoscope_parameters?.planets;
     if (astrologyInfo) {
       const positions: Record<string, PlanetPosition> = {};
-      
+
       Object.entries(astrologyInfo).forEach(([planetName, planetData]: [string, any]) => {
         if (planetData?.sign && planetData?.angle !== undefined) {
           const totalDegrees = planetData.angle;
           const degrees = Math.floor(totalDegrees);
           const minutes = Math.floor((totalDegrees - degrees) * 60);
-          
+
           positions[planetName] = {
             sign: planetData.sign.toLowerCase() ,
             degree: degrees,
@@ -202,13 +202,13 @@ function extractPlanetaryPositions(data: Record<string, unknown>): Record<string
           };
         }
       });
-      
+
       return Object.keys(positions).length > 0 ? positions : null;
     }
-    
+
     return null;
   } catch (error) {
     logger.error('Error extracting planetary positions:', error);
     return null;
   }
-} 
+}

@@ -395,7 +395,7 @@ export class RecommendationService {
   ): Promise<ScoredRecipe[]> {
     try {
       if (!Array.isArray(recipes) || (recipes || []).length === 0) {
-        throw new (createError as new(message: string, details?: Record<string, unknown>) => Error)('INVALID_REQUEST', { context: 'Empty recipe list' });
+        throw new (createError as unknown as new(message: string, details?: Record<string, unknown>) => Error)('INVALID_REQUEST', { context: 'Empty recipe list' });
       }
 
       // If celestial influence not provided, calculate from current settings

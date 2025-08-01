@@ -149,7 +149,7 @@ describe('Integration Validation Tests - Task 12', () => {
       test('SafeUnusedImportRemover can be instantiated and configured', async () => {
         // Test that the SafeUnusedImportRemover can be imported
         try {
-          const { SafeUnusedImportRemover } = await import('../../services/linting/SafeUnusedImportRemover');
+          const { SafeUnusedImportRemover } = import('../../services/linting/SafeUnusedImportRemover');
           
           expect(SafeUnusedImportRemover).toBeDefined();
           
@@ -215,7 +215,7 @@ describe('Integration Validation Tests - Task 12', () => {
 
         for (const component of campaignComponents) {
           try {
-            const module = await import(`../../services/campaign/${component}`);
+            const module = import(`../../services/campaign/${component}`);
             expect(module[component]).toBeDefined();
             console.log(`${component} loaded successfully`);
           } catch (error) {

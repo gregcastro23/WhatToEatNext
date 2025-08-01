@@ -207,7 +207,7 @@ describe('Build Quality Monitor', () => {
     it('should return quality score between 0 and 100', async () => {
       mockExecSync.mockReturnValue('');
 
-      const score = await getBuildQualityScore();
+      const score = getBuildQualityScore();
 
       expect(score).toBeGreaterThanOrEqual(0);
       expect(score).toBeLessThanOrEqual(100);
@@ -218,7 +218,7 @@ describe('Build Quality Monitor', () => {
         throw new Error('Complete failure');
       });
 
-      const score = await getBuildQualityScore();
+      const score = getBuildQualityScore();
 
       expect(score).toBe(0);
     });

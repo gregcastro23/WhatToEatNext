@@ -66,7 +66,7 @@ async function testStreamlinedSystem() {
     (topPlanets || []).forEach((planet, index) => {
       log.info(`  ${index + 1}. ${planet.planet}: ${(planet.strength * 100).toFixed(1)}% (${planet.element})`);
     });
-    log.info();
+    log.info('');
 
     log.info('🍳 CULINARY RECOMMENDATIONS:');
     log.info(`  Ingredients: ${result.recommendations.culinary.ingredients.slice(0, 3).join(', ')}`);

@@ -73,7 +73,7 @@ export function initializeChromeApis(): void {
           return window.location.origin + '/' + path;
         },
         sendMessage: function(message: unknown) {
-          log.info('[ChromeAPI] Mocked chrome.runtime.sendMessage called:', message);
+          log.info('[ChromeAPI] Mocked chrome.runtime.sendMessage called:', message as any);
           return Promise.resolve({ success: true });
         },
         onMessage: {

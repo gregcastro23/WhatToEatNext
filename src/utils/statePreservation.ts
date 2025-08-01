@@ -265,7 +265,7 @@ export function clearExpiredState(): void {
 /**
  * Hook for automatic state cleanup on page load
  */
-export function useStateCleanup(): void {
+export function useStateCleanup(): (() => void) | void {
   if (typeof window !== 'undefined') {
     // Clear expired state on page load
     clearExpiredState();

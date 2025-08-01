@@ -229,8 +229,8 @@ module.exports = [
       '@typescript-eslint/no-non-null-assertion': 'warn',
       '@typescript-eslint/no-unnecessary-type-assertion': 'warn',
       '@typescript-eslint/prefer-optional-chain': 'warn',
-      '@typescript-eslint/prefer-nullish-coalescing': 'off', // Temporarily disabled due to plugin bug
-      '@typescript-eslint/no-unnecessary-condition': 'warn',
+      '@typescript-eslint/prefer-nullish-coalescing': 'off', // Disabled due to plugin compatibility issues
+      '@typescript-eslint/no-unnecessary-condition': 'off', // Temporarily disabled - 2,635 warnings creating noise
       '@typescript-eslint/strict-boolean-expressions': 'off', // Too strict for existing codebase
       '@typescript-eslint/no-floating-promises': 'error',
       '@typescript-eslint/no-misused-promises': 'error',
@@ -545,8 +545,13 @@ module.exports = [
     settings: {
       // Enhanced cache settings for improved performance
       'import/cache': {
-        lifetime: 10 * 60, // 10 minutes for longer cache retention
-        max: 2000 // Increased maximum cache entries for large codebase
+        lifetime: 15 * 60, // 15 minutes for longer cache retention
+        max: 3000 // Increased maximum cache entries for large codebase
+      },
+      // ESLint performance optimizations
+      'import/parsers': {
+        espree: ['.js', '.cjs', '.mjs'],
+        '@typescript-eslint/parser': ['.ts', '.tsx'],
       },
       // Optimized TypeScript project references with enhanced caching
       'import/resolver': {

@@ -160,7 +160,7 @@ export class BuildSystemRepair {
       timestamp: new Date(),
       validation: await this.buildValidator.validateBuild(),
       health: await this.buildValidator.monitorBuildHealth(),
-      configValidation: this.buildValidator.validateNextConfig(),
+      configValidation: this.buildValidator.validateNextConfig() as unknown as Record<string, unknown>,
       recommendations: []
     };
 
@@ -173,7 +173,7 @@ export class BuildSystemRepair {
       report.recommendations.push('Rebuild application to regenerate manifest files');
     }
 
-    if (report.configValidation.issues.length > 0) {
+    if ((report.configValidation as any).issues?.length > 0) {
       report.recommendations.push('Update Next.js configuration to resolve issues');
     }
 

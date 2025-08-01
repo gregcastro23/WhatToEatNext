@@ -7,8 +7,8 @@
  * safety intelligence, and optimization recommendations.
  */
 
-import type { ElementalProperties } from '@/types/alchemy';
 import { RECIPE_COMPATIBILITY_INTELLIGENCE } from '@/calculations/index';
+import type { ElementalProperties } from '@/types/alchemy';
 import { logger } from '@/utils/logger';
 
 

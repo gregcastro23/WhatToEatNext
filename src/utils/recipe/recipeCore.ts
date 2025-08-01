@@ -476,8 +476,9 @@ function scoreRecipe(
   // Lunar phase alignment
   if (
     recipe.lunarPhaseInfluences && 
+    astrologicalState.lunarPhase &&
     (Array.isArray(recipe.lunarPhaseInfluences) 
-      ? recipe.lunarPhaseInfluences.includes(astrologicalState.lunarPhase ?? undefined) 
+      ? recipe.lunarPhaseInfluences.includes(astrologicalState.lunarPhase) 
       : recipe.lunarPhaseInfluences === astrologicalState.lunarPhase)
   ) {
     score += 10;

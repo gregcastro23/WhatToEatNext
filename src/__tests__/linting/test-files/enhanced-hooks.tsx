@@ -1,6 +1,7 @@
 
 import { useEffect, useCallback } from 'react';
-import { useRecoilCallback } from 'recoil';
+// Mock recoil for testing
+const useRecoilCallback = (callback: (utils: { set: Function }) => () => void, deps: unknown[]) => callback({ set: () => {} });
 
 export function EnhancedHooksComponent() {
   const value = 'test';

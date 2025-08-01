@@ -292,9 +292,9 @@ export class RecipeCuisineConnector {
     }
 
     // Filter by min protein
-    if (filters.minProtein) {
+    if ((filters.minProtein ?? 0)) {
       results = results.filter(recipe =>
-        recipe.nutrition?.protein && recipe.nutrition.protein >= filters.minProtein ?? undefined
+        recipe.nutrition?.protein && recipe.nutrition.protein >= (filters.minProtein ?? 0) ?? undefined
       );
     }
 

@@ -27,8 +27,8 @@ import {
   AdvancedIntelligenceMetrics
 } from '@/types/advancedIntelligence';
 import { Recipe, Ingredient, ZodiacSign, RecipeIngredient, ElementalProperties } from '@/types/unified';
-import { calculateElementalCompatibility } from '@/utils/elemental/elementalUtils';
 import { getCurrentSeason } from '@/utils/dateUtils';
+import { calculateElementalCompatibility } from '@/utils/elemental/elementalUtils';
 import { logger } from '@/utils/logger';
 
 

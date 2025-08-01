@@ -352,34 +352,34 @@ export interface EnhancedIngredientRecommendation extends IngredientRecommendati
 // ===== PERFORMANCE-OPTIMIZED DATA LOADING =====
 
 export const loadIngredientCategories = async (categories: string[]): Promise<Record<string, Ingredient>> => {
-  const result: { [key: string]: Record<string, unknown> } = {};
+  const result: Record<string, Ingredient> = {};
   try {
     if (categories.includes("vegetables")) {
-      result.vegetables = await loadVegetables();
+      result.vegetables = await loadVegetables() as unknown as Ingredient;
     }
     if (categories.includes("fruits")) {
-      result.fruits = await loadFruits();
+      result.fruits = await loadFruits() as unknown as Ingredient;
     }
     if (categories.includes("herbs")) {
-      result.herbs = await loadHerbs();
+      result.herbs = await loadHerbs() as unknown as Ingredient;
     }
     if (categories.includes("spices")) {
-      result.spices = await loadSpices();
+      result.spices = await loadSpices() as unknown as Ingredient;
     }
     if (categories.includes("proteins")) {
-      result.proteins = await loadProteins();
+      result.proteins = await loadProteins() as unknown as Ingredient;
     }
     if (categories.includes("grains")) {
-      result.grains = await loadGrains();
+      result.grains = await loadGrains() as unknown as Ingredient;
     }
     if (categories.includes("seasonings")) {
-      result.seasonings = await loadSeasonings();
+      result.seasonings = await loadSeasonings() as unknown as Ingredient;
     }
     if (categories.includes("oils")) {
-      result.oils = await loadOils();
+      result.oils = await loadOils() as unknown as Ingredient;
     }
     if (categories.includes("vinegars")) {
-      result.vinegars = await loadVinegars();
+      result.vinegars = await loadVinegars() as unknown as Ingredient;
     }
   } catch (error) {
     console.error('Error loading ingredient categories:', error);
@@ -646,14 +646,14 @@ export async function getIngredientRecommendations(
   // Filter by excluded ingredients
   if (_options.excludeIngredients && _options.excludeIngredients.length > 0) {
     filteredIngredients = filteredIngredients.filter(ing => 
-      !_options.excludeIngredients ?? undefined.includes(ing.name)
+      !_options.excludeIngredients?.includes(ing.name)
     );
   }
   
   // Filter by included ingredients only
   if (_options.includeOnly && _options.includeOnly.length > 0) {
     filteredIngredients = filteredIngredients.filter(ing => 
-      _options.includeOnly ?? undefined.includes(ing.name)
+      _options.includeOnly?.includes(ing.name)
     );
   }
   
@@ -662,7 +662,7 @@ export async function getIngredientRecommendations(
     try {
       // Traditional scoring factors
       const elementalScore = calculateElementalScore(ingredient.elementalProperties, _elementalProps);
-      const seasonalScore = await calculateSeasonalScore(ingredient as Record<string, unknown>, _elementalProps.timestamp);
+      const seasonalScore = await calculateSeasonalScore(ingredient as unknown as Ingredient, _elementalProps.timestamp);
       const modalityScore = await calculateModalityScore(ingredient.qualities || [], _options.modalityPreference);
       
       // NEW: Unified flavor compatibility scoring
@@ -728,8 +728,8 @@ export async function getIngredientRecommendations(
     if (!recommendations[category]) {
       recommendations[category] = [];
     }
-    if (recommendations[category] ?? undefined.length < limit) {
-      recommendations[category] ?? undefined.push(ingredient);
+    if ((recommendations[category]?.length ?? 0) < limit) {
+      recommendations[category]?.push(ingredient);
     }
   });
   
@@ -755,7 +755,7 @@ export const getTopIngredientMatches = async (
     // Planetary compatibility
     if (astroState.activePlanets && ingredient.astrologicalProfile?.rulingPlanets) {
       const planetMatch = ingredient.astrologicalProfile.rulingPlanets.some(planet => 
-        astroState.activePlanets ?? undefined.includes(planet)
+        astroState.activePlanets?.includes(planet)
       );
       if (planetMatch) score += 0.2;
     }

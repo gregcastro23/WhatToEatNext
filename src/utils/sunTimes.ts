@@ -91,7 +91,7 @@ export function isDaytime(
   const times = calculateSunTimes(now, latitude, longitude);
   
   // Check if current time is between sunrise and sunset
-  return times.sunrise && times.sunset && 
+  return Boolean(times.sunrise && times.sunset && 
          now.getTime() >= times.sunrise.getTime() && 
-         now.getTime() <= times.sunset.getTime();
+         now.getTime() <= times.sunset.getTime());
 } 

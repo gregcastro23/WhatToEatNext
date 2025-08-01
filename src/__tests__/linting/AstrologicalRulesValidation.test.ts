@@ -49,7 +49,7 @@ describe('Astrological ESLint Rules', () => {
         DEGREES_PER_SIGN = 25; // This should error
       `;
 
-      const results = await eslint.lintText(code, { filePath: 'test.ts' });
+      const results = eslint.lintText(code, { filePath: 'test.ts' });
       const messages = results[0].messages;
 
       expect(messages).toHaveLength(1);
@@ -63,7 +63,7 @@ describe('Astrological ESLint Rules', () => {
         RELIABLE_POSITIONS.sun = { sign: 'taurus' }; // This should error
       `;
 
-      const results = await eslint.lintText(code, { filePath: 'test.ts' });
+      const results = eslint.lintText(code, { filePath: 'test.ts' });
       const messages = results[0].messages;
 
       expect(messages).toHaveLength(1);
@@ -77,7 +77,7 @@ describe('Astrological ESLint Rules', () => {
         MAX_LONGITUDE++; // This should error
       `;
 
-      const results = await eslint.lintText(code, { filePath: 'test.ts' });
+      const results = eslint.lintText(code, { filePath: 'test.ts' });
       const messages = results[0].messages;
 
       expect(messages).toHaveLength(1);
@@ -92,7 +92,7 @@ describe('Astrological ESLint Rules', () => {
         console.log(RELIABLE_POSITIONS.sun.sign); // This should be fine
       `;
 
-      const results = await eslint.lintText(code, { filePath: 'test.ts' });
+      const results = eslint.lintText(code, { filePath: 'test.ts' });
       const messages = results[0].messages;
 
       expect(messages).toHaveLength(0);
@@ -109,7 +109,7 @@ describe('Astrological ESLint Rules', () => {
         };
       `;
 
-      const results = await eslint.lintText(code, { filePath: 'test.ts' });
+      const results = eslint.lintText(code, { filePath: 'test.ts' });
       const messages = results[0].messages;
 
       expect(messages).toHaveLength(1);
@@ -129,7 +129,7 @@ describe('Astrological ESLint Rules', () => {
         };
       `;
 
-      const results = await eslint.lintText(code, { filePath: 'test.ts' });
+      const results = eslint.lintText(code, { filePath: 'test.ts' });
       const messages = results[0].messages;
 
       expect(messages).toHaveLength(0);
@@ -148,7 +148,7 @@ describe('Astrological ESLint Rules', () => {
         };
       `;
 
-      const results = await eslint.lintText(code, { filePath: 'test.ts' });
+      const results = eslint.lintText(code, { filePath: 'test.ts' });
       const messages = results[0].messages;
 
       expect(messages).toHaveLength(0);
@@ -165,7 +165,7 @@ describe('Astrological ESLint Rules', () => {
         };
       `;
 
-      const results = await eslint.lintText(code, { filePath: 'test.ts' });
+      const results = eslint.lintText(code, { filePath: 'test.ts' });
       const messages = results[0].messages;
 
       expect(messages).toHaveLength(1);
@@ -185,7 +185,7 @@ describe('Astrological ESLint Rules', () => {
         };
       `;
 
-      const results = await eslint.lintText(code, { filePath: 'test.ts' });
+      const results = eslint.lintText(code, { filePath: 'test.ts' });
       const messages = results[0].messages;
 
       expect(messages).toHaveLength(1);
@@ -204,7 +204,7 @@ describe('Astrological ESLint Rules', () => {
         };
       `;
 
-      const results = await eslint.lintText(code, { filePath: 'test.ts' });
+      const results = eslint.lintText(code, { filePath: 'test.ts' });
       const messages = results[0].messages;
 
       expect(messages).toHaveLength(2);
@@ -222,7 +222,7 @@ describe('Astrological ESLint Rules', () => {
         };
       `;
 
-      const results = await eslint.lintText(code, { filePath: 'test.ts' });
+      const results = eslint.lintText(code, { filePath: 'test.ts' });
       const messages = results[0].messages;
 
       expect(messages).toHaveLength(0);
@@ -238,7 +238,7 @@ describe('Astrological ESLint Rules', () => {
         }
       `;
 
-      const results = await eslint.lintText(code, { 
+      const results = eslint.lintText(code, { 
         filePath: 'src/calculations/planetary.ts' 
       });
       const messages = results[0].messages;
@@ -258,7 +258,7 @@ describe('Astrological ESLint Rules', () => {
         }
       `;
 
-      const results = await eslint.lintText(code, { 
+      const results = eslint.lintText(code, { 
         filePath: 'src/calculations/planetary.ts' 
       });
       const messages = results[0].messages;
@@ -278,7 +278,7 @@ describe('Astrological ESLint Rules', () => {
         }
       `;
 
-      const results = await eslint.lintText(code, { 
+      const results = eslint.lintText(code, { 
         filePath: 'src/calculations/planetary.ts' 
       });
       const messages = results[0].messages;
@@ -293,7 +293,7 @@ describe('Astrological ESLint Rules', () => {
         }
       `;
 
-      const results = await eslint.lintText(code, { 
+      const results = eslint.lintText(code, { 
         filePath: 'src/components/Button.tsx' 
       });
       const messages = results[0].messages;
@@ -309,7 +309,7 @@ describe('Astrological ESLint Rules', () => {
         const RELIABLE_DATA = undefined; // This should error
       `;
 
-      const results = await eslint.lintText(code, { filePath: 'test.ts' });
+      const results = eslint.lintText(code, { filePath: 'test.ts' });
       const messages = results[0].messages;
 
       expect(messages).toHaveLength(2);
@@ -325,7 +325,7 @@ describe('Astrological ESLint Rules', () => {
         MARCH2025_POSITIONS = null; // This should error
       `;
 
-      const results = await eslint.lintText(code, { filePath: 'test.ts' });
+      const results = eslint.lintText(code, { filePath: 'test.ts' });
       const messages = results[0].messages;
 
       expect(messages).toHaveLength(1);
@@ -339,11 +339,11 @@ describe('Astrological ESLint Rules', () => {
           sun: { sign: 'aries', degree: 8.5 }
         };
         
-        await let RELIABLE_DATA = getReliableData
+        let RELIABLE_DATA = getReliableData
         RELIABLE_DATA = { updated: true };
       `;
 
-      const results = await eslint.lintText(code, { filePath: 'test.ts' });
+      const results = eslint.lintText(code, { filePath: 'test.ts' });
       const messages = results[0].messages;
 
       expect(messages).toHaveLength(0);
@@ -356,7 +356,7 @@ describe('Astrological ESLint Rules', () => {
         regularVariable = null;
       `;
 
-      const results = await eslint.lintText(code, { filePath: 'test.ts' });
+      const results = eslint.lintText(code, { filePath: 'test.ts' });
       const messages = results[0].messages;
 
       expect(messages).toHaveLength(0);
@@ -381,7 +381,7 @@ describe('Astrological ESLint Rules', () => {
         };
       `;
 
-      const results = await eslint.lintText(code, { filePath: 'test.ts' });
+      const results = eslint.lintText(code, { filePath: 'test.ts' });
       const messages = results[0].messages;
 
       expect(messages).toHaveLength(0);
@@ -405,7 +405,7 @@ describe('Astrological ESLint Rules', () => {
         };
       `;
 
-      const results = await eslint.lintText(code, { filePath: 'test.tsx' });
+      const results = eslint.lintText(code, { filePath: 'test.tsx' });
       const messages = results[0].messages;
 
       expect(messages).toHaveLength(0);
@@ -426,7 +426,7 @@ describe('Astrological ESLint Rules', () => {
       `;
 
       const startTime = Date.now();
-      const results = await eslint.lintText(largeCode, { filePath: 'test.ts' });
+      const results = eslint.lintText(largeCode, { filePath: 'test.ts' });
       const endTime = Date.now();
 
       expect(endTime - startTime).toBeLessThan(1000); // Should complete within 1 second
@@ -441,7 +441,7 @@ describe('Astrological ESLint Rules', () => {
       `;
 
       // This should not throw an error, even with malformed code
-      const results = await eslint.lintText(malformedCode, { filePath: 'test.ts' });
+      const results = eslint.lintText(malformedCode, { filePath: 'test.ts' });
       
       // ESLint should handle syntax errors, our rules should not crash
       expect(results).toBeDefined();
@@ -467,7 +467,7 @@ describe('Astrological ESLint Rules', () => {
         };
       `;
 
-      const results = await eslint.lintText(code, { filePath: 'test.ts' });
+      const results = eslint.lintText(code, { filePath: 'test.ts' });
       const messages = results[0].messages;
 
       expect(messages).toHaveLength(0);

@@ -174,7 +174,7 @@ async function runComprehensiveTests() {
       'gemini',
       testAstrologicalState
     );
-    log.info('Astrological Power:', astrologicalPower.toFixed(4));
+    log.info('Astrological Power:', astrologicalPower.toFixed(4) as any);
     log.info('✅ Astrological power test completed\n');
 
     // Test 4: Elemental Affinity Analysis

@@ -1,6 +1,6 @@
 /**
  * React 19 and Next.js 15 Compatibility Validation Test Suite
- * 
+ *
  * This test suite validates that our ESLint configuration properly handles:
  * - React 19 specific rules and modern JSX transform
  * - Next.js 15 App Router and Server Components
@@ -14,7 +14,7 @@ import path from 'path';
 
 describe('React 19 and Next.js 15 Compatibility Validation', () => {
   const testFilesDir = path.join(__dirname, 'test-files');
-  
+
   beforeAll(() => {
     // Create test files directory
     if (!fs.existsSync(testFilesDir)) {
@@ -41,7 +41,7 @@ export default function ModernComponent() {
       fs.writeFileSync(testFile, content);
 
       const result = runESLintOnFile(testFile);
-      
+
       // Should not have react/react-in-jsx-scope error
       expect(result.output).not.toContain('react/react-in-jsx-scope');
       expect(result.output).not.toContain("'React' must be in scope when using JSX");
@@ -51,7 +51,7 @@ export default function ModernComponent() {
       const testFile = path.join(testFilesDir, 'jsx-component.tsx');
       const content = `
 interface Props {
-  title: string;
+  title: string;,
   children: React.ReactNode;
 }
 
@@ -67,7 +67,7 @@ export function JSXComponent({ title, children }: Props) {
       fs.writeFileSync(testFile, content);
 
       const result = runESLintOnFile(testFile);
-      
+
       // Should not require React import
       expect(result.output).not.toContain('react/react-in-jsx-scope');
       expect(result.exitCode).toBe(0);
@@ -78,7 +78,7 @@ export function JSXComponent({ title, children }: Props) {
       const content = `
 export function ListComponent() {
   const items = ['a', 'b', 'c'];
-  
+
   return (
     <ul>
       {items.map(item => (
@@ -91,7 +91,7 @@ export function ListComponent() {
       fs.writeFileSync(testFile, content);
 
       const result = runESLintOnFile(testFile);
-      
+
       // Should detect missing key prop
       expect(result.output).toContain('react/jsx-key');
     });
@@ -102,16 +102,16 @@ export function ListComponent() {
 import { Suspense, startTransition, useDeferredValue, useTransition } from 'react';
 
 export function ConcurrentComponent() {
-  const [isPending, startTransition] = useTransition();
+  const [isPending, startTransition] = useTransition()
   const deferredValue = useDeferredValue('test');
-  
+
   const handleClick = () => {
     startTransition(() => {
       // Non-urgent update
       console.log('Transition started');
     });
   };
-  
+
   return (
     <Suspense fallback={<div>Loading...</div>}>
       <div>
@@ -127,7 +127,7 @@ export function ConcurrentComponent() {
       fs.writeFileSync(testFile, content);
 
       const result = runESLintOnFile(testFile);
-      
+
       // Should not have errors with React 19 concurrent features
       expect(result.exitCode).toBe(0);
     });
@@ -148,14 +148,14 @@ export default function Page() {
 
 export function generateMetadata() {
   return {
-    title: 'Test Page'
+  title: 'Test Page'
   };
 }
 `;
       fs.writeFileSync(testFile, content);
 
       const result = runESLintOnFile(testFile);
-      
+
       // Should allow default exports for pages
       expect(result.output).not.toContain('import/no-default-export');
       expect(result.exitCode).toBe(0);
@@ -183,7 +183,7 @@ export default function RootLayout({
       fs.writeFileSync(testFile, content);
 
       const result = runESLintOnFile(testFile);
-      
+
       // Should allow default exports for layouts
       expect(result.output).not.toContain('import/no-default-export');
       expect(result.exitCode).toBe(0);
@@ -194,9 +194,9 @@ export default function RootLayout({
       const content = `
 // Next.js 15 Server Component
 async function ServerComponent() {
-  await const data = await fetch
-  const json = await data.json();
-  
+  const data = fetch
+  const json = await data.json()
+
   return (
     <div>
       <h1>Server Component</h1>
@@ -207,8 +207,8 @@ async function ServerComponent() {
 
 export default ServerComponent;
 `;
-      await fs.writeFileSync
-      await const result = runESLintOnFile
+      fs.writeFileSync
+      const result = runESLintOnFile(testFile);
       // Should handle async Server Components
       expect(result.exitCode).toBe(0);
     });
@@ -222,7 +222,7 @@ import { useState } from 'react';
 
 export default function ClientComponent() {
   const [count, setCount] = useState(0);
-  
+
   return (
     <div>
       <p>Count: {count}</p>
@@ -236,7 +236,7 @@ export default function ClientComponent() {
       fs.writeFileSync(testFile, content);
 
       const result = runESLintOnFile(testFile);
-      
+
       // Should handle client components with hooks
       expect(result.exitCode).toBe(0);
     });
@@ -251,24 +251,24 @@ import { useRecoilCallback } from 'recoil';
 
 export function EnhancedHooksComponent() {
   const value = 'test';
-  
+
   // Standard useEffect
   useEffect(() => {
     console.log(value);
   }, []); // Missing dependency
-  
+
   // Recoil callback hook
   const recoilCallback = useRecoilCallback(({ set }) => () => {
     console.log(value);
   }, []); // Missing dependency
-  
+
   return <div>Enhanced Hooks</div>;
 }
 `;
       fs.writeFileSync(testFile, content);
 
       const result = runESLintOnFile(testFile);
-      
+
       // Should detect missing dependencies in both standard and additional hooks
       expect(result.output).toContain('react-hooks/exhaustive-deps');
     });
@@ -280,24 +280,24 @@ import { useState, useEffect } from 'react';
 
 function useCustomHook(dependency: string) {
   const [state, setState] = useState('');
-  
+
   useEffect(() => {
     setState(dependency);
   }, [dependency]);
-  
+
   return state;
 }
 
 export function CustomHookComponent() {
   const value = useCustomHook('test');
-  
+
   return <div>{value}</div>;
 }
 `;
       fs.writeFileSync(testFile, content);
 
       const result = runESLintOnFile(testFile);
-      
+
       // Should not have hook-related errors
       expect(result.output).not.toContain('react-hooks/rules-of-hooks');
       expect(result.exitCode).toBe(0);
@@ -312,14 +312,14 @@ export function ConditionalHooksComponent({ condition }: { condition: boolean })
   if (condition) {
     const [state] = useState(''); // Hooks in conditional - should error
   }
-  
+
   return <div>Conditional Hooks</div>;
 }
 `;
       fs.writeFileSync(testFile, content);
 
       const result = runESLintOnFile(testFile);
-      
+
       // Should detect hooks in conditional
       expect(result.output).toContain('react-hooks/rules-of-hooks');
     });
@@ -344,7 +344,7 @@ export function SuspenseBoundary() {
       fs.writeFileSync(testFile, content);
 
       const result = runESLintOnFile(testFile);
-      
+
       // Should handle Suspense correctly
       expect(result.exitCode).toBe(0);
     });
@@ -388,7 +388,7 @@ export class ErrorBoundary extends Component<Props, State> {
       fs.writeFileSync(testFile, content);
 
       const result = runESLintOnFile(testFile);
-      
+
       // Should handle class components and error boundaries
       expect(result.exitCode).toBe(0);
     });
@@ -407,10 +407,10 @@ interface CustomProps {
 
 type ButtonProps = ComponentProps<'button'> & CustomProps;
 
-export const TypedComponent: FC<PropsWithChildren<CustomProps>> = ({ 
-  title, 
-  optional = false, 
-  children 
+export const TypedComponent: FC<PropsWithChildren<CustomProps>> = ({
+  title,
+  optional = false,
+  children
 }) => {
   return (
     <div>
@@ -432,7 +432,7 @@ export const TypedButton: FC<ButtonProps> = ({ title, ...buttonProps }) => {
       fs.writeFileSync(testFile, content);
 
       const result = runESLintOnFile(testFile);
-      
+
       // Should handle TypeScript React types correctly
       expect(result.exitCode).toBe(0);
     });
@@ -442,7 +442,7 @@ export const TypedButton: FC<ButtonProps> = ({ title, ...buttonProps }) => {
       const content = `
 interface Props {
   required: string;
-  optional?: number;
+  optional?: number;,
   callback: (value: string) => void;
 }
 
@@ -450,7 +450,7 @@ export function PropValidationComponent({ required, optional, callback }: Props)
   const handleClick = () => {
     callback(required);
   };
-  
+
   return (
     <div>
       <p>{required}</p>
@@ -463,7 +463,7 @@ export function PropValidationComponent({ required, optional, callback }: Props)
       fs.writeFileSync(testFile, content);
 
       const result = runESLintOnFile(testFile);
-      
+
       // Should not require prop-types with TypeScript
       expect(result.output).not.toContain('react/prop-types');
       expect(result.exitCode).toBe(0);
@@ -473,38 +473,38 @@ export function PropValidationComponent({ required, optional, callback }: Props)
   describe('Configuration Validation', () => {
     test('should have React version set to 19.1.0', () => {
       const eslintConfig = require('../../../eslint.config.cjs');
-      
+
       // Find React settings in configuration
-      const reactSettings = eslintConfig.find((config: any) => 
+      const reactSettings = eslintConfig.find((config: any) =>
         config.settings?.react?.version
       );
-      
-      expect(reactSettings).toBeDefined();
+
+      expect(reactSettings).toBeDefined()
       expect(reactSettings.settings.react.version).toBe('19.1.0');
     });
 
     test('should have modern JSX transform rules configured', () => {
       const eslintConfig = require('../../../eslint.config.cjs');
-      
+
       // Find React rules configuration
-      const reactRules = eslintConfig.find((config: any) => 
+      const reactRules = eslintConfig.find((config: any) =>
         config.rules && config.rules['react/react-in-jsx-scope']
       );
-      
-      expect(reactRules).toBeDefined();
+
+      expect(reactRules).toBeDefined()
       expect(reactRules.rules['react/react-in-jsx-scope']).toBe('off');
       expect(reactRules.rules['react/jsx-uses-react']).toBe('off');
     });
 
     test('should have enhanced React hooks rules', () => {
       const eslintConfig = require('../../../eslint.config.cjs');
-      
+
       // Find React hooks configuration
-      const hooksConfig = eslintConfig.find((config: any) => 
+      const hooksConfig = eslintConfig.find((config: any) =>
         config.rules && config.rules['react-hooks/exhaustive-deps']
       );
-      
-      expect(hooksConfig).toBeDefined();
+
+      expect(hooksConfig).toBeDefined()
       expect(hooksConfig.rules['react-hooks/exhaustive-deps']).toEqual([
         'warn',
         {
@@ -515,14 +515,14 @@ export function PropValidationComponent({ required, optional, callback }: Props)
 
     test('should validate package.json versions', () => {
       const packageJson = require('../../../package.json');
-      
+
       // Validate React 19
       expect(packageJson.dependencies.react).toMatch(/^(\^|~)?19\./);
       expect(packageJson.dependencies['react-dom']).toMatch(/^(\^|~)?19\./);
-      
+
       // Validate Next.js 15
       expect(packageJson.dependencies.next).toMatch(/^(\^|~)?15\./);
-      
+
       // Validate React types
       expect(packageJson.devDependencies['@types/react']).toMatch(/^(\^|~)?19\./);
       expect(packageJson.devDependencies['@types/react-dom']).toMatch(/^(\^|~)?19\./);
@@ -536,8 +536,8 @@ export function PropValidationComponent({ required, optional, callback }: Props)
 import { memo, useMemo, useCallback } from 'react';
 
 interface ItemProps {
-  id: number;
-  name: string;
+  id: number;,
+  name: string;,
   onClick: (id: number) => void;
 }
 
@@ -545,7 +545,7 @@ const MemoizedItem = memo(({ id, name, onClick }: ItemProps) => {
   const handleClick = useCallback(() => {
     onClick(id);
   }, [id, onClick]);
-  
+
   return (
     <div onClick={handleClick}>
       {name}
@@ -554,17 +554,17 @@ const MemoizedItem = memo(({ id, name, onClick }: ItemProps) => {
 });
 
 export function LargeComponentTree() {
-  const items = useMemo(() => 
+  const items = useMemo(() =>
     Array.from({ length: 1000 }, (_, i) => ({
-      id: i,
+  id: i,
       name: \`Item \${i}\`
     }))
   , []);
-  
+
   const handleItemClick = useCallback((id: number) => {
     console.log('Clicked item:', id);
   }, []);
-  
+
   return (
     <div>
       {items.map(item => (
@@ -582,7 +582,7 @@ export function LargeComponentTree() {
       fs.writeFileSync(testFile, content);
 
       const result = runESLintOnFile(testFile);
-      
+
       // Should handle performance optimizations correctly
       expect(result.exitCode).toBe(0);
     });
@@ -600,16 +600,16 @@ import './styles.css';
 
 const ImportOrganizationPage: NextPage = () => {
   const [state, setState] = useState('');
-  const customValue = useCustomHook();
-  
+  const customValue = useCustomHook()
+
   const memoizedValue = useMemo(() => {
-    return state.toUpperCase();
+    return state.toUpperCase()
   }, [state]);
-  
+
   useEffect(() => {
     setState('initialized');
   }, []);
-  
+
   return (
     <div>
       <CustomComponent value={memoizedValue} />
@@ -623,7 +623,7 @@ export default ImportOrganizationPage;
       fs.writeFileSync(testFile, content);
 
       const result = runESLintOnFile(testFile);
-      
+
       // Should validate import organization
       expect(result.exitCode).toBe(0);
     });
@@ -637,15 +637,15 @@ function runESLintOnFile(filePath: string): { exitCode: number; output: string }
   try {
     const output = execSync(
       `npx eslint --config eslint.config.cjs "${filePath}" --format=compact`,
-      { 
-        encoding: 'utf8',
+      {
+  encoding: 'utf8',
         stdio: 'pipe'
       }
     );
     return { exitCode: 0, output };
   } catch (error: any) {
-    return { 
-      exitCode: error.status || 1, 
+    return {
+      exitCode: error.status || 1,
       output: error.stdout || error.message || ''
     };
   }

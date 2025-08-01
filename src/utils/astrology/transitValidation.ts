@@ -20,7 +20,7 @@ export interface TransitDate {
  * Transit dates structure for a planet
  */
 export interface PlanetTransitDates {
-  [sign: string]: TransitDate;
+  [sign: string]: TransitDate | { [phase: string]: TransitDate };
   RetrogradePhases?: {
     [phase: string]: TransitDate;
   };
@@ -47,8 +47,8 @@ export function validateTransitDate(
       return false;
     }
 
-    const startDate = new Date(transit.Start);
-    const endDate = new Date(transit.End);
+    const startDate = new Date(transit.Start as any);
+    const endDate = new Date(transit.End as any);
     
     // Validate date format
     if (isNaN(startDate.getTime()) || isNaN(endDate.getTime())) {
@@ -158,8 +158,8 @@ export function validateAllTransitDates(transitDates: PlanetTransitDates): {
         continue;
       }
 
-      const startDate = new Date(transit.Start);
-      const endDate = new Date(transit.Start);
+      const startDate = new Date(transit.Start as any);
+      const endDate = new Date(transit.End as any);
       
       if (isNaN(startDate.getTime())) {
         errors.push(`Invalid Start date format for sign ${sign}: ${transit.Start}`);
@@ -178,8 +178,8 @@ export function validateAllTransitDates(transitDates: PlanetTransitDates): {
     const sortedTransits = signs
       .map(sign => ({
         sign,
-        start: new Date(transitDates[sign].Start),
-        end: new Date(transitDates[sign].End)
+        start: new Date((transitDates[sign] as any).Start),
+        end: new Date((transitDates[sign] as any).End)
       }))
       .filter(t => !isNaN(t.start.getTime()) && !isNaN(t.end.getTime()))
       .sort((a, b) => a.start.getTime() - b.start.getTime());

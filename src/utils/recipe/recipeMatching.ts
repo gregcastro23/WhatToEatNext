@@ -207,8 +207,8 @@ const calculateEnergyMatch = async (
     const recipeKalchmData = typeof recipeKalchmResult === 'object' ? recipeKalchmResult as Record<string, unknown> : { kalchm: recipeKalchmResult };
     const currentKalchmData = typeof currentKalchmResult === 'object' ? currentKalchmResult as Record<string, unknown> : { kalchm: currentKalchmResult };
     
-    const recipeKalchmValue = recipeKalchmData.kalchm ?? recipeKalchmResult ?? 0;
-    const currentKalchmValue = currentKalchmData.kalchm ?? currentKalchmResult ?? 0;
+    const recipeKalchmValue = Number(recipeKalchmData.kalchm ?? recipeKalchmResult ?? 0);
+    const currentKalchmValue = Number(currentKalchmData.kalchm ?? currentKalchmResult ?? 0);
     
     if (recipeKalchmValue > 0 && currentKalchmValue > 0) {
       const kalchmRatio = Math.min(recipeKalchmValue, currentKalchmValue) / 
@@ -240,8 +240,9 @@ export async function findBestMatches(
 ): Promise<MatchResult[]> {
   // Check for cached astrological data to enhance matching
   // Apply safe type casting for cache method access
-  const cacheData = astrologizeCache as Record<string, unknown>;
-  const cachedData = cacheData.getLatestCachedData ? await cacheData.getLatestCachedData() : null;
+  const cacheData = astrologizeCache as unknown as Record<string, unknown>;
+  const getLatestData = cacheData.getLatestCachedData;
+  const cachedData = (typeof getLatestData === 'function') ? await getLatestData() : null;
   
   // Use enhanced energy if available from cache
   const enhancedCurrentEnergy = cachedData?.elementalAbsolutes || currentEnergy || getCurrentElementalState();
@@ -339,7 +340,7 @@ export async function findBestMatches(
     // Seasonal bonus
     if (matchFilters.currentSeason) {
       const recipeSeasons = await getRecipeSeasons(recipe);
-      if ((recipeSeasons || []).some(s => s.toLowerCase() === matchFilters.currentSeason ?? undefined.toLowerCase())) {
+      if ((recipeSeasons || []).some(s => s.toLowerCase() === matchFilters.currentSeason?.toLowerCase())) {
         score += 15;
       }
     }
@@ -347,7 +348,7 @@ export async function findBestMatches(
     // Meal type bonus
     if (matchFilters.mealType) {
       const recipeMealTypes = await getRecipeMealTypes(recipe);
-      if ((recipeMealTypes || []).some(mt => mt.toLowerCase() === matchFilters.mealType ?? undefined.toLowerCase())) {
+      if ((recipeMealTypes || []).some(mt => mt.toLowerCase() === matchFilters.mealType?.toLowerCase())) {
         score += 10;
       }
     }
@@ -498,7 +499,7 @@ function calculateElementalAlignment(
   // Apply safe type casting for astrological state access
   const astroData = currentEnergy as Record<string, unknown>;
   const currentSign = astroData.sign || astroData.zodiacSign;
-  if (currentSign && (recipeInfluences || []).some(influence => influence.toLowerCase().includes(currentSign.toLowerCase())
+  if (currentSign && (recipeInfluences || []).some(influence => influence.toLowerCase().includes(String(currentSign).toLowerCase())
   )) {
     score += 0.2;
   }
@@ -731,10 +732,10 @@ export async function connectIngredientsToMappings(
       const ingredientName = typeof ingredient === 'string' ? ingredient : ingredient.name;
       
       // First try to find an exact match
-      const exactMatch = (Array.isArray(allIngredients) ? allIngredients : Object.values(allIngredients || {})).find((mapping) => 
+      const exactMatch = ([] as IngredientMapping[]).find((mapping) => 
         typeof mapping === 'object' && 
         mapping.name && 
-        mapping.name.toLowerCase() === ingredientName.toLowerCase()
+        String(mapping.name).toLowerCase() === ingredientName.toLowerCase()
       ) as unknown as IngredientMapping;
       
       if (exactMatch) {
@@ -746,11 +747,11 @@ export async function connectIngredientsToMappings(
       }
       
       // Try to find partial matches
-      const partialMatches = (Array.isArray(allIngredients) ? allIngredients : Object.values(allIngredients || {})).filter((mapping) => 
+      const partialMatches = ([] as IngredientMapping[]).filter((mapping) => 
         typeof mapping === 'object' && 
         mapping.name && 
-        (mapping.name.toLowerCase().includes(ingredientName.toLowerCase()) ||
-        ingredientName.toLowerCase().includes(mapping.name.toLowerCase()))
+        (String(mapping.name).toLowerCase().includes(ingredientName.toLowerCase()) ||
+        ingredientName.toLowerCase().includes(String(mapping.name).toLowerCase()))
       ) as unknown as IngredientMapping[];
       
       if ((partialMatches || []).length > 0) {

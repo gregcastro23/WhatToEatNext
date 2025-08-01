@@ -730,7 +730,7 @@ export function getHolisticCookingRecommendations(
       elementalProperties,
       undefined, // zodiac sign
       undefined, // planets
-      (season as string) || 'spring'
+      (season as 'spring' | 'summer' | 'autumn' | 'fall' | 'winter' | 'all') || 'spring'
     );
     
     // Filter by available methods if provided

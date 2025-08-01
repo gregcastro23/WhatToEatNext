@@ -49,8 +49,8 @@ jest.mock('@/components/CuisineRecommender', () => {
           ))}
         </div>
         {selectedCuisine && (
-          <div data-testid="selected-cuisine">
-            Selected: {selectedCuisine}
+          <div data-testid="selected-cuisine">,
+  Selected: {selectedCuisine}
           </div>
         )}
       </div>
@@ -88,8 +88,8 @@ jest.mock('@/components/IngredientRecommender', () => {
             </button>
           ))}
         </div>
-        <div data-testid="selected-ingredients">
-          Selected: {selectedIngredients.join(', ')}
+        <div data-testid="selected-ingredients">,
+  Selected: {selectedIngredients.join(', ')}
         </div>
       </div>
     );
@@ -125,8 +125,8 @@ jest.mock('@/components/CookingMethodsSection', () => {
           ))}
         </div>
         {selectedMethod && (
-          <div data-testid="selected-method">
-            Selected: {selectedMethod}
+          <div data-testid="selected-method">,
+  Selected: {selectedMethod}
           </div>
         )}
         <button onClick={onViewMore} data-testid="view-more-methods">
@@ -167,16 +167,16 @@ jest.mock('@/components/recipes/RecipeBuilderSimple', () => {
           <button onClick={addIngredient} data-testid="add-ingredient">
             Add Ingredient
           </button>
-          <div data-testid="ingredients-count">
-            Ingredients: {ingredients.length}
+          <div data-testid="ingredients-count">,
+  Ingredients: {ingredients.length}
           </div>
         </div>
         <div>
           <button onClick={addStep} data-testid="add-step">
             Add Step
           </button>
-          <div data-testid="steps-count">
-            Steps: {steps.length}
+          <div data-testid="steps-count">,
+  Steps: {steps.length}
           </div>
         </div>
         <button 
@@ -204,30 +204,30 @@ jest.mock('@/components/debug/ConsolidatedDebugInfo', () => {
 
 describe('Main Page Integration Tests', () => {
   const mockAlchemicalContext = {
-    state: {
-      astrologicalState: {
-        sunSign: 'aries'
+  state: {
+  astrologicalState: {
+  sunSign: 'aries'
       },
       elementalState: {
-        Fire: 0.3,
+  Fire: 0.3,
         Water: 0.2,
         Earth: 0.3,
         Air: 0.2
       }
     },
     planetaryPositions: {
-      sun: { sign: 'aries' }
+  sun: { sign: 'aries' }
     },
     isDaytime: true
   };
 
   const mockNavigationState = {
-    saveState: jest.fn(),
+  saveState: jest.fn(),
     getState: jest.fn(() => ({}))
   };
 
   const mockScrollPreservation = {
-    restoreScrollPosition: jest.fn()
+  restoreScrollPosition: jest.fn()
   };
 
   beforeEach(() => {
@@ -240,16 +240,16 @@ describe('Main Page Integration Tests', () => {
 
     // Mock window.scrollY
     Object.defineProperty(window, 'scrollY', {
-      value: 0,
+  value: 0,
       writable: true
     });
 
     // Mock getElementById for navigation
     jest.spyOn(document, 'getElementById').mockImplementation((id) => ({
-      scrollIntoView: jest.fn(),
+  scrollIntoView: jest.fn(),
       style: {},
       classList: {
-        add: jest.fn(),
+  add: jest.fn(),
         remove: jest.fn()
       }
     } as any));
@@ -260,7 +260,7 @@ describe('Main Page Integration Tests', () => {
   });
 
   it('renders all main sections and they interact correctly', async () => {
-    await act(async () => {
+    act(async () => {
       render(<MainPageLayout />);
     });
 
@@ -273,24 +273,24 @@ describe('Main Page Integration Tests', () => {
     });
 
     // Test cuisine selection
-    await const italianButton = screen.getByTestId
-    await act(async () => {
+    const italianButton = screen.getByTestId('italian-cuisine');
+    act(async () => {
       fireEvent.click(italianButton);
     });
 
     expect(screen.getByText('Selected: Italian')).toBeInTheDocument();
 
     // Test ingredient selection
-    await const tomatoButton = screen.getByTestId
-    await act(async () => {
+    const tomatoButton = screen.getByTestId('ingredient-tomatoes');
+    act(async () => {
       fireEvent.click(tomatoButton);
     });
 
     expect(screen.getByText('Selected: Tomatoes')).toBeInTheDocument();
 
     // Test cooking method selection
-    await const sauteButton = screen.getByTestId
-    await act(async () => {
+    const sauteButton = screen.getByTestId('cooking-saute');
+    act(async () => {
       fireEvent.click(sauteButton);
     });
 
@@ -300,21 +300,21 @@ describe('Main Page Integration Tests', () => {
   it('handles navigation between sections correctly', async () => {
     const mockOnSectionNavigate = jest.fn();
     
-    await act(async () => {
+    act(async () => {
       render(<MainPageLayout onSectionNavigate={mockOnSectionNavigate} />);
     });
 
     // Test navigation to cuisine section
-    await const cuisineNavButton = screen.getByText
-    await act(async () => {
+    const cuisineNavButton = screen.getByText('Cuisine Recommendations');
+    act(async () => {
       fireEvent.click(cuisineNavButton);
     });
 
     expect(mockOnSectionNavigate).toHaveBeenCalledWith('cuisine');
 
     // Test navigation to ingredients section
-    await const ingredientsNavButton = screen.getByText
-    await act(async () => {
+    const ingredientsNavButton = screen.getByText('Ingredient Recommendations');
+    act(async () => {
       fireEvent.click(ingredientsNavButton);
     });
 
@@ -322,7 +322,7 @@ describe('Main Page Integration Tests', () => {
   });
 
   it('preserves state across component interactions', async () => {
-    await act(async () => {
+    act(async () => {
       render(<MainPageLayout />);
     });
 
@@ -331,10 +331,10 @@ describe('Main Page Integration Tests', () => {
     });
 
     // Make selections in different components
-    await const italianButton = screen.getByTestId
-    await const tomatoButton = screen.getByTestId
-    await const sauteButton = screen.getByTestId
-    await act(async () => {
+    const italianButton = screen.getByTestId('italian-cuisine');
+    const tomatoButton = screen.getByTestId('ingredient-tomatoes');
+    const sauteButton = screen.getByTestId('cooking-saute');
+    act(async () => {
       fireEvent.click(italianButton);
       fireEvent.click(tomatoButton);
       fireEvent.click(sauteButton);
@@ -354,7 +354,7 @@ describe('Main Page Integration Tests', () => {
   it('handles recipe building workflow', async () => {
     const user = userEvent.setup();
     
-    await act(async () => {
+    act(async () => {
       render(<MainPageLayout />);
     });
 
@@ -363,15 +363,15 @@ describe('Main Page Integration Tests', () => {
     });
 
     // Enter recipe name
-    await const recipeNameInput = screen.getByTestId
-    await user.type(recipeNameInput, 'Test Recipe');
+    const recipeNameInput = screen.getByTestId('recipe-name-input');
+    user.type(recipeNameInput, 'Test Recipe');
 
     // Add ingredients and steps
-    await const addIngredientButton = screen.getByTestId
-    await const addStepButton = screen.getByTestId
-    await user.click(addIngredientButton);
-    await user.click(addIngredientButton);
-    await user.click(addStepButton);
+    const addIngredientButton = screen.getByTestId('add-ingredient-button');
+    const addStepButton = screen.getByTestId('add-step-button');
+    user.click(addIngredientButton);
+    user.click(addIngredientButton);
+    user.click(addStepButton);
 
     // Verify counts
     expect(screen.getByText('Ingredients: 2')).toBeInTheDocument();
@@ -391,7 +391,7 @@ describe('Main Page Integration Tests', () => {
       throw new Error('Test integration error');
     };
 
-    await act(async () => {
+    act(async () => {
       render(
         <MainPageLayout>
           <ErrorComponent />
@@ -406,7 +406,7 @@ describe('Main Page Integration Tests', () => {
   });
 
   it('displays debug information when enabled', async () => {
-    await act(async () => {
+    act(async () => {
       render(<MainPageLayout debugMode={true} />);
     });
 
@@ -420,7 +420,7 @@ describe('Main Page Integration Tests', () => {
   });
 
   it('handles component loading states', async () => {
-    await act(async () => {
+    act(async () => {
       render(<MainPageLayout />);
     });
 
@@ -440,7 +440,7 @@ describe('Main Page Integration Tests', () => {
   });
 
   it('handles cross-component data flow', async () => {
-    await act(async () => {
+    act(async () => {
       render(<MainPageLayout />);
     });
 
@@ -449,10 +449,10 @@ describe('Main Page Integration Tests', () => {
     });
 
     // Select multiple ingredients
-    await const tomatoButton = screen.getByTestId
-    await const onionButton = screen.getByTestId
-    await const garlicButton = screen.getByTestId
-    await act(async () => {
+    const tomatoButton = screen.getByTestId('ingredient-tomatoes');
+    const onionButton = screen.getByTestId('ingredient-onions');
+    const garlicButton = screen.getByTestId('ingredient-garlic');
+    act(async () => {
       fireEvent.click(tomatoButton);
       fireEvent.click(onionButton);
       fireEvent.click(garlicButton);
@@ -469,15 +469,15 @@ describe('Main Page Integration Tests', () => {
 
   it('handles view more navigation', async () => {
     const mockRouter = {
-      push: jest.fn()
+  push: jest.fn()
     };
 
     // We need to mock the router for this specific test
     jest.doMock('next/navigation', () => ({
-      useRouter: () => mockRouter
+  useRouter: () => mockRouter
     }));
 
-    await act(async () => {
+    act(async () => {
       render(<MainPageLayout />);
     });
 
@@ -485,8 +485,8 @@ describe('Main Page Integration Tests', () => {
       expect(screen.getByTestId('cooking-methods')).toBeInTheDocument();
     });
 
-    await const viewMoreButton = screen.getByTestId
-    await act(async () => {
+    const viewMoreButton = screen.getByTestId('view-more-button');
+    act(async () => {
       fireEvent.click(viewMoreButton);
     });
 
@@ -496,12 +496,12 @@ describe('Main Page Integration Tests', () => {
   it('maintains responsive behavior', async () => {
     // Mock window.innerWidth for responsive testing
     Object.defineProperty(window, 'innerWidth', {
-      writable: true,
+  writable: true,
       configurable: true,
       value: 768
     });
 
-    await act(async () => {
+    act(async () => {
       render(<MainPageLayout />);
     });
 

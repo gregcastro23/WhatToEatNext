@@ -10,7 +10,7 @@ export class BuildValidator {
   private readonly buildDir: string;
   private readonly serverDir: string;
   private readonly requiredManifests: string[];
-  private readonly logger: (message: string, ...args: any[]) => void;
+  private readonly logger: (message: string, ...args: unknown[]) => void;
 
   constructor(buildDir = '.next', logger = console.log) {
     this.buildDir = buildDir;

@@ -144,7 +144,7 @@ describe('MainPageLayout', () => {
   });
 
   it('renders without crashing', async () => {
-    await act(async () => {
+    act(async () => {
       render(<MainPageLayout />);
     });
 
@@ -153,7 +153,7 @@ describe('MainPageLayout', () => {
   });
 
   it('displays loading state correctly', async () => {
-    await act(async () => {
+    act(async () => {
       render(<MainPageLayout loading={true} />);
     });
 
@@ -161,7 +161,7 @@ describe('MainPageLayout', () => {
   });
 
   it('displays connected state when not loading', async () => {
-    await act(async () => {
+    act(async () => {
       render(<MainPageLayout loading={false} />);
     });
 
@@ -169,7 +169,7 @@ describe('MainPageLayout', () => {
   });
 
   it('renders navigation buttons', async () => {
-    await act(async () => {
+    act(async () => {
       render(<MainPageLayout />);
     });
 
@@ -194,13 +194,13 @@ describe('MainPageLayout', () => {
     
     jest.spyOn(document, 'getElementById').mockReturnValue(mockElement as any);
 
-    await act(async () => {
+    act(async () => {
       render(<MainPageLayout onSectionNavigate={mockOnSectionNavigate} />);
     });
 
     const cuisineButton = screen.getByText('Cuisine Recommendations');
     
-    await act(async () => {
+    act(async () => {
       fireEvent.click(cuisineButton);
     });
 
@@ -212,7 +212,7 @@ describe('MainPageLayout', () => {
   });
 
   it('renders debug panel in development mode', async () => {
-    await act(async () => {
+    act(async () => {
       render(<MainPageLayout debugMode={true} />);
     });
 
@@ -222,7 +222,7 @@ describe('MainPageLayout', () => {
   });
 
   it('does not render debug panel when debugMode is false', async () => {
-    await act(async () => {
+    act(async () => {
       render(<MainPageLayout debugMode={false} />);
     });
 
@@ -230,7 +230,7 @@ describe('MainPageLayout', () => {
   });
 
   it('provides context to child components', async () => {
-    await act(async () => {
+    act(async () => {
       render(
         <MainPageLayout>
           <TestContextConsumer />
@@ -243,7 +243,7 @@ describe('MainPageLayout', () => {
   });
 
   it('updates context state correctly', async () => {
-    await act(async () => {
+    act(async () => {
       render(
         <MainPageLayout>
           <TestContextConsumer />
@@ -254,13 +254,13 @@ describe('MainPageLayout', () => {
     const updateIngredientsButton = screen.getByTestId('update-ingredients');
     const updateCuisineButton = screen.getByTestId('update-cuisine');
 
-    await act(async () => {
+    act(async () => {
       fireEvent.click(updateIngredientsButton);
     });
 
     expect(screen.getByTestId('selected-ingredients')).toHaveTextContent('tomato, basil');
 
-    await act(async () => {
+    act(async () => {
       fireEvent.click(updateCuisineButton);
     });
 
@@ -268,7 +268,7 @@ describe('MainPageLayout', () => {
   });
 
   it('saves navigation state when context changes', async () => {
-    await act(async () => {
+    act(async () => {
       render(
         <MainPageLayout>
           <TestContextConsumer />
@@ -278,7 +278,7 @@ describe('MainPageLayout', () => {
 
     const updateIngredientsButton = screen.getByTestId('update-ingredients');
 
-    await act(async () => {
+    act(async () => {
       fireEvent.click(updateIngredientsButton);
     });
 
@@ -289,7 +289,7 @@ describe('MainPageLayout', () => {
   });
 
   it('restores scroll position on mount', async () => {
-    await act(async () => {
+    act(async () => {
       render(<MainPageLayout />);
     });
 
@@ -300,7 +300,7 @@ describe('MainPageLayout', () => {
   });
 
   it('handles component loading states', async () => {
-    await act(async () => {
+    act(async () => {
       render(<MainPageLayout />);
     });
 
@@ -311,7 +311,7 @@ describe('MainPageLayout', () => {
   });
 
   it('renders all main sections', async () => {
-    await act(async () => {
+    act(async () => {
       render(<MainPageLayout />);
     });
 
@@ -333,7 +333,7 @@ describe('MainPageLayout', () => {
       throw new Error('Test error');
     };
 
-    await act(async () => {
+    act(async () => {
       render(
         <MainPageLayout>
           <ErrorComponent />

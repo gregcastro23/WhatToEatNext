@@ -42,7 +42,7 @@ import { calculateAllHouseEffects } from './houseEffects';
  */
 const debugLog = (message: string, ...args: unknown[]): void => {
   // Use the log service for debugging with enterprise intelligence integration
-  log.info(`[AstrologyUtils Debug] ${message}`, ...args);
+  log.info(`[AstrologyUtils Debug] ${message}`, ...(args as any[]));
 };
 
 /**
@@ -51,7 +51,7 @@ const debugLog = (message: string, ...args: unknown[]): void => {
  */
 const errorLog = (message: string, ...args: unknown[]): void => {
   // Use the log service for errors with enterprise intelligence integration
-  log.error(`[AstrologyUtils Error] ${message}`, ...args);
+  log.error(`[AstrologyUtils Error] ${message}`, ...(args as any[]));
 };
 
 /**
@@ -2104,7 +2104,7 @@ export function calculateDominantElement(
   };
   
   // Sun sign (strongest influence)
-  elementalCounts[getZodiacElementalInfluence(astroState.sunSign ?? undefined)] += 3;
+  if (astroState.sunSign) { elementalCounts[getZodiacElementalInfluence(astroState.sunSign)] += 3; }
   
   // Moon sign (second strongest)
   if (astroState.moonSign) {
@@ -2152,7 +2152,7 @@ export function calculateElementalProfile(
   };
   
   // Sun sign (strongest influence)
-  elementalCounts[getZodiacElementalInfluence(astroState.sunSign ?? undefined)] += 3;
+  if (astroState.sunSign) { elementalCounts[getZodiacElementalInfluence(astroState.sunSign)] += 3; }
   
   // Moon sign (second strongest)
   if (astroState.moonSign) {

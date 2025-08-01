@@ -2,7 +2,7 @@
 import { NextPage } from 'next';
 import { useState, useEffect, useMemo } from 'react';
 
-import { CustomComponent } from '@/components/CustomComponent';
+import CustomComponent from '@/components/CustomComponent';
 import { useCustomHook } from '@/hooks/useCustomHook';
 
 import './styles.css';
@@ -21,8 +21,8 @@ const ImportOrganizationPage: NextPage = () => {
   
   return (
     <div>
-      <CustomComponent value={memoizedValue} />
-      <p>{customValue}</p>
+      <CustomComponent title={memoizedValue} />
+      <p>{String(customValue.data)}</p>
     </div>
   );
 };

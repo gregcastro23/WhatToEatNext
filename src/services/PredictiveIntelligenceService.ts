@@ -6,13 +6,29 @@
  * with advanced prediction algorithms and real-time optimization capabilities.
  */
 
+import { calculateElementalCompatibility } from '@/calculations/index';
 import type { ElementalProperties, ZodiacSign } from '@/types/alchemy';
 import type { Ingredient } from '@/types/ingredient';
 import type { Recipe } from '@/types/recipe';
-import { calculateElementalCompatibility } from '@/calculations/index';
+import { logger } from '@/utils/logger';
 import { getCurrentSeason } from '@/utils/timeUtils';
 
-import { logger } from '@/utils/logger';
+// Type definitions for predictive intelligence
+interface PredictiveContext {
+  userId?: string;
+  sessionId?: string;
+  timestamp: Date;
+  userPreferences?: Record<string, unknown>;
+  historicalData?: Record<string, unknown>;
+}
+
+interface AdvancedIntelligenceConfig {
+  predictionAccuracy?: number;
+  learningRate?: number;
+  temporalWeight?: number;
+  personalizedWeight?: number;
+  adaptationThreshold?: number;
+}
 
 
 // Note: These functions are not yet implemented in calculations/index

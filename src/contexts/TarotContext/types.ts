@@ -1,6 +1,5 @@
 'use client';
 
-import { ReactNode } from 'react';
 
 export interface TarotElementalInfluences {
   Fire: number;

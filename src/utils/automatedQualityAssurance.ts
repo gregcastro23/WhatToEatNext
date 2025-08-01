@@ -225,8 +225,8 @@ export class AutomatedQualityAssurance {
         const prevIngredient = ingredients[index - 1];
         // Use calculateElementalCompatibility directly
         const compatibility = calculateElementalAffinity(
-          ingredient.elementalProperties,
-          prevIngredient.elementalProperties
+          ingredient.elementalProperties as any,
+          prevIngredient.elementalProperties as any
         );
 
         if (compatibility < 0.7) {

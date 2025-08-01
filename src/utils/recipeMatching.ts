@@ -122,7 +122,7 @@ export async function findBestMatches(
     filteredRecipes = filteredRecipes.filter(
       (recipe) =>
         // Apply Pattern KK-1: Explicit Type Assertion for comparison operations
-        !recipe.cookingTime || Number(recipe.cookingTime) <= (matchFilters.maxCookingTime ?? undefined)
+        !recipe.cookingTime || Number(recipe.cookingTime) <= (matchFilters.maxCookingTime ?? 0)
     );
     // log.info(`After maxCookingTime filter: ${filteredRecipes.length} recipes remain`);
   }
@@ -169,7 +169,7 @@ export async function findBestMatches(
     filteredRecipes = filteredRecipes.filter(
       (recipe) => 
         // Apply Pattern KK-1: Explicit Type Assertion for comparison operations
-        !recipe.servings || Number(recipe.servings) >= (matchFilters.servings ?? undefined)
+        !recipe.servings || Number(recipe.servings) >= (matchFilters.servings ?? 1)
     );
     // log.info(`After servings filter: ${filteredRecipes.length} recipes remain`);
   }

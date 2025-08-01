@@ -290,7 +290,7 @@ export class SpoonacularService {
     
     return vitaminNames.filter(name => {
       const found = nutrients.find((n) => n.name === name);
-      return found?.amount > 0;
+      return (found?.amount ?? 0) > 0;
     });
   }
   
@@ -303,7 +303,7 @@ export class SpoonacularService {
     
     return mineralNames.filter(name => {
       const found = nutrients.find((n) => n.name === name);
-      return found?.amount > 0;
+      return (found?.amount ?? 0) > 0;
     });
   }
 

@@ -207,8 +207,8 @@ export function isRecipeIngredient(ingredient: unknown): ingredient is RecipeIng
  */
 export function isFullIngredient(ingredient: unknown): ingredient is Ingredient {
   const ingredientData = ingredient as Record<string, unknown>;
-  return (
-    Boolean(ingredient) &&
+  return Boolean(
+    ingredient &&
     typeof ingredientData.name === 'string' &&
     typeof ingredientData.category === 'string' &&
     ingredientData.elementalProperties &&

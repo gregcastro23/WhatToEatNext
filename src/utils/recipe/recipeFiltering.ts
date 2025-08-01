@@ -11,7 +11,7 @@ import { logger } from '../logger';
 
 
 
-import { calculateMatchScore } from './recipeMatching';
+import { calculateModalityScore } from './recipeMatching';
 
 
 // ===== INTERFACES =====

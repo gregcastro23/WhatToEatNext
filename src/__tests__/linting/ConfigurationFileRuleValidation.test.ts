@@ -12,7 +12,7 @@ import { writeFileSync, existsSync, readFileSync } from 'fs';
 import { join } from 'path';
 
 describe('Configuration File Rule Validation', () => {
-  const projectRoot = process.cwd();
+  const projectRoot = process.cwd()
   const tempFiles: string[] = [];
 
   afterEach(() => {
@@ -61,7 +61,7 @@ describe('Configuration File Rule Validation', () => {
 
       try {
         const output = execSync(`npx eslint "${testFile}" --no-eslintrc --config eslint.config.cjs --format json`, {
-          encoding: 'utf8',
+  encoding: 'utf8',
           cwd: projectRoot
         });
 
@@ -103,7 +103,7 @@ describe('Configuration File Rule Validation', () => {
         
         // Object property requires
         const moduleMap = {
-          development: './dev.config',
+  development: './dev.config',
           production: './prod.config',
           test: './test.config'
         };
@@ -127,7 +127,7 @@ describe('Configuration File Rule Validation', () => {
 
       try {
         const output = execSync(`npx eslint "${testFile}" --no-eslintrc --config eslint.config.cjs --format json`, {
-          encoding: 'utf8',
+  encoding: 'utf8',
           cwd: projectRoot
         });
 
@@ -163,9 +163,9 @@ describe('Configuration File Rule Validation', () => {
         
         // Module.exports patterns
         module.exports = {
-          entry: './src/index.js',
+  entry: './src/index.js',
           output: {
-            path: resolve(__dirname, 'dist'),
+  path: resolve(__dirname, 'dist'),
             filename: 'bundle.js'
           }
         };
@@ -198,7 +198,7 @@ describe('Configuration File Rule Validation', () => {
 
       try {
         const output = execSync(`npx eslint "${testFile}" --no-eslintrc --config eslint.config.cjs --format json`, {
-          encoding: 'utf8',
+  encoding: 'utf8',
           cwd: projectRoot
         });
 
@@ -238,27 +238,27 @@ describe('Configuration File Rule Validation', () => {
         const isDevelopment = process.env.NODE_ENV === 'development';
         
         module.exports = {
-          mode: isDevelopment ? 'development' : 'production',
+  mode: isDevelopment ? 'development' : 'production',
           entry: './src/index.js',
           output: {
-            path: path.resolve(__dirname, 'dist'),
+  path: path.resolve(__dirname, 'dist'),
             filename: isDevelopment ? '[name].js' : '[name].[contenthash].js',
             clean: true
           },
           module: {
-            rules: [
+  rules: [
               {
-                test: /\\.(js|jsx|ts|tsx)$/,
+  test: /\\.(js|jsx|ts|tsx)$/,
                 exclude: /node_modules/,
                 use: {
-                  loader: 'babel-loader',
+  loader: 'babel-loader',
                   options: {
-                    presets: ['@babel/preset-env', '@babel/preset-react', '@babel/preset-typescript']
+  presets: ['@babel/preset-env', '@babel/preset-react', '@babel/preset-typescript']
                   }
                 }
               },
               {
-                test: /\\.css$/,
+  test: /\\.css$/,
                 use: [
                   isDevelopment ? 'style-loader' : MiniCssExtractPlugin.loader,
                   'css-loader',
@@ -269,14 +269,14 @@ describe('Configuration File Rule Validation', () => {
           },
           plugins: [
             new HtmlWebpackPlugin({
-              template: './public/index.html'
+  template: './public/index.html'
             }),
             !isDevelopment && new MiniCssExtractPlugin({
-              filename: '[name].[contenthash].css'
+  filename: '[name].[contenthash].css'
             })
           ].filter(Boolean),
           devServer: isDevelopment ? {
-            port: 3000,
+  port: 3000,
             hot: true,
             open: true
           } : undefined
@@ -289,7 +289,7 @@ describe('Configuration File Rule Validation', () => {
 
       try {
         const output = execSync(`npx eslint "${testFile}" --no-eslintrc --config eslint.config.cjs --format json`, {
-          encoding: 'utf8',
+  encoding: 'utf8',
           cwd: projectRoot
         });
 
@@ -326,23 +326,23 @@ describe('Configuration File Rule Validation', () => {
       const testContent = `
         /** @type {import('next').NextConfig} */
         const nextConfig = {
-          reactStrictMode: true,
+  reactStrictMode: true,
           swcMinify: true,
           experimental: {
-            appDir: true,
+  appDir: true,
             serverComponentsExternalPackages: ['astronomia', 'astronomy-engine']
           },
           webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
             // Custom webpack configuration
             config.resolve.fallback = {
-              fs: false,
+  fs: false,
               path: false,
               crypto: false
             };
             
             // Add custom loaders
             config.module.rules.push({
-              test: /\\.svg$/,
+  test: /\\.svg$/,
               use: ['@svgr/webpack']
             });
             
@@ -361,7 +361,7 @@ describe('Configuration File Rule Validation', () => {
             return config;
           },
           env: {
-            CUSTOM_KEY: process.env.CUSTOM_KEY,
+  CUSTOM_KEY: process.env.CUSTOM_KEY,
             API_URL: process.env.NODE_ENV === 'development' 
               ? 'http://localhost:3001' 
               : 'https://api.example.com'
@@ -369,7 +369,7 @@ describe('Configuration File Rule Validation', () => {
           async redirects() {
             return [
               {
-                source: '/old-path',
+  source: '/old-path',
                 destination: '/new-path',
                 permanent: true
               }
@@ -378,7 +378,7 @@ describe('Configuration File Rule Validation', () => {
           async rewrites() {
             return [
               {
-                source: '/api/:path*',
+  source: '/api/:path*',
                 destination: 'https://api.example.com/:path*'
               }
             ];
@@ -393,7 +393,13 @@ describe('Configuration File Rule Validation', () => {
       writeFileSync(testFile, testContent);
 
       try {
-        await const output = execSync
+        const output = execSync(`npx eslint "${testFile}" --no-eslintrc --config eslint.config.cjs --format json`, {
+
+          encoding: 'utf8',
+
+          cwd: projectRoot
+
+        });
         const result = JSON.parse(output);
         
         if (result.length > 0 && result[0].messages) {
@@ -424,43 +430,43 @@ describe('Configuration File Rule Validation', () => {
       const testContent = `
         /** @type {import('tailwindcss').Config} */
         module.exports = {
-          content: [
+  content: [
             './pages/**/*.{js,ts,jsx,tsx,mdx}',
             './components/**/*.{js,ts,jsx,tsx,mdx}',
             './app/**/*.{js,ts,jsx,tsx,mdx}',
             './src/**/*.{js,ts,jsx,tsx,mdx}'
           ],
           theme: {
-            extend: {
-              colors: {
-                // Elemental color scheme
-                fire: {
-                  50: '#fef2f2',
+  extend: {
+  colors: {
+                // Elemental color scheme,
+  fire: {
+  50: '#fef2f2',
                   100: '#fee2e2',
                   500: '#ef4444',
                   900: '#7f1d1d'
                 },
                 water: {
-                  50: '#eff6ff',
+  50: '#eff6ff',
                   100: '#dbeafe',
                   500: '#3b82f6',
                   900: '#1e3a8a'
                 },
                 earth: {
-                  50: '#f9fafb',
+  50: '#f9fafb',
                   100: '#f3f4f6',
                   500: '#6b7280',
                   900: '#111827'
                 },
                 air: {
-                  50: '#fefce8',
+  50: '#fefce8',
                   100: '#fef3c7',
                   500: '#f59e0b',
                   900: '#78350f'
                 }
               },
               fontFamily: {
-                sans: ['Inter', 'system-ui', 'sans-serif'],
+  sans: ['Inter', 'system-ui', 'sans-serif'],
                 serif: ['Merriweather', 'serif'],
                 mono: ['Fira Code', 'monospace']
               },
@@ -473,7 +479,7 @@ describe('Configuration File Rule Validation', () => {
                 'slide-up': 'slideUp 0.3s ease-out'
               },
               keyframes: {
-                fadeIn: {
+  fadeIn: {
                   '0%': { opacity: '0' },
                   '100%': { opacity: '1' }
                 },
@@ -492,7 +498,7 @@ describe('Configuration File Rule Validation', () => {
             function({ addUtilities, theme }) {
               const newUtilities = {
                 '.elemental-gradient': {
-                  background: \`linear-gradient(45deg, \${theme('colors.fire.500')}, \${theme('colors.water.500')})\`
+  background: \`linear-gradient(45deg, \${theme('colors.fire.500')}, \${theme('colors.water.500')})\`
                 }
               };
               addUtilities(newUtilities);
@@ -507,7 +513,7 @@ describe('Configuration File Rule Validation', () => {
 
       try {
         const output = execSync(`npx eslint "${testFile}" --no-eslintrc --config eslint.config.cjs --format json`, {
-          encoding: 'utf8',
+  encoding: 'utf8',
           cwd: projectRoot
         });
 
@@ -543,7 +549,7 @@ describe('Configuration File Rule Validation', () => {
         
         /** @type {import('jest').Config} */
         module.exports = {
-          testEnvironment: 'jsdom',
+  testEnvironment: 'jsdom',
           setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
           moduleNameMapping: {
             '^@/(.*)$': '<rootDir>/src/$1',
@@ -562,8 +568,8 @@ describe('Configuration File Rule Validation', () => {
             '!src/reportWebVitals.ts'
           ],
           coverageThreshold: {
-            global: {
-              branches: 80,
+  global: {
+  branches: 80,
               functions: 80,
               lines: 80,
               statements: 80
@@ -571,7 +577,7 @@ describe('Configuration File Rule Validation', () => {
           },
           transform: {
             '^.+\\\\.(js|jsx|ts|tsx)$': ['babel-jest', {
-              presets: [
+  presets: [
                 ['@babel/preset-env', { targets: { node: 'current' } }],
                 ['@babel/preset-react', { runtime: 'automatic' }],
                 '@babel/preset-typescript'
@@ -582,12 +588,12 @@ describe('Configuration File Rule Validation', () => {
           testTimeout: 10000,
           globals: {
             'ts-jest': {
-              useESM: true
+  useESM: true
             }
           },
           // Custom configuration function
           ...(process.env.CI && {
-            maxWorkers: 2,
+  maxWorkers: 2,
             cache: false
           })
         };
@@ -605,7 +611,7 @@ describe('Configuration File Rule Validation', () => {
 
       try {
         const output = execSync(`npx eslint "${testFile}" --no-eslintrc --config eslint.config.cjs --format json`, {
-          encoding: 'utf8',
+  encoding: 'utf8',
           cwd: projectRoot
         });
 
@@ -641,13 +647,13 @@ describe('Configuration File Rule Validation', () => {
       const testContent = `
         // Configuration files often need flexible typing
         const config: any = {
-          development: {
-            apiUrl: 'http://localhost:3001',
+  development: {
+  apiUrl: 'http://localhost:3001',
             debug: true,
             logLevel: 'verbose'
           },
           production: {
-            apiUrl: process.env.API_URL,
+  apiUrl: process.env.API_URL,
             debug: false,
             logLevel: 'error'
           }
@@ -685,7 +691,7 @@ describe('Configuration File Rule Validation', () => {
 
       try {
         const output = execSync(`npx eslint "${testFile}" --no-eslintrc --config eslint.config.cjs --format json`, {
-          encoding: 'utf8',
+  encoding: 'utf8',
           cwd: projectRoot
         });
 
@@ -745,7 +751,7 @@ describe('Configuration File Rule Validation', () => {
         console.log('Configuration build completed at:', new Date().toISOString());
         
         module.exports = {
-          environment: process.env.NODE_ENV,
+  environment: process.env.NODE_ENV,
           timestamp: Date.now()
         };
       `;
@@ -756,7 +762,7 @@ describe('Configuration File Rule Validation', () => {
 
       try {
         const output = execSync(`npx eslint "${testFile}" --no-eslintrc --config eslint.config.cjs --format json`, {
-          encoding: 'utf8',
+  encoding: 'utf8',
           cwd: projectRoot
         });
 
@@ -811,7 +817,7 @@ describe('Configuration File Rule Validation', () => {
         
         // Export with require
         module.exports = {
-          plugins: [...plugins, ...devPlugins],
+  plugins: [...plugins, ...devPlugins],
           loadTSConfig
         };
       `;
@@ -822,7 +828,7 @@ describe('Configuration File Rule Validation', () => {
 
       try {
         const output = execSync(`npx eslint "${testFile}" --no-eslintrc --config eslint.config.cjs --format json`, {
-          encoding: 'utf8',
+  encoding: 'utf8',
           cwd: projectRoot
         });
 
@@ -907,7 +913,13 @@ describe('Configuration File Rule Validation', () => {
       
       if (existsSync(nextConfigPath)) {
         try {
-          await const output = execSync
+          const output = execSync(`npx eslint "${nextConfigPath}" --no-eslintrc --config eslint.config.cjs --format json`, {
+
+            encoding: 'utf8',
+
+            cwd: projectRoot
+
+          });
           const result = JSON.parse(output);
           
           if (result.length > 0 && result[0].messages) {
@@ -946,7 +958,13 @@ describe('Configuration File Rule Validation', () => {
       
       if (existsSync(tailwindConfigPath)) {
         try {
-          await const output = execSync
+          const output = execSync(`npx eslint "${tailwindConfigPath}" --no-eslintrc --config eslint.config.cjs --format json`, {
+
+            encoding: 'utf8',
+
+            cwd: projectRoot
+
+          });
           const result = JSON.parse(output);
           
           if (result.length > 0 && result[0].messages) {
@@ -981,7 +999,13 @@ describe('Configuration File Rule Validation', () => {
       
       if (existsSync(jestConfigPath)) {
         try {
-          await const output = execSync
+          const output = execSync(`npx eslint "${jestConfigPath}" --no-eslintrc --config eslint.config.cjs --format json`, {
+
+            encoding: 'utf8',
+
+            cwd: projectRoot
+
+          });
           const result = JSON.parse(output);
           
           if (result.length > 0 && result[0].messages) {
@@ -1015,7 +1039,7 @@ describe('Configuration File Rule Validation', () => {
       const eslintConfigPath = join(projectRoot, 'eslint.config.cjs');
       
       if (existsSync(eslintConfigPath)) {
-        await const configContent = readFileSync
+        const configContent = readFileSync
         // Check that config has proper file patterns for configuration files
         expect(configContent).toContain('*.config.js');
         expect(configContent).toContain('*.config.ts');
@@ -1029,7 +1053,7 @@ describe('Configuration File Rule Validation', () => {
         
         try {
           const output = execSync(`npx eslint "${eslintConfigPath}" --no-eslintrc --config eslint.config.cjs --format json`, {
-            encoding: 'utf8',
+  encoding: 'utf8',
             cwd: projectRoot
           });
 

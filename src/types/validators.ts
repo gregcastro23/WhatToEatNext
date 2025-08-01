@@ -1,11 +1,10 @@
-import { ELEMENTS } from '@/constants/elementalConstants';
 import { VALID_SEASONS } from '@/constants/seasonalConstants';
 import { VALID_UNITS } from '@/constants/unitConstants';
 
 import type { ElementalProperties, Recipe as AlchemyRecipe, Ingredient, Season } from './alchemy';
 import type { Recipe, RecipeIngredient } from './recipe';
 
-const VALID_MEAL_TIMES = ['breakfast', 'lunch', 'dinner'];
+const _VALID_MEAL_TIMES = ['breakfast', 'lunch', 'dinner'];
 
 /**
  * Normalizes elemental properties to ensure they sum to 1

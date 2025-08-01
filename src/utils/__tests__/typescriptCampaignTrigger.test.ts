@@ -188,7 +188,7 @@ describe('TypeScript Campaign Trigger', () => {
       
       mockExecSync.mockReturnValue(mockTscOutput);
 
-      const count = await getCurrentTypeScriptErrorCount();
+      const count = getCurrentTypeScriptErrorCount();
 
       expect(count).toBe(25);
     });
@@ -196,7 +196,7 @@ describe('TypeScript Campaign Trigger', () => {
     it('should return 0 for no errors', async () => {
       mockExecSync.mockReturnValue('');
 
-      const count = await getCurrentTypeScriptErrorCount();
+      const count = getCurrentTypeScriptErrorCount();
 
       expect(count).toBe(0);
     });
@@ -206,7 +206,7 @@ describe('TypeScript Campaign Trigger', () => {
         throw new Error('Command failed');
       });
 
-      const count = await getCurrentTypeScriptErrorCount();
+      const count = getCurrentTypeScriptErrorCount();
 
       expect(count).toBe(-1);
     });
@@ -220,7 +220,7 @@ describe('TypeScript Campaign Trigger', () => {
       
       mockExecSync.mockReturnValue(mockTscOutput);
 
-      const shouldTrigger = await checkCampaignTriggerConditions();
+      const shouldTrigger = checkCampaignTriggerConditions();
 
       expect(shouldTrigger).toBe(true);
     });
@@ -232,7 +232,7 @@ describe('TypeScript Campaign Trigger', () => {
       
       mockExecSync.mockReturnValue(mockTscOutput);
 
-      const shouldTrigger = await checkCampaignTriggerConditions();
+      const shouldTrigger = checkCampaignTriggerConditions();
 
       expect(shouldTrigger).toBe(false);
     });
@@ -242,7 +242,7 @@ describe('TypeScript Campaign Trigger', () => {
         throw new Error('Command failed');
       });
 
-      const shouldTrigger = await checkCampaignTriggerConditions();
+      const shouldTrigger = checkCampaignTriggerConditions();
 
       expect(shouldTrigger).toBe(false);
     });

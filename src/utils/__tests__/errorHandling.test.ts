@@ -137,7 +137,7 @@ describe('ErrorHandler', () => {
     const testError = new Error('Test error');
     
     try {
-      await errorHandler.handleError(testError);
+      errorHandler.handleError(testError);
     } catch (enhancedError: any) {
       expect(enhancedError.message).toBe('Test error');
       expect(enhancedError.type).toBe(ErrorType.UNKNOWN);
@@ -155,7 +155,7 @@ describe('ErrorHandler', () => {
     errorHandler.addRecoveryStrategy(mockRecoveryStrategy);
 
     const testError = new Error('Test error');
-    const result = await errorHandler.handleError(testError);
+    const result = errorHandler.handleError(testError);
 
     expect(mockRecoveryStrategy.canRecover).toHaveBeenCalled();
     expect(mockRecoveryStrategy.recover).toHaveBeenCalled();
@@ -172,7 +172,7 @@ describe('ErrorHandler', () => {
     errorHandler.addRecoveryStrategy(mockRecoveryStrategy);
 
     const testError = new Error('Test error');
-    const result = await errorHandler.handleError(testError);
+    const result = errorHandler.handleError(testError);
 
     expect(mockRecoveryStrategy.canRecover).toHaveBeenCalled();
     expect(mockRecoveryStrategy.recover).toHaveBeenCalled();
@@ -195,7 +195,7 @@ describe('ErrorHandler', () => {
 
     for (const error of errors) {
       try {
-        await errorHandler.handleError(error);
+        errorHandler.handleError(error);
       } catch {
         // Expected to throw
       }
@@ -225,7 +225,7 @@ describe('ErrorHandler', () => {
 
   it('clears error queue', async () => {
     try {
-      await errorHandler.handleError(new Error('Test error'));
+      errorHandler.handleError(new Error('Test error'));
     } catch {
       // Expected to throw
     }
@@ -260,7 +260,7 @@ describe('Global Error Handler', () => {
     };
     Object.defineProperty(window, 'localStorage', { value: mockLocalStorage });
 
-    const result = await globalErrorHandler.handleError(astroError);
+    const result = globalErrorHandler.handleError(astroError);
     expect(result).toEqual({ zodiacSign: 'aries' });
   });
 
@@ -277,7 +277,7 @@ describe('Global Error Handler', () => {
     };
     Object.defineProperty(window, 'localStorage', { value: mockLocalStorage });
 
-    const result = await globalErrorHandler.handleError(astroError);
+    const result = globalErrorHandler.handleError(astroError);
     expect(result).toEqual({
       zodiacSign: 'aries',
       lunarPhase: 'new moon',
@@ -293,7 +293,7 @@ describe('Utility Functions', () => {
 
   it('handleAsyncError wraps promises with error handling', async () => {
     const successPromise = Promise.resolve('success');
-    const result = await handleAsyncError(successPromise);
+    const result = handleAsyncError(successPromise);
     expect(result).toBe('success');
 
     const failurePromise = Promise.reject(new Error('async error'));
@@ -316,7 +316,7 @@ describe('Utility Functions', () => {
     const failurePromise = Promise.reject(new Error('async error'));
     
     try {
-      await handleAsyncError(failurePromise, context);
+      handleAsyncError(failurePromise, context);
     } catch (error: any) {
       expect(error.context).toEqual(context);
     }

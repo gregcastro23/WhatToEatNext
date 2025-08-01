@@ -1,14 +1,14 @@
 /**
  * Campaign System Rule Validation Test Suite
- * 
+ *
  * Tests the domain-specific ESLint rules for campaign system files
  * to ensure enterprise patterns and extensive logging are allowed.
- * 
+ *
  * Requirements: 4.3
  */
 
 import { execSync } from 'child_process';
-import { writeFileSync, existsSync } from 'fs';
+import { existsSync, writeFileSync } from 'fs';
 import { join } from 'path';
 
 describe('Campaign System Rule Validation', () => {
@@ -32,7 +32,7 @@ describe('Campaign System Rule Validation', () => {
           private executeComplexCampaign(config: any) {
             // High complexity enterprise logic
             let result = 0;
-            
+
             for (let phase = 0; phase < 10; phase++) {
               for (let batch = 0; batch < 20; batch++) {
                 for (let file = 0; file < 50; file++) {
@@ -60,34 +60,34 @@ describe('Campaign System Rule Validation', () => {
                 }
               }
             }
-            
+
             return result;
           }
-          
+
           private processFile(phase: number, batch: number, file: number): number {
             return phase + batch + file;
           }
-          
+
           private validateFile(phase: number, batch: number, file: number): number {
             return phase * batch * file;
           }
-          
+
           private optimizeFile(phase: number, batch: number, file: number): number {
             return Math.max(phase, batch, file);
           }
-          
+
           private analyzeFile(phase: number, batch: number, file: number): number {
             return Math.min(phase, batch, file);
           }
-          
+
           private transformFile(phase: number, batch: number, file: number): number {
             return (phase + batch + file) / 3;
           }
-          
+
           private advancedProcessing(phase: number, batch: number, file: number): number {
             return phase ** 2 + batch ** 2 + file ** 2;
           }
-          
+
           private finalizeProcessing(phase: number, batch: number, file: number): number {
             return Math.sqrt(phase * batch * file);
           }
@@ -100,17 +100,17 @@ describe('Campaign System Rule Validation', () => {
 
       try {
         const output = execSync(`npx eslint "${testFile}" --no-eslintrc --config eslint.config.cjs --format json`, {
-          encoding: 'utf8',
+  encoding: 'utf8',
           cwd: projectRoot
         });
 
         const result = JSON.parse(output);
-        
+
         if (result.length > 0 && result[0].messages) {
-          const complexityErrors = result[0].messages.filter((msg: any) => 
+          const complexityErrors = result[0].messages.filter((msg: any) =>
             msg.ruleId === 'complexity' && msg.severity === 2 // error level
           );
-          
+
           // Campaign files should allow high complexity
           expect(complexityErrors.length).toBe(0);
         }
@@ -119,10 +119,10 @@ describe('Campaign System Rule Validation', () => {
         if (output) {
           const result = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
-            const complexityErrors = result[0].messages.filter((msg: any) => 
+            const complexityErrors = result[0].messages.filter((msg: any) =>
               msg.ruleId === 'complexity' && msg.severity === 2
             );
-            
+
             expect(complexityErrors.length).toBe(0);
           }
         }
@@ -136,7 +136,7 @@ describe('Campaign System Rule Validation', () => {
             // Long function with extensive reporting logic
             let report = 'Campaign Progress Report\\n';
             report += '========================\\n\\n';
-            
+
             // Phase 1 Analysis
             report += 'Phase 1: Initial Analysis\\n';
             report += 'Status: Completed\\n';
@@ -145,7 +145,7 @@ describe('Campaign System Rule Validation', () => {
             report += 'Errors Found: 4,310\\n';
             report += 'Errors Fixed: 3,890\\n';
             report += 'Success Rate: 90.2%\\n\\n';
-            
+
             // Phase 2 Analysis
             report += 'Phase 2: Error Elimination\\n';
             report += 'Status: In Progress\\n';
@@ -154,7 +154,7 @@ describe('Campaign System Rule Validation', () => {
             report += 'Errors Found: 2,566\\n';
             report += 'Errors Fixed: 2,200\\n';
             report += 'Success Rate: 85.7%\\n\\n';
-            
+
             // Phase 3 Analysis
             report += 'Phase 3: Optimization\\n';
             report += 'Status: Pending\\n';
@@ -162,28 +162,28 @@ describe('Campaign System Rule Validation', () => {
             report += 'Estimated Files: 1,800\\n';
             report += 'Estimated Errors: 1,500\\n';
             report += 'Target Success Rate: 95%\\n\\n';
-            
+
             // Safety Metrics
             report += 'Safety Metrics:\\n';
             report += 'Build Failures: 0\\n';
             report += 'Rollbacks Triggered: 2\\n';
             report += 'Corruption Events: 0\\n';
             report += 'Safety Score: 98.5%\\n\\n';
-            
+
             // Performance Metrics
             report += 'Performance Metrics:\\n';
             report += 'Average Processing Speed: 125 files/hour\\n';
             report += 'Memory Usage: 2.1GB peak\\n';
             report += 'CPU Usage: 65% average\\n';
             report += 'Cache Hit Rate: 87%\\n\\n';
-            
+
             // Quality Metrics
             report += 'Quality Metrics:\\n';
             report += 'Code Quality Score: 92/100\\n';
             report += 'Type Safety Score: 89/100\\n';
             report += 'Linting Score: 94/100\\n';
             report += 'Overall Quality: 91.7/100\\n\\n';
-            
+
             // Recommendations
             report += 'Recommendations:\\n';
             report += '1. Increase batch size for Phase 3\\n';
@@ -191,7 +191,7 @@ describe('Campaign System Rule Validation', () => {
             report += '3. Implement additional safety checks\\n';
             report += '4. Optimize memory usage patterns\\n';
             report += '5. Enhance error categorization\\n\\n';
-            
+
             // Next Steps
             report += 'Next Steps:\\n';
             report += '1. Complete Phase 2 error elimination\\n';
@@ -199,11 +199,11 @@ describe('Campaign System Rule Validation', () => {
             report += '3. Implement performance improvements\\n';
             report += '4. Conduct comprehensive validation\\n';
             report += '5. Prepare for production deployment\\n\\n';
-            
+
             report += 'Report Generated: ' + new Date().toISOString() + '\\n';
             report += 'Campaign ID: typescript-elimination-2024\\n';
             report += 'Report Version: 1.2.3\\n';
-            
+
             return report;
           }
         }
@@ -215,17 +215,17 @@ describe('Campaign System Rule Validation', () => {
 
       try {
         const output = execSync(`npx eslint "${testFile}" --no-eslintrc --config eslint.config.cjs --format json`, {
-          encoding: 'utf8',
+  encoding: 'utf8',
           cwd: projectRoot
         });
 
         const result = JSON.parse(output);
-        
+
         if (result.length > 0 && result[0].messages) {
-          const functionLengthErrors = result[0].messages.filter((msg: any) => 
+          const functionLengthErrors = result[0].messages.filter((msg: any) =>
             msg.ruleId === 'max-lines-per-function' && msg.severity === 2 // error level
           );
-          
+
           // Campaign files should allow long functions
           expect(functionLengthErrors.length).toBe(0);
         }
@@ -234,10 +234,10 @@ describe('Campaign System Rule Validation', () => {
         if (output) {
           const result = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
-            const functionLengthErrors = result[0].messages.filter((msg: any) => 
+            const functionLengthErrors = result[0].messages.filter((msg: any) =>
               msg.ruleId === 'max-lines-per-function' && msg.severity === 2
             );
-            
+
             expect(functionLengthErrors.length).toBe(0);
           }
         }
@@ -252,14 +252,14 @@ describe('Campaign System Rule Validation', () => {
             const patterns: any = {};
             const metrics: any = data.metrics || {};
             const config: any = data.config || {};
-            
+
             // Dynamic analysis based on campaign type
             if (config.type === 'typescript-elimination') {
               patterns.errorTypes = this.analyzeTypeScriptErrors(data);
             } else if (config.type === 'linting-excellence') {
               patterns.lintingIssues = this.analyzeLintingIssues(data);
             }
-            
+
             // Flexible return structure
             return {
               patterns,
@@ -272,23 +272,23 @@ describe('Campaign System Rule Validation', () => {
               }
             };
           }
-          
+
           private analyzeTypeScriptErrors(data: any): any {
             return data.errors || [];
           }
-          
+
           private analyzeLintingIssues(data: any): any {
             return data.warnings || [];
           }
-          
+
           private calculateConfidence(patterns: any): number {
             return Math.random() * 100;
           }
-          
+
           private generateRecommendations(patterns: any): any[] {
             return [];
           }
-          
+
           private calculateComplexity(data: any): number {
             return Object.keys(data).length;
           }
@@ -301,29 +301,29 @@ describe('Campaign System Rule Validation', () => {
 
       try {
         const output = execSync(`npx eslint "${testFile}" --no-eslintrc --config eslint.config.cjs --format json`, {
-          encoding: 'utf8',
+  encoding: 'utf8',
           cwd: projectRoot
         });
 
         const result = JSON.parse(output);
-        
+
         if (result.length > 0 && result[0].messages) {
-          const anyTypeErrors = result[0].messages.filter((msg: any) => 
+          const anyTypeErrors = result[0].messages.filter((msg: any) =>
             msg.ruleId === '@typescript-eslint/no-explicit-any' && msg.severity === 2 // error level
           );
-          
-          // Campaign files should allow explicit any types (warn level is OK)
-          expect(anyTypeErrors.length).toBe(0);
+
+          // Campaign files should allow explicit any types (warn level is OK);
+    expect(anyTypeErrors.length).toBe(0);
         }
       } catch (error) {
         const output = (error as any).stdout?.toString() || '';
         if (output) {
           const result = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
-            const anyTypeErrors = result[0].messages.filter((msg: any) => 
+            const anyTypeErrors = result[0].messages.filter((msg: any) =>
               msg.ruleId === '@typescript-eslint/no-explicit-any' && msg.severity === 2
             );
-            
+
             expect(anyTypeErrors.length).toBe(0);
           }
         }
@@ -359,27 +359,27 @@ describe('Campaign System Rule Validation', () => {
               }
             }
           }
-          
+
           private executeEmergencyRollback(event: any): void {
             console.log('Executing emergency rollback');
           }
-          
+
           private createEmergencyBackup(event: any): void {
             console.log('Creating emergency backup');
           }
-          
+
           private initiateManualRecovery(event: any): void {
             console.log('Initiating manual recovery');
           }
-          
+
           private monitorBuildStatus(event: any): void {
             console.log('Monitoring build status');
           }
-          
+
           private isolateAffectedFiles(event: any): void {
             console.log('Isolating affected files');
           }
-          
+
           private logSafetyEvent(event: any): void {
             console.log('Logging safety event');
           }
@@ -392,17 +392,17 @@ describe('Campaign System Rule Validation', () => {
 
       try {
         const output = execSync(`npx eslint "${testFile}" --no-eslintrc --config eslint.config.cjs --format json`, {
-          encoding: 'utf8',
+  encoding: 'utf8',
           cwd: projectRoot
         });
 
         const result = JSON.parse(output);
-        
+
         if (result.length > 0 && result[0].messages) {
-          const depthErrors = result[0].messages.filter((msg: any) => 
+          const depthErrors = result[0].messages.filter((msg: any) =>
             msg.ruleId === 'max-depth' && msg.severity === 2 // error level
           );
-          
+
           // Campaign files should allow deep nesting
           expect(depthErrors.length).toBe(0);
         }
@@ -411,10 +411,10 @@ describe('Campaign System Rule Validation', () => {
         if (output) {
           const result = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
-            const depthErrors = result[0].messages.filter((msg: any) => 
+            const depthErrors = result[0].messages.filter((msg: any) =>
               msg.ruleId === 'max-depth' && msg.severity === 2
             );
-            
+
             expect(depthErrors.length).toBe(0);
           }
         }
@@ -448,7 +448,7 @@ describe('Campaign System Rule Validation', () => {
             console.count('safety-checks');
             console.assert(true, 'Safety assertion passed');
           }
-          
+
           public logMetrics(metrics: any): void {
             console.log('=== CAMPAIGN METRICS ===');
             console.log('Total errors found:', metrics.totalErrors);
@@ -460,7 +460,7 @@ describe('Campaign System Rule Validation', () => {
             console.log('Cache hit rate:', metrics.cacheHitRate + '%');
             console.log('========================');
           }
-          
+
           public logSafetyEvents(events: any[]): void {
             console.warn('=== SAFETY EVENTS ===');
             events.forEach((event, index) => {
@@ -480,17 +480,17 @@ describe('Campaign System Rule Validation', () => {
 
       try {
         const output = execSync(`npx eslint "${testFile}" --no-eslintrc --config eslint.config.cjs --format json`, {
-          encoding: 'utf8',
+  encoding: 'utf8',
           cwd: projectRoot
         });
 
         const result = JSON.parse(output);
-        
+
         if (result.length > 0 && result[0].messages) {
-          const consoleErrors = result[0].messages.filter((msg: any) => 
+          const consoleErrors = result[0].messages.filter((msg: any) =>
             msg.ruleId === 'no-console' && msg.severity === 2 // error level
           );
-          
+
           // Campaign files should allow all console methods
           expect(consoleErrors.length).toBe(0);
         }
@@ -499,10 +499,10 @@ describe('Campaign System Rule Validation', () => {
         if (output) {
           const result = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
-            const consoleErrors = result[0].messages.filter((msg: any) => 
+            const consoleErrors = result[0].messages.filter((msg: any) =>
               msg.ruleId === 'no-console' && msg.severity === 2
             );
-            
+
             expect(consoleErrors.length).toBe(0);
           }
         }
@@ -515,23 +515,23 @@ describe('Campaign System Rule Validation', () => {
           public executeEmergencyShutdown(reason: string): void {
             console.error('EMERGENCY SHUTDOWN INITIATED:', reason);
             console.error('Saving current state...');
-            await this.saveEmergencyState
+            this.saveEmergencyState();
             console.error('Creating emergency backup...');
-            await this.createEmergencyBackup
+            this.createEmergencyBackup();
             console.error('Notifying administrators...');
             this.notifyAdministrators(reason);
             console.error('Emergency shutdown complete. Exiting process.');
             process.exit(1); // Should be allowed in campaign emergency protocols
           }
-          
+
           private saveEmergencyState(): void {
             console.log('Emergency state saved');
           }
-          
+
           private createEmergencyBackup(): void {
             console.log('Emergency backup created');
           }
-          
+
           private notifyAdministrators(reason: string): void {
             console.log('Administrators notified:', reason);
           }
@@ -544,17 +544,17 @@ describe('Campaign System Rule Validation', () => {
 
       try {
         const output = execSync(`npx eslint "${testFile}" --no-eslintrc --config eslint.config.cjs --format json`, {
-          encoding: 'utf8',
+  encoding: 'utf8',
           cwd: projectRoot
         });
 
         const result = JSON.parse(output);
-        
+
         if (result.length > 0 && result[0].messages) {
-          const processExitErrors = result[0].messages.filter((msg: any) => 
+          const processExitErrors = result[0].messages.filter((msg: any) =>
             msg.ruleId === 'no-process-exit' && msg.severity === 2 // error level
           );
-          
+
           // Campaign files should allow process.exit
           expect(processExitErrors.length).toBe(0);
         }
@@ -563,10 +563,10 @@ describe('Campaign System Rule Validation', () => {
         if (output) {
           const result = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
-            const processExitErrors = result[0].messages.filter((msg: any) => 
+            const processExitErrors = result[0].messages.filter((msg: any) =>
               msg.ruleId === 'no-process-exit' && msg.severity === 2
             );
-            
+
             expect(processExitErrors.length).toBe(0);
           }
         }
@@ -602,19 +602,19 @@ describe('Campaign System Rule Validation', () => {
 
       try {
         const output = execSync(`npx eslint "${testFile}" --no-eslintrc --config eslint.config.cjs --format json`, {
-          encoding: 'utf8',
+  encoding: 'utf8',
           cwd: projectRoot
         });
 
         const result = JSON.parse(output);
-        
+
         if (result.length > 0 && result[0].messages) {
-          const unusedVarErrors = result[0].messages.filter((msg: any) => 
+          const unusedVarErrors = result[0].messages.filter((msg: any) =>
             msg.ruleId === '@typescript-eslint/no-unused-vars' &&
-            (msg.message.includes('campaign') || msg.message.includes('progress') || 
+            (msg.message.includes('campaign') || msg.message.includes('progress') ||
              msg.message.includes('metrics') || msg.message.includes('safety'))
           );
-          
+
           // Campaign variable patterns should be ignored
           expect(unusedVarErrors.length).toBe(0);
         }
@@ -623,12 +623,12 @@ describe('Campaign System Rule Validation', () => {
         if (output) {
           const result = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
-            const unusedVarErrors = result[0].messages.filter((msg: any) => 
+            const unusedVarErrors = result[0].messages.filter((msg: any) =>
               msg.ruleId === '@typescript-eslint/no-unused-vars' &&
-              (msg.message.includes('campaign') || msg.message.includes('progress') || 
+              (msg.message.includes('campaign') || msg.message.includes('progress') ||
                msg.message.includes('metrics') || msg.message.includes('safety'))
             );
-            
+
             expect(unusedVarErrors.length).toBe(0);
           }
         }
@@ -643,25 +643,25 @@ describe('Campaign System Rule Validation', () => {
             LINTING_EXCELLENCE: 'linting-excellence',
             PERFORMANCE_OPTIMIZATION: 'performance-optimization'
           };
-          
+
           private static readonly PROGRESS_THRESHOLDS = {
             WARNING: 0.2,
             CRITICAL: 0.5,
             SUCCESS: 0.9
           };
-          
+
           private static readonly METRICS_CONFIG = {
             COLLECTION_INTERVAL: 5000,
             RETENTION_PERIOD: 86400000,
             MAX_ENTRIES: 10000
           };
-          
+
           private static readonly SAFETY_LIMITS = {
             MAX_ERRORS: 1000,
             MAX_BATCH_SIZE: 50,
             MAX_MEMORY_USAGE: 4096
           };
-          
+
           private static readonly ERROR_CATEGORIES = {
             TYPESCRIPT: 'typescript',
             LINTING: 'linting',
@@ -677,17 +677,17 @@ describe('Campaign System Rule Validation', () => {
 
       try {
         const output = execSync(`npx eslint "${testFile}" --no-eslintrc --config eslint.config.cjs --format json`, {
-          encoding: 'utf8',
+  encoding: 'utf8',
           cwd: projectRoot
         });
 
         const result = JSON.parse(output);
-        
+
         if (result.length > 0 && result[0].messages) {
-          const unusedVarErrors = result[0].messages.filter((msg: any) => 
+          const unusedVarErrors = result[0].messages.filter((msg: any) =>
             msg.ruleId === '@typescript-eslint/no-unused-vars'
           );
-          
+
           // Campaign constants should be allowed even if unused
           expect(unusedVarErrors.length).toBe(0);
         }
@@ -696,10 +696,10 @@ describe('Campaign System Rule Validation', () => {
         if (output) {
           const result = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
-            const unusedVarErrors = result[0].messages.filter((msg: any) => 
+            const unusedVarErrors = result[0].messages.filter((msg: any) =>
               msg.ruleId === '@typescript-eslint/no-unused-vars'
             );
-            
+
             expect(unusedVarErrors.length).toBe(0);
           }
         }
@@ -714,22 +714,22 @@ describe('Campaign System Rule Validation', () => {
           public async loadCampaignTool(toolName: string): Promise<any> {
             // Dynamic imports for campaign tools should be allowed
             const toolPath = \`./tools/\${toolName}\`;
-            const tool = await import(toolPath);
+            const tool = import(toolPath);
             return tool.default || tool;
           }
-          
+
           public async loadConfigBasedTool(config: any): Promise<any> {
             const toolModule = config.toolModule;
-            const dynamicTool = await import(toolModule);
+            const dynamicTool = import(toolModule);
             return dynamicTool;
           }
-          
+
           public loadSynchronousTool(toolName: string): any {
             // Dynamic require should also be allowed
             const toolPath = \`./tools/\${toolName}\`;
-            return await require
+            return require(toolPath);
           }
-          
+
           public loadEnvironmentTool(): any {
             const toolModule = process.env.CAMPAIGN_TOOL_MODULE;
             if (toolModule) {
@@ -746,17 +746,17 @@ describe('Campaign System Rule Validation', () => {
 
       try {
         const output = execSync(`npx eslint "${testFile}" --no-eslintrc --config eslint.config.cjs --format json`, {
-          encoding: 'utf8',
+  encoding: 'utf8',
           cwd: projectRoot
         });
 
         const result = JSON.parse(output);
-        
+
         if (result.length > 0 && result[0].messages) {
-          const dynamicImportErrors = result[0].messages.filter((msg: any) => 
+          const dynamicImportErrors = result[0].messages.filter((msg: any) =>
             msg.ruleId === 'import/no-dynamic-require' && msg.severity === 2 // error level
           );
-          
+
           // Campaign files should allow dynamic imports
           expect(dynamicImportErrors.length).toBe(0);
         }
@@ -765,10 +765,10 @@ describe('Campaign System Rule Validation', () => {
         if (output) {
           const result = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
-            const dynamicImportErrors = result[0].messages.filter((msg: any) => 
+            const dynamicImportErrors = result[0].messages.filter((msg: any) =>
               msg.ruleId === 'import/no-dynamic-require' && msg.severity === 2
             );
-            
+
             expect(dynamicImportErrors.length).toBe(0);
           }
         }
@@ -790,12 +790,12 @@ describe('Campaign System Rule Validation', () => {
 
       campaignFiles.forEach(file => {
         // Check if file would match campaign patterns in ESLint config
-        const matchesCampaignPattern = 
+        const matchesCampaignPattern =
           file.includes('/services/campaign/') ||
           file.includes('/types/campaign.ts') ||
           file.includes('Campaign') ||
           file.includes('Progress');
-        
+
         expect(matchesCampaignPattern).toBe(true);
       });
     });
@@ -810,12 +810,12 @@ describe('Campaign System Rule Validation', () => {
 
       nonCampaignFiles.forEach(file => {
         // Check that file would NOT match campaign patterns
-        const matchesCampaignPattern = 
+        const matchesCampaignPattern =
           file.includes('/services/campaign/') ||
           file.includes('/types/campaign.ts') ||
           (file.includes('Campaign') && !file.includes('components')) ||
           (file.includes('Progress') && !file.includes('components'));
-        
+
         expect(matchesCampaignPattern).toBe(false);
       });
     });
@@ -824,18 +824,19 @@ describe('Campaign System Rule Validation', () => {
   describe('Integration with Existing Campaign Files', () => {
     test('should validate existing CampaignController if present', async () => {
       const campaignControllerPath = join(projectRoot, 'src/services/campaign/CampaignController.ts');
-      
+
       if (existsSync(campaignControllerPath)) {
         try {
-               await const output = execSync      const result = JSON.parse(output);
-          
+          const output = execSync('yarn eslint --format json --no-eslintrc --config eslint.config.cjs ' + campaignControllerPath, { encoding: 'utf8' });
+          const result = JSON.parse(output);
+
           if (result.length > 0 && result[0].messages) {
-            const restrictiveErrors = result[0].messages.filter((msg: any) => 
+            const restrictiveErrors = result[0].messages.filter((msg: any) =>
               (msg.ruleId === 'complexity' && msg.severity === 2) ||
               (msg.ruleId === 'max-lines-per-function' && msg.severity === 2) ||
               (msg.ruleId === 'no-console' && msg.severity === 2)
             );
-            
+
             // Existing campaign files should not have restrictive errors
             expect(restrictiveErrors.length).toBe(0);
           }
@@ -844,12 +845,12 @@ describe('Campaign System Rule Validation', () => {
           if (output) {
             const result = JSON.parse(output);
             if (result.length > 0 && result[0].messages) {
-              const restrictiveErrors = result[0].messages.filter((msg: any) => 
+              const restrictiveErrors = result[0].messages.filter((msg: any) =>
                 (msg.ruleId === 'complexity' && msg.severity === 2) ||
                 (msg.ruleId === 'max-lines-per-function' && msg.severity === 2) ||
                 (msg.ruleId === 'no-console' && msg.severity === 2)
               );
-              
+
               expect(restrictiveErrors.length).toBe(0);
             }
           }
@@ -862,18 +863,19 @@ describe('Campaign System Rule Validation', () => {
 
     test('should validate existing ProgressTracker if present', async () => {
       const progressTrackerPath = join(projectRoot, 'src/services/campaign/ProgressTracker.ts');
-      
+
       if (existsSync(progressTrackerPath)) {
         try {
-               await const output = execSync      const result = JSON.parse(output);
-          
+          const output = execSync('yarn eslint --format json --no-eslintrc --config eslint.config.cjs ' + progressTrackerPath, { encoding: 'utf8' });
+          const result = JSON.parse(output);
+
           if (result.length > 0 && result[0].messages) {
-            const restrictiveErrors = result[0].messages.filter((msg: any) => 
+            const restrictiveErrors = result[0].messages.filter((msg: any) =>
               (msg.ruleId === 'complexity' && msg.severity === 2) ||
               (msg.ruleId === 'max-lines-per-function' && msg.severity === 2) ||
               (msg.ruleId === 'no-console' && msg.severity === 2)
             );
-            
+
             expect(restrictiveErrors.length).toBe(0);
           }
         } catch (error) {
@@ -881,12 +883,12 @@ describe('Campaign System Rule Validation', () => {
           if (output) {
             const result = JSON.parse(output);
             if (result.length > 0 && result[0].messages) {
-              const restrictiveErrors = result[0].messages.filter((msg: any) => 
+              const restrictiveErrors = result[0].messages.filter((msg: any) =>
                 (msg.ruleId === 'complexity' && msg.severity === 2) ||
                 (msg.ruleId === 'max-lines-per-function' && msg.severity === 2) ||
                 (msg.ruleId === 'no-console' && msg.severity === 2)
               );
-              
+
               expect(restrictiveErrors.length).toBe(0);
             }
           }

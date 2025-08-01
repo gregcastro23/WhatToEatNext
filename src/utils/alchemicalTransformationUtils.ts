@@ -242,7 +242,7 @@ export const getRecommendedCookingMethodsForIngredient = async (
   
   // Convert cookingMethods names to method strings for holistic recommendations
   const methodNames = cookingMethods.map(method => method.name);
-  log.info('Method names to evaluate:', methodNames.join(', '));
+  log.info('Method names to evaluate:', { data: methodNames.join(', ') } as any);
   
   // Use our enhanced holistic recommendations that include elemental character
   log.info('\nEvaluating methods with holistic cooking recommendations algorithm...');

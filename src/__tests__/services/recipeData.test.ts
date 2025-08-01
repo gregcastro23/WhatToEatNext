@@ -93,7 +93,7 @@ describe('RecipeData Service', () => {
   it('should provide a fallback recipe when no recipes are loaded', async () => {
     try {
       // Force the service to return the fallback recipe
-      const recipes = await recipeData.getAllRecipes();
+      const recipes = recipeData.getAllRecipes();
 
       // Should at least return one recipe
       expect(recipes.length).toBeGreaterThan(0);
@@ -248,35 +248,35 @@ describe('RecipeData Service', () => {
         });
 
       // Test filtering by cuisine
-      const italianRecipes = await recipeData.filterRecipes({
+      const italianRecipes = recipeData.filterRecipes({
         cuisine: 'Italian',
       });
       expect(italianRecipes.length).toBe(1);
       expect(italianRecipes[0].id).toBe('recipe1');
 
       // Test filtering by meal type
-      const lunchRecipes = await recipeData.filterRecipes({
+      const lunchRecipes = recipeData.filterRecipes({
         mealType: ['lunch'],
       });
       expect(lunchRecipes.length).toBe(1);
       expect(lunchRecipes[0].id).toBe('recipe2');
 
       // Test filtering by season
-      const summerRecipes = await recipeData.filterRecipes({
+      const summerRecipes = recipeData.filterRecipes({
         season: ['summer'],
       });
       expect(summerRecipes.length).toBe(1);
       expect(summerRecipes[0].id).toBe('recipe1');
 
       // Test filtering by dietary restrictions
-      const vegetarianRecipes = await recipeData.filterRecipes({
+      const vegetarianRecipes = recipeData.filterRecipes({
         isVegetarian: true,
       });
       expect(vegetarianRecipes.length).toBe(1);
       expect(vegetarianRecipes[0].id).toBe('recipe1');
 
       // Test filtering with multiple criteria
-      const complexFilter = await recipeData.filterRecipes({
+      const complexFilter = recipeData.filterRecipes({
         mealType: ['dinner'],
         isGlutenFree: true,
       });
@@ -284,7 +284,7 @@ describe('RecipeData Service', () => {
       expect(complexFilter[0].id).toBe('recipe1');
 
       // Test with Mexican & Vegan filter
-      const noMatches = await recipeData.filterRecipes({
+      const noMatches = recipeData.filterRecipes({
         cuisine: 'Mexican',
         isVegan: true,
       });
@@ -343,7 +343,7 @@ describe('RecipeData Service', () => {
     recipeData.getAllRecipes = jest.fn().mockResolvedValue([normalizedRecipe]);
 
     // Get the recipes
-    const recipes = await recipeData.getAllRecipes();
+    const recipes = recipeData.getAllRecipes();
 
     // There should be one recipe
     expect(recipes.length).toBe(1);
