@@ -5,9 +5,20 @@
 import { Recipe, Ingredient, ZodiacSign, ElementalProperties } from './unified';
 
 export interface MLContext {
-  zodiacSign: ZodiacSign;
-  lunarPhase: string;
-  season: string;
+  zodiacSign?: ZodiacSign;
+  lunarPhase?: string;
+  elementalProperties?: ElementalProperties;
+  season?: string;
+  mealType?: string;
+  planetaryPositions?: Record<string, unknown>;
+  astrologicalInsights?: Record<string, unknown>;
+  lunarInfluence?: Record<string, unknown>;
+  planetaryHarmonics?: Record<string, unknown>;
+  planetaryHour?: string;
+  moonPhase?: string;
+  sunSign?: string;
+  moonSign?: string;
+  marsAspects?: Array<Record<string, unknown>>;
   userPreferences?: UserPreferences;
   historicalData?: HistoricalData;
 }
@@ -86,20 +97,23 @@ export interface MLMetrics {
   learningProgress: number;
 }
 
+// Additional interface for ingredient compatibility service
+export interface IngredientCompatibilityResult {
+  mlCompatibilityScore: number;
+  pairwiseCompatibilityMatrix: Record<string, Record<string, number>>;
+  substitutionRecommendations: Record<string, string[]>;
+  flavorSynergyPredictions: string[];
+}
+
 export interface MLIntelligenceResult {
   recipeOptimization: {
     mlOptimizedScore: number;
     ingredientSubstitutionRecommendations: string[];
     cookingMethodOptimization: string[];
     flavorEnhancementSuggestions: string[];
-    nutritionalOptimization: Record<string, unknown>;
+    nutritionalOptimization: string[];
   };
-  ingredientPairing: {
-    mlCompatibilityScore: number;
-    pairwiseCompatibilityMatrix: Record<string, Record<string, number>>;
-    substitutionRecommendations: Record<string, string[]>;
-    flavorSynergyPredictions: Record<string, number>;
-  };
+  ingredientPairing: IngredientCompatibilityResult;
   cuisineFusion: {
     mlFusionScore: number;
     fusionSuccessPrediction: number;
@@ -109,9 +123,9 @@ export interface MLIntelligenceResult {
   };
   astrologicalPrediction: {
     mlAlignmentScore: number;
-    optimalTimingPrediction: Record<string, unknown>;
-    planetaryInfluenceOptimization: Record<string, unknown>;
-    cosmicHarmonyEnhancement: Record<string, unknown>;
+    optimalTimingPrediction: string;
+    planetaryInfluenceOptimization: number;
+    cosmicHarmonyEnhancement: string[];
   };
   confidence: number;
   timestamp: string;

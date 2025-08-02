@@ -9,10 +9,60 @@ import { useAstrologicalState } from '@/hooks/useAstrologicalState';
 import { useChakraInfluencedFood } from '@/hooks/useChakraInfluencedFood';
 import { ElementalCalculator } from '@/services/ElementalCalculator';
 import { log } from '@/services/LoggingService';
-import { ElementalProperties } from '@/types/alchemy';
+import { ElementalProperties, ZodiacSign, LunarPhase } from '@/types/alchemy';
 import type { Ingredient , UnifiedIngredient } from '@/types/ingredient';
 import { getChakraBasedRecommendations, GroupedIngredientRecommendations, getIngredientRecommendations, IngredientRecommendation } from '@/utils/ingredientRecommender';
 
+
+// Enhanced Type Safety Interfaces
+interface IngredientDisplayItem {
+  category?: string;
+  description?: string;
+  qualities?: string[];
+  culinaryApplications?: Record<string, unknown>;
+  varieties?: Record<string, unknown>;
+  storage?: {
+    duration?: string;
+    temperature?: {
+      fahrenheit?: number;
+      celsius?: number;
+    };
+  };
+  nutritionalProfile?: {
+    calories?: number;
+    macros?: {
+      protein?: number;
+      carbs?: number;
+      fat?: number;
+    };
+  };
+  astrologicalProperties?: Record<string, unknown>;
+  astrologicalProfile?: {
+    rulingPlanets?: string[];
+    chakraAlignment?: string[];
+  };
+  matchScore?: number;
+  name?: string;
+  elementalProperties?: ElementalProperties;
+  // Enhanced oil-specific properties
+  smokePoint?: {
+    fahrenheit?: number;
+    celsius?: number;
+  };
+  // Enhanced herb-specific properties
+  medicinProperties?: Record<string, unknown>;
+  preparationMethods?: string[];
+  // Enhanced seasonal properties
+  seasonalAdjustments?: Record<string, unknown>;
+  potency?: Record<string, unknown>;
+  // Enhanced protein/seafood properties
+  cuts?: Record<string, unknown>;
+  // Enhanced health properties
+  healthBenefits?: string[] | string;
+  // Enhanced thermodynamic properties
+  thermodynamicProperties?: Record<string, unknown>;
+  culinaryUses?: string[];
+}
 
 // Props interface for IngredientRecommender
 interface IngredientRecommenderProps {
@@ -242,8 +292,8 @@ export default function IngredientRecommender({
       // Determine current planetary day and hour
       const now = new Date();
       // Extract planetary day and hour from context if available
-      const planetaryDay = (planetaryPositions as Record<string, unknown>)?.planetaryDay?.planet || 'Sun';
-      const planetaryHour = (planetaryPositions as Record<string, unknown>)?.planetaryHour?.planet || 'Sun';
+      const planetaryDay = (planetaryPositions as unknown as Record<string, any>)?.planetaryDay?.planet || 'Sun';
+      const planetaryHour = (planetaryPositions as unknown as Record<string, any>)?.planetaryHour?.planet || 'Sun';
       const isDaytime = now.getHours() >= 6 && now.getHours() < 18;
       
       // Create an object with astrological state data
@@ -270,9 +320,14 @@ export default function IngredientRecommender({
       // Get standard recommendations with all planets
       const standardRecommendations = getIngredientRecommendations({
         ...astroState,
+        timestamp: new Date(),
+        currentStability: 1.0,
+        planetaryAlignment: {},
+        zodiacSign: 'aries',
+        activePlanets: [],
         lunarPhase: 'new moon',
         aspects: []
-      } as Record<string, unknown>, { limit: 40 });
+      } as any, { limit: 40 });
       
       // Merge the recommendations, prioritizing chakra-based ones
       const mergedRecommendations: GroupedIngredientRecommendations = {};
@@ -504,7 +559,7 @@ export default function IngredientRecommender({
           });
         }
         // Oils
-        else if (isOil(ingredient as Record<string, unknown>)) {
+        else if (isOil(ingredient as any)) {
           categories.oils.push({
             ...ingredient,
             matchScore: ingredient.score || 0.5
@@ -572,17 +627,18 @@ export default function IngredientRecommender({
     Object.entries(astroRecommendations).forEach(([_category, items]) => {
       (items ?? []).forEach(item => {
         const normalizedCategory = getNormalizedCategory(item);
-        const targetCategory = normalizedCategory === 'other' ? determineCategory(item.name) : normalizedCategory;
+        const targetCategory = normalizedCategory === 'other' ? determineCategory((item as any)?.name) : normalizedCategory;
         
         if (categories[targetCategory]) {
           // Check if this item already exists in the category (with improved duplicate detection)
           const existingItemIndex = categories[targetCategory].findIndex(
-            existing => areSimilarIngredients(existing.name, item.name)
+            existing => areSimilarIngredients((existing as any)?.name, (item as any)?.name)
           );
           
           if (existingItemIndex >= 0) {
             // Update the existing item with better score if needed
-            if (item.matchScore > categories[targetCategory][existingItemIndex].matchScore) {
+            const displayItem = item as IngredientDisplayItem;
+            if (displayItem?.matchScore && displayItem.matchScore > ((categories[targetCategory][existingItemIndex] as IngredientDisplayItem).matchScore || 0)) {
               categories[targetCategory][existingItemIndex] = {
                 ...item,
                 category: targetCategory
@@ -625,7 +681,7 @@ export default function IngredientRecommender({
     
     // Add any missing oils from the oils collection
     if (!categories.oils || categories.oils.length < 3) {
-      const existingOilNames = new Set((categories.oils || []).map(oil => oil.name.toLowerCase()));
+      const existingOilNames = new Set((categories.oils || []).map(oil => (oil as any)?.name?.toLowerCase() ?? 'unknown'));
       const additionalOils = Object.entries(oilsCollection)
         .filter(([_, oilData]) => 
           !existingOilNames.has(oilData.name.toLowerCase() || '')
@@ -653,14 +709,14 @@ export default function IngredientRecommender({
         });
       
       categories.oils = [...(categories.oils || []), ...additionalOils]
-        .sort((a, b) => b.matchScore - a.matchScore);
+        .sort((a, b) => (b as any)?.matchScore - (a as any)?.matchScore);
     }
     
     // Sort each category by matchScore
     Object.keys(categories).forEach(category => {
       categories[category] = categories[category]
-        .sort((a, b) => b.matchScore - a.matchScore)
-        .filter(item => item.matchScore > 0);
+        .sort((a, b) => (b as any)?.matchScore - (a as any)?.matchScore)
+        .filter(item => (item as any)?.matchScore > 0);
     });
     
     // Filter out empty categories
@@ -870,9 +926,9 @@ export default function IngredientRecommender({
               recipeData={null}
               ingredientData={{ ingredients: Object.values(combinedCategorizedRecommendations).flat() }}
               astrologicalContext={{
-                zodiacSign: (currentZodiac || 'aries') as string,
-                lunarPhase: 'new moon' as string,
-                elementalProperties: (astroState as Record<string, unknown>).elementalProperties || {
+                zodiacSign: (currentZodiac || 'aries') as ZodiacSign,
+                lunarPhase: 'new moon' as LunarPhase,
+                elementalProperties: (astroState as unknown as Record<string, any>)?.elementalProperties || {
                   Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
                 },
                 planetaryPositions: currentPlanetaryAlignment
@@ -970,8 +1026,9 @@ export default function IngredientRecommender({
                 
                 <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-8 gap-3">
                   {itemsToShow.map((item) => {
+                    const typedItem = item as any;
                     // Get element color class
-                    const elementalProps = item.elementalProperties || {
+                    const elementalProps = typedItem.elementalProperties || {
                       Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
                     };
                     
@@ -996,50 +1053,50 @@ export default function IngredientRecommender({
                     let seasonality;
                     
                     // Handle both string and object seasonality formats
-                    if (item.seasonality) {
-                      if (typeof item.seasonality === 'string') {
-                        seasonality = item.seasonality;
-                      } else if (typeof item.seasonality === 'object') {
+                    if (typedItem.seasonality) {
+                      if (typeof typedItem.seasonality === 'string') {
+                        seasonality = typedItem.seasonality;
+                      } else if (typeof typedItem.seasonality === 'object') {
                         // Handle both array and object formats
-                        if (Array.isArray(item.seasonality)) {
-                          seasonality = item.seasonality.join(', ');
-                        } else if (item.seasonality.peak) {
+                        if (Array.isArray(typedItem.seasonality)) {
+                          seasonality = typedItem.seasonality.join(', ');
+                        } else if (typedItem.seasonality.peak) {
                           // Handle {peak: [...], notes: string} format
-                          seasonality = Array.isArray(item.seasonality.peak) 
-                            ? item.seasonality.peak.join(', ')
-                            : item.seasonality.peak;
+                          seasonality = Array.isArray(typedItem.seasonality.peak) 
+                            ? typedItem.seasonality.peak.join(', ')
+                            : typedItem.seasonality.peak;
                         }
                       }
                     } else {
                       seasonality = defaultSeason;
                     }
                     
-                    const qualities = item.qualities || [];
+                    const qualities = typedItem.qualities || [];
                     
                     // Use the new getMatchScoreClass function
-                    const matchScoreClass = getMatchScoreClass(item.matchScore);
+                    const matchScoreClass = getMatchScoreClass(typedItem.matchScore);
                     
-                    const isSelected = selectedIngredient?.name === item.name;
+                    const isSelected = selectedIngredient?.name === typedItem.name;
                     
                     return (
                       <div 
-                        key={`${item.name}-${category}-${item.subCategory || ''}-${Math.random().toString(36).substr(2, 5)}`} 
+                        key={`${typedItem.name}-${category}-${typedItem.subCategory || ''}-${Math.random().toString(36).substr(2, 5)}`} 
                         className={`p-3 rounded-lg border-l-4 ${elementColor} hover:shadow-md transition-all flex flex-col ${isSelected ? 'ring-2 ring-indigo-500 shadow-md min-h-[200px] sm:col-span-2 md:col-span-2 lg:col-span-2' : 'h-full'} cursor-pointer`}
-                        onClick={(e) => handleIngredientSelect(item, e)}
+                        onClick={(e) => handleIngredientSelect(typedItem, e)}
                       >
                         <div className="flex justify-between items-start">
-                          <h4 className="font-medium text-sm text-gray-800 dark:text-gray-200">{item.name}</h4>
+                          <h4 className="font-medium text-sm text-gray-800 dark:text-gray-200">{typedItem.name}</h4>
                           <span className={`ml-1 text-xs px-1.5 py-0.5 rounded-sm ${matchScoreClass}`}>
-                            {formatMatchScore(item.matchScore)}
+                            {formatMatchScore(typedItem.matchScore)}
                           </span>
                         </div>
                         
                         {/* Quick info row */}
                         <div className="flex items-center text-xs text-gray-600 dark:text-gray-400 mt-1 gap-2">
-                          {item.category && (
+                          {(item as any)?.category && (
                             <span className="flex items-center">
                               <Tag size={10} className="mr-0.5" />
-                              {item.category.split(' ')[0]}
+                              {(item as any)?.category?.split(' ')[0]}
                             </span>
                           )}
                           
@@ -1070,54 +1127,54 @@ export default function IngredientRecommender({
                             
                             {/* More detailed information */}
                             <div className="mt-1 space-y-2 text-xs text-gray-700 dark:text-gray-300">
-                              {item.description && (
-                                <p>{item.description}</p>
+                              {(item as any)?.description && (
+                                <p>{(item as any)?.description}</p>
                               )}
                               
-                              {item.qualities && item.qualities.length > 0 && (
+                              {(item as any)?.qualities && (item as any)?.qualities?.length > 0 && (
                                 <div>
-                                  <span className="font-semibold">Qualities:</span> {item.qualities.join(', ')}
+                                  <span className="font-semibold">Qualities:</span> {(item as any)?.qualities?.join(', ')}
                                 </div>
                               )}
                               
                               {/* Show culinary applications */}
-                              {item.culinaryApplications && (
+                              {(item as any)?.culinaryApplications && (
                                 <div>
                                   <span className="font-semibold">Culinary Applications:</span>{' '}
-                                  {Object.keys(item.culinaryApplications).slice(0, 3).join(', ')}
+                                  {Object.keys((item as any)?.culinaryApplications || {}).slice(0, 3).join(', ')}
                                 </div>
                               )}
 
                               {/* Show varieties if available */}
-                              {item.varieties && Object.keys(item.varieties).length > 0 && (
+                              {(item as any)?.varieties && Object.keys((item as any)?.varieties).length > 0 && (
                                 <div>
                                   <span className="font-semibold">Varieties:</span>{' '}
-                                  {Object.keys(item.varieties).slice(0, 3).join(', ')}
+                                  {Object.keys((item as any)?.varieties).slice(0, 3).join(', ')}
                                 </div>
                               )}
 
                               {/* Show storage information */}
-                              {item.storage && (
+                              {(item as any)?.storage && (
                                 <div>
                                   <span className="font-semibold">Storage:</span>{' '}
-                                  {item.storage.duration}
-                                  {item.storage.temperature && typeof item.storage.temperature === 'object' && 
-                                   ` at ${item.storage.temperature.fahrenheit}°F`}
+                                  {(item as any)?.storage?.duration}
+                                  {(item as any)?.storage?.temperature && typeof (item as any)?.storage?.temperature === 'object' && 
+                                   ` at ${(item as any)?.storage?.temperature?.fahrenheit}°F`}
                                 </div>
                               )}
                               
                               {/* Show smoke point for oils */}
-                              {category === 'oils' && item.smokePoint && (
+                              {category === 'oils' && (item as IngredientDisplayItem).smokePoint && (
                                 <div>
-                                  <span className="font-semibold">Smoke Point:</span> {item.smokePoint.fahrenheit}°F / {item.smokePoint.celsius}°C
+                                  <span className="font-semibold">Smoke Point:</span> {(item as IngredientDisplayItem).smokePoint?.fahrenheit}°F / {(item as IngredientDisplayItem).smokePoint?.celsius}°C
                                 </div>
                               )}
                               
                               {/* Show recommended culinary applications for oils */}
-                              {category === 'oils' && item.culinaryApplications && (
+                              {category === 'oils' && (item as IngredientDisplayItem).culinaryApplications && (
                                 <div>
                                   <span className="font-semibold">Best for:</span> {
-                                    Object.entries(item.culinaryApplications)
+                                    Object.entries((item as IngredientDisplayItem).culinaryApplications || {})
                                       .map(([type, data]) => {
                                         if (typeof data === 'object') {
                                           // Extract data with safe property access
@@ -1136,18 +1193,18 @@ export default function IngredientRecommender({
                               )}
                               
                               {/* Show seasonal adjustments */}
-                              {item.seasonalAdjustments && (
+                              {(item as IngredientDisplayItem).seasonalAdjustments && (
                                 <div>
                                   <span className="font-semibold">Seasonal Preparations:</span>{' '}
-                                  {Object.keys(item.seasonalAdjustments).join(', ')}
+                                  {Object.keys((item as IngredientDisplayItem).seasonalAdjustments || {}).join(', ')}
                                 </div>
                               )}
 
                               {/* Show cooking time/methods for proteins */}
-                              {category === 'proteins' && item.culinaryApplications && (
+                              {category === 'proteins' && (item as IngredientDisplayItem).culinaryApplications && (
                                 <div>
                                   <span className="font-semibold">Cooking Times:</span>{' '}
-                                  {Object.entries(item.culinaryApplications).map(([method, details], index) => {
+                                  {Object.entries((item as IngredientDisplayItem).culinaryApplications || {}).map(([method, details], index) => {
                                     let cookingTime = '';
                                     
                                     // Handle different data formats for cooking time
@@ -1187,10 +1244,10 @@ export default function IngredientRecommender({
                               )}
 
                               {/* Show temperature recommendations for proteins */}
-                              {category === 'proteins' && item.culinaryApplications && (
+                              {category === 'proteins' && (item as IngredientDisplayItem).culinaryApplications && (
                                 <div>
                                   <span className="font-semibold">Cooking Temperatures:</span>{' '}
-                                  {Object.entries(item.culinaryApplications).map(([method, details], index) => {
+                                  {Object.entries((item as IngredientDisplayItem).culinaryApplications || {}).map(([method, details], index) => {
                                     let temp = '';
                                     
                                     // Handle different data formats for temperature
@@ -1228,10 +1285,10 @@ export default function IngredientRecommender({
                               )}
 
                               {/* Show cuts for seafood and proteins */}
-                              {item.cuts && Object.keys(item.cuts).length > 0 && (
+                              {(item as IngredientDisplayItem).cuts && Object.keys((item as IngredientDisplayItem).cuts || {}).length > 0 && (
                                 <div>
                                   <span className="font-semibold">Available Cuts:</span>{' '}
-                                  {Object.values(item.cuts).map(cut => {
+                                  {Object.values((item as IngredientDisplayItem).cuts || {}).map(cut => {
                                     if (typeof cut === 'object') {
                                       // Extract cut data with safe property access
                                       const cutData = cut as Record<string, unknown>;
@@ -1244,20 +1301,20 @@ export default function IngredientRecommender({
                               )}
 
                               {/* Show health benefits */}
-                              {item.healthBenefits && item.healthBenefits.length > 0 && (
+                              {(item as IngredientDisplayItem).healthBenefits && (item as IngredientDisplayItem).healthBenefits && (
                                 <div>
                                   <span className="font-semibold">Health Benefits:</span>{' '}
-                                  {Array.isArray(item.healthBenefits) 
-                                    ? item.healthBenefits.slice(0, 2).join(', ')
-                                    : typeof item.healthBenefits === 'string' ? item.healthBenefits : ''}
+                                  {Array.isArray((item as IngredientDisplayItem).healthBenefits) 
+                                    ? ((item as IngredientDisplayItem).healthBenefits as string[]).slice(0, 2).join(', ')
+                                    : typeof (item as IngredientDisplayItem).healthBenefits === 'string' ? (item as IngredientDisplayItem).healthBenefits : ''}
                                 </div>
                               )}
                               
                               {/* Show thermodynamic properties for oils and other ingredients */}
-                              {item.thermodynamicProperties && (
+                              {(item as IngredientDisplayItem).thermodynamicProperties && (
                                 <div>
                                   <span className="font-semibold">Properties:</span> {
-                                    Object.entries(item.thermodynamicProperties)
+                                    Object.entries((item as IngredientDisplayItem).thermodynamicProperties || {})
                                       .filter(([key]) => ['heat', 'reactivity', 'energy'].includes(key))
                                       .map(([key, value]) => `${key}: ${Math.round((Number(value) || 0) * 100)}%`)
                                       .join(', ')
@@ -1265,27 +1322,36 @@ export default function IngredientRecommender({
                                 </div>
                               )}
                               
-                              {item.culinaryUses && item.culinaryUses.length > 0 && (
-                                <div>
-                                  <span className="font-semibold">Uses:</span> {item.culinaryUses.join(', ')}
-                                </div>
-                              )}
+                              {(() => {
+                                const displayItem = item as IngredientDisplayItem;
+                                return displayItem.culinaryUses && displayItem.culinaryUses.length > 0 && (
+                                  <div>
+                                    <span className="font-semibold">Uses:</span> {displayItem.culinaryUses.join(', ')}
+                                  </div>
+                                );
+                              })()}
 
                               {/* Show nutritional highlights if available */}
-                              {item.nutritionalProfile && (
-                                <div>
-                                  <span className="font-semibold">Nutrition:</span>{' '}
-                                  {item.nutritionalProfile.calories && `${item.nutritionalProfile.calories} cal`}
-                                  {item.nutritionalProfile.macros && item.nutritionalProfile.macros.protein && 
-                                   `, ${item.nutritionalProfile.macros.protein}g protein`}
-                                </div>
-                              )}
+                              {(() => {
+                                const displayItem = item as IngredientDisplayItem;
+                                return displayItem.nutritionalProfile && (
+                                  <div>
+                                    <span className="font-semibold">Nutrition:</span>{' '}
+                                    {displayItem.nutritionalProfile.calories && `${displayItem.nutritionalProfile.calories} cal`}
+                                    {displayItem.nutritionalProfile.macros && displayItem.nutritionalProfile.macros.protein && 
+                                     `, ${displayItem.nutritionalProfile.macros.protein}g protein`}
+                                  </div>
+                                );
+                              })()}
                               
-                              {item.astrologicalProfile && item.astrologicalProfile.rulingPlanets && (
-                                <div>
-                                  <span className="font-semibold">Planets:</span> {item.astrologicalProfile.rulingPlanets.join(', ')}
-                                </div>
-                              )}
+                              {(() => {
+                                const displayItem = item as IngredientDisplayItem;
+                                return displayItem.astrologicalProfile && displayItem.astrologicalProfile.rulingPlanets && (
+                                  <div>
+                                    <span className="font-semibold">Planets:</span> {displayItem.astrologicalProfile.rulingPlanets.join(', ')}
+                                  </div>
+                                );
+                              })()}
                             </div>
                             
                             {/* Elemental properties - show in expanded view */}
@@ -1349,24 +1415,30 @@ export default function IngredientRecommender({
                             )}
                             
                             {/* Compact smoke point display for oils */}
-                            {category === 'oils' && item.smokePoint && (
-                              <div className="mt-1 text-[10px] text-gray-600 dark:text-gray-400">
-                                <span className="font-medium">Smoke Point:</span> {item.smokePoint.fahrenheit}°F
-                              </div>
-                            )}
+                            {(() => {
+                              const displayItem = item as IngredientDisplayItem;
+                              return category === 'oils' && displayItem.smokePoint && (
+                                <div className="mt-1 text-[10px] text-gray-600 dark:text-gray-400">
+                                  <span className="font-medium">Smoke Point:</span> {displayItem.smokePoint.fahrenheit}°F
+                                </div>
+                              );
+                            })()}
 
                             {/* Compact cooking methods for proteins */}
-                            {category === 'proteins' && item.culinaryApplications && (
-                              <div className="mt-1 text-[10px] text-gray-600 dark:text-gray-400">
-                                <span className="font-medium">Cook:</span>{' '}
-                                {Object.keys(item.culinaryApplications).slice(0, 2).map((method, idx) => (
-                                  <span key={method}>
-                                    {idx > 0 && ', '}
-                                    {method.replace(/_/g, ' ')}
-                                  </span>
-                                ))}
-                              </div>
-                            )}
+                            {(() => {
+                              const displayItem = item as IngredientDisplayItem;
+                              return category === 'proteins' && displayItem.culinaryApplications && (
+                                <div className="mt-1 text-[10px] text-gray-600 dark:text-gray-400">
+                                  <span className="font-medium">Cook:</span>{' '}
+                                  {Object.keys(displayItem.culinaryApplications).slice(0, 2).map((method, idx) => (
+                                    <span key={method}>
+                                      {idx > 0 && ', '}
+                                      {method.replace(/_/g, ' ')}
+                                    </span>
+                                  ))}
+                                </div>
+                              );
+                            })()}
                           </>
                         )}
                       </div>

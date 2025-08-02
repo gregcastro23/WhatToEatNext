@@ -357,7 +357,7 @@ export class CampaignDebugger {
         step.endTime = new Date();
       } catch (error) {
         step.status = DebugStepStatus.FAILED;
-        step.errors.push(error.message);
+        step.errors.push((error as Error).message);
         step.endTime = new Date();
       }
     }

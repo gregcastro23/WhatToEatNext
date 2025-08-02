@@ -193,7 +193,8 @@ export class LintingAnalysisService {
     const topIssues = Array.from(issueFrequency.entries())
       .sort((a, b) => b[1] - a[1])
       .slice(0, 5)
-      .map(([rule]) => Object.values(categorizedErrors.byCategory).flat().find(i => i.rule === rule) ?? undefined)
+      .map(([rule]) => Object.values(categorizedErrors.byCategory).flat().find(i => i.rule === rule))
+      .filter((issue): issue is LintingIssue => issue !== undefined)
       .filter(Boolean);
     
     // Get quick wins (auto-fixable, low risk)

@@ -305,19 +305,21 @@ export class LintingWarningAnalyzer {
         fileWarningCounts.set(file, { total: 0, explicitAny: 0, unused: 0, console: 0 });
       }
       
-      const counts = fileWarningCounts.get(file) ?? undefined;
-      counts.total++;
-      
-      switch (warning.category) {
-        case WarningCategory.EXPLICIT_ANY:
-          counts.explicitAny++;
-          break;
-        case WarningCategory.UNUSED_VARIABLES:
-          counts.unused++;
-          break;
-        case WarningCategory.CONSOLE_STATEMENTS:
-          counts.console++;
-          break;
+      const counts = fileWarningCounts.get(file);
+      if (counts) {
+        counts.total++;
+        
+        switch (warning.category) {
+          case WarningCategory.EXPLICIT_ANY:
+            counts.explicitAny++;
+            break;
+          case WarningCategory.UNUSED_VARIABLES:
+            counts.unused++;
+            break;
+          case WarningCategory.CONSOLE_STATEMENTS:
+            counts.console++;
+            break;
+        }
       }
     }
 

@@ -1,47 +1,39 @@
 
-import { french } from '@/data/cuisines/french';
-import { italian } from '@/data/cuisines/italian';
-import { middleEastern } from '@/data/cuisines/middle-eastern';
-import { thai } from '@/data/cuisines/thai';
 import type { Ingredient } from '@/types';
 import { UnifiedIngredient } from '@/types/unified';
 import { standardizeIngredient } from '@/utils/dataStandardization';
-import { fixIngredientMappings } from '@/utils/elementalUtils';
 import {
-  calculateAlchemicalProperties,
-  calculateThermodynamicProperties,
-  determineIngredientModality,
+    calculateAlchemicalProperties,
+    calculateThermodynamicProperties,
+    determineIngredientModality,
 } from '@/utils/ingredientUtils';
 
 import { fruits } from './fruits';
-import { allGrains, grainNames } from './grains';
-import { refinedGrains } from './grains/refinedGrains';
-import { wholeGrains } from './grains/wholeGrains';
-import { herbs, allHerbs } from './herbs';
-import { medicinalHerbs } from './herbs/medicinalHerbs';
-import { processedOils, allOils } from './oils';
-import { meats, meats as meatsData } from './proteins/meat';
-import { plantBased , plantBased as plantBasedData } from './proteins/plantBased';
-import { poultry , poultry as poultryData } from './proteins/poultry';
-import { seafood , seafood as seafoodData } from './proteins/seafood';
+import { allGrains } from './grains';
+import { allHerbs } from './herbs';
+import { allOils } from './oils';
+import { meats as meatsData } from './proteins/meat';
+import { plantBased as plantBasedData } from './proteins/plantBased';
+import { poultry as poultryData } from './proteins/poultry';
+import { seafood as seafoodData } from './proteins/seafood';
 import { seasonings } from './seasonings';
 import { spices } from './spices';
 
 // Add explicit exports needed by imports elsewhere in the codebase
 export { fruits } from './fruits';
-export { enhancedVegetables as vegetables } from './vegetables';
-export { herbs } from './herbs';
-export { spices } from './spices';
 export { allGrains as grains } from './grains';
+export { herbs } from './herbs';
 export { allOils as oils } from './oils';
+export { meats, plantBased, poultry, seafood } from './proteins/index';
 export { seasonings } from './seasonings';
+export { spices } from './spices';
+export { enhancedVegetables as vegetables } from './vegetables';
 export { vinegars } from './vinegars/vinegars';
-export { meats, poultry, seafood, plantBased } from './proteins/index';
 
 // Create a combined proteins object for easier imports
 import { warmSpices } from './spices/warmSpices';
-import { enhancedVegetables, standardizedVegetables } from './vegetables';
-import { vinegars, allVinegars, artisanalVinegars } from './vinegars/vinegars';
+import { enhancedVegetables } from './vegetables';
+import { allVinegars } from './vinegars/vinegars';
 
 export const proteins = {
   ...meatsData,
@@ -55,12 +47,12 @@ const calculateElementalProperties = (
   ingredientData: Ingredient | UnifiedIngredient
 ): Record<string, number> => {
   // Use actual elemental properties if they exist
-  if (ingredientData.elementalProperties && 
+  if (ingredientData.elementalProperties &&
       Object.keys(ingredientData.elementalProperties).length > 0) {
-    
+
     const props = ingredientData.elementalProperties;
     const sum = Object.values(props).reduce((acc: number, val: unknown) => acc + (Number(val) || 0), 0);
-    
+
     if (sum > 0) {
       return {
         Fire: (Number(props.Fire) || 0) / sum,
@@ -70,13 +62,13 @@ const calculateElementalProperties = (
       };
     }
   }
-  
+
   // Calculate from astrological correspondences if available
   const ingredientDataObj = ingredientData as unknown as Record<string, unknown>;
   if (ingredientDataObj.astrologicalCorrespondence) {
     const astro = ingredientDataObj.astrologicalCorrespondence as Record<string, unknown>;
     const elementalProps = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
-    
+
     // Add elemental influence from planetary rulers
     if (astro.planetaryRulers) {
       (astro.planetaryRulers as string[]).forEach((planet: string) => {
@@ -86,7 +78,7 @@ const calculateElementalProperties = (
         }
       });
     }
-    
+
     // Add elemental influence from zodiac signs
     if (astro.zodiacSigns) {
       (astro.zodiacSigns as string[]).forEach((sign: string) => {
@@ -96,7 +88,7 @@ const calculateElementalProperties = (
         }
       });
     }
-    
+
     const sum = Object.values(elementalProps).reduce((acc, val) => acc + val, 0);
     if (sum > 0) {
       return {
@@ -107,7 +99,7 @@ const calculateElementalProperties = (
       };
     }
   }
-  
+
   // If no astrological data, calculate from ingredient category
   return calculateElementalPropertiesFromCategory(ingredientData.category || 'culinary_herb');
 };
@@ -153,7 +145,7 @@ function calculateElementalPropertiesFromCategory(category: string): Record<stri
     'vinegar': { Fire: 0.2, Water: 0.4, Air: 0.3, Earth: 0.1 },
     'seasoning': { Fire: 0.4, Air: 0.3, Earth: 0.2, Water: 0.1 }
   };
-  
+
   return categoryElements[category] || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
 }
 
@@ -286,16 +278,16 @@ export const allIngredients = (() => {
   const processedGrains = processIngredientCollection(grainsCollection);
   const processedVinegars = processIngredientCollection(vinegarsCollection);
   const processedOils = processIngredientCollection(oilsCollection);
-  const processedPlantBased = processIngredientCollection(plantBased);
-  const processedMeats = processIngredientCollection(meats);
-  const processedPoultry = processIngredientCollection(poultry);
-  const processedSeafood = processIngredientCollection(seafood);
+  const processedPlantBased = processIngredientCollection(plantBasedData);
+  const processedMeats = processIngredientCollection(meatsData);
+  const processedPoultry = processIngredientCollection(poultryData);
+  const processedSeafood = processIngredientCollection(seafoodData);
   const processedHerbs = processIngredientCollection(herbsCollection);
   const processedSpices = processIngredientCollection(spicesCollection);
-  
+
   // Create a map to deduplicate by normalized name
   const result: Record<string, Ingredient> = {};
-  
+
   // Helper function to normalize ingredient name for comparison
   const normalizeIngredientName = (name: string): string => {
     return name.toLowerCase()
@@ -303,7 +295,7 @@ export const allIngredients = (() => {
       .replace(/\s+/g, '_')
       .replace(/[^a-z0-9_]/g, '');
   };
-  
+
   // Build a list of collections in priority order (lowest to highest)
   const collectionsList = [
     { source: processedSeasonings, priority: 1 },
@@ -319,10 +311,10 @@ export const allIngredients = (() => {
     { source: processedHerbs, priority: 11 },
     { source: processedSpices, priority: 12 } // Highest priority
   ];
-  
+
   // Sort collections by priority
   collectionsList.sort((a, b) => a.priority - b.priority);
-  
+
   // Process collections in order
   collectionsList.forEach(({ source }) => {
     // Process each ingredient in the collection
@@ -330,7 +322,7 @@ export const allIngredients = (() => {
       // Store both the original key and any potential name-based key
       // for better deduplication
       result[key] = ingredient;
-      
+
       // Also index by normalized name if it differs from the key
       const normalizedKey = normalizeIngredientName(ingredient.name || key);
       if (normalizedKey !== key.toLowerCase().replace(/\s+/g, '_')) {
@@ -339,7 +331,7 @@ export const allIngredients = (() => {
       }
     });
   });
-  
+
   // Remove the name_ prefixed duplicates for final export
   const finalResult: Record<string, Ingredient> = {};
   Object.entries(result).forEach(([key, value]) => {
@@ -347,7 +339,7 @@ export const allIngredients = (() => {
       finalResult[key] = value;
     }
   });
-  
+
   return finalResult;
 })();
 
@@ -405,4 +397,3 @@ export default {
   getAllGrains,
   ingredientsMap,
 };
-

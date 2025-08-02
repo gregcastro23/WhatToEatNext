@@ -71,7 +71,7 @@ class CurrentMomentManager {
       await this.updateCurrentMoment();
     }
     
-    return this.currentMoment ?? undefined;
+    return this.currentMoment!;
   }
 
   /**
@@ -84,7 +84,7 @@ class CurrentMomentManager {
       while (this.updateInProgress) {
         await new Promise(resolve => setTimeout(resolve, 100));
       }
-      return this.currentMoment ?? undefined;
+      return this.currentMoment!;
     }
 
     this.updateInProgress = true;
@@ -244,12 +244,12 @@ class CurrentMomentManager {
           "# Based on astronomical calculations\n",
           notebookPositions,
           "\n",
-          `print(f\"🎉 SUCCESS ?? undefined Live planetary positions for ${momentData.date}:\")\n`,
+          `print(f\"🎉 SUCCESS - Live planetary positions for ${momentData.date}:\")\n`,
           "for planet, data in live_positions.items():\n",
           "    retro = \" (R)\" if data.get('retrograde') else \"\"\n",
           "    print(f\"   {planet}: {data['minutes']} {data['sign']}{retro} ({data['element']})\")\n",
           "\n",
-          "print(\"✅ CURRENT MOMENT ANALYSIS COMPLETE ?? undefined\")\n"
+          "print(\"✅ CURRENT MOMENT ANALYSIS COMPLETE\")\n"
         ];
         
         codeCell.source = newSource;

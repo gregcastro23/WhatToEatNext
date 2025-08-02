@@ -711,13 +711,6 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
     };
   }
 
-  private getCurrentBranch(): string {
-    try {
-      return execSync('git branch --show-current', { encoding: 'utf8' }).trim();
-    } catch {
-      return 'main';
-    }
-  }
 
   private addRecoveryEvent(event: SafetyEvent): void {
     this.recoveryEvents.push(event);

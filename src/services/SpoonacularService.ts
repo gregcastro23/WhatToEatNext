@@ -638,7 +638,7 @@ export class SpoonacularService {
     
     for (const name of mineralNames) {
       const found = nutrients.find((n) => n.name === name);
-      if (found?.amount > 1) {
+      if ((found?.amount || 0) > 1) {
         foundMinerals.push(name);
       }
     }

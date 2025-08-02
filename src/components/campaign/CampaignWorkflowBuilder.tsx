@@ -317,7 +317,10 @@ export const CampaignWorkflowBuilder: React.FC<CampaignWorkflowBuilderProps> = (
 
               {/* Step Actions */}
               <div className="step-actions">
-                {getStepActions(getCurrentStep() ?? undefined)}
+                {(() => {
+                  const currentStep = getCurrentStep();
+                  return currentStep && getStepActions(currentStep);
+                })()}
               </div>
             </div>
           )}

@@ -478,4 +478,5 @@ if (require.main === module) {
   main();
 }
 
-export { LintingTestRunner, TestResult, TestSuiteReport };
+export { LintingTestRunner };
+export type { TestResult, TestSuiteReport };

@@ -157,17 +157,17 @@ export class EnterpriseIntelligenceGenerator {
     
     switch (exportType) {
       case 'function':
-        return this.templates.get('FUNCTION_INTELLIGENCE') || this.templates.get('DEFAULT') ?? undefined;
+        return (this.templates.get('FUNCTION_INTELLIGENCE') || this.templates.get('DEFAULT'))!;
       case 'class':
-        return this.templates.get('CLASS_INTELLIGENCE') || this.templates.get('DEFAULT') ?? undefined;
+        return (this.templates.get('CLASS_INTELLIGENCE') || this.templates.get('DEFAULT'))!;
       case 'interface':
       case 'type':
-        return this.templates.get('TYPE_INTELLIGENCE') || this.templates.get('DEFAULT') ?? undefined;
+        return (this.templates.get('TYPE_INTELLIGENCE') || this.templates.get('DEFAULT'))!;
       case 'const':
       case 'variable':
-        return this.templates.get('DATA_INTELLIGENCE') || this.templates.get('DEFAULT') ?? undefined;
+        return (this.templates.get('DATA_INTELLIGENCE') || this.templates.get('DEFAULT'))!;
       default:
-        return this.templates.get('DEFAULT') ?? undefined;
+        return this.templates.get('DEFAULT')!;
     }
   }
 

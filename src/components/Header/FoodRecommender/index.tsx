@@ -617,54 +617,54 @@ const FoodRecommender: React.FC = () => {
                                             <div className="grid grid-cols-2 gap-x-2 gap-y-1">
                                                 <div className="text-xs flex justify-between">
                                                     <span className="text-yellow-400">Heat:</span>
-                                                    <span className="text-white">{safelyFormatNumber(thermodynamic.heat * 100) as ReactNode}%</span>
+                                                    <span className="text-white">{String(safelyFormatNumber(thermodynamic.heat * 100))}%</span>
                                                 </div>
                                                 <div className="text-xs flex justify-between">
                                                     <span className="text-indigo-400">Entropy:</span>
-                                                    <span className="text-white">{safelyFormatNumber(thermodynamic.entropy * 100) as ReactNode}%</span>
+                                                    <span className="text-white">{String(safelyFormatNumber(thermodynamic.entropy * 100))}%</span>
                                                 </div>
                                                 <div className="text-xs flex justify-between">
                                                     <span className="text-green-400">Reactivity:</span>
-                                                    <span className="text-white">{safelyFormatNumber(thermodynamic.reactivity * 100) as ReactNode}%</span>
+                                                    <span className="text-white">{String(safelyFormatNumber(thermodynamic.reactivity * 100))}%</span>
                                                 </div>
                                                 <div className="text-xs flex justify-between">
                                                     <span className="text-blue-400">Energy:</span>
-                                                    <span className="text-white">{safelyFormatNumber(thermodynamic.energy * 100) as ReactNode}%</span>
+                                                    <span className="text-white">{String(safelyFormatNumber(thermodynamic.energy * 100))}%</span>
                                                 </div>
                                             </div>
                                         </div>
 
                                         {/* Alchemical Properties */}
-                                        {Boolean(alchemical) && (
+                                        {(Boolean(alchemical) ? (
                                         <div className="mt-3 mb-2">
                                             <h5 className="text-xs text-gray-300 mb-1">Alchemical Properties</h5>
                                             <div className="grid grid-cols-2 gap-x-2 gap-y-1">
                                                 <div className="text-xs flex justify-between">
                                                     <span className="text-purple-400">Spirit:</span>
-                                                    <span className="text-white">{safelyFormatNumber(alchemical.spirit * 100) as ReactNode}%</span>
+                                                    <span className="text-white">{String(safelyFormatNumber(alchemical.spirit * 100))}%</span>
                                                 </div>
                                                 <div className="text-xs flex justify-between">
                                                     <span className="text-pink-400">Essence:</span>
-                                                    <span className="text-white">{safelyFormatNumber(alchemical.essence * 100) as ReactNode}%</span>
+                                                    <span className="text-white">{String(safelyFormatNumber(alchemical.essence * 100))}%</span>
                                                 </div>
                                                 <div className="text-xs flex justify-between">
                                                     <span className="text-amber-400">Matter:</span>
-                                                    <span className="text-white">{safelyFormatNumber(alchemical.matter * 100) as ReactNode}%</span>
+                                                    <span className="text-white">{String(safelyFormatNumber(alchemical.matter * 100))}%</span>
                                                 </div>
                                                 <div className="text-xs flex justify-between">
                                                     <span className="text-cyan-400">Substance:</span>
-                                                    <span className="text-white">{safelyFormatNumber(alchemical.substance * 100) as ReactNode}%</span>
+                                                    <span className="text-white">{String(safelyFormatNumber(alchemical.substance * 100))}%</span>
                                                 </div>
                                             </div>
                                         </div>
-                                        )}
+                                        ) : null) as React.ReactNode}
                                     
                                     {String(/* ✅ Pattern GG-6: Safe property access for nutritional information */)}
-                                    {(ingredient as Record<string, unknown>).nutritionalInfo ? (
+                                    {((ingredient as Record<string, unknown>).nutritionalInfo && (
                                         <div className="mt-2 mb-3">
                                             <h5 className="text-xs text-gray-500 mb-1">Nutritional Information</h5>
                                             <div className="grid grid-cols-2 gap-2">
-                                                {Boolean(((ingredient as Record<string, unknown>).nutritionalInfo as Record<string, unknown>).calories) && (
+{Boolean(((ingredient as Record<string, unknown>).nutritionalInfo as Record<string, unknown>).calories) && (
                                                     <div className="text-xs">
                                                         <span className="text-gray-400">Calories:</span> 
                                                         <span className="text-white ml-1">{String(((ingredient as Record<string, unknown>).nutritionalInfo as Record<string, unknown>).calories || '')}</span>
@@ -690,7 +690,7 @@ const FoodRecommender: React.FC = () => {
                                                 )}
                                             </div>
                                         </div>
-                                    ) : null}
+                                    )) as React.ReactNode}
 
                                     {/* ✅ Pattern GG-6: Safe property access for sensory profile */}
                                     {!(ingredient as Record<string, unknown>).nutritionalInfo && (ingredient as Record<string, unknown>).sensoryProfile ? (
@@ -710,19 +710,19 @@ const FoodRecommender: React.FC = () => {
                                         </div>
                                     ) : null}
                                     
-                                    {(ingredient as Record<string, unknown>).medicinalProperties ? (
+                                    {(ingredient as any)?.medicinalProperties && (
                                         <div className="mt-2 mb-3">
                                             <h5 className="text-xs text-gray-500 mb-1">Properties</h5>
                                             <div className="flex flex-wrap gap-1">
-                                                {Array.isArray((ingredient as Record<string, unknown>).medicinalProperties) && 
-                                                 ((ingredient as Record<string, unknown>).medicinalProperties as string[]).slice(0, 3).map((property: string, idx: number) => (
+                                                {Array.isArray((ingredient as any).medicinalProperties) && 
+                                                 ((ingredient as any).medicinalProperties as string[]).slice(0, 3).map((property: string, idx: number) => (
                                                     <div key={idx} className="bg-green-900 bg-opacity-30 px-2 py-0.5 rounded-full text-xs">
                                                         {property}
                                                     </div>
                                                 ))}
                                             </div>
                                         </div>
-                                    ) : null}
+                                    )}
                                     
                                     {/* ✅ Pattern GG-6: Safe property access for elemental properties visualization */}
                                     <div className="mt-2 space-y-2">

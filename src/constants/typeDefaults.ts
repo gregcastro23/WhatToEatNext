@@ -226,10 +226,10 @@ export const createSuccessResponse = <T>(data: T): ServiceResponseType<T> => ({
 export const createSafeElementalProperties = (
   properties: Partial<ElementalPropertiesType>
 ): ElementalPropertiesType => {
-  const fire = Number.isFinite(properties.Fire) ? Math.max(0, properties.Fire ?? undefined) : 0.25;
-  const water = Number.isFinite(properties.Water) ? Math.max(0, properties.Water ?? undefined) : 0.25;
-  const earth = Number.isFinite(properties.Earth) ? Math.max(0, properties.Earth ?? undefined) : 0.25;
-  const air = Number.isFinite(properties.Air) ? Math.max(0, properties.Air ?? undefined) : 0.25;
+  const fire = Number.isFinite(properties.Fire) ? Math.max(0, properties.Fire ?? 0) : 0.25;
+  const water = Number.isFinite(properties.Water) ? Math.max(0, properties.Water ?? 0) : 0.25;
+  const earth = Number.isFinite(properties.Earth) ? Math.max(0, properties.Earth ?? 0) : 0.25;
+  const air = Number.isFinite(properties.Air) ? Math.max(0, properties.Air ?? 0) : 0.25;
   
   const total = fire + water + earth + air;
   const normalizer = total > 0 ? 1.0 / total : 0.25;
@@ -249,10 +249,10 @@ export const createSafeElementalProperties = (
 export const createSafeAlchemicalProperties = (
   properties: Partial<AlchemicalPropertiesType>
 ): AlchemicalPropertiesType => {
-  const spirit = Number.isFinite(properties.Spirit) ? Math.max(0, properties.Spirit ?? undefined) : 0.25;
-  const essence = Number.isFinite(properties.Essence) ? Math.max(0, properties.Essence ?? undefined) : 0.25;
-  const matter = Number.isFinite(properties.Matter) ? Math.max(0, properties.Matter ?? undefined) : 0.25;
-  const substance = Number.isFinite(properties.Substance) ? Math.max(0, properties.Substance ?? undefined) : 0.25;
+  const spirit = Number.isFinite(properties.Spirit) ? Math.max(0, properties.Spirit ?? 0) : 0.25;
+  const essence = Number.isFinite(properties.Essence) ? Math.max(0, properties.Essence ?? 0) : 0.25;
+  const matter = Number.isFinite(properties.Matter) ? Math.max(0, properties.Matter ?? 0) : 0.25;
+  const substance = Number.isFinite(properties.Substance) ? Math.max(0, properties.Substance ?? 0) : 0.25;
   
   const total = spirit + essence + matter + substance;
   const normalizer = total > 0 ? 1.0 / total : 0.25;
@@ -273,12 +273,12 @@ export const createSafeThermodynamicMetrics = (
   metrics: Partial<ThermodynamicMetricsType>
 ): ThermodynamicMetricsType => {
   return {
-    heat: Number.isFinite(metrics.heat) ? Math.max(0.1, Math.min(1.0, metrics.heat ?? undefined)) : 0.5,
-    entropy: Number.isFinite(metrics.entropy) ? Math.max(0.1, Math.min(1.0, metrics.entropy ?? undefined)) : 0.5,
-    reactivity: Number.isFinite(metrics.reactivity) ? Math.max(0.1, Math.min(1.0, metrics.reactivity ?? undefined)) : 0.5,
-    gregsEnergy: Number.isFinite(metrics.gregsEnergy) ? Math.max(0.1, Math.min(1.0, metrics.gregsEnergy ?? undefined)) : 0.5,
-    kalchm: Number.isFinite(metrics.kalchm) ? Math.max(0.1, metrics.kalchm ?? undefined) : 1.0,
-    monica: Number.isFinite(metrics.monica) ? Math.max(0.1, metrics.monica ?? undefined) : 1.0
+    heat: Number.isFinite(metrics.heat) ? Math.max(0.1, Math.min(1.0, metrics.heat ?? 0.5)) : 0.5,
+    entropy: Number.isFinite(metrics.entropy) ? Math.max(0.1, Math.min(1.0, metrics.entropy ?? 0.5)) : 0.5,
+    reactivity: Number.isFinite(metrics.reactivity) ? Math.max(0.1, Math.min(1.0, metrics.reactivity ?? 0.5)) : 0.5,
+    gregsEnergy: Number.isFinite(metrics.gregsEnergy) ? Math.max(0.1, Math.min(1.0, metrics.gregsEnergy ?? 0.5)) : 0.5,
+    kalchm: Number.isFinite(metrics.kalchm) ? Math.max(0.1, metrics.kalchm ?? 1.0) : 1.0,
+    monica: Number.isFinite(metrics.monica) ? Math.max(0.1, metrics.monica ?? 1.0) : 1.0
   };
 };
 

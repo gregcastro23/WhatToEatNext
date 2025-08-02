@@ -1212,19 +1212,19 @@ export default function CuisineRecommender() {
           />
           
           {/* Search Intent Display */}
-          {searchIntent?.confidence > 0.5 && (
+          {(searchIntent?.confidence ?? 0) > 0.5 && (
             <div className="mb-4 p-3 bg-blue-50 border border-blue-200 rounded-lg">
               <div className="flex items-center space-x-2 mb-2">
                 <Sparkles size={16} className="text-blue-500" />
                 <span className="text-sm font-medium text-blue-700">Search Intelligence</span>
                 <span className="text-xs bg-blue-100 text-blue-600 px-2 py-1 rounded">
-                  {Math.round(searchIntent.confidence * 100)}% confidence
+                  {Math.round((searchIntent?.confidence ?? 0) * 100)}% confidence
                 </span>
               </div>
-              {searchIntent.suggestions.length > 0 && (
+              {(searchIntent?.suggestions?.length ?? 0) > 0 && (
                 <div className="text-sm text-blue-600">
                   <span className="font-medium">Suggestions: </span>
-                  {searchIntent.suggestions.slice(0, 3).join(', ')}
+                  {(searchIntent?.suggestions ?? []).slice(0, 3).join(', ')}
                 </div>
               )}
             </div>

@@ -579,11 +579,7 @@ export class UnifiedCuisineIntegrationSystem {
    * Create astrological bridge for cuisine analysis
    */
   createCuisineAstrologicalBridge(cuisineProfile: any, astrologicalData: any) {
-    return createAstrologicalBridge({
-      cuisine: cuisineProfile,
-      astrological: astrologicalData,
-      timestamp: new Date()
-    });
+    return createAstrologicalBridge();
   }
 
   // ===== CUISINE COMPATIBILITY CALCULATIONS =====
@@ -612,7 +608,7 @@ export class UnifiedCuisineIntegrationSystem {
     // Check cache first
     if (this.cuisineCompatibilityCache.has(cacheKey)) {
       const cached = this.cuisineCompatibilityCache.get(cacheKey) ?? undefined;
-      if (cached[cuisine2]) {
+      if (cached && cached[cuisine2]) {
         return cached[cuisine2];
       }
     }
@@ -675,7 +671,7 @@ export class UnifiedCuisineIntegrationSystem {
       recommendedBlendRatio,
       seasonalCompatibility,
       sharedIngredients,
-      sharedCookingMethods,
+      sharedCookingMethods: sharedCookingMethods as unknown as CookingMethod[],
       elementalAlignment: finalElementalAlignment
     };
     
@@ -1290,7 +1286,7 @@ export class UnifiedCuisineIntegrationSystem {
         adaptations[season] = {
           season,
           adaptedIngredients: fusionIngredients,
-          adaptedCookingMethods: fusionCookingMethods,
+          adaptedCookingMethods: fusionCookingMethods as unknown as CookingMethod[],
           seasonalModifiers: {
             temperatureAdjustment: 0,
             timingAdjustment: 0,
@@ -1338,7 +1334,7 @@ export class UnifiedCuisineIntegrationSystem {
       adaptations[season] = {
         season,
         adaptedIngredients: seasonalIngredients,
-        adaptedCookingMethods: seasonalMethods,
+        adaptedCookingMethods: seasonalMethods as unknown as CookingMethod[],
         seasonalModifiers: {
           temperatureAdjustment: (() => {
             const profileData = unifiedSeasonalProfiles[season] as Record<string, unknown>;
@@ -1552,7 +1548,7 @@ export class UnifiedCuisineIntegrationSystem {
     return {
       season,
       adaptedIngredients,
-      adaptedCookingMethods,
+      adaptedCookingMethods: adaptedCookingMethods as unknown as CookingMethod[],
       seasonalModifiers,
       traditionalSeasonalDishes,
       monicaOptimization,

@@ -867,7 +867,7 @@ export class SafetyProtocol {
     }
   }
 
-  private getCurrentBranch(): string {
+  protected getCurrentBranch(): string {
     try {
       return execSync('git branch --show-current', { encoding: 'utf8' }).trim();
     } catch {

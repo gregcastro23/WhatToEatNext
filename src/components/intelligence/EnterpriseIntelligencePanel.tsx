@@ -68,15 +68,8 @@ export default function EnterpriseIntelligencePanel({
   // ========== HOOKS ==========
   
   const { state, actions, systemHealth, isHealthy, needsAttention } = useEnterpriseIntelligence({
-    autoAnalyze,
-    enableRecipeIntelligence: true,
-    enableIngredientIntelligence: true,
-    enableValidationIntelligence: true,
-    enableSafetyIntelligence: true,
-    enableOptimizationRecommendations: true,
-    cacheResults: true,
-    logLevel: 'info'
-  });
+    autoAnalyze
+  } as any);
 
 
   const { recommendations, hasRecommendations, highPriorityCount } = useEnterpriseIntelligenceRecommendations();
@@ -177,7 +170,7 @@ export default function EnterpriseIntelligencePanel({
               <span className="text-sm font-medium text-blue-900">Recipe Intelligence</span>
             </div>
             <div className="mt-1 text-lg font-bold text-blue-600">
-              {Math.round(state.analysis.recipeIntelligence.optimizationScore * 100)}%
+              {Math.round((state.analysis.recipeIntelligence?.optimizationScore || 0) * 100)}%
             </div>
           </div>
           
@@ -187,7 +180,7 @@ export default function EnterpriseIntelligencePanel({
               <span className="text-sm font-medium text-green-900">Ingredient Intelligence</span>
             </div>
             <div className="mt-1 text-lg font-bold text-green-600">
-              {Math.round(state.analysis.ingredientIntelligence.optimizationScore * 100)}%
+              {Math.round((state.analysis.ingredientIntelligence?.optimizationScore || 0) * 100)}%
             </div>
           </div>
         </div>
@@ -283,19 +276,19 @@ export default function EnterpriseIntelligencePanel({
               <div className="flex justify-between items-center">
                 <span className="text-sm text-gray-600">Data Integrity</span>
                 <span className="text-sm font-medium">
-                  {Math.round(state.analysis.validationIntelligence.dataIntegrity.score * 100)}%
+                  {Math.round((state.analysis.validationIntelligence?.dataIntegrity?.score || 0) * 100)}%
                 </span>
               </div>
               <div className="flex justify-between items-center">
                 <span className="text-sm text-gray-600">Astrological Consistency</span>
                 <span className="text-sm font-medium">
-                  {Math.round(state.analysis.validationIntelligence.astrologicalConsistency.score * 100)}%
+                  {Math.round((state.analysis.validationIntelligence?.astrologicalConsistency?.score || 0) * 100)}%
                 </span>
               </div>
               <div className="flex justify-between items-center">
                 <span className="text-sm text-gray-600">Elemental Harmony</span>
                 <span className="text-sm font-medium">
-                  {Math.round(state.analysis.validationIntelligence.elementalHarmony.score * 100)}%
+                  {Math.round((state.analysis.validationIntelligence?.elementalHarmony?.score || 0) * 100)}%
                 </span>
               </div>
             </div>
@@ -307,18 +300,18 @@ export default function EnterpriseIntelligencePanel({
             <div className="flex items-center justify-between">
               <span className="text-sm text-gray-600">Risk Level</span>
               <span className={`text-sm font-medium px-2 py-1 rounded-full ${
-                state.analysis.safetyIntelligence.riskAssessment.level === 'low' ? 'bg-green-100 text-green-700' :
-                state.analysis.safetyIntelligence.riskAssessment.level === 'medium' ? 'bg-yellow-100 text-yellow-700' :
+                state.analysis.safetyIntelligence?.riskAssessment?.level === 'low' ? 'bg-green-100 text-green-700' :
+                state.analysis.safetyIntelligence?.riskAssessment?.level === 'medium' ? 'bg-yellow-100 text-yellow-700' :
                 'bg-red-100 text-red-700'
               }`}>
-                {state.analysis.safetyIntelligence.riskAssessment.level.toUpperCase()}
+                {(state.analysis.safetyIntelligence?.riskAssessment?.level || 'unknown').toUpperCase()}
               </span>
             </div>
-            {state.analysis.safetyIntelligence.riskAssessment.factors.length > 0 && (
+            {(state.analysis.safetyIntelligence?.riskAssessment?.factors?.length || 0) > 0 && (
               <div className="mt-2">
                 <p className="text-xs text-gray-500 mb-1">Risk Factors:</p>
                 <ul className="text-xs text-gray-600 space-y-1">
-                  {state.analysis.safetyIntelligence.riskAssessment.factors.map((factor, index) => (
+                  {(state.analysis.safetyIntelligence?.riskAssessment?.factors || []).map((factor, index) => (
                     <li key={index}>• {factor}</li>
                   ))}
                 </ul>

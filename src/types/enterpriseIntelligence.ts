@@ -145,6 +145,8 @@ export interface ValidationIntelligenceResult {
     status: 'excellent' | 'good' | 'fair' | 'poor';
     criticalIssues: string[];
   };
+  confidence: number;
+  timestamp: string;
 }
 
 export interface SafetyIntelligenceResult {
@@ -159,6 +161,8 @@ export interface SafetyIntelligenceResult {
     strategies: string[];
   };
   monitoringAlerts: string[];
+  confidence: number;
+  timestamp: string;
 }
 
 export interface OptimizationRecommendation {

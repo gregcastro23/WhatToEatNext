@@ -1,0 +1,10 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+# Validate dependencies before commit
+echo "🔍 Validating dependencies..."
+yarn deps:validate
+
+# Run linting on staged files
+echo "🧹 Running linter on staged files..."
+yarn lint:changed

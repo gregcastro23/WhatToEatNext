@@ -48,6 +48,8 @@
     "lint:campaign": "node src/scripts/linting-campaign-cli.cjs",
     "lint:campaign:metrics": "node src/scripts/linting-campaign-cli.cjs collect-metrics",
     "lint:campaign:report": "node src/scripts/linting-campaign-cli.cjs generate-report",
+    "deps:validate": "ts-node scripts/validate-dependencies.ts",
+    "deps:fix": "ts-node scripts/validate-dependencies.ts --fix",
     "lint:campaign:start": "node src/scripts/linting-campaign-cli.cjs start-campaign standard --confirm",
     "lint:campaign:dry": "node src/scripts/linting-campaign-cli.cjs start-campaign standard --dry-run",
     "dashboard": "node src/scripts/zero-error-dashboard.ts generate",

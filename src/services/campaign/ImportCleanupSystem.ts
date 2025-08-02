@@ -328,14 +328,16 @@ export class ImportCleanupSystem {
       if (!unusedByLine.has(lineIndex)) {
         unusedByLine.set(lineIndex, []);
       }
-      unusedByLine.get(lineIndex) ?? undefined.push(unused);
+      unusedByLine.get(lineIndex)?.push(unused);
     }
 
     // Process lines in reverse order to maintain line numbers
     const sortedLines = Array.from(unusedByLine.keys()).sort((a, b) => b - a);
     
     for (const lineIndex of sortedLines) {
-      const lineUnused = unusedByLine.get(lineIndex) ?? undefined;
+      const lineUnused = unusedByLine.get(lineIndex);
+      if (!lineUnused) continue;
+      
       const originalLine = lines[lineIndex];
       
       // If all imports on this line are unused, remove the entire line

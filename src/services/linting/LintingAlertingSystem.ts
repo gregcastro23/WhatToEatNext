@@ -358,7 +358,7 @@ export class LintingAlertingSystem {
     const actions = [];
     
     if (alert.metric === 'parserErrors' && alert.currentValue > 0) {
-      actions.push({
+      (actions as any[]).push({
         type: 'command',
         label: 'Fix Parser Errors',
         command: 'yarn tsc --noEmit',
@@ -367,7 +367,7 @@ export class LintingAlertingSystem {
     }
     
     if (alert.metric === 'explicitAnyErrors' && alert.currentValue > 100) {
-      actions.push({
+      (actions as any[]).push({
         type: 'campaign',
         label: 'Start Explicit Any Campaign',
         campaign: 'explicit-any-elimination',
@@ -376,7 +376,7 @@ export class LintingAlertingSystem {
     }
     
     if (alert.metric === 'importOrderIssues' && alert.currentValue > 50) {
-      actions.push({
+      (actions as any[]).push({
         type: 'command',
         label: 'Fix Import Order',
         command: 'yarn lint:fix',

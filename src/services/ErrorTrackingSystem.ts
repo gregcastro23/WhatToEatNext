@@ -380,10 +380,12 @@ class ErrorTrackingSystem {
       const patternKey = `TS:${error.code}`;
       
       if (patterns.has(patternKey)) {
-        const pattern = patterns.get(patternKey) ?? undefined;
-        pattern.frequency++;
-        if (!pattern.files.includes(error.file)) {
-          pattern.files.push(error.file);
+        const pattern = patterns.get(patternKey);
+        if (pattern) {
+          pattern.frequency++;
+          if (!pattern.files.includes(error.file)) {
+            pattern.files.push(error.file);
+          }
         }
       } else {
         patterns.set(patternKey, {
@@ -403,10 +405,12 @@ class ErrorTrackingSystem {
       const patternKey = `LINT:${violation.rule}`;
       
       if (patterns.has(patternKey)) {
-        const pattern = patterns.get(patternKey) ?? undefined;
-        pattern.frequency++;
-        if (!pattern.files.includes(violation.file)) {
-          pattern.files.push(violation.file);
+        const pattern = patterns.get(patternKey);
+        if (pattern) {
+          pattern.frequency++;
+          if (!pattern.files.includes(violation.file)) {
+            pattern.files.push(violation.file);
+          }
         }
       } else {
         patterns.set(patternKey, {

@@ -149,17 +149,17 @@ export class ErrorTrackingEnterpriseSystem {
     const currentErrorCount = await this.analyzer.getCurrentErrorCount();
     
     // Calculate metrics
-    const metrics = this.calculateMetrics(analysisResult, currentErrorCount);
+    const metrics = this.calculateMetrics(analysisResult as unknown as Record<string, unknown>, currentErrorCount);
     
     // Update patterns
-    this.updateErrorPatterns(analysisResult.distribution.priorityRanking);
+    this.updateErrorPatterns(((analysisResult as unknown as Record<string, unknown>)?.distribution as Record<string, unknown>)?.priorityRanking as any[] || []);
     
     // Analyze trends
     const trends = this.analyzeTrends();
     
     // Generate intelligent recommendations
     const recommendations = this.generateIntelligentRecommendations(
-      analysisResult, 
+      analysisResult as unknown as Record<string, unknown>, 
       metrics, 
       trends
     );
@@ -211,9 +211,11 @@ export class ErrorTrackingEnterpriseSystem {
       if (!patternMap.has(patternKey)) {
         patternMap.set(patternKey, { count: 0, errors: [] });
       }
-      const pattern = patternMap.get(patternKey) ?? undefined;
-      pattern.count++;
-      pattern.errors.push(error);
+      const pattern = patternMap.get(patternKey);
+      if (pattern) {
+        pattern.count++;
+        pattern.errors.push(error);
+      }
     });
 
     // Update pattern records
@@ -681,7 +683,7 @@ export class ErrorTrackingEnterpriseSystem {
         const metricsData = JSON.parse(fs.readFileSync(this.METRICS_FILE, 'utf8'));
         this.metricsHistory = metricsData.map((item: Record<string, unknown>) => ({
           ...item,
-          timestamp: new Date(item.timestamp)
+          timestamp: new Date(item.timestamp as string)
         }));
       }
 

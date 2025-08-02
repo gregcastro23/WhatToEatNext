@@ -553,10 +553,10 @@ export async function getIngredientRecommendations(
 
   // Perform enterprise intelligence analysis
   const enterpriseAnalysis = await enterpriseIntelligence.performEnterpriseAnalysis(
-    null, // No recipe data for ingredient-only analysis
-    ingredientData,
-    null, // No cuisine data for ingredient-only analysis
-    ingredientData.astrologicalContext
+    undefined, // No recipe data for ingredient-only analysis
+    ingredientData as any,
+    { name: 'general', type: 'universal', region: 'global', characteristics: [] }, // Generic cuisine data for ingredient-only analysis
+    ingredientData.astrologicalContext as any
   );
 
   // Group ingredients by category
@@ -593,9 +593,9 @@ export async function getIngredientRecommendations(
         modality: ingredient.modality,
         recommendations: [
           ...safeGetStringArray(ingredientData.recommendations),
-          ...ingredientIntelligence.recommendations.slice(0, 3), // Top 3 enterprise recommendations
-          ...validationIntelligence.overallValidation.criticalIssues.length > 0 
-            ? [`Validation: ${validationIntelligence.overallValidation.criticalIssues[0]}`] 
+          ...(ingredientIntelligence?.recommendations ?? []).slice(0, 3), // Top 3 enterprise recommendations
+          ...(validationIntelligence?.overallValidation?.criticalIssues ?? []).length > 0 
+            ? [`Validation: ${(validationIntelligence?.overallValidation?.criticalIssues ?? [])[0]}`] 
             : []
         ],
         description: safeGetString(ingredientData.description) || `Recommended ${ingredient.name}`,
@@ -605,13 +605,13 @@ export async function getIngredientRecommendations(
         seasonalScore: safeGetNumber(ingredient.seasonalScore),
         dietary: safeGetStringArray(ingredientData.dietary),
         // Enterprise Intelligence Enhanced Properties
-        flavorProfile: ingredientIntelligence.categorizationAnalysis.flavorProfile || {},
-        cuisine: ingredientIntelligence.categorizationAnalysis.cuisine || 'universal',
-        regionalCuisine: ingredientIntelligence.categorizationAnalysis.regionalCuisine || 'global',
-        season: ingredientIntelligence.seasonalAnalysis.currentSeason || 'all',
-        mealType: ingredientIntelligence.categorizationAnalysis.mealType || 'any',
-        timing: ingredientIntelligence.seasonalAnalysis.optimalTiming || 'flexible',
-        duration: ingredientIntelligence.seasonalAnalysis.preparationTime || 'standard'
+        flavorProfile: (ingredientIntelligence?.categorizationAnalysis as any)?.flavorProfile || {},
+        cuisine: (ingredientIntelligence?.categorizationAnalysis as any)?.cuisine || 'universal',
+        regionalCuisine: (ingredientIntelligence?.categorizationAnalysis as any)?.regionalCuisine || 'global',
+        season: (ingredientIntelligence?.seasonalAnalysis as any)?.currentSeason || 'all',
+        mealType: (ingredientIntelligence?.categorizationAnalysis as any)?.mealType || 'any',
+        timing: (ingredientIntelligence?.seasonalAnalysis as any)?.optimalTiming || 'flexible',
+        duration: (ingredientIntelligence?.seasonalAnalysis as any)?.preparationTime || 'standard'
       };
       groupedRecommendations[category]?.push(ingredientRecommendation);
       categoryCounts[category]++;

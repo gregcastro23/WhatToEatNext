@@ -142,7 +142,9 @@ class LintingPerformanceValidator {
         parallelProcesses: this.extractParallelProcesses(output)
       };
 
-      const improvement = ((this.baselineMetrics ?? undefined.executionTime - metrics.executionTime) / this.baselineMetrics ?? undefined.executionTime) * 100;
+      const improvement = this.baselineMetrics 
+        ? ((this.baselineMetrics.executionTime - metrics.executionTime) / this.baselineMetrics.executionTime) * 100
+        : 0;
       const passed = improvement >= 60 && improvement <= 80;
 
       this.results.push({
@@ -197,7 +199,9 @@ class LintingPerformanceValidator {
       const expectedParallelProcesses = Math.ceil(metrics.filesProcessed / 30);
       const parallelOptimized = metrics.parallelProcesses >= Math.min(expectedParallelProcesses, 4); // Max 4 processes
 
-      const improvement = ((this.baselineMetrics ?? undefined.executionTime - metrics.executionTime) / this.baselineMetrics ?? undefined.executionTime) * 100;
+      const improvement = this.baselineMetrics 
+        ? ((this.baselineMetrics.executionTime - metrics.executionTime) / this.baselineMetrics.executionTime) * 100
+        : 0;
       const passed = parallelOptimized && improvement > 0;
 
       this.results.push({
@@ -260,7 +264,9 @@ class LintingPerformanceValidator {
       const actualMemoryMB = peakMemoryUsage / 1024 / 1024;
       const memoryOptimized = actualMemoryMB <= memoryLimitMB;
 
-      const improvement = ((this.baselineMetrics ?? undefined.memoryUsage - peakMemoryUsage) / this.baselineMetrics ?? undefined.memoryUsage) * 100;
+      const improvement = this.baselineMetrics 
+        ? ((this.baselineMetrics.memoryUsage - peakMemoryUsage) / this.baselineMetrics.memoryUsage) * 100
+        : 0;
       const passed = memoryOptimized;
 
       this.results.push({
@@ -328,7 +334,9 @@ export const testVariable = 'test';
           passed,
           metrics,
           expectedImprovement: 90, // Expected massive improvement for incremental
-          actualImprovement: ((this.baselineMetrics ?? undefined.executionTime - incrementalTime) / this.baselineMetrics ?? undefined.executionTime) * 100,
+          actualImprovement: this.baselineMetrics 
+            ? ((this.baselineMetrics.executionTime - incrementalTime) / this.baselineMetrics.executionTime) * 100
+            : 0,
           details: `Incremental time: ${incrementalTime}ms (target: <10s)`
         });
 

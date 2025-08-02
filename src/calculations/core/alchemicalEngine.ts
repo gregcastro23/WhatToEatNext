@@ -3,6 +3,18 @@ import { logger } from '@/utils/logger';
 
 import { AlchemicalEngineAdvanced } from '../alchemicalEngine';
 
+// Import types for NaturalInfluenceParams interface
+import type { LunarPhaseWithSpaces } from '@/types/alchemy';
+
+// Define NaturalInfluenceParams interface locally (matching alchemicalEngine.ts)
+interface NaturalInfluenceParams {
+  season: string;
+  moonPhase: LunarPhaseWithSpaces;
+  timeOfDay: string;
+  sunSign: ZodiacSign;
+  degreesInSign: number;
+}
+
 
 // --- Core Alchemizer Engine with Kalchm and Monica Constant ---
 
@@ -94,6 +106,9 @@ const planetInfo: Record<string, PlanetInfo> = {
     'Nocturnal Element': 'Water'
   },
   Ascendant: {
+    'Dignity Effect': { leo: 0, aries: 0, aquarius: 0, libra: 0 },
+    Elements: ['Earth'],
+    Alchemy: { Spirit: 0, Essence: 0, Matter: 1, Substance: 0 },
     'Diurnal Element': 'Earth',
     'Nocturnal Element': 'Earth'
   }
@@ -266,7 +281,7 @@ export class AlchemicalEngine {
   }
 
   calculateNaturalInfluences(params: unknown) {
-    return this.advanced.calculateNaturalInfluences(params);
+    return this.advanced.calculateNaturalInfluences(params as unknown as NaturalInfluenceParams);
   }
 
   getElementRanking(elementObject: Record<string, number>) {

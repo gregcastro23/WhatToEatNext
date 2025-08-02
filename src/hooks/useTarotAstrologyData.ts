@@ -291,13 +291,13 @@ export const useTarotAstrologyData = (): TarotAstrologyResult => {
           const cards: any[] = [];
           if (tarotCards.minorCard) cards.push(tarotCards.minorCard);
           if (tarotCards.majorCard) cards.push(tarotCards.majorCard);
-          setAlchemicalValues(calculateTarotEnergyBoosts(cards));
+          // calculateTarotEnergyBoosts will be called in a separate useEffect
         }
       }
     } catch (error) {
       logger.error('Error calculating tarot element boosts', error);
     }
-  }, [tarotCards, calculateTarotEnergyBoosts]);
+  }, [tarotCards]);
   
   // Determine lunar phase
   useEffect(() => {

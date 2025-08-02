@@ -1,6 +1,6 @@
 /**
  * Transit Date Validation Utilities
- * 
+ *
  * Provides validation functions for planetary transit dates
  * to ensure accuracy in astrological calculations.
  */
@@ -21,9 +21,6 @@ export interface TransitDate {
  */
 export interface PlanetTransitDates {
   [sign: string]: TransitDate | { [phase: string]: TransitDate };
-  RetrogradePhases?: {
-    [phase: string]: TransitDate;
-  };
 }
 
 /**
@@ -49,7 +46,7 @@ export function validateTransitDate(
 
     const startDate = new Date(transit.Start as any);
     const endDate = new Date(transit.End as any);
-    
+
     // Validate date format
     if (isNaN(startDate.getTime()) || isNaN(endDate.getTime())) {
       logger.error(`Invalid date format in transit data for ${planet} in ${sign}`);
@@ -58,7 +55,7 @@ export function validateTransitDate(
 
     // Check if current date falls within transit period
     const isValid = date >= startDate && date <= endDate;
-    
+
     if (!isValid) {
       logger.debug(`Date ${date.toISOString().split('T')[0]} is outside transit period for ${planet} in ${sign} (${transit.Start} to ${transit.End})`);
     }
@@ -80,13 +77,13 @@ export function getCurrentTransitSign(
 ): string | null {
   try {
     const signs = Object.keys(transitDates).filter(key => key !== 'RetrogradePhases');
-    
+
     for (const sign of signs) {
       if (validateTransitDate(planet, date, sign, transitDates)) {
         return sign;
       }
     }
-    
+
     logger.warn(`No valid transit sign found for ${planet} on ${date.toISOString().split('T')[0]}`);
     return null;
   } catch (error) {
@@ -109,7 +106,7 @@ export function validateRetrogradePhase(
     }
 
     const phases = Object.entries(transitDates.RetrogradePhases);
-    
+
     for (const [phaseName, phaseData] of phases) {
       if (!phaseData.Start || !phaseData.End) {
         continue;
@@ -117,7 +114,7 @@ export function validateRetrogradePhase(
 
       const startDate = new Date(phaseData.Start);
       const endDate = new Date(phaseData.End);
-      
+
       if (isNaN(startDate.getTime()) || isNaN(endDate.getTime())) {
         logger.warn(`Invalid retrograde phase dates for ${planet} phase ${phaseName}`);
         continue;
@@ -148,11 +145,11 @@ export function validateAllTransitDates(transitDates: PlanetTransitDates): {
 
   try {
     const signs = Object.keys(transitDates).filter(key => key !== 'RetrogradePhases');
-    
+
     // Check each sign's transit dates
     for (const sign of signs) {
       const transit = transitDates[sign];
-      
+
       if (!transit.Start || !transit.End) {
         errors.push(`Missing Start or End date for sign ${sign}`);
         continue;
@@ -160,15 +157,15 @@ export function validateAllTransitDates(transitDates: PlanetTransitDates): {
 
       const startDate = new Date(transit.Start as any);
       const endDate = new Date(transit.End as any);
-      
+
       if (isNaN(startDate.getTime())) {
         errors.push(`Invalid Start date format for sign ${sign}: ${transit.Start}`);
       }
-      
+
       if (isNaN(endDate.getTime())) {
         errors.push(`Invalid End date format for sign ${sign}: ${transit.End}`);
       }
-      
+
       if (startDate >= endDate) {
         errors.push(`Start date must be before End date for sign ${sign}`);
       }
@@ -187,13 +184,13 @@ export function validateAllTransitDates(transitDates: PlanetTransitDates): {
     for (let i = 0; i < sortedTransits.length - 1; i++) {
       const current = sortedTransits[i];
       const next = sortedTransits[i + 1];
-      
+
       // Check for gaps
       const daysBetween = (next.start.getTime() - current.end.getTime()) / (1000 * 60 * 60 * 24);
       if (daysBetween > 1) {
         warnings.push(`Gap of ${Math.round(daysBetween)} days between ${current.sign} and ${next.sign}`);
       }
-      
+
       // Check for overlaps
       if (current.end > next.start) {
         warnings.push(`Overlap between ${current.sign} and ${next.sign}`);
@@ -203,7 +200,7 @@ export function validateAllTransitDates(transitDates: PlanetTransitDates): {
     // Validate retrograde phases if present
     if (transitDates.RetrogradePhases) {
       const phases = Object.entries(transitDates.RetrogradePhases);
-      
+
       for (const [phaseName, phaseData] of phases) {
         if (!phaseData.Start || !phaseData.End) {
           warnings.push(`Missing Start or End date for retrograde phase ${phaseName}`);
@@ -212,15 +209,15 @@ export function validateAllTransitDates(transitDates: PlanetTransitDates): {
 
         const startDate = new Date(phaseData.Start);
         const endDate = new Date(phaseData.End);
-        
+
         if (isNaN(startDate.getTime())) {
           errors.push(`Invalid Start date format for retrograde phase ${phaseName}: ${phaseData.Start}`);
         }
-        
+
         if (isNaN(endDate.getTime())) {
           errors.push(`Invalid End date format for retrograde phase ${phaseName}: ${phaseData.End}`);
         }
-        
+
         if (startDate >= endDate) {
           errors.push(`Start date must be before End date for retrograde phase ${phaseName}`);
         }
@@ -250,7 +247,7 @@ export async function loadPlanetTransitDates(planetName: string): Promise<Planet
     // Dynamic import to load planet data
     const planetModule = await import(`@/data/planets/${planetName.toLowerCase()}`);
     const planetData = planetModule.default;
-    
+
     if (!planetData?.PlanetSpecific?.TransitDates) {
       logger.warn(`No transit dates found for planet ${planetName}`);
       return null;
@@ -258,7 +255,7 @@ export async function loadPlanetTransitDates(planetName: string): Promise<Planet
 
     const transitDates = planetData.PlanetSpecific.TransitDates;
     const validation = validateAllTransitDates(transitDates);
-    
+
     if (!validation.isValid) {
       logger.error(`Invalid transit dates for ${planetName}:`, validation.errors);
       return null;
@@ -285,14 +282,14 @@ export async function validatePlanetaryPosition(
 ): Promise<boolean> {
   try {
     const transitDates = await loadPlanetTransitDates(planetName);
-    
+
     if (!transitDates) {
       logger.warn(`Cannot validate position for ${planetName}: no transit data available`);
       return false;
     }
 
     const isValid = validateTransitDate(planetName, date, position.sign, transitDates);
-    
+
     if (!isValid) {
       logger.warn(`Position validation failed for ${planetName}: ${position.sign} at ${position.degree}° on ${date.toISOString().split('T')[0]}`);
     }

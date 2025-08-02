@@ -247,9 +247,10 @@ export class UnifiedFlavorEngine {
       
       // Update cache access time for LRU tracking
       this.compatibilityCache.delete(cacheKey);
-      this.compatibilityCache.set(cacheKey, result);
-      
-      return result;
+      if (result) {
+        this.compatibilityCache.set(cacheKey, result);
+        return result;
+      }
     }
 
     // 1. Elemental Harmony (Self-Reinforcement Compliant) - Phase 8 Optimized
@@ -688,7 +689,7 @@ export class UnifiedFlavorEngine {
     const cacheKey = JSON.stringify(criteria);
     
     if (this.searchCache.has(cacheKey)) {
-      return this.searchCache.get(cacheKey) ?? undefined;
+      return this.searchCache.get(cacheKey) || [];
     }
 
     let results = this.getAllProfiles();
@@ -699,31 +700,39 @@ export class UnifiedFlavorEngine {
     }
 
     if (criteria.elementalFocus) {
-      results = (results || []).filter(p => (p.elementalFlavors[criteria.elementalFocus ?? undefined] || 0) > 0.3);
+      const elementalFocus = criteria.elementalFocus;
+      if (elementalFocus) {
+        results = (results || []).filter(p => (p.elementalFlavors[elementalFocus] || 0) > 0.3);
+      }
     }
 
     if (criteria.intensityRange) {
+      const intensityRange = criteria.intensityRange;
       results = (results || []).filter(p => 
-        p.intensity >= criteria.intensityRange ?? undefined.min && 
-        p.intensity <= criteria.intensityRange ?? undefined.max
+        p.intensity >= intensityRange.min && 
+        p.intensity <= intensityRange.max
       );
     }
 
     if (criteria.complexityRange) {
+      const complexityRange = criteria.complexityRange;
       results = (results || []).filter(p => 
-        p.complexity >= criteria.complexityRange ?? undefined.min && 
-        p.complexity <= criteria.complexityRange ?? undefined.max
+        p.complexity >= complexityRange.min && 
+        p.complexity <= complexityRange.max
       );
     }
 
     if (criteria.seasonalAlignment) {
-      results = results.filter(p => p.seasonalPeak.includes(criteria.seasonalAlignment ?? undefined));
+      const seasonalAlignment = criteria.seasonalAlignment;
+      if (seasonalAlignment) {
+        results = results.filter(p => p.seasonalPeak.includes(seasonalAlignment));
+      }
     }
 
     if (criteria.culturalOrigin) {
       results = (results || []).filter(p => 
         (p.culturalOrigins  || []).some(origin => 
-          origin.toLowerCase().includes(criteria.culturalOrigin ?? undefined.toLowerCase())
+          origin.toLowerCase().includes((criteria.culturalOrigin || '').toLowerCase())
         )
       );
     }
@@ -731,17 +740,17 @@ export class UnifiedFlavorEngine {
     if (criteria.preparationMethod) {
       results = (results || []).filter(p => 
         (p.preparationMethods  || []).some(method => 
-          method.toLowerCase().includes(criteria.preparationMethod ?? undefined.toLowerCase())
+          method.toLowerCase().includes((criteria.preparationMethod || '').toLowerCase())
         )
       );
     }
 
     if (criteria.minKalchm !== undefined) {
-      results = (results || []).filter(p => p.kalchm >= criteria.minKalchm ?? undefined);
+      results = (results || []).filter(p => p.kalchm >= (criteria.minKalchm || 0));
     }
 
     if (criteria.maxKalchm !== undefined) {
-      results = (results || []).filter(p => p.kalchm <= criteria.maxKalchm ?? undefined);
+      results = (results || []).filter(p => p.kalchm <= (criteria.maxKalchm || 1));
     }
 
     if (criteria.tags && criteria.tags  || [].length > 0) {

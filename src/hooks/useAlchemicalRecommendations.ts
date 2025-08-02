@@ -7,7 +7,7 @@ import { AlchemicalRecommendations } from '../services/AlchemicalTransformationS
 import { RecommendationAdapter } from '../services/RecommendationAdapter';
 import { AlchemicalItem , LunarPhase, LunarPhaseWithSpaces, ZodiacSign, PlanetaryAspect } from '../types/alchemy';
 
-interface UseAlchemicalRecommendationsProps {
+export interface UseAlchemicalRecommendationsProps {
   ingredients: ElementalItem[];
   cookingMethods: ElementalItem[];
   cuisines: ElementalItem[];
@@ -50,7 +50,7 @@ export const useAlchemicalRecommendations = ({
   planetPositions,
   isDaytime,
   targetElement,
-  _targetAlchemicalProperty,
+  targetAlchemicalProperty: _targetAlchemicalProperty,
   count = 5,
   currentZodiac = null,
   lunarPhase,

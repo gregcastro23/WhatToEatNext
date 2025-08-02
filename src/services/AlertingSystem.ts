@@ -905,7 +905,10 @@ class AlertingSystem {
     if (resolvedAlerts.length === 0) return 0;
     
     const totalResolutionTime = resolvedAlerts.reduce((sum, alert) => {
-      return sum + (alert.resolvedAt ?? undefined.getTime() - alert.timestamp.getTime());
+      if (alert.resolvedAt) {
+        return sum + (alert.resolvedAt.getTime() - alert.timestamp.getTime());
+      }
+      return sum;
     }, 0);
     
     return totalResolutionTime / resolvedAlerts.length / (60 * 1000); // Return in minutes

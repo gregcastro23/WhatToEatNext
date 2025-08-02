@@ -83,7 +83,7 @@ export const CookingMethodsSection: React.FC<CookingMethodsSectionProps> = ({
   
   // Convert cooking methods data to component format and add astrological scoring
   const methods = useMemo(() => {
-    if (propMethods?.length > 0) {
+    if (propMethods && propMethods.length > 0) {
       return propMethods;
     }
     
@@ -153,7 +153,7 @@ export const CookingMethodsSection: React.FC<CookingMethodsSectionProps> = ({
   
   // Get top method based on score
   const topMethod = useMemo(() => {
-    if (!methods.length) return null;
+    if (!methods || !methods.length) return null;
     return [...methods].sort((a, b) => {
       const scoreA = a.score !== undefined ? a.score : 0;
       const scoreB = b.score !== undefined ? b.score : 0;
@@ -163,7 +163,7 @@ export const CookingMethodsSection: React.FC<CookingMethodsSectionProps> = ({
   
   // Sort methods by score and limit display for main page version
   const displayMethods = useMemo(() => {
-    const sortedMethods = [...methods].sort((a, b) => {
+    const sortedMethods = [...(methods || [])].sort((a, b) => {
       const scoreA = a.score !== undefined ? a.score : 0;
       const scoreB = b.score !== undefined ? b.score : 0;
       return scoreB - scoreA;
@@ -182,7 +182,7 @@ export const CookingMethodsSection: React.FC<CookingMethodsSectionProps> = ({
   
   // Auto-expand the section if we have methods and a pre-selected method
   useEffect(() => {
-    if (methods.length > 0) {
+    if (methods && methods.length > 0) {
       // Always keep expanded if ≤5 methods
       if (methods.length <= 5) {
         setIsExpanded(true);
@@ -193,7 +193,7 @@ export const CookingMethodsSection: React.FC<CookingMethodsSectionProps> = ({
         setIsExpanded(true);
         
         // Find the selected method
-        const selectedMethod = methods.find(m => m.id === selectedMethodId);
+        const selectedMethod = methods?.find(m => m.id === selectedMethodId);
         
         if (selectedMethod) {
           // If the selected method has variations, expand it
@@ -227,7 +227,7 @@ export const CookingMethodsSection: React.FC<CookingMethodsSectionProps> = ({
     // Calculate compatibility with each cooking method based on elemental properties
     const compatibilityResults: Record<string, number> = {};
     
-    methods.forEach(method => {
+    methods?.forEach(method => {
       if (method.elementalEffect) {
         // Create a compatibility object from method's elemental effect
         const methodElemental = {
@@ -275,7 +275,7 @@ export const CookingMethodsSection: React.FC<CookingMethodsSectionProps> = ({
   
   const toggleExpanded = () => {
     // Only allow toggling if there are more than 5 methods
-    if (methods.length > 5) {
+    if (methods && methods.length > 5) {
       setIsExpanded(prev => !prev);
     }
   };
@@ -454,7 +454,7 @@ export const CookingMethodsSection: React.FC<CookingMethodsSectionProps> = ({
         <h3 className={styles.title}>
           <Sparkles size={18} className={styles.titleIcon} />
           <span className={styles.titleText}>Alchemical Cooking Methods</span>
-          <span className={styles.titleCount}>({methods.length})</span>
+          <span className={styles.titleCount}>({methods?.length || 0})</span>
         </h3>
         
         {topMethod && (
@@ -659,7 +659,7 @@ export const CookingMethodsSection: React.FC<CookingMethodsSectionProps> = ({
                           <span className={styles['timing-label']}>Lunar Phase:</span>
                           <span className={styles['timing-value']}>
                             {Object.entries(method.astrologicalInfluences.lunarPhaseEffect)
-                              .sort(([,a], [,b]) => (b ) - (a ))
+                              .sort(([,a], [,b]) => (b as number) - (a as number))
                               .slice(0, 1)
                               .map(([phase]) => phase.replace('_', ' '))
                               .join(', ')}
@@ -851,17 +851,17 @@ export const CookingMethodsSection: React.FC<CookingMethodsSectionProps> = ({
           </div>
           
           {/* Show more/less button or View More for main page */}
-          {isMainPageVersion && methods.length > maxDisplayed ? (
+          {isMainPageVersion && methods && methods.length > (maxDisplayed || 3) ? (
             <div className={styles['show-more-container']}>
               <button 
                 className={styles['view-more-button']}
                 onClick={handleViewMore}
               >
-                View All Methods ({methods.length} total) <ExternalLink size={16} />
+                View All Methods ({methods?.length || 0} total) <ExternalLink size={16} />
               </button>
             </div>
           ) : (
-            methods.length > 8 && !isMainPageVersion && (
+            methods && methods.length > 8 && !isMainPageVersion && (
               <div className={styles['show-more-container']}>
                 <button 
                   className={styles['show-more-button']}

@@ -61,8 +61,8 @@ export class EnhancedAstrologyService {
     const cacheKey = date.toISOString().split('T')[0];
     
     if (this.cache.has(cacheKey)) {
-      const cached = this.cache.get(cacheKey) ?? undefined;
-      if (Date.now() - cached.lastUpdated.getTime() < this.cacheExpiration) {
+      const cached = this.cache.get(cacheKey);
+      if (cached && Date.now() - cached.lastUpdated.getTime() < this.cacheExpiration) {
         logger.debug('Using cached enhanced astrological data');
         return cached;
       }
@@ -102,10 +102,10 @@ export class EnhancedAstrologyService {
     
     return {
       currentSeason: currentSeason as unknown as Season,
-      upcomingTransits: (upcomingAnalysis.seasons as unknown as Element[]) || [],
-      dominantElements: seasonalAnalysis.dominantElements,
-      keyAspects: (seasonalAnalysis.keyAspects as unknown as Planet[]) || [],
-      retrogradePlanets: seasonalAnalysis.retrogradePlanets,
+      upcomingTransits: (upcomingAnalysis?.seasons as unknown as Element[]) || [],
+      dominantElements: seasonalAnalysis?.dominantElements || {},
+      keyAspects: (seasonalAnalysis?.keyAspects as unknown as Planet[]) || [],
+      retrogradePlanets: seasonalAnalysis?.retrogradePlanets || [],
       eclipseSeasons: [], // TODO: Implement eclipse season calculation
       majorTransits: [] // TODO: Implement major transit calculation
     };

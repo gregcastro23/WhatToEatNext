@@ -696,11 +696,12 @@ async function applyAdditionalFilters(
   // Apply season filter if specified
   if (criteria.season) {
     logger.debug(`Filtering by season: ${criteria.season}`);
-    const seasonRecipes = candidateRecipes.filter(recipe => 
-      recipe.energyProfile.season?.includes(criteria.season ?? undefined) ||
-      (Array.isArray(recipe.season) && recipe.season.includes(criteria.season ?? undefined)) ||
-      (typeof recipe.season === 'string' && recipe.season === criteria.season)
-    );
+    const seasonRecipes = candidateRecipes.filter(recipe => {
+      if (!criteria.season) return true;
+      return recipe.energyProfile.season?.includes(criteria.season) ||
+        (Array.isArray(recipe.season) && recipe.season.includes(criteria.season)) ||
+        (typeof recipe.season === 'string' && recipe.season === criteria.season);
+    });
     
     logger.debug(`Found ${seasonRecipes.length} recipes for season ${criteria.season}`);
     

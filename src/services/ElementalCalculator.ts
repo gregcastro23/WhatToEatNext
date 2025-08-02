@@ -181,7 +181,7 @@ export class ElementalCalculator {
     Air: number;
   } {
     if (this.debugMode) {
-      log.info("[ElementalCalculator] Calculating elemental state from: ", positions);
+      log.info("[ElementalCalculator] Calculating elemental state from: ", positions as any);
     }
 
     // Initialize elemental values

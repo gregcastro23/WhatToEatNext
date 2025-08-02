@@ -173,15 +173,15 @@ export const CHAKRA_MANTRA_INTELLIGENCE = {
   generateRecommendations: (analysis: Record<string, unknown>) => {
     const recommendations: string[] = [];
     
-    if (analysis.effectiveness.pronunciationAccuracy < 0.85) {
+    if ((analysis as any)?.effectiveness?.pronunciationAccuracy < 0.85) {
       recommendations.push("Enhance mantra pronunciation training for improved vibrational accuracy");
     }
     
-    if (analysis.effectiveness.vibrationalResonance < 0.8) {
+    if ((analysis as any)?.effectiveness?.vibrationalResonance < 0.8) {
       recommendations.push("Optimize mantra vibrational frequencies for enhanced resonance");
     }
     
-    if (analysis.advancedVibrations.harmonicResonance.fundamental < 0.85) {
+    if ((analysis as any)?.advancedVibrations?.harmonicResonance?.fundamental < 0.85) {
       recommendations.push("Strengthen fundamental frequency alignment for better harmonic resonance");
     }
     
@@ -251,15 +251,15 @@ export const CHAKRA_VISUAL_INTELLIGENCE = {
   generateRecommendations: (analysis: Record<string, unknown>) => {
     const recommendations: string[] = [];
     
-    if (analysis.symbolicEffectiveness.visualClarity < 0.85) {
+    if ((analysis as any)?.symbolicEffectiveness?.visualClarity < 0.85) {
       recommendations.push("Enhance visual symbol clarity for improved energy transmission");
     }
     
-    if (analysis.colorAnalysis.colorHarmony < 0.9) {
+    if ((analysis as any)?.colorAnalysis?.colorHarmony < 0.9) {
       recommendations.push("Optimize color harmony for enhanced visual resonance");
     }
     
-    if (analysis.advancedVisual.geometricAnalysis.symmetry < 0.85) {
+    if ((analysis.advancedVisual as Record<string, any>)?.geometricAnalysis?.symmetry < 0.85) {
       recommendations.push("Strengthen geometric symmetry for better visual balance");
     }
     
@@ -328,15 +328,15 @@ export const CHAKRA_NUTRITIONAL_INTELLIGENCE = {
   generateRecommendations: (analysis: Record<string, unknown>) => {
     const recommendations: string[] = [];
     
-    if (analysis.nutritionalEffectiveness.dietaryAlignment < 0.85) {
+    if ((analysis.nutritionalEffectiveness as Record<string, any>)?.dietaryAlignment < 0.85) {
       recommendations.push("Enhance dietary alignment for improved chakra support");
     }
     
-    if (analysis.dietaryAnalysis.foodCompatibility < 0.85) {
+    if ((analysis.dietaryAnalysis as Record<string, any>)?.foodCompatibility < 0.85) {
       recommendations.push("Optimize food compatibility for enhanced nutritional balance");
     }
     
-    if (analysis.advancedNutritional.energeticAnalysis.pranicValue < 0.9) {
+    if ((analysis.advancedNutritional as Record<string, any>)?.energeticAnalysis?.pranicValue < 0.9) {
       recommendations.push("Strengthen pranic value for better energetic resonance");
     }
     
@@ -406,15 +406,15 @@ export const CHAKRA_FUNCTIONAL_INTELLIGENCE = {
   generateRecommendations: (analysis: Record<string, unknown>) => {
     const recommendations: string[] = [];
     
-    if (analysis.functionalEffectiveness.operationalEfficiency < 0.85) {
+    if ((analysis.functionalEffectiveness as Record<string, any>)?.operationalEfficiency < 0.85) {
       recommendations.push("Enhance operational efficiency for improved system performance");
     }
     
-    if (analysis.herbalAnalysis.herbEffectiveness < 0.85) {
+    if ((analysis.herbalAnalysis as Record<string, any>)?.herbEffectiveness < 0.85) {
       recommendations.push("Optimize herb effectiveness for enhanced chakra support");
     }
     
-    if (analysis.advancedFunctional.operationalAnalysis.systemEfficiency < 0.85) {
+    if ((analysis.advancedFunctional as Record<string, any>)?.operationalAnalysis?.systemEfficiency < 0.85) {
       recommendations.push("Strengthen system efficiency for better operational balance");
     }
     
@@ -483,15 +483,15 @@ export const CHAKRA_DEMONSTRATION_PLATFORM = {
   generateRecommendations: (analysis: Record<string, unknown>) => {
     const recommendations: string[] = [];
     
-    if (analysis.platformEffectiveness.demonstrationClarity < 0.85) {
+    if ((analysis.platformEffectiveness as Record<string, any>)?.demonstrationClarity < 0.85) {
       recommendations.push("Enhance demonstration clarity for improved user experience");
     }
     
-    if (analysis.systemAnalysis.systemCoherence < 0.85) {
+    if ((analysis.systemAnalysis as Record<string, any>)?.systemCoherence < 0.85) {
       recommendations.push("Optimize system coherence for enhanced platform integration");
     }
     
-    if (analysis.advancedPlatform.demonstrationAnalysis.clarityEffectiveness < 0.85) {
+    if (((analysis.advancedPlatform as Record<string, any>)?.demonstrationAnalysis as Record<string, any>)?.clarityEffectiveness < 0.85) {
       recommendations.push("Strengthen clarity effectiveness for better platform balance");
     }
     

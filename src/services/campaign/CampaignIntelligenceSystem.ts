@@ -85,11 +85,13 @@ export const ERROR_PATTERN_INTELLIGENCE = {
 
     // Analyze error patterns
     errors.forEach(error => {
-      const pattern = `${error.code}_${error.category}`;
+      const errorCode = (error as Record<string, unknown>).code as string;
+      const errorCategory = (error as Record<string, unknown>).category as string;
+      const pattern = `${errorCode}_${errorCategory}`;
       patternRecognition[pattern] = (patternRecognition[pattern] || 0) + 1;
       
-      if (error.category in errorCategoryTrends) {
-        errorCategoryTrends[error.category as ErrorCategory]++;
+      if (errorCategory in errorCategoryTrends) {
+        errorCategoryTrends[errorCategory as ErrorCategory]++;
       }
     });
 
@@ -271,7 +273,7 @@ export const CAMPAIGN_ENTERPRISE_INTELLIGENCE = {
     
     // Generate intelligence from each system
     const errorPatterns = ERROR_PATTERN_INTELLIGENCE.analyzeErrorPatterns(
-      analysisResult.distribution.priorityRanking
+      analysisResult.distribution.priorityRanking as unknown as Record<string, unknown>[]
     );
     
     const progressAnalysis = CAMPAIGN_PROGRESS_INTELLIGENCE.analyzeCampaignProgress(

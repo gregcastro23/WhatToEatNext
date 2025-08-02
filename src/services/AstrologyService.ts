@@ -83,7 +83,7 @@ export class AstrologyService {
     if (forceRefresh || !this.currentState.isReady) {
       await this.refreshAstrologicalState();
     }
-    return this.currentState.moonPhase || 'new_moon';
+    return this.currentState.moonPhase || 'new moon';
   }
 
   /**

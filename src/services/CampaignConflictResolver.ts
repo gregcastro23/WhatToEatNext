@@ -437,8 +437,8 @@ export class CampaignConflictResolver {
       for (const step of strategy.steps) {
         await this.executeResolutionStep(step, conflict);
         
-        if (step.parameters.affectedCampaigns) {
-          affectedCampaigns.push(...step.parameters.affectedCampaigns);
+        if (step.parameters && Array.isArray(step.parameters.affectedCampaigns)) {
+          affectedCampaigns.push(...(step.parameters.affectedCampaigns as string[]));
         }
       }
 
@@ -471,7 +471,7 @@ export class CampaignConflictResolver {
       return {
         conflictId,
         success: false,
-        resolutionStrategy: conflict.resolutionStrategy ?? undefined,
+        resolutionStrategy: conflict.resolutionStrategy!,
         executionTime: 0,
         affectedCampaigns: [],
         sideEffects: [`Resolution failed: ${(error as Error).message}`]
@@ -751,7 +751,7 @@ export class CampaignConflictResolver {
         break;
         
       default:
-        log.info('Unknown resolution action:', step.action);
+        log.info('Unknown resolution action:', { action: step.action as string });
     }
   }
 

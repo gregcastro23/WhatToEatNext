@@ -378,7 +378,7 @@ export class ZeroErrorAchievementDashboard {
           results.set(id, {
             success: false,
             duration: 0,
-            issues: [error.toString()],
+            issues: [(error as Error).toString()],
             improvements: [],
             nextActions: ['Investigate maintenance procedure failure']
           });
@@ -616,7 +616,7 @@ This dashboard tracks progress toward zero linting errors with enhanced ESLint c
           return {
             success: false,
             duration: Date.now() - startTime,
-            issues: [error.toString()],
+            issues: [(error as Error).toString()],
             improvements: [],
             nextActions: ['Investigate health check failure']
           };

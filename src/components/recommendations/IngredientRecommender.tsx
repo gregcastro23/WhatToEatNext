@@ -15,6 +15,7 @@ import { logger } from '@/utils/logger';
 import { useFlavorEngine } from '../../contexts/FlavorEngineContext';
 import { herbsCollection, oilsCollection, vinegarsCollection } from '../../data/ingredients';
 import { useAlchemicalRecommendations } from '../../hooks/useAlchemicalRecommendations';
+import type { UseAlchemicalRecommendationsProps } from '../../hooks/useAlchemicalRecommendations';
 import { useAstrologicalState } from '../../hooks/useAstrologicalState';
 import { enhancedRecommendationService, EnhancedRecommendationResult } from '../../services/EnhancedRecommendationService';
 import { 
@@ -178,7 +179,7 @@ export default function IngredientRecommender() {
   const alchemicalHookResult = useAlchemicalRecommendations({ 
     mode: 'standard',
     limit: 300 
-  });
+  } as unknown as UseAlchemicalRecommendationsProps);
   const foodRecommendations = (alchemicalHookResult as unknown as Record<string, unknown>).enhancedRecommendations;
   const _chakraEnergies = (alchemicalHookResult as unknown as Record<string, unknown>).chakraEnergies;
   const foodLoading = (alchemicalHookResult as unknown as Record<string, unknown>).loading || false;
@@ -829,14 +830,14 @@ export default function IngredientRecommender() {
               categories[targetCategory][existingItemIndex] = {
                 ...item,
                 category: targetCategory
-              };
+              } as EnhancedIngredientRecommendation;
             }
           } else {
             // Add as a new item
             categories[targetCategory].push({
               ...item,
               category: targetCategory
-            });
+            } as EnhancedIngredientRecommendation);
           }
         }
       });
@@ -859,7 +860,7 @@ export default function IngredientRecommender() {
           },
                       qualities: ((vinegarData as unknown as Record<string, unknown>).qualities as string[]) || ['acidic', 'tangy', 'flavorful'],
           description: `${displayName} - A versatile acidic component for your culinary creations.`
-        } as IngredientRecommendation;
+        } as EnhancedIngredientRecommendation;
       });
     }
     
@@ -881,7 +882,7 @@ export default function IngredientRecommender() {
              },
             qualities: ((oilData as unknown as Record<string, unknown>).qualities as string[]) || ['cooking', 'flavoring'],
             description: `${oilData.name || key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())} - ${String((oilData as unknown as Record<string, unknown>).description || "A versatile cooking oil with various applications.")}`
-          } as IngredientRecommendation;
+          } as EnhancedIngredientRecommendation;
         });
       
       categories.oils = [...(categories.oils || []), ...additionalOils]
@@ -1206,7 +1207,7 @@ export default function IngredientRecommender() {
                   <div 
                     key={item.name}
                     className={`${'ingredientCard-class'} ${selectedIngredient?.name === item.name ? 'selected-class' : ''}`}
-                        onClick={(e) => handleIngredientSelect(item as IngredientRecommendation, e)}
+                        onClick={(e) => handleIngredientSelect(item as unknown as IngredientRecommendation, e)}
                       >
                     <div className={'ingredientHeader-class'}>
                       <h4 className={'ingredientName-class'}>{item.name}</h4>

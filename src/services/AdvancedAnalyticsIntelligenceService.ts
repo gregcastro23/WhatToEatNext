@@ -1136,7 +1136,7 @@ export class AdvancedAnalyticsIntelligenceService {
 
   private log(level: string, message: string, data?: unknown): void {
     if (this.shouldLog(level)) {
-      (logger as { [key: string]: (message: string, data?: unknown) => void })[level](`[AdvancedAnalytics] ${message}`, data);
+      (logger as unknown as { [key: string]: (message: string, data?: unknown) => void })[level](`[AdvancedAnalytics] ${message}`, data);
     }
   }
 

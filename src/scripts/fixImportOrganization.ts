@@ -113,7 +113,7 @@ class ImportOrganizationFixer {
 
       return analysis;
     } catch (error) {
-      console.warn('⚠️ ESLint analysis failed, using alternative approach:', error.message);
+      console.warn('⚠️ ESLint analysis failed, using alternative approach:', (error as Error).message);
       return this.fallbackAnalysis();
     }
   }
@@ -149,7 +149,7 @@ class ImportOrganizationFixer {
             if (!importSources.has(source)) {
               importSources.set(source, []);
             }
-            importSources.get(source) ?? undefined.push(index + 1);
+            importSources.get(source)?.push(index + 1);
           }
         }
         
@@ -167,7 +167,7 @@ class ImportOrganizationFixer {
           }
         }
       } catch (error) {
-        console.warn(`⚠️ Failed to analyze ${file}:`, error.message);
+        console.warn(`⚠️ Failed to analyze ${file}:`, (error as Error).message);
       }
     }
 
@@ -230,8 +230,8 @@ class ImportOrganizationFixer {
               });
             }
             
-            const group = importGroups.get(source) ?? undefined;
-            group.lines.push(i);
+            const group = importGroups.get(source);
+            group?.lines.push(i);
             
             // Parse import types
             if (importPart.includes('{')) {
@@ -242,7 +242,7 @@ class ImportOrganizationFixer {
                   .split(',')
                   .map(imp => imp.trim())
                   .filter(imp => imp.length > 0);
-                group.imports.push(...namedImports);
+                group?.imports.push(...namedImports);
               }
             }
             
@@ -250,14 +250,14 @@ class ImportOrganizationFixer {
               // Namespace import
               const namespaceMatch = importPart.match(/\*\s+as\s+(\w+)/);
               if (namespaceMatch) {
-                group.namespaceImport = namespaceMatch[1];
+                if (group) group.namespaceImport = namespaceMatch[1];
               }
             }
             
             // Default import
             const defaultMatch = importPart.match(/^([^{,*]+)(?=,|\s*$)/);
             if (defaultMatch && !defaultMatch[1].includes('*')) {
-              group.defaultImport = defaultMatch[1].trim();
+              if (group) group.defaultImport = defaultMatch[1].trim();
             }
           }
         }
@@ -307,7 +307,7 @@ class ImportOrganizationFixer {
         }
         
       } catch (error) {
-        console.warn(`⚠️ Failed to fix duplicates in ${file}:`, error.message);
+        console.warn(`⚠️ Failed to fix duplicates in ${file}:`, (error as Error).message);
       }
     }
 
@@ -427,7 +427,7 @@ class ImportOrganizationFixer {
         }
         
       } catch (error) {
-        console.warn(`⚠️ Failed to fix import order in ${file}:`, error.message);
+        console.warn(`⚠️ Failed to fix import order in ${file}:`, (error as Error).message);
       }
     }
 
@@ -466,7 +466,7 @@ class ImportOrganizationFixer {
         
         dependencyGraph.set(file, dependencies);
       } catch (error) {
-        console.warn(`⚠️ Failed to analyze dependencies in ${file}:`, error.message);
+        console.warn(`⚠️ Failed to analyze dependencies in ${file}:`, (error as Error).message);
       }
     }
     
@@ -522,7 +522,7 @@ class ImportOrganizationFixer {
       console.log('✅ Build validation passed');
       return true;
     } catch (error) {
-      console.error('❌ Build validation failed:', error.message);
+      console.error('❌ Build validation failed:', (error as Error).message);
       return false;
     }
   }

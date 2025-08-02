@@ -8,8 +8,23 @@
  */
 
 import { RECIPE_COMPATIBILITY_INTELLIGENCE } from '@/calculations/index';
-import type { ElementalProperties } from '@/types/alchemy';
+import type { ElementalProperties, ZodiacSign } from '@/types/alchemy';
 import { logger } from '@/utils/logger';
+import type {
+  EnterpriseIntelligenceConfig,
+  EnterpriseIntelligenceResult,
+  EnterpriseIntelligenceInput,
+  RecipeIntelligenceResult,
+  IngredientIntelligenceResult,
+  CuisineIntelligenceResult,
+  ValidationIntelligenceResult,
+  SafetyIntelligenceResult,
+  OptimizationRecommendations,
+  CompatibilityAnalysis,
+  OptimizationIntelligenceResult
+} from '@/types/enterpriseIntelligence';
+import type { AdvancedIntelligenceConfig, AdvancedAnalyticsIntelligenceResult, IntegratedAdvancedIntelligenceResult, MLIntelligenceResult } from '@/types/advancedIntelligence';
+import type { PredictiveIntelligenceResult } from '@/types/predictiveIntelligence';
 
 
 
@@ -27,6 +42,76 @@ import {
 } from './PredictiveIntelligenceService';
 
 // ========== LOCAL TYPE DEFINITIONS ==========
+
+interface RecipeDataWithElementalProperties {
+  elementalProperties?: ElementalProperties;
+  [key: string]: unknown;
+}
+
+interface AstrologicalContextWithElementalProperties {
+  elementalProperties?: ElementalProperties;
+  zodiacSign: string;
+  lunarPhase: string;
+  season: string;
+  userPreferences?: {
+    dietaryRestrictions: string[];
+    flavorPreferences: string[];
+    culturalPreferences: string[];
+  };
+  [key: string]: unknown;
+}
+
+interface CacheKeyData {
+  id?: string;
+  name?: string;
+  [key: string]: unknown;
+}
+
+// ========== ENHANCED ANALYSIS INTERFACES FOR SERVICE LAYER CONSISTENCY ==========
+
+interface AnalysisHarmony {
+  overallHarmony?: number;
+  categoryHarmony?: {
+    overallHarmony?: number;
+  };
+  seasonalHarmony?: {
+    overallHarmony?: number;
+  };
+  compatibilityHarmony?: {
+    overallHarmony?: number;
+  };
+  astrologicalHarmony?: {
+    overallHarmony?: number;
+  };
+  validationHarmony?: {
+    overallHarmony?: number;
+  };
+}
+
+interface AnalysisOptimization {
+  categoryOptimization?: number;
+  seasonalOptimization?: number;
+  compatibilityOptimization?: number;
+  astrologicalOptimization?: number;
+}
+
+interface ValidationResults {
+  validationHarmony?: {
+    overallHarmony?: number;
+  };
+  validationScore?: number;
+  validationDetails?: Record<string, unknown>;
+}
+
+interface EnhancedAstrologicalContext {
+  elementalProperties?: ElementalProperties;
+  zodiacSign?: ZodiacSign;
+  lunarPhase?: string;
+  season?: string;
+  planetaryHour?: string;
+  userPreferences?: Record<string, unknown>;
+  [key: string]: unknown;
+}
 
 interface CuisineAnalyses {
   culturalAnalysis: {
@@ -132,23 +217,26 @@ export class EnterpriseIntelligenceIntegration {
     };
 
     // Phase 2D: Initialize Advanced Intelligence Services
-    this.predictiveIntelligenceService = createPredictiveIntelligenceService({
-      enablePredictiveIntelligence: this.config.enablePredictiveIntelligence,
-      cacheResults: this.config.cacheResults,
-      logLevel: this.config.logLevel
-    });
+    const predictiveConfig: Partial<AdvancedIntelligenceConfig> = {
+      enablePredictiveIntelligence: this.config.enablePredictiveIntelligence || true,
+      cacheResults: this.config.cacheResults || true,
+      logLevel: this.config.logLevel || 'info'
+    };
+    this.predictiveIntelligenceService = createPredictiveIntelligenceService(predictiveConfig as any);
     
-    this.mlIntelligenceService = createMLIntelligenceService({
-      enableMLIntelligence: this.config.enableMLIntelligence,
-      cacheResults: this.config.cacheResults,
-      logLevel: this.config.logLevel
-    });
+    const mlConfig: Partial<AdvancedIntelligenceConfig> = {
+      enableMLIntelligence: this.config.enableMLIntelligence || true,
+      cacheResults: this.config.cacheResults || true,
+      logLevel: this.config.logLevel || 'info'
+    };
+    this.mlIntelligenceService = createMLIntelligenceService(mlConfig);
     
-    this.advancedAnalyticsIntelligenceService = createAdvancedAnalyticsIntelligenceService({
-      enableAdvancedAnalyticsIntelligence: this.config.enableAdvancedAnalyticsIntelligence,
-      cacheResults: this.config.cacheResults,
-      logLevel: this.config.logLevel
-    });
+    const analyticsConfig: Partial<AdvancedIntelligenceConfig> = {
+      enableAdvancedAnalyticsIntelligence: this.config.enableAdvancedAnalyticsIntelligence || true,
+      cacheResults: this.config.cacheResults || true,
+      logLevel: this.config.logLevel || 'info'
+    };
+    this.advancedAnalyticsIntelligenceService = createAdvancedAnalyticsIntelligenceService(analyticsConfig);
 
     this.log('info', 'Enterprise Intelligence Integration initialized with Advanced Intelligence Systems');
   }
@@ -168,24 +256,29 @@ export class EnterpriseIntelligenceIntegration {
       this.performanceMetrics.analysisCount++;
       
       // Check cache first
-      const cacheKey = this.generateCacheKey(recipeData, ingredientData, cuisineData, astrologicalContext);
+      const cacheKey = this.generateCacheKey(
+        (recipeData || {}) as CacheKeyData, 
+        (ingredientData || {}) as CacheKeyData, 
+        (cuisineData || {}) as CacheKeyData, 
+        astrologicalContext as AstrologicalContextWithElementalProperties
+      );
       if (this.config.cacheResults && this.cache.has(cacheKey)) {
         this.performanceMetrics.cacheHitRate = 
           (this.performanceMetrics.cacheHitRate * (this.performanceMetrics.analysisCount - 1) + 1) / 
           this.performanceMetrics.analysisCount;
         
         this.log('debug', 'Using cached enterprise intelligence analysis');
-        return this.cache.get(cacheKey);
+        return this.cache.get(cacheKey) as EnterpriseIntelligenceResult;
       }
 
       // Perform comprehensive analysis
-      const analysis: EnterpriseIntelligenceAnalysis = {
+      const analysis: EnterpriseIntelligenceResult = {
         recipeIntelligence: await this.analyzeRecipeIntelligence(recipeData, astrologicalContext),
         ingredientIntelligence: await this.analyzeIngredientIntelligence(ingredientData, astrologicalContext),
         cuisineIntelligence: await this.analyzeCuisineIntelligence(cuisineData, astrologicalContext),
         validationIntelligence: await this.performValidationIntelligence(recipeData, ingredientData, astrologicalContext),
         safetyIntelligence: await this.performSafetyIntelligence(recipeData, ingredientData, astrologicalContext),
-        optimizationRecommendations: await this.generateOptimizationRecommendations(recipeData, ingredientData, astrologicalContext),
+        optimizationIntelligence: await this.generateOptimizationRecommendations(recipeData, ingredientData, astrologicalContext),
         // Phase 2D: Advanced Intelligence Systems Integration
         predictiveIntelligence: this.config.enablePredictiveIntelligence ? 
           await this.analyzePredictiveIntelligence(recipeData, ingredientData, cuisineData, astrologicalContext) : undefined,
@@ -193,16 +286,16 @@ export class EnterpriseIntelligenceIntegration {
           await this.analyzeMLIntelligence(recipeData, ingredientData, cuisineData, astrologicalContext) : undefined,
         advancedAnalyticsIntelligence: this.config.enableAdvancedAnalyticsIntelligence ? 
           await this.analyzeAdvancedAnalyticsIntelligence(recipeData, ingredientData, cuisineData, astrologicalContext) : undefined,
-        integratedAdvancedIntelligence: this.config.enablePredictiveIntelligence && this.config.enableMLIntelligence && this.config.enableAdvancedAnalyticsIntelligence ?
-          await this.generateIntegratedAdvancedIntelligence(recipeData, ingredientData, cuisineData, astrologicalContext) : undefined,
-        overallScore: 0, // Will be calculated
-        systemHealth: 'good', // Will be determined
+        overallIntelligenceScore: 0, // Will be calculated
+        executionTime: 0, // Will be calculated
+        confidence: 0, // Will be calculated
         timestamp: new Date().toISOString()
       };
 
-      // Calculate overall score and system health
-      analysis.overallScore = this.calculateOverallScore(analysis);
-      analysis.systemHealth = this.determineSystemHealth(analysis);
+      // Calculate overall score and confidence
+      analysis.overallIntelligenceScore = this.calculateOverallScore(analysis);
+      analysis.confidence = this.calculateConfidence(analysis);
+      analysis.executionTime = performance.now() - startTime;
 
       // Cache the results
       if (this.config.cacheResults) {
@@ -212,7 +305,7 @@ export class EnterpriseIntelligenceIntegration {
       // Update performance metrics
       this.updatePerformanceMetrics(startTime);
 
-      this.log('info', `Enterprise intelligence analysis completed with score: ${analysis.overallScore.toFixed(2)}`);
+      this.log('info', `Enterprise intelligence analysis completed with score: ${analysis.overallIntelligenceScore.toFixed(2)}`);
       
       return analysis;
     } catch (error) {
@@ -234,9 +327,12 @@ export class EnterpriseIntelligenceIntegration {
 
     try {
       // Use the existing Recipe Compatibility Intelligence system
+      const elementalProps = (recipeData as any)?.elementalProperties ?? 
+                             (astrologicalContext as any)?.elementalProperties ?? 
+                             {} as ElementalProperties;
       const compatibilityAnalysis = RECIPE_COMPATIBILITY_INTELLIGENCE.analyzeRecipeCompatibility(
-        recipeData.elementalProperties ?? astrologicalContext.elementalProperties,
-        astrologicalContext
+        elementalProps,
+        astrologicalContext as any
       );
 
       // Calculate optimization score based on compatibility metrics
@@ -254,8 +350,17 @@ export class EnterpriseIntelligenceIntegration {
       // Calculate confidence based on analysis quality
       const confidence = this.calculateRecipeConfidence(compatibilityAnalysis);
 
+      const formattedCompatibilityAnalysis: CompatibilityAnalysis = {
+        elementalCompatibility: (compatibilityAnalysis as any)?.coreMetrics?.elementalAlignment ?? 0.8,
+        seasonalCompatibility: (compatibilityAnalysis as any)?.coreMetrics?.kalchmAlignment ?? 0.8,
+        astrologicalCompatibility: (compatibilityAnalysis as any)?.coreMetrics?.planetaryAlignment ?? 0.8,
+        culturalCompatibility: (compatibilityAnalysis as any)?.coreMetrics?.overallCompatibility ?? 0.8,
+        nutritionalCompatibility: 0.8,
+        flavorCompatibility: 0.8
+      };
+
       return {
-        compatibilityAnalysis,
+        compatibilityAnalysis: formattedCompatibilityAnalysis,
         optimizationScore,
         safetyScore,
         recommendations,
@@ -283,11 +388,11 @@ export class EnterpriseIntelligenceIntegration {
       // Implement ingredient intelligence analysis using simplified approach
       // This represents the broader ingredient intelligence systems from Phase 27
       
-      const categorizationAnalysis = this.analyzeIngredientCategorization(ingredientData);
-      const seasonalAnalysis = this.analyzeIngredientSeasonality(ingredientData, astrologicalContext);
-      const compatibilityAnalysis = this.analyzeIngredientCompatibility(ingredientData);
-      const astrologicalAnalysis = this.analyzeIngredientAstrology(ingredientData, astrologicalContext);
-      const validationResults = this.validateIngredientData(ingredientData);
+      const categorizationAnalysis = this.analyzeIngredientCategorization(ingredientData) as any;
+      const seasonalAnalysis = this.analyzeIngredientSeasonality(ingredientData, astrologicalContext) as any;
+      const compatibilityAnalysis = this.analyzeIngredientCompatibility(ingredientData) as any;
+      const astrologicalAnalysis = this.analyzeIngredientAstrology(ingredientData, astrologicalContext) as any;
+      const validationResults = this.validateIngredientData(ingredientData) as any;
 
       // Calculate optimization and safety scores
       const optimizationScore = this.calculateIngredientOptimizationScore({
@@ -355,12 +460,12 @@ export class EnterpriseIntelligenceIntegration {
 
     try {
       // Implement cuisine intelligence analysis using CulturalAnalyticsService
-      const culturalAnalysis = this.analyzeCuisineCultural(cuisineData, astrologicalContext);
-      const fusionAnalysis = this.analyzeCuisineFusion(cuisineData);
-      const seasonalAnalysis = this.analyzeCuisineSeasonality(cuisineData, astrologicalContext);
-      const compatibilityAnalysis = this.analyzeCuisineCompatibility(cuisineData);
-      const astrologicalAnalysis = this.analyzeCuisineAstrology(cuisineData, astrologicalContext);
-      const validationResults = this.validateCuisineData(cuisineData);
+      const culturalAnalysis = this.analyzeCuisineCultural(cuisineData, astrologicalContext) as any;
+      const fusionAnalysis = this.analyzeCuisineFusion(cuisineData) as any;
+      const seasonalAnalysis = this.analyzeCuisineSeasonality(cuisineData, astrologicalContext) as any;
+      const compatibilityAnalysis = this.analyzeCuisineCompatibility(cuisineData) as any;
+      const astrologicalAnalysis = this.analyzeCuisineAstrology(cuisineData, astrologicalContext) as any;
+      const validationResults = this.validateCuisineData(cuisineData) as any;
 
       // Calculate optimization and safety scores
       const optimizationScore = this.calculateCuisineOptimizationScore({
@@ -443,8 +548,12 @@ export class EnterpriseIntelligenceIntegration {
       const astrologicalConsistency = this.validateAstrologicalConsistency(astrologicalContext);
       
       // Elemental harmony validation
+      const typedRecipeData = (recipeData || {}) as unknown as RecipeDataWithElementalProperties;
+      const typedAstrologicalContext = astrologicalContext as AstrologicalContextWithElementalProperties;
       const elementalHarmony = this.validateElementalHarmony(
-        recipeData.elementalProperties ?? astrologicalContext.elementalProperties
+        typedRecipeData.elementalProperties ?? typedAstrologicalContext.elementalProperties ?? {
+          Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
+        }
       );
 
       // Overall validation assessment
@@ -467,7 +576,9 @@ export class EnterpriseIntelligenceIntegration {
           score: overallScore,
           status,
           criticalIssues
-        }
+        },
+        confidence: overallScore,
+        timestamp: new Date().toISOString()
       };
     } catch (error) {
       this.log('error', 'Validation intelligence failed', error);
@@ -519,7 +630,9 @@ export class EnterpriseIntelligenceIntegration {
         },
         fallbackStrategies,
         errorRecovery,
-        monitoringAlerts
+        monitoringAlerts,
+        confidence: riskScore,
+        timestamp: new Date().toISOString()
       };
     } catch (error) {
       this.log('error', 'Safety intelligence failed', error);
@@ -534,7 +647,7 @@ export class EnterpriseIntelligenceIntegration {
     recipeData: EnterpriseIntelligenceInput['recipe'],
     ingredientData: EnterpriseIntelligenceInput['ingredients'],
     astrologicalContext: EnterpriseIntelligenceInput['context']
-  ): Promise<OptimizationRecommendations> {
+  ): Promise<OptimizationIntelligenceResult> {
     if (!this.config.enableOptimizationRecommendations) {
       return this.getDefaultOptimizationRecommendations();
     }
@@ -560,15 +673,15 @@ export class EnterpriseIntelligenceIntegration {
       const estimatedValue = overallScore * 100;
 
       return {
-        performance,
-        accuracy,
-        userExperience,
-        systemIntegration,
-        overallOptimization: {
-          score: overallScore,
-          priority,
-          estimatedValue
-        }
+        nutritionalOptimizations: [],
+        flavorOptimizations: [],
+        seasonalOptimizations: [],
+        astrologicalOptimizations: [],
+        culturalOptimizations: [],
+        overallOptimizationScore: overallScore,
+        prioritizedRecommendations: [],
+        confidence: overallScore,
+        timestamp: new Date().toISOString()
       };
     } catch (error) {
       this.log('error', 'Optimization recommendations failed', error);
@@ -578,7 +691,7 @@ export class EnterpriseIntelligenceIntegration {
 
   // ========== HELPER METHODS ==========
 
-  private generateCacheKey(recipeData: unknown, ingredientData: unknown, cuisineData: unknown, astrologicalContext: unknown): string {
+  private generateCacheKey(recipeData: CacheKeyData, ingredientData: CacheKeyData, cuisineData: CacheKeyData, astrologicalContext: AstrologicalContextWithElementalProperties): string {
     const keyData = {
       recipe: recipeData?.id || 'unknown',
       ingredient: ingredientData?.id || 'unknown',
@@ -604,35 +717,82 @@ export class EnterpriseIntelligenceIntegration {
       analytics: 0.09
     };
 
-    let score = (
-      analysis.recipeIntelligence.optimizationScore * weights.recipe +
-      analysis.ingredientIntelligence.optimizationScore * weights.ingredient +
-      analysis.cuisineIntelligence.optimizationScore * weights.cuisine +
-      analysis.validationIntelligence.overallValidation.score * weights.validation +
-      (1 - this.riskLevelToScore(analysis.safetyIntelligence.riskAssessment.level)) * weights.safety +
-      analysis.optimizationRecommendations.overallOptimization.score * weights.optimization
-    );
+    let score = 0;
+    
+    // Safely calculate scores with optional chaining
+    if (analysis.recipeIntelligence?.optimizationScore) {
+      score += analysis.recipeIntelligence.optimizationScore * weights.recipe;
+    }
+    if (analysis.ingredientIntelligence?.optimizationScore) {
+      score += analysis.ingredientIntelligence.optimizationScore * weights.ingredient;
+    }
+    if (analysis.cuisineIntelligence?.optimizationScore) {
+      score += analysis.cuisineIntelligence.optimizationScore * weights.cuisine;
+    }
+    if (analysis.validationIntelligence?.overallValidation?.score) {
+      score += analysis.validationIntelligence.overallValidation.score * weights.validation;
+    }
+    if (analysis.safetyIntelligence?.riskAssessment?.level) {
+      score += (1 - this.riskLevelToScore(analysis.safetyIntelligence.riskAssessment.level)) * weights.safety;
+    }
+    if (analysis.optimizationIntelligence?.overallOptimizationScore) {
+      score += analysis.optimizationIntelligence.overallOptimizationScore * weights.optimization;
+    }
 
     // Phase 2D: Include Advanced Intelligence Systems in scoring
-    if (analysis.predictiveIntelligence) {
-      score += analysis.predictiveIntelligence.confidence * weights.predictive;
+    if (analysis.predictiveIntelligence && typeof (analysis.predictiveIntelligence as any).confidence === 'number') {
+      score += (analysis.predictiveIntelligence as any).confidence * weights.predictive;
     }
-    if (analysis.mlIntelligence) {
-      score += analysis.mlIntelligence.confidence * weights.ml;
+    if (analysis.mlIntelligence && typeof (analysis.mlIntelligence as any).confidence === 'number') {
+      score += (analysis.mlIntelligence as any).confidence * weights.ml;
     }
-    if (analysis.advancedAnalyticsIntelligence) {
-      score += analysis.advancedAnalyticsIntelligence.confidence * weights.analytics;
+    if (analysis.advancedAnalyticsIntelligence && typeof (analysis.advancedAnalyticsIntelligence as any).confidence === 'number') {
+      score += (analysis.advancedAnalyticsIntelligence as any).confidence * weights.analytics;
     }
 
     return score;
   }
 
   private determineSystemHealth(analysis: EnterpriseIntelligenceResult): 'excellent' | 'good' | 'fair' | 'poor' {
-    const score = analysis.overallScore;
+    const score = analysis.overallIntelligenceScore;
     if (score >= 0.9) return 'excellent';
     if (score >= 0.75) return 'good';
     if (score >= 0.6) return 'fair';
     return 'poor';
+  }
+
+  private calculateConfidence(analysis: EnterpriseIntelligenceResult): number {
+    let confidenceSum = 0;
+    let confidenceCount = 0;
+
+    // Aggregate confidence scores from all intelligence modules
+    if (analysis.recipeIntelligence?.confidence) {
+      confidenceSum += analysis.recipeIntelligence.confidence;
+      confidenceCount++;
+    }
+    if (analysis.ingredientIntelligence?.confidence) {
+      confidenceSum += analysis.ingredientIntelligence.confidence;
+      confidenceCount++;
+    }
+    if (analysis.cuisineIntelligence?.confidence) {
+      confidenceSum += analysis.cuisineIntelligence.confidence;
+      confidenceCount++;
+    }
+    if (analysis.validationIntelligence?.confidence) {
+      confidenceSum += analysis.validationIntelligence.confidence;
+      confidenceCount++;
+    }
+    if (analysis.safetyIntelligence?.confidence) {
+      confidenceSum += analysis.safetyIntelligence.confidence;
+      confidenceCount++;
+    }
+    if (analysis.optimizationIntelligence?.confidence) {
+      confidenceSum += analysis.optimizationIntelligence.confidence;
+      confidenceCount++;
+    }
+
+    // Return average confidence, default to 0.5 if no confidence scores available
+    return confidenceCount > 0 ? confidenceSum / confidenceCount : 0.5;
   }
 
   private riskLevelToScore(level: string): number {
@@ -687,7 +847,14 @@ export class EnterpriseIntelligenceIntegration {
 
   private getDefaultRecipeIntelligence(): RecipeIntelligenceResult {
     return {
-      compatibilityAnalysis: { coreMetrics: { overallCompatibility: 0.8 } },
+      compatibilityAnalysis: {
+        elementalCompatibility: 0.8,
+        seasonalCompatibility: 0.8,
+        astrologicalCompatibility: 0.8,
+        culturalCompatibility: 0.8,
+        nutritionalCompatibility: 0.8,
+        flavorCompatibility: 0.8
+      } as CompatibilityAnalysis,
       optimizationScore: 0.8,
       safetyScore: 0.9,
       recommendations: ['Recipe intelligence disabled'],
@@ -698,11 +865,34 @@ export class EnterpriseIntelligenceIntegration {
 
   private getDefaultIngredientIntelligence(): IngredientIntelligenceResult {
     return {
-      categorizationAnalysis: {},
-      seasonalAnalysis: {},
-      compatibilityAnalysis: {},
-      astrologicalAnalysis: {},
-      validationResults: {},
+      categorizationAnalysis: {
+        primaryCategory: 'general',
+        secondaryCategories: [],
+        nutritionalCategory: 'general',
+        seasonalCategory: 'all-season',
+        culturalCategory: 'universal'
+      },
+      seasonalAnalysis: {
+        currentSeasonCompatibility: 0.8,
+        optimalSeasons: ['all'],
+        seasonalAvailability: { spring: 0.8, summer: 0.8, autumn: 0.8, winter: 0.8 },
+        energeticProperties: { warming: 0.5, cooling: 0.5 }
+      },
+      compatibilityAnalysis: {
+        elementalCompatibility: 0.8,
+        seasonalCompatibility: 0.8,
+        astrologicalCompatibility: 0.8,
+        culturalCompatibility: 0.8,
+        nutritionalCompatibility: 0.8,
+        flavorCompatibility: 0.8
+      },
+      astrologicalAnalysis: {
+        zodiacInfluences: {} as Record<ZodiacSign, number>,
+        planetaryInfluences: {},
+        elementalProperties: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
+        lunarPhaseCompatibility: {}
+      },
+      validationResults: {} as any,
       optimizationScore: 0.8,
       safetyScore: 0.9,
       recommendations: ['Ingredient intelligence disabled'],
@@ -716,7 +906,9 @@ export class EnterpriseIntelligenceIntegration {
       dataIntegrity: { score: 0.8, issues: [], warnings: [] },
       astrologicalConsistency: { score: 0.8, issues: [], warnings: [] },
       elementalHarmony: { score: 0.8, issues: [], warnings: [] },
-      overallValidation: { score: 0.8, status: 'good', criticalIssues: [] }
+      overallValidation: { score: 0.8, status: 'good', criticalIssues: [] },
+      confidence: 0.8,
+      timestamp: new Date().toISOString()
     };
   }
 
@@ -725,17 +917,23 @@ export class EnterpriseIntelligenceIntegration {
       riskAssessment: { level: 'low', score: 0.9, factors: [] },
       fallbackStrategies: ['Default fallback strategies available'],
       errorRecovery: { enabled: true, strategies: ['Basic error recovery'] },
-      monitoringAlerts: []
+      monitoringAlerts: [],
+      confidence: 0.9,
+      timestamp: new Date().toISOString()
     };
   }
 
-  private getDefaultOptimizationRecommendations(): OptimizationRecommendations {
+  private getDefaultOptimizationRecommendations(): OptimizationIntelligenceResult {
     return {
-      performance: { score: 0.8, recommendations: [], estimatedImpact: 0.1 },
-      accuracy: { score: 0.8, recommendations: [], estimatedImpact: 0.1 },
-      userExperience: { score: 0.8, recommendations: [], estimatedImpact: 0.1 },
-      systemIntegration: { score: 0.8, recommendations: [], estimatedImpact: 0.1 },
-      overallOptimization: { score: 0.8, priority: 'low', estimatedValue: 80 }
+      nutritionalOptimizations: [],
+      flavorOptimizations: [],
+      seasonalOptimizations: [],
+      astrologicalOptimizations: [],
+      culturalOptimizations: [],
+      overallOptimizationScore: 0.8,
+      prioritizedRecommendations: [],
+      confidence: 0.8,
+      timestamp: new Date().toISOString()
     };
   }
 
@@ -743,23 +941,23 @@ export class EnterpriseIntelligenceIntegration {
   // (Simplified implementations for the scope of this task)
 
   private calculateRecipeOptimizationScore(analysis: Record<string, unknown>): number {
-    return analysis.coreMetrics?.overallCompatibility || 0.8;
+    return (analysis as any)?.coreMetrics?.overallCompatibility || 0.8;
   }
 
   private calculateRecipeSafetyScore(analysis: Record<string, unknown>): number {
-    return analysis.predictiveInsights?.shortTerm?.reliability || 0.9;
+    return (analysis as any)?.predictiveInsights?.shortTerm?.reliability || 0.9;
   }
 
   private calculateRecipeConfidence(analysis: Record<string, unknown>): number {
-    return analysis.predictiveInsights?.shortTerm?.confidence || 0.8;
+    return (analysis as any)?.predictiveInsights?.shortTerm?.confidence || 0.8;
   }
 
   private generateRecipeIntelligenceRecommendations(analysis: Record<string, unknown>): string[] {
     const recommendations: string[] = [];
-    if (analysis.coreMetrics?.overallCompatibility < 0.9) {
+    if ((analysis as any)?.coreMetrics?.overallCompatibility < 0.9) {
       recommendations.push('Consider ingredient substitutions for better compatibility');
     }
-    if (analysis.advancedAnalysis?.temporalFactors?.seasonalRelevance < 0.8) {
+    if ((analysis as any)?.advancedAnalysis?.temporalFactors?.seasonalRelevance < 0.8) {
       recommendations.push('Adjust timing for better seasonal alignment');
     }
     return recommendations;
@@ -771,7 +969,7 @@ export class EnterpriseIntelligenceIntegration {
   }
 
   private validateAstrologicalProfile(profile: unknown): boolean {
-    return profile && typeof profile === 'object';
+    return !!(profile && typeof profile === 'object');
   }
 
   private validateIngredient(ingredient: Record<string, unknown>): boolean {
@@ -781,25 +979,25 @@ export class EnterpriseIntelligenceIntegration {
   private calculateIngredientOptimizationScore(analyses: Record<string, unknown>): number {
     // Average of all analysis harmony scores
     const scores = Object.values(analyses).map((analysis: Record<string, unknown>) => 
-      analysis.categoryHarmony?.overallHarmony || 
-      analysis.seasonalHarmony?.overallHarmony || 
-      analysis.compatibilityHarmony?.overallHarmony || 
-      analysis.astrologicalHarmony?.overallHarmony || 
-      analysis.validationHarmony?.overallHarmony || 0.8
+      (analysis as any)?.categoryHarmony?.overallHarmony || 
+      (analysis as any)?.seasonalHarmony?.overallHarmony || 
+      (analysis as any)?.compatibilityHarmony?.overallHarmony || 
+      (analysis as any)?.astrologicalHarmony?.overallHarmony || 
+      (analysis as any)?.validationHarmony?.overallHarmony || 0.8
     );
     return scores.reduce((sum, score) => sum + score, 0) / scores.length;
   }
 
   private calculateIngredientSafetyScore(analyses: Record<string, unknown>): number {
-    // Safety based on validation results
-    return analyses.validationResults?.validationHarmony?.overallHarmony || 0.9;
+    // Safety based on validation results with enhanced type safety
+    return (analyses.validationResults as ValidationResults)?.validationHarmony?.overallHarmony || 0.9;
   }
 
   private calculateIngredientConfidence(analyses: Record<string, unknown>): number {
-    // Confidence based on consistency across analyses
+    // Confidence based on consistency across analyses with enhanced type safety
     const scores = Object.values(analyses).map((analysis: Record<string, unknown>) => 
-      analysis.categoryHarmony?.overallHarmony || 
-      analysis.seasonalHarmony?.overallHarmony || 0.8
+      (analysis as AnalysisHarmony).categoryHarmony?.overallHarmony || 
+      (analysis as AnalysisHarmony).seasonalHarmony?.overallHarmony || 0.8
     );
     const variance = scores.reduce((sum, score) => sum + Math.pow(score - 0.8, 2), 0) / scores.length;
     return Math.max(0.5, 1 - variance); // Lower variance = higher confidence
@@ -808,15 +1006,15 @@ export class EnterpriseIntelligenceIntegration {
   private generateIngredientIntelligenceRecommendations(analyses: Record<string, unknown>): string[] {
     const recommendations: string[] = [];
     
-    if (analyses.categorizationAnalysis?.categoryOptimization?.length > 0) {
+    if ((analyses.categorizationAnalysis as AnalysisOptimization)?.categoryOptimization && (analyses.categorizationAnalysis as AnalysisOptimization).categoryOptimization! > 0) {
       recommendations.push('Optimize ingredient categorization for better organization');
     }
     
-    if (analyses.seasonalAnalysis?.seasonalOptimization?.length > 0) {
+    if ((analyses.seasonalAnalysis as AnalysisOptimization)?.seasonalOptimization && (analyses.seasonalAnalysis as AnalysisOptimization).seasonalOptimization! > 0) {
       recommendations.push('Enhance seasonal ingredient selection for better timing');
     }
     
-    if (analyses.compatibilityAnalysis?.compatibilityOptimization?.length > 0) {
+    if ((analyses.compatibilityAnalysis as AnalysisOptimization)?.compatibilityOptimization && (analyses.compatibilityAnalysis as AnalysisOptimization).compatibilityOptimization! > 0) {
       recommendations.push('Improve ingredient compatibility matching');
     }
     
@@ -838,7 +1036,7 @@ export class EnterpriseIntelligenceIntegration {
       score -= 0.3;
     }
 
-    if (recipeData && !recipeData.elementalProperties) {
+    if (recipeData && !(recipeData as Record<string, unknown>).elementalProperties) {
       warnings.push('Recipe missing elemental properties');
       score -= 0.1;
     }
@@ -850,18 +1048,19 @@ export class EnterpriseIntelligenceIntegration {
     const issues: string[] = [];
     const warnings: string[] = [];
     let score = 1.0;
+    const context = astrologicalContext as EnhancedAstrologicalContext;
 
-    if (!astrologicalContext.zodiacSign) {
+    if (!context.zodiacSign) {
       issues.push('Missing zodiac sign');
       score -= 0.3;
     }
 
-    if (!astrologicalContext.lunarPhase) {
+    if (!context.lunarPhase) {
       warnings.push('Missing lunar phase');
       score -= 0.1;
     }
 
-    if (!astrologicalContext.elementalProperties) {
+    if (!context.elementalProperties) {
       issues.push('Missing elemental properties');
       score -= 0.4;
     }
@@ -903,12 +1102,13 @@ export class EnterpriseIntelligenceIntegration {
 
   private assessRiskFactors(recipeData: unknown, ingredientData: unknown, astrologicalContext: unknown): string[] {
     const factors: string[] = [];
+    const context = astrologicalContext as EnhancedAstrologicalContext;
 
     if (!recipeData || !ingredientData) {
       factors.push('Missing critical data');
     }
 
-    if (!astrologicalContext.elementalProperties) {
+    if (!context.elementalProperties) {
       factors.push('Missing astrological context');
     }
 
@@ -1020,8 +1220,8 @@ export class EnterpriseIntelligenceIntegration {
    * Analyze ingredient categorization (Phase 27 Intelligence System)
    */
   private analyzeIngredientCategorization(ingredientData: unknown): unknown {
-    const ingredients = ingredientData?.ingredients || [];
-    const categories = new Set(ingredients.map((ing: Record<string, unknown>) => ing.category).filter(Boolean));
+    const ingredients = (ingredientData as Record<string, unknown>)?.ingredients || [];
+    const categories = new Set((ingredients as unknown[]).map((ing: unknown) => (ing as Record<string, unknown>).category).filter(Boolean));
     
     return {
       categoryHarmony: {
@@ -1029,7 +1229,7 @@ export class EnterpriseIntelligenceIntegration {
         categoryCount: categories.size,
         ingredientDistribution: Array.from(categories).map(cat => ({
           category: cat,
-          count: ingredients.filter((ing: Record<string, unknown>) => ing.category === cat).length
+          count: (ingredients as unknown[]).filter((ing: unknown) => (ing as Record<string, unknown>).category === cat).length
         }))
       },
       categoryOptimization: categories.size < 3 ? ['Expand ingredient categories for better variety'] : []
@@ -1040,14 +1240,14 @@ export class EnterpriseIntelligenceIntegration {
    * Analyze ingredient seasonality (Phase 27 Intelligence System)
    */
   private analyzeIngredientSeasonality(ingredientData: unknown, _astrologicalContext: unknown): unknown {
-    const ingredients = ingredientData?.ingredients || [];
+    const ingredients = (ingredientData as Record<string, unknown>)?.ingredients || [];
     const currentSeason = this.getCurrentSeason();
     
     return {
       seasonalHarmony: {
         overallHarmony: 0.8,
         currentSeason,
-        seasonalAlignment: ingredients.length > 0 ? 0.75 : 0.5
+        seasonalAlignment: (ingredients as unknown[]).length > 0 ? 0.75 : 0.5
       },
       seasonalOptimization: ['Consider seasonal ingredient variations for optimal timing']
     };
@@ -1057,14 +1257,14 @@ export class EnterpriseIntelligenceIntegration {
    * Analyze ingredient compatibility (Phase 27 Intelligence System)
    */
   private analyzeIngredientCompatibility(ingredientData: unknown): unknown {
-    const ingredients = ingredientData?.ingredients || [];
+    const ingredients = (ingredientData as Record<string, unknown>)?.ingredients || [];
     
     return {
       compatibilityHarmony: {
-        overallHarmony: ingredients.length > 1 ? 0.8 : 0.6,
-        pairwiseCompatibility: ingredients.length > 1 ? 0.85 : 0.5
+        overallHarmony: (ingredients as unknown[]).length > 1 ? 0.8 : 0.6,
+        pairwiseCompatibility: (ingredients as unknown[]).length > 1 ? 0.85 : 0.5
       },
-      compatibilityOptimization: ingredients.length < 2 ? ['Add more ingredients for compatibility analysis'] : []
+      compatibilityOptimization: (ingredients as unknown[]).length < 2 ? ['Add more ingredients for compatibility analysis'] : []
     };
   }
 
@@ -1072,12 +1272,12 @@ export class EnterpriseIntelligenceIntegration {
    * Analyze ingredient astrology (Phase 27 Intelligence System)
    */
   private analyzeIngredientAstrology(ingredientData: unknown, astrologicalContext: unknown): unknown {
-    const ingredients = ingredientData?.ingredients || [];
+    const ingredients = (ingredientData as Record<string, unknown>)?.ingredients || [];
     
     return {
       astrologicalHarmony: {
         overallHarmony: 0.82,
-        elementalAlignment: this.calculateElementalAlignment(ingredients, astrologicalContext.elementalProperties),
+        elementalAlignment: this.calculateElementalAlignment(ingredients as unknown[], (astrologicalContext as EnhancedAstrologicalContext).elementalProperties || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }),
         planetaryCorrespondence: 0.78
       },
       astrologicalOptimization: ['Enhance astrological correspondence data for ingredients']
@@ -1088,19 +1288,19 @@ export class EnterpriseIntelligenceIntegration {
    * Validate ingredient data (Phase 27 Intelligence System)
    */
   private validateIngredientData(ingredientData: unknown): unknown {
-    const ingredients = ingredientData?.ingredients || [];
-    const validIngredients = ingredients.filter((ing: unknown) => {
+    const ingredients = (ingredientData as Record<string, unknown>)?.ingredients || [];
+    const validIngredients = (ingredients as unknown[]).filter((ing: unknown) => {
       const ingredient = ing as Record<string, unknown>;
       return ingredient.name && ingredient.elementalProperties;
     });
     
     return {
       validationHarmony: {
-        overallHarmony: ingredients.length > 0 ? (validIngredients.length / ingredients.length) : 0.5,
-        validationRate: ingredients.length > 0 ? (validIngredients.length / ingredients.length) : 0,
-        dataCompleteness: validIngredients.length / Math.max(1, ingredients.length)
+        overallHarmony: (ingredients as unknown[]).length > 0 ? (validIngredients.length / (ingredients as unknown[]).length) : 0.5,
+        validationRate: (ingredients as unknown[]).length > 0 ? (validIngredients.length / (ingredients as unknown[]).length) : 0,
+        dataCompleteness: validIngredients.length / Math.max(1, (ingredients as unknown[]).length)
       },
-      validationOptimization: validIngredients.length < ingredients.length ? 
+      validationOptimization: validIngredients.length < (ingredients as unknown[]).length ? 
         ['Complete missing ingredient data for better analysis'] : []
     };
   }
@@ -1111,20 +1311,22 @@ export class EnterpriseIntelligenceIntegration {
   private calculateElementalAlignment(ingredients: unknown[], contextElemental: ElementalProperties): number {
     if (ingredients.length === 0 || contextElemental === null || contextElemental === undefined) return 0.5;
     
-    const avgAlignment = ingredients.reduce((sum, ing) => {
-      if (!ing.elementalProperties) return sum;
+    const avgAlignment = ingredients.reduce((sum: number, ing) => {
+      const ingredient = ing as Record<string, unknown>;
+      if (!ingredient.elementalProperties) return sum;
       
+      const elemProps = ingredient.elementalProperties as ElementalProperties;
       const alignment = (
-        Math.abs(ing.elementalProperties.Fire - contextElemental.Fire) +
-        Math.abs(ing.elementalProperties.Water - contextElemental.Water) +
-        Math.abs(ing.elementalProperties.Earth - contextElemental.Earth) +
-        Math.abs(ing.elementalProperties.Air - contextElemental.Air)
+        Math.abs(elemProps.Fire - contextElemental.Fire) +
+        Math.abs(elemProps.Water - contextElemental.Water) +
+        Math.abs(elemProps.Earth - contextElemental.Earth) +
+        Math.abs(elemProps.Air - contextElemental.Air)
       ) / 4;
       
       return sum + (1 - alignment); // Convert difference to alignment score
     }, 0);
     
-    return avgAlignment / ingredients.length;
+    return (avgAlignment as number) / ingredients.length;
   }
 
   /**
@@ -1182,12 +1384,46 @@ export class EnterpriseIntelligenceIntegration {
 
   private getDefaultCuisineIntelligence(): CuisineIntelligenceResult {
     return {
-      culturalAnalysis: { culturalSynergy: 0.7, culturalCompatibility: 0.7 },
-      fusionAnalysis: { fusionPotential: 0.7, fusionScore: 0.7 },
-      seasonalAnalysis: { seasonalOptimization: 0.7 },
-      compatibilityAnalysis: { compatibilityScore: 0.7 },
-      astrologicalAnalysis: { astrologicalAlignment: 0.7 },
-      validationResults: { isValid: true, issues: [] },
+      culturalAnalysis: { 
+        primaryCulture: 'universal', 
+        secondaryCultures: [], 
+        traditionLevel: 0.7, 
+        modernAdaptation: 0.7, 
+        fusionPotential: 0.7 
+      },
+      fusionAnalysis: { 
+        compatibleCuisines: [], 
+        fusionScore: 0.7, 
+        innovationPotential: 0.7,
+        culturalHarmony: 0.8,
+        marketAcceptance: 0.7
+      },
+      seasonalAnalysis: { 
+        currentSeasonCompatibility: 0.7, 
+        optimalSeasons: ['all'], 
+        seasonalAvailability: {},
+        energeticProperties: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }
+      },
+      compatibilityAnalysis: { 
+        elementalCompatibility: 0.7, 
+        seasonalCompatibility: 0.7, 
+        astrologicalCompatibility: 0.7, 
+        culturalCompatibility: 0.7, 
+        nutritionalCompatibility: 0.7, 
+        flavorCompatibility: 0.7 
+      },
+      astrologicalAnalysis: { 
+        zodiacInfluences: { aries: 0.7, taurus: 0.5, gemini: 0.6, cancer: 0.8, leo: 0.9, virgo: 0.6, libra: 0.7, scorpio: 0.5, sagittarius: 0.8, capricorn: 0.6, aquarius: 0.7, pisces: 0.5 }, 
+        planetaryInfluences: {} as Record<string, number>, 
+        elementalProperties: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
+        lunarPhaseCompatibility: { 'new moon': 0.7, 'full moon': 0.8 }
+      },
+      validationResults: { 
+        dataIntegrity: { score: 0.8, issues: [], warnings: [] },
+        astrologicalConsistency: { score: 0.85, issues: [], warnings: [] },
+        elementalHarmony: { score: 0.9, issues: [], warnings: [] },
+        overallValidation: { score: 0.8, status: 'good' }
+      } as any,
       optimizationScore: 0.7,
       safetyScore: 0.8,
       recommendations: ['Consider cultural context for cuisine selection', 'Explore fusion possibilities'],
@@ -1201,12 +1437,13 @@ export class EnterpriseIntelligenceIntegration {
       // Use CulturalAnalyticsService for cultural analysis
       const { CulturalAnalyticsService } = require('@/services/CulturalAnalyticsService');
       
+      const context = astrologicalContext as EnhancedAstrologicalContext;
       const culturalAnalytics = CulturalAnalyticsService.generateCulturalAnalytics(
-        cuisineData?.name || 'unknown',
-        astrologicalContext.elementalProperties,
+        (cuisineData as Record<string, unknown>)?.name || 'unknown',
+        context.elementalProperties,
         {
-          zodiacSign: astrologicalContext.zodiacSign,
-          lunarPhase: astrologicalContext.lunarPhase
+          zodiacSign: context.zodiacSign,
+          lunarPhase: context.lunarPhase
         }
       );
 
@@ -1232,7 +1469,7 @@ export class EnterpriseIntelligenceIntegration {
       const { CulturalAnalyticsService } = require('@/services/CulturalAnalyticsService');
       
       const fusionRecommendations = CulturalAnalyticsService.generateFusionRecommendations(
-        cuisineData?.name || 'unknown',
+        (cuisineData as Record<string, unknown>)?.name || 'unknown',
         ['italian', 'chinese', 'indian', 'mexican', 'japanese', 'mediterranean'],
         3
       );
@@ -1257,10 +1494,10 @@ export class EnterpriseIntelligenceIntegration {
   private analyzeCuisineSeasonality(cuisineData: unknown, _astrologicalContext: unknown): unknown {
     try {
       const currentSeason = this.getCurrentSeason();
-      const cuisineSeasons = cuisineData?.seasonality || [];
+      const cuisineSeasons = (cuisineData as Record<string, unknown>)?.seasonality || [];
       
-      const seasonalOptimization = cuisineSeasons.includes(currentSeason) ? 0.9 : 0.6;
-      const seasonalAlignment = cuisineSeasons.includes(currentSeason) ? 'optimal' : 'suboptimal';
+      const seasonalOptimization = Array.isArray(cuisineSeasons) && cuisineSeasons.includes(currentSeason) ? 0.9 : 0.6;
+      const seasonalAlignment = Array.isArray(cuisineSeasons) && cuisineSeasons.includes(currentSeason) ? 'optimal' : 'suboptimal';
       
       return {
         seasonalOptimization,
@@ -1268,7 +1505,7 @@ export class EnterpriseIntelligenceIntegration {
         currentSeason,
         cuisineSeasons,
         seasonalRecommendations: seasonalOptimization > 0.8 ? 
-          [`${cuisineData?.name} is optimal for ${currentSeason}`] : 
+          [`${(cuisineData as Record<string, unknown>)?.name || 'Cuisine'} is optimal for ${currentSeason}`] : 
           [`Consider seasonal alternatives for ${currentSeason}`]
       };
     } catch (error) {
@@ -1279,7 +1516,7 @@ export class EnterpriseIntelligenceIntegration {
 
   private analyzeCuisineCompatibility(cuisineData: unknown): unknown {
     try {
-      const elementalProperties = cuisineData?.elementalProperties || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
+      const elementalProperties = (cuisineData as Record<string, unknown>)?.elementalProperties || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
       const compatibilityScore = Object.values(elementalProperties as Record<string, number>).reduce((sum: number, val: number) => sum + val, 0) / 4;
       
       return {
@@ -1295,9 +1532,10 @@ export class EnterpriseIntelligenceIntegration {
 
   private analyzeCuisineAstrology(cuisineData: unknown, astrologicalContext: unknown): unknown {
     try {
-      const zodiacSign = astrologicalContext.zodiacSign;
-      const lunarPhase = astrologicalContext.lunarPhase;
-      const _elementalProperties = astrologicalContext.elementalProperties;
+      const context = astrologicalContext as EnhancedAstrologicalContext;
+      const zodiacSign = context.zodiacSign;
+      const lunarPhase = context.lunarPhase;
+      const _elementalProperties = context.elementalProperties;
       
       // Calculate astrological alignment based on zodiac and lunar phase
       const astrologicalAlignment = 0.7 + (Math.random() * 0.2); // Placeholder calculation
@@ -1326,11 +1564,11 @@ export class EnterpriseIntelligenceIntegration {
         isValid = false;
       }
 
-      if (cuisineData && !cuisineData.name) {
+      if (cuisineData && !(cuisineData as Record<string, unknown>).name) {
         warnings.push('Cuisine missing name');
       }
 
-      if (cuisineData && !cuisineData.elementalProperties) {
+      if (cuisineData && !(cuisineData as Record<string, unknown>).elementalProperties) {
         warnings.push('Cuisine missing elemental properties');
       }
 
@@ -1348,11 +1586,11 @@ export class EnterpriseIntelligenceIntegration {
 
   private calculateCuisineOptimizationScore(analyses: CuisineAnalyses): number {
     const scores = [
-      analyses.culturalAnalysis.culturalSynergy || 0.7,
-      analyses.fusionAnalysis.fusionScore || 0.7,
-      analyses.seasonalAnalysis.seasonalOptimization || 0.7,
-      analyses.compatibilityAnalysis.compatibilityScore || 0.7,
-      analyses.astrologicalAnalysis.astrologicalAlignment || 0.7
+      (analyses.culturalAnalysis as Record<string, unknown>)?.culturalSynergy as number || 0.7,
+      (analyses.fusionAnalysis as Record<string, unknown>)?.fusionScore as number || 0.7,
+      (analyses.seasonalAnalysis as Record<string, unknown>)?.seasonalOptimization as number || 0.7,
+      (analyses.compatibilityAnalysis as Record<string, unknown>)?.overallCompatibility as number || 0.7,
+      (analyses.astrologicalAnalysis as Record<string, unknown>)?.astrologicalAlignment as number || 0.7
     ];
     
     return scores.reduce((sum, score) => sum + score, 0) / scores.length;
@@ -1370,7 +1608,7 @@ export class EnterpriseIntelligenceIntegration {
       analyses.culturalAnalysis.culturalSynergy || 0.7,
       analyses.fusionAnalysis.fusionPotential || 0.7,
       analyses.seasonalAnalysis.seasonalOptimization || 0.7,
-      analyses.compatibilityAnalysis.compatibilityScore || 0.7,
+      (analyses.compatibilityAnalysis as Record<string, unknown>)?.overallCompatibility as number || 0.7,
       analyses.astrologicalAnalysis.astrologicalAlignment || 0.7
     ];
     
@@ -1383,19 +1621,19 @@ export class EnterpriseIntelligenceIntegration {
   private generateCuisineIntelligenceRecommendations(analyses: CuisineAnalyses): string[] {
     const recommendations: string[] = [];
     
-    if (analyses.culturalAnalysis.culturalSynergy < 0.7) {
+    if ((analyses.culturalAnalysis as Record<string, unknown>)?.culturalSynergy as number < 0.7) {
       recommendations.push('Consider cultural context for better cuisine selection');
     }
     
-    if (analyses.fusionAnalysis.fusionPotential > 0.8) {
+    if ((analyses.fusionAnalysis as Record<string, unknown>)?.innovationPotential as number > 0.8) {
       recommendations.push('Explore fusion cuisine possibilities for enhanced variety');
     }
     
-    if (analyses.seasonalAnalysis.seasonalOptimization < 0.7) {
+    if ((analyses.seasonalAnalysis as Record<string, unknown>)?.seasonalOptimization as number < 0.7) {
       recommendations.push('Consider seasonal alternatives for optimal timing');
     }
     
-    if (analyses.compatibilityAnalysis.compatibilityScore < 0.7) {
+    if ((analyses.compatibilityAnalysis as Record<string, unknown>)?.overallCompatibility as number < 0.7) {
       recommendations.push('Enhance cuisine compatibility matching');
     }
     
@@ -1416,15 +1654,19 @@ export class EnterpriseIntelligenceIntegration {
     try {
       this.log('info', 'Starting predictive intelligence analysis');
       
+      if (!recipeData) {
+        throw new Error('Recipe data is required for predictive intelligence analysis');
+      }
+      
       const result = await this.predictiveIntelligenceService.generatePredictiveIntelligence(
-        recipeData,
-        ingredientData,
-        cuisineData,
-        astrologicalContext
+        recipeData as any,
+        (ingredientData || []) as unknown as import('@/types/ingredient').Ingredient[],
+        cuisineData || {} as Record<string, unknown>,
+        astrologicalContext as unknown as import('@/types/predictiveIntelligence').PredictiveContext
       );
       
       this.log('info', `Predictive intelligence analysis completed with confidence: ${result.confidence.toFixed(2)}`);
-      return result;
+      return result as any;
     } catch (error) {
       this.handleError('analyzePredictiveIntelligence', error);
       return this.getDefaultPredictiveIntelligence();
@@ -1443,15 +1685,22 @@ export class EnterpriseIntelligenceIntegration {
     try {
       this.log('info', 'Starting ML intelligence analysis');
       
+      if (!recipeData) {
+        throw new Error('Recipe data is required for ML intelligence analysis');
+      }
+      
       const result = await this.mlIntelligenceService.generateMLIntelligence(
         recipeData,
-        ingredientData,
-        cuisineData,
-        astrologicalContext
+        ingredientData || [],
+        cuisineData || {} as any,
+        astrologicalContext as unknown as import('@/types/mlIntelligence').MLContext
       );
       
       this.log('info', `ML intelligence analysis completed with confidence: ${result.confidence.toFixed(2)}`);
-      return result;
+      return {
+        ...result,
+        ingredientCompatibility: (result as any).ingredientCompatibility || { score: 0.7, details: [] }
+      } as any;
     } catch (error) {
       this.handleError('analyzeMLIntelligence', error);
       return this.getDefaultMLIntelligence();
@@ -1471,10 +1720,10 @@ export class EnterpriseIntelligenceIntegration {
       this.log('info', 'Starting advanced analytics intelligence analysis');
       
       const result = await this.advancedAnalyticsIntelligenceService.generateAdvancedAnalyticsIntelligence(
-        recipeData,
-        ingredientData,
-        cuisineData,
-        astrologicalContext
+        recipeData || {} as import('@/types/unified').Recipe,
+        ingredientData || [],
+        cuisineData || {} as any,
+        astrologicalContext as any
       );
       
       this.log('info', `Advanced analytics intelligence analysis completed with confidence: ${result.confidence.toFixed(2)}`);
@@ -1514,7 +1763,7 @@ export class EnterpriseIntelligenceIntegration {
         overallConfidence >= 0.7 ? 'fair' : 'poor';
       
       const result: IntegratedAdvancedIntelligenceResult = {
-        predictiveIntelligence: predictiveResult,
+        predictiveIntelligence: predictiveResult as unknown as import('@/types/advancedIntelligence').PredictiveIntelligenceResult,
         mlIntelligence: mlResult,
         advancedAnalyticsIntelligence: analyticsResult,
         overallConfidence,
@@ -1535,33 +1784,33 @@ export class EnterpriseIntelligenceIntegration {
   private getDefaultPredictiveIntelligence(): PredictiveIntelligenceResult {
     return {
       recipePrediction: {
-        successProbability: 0.75,
-        userSatisfactionPrediction: 0.75,
+        successProbability: { prediction: 0.75, confidence: 0.75, factors: [], timeframe: 'short-term' } as import('@/types/predictiveIntelligence').PredictionResult,
+        userSatisfactionPrediction: { prediction: 0.75, confidence: 0.75, factors: [], timeframe: 'short-term' } as import('@/types/predictiveIntelligence').PredictionResult,
         optimalTimingPrediction: 'Within 1-2 days - Good alignment window',
         seasonalOptimizationPrediction: 0.75,
         difficultyAdjustmentPrediction: 'Maintain current difficulty - Good alignment'
       },
       ingredientPrediction: {
-        compatibilityPrediction: 0.75,
-        substitutionSuccessPrediction: 0.75,
-        flavorHarmonyPrediction: 0.75,
-        nutritionalOptimizationPrediction: 0.75
+        availabilityForecast: { prediction: 0.75, confidence: 0.75, factors: [], timeframe: 'short-term' } as import('@/types/predictiveIntelligence').PredictionResult,
+        priceProjections: { prediction: 0.75, confidence: 0.75, factors: [], timeframe: 'short-term' } as import('@/types/predictiveIntelligence').PredictionResult,
+        qualityPredictions: { prediction: 0.75, confidence: 0.75, factors: [], timeframe: 'short-term' } as import('@/types/predictiveIntelligence').PredictionResult,
+        substitutionRecommendations: { prediction: 0.75, confidence: 0.75, factors: [], timeframe: 'short-term' } as import('@/types/predictiveIntelligence').PredictionResult
       },
       cuisinePrediction: {
-        fusionSuccessPrediction: 0.75,
-        culturalAcceptancePrediction: 0.75,
-        seasonalRelevancePrediction: 0.75,
-        innovationPotentialPrediction: 0.75
+        trendAnalysis: { prediction: 0.75, confidence: 0.75, factors: [], timeframe: 'short-term' } as import('@/types/predictiveIntelligence').PredictionResult,
+        fusionOpportunities: { prediction: 0.75, confidence: 0.75, factors: [], timeframe: 'short-term' } as import('@/types/predictiveIntelligence').PredictionResult,
+        marketDemandProjection: { prediction: 0.75, confidence: 0.75, factors: [], timeframe: 'short-term' } as import('@/types/predictiveIntelligence').PredictionResult,
+        seasonalPopularity: { prediction: 0.75, confidence: 0.75, factors: [], timeframe: 'short-term' } as import('@/types/predictiveIntelligence').PredictionResult
       },
       astrologicalPrediction: {
-        alignmentPrediction: 0.75,
-        timingOptimizationPrediction: 'Good timing - Strong astrological support',
-        planetaryInfluencePrediction: 0.75,
-        cosmicHarmonyPrediction: 0.75
+        optimalTimingPrediction: { prediction: 'Good timing - Strong astrological support', confidence: 0.75, factors: [], timeframe: 'short-term' } as import('@/types/predictiveIntelligence').PredictionResult,
+        planetaryInfluenceProjection: { prediction: 0.75, confidence: 0.75, factors: [], timeframe: 'short-term' } as import('@/types/predictiveIntelligence').PredictionResult,
+        lunarCycleOptimization: { prediction: 0.75, confidence: 0.75, factors: [], timeframe: 'short-term' } as import('@/types/predictiveIntelligence').PredictionResult,
+        energeticHarmonyForecast: { prediction: 0.75, confidence: 0.75, factors: [], timeframe: 'short-term' } as import('@/types/predictiveIntelligence').PredictionResult
       },
       confidence: 0.75,
       timestamp: new Date().toISOString()
-    };
+    } as unknown as import('@/types/predictiveIntelligence').PredictiveIntelligenceResult;
   }
 
   private getDefaultMLIntelligence(): MLIntelligenceResult {
@@ -1677,7 +1926,7 @@ export class EnterpriseIntelligenceIntegration {
 
   private getDefaultIntegratedAdvancedIntelligence(): IntegratedAdvancedIntelligenceResult {
     return {
-      predictiveIntelligence: this.getDefaultPredictiveIntelligence(),
+      predictiveIntelligence: this.getDefaultPredictiveIntelligence() as unknown as import('@/types/advancedIntelligence').PredictiveIntelligenceResult,
       mlIntelligence: this.getDefaultMLIntelligence(),
       advancedAnalyticsIntelligence: this.getDefaultAdvancedAnalyticsIntelligence(),
       overallConfidence: 0.75,

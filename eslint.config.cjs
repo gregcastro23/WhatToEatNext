@@ -74,7 +74,7 @@ module.exports = [
       'react/no-unescaped-entities': 'error',
       'react/no-unknown-property': 'error',
       'react/require-render-return': 'error',
-      
+
       // JavaScript rules
       'no-unused-vars': [
         'warn',
@@ -84,11 +84,11 @@ module.exports = [
           'caughtErrorsIgnorePattern': '^_'
         }
       ],
-      
+
       // React Hooks rules
       'react-hooks/rules-of-hooks': 'error',
       'react-hooks/exhaustive-deps': 'warn',
-      
+
       // Import rules for JavaScript
       'import/no-unresolved': [
         'warn',
@@ -118,7 +118,7 @@ module.exports = [
       'import/default': 'warn',
       'import/namespace': 'warn',
       'import/no-duplicates': 'error',
-      
+
       // General JavaScript rules
       'no-console': ['warn', { 'allow': ['warn', 'error'] }],
       'no-var': 'error',
@@ -153,7 +153,7 @@ module.exports = [
         ecmaFeatures: {
           jsx: true
         },
-        project: ['./tsconfig.json'],
+        project: './tsconfig.json',
         tsconfigRootDir: __dirname
       },
       globals: {
@@ -212,7 +212,7 @@ module.exports = [
       'react/no-unescaped-entities': 'error',
       'react/no-unknown-property': 'error',
       'react/require-render-return': 'error',
-      
+
       // Enhanced TypeScript rules
       '@typescript-eslint/no-unused-vars': [
         'error',
@@ -236,7 +236,7 @@ module.exports = [
       '@typescript-eslint/no-misused-promises': 'error',
       '@typescript-eslint/await-thenable': 'error',
       'no-undef': 'off', // TypeScript handles this
-      
+
       // React Hooks rules with enhanced configuration
       'react-hooks/rules-of-hooks': 'error',
       'react-hooks/exhaustive-deps': [
@@ -245,7 +245,7 @@ module.exports = [
           'additionalHooks': '(useRecoilCallback|useRecoilTransaction_UNSTABLE)'
         }
       ],
-      
+
       // Enhanced import rules with TypeScript path mapping
       'import/no-unresolved': [
         'warn',
@@ -318,7 +318,7 @@ module.exports = [
       //     ]
       //   }
       // ],
-      
+
       // General JavaScript rules
       'no-unused-vars': 'off', // Handled by @typescript-eslint/no-unused-vars
       'no-console': ['error', { 'allow': ['warn', 'error', 'info'] }],
@@ -397,7 +397,7 @@ module.exports = [
       ".eslint-metrics.json"
     ]
   },
-  
+
   // Domain-specific rules for astrological calculations
   {
     files: [
@@ -426,11 +426,11 @@ module.exports = [
       'astrological/validate-elemental-properties': 'error',
       'astrological/require-transit-date-validation': 'warn',
       'astrological/preserve-fallback-values': 'error',
-      
+
       // Allow mathematical constants and fallback values
       '@typescript-eslint/no-explicit-any': 'off',
       'no-magic-numbers': 'off',
-      
+
       // Preserve critical astrological calculation variables
       '@typescript-eslint/no-unused-vars': [
         'error',
@@ -441,10 +441,10 @@ module.exports = [
           'ignoreRestSiblings': true
         }
       ],
-      
+
       // Allow console statements for astronomical debugging
       'no-console': ['warn', { 'allow': ['warn', 'error', 'info', 'debug'] }],
-      
+
       // Relax import resolution for astronomical libraries
       'import/no-unresolved': [
         'warn',
@@ -452,37 +452,37 @@ module.exports = [
           'ignore': ['astronomia', 'astronomy-engine', 'suncalc', 'swiss-ephemeris']
         }
       ],
-      
+
       // Allow complex expressions for astronomical calculations
       'complexity': 'off',
       'max-lines-per-function': 'off',
       'max-depth': 'off',
       'max-statements': 'off',
-      
+
       // Preserve elemental property structures
       'prefer-destructuring': 'off',
-      
+
       // Allow necessary type assertions for astronomical data
       '@typescript-eslint/no-non-null-assertion': 'off',
-      
+
       // Allow floating promises in astronomical calculations (fire-and-forget logging)
       '@typescript-eslint/no-floating-promises': 'warn',
-      
+
       // Preserve mathematical expressions
       'no-mixed-operators': 'off',
       'no-extra-parens': 'off',
-      
+
       // Allow necessary any types for external astronomical libraries
       '@typescript-eslint/no-unsafe-assignment': 'off',
       '@typescript-eslint/no-unsafe-member-access': 'off',
       '@typescript-eslint/no-unsafe-call': 'off',
-      
+
       // Preserve critical calculation patterns
       'prefer-const': ['error', { 'destructuring': 'all' }],
-      
+
       // Allow necessary object property access patterns
       'dot-notation': 'off',
-      
+
       // Preserve astronomical naming conventions
       'camelcase': [
         'warn',
@@ -502,7 +502,7 @@ module.exports = [
       ]
     }
   },
-  
+
   // Domain-specific rules for campaign system files
   {
     files: [
@@ -640,13 +640,13 @@ module.exports = [
       }
     }
   },
-  
+
   // Test files configuration
   {
     files: [
-      '**/*.test.ts', 
-      '**/*.test.tsx', 
-      '**/*.spec.ts', 
+      '**/*.test.ts',
+      '**/*.test.tsx',
+      '**/*.spec.ts',
       '**/*.spec.tsx',
       '**/__tests__/**/*.ts',
       '**/__tests__/**/*.tsx'
@@ -704,7 +704,7 @@ module.exports = [
   // Script files configuration
   {
     files: [
-      '**/scripts/**/*.ts', 
+      '**/scripts/**/*.ts',
       '**/scripts/**/*.js',
       '**/scripts/**/*.cjs',
       '**/scripts/**/*.mjs'
@@ -716,7 +716,7 @@ module.exports = [
       'import/no-dynamic-require': 'off'
     }
   },
-  
+
   // Next.js specific configuration
   {
     files: [
@@ -738,7 +738,7 @@ module.exports = [
       'no-console': ['warn', { 'allow': ['warn', 'error', 'info'] }]
     }
   },
-  
+
   // Configuration files
   {
     files: [
@@ -757,9 +757,9 @@ module.exports = [
       'import/no-dynamic-require': 'off'
     }
   },
-  
+
   // Phase 6.3: Advanced file-pattern based rule configurations
-  
+
   // API routes specific configuration
   {
     files: ['**/api/**/*.ts', '**/app/api/**/*.ts'],
@@ -776,7 +776,7 @@ module.exports = [
       'no-process-exit': 'off'
     }
   },
-  
+
   // Component-specific rules (stricter for UI components)
   {
     files: ['**/components/**/*.tsx', '**/components/**/*.ts'],
@@ -799,7 +799,7 @@ module.exports = [
       'import/order': 'error'
     }
   },
-  
+
   // Utility functions specific rules
   {
     files: ['**/utils/**/*.ts', '**/utils/**/*.tsx'],
@@ -815,7 +815,7 @@ module.exports = [
       'max-lines-per-function': ['warn', 80]
     }
   },
-  
+
   // Service layer specific rules
   {
     files: ['**/services/**/*.ts', '**/services/**/*.tsx'],
@@ -831,7 +831,7 @@ module.exports = [
       'max-lines-per-function': ['warn', 120]
     }
   },
-  
+
   // Hook files specific rules
   {
     files: ['**/hooks/**/*.ts', '**/hooks/**/*.tsx'],
@@ -846,7 +846,7 @@ module.exports = [
       'prefer-const': 'error'
     }
   },
-  
+
   // Type definition files specific rules
   {
     files: ['**/types/**/*.ts', '**/*.d.ts'],
@@ -862,7 +862,7 @@ module.exports = [
       'no-console': 'error'
     }
   },
-  
+
   // Data and constants files specific rules
   {
     files: ['**/data/**/*.ts', '**/constants/**/*.ts'],
@@ -878,7 +878,7 @@ module.exports = [
       'no-var': 'error'
     }
   },
-  
+
   // Layout and page files specific rules
   {
     files: ['**/layout.tsx', '**/page.tsx', '**/pages/**/*.tsx'],
@@ -894,4 +894,4 @@ module.exports = [
       'max-lines-per-function': ['warn', 150]
     }
   }
-]; 
+];

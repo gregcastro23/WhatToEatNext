@@ -156,7 +156,7 @@ class ConsoleStatementReplacer {
       
       return false;
     } catch (error) {
-      console.warn(`⚠️ Failed to process ${filePath}:`, error.message);
+      console.warn(`⚠️ Failed to process ${filePath}:`, (error as Error).message);
       return false;
     }
   }

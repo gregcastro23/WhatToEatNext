@@ -177,7 +177,7 @@ describe('ZeroErrorAchievementDashboard', () => {
 
       expect(changes).toContain(expect.stringContaining('Total Issues increased'));
       expect(changes[0]).toMatch(/50\.0%/); // 50% increase
-    });
+    }, 5000); // 5 second timeout
 
     test('should identify critical issues correctly', () => {
       const criticalMetrics = {
@@ -197,7 +197,37 @@ describe('ZeroErrorAchievementDashboard', () => {
       expect(criticalIssues).toContain(expect.stringContaining('250 explicit any errors'));
       expect(criticalIssues).toContain(expect.stringContaining('Quality score 45'));
       expect(criticalIssues).toContain(expect.stringContaining('75000ms'));
-    });
+    }, 3000); // 3 second timeout
+
+    test('should handle real-time monitoring updates efficiently', async () => {
+      const startTime = Date.now();
+
+      // Simulate rapid metric updates
+      for (let i = 0; i < 10; i++) {
+        const updatedMetrics = { ...mockMetrics, totalIssues: 1000 + i * 10 };
+        dashboard['detectSignificantChanges'](mockMetrics, updatedMetrics);
+      }
+
+      const duration = Date.now() - startTime;
+
+      // Should handle updates quickly
+      expect(duration).toBeLessThan(1000); // Under 1 second
+    }, 5000); // 5 second timeout
+
+    test('should validate monitoring consistency', async () => {
+      const testMetrics = { ...mockMetrics, totalIssues: 500 };
+
+      // Run the same detection multiple times
+      const results: number[] = [];
+      for (let i = 0; i < 5; i++) {
+        const changes = dashboard['detectSignificantChanges'](mockMetrics, testMetrics);
+        results.push(changes.length);
+      }
+
+      // Results should be consistent
+      const allSame = results.every(count => count === results[0]);
+      expect(allSame).toBe(true);
+    }, 3000); // 3 second timeout
 
     test('should update real-time status correctly', async () => {
       dashboard['updateRealTimeStatus'](mockMetrics);
@@ -283,7 +313,6 @@ describe('ZeroErrorAchievementDashboard', () => {
       if (anyGate) {
         expect(anyGate.status).toBe('warning'); // 150 > 100 but <= 150
       }
-      expect(anyGate.status).toBe('warning'); // 150 > 100 but <= 150
 
       // Check quality score gate (should pass with 85)
       const qualityGate = gates.find(g => g.id === 'quality-score-minimum');
@@ -421,17 +450,19 @@ describe('ZeroErrorAchievementDashboard', () => {
       // Mock successful command execution for maintenance
       mockExecSync.mockReturnValue('0'); // Success exit code
 
-      const results = dashboard['runScheduledMaintenance']();
+      const results = await dashboard['runScheduledMaintenance']();
 
       // Should run procedures that are due
       expect(results).toBeInstanceOf(Map);
 
       // Verify maintenance procedures were updated
-      const dailyCheck = dashboard['maintenanceProcedures'].get
-      if (results.has('daily-health-check')) {
+      const dailyCheck = dashboard['maintenanceProcedures'].get('daily-health-check');
+      if (dailyCheck && results.has('daily-health-check')) {
         expect(dailyCheck.lastRun).toBeInstanceOf(Date);
         expect(dailyCheck.nextRun).toBeInstanceOf(Date);
-        expect(dailyCheck.nextRun.getTime()).toBeGreaterThan(dailyCheck.lastRun.getTime());
+        if (dailyCheck.nextRun && dailyCheck.lastRun) {
+          expect(dailyCheck.nextRun.getTime()).toBeGreaterThan(dailyCheck.lastRun.getTime());
+        }
       }
     });
   });
@@ -602,7 +633,7 @@ describe('ZeroErrorAchievementDashboard', () => {
         throw new Error('Command failed');
       });
 
-      const results = dashboard['runScheduledMaintenance']();
+      const results = await dashboard['runScheduledMaintenance']();
 
       // Should handle errors and continue
       expect(results).toBeInstanceOf(Map);

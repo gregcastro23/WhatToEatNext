@@ -11,6 +11,8 @@ import {
 
 import cookingMethods from '@/data/cooking/cookingMethods'
 import ingredients from '@/data/ingredients'
+import { UnifiedIngredient } from '@/data/unified/unifiedTypes'
+import { CookingMethod } from '@/types/alchemy'
 import {
   AlchemicalRecommendationService,
   AlchemicalRecommendation,
@@ -97,7 +99,7 @@ export const UnifiedStateProvider = ({ children }: { children: ReactNode }) => {
       logger.info('UnifiedContext: Calculated alchemical data.', alchemData)
 
       // 3. Generate Recommendations
-      const recommendationService = new AlchemicalRecommendationService()
+      const recommendationService = AlchemicalRecommendationService.getInstance()
       const ingredientsArray = Object.values(ingredients)
       const cookingMethodsArray = Object.values(cookingMethods)
       
@@ -113,8 +115,8 @@ export const UnifiedStateProvider = ({ children }: { children: ReactNode }) => {
 
       const recData = await recommendationService.generateRecommendations(
         positionsForRecs,
-        ingredientsArray,
-        cookingMethodsArray
+        ingredientsArray as unknown as UnifiedIngredient[],
+        cookingMethodsArray as unknown as CookingMethod[]
       )
       setRecommendationData(recData)
       logger.info('UnifiedContext: Generated recommendations.', recData)

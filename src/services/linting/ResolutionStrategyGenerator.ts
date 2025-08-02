@@ -143,7 +143,7 @@ export class ResolutionStrategyGenerator {
    * Get base strategy template for a rule
    */
   private getBaseStrategy(ruleId: string): Partial<ResolutionStrategy> {
-    return this.strategyTemplates.get(ruleId) || this.strategyTemplates.get('default') ?? undefined;
+    return (this.strategyTemplates.get(ruleId) || this.strategyTemplates.get('default')) || {};
   }
 
   /**
@@ -317,7 +317,16 @@ export class ResolutionStrategyGenerator {
       return 'expert-required';
     }
     
-    return errorClassification.autoFixCapability.complexity;
+    const complexity = errorClassification.autoFixCapability.complexity;
+    if (complexity === 'manual-only') {
+      return 'expert-required';
+    }
+    
+    // Ensure the complexity value is valid for ResolutionStrategy
+    const validComplexities: ResolutionStrategy['complexity'][] = ['trivial', 'simple', 'moderate', 'complex', 'expert-required'];
+    return validComplexities.includes(complexity as ResolutionStrategy['complexity']) 
+      ? complexity as ResolutionStrategy['complexity']
+      : 'moderate';
   }
 
   /**

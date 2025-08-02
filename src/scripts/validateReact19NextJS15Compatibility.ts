@@ -417,7 +417,8 @@ export function ConditionalHooksComponent({ condition }: { condition: boolean })
       const eslintConfigPath = path.join(__dirname, '../../eslint.config.cjs');
       if (fs.existsSync(eslintConfigPath)) {
         // Use dynamic import for CJS module
-        const { createRequire } = await import('module');
+        const moduleLib = await import('module');
+        const { createRequire } = moduleLib as any;
         const require = createRequire(import.meta.url);
         const eslintConfig = require(eslintConfigPath);
         

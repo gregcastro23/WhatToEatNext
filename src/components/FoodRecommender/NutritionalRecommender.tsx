@@ -729,24 +729,24 @@ const IngredientCard: React.FC<IngredientCardProps> = ({
         </div>
 
         {/* ✅ Pattern GG-6: Safe property access for vitamins and minerals */}
-        {Boolean((nutritionalProfile ).vitamins || (nutritionalProfile ).minerals) && (
+{Boolean((nutritionalProfile).vitamins || (nutritionalProfile).minerals) && (
           <div className="grid grid-cols-1 gap-1 mt-1">
-            {Boolean((nutritionalProfile ).vitamins &&
-              Array.isArray((nutritionalProfile ).vitamins) &&
-              ((nutritionalProfile ).vitamins as string[]).length > 0) && (
+            {Boolean((nutritionalProfile).vitamins &&
+              Array.isArray((nutritionalProfile).vitamins) &&
+              ((nutritionalProfile).vitamins as string[]).length > 0) && (
                 <div className="text-xs">
                   Vitamins:{' '}
-                  {((nutritionalProfile ).vitamins as string[])
+                  {((nutritionalProfile).vitamins as string[])
                     .map((v: string) => v.toUpperCase())
                     .join(', ')}
                 </div>
               )}
 
-            {Boolean((nutritionalProfile ).minerals &&
-              Array.isArray((nutritionalProfile ).minerals) &&
-              ((nutritionalProfile ).minerals as string[]).length > 0) && (
+{Boolean((nutritionalProfile).minerals &&
+              Array.isArray((nutritionalProfile).minerals) &&
+              ((nutritionalProfile).minerals as string[]).length > 0) && (
                 <div className="text-xs">
-                  Minerals: {((nutritionalProfile ).minerals as string[]).join(', ')}
+                  Minerals: {((nutritionalProfile).minerals as string[]).join(', ')}
                 </div>
               )}
           </div>
@@ -777,7 +777,7 @@ const IngredientCard: React.FC<IngredientCardProps> = ({
           {Boolean(enhancedData) && (
             <div className="space-y-2">
               {/* Display enhanced nutrition data with safe property access */}
-              {(() => {
+{(() => {
                 const enhancedDataObj = enhancedData as Record<string, unknown>;
                 const nutrition = enhancedDataObj.nutrition as Record<string, unknown>;
                 const nutrients = nutrition.nutrients;
@@ -806,18 +806,21 @@ const IngredientCard: React.FC<IngredientCardProps> = ({
                 ) : null;
               })()}
 
-              {((): React.ReactNode => {
+              {(() => {
                 const enhancedDataObj = enhancedData as Record<string, unknown>;
                 const categoryPath = enhancedDataObj.categoryPath;
                 
                 // ✅ Pattern GG-6: Safe property access for category path
-                return categoryPath && Array.isArray(categoryPath) ? (
-                  <div className="text-xs mt-2">
-                    <span className="font-medium">Category:</span>{' '}
-                    {(categoryPath as string[]).join(' > ')}
-                  </div>
-                ) : null;
-              })()}
+                if (categoryPath && Array.isArray(categoryPath)) {
+                  return (
+                    <div className="text-xs mt-2">
+                      <span className="font-medium">Category:</span>{' '}
+                      {(categoryPath as string[]).join(' > ')}
+                    </div>
+                  );
+                }
+                return null;
+              })() as React.ReactNode}
 
               {/* Possible substitutes with safe access */}
               {(() => {
@@ -831,7 +834,7 @@ const IngredientCard: React.FC<IngredientCardProps> = ({
                     {String(possibleSubstitutes)}
                   </div>
                 );
-              })()}
+              })() as React.ReactNode}
             </div>
           )}
         </div>

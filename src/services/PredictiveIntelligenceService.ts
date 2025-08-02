@@ -7,28 +7,44 @@
  */
 
 import { calculateElementalCompatibility } from '@/calculations/index';
+import type { AdvancedIntelligenceConfig, AdvancedIntelligenceMetrics } from '@/types/advancedIntelligence';
 import type { ElementalProperties, ZodiacSign } from '@/types/alchemy';
 import type { Ingredient } from '@/types/ingredient';
+import type { PredictiveContext } from '@/types/predictiveIntelligence';
 import type { Recipe } from '@/types/recipe';
 import { logger } from '@/utils/logger';
 import { getCurrentSeason } from '@/utils/timeUtils';
 
-// Type definitions for predictive intelligence
-interface PredictiveContext {
-  userId?: string;
-  sessionId?: string;
-  timestamp: Date;
-  userPreferences?: Record<string, unknown>;
-  historicalData?: Record<string, unknown>;
+// Enhanced Type definitions for predictive intelligence with comprehensive type safety
+
+interface PredictiveIntelligenceResult {
+  predictions?: Record<string, unknown>;
+  confidence: number;
+  timestamp: string;
+  metadata?: Record<string, unknown>;
+  accuracy?: number;
+  // Enhanced compatibility properties
+  recipePrediction?: any;
+  ingredientPrediction?: any;
+  cuisinePrediction?: any;
+  astrologicalPrediction?: any;
 }
 
-interface AdvancedIntelligenceConfig {
-  predictionAccuracy?: number;
-  learningRate?: number;
-  temporalWeight?: number;
-  personalizedWeight?: number;
-  adaptationThreshold?: number;
+interface PredictiveMetrics {
+  // Core metrics
+  accuracy?: number;
+  precision?: number;
+  recall?: number;
+  f1Score?: number;
+  temporalStability?: number;
+  // Implementation compatibility properties
+  totalPredictions: number;
+  averageConfidence: number;
+  cacheHitRate: number;
+  errorRate: number;
+  executionTimes: number[];
 }
+
 
 
 // Note: These functions are not yet implemented in calculations/index
@@ -175,7 +191,7 @@ export class PredictiveIntelligenceService {
   ): Promise<PredictiveIntelligenceResult['recipePrediction']> {
     try {
       // Calculate elemental alignment
-      const elementalAlignment = recipe.elementalProperties ? 
+      const elementalAlignment = recipe.elementalProperties && astrologicalContext.elementalProperties ? 
         calculateElementalCompatibility(recipe.elementalProperties, astrologicalContext.elementalProperties) : 0.5;
 
       // Calculate seasonal optimization
@@ -185,8 +201,8 @@ export class PredictiveIntelligenceService {
       // Calculate astrological alignment
       const astrologicalAlignment = calculateAstrologicalAlignment(
         recipe,
-        astrologicalContext.zodiacSign,
-        astrologicalContext.lunarPhase
+        astrologicalContext.zodiacSign || 'aries',
+        astrologicalContext.lunarPhase || 'new'
       );
 
       // Calculate success probability based on multiple factors
@@ -620,8 +636,8 @@ export class PredictiveIntelligenceService {
     culinaryContext: Record<string, unknown>
   ): number {
     const planetaryPositions = astrologicalContext.planetaryPositions || {};
-    const planetaryInfluences = Object.values(planetaryPositions).map((position: Record<string, unknown>) => 
-      this.calculatePlanetaryInfluence(position, culinaryContext)
+    const planetaryInfluences = Object.values(planetaryPositions).map((position) => 
+      this.calculatePlanetaryInfluence(position as unknown as Record<string, unknown>, culinaryContext)
     );
     
     return planetaryInfluences.length > 0 ? 
@@ -632,7 +648,7 @@ export class PredictiveIntelligenceService {
     astrologicalContext: PredictiveContext,
     culinaryContext: Record<string, unknown>
   ): number {
-    const elementalHarmony = this.calculateElementalHarmony(astrologicalContext.elementalProperties);
+    const elementalHarmony = this.calculateElementalHarmony(astrologicalContext.elementalProperties || {} as ElementalProperties);
     const cosmicBalance = this.calculateCosmicBalance(astrologicalContext);
     const culinaryCosmicAlignment = this.calculateCulinaryCosmicAlignment(culinaryContext, astrologicalContext);
     
@@ -893,7 +909,7 @@ export class PredictiveIntelligenceService {
     
     // Planetary positions supporting innovation
     if (planetaryPositions) {
-      const planets = planetaryPositions as Record<string, Record<string, unknown>>;
+      const planets = planetaryPositions as unknown as Record<string, Record<string, unknown>>;
       if (planets.Uranus && Number(planets.Uranus.strength) > 0.7) {
         innovation += 0.1; // Uranus = innovation planet
       }
@@ -1059,8 +1075,8 @@ export class PredictiveIntelligenceService {
 
   private generateCacheKey(recipeData: unknown, ingredientData: unknown, cuisineData: Record<string, unknown>, astrologicalContext: PredictiveContext): string {
     return `predictive_${JSON.stringify({
-      recipeId: recipeData?.id,
-      ingredientCount: ingredientData?.length,
+      recipeId: (recipeData as any)?.id,
+      ingredientCount: (ingredientData as any)?.length,
       cuisineName: cuisineData.name,
       zodiac: astrologicalContext.zodiacSign,
       lunar: astrologicalContext.lunarPhase
@@ -1094,7 +1110,7 @@ export class PredictiveIntelligenceService {
 
   private log(level: string, message: string, data?: unknown): void {
     if (this.shouldLog(level)) {
-      logger[level as keyof typeof logger](`[PredictiveIntelligence] ${message}${data ? ` - ${JSON.stringify(data)}` : ''}`);
+      (logger as any)[level]?.(`[PredictiveIntelligence] ${message}${data ? ` - ${JSON.stringify(data)}` : ''}`);
     }
   }
 

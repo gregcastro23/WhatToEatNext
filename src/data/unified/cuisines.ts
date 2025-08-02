@@ -443,7 +443,6 @@ export class CuisineEnhancer {
         averageRecipeKalchm: kalchmAnalysis.averageRecipeKalchm,
         ingredientKalchmProfile: kalchmAnalysis.ingredientKalchmProfile as any,
         cookingMethodInfluence: kalchmAnalysis.cookingMethodInfluence as any,
-        alchemicalClassification,
         alchemicalClassification
       },
       

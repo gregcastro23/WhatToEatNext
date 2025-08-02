@@ -252,7 +252,7 @@ export class ConsoleStatementRemovalSystem {
       
       for (const match of consoleMatches) {
         const type = match[1] as 'log' | 'warn' | 'error' | 'info' | 'debug';
-        const column = match.index ?? undefined + 1;
+        const column = (match.index || 0) + 1;
         const content = match[0];
         
         // Get context (surrounding lines)

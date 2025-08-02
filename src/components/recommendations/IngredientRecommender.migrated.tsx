@@ -371,7 +371,7 @@ const IngredientRecommenderMigrated: React.FC = () => {
         if (categories[category]) {
           categories[category].push({
             ...ingredient,
-            matchScore: ingredient.score || 0.5
+            matchScore: (typeof ingredient.score === 'number' ? ingredient.score : 0.5)
           });
         }
       });
@@ -592,9 +592,9 @@ const IngredientRecommenderMigrated: React.FC = () => {
                 </span>
               </div>
               
-              {item.elementalState && (
+              {Boolean(item.elementalState) && (
                 <div className="flex flex-wrap gap-1 mt-1">
-                  {Object.entries(item.elementalState)
+                  {Object.entries((item.elementalState as Record<string, unknown>) || {})
                     .filter(([_, value]) => {
                       // Pattern KK-10: Final Arithmetic Elimination for filtering operations
                       const numericValue = Number(value) || 0;
@@ -606,7 +606,7 @@ const IngredientRecommenderMigrated: React.FC = () => {
                       const numericB = Number(b) || 0;
                       return numericB - numericA;
                     })
-                    .map(([element, value]) => (
+                    .map(([element, value]): React.ReactElement => (
                       <span 
                         key={element} 
                         className="flex items-center text-xs bg-gray-50 px-1.5 py-0.5 rounded"

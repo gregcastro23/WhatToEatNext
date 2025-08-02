@@ -83,7 +83,7 @@ import {
     }
   
     calculateAstrologicalInfluence(state: AstrologicalState): ElementalProperties {
-      const zodiacElement = ZODIAC_ELEMENTS[state.currentZodiac?.toLowerCase()];
+      const zodiacElement = ZODIAC_ELEMENTS[state.currentZodiac?.toLowerCase() || 'aries'];
       const moonSignValue = state.currentPlanetaryAlignment?.Moon?.sign || '';
       const moonSign = typeof moonSignValue === 'string' ? moonSignValue.toLowerCase() : '';
       const moonElement = moonSign ? ZODIAC_ELEMENTS[moonSign] : 'Water';

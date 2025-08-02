@@ -145,7 +145,7 @@ const RecipeCard: React.FC<RecipeCardProps> = ({ recipe, isExpanded, onToggle })
           )}
         </Box>
 
-        {(recipe as unknown as Record<string, unknown>).rating && (
+{Boolean((recipe as unknown as Record<string, unknown>).rating) && (
           <Box display="flex" alignItems="center" sx={{ gap: 1, mb: 2 }}>
             <Rating 
               value={Number((recipe as unknown as Record<string, unknown>).rating) || 0} 
@@ -200,7 +200,7 @@ const RecipeCard: React.FC<RecipeCardProps> = ({ recipe, isExpanded, onToggle })
                     </Typography>
                     <LinearProgress 
                       variant="determinate" 
-                      value={(value ) * 100}
+                      value={Number(value) * 100}
                       sx={{ 
                         flexGrow: 1, 
                         height: 4, 
@@ -217,14 +217,14 @@ const RecipeCard: React.FC<RecipeCardProps> = ({ recipe, isExpanded, onToggle })
           </Box>
         )}
 
-        {recipe.score && (
+{Boolean(recipe.score) && (
           <Box mb={2}>
             <Typography variant="caption" color="text.secondary" gutterBottom>
-              Astrological Match: {Math.round(recipe.score.total)}%
+              Astrological Match: {Math.round(recipe.score?.total || 0)}%
             </Typography>
             <LinearProgress 
               variant="determinate" 
-              value={recipe.score.total}
+              value={recipe.score?.total || 0}
               sx={{ height: 6, borderRadius: 1 }}
             />
           </Box>
@@ -280,7 +280,7 @@ const RecipeCard: React.FC<RecipeCardProps> = ({ recipe, isExpanded, onToggle })
             </Accordion>
           )}
 
-          {recipe.score && (
+{Boolean(recipe.score) && (
             <Accordion>
               <AccordionSummary expandIcon={<ExpandMore />}>
                 <Typography variant="subtitle2">
@@ -293,7 +293,7 @@ const RecipeCard: React.FC<RecipeCardProps> = ({ recipe, isExpanded, onToggle })
                     <Typography variant="caption">Elemental:</Typography>
                     <LinearProgress 
                       variant="determinate" 
-                      value={recipe.score.elemental}
+                      value={recipe.score?.elemental || 0}
                       sx={{ mt: 0.5 }}
                     />
                   </Grid>
@@ -301,7 +301,7 @@ const RecipeCard: React.FC<RecipeCardProps> = ({ recipe, isExpanded, onToggle })
                     <Typography variant="caption">Planetary:</Typography>
                     <LinearProgress 
                       variant="determinate" 
-                      value={recipe.score.planetary}
+                      value={recipe.score?.planetary || 0}
                       sx={{ mt: 0.5 }}
                     />
                   </Grid>
@@ -309,7 +309,7 @@ const RecipeCard: React.FC<RecipeCardProps> = ({ recipe, isExpanded, onToggle })
                     <Typography variant="caption">Seasonal:</Typography>
                     <LinearProgress 
                       variant="determinate" 
-                      value={recipe.score.seasonal}
+                      value={recipe.score?.seasonal || 0}
                       sx={{ mt: 0.5 }}
                     />
                   </Grid>
@@ -317,7 +317,7 @@ const RecipeCard: React.FC<RecipeCardProps> = ({ recipe, isExpanded, onToggle })
                     <Typography variant="caption">Popularity:</Typography>
                     <LinearProgress 
                       variant="determinate" 
-                      value={recipe.score.popularity}
+                      value={recipe.score?.popularity || 0}
                       sx={{ mt: 0.5 }}
                     />
                   </Grid>
@@ -765,11 +765,11 @@ export default function RecipeListMigrated() {
         <>
           <Grid container spacing={3}>
             {filteredRecipes.map((recipe) => (
-              <Grid item xs={12} md={6} lg={4} key={recipe.id }>
+              <Grid item xs={12} md={6} lg={4} key={recipe.id || `recipe-${recipe.name}`}>
                 <RecipeCard
                   recipe={recipe}
-                  isExpanded={expandedRecipeId === recipe.id}
-                  onToggle={() => toggleRecipe(recipe.id )}
+                  isExpanded={expandedRecipeId === (recipe.id || `recipe-${recipe.name}`)}
+                  onToggle={() => toggleRecipe(recipe.id || `recipe-${recipe.name}`)}
                 />
               </Grid>
             ))}

@@ -1045,7 +1045,7 @@ export default function IngredientRecommender() {
           </div>
         )}
         
-        {(item as ExtendedIngredientRecommendation).pairings ? (
+        {(item as any)?.pairings && (
           <div className={styles.detailSection}>
             <h4 className={styles.detailTitle}>
               <Tag size={16} /> Pairs Well With
@@ -1084,7 +1084,7 @@ export default function IngredientRecommender() {
               }
             </div>
           </div>
-        ) : null}
+        )}
         
         {/* Nutritional Highlights if available */}
         {(item as ExtendedIngredientRecommendation).nutritionalHighlights && Object.keys((item as ExtendedIngredientRecommendation).nutritionalHighlights || {}).length > 0 && (

@@ -152,7 +152,7 @@ export class EnhancedRecommendationService {
       const baseRecommendations = await getRecommendedIngredients(astroState);
       
       // Apply user preference filtering if provided
-      const filteredRecommendations = this.applyUserPreferenceFiltering(baseRecommendations, userPreferences);
+      const filteredRecommendations = this.applyUserPreferenceFiltering(baseRecommendations as unknown as EnhancedIngredient[], userPreferences);
 
       // Calculate chakra energies from astrological state
       const chakraEnergies = this.calculateChakraEnergiesFromAstroState(astroState);
@@ -339,7 +339,7 @@ export class EnhancedRecommendationService {
       score: Math.min(1.0, enhancedScore),
       reasons,
       chakraAlignment,
-      flavorCompatibility: flavorCompatibility as Record<string, unknown>,
+      flavorCompatibility: flavorCompatibility as any,
       tarotInfluence,
       wiccanProperties
     };
