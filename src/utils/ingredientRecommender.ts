@@ -51,7 +51,6 @@ function safeGetIngredientName(ingredient: unknown): string | undefined {
 // Constants
 import { CHAKRA_NUTRITIONAL_CORRELATIONS, CHAKRA_HERBS } from '@/constants/chakraSymbols';
 import { LUNAR_PHASES } from '@/constants/lunar';
-
 // Data
 import { ingredientCategories } from '@/data/ingredientCategories';
 import { fruits } from '@/data/ingredients/fruits';

@@ -30,14 +30,10 @@ interface RecommendationItem {
 import { Clock, Flame, Droplets, Mountain, Wind, Leaf, ThermometerSun, ThermometerSnowflake, Pill, Sparkles, Star, RefreshCw } from 'lucide-react';
 import React, { useState, useEffect, useCallback, ReactNode } from 'react';
 
-
-
-
 import { ElementalItem, AlchemicalItem } from '@/calculations/alchemicalTransformation';
 import TarotFoodDisplay from '@/components/TarotFoodDisplay';
 import { AlchemicalProperty, ElementalCharacter } from '@/constants/planetaryElements';
 import { PlanetaryDignity } from '@/constants/planetaryFoodAssociations';
-
 // Import ingredient data
 import { TAROT_CARDS } from '@/constants/tarotCards';
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';

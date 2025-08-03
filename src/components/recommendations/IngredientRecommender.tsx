@@ -2,7 +2,6 @@
 import { Flame, Droplets, Mountain, Wind, ChevronDown, ChevronUp, Beaker } from 'lucide-react';
 import { useEffect, useState, useMemo, useCallback } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
-
 // External libraries
 // Types
 import type { 

@@ -2,7 +2,6 @@ import { AstrologicalState, Element, ElementalProperties, ZodiacSign } from '@/t
 import { logger } from '@/utils/logger';
 
 import { AlchemicalEngineAdvanced } from '../alchemicalEngine';
-
 // Import types for NaturalInfluenceParams interface
 import type { LunarPhaseWithSpaces } from '@/types/alchemy';
 

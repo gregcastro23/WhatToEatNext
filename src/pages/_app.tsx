@@ -1,14 +1,11 @@
 // Import script replacer before anything else
 import '../utils/scriptReplacer';
-import { log } from '@/services/LoggingService';
-
-import '@/styles/globals.css';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
 import { useEffect } from 'react';
 
+import { log } from '@/services/LoggingService';
 import { initializeChromeApis } from '@/utils/chromeApiInitializer';
-
 // Extend Window interface to include custom properties
 declare global {
   interface Window {

@@ -1,0 +1,181 @@
+{
+  "timestamp": "2025-08-03T20:06:41.656Z",
+  "approach": "manual_review",
+  "issuesAnalyzed": 69,
+  "filesProcessed": 12,
+  "fixesApplied": 12,
+  "validationResults": {
+    "initialCount": 69,
+    "currentCount": 63,
+    "reduction": 6,
+    "reductionPercentage": 9,
+    "typescriptSuccess": true
+  },
+  "fixBreakdown": {
+    "import_order_fix": 12
+  },
+  "sampleFixes": [
+    {
+      "file": "alchemicalEngine.ts",
+      "issuesFixed": 1,
+      "importsReordered": 5,
+      "type": "import_order_fix"
+    },
+    {
+      "file": "AlchemicalRecommendations.tsx",
+      "issuesFixed": 1,
+      "importsReordered": 2,
+      "type": "import_order_fix"
+    },
+    {
+      "file": "CookingMethodsSection.migrated.tsx",
+      "issuesFixed": 1,
+      "importsReordered": 10,
+      "type": "import_order_fix"
+    },
+    {
+      "file": "index.tsx",
+      "issuesFixed": 2,
+      "importsReordered": 11,
+      "type": "import_order_fix"
+    },
+    {
+      "file": "IngredientRecommender.tsx",
+      "issuesFixed": 1,
+      "importsReordered": 4,
+      "type": "import_order_fix"
+    },
+    {
+      "file": "useEnterpriseIntelligence.ts",
+      "issuesFixed": 1,
+      "importsReordered": 2,
+      "type": "import_order_fix"
+    },
+    {
+      "file": "useTarotAstrologyData.ts",
+      "issuesFixed": 1,
+      "importsReordered": 10,
+      "type": "import_order_fix"
+    },
+    {
+      "file": "_app.tsx",
+      "issuesFixed": 1,
+      "importsReordered": 8,
+      "type": "import_order_fix"
+    },
+    {
+      "file": "paths.ts",
+      "issuesFixed": 3,
+      "importsReordered": 6,
+      "type": "import_order_fix"
+    },
+    {
+      "file": "ConsolidatedRecommendationService.ts",
+      "issuesFixed": 1,
+      "importsReordered": 8,
+      "type": "import_order_fix"
+    }
+  ],
+  "skippedFiles": [
+    {
+      "file": "RecipeBuilder.tsx",
+      "reason": "Complex import patterns requiring manual review"
+    },
+    {
+      "file": "AlchemicalRecommendations.migrated.tsx",
+      "reason": "Complex import patterns requiring manual review"
+    },
+    {
+      "file": "AlchemicalRecommendations.tsx",
+      "reason": "Complex import patterns requiring manual review"
+    },
+    {
+      "file": "UnifiedContext.tsx",
+      "reason": "Complex import patterns requiring manual review"
+    },
+    {
+      "file": "index.ts",
+      "reason": "Complex import patterns requiring manual review"
+    },
+    {
+      "file": "index.ts",
+      "reason": "Complex import patterns requiring manual review"
+    },
+    {
+      "file": "cuisineIntegrations.ts",
+      "reason": "Complex import patterns requiring manual review"
+    },
+    {
+      "file": "enhancedIngredients.ts",
+      "reason": "Complex import patterns requiring manual review"
+    },
+    {
+      "file": "flavorProfileMigration.ts",
+      "reason": "Complex import patterns requiring manual review"
+    },
+    {
+      "file": "ingredients.ts",
+      "reason": "Complex import patterns requiring manual review"
+    },
+    {
+      "file": "sauce-explorer.tsx",
+      "reason": "Complex import patterns requiring manual review"
+    },
+    {
+      "file": "EnterpriseIntelligenceIntegration.ts",
+      "reason": "Complex import patterns requiring manual review"
+    },
+    {
+      "file": "IngredientFilterService.ts",
+      "reason": "Complex import patterns requiring manual review"
+    },
+    {
+      "file": "IngredientService.ts",
+      "reason": "Complex import patterns requiring manual review"
+    },
+    {
+      "file": "RecipeFinder.ts",
+      "reason": "Complex import patterns requiring manual review"
+    },
+    {
+      "file": "RecommendationAdapter.ts",
+      "reason": "Complex import patterns requiring manual review"
+    },
+    {
+      "file": "LegacyRecipeAdapter.ts",
+      "reason": "Complex import patterns requiring manual review"
+    },
+    {
+      "file": "buildQualityMonitor.test.ts",
+      "reason": "Complex import patterns requiring manual review"
+    },
+    {
+      "file": "ingredientValidation.test.ts",
+      "reason": "Complex import patterns requiring manual review"
+    },
+    {
+      "file": "planetaryValidation.test.ts",
+      "reason": "Complex import patterns requiring manual review"
+    },
+    {
+      "file": "typescriptCampaignTrigger.test.ts",
+      "reason": "Complex import patterns requiring manual review"
+    },
+    {
+      "file": "alchemicalPillarUtils.ts",
+      "reason": "Complex import patterns requiring manual review"
+    },
+    {
+      "file": "core.ts",
+      "reason": "Complex import patterns requiring manual review"
+    },
+    {
+      "file": "recipeMatching.ts",
+      "reason": "Complex import patterns requiring manual review"
+    },
+    {
+      "file": "seasonalCalculations.ts",
+      "reason": "Complex import patterns requiring manual review"
+    }
+  ]
+}

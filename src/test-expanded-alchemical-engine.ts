@@ -14,7 +14,6 @@
 import { log } from '@/services/LoggingService';
 
 import { AlchemicalEngine } from './calculations/core/alchemicalEngine';
-
 // Create alchemicalEngine instance for backward compatibility
 const alchemicalEngine = new AlchemicalEngine();
 import { 

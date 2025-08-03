@@ -1,5 +1,4 @@
 import React, { useState, useMemo } from 'react';
-
 // Type Harmony imports
 
 import { ElementalItem } from '@/calculations/alchemicalTransformation';

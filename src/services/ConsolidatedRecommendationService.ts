@@ -2,10 +2,8 @@ import { ElementalProperties, ThermodynamicMetrics, Planet , Element } from '@/t
 import { PlanetaryAlignment } from "@/types/celestial";
 import type { CookingMethod } from '@/types/cooking';
 
-
 import { Ingredient } from '../types/ingredient';
 import { Recipe } from '../types/recipe';
-
 // Import utility functions
 import { getCuisineRecommendations } from '../utils/cuisineRecommender';
 import { calculateElementalCompatibility } from '../utils/elemental/elementalUtils';
