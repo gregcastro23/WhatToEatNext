@@ -1,6 +1,6 @@
 /**
  * Strict Null Checks Helper Utilities
- * 
+ *
  * Provides utility functions to handle null/undefined checks efficiently
  * while enabling strictNullChecks across the codebase.
  */
@@ -16,8 +16,8 @@ export function isNotNullOrUndefined<T>(value: T | null | undefined): value is T
  * Safe property access with default value
  */
 export function safeGet<T, K extends keyof T>(
-  obj: T | null | undefined, 
-  key: K, 
+  obj: T | null | undefined,
+  key: K,
   defaultValue: T[K]
 ): T[K] {
   return obj?.[key] ?? defaultValue;
@@ -27,8 +27,8 @@ export function safeGet<T, K extends keyof T>(
  * Safe array access with default
  */
 export function safeArrayAccess<T>(
-  array: T[] | null | undefined, 
-  index: number, 
+  array: T[] | null | undefined,
+  index: number,
   defaultValue: T
 ): T {
   return array?.[index] ?? defaultValue;

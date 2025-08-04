@@ -1,6 +1,6 @@
 /**
  * Enhanced Astrological Type Definitions for IntelliSense
- * 
+ *
  * This file provides comprehensive type definitions for astrological calculations
  * with enhanced IntelliSense support, auto-completion, and type safety.
  */
@@ -9,7 +9,7 @@
 declare global {
   namespace Astrology {
     // Zodiac signs with enhanced documentation
-    type ZodiacSign = 
+    type ZodiacSign =
       | 'aries'      // ♈ Fire - Cardinal - Mars
       | 'taurus'     // ♉ Earth - Fixed - Venus
       | 'gemini'     // ♊ Air - Mutable - Mercury
@@ -24,7 +24,7 @@ declare global {
       | 'pisces';    // ♓ Water - Mutable - Jupiter/Neptune
 
     // Planetary bodies with enhanced documentation
-    type Planet = 
+    type Planet =
       | 'sun'        // ☉ Vitality, ego, life force
       | 'moon'       // ☽ Emotions, intuition, cycles
       | 'mercury'    // ☿ Communication, intellect, travel
@@ -39,14 +39,14 @@ declare global {
       | 'southNode'; // ☋ Past life karma, talents to release
 
     // Elements with enhanced documentation
-    type Element = 
+    type Element =
       | 'Fire'   // Energy, enthusiasm, action, creativity
       | 'Water'  // Emotion, intuition, flow, healing
       | 'Earth'  // Stability, practicality, material, grounding
       | 'Air';   // Intellect, communication, ideas, movement
 
     // Modalities with enhanced documentation
-    type Modality = 
+    type Modality =
       | 'Cardinal' // Initiation, leadership, new beginnings
       | 'Fixed'    // Stability, persistence, determination
       | 'Mutable'; // Adaptability, flexibility, change
@@ -98,7 +98,7 @@ declare global {
       /** Dominant element based on current positions */
       dominantElement: Element;
       /** Current lunar phase */
-      lunarPhase: 'new' | 'waxing_crescent' | 'first_quarter' | 'waxing_gibbous' | 
+      lunarPhase: 'new' | 'waxing_crescent' | 'first_quarter' | 'waxing_gibbous' |
                   'full' | 'waning_gibbous' | 'last_quarter' | 'waning_crescent';
       /** Current planetary hour */
       planetaryHour: Planet;
@@ -141,8 +141,8 @@ declare global {
 
     // Type guards for runtime validation with enhanced error messages
     interface TypeGuards {
-      isPlanetaryPosition(obj: any): obj is PlanetaryPosition;
-      isElementalProperties(obj: any): obj is ElementalProperties;
+      isPlanetaryPosition(obj: unknown): obj is PlanetaryPosition;
+      isElementalProperties(obj: unknown): obj is ElementalProperties;
       isValidCompatibilityScore(score: number): boolean;
       isZodiacSign(sign: string): sign is ZodiacSign;
       isPlanet(planet: string): planet is Planet;
@@ -336,10 +336,9 @@ export type AstrologicalState = Astrology.AstrologicalState;
 export type CulinaryAstrologyData = Astrology.CulinaryAstrologyData;
 
 export type {
-  EnhancedIngredient,
-  EnhancedRecipe,
-  EnhancedCookingMethod,
-  EnhancedCuisineProfile
+    EnhancedCookingMethod,
+    EnhancedCuisineProfile, EnhancedIngredient,
+    EnhancedRecipe
 };
 
 // Utility type for component props that use astrological data
