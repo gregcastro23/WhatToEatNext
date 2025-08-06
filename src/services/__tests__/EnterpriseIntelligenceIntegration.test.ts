@@ -198,13 +198,13 @@ describe('EnterpriseIntelligenceIntegration', () => {
       );
 
       const optimization = (result as unknown as Record<string, unknown>)?.optimizationRecommendations as Record<string, any>;
-      expect((optimization as Record<string, any>)?.performance).toBeDefined();
-      expect((optimization as Record<string, any>)?.accuracy).toBeDefined();
-      expect((optimization as Record<string, any>)?.userExperience).toBeDefined();
-      expect((optimization as Record<string, any>)?.systemIntegration).toBeDefined();
-      expect((optimization as Record<string, any>)?.overallOptimization).toBeDefined();
-      expect(((optimization as Record<string, any>)?.overallOptimization as Record<string, any>)?.priority).toMatch(/low|medium|high|critical/);
-      expect(((optimization as Record<string, any>)?.overallOptimization as Record<string, any>)?.estimatedValue).toBeGreaterThanOrEqual(0);
+      expect((optimization )?.performance).toBeDefined();
+      expect((optimization )?.accuracy).toBeDefined();
+      expect((optimization )?.userExperience).toBeDefined();
+      expect((optimization )?.systemIntegration).toBeDefined();
+      expect((optimization )?.overallOptimization).toBeDefined();
+      expect(((optimization )?.overallOptimization as Record<string, any>)?.priority).toMatch(/low|medium|high|critical/);
+      expect(((optimization )?.overallOptimization as Record<string, any>)?.estimatedValue).toBeGreaterThanOrEqual(0);
     });
 
     it('should handle missing data gracefully', async () => {

@@ -50,7 +50,7 @@ interface MoonTimesModule {
 }
 
 interface CuisineCalculationsModule {
-  getCuisineRecommendations: (zodiacSign?: string, lunarPhase?: string, planetaryAlignment?: unknown) => any[];
+  getCuisineRecommendations: (zodiacSign?: string, lunarPhase?: string, planetaryAlignment?: unknown) => unknown[];
 }
 
 interface SunTimesModule {
@@ -89,7 +89,7 @@ type KnownModulePath = keyof typeof MODULE_MAP;
 /**
  * Safely import and execute a function using a known module path
  */
-export async function safeImportAndExecuteKnown<R, A extends any[] = any[]>(
+export async function safeImportAndExecuteKnown<R, A extends unknown[] = unknown[]>(
   path: KnownModulePath,
   functionName: string,
   _args: A
@@ -160,7 +160,7 @@ import * as safeAstrology from '@/utils/safeAstrology';
 // astronomia module removed
 
 // Safe import function using static imports for known modules
-export async function safeImportAndExecute<R, A extends any[] = any[]>(
+export async function safeImportAndExecute<R, A extends unknown[] = unknown[]>(
   path: string,
   functionName: string,
   _args: A
@@ -293,7 +293,7 @@ export async function dynamicImportFunction<T extends (...args: unknown[]) => an
   return safeImportFunction<T>(path, functionName);
 }
 
-export async function dynamicImportAndExecute<R, A extends any[] = any[], F = R>(
+export async function dynamicImportAndExecute<R, A extends unknown[] = unknown[], F = R>(
   path: string,
   functionName: string,
   _args: A,

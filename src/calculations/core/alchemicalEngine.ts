@@ -1,9 +1,9 @@
 import { AstrologicalState, Element, ElementalProperties, ZodiacSign } from '@/types/alchemy';
+import type { LunarPhaseWithSpaces } from '@/types/alchemy';
 import { logger as _logger } from '@/utils/logger';
 
 import { AlchemicalEngineAdvanced } from '../alchemicalEngine';
 // Import types for NaturalInfluenceParams interface
-import type { LunarPhaseWithSpaces } from '@/types/alchemy';
 
 // Define NaturalInfluenceParams interface locally (matching alchemicalEngine.ts)
 interface NaturalInfluenceParams {
@@ -280,7 +280,7 @@ export class AlchemicalEngine {
   }
 
   calculateNaturalInfluences(params: unknown) {
-    return this.advanced.calculateNaturalInfluences(params as unknown as NaturalInfluenceParams);
+    return this.advanced.calculateNaturalInfluences(params  as NaturalInfluenceParams);
   }
 
   getElementRanking(elementObject: Record<string, number>) {

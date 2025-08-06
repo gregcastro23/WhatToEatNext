@@ -643,6 +643,7 @@ const AlchemicalRecommendationsMigrated: React.FC<AlchemicalRecommendationsProps
         <Tabs value={activeTab} onChange={(_, newValue) => setActiveTab(newValue)}>
           <Tab label="Ingredients & Methods" />
           <Tab label="Recipe Recommendations" />
+          <Tab label="🔄 Transformed Data" />
         </Tabs>
       </Box>
 
@@ -916,6 +917,154 @@ const AlchemicalRecommendationsMigrated: React.FC<AlchemicalRecommendationsProps
           )}
         </div>
       )}
+
+      {/* Transformed Data Tab - utilizes unused transformation variables */}
+      {activeTab === 2 && (
+        <div className="transformed-data">
+          <h3>🔄 Transformed Data Pipeline</h3>
+          <p className="text-gray-600 mb-4">
+            Live view of processed data through the alchemical transformation engine
+          </p>
+          
+          <div className="transformation-sections">
+            {/* Transformed Ingredients */}
+            <div className="transformation-section">
+              <h4 className="section-title">⚗️ Transformed Ingredients ({transformedIngredients.length})</h4>
+              <div className="transformation-grid">
+                {transformedIngredients.slice(0, 8).map((item, index) => (
+                  <div key={index} className="transformation-card">
+                    <div className="card-header">
+                      <span className="item-name">{item.name}</span>
+                      <span className="dominance-badge">{item.dominantElement}</span>
+                    </div>
+                    <div className="elemental-breakdown">
+                      {Object.entries(item.elementalProperties).map(([element, value]) => (
+                        <div key={element} className="element-bar">
+                          <span className="element-label">{element}</span>
+                          <div className="progress-bar">
+                            <div 
+                              className={`progress-fill ${element.toLowerCase()}`} 
+                              style={{width: `${Math.round((value as number) * 100)}%`}}
+                            />
+                          </div>
+                          <span className="element-value">{Math.round((value as number) * 100)}%</span>
+                        </div>
+                      ))}
+                    </div>
+                    <div className="transformation-metrics">
+                      <span className="metric">Greg's Energy: {item.gregsEnergy.toFixed(2)}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              {transformedIngredients.length > 8 && (
+                <p className="show-more">... and {transformedIngredients.length - 8} more transformed ingredients</p>
+              )}
+            </div>
+
+            {/* Transformed Methods */}
+            <div className="transformation-section">
+              <h4 className="section-title">🔥 Transformed Methods ({transformedMethods.length})</h4>
+              <div className="transformation-grid">
+                {transformedMethods.slice(0, 6).map((item, index) => (
+                  <div key={index} className="transformation-card method-card">
+                    <div className="card-header">
+                      <span className="item-name">{item.name}</span>
+                      <span className="dominance-badge">{item.dominantElement}</span>
+                    </div>
+                    <div className="elemental-breakdown">
+                      {Object.entries(item.elementalProperties).map(([element, value]) => (
+                        <div key={element} className="element-bar">
+                          <span className="element-label">{element}</span>
+                          <div className="progress-bar">
+                            <div 
+                              className={`progress-fill ${element.toLowerCase()}`} 
+                              style={{width: `${Math.round((value as number) * 100)}%`}}
+                            />
+                          </div>
+                          <span className="element-value">{Math.round((value as number) * 100)}%</span>
+                        </div>
+                      ))}
+                    </div>
+                    <div className="transformation-metrics">
+                      <span className="metric">Alchemical: {item.dominantAlchemicalProperty}</span>
+                      <span className="metric">Energy: {item.gregsEnergy.toFixed(2)}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              {transformedMethods.length > 6 && (
+                <p className="show-more">... and {transformedMethods.length - 6} more transformed methods</p>
+              )}
+            </div>
+
+            {/* Transformed Cuisines */}
+            <div className="transformation-section">
+              <h4 className="section-title">🌍 Transformed Cuisines ({transformedCuisines.length})</h4>
+              <div className="transformation-grid cuisines-grid">
+                {transformedCuisines.slice(0, 4).map((item, index) => (
+                  <div key={index} className="transformation-card cuisine-card">
+                    <div className="card-header">
+                      <span className="item-name">{item.name}</span>
+                      <span className="dominance-badge">{item.dominantElement}</span>
+                    </div>
+                    <div className="elemental-breakdown">
+                      {Object.entries(item.elementalProperties).map(([element, value]) => (
+                        <div key={element} className="element-bar">
+                          <span className="element-label">{element}</span>
+                          <div className="progress-bar">
+                            <div 
+                              className={`progress-fill ${element.toLowerCase()}`} 
+                              style={{width: `${Math.round((value as number) * 100)}%`}}
+                            />
+                          </div>
+                          <span className="element-value">{Math.round((value as number) * 100)}%</span>
+                        </div>
+                      ))}
+                    </div>
+                    <div className="transformation-metrics">
+                      <span className="metric">Cultural Depth: {item.gregsEnergy.toFixed(2)}</span>
+                      <span className="metric">Compatibility: {typeof item.compatibility === 'number' ? item.compatibility.toFixed(2) : 'N/A'}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              {transformedCuisines.length > 4 && (
+                <p className="show-more">... and {transformedCuisines.length - 4} more transformed cuisines</p>
+              )}
+            </div>
+            
+            {/* Transformation Summary */}
+            <div className="transformation-summary">
+              <h4>📊 Pipeline Summary</h4>
+              <div className="summary-stats">
+                <div className="summary-stat">
+                  <span className="stat-label">Total Processed Items:</span>
+                  <span className="stat-value">
+                    {transformedIngredients.length + transformedMethods.length + transformedCuisines.length}
+                  </span>
+                </div>
+                <div className="summary-stat">
+                  <span className="stat-label">Active Transformations:</span>
+                  <span className="stat-value">
+                    {[transformedIngredients, transformedMethods, transformedCuisines].filter(arr => arr.length > 0).length}/3
+                  </span>
+                </div>
+                <div className="summary-stat">
+                  <span className="stat-label">Average Energy:</span>
+                  <span className="stat-value">
+                    {(
+                      [...transformedIngredients, ...transformedMethods, ...transformedCuisines]
+                        .reduce((sum, item) => sum + item.gregsEnergy, 0) /
+                      Math.max(1, transformedIngredients.length + transformedMethods.length + transformedCuisines.length)
+                    ).toFixed(2)}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
       
       <style jsx>{`
         .alchemical-recommendations {
@@ -1043,6 +1192,186 @@ const AlchemicalRecommendationsMigrated: React.FC<AlchemicalRecommendationsProps
           height: 100%;
           display: flex;
           flex-direction: column;
+        }
+
+        /* Transformation Data Tab Styles */
+        .transformed-data {
+          padding: 1rem 0;
+        }
+
+        .transformation-sections {
+          display: flex;
+          flex-direction: column;
+          gap: 2rem;
+        }
+
+        .transformation-section {
+          background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+          border-radius: 12px;
+          padding: 1.5rem;
+          border: 1px solid #dee2e6;
+        }
+
+        .section-title {
+          color: #495057;
+          margin-bottom: 1rem;
+          font-size: 1.1rem;
+          font-weight: 600;
+        }
+
+        .transformation-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+          gap: 1rem;
+        }
+
+        .cuisines-grid {
+          grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+        }
+
+        .transformation-card {
+          background: white;
+          border-radius: 8px;
+          padding: 1rem;
+          box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+          border-left: 4px solid #667eea;
+        }
+
+        .method-card {
+          border-left-color: #f093fb;
+        }
+
+        .cuisine-card {
+          border-left-color: #4facfe;
+        }
+
+        .card-header {
+          display: flex;
+          justify-content: between;
+          align-items: center;
+          margin-bottom: 0.75rem;
+        }
+
+        .item-name {
+          font-weight: 600;
+          color: #2d3748;
+          flex: 1;
+        }
+
+        .dominance-badge {
+          background: linear-gradient(135deg, #667eea, #764ba2);
+          color: white;
+          padding: 0.2rem 0.5rem;
+          border-radius: 12px;
+          font-size: 0.75rem;
+          font-weight: 500;
+        }
+
+        .elemental-breakdown {
+          margin-bottom: 0.75rem;
+        }
+
+        .element-bar {
+          display: grid;
+          grid-template-columns: 60px 1fr 40px;
+          align-items: center;
+          gap: 0.5rem;
+          margin-bottom: 0.25rem;
+        }
+
+        .element-label {
+          font-size: 0.75rem;
+          color: #6c757d;
+        }
+
+        .progress-bar {
+          height: 6px;
+          background: #e9ecef;
+          border-radius: 3px;
+          overflow: hidden;
+        }
+
+        .progress-fill {
+          height: 100%;
+          transition: width 0.3s ease;
+        }
+
+        .progress-fill.fire {
+          background: linear-gradient(90deg, #ff6b6b, #ee5a52);
+        }
+
+        .progress-fill.water {
+          background: linear-gradient(90deg, #4dabf7, #339af0);
+        }
+
+        .progress-fill.earth {
+          background: linear-gradient(90deg, #51cf66, #40c057);
+        }
+
+        .progress-fill.air {
+          background: linear-gradient(90deg, #9775fa, #845ef7);
+        }
+
+        .element-value {
+          font-size: 0.75rem;
+          color: #6c757d;
+          text-align: right;
+        }
+
+        .transformation-metrics {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 0.5rem;
+        }
+
+        .metric {
+          background: #f8f9fa;
+          padding: 0.2rem 0.5rem;
+          border-radius: 4px;
+          font-size: 0.75rem;
+          color: #6c757d;
+        }
+
+        .show-more {
+          color: #6c757d;
+          font-style: italic;
+          text-align: center;
+          margin-top: 1rem;
+        }
+
+        .transformation-summary {
+          background: linear-gradient(135deg, #667eea, #764ba2);
+          color: white;
+          border-radius: 12px;
+          padding: 1.5rem;
+        }
+
+        .transformation-summary h4 {
+          margin-bottom: 1rem;
+          color: white;
+        }
+
+        .summary-stats {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+          gap: 1rem;
+        }
+
+        .summary-stat {
+          display: flex;
+          justify-content: space-between;
+          background: rgba(255,255,255,0.1);
+          padding: 0.75rem;
+          border-radius: 6px;
+        }
+
+        .stat-label {
+          color: rgba(255,255,255,0.9);
+        }
+
+        .stat-value {
+          font-weight: 600;
+          color: white;
         }
       `}</style>
     </div>

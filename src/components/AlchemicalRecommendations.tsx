@@ -424,6 +424,68 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
     aspects
   });
   
+  // Generate elemental recommendation based on current astrological state
+  React.useEffect(() => {
+    if (alchemicalRecommendations && energeticProfile) {
+      const generateElementalRecommendation = (): ElementalRecommendation => {
+        const dominantElement = alchemicalRecommendations.dominantElement;
+        // Use a fallback if elementalBalance doesn't exist
+        const elementalBalance = (alchemicalRecommendations as any).elementalBalance || {
+          Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
+        };
+        
+        // Calculate harmony score based on elemental balance
+        const harmony = Object.values(elementalBalance).reduce((acc: number, val: unknown) => acc + ((val as number) * (val as number)), 0);
+        const harmonyScore = Math.max(0, Math.min(1, 1 - (Math.abs(Number(harmony) - 0.25) * 2)));
+        
+        // Generate cooking techniques based on dominant element
+        const cookingTechniques = dominantElement === 'Fire' 
+          ? ['grilling', 'roasting', 'searing', 'flambéing']
+          : dominantElement === 'Water'
+          ? ['steaming', 'boiling', 'poaching', 'sous vide']
+          : dominantElement === 'Earth' 
+          ? ['braising', 'slow cooking', 'stewing', 'baking']
+          : ['smoking', 'dehydrating', 'whipping', 'fermentation'];
+        
+        // Generate complementary ingredients
+        const complementaryIngredients = dominantElement === 'Fire'
+          ? ['peppers', 'ginger', 'cinnamon', 'garlic']
+          : dominantElement === 'Water'
+          ? ['cucumber', 'melon', 'fish', 'coconut']
+          : dominantElement === 'Earth'
+          ? ['root vegetables', 'grains', 'mushrooms', 'potatoes']
+          : ['herbs', 'leafy greens', 'citrus', 'seeds'];
+        
+        // Generate flavor profiles
+        const flavorProfiles = dominantElement === 'Fire'
+          ? ['spicy', 'pungent', 'warming', 'stimulating']
+          : dominantElement === 'Water'
+          ? ['cool', 'refreshing', 'soothing', 'cleansing']
+          : dominantElement === 'Earth'
+          ? ['grounding', 'nourishing', 'stabilizing', 'satisfying']
+          : ['light', 'uplifting', 'clarifying', 'energizing'];
+        
+        return {
+          dominantElement: dominantElement,
+          elementalProfile: elementalBalance,
+          cookingTechniques,
+          complementaryIngredients,
+          flavorProfiles,
+          healthBenefits: [`Supports ${dominantElement.toLowerCase()} constitution`, 'Promotes elemental balance'],
+          timeOfDay: resolvedIsDaytime ? ['morning', 'midday'] : ['evening', 'night'],
+          seasonalBest: dominantElement === 'Fire' ? ['summer'] : dominantElement === 'Water' ? ['spring'] : 
+                       dominantElement === 'Earth' ? ['autumn'] : ['winter'],
+          moodEffects: [`Enhances ${dominantElement.toLowerCase()} qualities`, 'Balances energy'],
+          culinaryHerbs: dominantElement === 'Fire' ? ['basil', 'rosemary'] : dominantElement === 'Water' ? ['mint', 'parsley'] :
+                        dominantElement === 'Earth' ? ['thyme', 'sage'] : ['dill', 'cilantro'],
+          compatibility: harmonyScore
+        };
+      };
+      
+      setElementalRecommendation(generateElementalRecommendation());
+    }
+  }, [alchemicalRecommendations, energeticProfile, resolvedIsDaytime, resolvedLunarPhase]);
+  
   if (loading) return <div>Loading alchemical recommendations...</div>;
   if (alchemicalError) return <div>Error: {alchemicalError.message}</div>;
   
@@ -670,6 +732,71 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
             <p>No cuisine recommendations available.</p>
           )}
         </div>
+        
+        {/* Elemental Harmony Recommendations */}
+        {elementalRecommendation && (
+          <div className="recommendation-section elemental-section">
+            <h3>🔥 Elemental Harmony Analysis</h3>
+            <div className="elemental-recommendation">
+              <div className="elemental-summary">
+                <h4>Primary Element: {elementalRecommendation.dominantElement}</h4>
+                <p className="harmony-score">
+                  Compatibility Score: <span className={`score ${elementalRecommendation.compatibility > 0.7 ? 'high' : elementalRecommendation.compatibility > 0.4 ? 'medium' : 'low'}`}>
+                    {Math.round(elementalRecommendation.compatibility * 100)}%
+                  </span>
+                </p>
+              </div>
+              
+              <div className="techniques-section">
+                <h4>🍳 Recommended Cooking Techniques</h4>
+                <div className="technique-list">
+                  {elementalRecommendation.cookingTechniques.map((technique, index) => (
+                    <span key={index} className="technique-badge">{technique}</span>
+                  ))}
+                </div>
+              </div>
+              
+              <div className="ingredients-section">
+                <h4>🌿 Complementary Ingredients</h4>
+                <div className="ingredient-list">
+                  {elementalRecommendation.complementaryIngredients.map((ingredient, index) => (
+                    <span key={index} className="ingredient-badge">{ingredient}</span>
+                  ))}
+                </div>
+              </div>
+              
+              <div className="flavor-section">
+                <h4>👅 Flavor Profile</h4>
+                <div className="flavor-list">
+                  {elementalRecommendation.flavorProfiles.map((flavor, index) => (
+                    <span key={index} className="flavor-badge">{flavor}</span>
+                  ))}
+                </div>
+              </div>
+              
+              <div className="timing-section">
+                <h4>⏰ Optimal Timing</h4>
+                <div className="timing-grid">
+                  <div className="timing-item">
+                    <strong>Time of Day:</strong> {elementalRecommendation.timeOfDay.join(', ')}
+                  </div>
+                  <div className="timing-item">
+                    <strong>Best Season:</strong> {elementalRecommendation.seasonalBest.join(', ')}
+                  </div>
+                </div>
+              </div>
+              
+              <div className="herbs-section">
+                <h4>🌿 Culinary Herbs</h4>
+                <div className="herbs-list">
+                  {elementalRecommendation.culinaryHerbs.map((herb, index) => (
+                    <span key={index} className="herb-badge">{herb}</span>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
       
       <style jsx>{`
@@ -773,6 +900,150 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
           background-color: #f0f0f0;
           color: #555;
           font-size: 0.8rem;
+        }
+        
+        /* Elemental Recommendation Styles */
+        .elemental-section {
+          background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+          border: 2px solid #dee2e6;
+          border-radius: 12px;
+          margin-top: 2rem;
+        }
+        
+        .elemental-recommendation {
+          display: grid;
+          gap: 1.5rem;
+          padding: 1rem;
+        }
+        
+        .elemental-summary {
+          background-color: white;
+          padding: 1.5rem;
+          border-radius: 8px;
+          box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .harmony-score .score.high {
+          color: #28a745;
+          font-weight: bold;
+        }
+        
+        .harmony-score .score.medium {
+          color: #ffc107;
+          font-weight: bold;
+        }
+        
+        .harmony-score .score.low {
+          color: #dc3545;
+          font-weight: bold;
+        }
+        
+        .balance-suggestions {
+          display: grid;
+          gap: 0.75rem;
+        }
+        
+        .balance-suggestion {
+          display: grid;
+          grid-template-columns: auto 1fr auto;
+          align-items: center;
+          gap: 1rem;
+          padding: 0.75rem;
+          background-color: white;
+          border-radius: 6px;
+          box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+        }
+        
+        .element-badge {
+          padding: 0.25rem 0.75rem;
+          border-radius: 20px;
+          font-size: 0.85rem;
+          font-weight: bold;
+          color: white;
+        }
+        
+        .element-badge.fire {
+          background-color: #dc3545;
+        }
+        
+        .element-badge.water {
+          background-color: #007bff;
+        }
+        
+        .element-badge.earth {
+          background-color: #28a745;
+        }
+        
+        .element-badge.air {
+          background-color: #6c757d;
+        }
+        
+        .suggestion-text {
+          font-size: 0.9rem;
+          color: #495057;
+        }
+        
+        .adjustment-indicator {
+          font-weight: bold;
+          font-size: 0.9rem;
+          color: #6c757d;
+        }
+        
+        .optimal-timing {
+          background-color: #fff3cd;
+          border: 1px solid #ffeaa7;
+          border-radius: 8px;
+          padding: 1.5rem;
+        }
+        
+        .timing-details p {
+          margin: 0.5rem 0;
+        }
+        
+        /* New Elemental Recommendation Badge Styles */
+        .technique-list, .ingredient-list, .flavor-list, .herbs-list {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 0.5rem;
+          margin-top: 0.75rem;
+        }
+        
+        .technique-badge, .ingredient-badge, .flavor-badge, .herb-badge {
+          padding: 0.3rem 0.75rem;
+          border-radius: 15px;
+          font-size: 0.85rem;
+          font-weight: 500;
+          color: white;
+          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .technique-badge {
+          background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+        
+        .ingredient-badge {
+          background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
+        
+        .flavor-badge {
+          background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+        }
+        
+        .herb-badge {
+          background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+        }
+        
+        .timing-grid {
+          display: grid;
+          gap: 1rem;
+          margin-top: 0.75rem;
+        }
+        
+        .timing-item {
+          background-color: rgba(255, 255, 255, 0.7);
+          padding: 0.75rem;
+          border-radius: 6px;
+          border-left: 4px solid #ffeaa7;
         }
       `}</style>
     </div>

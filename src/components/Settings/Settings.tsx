@@ -277,8 +277,6 @@ export default function Settings() {
                 }
               />
             )}
-            {/* Other settings components are commented out for now until implemented */}
-            {/* 
             {activeSection === 'notifications' && (
               <NotificationSettings
                 settings={settings.notifications}
@@ -303,7 +301,6 @@ export default function Settings() {
                 }
               />
             )}
-            */}
           </div>
         </div>
       </div>
@@ -426,4 +423,289 @@ function AppearanceSettings({
   );
 }
 
-// Add other section components similarly... 
+// Notification Settings Component
+function NotificationSettings({ 
+  settings, 
+  onChange 
+}: { 
+  settings: AppSettings['notifications']; 
+  onChange: (key: string, value: unknown) => void 
+}) {
+  const notificationOptions = [
+    { key: 'recipes', label: 'Recipe Recommendations', description: 'Get notified about new recipe suggestions' },
+    { key: 'celestial', label: 'Celestial Updates', description: 'Receive updates about astrological influences' },
+    { key: 'updates', label: 'App Updates', description: 'Notifications about app updates and new features' },
+    { key: 'cooking', label: 'Cooking Reminders', description: 'Timing and preparation reminders while cooking' }
+  ];
+
+  return (
+    <div className="space-y-6">
+      <h3 className="text-lg font-medium flex items-center gap-2">
+        <Bell className="w-5 h-5" />
+        Notification Preferences
+      </h3>
+      
+      <div className="space-y-4">
+        {notificationOptions.map(({ key, label, description }) => (
+          <div key={key} className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+            <div>
+              <label className="font-medium">{label}</label>
+              <p className="text-sm text-gray-600">{description}</p>
+            </div>
+            <button
+              onClick={() => onChange(key, !(settings as any)[key])}
+              className={`w-12 h-6 rounded-full transition-colors ${
+                (settings as any)[key] ? 'bg-blue-500' : 'bg-gray-200'
+              }`}
+            >
+              <div
+                className={`w-5 h-5 rounded-full bg-white transform transition-transform ${
+                  (settings as any)[key] ? 'translate-x-6' : 'translate-x-0.5'
+                }`}
+              />
+            </button>
+          </div>
+        ))}
+      </div>
+
+      <div className="p-4 bg-blue-50 rounded-lg">
+        <h4 className="font-medium text-blue-900">Notification Timing</h4>
+        <p className="text-sm text-blue-700 mt-1">
+          Notifications are sent based on optimal astrological timing for cooking and preparation activities.
+        </p>
+      </div>
+    </div>
+  );
+}
+
+// Preference Settings Component
+function PreferenceSettings({ 
+  settings, 
+  onChange 
+}: { 
+  settings: AppSettings['preferences']; 
+  onChange: (key: string, value: unknown) => void 
+}) {
+  return (
+    <div className="space-y-6">
+      <h3 className="text-lg font-medium flex items-center gap-2">
+        <ChefHat className="w-5 h-5" />
+        Cooking Preferences
+      </h3>
+      
+      <div className="space-y-4">
+        <div>
+          <label className="block text-sm font-medium mb-2">Default Serving Size</label>
+          <div className="flex items-center gap-4">
+            <input
+              type="range"
+              min="1"
+              max="12"
+              value={settings.defaultServings}
+              onChange={(e) => onChange('defaultServings', parseInt(e.target.value))}
+              className="flex-1"
+            />
+            <span className="text-lg font-medium w-8 text-center">{settings.defaultServings}</span>
+          </div>
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium mb-2">Measurement System</label>
+          <div className="grid grid-cols-2 gap-4">
+            {[
+              { value: 'metric', label: 'Metric (kg, L, °C)' },
+              { value: 'imperial', label: 'Imperial (lbs, qt, °F)' }
+            ].map(({ value, label }) => (
+              <button
+                key={value}
+                onClick={() => onChange('measurementSystem', value)}
+                className={`p-3 rounded-lg border text-left ${
+                  settings.measurementSystem === value
+                    ? 'border-blue-500 bg-blue-50 text-blue-700'
+                    : 'border-gray-200 hover:bg-gray-50'
+                }`}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium mb-2">Maximum Preparation Time</label>
+          <div className="flex items-center gap-4">
+            <input
+              type="range"
+              min="15"
+              max="180"
+              step="15"
+              value={settings.maxPrepTime}
+              onChange={(e) => onChange('maxPrepTime', parseInt(e.target.value))}
+              className="flex-1"
+            />
+            <span className="text-lg font-medium w-16 text-center">{settings.maxPrepTime}min</span>
+          </div>
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium mb-2">Recipe Complexity</label>
+          <div className="grid grid-cols-3 gap-4">
+            {[
+              { value: 'simple', label: 'Simple', description: 'Basic recipes with few ingredients' },
+              { value: 'moderate', label: 'Moderate', description: 'Standard recipes with medium complexity' },
+              { value: 'complex', label: 'Complex', description: 'Advanced recipes with multiple techniques' }
+            ].map(({ value, label, description }) => (
+              <button
+                key={value}
+                onClick={() => onChange('complexity', value)}
+                className={`p-4 rounded-lg border text-left ${
+                  settings.complexity === value
+                    ? 'border-blue-500 bg-blue-50'
+                    : 'border-gray-200 hover:bg-gray-50'
+                }`}
+              >
+                <div className="font-medium">{label}</div>
+                <div className="text-xs text-gray-600 mt-1">{description}</div>
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// Dietary Settings Component
+function DietarySettings({ 
+  settings, 
+  onChange 
+}: { 
+  settings: AppSettings['dietary']; 
+  onChange: (key: string, value: unknown) => void 
+}) {
+  const dietaryRestrictions = [
+    'vegetarian', 'vegan', 'gluten-free', 'dairy-free', 'nut-free', 
+    'shellfish-free', 'egg-free', 'soy-free', 'halal', 'kosher'
+  ];
+
+  const cuisineTypes = [
+    'italian', 'chinese', 'mexican', 'indian', 'thai', 'japanese', 
+    'french', 'mediterranean', 'american', 'korean', 'vietnamese', 'greek'
+  ];
+
+  const toggleRestriction = (restriction: string) => {
+    const current = settings.restrictions;
+    const updated = current.includes(restriction)
+      ? current.filter(r => r !== restriction)
+      : [...current, restriction];
+    onChange('restrictions', updated);
+  };
+
+  const toggleFavorite = (cuisine: string) => {
+    const current = settings.favorites;
+    const updated = current.includes(cuisine)
+      ? current.filter(c => c !== cuisine)
+      : [...current, cuisine];
+    onChange('favorites', updated);
+  };
+
+  const toggleExcluded = (cuisine: string) => {
+    const current = settings.excluded;
+    const updated = current.includes(cuisine)
+      ? current.filter(c => c !== cuisine)
+      : [...current, cuisine];
+    onChange('excluded', updated);
+  };
+
+  return (
+    <div className="space-y-6">
+      <h3 className="text-lg font-medium flex items-center gap-2">
+        <Filter className="w-5 h-5" />
+        Dietary Settings
+      </h3>
+      
+      <div className="space-y-6">
+        <div>
+          <h4 className="font-medium mb-3">Dietary Restrictions</h4>
+          <div className="grid grid-cols-2 gap-2">
+            {dietaryRestrictions.map(restriction => (
+              <button
+                key={restriction}
+                onClick={() => toggleRestriction(restriction)}
+                className={`p-2 text-sm rounded-lg border text-left capitalize ${
+                  settings.restrictions.includes(restriction)
+                    ? 'border-red-500 bg-red-50 text-red-700'
+                    : 'border-gray-200 hover:bg-gray-50'
+                }`}
+              >
+                {restriction.replace('-', ' ')}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div>
+          <h4 className="font-medium mb-3">Favorite Cuisines</h4>
+          <div className="grid grid-cols-3 gap-2">
+            {cuisineTypes.map(cuisine => (
+              <button
+                key={cuisine}
+                onClick={() => toggleFavorite(cuisine)}
+                className={`p-2 text-sm rounded-lg border text-left capitalize ${
+                  settings.favorites.includes(cuisine)
+                    ? 'border-green-500 bg-green-50 text-green-700'
+                    : 'border-gray-200 hover:bg-gray-50'
+                }`}
+              >
+                {cuisine}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div>
+          <h4 className="font-medium mb-3">Excluded Cuisines</h4>
+          <div className="grid grid-cols-3 gap-2">
+            {cuisineTypes.map(cuisine => (
+              <button
+                key={cuisine}
+                onClick={() => toggleExcluded(cuisine)}
+                className={`p-2 text-sm rounded-lg border text-left capitalize ${
+                  settings.excluded.includes(cuisine)
+                    ? 'border-red-500 bg-red-50 text-red-700'
+                    : 'border-gray-200 hover:bg-gray-50'
+                }`}
+              >
+                {cuisine}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div>
+          <h4 className="font-medium mb-3">Spice Level Preference</h4>
+          <div className="grid grid-cols-3 gap-4">
+            {[
+              { value: 'mild', label: 'Mild', description: 'Little to no spice' },
+              { value: 'medium', label: 'Medium', description: 'Moderate spice level' },
+              { value: 'hot', label: 'Hot', description: 'High spice level' }
+            ].map(({ value, label, description }) => (
+              <button
+                key={value}
+                onClick={() => onChange('spiciness', value)}
+                className={`p-4 rounded-lg border text-left ${
+                  settings.spiciness === value
+                    ? 'border-blue-500 bg-blue-50'
+                    : 'border-gray-200 hover:bg-gray-50'
+                }`}
+              >
+                <div className="font-medium">{label}</div>
+                <div className="text-xs text-gray-600 mt-1">{description}</div>
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+} 

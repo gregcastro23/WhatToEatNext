@@ -27,7 +27,7 @@ describe('Campaign System Test Integration', () => {
   afterEach(async () => {
     // Ensure cleanup after each test
     try {
-      campaignTestController.cleanupAfterTest('test-cleanup');
+      await campaignTestController.cleanupAfterTest('test-cleanup');
     } catch (error) {
       console.warn('Cleanup warning:', error);
     }
@@ -36,7 +36,7 @@ describe('Campaign System Test Integration', () => {
   afterAll(async () => {
     // Force cleanup of singleton instances
     const { CampaignTestController } = await import('../utils/CampaignTestController');
-    CampaignTestController.forceCleanup();
+    await CampaignTestController.forceCleanup();
   });
 
   describe('Campaign System Mocking', () => {
@@ -74,7 +74,7 @@ describe('Campaign System Test Integration', () => {
         expect(result.errorsFixed).toBeGreaterThan(0); // Mock fixes
 
       } finally {
-        cleanupCampaignTest('mock-initialization-test');
+        await cleanupCampaignTest('mock-initialization-test');
       }
     });
 
@@ -101,7 +101,7 @@ describe('Campaign System Test Integration', () => {
         expect(breakdown['TS2339']).toBeDefined();
 
       } finally {
-        cleanupCampaignTest('prevent-tsc-test');
+        await cleanupCampaignTest('prevent-tsc-test');
       }
     });
 
@@ -131,7 +131,7 @@ describe('Campaign System Test Integration', () => {
         expect(safetyEvents.some(e => e.type === SafetyEventType.CHECKPOINT_CREATED)).toBe(true);
 
       } finally {
-        cleanupCampaignTest('prevent-git-test');
+        await cleanupCampaignTest('prevent-git-test');
       }
     });
   });
@@ -179,7 +179,7 @@ describe('Campaign System Test Integration', () => {
         }
 
       } finally {
-        cleanupCampaignTest('memory-safe-tracking-test');
+        await cleanupCampaignTest('memory-safe-tracking-test');
       }
     });
 
@@ -198,7 +198,7 @@ describe('Campaign System Test Integration', () => {
             lintingWarnings: { current: 0, target: 0, reduction: 4506, percentage: 100 }
           };
 
-          context.testSafeTracker.simulateProgress(targetMetrics, 1000, 'simulation-test');
+          await context.testSafeTracker.simulateProgress(targetMetrics, 1000, 'simulation-test');
 
           const finalMetrics = await context.testSafeTracker.getProgressMetrics();
 
@@ -208,7 +208,7 @@ describe('Campaign System Test Integration', () => {
         }
 
       } finally {
-        cleanupCampaignTest('progress-simulation-test');
+        await cleanupCampaignTest('progress-simulation-test');
       }
     });
 
@@ -243,7 +243,7 @@ describe('Campaign System Test Integration', () => {
         expect(Array.isArray(phase.recommendations)).toBe(true);
 
       } finally {
-        cleanupCampaignTest('progress-report-test');
+        await cleanupCampaignTest('progress-report-test');
       }
     });
   });
@@ -264,7 +264,7 @@ describe('Campaign System Test Integration', () => {
         await expect(context.controller.executePhase(mockPhase)).rejects.toThrow('Campaign is paused');
 
         // Resume campaign
-        context.testController.resumeCampaignAfterTest('pause-resume-test');
+        await context.testController.resumeCampaignAfterTest('pause-resume-test');
         expect(context.testController.isPaused()).toBe(false);
         expect(context.controller.isPaused()).toBe(false);
 
@@ -273,7 +273,7 @@ describe('Campaign System Test Integration', () => {
         expect(result.success).toBe(true);
 
       } finally {
-        cleanupCampaignTest('pause-resume-test');
+        await cleanupCampaignTest('pause-resume-test');
       }
     });
 
@@ -291,7 +291,7 @@ describe('Campaign System Test Integration', () => {
         expect(metrics1.typeScriptErrors.current).toBe(10);
 
       } finally {
-        cleanupCampaignTest('isolation-test-1');
+        await cleanupCampaignTest('isolation-test-1');
       }
 
       // Second test should have clean state
@@ -306,7 +306,7 @@ describe('Campaign System Test Integration', () => {
         expect(metrics2.typeScriptErrors.current).toBeGreaterThan(10); // Should be initial value
 
       } finally {
-        cleanupCampaignTest('isolation-test-2');
+        await cleanupCampaignTest('isolation-test-2');
       }
     });
 
@@ -350,15 +350,15 @@ describe('Campaign System Test Integration', () => {
         // Perform multiple operations that could cause memory leaks
         for (let i = 0; i < 20; i++) {
           const mockPhase = createMockCampaignConfig().phases[0];
-          context.controller.executePhase(mockPhase);
+          await context.controller.executePhase(mockPhase);
 
           // Update metrics
-          context.testController.updateMockMetrics({
+          await context.testController.updateMockMetrics({
             typeScriptErrors: { current: 86 - i, target: 0, reduction: i, percentage: Math.round((i / 86) * 100) }
           }, `iteration-${i}`);
 
           // Create safety checkpoints
-          context.safety.createStash(`Checkpoint ${i}`, 'test-phase');
+          await context.safety.createStash(`Checkpoint ${i}`, 'test-phase');
         }
 
         // Validate memory usage
@@ -369,7 +369,7 @@ describe('Campaign System Test Integration', () => {
         expect(safetyEvents.length).toBeLessThan(100); // Should be limited to prevent memory issues
 
       } finally {
-        cleanupCampaignTest('memory-leak-prevention-test');
+        await cleanupCampaignTest('memory-leak-prevention-test');
       }
     });
 
@@ -382,7 +382,7 @@ describe('Campaign System Test Integration', () => {
 
       // Perform some operations
       const mockPhase = createMockCampaignConfig().phases[0];
-      context.controller.executePhase(mockPhase);
+      await context.controller.executePhase(mockPhase);
 
       if (context.testSafeTracker) {
         context.testSafeTracker.startTracking('cleanup-test');
@@ -392,7 +392,7 @@ describe('Campaign System Test Integration', () => {
       }
 
       // Cleanup
-      cleanupCampaignTest('resource-cleanup-test');
+      await cleanupCampaignTest('resource-cleanup-test');
 
       // Verify cleanup was effective
       expect(context.testController.isPaused()).toBe(false);
@@ -427,7 +427,7 @@ describe('Campaign System Test Integration', () => {
         expect(finalMetrics.typeScriptErrors.current).toBeLessThanOrEqual(scenario.initialMetrics.typeScriptErrors.current);
 
       } finally {
-        cleanupCampaignTest(scenario.name);
+        await cleanupCampaignTest(scenario.name);
       }
     });
 
@@ -447,7 +447,7 @@ describe('Campaign System Test Integration', () => {
         expect(finalMetrics.lintingWarnings.current).toBeLessThanOrEqual(scenario.initialMetrics.lintingWarnings.current);
 
       } finally {
-        cleanupCampaignTest(scenario.name);
+        await cleanupCampaignTest(scenario.name);
       }
     });
 
@@ -476,7 +476,7 @@ describe('Campaign System Test Integration', () => {
         expect(safetyEvents.length).toBeGreaterThan(0);
 
       } finally {
-        cleanupCampaignTest('failure-handling-test');
+        await cleanupCampaignTest('failure-handling-test');
       }
     });
   });
@@ -533,7 +533,7 @@ describe('Campaign System Test Integration', () => {
         ]);
 
       } finally {
-        cleanupCampaignTest('integration-validation-test');
+        await cleanupCampaignTest('integration-validation-test');
       }
     });
   });

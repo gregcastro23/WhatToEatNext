@@ -221,11 +221,16 @@ export const CookingMethodsSection: React.FC<CookingMethodsSectionProps> = ({
   }, [methods, selectedMethodId]);
   
   // Handle ingredient compatibility calculation
-  const calculateIngredientCompatibility = () => {
+  const calculateIngredientCompatibility = async () => {
     if (!searchIngredient.trim()) return;
     
-    // Calculate compatibility with each cooking method based on elemental properties
-    const compatibilityResults: Record<string, number> = {};
+    // Set loading state while calculating compatibility
+    setIsLoading(true);
+    setError(null);
+    
+    try {
+      // Calculate compatibility with each cooking method based on elemental properties
+      const compatibilityResults: Record<string, number> = {};
     
     methods?.forEach(method => {
       if (method.elementalEffect) {
@@ -270,7 +275,14 @@ export const CookingMethodsSection: React.FC<CookingMethodsSectionProps> = ({
       }
     });
     
-    setIngredientCompatibility(compatibilityResults);
+      setIngredientCompatibility(compatibilityResults);
+    } catch (err) {
+      console.error('Error calculating ingredient compatibility:', err);
+      setError(err instanceof Error ? err.message : 'Failed to calculate ingredient compatibility');
+      setIngredientCompatibility({});
+    } finally {
+      setIsLoading(false);
+    }
   };
   
   const toggleExpanded = () => {
@@ -659,7 +671,7 @@ export const CookingMethodsSection: React.FC<CookingMethodsSectionProps> = ({
                           <span className={styles['timing-label']}>Lunar Phase:</span>
                           <span className={styles['timing-value']}>
                             {Object.entries(method.astrologicalInfluences.lunarPhaseEffect)
-                              .sort(([,a], [,b]) => (b as number) - (a as number))
+                              .sort(([,a], [,b]) => (b ) - (a ))
                               .slice(0, 1)
                               .map(([phase]) => phase.replace('_', ' '))
                               .join(', ')}

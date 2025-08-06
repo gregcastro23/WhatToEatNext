@@ -101,6 +101,37 @@ const AstrologicalClock: React.FC = () => {
     );
   }
 
+  // Process planetary positions for enhanced display
+  const processedPositions: Record<string, ClockPlanetaryPosition> = React.useMemo(() => {
+    if (!planetaryPositions) return {};
+    
+    const processed: Record<string, ClockPlanetaryPosition> = {};
+    
+    Object.entries(planetaryPositions).forEach(([planet, position]) => {
+      if (position && typeof position === 'object') {
+        const posData = position as any;
+        const sign = posData.sign?.toLowerCase() || 'aries';
+        const degree = typeof posData.degree === 'number' ? posData.degree : 
+                       typeof posData.exactLongitude === 'number' ? posData.exactLongitude % 30 : 0;
+        
+        // Calculate dignity using the existing utility
+        const dignity = getPlanetaryDignity(planet, sign as ZodiacSign);
+        
+        processed[planet] = {
+          sign: sign as ZodiacSign,
+          degree: degree,
+          dignity: (dignity as any)?.type || dignity?.strength ? `${(dignity as any)?.type || 'Neutral'}` : undefined,
+          dignityValue: dignity?.strength || 0,
+          dignityDescription: (dignity as any)?.description || `${dignity?.strength > 0 ? 'Favorable' : dignity?.strength < 0 ? 'Challenging' : 'Neutral'} placement`,
+          exactLongitude: posData.exactLongitude,
+          isRetrograde: posData.isRetrograde || false
+        };
+      }
+    });
+    
+    return processed;
+  }, [planetaryPositions]);
+
   return (
     <div className="bg-white p-4 rounded-lg shadow-md">
       <div className="flex items-center justify-between mb-2">
@@ -159,6 +190,79 @@ const AstrologicalClock: React.FC = () => {
           North Node (☊) and South Node (☋) are displayed outside the chart for clarity
         </p>
       </div>
+
+      {/* Live Planetary Positions Display */}
+      {Object.keys(processedPositions).length > 0 && (
+        <div className="mt-4 p-3 bg-gradient-to-r from-indigo-50 to-purple-50 rounded-lg border">
+          <h3 className="text-sm font-semibold text-indigo-700 mb-2">🌟 Live Planetary Positions</h3>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+            {Object.entries(processedPositions).slice(0, 6).map(([planet, pos]) => (
+              <div key={planet} className="flex items-center justify-between p-2 bg-white rounded border">
+                <div className="flex items-center space-x-2">
+                  <span className="text-lg">{PLANET_SYMBOLS[planet] || '•'}</span>
+                  <div>
+                    <span className="font-medium text-gray-700">{planet}</span>
+                    {pos.isRetrograde && <span className="ml-1 text-red-500 text-xs">℞</span>}
+                  </div>
+                </div>
+                <div className="text-right">
+                  <div className="flex items-center space-x-1">
+                    <span className="text-base">{ZODIAC_SYMBOLS[pos.sign]}</span>
+                    <span className="text-gray-600">{pos.degree.toFixed(1)}°</span>
+                  </div>
+                  {pos.dignity && (
+                    <div className={`text-xs mt-1 ${
+                      (pos.dignityValue || 0) > 3 ? 'text-green-600' : 
+                      (pos.dignityValue || 0) < -3 ? 'text-red-600' : 'text-yellow-600'
+                    }`}>
+                      {pos.dignity} ({(pos.dignityValue || 0) > 0 ? '+' : ''}{pos.dignityValue?.toFixed(1)})
+                    </div>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+          
+          {Object.keys(processedPositions).length > 6 && (
+            <details className="mt-3">
+              <summary className="text-xs text-indigo-600 cursor-pointer">
+                Show remaining {Object.keys(processedPositions).length - 6} planets
+              </summary>
+              <div className="mt-2 grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                {Object.entries(processedPositions).slice(6).map(([planet, pos]) => (
+                  <div key={planet} className="flex items-center justify-between p-2 bg-white rounded border">
+                    <div className="flex items-center space-x-2">
+                      <span className="text-lg">{PLANET_SYMBOLS[planet] || '•'}</span>
+                      <div>
+                        <span className="font-medium text-gray-700">{planet}</span>
+                        {pos.isRetrograde && <span className="ml-1 text-red-500 text-xs">℞</span>}
+                      </div>
+                    </div>
+                    <div className="text-right">
+                      <div className="flex items-center space-x-1">
+                        <span className="text-base">{ZODIAC_SYMBOLS[pos.sign]}</span>
+                        <span className="text-gray-600">{pos.degree.toFixed(1)}°</span>
+                      </div>
+                      {pos.dignity && (
+                        <div className={`text-xs mt-1 ${
+                          (pos.dignityValue || 0) > 3 ? 'text-green-600' : 
+                          (pos.dignityValue || 0) < -3 ? 'text-red-600' : 'text-yellow-600'
+                        }`}>
+                          {pos.dignity} ({(pos.dignityValue || 0) > 0 ? '+' : ''}{pos.dignityValue?.toFixed(1)})
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </details>
+          )}
+          
+          <p className="text-xs text-gray-500 mt-2">
+            ℞ = Retrograde • Dignity values: Exaltation/Domicile (+), Detriment/Fall (-), Neutral (0)
+          </p>
+        </div>
+      )}
       
       <div className="mt-4 pt-3 border-t border-gray-200">
         <details className="text-sm">

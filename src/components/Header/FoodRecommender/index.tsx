@@ -631,7 +631,7 @@ const FoodRecommender: React.FC = () => {
                                         </div>
 
                                         {/* Alchemical Properties */}
-                                        {(Boolean(alchemical) ? (
+                                        {(alchemical ? (
                                         <div className="mt-3 mb-2">
                                             <h5 className="text-xs text-gray-300 mb-1">Alchemical Properties</h5>
                                             <div className="grid grid-cols-2 gap-x-2 gap-y-1">

@@ -418,7 +418,7 @@ const cachedAllIngredientsData: Ingredient[] | null = null;
 const cacheTimestamp: number = 0;
 const CACHE_TTL = 300000; // 5 minutes
 
-export const getAllIngredientsData = async (): Promise<any[]> => {
+export const getAllIngredientsData = async (): Promise<unknown[]> => {
   const allData: Ingredient[] = [];
   try {
     // Collect data from each category

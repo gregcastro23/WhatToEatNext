@@ -7,15 +7,16 @@
  */
 
 import { useState, useEffect, useCallback, useMemo } from 'react';
+
 import { 
   EnterpriseIntelligenceIntegration,
   enterpriseIntelligenceIntegration
 } from '@/services/EnterpriseIntelligenceIntegration';
+import type { ElementalProperties, ZodiacSign, LunarPhase } from '@/types/alchemy';
 import type { 
   EnterpriseIntelligenceConfig,
   EnterpriseIntelligenceResult 
 } from '@/types/enterpriseIntelligence';
-import type { ElementalProperties, ZodiacSign, LunarPhase } from '@/types/alchemy';
 import { logger } from '@/utils/logger';
 
 // ========== INTERFACES ==========

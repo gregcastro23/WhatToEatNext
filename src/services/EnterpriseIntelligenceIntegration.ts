@@ -8,8 +8,8 @@
  */
 
 import { RECIPE_COMPATIBILITY_INTELLIGENCE } from '@/calculations/index';
+import type { AdvancedIntelligenceConfig, AdvancedAnalyticsIntelligenceResult, IntegratedAdvancedIntelligenceResult, MLIntelligenceResult } from '@/types/advancedIntelligence';
 import type { ElementalProperties, ZodiacSign } from '@/types/alchemy';
-import { logger } from '@/utils/logger';
 import type {
   EnterpriseIntelligenceConfig,
   EnterpriseIntelligenceResult,
@@ -23,8 +23,8 @@ import type {
   CompatibilityAnalysis,
   OptimizationIntelligenceResult
 } from '@/types/enterpriseIntelligence';
-import type { AdvancedIntelligenceConfig, AdvancedAnalyticsIntelligenceResult, IntegratedAdvancedIntelligenceResult, MLIntelligenceResult } from '@/types/advancedIntelligence';
 import type { PredictiveIntelligenceResult } from '@/types/predictiveIntelligence';
+import { logger } from '@/utils/logger';
 
 
 

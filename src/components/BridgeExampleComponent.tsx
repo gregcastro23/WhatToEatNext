@@ -87,6 +87,44 @@ export default function BridgeExampleComponent() {
         <p className="text-sm text-gray-500 mb-1">Time of day:</p>
         <p className="font-medium">{isDaytime ? 'Daytime' : 'Nighttime'}</p>
       </div>
+
+      {/* Planetary Positions Overview - using previously unused variable */}
+      {planetaryPositions && Object.keys(planetaryPositions).length > 0 && (
+        <div className="bg-gradient-to-r from-purple-50 to-indigo-50 rounded-md p-3 mb-3 border">
+          <h3 className="text-sm font-semibold text-purple-700 mb-2">🌌 Complete Planetary Overview</h3>
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2 text-xs">
+            {Object.entries(planetaryPositions)
+              .filter(([_, data]) => data && typeof data === 'object')
+              .map(([planet, data]: [string, any]) => {
+                const sign = data.sign || 'unknown';
+                const degree = typeof data.degree === 'number' ? data.degree : 
+                              typeof data.exactLongitude === 'number' ? data.exactLongitude % 30 : 0;
+                
+                return (
+                  <div key={planet} className="bg-white rounded p-2 shadow-sm">
+                    <div className="font-medium text-gray-700 text-xs">{planet}</div>
+                    <div className="text-xs text-gray-500">
+                      {sign.charAt(0).toUpperCase() + sign.slice(1)} {degree.toFixed(1)}°
+                    </div>
+                    {data.isRetrograde && (
+                      <span className="inline-block text-orange-500 text-xs">℞</span>
+                    )}
+                    {isDaytime && planet === 'Sun' && (
+                      <span className="inline-block text-yellow-500 text-xs ml-1">☀</span>
+                    )}
+                    {!isDaytime && planet === 'Moon' && (
+                      <span className="inline-block text-blue-400 text-xs ml-1">🌙</span>
+                    )}
+                  </div>
+                );
+              })
+            }
+          </div>
+          <p className="text-xs text-gray-500 mt-2">
+            ℞ = Retrograde • {isDaytime ? '☀ Solar' : '🌙 Lunar'} emphasis active
+          </p>
+        </div>
+      )}
       
       <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
         {Object.entries(dataSource)

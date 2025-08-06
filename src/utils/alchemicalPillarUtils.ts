@@ -396,13 +396,13 @@ export function transformIngredient(
   // Apply planetary influences if provided
   if (planet) {
     transformedItem = applyPlanetaryInfluence(transformedItem, planet, isDaytime);
-    (influences as any[]).push(`${planet} (${isDaytime ? 'Day' : 'Night'})`);
+    (influences as unknown[]).push(`${planet} (${isDaytime ? 'Day' : 'Night'})`);
   }
   
   // Apply tarot influences if provided
   if (tarotCard) {
     transformedItem = applyTarotInfluence(transformedItem, tarotCard);
-    (influences as any[]).push(tarotCard);
+    (influences as unknown[]).push(tarotCard);
   }
   
   return transformedItem;
@@ -620,10 +620,10 @@ export const getHolisticCookingRecommendations = async (
     if (pillar) {
       // Add which properties it enhances
       const enhancedProps: string[] = [];
-      if (pillar.effects.Spirit > 0) (enhancedProps as any[]).push("Spirit");
-      if (pillar.effects.Essence > 0) (enhancedProps as any[]).push("Essence");
-      if (pillar.effects.Matter > 0) (enhancedProps as any[]).push("Matter");
-      if (pillar.effects.Substance > 0) (enhancedProps as any[]).push("Substance");
+      if (pillar.effects.Spirit > 0) (enhancedProps as unknown[]).push("Spirit");
+      if (pillar.effects.Essence > 0) (enhancedProps as unknown[]).push("Essence");
+      if (pillar.effects.Matter > 0) (enhancedProps as unknown[]).push("Matter");
+      if (pillar.effects.Substance > 0) (enhancedProps as unknown[]).push("Substance");
       
       reason = `${(pillar as unknown as Record<string, unknown>).name} `;
       
@@ -639,13 +639,13 @@ export const getHolisticCookingRecommendations = async (
         const elementalAssociations = pillarData.elementalAssociations as Record<string, unknown>;
         const elements = [String(elementalAssociations.primary || '')];
         if (elementalAssociations.secondary) {
-          (elements as any[]).push(String(elementalAssociations.secondary));
+          (elements as unknown[]).push(String(elementalAssociations.secondary));
         }
         reason += ` with ${elements.join("-")} energy`;
       }
     }
     
-    (compatibility as any[]).push({
+    (compatibility as unknown[]).push({
       method: method.toString(),
       compatibility: compatibilityScore,
       reason
@@ -929,11 +929,11 @@ function generateHealthBenefits(methodName: string, item: AlchemicalItem): strin
   
   // Add method-specific benefits
   if (methodName.toLowerCase().includes('steam')) {
-    (benefits as any[]).push('Preserves nutrients', 'Low fat cooking');
+    (benefits as unknown[]).push('Preserves nutrients', 'Low fat cooking');
   } else if (methodName.toLowerCase().includes('grill')) {
-    (benefits as any[]).push('Reduces fat content', 'High protein retention');
+    (benefits as unknown[]).push('Reduces fat content', 'High protein retention');
   } else if (methodName.toLowerCase().includes('roast')) {
-    (benefits as any[]).push('Concentrates flavors', 'Preserves vitamins');
+    (benefits as unknown[]).push('Concentrates flavors', 'Preserves vitamins');
   }
 
   // Add item-specific benefits based on alchemical properties
@@ -942,10 +942,10 @@ function generateHealthBenefits(methodName: string, item: AlchemicalItem): strin
   const matter = Number(item.matter || 0);
   const substance = Number(item.substance || 0);
 
-  if (spirit > 0.4) (benefits as any[]).push('Enhances vitality');
-  if (essence > 0.4) (benefits as any[]).push('Supports emotional balance');
-  if (matter > 0.4) (benefits as any[]).push('Strengthens physical health');
-  if (substance > 0.4) (benefits as any[]).push('Provides sustained energy');
+  if (spirit > 0.4) (benefits as unknown[]).push('Enhances vitality');
+  if (essence > 0.4) (benefits as unknown[]).push('Supports emotional balance');
+  if (matter > 0.4) (benefits as unknown[]).push('Strengthens physical health');
+  if (substance > 0.4) (benefits as unknown[]).push('Provides sustained energy');
 
   return benefits;
 }
@@ -960,21 +960,21 @@ function generateRecommendationReason(
   
   // Add method-specific reasons
   if (methodName.toLowerCase().includes('steam')) {
-    (reasons as any[]).push('Gentle cooking preserves delicate properties');
+    (reasons as unknown[]).push('Gentle cooking preserves delicate properties');
   } else if (methodName.toLowerCase().includes('grill')) {
-    (reasons as any[]).push('High heat enhances transformative effects');
+    (reasons as unknown[]).push('High heat enhances transformative effects');
   } else if (methodName.toLowerCase().includes('roast')) {
-    (reasons as any[]).push('Slow cooking develops complex flavors');
+    (reasons as unknown[]).push('Slow cooking develops complex flavors');
   }
 
   // Add astrological reasons
   if (options.zodiacSign) {
-    (reasons as any[]).push(`Aligned with ${options.zodiacSign} energy`);
+    (reasons as unknown[]).push(`Aligned with ${options.zodiacSign} energy`);
   }
 
   // Add time constraint reasons
   if (options.timeConstraint) {
-    (reasons as any[]).push('Fits within time constraints');
+    (reasons as unknown[]).push('Fits within time constraints');
   }
 
   return reasons.join('. ') || 'Optimal alchemical compatibility';

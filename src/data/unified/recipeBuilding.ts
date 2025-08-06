@@ -1359,9 +1359,9 @@ export class UnifiedRecipeBuildingSystem {
     }
     
     // Confidence from alchemical balance
-    const elementalBalance = Object.values((recipe.alchemicalProperties as any)?.elementalProperties || {}) as number[];
+    const elementalBalance = Object.values((recipe.alchemicalProperties as any)?.elementalProperties || {}) ;
     const balanceVariance = elementalBalance.length > 0 
-      ? Math.abs(elementalBalance.reduce((a: number, b: number) => a + (b || 0), 0) / 4 - 0.25)
+      ? Math.abs((elementalBalance as number[]).reduce((a: number, b: number) => a + (b || 0), 0) / 4 - 0.25)
       : 0;
     if (balanceVariance < 0.1) {
       confidence += 0.05; // Well-balanced elements increase confidence

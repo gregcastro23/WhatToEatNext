@@ -12,7 +12,6 @@ import {
 import cookingMethods from '@/data/cooking/cookingMethods'
 import ingredients from '@/data/ingredients'
 import { UnifiedIngredient } from '@/data/unified/unifiedTypes'
-import { CookingMethod } from '@/types/alchemy'
 import {
   AlchemicalRecommendationService,
   AlchemicalRecommendation,
@@ -21,6 +20,7 @@ import {
   fetchPlanetaryPositions,
 } from '@/services/astrologizeApi'
 import { alchemize, StandardizedAlchemicalResult } from '@/services/RealAlchemizeService'
+import { CookingMethod } from '@/types/alchemy'
 import { PlanetPosition } from '@/utils/astrologyUtils'
 import { logger } from '@/utils/logger'
 

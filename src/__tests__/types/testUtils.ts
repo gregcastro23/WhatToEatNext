@@ -37,7 +37,7 @@ export interface ScriptMock {
   executeScript: jest.MockedFunction<(scriptPath: string) => Promise<{ success: boolean; output: string }>>;
   executeCommand: jest.MockedFunction<(command: string) => Promise<{ stdout: string; stderr: string; exitCode: number }>>;
   getScriptOutput: jest.MockedFunction<() => string>;
-  mockResults: Record<string, any>;
+  mockResults: Record<string, unknown>;
   mockBuildSuccess: boolean;
   mockTestSuccess: boolean;
   shouldFailExecution: boolean;

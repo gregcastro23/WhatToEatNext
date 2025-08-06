@@ -7,7 +7,7 @@ import path from 'path';
  */
 export class NextConfigOptimizer {
   private readonly configPath: string;
-  private readonly logger: (message: string, ...args: any[]) => void;
+  private readonly logger: (message: string, ...args: unknown[]) => void;
 
   constructor(configPath = 'next.config.js', logger = console.log) {
     this.configPath = configPath;
