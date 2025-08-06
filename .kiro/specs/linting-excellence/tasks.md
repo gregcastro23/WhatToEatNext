@@ -4,13 +4,13 @@ This implementation plan systematically addresses linting excellence through a s
 
 **Current Status (Updated):**
 - **TypeScript Errors**: 0 (✅ ZERO ERRORS ACHIEVED!)
-- **Total Linting Issues**: 6,209 (2,696 errors, 3,513 warnings)
+- **Total Linting Issues**: 6,097 (2,613 errors, 3,488 warnings)
 - **Key Error Categories**:
-  - Explicit-any errors: 1,800 (high priority)
-  - Unused variables: 1,466 (high priority)
-  - Console statements: 1,425 (medium priority)
-  - Floating promises: 252 (medium priority)
-  - Optional chain opportunities: 175 (low priority)
+  - Explicit-any errors: 1,780 (high priority)
+  - Console statements: 1,425 (high priority)
+  - Unused variables: 1,399 (high priority)
+  - Floating promises: 253 (medium priority)
+  - Optional chain opportunities: 168 (low priority)
 
 ## Phase 1: Critical Error Resolution (Priority: Emergency) - ✅ COMPLETED
 
@@ -265,14 +265,14 @@ This implementation plan systematically addresses linting excellence through a s
 
 **Target Metrics - MAJOR MILESTONE ACHIEVED:**
 - **TypeScript Errors**: 2,566 → 0 (100% reduction achieved) 🎉 **ZERO ERRORS ACHIEVED!**
-- **Linting Issues**: ~6,235 → 6,209 (0.4% reduction achieved) 🔄 IN PROGRESS
-- **Current Breakdown**: 2,696 errors, 3,513 warnings
+- **Linting Issues**: ~6,235 → 6,097 (2.2% reduction achieved) 🔄 IN PROGRESS
+- **Current Breakdown**: 2,613 errors, 3,488 warnings
 - **Key Error Categories Remaining:**
-  - Explicit-any errors: 1,800 (high priority)
-  - Unused variables: 1,466 (high priority)
-  - Console statements: 1,425 (medium priority)
-  - Floating promises: 252 (medium priority)
-  - Optional chain opportunities: 175 (low priority)
+  - Explicit-any errors: 1,780 (high priority)
+  - Console statements: 1,425 (high priority)
+  - Unused variables: 1,399 (high priority)
+  - Floating promises: 253 (medium priority)
+  - Optional chain opportunities: 168 (low priority)
 - **High-Impact Files**: 6 files with 100+ issues → 6/6 resolved (100% complete) ✅
   - AdvancedAnalyticsIntelligenceService.ts: 196→0 ✅
   - MLIntelligenceService.ts: 158→0 ✅
@@ -316,14 +316,14 @@ This implementation plan systematically addresses linting excellence through a s
 - **Incremental**: Changed file analysis < 10 seconds ✅ ACHIEVED
 
 **Available Automation Scripts:**
-- fix-explicit-any-systematic.cjs and fix-explicit-any-direct.cjs (1,800 errors)
-- fix-unused-variables-final.cjs and fix-unused-vars-systematic.cjs (1,466 errors)
-- fix-console-statements.cjs (1,425 errors)
-- fix-await-thenable-errors.cjs and fix-promise-handling.cjs (252 errors)
-- fix-complex-import-order.cjs and fix-import-issues.cjs (63 import issues)
-- fix-html-entities-comprehensive.cjs and fix-jsx-entities-safe.cjs (JSX fixes)
-- fix-redundant-assertions.cjs and fix-unnecessary-assertions.cjs (13 issues)
-- optimize-eslint-performance.cjs (configuration tuning)
+- fix-explicit-any-targeted.cjs and reduce-explicit-any-errors.cjs (1,780 errors)
+- cleanup-unused-variables.cjs and fix-high-impact-files.cjs (1,399 errors)
+- fix-floating-promises.cjs (253 errors)
+- fix-await-thenable-errors.cjs for thenable issues (32 errors)
+- fix-non-null-assertions.cjs for type assertion cleanup (11 issues)
+- fix-unnecessary-type-assertion.cjs for redundant assertions (13 issues)
+- fix-console-statements.cjs (needs creation for 1,425 errors)
+- fix-optional-chains.cjs (needs creation for 168 issues)
 
 ## Phase 9: Critical Error Resolution (Priority: High) - ✅ COMPLETED
 
@@ -354,81 +354,54 @@ This implementation plan systematically addresses linting excellence through a s
   - ✅ Used rollback safety protocols to maintain code stability
   - _Requirements: 2.4, 3.1_
 
-## Phase 10: Major Warning Categories Resolution (Priority: High)
 
-- [ ] 10.1 Unused Variables Mass Cleanup (1,528 errors remaining)
-  - Execute fix-unused-variables-final.cjs for comprehensive cleanup
-  - Apply fix-unused-vars-systematic.cjs for domain-aware patterns
-  - Preserve astrological domain variables (planet, degree, sign, longitude)
-  - Preserve campaign system variables (metrics, progress, safety, campaign)
-  - Apply systematic prefixing patterns (UNUSED_, _variable) for preserved variables
-  - Target 90% reduction using proven automation patterns (1,375 errors eliminated)
-  - _Requirements: 2.2, 3.2, 4.1, 4.4_
-
-- [ ] 10.2 Floating Promises Resolution (251 errors remaining)
-  - Execute fix-promise-handling.cjs for systematic promise handling
-  - Apply fix-await-thenable-errors.cjs for await/thenable issues
-  - Add proper await statements for async operations
-  - Implement proper error handling in campaign systems
-  - Preserve fire-and-forget logging in astronomical calculations
-  - Target 95% reduction (238 errors eliminated)
-  - _Requirements: 2.1, 2.4_
-
-- [ ] 10.3 Import and Code Quality Optimization (Remaining warnings)
-  - Execute fix-complex-import-order.cjs for import organization
-  - Apply fix-import-issues.cjs for unresolved imports
-  - Run fix-unnecessary-conditions.cjs for condition optimization
-  - Execute optimize-eslint-performance.cjs for configuration tuning
-  - Standardize import ordering and remove unused imports
-  - Target 85% reduction in remaining warning categories
-  - _Requirements: 2.3, 3.3, 3.5_
 
 ## Phase 10: Major Warning Categories Resolution (Priority: High)
 
-- [ ] 10.1 Unused Variables Mass Cleanup (1,466 errors remaining)
-  - Execute fix-unused-variables-final.cjs for comprehensive cleanup
-  - Apply fix-unused-vars-systematic.cjs for domain-aware patterns
-  - Preserve astrological domain variables (planet, degree, sign, longitude)
-  - Preserve campaign system variables (metrics, progress, safety, campaign)
-  - Apply systematic prefixing patterns (UNUSED_, _variable) for preserved variables
-  - Target 90% reduction using proven automation patterns (1,319 errors eliminated)
-  - _Requirements: 2.2, 3.2, 4.1, 4.4_
-
-- [ ] 10.2 Explicit Any Type Elimination (1,800 errors remaining)
-  - Execute fix-explicit-any-systematic.cjs for safe type replacements
-  - Apply fix-explicit-any-direct.cjs for straightforward cases
+- [ ] 10.1 Explicit Any Type Elimination (1,780 errors remaining)
+  - Execute fix-explicit-any-targeted.cjs for safe type replacements
+  - Apply reduce-explicit-any-errors.cjs for systematic elimination
   - Replace `any` with `unknown` for truly unknown types
   - Generate proper TypeScript interfaces for service layers
   - Preserve necessary `any` in astronomical library integrations
-  - Target 80% reduction (1,440 errors eliminated)
+  - Target 80% reduction (1,424 errors eliminated)
   - _Requirements: 2.4, 3.1_
 
-- [ ] 10.3 Console Statement Cleanup (1,425 errors remaining)
-  - Execute fix-console-statements.cjs for systematic console removal
-  - Preserve intentional console statements in debug files
-  - Convert development console.log to proper logging
-  - Maintain console interception in test files
-  - Apply domain-specific patterns for astrological debugging
+- [ ] 10.2 Console Statement Cleanup (1,425 errors remaining)
+  - Create fix-console-statements.cjs script for systematic console removal
+  - Preserve intentional console statements in debug files and test files
+  - Convert development console.log to proper logging or comments
+  - Maintain console interception in test files and planet-test layouts
+  - Apply domain-specific patterns for astrological debugging preservation
   - Target 95% reduction (1,354 errors eliminated)
   - _Requirements: 2.5, 4.1, 4.4_
 
-- [ ] 10.4 Floating Promises Resolution (252 errors remaining)
-  - Execute fix-promise-handling.cjs for systematic promise handling
+- [ ] 10.3 Unused Variables Mass Cleanup (1,399 errors remaining)
+  - Execute cleanup-unused-variables.cjs for comprehensive cleanup
+  - Apply fix-high-impact-files.cjs for domain-aware patterns
+  - Preserve astrological domain variables (planet, degree, sign, longitude)
+  - Preserve campaign system variables (metrics, progress, safety, campaign)
+  - Apply systematic prefixing patterns (UNUSED_, _variable) for preserved variables
+  - Target 90% reduction (1,259 errors eliminated)
+  - _Requirements: 2.2, 3.2, 4.1, 4.4_
+
+- [ ] 10.4 Floating Promises Resolution (253 errors remaining)
+  - Execute fix-floating-promises.cjs for systematic promise handling
   - Apply fix-await-thenable-errors.cjs for await/thenable issues
   - Add proper await statements for async operations
   - Implement proper error handling in campaign systems
   - Preserve fire-and-forget logging in astronomical calculations
-  - Target 95% reduction (239 errors eliminated)
+  - Target 95% reduction (240 errors eliminated)
   - _Requirements: 2.1, 2.4_
 
 ## Phase 11: Final Excellence Achievement (Priority: Medium)
 
 - [ ] 11.1 Remaining Error Categories Resolution
-  - Execute fix-complex-import-order.cjs for import organization (63 issues)
-  - Apply fix-unnecessary-conditions.cjs for condition optimization
-  - Run fix-redundant-assertions.cjs and fix-unnecessary-assertions.cjs (13 issues)
-  - Execute fix-html-entities-comprehensive.cjs for JSX entity fixes
-  - Address remaining optional chain opportunities (175 issues)
+  - Create fix-optional-chains.cjs script to address remaining optional chain opportunities (168 issues)
+  - Execute fix-non-null-assertions.cjs for type assertion cleanup (11 issues)
+  - Run fix-unnecessary-type-assertion.cjs for redundant assertions (13 issues)
+  - Apply fix-await-thenable-errors.cjs for thenable issues (32 issues)
+  - Address remaining misused promises (62 issues)
   - _Requirements: 2.3, 3.3, 3.5_
 
 - [ ] 11.2 Performance and Configuration Optimization
@@ -441,7 +414,7 @@ This implementation plan systematically addresses linting excellence through a s
 
 - [ ] 11.3 Final Validation and Excellence Certification
   - Achieve zero TypeScript compilation errors ✅ ALREADY ACHIEVED
-  - Reduce linting issues from 6,209 to under 100 (98% reduction)
+  - Reduce linting issues from 6,097 to under 100 (98% reduction)
   - Validate all automation scripts execute successfully
   - Confirm build stability and test suite passes
   - Generate comprehensive achievement report and metrics
