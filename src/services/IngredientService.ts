@@ -39,7 +39,7 @@ import type { Season as _Season } from '@/types/seasons';
 import type { ZodiacSign as _ZodiacSign } from '../types/zodiac';
 import type { ElementalFilter } from '../types/elemental';
 import type { NutritionalFilter, NutritionData } from '../types/nutrition';
-import type { SpoonacularNutritionData } from '../types/spoonacular';
+// SpoonacularNutritionData import removed with cleanup
 
 import { UnifiedIngredient } from '@/data/unified/unifiedTypes';
 
@@ -93,7 +93,7 @@ export class IngredientService implements IngredientServiceInterface {
   private allIngredients: Record<string, Record<string, IngredientMapping>>;
   private unifiedIngredients: Record<string, UnifiedIngredient[]>;
   private unifiedIngredientsFlat: UnifiedIngredient[];
-  private spoonacularCache: Map<string, SpoonacularNutritionData> = new Map();
+  // spoonacularCache removed with cleanup
 
   /**
    * Private constructor to enforce singleton pattern
@@ -1752,7 +1752,7 @@ export class IngredientService implements IngredientServiceInterface {
    */
   public clearCache(): void {
     try {
-      this.spoonacularCache.clear();
+      // spoonacularCache removed - no cache to clear
       logger.info('Ingredient service cache cleared successfully');
     } catch (error) {
       logger.error('Error clearing ingredient service cache:', error);

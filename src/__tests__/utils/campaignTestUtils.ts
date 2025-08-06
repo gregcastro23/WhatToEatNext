@@ -18,7 +18,7 @@ import {
   MockCampaignController,
   MockProgressTracker,
   MockSafetyProtocol,
-  campaignTestIsolation
+  campaignTestIsolation as _campaignTestIsolation
 } from '../mocks/CampaignSystemMocks';
 
 import { campaignTestController, CampaignTestController } from './CampaignTestController';
@@ -58,8 +58,8 @@ export async function setupCampaignTest(setup: CampaignTestSetup): Promise<Campa
     preventActualBuilds = true,
     preventGitOperations = true,
     mockProgressTracking = true,
-    simulateRealProgress = false,
-    customConfig
+    simulateRealProgress: _simulateRealProgress = false,
+    customConfig: _customConfig
   } = setup;
 
   // Initialize test controller with configuration

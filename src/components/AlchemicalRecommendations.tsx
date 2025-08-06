@@ -6,7 +6,7 @@ import { ElementalCharacter, AlchemicalProperty } from '@/constants/planetaryEle
 import { RulingPlanet } from '@/constants/planets';
 import {
   BalancedElementalProperties,
-  DefaultAlchemicalProperties,
+  DefaultAlchemicalProperties as _DefaultAlchemicalProperties,
   createSafeElementalProperties
 } from '@/constants/typeDefaults';
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
@@ -16,11 +16,11 @@ import allIngredients from '@/data/ingredients';
 import type { Modality } from '@/data/ingredients/types';
 import { useAlchemicalRecommendations } from '@/hooks/useAlchemicalRecommendations';
 import type {
-  AlchemicalServiceResponse,
+  AlchemicalServiceResponse as _AlchemicalServiceResponse,
   AlchemicalRecommendations,
   ElementalRecommendation
 } from '@/services/AlchemicalService';
-import { LunarPhaseWithSpaces, ZodiacSign, PlanetaryAspect } from '@/types/alchemy';
+import { LunarPhaseWithSpaces as _LunarPhaseWithSpaces, ZodiacSign as _ZodiacSign, PlanetaryAspect } from '@/types/alchemy';
 
 // Import the correct data sources
 
@@ -34,7 +34,7 @@ import type {
 } from '@/types/alchemy';
 import { createAstrologicalBridge } from '@/types/bridges/astrologicalBridge';
 import { determineIngredientModality } from '@/utils/ingredientUtils';
-import { safelyExtractElementalProperties, createDefaultElementalProperties } from '@/utils/typeGuards/astrologicalGuards';
+import { safelyExtractElementalProperties, createDefaultElementalProperties as _createDefaultElementalProperties } from '@/utils/typeGuards/astrologicalGuards';
 
 // ========== PHASE 4: UPDATED IMPORTS TO USE TYPE ALIASES ==========
 
@@ -61,7 +61,7 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
   tarotElementBoosts,
   tarotPlanetaryBoosts,
   aspects = [],
-  targetElementalProfile,
+  targetElementalProfile: _targetElementalProfile,
   targetAlchemicalProfile,
   maxRecommendations = 5,
   includeDetailedAnalysis = false

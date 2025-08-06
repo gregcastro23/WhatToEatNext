@@ -125,7 +125,7 @@ describe('TestMemoryMonitor', () => {
     });
 
     it('should perform cleanup operations', () => {
-      const memoryBefore = process.memoryUsage().heapUsed;
+      const UNUSED_memoryBefore = process.memoryUsage().heapUsed;
       
       const cleanupResult = monitor.cleanup('cleanup-test');
       

@@ -465,7 +465,7 @@ describe('Domain Validation Tests - Task 12', () => {
 
       const result = JSON.parse(mockExecSync('domain-validation-summary').toString());
 
-      Object.entries(result).forEach(([domain, status]) => {
+      Object.entries(result).forEach(([_domain, status]) => {
         expect(status).toBe('PASSED');
       });
 

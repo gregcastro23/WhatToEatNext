@@ -639,7 +639,7 @@ describe('ZeroErrorAchievementDashboard', () => {
       expect(results).toBeInstanceOf(Map);
 
       // Check if any failed results were recorded
-      for (const [id, result] of results) {
+      for (const [_id, result] of results) {
         if (!result.success) {
           expect(result.issues.length).toBeGreaterThan(0);
           expect(result.nextActions.length).toBeGreaterThan(0);

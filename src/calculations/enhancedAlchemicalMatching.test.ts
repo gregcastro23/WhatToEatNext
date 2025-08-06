@@ -39,7 +39,7 @@ describe('Enhanced Alchemical Matching Algorithms', () => {
       );
       
       // Leo (Fixed Fire) and Sagittarius (Mutable Fire)
-      const differentModalityCompat2 = calculateAstrologicalAffinity(
+      const _differentModalityCompat2 = calculateAstrologicalAffinity(
         'leo' as ZodiacSign, 
         'sagittarius' as ZodiacSign
       );
@@ -65,13 +65,13 @@ describe('Enhanced Alchemical Matching Algorithms', () => {
       
       // Taurus (Fixed Earth) and Virgo (Mutable Earth)
       // Earth has high affinity with Fixed quality
-      const earthSignsCompat = calculateAstrologicalAffinity(
+      const _earthSignsCompat = calculateAstrologicalAffinity(
         'taurus' as ZodiacSign, 
         'virgo' as ZodiacSign
       );
       
       // Cardinal Fire and Fixed Fire
-      const fireSignsCompat = calculateAstrologicalAffinity(
+      const _fireSignsCompat = calculateAstrologicalAffinity(
         'aries' as ZodiacSign, 
         'leo' as ZodiacSign
       );

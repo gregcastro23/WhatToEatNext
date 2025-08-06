@@ -2,7 +2,7 @@
 import type { TarotCard } from '../contexts/TarotContext/types';
 import type { CelestialAlignment, ElementalProperties, EnergyStateProperties, ChakraEnergies, ZodiacSign, AspectType, PlanetaryAspect, CelestialBody } from '../types/alchemy';
 import type { LunarPhase } from '../types/shared';
-import * as astronomiaCalculator from '../utils/astronomiaCalculator';
+// astronomia calculator removed - using direct calculations
 import { cache } from '../utils/cache';
 import { logger } from '../utils/logger';
 import { celestialNumerology } from '../utils/numerology';
@@ -180,12 +180,8 @@ class CelestialCalculator {
       // Get current planetary positions
       let planetaryPositions: PlanetaryPositionRecord = {};
       try {
-        // Try to use the astronomy calculator to get actual positions
-        if (typeof astronomiaCalculator.calculatePlanetaryPositions === 'function') {
-          planetaryPositions = astronomiaCalculator.calculatePlanetaryPositions(now) as PlanetaryPositionRecord;
-        } else {
-          throw new Error('Astronomy calculator function not available');
-        }
+        // Use fallback positions since astronomia has been removed
+        throw new Error('Astronomy calculator removed - using fallback positions');
       } catch (error) {
         // Fallback to default positions if we can't calculate them
         planetaryPositions = {
@@ -253,13 +249,7 @@ class CelestialCalculator {
    */
   private calculateMoonSign(date: Date): string {
     try {
-      // Try to use the astronomy calculator
-      if (typeof astronomiaCalculator.calculatePlanetaryPositions === 'function') {
-        const positions = astronomiaCalculator.calculatePlanetaryPositions(date);
-        if (positions?.moon && positions.moon.sign) {
-          return positions.moon.sign;
-        }
-      }
+      // Astronomy calculator removed - use fallback calculation
       
       // Fallback to simplified calculation
       const msPerDay = 1000 * 60 * 60 * 24;
@@ -792,18 +782,7 @@ class CelestialCalculator {
    * Calculate lunar phase using more accurate astronomy model
    */
   private calculateLunarPhase(date: Date): string {
-    // Try to use the astronomy calculator if available
-    try {
-      // Apply safe type casting for module property access
-      const calculator = astronomiaCalculator as Record<string, unknown>;
-      if (typeof calculator !== 'undefined' && 
-          typeof calculator.calculateLunarPhase === 'function') {
-        const lunarPhase = calculator.calculateLunarPhase(date);
-        if (lunarPhase) return lunarPhase;
-      }
-    } catch (error) {
-      console.warn('Failed to use astronomy calculator for lunar phase:', error);
-    }
+    // Astronomy calculator removed - use direct calculation
     
     // More accurate calculation using precise synodic period and reference date
     const synodicPeriod = 29.530588853; // days - precise synodic period (new moon to new moon)

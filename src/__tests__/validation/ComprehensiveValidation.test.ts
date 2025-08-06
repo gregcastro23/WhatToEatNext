@@ -10,7 +10,7 @@
  */
 
 import { execSync } from 'child_process';
-import { readFileSync, existsSync } from 'fs';
+import { readFileSync as _readFileSync, existsSync } from 'fs';
 import path from 'path';
 import { performance } from 'perf_hooks';
 
@@ -19,7 +19,7 @@ import { jest } from '@jest/globals';
 // Import test utilities
 
 // Import system components for testing
-import { logger } from '../../utils/logger';
+import { logger as _logger } from '../../utils/logger';
 import { performEmergencyCleanup } from '../setupMemoryManagement';
 import { TestMemoryMonitor } from '../utils/TestMemoryMonitor';
 
@@ -186,7 +186,7 @@ describe('Comprehensive Validation Test Suite - Task 12', () => {
         const startTime = performance.now();
         
         // Mock fast ESLint execution
-        mockExecSync.mockImplementation((command: string) => {
+        mockExecSync.mockImplementation((_command: string) => {
           // Simulate processing time
           const processingTime = 1500; // 1.5 seconds
           const start = Date.now();

@@ -355,7 +355,7 @@ export function getPlanetaryCulinaryRecommendations(
   // Get top 3 dominant planets
   const topPlanets = dominantPlanets.slice(0, 3);
 
-  (topPlanets || []).forEach(({ planet, element }) => {
+  (topPlanets || []).forEach(({ planet, element: _element }) => {
     const planetKey = planet.toLowerCase();
 
     // Planetary ingredient associations

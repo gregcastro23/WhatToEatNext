@@ -1,4 +1,4 @@
-import { usdaNutritionalData } from '@/data/usdaNutritionalData';
+import { baseNutritionalProfiles, fetchNutritionalData } from '@/data/nutritional';
 import { NutritionalProfile } from '@/types/alchemy';
 
 /**
@@ -22,44 +22,36 @@ export function normalizeIngredientName(name: string): string {
 
 /**
  * Get nutritional data for an ingredient by name
+ * Uses local nutritional database instead of external USDA API
  * 
  * @param ingredientName The name of the ingredient
  * @returns Nutritional profile or null if not found
  */
-export function getNutritionalData(ingredientName: string): NutritionalProfile | null {
-  // Normalize the name for lookup
-  const normalizedName = normalizeIngredientName(ingredientName);
+export async function getNutritionalData(ingredientName: string): Promise<NutritionalProfile | null> {
+  // Use the fetchNutritionalData function from nutritional.ts
+  const profile = await fetchNutritionalData(ingredientName);
   
-  // Try exact match first
-  if (usdaNutritionalData[normalizedName]) {
-    return usdaNutritionalData[normalizedName];
-  }
+  if (!profile) return null;
   
-  // If no exact match, try fuzzy matching by checking if the normalized name
-  // contains our search term or vice versa
-  const keys = Object.keys(usdaNutritionalData);
+  // Convert profile to match alchemy types
+  const alchemyProfile: any = {
+    ...profile,
+    // Convert phytonutrients from Record<string, number> to string[]
+    phytonutrients: profile.phytonutrients && typeof profile.phytonutrients === 'object' && !Array.isArray(profile.phytonutrients)
+      ? Object.keys(profile.phytonutrients)
+      : profile.phytonutrients
+  };
   
-  // Try to find a key that contains our search term or vice versa
-  const matchedKey = keys.find(key => 
-    key.includes(normalizedName) || normalizedName.includes(key)
-  );
-  
-  if (matchedKey) {
-    return usdaNutritionalData[matchedKey];
-  }
-  
-  return null;
+  return alchemyProfile;
 }
 
 /**
- * Get a list of all available ingredient names with nutritional data
+ * Get a list of all available ingredient categories with nutritional data
  * 
- * @returns Array of ingredient names
+ * @returns Array of ingredient category names
  */
 export function getAvailableNutritionalIngredients(): string[] {
-  return Object.keys(usdaNutritionalData).map(key => 
-    (usdaNutritionalData[key] as any)?.name || key
-  );
+  return Object.keys(baseNutritionalProfiles);
 }
 
 /**
@@ -69,16 +61,16 @@ export function getAvailableNutritionalIngredients(): string[] {
  * @param ingredient2 Second ingredient name
  * @returns Comparison result with percentage differences
  */
-export function compareNutritionalValues(
+export async function compareNutritionalValues(
   ingredient1: string, 
   ingredient2: string
-): { 
+): Promise<{ 
   ingredient1: NutritionalProfile | null, 
   ingredient2: NutritionalProfile | null,
   differences: Record<string, number> 
-} {
-  const profile1 = getNutritionalData(ingredient1);
-  const profile2 = getNutritionalData(ingredient2);
+}> {
+  const profile1 = await getNutritionalData(ingredient1);
+  const profile2 = await getNutritionalData(ingredient2);
   
   // Return early if either ingredient not found
   if (!profile1 || !profile2) {

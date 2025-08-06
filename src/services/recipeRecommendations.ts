@@ -4,7 +4,7 @@ import { createEnhancedError } from '../utils/errorHandling';
 import { logger } from '../utils/logger';
 
 import { celestialCalculator } from './celestialCalculations';
-import { SpoonacularService } from './SpoonacularService';
+// SpoonacularService removed with cleanup
 
 interface RecommendationCriteria {
   celestialInfluence?: ElementalProperties;
@@ -302,11 +302,9 @@ export class RecipeRecommender {
 
   private async getSpoonacularRecommendations(criteria: RecommendationCriteria): Promise<Recipe[]> {
     try {
-      return await SpoonacularService.searchRecipes({
-        cuisine: criteria.cuisine,
-        diet: criteria.dietaryRestrictions?.join(','),
-        maxReadyTime: 60
-      }) ;
+      // SpoonacularService removed - returning empty array (local recipes used instead)
+      logger.info('Spoonacular recommendations disabled - using local recipes');
+      return [];
     } catch (error) {
       logger.error('Failed to fetch Spoonacular recommendations:', error);
       return [];

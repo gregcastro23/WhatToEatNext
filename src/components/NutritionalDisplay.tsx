@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { NutritionalProfile } from '@/types/alchemy';
 import { getNutritionalData, getAvailableNutritionalIngredients } from '@/utils/nutritionalUtils';
@@ -18,24 +18,47 @@ export default function NutritionalDisplay({
 }: NutritionalDisplayProps) {
   const [searchTerm, setSearchTerm] = useState(ingredientName || '');
   const [selectedIngredient, setSelectedIngredient] = useState<string | null>(ingredientName || null);
-  const [nutritionalData, setNutritionalData] = useState<NutritionalProfile | null>(
-    ingredientName ? getNutritionalData(ingredientName) : null
-  );
+  const [nutritionalData, setNutritionalData] = useState<NutritionalProfile | null>(null);
+  const [loading, setLoading] = useState(false);
 
   // Get all available ingredients for dropdown
   const availableIngredients = getAvailableNutritionalIngredients();
 
+  // Load nutritional data when ingredient changes
+  useEffect(() => {
+    if (selectedIngredient) {
+      const loadNutritionalData = async () => {
+        setLoading(true);
+        try {
+          const data = await getNutritionalData(selectedIngredient);
+          setNutritionalData(data);
+        } catch (error) {
+          console.error('Error loading nutritional data:', error);
+          setNutritionalData(null);
+        } finally {
+          setLoading(false);
+        }
+      };
+      loadNutritionalData();
+    } else {
+      setNutritionalData(null);
+    }
+  }, [selectedIngredient]);
+
   // Handle ingredient selection
   const handleIngredientSelect = (ingredient: string) => {
     setSelectedIngredient(ingredient);
-    const data = getNutritionalData(ingredient);
-    setNutritionalData(data);
   };
 
   // Format percentage for display
   const formatPercent = (value: number) => {
     return `${Math.round(value * 100)}%`;
   };
+
+  // If loading, show loading state
+  if (loading) {
+    return <div className="text-gray-500">Loading nutritional data...</div>;
+  }
 
   // If no data and no search ability, show message
   if (!nutritionalData && !showSearch) {

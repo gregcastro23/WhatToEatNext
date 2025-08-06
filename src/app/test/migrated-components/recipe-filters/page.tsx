@@ -7,21 +7,21 @@ import { logger } from '@/utils/logger';
 
 export default function RecipeFiltersTestPage() {
   // State for original filters
-  const [originalFilters, setOriginalFilters] = useState<FilterState>(initialFilters);
-  const [showOriginalFilters, setShowOriginalFilters] = useState(false);
+  const [_originalFilters, setOriginalFilters] = useState<FilterState>(initialFilters);
+  const [_showOriginalFilters, setShowOriginalFilters] = useState(false);
 
   // State for migrated filters
   const [migratedFilters, setMigratedFilters] = useState<FilterState>(initialFilters);
   const [showMigratedFilters, setShowMigratedFilters] = useState(false);
 
   // Update filters for original implementation
-  const updateOriginalFilters = (updates: Partial<FilterState>) => {
+  const _updateOriginalFilters = (updates: Partial<FilterState>) => {
     setOriginalFilters(prev => ({ ...prev, ...updates }));
     logger.info('Original filters updated:', updates);
   };
 
   // Reset filters for original implementation
-  const resetOriginalFilters = () => {
+  const _resetOriginalFilters = () => {
     setOriginalFilters(initialFilters);
     setShowOriginalFilters(false);
     logger.info('Original filters reset');

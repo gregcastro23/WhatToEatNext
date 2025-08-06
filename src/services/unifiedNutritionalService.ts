@@ -29,7 +29,7 @@ import { unifiedSeasonalSystem } from '../data/unified/seasonal.js';
 import type { NutritionalProfile, NutritionalFilter } from '../types/nutrition';
 import { logger } from '../utils/logger';
 
-import { NutritionService } from './NutritionService';
+// NutritionService removed with USDA API cleanup
 
 
 
@@ -38,13 +38,11 @@ import { NutritionService } from './NutritionService';
 
 export class UnifiedNutritionalService {
   private static instance: UnifiedNutritionalService;
-  private legacyNutritionService: NutritionService;
   private cache: Map<string, any> = new Map();
   
   private constructor() {
-    // Apply Pattern PP-1: Safe service initialization
-    const NutritionServiceData = NutritionService as unknown as Record<string, unknown>;
-    this.legacyNutritionService = (NutritionServiceData.getInstance  as () => NutritionService)() || new NutritionService();
+    // Legacy nutrition service removed - using unified local data only
+    logger.info('UnifiedNutritionalService initialized with local data');
   }
   
   /**
@@ -110,8 +108,13 @@ export class UnifiedNutritionalService {
           }
           
           if (!nutritionalProfile) {
-            // Fallback to legacy service
-            nutritionalProfile = await this.legacyNutritionService.getNutritionalProfile(ingredient);
+            // Legacy service removed - using default nutritional profile
+            nutritionalProfile = {
+              calories: 50,
+              macros: { protein: 2, carbs: 10, fat: 0.5, fiber: 3 },
+              vitamins: ['C', 'K'],
+              minerals: ['potassium', 'folate']
+            };
           }
         }
       } else {
@@ -677,14 +680,31 @@ export class UnifiedNutritionalService {
    */
   async calculateLegacyNutritionalScore(nutrition: {}): Promise<number>  {
     try {
-      // Apply Pattern PP-1: Safe service method access
-      const legacyServiceData = this.legacyNutritionService as unknown as Record<string, unknown>;
-      if (legacyServiceData.calculateNutritionalScore && typeof legacyServiceData.calculateNutritionalScore === 'function') {
-        return (legacyServiceData.calculateNutritionalScore as (nutrition: any) => Promise<number>)(nutrition);
-      }
-      return 0;
+      // Legacy service removed - using local nutritional scoring
+      return this.calculateLocalNutritionalScore(nutrition);
     } catch (error) {
       logger.error('Error calculating legacy nutritional score:', error);
+      return 0;
+    }
+  }
+
+  /**
+   * Calculate nutritional score using local algorithm
+   */
+  private calculateLocalNutritionalScore(nutrition: any): number {
+    try {
+      let score = 0;
+      
+      // Basic scoring based on macro and micronutrients
+      if (nutrition.calories) score += Math.min(nutrition.calories / 100, 5);
+      if (nutrition.macros?.protein) score += nutrition.macros.protein / 5;
+      if (nutrition.macros?.fiber) score += nutrition.macros.fiber * 2;
+      if (nutrition.vitamins && Array.isArray(nutrition.vitamins)) score += nutrition.vitamins.length;
+      if (nutrition.minerals && Array.isArray(nutrition.minerals)) score += nutrition.minerals.length;
+      
+      return Math.min(score, 100); // Cap at 100
+    } catch (error) {
+      logger.error('Error in local nutritional scoring:', error);
       return 0;
     }
   }

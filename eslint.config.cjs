@@ -108,7 +108,7 @@ module.exports = [
             '^@lib/',
             '^@calculations/',
             '\\.module\\.css$',
-            '^astronomia',
+            // '^astronomia', // removed dependency
             '^astronomy-engine',
             '^suncalc'
           ]
@@ -265,7 +265,7 @@ module.exports = [
             '^@lib/',
             '^@calculations/',
             '\\.module\\.css$',
-            '^astronomia',
+            // '^astronomia', // removed dependency
             '^astronomy-engine',
             '^suncalc'
           ]
@@ -449,7 +449,7 @@ module.exports = [
       'import/no-unresolved': [
         'warn',
         {
-          'ignore': ['astronomia', 'astronomy-engine', 'suncalc', 'swiss-ephemeris']
+          'ignore': ['astronomy-engine', 'suncalc', 'swiss-ephemeris'] // astronomia removed
         }
       ],
 

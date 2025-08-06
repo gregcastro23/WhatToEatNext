@@ -16,11 +16,11 @@ import { validateTestResult } from '../utils/TestResultValidator';
 import { MEMORY_LIMITS, TEST_TIMEOUTS, TestUtils } from '../utils/TestUtils';
 
 describe('Performance Optimization Validation', () => {
-  let validator: LintingPerformanceValidator;
+  let _validator: LintingPerformanceValidator;
   const testTimeout = 180000; // 3 minutes
 
   beforeAll(() => {
-    validator = new LintingPerformanceValidator()
+    _validator = new LintingPerformanceValidator()
   });
 
   describe('Enhanced Caching Performance', () => {

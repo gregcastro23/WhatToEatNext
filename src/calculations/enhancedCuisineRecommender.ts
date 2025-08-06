@@ -7,7 +7,7 @@ import type {
   ZodiacSign} from '@/types/alchemy';
 import { createAstrologicalBridge } from '@/types/bridges/astrologicalBridge';
 import type { Cuisine } from '@/types/cuisine';
-import { isValidAstrologicalState } from '@/utils/typeGuards/astrologicalGuards';
+import { isValidAstrologicalState as _isValidAstrologicalState } from '@/utils/typeGuards/astrologicalGuards';
 
 // Recipe interface for internal use in enhanced recommender
 interface RecipeData {
@@ -207,7 +207,7 @@ export class EnhancedCuisineRecommender {
     const now = new Date();
     const dayOfWeek = now.getDay(); // 0 = Sunday, 1 = Monday, etc.
     const hours = now.getHours();
-    const minutes = now.getMinutes();
+    const UNUSED_minutes = now.getMinutes();
 
     // Map day of week to planetary day
     const planetaryDays: PlanetaryDay[] = [
@@ -343,10 +343,10 @@ export class EnhancedCuisineRecommender {
   private calculatePlanetaryDayScore(
     recipe: RecipeData,
     timeFactors: TimeFactors,
-    astroState: AstrologicalState
+    _astroState: AstrologicalState
   ): number {
     const { planetaryDay, currentDate } = timeFactors;
-    const isDaytime = this.isDaytime(currentDate);
+    const UNUSED_isDaytime = this.isDaytime(currentDate);
 
     // If recipe has no elemental properties, give it a neutral score
     if (!recipe.elementalProperties) {
@@ -409,7 +409,7 @@ export class EnhancedCuisineRecommender {
   private calculatePlanetaryHourScore(
     recipe: RecipeData,
     timeFactors: TimeFactors,
-    astroState: AstrologicalState
+    _astroState: AstrologicalState
   ): number {
     const { planetaryHour, currentDate } = timeFactors;
     const isDaytime = this.isDaytime(currentDate);

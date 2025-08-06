@@ -19,18 +19,18 @@ import { Element } from "@/types/alchemy";
 
 import elementalCalculationsModule, {
   calculateComprehensiveElementalProperties,
-  calculateElementalCompatibility,
+  calculateElementalCompatibility as _calculateElementalCompatibility,
   getDominantElement,
   getElementalRecommendations,
-  ZODIAC_ELEMENTS
+  ZODIAC_ELEMENTS as _ZODIAC_ELEMENTS
 } from './core/elementalCalculations';
 import kalchmEngine, { 
   type KalchmResult, 
   type AlchemicalProperties, 
-  type ElementalValues,
-  type ThermodynamicResults,
+  type ElementalValues as _ElementalValues,
+  type ThermodynamicResults as _ThermodynamicResults,
   calculateKalchmResults,
-  toElementalProperties
+  toElementalProperties as _toElementalProperties
 } from './core/kalchmEngine';
 import planetaryInfluences, {
   calculatePlanetaryInfluences,
@@ -242,7 +242,7 @@ export const RECIPE_COMPATIBILITY_INTELLIGENCE = {
    * @param alchemicalResult - The current moment alchemical result
    * @returns Advanced compatibility analysis with intelligent insights
    */
-  analyzeRecipeCompatibility: (recipeProperties: ElementalProperties, alchemicalResult: ComprehensiveAlchemicalResult) => {
+  analyzeRecipeCompatibility: (_recipeProperties: ElementalProperties, _alchemicalResult: ComprehensiveAlchemicalResult) => {
     const compatibilityAnalysis = {
       // Core compatibility metrics
       coreMetrics: {
@@ -435,7 +435,7 @@ export async function calculateComprehensiveAlchemicalResult(
     lunarPhase = 'full moon',
     isDaytime = true,
     currentDate = new Date(),
-    currentZodiacSign
+    currentZodiacSign: _currentZodiacSign
   } = input;
 
   // Generate cache key

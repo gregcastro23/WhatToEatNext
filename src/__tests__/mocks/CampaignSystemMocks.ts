@@ -1,31 +1,27 @@
 /**
  * Campaign System Test Mocks
- * 
+ *
  * Comprehensive mocking system for campaign operations during test execution.
  * Prevents actual build processes from running and provides test-safe alternatives.
  */
 
 import {
-  CampaignConfig,
-  CampaignPhase,
-  PhaseResult,
-  ProgressMetrics,
-  ValidationResult,
-  SafetyEvent,
-  SafetyEventType,
-  SafetyEventSeverity,
-  MetricsImprovement,
-  CorruptionReport,
-  CorruptionSeverity,
-  RecoveryAction,
-  GitStash,
-  PhaseStatus,
-  PhaseReport,
-  ProgressReport,
-  BuildValidation,
-  TestValidation,
-  ExecutionResult,
-  BatchResult
+    CampaignConfig,
+    CampaignPhase,
+    CorruptionReport,
+    CorruptionSeverity,
+    GitStash,
+    MetricsImprovement,
+    PhaseReport,
+    PhaseResult,
+    PhaseStatus,
+    ProgressMetrics,
+    ProgressReport,
+    RecoveryAction,
+    SafetyEvent,
+    SafetyEventSeverity,
+    SafetyEventType,
+    ValidationResult
 } from '../../types/campaign';
 
 /**
@@ -56,9 +52,9 @@ export class MockCampaignController {
 
     this._isRunning = true;
     this.currentPhase = phase;
-    
+
     const startTime = Date.now();
-    
+
     // Add mock safety event
     this.addSafetyEvent({
       type: SafetyEventType.CHECKPOINT_CREATED,
@@ -70,7 +66,7 @@ export class MockCampaignController {
 
     // Simulate phase execution without running actual scripts
     const mockResult = await this.simulatePhaseExecution(phase);
-    
+
     const executionTime = Date.now() - startTime;
     this._isRunning = false;
 
@@ -114,7 +110,7 @@ export class MockCampaignController {
    */
   async createSafetyCheckpoint(description: string): Promise<string> {
     const checkpointId = `mock_checkpoint_${Date.now()}`;
-    
+
     // Create mock stash
     const mockStash: GitStash = {
       id: checkpointId,
@@ -123,9 +119,9 @@ export class MockCampaignController {
       branch: 'mock-branch',
       ref: `stash@{${this.mockStashes.size}}`
     };
-    
+
     this.mockStashes.set(checkpointId, mockStash);
-    
+
     this.addSafetyEvent({
       type: SafetyEventType.CHECKPOINT_CREATED,
       timestamp: new Date(),
@@ -261,7 +257,7 @@ export class MockCampaignController {
 
   // Private helper methods
 
-  private async simulatePhaseExecution(phase: CampaignPhase): Promise<{
+  private async simulatePhaseExecution(_phase: CampaignPhase): Promise<{
     success: boolean;
     metricsImprovement: MetricsImprovement;
     filesProcessed: number;
@@ -339,7 +335,7 @@ export class MockCampaignController {
 
   private addSafetyEvent(event: SafetyEvent): void {
     this.safetyEvents.push(event);
-    
+
     // Keep only recent events to prevent memory issues
     if (this.safetyEvents.length > 100) {
       this.safetyEvents = this.safetyEvents.slice(-50);
@@ -430,15 +426,15 @@ export class MockProgressTracker {
    */
   async getProgressMetrics(): Promise<ProgressMetrics> {
     const metrics = { ...this.mockMetrics };
-    
+
     // Add to history for tracking
     this.metricsHistory.push(metrics);
-    
+
     // Keep only recent history to prevent memory issues
     if (this.metricsHistory.length > 50) {
       this.metricsHistory = this.metricsHistory.slice(-25);
     }
-    
+
     return metrics;
   }
 
@@ -588,10 +584,10 @@ export class MockSafetyProtocol {
   /**
    * Mock stash creation - does not run actual git commands
    */
-  async createStash(description: string, phase?: string): Promise<string> {
+  async createStash(description: string, _phase?: string): Promise<string> {
     this.stashCounter++;
     const stashId = `mock_stash_${this.stashCounter}_${Date.now()}`;
-    
+
     const mockStash: GitStash = {
       id: stashId,
       description: `Mock stash: ${description}`,
@@ -599,9 +595,9 @@ export class MockSafetyProtocol {
       branch: 'mock-branch',
       ref: `stash@{${this.stashCounter}}`
     };
-    
+
     this.mockStashes.set(stashId, mockStash);
-    
+
     this.addSafetyEvent({
       type: SafetyEventType.CHECKPOINT_CREATED,
       timestamp: new Date(),
@@ -609,14 +605,14 @@ export class MockSafetyProtocol {
       severity: SafetyEventSeverity.INFO,
       action: 'MOCK_STASH_CREATE'
     });
-    
+
     return stashId;
   }
 
   /**
    * Mock stash application - does not run actual git commands
    */
-  async applyStash(stashId: string, validateAfter: boolean = true): Promise<void> {
+  async applyStash(stashId: string, _validateAfter: boolean = true): Promise<void> {
     const stash = this.mockStashes.get(stashId);
     if (!stash) {
       throw new Error(`Mock stash not found: ${stashId}`);
@@ -634,7 +630,7 @@ export class MockSafetyProtocol {
   /**
    * Mock corruption detection - does not run actual file analysis
    */
-  async detectCorruption(files: string[]): Promise<CorruptionReport> {
+  async detectCorruption(_files: string[]): Promise<CorruptionReport> {
     // Return mock corruption report
     return {
       detectedFiles: [],
@@ -713,7 +709,7 @@ export class MockSafetyProtocol {
 
   private addSafetyEvent(event: SafetyEvent): void {
     this.safetyEvents.push(event);
-    
+
     // Keep only recent events to prevent memory issues
     if (this.safetyEvents.length > 100) {
       this.safetyEvents = this.safetyEvents.slice(-50);
@@ -723,7 +719,7 @@ export class MockSafetyProtocol {
 
 /**
  * Campaign Test Isolation Manager
- * 
+ *
  * Manages campaign system state during test execution to ensure
  * tests don't interfere with each other or trigger actual builds.
  */

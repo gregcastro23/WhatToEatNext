@@ -150,7 +150,7 @@ const elementToAlchemicalProperty = (element: ElementalCharacter): keyof Alchemi
 };
 
 // Replace console.log with commented code for production
-const debugLog = (_message: string, ...args: unknown[]): void => {
+const debugLog = (_message: string, ..._args: unknown[]): void => {
   // Comment out console.log to avoid linting warnings
   // log.info(message, ...args);
 };
@@ -950,7 +950,7 @@ export function alchemize(planetaryPositions: Record<string, PlanetaryPosition>,
     
     // For Mercury, apply retrograde cycle effects
     if (planetKey === 'Mercury' && isRetrograde && planetDataObj.PlanetSpecific?.Mercury?.FlavorModulation) {
-      const mercuryData = planetDataObj.PlanetSpecific.Mercury;
+      const UNUSED_mercuryData = planetDataObj.PlanetSpecific.Mercury;
       // We could apply specific flavor modulations here if needed
     }
   }

@@ -1,7 +1,7 @@
 import { proteins } from "@/data/ingredients";
 import { getLatestAstrologicalState } from '@/services/AstrologicalService';
 import { ElementalCalculator } from "@/services/ElementalCalculator";
-import { SpoonacularElementalMapper } from "@/services/SpoonacularElementalMapper";
+// SpoonacularElementalMapper removed - using fallback elemental calculation
 import type {
   ElementalProperties,
   LunarPhase,
@@ -10,7 +10,7 @@ import type {
   Recipe,
   Ingredient,
 } from "@/types/alchemy";
-import type { SpoonacularRecipe } from "@/types/spoonacular";
+// SpoonacularRecipe import removed with Spoonacular service cleanup
 import { getAccuratePlanetaryPositions } from "@/utils/accurateAstronomy";
 import { getCurrentElementalState } from '@/utils/elementalUtils';
 
@@ -376,7 +376,7 @@ export class AlchemicalEngineBase {
   ): Array<{ element: string; strength: number }> {
     const elements =
       recipe.elementalProperties ||
-      SpoonacularElementalMapper.mapRecipeToElemental((recipe as unknown) as SpoonacularRecipe); // Pattern VVV: Array Type Interface Resolution
+      { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }; // Fallback elemental balance
 
     return Object.entries(elements)
       .map(([element, value]) => ({
@@ -496,7 +496,7 @@ export class AlchemicalEngineBase {
       return recipe.elementalProperties;
     }
 
-    return SpoonacularElementalMapper.mapRecipeToElemental((recipe as unknown) as SpoonacularRecipe); // Pattern VVV: Array Type Interface Resolution
+    return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }; // Fallback elemental balance
   }
 
   private calculateHarmonyScore(elements: ElementalProperties): number {

@@ -1,5 +1,5 @@
 
-import { Suspense, startTransition, useDeferredValue, useTransition } from 'react';
+import { Suspense, startTransition as _startTransition, useDeferredValue, useTransition } from 'react';
 
 export function ConcurrentComponent() {
   const [isPending, startTransition] = useTransition();

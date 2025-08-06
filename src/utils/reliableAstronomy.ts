@@ -7,7 +7,7 @@
 
 import { CelestialPosition } from '@/types/celestial';
 import { logger } from '@/utils/logger';
-import { getMCPServerIntegration } from '@/utils/mcpServerIntegration';
+// getMCPServerIntegration removed with MCP cleanup
 
 // Cache system to avoid frequent API calls
 interface PositionsCache {
@@ -34,26 +34,15 @@ export async function getReliablePlanetaryPositions(date: Date = new Date()): Pr
       return positionsCache.positions;
     }
     
-    // Primary: Try MCP server integration first
+    // Primary: Use fallback positions (MCP integration removed)
     try {
-      logger.debug('Fetching planetary positions via MCP server integration');
-      const mcp = getMCPServerIntegration();
-      const mcpResult = await mcp.getAstrologicalData(date);
+      logger.debug('Using fallback planetary positions (MCP integration removed)');
       
-      if (mcpResult.success && mcpResult.data) {
-        // Cache the successful result
-        positionsCache = {
-          positions: mcpResult.data,
-          timestamp: Date.now(),
-          date: dateString
-        };
-        
-        logger.debug(`Planetary positions fetched via MCP (${mcpResult.source})`);
-        return mcpResult.data;
-      }
+      // Skip MCP integration and go directly to fallback
+      throw new Error('MCP integration removed - using fallback positions');
     } catch (error) {
-      logger.warn('MCP server integration failed:', error);
-      // Continue to direct API calls
+      logger.warn('MCP server integration removed, continuing to fallback positions');
+      // Continue to fallback positions
     }
 
     // Secondary: Call NASA JPL Horizons API directly

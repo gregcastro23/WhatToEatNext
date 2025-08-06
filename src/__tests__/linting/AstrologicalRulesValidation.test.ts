@@ -1,12 +1,11 @@
 /**
  * Comprehensive Tests for Astrological ESLint Rules
- * 
+ *
  * Tests the custom ESLint plugin rules for astrological calculations
  * to ensure they properly validate planetary positions, elemental properties,
  * and transit date validation patterns.
  */
 
-import path from 'path';
 
 import { ESLint } from 'eslint';
 
@@ -141,7 +140,7 @@ describe('Astrological ESLint Rules', () => {
           timeout: 5000,
           retries: 3
         };
-        
+
         const user = {
           name: 'John',
           age: 30
@@ -238,8 +237,8 @@ describe('Astrological ESLint Rules', () => {
         }
       `;
 
-      const results = eslint.lintText(code, { 
-        filePath: 'src/calculations/planetary.ts' 
+      const results = eslint.lintText(code, {
+        filePath: 'src/calculations/planetary.ts'
       });
       const messages = results[0].messages;
 
@@ -251,15 +250,15 @@ describe('Astrological ESLint Rules', () => {
     test('should warn when validation is imported but not used', async () => {
       const code = `
         import { validateTransitDate } from '@/utils/astrology/transitValidation';
-        
+
         function calculatePlanetaryInfluence() {
           // Validation imported but not called
           return { influence: 0.8 };
         }
       `;
 
-      const results = eslint.lintText(code, { 
-        filePath: 'src/calculations/planetary.ts' 
+      const results = eslint.lintText(code, {
+        filePath: 'src/calculations/planetary.ts'
       });
       const messages = results[0].messages;
 
@@ -271,15 +270,15 @@ describe('Astrological ESLint Rules', () => {
     test('should pass when validation is properly used', async () => {
       const code = `
         import { validateTransitDate } from '@/utils/astrology/transitValidation';
-        
+
         function calculatePlanetaryInfluence(planet, date) {
           const isValid = validateTransitDate(planet, date, 'aries', transitDates);
           return { influence: isValid ? 0.8 : 0.5 };
         }
       `;
 
-      const results = eslint.lintText(code, { 
-        filePath: 'src/calculations/planetary.ts' 
+      const results = eslint.lintText(code, {
+        filePath: 'src/calculations/planetary.ts'
       });
       const messages = results[0].messages;
 
@@ -293,8 +292,8 @@ describe('Astrological ESLint Rules', () => {
         }
       `;
 
-      const results = eslint.lintText(code, { 
-        filePath: 'src/components/Button.tsx' 
+      const results = eslint.lintText(code, {
+        filePath: 'src/components/Button.tsx'
       });
       const messages = results[0].messages;
 
@@ -338,7 +337,7 @@ describe('Astrological ESLint Rules', () => {
         const FALLBACK_POSITIONS = {
           sun: { sign: 'aries', degree: 8.5 }
         };
-        
+
         let RELIABLE_DATA = getReliableData
         RELIABLE_DATA = { updated: true };
       `;
@@ -372,7 +371,7 @@ describe('Astrological ESLint Rules', () => {
           exactLongitude: number;
           isRetrograde: boolean;
         }
-        
+
         const position: PlanetaryPosition = {
           sign: 'aries',
           degree: 15.5,
@@ -390,7 +389,7 @@ describe('Astrological ESLint Rules', () => {
     test('should work with React components', async () => {
       const code = `
         import React from 'react';
-        
+
         interface Props {
           elementalProperties: {
             Fire: number;
@@ -399,7 +398,7 @@ describe('Astrological ESLint Rules', () => {
             Air: number;
           };
         }
-        
+
         const ElementalDisplay: React.FC<Props> = ({ elementalProperties }) => {
           return <div>Elemental display</div>;
         };
@@ -442,7 +441,7 @@ describe('Astrological ESLint Rules', () => {
 
       // This should not throw an error, even with malformed code
       const results = eslint.lintText(malformedCode, { filePath: 'test.ts' });
-      
+
       // ESLint should handle syntax errors, our rules should not crash
       expect(results).toBeDefined();
     });

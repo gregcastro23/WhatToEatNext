@@ -106,7 +106,7 @@ getPositions();
   async fetchFromAPI() {
     // Simple API fetch implementation
     const apiEndpoints = [
-      'https://api.astronomia.com/positions',
+      // astronomia API removed
       'https://ssd.jpl.nasa.gov/api/horizons.api'
     ];
     

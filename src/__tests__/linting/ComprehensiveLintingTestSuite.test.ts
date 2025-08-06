@@ -1,12 +1,11 @@
 /**
  * Comprehensive Linting Test Suite Runner
- * 
+ *
  * Orchestrates all linting-related tests and provides comprehensive validation
  * of the entire linting system including configuration, rules, performance, and integration.
  */
 
-import { execSync } from 'child_process';
-import { existsSync, readFileSync } from 'fs';
+import { existsSync } from 'fs';
 import path from 'path';
 
 describe('Comprehensive Linting Test Suite', () => {
@@ -52,7 +51,7 @@ describe('Comprehensive Linting Test Suite', () => {
 
       // This test ensures we have comprehensive coverage
       expect(testCategories).toHaveLength(6);
-      
+
       // Each category should be covered by our test files
       testCategories.forEach(category => {
         expect(category).toBeDefined();
@@ -63,22 +62,22 @@ describe('Comprehensive Linting Test Suite', () => {
   describe('Configuration Validation Summary', () => {
     test('should validate complete ESLint configuration structure', () => {
       const config = require(configPath);
-      
+
       // Basic structure validation
       expect(Array.isArray(config)).toBe(true);
       expect(config.length).toBeGreaterThan(5);
-      
+
       // Required configuration sections
-      const hasJavaScriptConfig = config.some((c: any) => 
+      const hasJavaScriptConfig = config.some((c: any) =>
         c.files && c.files.includes('**/*.js')
       );
-      const hasTypeScriptConfig = config.some((c: any) => 
+      const hasTypeScriptConfig = config.some((c: any) =>
         c.files && c.files.includes('**/*.ts')
       );
-      const hasAstrologicalConfig = config.some((c: any) => 
+      const hasAstrologicalConfig = config.some((c: any) =>
         c.files && c.files.some((f: string) => f.includes('**/calculations/**'))
       );
-      const hasTestConfig = config.some((c: any) => 
+      const hasTestConfig = config.some((c: any) =>
         c.files && c.files.some((f: string) => f.includes('**/*.test.ts'))
       );
       const hasIgnoreConfig = config.some((c: any) => c.ignores);
@@ -92,7 +91,7 @@ describe('Comprehensive Linting Test Suite', () => {
 
     test('should validate all custom astrological rules', () => {
       const astrologicalRules = require(astrologicalRulesPath);
-      
+
       const expectedRules = [
         'preserve-planetary-constants',
         'validate-planetary-position-structure',
@@ -110,11 +109,11 @@ describe('Comprehensive Linting Test Suite', () => {
 
     test('should validate performance optimization settings', () => {
       const config = require(configPath);
-      
-      const perfConfig = config.find((c: any) => 
+
+      const perfConfig = config.find((c: any) =>
         c.settings && c.settings['import/cache']
       );
-      
+
       expect(perfConfig).toBeDefined();
       expect(perfConfig.settings['import/cache'].lifetime).toBe(600); // 10 minutes
       expect(perfConfig.settings['import/resolver'].typescript.memoryLimit).toBe(4096);
@@ -125,9 +124,9 @@ describe('Comprehensive Linting Test Suite', () => {
   describe('Rule Behavior Validation Summary', () => {
     test('should validate domain-specific rule application', () => {
       const config = require(configPath);
-      
+
       // Astrological files should have custom rules
-      const astroConfig = config.find((c: any) => 
+      const astroConfig = config.find((c: any) =>
         c.files && c.files.some((f: string) => f.includes('**/calculations/**'))
       );
       expect(astroConfig.rules).toHaveProperty('astrological/preserve-planetary-constants');
@@ -135,14 +134,14 @@ describe('Comprehensive Linting Test Suite', () => {
       expect(astroConfig.rules['@typescript-eslint/no-explicit-any']).toBe('off');
 
       // Campaign files should allow extensive logging
-      const campaignConfig = config.find((c: any) => 
+      const campaignConfig = config.find((c: any) =>
         c.files && c.files.some((f: string) => f.includes('**/services/campaign/**'))
       );
       expect(campaignConfig.rules['no-console']).toBe('off');
       expect(campaignConfig.rules.complexity).toEqual(['warn', 15]);
 
       // Test files should have relaxed rules
-      const testConfig = config.find((c: any) => 
+      const testConfig = config.find((c: any) =>
         c.files && c.files.some((f: string) => f.includes('**/*.test.ts'))
       );
       expect(testConfig.rules['no-console']).toBe('off');
@@ -151,11 +150,11 @@ describe('Comprehensive Linting Test Suite', () => {
 
     test('should validate React 19 and Next.js 15 compatibility', () => {
       const config = require(configPath);
-      
-      const reactConfig = config.find((c: any) => 
+
+      const reactConfig = config.find((c: any) =>
         c.rules && c.rules['react/react-in-jsx-scope']
       );
-      
+
       expect(reactConfig.rules['react/react-in-jsx-scope']).toBe('off');
       expect(reactConfig.rules['react/jsx-uses-react']).toBe('off');
       expect(reactConfig.settings.react.version).toBe('19.1.0');
@@ -163,11 +162,11 @@ describe('Comprehensive Linting Test Suite', () => {
 
     test('should validate TypeScript strict rules', () => {
       const config = require(configPath);
-      
-      const tsConfig = config.find((c: any) => 
+
+      const tsConfig = config.find((c: any) =>
         c.rules && c.rules['@typescript-eslint/no-explicit-any']
       );
-      
+
       expect(tsConfig.rules['@typescript-eslint/no-explicit-any']).toBe('error');
       expect(tsConfig.rules['@typescript-eslint/no-unused-vars']).toBeDefined();
       expect(tsConfig.rules['@typescript-eslint/prefer-optional-chain']).toBe('warn');
@@ -177,11 +176,11 @@ describe('Comprehensive Linting Test Suite', () => {
   describe('Integration Validation Summary', () => {
     test('should validate import resolution configuration', () => {
       const config = require(configPath);
-      
-      const importConfig = config.find((c: any) => 
+
+      const importConfig = config.find((c: any) =>
         c.settings && c.settings['import/resolver'] && c.settings['import/resolver'].typescript
       );
-      
+
       expect(importConfig).toBeDefined();
       expect(importConfig.settings['import/resolver'].typescript.paths).toHaveProperty('@/*');
       expect(importConfig.settings['import/resolver'].typescript.paths).toHaveProperty('@components/*');
@@ -190,11 +189,11 @@ describe('Comprehensive Linting Test Suite', () => {
 
     test('should validate import order rules', () => {
       const config = require(configPath);
-      
-      const orderConfig = config.find((c: any) => 
+
+      const orderConfig = config.find((c: any) =>
         c.rules && c.rules['import/order']
       );
-      
+
       expect(orderConfig).toBeDefined();
       expect(orderConfig.rules['import/order'][1].alphabetize.order).toBe('asc');
       expect(orderConfig.rules['import/order'][1]['newlines-between']).toBe('always');
@@ -202,11 +201,11 @@ describe('Comprehensive Linting Test Suite', () => {
 
     test('should validate React hooks configuration', () => {
       const config = require(configPath);
-      
-      const hooksConfig = config.find((c: any) => 
+
+      const hooksConfig = config.find((c: any) =>
         c.rules && c.rules['react-hooks/exhaustive-deps']
       );
-      
+
       expect(hooksConfig).toBeDefined();
       expect(hooksConfig.rules['react-hooks/exhaustive-deps'][1].additionalHooks).toContain('useRecoilCallback');
     });
@@ -215,11 +214,11 @@ describe('Comprehensive Linting Test Suite', () => {
   describe('Performance Validation Summary', () => {
     test('should validate caching configuration', () => {
       const config = require(configPath);
-      
-      const cacheConfig = config.find((c: any) => 
+
+      const cacheConfig = config.find((c: any) =>
         c.settings && c.settings['import/cache']
       );
-      
+
       expect(cacheConfig).toBeDefined();
       expect(cacheConfig.settings['import/cache'].lifetime).toBeGreaterThan(0);
       expect(cacheConfig.settings['import/cache'].max).toBeGreaterThan(0);
@@ -227,11 +226,11 @@ describe('Comprehensive Linting Test Suite', () => {
 
     test('should validate memory optimization settings', () => {
       const config = require(configPath);
-      
-      const memoryConfig = config.find((c: any) => 
+
+      const memoryConfig = config.find((c: any) =>
         c.settings && c.settings['import/resolver'] && c.settings['import/resolver'].typescript.memoryLimit
       );
-      
+
       expect(memoryConfig).toBeDefined();
       expect(memoryConfig.settings['import/resolver'].typescript.memoryLimit).toBe(4096);
       expect(memoryConfig.settings['import/resolver'].typescript.transpileOnly).toBe(true);
@@ -239,11 +238,11 @@ describe('Comprehensive Linting Test Suite', () => {
 
     test('should validate parallel processing configuration', () => {
       const config = require(configPath);
-      
-      const parallelConfig = config.find((c: any) => 
+
+      const parallelConfig = config.find((c: any) =>
         c.settings && c.settings['import/resolver'] && c.settings['import/resolver'].typescript.maxParallelFilesPerProcess
       );
-      
+
       expect(parallelConfig).toBeDefined();
       expect(parallelConfig.settings['import/resolver'].typescript.maxParallelFilesPerProcess).toBe(30);
     });
@@ -252,7 +251,7 @@ describe('Comprehensive Linting Test Suite', () => {
   describe('Error Resolution Validation Summary', () => {
     test('should validate auto-fixable rule configuration', () => {
       const config = require(configPath);
-      
+
       const fixableRules = [
         'prefer-const',
         'import/order',
@@ -260,7 +259,7 @@ describe('Comprehensive Linting Test Suite', () => {
         '@typescript-eslint/prefer-as-const'
       ];
 
-      const tsConfig = config.find((c: any) => 
+      const tsConfig = config.find((c: any) =>
         c.rules && c.rules['prefer-const']
       );
 
@@ -271,11 +270,11 @@ describe('Comprehensive Linting Test Suite', () => {
 
     test('should validate unused variable handling', () => {
       const config = require(configPath);
-      
-      const unusedVarConfig = config.find((c: any) => 
+
+      const unusedVarConfig = config.find((c: any) =>
         c.rules && c.rules['@typescript-eslint/no-unused-vars']
       );
-      
+
       expect(unusedVarConfig).toBeDefined();
       expect(unusedVarConfig.rules['@typescript-eslint/no-unused-vars'][1].argsIgnorePattern).toContain('^_');
       expect(unusedVarConfig.rules['@typescript-eslint/no-unused-vars'][1].varsIgnorePattern).toContain('UNUSED_');
@@ -283,11 +282,11 @@ describe('Comprehensive Linting Test Suite', () => {
 
     test('should validate console statement handling', () => {
       const config = require(configPath);
-      
-      const consoleConfig = config.find((c: any) => 
+
+      const consoleConfig = config.find((c: any) =>
         c.rules && c.rules['no-console']
       );
-      
+
       expect(consoleConfig).toBeDefined();
       expect(consoleConfig.rules['no-console'][1].allow).toContain('warn');
       expect(consoleConfig.rules['no-console'][1].allow).toContain('error');
@@ -297,7 +296,7 @@ describe('Comprehensive Linting Test Suite', () => {
   describe('Quality Assurance Summary', () => {
     test('should validate comprehensive rule coverage', () => {
       const config = require(configPath);
-      
+
       const ruleCategories = {
         typescript: ['@typescript-eslint/no-unused-vars', '@typescript-eslint/no-explicit-any'],
         react: ['react/jsx-key', 'react-hooks/exhaustive-deps'],
@@ -306,7 +305,7 @@ describe('Comprehensive Linting Test Suite', () => {
         general: ['prefer-const', 'eqeqeq', 'no-var']
       };
 
-      Object.entries(ruleCategories).forEach(([category, rules]) => {
+      Object.entries(ruleCategories).forEach(([_category, rules]) => {
         rules.forEach(rule => {
           const hasRule = config.some((c: any) => c.rules && c.rules[rule]);
           expect(hasRule).toBe(true);
@@ -316,7 +315,7 @@ describe('Comprehensive Linting Test Suite', () => {
 
     test('should validate ignore patterns completeness', () => {
       const config = require(configPath);
-      
+
       const ignoreConfig = config.find((c: any) => c.ignores);
       const expectedIgnores = [
         'node_modules/',
@@ -334,7 +333,7 @@ describe('Comprehensive Linting Test Suite', () => {
 
     test('should validate plugin integration completeness', () => {
       const config = require(configPath);
-      
+
       const requiredPlugins = [
         '@typescript-eslint',
         'react',
@@ -396,7 +395,7 @@ describe('Comprehensive Linting Test Suite', () => {
         comprehensiveCoverage: true
       };
 
-      Object.entries(successCriteria).forEach(([criterion, expected]) => {
+      Object.entries(successCriteria).forEach(([_criterion, expected]) => {
         expect(expected).toBe(true);
       });
     });
@@ -412,7 +411,7 @@ describe('Comprehensive Linting Test Suite', () => {
         maintenanceProceduresDocumented: true
       };
 
-      Object.entries(documentationRequirements).forEach(([requirement, met]) => {
+      Object.entries(documentationRequirements).forEach(([_requirement, met]) => {
         expect(met).toBe(true);
       });
     });

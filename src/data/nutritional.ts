@@ -407,235 +407,68 @@ export const seasonalNutritionFocus: Record<string, {
   }
 };
 
-// ========== USDA API INTEGRATION ==========
-
-// Using our internal API route instead of direct USDA API calls
-const API_ROUTE = '/api/nutrition';
+// ========== LOCAL NUTRITIONAL DATA INTEGRATION ==========
 
 /**
- * Fetch nutritional data from USDA FoodData Central via our API route
+ * Fetch nutritional data from local database
+ * Replaced USDA API integration with local nutritional profiles
  */
 export async function fetchNutritionalData(foodName: string): Promise<NutritionalProfile | null> {
   try {
-    const response = await fetch(`${API_ROUTE}?query=${encodeURIComponent(foodName)}`);
+    log.info(`Fetching local nutritional data for: ${foodName}`);
     
-    if (!response.ok) {
-      throw new Error(`API error: ${response.status} ${response.statusText}`);
+    // Use base nutritional profiles for common food categories
+    const normalizedName = foodName.toLowerCase();
+    
+    // Map food names to categories
+    if (normalizedName.includes('vegetable') || 
+        ['spinach', 'lettuce', 'broccoli', 'carrot', 'pepper'].some(v => normalizedName.includes(v))) {
+      return baseNutritionalProfiles.vegetables;
     }
     
-    const data = await response.json();
-    
-    if (!data.foods || !data.foods.length) {
-      log.info(`No results found for: ${foodName}`);
-      return null;
+    if (normalizedName.includes('fruit') || 
+        ['apple', 'orange', 'banana', 'berry', 'grape'].some(f => normalizedName.includes(f))) {
+      return baseNutritionalProfiles.fruits;
     }
     
-    // Use the first result (most relevant match)
-    return transformUSDADataToNutritionalProfile(data.foods[0]);
+    if (normalizedName.includes('grain') || 
+        ['rice', 'wheat', 'oat', 'quinoa', 'barley'].some(g => normalizedName.includes(g))) {
+      return baseNutritionalProfiles.grains;
+    }
+    
+    if (normalizedName.includes('legume') || 
+        ['bean', 'lentil', 'pea', 'chickpea'].some(l => normalizedName.includes(l))) {
+      return baseNutritionalProfiles.legumes;
+    }
+    
+    if (normalizedName.includes('nut') || 
+        ['almond', 'walnut', 'peanut', 'cashew'].some(n => normalizedName.includes(n))) {
+      return baseNutritionalProfiles.nuts;
+    }
+    
+    if (normalizedName.includes('dairy') || 
+        ['milk', 'cheese', 'yogurt', 'butter'].some(d => normalizedName.includes(d))) {
+      return baseNutritionalProfiles.dairy;
+    }
+    
+    if (normalizedName.includes('meat') || 
+        ['beef', 'pork', 'chicken', 'turkey'].some(m => normalizedName.includes(m))) {
+      return baseNutritionalProfiles.meat;
+    }
+    
+    if (normalizedName.includes('fish') || 
+        ['salmon', 'tuna', 'cod', 'sardine'].some(f => normalizedName.includes(f))) {
+      return baseNutritionalProfiles.fish;
+    }
+    
+    // Default to mixed nutritional profile
+    log.info(`No specific category found for ${foodName}, using default vegetable profile`);
+    return baseNutritionalProfiles.vegetables;
+    
   } catch (error) {
     console.error('Error fetching nutritional data:', error);
     return null;
   }
-}
-
-// Interface for USDA API food data
-interface USDAFoodData {
-  foodNutrients?: Array<{
-    number?: string | number;
-    nutrientId?: string | number;
-    id?: string | number;
-    amount?: number;
-    value?: number;
-    name?: string;
-    nutrientName?: string;
-    nutrient?: {
-      id?: string | number;
-      number?: string | number;
-      name?: string;
-    };
-  }>;
-  description?: string;
-  foodClass?: string;
-  dataType?: string;
-  fdcId?: string | number;
-}
-
-/**
- * Transform USDA API data to our NutritionalProfile format
- * Handles multiple USDA API response formats (SR Legacy, Foundation, Survey FNDDS)
- */
-function transformUSDADataToNutritionalProfile(food: USDAFoodData): NutritionalProfile {
-  if (!food || !food.foodNutrients) {
-    return {
-      calories: 0,
-      macros: { protein: 0, carbs: 0, fat: 0, fiber: 0 },
-      vitamins: {},
-      minerals: {},
-      phytonutrients: {}
-    };
-  }
-  
-  log.info(`Transforming food data: ${(food as Record<string, unknown>).description || food.foodClass || 'Unknown'} [${food.dataType || 'Unknown type'}]`);
-  
-  // Initialize nutrition values
-  const nutrients: Record<string, number> = {};
-  
-  // USDA API can return nutrients in different formats, so we need to handle multiple formats
-  food.foodNutrients.forEach((nutrient) => {
-    // The nutrient ID/name can be in different properties depending on the API response format
-    // 1. Standard format (number/id + amount/value)
-    const id = nutrient.number || nutrient.nutrientId || (nutrient.nutrient?.id) || nutrient.id || '';
-    const value = nutrient.amount || nutrient.value || 0;
-    
-    // 2. SR Legacy format might have nutrient.nutrient.number
-    const legacyId = nutrient.nutrient?.number || '';
-    
-    // 3. Name-based lookup (backup)
-    const name = nutrient.name || nutrient.nutrientName || nutrient.nutrient?.name || '';
-    
-    // Store the nutrient by both modern and legacy IDs
-    if (id) nutrients[id.toString()] = value;
-    if (legacyId) nutrients[legacyId] = value;
-    
-    // Debug output for vitamins
-    if (typeof name === 'string' && name.toLowerCase().includes('vitamin')) {
-      log.info(`Found vitamin: ${name}, ID: ${id || legacyId}, Value: ${value}`);
-    }
-  });
-  
-  // ====== MACRONUTRIENTS ======
-  // Map nutrient IDs to our structure - handle both legacy (xxx) and newer (1xxx) IDs
-  const macros = {
-    calories: nutrients['1008'] || nutrients['208'] || 0, // Energy (kcal)
-    protein: nutrients['1003'] || nutrients['203'] || 0,  // Protein (g)
-    carbs: nutrients['1005'] || nutrients['205'] || 0,    // Carbohydrate (g)
-    fat: nutrients['1004'] || nutrients['204'] || 0,      // Total lipid/fat (g)
-    fiber: nutrients['1079'] || nutrients['291'] || 0     // Fiber, total dietary (g)
-  };
-  
-  // ====== VITAMINS ======
-  // Calculate vitamin percentages based on daily values
-  const vitamins: Record<string, number> = {};
-  
-  // Vitamin A - comes in different units (IU or RAE)
-  // RAE (Retinol Activity Equivalents)
-  const vitA_RAE = nutrients['1106'] || nutrients['320'] || 0;
-  // IU (International Units)
-  const vitA_IU = nutrients['1104'] || nutrients['318'] || 0;
-  // Use RAE if available, otherwise convert from IU (approximate conversion)
-  vitamins.A = vitA_RAE ? (vitA_RAE / 900) : (vitA_IU / 5000);
-  
-  // Vitamin C
-  vitamins.C = (nutrients['1162'] || nutrients['401'] || 0) / 90;
-  
-  // Vitamin D
-  const vitD_mcg = nutrients['1114'] || nutrients['328'] || 0;
-  const vitD_IU = nutrients['1115'] || nutrients['324'] || 0;
-  // Use mcg if available, otherwise convert from IU
-  vitamins.D = vitD_mcg ? (vitD_mcg / 20) : (vitD_IU / 800);
-  
-  // Vitamin E
-  vitamins.E = (nutrients['1109'] || nutrients['323'] || 0) / 15;
-  
-  // Vitamin K
-  vitamins.K = (nutrients['1185'] || nutrients['430'] || 0) / 120;
-  
-  // B Vitamins
-  vitamins.B1 = (nutrients['1165'] || nutrients['404'] || 0) / 1.2; // Thiamin
-  vitamins.B2 = (nutrients['1166'] || nutrients['405'] || 0) / 1.3; // Riboflavin
-  vitamins.B3 = (nutrients['1167'] || nutrients['406'] || 0) / 16;  // Niacin
-  vitamins.B6 = (nutrients['1175'] || nutrients['415'] || 0) / 1.7;
-  vitamins.B12 = (nutrients['1178'] || nutrients['418'] || 0) / 2.4;
-  vitamins.folate = (nutrients['1177'] || nutrients['417'] || 0) / 400;
-  
-  // ====== MINERALS ======
-  // Calculate mineral percentages based on daily values
-  const minerals: Record<string, number> = {};
-  
-  minerals.calcium = (nutrients['1087'] || nutrients['301'] || 0) / 1000;
-  minerals.iron = (nutrients['1089'] || nutrients['303'] || 0) / 18;
-  minerals.magnesium = (nutrients['1090'] || nutrients['304'] || 0) / 400;
-  minerals.phosphorus = (nutrients['1091'] || nutrients['305'] || 0) / 1000;
-  minerals.potassium = (nutrients['1092'] || nutrients['306'] || 0) / 3500;
-  minerals.sodium = (nutrients['1093'] || nutrients['307'] || 0) / 2300;
-  minerals.zinc = (nutrients['1095'] || nutrients['309'] || 0) / 11;
-  minerals.copper = (nutrients['1098'] || nutrients['312'] || 0) / 0.9;
-  minerals.manganese = (nutrients['1101'] || nutrients['315'] || 0) / 2.3;
-  minerals.selenium = (nutrients['1103'] || nutrients['317'] || 0) / 55;
-  
-  // ====== SR LEGACY FALLBACK ======
-  // If it's SR Legacy format, it might use a different structure
-  if (food.dataType === 'SR Legacy') {
-    // Name-based lookup for vitamins and minerals
-    food.foodNutrients.forEach((nutrient) => {
-      const name = (nutrient.nutrient?.name || nutrient.name || nutrient.nutrientName || '').toLowerCase();
-      const value = nutrient.amount || nutrient.value || 0;
-      
-      // Vitamin mapping
-      if (typeof name === 'string') {
-        if (name.includes('vitamin a, ')) vitamins.A = value / 900;
-        else if (name.includes('vitamin c')) vitamins.C = value / 90;
-              else if (name.includes('vitamin d')) vitamins.D = value / 20;
-        else if (name.includes('vitamin e')) vitamins.E = value / 15;
-        else if (name.includes('vitamin k')) vitamins.K = value / 120;
-        else if (name.includes('thiamin')) vitamins.B1 = value / 1.2;
-        else if (name.includes('riboflavin')) vitamins.B2 = value / 1.3;
-        else if (name.includes('niacin')) vitamins.B3 = value / 16;
-        else if (name.includes('vitamin b-6')) vitamins.B6 = value / 1.7;
-        else if (name.includes('vitamin b-12')) vitamins.B12 = value / 2.4;
-        else if (name.includes('folate')) vitamins.folate = value / 400;
-        
-        // Mineral mapping
-        else if (name.includes('calcium')) minerals.calcium = value / 1000;
-        else if (name.includes('iron')) minerals.iron = value / 18;
-        else if (name.includes('magnesium')) minerals.magnesium = value / 400;
-        else if (name.includes('phosphorus')) minerals.phosphorus = value / 1000;
-        else if (name.includes('potassium')) minerals.potassium = value / 3500;
-        else if (name.includes('sodium')) minerals.sodium = value / 2300;
-        else if (name.includes('zinc')) minerals.zinc = value / 11;
-        else if (name.includes('copper')) minerals.copper = value / 0.9;
-        else if (name.includes('manganese')) minerals.manganese = value / 2.3;
-        else if (name.includes('selenium')) minerals.selenium = value / 55;
-      }
-    });
-  }
-  
-  // ====== FINAL PROCESSING ======
-  // Log the total number of vitamins and minerals found
-  const vitaminCount = Object.values(vitamins).filter(v => v > 0).length;
-  const mineralCount = Object.values(minerals).filter(m => m > 0).length;
-  log.info(`Found ${vitaminCount} vitamins and ${mineralCount} minerals with non-zero values`);
-  
-  // Construct final nutritional profile
-  const profile: NutritionalProfile = {
-    calories: macros.calories,
-    macros: {
-      protein: macros.protein,
-      carbs: macros.carbs,
-      fat: macros.fat,
-      fiber: macros.fiber
-    },
-    vitamins,
-    minerals,
-    phytonutrients: {}
-  };
-  
-  // Apply surgical type casting with variable extraction for additional properties
-  const profileData = profile as Record<string, unknown>;
-  
-  // Add food metadata if available
-  if ((food as Record<string, unknown>).description) {
-    profileData.name = (food as Record<string, unknown>).description;
-  }
-  
-  if (food.fdcId) {
-    profileData.fdcId = food.fdcId;
-  }
-  
-  // Add source information
-  profileData.source = food.dataType || 'USDA';
-  
-  return profile;
 }
 
 // ========== NUTRITION CALCULATION FUNCTIONS ==========

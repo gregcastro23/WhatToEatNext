@@ -330,7 +330,7 @@ describe('Configuration File Rule Validation', () => {
           swcMinify: true,
           experimental: {
   appDir: true,
-            serverComponentsExternalPackages: ['astronomia', 'astronomy-engine']
+            serverComponentsExternalPackages: ['astronomy-engine'] // astronomia removed
           },
           webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
             // Custom webpack configuration

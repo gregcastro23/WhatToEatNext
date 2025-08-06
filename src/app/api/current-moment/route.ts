@@ -94,8 +94,7 @@ export async function POST(request: Request) {
             'current-moment-chart.ipynb',
             'src/constants/systemDefaults.ts',
             'src/utils/streamlinedPlanetaryPositions.ts',
-            'src/utils/accurateAstronomy.ts',
-            'src/utils/astronomiaCalculator.ts'
+            'src/utils/accurateAstronomy.ts'
           ]
         });
         
@@ -167,8 +166,7 @@ export async function PUT(request: Request) {
       notebook: false,
       systemDefaults: false,
       streamlinedPositions: false,
-      accurateAstronomy: false,
-      astronomiaCalculator: false
+      accurateAstronomy: false
     };
     
     // Note: The updateCurrentMoment already updates all files,
@@ -184,9 +182,6 @@ export async function PUT(request: Request) {
     }
     if (targets.includes('all') || targets.includes('accurateAstronomy')) {
       updateResults.accurateAstronomy = true;
-    }
-    if (targets.includes('all') || targets.includes('astronomiaCalculator')) {
-      updateResults.astronomiaCalculator = true;
     }
     
     return NextResponse.json({

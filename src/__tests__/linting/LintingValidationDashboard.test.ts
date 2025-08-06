@@ -498,7 +498,7 @@ describe('LintingValidationDashboard', () => {
     test('should generate comprehensive dashboard report', async () => {
       mockExecSync.mockReturnValue(JSON.stringify([]));
 
-      const result = await dashboard.runComprehensiveValidation();
+      const _result = await dashboard.runComprehensiveValidation();
       // Verify that writeFileSync was called to generate the report
       expect(mockWriteFileSync).toHaveBeenCalledWith(
         expect.stringContaining('linting-dashboard-report.md'),

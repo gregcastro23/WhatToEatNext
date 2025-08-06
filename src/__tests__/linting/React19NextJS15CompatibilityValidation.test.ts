@@ -191,7 +191,7 @@ export default function RootLayout({
 
     test('should handle Server Components', () => {
       const testFile = path.join(testFilesDir, 'server-component.tsx');
-      const content = `
+      const _content = `
 // Next.js 15 Server Component
 async function ServerComponent() {
   const data = fetch

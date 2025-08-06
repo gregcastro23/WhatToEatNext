@@ -44,7 +44,7 @@ describe('Performance Validation Tests - Task 12', () => {
       const startTime = performance.now();
       
       // Mock ESLint execution with realistic timing
-      mockExecSync.mockImplementation((command: string) => {
+      mockExecSync.mockImplementation((_command: string) => {
         // Simulate processing time (should be under 30 seconds)
         const mockProcessingTime = 25000; // 25 seconds
         return Buffer.from(`✓ Linting completed in ${mockProcessingTime / 1000}s`);
@@ -65,7 +65,7 @@ describe('Performance Validation Tests - Task 12', () => {
       const startTime = performance.now();
       
       // Mock incremental linting (faster)
-      mockExecSync.mockImplementation((command: string) => {
+      mockExecSync.mockImplementation((_command: string) => {
         const mockProcessingTime = 5000; // 5 seconds
         return Buffer.from(`✓ Incremental linting completed in ${mockProcessingTime / 1000}s`);
       });
@@ -84,7 +84,7 @@ describe('Performance Validation Tests - Task 12', () => {
       const startTime = performance.now();
       
       // Mock cached linting (very fast)
-      mockExecSync.mockImplementation((command: string) => {
+      mockExecSync.mockImplementation((_command: string) => {
         const mockProcessingTime = 3000; // 3 seconds
         return Buffer.from(`✓ Fast linting with cache completed in ${mockProcessingTime / 1000}s (cache hit: 85%)`);
       });
@@ -135,7 +135,7 @@ describe('Performance Validation Tests - Task 12', () => {
       for (const domain of domains) {
         const startTime = performance.now();
         
-        mockExecSync.mockImplementation((command: string) => {
+        mockExecSync.mockImplementation((_command: string) => {
           const mockTime = 8000; // 8 seconds
           return Buffer.from(`✓ Domain ${domain} linting completed in ${mockTime / 1000}s`);
         });
@@ -157,7 +157,7 @@ describe('Performance Validation Tests - Task 12', () => {
       const initialMemory = memoryMonitor.getCurrentMemoryUsage();
       
       // Mock memory-efficient linting
-      mockExecSync.mockImplementation((command: string) => {
+      mockExecSync.mockImplementation((_command: string) => {
         // Simulate some memory usage but within limits
         const mockMemoryUsage = 150; // 150MB
         return Buffer.from(`✓ Linting completed, peak memory: ${mockMemoryUsage}MB`);
@@ -178,7 +178,7 @@ describe('Performance Validation Tests - Task 12', () => {
       const beforeLinting = memoryMonitor.getCurrentMemoryUsage();
       
       // Mock linting with cleanup
-      mockExecSync.mockImplementation((command: string) => {
+      mockExecSync.mockImplementation((_command: string) => {
         return Buffer.from('✓ Linting completed with memory cleanup');
       });
 
@@ -207,7 +207,7 @@ describe('Performance Validation Tests - Task 12', () => {
       ];
       
       cacheScenarios.forEach(scenario => {
-        mockExecSync.mockImplementation((command: string) => {
+        mockExecSync.mockImplementation((_command: string) => {
           return Buffer.from(`✓ Linting (${scenario.name}): ${scenario.expectedMemory}MB peak memory`);
         });
 
@@ -228,7 +228,7 @@ describe('Performance Validation Tests - Task 12', () => {
       fileCounts.forEach(fileCount => {
         const expectedMemory = baseMemory + (fileCount * memoryPerFile);
         
-        mockExecSync.mockImplementation((command: string) => {
+        mockExecSync.mockImplementation((_command: string) => {
           return Buffer.from(`✓ ${fileCount} files linted, memory: ${expectedMemory.toFixed(1)}MB`);
         });
 
@@ -244,7 +244,7 @@ describe('Performance Validation Tests - Task 12', () => {
       const beforeGC = memoryMonitor.getCurrentMemoryUsage();
       
       // Simulate memory-intensive operation
-      mockExecSync.mockImplementation((command: string) => {
+      mockExecSync.mockImplementation((_command: string) => {
         return Buffer.from('✓ Memory-intensive linting completed');
       });
 
@@ -282,7 +282,7 @@ describe('Performance Validation Tests - Task 12', () => {
       ];
       
       runs.forEach(({ run, time }) => {
-        mockExecSync.mockImplementation((command: string) => {
+        mockExecSync.mockImplementation((_command: string) => {
           return Buffer.from(`✓ Run ${run} completed in ${time / 1000}s`);
         });
 
@@ -318,7 +318,7 @@ describe('Performance Validation Tests - Task 12', () => {
       ];
       
       memoryRuns.forEach(({ run, memory }) => {
-        mockExecSync.mockImplementation((command: string) => {
+        mockExecSync.mockImplementation((_command: string) => {
           return Buffer.from(`✓ Memory run ${run}: ${memory}MB peak`);
         });
 
@@ -425,7 +425,7 @@ describe('Performance Validation Tests - Task 12', () => {
       };
       
       // Mock performance summary
-      mockExecSync.mockImplementation((command: string) => {
+      mockExecSync.mockImplementation((_command: string) => {
         const summary = {
           fullLinting: 25000,
           incrementalLinting: 7000,

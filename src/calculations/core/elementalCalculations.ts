@@ -5,7 +5,7 @@
  * into a single, efficient, and accurate system.
  */
 
-import type { Element, ElementalProperties, PlanetaryPosition, ZodiacSign, LunarPhase } from "@/types/alchemy";
+import type { Element, ElementalProperties, PlanetaryPosition, ZodiacSign, LunarPhase as _LunarPhase } from "@/types/alchemy";
 
 import { getCachedCalculation } from '../../utils/calculationCache';
 
@@ -302,11 +302,11 @@ export const ELEMENTAL_ANALYSIS_INTELLIGENCE = {
   },
 
   // Helper methods for predictions and optimizations
-  calculateSeasonalInfluence: (context: string): number => {
+  calculateSeasonalInfluence: (_context: string): number => {
     return 0.1 + (Math.random() * 0.2);
   },
 
-  calculateContextualInfluence: (context: string): number => {
+  calculateContextualInfluence: (_context: string): number => {
     return 0.15 + (Math.random() * 0.25);
   },
 

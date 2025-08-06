@@ -1575,33 +1575,7 @@ async function calculateCurrentPlanetaryPositions(): Promise<
       });
     }
 
-    // If the above fails or returns empty, try to use the astronomia library
-    // Import the astronomia calculator dynamically to avoid issues at build time
-    try {
-      const { calculatePlanetaryPositions } = await import(
-        '@/utils/astronomiaCalculator'
-      );
-      const astronomiaPositions = calculatePlanetaryPositions(new Date());
-
-      // Validate astronomiaPositions
-      if (astronomiaPositions &&
-          typeof astronomiaPositions === 'object' &&
-          Object.keys(astronomiaPositions).length > 0 &&
-          astronomiaPositions.Sun &&
-          astronomiaPositions.Moon) {
-        logger.info('Successfully calculated positions using astronomia');
-        return astronomiaPositions;
-      }
-
-      logger.warn('Astronomia returned incomplete positions, trying fallback');
-    } catch (astronomiaError) {
-      logger.warn('Error using astronomia calculator', {
-        error: astronomiaError instanceof Error ? astronomiaError.message : 'Unknown error'
-      });
-      ErrorHandler.log(astronomiaError as Error, {
-        context: { source: 'alchemicalEngine:calculateCurrentPlanetaryPositions:astronomia' }
-      });
-    }
+    // astronomia calculator removed - using fallback positions
 
     // If both methods fail, use the fallback positions
     // Import the fallback calculator dynamically

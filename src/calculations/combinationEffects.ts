@@ -61,7 +61,7 @@ const normalizeLunarPhase = (phase: LunarPhase): string => {
 
 export function calculateCombinationEffects({
   ingredients,
-  elementalProperties,
+  elementalProperties: _elementalProperties,
   cookingMethod,
   season,
   temperature,

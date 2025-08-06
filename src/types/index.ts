@@ -157,7 +157,7 @@ export type DietaryRestriction =
 // Re-export all relevant types from their modules
 // Remove duplicate exports to avoid conflicts
 export * from './nutrition';
-export * from './spoonacular';
+// spoonacular types removed with cleanup
 // Note: Removing './recipe', './time', './lunar', './cookingMethod', './validation' to avoid conflicts
 // Note: Removing './seasons' and './zodiacAffinity' to avoid conflicts
 export * from './seasonal';

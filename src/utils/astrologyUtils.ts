@@ -486,7 +486,7 @@ function calculatePlanetLongitude(jd: number, planet: string): number {
  * @returns Julian date
  */
 function calculateJulianDate(date: Date): number {
-  // Direct calculation without astronomia
+  // Direct calculation (astronomia dependency removed)
   const year = date.getUTCFullYear();
   const month = date.getUTCMonth() + 1; // JavaScript months are 0-based
   const day = date.getUTCDate();
@@ -670,7 +670,7 @@ function calculateOuterPlanetLongitude(jd: number, planet: string): number {
 
 /**
  * Fallback planetary position calculation - very simplified
- * Used when astronomia calculations fail
+ * Used when primary calculations fail (astronomia dependency removed)
  * @param date Current date
  * @returns Basic planetary positions
  */

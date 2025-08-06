@@ -178,8 +178,7 @@ class CurrentMomentManager {
       this.updateNotebook(momentData),
       this.updateSystemDefaults(momentData),
       this.updateStreamlinedPositions(momentData),
-      this.updateAccurateAstronomy(momentData),
-      this.updateAstronomiaCalculator(momentData)
+      this.updateAccurateAstronomy(momentData)
     ];
 
     const results = await Promise.allSettled(updatePromises);
@@ -187,7 +186,7 @@ class CurrentMomentManager {
     // Log any failures
     results.forEach((result, index) => {
       if (result.status === 'rejected') {
-        const updateNames = ['notebook', 'systemDefaults', 'streamlinedPositions', 'accurateAstronomy', 'astronomiaCalculator'];
+        const updateNames = ['notebook', 'systemDefaults', 'streamlinedPositions', 'accurateAstronomy'];
         logger.warn(`Failed to update ${updateNames[index]}:`, result.reason);
       }
     });
@@ -346,31 +345,6 @@ class CurrentMomentManager {
     }
   }
 
-  /**
-   * Update src/utils/astronomiaCalculator.ts
-   */
-  private async updateAstronomiaCalculator(momentData: CurrentMomentData): Promise<void> {
-    try {
-      const calculatorPath = path.join(process.cwd(), 'src/utils/astronomiaCalculator.ts');
-      const content = await fs.readFile(calculatorPath, 'utf-8');
-      
-      // Generate new current positions
-      const newPositions = this.formatPositionsForAstronomiaCalculator(momentData.planetaryPositions, momentData.date);
-      
-      // Replace the CURRENT_POSITIONS constant
-      const updatedContent = content.replace(
-        /const CURRENT_POSITIONS = \{[\s\S]*?\};/,
-        newPositions
-      );
-      
-      await fs.writeFile(calculatorPath, updatedContent);
-      logger.info('Updated astronomiaCalculator.ts successfully');
-      
-    } catch (error) {
-      logger.error('Failed to update astronomiaCalculator:', error);
-      throw error;
-    }
-  }
 
   /**
    * Format positions for Jupyter notebook
@@ -450,25 +424,6 @@ class CurrentMomentManager {
     return lines.join('\n');
   }
 
-  /**
-   * Format positions for astronomiaCalculator.ts
-   */
-  private formatPositionsForAstronomiaCalculator(positions: Record<string, PlanetPosition>, dateStr: string): string {
-    const lines = [
-      `// Current exact planetary positions (as of ${dateStr})`,
-      "// Reference: current-moment-chart.ipynb",
-      "const CURRENT_POSITIONS = {"
-    ];
-    
-    Object.entries(positions).forEach(([planet, position]) => {
-      const planetKey = planet.toLowerCase();
-      const retrograde = position.isRetrograde ? ", isRetrograde: true" : "";
-      lines.push(`  '${planetKey}': { sign: '${position.sign}', degree: ${position.degree + (position.minute / 60)}, exactLongitude: ${position.exactLongitude}${retrograde} },`);
-    });
-    
-    lines.push("};");
-    return lines.join('\n');
-  }
 
   /**
    * Get element for zodiac sign

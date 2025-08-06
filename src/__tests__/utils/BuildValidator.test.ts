@@ -1,7 +1,7 @@
 import fs from 'fs';
-import path from 'path';
+import _path from 'path';
 
-import { BuildValidator, BuildValidationResult } from '../../utils/BuildValidator';
+import { BuildValidator, BuildValidationResult as _BuildValidationResult } from '../../utils/BuildValidator';
 
 // Mock fs module
 jest.mock('fs');
@@ -94,7 +94,7 @@ describe('BuildValidator', () => {
   describe('repairBuild', () => {
     it('should create missing directories and files', async () => {
       // Mock missing files scenario - build directory doesn't exist
-      mockFs.existsSync.mockImplementation((path: string) => {
+      mockFs.existsSync.mockImplementation((_path: string) => {
         return false; // All files missing
       });
       mockFs.mkdirSync.mockImplementation();

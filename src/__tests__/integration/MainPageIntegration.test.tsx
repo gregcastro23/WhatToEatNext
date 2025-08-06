@@ -245,7 +245,7 @@ describe('Main Page Integration Tests', () => {
     });
 
     // Mock getElementById for navigation
-    jest.spyOn(document, 'getElementById').mockImplementation((id) => ({
+    jest.spyOn(document, 'getElementById').mockImplementation((_id) => ({
   scrollIntoView: jest.fn(),
       style: {},
       classList: {

@@ -7,7 +7,7 @@ import { recipeElementalMappings } from '@/data/recipes/elementalMappings';
 import { AstrologicalState, Season } from '@/types/alchemy';
 import { createAstrologicalBridge } from '@/types/bridges/astrologicalBridge';
 import type { RecipeElementalMapping } from '@/types/recipes';
-import { isValidAstrologicalState } from '@/utils/typeGuards/astrologicalGuards';
+import { isValidAstrologicalState as _isValidAstrologicalState } from '@/utils/typeGuards/astrologicalGuards';
 
 // Define the missing interface
 interface AstrologicalCulinaryGuidance {
@@ -171,7 +171,7 @@ export class CulinaryAstrologer {
 
   private getCuisineRecommendation(
     astroState: AstrologicalState,
-    season: Season
+    _season: Season
   ): CuisineRecommendation {
     const dominantElement = this.getDominantElementFromAstro(astroState);
     
@@ -246,7 +246,7 @@ export class CulinaryAstrologer {
   private calculateRecipeAlignment(recipe: RecipeElementalMapping, astroState: AstrologicalState): number {
     // Create separate scores for different types of planetary influences
     const traditionalPlanets = ['Sun', 'Moon', 'Mercury', 'Venus', 'Mars'];
-    const gasGiants = ['Jupiter', 'Saturn'];
+    const UNUSED_gasGiants = ['Jupiter', 'Saturn'];
     const outerPlanets = ['Uranus', 'Neptune', 'Pluto'];
     
     // Calculate match for traditional planets using Type Harmony approach

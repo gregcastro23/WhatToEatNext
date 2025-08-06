@@ -148,7 +148,7 @@ export class TestSafeProgressTracker {
     testName?: string
   ): Promise<void> {
     return new Promise((resolve) => {
-      const startTime = Date.now();
+      const UNUSED_startTime = Date.now();
       const startMetrics = { ...this.currentMetrics };
       const steps = Math.max(1, Math.floor(durationMs / 100)); // Update every 100ms
       let currentStep = 0;

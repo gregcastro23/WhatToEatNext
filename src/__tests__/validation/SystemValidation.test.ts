@@ -109,9 +109,7 @@ describe('System Validation - Task 11.2', () => {
       expect(() => require('../../utils/developmentExperienceOptimizations')).not.toThrow();
     });
 
-    test('MCP server integration exists', () => {
-      expect(() => require('../../utils/mcpServerIntegration')).not.toThrow();
-    });
+    // MCP server integration test removed with cleanup
 
     test('Agent hooks system exists', () => {
       expect(() => require('../../hooks/useAgentHooks')).not.toThrow();

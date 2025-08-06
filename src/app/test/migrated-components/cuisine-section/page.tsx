@@ -22,8 +22,8 @@ export default function CuisineSectionTestPage() {
   
   // Component state
   const [recipes, setRecipes] = useState<any[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<Error | null>(null);
+  const [_isLoading, setIsLoading] = useState(true);
+  const [_error, setError] = useState<Error | null>(null);
   
   // Load recipes for the selected cuisine
   useEffect(() => {

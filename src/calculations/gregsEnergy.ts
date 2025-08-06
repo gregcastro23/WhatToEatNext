@@ -1,4 +1,4 @@
-import { log } from '@/services/LoggingService';
+import { log as _log } from '@/services/LoggingService';
 
 import { ElementalCharacter, AlchemicalProperty } from '../constants/planetaryElements';
 
@@ -6,7 +6,7 @@ import { ElementalCharacter, AlchemicalProperty } from '../constants/planetaryEl
  * A utility function for logging debug information
  * This is a safe replacement for console.log that can be disabled in production
  */
-const debugLog = (_message: string, ...args: unknown[]): void => {
+const debugLog = (_message: string, ..._args: unknown[]): void => {
   // Comment out console.log to avoid linting warnings
   // log.info(message, ...args);
 };

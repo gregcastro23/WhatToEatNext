@@ -1,5 +1,5 @@
 import { AstrologicalState, Element, ElementalProperties, ZodiacSign } from '@/types/alchemy';
-import { logger } from '@/utils/logger';
+import { logger as _logger } from '@/utils/logger';
 
 import { AlchemicalEngineAdvanced } from '../alchemicalEngine';
 // Import types for NaturalInfluenceParams interface

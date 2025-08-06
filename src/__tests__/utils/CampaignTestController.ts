@@ -6,8 +6,8 @@
  */
 
 import {
-  CampaignConfig,
-  CampaignPhase,
+  CampaignConfig as _CampaignConfig,
+  CampaignPhase as _CampaignPhase,
   ProgressMetrics,
   SafetyEvent,
   SafetyEventType,
@@ -454,7 +454,7 @@ export class CampaignTestController {
 
   private mockExternalAPIs(): void {
     // Mock child_process.execSync to prevent actual command execution
-    const originalExecSync = require('child_process').execSync;
+    const UNUSED_originalExecSync = require('child_process').execSync;
     
     jest.spyOn(require('child_process'), 'execSync').mockImplementation((command: string) => {
       // Return mock outputs for common commands
@@ -493,7 +493,7 @@ export class CampaignTestController {
     });
 
     // Mock file reading
-    jest.spyOn(fs, 'readFileSync').mockImplementation((path: string) => {
+    jest.spyOn(fs, 'readFileSync').mockImplementation((_path: string) => {
       return 'Mock file content';
     });
 

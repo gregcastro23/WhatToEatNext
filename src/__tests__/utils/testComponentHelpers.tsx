@@ -22,7 +22,7 @@ export const MockMainPageLayout: React.FC<MainPageLayoutProps> = ({
   children, 
   debugMode = false, 
   loading = false, 
-  onSectionNavigate 
+  onSectionNavigate: _onSectionNavigate 
 }) => {
   return (
     <div data-testid="mock-main-page-layout">
@@ -99,7 +99,7 @@ export class TestErrorBoundary extends React.Component<
     return { hasError: true, error };
   }
 
-  componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
+  componentDidCatch(error: Error, _errorInfo: React.ErrorInfo) {
     this.props.onError?.(error);
   }
 

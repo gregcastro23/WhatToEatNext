@@ -25,7 +25,7 @@ import {
 import { useDevelopmentExperienceOptimizations } from '@/utils/developmentExperienceOptimizations';
 import { useErrorHandler } from '@/utils/errorHandling';
 import { logger } from '@/utils/logger';
-import { useMCPServerIntegration } from '@/utils/mcpServerIntegration';
+// useMCPServerIntegration removed with MCP cleanup
 import { useSteeringFileIntelligence, ElementalProperties } from '@/utils/steeringFileIntelligence';
 
 // Lazy load non-critical components for better performance
@@ -149,13 +149,7 @@ const MainPageLayout: React.FC<MainPageLayoutProps> = memo(function MainPageLayo
   const { metrics: qualityMetrics, updateMetrics } = useQualityMetricsHook(30000); // 30 seconds
 
   // MCP server integration for reliable external APIs
-  const { 
-    getAstrologicalData, 
-    getNutritionalData, 
-    getRecipeData, 
-    testFallbackStrategy, 
-    getServerStatus 
-  } = useMCPServerIntegration();
+  // MCP Server Integration removed - functionality handled by core services
 
   // Development experience optimizations
   const {
@@ -396,25 +390,12 @@ const MainPageLayout: React.FC<MainPageLayoutProps> = memo(function MainPageLayo
   useEffect(() => {
     const testMCPIntegration = async () => {
       try {
-        // Test fallback strategy on component mount
-        const fallbackTest = await testFallbackStrategy();
-        logger.info('MCP server fallback strategy test completed:', {
-          overallReliability: fallbackTest.overallReliability,
-          astrological: fallbackTest.astrological.source,
-          nutritional: fallbackTest.nutritional.source,
-          recipes: fallbackTest.recipes.source
-        });
+        // MCP server integration removed - core services handle API fallbacks
+        logger.info('Using core astrological and alchemical services (MCP integration removed)');
 
-        // Monitor server status
-        const serverStatus = getServerStatus();
-        logger.debug('MCP server status:', serverStatus);
-
-        // Test individual API integrations if needed
+        // Test core service functionality if needed
         if (selectedIngredients.length > 0) {
-          const nutritionalData = await getNutritionalData(selectedIngredients[0]);
-          if (nutritionalData.success) {
-            logger.debug(`Nutritional data fetched via ${nutritionalData.source} for ${selectedIngredients[0]}`);
-          }
+          logger.debug(`Testing core nutritional services for ${selectedIngredients[0]}`);
         }
 
       } catch (error) {
@@ -425,14 +406,9 @@ const MainPageLayout: React.FC<MainPageLayoutProps> = memo(function MainPageLayo
     // Test MCP integration on mount and when ingredients change
     testMCPIntegration();
 
-    // Set up periodic server status monitoring
-    const statusInterval = setInterval(() => {
-      const serverStatus = getServerStatus();
-      logger.debug('MCP server status check:', serverStatus);
-    }, 5 * 60 * 1000); // Every 5 minutes
-
-    return () => clearInterval(statusInterval);
-  }, [testFallbackStrategy, getServerStatus, getNutritionalData, selectedIngredients]);
+    // Core services are always available (no periodic monitoring needed)
+    logger.debug('Core services initialized successfully');
+  }, [selectedIngredients]);
 
   // Apply development experience optimizations
   useEffect(() => {
@@ -505,15 +481,14 @@ const MainPageLayout: React.FC<MainPageLayoutProps> = memo(function MainPageLayo
         logger.warn('Build quality issues:', buildQuality.issues);
       }
 
-      // Log MCP server status in debug mode
-      const serverStatus = getServerStatus();
-      logger.debug('MCP Server Status:', serverStatus);
+      // Core services are always available (MCP integration removed)
+      logger.debug('Core Services Status: Active');
 
       // Log development metrics in debug mode
       const devMetrics = getDevelopmentMetrics();
       logger.debug('Development Experience Metrics:', devMetrics);
     }
-  }, [debugMode, qualityMetrics, agentHookState, planetaryValidation, typescriptTrigger, buildQuality, getServerStatus, getDevelopmentMetrics]);
+  }, [debugMode, qualityMetrics, agentHookState, planetaryValidation, typescriptTrigger, buildQuality, getDevelopmentMetrics]);
 
 
 

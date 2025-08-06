@@ -6,7 +6,7 @@
  */
 
 import { execSync } from 'child_process';
-import { readFileSync, existsSync } from 'fs';
+import { readFileSync as _readFileSync, existsSync } from 'fs';
 import path from 'path';
 
 import { jest } from '@jest/globals';
@@ -507,7 +507,7 @@ describe('Integration Validation Tests - Task 12', () => {
 
       const result = JSON.parse(mockExecSync('integration-validation-summary').toString());
 
-      Object.entries(result).forEach(([component, status]) => {
+      Object.entries(result).forEach(([_component, status]) => {
         expect(status).toBe('INTEGRATED');
       });
 

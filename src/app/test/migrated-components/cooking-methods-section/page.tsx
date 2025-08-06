@@ -120,7 +120,7 @@ export default function CookingMethodsSectionTestPage() {
   const [selectedMethodId, setSelectedMethodId] = useState<string | null>(null);
   const [showToggle, setShowToggle] = useState<boolean>(true);
   const [initiallyExpanded, setInitiallyExpanded] = useState<boolean>(false);
-  const [methods, setMethods] = useState(sampleMethods);
+  const [methods, _setMethods] = useState(sampleMethods);
   
   // Get services
   useServices();

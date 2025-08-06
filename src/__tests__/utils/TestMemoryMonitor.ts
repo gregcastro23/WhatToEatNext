@@ -99,7 +99,7 @@ export class TestMemoryMonitor {
   /**
    * Check if current memory usage is within limits
    */
-  checkMemoryUsage(testName: string): MemoryCheck {
+  checkMemoryUsage(_testName: string): MemoryCheck {
     const currentUsage = this.getCurrentMemoryUsage();
     const warnings: string[] = [];
     const errors: string[] = [];

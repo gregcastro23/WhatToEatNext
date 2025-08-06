@@ -7,7 +7,7 @@
  * A utility function for logging debug information
  * This is a safe replacement for console.log that can be disabled in production
  */
-const debugLog = (_message: string, ...args: unknown[]): void => {
+const debugLog = (_message: string, ..._args: unknown[]): void => {
   // Comment out console.log to avoid linting warnings
   // log.info(message, ...args);
 };
@@ -16,7 +16,7 @@ const debugLog = (_message: string, ...args: unknown[]): void => {
  * A utility function for logging errors
  * This is a safe replacement for console.error that can be disabled in production
  */
-const errorLog = (_message: string, ...args: unknown[]): void => {
+const errorLog = (_message: string, ..._args: unknown[]): void => {
   // Comment out console.error to avoid linting warnings
   // console.error(message, ...args);
 };
@@ -80,8 +80,7 @@ const MODULE_MAP = {
   '@/utils/solarPositions': () => import('@/utils/solarPositions') as unknown as Promise<SolarPositionsModule>,
   '@/calculations/alchemicalCalculations': () => import('@/calculations/alchemicalCalculations'),
   '@/calculations/gregsEnergy': () => import('@/calculations/gregsEnergy'),
-  // Don't use path-based imports for astronomia due to linter errors
-  'astronomia': () => import('astronomia'),
+  // astronomia removed from dependencies
 };
 
 // Type for known module paths
@@ -148,8 +147,7 @@ export async function safeImportFunctionKnown<T extends (...args: unknown[]) => 
   }
 }
 
-// Remove static import and use dynamic import only
-// import * as astronomia from 'astronomia';
+// astronomia removed from dependencies
 
 // Add back specific module imports for known paths instead of using dynamic imports
 import * as alchemicalCalculations from '@/calculations/alchemicalCalculations';
@@ -159,15 +157,7 @@ import * as accurateAstronomy from '@/utils/accurateAstronomy';
 import * as astrologyUtils from '@/utils/astrologyUtils';
 import * as safeAstrology from '@/utils/safeAstrology';
 
-// Get astronomia module dynamically to prevent build issues
-const getAstronomiaModule = async () => {
-  try {
-    return await import('astronomia');
-  } catch (error) {
-    errorLog('Failed to import astronomia:', error);
-    return null;
-  }
-};
+// astronomia module removed
 
 // Safe import function using static imports for known modules
 export async function safeImportAndExecute<R, A extends any[] = any[]>(
@@ -190,51 +180,9 @@ export async function safeImportAndExecute<R, A extends any[] = any[]>(
     } else if (path === '@/calculations/gregsEnergy') {
       importedModule = gregsEnergy;
     } else if (path === 'astronomia') {
-      // Handle astronomia submodules - use dynamic import
-      if (['solar', 'moon', 'planetposition', 'julian'].includes(functionName)) {
-        const astronomiaModule = await getAstronomiaModule();
-        if (!astronomiaModule) {
-          errorLog(`Failed to import astronomia for ${functionName}`);
-          return null;
-        }
-        
-        const subModule = (astronomiaModule as Record<string, unknown>)[functionName];
-        if (typeof subModule === 'undefined') {
-          errorLog(`Astronomia submodule ${functionName} not found`);
-          return null;
-        }
-        
-        // Return the function result directly since we're executing specific methods
-        if (_args.length === 1 && functionName === 'solar' && 
-            typeof (subModule as Record<string, unknown>).apparentLongitude === 'function') {
-          return ((subModule as Record<string, unknown>).apparentLongitude as (...args: unknown[]) => unknown)(_args[0]) as R;
-        } else if (_args.length === 1 && functionName === 'moon' && 
-                  typeof (subModule as Record<string, unknown>).position === 'function') {
-          return ((subModule as Record<string, unknown>).position as (...args: unknown[]) => unknown)(_args[0]) as R;
-        } else if (_args.length === 1 && functionName === 'julian' && 
-                  typeof (subModule as Record<string, unknown>).fromDate === 'function') {
-          return ((subModule as Record<string, unknown>).fromDate as (...args: unknown[]) => unknown)(_args[0]) as R;
-        } else {
-          // Generic case - try to execute the function
-          try {
-            if (typeof subModule === 'function') {
-              return subModule(..._args) as R;
-            } else {
-              errorLog(`Submodule ${functionName} is not a function`);
-              return null;
-            }
-          } catch (error) {
-            errorLog(`Error with astronomia function ${functionName}:`, error);
-            return null;
-          }
-        }
-      } else {
-        // Get the full module
-        importedModule = await getAstronomiaModule();
-        if (!importedModule) {
-          return null;
-        }
-      }
+      // astronomia removed from dependencies
+      errorLog(`Astronomia module removed: ${functionName}`);
+      return null;
     } else {
       // For non-static imports, check if we have a mapped version
       const mappedPath = Object.keys(MODULE_MAP).find(key => path.startsWith(key));
@@ -304,27 +252,10 @@ export async function safeImportFunction<T extends (...args: unknown[]) => any>(
       return safeImportFunctionKnown(path as KnownModulePath, functionName);
     }
     
-    // Special handling for astronomia modules
+    // astronomia modules removed
     if (path === 'astronomia') {
-      if (['solar', 'moon', 'planetposition', 'julian'].includes(functionName)) {
-        // Get the module dynamically instead of using static import
-        const astronomiaModule = await getAstronomiaModule();
-        if (!astronomiaModule) {
-          errorLog(`Failed to import astronomia for ${functionName}`);
-          return null;
-        }
-        
-        // Return the submodule from the dynamic import
-        const subModule = (astronomiaModule as Record<string, unknown>)[functionName];
-        if (typeof subModule === 'undefined') {
-          errorLog(`Astronomia submodule ${functionName} not found`);
-          return null;
-        }
-        return subModule as unknown as T;
-      } else {
-        errorLog(`Unknown astronomia submodule: ${functionName}`);
-        return null;
-      }
+      errorLog(`Astronomia module removed: ${functionName}`);
+      return null;
     }
     
     // Reject other dynamic imports to avoid webpack warnings
