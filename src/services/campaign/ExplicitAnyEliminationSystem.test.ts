@@ -1,6 +1,6 @@
 /**
  * Tests for Explicit-Any Elimination System
- * 
+ *
  * Verifies batch processing, campaign progress tracking, and 75.5% reduction target
  */
 
@@ -180,7 +180,7 @@ describe('ExplicitAnyEliminationSystem', () => {
       expect(mockFs.promises.writeFile).toHaveBeenCalled();
       const writeCall = (mockFs.promises.writeFile as jest.Mock).mock.calls[0];
       const updatedProgress = JSON.parse(writeCall[1]);
-      
+
       expect(updatedProgress.totalExplicitAnyRemaining).toBe(500);
       expect(updatedProgress.reductionAchieved).toBe(500); // 1000 - 500
       expect(updatedProgress.reductionPercentage).toBe(50);
@@ -242,7 +242,7 @@ describe('ExplicitAnyEliminationSystem', () => {
       };
 
       mockSpawn.mockReturnValue(mockChild as unknown as import('child_process').ChildProcess);
-      
+
       // Mock campaign progress
       const mockProgress = {
         totalExplicitAnyStart: 1000,
@@ -256,7 +256,7 @@ describe('ExplicitAnyEliminationSystem', () => {
       mockFs.existsSync.mockReturnValue(true);
       mockFs.promises.readFile = jest.fn().mockResolvedValue(JSON.stringify(mockProgress));
       mockFs.promises.writeFile = jest.fn().mockResolvedValue(undefined);
-      
+
       mockExecSync
         .mockReturnValueOnce('200\n') // Current count
         .mockReturnValueOnce('Build successful') // Build validation
@@ -281,7 +281,7 @@ describe('ExplicitAnyEliminationSystem', () => {
       };
 
       mockSpawn.mockReturnValue(mockChild as unknown as import('child_process').ChildProcess);
-      
+
       // Mock no progress scenario
       mockFs.existsSync.mockReturnValue(false);
       mockExecSync

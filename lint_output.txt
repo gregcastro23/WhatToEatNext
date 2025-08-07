@@ -10,22 +10,25 @@ yarn lint
   267:23  error  Expected non-Promise value in a boolean conditional                                                                                                                 @typescript-eslint/no-misused-promises
 
 /Users/GregCastro/Desktop/WhatToEatNext/src/__tests__/campaign/CampaignSystemTestIntegration.test.ts
-   30:7  error  Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator  @typescript-eslint/no-floating-promises
-   77:9  error  Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator  @typescript-eslint/no-floating-promises
-  104:9  error  Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator  @typescript-eslint/no-floating-promises
-  134:9  error  Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator  @typescript-eslint/no-floating-promises
-  182:9  error  Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator  @typescript-eslint/no-floating-promises
-  211:9  error  Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator  @typescript-eslint/no-floating-promises
-  246:9  error  Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator  @typescript-eslint/no-floating-promises
-  276:9  error  Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator  @typescript-eslint/no-floating-promises
-  294:9  error  Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator  @typescript-eslint/no-floating-promises
-  309:9  error  Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator  @typescript-eslint/no-floating-promises
-  372:9  error  Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator  @typescript-eslint/no-floating-promises
-  395:7  error  Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator  @typescript-eslint/no-floating-promises
-  430:9  error  Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator  @typescript-eslint/no-floating-promises
-  450:9  error  Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator  @typescript-eslint/no-floating-promises
-  479:9  error  Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator  @typescript-eslint/no-floating-promises
-  536:9  error  Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator  @typescript-eslint/no-floating-promises
+   30:7   error  Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator  @typescript-eslint/no-floating-promises
+   77:9   error  Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator  @typescript-eslint/no-floating-promises
+  104:9   error  Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator  @typescript-eslint/no-floating-promises
+  134:9   error  Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator  @typescript-eslint/no-floating-promises
+  182:9   error  Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator  @typescript-eslint/no-floating-promises
+  201:11  error  Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator  @typescript-eslint/no-floating-promises
+  211:9   error  Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator  @typescript-eslint/no-floating-promises
+  246:9   error  Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator  @typescript-eslint/no-floating-promises
+  267:9   error  Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator  @typescript-eslint/no-floating-promises
+  276:9   error  Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator  @typescript-eslint/no-floating-promises
+  294:9   error  Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator  @typescript-eslint/no-floating-promises
+  309:9   error  Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator  @typescript-eslint/no-floating-promises
+  361:11  error  Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator  @typescript-eslint/no-floating-promises
+  372:9   error  Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator  @typescript-eslint/no-floating-promises
+  395:7   error  Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator  @typescript-eslint/no-floating-promises
+  430:9   error  Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator  @typescript-eslint/no-floating-promises
+  450:9   error  Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator  @typescript-eslint/no-floating-promises
+  479:9   error  Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator  @typescript-eslint/no-floating-promises
+  536:9   error  Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator  @typescript-eslint/no-floating-promises
 
 /Users/GregCastro/Desktop/WhatToEatNext/src/__tests__/e2e/MainPageWorkflows.test.tsx
   461:5  error  Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator  @typescript-eslint/no-floating-promises
@@ -183,10 +186,6 @@ yarn lint
   247:9   warning  Prefer using an optional chain expression instead, as it's more concise and easier to read  @typescript-eslint/prefer-optional-chain
   291:9   warning  Prefer using an optional chain expression instead, as it's more concise and easier to read  @typescript-eslint/prefer-optional-chain
 
-/Users/GregCastro/Desktop/WhatToEatNext/src/__tests__/linting/LintingValidationDashboard.test.ts
-  513:7  error  Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator  @typescript-eslint/no-floating-promises
-  590:7  error  Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator  @typescript-eslint/no-floating-promises
-
 /Users/GregCastro/Desktop/WhatToEatNext/src/__tests__/linting/React19NextJS15CompatibilityValidation.test.ts
   491:9  warning  Prefer using an optional chain expression instead, as it's more concise and easier to read  @typescript-eslint/prefer-optional-chain
   504:9  warning  Prefer using an optional chain expression instead, as it's more concise and easier to read  @typescript-eslint/prefer-optional-chain
@@ -242,8 +241,6 @@ See the typescript-eslint docs for more info: https://typescript-eslint.io/linti
 
 /Users/GregCastro/Desktop/WhatToEatNext/src/__tests__/types/testUtils.d.ts
     7:10  warning  Mock not found in 'jest'                  import/named
-   29:92  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
-   29:97  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
    63:31  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
    73:47  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
    91:24  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
@@ -276,9 +273,6 @@ See the typescript-eslint docs for more info: https://typescript-eslint.io/linti
   178:51  warning  Unexpected any. Specify a different type                                                               @typescript-eslint/no-explicit-any
   179:45  warning  Unexpected any. Specify a different type                                                               @typescript-eslint/no-explicit-any
   180:45  warning  Unexpected any. Specify a different type                                                               @typescript-eslint/no-explicit-any
-  197:38  warning  Unexpected any. Specify a different type                                                               @typescript-eslint/no-explicit-any
-  197:66  warning  Unexpected any. Specify a different type                                                               @typescript-eslint/no-explicit-any
-  198:79  warning  Unexpected any. Specify a different type                                                               @typescript-eslint/no-explicit-any
   207:24  warning  Unexpected any. Specify a different type                                                               @typescript-eslint/no-explicit-any
   216:50  warning  Unexpected any. Specify a different type                                                               @typescript-eslint/no-explicit-any
   217:17  warning  Unexpected any. Specify a different type                                                               @typescript-eslint/no-explicit-any
@@ -3926,17 +3920,11 @@ See the typescript-eslint docs for more info: https://typescript-eslint.io/linti
 
 /Users/GregCastro/Desktop/WhatToEatNext/src/services/campaign/ExplicitAnyEliminationSystem.test.ts
    20:42  warning  Arrow function has too many lines (377). Maximum allowed is 120  max-lines-per-function
-   38:38  warning  Unexpected any. Specify a different type                         @typescript-eslint/no-explicit-any
-   54:38  warning  Unexpected any. Specify a different type                         @typescript-eslint/no-explicit-any
    97:38  warning  Unexpected any. Specify a different type                         @typescript-eslint/no-explicit-any
   112:38  warning  Unexpected any. Specify a different type                         @typescript-eslint/no-explicit-any
   137:37  warning  Unexpected any. Specify a different type                         @typescript-eslint/no-explicit-any
   149:37  warning  Unexpected any. Specify a different type                         @typescript-eslint/no-explicit-any
   177:39  warning  Unexpected any. Specify a different type                         @typescript-eslint/no-explicit-any
-  203:46  warning  Unexpected any. Specify a different type                         @typescript-eslint/no-explicit-any
-  244:46  warning  Unexpected any. Specify a different type                         @typescript-eslint/no-explicit-any
-  283:46  warning  Unexpected any. Specify a different type                         @typescript-eslint/no-explicit-any
-  350:46  warning  Unexpected any. Specify a different type                         @typescript-eslint/no-explicit-any
 
 /Users/GregCastro/Desktop/WhatToEatNext/src/services/campaign/ExplicitAnyEliminationSystem.ts
    13:8   error    'path' is defined but never used. Allowed unused vars must match /^(_|CAMPAIGN|PROGRESS|METRICS|SAFETY|ERROR|UNUSED_)/u                       @typescript-eslint/no-unused-vars
@@ -4809,7 +4797,6 @@ See the typescript-eslint docs for more info: https://typescript-eslint.io/linti
   158:9   warning  Unexpected console statement                  no-console
   162:9   warning  Unexpected console statement                  no-console
   166:9   warning  Unexpected console statement                  no-console
-  171:32  warning  Unexpected any. Specify a different type      @typescript-eslint/no-explicit-any
   172:5   warning  Unexpected console statement                  no-console
   173:5   warning  Unexpected console statement                  no-console
   174:5   warning  Unexpected console statement                  no-console
@@ -4823,7 +4810,6 @@ See the typescript-eslint docs for more info: https://typescript-eslint.io/linti
   192:48  warning  Unexpected console statement                  no-console
   196:7   warning  Unexpected console statement                  no-console
   197:52  warning  Unexpected console statement                  no-console
-  201:47  warning  Unexpected any. Specify a different type      @typescript-eslint/no-explicit-any
   202:5   warning  Unexpected console statement                  no-console
   206:7   warning  Unexpected console statement                  no-console
   207:53  warning  Unexpected any. Specify a different type      @typescript-eslint/no-explicit-any
@@ -4835,7 +4821,6 @@ See the typescript-eslint docs for more info: https://typescript-eslint.io/linti
   217:11  warning  Unexpected console statement                  no-console
   223:7   warning  Unexpected console statement                  no-console
   224:63  warning  Unexpected console statement                  no-console
-  228:43  warning  Unexpected any. Specify a different type      @typescript-eslint/no-explicit-any
   229:5   warning  Unexpected console statement                  no-console
   233:7   warning  Unexpected console statement                  no-console
   234:54  warning  Unexpected any. Specify a different type      @typescript-eslint/no-explicit-any
@@ -4851,13 +4836,11 @@ See the typescript-eslint docs for more info: https://typescript-eslint.io/linti
   256:7   warning  Unexpected console statement                  no-console
   257:51  warning  Unexpected any. Specify a different type      @typescript-eslint/no-explicit-any
   258:9   warning  Unexpected console statement                  no-console
-  263:48  warning  Unexpected any. Specify a different type      @typescript-eslint/no-explicit-any
   265:5   warning  Unexpected console statement                  no-console
   266:5   warning  Unexpected console statement                  no-console
   267:5   warning  Unexpected console statement                  no-console
   268:5   warning  Unexpected console statement                  no-console
   269:5   warning  Unexpected console statement                  no-console
-  272:44  warning  Unexpected any. Specify a different type      @typescript-eslint/no-explicit-any
   274:5   warning  Unexpected console statement                  no-console
   275:5   warning  Unexpected console statement                  no-console
   276:5   warning  Unexpected console statement                  no-console
@@ -6052,19 +6035,19 @@ See the typescript-eslint docs for more info: https://typescript-eslint.io/linti
 
 /Users/GregCastro/Desktop/WhatToEatNext/src/utils/astrology/core.ts
     1:1   warning  Astrological calculation files should import transit validation utilities                                                                                                            astrological/require-transit-date-validation
-   11:1   error    There should be no empty line within import group                                                                                                                                    import/order
-   44:29  warning  Unexpected any. Specify a different type                                                                                                                                             @typescript-eslint/no-explicit-any
-   92:7   error    'zodiacSigns' is assigned a value but never used. Allowed unused vars must match /^(_|FALLBACK|RELIABLE|POSITIONS|TRANSIT|DEFAULT|MARCH2025|UNUSED_|planet|degree|sign|longitude)/u  @typescript-eslint/no-unused-vars
-  106:72  warning  Unexpected any. Specify a different type                                                                                                                                             @typescript-eslint/no-explicit-any
-  243:41  warning  Unexpected any. Specify a different type                                                                                                                                             @typescript-eslint/no-explicit-any
-  244:39  warning  Unexpected any. Specify a different type                                                                                                                                             @typescript-eslint/no-explicit-any
-  311:8   warning  Function 'calculateSunSign' has a complexity of 45. Maximum allowed is 15                                                                                                            complexity
-  339:9   warning  Prefer using an optional chain expression instead, as it's more concise and easier to read                                                                                           @typescript-eslint/prefer-optional-chain
-  399:21  error    Unexpected `await` of a non-Promise (non-"Thenable") value                                                                                                                           @typescript-eslint/await-thenable
-  439:55  warning  Unexpected any. Specify a different type                                                                                                                                             @typescript-eslint/no-explicit-any
-  596:8   warning  Async function 'calculateAspects' has too many lines (113). Maximum allowed is 80                                                                                                    max-lines-per-function
-  596:8   warning  Async function 'calculateAspects' has a complexity of 16. Maximum allowed is 15                                                                                                      complexity
-  628:9   warning  Prefer using an optional chain expression instead, as it's more concise and easier to read                                                                                           @typescript-eslint/prefer-optional-chain
+   13:1   error    There should be no empty line within import group                                                                                                                                    import/order
+   46:29  warning  Unexpected any. Specify a different type                                                                                                                                             @typescript-eslint/no-explicit-any
+   94:7   error    'zodiacSigns' is assigned a value but never used. Allowed unused vars must match /^(_|FALLBACK|RELIABLE|POSITIONS|TRANSIT|DEFAULT|MARCH2025|UNUSED_|planet|degree|sign|longitude)/u  @typescript-eslint/no-unused-vars
+  108:72  warning  Unexpected any. Specify a different type                                                                                                                                             @typescript-eslint/no-explicit-any
+  245:41  warning  Unexpected any. Specify a different type                                                                                                                                             @typescript-eslint/no-explicit-any
+  246:39  warning  Unexpected any. Specify a different type                                                                                                                                             @typescript-eslint/no-explicit-any
+  313:8   warning  Function 'calculateSunSign' has a complexity of 45. Maximum allowed is 15                                                                                                            complexity
+  341:9   warning  Prefer using an optional chain expression instead, as it's more concise and easier to read                                                                                           @typescript-eslint/prefer-optional-chain
+  401:21  error    Unexpected `await` of a non-Promise (non-"Thenable") value                                                                                                                           @typescript-eslint/await-thenable
+  441:55  warning  Unexpected any. Specify a different type                                                                                                                                             @typescript-eslint/no-explicit-any
+  598:8   warning  Async function 'calculateAspects' has too many lines (113). Maximum allowed is 80                                                                                                    max-lines-per-function
+  598:8   warning  Async function 'calculateAspects' has a complexity of 16. Maximum allowed is 15                                                                                                      complexity
+  630:9   warning  Prefer using an optional chain expression instead, as it's more concise and easier to read                                                                                           @typescript-eslint/prefer-optional-chain
 
 /Users/GregCastro/Desktop/WhatToEatNext/src/utils/astrology/elementalValidation.ts
     8:1   warning  Astrological calculation files should import transit validation utilities  astrological/require-transit-date-validation
@@ -6508,7 +6491,6 @@ See the typescript-eslint docs for more info: https://typescript-eslint.io/linti
   64:39  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
 
 /Users/GregCastro/Desktop/WhatToEatNext/src/utils/recipeFilters.ts
-    8:18  error    'RecipeFilters' is defined but never used. Allowed unused vars must match /^(_|UNUSED_)/u     @typescript-eslint/no-unused-vars
    83:27  warning  Arrow function has a complexity of 18. Maximum allowed is 15                                  complexity
   427:15  warning  Prefer using an optional chain expression instead, as it's more concise and easier to read    @typescript-eslint/prefer-optional-chain
   473:3   warning  Method 'applyEnhancedFilters' has too many lines (106). Maximum allowed is 80                 max-lines-per-function
@@ -6523,30 +6505,27 @@ See the typescript-eslint docs for more info: https://typescript-eslint.io/linti
   785:38  warning  Unexpected any. Specify a different type                                                      @typescript-eslint/no-explicit-any
 
 /Users/GregCastro/Desktop/WhatToEatNext/src/utils/recipeMatching.ts
-     3:1   error    There should be no empty line within import group                                          import/order
-    16:25  warning  Unexpected any. Specify a different type                                                   @typescript-eslint/no-explicit-any
-    24:12  warning  Unexpected any. Specify a different type                                                   @typescript-eslint/no-explicit-any
-    25:12  warning  Unexpected any. Specify a different type                                                   @typescript-eslint/no-explicit-any
-    26:14  warning  Unexpected any. Specify a different type                                                   @typescript-eslint/no-explicit-any
-    31:1   error    `@/data/ingredients` import should occur before import of `@/services/LocalRecipeService`  import/order
-    46:12  warning  Unexpected any. Specify a different type                                                   @typescript-eslint/no-explicit-any
-    47:14  warning  Unexpected any. Specify a different type                                                   @typescript-eslint/no-explicit-any
-    48:12  warning  Unexpected any. Specify a different type                                                   @typescript-eslint/no-explicit-any
-    76:6   error    'Modality' is defined but never used. Allowed unused vars must match /^(_|UNUSED_)/u       @typescript-eslint/no-unused-vars
-    81:8   warning  Async function 'findBestMatches' has too many lines (209). Maximum allowed is 80           max-lines-per-function
-    81:8   warning  Async function 'findBestMatches' has a complexity of 17. Maximum allowed is 15             complexity
-   347:30  warning  Arrow function has a complexity of 23. Maximum allowed is 15                               complexity
-   615:1   warning  Function 'calculateModalityScore' has a complexity of 18. Maximum allowed is 15            complexity
-   916:45  warning  Arrow function has too many lines (152). Maximum allowed is 80                             max-lines-per-function
-   960:42  warning  Arrow function has too many lines (89). Maximum allowed is 80                              max-lines-per-function
-   960:42  warning  Arrow function has a complexity of 19. Maximum allowed is 15                               complexity
-  1072:1   warning  Function '_calculateNutritionalMatch' has too many lines (83). Maximum allowed is 80       max-lines-per-function
-  1094:19  warning  Arrow function has a complexity of 18. Maximum allowed is 15                               complexity
-  1165:1   warning  Function '_calculateAstrologicalMatch' has too many lines (277). Maximum allowed is 80     max-lines-per-function
-  1165:1   warning  Function '_calculateAstrologicalMatch' has a complexity of 19. Maximum allowed is 15       complexity
-  1378:44  warning  Unexpected any. Specify a different type                                                   @typescript-eslint/no-explicit-any
-  1446:1   warning  Function '_calculateComplexityMatch' has too many lines (92). Maximum allowed is 80        max-lines-per-function
-  1446:1   warning  Function '_calculateComplexityMatch' has a complexity of 26. Maximum allowed is 15         complexity
+    15:25  warning  Unexpected any. Specify a different type                                                @typescript-eslint/no-explicit-any
+    23:12  warning  Unexpected any. Specify a different type                                                @typescript-eslint/no-explicit-any
+    24:12  warning  Unexpected any. Specify a different type                                                @typescript-eslint/no-explicit-any
+    25:14  warning  Unexpected any. Specify a different type                                                @typescript-eslint/no-explicit-any
+    44:12  warning  Unexpected any. Specify a different type                                                @typescript-eslint/no-explicit-any
+    45:14  warning  Unexpected any. Specify a different type                                                @typescript-eslint/no-explicit-any
+    46:12  warning  Unexpected any. Specify a different type                                                @typescript-eslint/no-explicit-any
+    79:8   warning  Async function 'findBestMatches' has too many lines (209). Maximum allowed is 80        max-lines-per-function
+    79:8   warning  Async function 'findBestMatches' has a complexity of 17. Maximum allowed is 15          complexity
+   345:30  warning  Arrow function has a complexity of 23. Maximum allowed is 15                            complexity
+   613:1   warning  Function 'calculateModalityScore' has a complexity of 18. Maximum allowed is 15         complexity
+   914:45  warning  Arrow function has too many lines (152). Maximum allowed is 80                          max-lines-per-function
+   958:42  warning  Arrow function has too many lines (89). Maximum allowed is 80                           max-lines-per-function
+   958:42  warning  Arrow function has a complexity of 19. Maximum allowed is 15                            complexity
+  1070:1   warning  Function '_calculateNutritionalMatch' has too many lines (83). Maximum allowed is 80    max-lines-per-function
+  1092:19  warning  Arrow function has a complexity of 18. Maximum allowed is 15                            complexity
+  1163:1   warning  Function '_calculateAstrologicalMatch' has too many lines (277). Maximum allowed is 80  max-lines-per-function
+  1163:1   warning  Function '_calculateAstrologicalMatch' has a complexity of 19. Maximum allowed is 15    complexity
+  1376:44  warning  Unexpected any. Specify a different type                                                @typescript-eslint/no-explicit-any
+  1444:1   warning  Function '_calculateComplexityMatch' has too many lines (92). Maximum allowed is 80     max-lines-per-function
+  1444:1   warning  Function '_calculateComplexityMatch' has a complexity of 26. Maximum allowed is 15      complexity
 
 /Users/GregCastro/Desktop/WhatToEatNext/src/utils/recommendation/cuisineRecommendation.ts
   124:95  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
@@ -6663,7 +6642,7 @@ See the typescript-eslint docs for more info: https://typescript-eslint.io/linti
    74:8   warning  Function 'getZodiacSign' has a complexity of 45. Maximum allowed is 15      complexity
   252:8   warning  Function 'getZodiacFromDate' has a complexity of 45. Maximum allowed is 15  complexity
 
-✖ 5182 problems (2220 errors, 2962 warnings)
+✖ 5163 problems (2217 errors, 2946 warnings)
   39 errors and 168 warnings potentially fixable with the `--fix` option.
 
 make: *** [lint] Error 1

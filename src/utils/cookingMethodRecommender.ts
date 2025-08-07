@@ -683,9 +683,9 @@ export async function getRecommendedCookingMethods(
     const temperamentData = mercuryDataTyped.PlanetSpecific?.CulinaryTemperament;
 
     if (airSigns.includes(lowerSign) && temperamentData?.AirMercury) {
-      mercuryTemperament = temperamentData.AirMercury || {};
+      _mercuryTemperament = temperamentData.AirMercury || {};
     } else if (earthSigns.includes(lowerSign) && temperamentData?.EarthMercury) {
-      mercuryTemperament = temperamentData.EarthMercury || {};
+      _mercuryTemperament = temperamentData.EarthMercury || {};
     }
   }
 
@@ -700,9 +700,9 @@ export async function getRecommendedCookingMethods(
     const temperamentData = jupiterDataTyped.PlanetSpecific?.CulinaryTemperament;
 
     if (fireSigns.includes(lowerSign) && temperamentData?.FireJupiter) {
-      jupiterTemperament = temperamentData.FireJupiter || {};
+      _jupiterTemperament = temperamentData.FireJupiter || {};
     } else if (airSigns.includes(lowerSign) && temperamentData?.AirJupiter) {
-      jupiterTemperament = temperamentData.AirJupiter || {};
+      _jupiterTemperament = temperamentData.AirJupiter || {};
     }
   }
 

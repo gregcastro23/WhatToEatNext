@@ -2,13 +2,13 @@
  * Tests for TypeScript Campaign Trigger
  */
 
-import { 
-  analyzeTypeScriptErrors,
-  getCurrentTypeScriptErrorCount,
-  checkCampaignTriggerConditions,
-  CampaignMode,
-  ErrorCategory,
-  SafetyLevel
+import {
+    CampaignMode,
+    ErrorCategory,
+    SafetyLevel,
+    analyzeTypeScriptErrors,
+    checkCampaignTriggerConditions,
+    getCurrentTypeScriptErrorCount
 } from '../typescriptCampaignTrigger';
 
 // Mock child_process
@@ -38,10 +38,10 @@ describe('TypeScript Campaign Trigger', () => {
   describe('analyzeTypeScriptErrors', () => {
     it('should analyze errors and recommend standard campaign for medium error count', async () => {
       // Mock TypeScript output with 150 errors (above medium threshold)
-      const mockTscOutput = Array.from({ length: 150 }, (_, i) => 
+      const mockTscOutput = Array.from({ length: 150 }, (_, i) =>
         `src/test${i}.ts(10,5): error TS2304: Cannot find name 'test${i}'.`
       ).join('\n');
-      
+
       mockExecSync.mockReturnValue(mockTscOutput);
 
       const result = await analyzeTypeScriptErrors();
@@ -55,10 +55,10 @@ describe('TypeScript Campaign Trigger', () => {
 
     it('should recommend aggressive campaign for high error count', async () => {
       // Mock TypeScript output with 250 errors (above high threshold)
-      const mockTscOutput = Array.from({ length: 250 }, (_, i) => 
+      const mockTscOutput = Array.from({ length: 250 }, (_, i) =>
         `src/test${i}.ts(10,5): error TS2352: Conversion of type 'string' to type 'number'.`
       ).join('\n');
-      
+
       mockExecSync.mockReturnValue(mockTscOutput);
 
       const result = await analyzeTypeScriptErrors();
@@ -71,10 +71,10 @@ describe('TypeScript Campaign Trigger', () => {
 
     it('should recommend emergency campaign for critical error count', async () => {
       // Mock TypeScript output with 600 errors (above critical threshold)
-      const mockTscOutput = Array.from({ length: 600 }, (_, i) => 
+      const mockTscOutput = Array.from({ length: 600 }, (_, i) =>
         `src/test${i}.ts(10,5): error TS2345: Argument of type 'string' is not assignable to parameter of type 'number'.`
       ).join('\n');
-      
+
       mockExecSync.mockReturnValue(mockTscOutput);
 
       const result = await analyzeTypeScriptErrors();
@@ -87,10 +87,10 @@ describe('TypeScript Campaign Trigger', () => {
 
     it('should not trigger campaign for low error count', async () => {
       // Mock TypeScript output with 50 errors (below medium threshold)
-      const mockTscOutput = Array.from({ length: 50 }, (_, i) => 
+      const mockTscOutput = Array.from({ length: 50 }, (_, i) =>
         `src/test${i}.ts(10,5): error TS2304: Cannot find name 'test${i}'.`
       ).join('\n');
-      
+
       mockExecSync.mockReturnValue(mockTscOutput);
 
       const result = await analyzeTypeScriptErrors();
@@ -121,7 +121,7 @@ describe('TypeScript Campaign Trigger', () => {
         'src/test5.ts(30,25): error TS2362: The left-hand side of an arithmetic operation.',
         'src/test6.ts(35,30): error TS9999: Some other error type.'
       ].join('\n');
-      
+
       mockExecSync.mockReturnValue(mockTscOutput);
 
       const result = await analyzeTypeScriptErrors();
@@ -137,10 +137,10 @@ describe('TypeScript Campaign Trigger', () => {
 
     it('should identify high-impact files', async () => {
       // Mock errors with multiple errors in same file
-      const mockTscOutput = Array.from({ length: 10 }, (_, i) => 
+      const mockTscOutput = Array.from({ length: 10 }, (_, i) =>
         `src/high-impact-file.ts(${10 + i},5): error TS2304: Cannot find name 'test${i}'.`
       ).join('\n');
-      
+
       mockExecSync.mockReturnValue(mockTscOutput);
 
       const result = await analyzeTypeScriptErrors();
@@ -184,10 +184,10 @@ describe('TypeScript Campaign Trigger', () => {
 
   describe('getCurrentTypeScriptErrorCount', () => {
     it('should return correct error count', async () => {
-      const mockTscOutput = Array.from({ length: 25 }, (_, i) => 
+      const mockTscOutput = Array.from({ length: 25 }, (_, i) =>
         `src/test${i}.ts(10,5): error TS2304: Cannot find name 'test${i}'.`
       ).join('\n');
-      
+
       mockExecSync.mockReturnValue(mockTscOutput);
 
       const count = await getCurrentTypeScriptErrorCount();
@@ -216,10 +216,10 @@ describe('TypeScript Campaign Trigger', () => {
 
   describe('checkCampaignTriggerConditions', () => {
     it('should return true when error count exceeds threshold', async () => {
-      const mockTscOutput = Array.from({ length: 150 }, (_, i) => 
+      const mockTscOutput = Array.from({ length: 150 }, (_, i) =>
         `src/test${i}.ts(10,5): error TS2304: Cannot find name 'test${i}'.`
       ).join('\n');
-      
+
       mockExecSync.mockReturnValue(mockTscOutput);
 
       const shouldTrigger = await checkCampaignTriggerConditions();
@@ -228,10 +228,10 @@ describe('TypeScript Campaign Trigger', () => {
     });
 
     it('should return false when error count is below threshold', async () => {
-      const mockTscOutput = Array.from({ length: 50 }, (_, i) => 
+      const mockTscOutput = Array.from({ length: 50 }, (_, i) =>
         `src/test${i}.ts(10,5): error TS2304: Cannot find name 'test${i}'.`
       ).join('\n');
-      
+
       mockExecSync.mockReturnValue(mockTscOutput);
 
       const shouldTrigger = await checkCampaignTriggerConditions();
@@ -253,13 +253,13 @@ describe('TypeScript Campaign Trigger', () => {
   describe('Error Parsing', () => {
     it('should parse TypeScript error format correctly', async () => {
       const mockTscOutput = 'src/components/test.tsx(45,12): error TS2304: Cannot find name \'UndefinedVariable\'.';
-      
+
       mockExecSync.mockReturnValue(mockTscOutput);
 
       const result = await analyzeTypeScriptErrors();
 
       expect(result.errorAnalysis.totalErrors).toBe(1);
-      
+
       const error = result.errorAnalysis.priorityRanking[0];
       expect(error.filePath).toBe('src/components/test.tsx');
       expect(error.line).toBe(45);
@@ -276,7 +276,7 @@ describe('TypeScript Campaign Trigger', () => {
         'Compilation complete. Watching for file changes.',
         'src/test2.ts(15,10): error TS2352: Conversion error.'
       ].join('\n');
-      
+
       mockExecSync.mockReturnValue(mockTscOutput);
 
       const result = await analyzeTypeScriptErrors();
@@ -292,24 +292,24 @@ describe('TypeScript Campaign Trigger', () => {
         ...Array.from({ length: 30 }, (_, i) => `src/test${i}.ts(15,10): error TS2304: Cannot find name.`),
         ...Array.from({ length: 20 }, (_, i) => `src/test${i}.ts(20,15): error TS2345: Argument error.`)
       ].join('\n');
-      
+
       mockExecSync.mockReturnValue(mockTscOutput);
 
       const result = await analyzeTypeScriptErrors();
 
       expect(result.batchSchedule.batches.length).toBeGreaterThan(0);
       expect(result.batchSchedule.totalEstimatedTime).toBeGreaterThan(0);
-      
+
       // Should have different batch sizes for different categories
       const batchSizes = result.batchSchedule.batches.map(b => b.batchSize);
       expect(new Set(batchSizes).size).toBeGreaterThan(1); // Multiple different batch sizes
     });
 
     it('should include safety protocols based on campaign mode', async () => {
-      const mockTscOutput = Array.from({ length: 600 }, (_, i) => 
+      const mockTscOutput = Array.from({ length: 600 }, (_, i) =>
         `src/test${i}.ts(10,5): error TS2304: Cannot find name 'test${i}'.`
       ).join('\n');
-      
+
       mockExecSync.mockReturnValue(mockTscOutput);
 
       const result = await analyzeTypeScriptErrors();
@@ -322,10 +322,10 @@ describe('TypeScript Campaign Trigger', () => {
 
   describe('Performance', () => {
     it('should complete analysis within reasonable time', async () => {
-      const mockTscOutput = Array.from({ length: 100 }, (_, i) => 
+      const mockTscOutput = Array.from({ length: 100 }, (_, i) =>
         `src/test${i}.ts(10,5): error TS2304: Cannot find name 'test${i}'.`
       ).join('\n');
-      
+
       mockExecSync.mockReturnValue(mockTscOutput);
 
       const startTime = Date.now();

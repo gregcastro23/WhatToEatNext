@@ -91,7 +91,7 @@ export interface PlanetaryDignity {
 }
 
 // Add type assertion for zodiac signs
-const zodiacSigns: ZodiacSign[] = [
+const _zodiacSigns: ZodiacSign[] = [
   'aries', 'taurus', 'gemini', 'cancer',
   'leo', 'virgo', 'libra', 'scorpio',
   'sagittarius', 'capricorn', 'aquarius', 'pisces'
