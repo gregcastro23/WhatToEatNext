@@ -140,15 +140,15 @@ export default function EnvironmentDashboard() {
       setConfigHealth(health);
     };
 
-    initializeEnvironment();
-    initializePerformance();
-    initializeAPI();
-    initializeConfigHealth();
+    void initializeEnvironment();
+    void initializePerformance();
+    void initializeAPI();
+    void initializeConfigHealth();
 
     // Set up periodic updates
     const interval = setInterval(() => {
-      initializePerformance();
-      initializeConfigHealth();
+      void initializePerformance();
+      void initializeConfigHealth();
     }, 5000);
 
     return () => clearInterval(interval);

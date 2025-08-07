@@ -48,7 +48,7 @@ describe('Domain-Specific Rule Validation', () => {
 
   describe('Overall Validation', () => {
     test('should validate all domain-specific rules', async () => {
-      const results = await validator.validateDomainSpecificRules();
+      const results = validator.validateDomainSpecificRules();
 
       expect(results).toBeDefined();
       expect(results.overall).toBeDefined();
@@ -63,7 +63,7 @@ describe('Domain-Specific Rule Validation', () => {
     });
 
     test('should generate validation report', async () => {
-      const _results = await validator.validateDomainSpecificRules();
+      const _results = validator.validateDomainSpecificRules();
 
       // Check that report file is created
       const reportPath = join(projectRoot, 'domain-specific-rule-validation-report.json');

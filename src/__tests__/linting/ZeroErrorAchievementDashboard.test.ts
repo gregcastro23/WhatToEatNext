@@ -258,7 +258,7 @@ describe('ZeroErrorAchievementDashboard', () => {
 
       mockReadFileSync.mockReturnValueOnce(JSON.stringify(historyData));
 
-      const trends = await dashboard['analyzeTrends'](mockMetrics);
+      const trends = dashboard['analyzeTrends'](mockMetrics);
 
       expect(trends).toBeInstanceOf(Array);
       expect(trends.length).toBeGreaterThan(0);
@@ -295,7 +295,7 @@ describe('ZeroErrorAchievementDashboard', () => {
 
   describe('Quality Gates', () => {
     test('should evaluate quality gates correctly', async () => {
-      const gates = await dashboard['checkQualityGates'](mockMetrics);
+      const gates = dashboard['checkQualityGates'](mockMetrics);
 
       expect(gates).toBeInstanceOf(Array);
       expect(gates.length).toBeGreaterThan(0);
@@ -330,7 +330,7 @@ describe('ZeroErrorAchievementDashboard', () => {
         qualityScore: 65
       };
 
-      const gates = await dashboard['checkQualityGates'](failingMetrics);
+      const gates = dashboard['checkQualityGates'](failingMetrics);
 
       const parserGate = gates.find(g => g.name === 'parser-errors');
       if (parserGate) {
@@ -393,7 +393,7 @@ describe('ZeroErrorAchievementDashboard', () => {
       jest.spyOn(dashboard['validationDashboard'], 'runComprehensiveValidation')
         .mockResolvedValue(mockValidationResult);
 
-      const targets = await dashboard['updateTargets'](mockMetrics);
+      const targets = dashboard['updateTargets'](mockMetrics);
 
       expect(targets).toBeInstanceOf(Array);
       expect(targets.length).toBeGreaterThan(0);
@@ -450,7 +450,7 @@ describe('ZeroErrorAchievementDashboard', () => {
       // Mock successful command execution for maintenance
       mockExecSync.mockReturnValue('0'); // Success exit code
 
-      const results = await dashboard['runScheduledMaintenance']();
+      const results = dashboard['runScheduledMaintenance']();
 
       // Should run procedures that are due
       expect(results).toBeInstanceOf(Map);
@@ -633,7 +633,7 @@ describe('ZeroErrorAchievementDashboard', () => {
         throw new Error('Command failed');
       });
 
-      const results = await dashboard['runScheduledMaintenance']();
+      const results = dashboard['runScheduledMaintenance']();
 
       // Should handle errors and continue
       expect(results).toBeInstanceOf(Map);

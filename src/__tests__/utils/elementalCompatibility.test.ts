@@ -17,7 +17,7 @@ describe('Food Recommendation Engine', () => {
       Air: 0.25 
     };
     
-    const result = await calculateElementalCompatibility(recipeProps, userProps);
+    const result = calculateElementalCompatibility(recipeProps, userProps);
     
     expect(result.compatibility).toBeGreaterThanOrEqual(0.88);
     expect(result.recommendation).toBeDefined();
@@ -38,7 +38,7 @@ describe('Food Recommendation Engine', () => {
       Air: 0.1 
     };
     
-    const result = await calculateElementalCompatibility(recipeProps, userProps);
+    const result = calculateElementalCompatibility(recipeProps, userProps);
     
     // Even different elements should have good compatibility (according to our rules)
     expect(result.compatibility).toBeGreaterThanOrEqual(0.7);
@@ -60,7 +60,7 @@ describe('Food Recommendation Engine', () => {
       Air: 0.25 
     };
     
-    const result = await calculateElementalCompatibility(recipeProps, userProps);
+    const result = calculateElementalCompatibility(recipeProps, userProps);
     
     // Balanced elements should have moderate compatibility
     expect(result.recommendation).toBeDefined();
@@ -82,7 +82,7 @@ describe('Food Recommendation Engine', () => {
       Air: 0.97 
     };
     
-    const result = await calculateElementalCompatibility(recipeProps, userProps);
+    const result = calculateElementalCompatibility(recipeProps, userProps);
     
     // Even with extreme values, result should still show good compatibility
     expect(result.compatibility).toBeGreaterThanOrEqual(0.7);
@@ -106,7 +106,7 @@ describe('Food Recommendation Engine', () => {
       Air: 0.2 
     };
     
-    const result = await calculateElementalCompatibility(recipeProps, userProps);
+    const result = calculateElementalCompatibility(recipeProps, userProps);
     
     // Recipe should help balance user's weak Earth element
     expect(result.balanceScore).toBeGreaterThan(0.5);
@@ -126,7 +126,7 @@ describe('Food Recommendation Engine', () => {
     };
     
     // Should not throw errors
-    const result = await calculateElementalCompatibility(
+    const result = calculateElementalCompatibility(
       partialRecipeProps as ElementalProperties, 
       partialUserProps as ElementalProperties
     );

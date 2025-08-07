@@ -1,16 +1,16 @@
 /**
  * Streamlined Planetary Positions Utility
- * 
+ *
  * This module provides reliable planetary positions for the alchemizer engine.
  * It consolidates the best working parts from multiple utilities and provides
  * current accurate positions with fallback mechanisms.
  */
 
 import { ZodiacSign } from '../types';
-import { CelestialPosition , PlanetaryPosition } from '../types/celestial';
+import { CelestialPosition } from '../types/celestial';
 
 import { getCurrentTransitSign } from './astrology/validation';
-import { cache } from "./cache";
+// Removed unused cache import
 import { createLogger } from "./logger";
 
 const logger = createLogger('StreamlinedPlanetaryPositions');
@@ -205,7 +205,7 @@ function validatePositionsWithTransitDates(positions: { [key: string]: Celestial
   for (const [planetKey, position] of Object.entries(validatedPositions)) {
     // Convert planet key to proper case for transit validation
     const planetName = planetKey.charAt(0).toUpperCase() + planetKey.slice(1);
-    
+
     // Skip nodes and Ascendant as they don't have transit dates
     if (['northNode', 'southNode', 'ascendant'].includes(planetKey)) {
       continue;
@@ -213,11 +213,11 @@ function validatePositionsWithTransitDates(positions: { [key: string]: Celestial
 
     try {
       const transitSign = getCurrentTransitSign(planetName, currentDate);
-      
+
       if (transitSign && transitSign !== position.sign) {
         // Log the discrepancy but prioritize user's accurate positions
         logger.warn(`Transit data discrepancy for ${planetName}: transit data suggests ${transitSign}, but using accurate position ${position.sign}. Transit dates may need updating.`);
-        
+
         // Keep the user's accurate position rather than "correcting" it
         // This ensures we use the most accurate current data
       }
@@ -314,7 +314,7 @@ export function getCurrentLunarPhase(): number {
   const newmoonDate = new Date('2025-05-30');
   const now = new Date();
   const daysSinceNewmoon = (now.getTime() - newmoonDate.getTime()) / (1000 * 60 * 60 * 24);
-  
+
   // Lunar cycle is approximately 29.5 days
   const lunarAge = ((daysSinceNewmoon % 29.5) + 29.5) % 29.5;
   return lunarAge;
@@ -325,7 +325,7 @@ export function getCurrentLunarPhase(): number {
  */
 export function getCurrentLunarPhaseName(): string {
   const phase = getCurrentLunarPhase();
-  
+
   if (phase < 1) return 'new moon';
   if (phase < 7.4) return 'waxing crescent';
   if (phase < 8.4) return 'first quarter';
@@ -341,7 +341,7 @@ export function getCurrentLunarPhaseName(): string {
  */
 export function getmoonIllumination(): number {
   const phase = getCurrentLunarPhase();
-  
+
   if (phase <= 14.8) {
     // Waxing from new to full
     return phase / 14.8;
@@ -356,21 +356,21 @@ export function getmoonIllumination(): number {
  */
 export function validatePositionsStructure(positions: { [key: string]: any }): boolean {
   const requiredPlanets = ['Sun', 'Moon', 'Mercury', 'Venus', 'Mars', 'Jupiter', 'Saturn'];
-  
+
   for (const planet of requiredPlanets) {
     const position = positions[planet];
     if (!position || typeof position !== 'object') {
       logger.warn(`Missing or invalid position for ${planet}`);
       return false;
     }
-    
+
     const pos = position as Record<string, any>;
     if (!pos.sign || typeof pos.degree !== 'number') {
       logger.warn(`Invalid position structure for ${planet}`, pos);
       return false;
     }
   }
-  
+
   return true;
 }
 
@@ -380,16 +380,16 @@ export function validatePositionsStructure(positions: { [key: string]: any }): b
 export function getPositionsSummary(): string {
   const positions = getCurrentPlanetaryPositions();
   const lines = ['Current Planetary Positions (May 25, 2025):'];
-  
+
   for (const [planet, position] of Object.entries(positions)) {
     const retrograde = position.isRetrograde ? ' (R)' : '';
     const degrees = Math.floor(position.degree ?? 0);
     const minutes = Math.floor((position.degree ?? 0 - degrees) * 60);
     lines.push(`${planet}: ${position.sign} ${degrees}° ${minutes}'${retrograde}`);
   }
-  
+
   lines.push(`Lunar Phase: ${getCurrentLunarPhaseName()} (${(getmoonIllumination() * 100).toFixed(0)}% illuminated)`);
-  
+
   return lines.join('\n');
 }
 
@@ -399,4 +399,4 @@ export function getPositionsSummary(): string {
 export function clearPositionsCache(): void {
   positionsCache = null;
   logger.info('Planetary positions cache cleared');
-} 
+}

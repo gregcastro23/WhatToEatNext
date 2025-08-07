@@ -1,4 +1,4 @@
-import { log } from '@/services/LoggingService';
+// Removed unused log import
 import type { ZodiacSign } from '@/types/alchemy';
 
 import type { ElementalCharacter } from '../constants/planetaryElements';
@@ -9,7 +9,7 @@ import { getZodiacElement } from './astrologyUtils';
  * A utility function for logging debug information
  * This is a safe replacement for console.log that can be disabled in production
  */
-const debugLog = (_message: string, ...args: unknown[]): void => {
+const debugLog = (_message: string, ..._args: unknown[]): void => {
   // Comment out console.log to avoid linting warnings
   // log.info(message, ...args);
 };
@@ -152,7 +152,7 @@ export const HOUSE_STRENGTH: Record<'Angular' | 'Succedent' | 'Cadent', number> 
 
 /**
  * Calculate elemental effects from a planet being in a specific house
- * 
+ *
  * @param planet Planet name
  * @param house House number (1-12)
  * @param sign Zodiac sign the planet is in
@@ -169,55 +169,55 @@ export function calculateHouseEffect(
     Air: 0,
     Water: 0
   };
-  
+
   // Get house data
   const houseData = HOUSE_DATA[house];
   if (!houseData) {
     debugLog(`House number ${house} not found in house data`);
     return effects;
   }
-  
+
   // Get sign element
   const signElement = getZodiacElement(sign) ;
-  
+
   // Calculate house-based elemental effect
   const houseElement = houseData.element;
   const houseStrength = HOUSE_STRENGTH[houseData.nature];
-  
+
   // Add house-based effect
   effects[houseElement] += houseStrength;
-  
+
   // Add synergy effect if sign element matches house element
   if (signElement === houseElement) {
     effects[houseElement] += 0.5; // Bonus for matching element
     debugLog(`Element synergy bonus for ${planet} in house ${house}: ${signElement}`);
   }
-  
+
   // Add special effects for certain houses and planets
   // House 1 (Ascendant) bonus
   if (house === 1) {
     effects[signElement] += 1.0; // Strong effect for 1st house placements
     debugLog(`House 1 bonus applied for ${planet}: +1.0 to ${signElement}`);
   }
-  
+
   // House 10 (Midheaven) bonus
   if (house === 10) {
     effects[signElement] += 0.8; // Strong effect for 10th house placements
     debugLog(`House 10 bonus applied for ${planet}: +0.8 to ${signElement}`);
   }
-  
+
   // Planet in ruling house
   if (houseData.ruling_planet.toLowerCase() === planet.toLowerCase()) {
     effects[signElement] += 0.7; // Bonus for planet in its ruling house
     debugLog(`Ruling planet bonus for ${planet} in house ${house}: +0.7 to ${signElement}`);
   }
-  
+
   return effects;
 }
 
 /**
  * Calculate all house effects for all planets in a chart
- * 
+ *
  * @param planetPositions Map of planets to their positions including sign and house
  * @param houses Map of house numbers to their signs
  * @returns Combined elemental effects from all house placements
@@ -232,9 +232,9 @@ export function calculateAllHouseEffects(
     Air: 0,
     Water: 0
   };
-  
+
   debugLog(`Calculating house effects for ${Object.keys(planetPositions).length} planets`);
-  
+
   // Calculate effects for each planet
   for (const [planet, position] of Object.entries(planetPositions)) {
     // Skip if house is not defined
@@ -242,19 +242,19 @@ export function calculateAllHouseEffects(
       debugLog(`House not defined for ${planet}, skipping`);
       continue;
     }
-    
+
     const house = position.house;
     const sign = position.sign;
-    
+
     // Get house effects for this planet
     const houseEffects = calculateHouseEffect(planet, house, sign);
-    
+
     // Add to total effects
     for (const element in houseEffects) {
       totalEffects[element as ElementalCharacter] += houseEffects[element as ElementalCharacter];
     }
   }
-  
+
   debugLog(`House effects calculation complete. Results:`, totalEffects);
   return totalEffects;
-} 
+}

@@ -26,7 +26,7 @@ describe('BuildValidator', () => {
       mockFs.existsSync.mockReturnValue(true);
       mockFs.readFileSync.mockReturnValue('{}');
 
-      const result = await buildValidator.validateBuild();
+      const result = buildValidator.validateBuild();
 
       expect(result.isValid).toBe(true);
       expect(result.missingFiles).toHaveLength(0);
@@ -36,7 +36,7 @@ describe('BuildValidator', () => {
     it('should detect missing build directory', async () => {
       mockFs.existsSync.mockReturnValue(false);
 
-      const result = await buildValidator.validateBuild();
+      const result = buildValidator.validateBuild();
 
       expect(result.isValid).toBe(false);
       expect(result.missingFiles).toContain('.next');
@@ -57,7 +57,7 @@ describe('BuildValidator', () => {
         return path === '.next' || path === '.next/server';
       });
 
-      const result = await buildValidator.validateBuild();
+      const result = buildValidator.validateBuild();
 
       expect(result.isValid).toBe(false);
       expect(result.missingFiles.length).toBeGreaterThan(0);
@@ -68,7 +68,7 @@ describe('BuildValidator', () => {
       mockFs.existsSync.mockReturnValue(true);
       mockFs.readFileSync.mockReturnValue('invalid json');
 
-      const result = await buildValidator.validateBuild();
+      const result = buildValidator.validateBuild();
 
       expect(result.isValid).toBe(false);
       expect(result.corruptedFiles.length).toBeGreaterThan(0);
@@ -78,7 +78,7 @@ describe('BuildValidator', () => {
       mockFs.existsSync.mockReturnValue(true);
       mockFs.readFileSync.mockReturnValue('');
 
-      const result = await buildValidator.validateBuild();
+      const result = buildValidator.validateBuild();
 
       expect(result.corruptedFiles.length).toBeGreaterThan(0);
       expect(result.repairActions).toEqual(
@@ -155,7 +155,7 @@ describe('BuildValidator', () => {
         isDirectory: () => false 
       } as any);
 
-      const report = await buildValidator.monitorBuildHealth();
+      const report = buildValidator.monitorBuildHealth();
 
       expect(report.buildExists).toBe(true);
       expect(report.manifestsValid).toBe(true);
@@ -165,7 +165,7 @@ describe('BuildValidator', () => {
     it('should report missing build', async () => {
       mockFs.existsSync.mockReturnValue(false);
 
-      const report = await buildValidator.monitorBuildHealth();
+      const report = buildValidator.monitorBuildHealth();
 
       expect(report.buildExists).toBe(false);
       expect(report.issues).toContain('Build directory does not exist');

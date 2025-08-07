@@ -1,12 +1,12 @@
 /**
  * Advanced Intelligence Systems Types
  * Phase 2D: Advanced Intelligence Systems Integration
- * 
+ *
  * Comprehensive type definitions for predictive, machine learning,
  * and advanced analytics intelligence systems.
  */
 
-import type { ElementalProperties, ZodiacSign, LunarPhase } from './alchemy';
+import type { ElementalProperties, LunarPhase, ZodiacSign } from './alchemy';
 import type { Ingredient } from './ingredient';
 import type { Recipe } from './recipe';
 
@@ -108,7 +108,7 @@ export interface PredictiveAstrologicalAnalysis {
     elementalProperties: ElementalProperties;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     // Intentionally any: Astronomical library planetary data has varying structure depending on calculation method
-    planetaryPositions: Record<string, any>;
+    planetaryPositions: Record<string, unknown>;
   };
   culinaryContext: {
     recipe?: Recipe;
@@ -167,10 +167,10 @@ export interface MLRecipeOptimizationAnalysis {
     };
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     // Intentionally any: ML user preference data varies significantly across different analysis contexts
-    userPreferences?: Record<string, any>;
+    userPreferences?: Record<string, unknown>;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     // Intentionally any: Seasonal analysis data includes diverse metrics from weather APIs and seasonal libraries
-    seasonalFactors?: Record<string, any>;
+    seasonalFactors?: Record<string, unknown>;
   };
   optimizationFactors: {
     ingredientEfficiency: number;
@@ -232,7 +232,7 @@ export interface MLAstrologicalPredictionAnalysis {
     elementalProperties: ElementalProperties;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     // Intentionally any: Astronomical library planetary data has varying structure depending on calculation method
-    planetaryPositions: Record<string, any>;
+    planetaryPositions: Record<string, unknown>;
   };
   culinaryContext: {
     recipe?: Recipe;
@@ -337,13 +337,13 @@ export interface AdvancedRecipeAnalyticsAnalysis {
     };
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     // Intentionally any: Cultural analysis data integrates diverse ethnographic and regional data sources
-    culturalContext?: Record<string, any>;
+    culturalContext?: Record<string, unknown>;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     // Intentionally any: Seasonal context includes varying data structures from multiple environmental APIs
-    seasonalContext?: Record<string, any>;
+    seasonalContext?: Record<string, unknown>;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     // Intentionally any: User context data includes diverse preference and behavioral analytics
-    userContext?: Record<string, any>;
+    userContext?: Record<string, unknown>;
   };
   analyticsDimensions: {
     complexity: {
@@ -405,10 +405,10 @@ export interface AdvancedCuisineAnalyticsAnalysis {
     };
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     // Intentionally any: Regional context integrates geographic and demographic data from multiple sources
-    regionalContext?: Record<string, any>;
+    regionalContext?: Record<string, unknown>;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     // Intentionally any: Historical context data varies significantly across different cultural and temporal periods
-    historicalContext?: Record<string, any>;
+    historicalContext?: Record<string, unknown>;
   };
   analyticsDimensions: {
     culturalCorrelation: {
@@ -439,7 +439,7 @@ export interface AdvancedAstrologicalAnalyticsAnalysis {
     elementalProperties: ElementalProperties;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     // Intentionally any: Astronomical library planetary data has varying structure depending on calculation method
-    planetaryPositions: Record<string, any>;
+    planetaryPositions: Record<string, unknown>;
   };
   analyticsContext: {
     culinaryContext?: {
@@ -449,10 +449,10 @@ export interface AdvancedAstrologicalAnalyticsAnalysis {
     };
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     // Intentionally any: Temporal analysis includes diverse time-based data from astronomical and calendar systems
-    temporalContext?: Record<string, any>;
+    temporalContext?: Record<string, unknown>;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     // Intentionally any: Cultural analysis data integrates diverse ethnographic and regional data sources
-    culturalContext?: Record<string, any>;
+    culturalContext?: Record<string, unknown>;
   };
   analyticsDimensions: {
     patterns: {
@@ -524,17 +524,17 @@ export interface IntelligenceRequest {
       zodiacSign: ZodiacSign;
       lunarPhase: LunarPhase;
       elementalProperties: ElementalProperties;
-      planetaryPositions?: Record<string, any>;
+      planetaryPositions?: Record<string, unknown>;
     };
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     // Intentionally any: ML user preference data varies significantly across different analysis contexts
-    userPreferences?: Record<string, any>;
+    userPreferences?: Record<string, unknown>;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     // Intentionally any: Seasonal analysis data includes diverse metrics from weather APIs and seasonal libraries
-    seasonalFactors?: Record<string, any>;
+    seasonalFactors?: Record<string, unknown>;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     // Intentionally any: Cultural factor analysis incorporates diverse sociological and anthropological data
-    culturalFactors?: Record<string, any>;
+    culturalFactors?: Record<string, unknown>;
   };
   options?: {
     includeDetailedAnalysis?: boolean;
@@ -549,4 +549,4 @@ export interface IntelligenceResponse {
   metrics: AdvancedIntelligenceMetrics;
   error?: string;
   timestamp: string;
-} 
+}

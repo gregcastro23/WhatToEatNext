@@ -1,9 +1,6 @@
 import { IngredientMapping } from '@/data/ingredients/types';
-import { 
-  ElementalProperties, 
-  ZodiacSign, 
-  Element,
-  Season
+import {
+    ElementalProperties
 } from '@/types/alchemy';
 
 // Helper function to standardize ingredient mappings
@@ -13,11 +10,11 @@ function createIngredientMapping(
 ): IngredientMapping {
   return {
     name: id, // Add the required name property
-    elementalProperties: properties.elementalProperties || { 
-      Earth: 0.25, 
-      Water: 0.25, 
-      Fire: 0.25, 
-      Air: 0.25 
+    elementalProperties: properties.elementalProperties || {
+      Earth: 0.25,
+      Water: 0.25,
+      Fire: 0.25,
+      Air: 0.25
     },
     ...properties
   } as IngredientMapping;
@@ -46,7 +43,7 @@ export const ingredientMappings = {
     },
     season: ['all']
   }),
-  
+
   garlic: createIngredientMapping('garlic', {
     elementalProperties: {
       Fire: 0.6,
@@ -68,7 +65,7 @@ export const ingredientMappings = {
     },
     season: ['all']
   }),
-  
+
   // Spices
   cinnamon: createIngredientMapping('cinnamon', {
     elementalProperties: {
@@ -84,7 +81,7 @@ export const ingredientMappings = {
     },
     season: ['fall', 'winter']
   }),
-  
+
   cardamom: createIngredientMapping('cardamom', {
     elementalProperties: {
       Air: 0.6,
@@ -99,7 +96,7 @@ export const ingredientMappings = {
     },
     season: ['fall', 'winter']
   }),
-  
+
   clove: createIngredientMapping('clove', { // Add name
     elementalProperties: {
       Fire: 0.7,
@@ -109,7 +106,7 @@ export const ingredientMappings = {
     },
     season: ['fall', 'winter']
   }),
-  
+
   // Cooling Ingredients
   mint: createIngredientMapping('mint', {
     elementalProperties: {
@@ -125,7 +122,7 @@ export const ingredientMappings = {
     },
     season: ['spring', 'summer']
   }),
-  
+
   cucumber: createIngredientMapping('cucumber', { // Add name
     elementalProperties: {
       Water: 0.8,
@@ -135,7 +132,7 @@ export const ingredientMappings = {
     },
     season: ['summer']
   }),
-  
+
   // Earthy Ingredients
   mushroom: createIngredientMapping('mushroom', {
     elementalProperties: {
@@ -151,7 +148,7 @@ export const ingredientMappings = {
     },
     season: ['fall', 'spring']
   }),
-  
+
   seaweed: createIngredientMapping('seaweed', { // Add name
     elementalProperties: {
       Water: 0.6,
@@ -161,7 +158,7 @@ export const ingredientMappings = {
     },
     season: ['all']
   }),
-  
+
   // Proteins
   fish: createIngredientMapping('fish', { // Add name
     elementalProperties: {
@@ -172,7 +169,7 @@ export const ingredientMappings = {
     },
     season: ['all']
   }),
-  
+
   beef: createIngredientMapping('beef', {
     elementalProperties: {
       Earth: 0.5,
@@ -187,7 +184,7 @@ export const ingredientMappings = {
     },
     season: ['all']
   }),
-  
+
   chicken: createIngredientMapping('chicken', {
     elementalProperties: {
       Air: 0.4,
@@ -202,7 +199,7 @@ export const ingredientMappings = {
     },
     season: ['all']
   }),
-  
+
   // Dairy
   dairy: createIngredientMapping('dairy', {
     elementalProperties: {
@@ -224,7 +221,7 @@ export const ingredientMappings = {
     },
     season: ['spring', 'fall']
   }),
-  
+
   turmeric: createIngredientMapping('turmeric', {
     elementalProperties: {
       Fire: 0.6,
@@ -234,7 +231,7 @@ export const ingredientMappings = {
     },
     season: ['all']
   }),
-  
+
   chili: createIngredientMapping('chili', {
     elementalProperties: {
       Fire: 0.9,
@@ -244,7 +241,7 @@ export const ingredientMappings = {
     },
     season: ['summer', 'fall']
   }),
-  
+
   basil: createIngredientMapping('basil', {
     elementalProperties: {
       Air: 0.5,
@@ -254,7 +251,7 @@ export const ingredientMappings = {
     },
     season: ['summer']
   }),
-  
+
   sage: createIngredientMapping('sage', {
     elementalProperties: {
       Air: 0.4,
@@ -264,7 +261,7 @@ export const ingredientMappings = {
     },
     season: ['autumn', 'winter']
   }),
-  
+
   rosemary: createIngredientMapping('rosemary', {
     elementalProperties: {
       Fire: 0.4,
@@ -274,7 +271,7 @@ export const ingredientMappings = {
     },
     season: ['all']
   }),
-  
+
   thyme: createIngredientMapping('thyme', {
     elementalProperties: {
       Air: 0.5,
@@ -323,7 +320,7 @@ export const ingredientMappings = {
     },
     season: ['fall']
   }),
-  
+
   'banana': createIngredientMapping('banana', {
     elementalProperties: {
       Earth: 0.4,
@@ -348,9 +345,9 @@ export const ingredientMappings = {
 
   // Example ingredient with lunar phase modifiers
   'brown_rice': createIngredientMapping('brown_rice', {
-    elementalProperties: { 
-      Earth: 0.5, 
-      Water: 0.3, 
+    elementalProperties: {
+      Earth: 0.5,
+      Water: 0.3,
       Air: 0.2,
       Fire: 0 // Add missing required property
     },
@@ -385,7 +382,7 @@ export const getIngredientsByElement = (element: keyof ElementalProperties) => {
   return Object.entries(ingredientMappings)
     .filter(([_, mapping]) => {
       const elements = Object.entries(mapping.elementalProperties);
-      const dominantElement = elements.reduce((max, curr) => 
+      const dominantElement = elements.reduce((max, curr) =>
         curr[1] > max[1] ? curr : max
       );
       return dominantElement[0] === element;
@@ -404,7 +401,7 @@ export const getSeasonalIngredients = (season: string) => {
 export const getComplementaryIngredients = (ingredient: keyof typeof ingredientMappings) => {
   const baseElement = Object.entries(ingredientMappings[ingredient].elementalProperties)
     .reduce((max, curr) => curr[1] > max[1] ? curr : max)[0];
-  
+
   return Object.entries(ingredientMappings)
     .filter(([name, mapping]) => {
       if (name === ingredient) return false;
@@ -421,9 +418,9 @@ const _isComplementaryElement = (element1: string, element2: string): boolean =>
     ['Fire', 'Air'],
     ['Water', 'Earth']
   ];
-  
-  return complementaryPairs.some(pair => 
+
+  return complementaryPairs.some(pair =>
     (pair[0] === element1 && pair[1] === element2) ||
     (pair[1] === element1 && pair[0] === element2)
   );
-}; 
+};

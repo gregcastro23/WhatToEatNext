@@ -1,12 +1,12 @@
 import { LocalRecipeService } from '@/services/LocalRecipeService';
-import { log } from '@/services/LoggingService';
+// Removed unused log import
 import type {
-  Recipe,
-  ElementalProperties,
-  AstrologicalState,
-  Season,
+    AstrologicalState,
+    ElementalProperties,
+    Recipe,
+    Season,
 } from "@/types/alchemy";
-import type { CookingMethod } from "@/types/cookingMethod";
+// Removed unused CookingMethod import
 
 
 // Define IngredientMapping locally since it's not exported from alchemy
@@ -130,7 +130,7 @@ export async function findBestMatches(
       // Extract recipe data with safe property access
       const recipeData = recipe as Record<string, unknown>;
       const dietaryTags = recipeData.dietaryTags;
-      
+
       if (!dietaryTags) return true; // Keep recipes without tags
 
       // Check if any of the restrictions are in the recipe's dietary tags
@@ -162,7 +162,7 @@ export async function findBestMatches(
   if (matchFilters.servings) {
     // Filter for recipes that serve at least the required number
     filteredRecipes = filteredRecipes.filter(
-      (recipe) => 
+      (recipe) =>
         // Apply Pattern KK-1: Explicit Type Assertion for comparison operations
         !recipe.servings || Number(recipe.servings) >= (matchFilters.servings ?? 1)
     );
@@ -208,7 +208,7 @@ export async function findBestMatches(
       const bData = b as Record<string, unknown>;
       const aCookingMethods = aData.cookingMethods;
       const bCookingMethods = bData.cookingMethods;
-      
+
       const aUsesMethod =
         Array.isArray(aCookingMethods) && aCookingMethods.some((method) =>
           matchFilters.cookingMethods?.includes(method)
@@ -237,22 +237,22 @@ export async function findBestMatches(
     filteredRecipes.map(async (recipe) => {
       // Calculate base elemental properties
       const elements = await calculateBaseElements(recipe);
-      
+
       // Calculate dominant elements
       const dominantElements = calculateDominantElements(elements);
-      
+
       // Calculate match score
       let score = 0;
-      
+
       if (currentEnergy) {
         // Calculate elemental alignment
         const elementalScore = calculateElementalAlignment(recipe, currentEnergy as AstrologicalState);
         score += elementalScore * 0.4; // 40% weight for elemental alignment
-        
+
         // Calculate nutritional alignment
         const nutritionalScore = calculateNutritionalAlignment(recipe, currentEnergy as AstrologicalState);
         score += nutritionalScore * 0.3; // 30% weight for nutritional alignment
-        
+
         // Calculate astrological alignment
         const astrologicalScore = await _calculateRecipeEnergyMatch(recipe, currentEnergy as AstrologicalState);
         score += astrologicalScore * 0.3; // 30% weight for astrological alignment
@@ -260,10 +260,10 @@ export async function findBestMatches(
         // Fallback scoring without current energy
         score = Math.random() * 0.5 + 0.5; // Random score between 0.5 and 1.0
       }
-      
+
       // Connect ingredients to mappings
       const matchedIngredients = connectIngredientsToMappings(recipe);
-      
+
       return {
         recipe,
         score,
@@ -302,7 +302,7 @@ const calculateBaseElements = async (recipe: Recipe): Promise<ElementalPropertie
 
   for (const ingredient of recipe.ingredients) {
     let ingredientName: string;
-    
+
     if (typeof ingredient === 'string') {
       ingredientName = ingredient;
     } else {
@@ -313,7 +313,7 @@ const calculateBaseElements = async (recipe: Recipe): Promise<ElementalPropertie
 
     // Get ingredient mapping
     const ingredientMapping = ingredientsMap[ingredientName.toLowerCase()];
-    
+
     if (ingredientMapping.elementalProperties) {
       const properties = ingredientMapping.elementalProperties ;
       baseElements.Fire += properties.Fire || 0;
@@ -449,7 +449,7 @@ async function _calculateRecipeEnergyMatch(
   // Extract currentEnergy data with safe property access for preferredModality
   const energyData = currentEnergy as Record<string, unknown>;
   const preferredModality = energyData.preferredModality;
-  
+
   // Check if preferredModality exists in currentEnergy, if not skip this boost
   if (preferredModality) {
     const modalityScore = calculateModalityScore(
@@ -472,7 +472,7 @@ async function _calculateRecipeEnergyMatch(
   if ((recipe as Record<string, unknown>).season && (currentEnergy as Record<string, unknown>).season) {
     const recipeSeason = (recipe as Record<string, unknown>).season;
     const currentSeason = (currentEnergy as Record<string, unknown>).season;
-    
+
     // Apply Pattern GG-6: Enhanced property access with type guards
     const seasonalScore = (Array.isArray(recipeSeason) && typeof currentSeason === 'string' && recipeSeason.includes(currentSeason)) ||
                          (typeof recipeSeason === 'string' && recipeSeason === currentSeason)
@@ -496,7 +496,7 @@ function calculateElementalAlignment(
   // Extract current elemental properties with safe property access
   const currentData = currentEnergy as Record<string, unknown>;
   const currentElements = currentData.currentElementalProperties as ElementalProperties;
-  
+
   if (!currentElements) {
     return 0.5; // Default score if no current elements
   }
@@ -526,7 +526,7 @@ function calculateNutritionalAlignment(
   // Extract nutritional goals with safe property access
   const currentData = currentEnergy as Record<string, unknown>;
   const nutritionalGoals = currentData.nutritionalGoals as Record<string, unknown>;
-  
+
   if (!nutritionalGoals) {
     return 0.5; // Default score if no nutritional goals
   }
@@ -534,7 +534,7 @@ function calculateNutritionalAlignment(
   // Extract recipe nutritional profile with safe property access
   const recipeData = recipe as Record<string, unknown>;
   const recipeProfile = recipeData.nutritionalProfile as Record<string, unknown>;
-  
+
   if (!recipeProfile) {
     return 0.5; // Default score if no recipe profile
   }
@@ -571,9 +571,9 @@ function hasHighProtein(recipe: Recipe): boolean {
   // Extract nutritional profile with safe property access
   const recipeData = recipe as Record<string, unknown>;
   const profile = recipeData.nutritionalProfile as Record<string, unknown>;
-  
+
   if (!profile) return false;
-  
+
   const protein = profile.protein as number;
   return typeof protein === 'number' && protein >= 20;
 }
@@ -582,9 +582,9 @@ function hasLowCarb(recipe: Recipe): boolean {
   // Extract nutritional profile with safe property access
   const recipeData = recipe as Record<string, unknown>;
   const profile = recipeData.nutritionalProfile as Record<string, unknown>;
-  
+
   if (!profile) return false;
-  
+
   const carbs = profile.carbohydrates as number;
   return typeof carbs === 'number' && carbs <= 30;
 }
@@ -593,9 +593,9 @@ function hasHighFiber(recipe: Recipe): boolean {
   // Extract nutritional profile with safe property access
   const recipeData = recipe as Record<string, unknown>;
   const profile = recipeData.nutritionalProfile as Record<string, unknown>;
-  
+
   if (!profile) return false;
-  
+
   const fiber = profile.fiber as number;
   return typeof fiber === 'number' && fiber >= 8;
 }
@@ -604,9 +604,9 @@ function hasLowFat(recipe: Recipe): boolean {
   // Extract nutritional profile with safe property access
   const recipeData = recipe as Record<string, unknown>;
   const profile = recipeData.nutritionalProfile as Record<string, unknown>;
-  
+
   if (!profile) return false;
-  
+
   const fat = profile.fat as number;
   return typeof fat === 'number' && fat <= 10;
 }
@@ -962,7 +962,7 @@ export const connectIngredientsToMappings = (
     // Apply Pattern MM-1: Safe type assertions
     const ingredientData = recipeIngredient as Record<string, unknown>;
     const ingredientName = typeof ingredientData.name === 'string' ? ingredientData.name : 'unknown';
-    
+
     const result = {
       name: ingredientName,
       matchedTo: undefined as IngredientMapping | undefined,
@@ -971,7 +971,7 @@ export const connectIngredientsToMappings = (
 
     // 1. Try exact match first
     // Apply Pattern GG-6: Enhanced property access with type guards (use existing variables)
-    
+
     const exactMatch = ingredientsMap[ingredientName.toLowerCase()];
     if (exactMatch) {
       result.matchedTo = exactMatch as IngredientMapping;
@@ -1378,7 +1378,7 @@ function calculateAstrologicalMatch(
   const influenceData = recipeInfluence as any;
   const sign = influenceData?.sign;
   const elements = influenceData?.elements;
-  
+
   // If recipe has a specific sign it aligns with
   if (sign && typeof sign === 'string') {
     const recipeSignLower = String(sign).toLowerCase();

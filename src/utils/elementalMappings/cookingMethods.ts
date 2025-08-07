@@ -1,4 +1,4 @@
-import type { CookingMethodModifier, Element } from '@/types/alchemy';
+import type { CookingMethodModifier } from '@/types/alchemy';
 
 export const cookingMethodModifiers: CookingMethodModifier[] = [
   {
@@ -24,4 +24,4 @@ export const cookingMethodModifiers: CookingMethodModifier[] = [
     notes: 'Grilling adds fire element, creating char and smoke flavors'
   },
   // Add other cooking methods as needed
-]; 
+];

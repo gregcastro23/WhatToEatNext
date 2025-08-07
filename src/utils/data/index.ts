@@ -1,9 +1,8 @@
-import { Element , ElementalProperties } from "@/types/alchemy";
-import { Recipe } from '@/types/recipe';
+// Removed unused type imports
 
 /**
  * Data Utils Index
- * 
+ *
  * Consolidated exports from the data processing module.
  * Provides a single entry point for all data standardization and validation functions.
  */
@@ -12,19 +11,17 @@ import { Recipe } from '@/types/recipe';
 export * from './processing';
 
 // Re-export commonly used functions for backward compatibility
-export { 
-  standardizeElementalAffinity,
-  standardizeIngredient,
-  standardizeRecipe,
-  validateIngredient,
-  validateRecipe,
-  cleanupIngredientsDatabase,
-  mergeElementalProperties
+export {
+    cleanupIngredientsDatabase,
+    mergeElementalProperties, standardizeElementalAffinity,
+    standardizeIngredient,
+    standardizeRecipe,
+    validateIngredient,
+    validateRecipe
 } from './processing';
 
 // Type exports
 export type {
-  ValidationResult,
-  DataCleanupResult,
-  StandardizationOptions
-} from './processing'; 
+    DataCleanupResult,
+    StandardizationOptions, ValidationResult
+} from './processing';

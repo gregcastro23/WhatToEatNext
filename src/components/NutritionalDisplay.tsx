@@ -39,7 +39,7 @@ export default function NutritionalDisplay({
           setLoading(false);
         }
       };
-      loadNutritionalData();
+      void loadNutritionalData();
     } else {
       setNutritionalData(null);
     }

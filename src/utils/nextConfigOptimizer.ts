@@ -1,5 +1,4 @@
 import fs from 'fs';
-import path from 'path';
 
 /**
  * Next.js Configuration Optimizer
@@ -9,7 +8,7 @@ export class NextConfigOptimizer {
   private readonly configPath: string;
   private readonly logger: (message: string, ...args: unknown[]) => void;
 
-  constructor(configPath = 'next.config.js', logger = console.log) {
+  constructor(configPath = 'next.config.js', logger: (message: string, ...args: unknown[]) => void = console.log) {
     this.configPath = configPath;
     this.logger = logger;
   }
@@ -29,7 +28,7 @@ export class NextConfigOptimizer {
       }
 
       // Use the primary config file (next.config.js or next.config.mjs)
-      const primaryConfig = existingConfigs.find(file => file === 'next.config.js') || 
+      const primaryConfig = existingConfigs.find(file => file === 'next.config.js') ||
                            existingConfigs.find(file => file === 'next.config.mjs') ||
                            existingConfigs[0];
 
@@ -39,7 +38,7 @@ export class NextConfigOptimizer {
       }
 
       this.validateAndOptimizeExistingConfig(primaryConfig);
-      
+
     } catch (error) {
       this.logger('Error optimizing Next.js configuration:', error);
     }
@@ -52,26 +51,26 @@ export class NextConfigOptimizer {
     const defaultConfig = `/** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  
+
   // Build optimization for manifest generation
   output: 'standalone',
-  
+
   // TypeScript configuration
   typescript: {
     ignoreBuildErrors: false, // Enable for production stability
   },
-  
+
   // ESLint configuration
   eslint: {
     ignoreDuringBuilds: false, // Enable for production stability
     dirs: ['src'],
   },
-  
+
   // Experimental features for better build stability
   experimental: {
     typedRoutes: true,
   },
-  
+
   // Webpack optimization for manifest generation
   webpack: (config, { isServer, dev }) => {
     // Ensure proper module resolution
@@ -79,7 +78,7 @@ const nextConfig = {
       ...config.resolve.alias,
       '@': path.resolve(__dirname, './src'),
     };
-    
+
     // Optimize for server-side rendering
     if (isServer) {
       config.resolve.fallback = {
@@ -89,10 +88,10 @@ const nextConfig = {
         os: false,
       };
     }
-    
+
     return config;
   },
-  
+
   // Generate proper build ID for consistent builds
   generateBuildId: async () => {
     return process.env.BUILD_ID || \`build-\${Date.now()}\`;
@@ -111,7 +110,7 @@ module.exports = nextConfig;
    */
   private validateAndOptimizeExistingConfig(configPath: string): void {
     const content = fs.readFileSync(configPath, 'utf8');
-    
+
     // Check for essential configurations
     const checks = [
       {
@@ -133,7 +132,7 @@ module.exports = nextConfig;
     ];
 
     const recommendations: string[] = [];
-    
+
     for (const check of checks) {
       if (!check.pattern.test(content)) {
         recommendations.push(check.recommendation);
@@ -154,7 +153,7 @@ module.exports = nextConfig;
   fixCommonIssues(): void {
     const configFiles = ['next.config.js', 'next.config.mjs'];
     const existingConfig = configFiles.find(file => fs.existsSync(file));
-    
+
     if (!existingConfig) {
       this.logger('No Next.js configuration found, creating default');
       this.createDefaultConfig();

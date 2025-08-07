@@ -20,7 +20,7 @@ describe('Astrologize API Integration', () => {
 
   describe('API Connection Tests', () => {
     test('should test API connection successfully', async () => {
-      const result = await testAstrologizeApi()
+      const result = testAstrologizeApi()
       expect(typeof result).toBe('boolean');
 
       if (result !== null) {
@@ -34,7 +34,7 @@ describe('Astrologize API Integration', () => {
   describe('Current Planetary Positions', () => {
     test('should get current planetary positions', async () => {
       try {
-        const positions = await getCurrentPlanetaryPositions()
+        const positions = getCurrentPlanetaryPositions()
         // Verify structure
         expect(typeof positions).toBe('object');
         expect(positions).not.toBeNull();
@@ -84,7 +84,7 @@ describe('Astrologize API Integration', () => {
     test('should get positions with custom location', async () => {
       try {
         const _customLocation = { latitude: 51.5074, longitude: -0.1278 }; // London
-        const positions = await getCurrentPlanetaryPositions()
+        const positions = getCurrentPlanetaryPositions()
         expect(typeof positions).toBe('object');
         console.log('✅ Successfully got positions for custom location (London)');
 
@@ -98,7 +98,7 @@ describe('Astrologize API Integration', () => {
     test('should get positions for a specific date', async () => {
       try {
         const testDate = new Date('2024-06-21T12:00:00Z'); // Summer solstice
-        const positions = await getPlanetaryPositionsForDateTime(testDate);
+        const positions = getPlanetaryPositionsForDateTime(testDate);
         expect(typeof positions).toBe('object');
 
         console.log('\n🌞 SUMMER SOLSTICE 2024 POSITIONS:');
@@ -123,7 +123,7 @@ describe('Astrologize API Integration', () => {
         const birthDate = new Date('1990-03-20T16:20:00Z');
         const _birthLocation = { latitude: 40.7498, longitude: -73.7976 }; // NYC
 
-        const positions = await getPlanetaryPositionsForDateTime(birthDate)
+        const positions = getPlanetaryPositionsForDateTime(birthDate)
         expect(typeof positions).toBe('object');
 
         console.log('\n🎂 EXAMPLE BIRTH CHART POSITIONS:');
@@ -149,7 +149,7 @@ describe('Astrologize API Integration', () => {
     test('should handle API errors gracefully', async () => {
       // Test with invalid parameters to see error handling
       try {
-        await fetchPlanetaryPositions({
+        fetchPlanetaryPositions({
           year: -1,
           month: 13,
           date: 32,
@@ -166,7 +166,7 @@ describe('Astrologize API Integration', () => {
 
     test('should validate planetary data structure', async () => {
       try {
-        const positions = await getCurrentPlanetaryPositions()
+        const positions = getCurrentPlanetaryPositions()
         // Test that all position objects have required properties
         Object.entries(positions || []).forEach(([_planet, position]) => {
           expect(position).toHaveProperty('sign');
@@ -197,7 +197,7 @@ describe('Astrologize API Integration', () => {
       };
 
       try {
-        const positions = await getCurrentPlanetaryPositions()
+        const positions = getCurrentPlanetaryPositions()
         expect(typeof positions).toBe('object');
         console.log('✅ Integration with geolocation simulation working');
       } catch (error) {
@@ -225,7 +225,7 @@ describe('Real-time Astrologize Output Demo', () => {
 
     try {
       // Test API connection first
-      const isConnected = await testAstrologizeApi();
+      const isConnected = testAstrologizeApi();
       console.log(`API Connection Status: ${isConnected ? '✅ CONNECTED' : '❌ DISCONNECTED'}`);
 
       if (isConnected !== null) {
@@ -233,7 +233,7 @@ describe('Real-time Astrologize Output Demo', () => {
         console.log('-----------------');
 
         // Get current positions
-        const currentPositions = await getCurrentPlanetaryPositions();
+        const currentPositions = getCurrentPlanetaryPositions();
         // Display in a nice format
         console.log('🌍 Current Location: Default (NYC area)');
         console.log('⏰ Current Time:', new Date().toLocaleString());

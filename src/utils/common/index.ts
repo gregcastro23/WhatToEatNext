@@ -1,6 +1,5 @@
 import { z } from 'zod';
 
-import { Element } from "@/types/alchemy";
 
 import { logger } from '../logger';
 // ===== THEME MANAGEMENT =====
@@ -15,7 +14,7 @@ export class ThemeManager {
     document.documentElement.setAttribute('data-theme', theme);
     localStorage.setItem('theme', theme);
   }
-  
+
   async initializeTheme() {
     try {
       const savedTheme = localStorage.getItem('theme') || 'light';
@@ -32,7 +31,7 @@ export class ThemeManager {
     try {
       const savedTheme = localStorage.getItem('theme') || 'light';
       const savedAccent = localStorage.getItem('accent-color') || 'blue';
-      
+
       return {
         mode: savedTheme as 'light' | 'dark' | 'system',
         accent: savedAccent
@@ -68,7 +67,7 @@ export const env = validateEnv();
 export function validateAstrologyConfig() {
   const required = ['NEXT_PUBLIC_PROKERALA_CLIENT_ID', 'NEXT_PUBLIC_PROKERALA_CLIENT_SECRET'];
   const missing = (required || []).filter(key => !process.env[key]);
-  
+
   if ((missing || []).length > 0) {
     console.warn('Missing required environment variables:', missing);
   }
@@ -94,14 +93,14 @@ export async function collectFeedback(feedback: FeedbackData): Promise<{ success
   try {
     // Validate feedback data
     if (!feedback.title || !feedback.description || !feedback.type) {
-      return { 
-        success: false, 
+      return {
+        success: false,
         message: 'Missing required feedback fields: title, description, and type are required'
       };
     }
-    
+
     // Log feedback for development purposes
-    logger.info('Received user feedback', { 
+    logger.info('Received user feedback', {
       type: feedback.type,
       title: feedback.title,
       priority: feedback.priority || 'medium'
@@ -110,7 +109,7 @@ export async function collectFeedback(feedback: FeedbackData): Promise<{ success
     // In a real application, you would send this to a server/API endpoint
     // For now, just simulate success
     await new Promise(resolve => setTimeout(resolve, 500));
-    
+
     return {
       success: true,
       message: 'Thank you for your feedback! We will review it shortly.'
@@ -138,4 +137,4 @@ export function getFeedbackCategories(): { id: string; label: string }[] {
 }
 
 // ===== EXPORTS =====
-export { themeManager as default }; 
+export { themeManager as default };

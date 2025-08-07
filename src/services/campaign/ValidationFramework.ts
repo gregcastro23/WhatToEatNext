@@ -1,10 +1,10 @@
 /**
  * Validation Framework
- * 
- * Comprehensive validation system for each phase completion with automated 
- * milestone validation, success criteria checking, and failure detection 
+ *
+ * Comprehensive validation system for each phase completion with automated
+ * milestone validation, success criteria checking, and failure detection
  * with recovery trigger system.
- * 
+ *
  * Requirements: 7.6, 6.5, 6.6, 6.7, 6.8
  */
 
@@ -95,20 +95,20 @@ export class ValidationFramework {
           validator: async () => {
             const startTime = Date.now();
             try {
-              const output = execSync('yarn tsc --noEmit --skipLibCheck 2>&1', { 
+              const output = execSync('yarn tsc --noEmit --skipLibCheck 2>&1', {
                 encoding: 'utf8',
                 timeout: 60000
               });
-              
+
               const errorCount = (output.match(/error TS\d+/g) || []).length;
               const executionTime = Date.now() - startTime;
-              
+
               return {
                 success: errorCount === 0,
                 value: errorCount,
                 expected: 0,
-                message: errorCount === 0 
-                  ? 'All TypeScript errors eliminated' 
+                message: errorCount === 0
+                  ? 'All TypeScript errors eliminated'
                   : `${errorCount} TypeScript errors remaining`,
                 details: errorCount > 0 ? output.split('\n').slice(-10).join('\n') : undefined,
                 timestamp: new Date(),
@@ -116,11 +116,12 @@ export class ValidationFramework {
               };
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             // Intentionally any: Error objects from validation processes have varying structures
-            } catch (error: any) {
+            } catch (error: unknown) {
               const executionTime = Date.now() - startTime;
-              const errorOutput = error.stdout || error.stderr || error.message;
+              const err = error as { stdout?: string; stderr?: string; message: string };
+              const errorOutput = err.stdout || err.stderr || err.message;
               const errorCount = (errorOutput.match(/error TS\d+/g) || []).length;
-              
+
               return {
                 success: false,
                 value: errorCount,
@@ -142,12 +143,12 @@ export class ValidationFramework {
           validator: async () => {
             const startTime = Date.now();
             try {
-              execSync('yarn build', { 
+              execSync('yarn build', {
                 stdio: 'pipe',
                 timeout: 120000
               });
               const executionTime = Date.now() - startTime;
-              
+
               return {
                 success: true,
                 value: true,
@@ -158,14 +159,15 @@ export class ValidationFramework {
               };
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             // Intentionally any: Error objects from validation processes have varying structures
-            } catch (error: any) {
+            } catch (error: unknown) {
               const executionTime = Date.now() - startTime;
+              const err = error as { stdout?: string; stderr?: string; message: string };
               return {
                 success: false,
                 value: false,
                 expected: true,
                 message: 'Build failed',
-                details: error.stdout || error.stderr || error.message,
+                details: err.stdout || err.stderr || err.message,
                 timestamp: new Date(),
                 executionTime
               };
@@ -181,34 +183,34 @@ export class ValidationFramework {
           validator: async () => {
             const startTime = Date.now();
             try {
-              const output = execSync('yarn tsc --noEmit --skipLibCheck 2>&1', { 
+              const output = execSync('yarn tsc --noEmit --skipLibCheck 2>&1', {
                 encoding: 'utf8',
                 timeout: 60000
               });
-              
+
               const criticalErrors = (output.match(/error (TS2352|TS2345|TS2698|TS2304|TS2362)/g) || []).length;
               const executionTime = Date.now() - startTime;
-              
+
               return {
                 success: criticalErrors === 0,
                 value: criticalErrors,
                 expected: 0,
-                message: criticalErrors === 0 
-                  ? 'All critical error types eliminated' 
+                message: criticalErrors === 0
+                  ? 'All critical error types eliminated'
                   : `${criticalErrors} critical errors remaining`,
                 timestamp: new Date(),
                 executionTime
               };
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             // Intentionally any: Error objects from validation processes have varying structures
-            } catch (error: any) {
+            } catch (error: unknown) {
               const executionTime = Date.now() - startTime;
               return {
                 success: false,
                 value: -1,
                 expected: 0,
                 message: 'Could not analyze critical error types',
-                details: error.message,
+                details: (error as Error).message,
                 timestamp: new Date(),
                 executionTime
               };
@@ -233,20 +235,20 @@ export class ValidationFramework {
           validator: async () => {
             const startTime = Date.now();
             try {
-              const output = execSync('yarn lint 2>&1', { 
+              const output = execSync('yarn lint 2>&1', {
                 encoding: 'utf8',
                 timeout: 120000
               });
-              
+
               const warningCount = (output.match(/warning/g) || []).length;
               const executionTime = Date.now() - startTime;
-              
+
               return {
                 success: warningCount === 0,
                 value: warningCount,
                 expected: 0,
-                message: warningCount === 0 
-                  ? 'All linting warnings eliminated' 
+                message: warningCount === 0
+                  ? 'All linting warnings eliminated'
                   : `${warningCount} linting warnings remaining`,
                 details: warningCount > 0 ? output.split('\n').slice(-15).join('\n') : undefined,
                 timestamp: new Date(),
@@ -254,11 +256,12 @@ export class ValidationFramework {
               };
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             // Intentionally any: Error objects from validation processes have varying structures
-            } catch (error: any) {
+            } catch (error: unknown) {
               const executionTime = Date.now() - startTime;
-              const errorOutput = error.stdout || error.stderr || error.message;
+              const err = error as { stdout?: string; stderr?: string; message: string };
+              const errorOutput = err.stdout || err.stderr || err.message;
               const warningCount = (errorOutput.match(/warning/g) || []).length;
-              
+
               return {
                 success: false,
                 value: warningCount,
@@ -280,34 +283,34 @@ export class ValidationFramework {
           validator: async () => {
             const startTime = Date.now();
             try {
-              const output = execSync('yarn lint 2>&1', { 
+              const output = execSync('yarn lint 2>&1', {
                 encoding: 'utf8',
                 timeout: 120000
               });
-              
+
               const explicitAnyCount = (output.match(/@typescript-eslint\/no-explicit-any/g) || []).length;
               const executionTime = Date.now() - startTime;
-              
+
               return {
                 success: explicitAnyCount === 0,
                 value: explicitAnyCount,
                 expected: 0,
-                message: explicitAnyCount === 0 
-                  ? 'All explicit-any warnings eliminated' 
+                message: explicitAnyCount === 0
+                  ? 'All explicit-any warnings eliminated'
                   : `${explicitAnyCount} explicit-any warnings remaining`,
                 timestamp: new Date(),
                 executionTime
               };
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             // Intentionally any: Error objects from validation processes have varying structures
-            } catch (error: any) {
+            } catch (error: unknown) {
               const executionTime = Date.now() - startTime;
               return {
                 success: false,
                 value: -1,
                 expected: 0,
                 message: 'Could not analyze explicit-any warnings',
-                details: error.message,
+                details: (error as Error).message,
                 timestamp: new Date(),
                 executionTime
               };
@@ -323,34 +326,34 @@ export class ValidationFramework {
           validator: async () => {
             const startTime = Date.now();
             try {
-              const output = execSync('yarn lint 2>&1', { 
+              const output = execSync('yarn lint 2>&1', {
                 encoding: 'utf8',
                 timeout: 120000
               });
-              
+
               const unusedVarsCount = (output.match(/no-unused-vars/g) || []).length;
               const executionTime = Date.now() - startTime;
-              
+
               return {
                 success: unusedVarsCount === 0,
                 value: unusedVarsCount,
                 expected: 0,
-                message: unusedVarsCount === 0 
-                  ? 'All unused variables warnings eliminated' 
+                message: unusedVarsCount === 0
+                  ? 'All unused variables warnings eliminated'
                   : `${unusedVarsCount} unused variables warnings remaining`,
                 timestamp: new Date(),
                 executionTime
               };
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             // Intentionally any: Error objects from validation processes have varying structures
-            } catch (error: any) {
+            } catch (error: unknown) {
               const executionTime = Date.now() - startTime;
               return {
                 success: false,
                 value: -1,
                 expected: 0,
                 message: 'Could not analyze unused variables warnings',
-                details: error.message,
+                details: (error as Error).message,
                 timestamp: new Date(),
                 executionTime
               };
@@ -366,34 +369,34 @@ export class ValidationFramework {
           validator: async () => {
             const startTime = Date.now();
             try {
-              const output = execSync('yarn lint 2>&1', { 
+              const output = execSync('yarn lint 2>&1', {
                 encoding: 'utf8',
                 timeout: 120000
               });
-              
+
               const consoleCount = (output.match(/no-console/g) || []).length;
               const executionTime = Date.now() - startTime;
-              
+
               return {
                 success: consoleCount === 0,
                 value: consoleCount,
                 expected: 0,
-                message: consoleCount === 0 
-                  ? 'All console warnings eliminated' 
+                message: consoleCount === 0
+                  ? 'All console warnings eliminated'
                   : `${consoleCount} console warnings remaining`,
                 timestamp: new Date(),
                 executionTime
               };
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             // Intentionally any: Error objects from validation processes have varying structures
-            } catch (error: any) {
+            } catch (error: unknown) {
               const executionTime = Date.now() - startTime;
               return {
                 success: false,
                 value: -1,
                 expected: 0,
                 message: 'Could not analyze console warnings',
-                details: error.message,
+                details: (error as Error).message,
                 timestamp: new Date(),
                 executionTime
               };
@@ -418,34 +421,34 @@ export class ValidationFramework {
           validator: async () => {
             const startTime = Date.now();
             try {
-              const output = execSync('grep -r "INTELLIGENCE_SYSTEM" src/ | wc -l', { 
+              const output = execSync('grep -r "INTELLIGENCE_SYSTEM" src/ | wc -l', {
                 encoding: 'utf8',
                 timeout: 30000
               });
-              
+
               const systemCount = parseInt(output.trim()) || 0;
               const executionTime = Date.now() - startTime;
-              
+
               return {
                 success: systemCount >= 200,
                 value: systemCount,
                 expected: 200,
-                message: systemCount >= 200 
-                  ? `${systemCount} enterprise intelligence systems active` 
+                message: systemCount >= 200
+                  ? `${systemCount} enterprise intelligence systems active`
                   : `Only ${systemCount} intelligence systems (target: 200+)`,
                 timestamp: new Date(),
                 executionTime
               };
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             // Intentionally any: Error objects from validation processes have varying structures
-            } catch (error: any) {
+            } catch (error: unknown) {
               const executionTime = Date.now() - startTime;
               return {
                 success: false,
                 value: 0,
                 expected: 200,
                 message: 'Could not count enterprise intelligence systems',
-                details: error.message,
+                details: (error as Error).message,
                 timestamp: new Date(),
                 executionTime
               };
@@ -462,34 +465,34 @@ export class ValidationFramework {
             const startTime = Date.now();
             try {
               // This is a simplified check - in practice would use more sophisticated analysis
-              const output = execSync('find src/ -name "*.ts" -o -name "*.tsx" | xargs grep -l "export.*unused" | wc -l', { 
+              const output = execSync('find src/ -name "*.ts" -o -name "*.tsx" | xargs grep -l "export.*unused" | wc -l', {
                 encoding: 'utf8',
                 timeout: 30000
               });
-              
+
               const unusedExports = parseInt(output.trim()) || 0;
               const executionTime = Date.now() - startTime;
-              
+
               return {
                 success: unusedExports === 0,
                 value: unusedExports,
                 expected: 0,
-                message: unusedExports === 0 
-                  ? 'All unused exports transformed' 
+                message: unusedExports === 0
+                  ? 'All unused exports transformed'
                   : `${unusedExports} unused exports remaining`,
                 timestamp: new Date(),
                 executionTime
               };
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             // Intentionally any: Error objects from validation processes have varying structures
-            } catch (error: any) {
+            } catch (error: unknown) {
               const executionTime = Date.now() - startTime;
               return {
                 success: true, // Assume success if we can't check
                 value: 0,
                 expected: 0,
                 message: 'Could not analyze unused exports (assuming transformed)',
-                details: error.message,
+                details: (error as Error).message,
                 timestamp: new Date(),
                 executionTime
               };
@@ -505,12 +508,12 @@ export class ValidationFramework {
           validator: async () => {
             const startTime = Date.now();
             try {
-              execSync('yarn build', { 
+              execSync('yarn build', {
                 stdio: 'pipe',
                 timeout: 120000
               });
               const executionTime = Date.now() - startTime;
-              
+
               return {
                 success: true,
                 value: true,
@@ -521,14 +524,14 @@ export class ValidationFramework {
               };
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             // Intentionally any: Error objects from validation processes have varying structures
-            } catch (error: any) {
+            } catch (error: unknown) {
               const executionTime = Date.now() - startTime;
               return {
                 success: false,
                 value: false,
                 expected: true,
                 message: 'Build failed after transformation',
-                details: error.stdout || error.stderr || error.message,
+                details: (error as { stdout?: string; stderr?: string; message: string }).stdout || (error as { stdout?: string; stderr?: string; message: string }).stderr || (error as Error).message,
                 timestamp: new Date(),
                 executionTime
               };
@@ -553,32 +556,32 @@ export class ValidationFramework {
           validator: async () => {
             const startTime = Date.now();
             try {
-              execSync('yarn build', { 
+              execSync('yarn build', {
                 stdio: 'pipe',
                 timeout: 120000
               });
               const buildTime = (Date.now() - startTime) / 1000;
-              
+
               return {
                 success: buildTime < 10,
                 value: buildTime,
                 expected: 10,
-                message: buildTime < 10 
-                  ? `Build completed in ${buildTime.toFixed(1)}s (target: <10s)` 
+                message: buildTime < 10
+                  ? `Build completed in ${buildTime.toFixed(1)}s (target: <10s)`
                   : `Build took ${buildTime.toFixed(1)}s (exceeds 10s target)`,
                 timestamp: new Date(),
                 executionTime: Date.now() - startTime
               };
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             // Intentionally any: Error objects from validation processes have varying structures
-            } catch (error: any) {
+            } catch (error: unknown) {
               const buildTime = (Date.now() - startTime) / 1000;
               return {
                 success: false,
                 value: buildTime,
                 expected: 10,
                 message: `Build failed after ${buildTime.toFixed(1)}s`,
-                details: error.stdout || error.stderr || error.message,
+                details: (error as { stdout?: string; stderr?: string; message: string }).stdout || (error as { stdout?: string; stderr?: string; message: string }).stderr || (error as Error).message,
                 timestamp: new Date(),
                 executionTime: Date.now() - startTime
               };
@@ -594,12 +597,12 @@ export class ValidationFramework {
           validator: async () => {
             const startTime = Date.now();
             try {
-              execSync('yarn test --run', { 
+              execSync('yarn test --run', {
                 stdio: 'pipe',
                 timeout: 180000
               });
               const testTime = (Date.now() - startTime) / 1000;
-              
+
               return {
                 success: true,
                 value: testTime,
@@ -610,14 +613,14 @@ export class ValidationFramework {
               };
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             // Intentionally any: Error objects from validation processes have varying structures
-            } catch (error: any) {
+            } catch (error: unknown) {
               const testTime = (Date.now() - startTime) / 1000;
               return {
                 success: false,
                 value: testTime,
                 expected: 60,
                 message: `Test suite failed after ${testTime.toFixed(1)}s`,
-                details: error.stdout || error.stderr || error.message,
+                details: (error as { stdout?: string; stderr?: string; message: string }).stdout || (error as { stdout?: string; stderr?: string; message: string }).stderr || (error as Error).message,
                 timestamp: new Date(),
                 executionTime: Date.now() - startTime
               };
@@ -639,13 +642,13 @@ export class ValidationFramework {
                 const stats = fs.statSync(buildPath);
                 const sizeKB = stats.size / 1024;
                 const executionTime = Date.now() - startTime;
-                
+
                 return {
                   success: sizeKB < 500, // 500KB threshold
                   value: sizeKB,
                   expected: 420,
-                  message: sizeKB < 500 
-                    ? `Bundle size ${sizeKB.toFixed(1)}KB (target: <420KB)` 
+                  message: sizeKB < 500
+                    ? `Bundle size ${sizeKB.toFixed(1)}KB (target: <420KB)`
                     : `Bundle size ${sizeKB.toFixed(1)}KB exceeds target`,
                   timestamp: new Date(),
                   executionTime
@@ -662,13 +665,13 @@ export class ValidationFramework {
               }
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             // Intentionally any: Error objects from validation processes have varying structures
-            } catch (error: any) {
+            } catch (error: unknown) {
               return {
                 success: true, // Non-critical, assume success
                 value: 0,
                 expected: 420,
                 message: 'Bundle size check failed (non-critical)',
-                details: error.message,
+                details: (error as Error).message,
                 timestamp: new Date(),
                 executionTime: Date.now() - startTime
               };
@@ -687,26 +690,26 @@ export class ValidationFramework {
               const memUsage = process.memoryUsage();
               const heapUsedMB = memUsage.heapUsed / 1024 / 1024;
               const executionTime = Date.now() - startTime;
-              
+
               return {
                 success: heapUsedMB < 50,
                 value: heapUsedMB,
                 expected: 50,
-                message: heapUsedMB < 50 
-                  ? `Memory usage ${heapUsedMB.toFixed(1)}MB (target: <50MB)` 
+                message: heapUsedMB < 50
+                  ? `Memory usage ${heapUsedMB.toFixed(1)}MB (target: <50MB)`
                   : `Memory usage ${heapUsedMB.toFixed(1)}MB exceeds target`,
                 timestamp: new Date(),
                 executionTime
               };
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             // Intentionally any: Error objects from validation processes have varying structures
-            } catch (error: any) {
+            } catch (error: unknown) {
               return {
                 success: true, // Non-critical
                 value: 0,
                 expected: 50,
                 message: 'Memory usage check failed (non-critical)',
-                details: error.message,
+                details: (error as Error).message,
                 timestamp: new Date(),
                 executionTime: Date.now() - startTime
               };
@@ -727,7 +730,7 @@ export class ValidationFramework {
     }
 
     console.log(`🔍 Validating ${phaseValidation.phaseName}...`);
-    
+
     const startTime = Date.now();
     const results: Array<{ criteriaId: string; result: ValidationResult }> = [];
     let totalScore = 0;
@@ -736,11 +739,11 @@ export class ValidationFramework {
     // Execute all validation criteria
     for (const criteria of phaseValidation.criteria) {
       console.log(`  ⏳ Checking: ${criteria.name}`);
-      
+
       try {
         const result = await criteria.validator();
         results.push({ criteriaId: criteria.id, result });
-        
+
         if (result.success) {
           totalScore += criteria.weight;
           passedCriteria++;
@@ -810,7 +813,8 @@ export class ValidationFramework {
     // Build failure detection
     try {
       execSync('yarn build', { stdio: 'pipe', timeout: 60000 });
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error as { stdout?: string; stderr?: string; message: string };
       failures.push({
         detected: true,
         severity: 'critical',
@@ -828,7 +832,8 @@ export class ValidationFramework {
     // Test failure detection
     try {
       execSync('yarn test --run', { stdio: 'pipe', timeout: 60000 });
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error as { stdout?: string; stderr?: string; message: string };
       failures.push({
         detected: true,
         severity: 'high',
@@ -847,7 +852,7 @@ export class ValidationFramework {
     try {
       const output = execSync('yarn tsc --noEmit --skipLibCheck 2>&1', { encoding: 'utf8' });
       const errorCount = (output.match(/error TS\d+/g) || []).length;
-      
+
       if (errorCount > 100) {
         failures.push({
           detected: true,
@@ -862,7 +867,7 @@ export class ValidationFramework {
           automaticRecovery: true
         });
       }
-    } catch (error) {
+    } catch (error: unknown) {
       // TypeScript errors are expected during campaign
     }
 
@@ -871,7 +876,7 @@ export class ValidationFramework {
     try {
       execSync('yarn build', { stdio: 'pipe', timeout: 120000 });
       const buildTime = (Date.now() - buildStart) / 1000;
-      
+
       if (buildTime > 30) {
         failures.push({
           detected: true,
@@ -886,7 +891,7 @@ export class ValidationFramework {
           automaticRecovery: true
         });
       }
-    } catch (error) {
+    } catch (error: unknown) {
       // Build failure already detected above
     }
 
@@ -915,11 +920,11 @@ export class ValidationFramework {
    * Generate recommendations based on validation results
    */
   private generateRecommendations(
-    phaseValidation: PhaseValidation, 
+    phaseValidation: PhaseValidation,
     results: Array<{ criteriaId: string; result: ValidationResult }>
   ): string[] {
     const recommendations: string[] = [];
-    
+
     for (const { criteriaId, result } of results) {
       if (!result.success) {
         const criteria = phaseValidation.criteria.find(c => c.id === criteriaId);

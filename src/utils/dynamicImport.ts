@@ -62,10 +62,10 @@ interface CuisineCalculationsModule {
 }
 
 interface SunTimesModule {
-  calculateSunTimes: (date: Date, latitude: number, longitude: number) => { 
-    sunrise: Date; 
-    sunset: Date; 
-    solarNoon: Date; 
+  calculateSunTimes: (date: Date, latitude: number, longitude: number) => {
+    sunrise: Date;
+    sunset: Date;
+    solarNoon: Date;
     goldenHour: Date;
   };
 }
@@ -107,17 +107,17 @@ export async function safeImportAndExecuteKnown<R, A extends unknown[] = unknown
       errorLog(`Module path not found in MODULE_MAP: ${path}`);
       return null;
     }
-    
+
     const moduleExports = await MODULE_MAP[path]();
-    
+
     // Type assertion to allow indexing with string
     const func = (moduleExports as Record<string, unknown>)[functionName];
-    
+
     if (typeof func !== 'function') {
       errorLog(`Function ${functionName} not found in module ${path}`);
       return null;
     }
-    
+
     return func(..._args) as R;
   } catch (error) {
     errorLog(`Import and execute failed for ${functionName} from ${path}:`, error);
@@ -137,17 +137,17 @@ export async function safeImportFunctionKnown<T extends (...args: unknown[]) => 
       errorLog(`Module path not found in MODULE_MAP: ${path}`);
       return null;
     }
-    
+
     const moduleExports = await MODULE_MAP[path]();
-    
+
     // Type assertion to allow indexing with string
     const func = (moduleExports as Record<string, unknown>)[functionName];
-    
+
     if (typeof func !== 'function') {
       errorLog(`Function ${functionName} not found in module ${path}`);
       return null;
     }
-    
+
     return func as T;
   } catch (error) {
     errorLog(`Import failed for ${functionName} from ${path}:`, error);
@@ -160,7 +160,7 @@ export async function safeImportFunctionKnown<T extends (...args: unknown[]) => 
 // Add back specific module imports for known paths instead of using dynamic imports
 import * as alchemicalCalculations from '@/calculations/alchemicalCalculations';
 import * as gregsEnergy from '@/calculations/gregsEnergy';
-import { log } from '@/services/LoggingService';
+// Removed unused log import
 import * as accurateAstronomy from '@/utils/accurateAstronomy';
 import * as astrologyUtils from '@/utils/astrologyUtils';
 import * as safeAstrology from '@/utils/safeAstrology';
@@ -176,7 +176,7 @@ export async function safeImportAndExecute<R, A extends unknown[] = unknown[]>(
   try {
     // Use static imports for known modules
     let importedModule: unknown;
-    
+
     if (path === '@/utils/astrologyUtils') {
       importedModule = astrologyUtils;
     } else if (path === '@/utils/accurateAstronomy') {
@@ -203,46 +203,46 @@ export async function safeImportAndExecute<R, A extends unknown[] = unknown[]>(
         return null;
       }
     }
-    
+
     if (typeof (importedModule as Record<string, unknown>)[functionName] !== 'function') {
       errorLog(`Function ${functionName} not found in module ${path}`);
       return null;
     }
-    
+
     const func = (importedModule as Record<string, unknown>)[functionName] as (...args: A) => R;
     return func(..._args);
   } catch (error) {
     errorLog(`Safe import and execute failed for ${functionName} from ${path}:`, error);
-    
+
     // Return default values for known functions
     if (path === '@/calculations/alchemicalCalculations' && functionName === 'calculateAlchemicalProperties') {
       const calculatedResults = {} as R;
-      
+
       // Fix TS2339: Property does not exist on type 'R'
       const resultData = calculatedResults as Record<string, unknown>;
-      
+
       // Add fallbacks for missing calculations
       if (!resultData.elementalCounts) {
-        resultData.elementalCounts = { 
-          Fire: 0.32, 
-          Water: 0.28, 
-          Earth: 0.18, 
-          Air: 0.22 
+        resultData.elementalCounts = {
+          Fire: 0.32,
+          Water: 0.28,
+          Earth: 0.18,
+          Air: 0.22
         };
       }
-      
+
       if (!resultData.alchemicalCounts) {
-        resultData.alchemicalCounts = { 
-          Spirit: 0.29, 
-          Essence: 0.28, 
-          Matter: 0.21, 
-          Substance: 0.22 
+        resultData.alchemicalCounts = {
+          Spirit: 0.29,
+          Essence: 0.28,
+          Matter: 0.21,
+          Substance: 0.22
         };
       }
-      
+
       return calculatedResults;
     }
-    
+
     return null;
   }
 }
@@ -259,13 +259,13 @@ export async function safeImportFunction<T extends (...args: unknown[]) => unkno
     if (path in MODULE_MAP) {
       return safeImportFunctionKnown(path as KnownModulePath, functionName);
     }
-    
+
     // astronomia modules removed
     if (path === 'astronomia') {
       errorLog(`Astronomia module removed: ${functionName}`);
       return null;
     }
-    
+
     // Reject other dynamic imports to avoid webpack warnings
     errorLog(`Unknown module path: ${path}. Add it to MODULE_MAP for static imports.`);
     return null;
@@ -309,4 +309,4 @@ export async function dynamicImportAndExecute<R, A extends unknown[] = unknown[]
 ): Promise<R | F | null> {
   debugLog('dynamicImportAndExecute is deprecated, use safeImportAndExecute instead');
   return safeImportAndExecute<R, A>(path, functionName, _args);
-} 
+}

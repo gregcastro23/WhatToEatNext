@@ -7,7 +7,7 @@ declare global {
     // Chrome extension API mock
     chrome?: {
       tabs?: {
-        create?: (options: Partial<T>) => Promise<{id: number}>;
+        create?: (options: Partial<unknown>) => Promise<{id: number}>;
         query?: (queryInfo: unknown, callback?: Function) => boolean;
         update?: (tabId: number, properties: unknown, callback?: Function) => boolean;
         sendMessage?: (tabId: number, message: unknown, options?: Record<string, unknown>, callback?: Function) => boolean;
@@ -38,7 +38,7 @@ declare global {
         getURL?: (path: string) => string;
       };
     };
-    
+
     // Popup.js mock replacement
     popup?: {
       create: (options?: Record<string, unknown>) => {
@@ -54,15 +54,15 @@ declare global {
       on: (event: string, callback?: (...args: unknown[]) => void) => { off: () => void };
       trigger: (event: string) => any;
     };
-    
+
     // Tracking flags for our script replacer
     __scriptReplacerInitialized?: boolean;
     __reloadedDummyPopup?: boolean;
     __foodRecommenderFixApplied?: boolean;
-    
+
     // Storage for Chrome message listeners
-    _chromeMessageListeners?: Function[];
-    
+    _chromeMessageListeners?: ((message: unknown) => void)[];
+
     // Alchemical functions used by FoodRecommender
     getElementRanking?: (element_object: Element, rank?: number) => { [key: number]: string };
     createElementObject?: () => { Fire: number; Water: number; Air: number; Earth: number };
@@ -72,19 +72,19 @@ declare global {
     getDominantElement?: (obj: unknown) => string;
     alchemize?: (birth_info: unknown, horoscope_dict: unknown) => any;
     capitalize?: (str: string) => string;
-    
+
     // Service objects
     ingredientFilterService?: Record<string, unknown>;
     ElementalCalculator?: Record<string, unknown>;
-    
+
     // Utility functions
     fixAssignmentErrors?: <T>(obj: T) => T;
-    safelyAccess?: <T = any>(obj: unknown, path: string, defaultValue?: T) => T;
-    
+    safelyAccess?: <T = unknown>(obj: unknown, path: string, defaultValue?: T) => T;
+
     // Initialization flags
     __popupInitialized?: boolean;
     __chromeInitialized?: boolean;
   }
 }
 
-export {}; 
+export { };

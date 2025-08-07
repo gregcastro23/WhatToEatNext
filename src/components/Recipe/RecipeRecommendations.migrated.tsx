@@ -325,7 +325,7 @@ const RecipeRecommendationsMigrated: React.FC<RecipeRecommendationsProps> = ({ f
         setIsLoading(false);
       }
     };
-    void void fetchAstroData();
+    void void void void fetchAstroData();
   }, []);
 
   // Load astrological data when services are available

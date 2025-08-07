@@ -1,4 +1,4 @@
-import { Element , ElementalProperties } from "@/types/alchemy";
+// Removed unused Element, ElementalProperties imports
 import type { Recipe } from "@/types/recipe";
 
 import { createLogger } from '../logger';
@@ -11,7 +11,7 @@ const _logger = createLogger('RecipeEnrichment');
 export function enrichRecipeData(recipe: unknown): Recipe {
   // Create a deep copy to avoid mutating the original
   const enrichedRecipe = JSON.parse(JSON.stringify(recipe));
-  
+
   // Ensure all required properties exist
   enrichedRecipe.id = enrichedRecipe.id || `recipe-${Date.now()}`;
   enrichedRecipe.name = enrichedRecipe.name || 'Unnamed Recipe';
@@ -20,23 +20,23 @@ export function enrichRecipeData(recipe: unknown): Recipe {
   enrichedRecipe.timeToMake = enrichedRecipe.timeToMake || '30 minutes';
   enrichedRecipe.numberOfServings = enrichedRecipe.numberOfServings || 4;
   enrichedRecipe.instructions = enrichedRecipe.instructions || [];
-  
+
   // 1. Derive astrological influences from ingredients if not present
   if (!enrichedRecipe.astrologicalInfluences || (enrichedRecipe.astrologicalInfluences || []).length === 0) {
     enrichedRecipe.astrologicalInfluences = deriveAstrologicalInfluencesFromIngredients(enrichedRecipe);
   }
-  
+
   // 2. Derive elemental properties from cuisine and cooking method if not present
   if (!enrichedRecipe.elementalState) {
     enrichedRecipe.elementalState = deriveElementalProperties(enrichedRecipe);
   }
-  
+
   // 3. Enhance seasonal information with zodiac correspondences
   enrichedRecipe.currentSeason = enrichAndNormalizeSeasons(enrichedRecipe.currentSeason);
-  
+
   // 4. Add celestial timing recommendations
   enrichedRecipe.celestialTiming = deriveCelestialTiming(enrichedRecipe);
-  
+
   return enrichedRecipe as Recipe;
 }
 
@@ -45,7 +45,7 @@ export function enrichRecipeData(recipe: unknown): Recipe {
  */
 function deriveAstrologicalInfluencesFromIngredients(recipe: Recipe): string[] {
   const influences: Set<string> = new Set();
-  
+
   // Common astrological correspondences for ingredients
   const ingredientCorrespondences: Record<string, string[]> = {
     // Spices - Enhanced Mars, Sun, and Moon associations
@@ -61,7 +61,7 @@ function deriveAstrologicalInfluencesFromIngredients(recipe: Recipe): string[] {
     'saffron': ['Sun', 'Fire'],
     'cumin': ['Mars', 'Earth'],
     'cardamom': ['Moon', 'Venus', 'Water'],
-    
+
     // Fruits - Enhanced Sun and Moon associations
     'apple': ['Venus', 'Water'],
     'orange': ['Sun', 'Fire'],
@@ -69,7 +69,7 @@ function deriveAstrologicalInfluencesFromIngredients(recipe: Recipe): string[] {
     'lime': ['Moon', 'Water'],
     'banana': ['Moon', 'Water'],
     'coconut': ['Moon', 'Water'],
-    
+
     // Vegetables - Enhanced Mars, Sun, and Moon associations
     'potato': ['Earth', 'Saturn'],
     'carrot': ['Sun', 'Mars', 'Earth'],
@@ -78,19 +78,19 @@ function deriveAstrologicalInfluencesFromIngredients(recipe: Recipe): string[] {
     'tomato': ['Mars', 'Fire'],
     'cucumber': ['Moon', 'Water'],
     'mushroom': ['Moon', 'Earth'],
-    
+
     // Grains - Enhanced Sun and Moon associations
     'rice': ['Moon', 'Water'],
     'wheat': ['Sun', 'Earth'],
     'quinoa': ['Sun', 'Earth'],
     'oats': ['Venus', 'Earth'],
-    
+
     // Proteins - Enhanced Mars associations
     'beef': ['Mars', 'Fire'],
     'chicken': ['Mercury', 'Sun', 'Air'],
     'fish': ['Neptune', 'Water'],
     'egg': ['Moon', 'Water'],
-    
+
     // Herbs - Enhanced Mars, Sun, and Moon associations
     'basil': ['Mars', 'Fire'],
     'rosemary': ['Sun', 'Fire'],
@@ -99,12 +99,12 @@ function deriveAstrologicalInfluencesFromIngredients(recipe: Recipe): string[] {
     'mint': ['Mercury', 'Air'],
     'parsley': ['Mercury', 'Air']
   };
-  
+
   // Extract ingredient names from recipe
   if (recipe.ingredients) {
     (recipe.ingredients || []).forEach(ingredient => {
       const ingredientName = ingredient.name.toLowerCase();
-      
+
       // Check for exact matches
       for (const [key, correspondences] of Object.entries(ingredientCorrespondences)) {
         if (ingredientName.includes(key)) {
@@ -113,7 +113,7 @@ function deriveAstrologicalInfluencesFromIngredients(recipe: Recipe): string[] {
       }
     });
   }
-  
+
   return Array.from(influences);
 }
 
@@ -122,7 +122,7 @@ function deriveAstrologicalInfluencesFromIngredients(recipe: Recipe): string[] {
  */
 function deriveElementalProperties(recipe: Recipe): ElementalProperties {
   const elementalProps = { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
-  
+
   // Cooking method influences
   if (recipe.cookingMethods) {
     const methodStr = (recipe.cookingMethods as any)?.toLowerCase?.() || '';
@@ -136,7 +136,7 @@ function deriveElementalProperties(recipe: Recipe): ElementalProperties {
       elementalProps.Earth += 0.3;
     }
   }
-  
+
   // Cuisine influences
   if (recipe.cuisine) {
     const cuisine = recipe.cuisine.toLowerCase();
@@ -150,7 +150,7 @@ function deriveElementalProperties(recipe: Recipe): ElementalProperties {
       elementalProps.Earth += 0.2;
     }
   }
-  
+
   // Normalize to ensure sum equals 1
   const total = elementalProps.Fire + elementalProps.Water + elementalProps.Earth + elementalProps.Air;
   if (total > 0) {
@@ -159,7 +159,7 @@ function deriveElementalProperties(recipe: Recipe): ElementalProperties {
     elementalProps.Earth /= total;
     elementalProps.Air /= total;
   }
-  
+
   return elementalProps;
 }
 
@@ -170,12 +170,12 @@ function enrichAndNormalizeSeasons(seasons?: string[]): string[] {
   if (!seasons || (seasons || []).length === 0) {
     return ['all']; // Default to all seasons
   }
-  
+
   const normalizedSeasons: string[] = [];
-  
+
   (seasons || []).forEach(season => {
     const s = season.toLowerCase().trim();
-    
+
     // Normalize season names
     if (s === 'spring' || s === 'aries' || s === 'taurus' || s === 'gemini') {
       normalizedSeasons.push('spring');
@@ -192,7 +192,7 @@ function enrichAndNormalizeSeasons(seasons?: string[]): string[] {
       normalizedSeasons.push(s);
     }
   });
-  
+
   // Remove duplicates
   return [...new Set(normalizedSeasons)];
 }
@@ -210,7 +210,7 @@ function deriveCelestialTiming(recipe: Recipe): {
     optimalPlanetaryHour?: string;
     bestZodiacSeason?: string;
   } = {};
-  
+
   // Determine optimal Moon phase based on recipe characteristics
   if (recipe.cookingMethods) {
     const methodStr = (recipe.cookingMethods as any)?.toLowerCase?.() || '';
@@ -224,7 +224,7 @@ function deriveCelestialTiming(recipe: Recipe): {
       timing.optimalMoonPhase = 'full'; // Full energy for long cooking
     }
   }
-  
+
   return timing;
 }
 
@@ -233,12 +233,12 @@ function deriveCelestialTiming(recipe: Recipe): {
  */
 export function calculateRecipeComplexity(recipe: Recipe): number {
   let complexity = 0;
-  
+
   // Base complexity from number of ingredients
   if (recipe.ingredients) {
     complexity += Math.min((recipe.ingredients || []).length * 0.1, 2); // Cap at 2 points
   }
-  
+
   // Cooking method complexity
   if (recipe.cookingMethods) {
     const methodStr = (recipe.cookingMethods as any)?.toLowerCase?.() || '';
@@ -250,7 +250,7 @@ export function calculateRecipeComplexity(recipe: Recipe): number {
       complexity += 1;
     }
   }
-  
+
   // Normalize to 0-10 scale
   return Math.min(10, Math.max(0, complexity));
 }
@@ -262,7 +262,7 @@ export function enhanceWithNutritionalEstimates(recipe: Recipe): Recipe {
   if (recipe.nutrition) {
     return recipe; // Already has nutrition info
   }
-  
+
   // Simple nutritional estimation
   const estimatedNutrition = {
     calories: 0,
@@ -272,12 +272,12 @@ export function enhanceWithNutritionalEstimates(recipe: Recipe): Recipe {
     fiber: 0,
     sugar: 0
   };
-  
+
   // Basic calorie estimation based on ingredients
   if (recipe.ingredients) {
     (recipe.ingredients || []).forEach(ingredient => {
       const name = ingredient.name.toLowerCase();
-      
+
       // Rough calorie estimates per common ingredient
       if (name.includes('oil') || name.includes('butter')) {
         estimatedNutrition.calories += 120;
@@ -295,13 +295,13 @@ export function enhanceWithNutritionalEstimates(recipe: Recipe): Recipe {
       }
     });
   }
-  
+
   // Normalize per serving
   if (recipe.numberOfServings && recipe.numberOfServings > 1) {
     Object.keys(estimatedNutrition).forEach(key => {
       estimatedNutrition[key] = Math.round(estimatedNutrition[key] / (recipe.numberOfServings ?? 1));
     });
   }
-  
+
   return { ...recipe, nutrition: estimatedNutrition };
-} 
+}

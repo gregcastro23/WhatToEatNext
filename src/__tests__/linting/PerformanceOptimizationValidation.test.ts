@@ -35,7 +35,7 @@ describe('Performance Optimization Validation', () => {
       }
 
       // Run linting to create cache - use a simple command that should complete quickly
-      const result = await TestUtils.executeWithRetry(
+      const result = TestUtils.executeWithRetry(
         'echo "test completed"',
         {
           timeout: 5000,
@@ -59,7 +59,7 @@ describe('Performance Optimization Validation', () => {
     }, TEST_TIMEOUTS.performance);
 
     test('measures cache hit performance improvement', async () => {
-      const result = await TestUtils.executeWithRetry(
+      const result = TestUtils.executeWithRetry(
         'yarn lint:fast --max-warnings=10000 src/components/debug/ConsolidatedDebugInfo.tsx',
         {
           timeout: 30000,
@@ -327,7 +327,7 @@ export function testFunction(): string {
 
   describe('Error Handling and Edge Cases', () => {
     test('handles command failures gracefully', async () => {
-      const result = await TestUtils.executeWithRetry(
+      const result = TestUtils.executeWithRetry(
         'yarn lint:nonexistent-command',
         {
           timeout: 10000,
@@ -347,7 +347,7 @@ export function testFunction(): string {
 
       // Run multiple operations to test memory stability
       for (let i = 0; i < 3; i++) {
-        const result = await TestUtils.executeWithRetry(
+        const result = TestUtils.executeWithRetry(
           'yarn lint:fast --max-warnings=10000 src/components/debug/ConsolidatedDebugInfo.tsx',
           {
             timeout: 20000,
@@ -359,7 +359,7 @@ export function testFunction(): string {
       }
 
       // Validate memory consistency
-      const consistency = await TestUtils.validateConsistency(
+      const consistency = TestUtils.validateConsistency(
         () => Promise.resolve(memoryResults[0]),
         3,
         30 // 30% tolerance
@@ -370,7 +370,7 @@ export function testFunction(): string {
     }, TEST_TIMEOUTS.performance);
 
     test('handles timeout scenarios properly', async () => {
-      const shortTimeoutResult = await TestUtils.executeWithRetry(
+      const shortTimeoutResult = TestUtils.executeWithRetry(
         'sleep 2 && echo "test"',
         {
           timeout: 1000, // 1 second timeout for 2 second command
@@ -384,14 +384,14 @@ export function testFunction(): string {
 
     test('validates test result consistency', async () => {
       const testFunction = async () => {
-        const result = await TestUtils.executeWithRetry(
+        const result = TestUtils.executeWithRetry(
           'echo "consistent test output"',
           { timeout: 5000 }
         );
         return result.executionTime;
       };
 
-      const consistency = await TestUtils.validateConsistency(testFunction, 3, 50);
+      const consistency = TestUtils.validateConsistency(testFunction, 3, 50);
 
       expect(consistency.isConsistent).toBe(true);
       expect(consistency.results).toHaveLength(3);

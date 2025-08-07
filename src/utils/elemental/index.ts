@@ -1,9 +1,8 @@
-import { Element, ElementalProperties } from '@/types/alchemy';
-import { Recipe } from '@/types/recipe';
+// Removed unused type imports
 
 /**
  * Elemental Utils Index
- * 
+ *
  * Consolidated exports from the elemental module system.
  * Provides a single entry point for all elemental calculations and transformations.
  */
@@ -15,48 +14,22 @@ export * from './core';
 export * from './transformations';
 
 // Re-export commonly used functions for backward compatibility
-export { 
-  validateElementalProperties,
-  normalizeProperties,
-  calculateDominantElement,
-  getElementalColor,
-  getElementalSymbol,
-  getElementalDescription,
-  getElementalCompatibility,
-  calculateElementalCompatibility,
-  calculateDetailedElementalCompatibility,
-  getComplementaryElement,
-  getStrengtheningElement,
-  combineElementalProperties,
-  calculateElementalState,
-  getElementalCharacteristics,
-  standardizeRecipeElements,
-  ELEMENTAL_COLORS,
-  ELEMENTAL_SYMBOLS,
-  ELEMENTAL_DESCRIPTIONS
+export {
+    ELEMENTAL_COLORS, ELEMENTAL_DESCRIPTIONS, ELEMENTAL_SYMBOLS, calculateDetailedElementalCompatibility, calculateDominantElement, calculateElementalCompatibility, calculateElementalState, combineElementalProperties, getComplementaryElement, getElementalCharacteristics, getElementalColor, getElementalCompatibility, getElementalDescription, getElementalSymbol, getStrengtheningElement, normalizeProperties, standardizeRecipeElements, validateElementalProperties
 } from './core';
 
-export { 
-  transformIngredients,
-  transformCookingMethods,
-  transformCuisines,
-  transformSingleItem,
-  applyPlanetaryInfluence,
-  sortByAlchemicalCompatibility,
-  filterByAlchemicalCompatibility,
-  getTopCompatibleItems
+export {
+    applyPlanetaryInfluence, filterByAlchemicalCompatibility,
+    getTopCompatibleItems, sortByAlchemicalCompatibility, transformCookingMethods,
+    transformCuisines, transformIngredients, transformSingleItem
 } from './transformations';
 
 // Type exports
 export type {
-  ElementalColor,
-  ElementalCompatibility,
-  ElementalCharacteristics,
-  ElementalProfile
+    ElementalCharacteristics, ElementalColor,
+    ElementalCompatibility, ElementalProfile
 } from './core';
 
 export type {
-  TransformationContext,
-  PlanetaryInfluence,
-  AlchemicalTransformation
-} from './transformations'; 
+    AlchemicalTransformation, PlanetaryInfluence, TransformationContext
+} from './transformations';

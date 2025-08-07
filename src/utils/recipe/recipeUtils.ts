@@ -1,11 +1,12 @@
-import { Element } from "@/types/alchemy";
+// Removed unused Element import
 import type { Ingredient, UnifiedIngredient } from "@/types/ingredient";
-import type { Recipe, 
-  RecipeIngredient, 
-  ElementalProperties, 
-  ScoredRecipe } from "@/types/recipe";
+import type {
+    ElementalProperties,
+    Recipe,
+    RecipeIngredient,
+    ScoredRecipe
+} from "@/types/recipe";
 
-import { isNonEmptyArray, safeSome, toArray } from '../common/arrayUtils';
 import { createElementalProperties, isElementalProperties } from '../elemental/elementalUtils';
 
 
@@ -14,7 +15,7 @@ import { createElementalProperties, isElementalProperties } from '../elemental/e
  */
 export function isRecipe(obj: unknown): obj is Recipe {
   if (!obj || typeof obj !== 'object') return false;
-  
+
   const recipe = obj as Partial<Recipe>;
   return (
     typeof recipe.id === 'string' &&
@@ -28,7 +29,7 @@ export function isRecipe(obj: unknown): obj is Recipe {
  */
 export function isScoredRecipe(obj: unknown): obj is ScoredRecipe {
   if (!isRecipe(obj)) return false;
-  
+
   const scoredRecipe = obj as Partial<ScoredRecipe>;
   return typeof scoredRecipe.score === 'number';
 }
@@ -37,7 +38,7 @@ export function isScoredRecipe(obj: unknown): obj is ScoredRecipe {
  * Type guard to check if an ingredient is a RecipeIngredient object (not string)
  */
 export function isRecipeIngredient(ingredient: any): ingredient is RecipeIngredient {
-  return typeof ingredient === 'object' && 
+  return typeof ingredient === 'object' &&
          ingredient !== null &&
          typeof (ingredient as RecipeIngredient).name === 'string' &&
          typeof (ingredient as RecipeIngredient).amount === 'number' &&
@@ -53,7 +54,7 @@ export function getRecipeElementalProperties(recipe: Recipe): ElementalPropertie
   }
 
   const recipeData = recipe as Record<string, unknown>;
-  
+
   // Apply safe type conversion for property access
   const elementalState = recipeData.elementalState as Record<string, unknown>;
   if (elementalState && isElementalProperties(elementalState)) {
@@ -77,12 +78,12 @@ export function getRecipeCookingMethods(recipe: Recipe): string[] {
   if (!recipe) return [];
 
   const recipeData = recipe as Record<string, unknown>;
-  
+
   // Check cookingMethod (string or string[])
   if (typeof recipeData.cookingMethods === 'string') {
     return [recipeData.cookingMethods];
   }
-  
+
   if (Array.isArray(recipeData.cookingMethods)) {
     // Apply safe type conversion for array elements
     return (recipeData.cookingMethods as unknown[]).map(item => String(item)).filter(Boolean);
@@ -101,15 +102,15 @@ export function getRecipeCookingMethods(recipe: Recipe): string[] {
  */
 export function getRecipeMealTypes(recipe: Recipe): string[] {
   if (!recipe) return [];
-  
+
   const recipeData = recipe as Record<string, unknown>;
-  
+
   if (recipeData.mealType) {
     // Apply safe type conversion for array elements
     const mealTypes = toArray(recipeData.mealType);
     return mealTypes.map(item => String(item)).filter(Boolean);
   }
-  
+
   return [];
 }
 
@@ -118,21 +119,21 @@ export function getRecipeMealTypes(recipe: Recipe): string[] {
  */
 export function getRecipeSeasons(recipe: Recipe): string[] {
   if (!recipe) return [];
-  
+
   const recipeData = recipe as Record<string, unknown>;
-  
+
   if (recipeData.currentSeason) {
     // Apply safe type conversion for array elements
     const seasons = toArray(recipeData.currentSeason);
     return seasons.map(item => String(item)).filter(Boolean);
   }
-  
+
   if (recipeData.season) {
     // Apply safe type conversion for array elements
     const seasons = toArray(recipeData.season);
     return seasons.map(item => String(item)).filter(Boolean);
   }
-  
+
   return [];
 }
 
@@ -141,19 +142,19 @@ export function getRecipeSeasons(recipe: Recipe): string[] {
  */
 export function getRecipeAstrologicalInfluences(recipe: Recipe): string[] {
   if (!recipe) return [];
-  
+
   const recipeData = recipe as Record<string, unknown>;
-  
+
   if (Array.isArray(recipeData.astrologicalPropertiesInfluences)) {
     // Apply safe type conversion for array elements
     return (recipeData.astrologicalPropertiesInfluences as unknown[]).map(item => String(item)).filter(Boolean);
   }
-  
+
   if (Array.isArray(recipeData.astrologicalInfluences)) {
     // Apply safe type conversion for array elements
     return (recipeData.astrologicalInfluences as unknown[]).map(item => String(item)).filter(Boolean);
   }
-  
+
   // Try to get from elementalMapping if available
   const elementalMapping = recipeData.elementalMapping as Record<string, unknown>;
   const astrologicalInfluences = elementalMapping.astrologicalInfluences as unknown[];
@@ -161,7 +162,7 @@ export function getRecipeAstrologicalInfluences(recipe: Recipe): string[] {
     // Apply safe type conversion for array elements
     return astrologicalInfluences.map(item => String(item)).filter(Boolean);
   }
-  
+
   return [];
 }
 
@@ -170,21 +171,21 @@ export function getRecipeAstrologicalInfluences(recipe: Recipe): string[] {
  */
 export function getRecipeZodiacInfluences(recipe: Recipe): string[] {
   if (!recipe) return [];
-  
+
   const recipeData = recipe as Record<string, unknown>;
-  
+
   if (Array.isArray(recipeData.zodiacInfluences)) {
     return recipeData.zodiacInfluences;
   }
-  
+
   // Try to get from elementalMapping if available
   const elementalMapping = recipeData.elementalMapping as Record<string, unknown>;
   const astrologicalProfile = elementalMapping.astrologicalProfile as Record<string, unknown>;
-  if (astrologicalProfile.favorableZodiac && 
+  if (astrologicalProfile.favorableZodiac &&
       Array.isArray(astrologicalProfile.favorableZodiac)) {
     return astrologicalProfile.favorableZodiac as string[];
   }
-  
+
   return [];
 }
 
@@ -193,21 +194,21 @@ export function getRecipeZodiacInfluences(recipe: Recipe): string[] {
  */
 export function getRecipeCookingTime(recipe: Recipe): number {
   if (!recipe) return 0;
-  
+
   const recipeData = recipe as Record<string, unknown>;
-  
+
   if (typeof recipeData.cookingTime === 'number') {
     return recipeData.cookingTime;
   }
-  
+
   if (typeof recipeData.totalTime === 'number') {
     return recipeData.totalTime;
   }
-  
+
   if (typeof recipeData.timeToMake === 'number') {
     return recipeData.timeToMake;
   }
-  
+
   if (typeof recipeData.timeToMake === 'string') {
     // Try to extract number from string like "30 minutes"
     const match = recipeData.timeToMake.match(/(\d+)/);
@@ -215,7 +216,7 @@ export function getRecipeCookingTime(recipe: Recipe): number {
       return parseInt(match[1], 10);
     }
   }
-  
+
   return 0;
 }
 
@@ -224,10 +225,10 @@ export function getRecipeCookingTime(recipe: Recipe): number {
  */
 export function recipeHasTag(recipe: Recipe, tag: string): boolean {
   if (!recipe || !tag) return false;
-  
+
   const recipeData = recipe as Record<string, unknown>;
   const tags = Array.isArray(recipeData.tags) ? recipeData.tags : [recipeData.tags];
-  
+
   return safeSome(tags, (t) => String(t).toLowerCase() === tag.toLowerCase());
 }
 
@@ -236,9 +237,9 @@ export function recipeHasTag(recipe: Recipe, tag: string): boolean {
  */
 export function isRecipeCompatibleWithDiet(recipe: Recipe, restriction: string): boolean {
   if (!recipe) return false;
-  
+
   const recipeData = recipe as Record<string, unknown>;
-  
+
   switch (restriction.toLowerCase()) {
     case 'vegetarian':
       return recipeData.isVegetarian === true;
@@ -262,26 +263,26 @@ export function isRecipeCompatibleWithDiet(recipe: Recipe, restriction: string):
  */
 export function recipeHasIngredient(recipe: Recipe, ingredientName: string): boolean {
   if (!recipe || !ingredientName) return false;
-  
+
   const recipeData = recipe as Record<string, unknown>;
   const ingredients = recipeData.ingredients || [];
-  
+
   if (!Array.isArray(ingredients)) return false;
-  
+
   const searchName = ingredientName.toLowerCase();
-  
+
   return ingredients.some((ingredient: Ingredient | UnifiedIngredient) => {
     const ingredientData = ingredient as Record<string, unknown>;
-    
+
     // Handle both string and object ingredients
     if (typeof ingredientData === 'string') {
       return String(ingredientData).toLowerCase().includes(searchName);
     }
-    
+
     if (typeof ingredientData === 'object' && ingredientData.name) {
       return String(ingredientData.name).toLowerCase().includes(searchName);
     }
-    
+
     return false;
   });
 }
@@ -291,13 +292,13 @@ export function recipeHasIngredient(recipe: Recipe, ingredientName: string): boo
  */
 export function getRecipeDominantElement(recipe: Recipe): string {
   if (!recipe) return 'Earth'; // Default element
-  
+
   const elementalProperties = getRecipeElementalProperties(recipe);
-  
+
   // Find the element with the highest value
   let maxElement = 'Earth';
   let maxValue = 0;
-  
+
   (['Fire', 'Water', 'Earth', 'Air'] as const).forEach(element => {
     const elementData = elementalProperties as Record<string, unknown>;
     const value = Number(elementData[element]) || 0;
@@ -306,7 +307,7 @@ export function getRecipeDominantElement(recipe: Recipe): string {
       maxElement = element;
     }
   });
-  
+
   return maxElement;
 }
 
@@ -315,7 +316,7 @@ export function getRecipeDominantElement(recipe: Recipe): string {
  */
 export function getSafeRecipeName(recipe: Recipe): string {
   if (!recipe) return 'Unknown Recipe';
-  
+
   const recipeData = recipe as Record<string, unknown>;
   return String(recipeData.name || 'Unknown Recipe');
 }
@@ -325,7 +326,7 @@ export function getSafeRecipeName(recipe: Recipe): string {
  */
 export function getSafeRecipeDescription(recipe: Recipe): string {
   if (!recipe) return 'No description available';
-  
+
   const recipeData = recipe as Record<string, unknown>;
   return String(recipeData.description || 'No description available');
 }
@@ -337,9 +338,9 @@ export function toScoredRecipe(recipe: Recipe, score?: number): ScoredRecipe {
   if (!recipe) {
     throw new Error('Cannot convert null or undefined recipe to ScoredRecipe');
   }
-  
+
   const defaultScore = score !== undefined ? score : 0.5;
-  
+
   return {
     ...recipe,
     score: defaultScore
@@ -353,9 +354,9 @@ export function isRecipeDietaryCompatible(recipe: Recipe, dietaryRestrictions: s
   if (!recipe || !Array.isArray(dietaryRestrictions) || dietaryRestrictions.length === 0) {
     return true;
   }
-  
+
   const recipeData = recipe as Record<string, unknown>;
-  
+
   return dietaryRestrictions.every(restriction => {
     switch (restriction.toLowerCase()) {
       case 'vegetarian':
@@ -383,15 +384,15 @@ export function isRecipeDietaryCompatible(recipe: Recipe, dietaryRestrictions: s
  */
 export function getRecipeIngredients(recipe: Recipe): RecipeIngredient[] {
   if (!recipe) return [];
-  
+
   const recipeData = recipe as Record<string, unknown>;
   const ingredients = recipeData.ingredients || [];
-  
+
   if (!Array.isArray(ingredients)) return [];
-  
+
   return ingredients.map((ingredient: Ingredient | UnifiedIngredient) => {
     const ingredientData = ingredient as Record<string, unknown>;
-    
+
     // Handle both string and object ingredients
     if (typeof ingredientData === 'string') {
       return {
@@ -400,7 +401,7 @@ export function getRecipeIngredients(recipe: Recipe): RecipeIngredient[] {
         unit: 'piece'
       } as RecipeIngredient;
     }
-    
+
     if (typeof ingredientData === 'object') {
       return {
         name: ingredientData.name || 'Unknown ingredient',
@@ -410,7 +411,7 @@ export function getRecipeIngredients(recipe: Recipe): RecipeIngredient[] {
         preparation: ingredientData.preparation || undefined
       } as RecipeIngredient;
     }
-    
+
     return {
       name: 'Unknown ingredient',
       amount: 1,

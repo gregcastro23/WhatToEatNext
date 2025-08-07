@@ -1,12 +1,11 @@
-import { log } from '@/services/LoggingService';
 import { ElementalProperties } from '@/types/alchemy';
-import { Recipe, RecipeElementalMapping } from '@/types/recipes';
+import { RecipeElementalMapping } from '@/types/recipes';
 
 /**
  * A utility function for logging debug information
  * This is a safe replacement for console.log that can be disabled in production
  */
-const debugLog = (_message: string, ...args: unknown[]): void => {
+const debugLog = (_message: string, ..._args: unknown[]): void => {
   // Comment out console.log to avoid linting warnings
   // log.info(message, ...args);
 };
@@ -25,7 +24,7 @@ export const recipeCalculations = {
     const alignmentScore = Object.entries(recipe.elementalProperties).reduce((sum, [element, value]) => {
       return sum + (value * cuisineElements[element as keyof ElementalProperties]);
     }, 0);
-    
+
     const recipeData = recipe as any;
     debugLog(`Cuisine alignment score for ${recipeData?.name || 'Unknown Recipe'}: ${alignmentScore.toFixed(2)}`);
     return alignmentScore;
@@ -41,7 +40,7 @@ export const recipeCalculations = {
       ...recipe.astrologicalProfile.rulingPlanets.map(p => `${p} dominant hours`),
       ...recipe.cuisine.astrologicalProfile.aspectEnhancers
     ];
-    
+
     const recipeWindowData = recipe as any;
     debugLog(`Optimal cooking windows for ${recipeWindowData?.name || 'Unknown Recipe'}:`, optimalTimes);
     return optimalTimes;
@@ -58,12 +57,12 @@ export const recipeCalculations = {
     // Find the dominant element in the recipe
     const dominantElement = Object.entries(recipe.elementalProperties)
       .sort(([,a], [,b]) => b - a)[0][0];
-    
+
     // Calculate boost from the user's affinity with that element
     const boost = userElements[dominantElement] * 1.5;
-    
+
     const recipeBoostData = recipe as any;
     debugLog(`Elemental boost for ${recipeBoostData?.name || 'Unknown Recipe'}: ${boost.toFixed(2)} (dominant: ${dominantElement})`);
     return boost;
   }
-}; 
+};

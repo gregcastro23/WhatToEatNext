@@ -8,9 +8,8 @@
 import * as fs from 'fs';
 import * as path from 'path';
 
-import { logger } from '../../utils/logger';
 
-import { DependencySecurityMonitor, DEFAULT_DEPENDENCY_SECURITY_CONFIG, DependencySecurityConfig } from './DependencySecurityMonitor';
+import { DEFAULT_DEPENDENCY_SECURITY_CONFIG, DependencySecurityConfig, DependencySecurityMonitor } from './DependencySecurityMonitor';
 
 interface CLIOptions {
   config?: string;
@@ -37,7 +36,7 @@ class DependencySecurityCLI {
 
       // Load configuration
       const config = await this.loadConfiguration();
-      
+
       // Create dependency security monitor
       const securityMonitor = new DependencySecurityMonitor(config);
 
@@ -58,8 +57,8 @@ class DependencySecurityCLI {
 
       console.log('\n✅ Dependency security monitoring completed successfully!');
 
-    } catch (error) {
-      console.error('❌ Dependency security monitoring failed:', (error as Error).message);
+    } catch (error: unknown) {
+      console.error('❌ Dependency security monitoring failed:', error instanceof Error ? error.message : String(error));
       if (this.options.verbose) {
         console.error((error as Error).stack);
       }
@@ -91,7 +90,7 @@ class DependencySecurityCLI {
         moderate: { autoFixCritical: true, autoFixHigh: true },
         low: { autoFixCritical: true, autoFixHigh: true }
       };
-      
+
       Object.assign(config.securityThresholds, thresholds[this.options.severityThreshold]);
     }
 
@@ -102,7 +101,7 @@ class DependencySecurityCLI {
         const configFile = JSON.parse(fs.readFileSync(configPath, 'utf8'));
         config = { ...config, ...configFile };
         console.log(`📋 Loaded configuration from ${configPath}`);
-      } catch (error) {
+      } catch (error: unknown) {
         console.warn(`⚠️  Failed to load config file: ${(error as Error).message}`);
       }
     }
@@ -117,7 +116,7 @@ class DependencySecurityCLI {
 
   private async runFullMonitoring(securityMonitor: DependencySecurityMonitor): Promise<void> {
     console.log('🔄 Running full dependency security monitoring...');
-    
+
     const result = await securityMonitor.executeDependencySecurityMonitoring();
     this.printResults(result);
   }
@@ -150,19 +149,19 @@ class DependencySecurityCLI {
 
     if (securityReport.summary.total > 0 || updateReport.summary.total > 0) {
       console.log('\n💡 Recommendations:');
-      
+
       if (securityReport.summary.critical > 0) {
         console.log('  🚨 Critical vulnerabilities found - run with --enable-auto-update to apply security patches');
       }
-      
+
       if (updateReport.summary.security > 0) {
         console.log('  🔒 Security updates available - consider applying immediately');
       }
-      
+
       if (updateReport.summary.patch > 0) {
         console.log('  🔧 Patch updates available - generally safe to apply');
       }
-      
+
       if (updateReport.summary.major > 0) {
         console.log('  ⚠️  Major updates available - review breaking changes before applying');
       }
@@ -208,7 +207,7 @@ class DependencySecurityCLI {
       securityReport.vulnerabilities.forEach((vuln: any) => {
         const severityIcon = this.getSeverityIcon(vuln.severity);
         const patchStatus = vuln.patchAvailable ? '✅ Patch available' : '❌ No patch';
-        
+
         console.log(`\n${severityIcon} ${vuln.packageName}`);
         console.log(`  Current: ${vuln.currentVersion}`);
         console.log(`  CVE: ${vuln.cve}`);
@@ -235,7 +234,7 @@ class DependencySecurityCLI {
       updateReport.availableUpdates.forEach((update: any) => {
         const updateIcon = this.getUpdateTypeIcon(update.updateType);
         const breakingIcon = update.breakingChanges ? '⚠️' : '✅';
-        
+
         console.log(`\n${updateIcon} ${update.packageName}`);
         console.log(`  Current: ${update.currentVersion}`);
         console.log(`  Latest: ${update.latestVersion}`);
@@ -306,7 +305,7 @@ function parseArguments(): CLIOptions {
 
   for (let i = 0; i < args.length; i++) {
     const arg = args[i];
-    
+
     switch (arg) {
       case '--config':
         options.config = args[++i];

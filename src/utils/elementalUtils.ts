@@ -2,35 +2,35 @@
 
 import { AlchemicalItem } from '@/calculations/alchemicalTransformation';
 import { DEFAULT_ELEMENTAL_PROPERTIES } from '@/constants/elementalConstants';
-import { ElementalCharacter, AlchemicalProperty } from '@/constants/planetaryElements';
+import { AlchemicalProperty, ElementalCharacter } from '@/constants/planetaryElements';
 import {
-  LunarPhase,
-  calculatePlanetaryBoost,
+    LunarPhase,
+    calculatePlanetaryBoost,
 } from '@/constants/planetaryFoodAssociations';
 import type { IngredientMapping } from '@/data/ingredients/types';
 import { ElementalCalculator } from '@/services/ElementalCalculator';
-import {
-  ElementalItem,
-} from '@/types/alchemy';
 import type {
-  ElementalProperties,
-  Recipe,
-  ElementalAffinity,
-  ElementalCharacteristics,
-  Element,
-  ElementalProfile,
+    Element,
+    ElementalAffinity,
+    ElementalCharacteristics,
+    ElementalProfile,
+    ElementalProperties,
+    Recipe,
 } from '@/types/alchemy';
-import { 
-  isElementalProperties, 
-  isElementalPropertyKey, 
-  logUnexpectedValue 
+import {
+    ElementalItem,
+} from '@/types/alchemy';
+import {
+    isElementalProperties,
+    isElementalPropertyKey,
+    logUnexpectedValue
 } from '@/utils/validation';
 
 
 import {
-  elements,
-  elementalInteractions,
-  elementalFunctions,
+    elementalFunctions,
+    elementalInteractions,
+    elements,
 } from './elementalMappings';
 
 // Missing ELEMENTAL_CHARACTERISTICS constant
@@ -233,7 +233,7 @@ export const elementalUtils = {
 
     // Create a safe default balance to start
     const balance: ElementalProperties = { ...DEFAULT_ELEMENTAL_PROPERTIES };
-    
+
     // Get total amount for percentage calculations
     const totalAmount = recipe.ingredients.reduce((sum, ing) => {
       const amount = ing.amount ?? 1; // Default to 1 if amount is missing
@@ -255,7 +255,7 @@ export const elementalUtils = {
     // Process each ingredient
     recipe.ingredients.forEach(ing => {
       const amount = ing.amount ?? 1; // Default to 1 if amount is missing
-      
+
       if (ing.elementalProperties) {
         // For each element in the ingredient
         Object.entries(ing.elementalProperties).forEach(([element, value]) => {
@@ -414,7 +414,7 @@ export const elementalUtils = {
    * @returns Array of recommended complementary ingredients
    */
   getRecommendedTimeOfDay(properties: ElementalProperties): string[] {
-    const times: string[] = [];
+    const _times: string[] = [];
     const threshold = 0.3; // Only consider elements above this threshold for recommendations
     const weightedTimes: string[] = [];
 
@@ -473,21 +473,21 @@ export const elementalUtils = {
     if (!properties || typeof properties !== 'object') {
       return properties;
     }
-    
+
     const lowercaseProps: Record<string, unknown> = {};
     for (const [key, value] of Object.entries(properties)) {
       // Convert capitalized element names to lowercase
       const lowerKey = key.toLowerCase();
       lowercaseProps[lowerKey] = value;
     }
-    
+
     return lowercaseProps;
   },
 };
 
 export default elementalUtils;
 
-export { elements, elementalInteractions, elementalFunctions };
+export { elementalFunctions, elementalInteractions, elements };
 
 /**
  * Transform a list of elemental items based on planetary positions
@@ -579,20 +579,20 @@ export function transformItemsWithPlanetaryPositions(
 
     // Heat formula: (spirit^2 + fire^2) / ((substance || 1) + essence + matter + water + air + earth)^2
     const heat =
-      (Math.pow(safeValueForHeat(boostedSpirit), 2) + Math.pow(safeValueForHeat(fire), 2)) / 
+      (Math.pow(safeValueForHeat(boostedSpirit), 2) + Math.pow(safeValueForHeat(fire), 2)) /
       Math.pow(safeValueForHeat(boostedSubstance + boostedEssence + boostedMatter + water + air + earth), 2);
 
     // Entropy formula: (spirit^2 + substance^2 + fire^2 + air^2) / ((essence || 1) + matter + earth + water)^2
     const entropy =
-      (Math.pow(safeValueForHeat(boostedSpirit), 2) + Math.pow(safeValueForHeat(boostedSubstance), 2) + 
-      Math.pow(safeValueForHeat(fire), 2) + Math.pow(safeValueForHeat(air), 2)) / 
+      (Math.pow(safeValueForHeat(boostedSpirit), 2) + Math.pow(safeValueForHeat(boostedSubstance), 2) +
+      Math.pow(safeValueForHeat(fire), 2) + Math.pow(safeValueForHeat(air), 2)) /
       Math.pow(safeValueForHeat(boostedEssence + boostedMatter + earth + water), 2);
 
     // Reactivity formula: (spirit^2 + substance^2 + essence^2 + fire^2 + air^2 + water^2) / ((matter || 1) + earth)^2
     const reactivity =
-      (Math.pow(safeValueForHeat(boostedSpirit), 2) + Math.pow(safeValueForHeat(boostedSubstance), 2) + 
-      Math.pow(safeValueForHeat(boostedEssence), 2) + Math.pow(safeValueForHeat(fire), 2) + 
-      Math.pow(safeValueForHeat(air), 2) + Math.pow(safeValueForHeat(water), 2)) / 
+      (Math.pow(safeValueForHeat(boostedSpirit), 2) + Math.pow(safeValueForHeat(boostedSubstance), 2) +
+      Math.pow(safeValueForHeat(boostedEssence), 2) + Math.pow(safeValueForHeat(fire), 2) +
+      Math.pow(safeValueForHeat(air), 2) + Math.pow(safeValueForHeat(water), 2)) /
       Math.pow(safeValueForHeat(boostedMatter + earth), 2);
 
     // Greg's Energy formula with consistent scaling
@@ -788,7 +788,7 @@ export function getElementalRelationship(
   // The generating cycle for 4-element system: Fire → Earth → Water → Air → Fire
   const generatingCycle: { [key in Element]: Element } = {
     Fire: 'Earth',
-    Earth: 'Water', 
+    Earth: 'Water',
     Water: 'Air',
     Air: 'Fire',
   };
@@ -796,7 +796,7 @@ export function getElementalRelationship(
   // The controlling cycle for 4-element system: Fire → Air → Earth → Water → Fire
   const controllingCycle: { [key in Element]: Element } = {
     Fire: 'Air',
-    Air: 'Earth', 
+    Air: 'Earth',
     Earth: 'Water',
     Water: 'Fire',
   };
@@ -1424,14 +1424,14 @@ export function ensureLowercaseFormat(properties: unknown): any {
   if (!properties || typeof properties !== 'object') {
     return properties;
   }
-  
+
   const lowercaseProps: Record<string, unknown> = {};
   for (const [key, value] of Object.entries(properties)) {
     // Convert capitalized element names to lowercase
     const lowerKey = key.toLowerCase();
     lowercaseProps[lowerKey] = value;
   }
-  
+
   return lowercaseProps;
 }
 
@@ -1460,7 +1460,7 @@ export const fixIngredientMapping = (
       throw new Error(`fixIngredientMapping: Missing required key '${k}' for ingredient '${key}'`);
     }
   }
-  
+
   // Ensure astrologicalProfile has minimal structure if present but empty
   if (mapping.astrologicalProfile && typeof mapping.astrologicalProfile === 'object' && Object.keys(mapping.astrologicalProfile).length === 0) {
     mapping.astrologicalProfile = {
