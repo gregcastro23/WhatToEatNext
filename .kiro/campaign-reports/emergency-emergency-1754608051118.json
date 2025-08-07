@@ -1,0 +1,69 @@
+{
+  "campaignId": "emergency-1754608051118",
+  "startTime": "2025-08-07T23:07:31.118Z",
+  "endTime": "2025-08-07T23:10:39.153Z",
+  "totalDuration": "184.2s",
+  "initialErrors": 937,
+  "finalErrors": 937,
+  "totalReduction": 0,
+  "reductionPercentage": "0.0",
+  "targetAchieved": false,
+  "phases": [
+    {
+      "phase": 1,
+      "name": "Error Assessment and High-Priority Fixes",
+      "duration": 62145,
+      "initialErrors": 937,
+      "finalErrors": 937,
+      "reduction": 0,
+      "fixesApplied": 0,
+      "buildValid": true
+    },
+    {
+      "phase": 2,
+      "name": "Systematic Error Reduction",
+      "duration": 79410,
+      "initialErrors": 962,
+      "finalErrors": 962,
+      "reduction": 0,
+      "fixesApplied": 0,
+      "iterations": 0
+    },
+    {
+      "phase": 3,
+      "name": "Final Validation and Cleanup",
+      "duration": 32794,
+      "finalErrors": 937,
+      "buildValid": true,
+      "campaignSuccess": false
+    }
+  ],
+  "safetyCheckpoints": [
+    {
+      "id": "checkpoint-1754608051816",
+      "description": "Campaign Start",
+      "timestamp": "2025-08-07T23:07:31.816Z",
+      "errorCount": 937
+    },
+    {
+      "id": "checkpoint-1754608118748",
+      "description": "Phase 1 Complete",
+      "timestamp": "2025-08-07T23:08:38.748Z",
+      "errorCount": 962
+    },
+    {
+      "id": "checkpoint-1754608175975",
+      "description": "Phase 2 Complete",
+      "timestamp": "2025-08-07T23:09:35.975Z",
+      "errorCount": 937
+    },
+    {
+      "id": "checkpoint-1754608230259",
+      "description": "Campaign Complete",
+      "timestamp": "2025-08-07T23:10:30.259Z",
+      "errorCount": 937
+    }
+  ],
+  "totalFilesProcessed": 0,
+  "totalErrorsFixed": 0
+}

@@ -833,7 +833,7 @@ export const getRecommendedIngredients = (astroState: AstrologicalState): Enhanc
       }
 
       // NEW: Calculate nutritional score based on ingredient nutritional properties
-      let nutritionalScore = 0.5; // Default neutral score
+      let _nutritionalScore = 0.5; // Default neutral score
       if (standardized.nutritionalProfile) {
         const nutrition = standardized.nutritionalProfile;
 

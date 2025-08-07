@@ -288,7 +288,7 @@ export async function generateDependencyReport(
 /**
  * Auto-fix common dependency issues
  */
-export function autoFixDependencyIssues(fileContent: string, filePath: string): {
+export function autoFixDependencyIssues(fileContent: string, _filePath: string): {
   fixedContent: string;
   appliedFixes: string[];
 } {

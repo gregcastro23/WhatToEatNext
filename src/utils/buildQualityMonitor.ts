@@ -1,6 +1,6 @@
 /**
  * Build Quality Monitoring Utilities
- * 
+ *
  * This module provides comprehensive build performance monitoring, error tracking,
  * and quality metrics analysis for development workflow optimization.
  */
@@ -176,35 +176,35 @@ const PERFORMANCE_THRESHOLDS = {
  */
 export async function monitorBuildQuality(): Promise<BuildQualityReport> {
   const startTime = Date.now();
-  
+
   try {
     logger.info('Starting comprehensive build quality monitoring');
-    
+
     // 1. Collect build metrics
     const buildMetrics = await collectBuildMetrics();
-    
+
     // 2. Analyze build performance
     const performanceAnalysis = await analyzeBuildPerformance(buildMetrics);
-    
+
     // 3. Analyze memory usage
     const memoryAnalysis = await analyzeMemoryUsage(buildMetrics);
-    
+
     // 4. Generate quality metrics report
     const qualityMetrics = await generateQualityMetricsReport();
-    
+
     // 5. Process performance alerts
     const alerts = await processPerformanceAlerts(buildMetrics);
-    
+
     // 6. Generate optimization recommendations
     const recommendations = generateOptimizationRecommendations(
-      buildMetrics, 
-      performanceAnalysis, 
+      buildMetrics,
+      performanceAnalysis,
       memoryAnalysis
     );
-    
+
     const duration = Date.now() - startTime;
     logger.info(`Build quality monitoring completed in ${duration}ms`);
-    
+
     return {
       buildMetrics,
       performanceAnalysis,
@@ -214,7 +214,7 @@ export async function monitorBuildQuality(): Promise<BuildQualityReport> {
       recommendations,
       timestamp: new Date()
     };
-    
+
   } catch (error) {
     logger.error('Build quality monitoring failed:', error);
     throw error;
@@ -228,25 +228,25 @@ async function collectBuildMetrics(): Promise<BuildMetrics> {
   try {
     // Generate unique build ID
     const buildId = `build_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-    
+
     // Get build timing information
     const buildTiming = await getBuildTiming();
-    
+
     // Get error and warning counts
     const errorCounts = await getErrorAndWarningCounts();
-    
+
     // Get memory usage information
     const memoryUsage = await getMemoryUsage();
-    
+
     // Get bundle size information
     const bundleSize = await getBundleSize();
-    
+
     // Get cache performance
     const cacheHitRate = await getCacheHitRate();
-    
+
     // Get parallelization info
     const parallelization = await getParallelizationInfo();
-    
+
     return {
       buildId,
       startTime: buildTiming.startTime,
@@ -260,7 +260,7 @@ async function collectBuildMetrics(): Promise<BuildMetrics> {
       cacheHitRate,
       parallelization
     };
-    
+
   } catch (error) {
     logger.error('Error collecting build metrics:', error);
     throw error;
@@ -278,31 +278,31 @@ async function getBuildTiming(): Promise<{
 }> {
   try {
     const startTime = new Date();
-    
+
     // Run a quick build check to get timing
     const buildStart = Date.now();
-    
+
     try {
       // Check if build is successful by running type check
       execSync('yarn tsc --noEmit --skipLibCheck', {
         stdio: 'pipe',
         timeout: 30000 // 30 second timeout
       });
-      
+
       const buildEnd = Date.now();
       const endTime = new Date();
-      
+
       return {
         startTime,
         endTime,
         duration: buildEnd - buildStart,
         success: true
       };
-      
+
     } catch (error) {
       const buildEnd = Date.now();
       const endTime = new Date();
-      
+
       return {
         startTime,
         endTime,
@@ -310,10 +310,10 @@ async function getBuildTiming(): Promise<{
         success: false
       };
     }
-    
+
   } catch (error) {
     logger.error('Error getting build timing:', error);
-    
+
     // Return default values
     const now = new Date();
     return {
@@ -332,18 +332,18 @@ async function getErrorAndWarningCounts(): Promise<{ errors: number; warnings: n
   try {
     let errors = 0;
     let warnings = 0;
-    
+
     // Get TypeScript errors
     try {
       const tscOutput = execSync('yarn tsc --noEmit --skipLibCheck 2>&1', {
         encoding: 'utf8',
         stdio: 'pipe'
       });
-      
+
       // Count errors in output
       const errorMatches = tscOutput.match(/error TS\d+:/g);
       errors = errorMatches ? errorMatches.length : 0;
-      
+
     } catch (error: any) {
       // tsc returns non-zero exit code when there are errors
       if (error.stdout) {
@@ -351,26 +351,26 @@ async function getErrorAndWarningCounts(): Promise<{ errors: number; warnings: n
         errors = errorMatches ? errorMatches.length : 0;
       }
     }
-    
+
     // Get ESLint warnings
     try {
       const eslintOutput = execSync('yarn lint --format=json 2>/dev/null', {
         encoding: 'utf8',
         stdio: 'pipe'
       });
-      
+
       const eslintResults = JSON.parse(eslintOutput);
       warnings = eslintResults.reduce((total: number, result: any) => {
         return total + (result.warningCount || 0);
       }, 0);
-      
+
     } catch (error) {
       // ESLint might not be configured or might fail
       warnings = 0;
     }
-    
+
     return { errors, warnings };
-    
+
   } catch (error) {
     logger.error('Error getting error and warning counts:', error);
     return { errors: 0, warnings: 0 };
@@ -389,23 +389,23 @@ async function getMemoryUsage(): Promise<{
   try {
     // Get current memory usage
     const memUsage = process.memoryUsage();
-    
+
     // Estimate peak and average (simplified for this implementation)
     const peak = Math.round(memUsage.heapUsed / 1024 / 1024); // MB
     const average = Math.round(memUsage.heapTotal / 1024 / 1024); // MB
-    
+
     // GC stats would require more sophisticated monitoring
     // For now, provide estimated values
     const gcCount = 0;
     const gcTime = 0;
-    
+
     return {
       peak,
       average,
       gcCount,
       gcTime
     };
-    
+
   } catch (error) {
     logger.error('Error getting memory usage:', error);
     return {
@@ -429,13 +429,13 @@ async function getBundleSize(): Promise<{
   try {
     // Check if .next directory exists (Next.js build output)
     const nextDir = path.join(process.cwd(), '.next');
-    
+
     if (fs.existsSync(nextDir)) {
       // Get bundle sizes from .next directory
       const bundleInfo = await analyzeBundleDirectory(nextDir);
       return bundleInfo;
     }
-    
+
     // Fallback: estimate based on src directory
     const srcDir = path.join(process.cwd(), 'src');
     if (fs.existsSync(srcDir)) {
@@ -447,14 +447,14 @@ async function getBundleSize(): Promise<{
         assets: Math.round(srcSize * 0.1)
       };
     }
-    
+
     return {
       total: 0,
       javascript: 0,
       css: 0,
       assets: 0
     };
-    
+
   } catch (error) {
     logger.error('Error getting bundle size:', error);
     return {
@@ -480,20 +480,20 @@ async function analyzeBundleDirectory(bundleDir: string): Promise<{
     let javascript = 0;
     let css = 0;
     let assets = 0;
-    
+
     const analyzeDirectory = (dir: string) => {
       const files = fs.readdirSync(dir);
-      
+
       for (const file of files) {
         const filePath = path.join(dir, file);
         const stat = fs.statSync(filePath);
-        
+
         if (stat.isDirectory()) {
           analyzeDirectory(filePath);
         } else {
           const size = stat.size;
           total += size;
-          
+
           const ext = path.extname(file).toLowerCase();
           if (ext === '.js' || ext === '.jsx' || ext === '.ts' || ext === '.tsx') {
             javascript += size;
@@ -505,9 +505,9 @@ async function analyzeBundleDirectory(bundleDir: string): Promise<{
         }
       }
     };
-    
+
     analyzeDirectory(bundleDir);
-    
+
     // Convert to KB
     return {
       total: Math.round(total / 1024),
@@ -515,7 +515,7 @@ async function analyzeBundleDirectory(bundleDir: string): Promise<{
       css: Math.round(css / 1024),
       assets: Math.round(assets / 1024)
     };
-    
+
   } catch (error) {
     logger.error('Error analyzing bundle directory:', error);
     return {
@@ -533,21 +533,21 @@ async function analyzeBundleDirectory(bundleDir: string): Promise<{
 async function getDirectorySize(dir: string): Promise<number> {
   try {
     let size = 0;
-    
+
     const files = fs.readdirSync(dir);
     for (const file of files) {
       const filePath = path.join(dir, file);
       const stat = fs.statSync(filePath);
-      
+
       if (stat.isDirectory()) {
         size += await getDirectorySize(filePath);
       } else {
         size += stat.size;
       }
     }
-    
+
     return Math.round(size / 1024); // Convert to KB
-    
+
   } catch (error) {
     return 0;
   }
@@ -561,11 +561,11 @@ async function getCacheHitRate(): Promise<number> {
     // This would require integration with build system cache
     // For now, return estimated value based on .next cache
     const nextCacheDir = path.join(process.cwd(), '.next', 'cache');
-    
+
     if (fs.existsSync(nextCacheDir)) {
       // Estimate cache efficiency based on cache directory size
       const cacheSize = await getDirectorySize(nextCacheDir);
-      
+
       // Simple heuristic: larger cache = better hit rate
       if (cacheSize > 1000) { // > 1MB cache
         return 0.8; // 80% hit rate
@@ -575,9 +575,9 @@ async function getCacheHitRate(): Promise<number> {
         return 0.3; // 30% hit rate
       }
     }
-    
+
     return 0.5; // Default 50% hit rate
-    
+
   } catch (error) {
     logger.error('Error getting cache hit rate:', error);
     return 0.5;
@@ -594,18 +594,18 @@ async function getParallelizationInfo(): Promise<{
   try {
     // Get CPU count for worker estimation
     const cpuCount = require('os').cpus().length;
-    
+
     // Estimate workers based on CPU count and build system
     const workers = Math.max(1, Math.floor(cpuCount * 0.75));
-    
+
     // Estimate efficiency based on workers vs CPU count
     const efficiency = Math.min(1.0, workers / cpuCount);
-    
+
     return {
       workers,
       efficiency
     };
-    
+
   } catch (error) {
     logger.error('Error getting parallelization info:', error);
     return {
@@ -625,13 +625,13 @@ async function analyzeBuildPerformance(metrics: BuildMetrics): Promise<BuildPerf
     const averageBuildTime = await getAverageBuildTime();
     const buildTimePercentile = calculateBuildTimePercentile(currentBuildTime);
     const performanceTrend = analyzePerformanceTrend(currentBuildTime, averageBuildTime);
-    
+
     // Identify bottlenecks
     const bottleneckAnalysis = identifyBuildBottlenecks(metrics);
-    
+
     // Generate optimization recommendations
     const optimizationRecommendations = generateBuildOptimizationRecommendations(metrics);
-    
+
     return {
       currentBuildTime,
       averageBuildTime,
@@ -640,7 +640,7 @@ async function analyzeBuildPerformance(metrics: BuildMetrics): Promise<BuildPerf
       bottleneckAnalysis,
       optimizationRecommendations
     };
-    
+
   } catch (error) {
     logger.error('Error analyzing build performance:', error);
     throw error;
@@ -663,7 +663,7 @@ function calculateBuildTimePercentile(buildTime: number): number {
   // Simplified percentile calculation
   // In reality, this would use historical data
   const benchmarkTimes = [30000, 45000, 60000, 90000, 120000]; // 30s, 45s, 1m, 1.5m, 2m
-  
+
   let percentile = 0;
   for (let i = 0; i < benchmarkTimes.length; i++) {
     if (buildTime <= benchmarkTimes[i]) {
@@ -671,7 +671,7 @@ function calculateBuildTimePercentile(buildTime: number): number {
       break;
     }
   }
-  
+
   return percentile || 100; // If slower than all benchmarks
 }
 
@@ -681,7 +681,7 @@ function calculateBuildTimePercentile(buildTime: number): number {
 function analyzePerformanceTrend(currentTime: number, averageTime: number): 'improving' | 'stable' | 'degrading' {
   const difference = currentTime - averageTime;
   const percentageDifference = (difference / averageTime) * 100;
-  
+
   if (percentageDifference < -10) {
     return 'improving';
   } else if (percentageDifference > 10) {
@@ -696,7 +696,7 @@ function analyzePerformanceTrend(currentTime: number, averageTime: number): 'imp
  */
 function identifyBuildBottlenecks(metrics: BuildMetrics): BottleneckAnalysis[] {
   const bottlenecks: BottleneckAnalysis[] = [];
-  
+
   // Analyze TypeScript compilation
   if (metrics.errorCount > 0) {
     bottlenecks.push({
@@ -710,7 +710,7 @@ function identifyBuildBottlenecks(metrics: BuildMetrics): BottleneckAnalysis[] {
       ]
     });
   }
-  
+
   // Analyze bundle size impact
   if (metrics.bundleSize.total > PERFORMANCE_THRESHOLDS.BUNDLE_SIZE.MAX_SIZE) {
     bottlenecks.push({
@@ -724,7 +724,7 @@ function identifyBuildBottlenecks(metrics: BuildMetrics): BottleneckAnalysis[] {
       ]
     });
   }
-  
+
   // Analyze cache efficiency
   if (metrics.cacheHitRate < 0.7) {
     bottlenecks.push({
@@ -738,7 +738,7 @@ function identifyBuildBottlenecks(metrics: BuildMetrics): BottleneckAnalysis[] {
       ]
     });
   }
-  
+
   return bottlenecks;
 }
 
@@ -747,27 +747,27 @@ function identifyBuildBottlenecks(metrics: BuildMetrics): BottleneckAnalysis[] {
  */
 function generateBuildOptimizationRecommendations(metrics: BuildMetrics): string[] {
   const recommendations: string[] = [];
-  
+
   if (metrics.duration > PERFORMANCE_THRESHOLDS.BUILD_TIME.DEVELOPMENT) {
     recommendations.push('Consider enabling incremental builds to reduce compilation time');
   }
-  
+
   if (metrics.errorCount > 10) {
     recommendations.push('Reduce TypeScript errors to improve build performance');
   }
-  
+
   if (metrics.cacheHitRate < 0.6) {
     recommendations.push('Optimize build cache configuration for better performance');
   }
-  
+
   if (metrics.bundleSize.total > PERFORMANCE_THRESHOLDS.BUNDLE_SIZE.MAX_SIZE) {
     recommendations.push('Implement code splitting and tree shaking to reduce bundle size');
   }
-  
+
   if (metrics.parallelization.efficiency < 0.7) {
     recommendations.push('Optimize build parallelization to utilize available CPU cores');
   }
-  
+
   return recommendations;
 }
 
@@ -778,16 +778,16 @@ async function analyzeMemoryUsage(metrics: BuildMetrics): Promise<MemoryUsageAna
   try {
     const peakMemoryUsage = metrics.memoryUsage.peak;
     const averageMemoryUsage = metrics.memoryUsage.average;
-    
+
     // Simplified memory leak detection
     const memoryLeakDetection = detectMemoryLeaks(metrics);
-    
+
     // Simplified GC stats
     const garbageCollectionStats = analyzeGCStats(metrics);
-    
+
     // Generate memory optimization suggestions
     const memoryOptimizationSuggestions = generateMemoryOptimizationSuggestions(metrics);
-    
+
     return {
       peakMemoryUsage,
       averageMemoryUsage,
@@ -795,7 +795,7 @@ async function analyzeMemoryUsage(metrics: BuildMetrics): Promise<MemoryUsageAna
       garbageCollectionStats,
       memoryOptimizationSuggestions
     };
-    
+
   } catch (error) {
     logger.error('Error analyzing memory usage:', error);
     throw error;
@@ -807,7 +807,7 @@ async function analyzeMemoryUsage(metrics: BuildMetrics): Promise<MemoryUsageAna
  */
 function detectMemoryLeaks(metrics: BuildMetrics): MemoryLeakInfo[] {
   const leaks: MemoryLeakInfo[] = [];
-  
+
   // Simple heuristic: if peak memory is much higher than average
   if (metrics.memoryUsage.peak > metrics.memoryUsage.average * 2) {
     leaks.push({
@@ -821,7 +821,7 @@ function detectMemoryLeaks(metrics: BuildMetrics): MemoryLeakInfo[] {
       ]
     });
   }
-  
+
   return leaks;
 }
 
@@ -842,18 +842,18 @@ function analyzeGCStats(metrics: BuildMetrics): GCStats {
  */
 function generateMemoryOptimizationSuggestions(metrics: BuildMetrics): string[] {
   const suggestions: string[] = [];
-  
+
   if (metrics.memoryUsage.peak > PERFORMANCE_THRESHOLDS.MEMORY_USAGE.WARNING) {
     suggestions.push('Consider increasing Node.js heap size for large builds');
   }
-  
+
   if (metrics.memoryUsage.peak > metrics.memoryUsage.average * 1.5) {
     suggestions.push('Implement memory profiling to identify memory usage spikes');
   }
-  
+
   suggestions.push('Use streaming and chunked processing for large file operations');
   suggestions.push('Implement proper cleanup of temporary objects and references');
-  
+
   return suggestions;
 }
 
@@ -864,38 +864,38 @@ async function generateQualityMetricsReport(): Promise<QualityMetricsReport> {
   try {
     // This would integrate with various quality tools
     // For now, provide estimated values
-    
+
     const codeQuality = {
       typeScriptErrors: await getTypeScriptErrorCount(),
       lintingWarnings: await getLintingWarningCount(),
       testCoverage: 75, // Estimated
       codeComplexity: 6.5 // Estimated
     };
-    
+
     const buildQuality = {
       successRate: 92, // Estimated
       averageBuildTime: 45000, // 45 seconds
       failureRate: 8, // Estimated
       recoveryTime: 120 // 2 minutes
     };
-    
+
     const performanceQuality = {
       bundleSize: 8500, // KB
       loadTime: 2.5, // seconds
       memoryEfficiency: 0.8,
       cacheEfficiency: 0.7
     };
-    
+
     const technicalDebt = {
       debtRatio: 0.15, // 15%
       maintainabilityIndex: 75,
       duplicateCodePercentage: 5,
       outdatedDependencies: 3
     };
-    
+
     // Calculate overall score
     const overallScore = calculateOverallQualityScore(codeQuality, buildQuality, performanceQuality, technicalDebt);
-    
+
     return {
       overallScore,
       codeQuality,
@@ -903,7 +903,7 @@ async function generateQualityMetricsReport(): Promise<QualityMetricsReport> {
       performanceQuality,
       technicalDebt
     };
-    
+
   } catch (error) {
     logger.error('Error generating quality metrics report:', error);
     throw error;
@@ -919,10 +919,10 @@ async function getTypeScriptErrorCount(): Promise<number> {
       encoding: 'utf8',
       stdio: 'pipe'
     });
-    
+
     const errorMatches = output.match(/error TS\d+:/g);
     return errorMatches ? errorMatches.length : 0;
-    
+
   } catch (error: any) {
     if (error.stdout) {
       const errorMatches = error.stdout.match(/error TS\d+:/g);
@@ -941,12 +941,12 @@ async function getLintingWarningCount(): Promise<number> {
       encoding: 'utf8',
       stdio: 'pipe'
     });
-    
+
     const results = JSON.parse(output);
     return results.reduce((total: number, result: any) => {
       return total + (result.warningCount || 0);
     }, 0);
-    
+
   } catch (error) {
     return 0;
   }
@@ -966,10 +966,10 @@ function calculateOverallQualityScore(
   const buildScore = buildQuality.successRate;
   const performanceScore = Math.min(100, performanceQuality.cacheEfficiency * 100);
   const debtScore = Math.max(0, 100 - technicalDebt.debtRatio * 100);
-  
+
   // Weighted average
   const overallScore = (codeScore * 0.3 + buildScore * 0.3 + performanceScore * 0.2 + debtScore * 0.2);
-  
+
   return Math.round(overallScore);
 }
 
@@ -978,7 +978,7 @@ function calculateOverallQualityScore(
  */
 async function processPerformanceAlerts(metrics: BuildMetrics): Promise<AlertResponse[]> {
   const alerts: AlertResponse[] = [];
-  
+
   // Build time alerts
   if (metrics.duration > PERFORMANCE_THRESHOLDS.BUILD_TIME.CRITICAL) {
     alerts.push({
@@ -1007,7 +1007,7 @@ async function processPerformanceAlerts(metrics: BuildMetrics): Promise<AlertRes
       timestamp: new Date()
     });
   }
-  
+
   // Memory usage alerts
   if (metrics.memoryUsage.peak > PERFORMANCE_THRESHOLDS.MEMORY_USAGE.CRITICAL) {
     alerts.push({
@@ -1023,7 +1023,7 @@ async function processPerformanceAlerts(metrics: BuildMetrics): Promise<AlertRes
       timestamp: new Date()
     });
   }
-  
+
   // Bundle size alerts
   if (metrics.bundleSize.total > PERFORMANCE_THRESHOLDS.BUNDLE_SIZE.MAX_SIZE) {
     alerts.push({
@@ -1039,7 +1039,7 @@ async function processPerformanceAlerts(metrics: BuildMetrics): Promise<AlertRes
       timestamp: new Date()
     });
   }
-  
+
   return alerts;
 }
 
@@ -1048,11 +1048,11 @@ async function processPerformanceAlerts(metrics: BuildMetrics): Promise<AlertRes
  */
 function generateOptimizationRecommendations(
   buildMetrics: BuildMetrics,
-  performanceAnalysis: BuildPerformanceAnalysis,
-  memoryAnalysis: MemoryUsageAnalysis
+  _performanceAnalysis: BuildPerformanceAnalysis,
+  _memoryAnalysis: MemoryUsageAnalysis
 ): OptimizationRecommendation[] {
   const recommendations: OptimizationRecommendation[] = [];
-  
+
   // Build performance recommendations
   if (buildMetrics.duration > PERFORMANCE_THRESHOLDS.BUILD_TIME.DEVELOPMENT) {
     recommendations.push({
@@ -1069,7 +1069,7 @@ function generateOptimizationRecommendations(
       expectedImprovement: '30-50% reduction in build time'
     });
   }
-  
+
   // Memory optimization recommendations
   if (buildMetrics.memoryUsage.peak > PERFORMANCE_THRESHOLDS.MEMORY_USAGE.WARNING) {
     recommendations.push({
@@ -1086,7 +1086,7 @@ function generateOptimizationRecommendations(
       expectedImprovement: '20-30% reduction in memory usage'
     });
   }
-  
+
   // Bundle size recommendations
   if (buildMetrics.bundleSize.total > PERFORMANCE_THRESHOLDS.BUNDLE_SIZE.MAX_SIZE * 0.8) {
     recommendations.push({
@@ -1103,7 +1103,7 @@ function generateOptimizationRecommendations(
       expectedImprovement: '15-25% reduction in bundle size'
     });
   }
-  
+
   // Cache optimization recommendations
   if (buildMetrics.cacheHitRate < 0.7) {
     recommendations.push({
@@ -1120,7 +1120,7 @@ function generateOptimizationRecommendations(
       expectedImprovement: '10-20% improvement in cache hit rate'
     });
   }
-  
+
   return recommendations;
 }
 
