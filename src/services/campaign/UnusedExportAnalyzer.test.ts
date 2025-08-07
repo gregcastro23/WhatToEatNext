@@ -4,9 +4,8 @@
  */
 
 import * as fs from 'fs';
-import * as path from 'path';
 
-import { UnusedExportAnalyzer, FilePriority, FileCategory, TransformationComplexity } from './UnusedExportAnalyzer';
+import { FileCategory, FilePriority, TransformationComplexity, UnusedExportAnalyzer } from './UnusedExportAnalyzer';
 
 // Mock fs and glob
 jest.mock('fs');
@@ -123,13 +122,13 @@ export type TestType = string;
       `;
 
       const exports = (analyzer as unknown as { extractExports: (content: string) => string[] }).extractExports(content);
-      
+
       expect(exports).toHaveLength(5);
-      expect(exports.find((e: any) => e.exportName === 'testConst')).toBeDefined();
-      expect(exports.find((e: any) => e.exportName === 'testFunction')).toBeDefined();
-      expect(exports.find((e: any) => e.exportName === 'TestClass')).toBeDefined();
-      expect(exports.find((e: any) => e.exportName === 'TestInterface')).toBeDefined();
-      expect(exports.find((e: any) => e.exportName === 'TestType')).toBeDefined();
+      expect(exports.find((e: unknown) => (e as { exportName: string }).exportName === 'testConst')).toBeDefined();
+      expect(exports.find((e: unknown) => (e as { exportName: string }).exportName === 'testFunction')).toBeDefined();
+      expect(exports.find((e: unknown) => (e as { exportName: string }).exportName === 'TestClass')).toBeDefined();
+      expect(exports.find((e: unknown) => (e as { exportName: string }).exportName === 'TestInterface')).toBeDefined();
+      expect(exports.find((e: unknown) => (e as { exportName: string }).exportName === 'TestType')).toBeDefined();
     });
 
     it('should extract default exports', () => {
@@ -140,9 +139,9 @@ export default TestComponent;
       `;
 
       const exports = (analyzer as unknown as { extractExports: (content: string) => string[] }).extractExports(content);
-      
+
       expect(exports.length).toBeGreaterThan(0);
-      expect(exports.some((e: any) => e.isDefault)).toBe(true);
+      expect(exports.some((e: unknown) => (e as { isDefault: boolean }).isDefault)).toBe(true);
     });
 
     it('should extract destructured exports', () => {
@@ -151,11 +150,11 @@ export { testA, testB, testC as aliasC };
       `;
 
       const exports = (analyzer as unknown as { extractExports: (content: string) => string[] }).extractExports(content);
-      
+
       expect(exports).toHaveLength(3);
-      expect(exports.find((e: any) => e.exportName === 'testA')).toBeDefined();
-      expect(exports.find((e: any) => e.exportName === 'testB')).toBeDefined();
-      expect(exports.find((e: any) => e.exportName === 'testC')).toBeDefined();
+      expect(exports.find((e: unknown) => (e as { exportName: string }).exportName === 'testA')).toBeDefined();
+      expect(exports.find((e: unknown) => (e as { exportName: string }).exportName === 'testB')).toBeDefined();
+      expect(exports.find((e: unknown) => (e as { exportName: string }).exportName === 'testC')).toBeDefined();
     });
   });
 
@@ -202,7 +201,7 @@ export { testA, testB, testC as aliasC };
     it('should return high score for simple files', () => {
       const content = 'export const simple = "test";';
       const unusedExports = [{ exportName: 'simple', exportType: 'const' as const, lineNumber: 1, isDefault: false, complexity: 1, usageCount: 0, filePath: '' }];
-      
+
       const score = (analyzer as unknown as { calculateSafetyScore: (path: string, content: string, exports: string[]) => number }).calculateSafetyScore('/project/src/simple.ts', content, unusedExports);
       expect(score).toBeGreaterThan(80);
     });
@@ -210,7 +209,7 @@ export { testA, testB, testC as aliasC };
     it('should return lower score for complex files', () => {
       const content = 'export const complex = "test";\n'.repeat(600); // Large file
       const unusedExports = Array(15).fill({ exportName: 'test', exportType: 'const' as const, lineNumber: 1, isDefault: false, complexity: 1, usageCount: 0, filePath: '' });
-      
+
       const score = (analyzer as unknown as { calculateSafetyScore: (path: string, content: string, exports: string[]) => number }).calculateSafetyScore('/project/src/complex.ts', content, unusedExports);
       expect(score).toBeLessThan(70);
     });
@@ -218,10 +217,10 @@ export { testA, testB, testC as aliasC };
     it('should increase score for test files', () => {
       const content = 'export const testExport = "test";\n'.repeat(300); // Medium complexity file
       const unusedExports = Array(8).fill({ exportName: 'testExport', exportType: 'const' as const, lineNumber: 1, isDefault: false, complexity: 1, usageCount: 0, filePath: '' });
-      
+
       const testScore = (analyzer as unknown as { calculateSafetyScore: (path: string, content: string, exports: string[]) => number }).calculateSafetyScore('/project/src/test.test.ts', content, unusedExports);
       const normalScore = (analyzer as unknown as { calculateSafetyScore: (path: string, content: string, exports: string[]) => number }).calculateSafetyScore('/project/src/normal.ts', content, unusedExports);
-      
+
       expect(testScore).toBeGreaterThan(normalScore);
     });
   });
@@ -229,14 +228,14 @@ export { testA, testB, testC as aliasC };
   describe('generateIntelligenceSystemName', () => {
     it('should generate proper intelligence system names', () => {
       const exportInfo = { exportName: 'TestComponent', exportType: 'function' as const, lineNumber: 1, isDefault: false, complexity: 1, usageCount: 0, filePath: '' };
-      
+
       const name = (analyzer as unknown as { generateIntelligenceSystemName: (exportInfo: Record<string, unknown>) => string }).generateIntelligenceSystemName(exportInfo);
       expect(name).toBe('_TEST_COMPONENT_INTELLIGENCE_SYSTEM');
     });
 
     it('should handle camelCase names', () => {
       const exportInfo = { exportName: 'camelCaseFunction', exportType: 'function' as const, lineNumber: 1, isDefault: false, complexity: 1, usageCount: 0, filePath: '' };
-      
+
       const name = (analyzer as unknown as { generateIntelligenceSystemName: (exportInfo: Record<string, unknown>) => string }).generateIntelligenceSystemName(exportInfo);
       expect(name).toBe('CAMEL_CASE_FUNCTION_INTELLIGENCE_SYSTEM');
     });
@@ -245,28 +244,28 @@ export { testA, testB, testC as aliasC };
   describe('assessTransformationComplexity', () => {
     it('should assess SIMPLE complexity for low complexity exports', () => {
       const exportInfo = { exportName: 'simple', exportType: 'const' as const, lineNumber: 1, isDefault: false, complexity: 3, usageCount: 0, filePath: '' };
-      
+
       const complexity = (analyzer as unknown as { assessTransformationComplexity: (exportInfo: Record<string, unknown>) => TransformationComplexity }).assessTransformationComplexity(exportInfo);
       expect(complexity).toBe(TransformationComplexity.SIMPLE);
     });
 
     it('should assess MODERATE complexity for medium complexity exports', () => {
       const exportInfo = { exportName: 'moderate', exportType: 'function' as const, lineNumber: 1, isDefault: false, complexity: 10, usageCount: 0, filePath: '' };
-      
+
       const complexity = (analyzer as unknown as { assessTransformationComplexity: (exportInfo: Record<string, unknown>) => TransformationComplexity }).assessTransformationComplexity(exportInfo);
       expect(complexity).toBe(TransformationComplexity.MODERATE);
     });
 
     it('should assess COMPLEX complexity for high complexity exports', () => {
       const exportInfo = { exportName: 'complex', exportType: 'class' as const, lineNumber: 1, isDefault: false, complexity: 25, usageCount: 0, filePath: '' };
-      
+
       const complexity = (analyzer as unknown as { assessTransformationComplexity: (exportInfo: Record<string, unknown>) => TransformationComplexity }).assessTransformationComplexity(exportInfo);
       expect(complexity).toBe(TransformationComplexity.COMPLEX);
     });
 
     it('should assess VERY_COMPLEX complexity for very high complexity exports', () => {
       const exportInfo = { exportName: 'veryComplex', exportType: 'class' as const, lineNumber: 1, isDefault: false, complexity: 50, usageCount: 0, filePath: '' };
-      
+
       const complexity = (analyzer as unknown as { assessTransformationComplexity: (exportInfo: Record<string, unknown>) => TransformationComplexity }).assessTransformationComplexity(exportInfo);
       expect(complexity).toBe(TransformationComplexity.VERY_COMPLEX);
     });
@@ -291,7 +290,7 @@ export { testA, testB, testC as aliasC };
       };
 
       const report = analyzer.generateReport(mockAnalysis);
-      
+
       expect(report).toContain('# Unused Export Analysis Report');
       expect(report).toContain('Total files analyzed: 10');
       expect(report).toContain('Total unused exports: 25');

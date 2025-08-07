@@ -1,11 +1,10 @@
 /**
  * Test Utilities Type Definitions
- * 
+ *
  * Unified type definitions for test utilities and global test objects
  */
 
 import { Mock } from 'jest';
-import { ComponentType } from 'react';
 
 // Memory monitoring interfaces
 export interface MemoryUsage {
@@ -46,7 +45,7 @@ export interface GitOperationsMock {
   shouldFailCommands: boolean;
   setMockBranch: (branch: string) => void;
   setMockStashes: (stashes: string[]) => void;
-  setMockGitStatus: (status: any) => void;
+  setMockGitStatus: (status: unknown) => void;
   setShouldFailCommands: (shouldFail: boolean) => void;
   addMockStash: (stashId: string) => void;
   removeMockStash: (stashId: string) => void;
@@ -86,8 +85,8 @@ export interface ScriptExecutionMock {
 // Core test utilities interface
 export interface CoreTestUtils {
   waitForAsync: (ms?: number) => Promise<void>;
-  createMockFunction: (returnValue?: any) => Mock<any, [], any>;
-  createMockComponent: (name: string, testId?: string) => ComponentType<any>;
+  createMockFunction: (returnValue?: unknown) => jest.MockedFunction<() => unknown>;
+  createMockComponent: (name: string, testId?: string) => React.ComponentType<Record<string, unknown>>;
   checkMemory: () => MemoryUsage;
   cleanupMemory: () => any;
 }
@@ -128,7 +127,7 @@ export interface MockPlanetaryPositions {
 // React component props types for testing
 export interface MockComponentProps {
   children?: React.ReactNode;
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 // App component props interface
@@ -157,14 +156,14 @@ declare global {
   var cleanupTestMemory: (() => any) | undefined;
   var __TEST_CACHE__: Map<string, any> | { clear: () => void } | undefined;
   var __TEST_REFS__: any[] | undefined;
-  
+
   // Allow process.memoryUsage to be mocked in tests
   namespace NodeJS {
     interface Process {
       memoryUsage: MockableMemoryUsageFn;
     }
   }
-  
+
   namespace jest {
     interface Matchers<R> {
       toBeWithinRange(floor: number, ceiling: number): R;
@@ -172,4 +171,4 @@ declare global {
   }
 }
 
-export {};
+export { };

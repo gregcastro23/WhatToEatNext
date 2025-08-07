@@ -7,10 +7,9 @@ import { execSync } from 'child_process';
 import * as fs from 'fs';
 
 import {
-  ProgressMetrics,
-  Milestone,
-  ProgressReport,
-  PhaseStatus
+    Milestone,
+    PhaseStatus,
+    ProgressMetrics
 } from '../../../types/campaign';
 import { ProgressTracker } from '../ProgressTracker';
 
@@ -27,7 +26,7 @@ describe('ProgressTracker', () => {
   beforeEach(() => {
     progressTracker = new ProgressTracker();
     jest.clearAllMocks();
-    
+
     // Default mock implementations
     mockExecSync.mockReturnValue('');
     mockFs.existsSync.mockReturnValue(true);
@@ -61,7 +60,7 @@ describe('ProgressTracker', () => {
 
     it('should return 0 when no errors found', async () => {
       mockExecSync.mockImplementation(() => {
-        const error = new Error('No matches found') as any;
+        const error = new Error('No matches found') as unknown as Error & { status: number };
         error.status = 1; // grep returns 1 when no matches
         throw error;
       });
@@ -73,7 +72,7 @@ describe('ProgressTracker', () => {
 
     it('should return -1 on command failure', async () => {
       mockExecSync.mockImplementation(() => {
-        const error = new Error('Command failed') as any;
+        const error = new Error('Command failed') as unknown as Error & { status: number };
         error.status = 2; // Other error
         throw error;
       });
@@ -143,7 +142,7 @@ describe('ProgressTracker', () => {
 
     it('should return 0 when no warnings found', async () => {
       mockExecSync.mockImplementation(() => {
-        const error = new Error('No matches found') as any;
+        const error = new Error('No matches found') as unknown as Error & { status: number };
         error.status = 1; // grep returns 1 when no matches
         throw error;
       });
@@ -155,7 +154,7 @@ describe('ProgressTracker', () => {
 
     it('should return -1 on command failure', async () => {
       mockExecSync.mockImplementation(() => {
-        const error = new Error('Command failed') as any;
+        const error = new Error('Command failed') as unknown as Error & { status: number };
         error.status = 2; // Other error
         throw error;
       });
@@ -317,7 +316,7 @@ describe('ProgressTracker', () => {
       mockFs.existsSync.mockImplementation((path) => {
         return path === '.next' || path === 'dist';
       });
-      
+
       mockExecSync.mockImplementation((command) => {
         if (command.toString().includes('du -sk .next')) {
           return '300';
@@ -637,9 +636,9 @@ describe('ProgressTracker', () => {
 
     it('should update last metrics update timestamp', () => {
       const beforeReset = (progressTracker as any).lastMetricsUpdate;
-      
+
       progressTracker.resetMetricsHistory();
-      
+
       const afterReset = (progressTracker as any).lastMetricsUpdate;
       expect(afterReset.getTime()).toBeGreaterThan(beforeReset.getTime());
     });

@@ -528,7 +528,7 @@ function _calculateUniqueness(
 export function transformItemsWithPlanetaryPositions(
   items: ElementalItem[],
   planetaryPositions: Record<string, unknown>,
-  isDaytime = true,
+  _isDaytime = true,
   currentZodiac?: string,
   lunarPhase?: LunarPhase,
   tarotElementBoosts?: Record<ElementalCharacter, number>,

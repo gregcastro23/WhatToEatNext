@@ -9,7 +9,7 @@ import { PhaseStatus } from '../../types/campaign';
 
 import { MetricsCollectionSystem } from './MetricsCollectionSystem';
 import { MilestoneValidationSystem } from './MilestoneValidationSystem';
-import { ProgressReportingSystem, CampaignSummaryReport, CampaignStatus } from './ProgressReportingSystem';
+import { CampaignStatus, CampaignSummaryReport, ProgressReportingSystem } from './ProgressReportingSystem';
 
 
 
@@ -29,10 +29,10 @@ describe('ProgressReportingSystem', () => {
 
   beforeEach(() => {
     jest.clearAllMocks();
-    
+
     mockMetricsCollector = new MockMetricsCollectionSystem() as jest.Mocked<MetricsCollectionSystem>;
     mockValidationSystem = new MockMilestoneValidationSystem() as jest.Mocked<MilestoneValidationSystem>;
-    
+
     reportingSystem = new ProgressReportingSystem();
     (reportingSystem as any).metricsCollector = mockMetricsCollector;
     (reportingSystem as any).validationSystem = mockValidationSystem;
@@ -69,8 +69,8 @@ describe('ProgressReportingSystem', () => {
           overallSuccess: true,
           completionPercentage: 100,
           milestones: [
-            { milestone: 'Zero TypeScript Errors', phase: 'phase1', success: true, timestamp: new Date(), 
-              metrics: {} as any, criteria: [], failureReasons: [], recommendations: [] }
+            { milestone: 'Zero TypeScript Errors', phase: 'phase1', success: true, timestamp: new Date(),
+              metrics: {} as unknown as Record<string, unknown>, criteria: [], failureReasons: [], recommendations: [] }
           ],
           criticalFailures: [],
           nextSteps: ['Phase 1 complete - proceed to Phase 2']
@@ -82,7 +82,7 @@ describe('ProgressReportingSystem', () => {
           completionPercentage: 100,
           milestones: [
             { milestone: 'Zero Linting Warnings', phase: 'phase2', success: true, timestamp: new Date(),
-              metrics: {} as any, criteria: [], failureReasons: [], recommendations: [] }
+              metrics: {} as unknown as Record<string, unknown>, criteria: [], failureReasons: [], recommendations: [] }
           ],
           criticalFailures: [],
           nextSteps: ['Phase 2 complete - proceed to Phase 3']
@@ -94,7 +94,7 @@ describe('ProgressReportingSystem', () => {
           completionPercentage: 100,
           milestones: [
             { milestone: 'Enterprise System Count Target', phase: 'phase3', success: true, timestamp: new Date(),
-              metrics: {} as any, criteria: [], failureReasons: [], recommendations: [] }
+              metrics: {} as unknown as Record<string, unknown>, criteria: [], failureReasons: [], recommendations: [] }
           ],
           criticalFailures: [],
           nextSteps: ['Phase 3 complete - proceed to Phase 4']
@@ -106,7 +106,7 @@ describe('ProgressReportingSystem', () => {
           completionPercentage: 100,
           milestones: [
             { milestone: 'Build Performance Targets', phase: 'phase4', success: true, timestamp: new Date(),
-              metrics: {} as any, criteria: [], failureReasons: [], recommendations: [] }
+              metrics: {} as unknown as Record<string, unknown>, criteria: [], failureReasons: [], recommendations: [] }
           ],
           criticalFailures: [],
           nextSteps: ['Perfect Codebase Campaign Complete! 🎉']
@@ -155,7 +155,7 @@ describe('ProgressReportingSystem', () => {
           completionPercentage: 88,
           milestones: [
             { milestone: 'Zero TypeScript Errors', phase: 'phase1', success: false, timestamp: new Date(),
-              metrics: {} as any, criteria: [], failureReasons: ['10 errors remaining'], recommendations: [] }
+              metrics: {} as unknown as Record<string, unknown>, criteria: [], failureReasons: ['10 errors remaining'], recommendations: [] }
           ],
           criticalFailures: ['TypeScript Error Count: expected 0, got 10'],
           nextSteps: ['Continue with Enhanced TypeScript Error Fixer v3.0']
@@ -228,7 +228,7 @@ describe('ProgressReportingSystem', () => {
         completionPercentage: 100,
         milestones: [
           { milestone: 'Zero TypeScript Errors', phase: 'phase1', success: true, timestamp: new Date(),
-            metrics: {} as any, criteria: [], failureReasons: [], recommendations: [] }
+            metrics: {} as unknown as Record<string, unknown>, criteria: [], failureReasons: [], recommendations: [] }
         ],
         criticalFailures: [],
         nextSteps: ['Phase 1 complete - proceed to Phase 2']
@@ -502,7 +502,7 @@ describe('ProgressReportingSystem', () => {
     });
 
     test('should handle validation system errors gracefully', async () => {
-      mockMetricsCollector.collectDetailedMetrics.mockResolvedValue({} as any);
+      mockMetricsCollector.collectDetailedMetrics.mockResolvedValue({} as unknown as Awaited<ReturnType<typeof mockMetricsCollector.collectDetailedMetrics>>);
       mockValidationSystem.validateAllPhases.mockRejectedValue(new Error('Validation failed'));
 
       await expect(reportingSystem.generateCampaignSummaryReport())

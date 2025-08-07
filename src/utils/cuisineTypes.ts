@@ -240,7 +240,7 @@ export function getRegionalCuisinesForPrimary(primary: PrimaryCuisineType): Regi
  */
 export function getCuisineCompatibilityRecommendations(
   cuisine: CompleteCuisineType,
-  ingredients: string[]
+  _ingredients: string[]
 ): CuisineCompatibility[] {
   const allCuisines: CompleteCuisineType[] = Object.keys(CUISINE_CATEGORY_MAP) as CompleteCuisineType[];
 

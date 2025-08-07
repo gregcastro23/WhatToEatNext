@@ -1,6 +1,6 @@
 /**
  * Extended Test Utils Type Definitions
- * 
+ *
  * Type definitions for the comprehensive test utilities including
  * campaign system mocks and memory management.
  */
@@ -25,7 +25,7 @@ export interface GitMock {
   setMockStashes: jest.MockedFunction<(stashes: string[]) => void>;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   // Intentionally any: Git status structure varies by test scenario
-  setMockGitStatus: jest.MockedFunction<(status: any) => void>;
+  setMockGitStatus: jest.MockedFunction<(status: unknown) => void>;
   setShouldFailCommands: jest.MockedFunction<(shouldFail: boolean) => void>;
   addMockStash: jest.MockedFunction<(stashId: string) => void>;
   removeMockStash: jest.MockedFunction<(stashId: string) => void>;
@@ -53,7 +53,7 @@ export interface ScriptMock {
   // Intentionally any: Mock results can be any type depending on script execution
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   // Intentionally any: Test results have varying structures by test scenario
-  setMockResult: jest.MockedFunction<(scriptPath: string, result: any) => void>;
+  setMockResult: jest.MockedFunction<(scriptPath: string, result: unknown) => void>;
   setMockBuildSuccess: jest.MockedFunction<(success: boolean) => void>;
   setMockTestSuccess: jest.MockedFunction<(success: boolean) => void>;
   setShouldFailExecution: jest.MockedFunction<(shouldFail: boolean) => void>;
@@ -185,18 +185,18 @@ export interface CampaignMock {
 export interface ExtendedTestUtils {
   // Git operations mock
   gitMock: GitMock;
-  
+
   // Script execution mock
   scriptMock: ScriptMock;
-  
+
   // Campaign system mock
   campaignMock: CampaignMock;
-  
+
   // Helper functions
   waitForAsync: (ms?: number) => Promise<void>;
   createMockFunction: (returnValue?: any) => jest.MockedFunction<any>;
   createMockComponent: (name: string, testId?: string) => React.ComponentType<any>;
-  
+
   // Memory management utilities
   checkMemory: () => {
     heapUsed: string;
@@ -205,13 +205,13 @@ export interface ExtendedTestUtils {
     arrayBuffers: string;
   };
   cleanupMemory: () => any;
-  
+
   // Mock file creation utilities
   createMockCorruptedFile: (content: string) => string;
   createMockTypeScriptErrors: (count: number) => string;
   createMockLintingWarnings: (count: number) => string;
-  createMockProgressMetrics: (overrides?: any) => ProgressMetrics;
-  
+  createMockProgressMetrics: (overrides?: Record<string, unknown>) => ProgressMetrics;
+
   // Campaign test utilities
   setupCampaignTest: (testName: string, config?: any) => Promise<{
     controller: any;

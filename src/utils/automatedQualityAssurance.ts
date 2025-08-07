@@ -1,6 +1,6 @@
 /**
  * Automated Quality Assurance Integration
- * 
+ *
  * This module implements automated quality assurance with agent hooks for:
  * - Automatic planetary data validation
  * - Ingredient consistency checking for elemental properties
@@ -145,7 +145,7 @@ export class AutomatedQualityAssurance {
       // Validate data completeness
       const requiredPlanets = ['sun', 'moon', 'mercury', 'venus', 'mars', 'jupiter', 'saturn'];
       const missingPlanets = requiredPlanets.filter(planet => !positions[planet]);
-      
+
       if (missingPlanets.length > 0) {
         issues.push(`Missing planetary data for: ${missingPlanets.join(', ')}`);
         recommendations.push('Verify API connectivity and fallback mechanisms');
@@ -207,7 +207,7 @@ export class AutomatedQualityAssurance {
         recommendations.push(`Fix elemental properties for ${ingredient.name} to meet minimum standards`);
       } else {
         validatedCount++;
-        
+
         // Calculate elemental consistency score
         const elementalSum = Object.values(ingredient.elementalProperties).reduce((sum, val) => sum + val, 0);
         const consistencyScore = elementalSum > 0 ? Math.min(1.0, elementalSum / 1.0) : 0;
@@ -237,7 +237,7 @@ export class AutomatedQualityAssurance {
     });
 
     const averageScore = validatedCount > 0 ? totalScore / validatedCount : 0;
-    
+
     // Update metrics
     this.metrics.ingredientConsistency = {
       elementalValidation: averageScore,
@@ -248,10 +248,10 @@ export class AutomatedQualityAssurance {
     // Check for campaign triggers
     this.checkCampaignTriggers('ingredient', averageScore);
 
-    logger.debug('Ingredient consistency validation completed', { 
-      score: averageScore, 
+    logger.debug('Ingredient consistency validation completed', {
+      score: averageScore,
       issues: issues.length,
-      validatedCount 
+      validatedCount
     });
 
     return this.createValidationResult(averageScore >= 0.8, averageScore, issues, recommendations);
@@ -268,7 +268,7 @@ export class AutomatedQualityAssurance {
     try {
       // Simulate TypeScript error count check (in real implementation, this would run tsc)
       const errorCount = await this.getTypeScriptErrorCount();
-      
+
       this.metrics.typeScriptErrors = errorCount;
 
       const trigger: CampaignTrigger = {
@@ -283,7 +283,7 @@ export class AutomatedQualityAssurance {
       if (trigger.triggered) {
         logger.warn(`TypeScript error threshold exceeded: ${errorCount} > ${trigger.threshold}`);
         this.campaignTriggers.push(trigger);
-        
+
         // In a real implementation, this would trigger the campaign system
         this.triggerCampaign('typescript-error-elimination', {
           errorCount,
@@ -370,7 +370,7 @@ export class AutomatedQualityAssurance {
    * Get active campaign triggers
    */
   public getActiveCampaignTriggers(): CampaignTrigger[] {
-    return this.campaignTriggers.filter(trigger => 
+    return this.campaignTriggers.filter(trigger =>
       Date.now() - trigger.timestamp < 24 * 60 * 60 * 1000 // Last 24 hours
     );
   }
@@ -454,7 +454,7 @@ export class AutomatedQualityAssurance {
     };
   }
 
-  private calculateDataFreshness(positions: Record<string, any>): number {
+  private calculateDataFreshness(_positions: Record<string, any>): number {
     // In a real implementation, this would check the timestamp of the data
     // For now, return 1.0 (fresh) as a placeholder
     return 1.0;
@@ -463,10 +463,10 @@ export class AutomatedQualityAssurance {
   private validateCulturalSensitivity(ingredientNames: string[]): number {
     // Check for potentially insensitive terms
     const sensitiveTerms = ['exotic', 'ethnic', 'primitive', 'weird'];
-    const issues = ingredientNames.filter(name => 
+    const issues = ingredientNames.filter(name =>
       sensitiveTerms.some(term => name.toLowerCase().includes(term))
     );
-    
+
     return issues.length === 0 ? 1.0 : Math.max(0, 1.0 - (issues.length * 0.2));
   }
 
@@ -535,7 +535,7 @@ export class AutomatedQualityAssurance {
   private triggerCampaign(campaignType: string, context: any): void {
     // In a real implementation, this would integrate with the campaign system
     logger.info(`Campaign triggered: ${campaignType}`, context);
-    
+
     // Simulate campaign system integration
     if (typeof window !== 'undefined') {
       // Dispatch custom event for campaign system integration
@@ -558,10 +558,10 @@ export function getAutomatedQualityAssurance(config?: Partial<QualityAssuranceCo
  */
 export function useAutomatedQualityAssurance() {
   const qa = getAutomatedQualityAssurance();
-  
+
   return {
     validatePlanetaryData: (date?: Date) => qa.validatePlanetaryData(date),
-    validateIngredientConsistency: (ingredients: Array<{ name: string; elementalProperties: ElementalProperties; category?: string }>) => 
+    validateIngredientConsistency: (ingredients: Array<{ name: string; elementalProperties: ElementalProperties; category?: string }>) =>
       qa.validateIngredientConsistency(ingredients),
     checkTypeScriptErrorThreshold: () => qa.checkTypeScriptErrorThreshold(),
     monitorBuildQuality: (metrics: any) => qa.monitorBuildQuality(metrics),

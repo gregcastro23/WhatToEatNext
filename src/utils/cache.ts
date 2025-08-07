@@ -1,15 +1,7 @@
-import { config } from '@/config';
-
-interface CacheEntry<T> {
-  value: T;
-  timestamp: number;
-  expiry: number | null;
-}
-
 /**
  * Simple in-memory cache implementation
  */
-export class Cache<T = any> {
+export class Cache {
   private cache: Map<string, { data: unknown; expiry: number | null }>;
 
   constructor(private ttl: number) {
@@ -34,16 +26,16 @@ export class Cache<T = any> {
    */
   get<T>(key: string): T | undefined {
     const item = this.cache.get(key);
-    
+
     // Return undefined if item doesn't exist
     if (!item) return undefined;
-    
+
     // Check if item has expired
     if (item.expiry && item.expiry < Date.now()) {
       this.delete(key);
       return undefined;
     }
-    
+
     return item.data as T;
   }
 
@@ -75,7 +67,7 @@ export class Cache<T = any> {
 const DEFAULT_CACHE_TIMEOUT = 3600000;
 
 // Create a single instance of the cache for recipes
-export const recipeCache = new Cache<any>(DEFAULT_CACHE_TIMEOUT);
+export const recipeCache = new Cache(DEFAULT_CACHE_TIMEOUT);
 
 // Create a simplified interface to the cache
 export const cache = {
@@ -83,4 +75,4 @@ export const cache = {
   set: (key: string, value: unknown, ttl?: number) => recipeCache.set(key, value, ttl),
   delete: (key: string) => recipeCache.delete(key),
   clear: () => recipeCache.clear()
-}; 
+};

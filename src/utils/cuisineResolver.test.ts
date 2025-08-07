@@ -1,20 +1,19 @@
 /**
  * Cuisine Resolver Test Suite
- * 
+ *
  * Tests the cuisine alias system to ensure regional cuisines
  * are properly unified under their primary cuisine types.
  */
 
-import { 
-  standardizeCuisine,
-  getCuisineVariants,
-  areCuisinesRelated,
-  groupCuisinesByType,
-  filterPrimaryCuisines,
-  getCuisineDisplayName,
-  isSupportedCuisine,
-  getCuisineSuggestions,
-  type PrimaryCuisineType
+import {
+    areCuisinesRelated,
+    filterPrimaryCuisines,
+    getCuisineDisplayName,
+    getCuisineSuggestions,
+    getCuisineVariants,
+    groupCuisinesByType,
+    isSupportedCuisine,
+    standardizeCuisine
 } from './cuisineResolver';
 
 describe('Cuisine Resolver', () => {
@@ -80,7 +79,7 @@ describe('Cuisine Resolver', () => {
     it('should group Chinese regional cuisines together', () => {
       const cuisines = ['sichuanese', 'cantonese', 'Italian', 'shanghainese'];
       const groups = groupCuisinesByType(cuisines);
-      
+
       expect(groups.Chinese).toContain('sichuanese');
       expect(groups.Chinese).toContain('cantonese');
       expect(groups.Chinese).toContain('shanghainese');
@@ -92,7 +91,7 @@ describe('Cuisine Resolver', () => {
     it('should return only primary cuisine types', () => {
       const cuisines = ['sichuanese', 'cantonese', 'Italian', 'shanghainese'];
       const primary = filterPrimaryCuisines(cuisines);
-      
+
       expect(primary).toContain('Chinese');
       expect(primary).toContain('Italian');
       expect(primary).not.toContain('sichuanese');
@@ -102,7 +101,7 @@ describe('Cuisine Resolver', () => {
     it('should remove duplicates', () => {
       const cuisines = ['sichuanese', 'cantonese', 'shanghainese'];
       const primary = filterPrimaryCuisines(cuisines);
-      
+
       expect(primary).toEqual(['Chinese']);
     });
   });
@@ -156,13 +155,13 @@ describe('Cuisine Resolver', () => {
     it('should handle mixed cuisine lists correctly', () => {
       const mixedCuisines = [
         'sichuanese',
-        'cantonese', 
+        'cantonese',
         'Italian',
         'shanghainese',
         'Japanese',
         'hunanese'
       ];
-      
+
       const primaryCuisines = filterPrimaryCuisines(mixedCuisines);
       expect(primaryCuisines).toContain('Chinese');
       expect(primaryCuisines).toContain('Italian');
@@ -172,15 +171,15 @@ describe('Cuisine Resolver', () => {
 
     it('should maintain consistency across all resolver functions', () => {
       const testCuisine = 'sichuanese';
-      
+
       // All functions should agree on the primary cuisine
       const standardized = standardizeCuisine(testCuisine);
       const displayName = getCuisineDisplayName(testCuisine);
       const isSupported = isSupportedCuisine(testCuisine);
-      
+
       expect(standardized).toBe('Chinese');
       expect(displayName).toBe('Sichuanese (Chinese)');
       expect(isSupported).toBe(true);
     });
   });
-}); 
+});

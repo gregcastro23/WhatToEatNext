@@ -4,7 +4,7 @@ import type { Ingredient } from '../../data/ingredients/types';
 
 
 // Phase 10: Calculation Type Interfaces
-interface CalculationData {
+interface _CalculationData {
   value: number;
   weight?: number;
   score?: number;
@@ -23,7 +23,7 @@ interface ElementalData {
   [key: string]: unknown;
 }
 
-interface CuisineData {
+interface _CuisineData {
   id: string;
   name: string;
   zodiacInfluences?: string[];
@@ -35,7 +35,7 @@ interface CuisineData {
   [key: string]: unknown;
 }
 
-interface NutrientData {
+interface _NutrientData {
   nutrient?: { name?: string };
   nutrientName?: string;
   name?: string;
@@ -44,7 +44,7 @@ interface NutrientData {
   [key: string]: unknown;
 }
 
-interface MatchingResult {
+interface _MatchingResult {
   score: number;
   elements: ElementalData;
   recipe?: unknown;
@@ -414,8 +414,8 @@ export const getIngredientsFromCategories = async (
 };
 
 // Phase 8: Cached ingredient data for performance
-const cachedAllIngredientsData: Ingredient[] | null = null;
-const cacheTimestamp: number = 0;
+const _cachedAllIngredientsData: Ingredient[] | null = null;
+const _cacheTimestamp: number = 0;
 const _CACHE_TTL = 300000; // 5 minutes
 
 export const getAllIngredientsData = async (): Promise<unknown[]> => {
@@ -895,7 +895,7 @@ function calculateMonicaOptimization(
 ): number {
   // Simple monica optimization implementation
   try {
-    const { Fire, Water, Earth, Air } = elementalProps;
+    const { Fire, Water, Earth: _Earth, Air } = elementalProps;
     const heat = Math.pow(Fire, 2) + Math.pow(Air, 2);
     const entropy = Math.pow(Fire, 2) + Math.pow(Air, 2);
     const reactivity = Math.pow(Fire + Water + Air, 2);

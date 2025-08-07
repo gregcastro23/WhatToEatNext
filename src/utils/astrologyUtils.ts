@@ -1073,7 +1073,7 @@ export function calculateCompleteAstrologicalEffects(
   }
 
   // Calculate aspect effects
-  const { aspects, elementalEffects } = calculateAspects(planetPositions, risingDegree);
+  const { aspects: _aspects, elementalEffects } = calculateAspects(planetPositions, risingDegree);
 
   // Calculate stellium effects
   const stelliumEffects = calculateEnhancedStelliumEffects(planetPositions, risingDegree);

@@ -433,7 +433,7 @@ async function _calculateRecipeEnergyMatch(
 
   // Use dominant elements for enhanced scoring if available
   if (recipeDominantElements.length > 0) {
-    const [primaryElement, primaryValue] = recipeDominantElements[0];
+    const [_primaryElement, primaryValue] = recipeDominantElements[0];
     if (primaryValue > 0.4) {
       // Boost score for recipes with strong dominant element
       score += 0.1;
@@ -1069,7 +1069,7 @@ export const connectIngredientsToMappings = (
 /**
  * Calculate how well a recipe's nutritional profile matches the user's goals
  */
-function calculateNutritionalMatch(
+function _calculateNutritionalMatch(
   recipeProfile: Record<string, number | string>,
   userGoals: Record<string, number | string>
 ): number {
@@ -1162,7 +1162,7 @@ interface AstrologicalInfluence {
   lunarInfluence?: Record<string, number>;
 }
 
-function calculateAstrologicalMatch(
+function _calculateAstrologicalMatch(
   recipeInfluence: AstrologicalInfluence,
   userSign: string
 ): number {
@@ -1443,7 +1443,7 @@ function calculateAstrologicalMatch(
 /**
  * Calculate how well a recipe's complexity matches user's preferences
  */
-function calculateComplexityMatch(
+function _calculateComplexityMatch(
   recipeComplexity: number | string | undefined,
   userPreference: number | string | undefined
 ): number {
