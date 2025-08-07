@@ -7,7 +7,6 @@ import {
   ElementalItem,
   AlchemicalItem
 } from '../calculations/alchemicalTransformation';
-import { RulingPlanet } from '../constants/planets';
 import { LunarPhase, LunarPhaseWithSpaces, CookingMethod } from '../types/alchemy';
 
 import { 

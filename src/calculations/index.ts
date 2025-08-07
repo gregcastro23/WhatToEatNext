@@ -61,7 +61,7 @@ export const COMPREHENSIVE_CALCULATION_INTELLIGENCE = {
    * @param context - Additional context for analysis
    * @returns Enhanced analysis with predictive insights
    */
-  analyzeComprehensiveResult: (alchemicalResult: ComprehensiveAlchemicalResult, context: any = {}) => {
+  analyzeComprehensiveResult: (alchemicalResult: ComprehensiveAlchemicalResult, context: Record<string, unknown> = {}) => {
     const analysis = {
       // Predictive modeling for calculation accuracy
       predictiveAccuracy: {
@@ -118,7 +118,7 @@ export const COMPREHENSIVE_CALCULATION_INTELLIGENCE = {
    * @param analysis - The comprehensive analysis results
    * @returns Array of intelligent recommendations
    */
-  generateRecommendations: (analysis: any) => {
+  generateRecommendations: (analysis: { predictiveAccuracy?: { shortTerm?: number; confidence?: number }; optimizationOpportunities?: unknown[] }) => {
     const recommendations: string[] = [];
     
     if (analysis.predictiveAccuracy.shortTerm < 0.8) {
@@ -148,7 +148,7 @@ export const CALCULATION_INPUT_INTELLIGENCE = {
    * @param input - The calculation input parameters
    * @returns Enhanced input with intelligent analysis
    */
-  analyzeCalculationInput: (input: any) => {
+  analyzeCalculationInput: (input: Record<string, unknown>) => {
     const enhancedInput = {
       // Input validation and enhancement
       validation: {
@@ -211,7 +211,7 @@ export const CALCULATION_INPUT_INTELLIGENCE = {
    * @param enhancedInput - The enhanced input analysis
    * @returns Array of intelligent recommendations
    */
-  generateRecommendations: (enhancedInput: any) => {
+  generateRecommendations: (enhancedInput: Record<string, unknown>) => {
     const recommendations: string[] = [];
     
     if (enhancedInput.validation.planetaryPositions.completeness < 0.9) {
@@ -300,7 +300,7 @@ export const RECIPE_COMPATIBILITY_INTELLIGENCE = {
    * @param analysis - The compatibility analysis results
    * @returns Array of intelligent recommendations
    */
-  generateRecommendations: (analysis: any) => {
+  generateRecommendations: (analysis: { coreMetrics?: { overallCompatibility?: number }; crossElementalEffects?: unknown[] }) => {
     const recommendations: string[] = [];
     
     if (analysis.coreMetrics.overallCompatibility < 0.9) {
@@ -320,7 +320,7 @@ export const RECIPE_COMPATIBILITY_INTELLIGENCE = {
 };
 
 // Helper functions for intelligence systems
-function generateCalculationRecommendations(analysis: any): string[] {
+function generateCalculationRecommendations(analysis: { predictiveAccuracy?: { confidence?: number }; optimizationOpportunities?: unknown[] }): string[] {
   const recommendations: string[] = [];
   
   if (analysis.predictiveAccuracy.shortTerm < 0.8) {
@@ -338,7 +338,7 @@ function generateCalculationRecommendations(analysis: any): string[] {
   return recommendations;
 }
 
-function generateInputRecommendations(enhancedInput: any): string[] {
+function generateInputRecommendations(enhancedInput: { inputQuality?: { score?: number }; missingFields?: unknown[] }): string[] {
   const recommendations: string[] = [];
   
   if (enhancedInput.validation.planetaryPositions.completeness < 0.9) {
@@ -356,7 +356,7 @@ function generateInputRecommendations(enhancedInput: any): string[] {
   return recommendations;
 }
 
-function generateCompatibilityRecommendations(analysis: any): string[] {
+function generateCompatibilityRecommendations(analysis: { compatibilityMatrix?: unknown[][]; crossElementalEffects?: unknown[] }): string[] {
   const recommendations: string[] = [];
   
   if (analysis.coreMetrics.overallCompatibility < 0.9) {
@@ -682,7 +682,7 @@ async function getFallbackResult(input: CalculationInput, cacheKey: string): Pro
     // Create a new input with real positions
     const enhancedInput: CalculationInput = {
       ...input,
-      planetaryPositions: realPositions as any // Type assertion for compatibility
+      planetaryPositions: realPositions as Record<string, { sign: string; degree: number }> // Type assertion for compatibility
     };
     
     // Try calculation again with real data
@@ -802,7 +802,7 @@ function applyLunarPhaseAdjustments(elementalProperties: ElementalProperties, lu
   return adjustedProps;
 }
 
-function generateCuisineRecommendations(dominantPlanets: any[], elementalProperties: ElementalProperties): string[] {
+function generateCuisineRecommendations(dominantPlanets: Array<{ planet: string; influence: number }>, elementalProperties: ElementalProperties): string[] {
   // Simple cuisine recommendations based on dominant elements
   const dominantElement = getDominantElement(elementalProperties);
   

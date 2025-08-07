@@ -1,5 +1,3 @@
-import { DEFAULT_ELEMENTAL_PROPERTIES, ELEMENTS } from '@/constants/elementalConstants';
-import { getLatestAstrologicalState } from '@/services/AstrologicalService';
 import { recipeElementalService } from '@/services/RecipeElementalService';
 import type { ElementalProperties } from '@/types/alchemy';
 import { getCurrentElementalState } from '@/utils/elementalUtils';

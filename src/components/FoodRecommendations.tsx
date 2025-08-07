@@ -14,7 +14,7 @@ interface FoodRecommendationsProps {
 
 import { testCookingMethodRecommendations } from '../utils/testRecommendations';
 
-const FoodRecommendations = (props: FoodRecommendationsProps) => {
+const _FoodRecommendations = (props: FoodRecommendationsProps) => {
   const { ingredient, options = {} } = props;
   const [showDebug, setShowDebug] = useState(false);
   

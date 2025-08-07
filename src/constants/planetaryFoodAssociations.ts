@@ -234,12 +234,12 @@ export const calculatePlanetaryBoost = (
 };
 
 // Helper functions for calculations
-const getTriplicityRulers = (_zodiacSign?: string | null): Planet[] => {
+const _getTriplicityRulers = (_zodiacSign?: string | null): Planet[] => {
   // Implementation depends on your zodiac mappings
   return ['Sun', 'Mars', 'Jupiter'] as Planet[];
 };
 
-const getSeasonalMultiplier = (): number => {
+const _getSeasonalMultiplier = (): number => {
   // Implementation depends on your seasonal logic
   return 1.0;
 };
@@ -280,7 +280,7 @@ export const getZodiacBoost = (zodiacSign: string, item: unknown): number => {
   const zodiacElement = zodiacElements[normalizedSign ] || 'Fire';
   
   // Check if item has elemental properties
-  const itemData = item as any;
+  const itemData = item as unknown as { elementalProperties?: Record<string, number>; zodiacInfluences?: string[] };
   if (!itemData.elementalProperties) {
     return 0.1; // Minimum boost if no elemental data
   }
@@ -321,7 +321,7 @@ export const getZodiacBoost = (zodiacSign: string, item: unknown): number => {
 };
 
 // Helper function to calculate seasonal alignment
-const calculateSeasonalAlignment = (zodiacSign: string, item: unknown): number => {
+const _calculateSeasonalAlignment = (zodiacSign: string, item: unknown): number => {
   // Map zodiac signs to seasons
   const seasonMap: Record<string, string> = {
     'aries': 'spring', 'taurus': 'spring', 'gemini': 'spring',
@@ -344,7 +344,7 @@ const calculateSeasonalAlignment = (zodiacSign: string, item: unknown): number =
   
   // Calculate alignment based on the cuisine's elemental properties
   // Higher value if the cuisine aligns with the season's element
-  const itemData = item as any;
+  const itemData = item as unknown as { elementalProperties?: Record<string, number> };
   return itemData.elementalProperties?.[seasonalElement] || 0.1;
 };
 
@@ -390,7 +390,7 @@ export const getFlavorBoost = (
   _planet: Planet,
   _ingredient: unknown
 ): number => {
-  const ingredientData = _ingredient as any;
+  const ingredientData = _ingredient as unknown as { name?: string; planetaryRulers?: string[]; elementalCharacter?: string };
   const elementBoost = planetaryFoodAssociations[_planet].elementalBoost || {};
   return Object.entries(elementBoost).reduce((acc, [element, boost]) => {
     return acc + (ingredientData.elementalProperties?.[element] || 0) * (boost  || 0);

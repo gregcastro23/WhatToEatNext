@@ -17,10 +17,11 @@ import {
   MLMetrics,
   IngredientCompatibilityResult
 } from '@/types/mlIntelligence';
-import { getCurrentSeason } from '@/types/seasons';
 import { Recipe, Ingredient, ZodiacSign } from '@/types/unified';
 import { calculateElementalCompatibility } from '@/utils/elemental/elementalUtils';
+import { getCurrentSeason } from '@/types/seasons';
 import { logger } from '@/utils/logger';
+
 
 
 
@@ -335,8 +336,8 @@ export class MLIntelligenceService {
   private calculateMLOptimizedScore(recipe: Recipe, _astrologicalContext: MLContext): number {
     // Calculate base optimization score
     const elementalAlignment = calculateElementalCompatibility(
-      (recipe as any)?.elementalProperties ?? {}, 
-      (_astrologicalContext as any)?.elementalProperties ?? {}
+      (recipe as unknown as { elementalProperties?: ElementalProperties })?.elementalProperties ?? {}, 
+      (_astrologicalContext as unknown as { elementalProperties?: ElementalProperties })?.elementalProperties ?? {}
     );
 
     const recipeData = (recipe as unknown) as Record<string, unknown>;
@@ -370,7 +371,7 @@ export class MLIntelligenceService {
     
     // Analyze recipe ingredients for potential substitutions
     recipe.ingredients.forEach(ingredient => {
-      const substitution = this.findOptimalSubstitution(ingredient as any, __astrologicalContext);
+      const substitution = this.findOptimalSubstitution(ingredient as Ingredient, __astrologicalContext);
       if (substitution) {
         recommendations.push(`Consider substituting ${ingredient.name} with ${substitution} for better astrological alignment`);
       }
@@ -533,7 +534,7 @@ export class MLIntelligenceService {
     const seasonalRelevance = this.calculateSeasonalRelevance(_cuisineData, __astrologicalContext);
     
     // Apply ML learning adjustments
-    const learningAdjustment = this.getLearningAdjustment('cuisine', (_cuisineData as any)?.name);
+    const learningAdjustment = this.getLearningAdjustment('cuisine', (_cuisineData as unknown as { name?: string })?.name);
     const innovationFactor = this.calculateInnovationFactor((_cuisineData as unknown) as Recipe, __astrologicalContext);
     
     // Calculate weighted ML fusion score
@@ -1033,7 +1034,7 @@ export class MLIntelligenceService {
 
   private log(level: string, message: string, data?: unknown): void {
     if (this.shouldLog(level)) {
-      (logger as any)[level](`[MLIntelligence] ${message}${data ? ` - ${JSON.stringify(data)}` : ''}`);
+      (logger as unknown as Record<string, (msg: string) => void>)[level](`[MLIntelligence] ${message}${data ? ` - ${JSON.stringify(data)}` : ''}`);
     }
   }
 

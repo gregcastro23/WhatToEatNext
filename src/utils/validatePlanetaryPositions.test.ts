@@ -1,4 +1,3 @@
-import marsData from '@/data/planets/mars';
 import type { ZodiacSign } from '@/types';
 
 import { PlanetPosition } from './astrologyUtils';

@@ -1,34 +1,33 @@
 /**
  * ML Intelligence Panel Component
  * Phase 4: ML Intelligence and Predictive Systems - Enterprise Intelligence Restoration Campaign
- * 
+ *
  * Activates unused ML Intelligence and Predictive Intelligence services to transform
  * technical debt into functional enterprise ML features.
  */
 
 'use client';
 
-import { 
-  Brain, 
-  TrendingUp, 
-  Zap, 
-  Target, 
-  Lightbulb,
-  BarChart3,
-  RefreshCw,
-  CheckCircle,
-  AlertTriangle,
-  Activity,
-  Settings
+import {
+    Activity,
+    AlertTriangle,
+    BarChart3,
+    Brain,
+    CheckCircle,
+    RefreshCw,
+    Settings,
+    Target,
+    TrendingUp,
+    Zap
 } from 'lucide-react';
-import React, { useState, useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 // Import unused ML and Predictive Intelligence Services
 import { MLIntelligenceService } from '@/services/MLIntelligenceService';
 import { PredictiveIntelligenceService } from '@/services/PredictiveIntelligenceService';
-import type { ElementalProperties, ZodiacSign, LunarPhase } from '@/types/alchemy';
-import type { Recipe } from '@/types/unified';
+import type { ElementalProperties, LunarPhase, ZodiacSign } from '@/types/alchemy';
 import { getCurrentSeason } from '@/types/seasons';
+import type { Recipe } from '@/types/unified';
 
 // ========== INTERFACES ==========
 
@@ -59,7 +58,7 @@ export default function MLIntelligencePanel({
   onAnalysisComplete
 }: MLIntelligencePanelProps) {
   // ========== STATE ==========
-  
+
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [mlAnalysis, setMLAnalysis] = useState<any>(null);
@@ -67,12 +66,12 @@ export default function MLIntelligencePanel({
   const [activeTab, setActiveTab] = useState<'overview' | 'ml' | 'predictive' | 'optimization'>('overview');
 
   // ========== SERVICES INITIALIZATION ==========
-  
+
   const mlIntelligenceService = useMemo(() => new MLIntelligenceService(), []);
   const predictiveIntelligenceService = useMemo(() => new PredictiveIntelligenceService(), []);
 
   // ========== EFFECTS ==========
-  
+
   useEffect(() => {
     if (autoAnalyze && recipeData.length > 0 && astrologicalContext && !isAnalyzing) {
       performMLAnalysis();
@@ -80,7 +79,7 @@ export default function MLIntelligencePanel({
   }, [recipeData, astrologicalContext, autoAnalyze]);
 
   // ========== ANALYSIS FUNCTIONS ==========
-  
+
   const performMLAnalysis = async () => {
     if (!astrologicalContext) return;
 
@@ -109,7 +108,7 @@ export default function MLIntelligencePanel({
         };
 
         const mlResult = await mlIntelligenceService.generateMLIntelligence(
-          compatibleRecipe as any, // Type assertion for compatibility
+          compatibleRecipe as unknown as Recipe,
           ingredientData,
           {}, // cuisineData
           mlContext
@@ -118,7 +117,7 @@ export default function MLIntelligencePanel({
         setMLAnalysis(mlResult);
       }
 
-      // Predictive Intelligence Analysis  
+      // Predictive Intelligence Analysis
       if (recipeData.length > 0) {
         const predictiveContext = {
           zodiacSign: astrologicalContext.zodiacSign,
@@ -136,7 +135,7 @@ export default function MLIntelligencePanel({
         };
 
         const predictiveResult = await predictiveIntelligenceService.generatePredictiveIntelligence(
-          compatibleRecipe2 as any, // Type assertion for compatibility
+          compatibleRecipe2 as unknown as Recipe,
           ingredientData,
           {}, // cuisineData
           predictiveContext
@@ -162,7 +161,7 @@ export default function MLIntelligencePanel({
   };
 
   // ========== RENDER HELPERS ==========
-  
+
   const renderOverviewTab = () => (
     <div className="space-y-4">
       {/* System Status */}
@@ -199,7 +198,7 @@ export default function MLIntelligencePanel({
             <span className="text-sm font-medium text-purple-700">Optimization</span>
           </div>
           <div className="text-2xl font-bold text-purple-600">
-            {mlAnalysis && predictiveAnalysis ? 
+            {mlAnalysis && predictiveAnalysis ?
               Math.round((mlAnalysis.confidence + predictiveAnalysis.overallAccuracy) * 50) : '—'}%
           </div>
           <div className="text-xs text-gray-500">
@@ -363,7 +362,7 @@ export default function MLIntelligencePanel({
               <span className="text-xs text-green-600">Active</span>
             </div>
           </div>
-          
+
           <div className="flex items-center justify-between p-3 bg-gray-50 rounded">
             <div className="flex items-center space-x-2">
               <Activity className="h-4 w-4 text-gray-500" />
@@ -374,7 +373,7 @@ export default function MLIntelligencePanel({
               <span className="text-xs text-green-600">Active</span>
             </div>
           </div>
-          
+
           <div className="flex items-center justify-between p-3 bg-gray-50 rounded">
             <div className="flex items-center space-x-2">
               <Target className="h-4 w-4 text-gray-500" />
@@ -422,7 +421,7 @@ export default function MLIntelligencePanel({
   );
 
   // ========== RENDER ==========
-  
+
   return (
     <div className={`bg-white border border-gray-200 rounded-lg shadow-sm ${className}`}>
       {/* Header */}
@@ -434,7 +433,7 @@ export default function MLIntelligencePanel({
             <p className="text-xs text-gray-500">Advanced Machine Learning Analysis</p>
           </div>
         </div>
-        
+
         <div className="flex items-center space-x-2">
           <button
             onClick={performMLAnalysis}
@@ -451,15 +450,15 @@ export default function MLIntelligencePanel({
       <div className="p-4">
         {/* Tab Navigation */}
         <div className="flex space-x-1 mb-4 bg-gray-100 rounded-lg p-1">
-          {[
+            {([
             { id: 'overview', label: 'Overview', icon: BarChart3 },
             { id: 'ml', label: 'ML Intelligence', icon: Brain },
             { id: 'predictive', label: 'Predictive', icon: TrendingUp },
             { id: 'optimization', label: 'Optimization', icon: Target }
-          ].map(tab => (
+            ] as const).map(tab => (
             <button
               key={tab.id}
-              onClick={() => setActiveTab(tab.id as any)}
+                onClick={() => setActiveTab(tab.id as 'overview' | 'ml' | 'predictive' | 'optimization')}
               className={`flex items-center space-x-2 px-3 py-2 rounded-md text-sm font-medium transition-colors ${
                 activeTab === tab.id
                   ? 'bg-white text-purple-600 shadow-sm'

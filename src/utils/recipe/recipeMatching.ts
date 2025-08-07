@@ -31,7 +31,6 @@ interface ScoredItem {
 // Removed unused imports: isNonEmptyArray, safeFilter, safeSome, toArray
 // Removed unused imports: createElementalProperties, getElementalProperty
 // Removed unused import: calculateMatchScore
-import { /* elementalUtils , */ getCurrentElementalState } from '../elementalUtils';
 // Removed unused import: elementalUtils
 
 
@@ -454,11 +453,11 @@ async function applyMatchFilters(recipes: Recipe[], filters: MatchFilters): Prom
 
 // ===== CALCULATION FUNCTIONS =====
 
-const calculateBaseElements = async (recipe: Recipe): Promise<ElementalProperties> => {
+const _calculateBaseElements = async (recipe: Recipe): Promise<ElementalProperties> => {
   return await getRecipeElementalProperties(recipe);
 };
 
-const calculateDominantElements = async (
+const _calculateDominantElements = async (
   elements: ElementalProperties
 ): Promise<[string, number][]> => {
   const entries = Object.entries(elements);

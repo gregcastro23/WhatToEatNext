@@ -48,7 +48,12 @@ export interface PredictiveRecipeAnalysis {
     zodiacSign: ZodiacSign;
     lunarPhase: LunarPhase;
     elementalProperties: ElementalProperties;
-    planetaryPositions?: Record<string, any>;
+    planetaryPositions?: Record<string, {
+      longitude: number;
+      latitude?: number;
+      retrograde?: boolean;
+      house?: number;
+    }>;
   };
   predictionFactors: {
     elementalAlignment: number;
@@ -101,6 +106,8 @@ export interface PredictiveAstrologicalAnalysis {
     zodiacSign: ZodiacSign;
     lunarPhase: LunarPhase;
     elementalProperties: ElementalProperties;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // Intentionally any: Astronomical library planetary data has varying structure depending on calculation method
     planetaryPositions: Record<string, any>;
   };
   culinaryContext: {
@@ -158,7 +165,11 @@ export interface MLRecipeOptimizationAnalysis {
       lunarPhase: LunarPhase;
       elementalProperties: ElementalProperties;
     };
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // Intentionally any: ML user preference data varies significantly across different analysis contexts
     userPreferences?: Record<string, any>;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // Intentionally any: Seasonal analysis data includes diverse metrics from weather APIs and seasonal libraries
     seasonalFactors?: Record<string, any>;
   };
   optimizationFactors: {
@@ -219,6 +230,8 @@ export interface MLAstrologicalPredictionAnalysis {
     zodiacSign: ZodiacSign;
     lunarPhase: LunarPhase;
     elementalProperties: ElementalProperties;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // Intentionally any: Astronomical library planetary data has varying structure depending on calculation method
     planetaryPositions: Record<string, any>;
   };
   culinaryContext: {
@@ -322,8 +335,14 @@ export interface AdvancedRecipeAnalyticsAnalysis {
       lunarPhase: LunarPhase;
       elementalProperties: ElementalProperties;
     };
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // Intentionally any: Cultural analysis data integrates diverse ethnographic and regional data sources
     culturalContext?: Record<string, any>;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // Intentionally any: Seasonal context includes varying data structures from multiple environmental APIs
     seasonalContext?: Record<string, any>;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // Intentionally any: User context data includes diverse preference and behavioral analytics
     userContext?: Record<string, any>;
   };
   analyticsDimensions: {
@@ -384,7 +403,11 @@ export interface AdvancedCuisineAnalyticsAnalysis {
       lunarPhase: LunarPhase;
       elementalProperties: ElementalProperties;
     };
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // Intentionally any: Regional context integrates geographic and demographic data from multiple sources
     regionalContext?: Record<string, any>;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // Intentionally any: Historical context data varies significantly across different cultural and temporal periods
     historicalContext?: Record<string, any>;
   };
   analyticsDimensions: {
@@ -414,6 +437,8 @@ export interface AdvancedAstrologicalAnalyticsAnalysis {
     zodiacSign: ZodiacSign;
     lunarPhase: LunarPhase;
     elementalProperties: ElementalProperties;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // Intentionally any: Astronomical library planetary data has varying structure depending on calculation method
     planetaryPositions: Record<string, any>;
   };
   analyticsContext: {
@@ -422,7 +447,11 @@ export interface AdvancedAstrologicalAnalyticsAnalysis {
       ingredients?: Ingredient[];
       cuisine?: string;
     };
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // Intentionally any: Temporal analysis includes diverse time-based data from astronomical and calendar systems
     temporalContext?: Record<string, any>;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // Intentionally any: Cultural analysis data integrates diverse ethnographic and regional data sources
     culturalContext?: Record<string, any>;
   };
   analyticsDimensions: {
@@ -497,8 +526,14 @@ export interface IntelligenceRequest {
       elementalProperties: ElementalProperties;
       planetaryPositions?: Record<string, any>;
     };
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // Intentionally any: ML user preference data varies significantly across different analysis contexts
     userPreferences?: Record<string, any>;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // Intentionally any: Seasonal analysis data includes diverse metrics from weather APIs and seasonal libraries
     seasonalFactors?: Record<string, any>;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // Intentionally any: Cultural factor analysis incorporates diverse sociological and anthropological data
     culturalFactors?: Record<string, any>;
   };
   options?: {

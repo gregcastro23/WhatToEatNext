@@ -78,6 +78,8 @@ describe('LintingProgressTracker', () => {
     });
 
     test('should handle ESLint execution errors gracefully', async () => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      // Intentionally any: Mock error object needs custom stdout property for testing
       const mockError = new Error('ESLint failed') as any;
       mockError.stdout = JSON.stringify([]);
       mockExecSync.mockImplementation(() => {
@@ -254,6 +256,8 @@ describe('LintingProgressTracker', () => {
       };
 
       // Mock getLatestMetrics
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      // Intentionally any: Jest spy requires access to private method for testing
       jest.spyOn(tracker as any, 'getLatestMetrics').mockReturnValue(mockMetrics);
 
       const thresholds = {

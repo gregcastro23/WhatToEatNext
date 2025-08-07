@@ -15,7 +15,7 @@ const ELEMENT_COLORS = {
   Water: '#06b6d4'
 };
 
-const ELEMENT_ICONS = {
+const _ELEMENT_ICONS = {
   Fire: Flame,
   Earth: Mountain,
   Air: Wind,
@@ -161,7 +161,7 @@ export default function CelestialDisplay() {
     }
   }, [planetaryAlignment]);
 
-  const drawZodiacWheel = (
+  const _drawZodiacWheel = (
     ctx: CanvasRenderingContext2D,
     centerX: number,
     centerY: number,
@@ -263,7 +263,7 @@ export default function CelestialDisplay() {
     }
   };
 
-  const drawCelestialBody = (
+  const _drawCelestialBody = (
     ctx: CanvasRenderingContext2D,
     centerX: number,
     centerY: number,
@@ -323,7 +323,7 @@ export default function CelestialDisplay() {
   };
   
   // Adjust lunar nodes rendering to make them more distinct
-  const drawLunarNode = (
+  const _drawLunarNode = (
     ctx: CanvasRenderingContext2D,
     centerX: number,
     centerY: number,

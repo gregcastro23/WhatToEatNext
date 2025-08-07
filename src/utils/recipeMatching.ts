@@ -6,7 +6,6 @@ import type {
   AstrologicalState,
   Season,
 } from "@/types/alchemy";
-import { createAstrologicalBridge } from '@/types/bridges/astrologicalBridge';
 import type { CookingMethod } from "@/types/cookingMethod";
 
 
@@ -28,13 +27,9 @@ interface IngredientMapping {
   matchScore?: number;
   mealType?: string;
 }
-import { calculateMatchScore } from './ElementalCalculator';
-import { elementalUtils , getCurrentElementalState } from './elementalUtils';
 
 import { ingredientsMap } from '@/data/ingredients';
 // Import from correct location
-import { getRecipes } from '@/data/recipes';
-import { getLatestAstrologicalState } from '@/services/AstrologicalService';
 
 interface MatchResult {
   recipe: Recipe;
@@ -105,7 +100,7 @@ export async function findBestMatches(
   if (!recipes || !Array.isArray(recipes) || recipes.length === 0) {
     try {
       // log.info('No recipes provided, fetching from LocalRecipeService');
-      const recipeService = new LocalRecipeService();
+      const _recipeService = new LocalRecipeService();
       recipes = await LocalRecipeService.getAllRecipes() as unknown as Recipe[];
       // log.info(`Fetched ${recipes.length} recipes from LocalRecipeService`);
     } catch (error) {

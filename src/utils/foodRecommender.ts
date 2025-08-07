@@ -460,7 +460,7 @@ export const getRecommendedIngredients = (astroState: AstrologicalState): Enhanc
       }
       
       // Enhanced time of day score with planetary hour considerations
-      const currentHour = new Date().getHours();
+      const _currentHour = new Date().getHours();
       let timeOfDayScore = 0.5; // Start with neutral score
       
       // Get current day of week (0 = Sunday, 1 = Monday, etc.)

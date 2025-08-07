@@ -99,12 +99,12 @@ describe('CampaignController', () => {
     });
 
     it('should initialize with empty safety events', () => {
-      const events = (controller as any).safetyEvents;
+      const events = (controller as unknown as { safetyEvents: unknown[] }).safetyEvents;
       expect(events).toEqual([]);
     });
 
     it('should set current phase to null initially', () => {
-      const currentPhase = (controller as any).currentPhase;
+      const currentPhase = (controller as unknown as { currentPhase: CampaignPhase | null }).currentPhase;
       expect(currentPhase).toBeNull();
     });
   });
@@ -116,19 +116,19 @@ describe('CampaignController', () => {
       mockPhase = mockConfig.phases[0];
       
       // Mock private methods
-      jest.spyOn(controller as any, 'createSafetyCheckpoint').mockResolvedValue('checkpoint_123');
-      jest.spyOn(controller as any, 'getCurrentMetrics').mockResolvedValue({
+      jest.spyOn(controller as unknown as { createSafetyCheckpoint: () => Promise<string> }, 'createSafetyCheckpoint').mockResolvedValue('checkpoint_123');
+      jest.spyOn(controller as unknown as { getCurrentMetrics: () => Promise<ProgressMetrics> }, 'getCurrentMetrics').mockResolvedValue({
         typeScriptErrors: { current: 86, target: 0, reduction: 0, percentage: 0 },
         lintingWarnings: { current: 4506, target: 0, reduction: 0, percentage: 0 },
         buildPerformance: { currentTime: 8.5, targetTime: 10, cacheHitRate: 0.8, memoryUsage: 45 },
         enterpriseSystems: { current: 0, target: 200, transformedExports: 0 }
       });
-      jest.spyOn(controller as any, 'executeTool').mockResolvedValue({
+      jest.spyOn(controller as unknown as { executeTool: (tool: ToolConfiguration, phase: CampaignPhase) => Promise<Record<string, unknown>> }, 'executeTool').mockResolvedValue({
         filesProcessed: ['file1.ts', 'file2.ts'],
         changesApplied: 5,
         success: true
       });
-      jest.spyOn(controller as any, 'validatePhaseProgress').mockResolvedValue({
+      jest.spyOn(controller as unknown as { validatePhaseProgress: (phase: CampaignPhase) => Promise<ValidationResult> }, 'validatePhaseProgress').mockResolvedValue({
         success: true,
         errors: [],
         warnings: []
@@ -178,7 +178,7 @@ describe('CampaignController', () => {
     });
 
     it('should rollback on validation failure when automatic rollback is enabled', async () => {
-      jest.spyOn(controller as any, 'validatePhaseProgress').mockResolvedValue({
+      jest.spyOn(controller as unknown as { validatePhaseProgress: (phase: CampaignPhase) => Promise<ValidationResult> }, 'validatePhaseProgress').mockResolvedValue({
         success: false,
         errors: ['Validation failed'],
         warnings: []
@@ -192,7 +192,7 @@ describe('CampaignController', () => {
     it('should record safety events during execution', async () => {
       await controller.executePhase(mockPhase);
 
-      const events = (controller as any).safetyEvents;
+      const events = (controller as unknown as { safetyEvents: unknown[] }).safetyEvents;
       expect(events.length).toBeGreaterThan(0);
       expect(events[0].description).toContain('Starting phase: TypeScript Error Elimination');
     });
@@ -203,7 +203,7 @@ describe('CampaignController', () => {
 
     beforeEach(() => {
       mockPhase = mockConfig.phases[0];
-      jest.spyOn(controller as any, 'getCurrentMetrics').mockResolvedValue({
+      jest.spyOn(controller as unknown as { getCurrentMetrics: () => Promise<ProgressMetrics> }, 'getCurrentMetrics').mockResolvedValue({
         typeScriptErrors: { current: 0, target: 0, reduction: 86, percentage: 100 },
         lintingWarnings: { current: 4506, target: 0, reduction: 0, percentage: 0 },
         buildPerformance: { currentTime: 8.5, targetTime: 10, cacheHitRate: 0.8, memoryUsage: 45 },
@@ -220,7 +220,7 @@ describe('CampaignController', () => {
     });
 
     it('should detect TypeScript error validation failure', async () => {
-      jest.spyOn(controller as any, 'getCurrentMetrics').mockResolvedValue({
+      jest.spyOn(controller as unknown as { getCurrentMetrics: () => Promise<ProgressMetrics> }, 'getCurrentMetrics').mockResolvedValue({
         typeScriptErrors: { current: 5, target: 0, reduction: 81, percentage: 94 },
         lintingWarnings: { current: 4506, target: 0, reduction: 0, percentage: 0 },
         buildPerformance: { currentTime: 8.5, targetTime: 10, cacheHitRate: 0.8, memoryUsage: 45 },
@@ -290,7 +290,7 @@ describe('CampaignController', () => {
     it('should record safety event for checkpoint creation', async () => {
       await controller.createSafetyCheckpoint('Test checkpoint');
 
-      const events = (controller as any).safetyEvents;
+      const events = (controller as unknown as { safetyEvents: unknown[] }).safetyEvents;
       expect(events.length).toBe(1);
       expect(events[0].description).toContain('Safety checkpoint created: Test checkpoint');
     });
@@ -300,7 +300,7 @@ describe('CampaignController', () => {
     it('should record safety event for rollback', async () => {
       await controller.rollbackToCheckpoint('checkpoint_123');
 
-      const events = (controller as any).safetyEvents;
+      const events = (controller as unknown as { safetyEvents: unknown[] }).safetyEvents;
       expect(events.length).toBe(1);
       expect(events[0].description).toContain('Rolling back to checkpoint: checkpoint_123');
     });
@@ -328,7 +328,7 @@ describe('CampaignController', () => {
 
     beforeEach(() => {
       mockPhase = mockConfig.phases[0];
-      jest.spyOn(controller as any, 'getCurrentMetrics').mockResolvedValue({
+      jest.spyOn(controller as unknown as { getCurrentMetrics: () => Promise<ProgressMetrics> }, 'getCurrentMetrics').mockResolvedValue({
         typeScriptErrors: { current: 0, target: 0, reduction: 86, percentage: 100 },
         lintingWarnings: { current: 4506, target: 0, reduction: 0, percentage: 0 },
         buildPerformance: { currentTime: 8.5, targetTime: 10, cacheHitRate: 0.8, memoryUsage: 45 },
@@ -396,7 +396,7 @@ describe('CampaignController', () => {
     it('should limit safety events to prevent memory issues', async () => {
       // Add many safety events
       for (let i = 0; i < 1100; i++) {
-        (controller as any).addSafetyEvent({
+        (controller as unknown as { addSafetyEvent: (event: Record<string, unknown>) => void }).addSafetyEvent({
           type: 'CHECKPOINT_CREATED',
           timestamp: new Date(),
           description: `Event ${i}`,
@@ -405,14 +405,14 @@ describe('CampaignController', () => {
         });
       }
 
-      const events = (controller as any).safetyEvents;
+      const events = (controller as unknown as { safetyEvents: unknown[] }).safetyEvents;
       expect(events.length).toBe(500); // Should be trimmed to 500
     });
 
     it('should preserve most recent events when trimming', async () => {
       // Add many safety events
       for (let i = 0; i < 1100; i++) {
-        (controller as any).addSafetyEvent({
+        (controller as unknown as { addSafetyEvent: (event: Record<string, unknown>) => void }).addSafetyEvent({
           type: 'CHECKPOINT_CREATED',
           timestamp: new Date(),
           description: `Event ${i}`,
@@ -421,7 +421,7 @@ describe('CampaignController', () => {
         });
       }
 
-      const events = (controller as any).safetyEvents;
+      const events = (controller as unknown as { safetyEvents: unknown[] }).safetyEvents;
       expect(events[events.length - 1].description).toBe('Event 1099');
     });
   });
@@ -442,7 +442,7 @@ describe('CampaignController', () => {
         enterpriseSystems: { current: 50, target: 200, transformedExports: 50 }
       };
 
-      const improvement = (controller as any).calculateMetricsImprovement(initialMetrics, finalMetrics);
+      const improvement = (controller as unknown as { calculateMetricsImprovement: (initial: ProgressMetrics, final: ProgressMetrics) => Record<string, unknown> }).calculateMetricsImprovement(initialMetrics, finalMetrics);
 
       expect(improvement.typeScriptErrorsReduced).toBe(36);
       expect(improvement.lintingWarningsReduced).toBe(1506);
@@ -460,7 +460,7 @@ describe('CampaignController', () => {
         enterpriseSystems: { current: 0, target: 200, transformedExports: 0 }
       };
 
-      const achievements = (controller as any).generateAchievements(mockConfig.phases[0], metrics);
+      const achievements = (controller as unknown as { generateAchievements: (phase: CampaignPhase, metrics: ProgressMetrics) => string[] }).generateAchievements(mockConfig.phases[0], metrics);
 
       expect(achievements).toContain('Zero TypeScript errors achieved');
       expect(achievements).toContain('Build time under 10 seconds maintained');
@@ -489,7 +489,7 @@ describe('CampaignController', () => {
         warnings: []
       };
 
-      const recommendations = (controller as any).generateRecommendations(mockConfig.phases[0], validation);
+      const recommendations = (controller as unknown as { generateRecommendations: (phase: CampaignPhase, validation: ValidationResult) => string[] }).generateRecommendations(mockConfig.phases[0], validation);
 
       expect(recommendations).toContain('Address validation errors before proceeding');
     });
@@ -501,7 +501,7 @@ describe('CampaignController', () => {
         warnings: ['Build time: 12s > 10s']
       };
 
-      const recommendations = (controller as any).generateRecommendations(mockConfig.phases[0], validation);
+      const recommendations = (controller as unknown as { generateRecommendations: (phase: CampaignPhase, validation: ValidationResult) => string[] }).generateRecommendations(mockConfig.phases[0], validation);
 
       expect(recommendations).toContain('Consider addressing warnings for optimal performance');
     });

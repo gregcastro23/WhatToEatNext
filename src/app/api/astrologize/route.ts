@@ -183,18 +183,19 @@ function extractPlanetaryPositions(data: Record<string, unknown>): Record<string
     }
 
     // Try alternative structure if available
-    const astrologyInfo = (data as any).astrology_info?.horoscope_parameters?.planets;
+    const astrologyInfo = (data as unknown as { astrology_info?: { horoscope_parameters?: { planets?: Record<string, unknown> } } }).astrology_info?.horoscope_parameters?.planets;
     if (astrologyInfo) {
       const positions: Record<string, PlanetPosition> = {};
 
-      Object.entries(astrologyInfo).forEach(([planetName, planetData]: [string, any]) => {
-        if (planetData?.sign && planetData?.angle !== undefined) {
-          const totalDegrees = planetData.angle;
+      Object.entries(astrologyInfo).forEach(([planetName, planetData]: [string, unknown]) => {
+        const typedPlanetData = planetData as unknown as { sign?: string; angle?: number };
+        if (typedPlanetData?.sign && typedPlanetData?.angle !== undefined) {
+          const totalDegrees = typedPlanetData.angle;
           const degrees = Math.floor(totalDegrees);
           const minutes = Math.floor((totalDegrees - degrees) * 60);
 
           positions[planetName] = {
-            sign: planetData.sign.toLowerCase() ,
+            sign: typedPlanetData.sign.toLowerCase() ,
             degree: degrees,
             minute: minutes,
             exactLongitude: ((totalDegrees % 360) + 360) % 360,

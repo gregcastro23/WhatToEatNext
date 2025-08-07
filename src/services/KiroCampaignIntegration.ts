@@ -115,7 +115,7 @@ export class KiroCampaignIntegration {
   constructor() {
     this.campaignController = new CampaignController(this.getDefaultConfig());
     this.progressTracker = new ProgressTracker();
-    this.intelligenceSystem = CampaignIntelligenceSystem as any;
+    this.intelligenceSystem = CampaignIntelligenceSystem as unknown as { initialize: (config: Record<string, unknown>) => Promise<void> };
   }
 
   // ========== REAL-TIME MONITORING ==========
@@ -261,10 +261,10 @@ export class KiroCampaignIntegration {
     } catch (error) {
       status.status = 'failed';
       status.safetyEvents.push({
-        type: 'BUILD_FAILURE' as any,
+        type: 'BUILD_FAILURE' as SafetyEvent['type'],
         timestamp: new Date(),
         description: `Campaign failed: ${(error as Error).message}`,
-        severity: 'ERROR' as any,
+        severity: 'ERROR' as SafetyEvent['severity'],
         action: 'CAMPAIGN_FAILED'
       });
     }
@@ -282,10 +282,10 @@ export class KiroCampaignIntegration {
     status.status = 'paused';
     status.lastUpdate = new Date();
     status.safetyEvents.push({
-      type: 'CHECKPOINT_CREATED' as any,
+      type: 'CHECKPOINT_CREATED' as SafetyEvent['type'],
       timestamp: new Date(),
       description: 'Campaign paused by user',
-      severity: 'INFO' as any,
+      severity: 'INFO' as SafetyEvent['severity'],
       action: 'PAUSE'
     });
 
@@ -302,10 +302,10 @@ export class KiroCampaignIntegration {
     status.status = 'running';
     status.lastUpdate = new Date();
     status.safetyEvents.push({
-      type: 'CHECKPOINT_CREATED' as any,
+      type: 'CHECKPOINT_CREATED' as SafetyEvent['type'],
       timestamp: new Date(),
       description: 'Campaign resumed by user',
-      severity: 'INFO' as any,
+      severity: 'INFO' as SafetyEvent['severity'],
       action: 'RESUME'
     });
 
@@ -322,10 +322,10 @@ export class KiroCampaignIntegration {
     status.status = 'completed';
     status.lastUpdate = new Date();
     status.safetyEvents.push({
-      type: 'CHECKPOINT_CREATED' as any,
+      type: 'CHECKPOINT_CREATED' as SafetyEvent['type'],
       timestamp: new Date(),
       description: 'Campaign stopped by user',
-      severity: 'WARNING' as any,
+      severity: 'WARNING' as SafetyEvent['severity'],
       action: 'STOP'
     });
 
@@ -415,10 +415,10 @@ export class KiroCampaignIntegration {
     recommendations: string[];
     nextSteps: string[];
   }> {
-    const intelligence = await (this.intelligenceSystem as any).generateComprehensiveIntelligence(
-      this.campaignController as any,
-      {} as any,
-      {} as any
+    const intelligence = await (this.intelligenceSystem as unknown as { generateComprehensiveIntelligence: (controller: unknown, options: Record<string, unknown>, context: Record<string, unknown>) => Promise<Record<string, unknown>> }).generateComprehensiveIntelligence(
+      this.campaignController,
+      {},
+      {}
     );
 
     const recommendations = intelligence.intelligenceRecommendations;

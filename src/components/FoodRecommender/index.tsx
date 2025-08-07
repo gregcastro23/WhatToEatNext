@@ -54,7 +54,7 @@ const FoodRecommender = () => {
   const lunarPhase = (astroState as unknown as Record<string, unknown>).lunarPhase;
   
   // Create a full astrological state object to pass to components
-  const astrologicalState = useMemo(() => ({
+  const _astrologicalState = useMemo(() => ({
     planetaryPositions,
     elementalProperties,
     activePlanets,

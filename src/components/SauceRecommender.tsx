@@ -219,7 +219,7 @@ export default function SauceRecommender({
   };
 
   // Generate sauce recommendations based on criteria
-  const generateSauceRecommendations = async (): Promise<any[]> => {
+  const _generateSauceRecommendations = async (): Promise<any[]> => {
     // Initialize results array
     const results: unknown[] = [];
     
@@ -587,7 +587,7 @@ export default function SauceRecommender({
   };
 
   // Helper function to determine if a sauce-cuisine combination should be excluded
-  const shouldExcludeSauceCombination = (sauceName: string, targetCuisine?: string): boolean => {
+  const _shouldExcludeSauceCombination = (sauceName: string, targetCuisine?: string): boolean => {
     if (!targetCuisine) return false;
     
     // Define incompatible sauce-cuisine pairs
@@ -618,7 +618,7 @@ export default function SauceRecommender({
   };
 
   // Helper function to render the sauce element icons
-  const renderElementIcons = (elementalProps: ElementalProperties) => {
+  const _renderElementIcons = (elementalProps: ElementalProperties) => {
     const dominant = Object.entries(elementalProps)
       .sort(([, a], [, b]) => b - a)[0][0];
     

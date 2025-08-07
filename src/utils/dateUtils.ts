@@ -104,7 +104,7 @@ export function getMoonPhase(): LunarPhaseWithSpaces {
 }
 
 // Helper function to get all dishes for a cuisine
-const getAllDishesForCuisine = (cuisineId: string): Dish[] => {
+const _getAllDishesForCuisine = (cuisineId: string): Dish[] => {
   const cuisine = cuisines[cuisineId];
   if (!cuisine || !cuisine.dishes) return [];
 

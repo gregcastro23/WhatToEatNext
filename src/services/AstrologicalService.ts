@@ -17,6 +17,7 @@ import {
   ElementalPropertiesType,
   ServiceResponseType
 } from '@/types/alchemy';
+import type { AstrologicalTestData } from '@/types/astrologicalTestData';
 import {
   StandardizedPlanetaryResponse,
   PlanetaryInfluenceResponse
@@ -129,7 +130,7 @@ export class AstrologicalService {
   /**
    * Updated test calculations with standardized response
    */
-  static async testCalculations(testData?: any): Promise<AstrologicalCalculationResponse> {
+  static async testCalculations(testData?: AstrologicalTestData): Promise<AstrologicalCalculationResponse> {
     try {
       logger.info("Testing astrological calculations...");
       

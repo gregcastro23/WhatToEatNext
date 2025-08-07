@@ -6,10 +6,8 @@ import type { Recipe,
   ElementalProperties } from "@/types/recipe";
 import { RecipeData } from '@/types/recipe';
 
-import { toArray } from '../common/arrayUtils';
 import { createElementalProperties } from '../elemental/elementalUtils';
 
-import { getRecipeElementalProperties, getRecipeCookingMethods } from './recipeUtils';
 
 /**
  * Safely converts a RecipeData object from data/recipes.ts to a type-safe Recipe object

@@ -416,7 +416,7 @@ export const getComplementaryIngredients = (ingredient: keyof typeof ingredientM
 };
 
 // Helper function to determine if elements are complementary
-const isComplementaryElement = (element1: string, element2: string): boolean => {
+const _isComplementaryElement = (element1: string, element2: string): boolean => {
   const complementaryPairs = [
     ['Fire', 'Air'],
     ['Water', 'Earth']

@@ -97,7 +97,7 @@ export const ChartProvider: React.FC<{children: React.ReactNode}> = ({ children 
     return houseEffects;
   };
 
-  const getElementFromSign = (sign: string): string => {
+  const _getElementFromSign = (sign: string): string => {
     const fireElements = ['aries', 'leo', 'sagittarius'];
     const earthElements = ['taurus', 'virgo', 'capricorn'];
     const airElements = ['gemini', 'Libra', 'aquarius'];

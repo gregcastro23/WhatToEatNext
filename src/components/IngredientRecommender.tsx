@@ -1,18 +1,20 @@
 import { Flame, Droplets, Mountain, Wind, Clock, Tag, Leaf, X, ChevronDown, ChevronUp, Beaker, Brain, ExternalLink, Shield, CheckCircle, TrendingUp, Lightbulb, BarChart3, RefreshCw } from 'lucide-react';
-import { useRouter } from 'next/navigation';
 import { useEffect, useState, useMemo } from 'react';
 
 
+import { useRouter } from 'next/navigation';
+
 import EnterpriseIntelligencePanel from '@/components/intelligence/EnterpriseIntelligencePanel';
-import { herbsCollection, oilsCollection, vinegarsCollection } from '@/data/ingredients';
-import { useAstrologicalState } from '@/hooks/useAstrologicalState';
-import { useChakraInfluencedFood } from '@/hooks/useChakraInfluencedFood';
-import { ElementalCalculator } from '@/services/ElementalCalculator';
-import { log } from '@/services/LoggingService';
-import { ElementalProperties, ZodiacSign, LunarPhase } from '@/types/alchemy';
 import type { Ingredient , UnifiedIngredient } from '@/types/ingredient';
+import { ElementalCalculator } from '@/services/ElementalCalculator';
+import { ElementalProperties, ZodiacSign, LunarPhase } from '@/types/alchemy';
 import { getChakraBasedRecommendations, GroupedIngredientRecommendations, getIngredientRecommendations, IngredientRecommendation } from '@/utils/ingredientRecommender';
 
+
+import { herbsCollection, oilsCollection, vinegarsCollection } from '@/data/ingredients';
+import { log } from '@/services/LoggingService';
+import { useAstrologicalState } from '@/hooks/useAstrologicalState';
+import { useChakraInfluencedFood } from '@/hooks/useChakraInfluencedFood';
 
 // Enhanced Type Safety Interfaces
 interface IngredientDisplayItem {
@@ -91,7 +93,7 @@ const UNUSED_planetaryElements: Record<string, { diurnal: string, nocturnal: str
 };
 
 // Define a styles object for animations and custom styles
-const UNUSED_customStyles = {
+const _UNUSED_customStyles = {
   '@keyframes fadeIn': {
     '0%': { opacity: 0 },
     '100%': { opacity: 1 }
@@ -292,8 +294,8 @@ export default function IngredientRecommender({
       // Determine current planetary day and hour
       const now = new Date();
       // Extract planetary day and hour from context if available
-      const planetaryDay = (planetaryPositions as unknown as Record<string, any>)?.planetaryDay?.planet || 'Sun';
-      const planetaryHour = (planetaryPositions as unknown as Record<string, any>)?.planetaryHour?.planet || 'Sun';
+      const planetaryDay = (planetaryPositions as unknown as Record<string, unknown>)?.planetaryDay?.planet || 'Sun';
+      const planetaryHour = (planetaryPositions as unknown as Record<string, unknown>)?.planetaryHour?.planet || 'Sun';
       const isDaytime = now.getHours() >= 6 && now.getHours() < 18;
       
       // Create an object with astrological state data
@@ -327,7 +329,7 @@ export default function IngredientRecommender({
         activePlanets: [],
         lunarPhase: 'new moon',
         aspects: []
-      } as any, { limit: 40 });
+      } as { planetaryPositions: Record<string, unknown>; aspects: unknown[] }, { limit: 40 });
       
       // Merge the recommendations, prioritizing chakra-based ones
       const mergedRecommendations: GroupedIngredientRecommendations = {};
@@ -559,7 +561,7 @@ export default function IngredientRecommender({
           });
         }
         // Oils
-        else if (isOil(ingredient as any)) {
+        else if (isOil(ingredient as IngredientDisplayItem)) {
           categories.oils.push({
             ...ingredient,
             matchScore: ingredient.score || 0.5
@@ -627,12 +629,12 @@ export default function IngredientRecommender({
     Object.entries(astroRecommendations).forEach(([_category, items]) => {
       (items ?? []).forEach(item => {
         const normalizedCategory = getNormalizedCategory(item);
-        const targetCategory = normalizedCategory === 'other' ? determineCategory((item as any)?.name) : normalizedCategory;
+        const targetCategory = normalizedCategory === 'other' ? determineCategory((item as IngredientDisplayItem)?.name) : normalizedCategory;
         
         if (categories[targetCategory]) {
           // Check if this item already exists in the category (with improved duplicate detection)
           const existingItemIndex = categories[targetCategory].findIndex(
-            existing => areSimilarIngredients((existing as any)?.name, (item as any)?.name)
+            existing => areSimilarIngredients((existing as IngredientDisplayItem)?.name, (item as IngredientDisplayItem)?.name)
           );
           
           if (existingItemIndex >= 0) {
@@ -681,7 +683,7 @@ export default function IngredientRecommender({
     
     // Add any missing oils from the oils collection
     if (!categories.oils || categories.oils.length < 3) {
-      const existingOilNames = new Set((categories.oils || []).map(oil => (oil as any)?.name?.toLowerCase() ?? 'unknown'));
+      const existingOilNames = new Set((categories.oils || []).map(oil => (oil as IngredientDisplayItem)?.name?.toLowerCase() ?? 'unknown'));
       const additionalOils = Object.entries(oilsCollection)
         .filter(([_, oilData]) => 
           !existingOilNames.has(oilData.name.toLowerCase() || '')
@@ -709,14 +711,14 @@ export default function IngredientRecommender({
         });
       
       categories.oils = [...(categories.oils || []), ...additionalOils]
-        .sort((a, b) => (b as any)?.matchScore - (a as any)?.matchScore);
+        .sort((a, b) => ((b as IngredientDisplayItem)?.matchScore ?? 0) - ((a as IngredientDisplayItem)?.matchScore ?? 0));
     }
     
     // Sort each category by matchScore
     Object.keys(categories).forEach(category => {
       categories[category] = categories[category]
-        .sort((a, b) => (b as any)?.matchScore - (a as any)?.matchScore)
-        .filter(item => (item as any)?.matchScore > 0);
+        .sort((a, b) => ((b as IngredientDisplayItem)?.matchScore ?? 0) - ((a as IngredientDisplayItem)?.matchScore ?? 0))
+        .filter(item => ((item as IngredientDisplayItem)?.matchScore ?? 0) > 0);
     });
     
     // Filter out empty categories
@@ -928,7 +930,7 @@ export default function IngredientRecommender({
               astrologicalContext={{
                 zodiacSign: (currentZodiac || 'aries') as ZodiacSign,
                 lunarPhase: 'new moon' as LunarPhase,
-                elementalProperties: (astroState as unknown as Record<string, any>)?.elementalProperties || {
+                elementalProperties: (astroState as unknown as Record<string, unknown>)?.elementalProperties || {
                   Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
                 },
                 planetaryPositions: currentPlanetaryAlignment
@@ -1162,7 +1164,7 @@ export default function IngredientRecommender({
                 
                 <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-8 gap-3">
                   {itemsToShow.map((item) => {
-                    const typedItem = item as any;
+                    const typedItem = item as IngredientDisplayItem;
                     // Get element color class
                     const elementalProps = typedItem.elementalProperties || {
                       Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
@@ -1229,10 +1231,10 @@ export default function IngredientRecommender({
                         
                         {/* Quick info row */}
                         <div className="flex items-center text-xs text-gray-600 dark:text-gray-400 mt-1 gap-2">
-                          {(item as any)?.category && (
+                          {(item as IngredientDisplayItem)?.category && (
                             <span className="flex items-center">
                               <Tag size={10} className="mr-0.5" />
-                              {(item as any)?.category?.split(' ')[0]}
+                              {(item as IngredientDisplayItem)?.category?.split(' ')[0]}
                             </span>
                           )}
                           
@@ -1263,39 +1265,39 @@ export default function IngredientRecommender({
                             
                             {/* More detailed information */}
                             <div className="mt-1 space-y-2 text-xs text-gray-700 dark:text-gray-300">
-                              {(item as any)?.description && (
-                                <p>{(item as any)?.description}</p>
+                              {(item as IngredientDisplayItem)?.description && (
+                                <p>{(item as IngredientDisplayItem)?.description}</p>
                               )}
                               
-                              {(item as any)?.qualities && (item as any)?.qualities?.length > 0 && (
+                              {(item as IngredientDisplayItem)?.qualities && (item as IngredientDisplayItem)?.qualities?.length > 0 && (
                                 <div>
-                                  <span className="font-semibold">Qualities:</span> {(item as any)?.qualities?.join(', ')}
+                                  <span className="font-semibold">Qualities:</span> {(item as IngredientDisplayItem)?.qualities?.join(', ')}
                                 </div>
                               )}
                               
                               {/* Show culinary applications */}
-                              {(item as any)?.culinaryApplications && (
+                              {(item as IngredientDisplayItem)?.culinaryApplications && (
                                 <div>
                                   <span className="font-semibold">Culinary Applications:</span>{' '}
-                                  {Object.keys((item as any)?.culinaryApplications || {}).slice(0, 3).join(', ')}
+                                  {Object.keys((item as IngredientDisplayItem)?.culinaryApplications || {}).slice(0, 3).join(', ')}
                                 </div>
                               )}
 
                               {/* Show varieties if available */}
-                              {(item as any)?.varieties && Object.keys((item as any)?.varieties).length > 0 && (
+                              {(item as IngredientDisplayItem)?.varieties && Object.keys((item as IngredientDisplayItem)?.varieties || {}).length > 0 && (
                                 <div>
                                   <span className="font-semibold">Varieties:</span>{' '}
-                                  {Object.keys((item as any)?.varieties).slice(0, 3).join(', ')}
+                                  {Object.keys((item as IngredientDisplayItem)?.varieties || {}).slice(0, 3).join(', ')}
                                 </div>
                               )}
 
                               {/* Show storage information */}
-                              {(item as any)?.storage && (
+                              {(item as IngredientDisplayItem)?.storage && (
                                 <div>
                                   <span className="font-semibold">Storage:</span>{' '}
-                                  {(item as any)?.storage?.duration}
-                                  {(item as any)?.storage?.temperature && typeof (item as any)?.storage?.temperature === 'object' && 
-                                   ` at ${(item as any)?.storage?.temperature?.fahrenheit}°F`}
+                                  {(item as IngredientDisplayItem)?.storage?.duration}
+                                  {(item as IngredientDisplayItem)?.storage?.temperature && 
+                                   ` at ${(item as IngredientDisplayItem)?.storage?.temperature?.fahrenheit}°F`}
                                 </div>
                               )}
                               

@@ -1,23 +1,24 @@
 // Type Harmony imports
 
 // Internal imports - constants
-import { DEFAULT_ELEMENTAL_PROPERTIES } from '@/constants/defaults';
-import { planetInfo } from '@/constants/planetInfo';
-import { PLANETARY_MODIFIERS, RulingPlanet } from '@/constants/planets';
 import signs, { signInfo } from '@/data/astrology';
-import { culinaryTraditions } from '@/data/cuisines/culinaryTraditions';
-import { seasonalPatterns } from '@/data/integrations/seasonalPatterns';
-import { recipeElementalMappings } from '@/data/recipes/elementalMappings';
-import { log } from '@/services/LoggingService';
 import type { AlchemicalCalculationResult, BirthInfo, ElementalAffinity, LunarPhaseWithSpaces, RecipeHarmonyResult } from '@/types/alchemy';
-import { createAstrologicalBridge } from '@/types/bridges/astrologicalBridge';
-import type { ChakraEnergies, ChakraPosition } from '@/types/chakra';
 import type { AstrologicalState, ElementalProperties, PlanetPosition, StandardizedAlchemicalResult, ZodiacSign } from '@/types/unified';
-import { getAccuratePlanetaryPositions } from '@/utils/accurateAstronomy';
+import type { ChakraEnergies, ChakraPosition } from '@/types/chakra';
+import { DEFAULT_ELEMENTAL_PROPERTIES } from '@/constants/defaults';
 import { ErrorHandler } from '@/utils/errorHandler';
-import { logger } from '@/utils/logger';
-import { recipeCalculations } from '@/utils/recipeCalculations';
+import { PLANETARY_MODIFIERS, RulingPlanet } from '@/constants/planets';
+import { createAstrologicalBridge } from '@/types/bridges/astrologicalBridge';
+import { culinaryTraditions } from '@/data/cuisines/culinaryTraditions';
+import { getAccuratePlanetaryPositions } from '@/utils/accurateAstronomy';
 import { getZodiacElementalInfluence } from '@/utils/zodiacUtils';
+
+import { log } from '@/services/LoggingService';
+import { logger } from '@/utils/logger';
+import { planetInfo } from '@/constants/planetInfo';
+import { recipeCalculations } from '@/utils/recipeCalculations';
+import { recipeElementalMappings } from '@/data/recipes/elementalMappings';
+import { seasonalPatterns } from '@/data/integrations/seasonalPatterns';
 
 // Import planetary and sign data for alchemical calculations
 // Note: Removed circular import - these constants should be defined locally or in a separate constants file

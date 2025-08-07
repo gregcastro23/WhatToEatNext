@@ -57,7 +57,7 @@ console.info('info message');
 console.debug('debug message');
       `;
       
-      const statements = (removalSystem as any).analyzeFileConsoleStatements('/test/file.ts', content);
+      const statements = (removalSystem as unknown as { analyzeFileConsoleStatements: (filePath: string, content: string) => unknown[] }).analyzeFileConsoleStatements('/test/file.ts', content);
       
       expect(statements).toHaveLength(5);
       expect(statements[0].type).toBe('log');
@@ -74,7 +74,7 @@ console.log('test message');
 const another = 'value';
       `;
       
-      const statements = (removalSystem as any).analyzeFileConsoleStatements('/test/file.ts', content);
+      const statements = (removalSystem as unknown as { analyzeFileConsoleStatements: (filePath: string, content: string) => unknown[] }).analyzeFileConsoleStatements('/test/file.ts', content);
       
       expect(statements).toHaveLength(1);
       expect(statements[0].line).toBe(3);
@@ -84,7 +84,7 @@ const another = 'value';
 
   describe('isConsoleStatementCritical', () => {
     it('should mark error statements as critical', () => {
-      const isCritical = (removalSystem as any).isConsoleStatementCritical(
+      const isCritical = (removalSystem as unknown as { isConsoleStatementCritical: (filePath: string, statement: Record<string, unknown>) => boolean }).isConsoleStatementCritical(
         '/test/file.ts',
         'console.error("Something went wrong")',
         'try { } catch (e) { console.error("Something went wrong"); }',
@@ -125,7 +125,7 @@ const another = 'value';
         }
       `;
       
-      const isCritical = (removalSystem as any).isConsoleStatementCritical(
+      const isCritical = (removalSystem as unknown as { isConsoleStatementCritical: (filePath: string, statement: Record<string, unknown>) => boolean }).isConsoleStatementCritical(
         '/test/file.ts',
         'console.log("Error occurred")',
         context,
@@ -136,7 +136,7 @@ const another = 'value';
     });
 
     it('should mark statements with important patterns as critical', () => {
-      const isCritical = (removalSystem as any).isConsoleStatementCritical(
+      const isCritical = (removalSystem as unknown as { isConsoleStatementCritical: (filePath: string, statement: Record<string, unknown>) => boolean }).isConsoleStatementCritical(
         '/test/file.ts',
         'console.log("API request failed")',
         'console.log("API request failed");',
@@ -173,13 +173,13 @@ const another = 'value';
     it('should validate script exists', async () => {
       mockFs.existsSync.mockReturnValue(false);
       
-      await expect((removalSystem as any).validatePreConditions()).rejects.toThrow('Console removal script not found');
+      await expect((removalSystem as unknown as { validatePreConditions: () => Promise<void> }).validatePreConditions()).rejects.toThrow('Console removal script not found');
     });
 
     it('should check git status when git stash is enabled', async () => {
       mockExecSync.mockReturnValue('');
       
-      await expect((removalSystem as any).validatePreConditions()).resolves.not.toThrow();
+      await expect((removalSystem as unknown as { validatePreConditions: () => Promise<void> }).validatePreConditions()).resolves.not.toThrow();
       expect(mockExecSync).toHaveBeenCalledWith('git status --porcelain', { encoding: 'utf-8' });
     });
   });
@@ -188,7 +188,7 @@ const another = 'value';
     it('should create git stash with timestamp', async () => {
       mockExecSync.mockReturnValue('');
       
-      const stashId = await (removalSystem as any).createSafetyStash();
+      const stashId = await (removalSystem as unknown as { createSafetyStash: () => Promise<string> }).createSafetyStash();
       
       expect(stashId).toContain('console-removal-');
       expect(mockExecSync).toHaveBeenCalledWith(
@@ -202,7 +202,7 @@ const another = 'value';
         throw new Error('Git error');
       });
       
-      const stashId = await (removalSystem as any).createSafetyStash();
+      const stashId = await (removalSystem as unknown as { createSafetyStash: () => Promise<string> }).createSafetyStash();
       expect(stashId).toBe('');
     });
   });
@@ -227,7 +227,7 @@ const another = 'value';
       
       mockExecSync.mockReturnValue('Files processed: 5\nTotal console statements fixed: 10');
       
-      const result = await (system as any).executeScript(mockAnalysis);
+      const result = await (system as unknown as { executeScript: (analysis: unknown[]) => Promise<ConsoleRemovalResult> }).executeScript(mockAnalysis);
       
       expect(result.success).toBe(true);
       expect(result.filesProcessed).toBe(5);
@@ -265,7 +265,7 @@ const another = 'value';
       
       mockExecSync.mockReturnValue('Files processed: 1\nTotal console statements fixed: 1');
       
-      const result = await (removalSystem as any).executeScript(mockAnalysis);
+      const result = await (removalSystem as unknown as { executeScript: (analysis: unknown[]) => Promise<ConsoleRemovalResult> }).executeScript(mockAnalysis);
       
       expect(result.consoleStatementsPreserved).toBe(1);
       expect(result.preservedFiles).toContain('/test/file.ts');
@@ -353,7 +353,7 @@ const another = 'value';
         throw new Error('Module not found');
       });
       
-      const estimate = await (removalSystem as any).estimateFilesWithConsoleStatements();
+      const estimate = await (removalSystem as unknown as { estimateFilesWithConsoleStatements: () => Promise<number> }).estimateFilesWithConsoleStatements();
       
       expect(estimate).toBe(50);
     });
@@ -374,7 +374,7 @@ const another = 'value';
       
       mockFs.writeFileSync.mockImplementation(() => {});
       
-      await (removalSystem as any).saveMetrics(result);
+      await (removalSystem as unknown as { saveMetrics: (result: ConsoleRemovalResult) => Promise<void> }).saveMetrics(result);
       
       expect(mockFs.writeFileSync).toHaveBeenCalledWith(
         expect.stringContaining('.console-removal-metrics.json'),
@@ -398,7 +398,7 @@ const another = 'value';
         throw new Error('Write failed');
       });
       
-      await expect((removalSystem as any).saveMetrics(result)).resolves.not.toThrow();
+      await expect((removalSystem as unknown as { saveMetrics: (result: ConsoleRemovalResult) => Promise<void> }).saveMetrics(result)).resolves.not.toThrow();
     });
   });
 });

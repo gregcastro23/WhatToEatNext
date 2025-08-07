@@ -62,7 +62,7 @@ export interface ResolutionStep {
   id: string;
   description: string;
   action: ResolutionAction;
-  parameters: Record<string, any>;
+  parameters: Record<string, unknown>;
   estimatedDuration: number;
   rollbackable: boolean;
 }
@@ -108,7 +108,7 @@ export interface RollbackStep {
   id: string;
   description: string;
   action: string;
-  parameters: Record<string, any>;
+  parameters: Record<string, unknown>;
   estimatedDuration: number;
 }
 

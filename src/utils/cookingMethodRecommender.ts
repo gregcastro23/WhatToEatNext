@@ -51,7 +51,6 @@ import { AstrologicalState, BasicThermodynamicProperties, COOKING_METHOD_THERMOD
 // Removed unused import: CookingMethodEnum
 import type { CookingMethod } from '@/types/cooking';
 import { calculateLunarPhase, getLunarPhaseName } from '@/utils/astrologyUtils';
-import { culturalCookingMethods /* , getCulturalVariations */ } from '@/utils/culturalMethodsAggregator';
 // Removed unused import: getCulturalVariations
 
 // Define interfaces for the various method types we work with
@@ -555,19 +554,19 @@ export async function getRecommendedCookingMethods(
   const isMarsActive = planets?.includes('Mars') || false;
   
   // Check if Mars is retrograde
-  const isMarsRetrograde = planets?.includes('Mars-R') || false;
+  const _isMarsRetrograde = planets?.includes('Mars-R') || false;
   
   // Check if Mercury is one of the active planets
   const isMercuryActive = planets?.includes('Mercury') || false;
   
   // Check if Mercury is retrograde
-  const isMercuryRetrograde = planets?.includes('Mercury-R') || false;
+  const _isMercuryRetrograde = planets?.includes('Mercury-R') || false;
   
   // Check if Jupiter is one of the active planets
   const isJupiterActive = planets?.includes('Jupiter') || false;
   
   // Check if Jupiter is retrograde
-  const isJupiterRetrograde = planets?.includes('Jupiter-R') || false;
+  const _isJupiterRetrograde = planets?.includes('Jupiter-R') || false;
   
   // Check if Saturn is one of the active planets
   const isSaturnActive = planets?.includes('Saturn') || false;
@@ -579,19 +578,19 @@ export async function getRecommendedCookingMethods(
   const isUranusActive = planets?.includes('Uranus') || false;
   
   // Check if Uranus is retrograde
-  const isUranusRetrograde = planets?.includes('Uranus-R') || false;
+  const _isUranusRetrograde = planets?.includes('Uranus-R') || false;
   
   // Check if Neptune is one of the active planets
   const isNeptuneActive = planets?.includes('Neptune') || false;
   
   // Check if Neptune is retrograde
-  const isNeptuneRetrograde = planets?.includes('Neptune-R') || false;
+  const _isNeptuneRetrograde = planets?.includes('Neptune-R') || false;
   
   // Check if Pluto is one of the active planets
   const isPlutoActive = planets?.includes('Pluto') || false;
   
   // Check if Pluto is retrograde
-  const isPlutoRetrograde = planets?.includes('Pluto-R') || false;
+  const _isPlutoRetrograde = planets?.includes('Pluto-R') || false;
   
   // Get Venus transit data for current zodiac sign if applicable
   const venusZodiacTransit = isVenusActive && currentZodiac 
@@ -604,7 +603,7 @@ export async function getRecommendedCookingMethods(
     : undefined;
   
   // Get Mercury transit data for current zodiac sign if applicable
-  const mercuryZodiacTransit = isMercuryActive && currentZodiac 
+  const _mercuryZodiacTransit = isMercuryActive && currentZodiac 
     ? mercuryData.PlanetSpecific?.ZodiacTransit?.[currentZodiac]
     : undefined;
   
@@ -619,17 +618,17 @@ export async function getRecommendedCookingMethods(
     : undefined;
   
   // Get Uranus transit data for current zodiac sign if applicable
-  const uranusZodiacTransit = isUranusActive && currentZodiac 
+  const _uranusZodiacTransit = isUranusActive && currentZodiac 
     ? uranusData.PlanetSpecific?.ZodiacTransit?.[currentZodiac]
     : undefined;
   
   // Get Neptune transit data for current zodiac sign if applicable
-  const neptuneZodiacTransit = isNeptuneActive && currentZodiac 
+  const _neptuneZodiacTransit = isNeptuneActive && currentZodiac 
     ? neptuneData.PlanetSpecific?.ZodiacTransit?.[currentZodiac]
     : undefined;
   
   // Get Pluto transit data for current zodiac sign if applicable
-  const plutoZodiacTransit = isPlutoActive && currentZodiac 
+  const _plutoZodiacTransit = isPlutoActive && currentZodiac 
     ? plutoData.PlanetSpecific?.ZodiacTransit?.[currentZodiac]
     : undefined;
   
@@ -1277,7 +1276,7 @@ function _calculateAspectMethodAffinity(aspects: PlanetaryAspect[], method: Cook
   for (const aspect of aspects) {
     // Convert method to proper type with safe property access
     const methodData = method as unknown as Record<string, unknown>;
-    const sensoryProfile = methodData.sensoryProfile as Record<string, unknown>;
+    const _sensoryProfile = methodData.sensoryProfile as Record<string, unknown>;
     const properties = methodData.properties as Record<string, unknown>;
     
     if (!properties) continue;

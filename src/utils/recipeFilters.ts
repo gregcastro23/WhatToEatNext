@@ -4,7 +4,6 @@ import type {
   DietaryRestriction,
   IngredientMapping,
 } from "@/types/alchemy";
-import { createAstrologicalBridge } from '@/types/bridges/astrologicalBridge';
 import { Cuisine, CuisineType } from '@/types/cuisine';
 import { Recipe, RecipeFilters , ScoredRecipe } from '@/types/recipe';
 

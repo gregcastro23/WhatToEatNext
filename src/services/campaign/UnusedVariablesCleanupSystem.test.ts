@@ -50,13 +50,13 @@ describe('UnusedVariablesCleanupSystem', () => {
     it('should validate script exists', async () => {
       mockFs.existsSync.mockReturnValue(false);
       
-      await expect((cleanupSystem as any).validatePreConditions()).rejects.toThrow('Unused variables script not found');
+      await expect((cleanupSystem as unknown as { validatePreConditions: () => Promise<void> }).validatePreConditions()).rejects.toThrow('Unused variables script not found');
     });
 
     it('should check git status when git stash is enabled', async () => {
       mockExecSync.mockReturnValue('');
       
-      await expect((cleanupSystem as any).validatePreConditions()).resolves.not.toThrow();
+      await expect((cleanupSystem as unknown as { validatePreConditions: () => Promise<void> }).validatePreConditions()).resolves.not.toThrow();
       expect(mockExecSync).toHaveBeenCalledWith('git status --porcelain', { encoding: 'utf-8' });
     });
 
@@ -67,7 +67,7 @@ describe('UnusedVariablesCleanupSystem', () => {
         return '';
       });
       
-      await expect((cleanupSystem as any).validatePreConditions()).resolves.not.toThrow();
+      await expect((cleanupSystem as unknown as { validatePreConditions: () => Promise<void> }).validatePreConditions()).resolves.not.toThrow();
     });
   });
 
@@ -75,7 +75,7 @@ describe('UnusedVariablesCleanupSystem', () => {
     it('should create git stash with timestamp', async () => {
       mockExecSync.mockReturnValue('');
       
-      const stashId = await (cleanupSystem as any).createSafetyStash();
+      const stashId = await (cleanupSystem as unknown as { createSafetyStash: () => Promise<string> }).createSafetyStash();
       
       expect(stashId).toContain('unused-variables-cleanup-');
       expect(mockExecSync).toHaveBeenCalledWith(
@@ -89,7 +89,7 @@ describe('UnusedVariablesCleanupSystem', () => {
         throw new Error('Git error');
       });
       
-      const stashId = await (cleanupSystem as any).createSafetyStash();
+      const stashId = await (cleanupSystem as unknown as { createSafetyStash: () => Promise<string> }).createSafetyStash();
       expect(stashId).toBe('');
     });
   });
@@ -101,7 +101,7 @@ describe('UnusedVariablesCleanupSystem', () => {
       
       mockExecSync.mockReturnValue('5 files processed\n2 variables removed\n3 variables prefixed\nsafety score: 85.5');
       
-      const result = await (system as any).executeScript();
+      const result = await (system as unknown as { executeScript: () => Promise<UnusedVariablesResult> }).executeScript();
       
       expect(result.success).toBe(true);
       expect(result.filesProcessed).toBe(5);
@@ -121,7 +121,7 @@ describe('UnusedVariablesCleanupSystem', () => {
       
       mockExecSync.mockReturnValue('10 files processed\n5 variables removed');
       
-      const result = await (system as any).executeScript();
+      const result = await (system as unknown as { executeScript: () => Promise<UnusedVariablesResult> }).executeScript();
       
       expect(mockExecSync).toHaveBeenCalledWith(
         expect.stringContaining('--auto-fix --max-files=15'),
@@ -134,7 +134,7 @@ describe('UnusedVariablesCleanupSystem', () => {
         throw new Error('Script execution failed');
       });
       
-      const result = await (cleanupSystem as any).executeScript();
+      const result = await (cleanupSystem as unknown as { executeScript: () => Promise<UnusedVariablesResult> }).executeScript();
       
       expect(result.success).toBe(false);
       expect(result.errors).toContain(expect.stringContaining('Script execution failed'));
@@ -150,7 +150,7 @@ describe('UnusedVariablesCleanupSystem', () => {
       
       mockExecSync.mockReturnValue(output);
       
-      const result = await (cleanupSystem as any).executeScript();
+      const result = await (cleanupSystem as unknown as { executeScript: () => Promise<UnusedVariablesResult> }).executeScript();
       
       expect(result.warnings).toHaveLength(1);
       expect(result.errors).toHaveLength(1);
@@ -163,7 +163,7 @@ describe('UnusedVariablesCleanupSystem', () => {
     it('should validate build successfully', async () => {
       mockExecSync.mockReturnValue('');
       
-      const isValid = await (cleanupSystem as any).validateBuild();
+      const isValid = await (cleanupSystem as unknown as { validateBuild: () => Promise<boolean> }).validateBuild();
       
       expect(isValid).toBe(true);
       expect(mockExecSync).toHaveBeenCalledWith('yarn build', expect.any(Object));
@@ -174,7 +174,7 @@ describe('UnusedVariablesCleanupSystem', () => {
         throw new Error('Build failed');
       });
       
-      const isValid = await (cleanupSystem as any).validateBuild();
+      const isValid = await (cleanupSystem as unknown as { validateBuild: () => Promise<boolean> }).validateBuild();
       
       expect(isValid).toBe(false);
     });
@@ -184,7 +184,7 @@ describe('UnusedVariablesCleanupSystem', () => {
     it('should rollback from specified stash', async () => {
       mockExecSync.mockReturnValue('');
       
-      await (cleanupSystem as any).rollbackFromStash('test-stash-name');
+      await (cleanupSystem as unknown as { rollbackFromStash: (stashName: string) => Promise<void> }).rollbackFromStash('test-stash-name');
       
       expect(mockExecSync).toHaveBeenCalledWith(
         'git stash apply stash^{/test-stash-name}',
@@ -197,7 +197,7 @@ describe('UnusedVariablesCleanupSystem', () => {
         throw new Error('Rollback failed');
       });
       
-      await expect((cleanupSystem as any).rollbackFromStash('test-stash')).rejects.toThrow('Rollback failed');
+      await expect((cleanupSystem as unknown as { rollbackFromStash: (stashName: string) => Promise<void> }).rollbackFromStash('test-stash')).rejects.toThrow('Rollback failed');
     });
   });
 
@@ -253,7 +253,7 @@ describe('UnusedVariablesCleanupSystem', () => {
         throw new Error('Module not found');
       });
       
-      const estimate = await (cleanupSystem as any).estimateFilesWithUnusedVariables();
+      const estimate = await (cleanupSystem as unknown as { estimateFilesWithUnusedVariables: () => Promise<number> }).estimateFilesWithUnusedVariables();
       
       expect(estimate).toBe(100);
     });
@@ -274,7 +274,7 @@ describe('UnusedVariablesCleanupSystem', () => {
       
       mockFs.writeFileSync.mockImplementation(() => {});
       
-      await (cleanupSystem as any).saveMetrics(result);
+      await (cleanupSystem as unknown as { saveMetrics: (result: UnusedVariablesResult) => Promise<void> }).saveMetrics(result);
       
       expect(mockFs.writeFileSync).toHaveBeenCalledWith(
         expect.stringContaining('.unused-variables-cleanup-metrics.json'),
@@ -299,7 +299,7 @@ describe('UnusedVariablesCleanupSystem', () => {
         throw new Error('Write failed');
       });
       
-      await expect((cleanupSystem as any).saveMetrics(result)).resolves.not.toThrow();
+      await expect((cleanupSystem as unknown as { saveMetrics: (result: UnusedVariablesResult) => Promise<void> }).saveMetrics(result)).resolves.not.toThrow();
     });
   });
 });

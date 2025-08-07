@@ -67,7 +67,7 @@ export function assertNotNull<T>(value: T | null | undefined, message?: string):
 /**
  * Safe function call - only calls if function exists
  */
-export function safeCall<T extends (...args: unknown[]) => any>(
+export function safeCall<T extends (...args: unknown[]) => unknown>(
   fn: T | null | undefined,
   ...args: Parameters<T>
 ): ReturnType<T> | undefined {

@@ -124,7 +124,7 @@ export default function IngredientRecommendations({
     }
   };
   
-  const getSensoryProfileBar = (value: number, type: string) => {
+  const _getSensoryProfileBar = (value: number, type: string) => {
     return (
       <div className={styles.sensoryBar}>
         <span className={styles.sensoryLabel}>{type}</span>
@@ -139,7 +139,7 @@ export default function IngredientRecommendations({
     );
   };
   
-  const renderIngredientDetails = (ingredient: Ingredient) => {
+  const _renderIngredientDetails = (ingredient: Ingredient) => {
     // Get the elemental properties
     const elementalProps = ingredient.elementalProperties || {
       Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
@@ -280,7 +280,7 @@ export default function IngredientRecommendations({
     );
   };
   
-  const calculateAlchemicalPropertiesForDisplay = (elementalProperties: ElementalProperties) => {
+  const _calculateAlchemicalPropertiesForDisplay = (elementalProperties: ElementalProperties) => {
     // Default values with proper elemental calculations
     return {
       spirit: elementalProperties.Fire * 0.7 + elementalProperties.Air * 0.3,

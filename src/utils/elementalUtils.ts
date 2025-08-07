@@ -20,7 +20,6 @@ import type {
   Element,
   ElementalProfile,
 } from '@/types/alchemy';
-import { createAstrologicalBridge } from '@/types/bridges/astrologicalBridge';
 import { 
   isElementalProperties, 
   isElementalPropertyKey, 
@@ -208,7 +207,7 @@ export function getMissingElements(
   }
 
   const missing: Element[] = [];
-  const idealBalance = 0.25; // Each element should ideally be 25%
+  const _idealBalance = 0.25; // Each element should ideally be 25%
   const threshold = 0.15; // Consider missing if below 15%
 
   for (const element of ['Fire', 'Water', 'Earth', 'Air'] as Element[]) {
@@ -502,7 +501,7 @@ export { elements, elementalInteractions, elementalFunctions };
  * @param planetaryBoosts Optional planetary boosts to apply
  * @returns Transformed alchemical items
  */
-const ELEMENT_WEIGHTS = {
+const _ELEMENT_WEIGHTS = {
   Fire: 1.8,
   Water: 1.2,
   Earth: 0.9,
@@ -654,15 +653,15 @@ export function transformItemsWithPlanetaryPositions(
     const planetaryDignities = {};
 
     // Handle NaN values or infinity for all properties
-    const ensureSafeNumber = (val: number): number => {
+    const _ensureSafeNumber = (val: number): number => {
       if (isNaN(val) || !isFinite(val)) return 0.2;
       return val;
     };
 
     // Apply safe arithmetic operations with proper type checking
     const safeValueForArithmetic = (val: number) => Math.max(val, 0.01);
-    const safeAdd = (a: number, b: number) => safeValueForArithmetic(a) + safeValueForArithmetic(b);
-    const safeMultiply = (a: number, b: number) => safeValueForArithmetic(a) * safeValueForArithmetic(b);
+    const _safeAdd = (a: number, b: number) => safeValueForArithmetic(a) + safeValueForArithmetic(b);
+    const _safeMultiply = (a: number, b: number) => safeValueForArithmetic(a) * safeValueForArithmetic(b);
 
     return {
       id: item.id,
@@ -689,7 +688,7 @@ export function transformItemsWithPlanetaryPositions(
 }
 
 // New differentiation functions
-const applyNonLinearScaling = (
+const _applyNonLinearScaling = (
   props: ElementalProperties
 ): ElementalProperties => ({
   Fire: Math.tanh(props.Fire * 2),
@@ -698,7 +697,7 @@ const applyNonLinearScaling = (
   Air: Math.sin((props.Air * Math.PI) / 2),
 });
 
-const calculateUniquenessScore = (item: ElementalItem): number => {
+const _calculateUniquenessScore = (item: ElementalItem): number => {
   const variance = Object.values(item.elementalProperties).reduce(
     (acc: number, val: number) => acc + Math.abs(val - 0.5),
     0

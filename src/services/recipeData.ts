@@ -5,7 +5,13 @@ export interface RecipeDataEnhanced {
   description?: string;
   cuisine?: string;
   flavorProfile?: Record<string, number>;
-  astrologicalProfile?: Record<string, any>;
+  astrologicalProfile?: {
+    zodiacSign?: string;
+    lunarPhase?: string;
+    planetaryInfluences?: Record<string, number>;
+    elementalProperties?: Record<string, number>;
+    seasonalAlignment?: number;
+  };
   season?: string | string[];
   mealType?: string | string[];
 }

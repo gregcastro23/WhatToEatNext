@@ -18,6 +18,12 @@ import type {
   EnterpriseIntelligenceResult 
 } from '@/types/enterpriseIntelligence';
 import { logger } from '@/utils/logger';
+import type {
+  EnterpriseRecipeData,
+  EnterpriseIngredientData,
+  EnterpriseAstrologicalContext,
+  EnterpriseIntelligenceAnalysisState
+} from '@/types/enterpriseHooks';
 
 // ========== INTERFACES ==========
 
@@ -42,13 +48,13 @@ export interface EnterpriseIntelligenceState {
 
 export interface EnterpriseIntelligenceActions {
   performAnalysis: (
-    recipeData: any,
-    ingredientData: any,
+    recipeData: EnterpriseRecipeData,
+    ingredientData: EnterpriseIngredientData,
     astrologicalContext: {
       zodiacSign: ZodiacSign;
       lunarPhase: LunarPhase;
       elementalProperties: ElementalProperties;
-      planetaryPositions?: any;
+      planetaryPositions?: EnterpriseAstrologicalContext['planetaryPositions'];
     }
   ) => Promise<EnterpriseIntelligenceResult | null>;
   clearAnalysis: () => void;
@@ -99,9 +105,9 @@ export function useEnterpriseIntelligence(
   });
 
   const [lastAnalysisParams, setLastAnalysisParams] = useState<{
-    recipeData: any;
-    ingredientData: any;
-    astrologicalContext: any;
+    recipeData: EnterpriseRecipeData;
+    ingredientData: EnterpriseIngredientData;
+    astrologicalContext: EnterpriseAstrologicalContext;
   } | null>(null);
 
   // ========== MEMOIZED VALUES ==========
@@ -125,19 +131,19 @@ export function useEnterpriseIntelligence(
     }
 
     return {
-      recipe: (state.analysis.recipeIntelligence as any)?.recommendations || [],
-      ingredient: (state.analysis.ingredientIntelligence as any)?.recommendations || [],
+      recipe: (state.analysis.recipeIntelligence as unknown as EnterpriseIntelligenceAnalysisState['recipeIntelligence'])?.recommendations || [],
+      ingredient: (state.analysis.ingredientIntelligence as unknown as EnterpriseIntelligenceAnalysisState['ingredientIntelligence'])?.recommendations || [],
       validation: [
-        ...((state.analysis.validationIntelligence as any)?.dataIntegrity?.issues || []),
-        ...((state.analysis.validationIntelligence as any)?.astrologicalConsistency?.issues || []),
-        ...((state.analysis.validationIntelligence as any)?.elementalHarmony?.issues || [])
+        ...((state.analysis.validationIntelligence as unknown as EnterpriseIntelligenceAnalysisState['validationIntelligence'])?.dataIntegrity?.issues || []),
+        ...((state.analysis.validationIntelligence as unknown as EnterpriseIntelligenceAnalysisState['validationIntelligence'])?.astrologicalConsistency?.issues || []),
+        ...((state.analysis.validationIntelligence as unknown as { elementalHarmony?: { issues?: string[] } })?.elementalHarmony?.issues || [])
       ],
-      safety: (state.analysis.safetyIntelligence as any)?.fallbackStrategies || [],
+      safety: (state.analysis.safetyIntelligence as unknown as { fallbackStrategies?: string[] })?.fallbackStrategies || [],
       optimization: [
-        ...((state.analysis as any).optimizationRecommendations?.performance?.recommendations || []),
-        ...((state.analysis as any).optimizationRecommendations?.accuracy?.recommendations || []),
-        ...((state.analysis as any).optimizationRecommendations?.userExperience?.recommendations || []),
-        ...((state.analysis as any).optimizationRecommendations?.systemIntegration?.recommendations || [])
+        ...((state.analysis as unknown as { optimizationRecommendations?: { performance?: { recommendations?: string[] }; accuracy?: { recommendations?: string[] }; userExperience?: { recommendations?: string[] }; systemIntegration?: { recommendations?: string[] } } }).optimizationRecommendations?.performance?.recommendations || []),
+        ...((state.analysis as unknown as { optimizationRecommendations?: { accuracy?: { recommendations?: string[] } } }).optimizationRecommendations?.accuracy?.recommendations || []),
+        ...((state.analysis as unknown as { optimizationRecommendations?: { userExperience?: { recommendations?: string[] } } }).optimizationRecommendations?.userExperience?.recommendations || []),
+        ...((state.analysis as unknown as { optimizationRecommendations?: { systemIntegration?: { recommendations?: string[] } } }).optimizationRecommendations?.systemIntegration?.recommendations || [])
       ]
     };
   }, [state.analysis]);
@@ -154,22 +160,22 @@ export function useEnterpriseIntelligence(
 
     const analysis = state.analysis;
     const issues = [
-      ...((analysis.validationIntelligence as any)?.overallValidation?.criticalIssues || []),
-      ...((analysis.safetyIntelligence as any)?.riskAssessment?.level === 'high' || 
-          (analysis.safetyIntelligence as any)?.riskAssessment?.level === 'critical' 
+      ...((analysis.validationIntelligence as unknown as { overallValidation?: { criticalIssues?: string[] } })?.overallValidation?.criticalIssues || []),
+      ...((analysis.safetyIntelligence as unknown as { riskAssessment?: { level?: string } })?.riskAssessment?.level === 'high' || 
+          (analysis.safetyIntelligence as unknown as { riskAssessment?: { level?: string } })?.riskAssessment?.level === 'critical' 
           ? ['High risk level detected'] : [])
     ];
 
     const warnings = [
-      ...((analysis.validationIntelligence as any)?.dataIntegrity?.warnings || []),
-      ...((analysis.validationIntelligence as any)?.astrologicalConsistency?.warnings || []),
-      ...((analysis.validationIntelligence as any)?.elementalHarmony?.warnings || []),
-      ...((analysis.safetyIntelligence as any)?.monitoringAlerts || [])
+      ...((analysis.validationIntelligence as unknown as { dataIntegrity?: { warnings?: string[] }; astrologicalConsistency?: { warnings?: string[] }; elementalHarmony?: { warnings?: string[] } })?.dataIntegrity?.warnings || []),
+      ...((analysis.validationIntelligence as unknown as { astrologicalConsistency?: { warnings?: string[] } })?.astrologicalConsistency?.warnings || []),
+      ...((analysis.validationIntelligence as unknown as { elementalHarmony?: { warnings?: string[] } })?.elementalHarmony?.warnings || []),
+      ...((analysis.safetyIntelligence as unknown as { monitoringAlerts?: string[] })?.monitoringAlerts || [])
     ];
 
     return {
-      overall: (analysis as any).systemHealth || 'fair',
-      score: (analysis as any).overallScore || analysis.overallIntelligenceScore || 0.7,
+      overall: (analysis as unknown as { systemHealth?: string }).systemHealth || 'fair',
+      score: (analysis as unknown as { overallScore?: number }).overallScore || analysis.overallIntelligenceScore || 0.7,
       issues,
       warnings
     };
@@ -182,20 +188,20 @@ export function useEnterpriseIntelligence(
   const needsAttention = useMemo(() => {
     return systemHealth.issues.length > 0 || 
            systemHealth.overall === 'poor' ||
-           ((state.analysis?.safetyIntelligence as any)?.riskAssessment?.level === 'high') ||
-           ((state.analysis?.safetyIntelligence as any)?.riskAssessment?.level === 'critical');
+           ((state.analysis?.safetyIntelligence as unknown as { riskAssessment?: { level?: string } })?.riskAssessment?.level === 'high') ||
+           ((state.analysis?.safetyIntelligence as unknown as { riskAssessment?: { level?: string } })?.riskAssessment?.level === 'critical');
   }, [systemHealth.issues.length, systemHealth.overall, state.analysis]);
 
   // ========== ACTIONS ==========
 
   const performAnalysis = useCallback(async (
-    recipeData: any,
-    ingredientData: any,
+    recipeData: EnterpriseRecipeData,
+    ingredientData: EnterpriseIngredientData,
     astrologicalContext: {
       zodiacSign: ZodiacSign;
       lunarPhase: LunarPhase;
       elementalProperties: ElementalProperties;
-      planetaryPositions?: any;
+      planetaryPositions?: Record<string, unknown>;
     }
   ): Promise<EnterpriseIntelligenceResult | null> => {
     setState(prev => ({ 
@@ -215,8 +221,8 @@ export function useEnterpriseIntelligence(
           type: 'fusion',
           region: 'universal',
           characteristics: ['astrological', 'elemental', 'planetary']
-        } as any,
-        astrologicalContext as any
+        } as EnterpriseIngredientData,
+        astrologicalContext as EnterpriseAstrologicalContext
       );
 
       // Update performance metrics
@@ -235,8 +241,8 @@ export function useEnterpriseIntelligence(
       setLastAnalysisParams({ recipeData, ingredientData, astrologicalContext });
 
       logger.info('[useEnterpriseIntelligence] Enterprise intelligence analysis completed', {
-        overallScore: (analysis as any).overallScore || analysis.overallIntelligenceScore,
-        systemHealth: (analysis as any).systemHealth || 'unknown'
+        overallScore: (analysis as unknown as { overallScore?: number }).overallScore || analysis.overallIntelligenceScore,
+        systemHealth: (analysis as unknown as { systemHealth?: string }).systemHealth || 'unknown'
       });
 
       return analysis;

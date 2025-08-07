@@ -352,6 +352,8 @@ export interface TrendData {
 export class ${systemName} {
   private config: ${systemName}Config;
   private analytics: ${systemName}Analytics;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // Intentionally any: Enterprise intelligence cache stores diverse analytical data types
   private cache: Map<string, any>;
 
   constructor(config: Partial<${systemName}Config> = {}) {

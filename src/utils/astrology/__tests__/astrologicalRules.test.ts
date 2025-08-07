@@ -7,7 +7,6 @@
 
 import { validatePlanetaryPositions, quickValidate } from '../astrologicalValidation';
 import { validateElementalProperties, normalizeElementalProperties } from '../elementalValidation';
-import { validateTransitDate, getCurrentTransitSign } from '../transitValidation';
 
 describe('Astrological ESLint Rules Integration', () => {
   describe('Elemental Properties Validation', () => {

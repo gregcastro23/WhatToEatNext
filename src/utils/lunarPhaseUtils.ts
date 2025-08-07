@@ -245,7 +245,7 @@ export const formatLunarPhase = (phase: string): LunarPhase => {
 };
 
 // Helper functions for validation
-const isValidUnderscorePhase = (phase: string): boolean => {
+const _isValidUnderscorePhase = (phase: string): boolean => {
   return Object.keys(REVERSE_LUNAR_PHASE_MAP).includes(phase);
 };
 

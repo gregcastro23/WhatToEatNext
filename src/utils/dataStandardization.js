@@ -4,7 +4,6 @@
  * Utilities for standardizing ingredient data across the application
  */
 
-import ingredientCollection from '../data/ingredients';
 
 /**
  * Standardizes ingredient data to ensure all required fields are present with valid values

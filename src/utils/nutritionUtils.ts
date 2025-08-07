@@ -1,4 +1,3 @@
-import { createAstrologicalBridge } from '@/types/bridges/astrologicalBridge';
 
 import { NutritionalProfile, ElementalProperties } from '../types/alchemy';
 

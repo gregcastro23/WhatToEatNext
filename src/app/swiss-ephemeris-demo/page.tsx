@@ -4,7 +4,6 @@
  * Demonstrates the comprehensive Swiss Ephemeris integration
  */
 
-import React from 'react';
 
 import SwissEphemerisDemo from '@/components/SwissEphemerisDemo';
 

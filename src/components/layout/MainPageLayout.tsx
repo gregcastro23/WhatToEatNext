@@ -23,7 +23,6 @@ import {
   usePerformanceOptimizationGuidance
 } from '@/hooks/useStatePreservation';
 import { useDevelopmentExperienceOptimizations } from '@/utils/developmentExperienceOptimizations';
-import { useErrorHandler } from '@/utils/errorHandling';
 import { logger } from '@/utils/logger';
 // useMCPServerIntegration removed with MCP cleanup
 import { useSteeringFileIntelligence, ElementalProperties } from '@/utils/steeringFileIntelligence';
@@ -56,7 +55,7 @@ interface MainPageContextType {
   selectedIngredients: string[];
   selectedCuisine: string | null;
   selectedCookingMethods: string[];
-  currentRecipe: any | null;
+  currentRecipe: Record<string, unknown> | null;
   
   // Navigation state
   activeSection: string | null;
@@ -66,12 +65,12 @@ interface MainPageContextType {
   updateSelectedIngredients: (ingredients: string[]) => void;
   updateSelectedCuisine: (cuisine: string | null) => void;
   updateSelectedCookingMethods: (methods: string[]) => void;
-  updateCurrentRecipe: (recipe: any | null) => void;
+  updateCurrentRecipe: (recipe: Record<string, unknown> | null) => void;
   setActiveSection: (section: string | null) => void;
   
   // Cross-component communication
-  notifyComponentUpdate: (componentId: string, data: any) => void;
-  subscribeToUpdates: (componentId: string, callback: (data: any) => void) => () => void;
+  notifyComponentUpdate: (componentId: string, data: unknown) => void;
+  subscribeToUpdates: (componentId: string, callback: (data: unknown) => void) => () => void;
 }
 
 const MainPageContext = createContext<MainPageContextType | null>(null);
@@ -85,7 +84,7 @@ export const useMainPageContext = () => {
 };
 
 // Memoized loading fallback component for better performance
-const ComponentLoadingFallback = memo(function ComponentLoadingFallback({ 
+const _ComponentLoadingFallback = memo(function ComponentLoadingFallback({ 
   componentName 
 }: { 
   componentName: string 
@@ -170,17 +169,17 @@ const MainPageLayout: React.FC<MainPageLayoutProps> = memo(function MainPageLayo
   const [selectedIngredients, setSelectedIngredients] = useState<string[]>([]);
   const [selectedCuisine, setSelectedCuisine] = useState<string | null>(null);
   const [selectedCookingMethods, setSelectedCookingMethods] = useState<string[]>([]);
-  const [currentRecipe, setCurrentRecipe] = useState<any | null>(null);
+  const [currentRecipe, setCurrentRecipe] = useState<Record<string, unknown> | null>(null);
   const [activeSection, setActiveSection] = useState<string | null>(null);
   const [navigationHistory, setNavigationHistory] = useState<string[]>([]);
   
   // Component update subscribers
-  const [updateSubscribers, setUpdateSubscribers] = useState<Record<string, ((data: any) => void)[]>>({});
+  const [updateSubscribers, setUpdateSubscribers] = useState<Record<string, ((data: unknown) => void)[]>>({});
 
   // Steering file intelligence state
-  const [astrologicalGuidance, setAstrologicalGuidance] = useState<any>(null);
-  const [performanceMetrics, setPerformanceMetrics] = useState<any>({});
-  const [culturalValidation, setCulturalValidation] = useState<any>(null);
+  const [astrologicalGuidance, setAstrologicalGuidance] = useState<Record<string, unknown> | null>(null);
+  const [performanceMetrics, setPerformanceMetrics] = useState<Record<string, unknown>>({});
+  const [culturalValidation, setCulturalValidation] = useState<Record<string, unknown> | null>(null);
 
   // Initialize state from preserved navigation state
   useEffect(() => {
@@ -256,7 +255,7 @@ const MainPageLayout: React.FC<MainPageLayoutProps> = memo(function MainPageLayo
     
     const measurePerformance = () => {
       const renderTime = performance.now() - startTime;
-      const memoryUsage = (performance as any).memory?.usedJSHeapSize / 1024 / 1024 || 0;
+      const memoryUsage = (performance as Performance & { memory?: { usedJSHeapSize: number } }).memory?.usedJSHeapSize / 1024 / 1024 || 0;
       
       const metrics = {
         renderTime,
@@ -524,7 +523,7 @@ const MainPageLayout: React.FC<MainPageLayoutProps> = memo(function MainPageLayo
     logger.debug('Updated selected cooking methods:', methods);
   }, []);
 
-  const updateCurrentRecipe = useCallback((recipe: any | null) => {
+  const updateCurrentRecipe = useCallback((recipe: Record<string, unknown> | null) => {
     setCurrentRecipe(recipe);
     notifyComponentUpdate('recipe', { currentRecipe: recipe });
     logger.debug('Updated current recipe:', recipe);
@@ -538,7 +537,7 @@ const MainPageLayout: React.FC<MainPageLayoutProps> = memo(function MainPageLayo
   }, []);
 
   // Cross-component communication
-  const notifyComponentUpdate = useCallback((componentId: string, data: any) => {
+  const notifyComponentUpdate = useCallback((componentId: string, data: unknown) => {
     const subscribers = updateSubscribers[componentId] || [];
     subscribers.forEach(callback => {
       try {
@@ -549,7 +548,7 @@ const MainPageLayout: React.FC<MainPageLayoutProps> = memo(function MainPageLayo
     });
   }, [updateSubscribers]);
 
-  const subscribeToUpdates = useCallback((componentId: string, callback: (data: any) => void) => {
+  const subscribeToUpdates = useCallback((componentId: string, callback: (data: unknown) => void) => {
     setUpdateSubscribers(prev => ({
       ...prev,
       [componentId]: [...(prev[componentId] || []), callback]

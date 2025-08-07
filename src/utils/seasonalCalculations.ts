@@ -1,5 +1,3 @@
-import { DEFAULT_ELEMENTAL_PROPERTIES } from '@/constants/elementalConstants';
-import { getLatestAstrologicalState } from '@/services/AstrologicalService';
 import type { 
   Recipe, 
   Season, 
@@ -11,7 +9,6 @@ import type {
 } from '@/types/alchemy';
 
 // import { SEASONAL_PROPERTIES } from '@/constants/seasons'; // Commented out as unused
-import { validateElementalProperties, normalizeElementalProperties } from '@/types/validators';
 
 import { elementalUtils , getCurrentElementalState } from './elementalUtils';
 
@@ -182,7 +179,7 @@ export const calculateRecipeSeasonalAlignment = async (recipeElements, seasonalM
     return Math.round(alignmentScore * 100);
 };
 
-const calculateIngredientSuitability = async (recipe: Recipe, _season: Season): Promise<number> => {
+const _calculateIngredientSuitability = async (recipe: Recipe, _season: Season): Promise<number> => {
     // Implementation based on test requirements in:
     // src/utils/__tests__/seasonalCalculations.test.ts lines 47-51
     
@@ -210,7 +207,7 @@ const calculateIngredientSuitability = async (recipe: Recipe, _season: Season): 
     return suitabilityScore;
 };
 
-const calculateSeasonalBonus = async (recipe: Recipe, _season: Season): Promise<number> => {
+const _calculateSeasonalBonus = async (recipe: Recipe, _season: Season): Promise<number> => {
     // Check if recipe has an explicit seasonal recommendation
     let bonus = 15; // Base bonus
     
@@ -227,7 +224,7 @@ const calculateSeasonalBonus = async (recipe: Recipe, _season: Season): Promise<
 };
 
 // New function to calculate zodiac alignment
-const calculateZodiacAlignment = async (recipe: Recipe, currentZodiac: ZodiacSign): Promise<number> => {
+const _calculateZodiacAlignment = async (recipe: Recipe, currentZodiac: ZodiacSign): Promise<number> => {
     if (!recipe || !currentZodiac) return 0;
     
     let alignmentScore = 0;
@@ -255,7 +252,7 @@ const calculateZodiacAlignment = async (recipe: Recipe, currentZodiac: ZodiacSig
 };
 
 // New function to calculate lunar phase alignment
-const calculateLunarPhaseAlignment = (recipe: Recipe, lunarPhase: LunarPhase): number => {
+const _calculateLunarPhaseAlignment = (recipe: Recipe, lunarPhase: LunarPhase): number => {
     if (!recipe || !lunarPhase) return 0;
     
     let alignmentScore = 0;
@@ -285,7 +282,7 @@ const calculateLunarPhaseAlignment = (recipe: Recipe, lunarPhase: LunarPhase): n
     return alignmentScore;
 };
 
-const getSeasonalModifier = (_season: string, element: string): number => {
+const _getSeasonalModifier = (_season: string, element: string): number => {
     const modifiers: Record<string, Record<string, number>> = {
         spring: { Fire: 0.3, Water: 0.3, Air: 0.3, Earth: 0.1 },
         summer: { Fire: 0.4, Water: 0.2, Air: 0.3, Earth: 0.1 },
@@ -296,7 +293,7 @@ const getSeasonalModifier = (_season: string, element: string): number => {
     return modifiers[_season.toLowerCase()][element] || 0.25;
 };
 
-const getRating = (score: number): SeasonalEffectiveness['rating'] => {
+const _getRating = (score: number): SeasonalEffectiveness['rating'] => {
     if (score >= 80) return 'excellent';
     if (score >= 60) return 'good';
     if (score >= 40) return 'neutral';

@@ -12,7 +12,6 @@ import { CelestialPosition , PlanetaryPosition } from '../types/celestial';
 import { getCurrentTransitSign } from './astrology/validation';
 import { cache } from "./cache";
 import { createLogger } from "./logger";
-import { validatePlanetaryPositions } from './validatePlanetaryPositions';
 
 const logger = createLogger('StreamlinedPlanetaryPositions');
 

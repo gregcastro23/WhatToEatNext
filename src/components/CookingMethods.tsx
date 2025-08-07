@@ -410,7 +410,7 @@ export default function CookingMethods() {
   const { tarotCard, tarotElementalInfluences } = tarotContext || DEFAULT_TAROT_DATA;
 
   // Add this function to calculate ingredient compatibility with methods
-  const calculateIngredientCompatibility = (ingredient: string) => {
+  const _calculateIngredientCompatibility = (ingredient: string) => {
     if (!ingredient.trim()) return;
     
     // Create a compatibility map
@@ -449,24 +449,24 @@ export default function CookingMethods() {
   }, []);
 
   // TODO: Add filtering and display controls
-  const toggleShowAllMethods = useCallback(() => {
+  const _toggleShowAllMethods = useCallback(() => {
     setShowAllMethods(prev => !prev);
   }, []);
 
   // TODO: Implement cultural cooking method mapping system
-  const culturalCookingMap = useMemo(() => {
+  const _culturalCookingMap = useMemo(() => {
     // TODO: Replace with comprehensive cultural analysis
     return { 'Traditional': [] };
   }, []);
 
   // Get global astrological adjustment info
-  const globalAstrologicalAdjustment = useMemo(() => {
+  const _globalAstrologicalAdjustment = useMemo(() => {
     const zodiacSign = currentZodiac;
     return { zodiacSign };
   }, [currentZodiac]);
 
   // Update getThermodynamicEffect to indicate transformation
-  const getThermodynamicEffect = (value: number): {
+  const _getThermodynamicEffect = (value: number): {
     effect: 'increases' | 'slightly increases' | 'neutral' | 'slightly decreases' | 'decreases';
     intensity: number;
     description: string;
@@ -518,7 +518,7 @@ export default function CookingMethods() {
   };
 
   // Improve access to thermodynamic properties
-  const getThermodynamicValue = (method: ExtendedAlchemicalItem, property: string): number => {
+  const _getThermodynamicValue = (method: ExtendedAlchemicalItem, property: string): number => {
     // First try to get from thermodynamicProperties
     if (method.thermodynamicProperties && 
         property in method.thermodynamicProperties) {
@@ -583,20 +583,20 @@ export default function CookingMethods() {
   };
 
   // TODO: Implement molecular gastronomy analysis system
-  const getMolecularDetails = (method: ExtendedAlchemicalItem) => {
+  const _getMolecularDetails = (method: ExtendedAlchemicalItem) => {
     // TODO: Add comprehensive molecular technique detection and analysis
     return null;
   };
 
   // TODO: Implement comprehensive method data extraction system
-  const getMethodSpecificData = (method: ExtendedAlchemicalItem) => {
+  const _getMethodSpecificData = (method: ExtendedAlchemicalItem) => {
     // TODO: Add integration with cooking method database
     // TODO: Include molecular method detection and data extraction
     return null;
   };
 
   // TODO: Implement comprehensive method details system
-  const getMethodDetails = (method: ExtendedAlchemicalItem): { examples: string[], fullDefinition: string } => {
+  const _getMethodDetails = (method: ExtendedAlchemicalItem): { examples: string[], fullDefinition: string } => {
     // TODO: Replace with database-driven method information system
     const methodName = ((method as Record<string, unknown>).name || '').toString().toLowerCase();
     // Use generateMethodInfo to enrich method details
@@ -970,14 +970,14 @@ export default function CookingMethods() {
       
       default:
         // For methods not explicitly covered, return basic information
-        examples = getIdealIngredients(method as any).map(ingredient => String(ingredient));
+        examples = getIdealIngredients(method as unknown as { name: string; category: string }).map(ingredient => String(ingredient));
     }
     
     return { examples, fullDefinition: String(fullDefinition) || "Cooking method description" };
   };
 
   // Replace getNutritionalImpact function with getIngredientCompatibility
-  const getIngredientCompatibility = (method: ExtendedAlchemicalItem): { 
+  const _getIngredientCompatibility = (method: ExtendedAlchemicalItem): { 
     compatibility: string, 
     idealCharacteristics: string[],
     avoidCharacteristics: string[]
@@ -1216,7 +1216,7 @@ export default function CookingMethods() {
   };
 
   // Add this function to generate method-specific elemental properties
-  const getMethodElementalProperties = (method: ExtendedAlchemicalItem) => {
+  const _getMethodElementalProperties = (method: ExtendedAlchemicalItem) => {
     const methodName = ((method as Record<string, unknown>).name || '').toString().toLowerCase();
     
     // If the method already has valid elemental properties, use those
@@ -1262,7 +1262,7 @@ export default function CookingMethods() {
   const { getTechnicalTips: getMethodTips } = require('../utils/cookingMethodTips');
 
   // Add a function to determine which modality a cooking method best complements
-  const getMethodModalityAffinity = (method: ExtendedAlchemicalItem): Modality => {
+  const _getMethodModalityAffinity = (method: ExtendedAlchemicalItem): Modality => {
     // If the method has higher Fire/Air values, it's likely Cardinal
     // If it has higher Earth/Water values, it's likely Fixed
     // If it has balanced elements, it's likely Mutable
@@ -1285,7 +1285,7 @@ export default function CookingMethods() {
   const [isExpanded, setIsExpanded] = useState(false);
   
   // Function to toggle expansion
-  const toggleExpanded = useCallback(() => {
+  const _toggleExpanded = useCallback(() => {
     setIsExpanded(prev => !prev);
   }, []);
 
@@ -1358,7 +1358,7 @@ export default function CookingMethods() {
             // Add lunar phase adjustment with stronger effect
             if (astroData.lunarPhase) {
               const adaptedPhase = adaptLunarPhase(astroData.lunarPhase as LunarPhase);
-              const lunarMultiplier = getLunarMultiplier(adaptedPhase as any);
+              const lunarMultiplier = getLunarMultiplier(adaptedPhase as unknown as string);
               // Apply a more significant adjustment
               adjustedScore = adjustedScore * (0.8 + (lunarMultiplier * 0.4)); // More impactful adjustment
             }
@@ -1393,9 +1393,9 @@ export default function CookingMethods() {
             const finalScore = Math.min(1.0, Math.max(0.1, adjustedScore));
             
             // Generate a reason for the match using Type Harmony bridge
-            const bridge = createAstrologicalBridge();
+            const _bridge = createAstrologicalBridge();
             const matchReason = isValidAstrologicalState(astroState) 
-              ? determineMatchReason(methodWithThermodynamics as any, astroState as any)
+              ? determineMatchReason(methodWithThermodynamics as unknown as { name: string; thermodynamics?: unknown }, astroState as unknown as Record<string, unknown>)
               : "Compatible elemental properties";
             
             return {
@@ -1426,7 +1426,7 @@ export default function CookingMethods() {
       
       // Only update state if component is still mounted
       if (isMountedRef.current) {
-        setRecommendedMethods(sortedMethods as any);
+        setRecommendedMethods(sortedMethods as typeof recommendedMethods);
         
         // Also set planetary cooking methods with safe array access
         const planetaryCookingMethodsMap: Record<string, string[]> = {};
@@ -1483,7 +1483,7 @@ export default function CookingMethods() {
   renderCount.current += 1;
 
   // Add this at the end of the component, just before the final return
-  const renderDebugPanel = () => {
+  const _renderDebugPanel = () => {
     if (process.env.NODE_ENV !== 'development') return null;
     
     return (
@@ -1516,7 +1516,7 @@ export default function CookingMethods() {
   };
   
   // Update the culture selector handler
-  const handleCultureChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+  const _handleCultureChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const newCulture = e.target.value;
     setSelectedCulture(newCulture);
     // Refetch methods with the new culture filter
@@ -1524,7 +1524,7 @@ export default function CookingMethods() {
   };
 
   // Enhance the renderMethodCard function to display score details
-  const renderMethodCard = (method: ExtendedAlchemicalItem) => {
+  const _renderMethodCard = (method: ExtendedAlchemicalItem) => {
     // ... existing code ...
 
     const toggleScoreDetails = (e: React.MouseEvent, methodName: string) => {

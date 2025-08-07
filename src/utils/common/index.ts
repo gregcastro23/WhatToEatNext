@@ -2,7 +2,6 @@ import { z } from 'zod';
 
 import { Element } from "@/types/alchemy";
 
-import { cache } from '../cache';
 import { logger } from '../logger';
 // ===== THEME MANAGEMENT =====
 

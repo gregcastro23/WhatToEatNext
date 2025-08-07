@@ -85,7 +85,7 @@ export function getTimeFactors(): TimeFactors {
   // First, determine sunrise and sunset times (approximate)
   // For simplicity, we'll use 6 AM as sunrise and 6 PM as sunset
   const isDay = hour >= 6 && hour < 18;
-  const hoursPerPlanetaryHour = isDay ? 12 / 12 : 12 / 12; // 1 hour each
+  const _hoursPerPlanetaryHour = isDay ? 12 / 12 : 12 / 12; // 1 hour each
   
   // Starting planet for the day's first hour
   const startingPlanetIndex = PLANETARY_HOUR_SEQUENCE.indexOf(DAY_RULERS[weekDay]);

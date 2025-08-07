@@ -312,7 +312,7 @@ export default function IngredientRecommender() {
   };
   
   // Improved: Ensure all ingredients are categorized properly
-  const categorizeIngredient = (ingredient: Ingredient | UnifiedIngredient): string => {
+  const _categorizeIngredient = (ingredient: Ingredient | UnifiedIngredient): string => {
     // Normalize the name for consistent checking
     const name = String(ingredient.name).toLowerCase().trim();
     

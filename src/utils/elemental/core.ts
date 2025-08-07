@@ -1,4 +1,3 @@
-import { getLatestAstrologicalState } from '@/services/AstrologicalService';
 import type { ElementalProperties, Element, ElementalCharacter } from "@/types/alchemy";
 import { Recipe } from '@/types/recipe';
 import { getCurrentElementalState } from '@/utils/elementalUtils';

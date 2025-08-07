@@ -5,7 +5,6 @@
  * with robust fallback mechanisms when API calls fail.
  */
 
-import { CelestialPosition } from '@/types/celestial';
 import { logger } from '@/utils/logger';
 // getMCPServerIntegration removed with MCP cleanup
 
@@ -314,7 +313,7 @@ function dateToJulian(date: Date): number {
  */
 function getMarch2025Positions(date: Date | any = new Date()): Record<string, unknown> {
   // Ensure date is a valid Date object
-  const validDate = date instanceof Date && !isNaN(date.getTime()) 
+  const _validDate = date instanceof Date && !isNaN(date.getTime()) 
     ? date 
     : new Date();
   

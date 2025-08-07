@@ -77,7 +77,7 @@ export function calculateBasicPlanetaryPositions(date: Date = new Date()) {
     // Apply surgical type casting for node data access
     const nodeDataTyped = nodeData as Record<string, unknown>;
     const northNodeValue = Number(nodeDataTyped.northNode) || 0;
-    const southNodeValue = Number(nodeDataTyped.southNode) || ((northNodeValue + 180) % 360);
+    const _southNodeValue = Number(nodeDataTyped.southNode) || ((northNodeValue + 180) % 360);
     
     // Convert longitude to sign and degree
     const northNodeSign = getSignFromLongitude(Number(northNodeValue));

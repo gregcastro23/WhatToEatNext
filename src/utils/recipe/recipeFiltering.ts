@@ -6,12 +6,10 @@ import { CuisineType } from "@/types/cuisine";
 import type { Ingredient, UnifiedIngredient } from '@/types/ingredient';
 import { Recipe } from '@/types/recipe';
 
-import { cuisinesMap } from '../../data/cuisines';
 import { logger } from '../logger';
 
 
 
-import { calculateModalityScore } from './recipeMatching';
 
 
 // ===== INTERFACES =====

@@ -64,7 +64,11 @@ describe('AutomatedLintingIntegration', () => {
           errors: 2,
           warnings: 8,
           byCategory: {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            // Intentionally any: Test mock rule structures need flexible typing
             typescript: [{ rule: '@typescript-eslint/no-unused-vars' } as any],
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            // Intentionally any: Test mock rule structures need flexible typing
             import: [{ rule: 'import/order' } as any]
           },
           byPriority: { 1: [], 2: [], 3: [], 4: [] },

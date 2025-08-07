@@ -936,7 +936,7 @@ export const TAROT_SUIT_ALCHEMICAL_INTELLIGENCE = {
     timeConstraints?: number;
     symbolicConditions?: Record<string, number>;
   }) => {
-    const baseEffects = getTarotCardAlchemicalEffect(targetCard) || {
+    const _baseEffects = getTarotCardAlchemicalEffect(targetCard) || {
       Spirit: 0, Essence: 0, Matter: 0, Substance: 0
     };
 
@@ -1269,7 +1269,7 @@ export function calculateOptimalCookingConditions(
  * @param enhancedPillar - The enhanced alchemical pillar
  * @returns The planetary alignment bonus (0-1)
  */
-export function calculatePlanetaryAlignment(enhancedPillar: AlchemicalPillar & { monicaProperties?: any }): number {
+export function calculatePlanetaryAlignment(enhancedPillar: AlchemicalPillar & { monicaProperties?: { planetary?: Record<string, number>; planetary_alignment?: number } }): number {
   if (!enhancedPillar.planetaryAssociations || !enhancedPillar.monicaProperties) {
     return 0;
   }
@@ -1290,7 +1290,7 @@ export function calculatePlanetaryAlignment(enhancedPillar: AlchemicalPillar & {
  * @param enhancedPillar - The enhanced alchemical pillar
  * @returns The lunar phase bonus (0-1)
  */
-export function calculateLunarPhaseBonus(enhancedPillar: AlchemicalPillar & { monicaProperties?: any }): number {
+export function calculateLunarPhaseBonus(enhancedPillar: AlchemicalPillar & { monicaProperties?: { lunar?: Record<string, number>; lunar_phase_bonus?: number } }): number {
   if (!enhancedPillar.monicaProperties) {
     return 0;
   }

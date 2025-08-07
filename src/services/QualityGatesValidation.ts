@@ -21,6 +21,7 @@ import fs from 'fs';
 import path from 'path';
 
 import { log } from '@/services/LoggingService';
+import type { QualityGateConfig, QualityGateResult, QualityViolation } from '@/types/serviceLayer';
 
 import { createPerformanceMetrics } from './PerformanceMetricsAnalytics';
 
@@ -62,7 +63,7 @@ export interface ValidationRule {
   description: string;
   type: 'script' | 'command' | 'function' | 'regex' | 'custom';
   target: string;
-  parameters: Record<string, any>;
+  parameters: Record<string, string | number | boolean>;
   enabled: boolean;
   weight: number;
   timeoutSeconds: number;
@@ -77,7 +78,7 @@ export interface QualityAction {
   type: 'notification' | 'rollback' | 'script' | 'webhook' | 'stop' | 'fix';
   trigger: 'pass' | 'fail' | 'warning' | 'always';
   command?: string;
-  parameters?: Record<string, any>;
+  parameters?: Record<string, string | number | boolean>;
   timeout: number;
   retryCount: number;
   async: boolean;

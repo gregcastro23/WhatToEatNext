@@ -235,7 +235,12 @@ const getCurrentSeason = (): string => {
 };
 
 // Calculate alchemical balance optimization score
-const calculateAlchemicalBalance = (alchemicalProperties: any): number => {
+const calculateAlchemicalBalance = (alchemicalProperties: {
+  Spirit?: number;
+  Essence?: number;
+  Matter?: number;
+  Substance?: number;
+}): number => {
   if (!alchemicalProperties) return 0.5;
   
   const { Spirit, Essence, Matter, Substance } = alchemicalProperties;
@@ -281,8 +286,16 @@ const calculateSeasonalOptimization = (cuisineName: string, season: string): num
 
 // Calculate Kalchm harmony score for recipe recommendations
 const calculateRecipeKalchmHarmony = (
-  recipeThermodynamics: any,
-  cuisineThermodynamics?: any
+  recipeThermodynamics: {
+    kalchm?: number;
+    thermodynamicScore?: number;
+    energyBalance?: number;
+  },
+  cuisineThermodynamics?: {
+    kalchm?: number;
+    thermodynamicScore?: number;
+    energyBalance?: number;
+  }
 ): number => {
   if (!recipeThermodynamics) return 0.7;
   
@@ -304,7 +317,12 @@ const calculateRecipeKalchmHarmony = (
 
 // Calculate thermodynamic optimization for recipes
 const calculateThermodynamicOptimization = (
-  thermodynamics: any,
+  thermodynamics: {
+    heat?: number;
+    entropy?: number;
+    reactivity?: number;
+    energyBalance?: number;
+  },
   currentElementalProfile: ElementalProperties
 ): number => {
   if (!thermodynamics) return 0.7;
@@ -324,8 +342,18 @@ const buildCompleteRecipe = (
   recipe: Recipe,
   cuisineName: string,
   currentMomentElementalProfile?: ElementalProperties,
-  currentMomentAlchemicalResult?: any,
-  astrologicalState?: any,
+  currentMomentAlchemicalResult?: {
+    kalchm?: number;
+    monica?: number;
+    gregsEnergy?: number;
+    alchemicalProperties?: {
+      Spirit?: number;
+      Essence?: number;
+      Matter?: number;
+      Substance?: number;
+    };
+  },
+  astrologicalState?: AstrologicalState,
   currentSeason?: string
 ): RecipeData => {
   const defaultElementalProperties: ElementalProperties = {
@@ -368,7 +396,7 @@ const buildCompleteRecipe = (
   // Phase 2B: Ingredient Intelligence Systems Integration
   const ingredientCategories = new Set(
     Array.isArray(recipe.ingredients) 
-      ? recipe.ingredients.map((ing: any) => ing.category).filter(Boolean)
+      ? recipe.ingredients.map((ing: { category?: string }) => ing.category).filter(Boolean)
       : []
   );
   
@@ -379,7 +407,7 @@ const buildCompleteRecipe = (
       ingredientDistribution: Array.from(ingredientCategories).map(cat => ({
         category: cat,
         count: Array.isArray(recipe.ingredients) 
-          ? recipe.ingredients.filter((ing: any) => ing.category === cat).length 
+          ? recipe.ingredients.filter((ing: { category?: string }) => ing.category === cat).length 
           : 0
       }))
     },
@@ -525,7 +553,7 @@ class CuisineRecommenderErrorBoundary extends React.Component<
         hasError: false,
         error: null,
         retryCount: prevState.retryCount + 1
-      } as any));
+      }));
       this.props.onRetry();
     }
   };
@@ -626,7 +654,21 @@ export default function CuisineRecommender() {
   
   // Enterprise Intelligence state
   const [showEnterpriseIntelligence, setShowEnterpriseIntelligence] = useState<boolean>(false);
-  const [enterpriseIntelligenceAnalysis, setEnterpriseIntelligenceAnalysis] = useState<any>(null);
+  const [enterpriseIntelligenceAnalysis, setEnterpriseIntelligenceAnalysis] = useState<{
+    recipeIntelligence?: {
+      compatibility?: number;
+      optimization?: number;
+      safetyScore?: number;
+    };
+    ingredientIntelligence?: {
+      analysis?: Record<string, unknown>;
+      optimizationScore?: number;
+    };
+    cuisineIntelligence?: {
+      culturalAnalysis?: Record<string, unknown>;
+      fusionAnalysis?: Record<string, unknown>;
+    };
+  } | null>(null);
   
   // Analytics hooks
   const [analyticsState, analyticsActions] = useRecommendationAnalytics({
@@ -641,7 +683,7 @@ export default function CuisineRecommender() {
   // ========== MEMOIZED VALUES ==========
   
   const currentMomentElementalProfile = useMemo(() => {
-    const elementalState = (state as any)?.elementalState || (state as any)?.astrologicalState?.elementalState;
+    const elementalState = (state as unknown as { elementalState?: ElementalProperties; astrologicalState?: { elementalState?: ElementalProperties } })?.elementalState || (state as unknown as { astrologicalState?: { elementalState?: ElementalProperties } })?.astrologicalState?.elementalState;
     if (elementalState) {
       return elementalState as ElementalProperties;
     }
@@ -827,7 +869,7 @@ export default function CuisineRecommender() {
             // Calculate Kalchm harmony score for recipe
             const kalchmHarmony = calculateRecipeKalchmHarmony(
               analysis.thermodynamicMetrics,
-              (cuisine as any).enhancedAnalysis?.thermodynamicMetrics
+              (cuisine as unknown as { enhancedAnalysis?: { thermodynamicMetrics?: unknown } }).enhancedAnalysis?.thermodynamicMetrics
             );
             
             // Calculate recipe thermodynamic optimization
@@ -906,7 +948,7 @@ export default function CuisineRecommender() {
       const topSauces = generateTopSauceRecommendations(
         currentMomentElementalProfile,
         6,
-        astrologicalStateForRecommendations as any
+        astrologicalStateForRecommendations as unknown as Record<string, unknown>
       );
       setSauceRecommendations(topSauces as SauceData[]);
 
@@ -1508,7 +1550,7 @@ export default function CuisineRecommender() {
             </div>
 
             {/* Monica/Kalchm Thermodynamic Metrics */}
-            {(selectedCuisineData as any).monicaCompatibility && (
+            {(selectedCuisineData as unknown as { monicaCompatibility?: number }).monicaCompatibility && (
               <div className="mb-4 bg-gradient-to-r from-purple-50 to-blue-50 p-4 rounded-lg border">
                 <h4 className="text-sm font-medium mb-3 flex items-center">
                   <Sparkles size={16} className="text-purple-500 mr-2" />
@@ -1517,25 +1559,25 @@ export default function CuisineRecommender() {
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                   <div className="text-center">
                     <div className="text-lg font-semibold text-purple-600">
-                      {Math.round(((selectedCuisineData as any).monicaCompatibility || 0) * 100)}%
+                      {Math.round(((selectedCuisineData as unknown as { monicaCompatibility?: number }).monicaCompatibility || 0) * 100)}%
                     </div>
                     <div className="text-xs text-gray-600">Monica Compatibility</div>
                   </div>
                   <div className="text-center">
                     <div className="text-lg font-semibold text-blue-600">
-                      {((selectedCuisineData as any).userMonica || 1.0).toFixed(2)}
+                      {((selectedCuisineData as unknown as { userMonica?: number }).userMonica || 1.0).toFixed(2)}
                     </div>
                     <div className="text-xs text-gray-600">Your Monica Constant</div>
                   </div>
                   <div className="text-center">
                     <div className="text-lg font-semibold text-green-600">
-                      {((selectedCuisineData as any).cuisineMonica || 1.0).toFixed(2)}
+                      {((selectedCuisineData as unknown as { cuisineMonica?: number }).cuisineMonica || 1.0).toFixed(2)}
                     </div>
                     <div className="text-xs text-gray-600">Cuisine Monica</div>
                   </div>
                   <div className="text-center">
                     <div className="text-lg font-semibold text-orange-600">
-                      {Math.abs(((selectedCuisineData as any).userMonica || 1.0) - ((selectedCuisineData as any).cuisineMonica || 1.0)) < 0.5 ? 'High' : 'Medium'}
+                      {Math.abs(((selectedCuisineData as unknown as { userMonica?: number }).userMonica || 1.0) - ((selectedCuisineData as unknown as { cuisineMonica?: number }).cuisineMonica || 1.0)) < 0.5 ? 'High' : 'Medium'}
                     </div>
                     <div className="text-xs text-gray-600">Harmony Level</div>
                   </div>
@@ -1547,7 +1589,7 @@ export default function CuisineRecommender() {
             )}
 
             {/* Enhanced Thermodynamic Metrics Display */}
-            {(selectedCuisineData as any).enhancedAnalysis && (
+            {(selectedCuisineData as unknown as { enhancedAnalysis?: unknown }).enhancedAnalysis && (
               <div className="mb-4 bg-gradient-to-r from-green-50 to-teal-50 p-4 rounded-lg border">
                 <h4 className="text-sm font-medium mb-3 flex items-center">
                   <Star size={16} className="text-green-500 mr-2" />
@@ -1556,25 +1598,25 @@ export default function CuisineRecommender() {
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-3">
                   <div className="text-center">
                     <div className="text-lg font-semibold text-green-600">
-                      {Math.round(((selectedCuisineData as any).thermodynamicHarmony || 0) * 100)}%
+                      {Math.round(((selectedCuisineData as unknown as { thermodynamicHarmony?: number }).thermodynamicHarmony || 0) * 100)}%
                     </div>
                     <div className="text-xs text-gray-600">Thermodynamic Harmony</div>
                   </div>
                   <div className="text-center">
                     <div className="text-lg font-semibold text-teal-600">
-                      {Math.round(((selectedCuisineData as any).alchemicalBalance || 0) * 100)}%
+                      {Math.round(((selectedCuisineData as unknown as { alchemicalBalance?: number }).alchemicalBalance || 0) * 100)}%
                     </div>
                     <div className="text-xs text-gray-600">Alchemical Balance</div>
                   </div>
                   <div className="text-center">
                     <div className="text-lg font-semibold text-blue-600">
-                      {((selectedCuisineData as any).enhancedAnalysis?.thermodynamicMetrics?.kalchm || 1.0).toFixed(2)}
+                      {((selectedCuisineData as unknown as { enhancedAnalysis?: { thermodynamicMetrics?: { kalchm?: number } } }).enhancedAnalysis?.thermodynamicMetrics?.kalchm || 1.0).toFixed(2)}
                     </div>
                     <div className="text-xs text-gray-600">Kalchm Constant</div>
                   </div>
                   <div className="text-center">
                     <div className="text-lg font-semibold text-purple-600">
-                      {((selectedCuisineData as any).enhancedAnalysis?.thermodynamicMetrics?.gregsEnergy || 0).toFixed(2)}
+                      {((selectedCuisineData as unknown as { enhancedAnalysis?: { thermodynamicMetrics?: { gregsEnergy?: number } } }).enhancedAnalysis?.thermodynamicMetrics?.gregsEnergy || 0).toFixed(2)}
                     </div>
                     <div className="text-xs text-gray-600">Greg's Energy</div>
                   </div>
@@ -1584,11 +1626,11 @@ export default function CuisineRecommender() {
                   <div className="bg-white p-3 rounded border">
                     <h5 className="text-sm font-medium mb-2">Heat Efficiency</h5>
                     <div className="flex items-center justify-between">
-                      <span className="text-sm">{((selectedCuisineData as any).enhancedAnalysis?.thermodynamicMetrics?.heat || 0).toFixed(3)}</span>
+                      <span className="text-sm">{((selectedCuisineData as unknown as { enhancedAnalysis?: { thermodynamicMetrics?: { heat?: number } } }).enhancedAnalysis?.thermodynamicMetrics?.heat || 0).toFixed(3)}</span>
                       <div className="w-16 bg-gray-200 rounded-full h-2">
                         <div 
                           className="h-2 rounded-full bg-red-500" 
-                          style={{ width: `${Math.min(100, Math.max(0, ((selectedCuisineData as any).enhancedAnalysis?.thermodynamicMetrics?.heat || 0) * 100))}%` }}
+                          style={{ width: `${Math.min(100, Math.max(0, ((selectedCuisineData as unknown as { enhancedAnalysis?: { thermodynamicMetrics?: { heat?: number } } }).enhancedAnalysis?.thermodynamicMetrics?.heat || 0) * 100))}%` }}
                         ></div>
                       </div>
                     </div>
@@ -1597,11 +1639,11 @@ export default function CuisineRecommender() {
                   <div className="bg-white p-3 rounded border">
                     <h5 className="text-sm font-medium mb-2">Entropy Balance</h5>
                     <div className="flex items-center justify-between">
-                      <span className="text-sm">{((selectedCuisineData as any).enhancedAnalysis?.thermodynamicMetrics?.entropy || 0).toFixed(3)}</span>
+                      <span className="text-sm">{((selectedCuisineData as unknown as { enhancedAnalysis?: { thermodynamicMetrics?: { entropy?: number } } }).enhancedAnalysis?.thermodynamicMetrics?.entropy || 0).toFixed(3)}</span>
                       <div className="w-16 bg-gray-200 rounded-full h-2">
                         <div 
                           className="h-2 rounded-full bg-yellow-500" 
-                          style={{ width: `${Math.min(100, Math.max(0, ((selectedCuisineData as any).enhancedAnalysis?.thermodynamicMetrics?.entropy || 0) * 50))}%` }}
+                          style={{ width: `${Math.min(100, Math.max(0, ((selectedCuisineData as unknown as { enhancedAnalysis?: { thermodynamicMetrics?: { entropy?: number } } }).enhancedAnalysis?.thermodynamicMetrics?.entropy || 0) * 50))}%` }}
                         ></div>
                       </div>
                     </div>
@@ -1610,7 +1652,7 @@ export default function CuisineRecommender() {
                   <div className="bg-white p-3 rounded border">
                     <h5 className="text-sm font-medium mb-2">Reactivity</h5>
                     <div className="flex items-center justify-between">
-                      <span className="text-sm">{((selectedCuisineData as any).enhancedAnalysis?.thermodynamicMetrics?.reactivity || 0).toFixed(3)}</span>
+                      <span className="text-sm">{((selectedCuisineData as unknown as { enhancedAnalysis?: { thermodynamicMetrics?: { reactivity?: number } } }).enhancedAnalysis?.thermodynamicMetrics?.reactivity || 0).toFixed(3)}</span>
                       <div className="w-16 bg-gray-200 rounded-full h-2">
                         <div 
                           className="h-2 rounded-full bg-orange-500" 

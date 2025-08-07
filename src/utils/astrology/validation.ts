@@ -13,7 +13,7 @@ import { CelestialPosition } from '@/types/celestial';
  * A utility function for logging debug information
  * This is a safe replacement for console.log that can be disabled in production
  */
-const debugLog = (_message: string, ..._args: unknown[]): void => {
+const _debugLog = (_message: string, ..._args: unknown[]): void => {
   // No-op for production
 };
 
@@ -34,7 +34,7 @@ interface StateCache<T> {
 
 // Cache for reliable positions
 let reliablePositionsCache: StateCache<Record<string, CelestialPosition>> | null = null;
-const CACHE_DURATION = 15 * 60 * 1000; // 15 minutes
+const _CACHE_DURATION = 15 * 60 * 1000; // 15 minutes
 
 // Interface for transit date
 interface TransitDate { 

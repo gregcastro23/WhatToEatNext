@@ -1,11 +1,5 @@
-import { LUNAR_PHASES } from '@/constants/lunar';
 import { cuisineFlavorProfiles } from '@/data/cuisineFlavorProfiles';
-import { allIngredients } from '@/data/ingredients';
 import { planetaryFlavorProfiles, PlanetaryFlavorProfile } from '@/data/planetaryFlavorProfiles';
-import jupiterData from '@/data/planets/jupiter';
-import marsData from '@/data/planets/mars';
-import mercuryData from '@/data/planets/mercury';
-import venusData from '@/data/planets/venus';
 import { Sauce } from '@/data/sauces';
 // Import the planet data
 import { LunarPhase, ZodiacSign, PlanetaryAspect, ElementalProperties, PlanetName } from '@/types/alchemy';
@@ -29,7 +23,7 @@ import {
 } from "@/utils/astrologyUtils";
 
 // Mock planetary data for calculations
-const mockPlanetaryData = {
+const _mockPlanetaryData = {
   flavorProfiles: {
     sweet: 0.7,
     sour: 0.4,

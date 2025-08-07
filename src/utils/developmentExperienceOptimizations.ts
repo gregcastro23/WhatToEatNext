@@ -468,11 +468,11 @@ export type {
 
     try {
       // Generate optimized TypeScript config
-      const tsConfig = this.generateOptimizedTypeScriptConfig();
+      const _tsConfig = this.generateOptimizedTypeScriptConfig();
       applied.push('Generated optimized TypeScript configuration');
 
       // Generate enhanced type definitions
-      const typeDefinitions = this.generateAstrologicalTypeDefinitions();
+      const _typeDefinitions = this.generateAstrologicalTypeDefinitions();
       applied.push('Generated enhanced astrological type definitions');
 
       // Update performance monitoring

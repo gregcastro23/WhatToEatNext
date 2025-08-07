@@ -1133,7 +1133,9 @@ export class EnterpriseIntelligenceOrchestrator extends EventEmitter {
     }
   }
 
-  private async checkServiceHealth(name: string, service: any): Promise<{
+  private async checkServiceHealth(name: string, service: {
+    getStatus?: () => { isActive?: boolean; health?: 'excellent' | 'good' | 'fair' | 'poor' };
+  }): Promise<{
     status: 'active' | 'inactive' | 'error';
     health: 'excellent' | 'good' | 'fair' | 'poor';
   }> {
@@ -1327,7 +1329,7 @@ export class EnterpriseIntelligenceOrchestrator extends EventEmitter {
   }
 
   private generateServiceMetrics(): EnterpriseIntelligenceReport['services'] {
-    const metrics: any = {};
+    const metrics: Record<string, number | string | boolean> = {};
     
     for (const [serviceId, status] of this.serviceStatus) {
       metrics[serviceId] = {
@@ -1634,7 +1636,14 @@ export class EnterpriseIntelligenceOrchestrator extends EventEmitter {
         
         // Restore reports
         if (data.reports) {
-          this.reports = data.reports.map((r: any) => ({
+          this.reports = data.reports.map((r: {
+            id?: string;
+            type?: string;
+            timestamp?: string | Date;
+            metrics?: Record<string, unknown>;
+            insights?: unknown[];
+            recommendations?: string[];
+          }) => ({
             ...r,
             timestamp: new Date(r.timestamp),
             period: {

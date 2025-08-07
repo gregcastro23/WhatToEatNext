@@ -1,4 +1,3 @@
-import { getLatestAstrologicalState } from '@/constants/systemDefaults';
 import type {
   ElementalProperties,
   AstrologicalState,

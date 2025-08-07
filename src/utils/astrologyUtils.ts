@@ -42,7 +42,7 @@ import { calculateAllHouseEffects } from './houseEffects';
  */
 const debugLog = (message: string, ...args: unknown[]): void => {
   // Use the log service for debugging with enterprise intelligence integration
-  log.info(`[AstrologyUtils Debug] ${message}`, ...(args as any[]));
+  log.info(`[AstrologyUtils Debug] ${message}`, ...args);
 };
 
 /**
@@ -1393,7 +1393,7 @@ export async function getCurrentAstrologicalState(date: Date = new Date()): Prom
     const hourCalculator = new PlanetaryHourCalculator();
     const planetaryHour = hourCalculator.calculatePlanetaryHour(date) as unknown as Planet;
     const planetaryDay = hourCalculator.getPlanetaryDay(date) as unknown as Planet;
-    const planetaryMinute = hourCalculator.getPlanetaryMinute(date) as unknown as Planet;
+    const _planetaryMinute = hourCalculator.getPlanetaryMinute(date) as unknown as Planet;
     
     // Convert planetary positions to the format needed for alignment
     const currentPlanetaryAlignment: Record<string, unknown> = {};
@@ -1653,7 +1653,7 @@ function _calculatePlacidusHouses(jd: number, lat: number, lon: number): number[
     // This is a simplified implementation of the Placidus algorithm
     
     // Ascendant (1st house cusp)
-    const tanObliquity = Math.tan(obliquityRad);
+    const _tanObliquity = Math.tan(obliquityRad);
     const tanLat = Math.tan(latRad);
     
     // Calculate Ascendant formula: atan2(sin(lst), cos(lst) * cos(obl) + tan(lat) * sin(obl))
@@ -1773,7 +1773,7 @@ export function calculateLunarNodes(date: Date = new Date()): {
     
     // More accurate calculation of lunar nodes
     // The lunar nodes complete a cycle in about 18.6 years (moving retrograde)
-    const nodeCycleDays = 6793.48; // Precise cycle length in days
+    const _nodeCycleDays = 6793.48; // Precise cycle length in days
     
     // Updated reference date: January 23, 2022 when North Node was at 0° taurus (30°)
     const referenceDate = new Date('2022-01-23T00:00:00Z');

@@ -49,7 +49,7 @@ class BuildPerformanceMonitor {
   private bottlenecks: CompilationBottleneck[] = [];
   private regressions: PerformanceRegression[] = [];
   private astrologicalMetrics: AstrologicalCalculationMetrics[] = [];
-  private subscribers: Set<(data: any) => void> = new Set();
+  private subscribers: Set<(data: BuildMetrics | PerformanceReport) => void> = new Set();
 
   // Performance thresholds
   private readonly THRESHOLDS = {
@@ -147,7 +147,7 @@ class BuildPerformanceMonitor {
       const compilationTime = performance.now() - startTime;
       
       // Handle compilation errors
-      const errorOutput = (error as any).stdout || (error as any).stderr || '';
+      const errorOutput = (error as unknown as { stdout?: string; stderr?: string }).stdout || (error as unknown as { stderr?: string }).stderr || '';
       const errorCount = (errorOutput.match(/error TS/g) || []).length;
       const warningCount = (errorOutput.match(/warning TS/g) || []).length;
 
@@ -214,7 +214,7 @@ class BuildPerformanceMonitor {
       const totalBuildTime = performance.now() - startTime;
       const finalMemory = process.memoryUsage().heapUsed;
 
-      const errorOutput = (error as any).stdout || (error as any).stderr || '';
+      const errorOutput = (error as unknown as { stdout?: string; stderr?: string }).stdout || (error as unknown as { stderr?: string }).stderr || '';
       const errorCount = (errorOutput.match(/error/gi) || []).length;
       const warningCount = (errorOutput.match(/warning/gi) || []).length;
 
@@ -511,7 +511,7 @@ class BuildPerformanceMonitor {
     return latestTime < avgTime * 0.5 ? 0.9 : 0.3;
   }
 
-  private estimateCalculationAccuracy(result: any): number {
+  private estimateCalculationAccuracy(result: { metrics?: { processingTime?: number; accuracy?: number } }): number {
     // This would need domain-specific validation
     // For now, return 1.0 if result exists and looks valid
     if (!result) return 0;
@@ -539,7 +539,7 @@ class BuildPerformanceMonitor {
   }
 
   // Public API methods
-  public subscribe(callback: (data: any) => void) {
+  public subscribe(callback: (data: BuildMetrics | PerformanceReport) => void) {
     this.subscribers.add(callback);
     return () => this.subscribers.delete(callback);
   }

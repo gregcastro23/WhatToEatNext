@@ -1,4 +1,3 @@
-import { CHAKRA_NUTRITIONAL_CORRELATIONS, CHAKRA_HERBS } from "@/constants/chakraSymbols";
 import { Element , ElementalProperties ,
   AlchemicalValues,
   ChakraEnergies,
@@ -778,7 +777,7 @@ export function getDefaultPlanetaryPositions(): Record<string, CelestialPosition
 /**
  * Merge user values with defaults
  */
-export function mergeWithDefaults<T extends Record<string, any>>(
+export function mergeWithDefaults<T extends Record<string, unknown>>(
   userValues: Partial<T>,
   defaults: T,
 ): T {
@@ -789,9 +788,9 @@ export function mergeWithDefaults<T extends Record<string, any>>(
       if (typeof userValues[key] === 'object' && 
           typeof defaults[key] === 'object' && 
           !Array.isArray(userValues[key])) {
-        result[key] = mergeWithDefaults(userValues[key] as any, defaults[key]);
+        result[key] = mergeWithDefaults(userValues[key] as Record<string, unknown>, defaults[key]);
       } else {
-        result[key] = userValues[key] as any;
+        result[key] = userValues[key] as T[Extract<keyof T, string>];
       }
     }
   }

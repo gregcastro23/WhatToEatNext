@@ -1,6 +1,5 @@
 'use client';
 
-import React from 'react';
 
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 

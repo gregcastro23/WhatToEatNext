@@ -107,8 +107,8 @@ export function calculateCombinationEffects({
     effects.push(...calculateElementalInteractions(ingredients));
 
     return effects.sort((a, b) => {
-      const aValue = (a as any)?.modifier || (a as any)?.strength || 0;
-      const bValue = (b as any)?.modifier || (b as any)?.strength || 0;
+      const aValue = (a as unknown as { modifier?: number; strength?: number })?.modifier || (a as unknown as { strength?: number })?.strength || 0;
+      const bValue = (b as unknown as { modifier?: number; strength?: number })?.modifier || (b as unknown as { strength?: number })?.strength || 0;
       return bValue - aValue;
     });
   } catch (error) {
@@ -147,7 +147,7 @@ const calculateElementalInteractions = (
         strength: 1.2,
         elements: ['Fire'] as Element[],
         description: 'Harmonious elemental combination'
-      } as any);
+      } as CombinationEffect);
     }
 
     if (isAntagonisticCombination(elem1, elem2)) {
@@ -157,7 +157,7 @@ const calculateElementalInteractions = (
         strength: 0.8,
         elements: ['Water'] as Element[],
         description: 'Conflicting elemental combination'
-      } as any);
+      } as CombinationEffect);
     }
   });
 
@@ -188,7 +188,7 @@ const isAntagonisticCombination = (
   elem1: ElementalProperties,
   elem2: ElementalProperties
 ): boolean => {
-  const antagonistic = (ELEMENT_COMBINATIONS as any)?.antagonistic || [];
+  const antagonistic = (ELEMENT_COMBINATIONS as unknown as { antagonistic?: Array<[string, string]> })?.antagonistic || [];
   return antagonistic.some(([e1, e2]: [any, any]) =>
     (getDominantElement(elem1) === e1 && getDominantElement(elem2) === e2) ||
     (getDominantElement(elem1) === e2 && getDominantElement(elem2) === e1)

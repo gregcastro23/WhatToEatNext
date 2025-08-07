@@ -362,7 +362,7 @@ describe('MainPageLayout', () => {
 describe('MainPageLayout Performance', () => {
   it('memoizes context value to prevent unnecessary re-renders', async () => {
     const TestComponent = () => {
-      const context = useMainPageContext();
+      const _context = useMainPageContext();
       const renderCount = React.useRef(0);
       renderCount.current++;
       

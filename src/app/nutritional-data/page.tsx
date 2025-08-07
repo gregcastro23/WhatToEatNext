@@ -1,4 +1,3 @@
-import React from 'react';
 
 import NutritionalDisplay from '@/components/NutritionalDisplay';
 

@@ -27,6 +27,12 @@ import {
   type EnhancedRecipe 
 } from './recipes';
 import { SeasonalRecommendations } from './seasonal';
+import type { 
+  MethodAdjustment, 
+  TimingAdjustment, 
+  TemperatureAdjustment,
+  RecipeOptimizationResult 
+} from '@/types/recipeAdjustments';
 
 
 
@@ -472,20 +478,20 @@ export class UnifiedRecipeBuildingSystem {
           seasonalImprovement: 0.1
         })),
         cookingMethodAdjustments: cookingMethodAdjustments.map(adj => ({
-          original: (adj as any)?.method || '',
-          adjusted: (adj as any)?.adjustment || '',
-          reason: (adj as any)?.reason || '',
+          original: (adj as unknown as MethodAdjustment)?.method || '',
+          adjusted: (adj as unknown as MethodAdjustment)?.adjustment || '',
+          reason: (adj as unknown as MethodAdjustment)?.reason || '',
           seasonalBenefit: 'Seasonal optimization'
         })),
         timingAdjustments: {
-          prepTimeChange: (timingAdjustments as any)?.cookingTime || 0,
-          cookTimeChange: (timingAdjustments as any)?.cookingTime || 0,
-          restTimeChange: (timingAdjustments as any)?.restTime || 0,
-          reason: (timingAdjustments as any)?.reason || 'Seasonal timing optimization'
+          prepTimeChange: (timingAdjustments as unknown as TimingAdjustment)?.cookingTime || 0,
+          cookTimeChange: (timingAdjustments as unknown as TimingAdjustment)?.cookingTime || 0,
+          restTimeChange: (timingAdjustments as unknown as TimingAdjustment)?.restTime || 0,
+          reason: (timingAdjustments as unknown as TimingAdjustment)?.reason || 'Seasonal timing optimization'
         },
         temperatureAdjustments: {
-          temperatureChange: (temperatureAdjustments as any)?.temperature || 0,
-          reason: (temperatureAdjustments as any)?.reason || 'Seasonal temperature optimization',
+          temperatureChange: (temperatureAdjustments as unknown as TemperatureAdjustment)?.temperature || 0,
+          reason: (temperatureAdjustments as unknown as TemperatureAdjustment)?.reason || 'Seasonal temperature optimization',
           seasonalBenefit: 'Enhanced seasonal flavor development'
         }
       },
@@ -951,9 +957,11 @@ export class UnifiedRecipeBuildingSystem {
     
     // Use recipe ingredients and seasonal recommendations for intelligent substitutions
     for (const ingredient of recipe.ingredients || []) {
-      const seasonalIngredient = (seasonalRecommendations as any)?.getSeasonalEquivalent?.(ingredient.name, season);
+      const seasonalIngredient = (seasonalRecommendations as unknown as { 
+        getSeasonalEquivalent?: (name: string, season: Season) => string 
+      })?.getSeasonalEquivalent?.(ingredient.name, season);
       if (seasonalIngredient && seasonalIngredient !== ingredient.name) {
-        (substitutions as any).push({
+        (substitutions as unknown as Array<unknown>).push({
           original: ingredient.name,
           seasonal: seasonalIngredient,
           reason: `Better availability in ${season}`,
@@ -974,11 +982,13 @@ export class UnifiedRecipeBuildingSystem {
     const adjustments = [];
     
     // Adapt cooking methods based on season and recipe type
-    const currentMethods = (recipe as any).cookingMethods || [];
+    const currentMethods = (recipe as unknown as { cookingMethods?: string[] | string })?.cookingMethods || [];
     for (const method of Array.isArray(currentMethods) ? currentMethods : [currentMethods]) {
-      const seasonalAdjustment = (seasonalRecommendations as any)?.getCookingMethodAdjustment?.(method, season);
+      const seasonalAdjustment = (seasonalRecommendations as unknown as { 
+        getCookingMethodAdjustment?: (method: string, season: Season) => string 
+      })?.getCookingMethodAdjustment?.(method, season);
       if (seasonalAdjustment) {
-        (adjustments as any).push({
+        (adjustments as unknown as MethodAdjustment[]).push({
           method: method,
           adjustment: seasonalAdjustment,
           reason: `Optimized for ${season} conditions`
@@ -1013,7 +1023,7 @@ export class UnifiedRecipeBuildingSystem {
     if (recipeIngredients.length === 0) return 0.5;
     
     const matchingIngredients = recipeIngredients.filter((ingredient: string) => 
-      cuisineIngredients.includes(ingredient as any)
+      (cuisineIngredients as unknown as string[]).includes(ingredient)
     ).length;
     
     return Math.min(1.0, matchingIngredients / recipeIngredients.length);
@@ -1045,18 +1055,21 @@ export class UnifiedRecipeBuildingSystem {
     const notes = [];
     
     // Add cuisine-specific notes
-    (notes as any).push(`Traditional ${cuisine} influences`);
+    (notes as unknown as string[]).push(`Traditional ${cuisine} influences`);
     
     // Add ingredient-based cultural notes
     const recipeIngredients = recipe.ingredients.map(ing => ing.name) || [];
     if (recipeIngredients.length > 10) {
-      (notes as any).push('Complex ingredient profile reflects authentic culinary traditions');
+      (notes as unknown as string[]).push('Complex ingredient profile reflects authentic culinary traditions');
     }
     
     // Add cooking method cultural notes
-    const cookingMethods = Array.isArray((recipe as any).cookingMethods) ? (recipe as any).cookingMethods : [(recipe as any).cookingMethods];
+    const recipeWithMethods = recipe as unknown as { cookingMethods?: string[] | string };
+    const cookingMethods = Array.isArray(recipeWithMethods.cookingMethods) ? 
+      recipeWithMethods.cookingMethods : 
+      [recipeWithMethods.cookingMethods].filter(Boolean);
     if (cookingMethods.some(method => method?.includes('slow'))) {
-      (notes as any).push('Slow cooking methods enhance traditional flavors');
+      (notes as unknown as string[]).push('Slow cooking methods enhance traditional flavors');
     }
     
     return notes;
@@ -1067,17 +1080,17 @@ export class UnifiedRecipeBuildingSystem {
     
     // Generate variations based on recipe characteristics and cuisine
     if (recipe.ingredients && recipe.ingredients.length > 0) {
-      (variations as any).push(`Traditional ${cuisine} preparation with authentic ingredients`);
+      (variations as string[]).push(`Traditional ${cuisine} preparation with authentic ingredients`);
       
       // Add spice-based variations for certain cuisines
       if (['indian', 'thai', 'mexican'].includes(cuisine.toLowerCase())) {
-        (variations as any).push(`Spice-enhanced ${cuisine} version with traditional aromatics`);
+        (variations as string[]).push(`Spice-enhanced ${cuisine} version with traditional aromatics`);
       }
       
       // Add regional variations
       if (cuisine.toLowerCase() === 'italian') {
-        (variations as any).push('Northern Italian style with rich herbs');
-        (variations as any).push('Southern Italian style with robust flavors');
+        (variations as string[]).push('Northern Italian style with rich herbs');
+        (variations as string[]).push('Southern Italian style with robust flavors');
       }
     }
     
@@ -1095,7 +1108,7 @@ export class UnifiedRecipeBuildingSystem {
       (adaptations as string[]).push(`Health-optimized ${cuisine} version with nutritional enhancement`);
       
       // Add technique-based adaptations - Fix property name consistency
-      if ((recipe as any).cookingMethods?.some((method: string) => method?.includes('traditional'))) {
+      if ((recipe as unknown as { cookingMethods?: string[] }).cookingMethods?.some((method: string) => method?.includes('traditional'))) {
         (adaptations as string[]).push('Modernized cooking techniques while preserving flavor');
       }
       
@@ -1242,7 +1255,7 @@ export class UnifiedRecipeBuildingSystem {
       }
       
       // Cooking method influence on Kalchm balance
-      if ((recipe as any).cookingMethods?.some((method: string) => method?.includes('slow') || method?.includes('traditional'))) {
+      if ((recipe as unknown as { cookingMethods?: string[] }).cookingMethods?.some((method: string) => method?.includes('slow') || method?.includes('traditional'))) {
         kalchmBalance += 0.05;
       }
     }
@@ -1304,17 +1317,17 @@ export class UnifiedRecipeBuildingSystem {
       alternatives.push(dietaryAlternative);
     }
     
-    if ((criteria as any)?.preferredCuisine) {
+    if ((criteria as unknown as { preferredCuisine?: string })?.preferredCuisine) {
       // Create cuisine-adapted alternative
       const cuisineAlternative = { ...recipe };
-      cuisineAlternative.name = `${recipe.name} (${(criteria as any).preferredCuisine} style)`;
+      cuisineAlternative.name = `${recipe.name} (${(criteria as unknown as { preferredCuisine: string }).preferredCuisine} style)`;
       alternatives.push(cuisineAlternative);
     }
     
-    if ((criteria as any)?.seasonalPreference) {
+    if ((criteria as unknown as { seasonalPreference?: string })?.seasonalPreference) {
       // Create seasonal alternative
       const seasonalAlternative = { ...recipe };
-      seasonalAlternative.name = `${recipe.name} (${(criteria as any).seasonalPreference} seasonal)`;
+      seasonalAlternative.name = `${recipe.name} (${(criteria as unknown as { seasonalPreference: string }).seasonalPreference} seasonal)`;
       alternatives.push(seasonalAlternative);
     }
     
@@ -1345,11 +1358,11 @@ export class UnifiedRecipeBuildingSystem {
     confidence += recipe.monicaOptimization.optimizationScore * 0.2;
     
     // Confidence from criteria alignment
-    if ((criteria as any)?.preferredCuisine && recipe.cuisine === (criteria as any).preferredCuisine) {
+    if ((criteria as unknown as { preferredCuisine?: string })?.preferredCuisine && recipe.cuisine === (criteria as unknown as { preferredCuisine?: string }).preferredCuisine) {
       confidence += 0.1;
     }
     
-    if ((criteria as any)?.seasonalPreference && recipe.seasonalAdaptation.seasonalScore >= 0.8) {
+    if ((criteria as unknown as { seasonalPreference?: string })?.seasonalPreference && recipe.seasonalAdaptation.seasonalScore >= 0.8) {
       confidence += 0.1;
     }
     
@@ -1359,7 +1372,7 @@ export class UnifiedRecipeBuildingSystem {
     }
     
     // Confidence from alchemical balance
-    const elementalBalance = Object.values((recipe.alchemicalProperties as any)?.elementalProperties || {}) ;
+    const elementalBalance = Object.values((recipe.alchemicalProperties as unknown as { elementalProperties?: Record<string, number> })?.elementalProperties || {}) ;
     const balanceVariance = elementalBalance.length > 0 
       ? Math.abs((elementalBalance as number[]).reduce((a: number, b: number) => a + (b || 0), 0) / 4 - 0.25)
       : 0;
@@ -1376,21 +1389,21 @@ export class UnifiedRecipeBuildingSystem {
     const totalCriteria = 10; // Standard criteria count
     
     // Count matched criteria
-    if ((criteria as any)?.preferredCuisine && recipe.cuisine === (criteria as any).preferredCuisine) criteriaMatched++;
-    if ((criteria as any)?.seasonalPreference && recipe.seasonalAdaptation.seasonalScore >= 0.7) criteriaMatched++;
+    if ((criteria as unknown as { preferredCuisine?: string })?.preferredCuisine && recipe.cuisine === (criteria as unknown as { preferredCuisine?: string }).preferredCuisine) criteriaMatched++;
+    if ((criteria as unknown as { seasonalPreference?: string })?.seasonalPreference && recipe.seasonalAdaptation.seasonalScore >= 0.7) criteriaMatched++;
     if (criteria.dietaryRestrictions) criteriaMatched++; // Assume dietary restrictions are met
     if (recipe.ingredients && recipe.ingredients.length >= 5) criteriaMatched++;
-    if ((recipe as any).cookingMethods && (recipe as any).cookingMethods.length > 0) criteriaMatched++;
+    if ((recipe as unknown as { cookingMethods?: string[] }).cookingMethods && (recipe as unknown as { cookingMethods?: string[] }).cookingMethods.length > 0) criteriaMatched++;
     if (recipe.monicaOptimization.optimizationScore >= 0.7) criteriaMatched++;
-    if ((recipe.alchemicalProperties as any)?.totalKalchm >= 0.7) criteriaMatched++;
-    if ((recipe.nutritionalOptimization as any)?.overallNutritionalScore >= 0.7) criteriaMatched++;
-    if ((recipe as any).culturalIntegration?.authenticityScore >= 0.6) criteriaMatched++;
+    if ((recipe.alchemicalProperties as unknown as { totalKalchm?: number })?.totalKalchm >= 0.7) criteriaMatched++;
+    if ((recipe.nutritionalOptimization as unknown as { overallNutritionalScore?: number })?.overallNutritionalScore >= 0.7) criteriaMatched++;
+    if ((recipe as unknown as { culturalIntegration?: { authenticityScore?: number } }).culturalIntegration?.authenticityScore >= 0.6) criteriaMatched++;
     criteriaMatched++; // Always count generation success as one criteria
     
     return {
       criteriaMatched,
       totalCriteria,
-      kalchmAccuracy: (recipe.alchemicalProperties as any)?.totalKalchm || 0,
+      kalchmAccuracy: (recipe.alchemicalProperties as unknown as { totalKalchm?: number })?.totalKalchm || 0,
       monicaOptimization: (recipe.monicaOptimization as Record<string, unknown>)?.overallScore as number || 0,
       seasonalAlignment: (recipe.seasonalAdaptation as Record<string, unknown>)?.seasonalScore as number || 0,
       cuisineAuthenticity: (recipe as unknown as Record<string, unknown>)?.culturalIntegration as number || 0,
@@ -1666,7 +1679,7 @@ export class UnifiedRecipeBuildingSystem {
     };
   }
   
-  private calculateEnergeticProfile(recipe: MonicaOptimizedRecipe, alignment: any): {
+  private calculateEnergeticProfile(recipe: MonicaOptimizedRecipe, alignment: { astrologicalAlignment?: number; elementalBalance?: number; seasonalCoherence?: number }): {
     spiritualEnergy: number;
     emotionalResonance: number;
     physicalVitality: number;

@@ -1,14 +1,14 @@
 /**
  * Linting Alerting System with Performance Monitoring
- * 
+ *
  * Provides real-time alerting for linting regression detection
  * with performance monitoring and automated response capabilities.
  */
 
 import { execSync } from 'child_process';
-import { writeFileSync, readFileSync, existsSync } from 'fs';
+import { existsSync, readFileSync, writeFileSync } from 'fs';
 
-import { LintingMetrics, Alert, AlertThreshold } from './LintingValidationDashboard';
+import { Alert, LintingMetrics } from './LintingValidationDashboard';
 
 export interface AlertingConfig {
   enabled: boolean;
@@ -69,7 +69,7 @@ export class LintingAlertingSystem {
   private readonly configFile = '.kiro/metrics/alerting-config.json';
   private readonly historyFile = '.kiro/metrics/alerting-history.json';
   private readonly suppressionFile = '.kiro/metrics/alert-suppressions.json';
-  
+
   private config: AlertingConfig;
   private lastAlertTime: Map<string, Date> = new Map();
   private suppressedAlerts: Set<string> = new Set();
@@ -91,26 +91,26 @@ export class LintingAlertingSystem {
 
     // Filter alerts based on cooldown and suppression
     const activeAlerts = this.filterActiveAlerts(alerts);
-    
+
     // Process performance monitoring
     const performanceEvents = await this.monitorPerformance(metrics);
-    
+
     // Send alerts through configured channels
     for (const alert of activeAlerts) {
       await this.sendAlert(alert);
       this.updateAlertHistory(alert);
     }
-    
+
     // Process performance events
     for (const event of performanceEvents) {
       await this.processPerformanceEvent(event);
     }
-    
+
     // Trigger auto-responses if configured
     if (this.config.autoResponse.enabled) {
       await this.triggerAutoResponses(activeAlerts, performanceEvents);
     }
-    
+
     console.log(`✅ Processed ${activeAlerts.length} active alerts and ${performanceEvents.length} performance events`);
   }
 
@@ -127,7 +127,7 @@ export class LintingAlertingSystem {
 
     for (const threshold of thresholds) {
       const value = this.getPerformanceMetricValue(metrics, threshold.metric);
-      
+
       if (this.isThresholdExceeded(value, threshold)) {
         const event: PerformanceEvent = {
           id: `perf-${threshold.metric}-${Date.now()}`,
@@ -139,7 +139,7 @@ export class LintingAlertingSystem {
           impact: this.calculateImpact(threshold.severity),
           autoResponseTriggered: false
         };
-        
+
         events.push(event);
         console.log(`⚠️ Performance threshold exceeded: ${threshold.metric} = ${value} > ${threshold.threshold}`);
       }
@@ -189,7 +189,7 @@ export class LintingAlertingSystem {
   private sendConsoleAlert(alert: Alert): void {
     const icon = this.getSeverityIcon(alert.severity);
     const timestamp = alert.timestamp.toISOString();
-    
+
     console.log(`${icon} [${alert.severity.toUpperCase()}] ${timestamp}`);
     console.log(`   Metric: ${alert.metric}`);
     console.log(`   Value: ${alert.currentValue} (threshold: ${alert.threshold})`);
@@ -204,7 +204,7 @@ export class LintingAlertingSystem {
     const alertFile = config.file || '.kiro/metrics/alerts.log';
     const timestamp = alert.timestamp.toISOString();
     const logEntry = `[${timestamp}] ${alert.severity.toUpperCase()}: ${alert.message} (${alert.metric}: ${alert.currentValue}/${alert.threshold})\n`;
-    
+
     try {
       // Append to file
       execSync(`echo "${logEntry}" >> "${alertFile}"`);
@@ -232,7 +232,7 @@ export class LintingAlertingSystem {
       },
       actions: this.generateKiroActions(alert)
     };
-    
+
     const kiroFile = '.kiro/notifications/linting-alerts.json';
     writeFileSync(kiroFile, JSON.stringify(kiroAlert, null, 2));
   }
@@ -262,7 +262,7 @@ export class LintingAlertingSystem {
       const curlCommand = `curl -X POST "${config.url}" \
         -H "Content-Type: application/json" \
         -d '${JSON.stringify(payload)}'`;
-      
+
       execSync(curlCommand, { stdio: 'pipe' });
     } catch (error) {
       console.error('Failed to send webhook alert:', error);
@@ -274,17 +274,17 @@ export class LintingAlertingSystem {
    */
   private async processPerformanceEvent(event: PerformanceEvent): Promise<void> {
     console.log(`📊 Performance event: ${event.type} for ${event.metric}`);
-    
+
     // Log performance event
     const performanceLog = `.kiro/metrics/performance-events.log`;
     const logEntry = `[${event.timestamp.toISOString()}] ${event.type.toUpperCase()}: ${event.metric} = ${event.value} (threshold: ${event.threshold}, impact: ${event.impact})\n`;
-    
+
     try {
       execSync(`echo "${logEntry}" >> "${performanceLog}"`);
     } catch (error) {
       console.error('Failed to log performance event:', error);
     }
-    
+
     // Update performance history
     this.updatePerformanceHistory(event);
   }
@@ -294,7 +294,7 @@ export class LintingAlertingSystem {
    */
   private async triggerAutoResponses(alerts: Alert[], events: PerformanceEvent[]): Promise<void> {
     const actions = this.config.autoResponse.actions;
-    
+
     for (const action of actions) {
       if (this.shouldTriggerAction(action, alerts, events)) {
         await this.executeAutoResponse(action);
@@ -307,7 +307,7 @@ export class LintingAlertingSystem {
    */
   private async executeAutoResponse(action: AutoResponseAction): Promise<void> {
     console.log(`🤖 Executing auto-response: ${action.action}`);
-    
+
     try {
       switch (action.action) {
         case 'enableCache':
@@ -337,7 +337,7 @@ export class LintingAlertingSystem {
       if (this.suppressedAlerts.has(alert.metric)) {
         return false;
       }
-      
+
       // Check cooldown
       const lastAlert = this.lastAlertTime.get(alert.metric);
       if (lastAlert) {
@@ -346,7 +346,7 @@ export class LintingAlertingSystem {
           return false;
         }
       }
-      
+
       return true;
     });
   }
@@ -354,36 +354,36 @@ export class LintingAlertingSystem {
   /**
    * Generate Kiro-specific actions for alerts
    */
-  private generateKiroActions(alert: Alert): any[] {
-    const actions = [];
-    
+  private generateKiroActions(alert: Alert): Array<Record<string, unknown>> {
+    const actions: Array<Record<string, unknown>> = [];
+
     if (alert.metric === 'parserErrors' && alert.currentValue > 0) {
-      (actions as any[]).push({
+      actions.push({
         type: 'command',
         label: 'Fix Parser Errors',
         command: 'yarn tsc --noEmit',
         description: 'Run TypeScript compiler to identify syntax errors'
       });
     }
-    
+
     if (alert.metric === 'explicitAnyErrors' && alert.currentValue > 100) {
-      (actions as any[]).push({
+      actions.push({
         type: 'campaign',
         label: 'Start Explicit Any Campaign',
         campaign: 'explicit-any-elimination',
         description: 'Launch systematic explicit any type elimination'
       });
     }
-    
+
     if (alert.metric === 'importOrderIssues' && alert.currentValue > 50) {
-      (actions as any[]).push({
+      actions.push({
         type: 'command',
         label: 'Fix Import Order',
         command: 'yarn lint:fix',
         description: 'Automatically organize imports with enhanced rules'
       });
     }
-    
+
     return actions;
   }
 
@@ -417,7 +417,7 @@ export class LintingAlertingSystem {
     } catch (error) {
       console.warn('Error loading alerting configuration:', error);
     }
-    
+
     // Return default configuration
     return {
       enabled: true,
@@ -497,17 +497,17 @@ export class LintingAlertingSystem {
 
   private updateAlertHistory(alert: Alert): void {
     this.lastAlertTime.set(alert.metric, alert.timestamp);
-    
+
     // Store in history file
     try {
       const history = this.loadAlertHistory();
       history.alerts.push(alert);
-      
+
       // Keep only last 1000 alerts
       if (history.alerts.length > 1000) {
         history.alerts.splice(0, history.alerts.length - 1000);
       }
-      
+
       writeFileSync(this.historyFile, JSON.stringify(history, null, 2));
     } catch (error) {
       console.error('Error updating alert history:', error);
@@ -518,12 +518,12 @@ export class LintingAlertingSystem {
     try {
       const history = this.loadAlertHistory();
       history.performanceEvents.push(event);
-      
+
       // Keep only last 500 performance events
       if (history.performanceEvents.length > 500) {
         history.performanceEvents.splice(0, history.performanceEvents.length - 500);
       }
-      
+
       writeFileSync(this.historyFile, JSON.stringify(history, null, 2));
     } catch (error) {
       console.error('Error updating performance history:', error);
@@ -538,7 +538,7 @@ export class LintingAlertingSystem {
     } catch (error) {
       console.warn('Error loading alert history:', error);
     }
-    
+
     return {
       alerts: [],
       suppressedAlerts: [],

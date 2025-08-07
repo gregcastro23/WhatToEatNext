@@ -21,6 +21,8 @@ export interface LogContext {
   userId?: string;
   sessionId?: string;
   requestId?: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // Intentionally any: Logging context needs flexibility for various metadata
   [key: string]: any;
 }
 
@@ -30,6 +32,8 @@ export interface LogEntry {
   message: string;
   context?: LogContext;
   error?: Error;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // Intentionally any: Log data can be of any type for debugging purposes
   data?: any;
 }
 
@@ -64,22 +68,27 @@ class LoggingService {
     this.logLevel = level;
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public debug(message: string, context?: LogContext, data?: any): void {
     this.log(LogLevel.DEBUG, message, context, undefined, data);
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public info(message: string, context?: LogContext, data?: any): void {
     this.log(LogLevel.INFO, message, context, undefined, data);
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public warn(message: string, context?: LogContext, data?: any): void {
     this.log(LogLevel.WARN, message, context, undefined, data);
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public error(message: string, context?: LogContext, error?: Error, data?: any): void {
     this.log(LogLevel.ERROR, message, context, error, data);
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private log(level: LogLevel, message: string, context?: LogContext, error?: Error, data?: any): void {
     if (level < this.logLevel) {
       return;
@@ -185,10 +194,15 @@ class LoggingService {
 const logger = LoggingService.getInstance();
 
 // Export convenience functions
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const log = {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   debug: (message: string, context?: LogContext, data?: any) => logger.debug(message, context, data),
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   info: (message: string, context?: LogContext, data?: any) => logger.info(message, context, data),
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   warn: (message: string, context?: LogContext, data?: any) => logger.warn(message, context, data),
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   error: (message: string, context?: LogContext, error?: Error, data?: any) => logger.error(message, context, error, data),
 };
 

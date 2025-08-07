@@ -1,5 +1,4 @@
 import { Flame, Droplets, Mountain, Wind, Beaker, ChefHat, Star, Thermometer } from 'lucide-react';
-import React from 'react';
 
 import { Ingredient } from '@/types';
 
@@ -10,7 +9,7 @@ interface IngredientDisplayProps {
 
 export const IngredientDisplay = ({ ingredient, showDetails = false }: IngredientDisplayProps) => {
   // Safe accessor function for nested properties
-  const safeGet = (obj: unknown, path: string, defaultValue: unknown = 'N/A') => {
+  const _safeGet = (obj: unknown, path: string, defaultValue: unknown = 'N/A') => {
     return path.split('.').reduce((prev, curr) => {
       return prev?.[curr] !== undefined ? prev[curr] : undefined;
     }, obj) ?? defaultValue;

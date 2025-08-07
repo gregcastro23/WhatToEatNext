@@ -1,6 +1,5 @@
 'use client';
 
-import React from 'react';
 
 import IngredientRecommender from '@/components/recommendations/IngredientRecommender';
 import IngredientRecommenderMigrated from '@/components/recommendations/IngredientRecommender.migrated';

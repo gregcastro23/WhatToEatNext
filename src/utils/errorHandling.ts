@@ -30,7 +30,7 @@ export enum ErrorSeverity {
 export interface EnhancedError extends Error {
   type: ErrorType;
   severity: ErrorSeverity;
-  context?: Record<string, any>;
+  context?: Record<string, unknown>;
   userMessage?: string;
   recoverable?: boolean;
   retryable?: boolean;
@@ -41,8 +41,8 @@ export interface EnhancedError extends Error {
 // Error recovery strategies
 export interface ErrorRecoveryStrategy {
   canRecover: (error: EnhancedError) => boolean;
-  recover: (error: EnhancedError) => Promise<any> | any;
-  fallback?: () => any;
+  recover: (error: EnhancedError) => Promise<unknown> | unknown;
+  fallback?: () => unknown;
 }
 
 // User-friendly error messages
@@ -65,11 +65,11 @@ export function createEnhancedError(
   message: string,
   type: ErrorType = ErrorType.UNKNOWN,
   severity: ErrorSeverity = ErrorSeverity.MEDIUM,
-  context?: Record<string, any>,
+  context?: Record<string, unknown>,
   originalError?: Error
 ): EnhancedError {
   const error = new Error(message) as EnhancedError;
-  
+
   error.type = type;
   error.severity = severity;
   error.context = context;
@@ -78,13 +78,13 @@ export function createEnhancedError(
   error.retryable = isRetryable(type);
   error.timestamp = new Date();
   error.errorId = `error_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-  
+
   // Preserve original error stack if available
   if (originalError) {
     error.stack = originalError.stack;
     error.cause = originalError;
   }
-  
+
   return error;
 }
 
@@ -112,39 +112,39 @@ function isRetryable(type: ErrorType): boolean {
 export function classifyError(error: Error | string): ErrorType {
   const message = typeof error === 'string' ? error : error.message;
   const lowerMessage = message.toLowerCase();
-  
+
   if (lowerMessage.includes('network') || lowerMessage.includes('fetch') || lowerMessage.includes('connection')) {
     return ErrorType.NETWORK;
   }
-  
+
   if (lowerMessage.includes('validation') || lowerMessage.includes('invalid')) {
     return ErrorType.VALIDATION;
   }
-  
+
   if (lowerMessage.includes('unauthorized') || lowerMessage.includes('authentication')) {
     return ErrorType.AUTHENTICATION;
   }
-  
+
   if (lowerMessage.includes('forbidden') || lowerMessage.includes('permission')) {
     return ErrorType.AUTHORIZATION;
   }
-  
+
   if (lowerMessage.includes('not found') || lowerMessage.includes('404')) {
     return ErrorType.NOT_FOUND;
   }
-  
+
   if (lowerMessage.includes('server') || lowerMessage.includes('500') || lowerMessage.includes('503')) {
     return ErrorType.SERVER_ERROR;
   }
-  
+
   if (lowerMessage.includes('planetary') || lowerMessage.includes('astrological') || lowerMessage.includes('zodiac')) {
     return ErrorType.ASTROLOGICAL_CALCULATION;
   }
-  
+
   if (lowerMessage.includes('component') || lowerMessage.includes('render')) {
     return ErrorType.COMPONENT_ERROR;
   }
-  
+
   return ErrorType.UNKNOWN;
 }
 
@@ -160,9 +160,9 @@ export class ErrorHandler {
   }
 
   // Handle error with recovery attempts
-  async handleError(error: Error | EnhancedError, context?: Record<string, any>): Promise<any> {
+  async handleError(error: Error | EnhancedError, context?: Record<string, unknown>): Promise<unknown> {
     let enhancedError: EnhancedError;
-    
+
     if ('type' in error && 'severity' in error) {
       enhancedError = error ;
     } else {
@@ -173,18 +173,18 @@ export class ErrorHandler {
 
     // Log the error
     this.logError(enhancedError);
-    
+
     // Add to error queue
     this.addToQueue(enhancedError);
-    
+
     // Attempt recovery
     const recoveryResult = await this.attemptRecovery(enhancedError);
-    
+
     if (recoveryResult.success) {
       logger.info(`Error recovered successfully: ${enhancedError.errorId}`);
       return recoveryResult.data;
     }
-    
+
     // If recovery failed, throw the enhanced error
     throw enhancedError;
   }
@@ -198,7 +198,7 @@ export class ErrorHandler {
           return { success: true, data: result };
         } catch (recoveryError) {
           logger.warn(`Recovery strategy failed for error ${error.errorId}:`, recoveryError);
-          
+
           // Try fallback if available
           if (strategy.fallback) {
             try {
@@ -211,7 +211,7 @@ export class ErrorHandler {
         }
       }
     }
-    
+
     return { success: false };
   }
 
@@ -221,18 +221,18 @@ export class ErrorHandler {
       case ErrorType.AUTHENTICATION:
       case ErrorType.AUTHORIZATION:
         return ErrorSeverity.HIGH;
-      
+
       case ErrorType.SERVER_ERROR:
         return ErrorSeverity.HIGH;
-      
+
       case ErrorType.NETWORK:
       case ErrorType.ASTROLOGICAL_CALCULATION:
         return ErrorSeverity.MEDIUM;
-      
+
       case ErrorType.VALIDATION:
       case ErrorType.NOT_FOUND:
         return ErrorSeverity.LOW;
-      
+
       default:
         return ErrorSeverity.MEDIUM;
     }
@@ -256,11 +256,11 @@ export class ErrorHandler {
       case ErrorSeverity.HIGH:
         logger.error('High severity error:', logData);
         break;
-      
+
       case ErrorSeverity.MEDIUM:
         logger.warn('Medium severity error:', logData);
         break;
-      
+
       case ErrorSeverity.LOW:
         logger.info('Low severity error:', logData);
         break;
@@ -270,7 +270,7 @@ export class ErrorHandler {
   // Add error to queue for analysis
   private addToQueue(error: EnhancedError) {
     this.errorQueue.push(error);
-    
+
     // Maintain queue size
     if (this.errorQueue.length > this.maxQueueSize) {
       this.errorQueue.shift();
@@ -286,12 +286,12 @@ export class ErrorHandler {
   } {
     const byType = {} as Record<ErrorType, number>;
     const bySeverity = {} as Record<ErrorSeverity, number>;
-    
+
     this.errorQueue.forEach(error => {
       byType[error.type] = (byType[error.type] || 0) + 1;
       bySeverity[error.severity] = (bySeverity[error.severity] || 0) + 1;
     });
-    
+
     return {
       total: this.errorQueue.length,
       byType,
@@ -350,7 +350,7 @@ globalErrorHandler.addRecoveryStrategy({
 // Utility functions for common error scenarios
 export function handleAsyncError<T>(
   promise: Promise<T>,
-  context?: Record<string, any>
+  context?: Record<string, unknown>
 ): Promise<T> {
   return promise.catch(error => {
     return globalErrorHandler.handleError(error, context);
@@ -359,7 +359,7 @@ export function handleAsyncError<T>(
 
 export function handleSyncError<T>(
   fn: () => T,
-  context?: Record<string, any>
+  context?: Record<string, unknown>
 ): T {
   try {
     return fn();
@@ -370,7 +370,7 @@ export function handleSyncError<T>(
 
 // React hook for error handling
 export function useErrorHandler() {
-  const handleError = React.useCallback(async (error: Error, context?: Record<string, any>) => {
+  const handleError = React.useCallback(async (error: Error, context?: Record<string, unknown>) => {
     try {
       return await globalErrorHandler.handleError(error, context);
     } catch (enhancedError) {
@@ -389,7 +389,7 @@ export function useErrorHandler() {
 // Error boundary helper for specific error types
 export function createErrorBoundaryForType(errorType: ErrorType) {
   return function ErrorBoundaryForType({ children }: { children: React.ReactNode }) {
-    return React.createElement(ErrorBoundary as any, {
+    return React.createElement(ErrorBoundary, {
       fallback: (error: Error, errorInfo: React.ErrorInfo) => {
         const enhancedError = createEnhancedError(
           error.message,
@@ -397,7 +397,7 @@ export function createErrorBoundaryForType(errorType: ErrorType) {
           ErrorSeverity.MEDIUM,
           { componentStack: errorInfo.componentStack }
         );
-        
+
         return React.createElement('div', {
           className: "bg-yellow-50 border border-yellow-200 rounded-lg p-4 m-2"
         }, [

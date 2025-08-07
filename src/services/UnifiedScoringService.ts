@@ -96,6 +96,8 @@ export interface ScoringContext {
   
   // Astrological data
   planetaryPositions?: Record<Planet, PlanetaryPosition>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // Intentionally any: Transit data structure varies by astronomical library
   currentTransits?: any;
   aspects?: PlanetaryAspect[];
   lunarPhase?: LunarPhase;
@@ -109,6 +111,8 @@ export interface ScoringContext {
     planetaryRulers?: Planet[];
     flavorProfile?: Record<string, number>;
     culturalOrigins?: string[];
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // Intentionally any: Item properties vary by type (ingredient/recipe/cuisine/method)
     [key: string]: any;
   };
   
@@ -118,6 +122,8 @@ export interface ScoringContext {
     culturalPreferences?: CuisineType[];
     intensityPreference?: 'mild' | 'moderate' | 'intense';
     complexityPreference?: 'simple' | 'moderate' | 'complex';
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // Intentionally any: User preferences can include custom fields
     [key: string]: any;
   };
   
@@ -138,7 +144,11 @@ export interface AstrologicalData {
   aspects: PlanetaryAspect[];
   transits: {
     active: Array<{ transitingPlanet: Planet; natalPlanet: Planet; aspect: AspectType; strength: number }>;
-    seasonal: any;
+    seasonal: {
+      currentSeason: Season;
+      alignment: number;
+      recommendation: string;
+    };
   };
   lunarPhase: {
     name: LunarPhase;
@@ -661,7 +671,7 @@ export class UnifiedScoringService {
   /**
    * Transform Astrologize API response to our format
    */
-  private transformAstrologizeResponse(data: any): Partial<AstrologicalData> {
+  private transformAstrologizeResponse(data: Record<string, unknown>): Partial<AstrologicalData> {
     // This would transform the actual API response
     // The exact structure depends on what the Astrologize API returns
     return {

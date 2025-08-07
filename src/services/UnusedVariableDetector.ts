@@ -535,7 +535,7 @@ export class UnusedVariableDetector extends EventEmitter {
   /**
    * Analyze variable usage
    */
-  private analyzeVariableUsage(declaration: any, content: string): UnusedVariable['usage'] {
+  private analyzeVariableUsage(declaration: { name: string; line: number; [key: string]: unknown }, content: string): UnusedVariable['usage'] {
     const name = declaration.name;
     
     // Remove the declaration line to avoid false positives
@@ -907,7 +907,7 @@ export class UnusedVariableDetector extends EventEmitter {
 
   // ========== HELPER METHODS ==========
 
-  private determineScope(declaration: any, content: string): UnusedVariable['scope'] {
+  private determineScope(declaration: { line: number; [key: string]: unknown }, content: string): UnusedVariable['scope'] {
     if (declaration.type === 'import' || declaration.type === 'export') {
       return 'module';
     }
@@ -930,7 +930,7 @@ export class UnusedVariableDetector extends EventEmitter {
     return lines.slice(start, end).join('\n');
   }
 
-  private getContainingFunction(declaration: any, content: string): string | undefined {
+  private getContainingFunction(declaration: { line: number; [key: string]: unknown }, content: string): string | undefined {
     const lines = content.split('\n');
     const declarationLine = declaration.line;
     
@@ -946,7 +946,7 @@ export class UnusedVariableDetector extends EventEmitter {
     return undefined;
   }
 
-  private getContainingClass(declaration: any, content: string): string | undefined {
+  private getContainingClass(declaration: { line: number; [key: string]: unknown }, content: string): string | undefined {
     const lines = content.split('\n');
     const declarationLine = declaration.line;
     
@@ -962,7 +962,7 @@ export class UnusedVariableDetector extends EventEmitter {
     return undefined;
   }
 
-  private calculateVariableRisk(declaration: any, usage: UnusedVariable['usage']): UnusedVariable['riskLevel'] {
+  private calculateVariableRisk(declaration: { name: string; [key: string]: unknown }, usage: UnusedVariable['usage']): UnusedVariable['riskLevel'] {
     if (declaration.type === 'interface' || declaration.type === 'type') {
       return 'low'; // Types are generally safe to remove
     }
@@ -978,7 +978,7 @@ export class UnusedVariableDetector extends EventEmitter {
     return 'medium';
   }
 
-  private calculateVariableConfidence(declaration: any, usage: UnusedVariable['usage'], content: string): number {
+  private calculateVariableConfidence(declaration: { name: string; [key: string]: unknown }, usage: UnusedVariable['usage'], content: string): number {
     let confidence = 0.8;
     
     // Higher confidence for clear unused variables
@@ -999,7 +999,7 @@ export class UnusedVariableDetector extends EventEmitter {
     return Math.max(0.1, Math.min(1.0, confidence));
   }
 
-  private calculateVariableImpact(declaration: any, usage: UnusedVariable['usage']): UnusedVariable['estimatedImpact'] {
+  private calculateVariableImpact(declaration: { [key: string]: unknown }, usage: UnusedVariable['usage']): UnusedVariable['estimatedImpact'] {
     if (declaration.type === 'interface' || declaration.type === 'type') {
       return 'none';
     }

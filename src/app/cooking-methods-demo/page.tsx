@@ -29,7 +29,7 @@ export default function CookingMethodsDemoPage() {
     setMethods(demoMethods.slice(0, 12));
   }, []);
 
-  const formatMethodsForComponent = (methodsObj: Record<string, unknown>, prefix: string) => {
+  const _formatMethodsForComponent = (methodsObj: Record<string, unknown>, prefix: string) => {
     return Object.entries(methodsObj).map(([key, method]) => {
       // Format method name
       const name = key.split('_')

@@ -1,4 +1,3 @@
-import React from 'react';
 
 import type { Recipe, ScoredRecipe } from '@/types/recipe';
 

@@ -164,7 +164,7 @@ import { Planet, PlanetName, ZodiacSign, LunarPhase } from '@/types/celestial';
 
 // Example usage
 const foodSystem = new FoodAlchemySystem();
-const compatibility = foodSystem.calculateFoodCompatibility(
+const _compatibility = foodSystem.calculateFoodCompatibility(
     foodItem,
     birthChart,
     currentPlanetaryHour

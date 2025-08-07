@@ -29,7 +29,7 @@ describe('FinalValidationSystem', () => {
       // Mock successful TypeScript compilation
       mockedExecSync.mockReturnValue('');
 
-      const result = await (validationSystem as any).validateTypeScriptErrors();
+      const result = await (validationSystem as unknown as { validateTypeScriptErrors: () => Promise<{ category: string; passed: boolean; current: number; target: number; criticalIssues: unknown[] }> }).validateTypeScriptErrors();
 
       expect(result.category).toBe('TypeScript Compilation');
       expect(result.passed).toBe(true);
@@ -41,7 +41,7 @@ describe('FinalValidationSystem', () => {
     it('should fail validation when TypeScript errors exist', async () => {
       // Mock TypeScript compilation with errors
       const mockError = new Error('TypeScript compilation failed');
-      (mockError as any).stdout = `
+      (mockError as Error & { stdout?: string }).stdout = `
 src/test.ts(10,5): error TS2304: Cannot find name 'unknownVariable'.
 src/test.ts(15,10): error TS2345: Argument of type 'string' is not assignable to parameter of type 'number'.
       `;
@@ -49,7 +49,7 @@ src/test.ts(15,10): error TS2345: Argument of type 'string' is not assignable to
         throw mockError;
       });
 
-      const result = await (validationSystem as any).validateTypeScriptErrors();
+      const result = await (validationSystem as unknown as { validateTypeScriptErrors: () => Promise<{ category: string; passed: boolean; current: number; target: number; criticalIssues: unknown[] }> }).validateTypeScriptErrors();
 
       expect(result.category).toBe('TypeScript Compilation');
       expect(result.passed).toBe(false);
@@ -64,7 +64,7 @@ src/test.ts(15,10): error TS2345: Argument of type 'string' is not assignable to
       // Mock successful linting with no warnings
       mockedExecSync.mockReturnValue('✨ All files passed linting');
 
-      const result = await (validationSystem as any).validateLintingWarnings();
+      const result = await (validationSystem as unknown as { validateLintingWarnings: () => Promise<Record<string, unknown>> }).validateLintingWarnings();
 
       expect(result.category).toBe('Linting Quality');
       expect(result.passed).toBe(true);
@@ -76,7 +76,7 @@ src/test.ts(15,10): error TS2345: Argument of type 'string' is not assignable to
     it('should fail validation when linting warnings exist', async () => {
       // Mock linting with warnings
       const mockError = new Error('Linting warnings found');
-      (mockError as any).stdout = `
+      (mockError as Error & { stdout?: string }).stdout = `
 src/test.ts:10:5 - warning: Unexpected any. Specify a different type (@typescript-eslint/no-explicit-any)
 src/test.ts:15:10 - warning: 'unusedVar' is defined but never used (no-unused-vars)
 src/test.ts:20:8 - warning: Unexpected console statement (no-console)
@@ -85,7 +85,7 @@ src/test.ts:20:8 - warning: Unexpected console statement (no-console)
         throw mockError;
       });
 
-      const result = await (validationSystem as any).validateLintingWarnings();
+      const result = await (validationSystem as unknown as { validateLintingWarnings: () => Promise<Record<string, unknown>> }).validateLintingWarnings();
 
       expect(result.category).toBe('Linting Quality');
       expect(result.passed).toBe(false);
@@ -104,7 +104,7 @@ src/test.ts:20:8 - warning: Unexpected console statement (no-console)
       
       mockedExecSync.mockReturnValue(mockIntelligenceOutput);
 
-      const result = await (validationSystem as any).validateEnterpriseIntelligence();
+      const result = await (validationSystem as unknown as { validateEnterpriseIntelligence: () => Promise<Record<string, unknown>> }).validateEnterpriseIntelligence();
 
       expect(result.category).toBe('Enterprise Intelligence');
       expect(result.passed).toBe(true);
@@ -121,7 +121,7 @@ src/test.ts:20:8 - warning: Unexpected console statement (no-console)
       
       mockedExecSync.mockReturnValue(mockIntelligenceOutput);
 
-      const result = await (validationSystem as any).validateEnterpriseIntelligence();
+      const result = await (validationSystem as unknown as { validateEnterpriseIntelligence: () => Promise<Record<string, unknown>> }).validateEnterpriseIntelligence();
 
       expect(result.category).toBe('Enterprise Intelligence');
       expect(result.passed).toBe(false);
@@ -137,7 +137,7 @@ src/test.ts:20:8 - warning: Unexpected console statement (no-console)
         throw mockError;
       });
 
-      const result = await (validationSystem as any).validateEnterpriseIntelligence();
+      const result = await (validationSystem as unknown as { validateEnterpriseIntelligence: () => Promise<Record<string, unknown>> }).validateEnterpriseIntelligence();
 
       expect(result.category).toBe('Enterprise Intelligence');
       expect(result.passed).toBe(false);
@@ -163,7 +163,7 @@ src/test.ts:20:8 - warning: Unexpected console statement (no-console)
         return callCount === 1 ? 1000 : 6000; // 5 second difference
       });
 
-      const result = await (validationSystem as any).validatePerformanceTargets();
+      const result = await (validationSystem as unknown as { validatePerformanceTargets: () => Promise<Record<string, unknown>> }).validatePerformanceTargets();
 
       expect(result.category).toBe('Performance Optimization');
       expect(result.passed).toBe(true);
@@ -190,7 +190,7 @@ src/test.ts:20:8 - warning: Unexpected console statement (no-console)
         return callCount === 1 ? 1000 : 16000; // 15 second difference
       });
 
-      const result = await (validationSystem as any).validatePerformanceTargets();
+      const result = await (validationSystem as unknown as { validatePerformanceTargets: () => Promise<Record<string, unknown>> }).validatePerformanceTargets();
 
       expect(result.category).toBe('Performance Optimization');
       expect(result.passed).toBe(false);
@@ -210,7 +210,7 @@ src/test.ts:20:8 - warning: Unexpected console statement (no-console)
         .mockReturnValueOnce('') // yarn build
         .mockReturnValueOnce(''); // yarn test
 
-      const result = await (validationSystem as any).validateBuildAndTests();
+      const result = await (validationSystem as unknown as { validateBuildAndTests: () => Promise<Record<string, unknown>> }).validateBuildAndTests();
 
       expect(result.category).toBe('Build and Test Stability');
       expect(result.passed).toBe(true);
@@ -227,7 +227,7 @@ src/test.ts:20:8 - warning: Unexpected console statement (no-console)
         })
         .mockReturnValueOnce(''); // yarn test succeeds
 
-      const result = await (validationSystem as any).validateBuildAndTests();
+      const result = await (validationSystem as unknown as { validateBuildAndTests: () => Promise<Record<string, unknown>> }).validateBuildAndTests();
 
       expect(result.category).toBe('Build and Test Stability');
       expect(result.passed).toBe(false);
@@ -244,7 +244,7 @@ src/test.ts:20:8 - warning: Unexpected console statement (no-console)
           throw new Error('Tests failed');
         });
 
-      const result = await (validationSystem as any).validateBuildAndTests();
+      const result = await (validationSystem as unknown as { validateBuildAndTests: () => Promise<Record<string, unknown>> }).validateBuildAndTests();
 
       expect(result.category).toBe('Build and Test Stability');
       expect(result.passed).toBe(false);
@@ -271,7 +271,7 @@ src/test.ts:20:8 - warning: Unexpected console statement (no-console)
         .mockReturnValueOnce('') // Linting - no warnings
         .mockReturnValueOnce(Array(250).fill('INTELLIGENCE_SYSTEM').join('\n')); // 250 intelligence systems
 
-      const summary = await (validationSystem as any).generateCampaignSummary();
+      const summary = await (validationSystem as unknown as { generateCampaignSummary: () => Promise<Record<string, unknown>> }).generateCampaignSummary();
 
       expect(summary.initialState).toEqual(mockBaseline);
       expect(summary.finalState.errors).toBe(0);
@@ -292,7 +292,7 @@ src/test.ts:20:8 - warning: Unexpected console statement (no-console)
         .mockReturnValueOnce('') // Linting - no warnings
         .mockReturnValueOnce(Array(200).fill('INTELLIGENCE_SYSTEM').join('\n')); // 200 intelligence systems
 
-      const summary = await (validationSystem as any).generateCampaignSummary();
+      const summary = await (validationSystem as unknown as { generateCampaignSummary: () => Promise<Record<string, unknown>> }).generateCampaignSummary();
 
       expect(summary.initialState).toEqual({ errors: 0, warnings: 0, intelligence: 0 });
       expect(summary.finalState.intelligence).toBe(200);
@@ -318,7 +318,7 @@ src/test.ts:20:8 - warning: Unexpected console statement (no-console)
         testCoverage: 98
       };
 
-      const certification = (validationSystem as any).determineCertificationStatus(
+      const certification = (validationSystem as unknown as { determineCertificationStatus: (results: Record<string, unknown>, summary: Record<string, unknown>) => Record<string, unknown> }).determineCertificationStatus(
         mockValidationResults,
         mockPerformanceMetrics
       );
@@ -347,7 +347,7 @@ src/test.ts:20:8 - warning: Unexpected console statement (no-console)
         testCoverage: 85
       };
 
-      const certification = (validationSystem as any).determineCertificationStatus(
+      const certification = (validationSystem as unknown as { determineCertificationStatus: (results: Record<string, unknown>, summary: Record<string, unknown>) => Record<string, unknown> }).determineCertificationStatus(
         mockValidationResults,
         mockPerformanceMetrics
       );
@@ -454,7 +454,7 @@ src/test.ts:20:8 - warning: Unexpected console statement (no-console)
       mockedFs.mkdirSync.mockReturnValue(undefined);
       mockedFs.writeFileSync.mockReturnValue(undefined);
 
-      await (validationSystem as any).saveValidationReport(mockReport);
+      await (validationSystem as unknown as { saveValidationReport: (report: Record<string, unknown>) => Promise<void> }).saveValidationReport(mockReport);
 
       expect(mockedFs.mkdirSync).toHaveBeenCalledWith('.campaign-progress', { recursive: true });
       expect(mockedFs.writeFileSync).toHaveBeenCalledWith(
@@ -493,7 +493,7 @@ src/test.ts:20:8 - warning: Unexpected console statement (no-console)
 
       mockedFs.writeFileSync.mockReturnValue(undefined);
 
-      await (validationSystem as any).createCertification(mockReport);
+      await (validationSystem as unknown as { createCertification: (report: Record<string, unknown>) => Promise<void> }).createCertification(mockReport);
 
       expect(mockedFs.writeFileSync).toHaveBeenCalledWith(
         'PERFECT_CODEBASE_CERTIFICATION.md',

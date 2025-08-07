@@ -173,15 +173,15 @@ export const CHAKRA_MANTRA_INTELLIGENCE = {
   generateRecommendations: (analysis: Record<string, unknown>) => {
     const recommendations: string[] = [];
     
-    if ((analysis as any)?.effectiveness?.pronunciationAccuracy < 0.85) {
+    if ((analysis as unknown as Record<string, unknown>)?.effectiveness?.pronunciationAccuracy < 0.85) {
       recommendations.push("Enhance mantra pronunciation training for improved vibrational accuracy");
     }
     
-    if ((analysis as any)?.effectiveness?.vibrationalResonance < 0.8) {
+    if ((analysis as unknown as Record<string, Record<string, unknown>>)?.effectiveness?.vibrationalResonance < 0.8) {
       recommendations.push("Optimize mantra vibrational frequencies for enhanced resonance");
     }
     
-    if ((analysis as any)?.advancedVibrations?.harmonicResonance?.fundamental < 0.85) {
+    if ((analysis as unknown as { advancedVibrations?: { harmonicResonance?: { fundamental?: number } } })?.advancedVibrations?.harmonicResonance?.fundamental < 0.85) {
       recommendations.push("Strengthen fundamental frequency alignment for better harmonic resonance");
     }
     
@@ -251,15 +251,15 @@ export const CHAKRA_VISUAL_INTELLIGENCE = {
   generateRecommendations: (analysis: Record<string, unknown>) => {
     const recommendations: string[] = [];
     
-    if ((analysis as any)?.symbolicEffectiveness?.visualClarity < 0.85) {
+    if ((analysis as unknown as { symbolicEffectiveness?: { visualClarity?: number } })?.symbolicEffectiveness?.visualClarity < 0.85) {
       recommendations.push("Enhance visual symbol clarity for improved energy transmission");
     }
     
-    if ((analysis as any)?.colorAnalysis?.colorHarmony < 0.9) {
+    if ((analysis as unknown as { colorAnalysis?: { colorHarmony?: number } })?.colorAnalysis?.colorHarmony < 0.9) {
       recommendations.push("Optimize color harmony for enhanced visual resonance");
     }
     
-    if ((analysis.advancedVisual as Record<string, any>)?.geometricAnalysis?.symmetry < 0.85) {
+    if ((analysis.advancedVisual as unknown as { geometricAnalysis?: { symmetry?: number } })?.geometricAnalysis?.symmetry < 0.85) {
       recommendations.push("Strengthen geometric symmetry for better visual balance");
     }
     
@@ -328,15 +328,15 @@ export const CHAKRA_NUTRITIONAL_INTELLIGENCE = {
   generateRecommendations: (analysis: Record<string, unknown>) => {
     const recommendations: string[] = [];
     
-    if ((analysis.nutritionalEffectiveness as Record<string, any>)?.dietaryAlignment < 0.85) {
+    if ((analysis.nutritionalEffectiveness as unknown as { dietaryAlignment?: number })?.dietaryAlignment < 0.85) {
       recommendations.push("Enhance dietary alignment for improved chakra support");
     }
     
-    if ((analysis.dietaryAnalysis as Record<string, any>)?.foodCompatibility < 0.85) {
+    if ((analysis.dietaryAnalysis as unknown as { foodCompatibility?: number })?.foodCompatibility < 0.85) {
       recommendations.push("Optimize food compatibility for enhanced nutritional balance");
     }
     
-    if ((analysis.advancedNutritional as Record<string, any>)?.energeticAnalysis?.pranicValue < 0.9) {
+    if ((analysis.advancedNutritional as unknown as { energeticAnalysis?: { pranicValue?: number } })?.energeticAnalysis?.pranicValue < 0.9) {
       recommendations.push("Strengthen pranic value for better energetic resonance");
     }
     
@@ -406,15 +406,15 @@ export const CHAKRA_FUNCTIONAL_INTELLIGENCE = {
   generateRecommendations: (analysis: Record<string, unknown>) => {
     const recommendations: string[] = [];
     
-    if ((analysis.functionalEffectiveness as Record<string, any>)?.operationalEfficiency < 0.85) {
+    if ((analysis.functionalEffectiveness as unknown as { operationalEfficiency?: number })?.operationalEfficiency < 0.85) {
       recommendations.push("Enhance operational efficiency for improved system performance");
     }
     
-    if ((analysis.herbalAnalysis as Record<string, any>)?.herbEffectiveness < 0.85) {
+    if ((analysis.herbalAnalysis as unknown as { herbEffectiveness?: number })?.herbEffectiveness < 0.85) {
       recommendations.push("Optimize herb effectiveness for enhanced chakra support");
     }
     
-    if ((analysis.advancedFunctional as Record<string, any>)?.operationalAnalysis?.systemEfficiency < 0.85) {
+    if ((analysis.advancedFunctional as unknown as { operationalAnalysis?: { systemEfficiency?: number } })?.operationalAnalysis?.systemEfficiency < 0.85) {
       recommendations.push("Strengthen system efficiency for better operational balance");
     }
     
@@ -433,7 +433,13 @@ export const CHAKRA_DEMONSTRATION_PLATFORM = {
    * @param allChakraData - All chakra-related data
    * @returns Enhanced demonstration analysis with platform insights
    */
-  analyzeDemonstrationPlatform: (allChakraData: any) => {
+  analyzeDemonstrationPlatform: (allChakraData: {
+    symbols?: Record<string, string>;
+    colors?: Record<string, string>;
+    mantras?: Record<string, string>;
+    correlations?: Record<string, string[]>;
+    herbs?: Record<string, string[]>;
+  }) => {
     const platformAnalysis = {
       // Platform effectiveness metrics
       platformEffectiveness: {
@@ -483,15 +489,15 @@ export const CHAKRA_DEMONSTRATION_PLATFORM = {
   generateRecommendations: (analysis: Record<string, unknown>) => {
     const recommendations: string[] = [];
     
-    if ((analysis.platformEffectiveness as Record<string, any>)?.demonstrationClarity < 0.85) {
+    if ((analysis.platformEffectiveness as unknown as { demonstrationClarity?: number })?.demonstrationClarity < 0.85) {
       recommendations.push("Enhance demonstration clarity for improved user experience");
     }
     
-    if ((analysis.systemAnalysis as Record<string, any>)?.systemCoherence < 0.85) {
+    if ((analysis.systemAnalysis as unknown as { systemCoherence?: number })?.systemCoherence < 0.85) {
       recommendations.push("Optimize system coherence for enhanced platform integration");
     }
     
-    if (((analysis.advancedPlatform as Record<string, any>)?.demonstrationAnalysis as Record<string, any>)?.clarityEffectiveness < 0.85) {
+    if ((analysis.advancedPlatform as unknown as { demonstrationAnalysis?: { clarityEffectiveness?: number } })?.demonstrationAnalysis?.clarityEffectiveness < 0.85) {
       recommendations.push("Strengthen clarity effectiveness for better platform balance");
     }
     
@@ -569,90 +575,109 @@ export const PHASE_32_CHAKRA_INTELLIGENCE_SUMMARY = {
 };
 
 // Helper functions for intelligence systems
-function generateMantraRecommendations(analysis: any): string[] {
+function generateMantraRecommendations(analysis: {
+  effectiveness?: { pronunciationAccuracy?: number; vibrationalResonance?: number };
+  advancedVibrations?: { harmonicResonance?: { fundamental?: number } };
+}): string[] {
   const recommendations: string[] = [];
   
-  if (analysis.effectiveness.pronunciationAccuracy < 0.85) {
+  if (analysis.effectiveness?.pronunciationAccuracy && analysis.effectiveness.pronunciationAccuracy < 0.85) {
     recommendations.push("Enhance mantra pronunciation training for improved vibrational accuracy");
   }
   
-  if (analysis.effectiveness.vibrationalResonance < 0.8) {
+  if (analysis.effectiveness?.vibrationalResonance && analysis.effectiveness.vibrationalResonance < 0.8) {
     recommendations.push("Optimize mantra vibrational frequencies for enhanced resonance");
   }
   
-  if (analysis.advancedVibrations.harmonicResonance.fundamental < 0.85) {
+  if (analysis.advancedVibrations?.harmonicResonance?.fundamental && analysis.advancedVibrations.harmonicResonance.fundamental < 0.85) {
     recommendations.push("Strengthen fundamental frequency alignment for better harmonic resonance");
   }
   
   return recommendations;
 }
 
-function generateVisualRecommendations(analysis: any): string[] {
+function generateVisualRecommendations(analysis: {
+  symbolicEffectiveness?: { visualClarity?: number };
+  colorAnalysis?: { colorHarmony?: number };
+  advancedVisual?: { geometricAnalysis?: { symmetry?: number } };
+}): string[] {
   const recommendations: string[] = [];
   
-  if (analysis.symbolicEffectiveness.visualClarity < 0.85) {
+  if (analysis.symbolicEffectiveness?.visualClarity && analysis.symbolicEffectiveness.visualClarity < 0.85) {
     recommendations.push("Enhance visual symbol clarity for improved energy transmission");
   }
   
-  if (analysis.colorAnalysis.colorHarmony < 0.9) {
+  if (analysis.colorAnalysis?.colorHarmony && analysis.colorAnalysis.colorHarmony < 0.9) {
     recommendations.push("Optimize color harmony for enhanced visual resonance");
   }
   
-  if (analysis.advancedVisual.geometricAnalysis.symmetry < 0.85) {
+  if (analysis.advancedVisual?.geometricAnalysis?.symmetry && analysis.advancedVisual.geometricAnalysis.symmetry < 0.85) {
     recommendations.push("Strengthen geometric symmetry for better visual balance");
   }
   
   return recommendations;
 }
 
-function generateNutritionalRecommendations(analysis: any): string[] {
+function generateNutritionalRecommendations(analysis: {
+  nutritionalEffectiveness?: { dietaryAlignment?: number };
+  dietaryAnalysis?: { foodCompatibility?: number };
+  advancedNutritional?: { energeticAnalysis?: { pranicValue?: number } };
+}): string[] {
   const recommendations: string[] = [];
   
-  if (analysis.nutritionalEffectiveness.dietaryAlignment < 0.85) {
+  if (analysis.nutritionalEffectiveness?.dietaryAlignment && analysis.nutritionalEffectiveness.dietaryAlignment < 0.85) {
     recommendations.push("Enhance dietary alignment for improved chakra support");
   }
   
-  if (analysis.dietaryAnalysis.foodCompatibility < 0.85) {
+  if (analysis.dietaryAnalysis?.foodCompatibility && analysis.dietaryAnalysis.foodCompatibility < 0.85) {
     recommendations.push("Optimize food compatibility for enhanced nutritional balance");
   }
   
-  if (analysis.advancedNutritional.energeticAnalysis.pranicValue < 0.9) {
+  if (analysis.advancedNutritional?.energeticAnalysis?.pranicValue && analysis.advancedNutritional.energeticAnalysis.pranicValue < 0.9) {
     recommendations.push("Strengthen pranic value for better energetic resonance");
   }
   
   return recommendations;
 }
 
-function generateFunctionalRecommendations(analysis: any): string[] {
+function generateFunctionalRecommendations(analysis: {
+  functionalEffectiveness?: { operationalEfficiency?: number };
+  herbalAnalysis?: { herbEffectiveness?: number };
+  advancedFunctional?: { operationalAnalysis?: { systemEfficiency?: number } };
+}): string[] {
   const recommendations: string[] = [];
   
-  if (analysis.functionalEffectiveness.operationalEfficiency < 0.85) {
+  if (analysis.functionalEffectiveness?.operationalEfficiency && analysis.functionalEffectiveness.operationalEfficiency < 0.85) {
     recommendations.push("Enhance operational efficiency for improved system performance");
   }
   
-  if (analysis.herbalAnalysis.herbEffectiveness < 0.85) {
+  if (analysis.herbalAnalysis?.herbEffectiveness && analysis.herbalAnalysis.herbEffectiveness < 0.85) {
     recommendations.push("Optimize herb effectiveness for enhanced chakra support");
   }
   
-  if (analysis.advancedFunctional.operationalAnalysis.systemEfficiency < 0.85) {
+  if (analysis.advancedFunctional?.operationalAnalysis?.systemEfficiency && analysis.advancedFunctional.operationalAnalysis.systemEfficiency < 0.85) {
     recommendations.push("Strengthen system efficiency for better operational balance");
   }
   
   return recommendations;
 }
 
-function generatePlatformRecommendations(analysis: any): string[] {
+function generatePlatformRecommendations(analysis: {
+  platformEffectiveness?: { demonstrationClarity?: number };
+  systemAnalysis?: { systemCoherence?: number };
+  advancedPlatform?: { demonstrationAnalysis?: { clarityEffectiveness?: number } };
+}): string[] {
   const recommendations: string[] = [];
   
-  if (analysis.platformEffectiveness.demonstrationClarity < 0.85) {
+  if (analysis.platformEffectiveness?.demonstrationClarity && analysis.platformEffectiveness.demonstrationClarity < 0.85) {
     recommendations.push("Enhance demonstration clarity for improved user experience");
   }
   
-  if (analysis.systemAnalysis.systemCoherence < 0.85) {
+  if (analysis.systemAnalysis?.systemCoherence && analysis.systemAnalysis.systemCoherence < 0.85) {
     recommendations.push("Optimize system coherence for enhanced platform integration");
   }
   
-  if (analysis.advancedPlatform.demonstrationAnalysis.clarityEffectiveness < 0.85) {
+  if (analysis.advancedPlatform?.demonstrationAnalysis?.clarityEffectiveness && analysis.advancedPlatform.demonstrationAnalysis.clarityEffectiveness < 0.85) {
     recommendations.push("Strengthen clarity effectiveness for better platform balance");
   }
   

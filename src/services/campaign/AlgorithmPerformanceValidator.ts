@@ -99,7 +99,7 @@ export class AlgorithmPerformanceValidator {
    * Run comprehensive performance benchmarks
    */
   async runPerformanceBenchmarks(): Promise<PerformanceBenchmark[]> {
-    console.log('🚀 Running performance benchmarks...');
+    // console.log('🚀 Running performance benchmarks...');
     
     const benchmarks: PerformanceBenchmark[] = [];
     
@@ -140,7 +140,7 @@ export class AlgorithmPerformanceValidator {
    * Validate 3-tier caching system performance
    */
   async validateCachePerformance(): Promise<CachePerformanceMetrics> {
-    console.log('💾 Validating 3-tier caching system...');
+    // console.log('💾 Validating 3-tier caching system...');
     
     try {
       // Tier 1: Memory cache validation
@@ -201,7 +201,7 @@ export class AlgorithmPerformanceValidator {
    * Detect performance regressions
    */
   async detectPerformanceRegressions(): Promise<RegressionTestResult[]> {
-    console.log('🔍 Detecting performance regressions...');
+    // console.log('🔍 Detecting performance regressions...');
     
     const regressionTests: RegressionTestResult[] = [];
     
@@ -273,11 +273,11 @@ export class AlgorithmPerformanceValidator {
    * Validate 50% improvement maintenance
    */
   async validateImprovementMaintenance(): Promise<boolean> {
-    console.log('📈 Validating 50% improvement maintenance...');
+    // console.log('📈 Validating 50% improvement maintenance...');
     
     try {
       if (this.benchmarkHistory.length === 0) {
-        console.log('📈 No benchmark history available for improvement validation');
+        // console.log('📈 No benchmark history available for improvement validation');
         return false;
       }
       
@@ -297,13 +297,13 @@ export class AlgorithmPerformanceValidator {
         totalImprovements += avgImprovement;
         validCategories++;
         
-        console.log(`📈 ${category} category: ${(avgImprovement * 100).toFixed(1)}% average improvement`);
+        // console.log(`📈 ${category} category: ${(avgImprovement * 100).toFixed(1)}% average improvement`);
       }
       
       const overallImprovement = validCategories > 0 ? totalImprovements / validCategories : 0;
       const improvementMaintained = overallImprovement >= this.IMPROVEMENT_TARGET;
       
-      console.log(`📈 Overall improvement: ${(overallImprovement * 100).toFixed(1)}% (target: ${(this.IMPROVEMENT_TARGET * 100)}%)`);
+      // console.log(`📈 Overall improvement: ${(overallImprovement * 100).toFixed(1)}% (target: ${(this.IMPROVEMENT_TARGET * 100)}%)`);
       
       if (!improvementMaintained) {
         this.addAlert({
@@ -756,7 +756,7 @@ export class AlgorithmPerformanceValidator {
       };
 
       fs.writeFileSync(filePath, JSON.stringify(exportData, null, 2));
-      console.log(`🚀 Performance data exported to: ${filePath}`);
+      // console.log(`🚀 Performance data exported to: ${filePath}`);
 
     } catch (error) {
       throw new Error(`Failed to export performance data: ${(error as Error).message}`);

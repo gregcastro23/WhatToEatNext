@@ -272,7 +272,7 @@ export function getCurrentAstrologicalState(): AstrologicalState {
   
   // Determine if it's daytime (between 6 AM and 6 PM)
   const hours = now.getHours();
-  const isDaytime = hours >= 6 && hours < 18;
+  const _isDaytime = hours >= 6 && hours < 18;
   
   // Calculate active planets (sun, moon + any in major aspect)
   const activePlanets = ["Sun", "Moon"];

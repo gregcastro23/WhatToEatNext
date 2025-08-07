@@ -195,7 +195,15 @@ export class LintingQualityGates {
   /**
    * Create CI/CD integration report
    */
-  async createCICDReport(): Promise<any> {
+  async createCICDReport(): Promise<{
+    timestamp: string;
+    deployment: { approved: boolean; confidence: number; qualityScore: number };
+    gates: QualityGateResult;
+    issues?: string[];
+    risks?: unknown;
+    trends?: unknown;
+    recommendations?: string[];
+  }> {
     try {
       const readiness = await this.assessDeploymentReadiness();
       const gateResult = await this.evaluateQualityGates();
@@ -240,7 +248,12 @@ export class LintingQualityGates {
   /**
    * Monitor quality trends
    */
-  async monitorQualityTrends(): Promise<any> {
+  async monitorQualityTrends(): Promise<{
+    trends: Record<string, unknown>;
+    overallTrend: 'improving' | 'stable' | 'degrading';
+    recommendations: string[];
+    alertLevel: 'none' | 'low' | 'medium' | 'high';
+  }> {
     try {
       const history = this.getQualityGateHistory();
       if (history.length < 2) {
@@ -407,7 +420,11 @@ export class LintingQualityGates {
     return Math.max(0, Math.min(100, confidence));
   }
 
-  private assessRisk(gateResult: QualityGateResult): any {
+  private assessRisk(gateResult: QualityGateResult): {
+    level: 'low' | 'medium' | 'high' | 'critical';
+    factors: string[];
+    mitigations: string[];
+  } {
     const factors: string[] = [];
     const mitigation: string[] = [];
     
@@ -474,7 +491,7 @@ export class LintingQualityGates {
     return 'stable';
   }
 
-  private determineOverallTrend(trends: any): 'improving' | 'stable' | 'degrading' {
+  private determineOverallTrend(trends: Record<string, { current: number; previous: number }>): 'improving' | 'stable' | 'degrading' {
     const trendValues = Object.values(trends);
     const improvingCount = trendValues.filter(t => t === 'improving').length;
     const degradingCount = trendValues.filter(t => t === 'degrading').length;
@@ -484,7 +501,7 @@ export class LintingQualityGates {
     return 'stable';
   }
 
-  private generateTrendRecommendations(trends: any): string[] {
+  private generateTrendRecommendations(trends: Record<string, { current: number; previous: number }>): string[] {
     const recommendations: string[] = [];
     
     if (trends.errorTrend === 'degrading') {
@@ -502,7 +519,7 @@ export class LintingQualityGates {
     return recommendations;
   }
 
-  private calculateAlertLevel(trends: any): 'none' | 'low' | 'medium' | 'high' {
+  private calculateAlertLevel(trends: Record<string, { current: number; previous: number }>): 'none' | 'low' | 'medium' | 'high' {
     const degradingCount = Object.values(trends).filter(t => t === 'degrading').length;
     
     if (degradingCount >= 3) return 'high';
@@ -574,7 +591,7 @@ export class LintingQualityGates {
     return [];
   }
 
-  private saveCICDReport(report: any): void {
+  private saveCICDReport(report: Record<string, unknown>): void {
     try {
       const reportFile = `.kiro/quality-gates/cicd-report-${Date.now()}.json`;
       writeFileSync(reportFile, JSON.stringify(report, null, 2));

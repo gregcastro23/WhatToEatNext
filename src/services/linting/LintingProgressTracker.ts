@@ -228,11 +228,11 @@ export class LintingProgressTracker {
       });
       
       return result;
-    } catch (error: any) {
+    } catch (error) {
       // ESLint returns non-zero exit code when issues are found
       // The output is still valid JSON in error.stdout
-      if (error.stdout) {
-        return error.stdout;
+      if ((error as { stdout?: string }).stdout) {
+        return (error as { stdout: string }).stdout;
       }
       throw error;
     }
@@ -253,8 +253,15 @@ export class LintingProgressTracker {
       const warningsByCategory: Record<string, number> = {};
       const filesCovered = results.length;
 
-      results.forEach((file: any) => {
-        file.messages.forEach((message: any) => {
+      results.forEach((file: {
+        filePath?: string;
+        messages?: Array<{
+          ruleId?: string;
+          severity?: number;
+          fix?: unknown;
+        }>;
+      }) => {
+        file.messages?.forEach((message) => {
           totalIssues++;
           
           if (message.severity === 2) {
@@ -490,7 +497,7 @@ export class LintingProgressTracker {
     return 0.8; // 80% cache hit rate
   }
 
-  private saveCampaignIntegration(data: any): void {
+  private saveCampaignIntegration(data: Record<string, unknown>): void {
     try {
       const integrationFile = '.kiro/metrics/campaign-integration.json';
       writeFileSync(integrationFile, JSON.stringify(data, null, 2));
@@ -499,12 +506,12 @@ export class LintingProgressTracker {
     }
   }
 
-  private shouldNotifyCampaignSystem(report: LintingProgressReport, campaignData: CampaignIntegrationData): boolean {
+  private shouldNotifyCampaignSystem(report: LintingProgressReport, _campaignData: CampaignIntegrationData): boolean {
     // Notify if significant improvement or regression
     return Math.abs(report.improvement.percentageImprovement) > 5;
   }
 
-  private async notifyCampaignSystem(data: any): Promise<void> {
+  private async notifyCampaignSystem(data: Record<string, unknown>): Promise<void> {
     // This would integrate with the existing campaign system
     logger.info('Campaign system notification:', data);
   }

@@ -152,6 +152,8 @@ describe('TypeScript Campaign Trigger', () => {
 
     it('should handle TypeScript compilation errors gracefully', async () => {
       // Mock execSync throwing an error (which is normal for tsc with errors)
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      // Intentionally any: Error object needs custom stdout property for test mock scenario
       const error = new Error('Command failed') as any;
       error.stdout = 'src/test.ts(10,5): error TS2304: Cannot find name \'test\'.';
       mockExecSync.mockImplementation(() => {

@@ -6,10 +6,19 @@ import { buildPerformanceMonitor } from '@/services/BuildPerformanceMonitor';
 import { errorTrackingSystem } from '@/services/ErrorTrackingSystem';
 
 interface DashboardData {
-  buildMetrics: any;
-  errorData: any;
-  campaignProgress: any;
-  qualityTrends: any;
+  buildMetrics: {
+    history: Array<{ timestamp: number; duration: number; success: boolean; errors: number }>;
+    bottlenecks: Array<{ file: string; time: number; impact: string }>;
+  };
+  errorData: {
+    summary: {
+      topErrorCategories: Array<{ category: string; count: number }>;
+    };
+    qualityHistory: Array<{ timestamp: number; score: number }>;
+    patterns: Array<{ pattern: string; count: number }>;
+  };
+  campaignProgress: Record<string, unknown>;
+  qualityTrends: Record<string, unknown>;
 }
 
 interface MetricCard {
@@ -24,7 +33,7 @@ interface MetricCard {
 interface QualityChart {
   type: 'line' | 'bar' | 'pie';
   title: string;
-  data: any[];
+  data: Array<{ timestamp?: number; value?: number; label?: string; count?: number; [key: string]: unknown }>;
   xAxis?: string;
   yAxis?: string;
 }
@@ -168,7 +177,7 @@ const QualityMetricsDashboard: React.FC = () => {
       {
         type: 'line',
         title: 'Build Performance Trend',
-        data: buildMetrics.history.map((build: any, index: number) => ({
+        data: buildMetrics.history.map((build: { timestamp: number; duration: number; success: boolean; errors: number }, index: number) => ({
           x: index,
           y: build.totalBuildTime / 1000,
           label: new Date(build.timestamp).toLocaleDateString()
@@ -179,7 +188,7 @@ const QualityMetricsDashboard: React.FC = () => {
       {
         type: 'bar',
         title: 'Error Categories',
-        data: errorData.summary.topErrorCategories.map((cat: any) => ({
+        data: errorData.summary.topErrorCategories.map((cat: { category: string; count: number }) => ({
           x: cat.category,
           y: cat.count,
           label: cat.category
@@ -190,7 +199,7 @@ const QualityMetricsDashboard: React.FC = () => {
       {
         type: 'line',
         title: 'Quality Score History',
-        data: errorData.qualityHistory.map((quality: any, index: number) => ({
+        data: errorData.qualityHistory.map((quality: { timestamp: number; score: number }, index: number) => ({
           x: index,
           y: quality.codeQualityScore,
           label: new Date(quality.timestamp).toLocaleDateString()
@@ -201,7 +210,7 @@ const QualityMetricsDashboard: React.FC = () => {
       {
         type: 'pie',
         title: 'Error Distribution',
-        data: errorData.patterns.slice(0, 5).map((pattern: any) => ({
+        data: errorData.patterns.slice(0, 5).map((pattern: { pattern: string; count: number }) => ({
           label: pattern.pattern,
           value: pattern.frequency,
           color: pattern.priority === 'critical' ? '#ef4444' : 
@@ -341,7 +350,7 @@ const QualityMetricsDashboard: React.FC = () => {
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
-                {dashboardData.buildMetrics.bottlenecks.slice(0, 10).map((bottleneck: any, index: number) => (
+                {dashboardData.buildMetrics.bottlenecks.slice(0, 10).map((bottleneck: { file: string; time: number; impact: string }, index: number) => (
                   <tr key={index}>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                       {bottleneck.file.split('/').pop()}

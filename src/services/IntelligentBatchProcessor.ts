@@ -764,8 +764,8 @@ export class IntelligentBatchProcessor extends EventEmitter {
       result.executionTime = Date.now() - startTime;
       
       return result;
-    } catch (error: any) {
-      throw new Error(`Job execution failed: ${error.message}`);
+    } catch (error) {
+      throw new Error(`Job execution failed: ${error instanceof Error ? error.message : String(error)}`);
     }
   }
 
@@ -1338,7 +1338,7 @@ export class IntelligentBatchProcessor extends EventEmitter {
         testStability: 0.9,
         safetyScore: 0.8
       }
-    } as any;
+    } as ProcessingResult;
   }
 
   getOptimizations(): BatchOptimization[] {

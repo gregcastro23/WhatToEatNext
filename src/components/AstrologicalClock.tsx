@@ -44,7 +44,7 @@ const ZODIAC_SYMBOLS: Record<string, string> = {
 // Use the imported PlanetaryPosition type directly
 function _isValidPosition(pos: unknown): boolean {
   // Apply surgical type casting with variable extraction
-  const posData = pos as any;
+  const posData = pos as unknown as { sign?: string; degree?: number };
   const sign = posData?.sign;
   const degree = posData?.degree;
   
@@ -109,7 +109,7 @@ const AstrologicalClock: React.FC = () => {
     
     Object.entries(planetaryPositions).forEach(([planet, position]) => {
       if (position && typeof position === 'object') {
-        const posData = position as any;
+        const posData = position as unknown as { sign?: string; degree?: number; longitude?: number };
         const sign = posData.sign?.toLowerCase() || 'aries';
         const degree = typeof posData.degree === 'number' ? posData.degree : 
                        typeof posData.exactLongitude === 'number' ? posData.exactLongitude % 30 : 0;
@@ -120,9 +120,9 @@ const AstrologicalClock: React.FC = () => {
         processed[planet] = {
           sign: sign as ZodiacSign,
           degree: degree,
-          dignity: (dignity as any)?.type || dignity?.strength ? `${(dignity as any)?.type || 'Neutral'}` : undefined,
+          dignity: (dignity as unknown as { type?: string })?.type || dignity?.strength ? `${(dignity as unknown as { type?: string })?.type || 'Neutral'}` : undefined,
           dignityValue: dignity?.strength || 0,
-          dignityDescription: (dignity as any)?.description || `${dignity?.strength > 0 ? 'Favorable' : dignity?.strength < 0 ? 'Challenging' : 'Neutral'} placement`,
+          dignityDescription: (dignity as unknown as { description?: string })?.description || `${dignity?.strength > 0 ? 'Favorable' : dignity?.strength < 0 ? 'Challenging' : 'Neutral'} placement`,
           exactLongitude: posData.exactLongitude,
           isRetrograde: posData.isRetrograde || false
         };
@@ -282,7 +282,7 @@ const AstrologicalClock: React.FC = () => {
               <tbody>
                 {Object.entries(chartData.planets).map(([planet, data]) => {
                   // Apply surgical type casting with variable extraction
-                  const planetData = data as any;
+                  const planetData = data as unknown as { sign?: string; degree?: number; longitude?: number };
                   const sign = planetData?.sign;
                   const degree = planetData?.degree;
                   const isRetrograde = planetData?.isRetrograde;

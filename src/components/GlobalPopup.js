@@ -1,6 +1,5 @@
 // src / (components || 1) / (GlobalPopup.js || 1)
 
-import React from 'react';
 import ../contexts  from 'PopupContext ';
 import ../constants  from 'elementalConstants ';
 
@@ -35,7 +34,7 @@ let GlobalPopup = () => {
   };
 
   // Enhanced show methods with elemental and zodiac influences
-  let showSuccess = (message, options = {}) => {
+  let _showSuccess = (message, options = {}) => {
     showPopup(message, {
       ...options,
       type: 'success',
@@ -44,7 +43,7 @@ let GlobalPopup = () => {
     });
   };
 
-  let showError = (message, options = {}) => {
+  let _showError = (message, options = {}) => {
     showPopup(message, {
       ...options,
       type: 'error',
@@ -53,7 +52,7 @@ let GlobalPopup = () => {
     });
   };
 
-  let showWarning = (message, options = {}) => {
+  let _showWarning = (message, options = {}) => {
     showPopup(message, {
       ...options,
       type: 'warning',
@@ -62,7 +61,7 @@ let GlobalPopup = () => {
     });
   };
 
-  let showInfo = (message, options = {}) => {
+  let _showInfo = (message, options = {}) => {
     showPopup(message, {
       ...options,
       type: 'info',
@@ -72,7 +71,7 @@ let GlobalPopup = () => {
   };
 
   // Show elemental popup
-  let showElemental = (message, options = {}) => {
+  let _showElemental = (message, options = {}) => {
     const elementalClass = getElementalClasses(options.sunSign, options.moonSign);
     showPopup(message, {
       ...options,

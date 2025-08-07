@@ -29,7 +29,11 @@ interface AstrologyUtilsModule {
   calculateSunSign: (date?: Date) => string;
   calculateLunarNodes: (date?: Date) => { northNode: number; isRetrograde: boolean; };
   getNodeInfo: (nodeLongitude: number) => { sign: string; degree: number; isRetrograde: boolean; };
-  getCurrentAstrologicalState: (date?: Date) => any;
+  getCurrentAstrologicalState: (date?: Date) => {
+    zodiacSign: string;
+    lunarPhase: string;
+    planetaryPositions: Record<string, unknown>;
+  };
 }
 
 interface AccurateAstronomyModule {
@@ -42,7 +46,11 @@ interface SafeAstrologyModule {
   getLunarPhaseName: (phase: number) => string;
   getMoonIllumination: () => Promise<number>;
   calculateSunSign: (date?: Date) => string;
-  getCurrentAstrologicalState: () => any;
+  getCurrentAstrologicalState: () => {
+    zodiacSign: string;
+    lunarPhase: string;
+    planetaryPositions: Record<string, unknown>;
+  };
 }
 
 interface MoonTimesModule {
@@ -120,7 +128,7 @@ export async function safeImportAndExecuteKnown<R, A extends unknown[] = unknown
 /**
  * Safely import a function using a known module path
  */
-export async function safeImportFunctionKnown<T extends (...args: unknown[]) => any>(
+export async function safeImportFunctionKnown<T extends (...args: unknown[]) => unknown>(
   path: KnownModulePath,
   functionName: string
 ): Promise<T | null> {
@@ -242,7 +250,7 @@ export async function safeImportAndExecute<R, A extends unknown[] = unknown[]>(
 /**
  * Safely import a function using any string path
  */
-export async function safeImportFunction<T extends (...args: unknown[]) => any>(
+export async function safeImportFunction<T extends (...args: unknown[]) => unknown>(
   path: string,
   functionName: string
 ): Promise<T | null> {
@@ -284,7 +292,7 @@ export async function dynamicImport<T, F = null>(
   }
 }
 
-export async function dynamicImportFunction<T extends (...args: unknown[]) => any, F extends (...args: unknown[]) => any = T>(
+export async function dynamicImportFunction<T extends (...args: unknown[]) => unknown, F extends (...args: unknown[]) => unknown = T>(
   path: string,
   functionName: string,
   fallbackFn: F | null = null

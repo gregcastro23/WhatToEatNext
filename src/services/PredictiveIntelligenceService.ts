@@ -6,14 +6,15 @@
  * with advanced prediction algorithms and real-time optimization capabilities.
  */
 
-import { calculateElementalCompatibility } from '@/calculations/index';
 import type { AdvancedIntelligenceConfig, AdvancedIntelligenceMetrics } from '@/types/advancedIntelligence';
 import type { ElementalProperties, ZodiacSign } from '@/types/alchemy';
 import type { Ingredient } from '@/types/ingredient';
 import type { PredictiveContext } from '@/types/predictiveIntelligence';
 import type { Recipe } from '@/types/recipe';
-import { logger } from '@/utils/logger';
+import { calculateElementalCompatibility } from '@/calculations/index';
 import { getCurrentSeason } from '@/utils/timeUtils';
+
+import { logger } from '@/utils/logger';
 
 // Enhanced Type definitions for predictive intelligence with comprehensive type safety
 
@@ -24,10 +25,10 @@ interface PredictiveIntelligenceResult {
   metadata?: Record<string, unknown>;
   accuracy?: number;
   // Enhanced compatibility properties
-  recipePrediction?: any;
-  ingredientPrediction?: any;
-  cuisinePrediction?: any;
-  astrologicalPrediction?: any;
+  recipePrediction?: unknown;
+  ingredientPrediction?: unknown;
+  cuisinePrediction?: unknown;
+  astrologicalPrediction?: unknown;
 }
 
 interface PredictiveMetrics {
@@ -1075,8 +1076,8 @@ export class PredictiveIntelligenceService {
 
   private generateCacheKey(recipeData: unknown, ingredientData: unknown, cuisineData: Record<string, unknown>, astrologicalContext: PredictiveContext): string {
     return `predictive_${JSON.stringify({
-      recipeId: (recipeData as any)?.id,
-      ingredientCount: (ingredientData as any)?.length,
+      recipeId: (recipeData as unknown as { id?: string })?.id,
+      ingredientCount: (ingredientData as unknown as unknown[])?.length,
       cuisineName: cuisineData.name,
       zodiac: astrologicalContext.zodiacSign,
       lunar: astrologicalContext.lunarPhase
@@ -1110,7 +1111,7 @@ export class PredictiveIntelligenceService {
 
   private log(level: string, message: string, data?: unknown): void {
     if (this.shouldLog(level)) {
-      (logger as any)[level]?.(`[PredictiveIntelligence] ${message}${data ? ` - ${JSON.stringify(data)}` : ''}`);
+      (logger as unknown as Record<string, (msg: string) => void>)[level]?.(`[PredictiveIntelligence] ${message}${data ? ` - ${JSON.stringify(data)}` : ''}`);
     }
   }
 

@@ -256,7 +256,13 @@ export class DependencySecurityMonitor {
       // Parse npm audit output
       if (auditData.vulnerabilities) {
         for (const [packageName, vulnData] of Object.entries(auditData.vulnerabilities)) {
-          const vuln = vulnData as any;
+          const vuln = vulnData as unknown as {
+            via?: Array<{ range?: string; severity?: string; title?: string }>;
+            range?: string;
+            severity?: string;
+            name?: string;
+            [key: string]: unknown;
+          };
           
           const vulnerability: SecurityVulnerability = {
             packageName,
@@ -309,7 +315,14 @@ export class DependencySecurityMonitor {
       const summary: UpdateSummary = { major: 0, minor: 0, patch: 0, security: 0, total: 0 };
 
       for (const [packageName, updateInfo] of Object.entries(outdatedData)) {
-        const info = updateInfo as any;
+        const info = updateInfo as unknown as {
+          current?: string;
+          wanted?: string;
+          latest?: string;
+          dependent?: string;
+          location?: string;
+          [key: string]: unknown;
+        };
         
         const updateType = this.determineUpdateType(info.current, info.latest);
         const breakingChanges = updateType === 'major';
@@ -339,9 +352,9 @@ export class DependencySecurityMonitor {
 
     } catch (error) {
       // yarn outdated returns non-zero exit code when updates are available
-      if ((error as any).stdout) {
+      if ((error as unknown as { stdout?: string }).stdout) {
         try {
-          const outdatedData = JSON.parse((error as any).stdout || '{}');
+          const outdatedData = JSON.parse((error as unknown as { stdout: string }).stdout || '{}');
           // Process the data as above
           return this.processOutdatedData(outdatedData);
         } catch (parseError) {
@@ -485,7 +498,7 @@ export class DependencySecurityMonitor {
 
   // Private helper methods
 
-  private processOutdatedData(outdatedData: any): UpdateReport {
+  private processOutdatedData(outdatedData: Record<string, unknown>): UpdateReport {
     const availableUpdates: DependencyUpdate[] = [];
     const summary: UpdateSummary = { major: 0, minor: 0, patch: 0, security: 0, total: 0 };
 

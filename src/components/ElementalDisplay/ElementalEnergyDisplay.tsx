@@ -10,7 +10,6 @@ import { log } from '@/services/LoggingService';
 import { ElementType, ElementalEnergy } from '@/types/elements';
 import { getCachedCalculation } from '@/utils/calculationCache';
 
-import { OptimizedComponentWrapper } from '../OptimizedComponentWrapper';
 
 interface ElementalEnergyDisplayProps {
   showDebug?: boolean;

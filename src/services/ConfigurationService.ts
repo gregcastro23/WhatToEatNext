@@ -5,6 +5,8 @@ import { config } from '@/config';
 export interface ConfigurationUpdate {
   section: 'api' | 'astrology' | 'debug';
   key: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // Intentionally any: Configuration values can be strings, numbers, booleans, or objects
   value: any;
   timestamp: number;
 }
@@ -86,7 +88,7 @@ class ConfigurationServiceImpl {
   /**
    * Merge stored configuration with current defaults
    */
-  private mergeWithDefaults(stored: any): ConfigurationState {
+  private mergeWithDefaults(stored: Record<string, unknown>): ConfigurationState {
     return {
       api: {
         celestialUpdateInterval: stored.api?.celestialUpdateInterval ?? config.api.celestialUpdateInterval,
@@ -162,6 +164,8 @@ class ConfigurationServiceImpl {
   /**
    * Update configuration
    */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // Intentionally any: Configuration values have multiple valid types
   public updateConfiguration(section: keyof ConfigurationState, key: string, value: any): Promise<boolean> {
     return new Promise((resolve) => {
       try {
@@ -174,12 +178,12 @@ class ConfigurationServiceImpl {
         }
 
         // Apply the update
-        const oldValue = (this.currentConfig[section] as any)[key];
-        (this.currentConfig[section] as any)[key] = value;
+        const oldValue = (this.currentConfig[section] as Record<string, unknown>)[key];
+        (this.currentConfig[section] as Record<string, unknown>)[key] = value;
 
         // Create update record
         const update: ConfigurationUpdate = {
-          section: section as any,
+          section: section as ConfigurationUpdate['section'],
           key,
           value,
           timestamp: Date.now()
@@ -199,9 +203,9 @@ class ConfigurationServiceImpl {
 
         // Update global config if it's a live system
         if (section === 'api') {
-          (config.api as any)[key] = value;
+          (config.api as Record<string, unknown>)[key] = value;
         } else if (section === 'astrology') {
-          (config.astrology as any)[key] = value;
+          (config.astrology as Record<string, unknown>)[key] = value;
         } else if (section === 'debug' && key === 'debug') {
           config.debug = value;
         }
@@ -217,6 +221,8 @@ class ConfigurationServiceImpl {
   /**
    * Validate configuration update
    */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // Intentionally any: Validation must handle any incoming configuration value type
   private validateUpdate(section: keyof ConfigurationState, key: string, value: any): ConfigurationValidation {
     const errors: ConfigurationValidation['errors'] = [];
 
@@ -302,9 +308,11 @@ class ConfigurationServiceImpl {
   /**
    * Bulk update configuration
    */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public async updateBulk(updates: Array<{
     section: keyof ConfigurationState;
     key: string;
+    // Intentionally any: Bulk configuration values can be of any valid type
     value: any;
   }>): Promise<boolean> {
     // Validate all updates first

@@ -71,7 +71,7 @@ class ErrorTrackingSystem {
   private buildFailures: BuildFailure[] = [];
   private errorPatterns: ErrorPattern[] = [];
   private qualityHistory: QualityMetrics[] = [];
-  private subscribers: Set<(data: any) => void> = new Set();
+  private subscribers: Set<(data: TypeScriptError | LintingViolation | BuildFailure | QualityMetrics) => void> = new Set();
 
   // Error categorization mappings
   private readonly ERROR_CATEGORIES = {
@@ -166,7 +166,7 @@ class ErrorTrackingSystem {
       return [];
 
     } catch (error) {
-      const output = (error as any).stdout || (error as any).stderr || '';
+      const output = (error as unknown as { stdout?: string; stderr?: string }).stdout || (error as unknown as { stderr?: string }).stderr || '';
       const errors = this.parseTypeScriptErrors(output);
       
       // Mark existing errors as resolved if they're not in the new set
@@ -241,7 +241,7 @@ class ErrorTrackingSystem {
 
     } catch (error) {
       // ESLint returns non-zero exit code when violations are found
-      const output = (error as any).stdout || '';
+      const output = (error as unknown as { stdout?: string }).stdout || '';
       
       try {
         const lintResults = JSON.parse(output);
@@ -255,7 +255,17 @@ class ErrorTrackingSystem {
     }
   }
 
-  private parseLintingResults(lintResults: any[]): LintingViolation[] {
+  private parseLintingResults(lintResults: Array<{
+    filePath?: string;
+    messages?: Array<{
+      ruleId?: string;
+      message?: string;
+      line?: number;
+      column?: number;
+      severity?: number;
+      fix?: unknown;
+    }>;
+  }>): LintingViolation[] {
     const violations: LintingViolation[] = [];
 
     for (const fileResult of lintResults) {
@@ -676,7 +686,7 @@ class ErrorTrackingSystem {
   }
 
   // Public API methods
-  public subscribe(callback: (data: any) => void) {
+  public subscribe(callback: (data: TypeScriptError | LintingViolation | BuildFailure | QualityMetrics) => void) {
     this.subscribers.add(callback);
     return () => this.subscribers.delete(callback);
   }

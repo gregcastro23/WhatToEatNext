@@ -111,7 +111,6 @@ import jupiterData from '@/data/planets/jupiter';
 import saturnData from '@/data/planets/saturn';
 import venusData from '@/data/planets/venus';
 import { calculateLunarPhase, calculatePlanetaryPositions } from '@/utils/astrologyUtils';
-import { useEnterpriseIntelligence } from '@/hooks/useEnterpriseIntelligence';
 
 // Enterprise Intelligence Integration - Phase 27 Ingredient Intelligence Systems
 import { EnterpriseIntelligenceIntegration } from '@/services/EnterpriseIntelligenceIntegration';
@@ -553,9 +552,9 @@ export async function getIngredientRecommendations(
   // Perform enterprise intelligence analysis
   const enterpriseAnalysis = await enterpriseIntelligence.performEnterpriseAnalysis(
     undefined, // No recipe data for ingredient-only analysis
-    ingredientData as any,
+    ingredientData as Record<string, unknown>,
     { name: 'general', type: 'universal', region: 'global', characteristics: [] }, // Generic cuisine data for ingredient-only analysis
-    ingredientData.astrologicalContext as any
+    (ingredientData as { astrologicalContext?: Record<string, unknown> }).astrologicalContext || {}
   );
 
   // Group ingredients by category
@@ -604,13 +603,13 @@ export async function getIngredientRecommendations(
         seasonalScore: safeGetNumber(ingredient.seasonalScore),
         dietary: safeGetStringArray(ingredientData.dietary),
         // Enterprise Intelligence Enhanced Properties
-        flavorProfile: (ingredientIntelligence?.categorizationAnalysis as any)?.flavorProfile || {},
-        cuisine: (ingredientIntelligence?.categorizationAnalysis as any)?.cuisine || 'universal',
-        regionalCuisine: (ingredientIntelligence?.categorizationAnalysis as any)?.regionalCuisine || 'global',
-        season: (ingredientIntelligence?.seasonalAnalysis as any)?.currentSeason || 'all',
-        mealType: (ingredientIntelligence?.categorizationAnalysis as any)?.mealType || 'any',
-        timing: (ingredientIntelligence?.seasonalAnalysis as any)?.optimalTiming || 'flexible',
-        duration: (ingredientIntelligence?.seasonalAnalysis as any)?.preparationTime || 'standard'
+        flavorProfile: (ingredientIntelligence?.categorizationAnalysis as { flavorProfile?: Record<string, unknown> })?.flavorProfile || {},
+        cuisine: (ingredientIntelligence?.categorizationAnalysis as { cuisine?: string })?.cuisine || 'universal',
+        regionalCuisine: (ingredientIntelligence?.categorizationAnalysis as { regionalCuisine?: string })?.regionalCuisine || 'global',
+        season: (ingredientIntelligence?.seasonalAnalysis as { currentSeason?: string })?.currentSeason || 'all',
+        mealType: (ingredientIntelligence?.categorizationAnalysis as { mealType?: string })?.mealType || 'any',
+        timing: (ingredientIntelligence?.seasonalAnalysis as { optimalTiming?: string })?.optimalTiming || 'flexible',
+        duration: (ingredientIntelligence?.seasonalAnalysis as { preparationTime?: string })?.preparationTime || 'standard'
       };
       groupedRecommendations[category]?.push(ingredientRecommendation);
       categoryCounts[category]++;
@@ -2244,7 +2243,7 @@ function calculatePlanetaryDayInfluence(
   planetaryData?: { jupiterData: unknown; saturnData: unknown }
 ): number {
   // Enhanced calculation using Jupiter and Saturn data for dignity effects
-  const enhancedPlanetaryInfluence = planetaryData ? 
+  const _enhancedPlanetaryInfluence = planetaryData ? 
     calculateEnhancedPlanetaryInfluence(planetaryDay, planetaryData) : 1.0;
   // Get the elements associated with the current planetary day
   const dayElements = planetaryElements[planetaryDay];
@@ -2333,9 +2332,9 @@ function calculatePlanetaryHourInfluence(
   enhancedData?: { lunarPhaseData: unknown; astrologicalBridge: unknown }
 ): number {
   // Enhanced calculation using lunar phase and astrological bridge data
-  const lunarModifier = enhancedData?.lunarPhaseData ? 
+  const _lunarModifier = enhancedData?.lunarPhaseData ? 
     calculateLunarPhaseModifier(enhancedData.lunarPhaseData) : 1.0;
-  const astrologicalModifier = enhancedData?.astrologicalBridge ? 
+  const _astrologicalModifier = enhancedData?.astrologicalBridge ? 
     calculateAstrologicalBridgeModifier(enhancedData.astrologicalBridge) : 1.0;
   // Get the elements associated with the current planetary hour
   const hourElements = planetaryElements[planetaryHour];
@@ -2477,7 +2476,7 @@ export async function recommendIngredients(
   const Water = Number(astroStateData.Water) || 0.5;
   const Air = Number(astroStateData.Air) || 0.5;
   const Earth = Number(astroStateData.Earth) || 0.5;
-  const zodiacSign = String(astroStateData.zodiacSign || '');
+  const _zodiacSign = String(astroStateData.zodiacSign || '');
   const planetaryAlignment = astroStateData.planetaryAlignment as Record<string, { sign: string; degree: number }> || {};
   const aspects = astroStateData.aspects as Array<{ aspectType: string; planet1: string; planet2: string; }> || [];
   
@@ -2488,7 +2487,7 @@ export async function recommendIngredients(
   const lunarPhase = calculateLunarPhase(date);
   
   // Calculate planetary positions using imported utility  
-  const calculatedPositions = calculatePlanetaryPositions(date);
+  const _calculatedPositions = calculatePlanetaryPositions(date);
   
   // Integrate enterprise intelligence for enhanced recommendations
   const enterpriseIntelligence = new EnterpriseIntelligenceIntegration();
@@ -2560,7 +2559,7 @@ export async function recommendIngredients(
     let enterpriseEnhancement = null;
     try {
       // Safe method access with fallback
-      const enhanceMethod = (enterpriseIntelligence as any)?.enhanceRecommendation;
+      const enhanceMethod = (enterpriseIntelligence as { enhanceRecommendation?: (recommendation: Record<string, unknown>) => Record<string, unknown> })?.enhanceRecommendation;
       if (typeof enhanceMethod === 'function') {
         enterpriseEnhancement = enhanceMethod({
           ingredient,
@@ -2574,7 +2573,7 @@ export async function recommendIngredients(
       enterpriseEnhancement = null;
     }
     
-    const enterpriseWeight = enterpriseEnhancement ? Number((enterpriseEnhancement as any)?.score) || 0 : 0;
+    const enterpriseWeight = enterpriseEnhancement ? Number((enterpriseEnhancement as { score?: number })?.score) || 0 : 0;
     
     const baseScore = (
       elementalWeight * 0.35 + 

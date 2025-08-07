@@ -289,8 +289,8 @@ export class EnhancedIngredientsSystem {
     // Filter by seasonal alignment
     if (criteria.seasonalAlignment) {
       results = (results || []).filter(ingredient => 
-        ingredient.culinaryProperties.seasonality.peak.includes(criteria.seasonalAlignment as any) ||
-        ingredient.culinaryProperties.seasonality.optimal.includes(criteria.seasonalAlignment as any)
+        ingredient.culinaryProperties.seasonality.peak.includes(criteria.seasonalAlignment as Season) ||
+        ingredient.culinaryProperties.seasonality.optimal.includes(criteria.seasonalAlignment as Season)
       );
     }
 
@@ -305,7 +305,7 @@ export class EnhancedIngredientsSystem {
     if (criteria.cookingMethods && (criteria.cookingMethods || []).length > 0) {
       results = (results || []).filter(ingredient => 
         (criteria.cookingMethods || []).some(method => 
-          ingredient.culinaryProperties.cookingMethods.includes(method as any)
+          ingredient.culinaryProperties.cookingMethods.includes(method as CookingMethod)
         )
       );
     }

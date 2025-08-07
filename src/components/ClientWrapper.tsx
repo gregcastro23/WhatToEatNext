@@ -11,7 +11,6 @@ import { AlchemicalProvider } from '@/contexts/AlchemicalContext/provider';
 import { ChartProvider } from '@/contexts/ChartContext/provider';
 import { ThemeProvider } from '@/contexts/ThemeContext';
 
-import Clock from './Clock';
 
 export default function ClientWrapper({ children }: { children: React.ReactNode }) {
   return (

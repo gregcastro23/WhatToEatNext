@@ -107,7 +107,7 @@ export const CookingMethodsSection: React.FC<CookingMethodsSectionProps> = ({
   }, [propMethods, astroState]);
   
   // Calculate astrological score for a cooking method
-  const calculateAstrologicalScore = (methodData: any, astroState: any): number => {
+  const _calculateAstrologicalScore = (methodData: any, astroState: any): number => {
     let score = 0.5; // Base score
     
     try {

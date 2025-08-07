@@ -22,9 +22,7 @@ import {
   ZodiacSign,
   CelestialPosition 
 } from './types/alchemy';
-import { AlchemicalEngineAdvanced } from './calculations/alchemicalEngine';
 
-import { staticAlchemize as alchemize } from '@/utils/alchemyInitializer';
 
 // Test data - using the planetary positions from our previous conversation
 const testPlanetaryPositions: { [key: string]: CelestialPosition } = {

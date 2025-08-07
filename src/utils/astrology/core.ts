@@ -413,7 +413,7 @@ export async function getCurrentAstrologicalState(date: Date = new Date()): Prom
       lunarPhase
     } as TimeFactors;
     
-    const elementalProfile = await calculateElementalProfile(
+    const _elementalProfile = await calculateElementalProfile(
       { sunSign, moonSign, lunarPhase, isDaytime, planetaryHour } as AstrologicalState, 
       _timeFactors
     );

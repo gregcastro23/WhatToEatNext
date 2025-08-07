@@ -2,7 +2,6 @@
 
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
-import React from 'react';
 
 import ChakraDisplay from '@/components/ChakraDisplay';
 import ChakraDisplayMigrated from '@/components/ChakraDisplay.migrated';

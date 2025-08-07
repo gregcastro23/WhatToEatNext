@@ -23,12 +23,12 @@ interface ErrorBoundaryState {
 }
 
 // Default fallback component with user-friendly error messages
-const DefaultErrorFallback = memo(function DefaultErrorFallback({ 
-  error, 
-  errorInfo, 
-  onRetry, 
+const DefaultErrorFallback = memo(function DefaultErrorFallback({
+  error,
+  errorInfo,
+  onRetry,
   retryCount,
-  maxRetries = 3 
+  maxRetries = 3
 }: {
   error: Error;
   errorInfo: ErrorInfo;
@@ -37,7 +37,7 @@ const DefaultErrorFallback = memo(function DefaultErrorFallback({
   maxRetries?: number;
 }) {
   const isDevelopment = process.env.NODE_ENV === 'development';
-  
+
   return (
     <div className="bg-red-50 border border-red-200 rounded-lg p-6 m-4">
       <div className="flex items-center space-x-2 mb-4">
@@ -50,12 +50,12 @@ const DefaultErrorFallback = memo(function DefaultErrorFallback({
           Something went wrong
         </h3>
       </div>
-      
+
       <div className="mb-4">
         <p className="text-red-700 mb-2">
           We encountered an unexpected error. This has been logged and we're working to fix it.
         </p>
-        
+
         {isDevelopment && (
           <details className="mt-4">
             <summary className="cursor-pointer text-red-600 font-medium mb-2">
@@ -83,7 +83,7 @@ const DefaultErrorFallback = memo(function DefaultErrorFallback({
           </details>
         )}
       </div>
-      
+
       <div className="flex items-center space-x-3">
         {retryCount < maxRetries && (
           <button
@@ -93,14 +93,14 @@ const DefaultErrorFallback = memo(function DefaultErrorFallback({
             Try Again ({maxRetries - retryCount} attempts left)
           </button>
         )}
-        
+
         <button
           onClick={() => window.location.reload()}
           className="bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-700 transition-colors focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
         >
           Reload Page
         </button>
-        
+
         {retryCount >= maxRetries && (
           <p className="text-red-600 text-sm">
             Maximum retry attempts reached. Please reload the page or contact support.
@@ -116,7 +116,7 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
 
   constructor(props: ErrorBoundaryProps) {
     super(props);
-    
+
     this.state = {
       hasError: false,
       error: null,
@@ -130,7 +130,7 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
   static getDerivedStateFromError(error: Error): Partial<ErrorBoundaryState> {
     // Generate unique error ID for tracking
     const errorId = `error_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-    
+
     return {
       hasError: true,
       error,
@@ -159,8 +159,8 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
     }
 
     // Report to external error tracking service if available
-    if (typeof window !== 'undefined' && (window as any).reportError) {
-      (window as any).reportError(error, {
+    if (typeof window !== 'undefined' && (window as unknown as { reportError?: (e: Error, info?: Record<string, unknown>) => void }).reportError) {
+      (window as unknown as { reportError?: (e: Error, info?: Record<string, unknown>) => void }).reportError?.(error, {
         componentStack: errorInfo.componentStack,
         errorId: this.state.errorId
       });
@@ -173,7 +173,7 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
 
     // Reset error state if resetKeys have changed
     if (hasError && resetKeys && lastResetKeys) {
-      const hasResetKeyChanged = resetKeys.some((key, index) => 
+      const hasResetKeyChanged = resetKeys.some((key, index) =>
         key !== lastResetKeys[index]
       );
 
@@ -264,13 +264,13 @@ export function withErrorBoundary<P extends object>(
   );
 
   WrappedComponent.displayName = `withErrorBoundary(${Component.displayName || Component.name})`;
-  
+
   return WrappedComponent;
 }
 
 // Hook for programmatic error reporting
 export function useErrorHandler() {
-  const reportError = React.useCallback((error: Error, context?: Record<string, any>) => {
+  const reportError = React.useCallback((error: Error, context?: Record<string, unknown>) => {
     logger.error('Manual error report:', {
       error: error.message,
       stack: error.stack,
@@ -279,8 +279,8 @@ export function useErrorHandler() {
     });
 
     // Report to external service if available
-    if (typeof window !== 'undefined' && (window as any).reportError) {
-      (window as any).reportError(error, context);
+    if (typeof window !== 'undefined' && (window as unknown as { reportError?: (e: Error, info?: Record<string, unknown>) => void }).reportError) {
+      (window as unknown as { reportError?: (e: Error, info?: Record<string, unknown>) => void }).reportError?.(error, context);
     }
   }, []);
 
@@ -314,7 +314,7 @@ export class AsyncErrorBoundary extends Component<
 
   handleUnhandledRejection = (event: PromiseRejectionEvent) => {
     const error = event.reason instanceof Error ? event.reason : new Error(String(event.reason));
-    
+
     this.setState({
       hasError: true,
       error,

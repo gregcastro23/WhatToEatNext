@@ -1,6 +1,3 @@
-import { cuisineFlavorProfiles } from '../data/cuisineFlavorProfiles';
-import { flavorProfiles } from '../data/integrations/flavorProfiles';
-import { planetaryFlavorProfiles } from '../data/planetaryFlavorProfiles';
 import type { ElementalProperties } from '../types/alchemy';
 
 /**

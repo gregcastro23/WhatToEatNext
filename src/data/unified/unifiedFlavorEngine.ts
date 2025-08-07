@@ -205,10 +205,11 @@ export class UnifiedFlavorEngine {
         log.info('🚀 Unified Flavor Engine initialized with', (profiles || []).length, 'profiles');
         
         // Log category stats
-        const categoryStats = profiles.reduce((acc, profile: {}) => {
-          acc[(profile as any)?.category] = (acc[(profile as any)?.category] || 0) + 1;
+        const categoryStats = profiles.reduce((acc, profile: Record<string, unknown>) => {
+          const category = (profile as { category?: string }).category ?? 'unknown';
+          acc[category] = (acc[category] || 0) + 1;
           return acc;
-        }, {});
+        }, {} as Record<string, number>);
         
         log.info('📊 Categories:', { categoryStats });
         
@@ -558,7 +559,12 @@ export class UnifiedFlavorEngine {
     elements2: ElementalProperties
   ): Record<keyof ElementalProperties, number> {
     const elements: (keyof ElementalProperties)[] = ['Fire', 'Water', 'Earth', 'Air'];
-    const breakdown: Record<keyof ElementalProperties, number> = {} as any;
+    const breakdown: Record<keyof ElementalProperties, number> = {
+      Fire: 0,
+      Water: 0,
+      Earth: 0,
+      Air: 0
+    };
     
     for (const element of elements) {
       const strength1 = elements1[element] || 0;

@@ -88,7 +88,7 @@ class QualityMetricsService {
   private predictions: QualityPrediction[] = [];
   private goals: QualityGoal[] = [];
   private reports: QualityReport[] = [];
-  private subscribers: Set<(data: any) => void> = new Set();
+  private subscribers: Set<(data: QualityInsight | QualityReport | TechnicalDebtItem) => void> = new Set();
 
   constructor() {
     this.loadHistoricalData();
@@ -504,7 +504,7 @@ class QualityMetricsService {
         debtItems.push({
           category: 'Error Pattern',
           description: `${pattern.pattern} occurs ${pattern.frequency} times across ${pattern.files.length} files`,
-          impact: pattern.priority as any,
+          impact: pattern.priority as 'low' | 'medium' | 'high' | 'critical',
           effort: pattern.automatable ? 'low' : pattern.frequency > 20 ? 'high' : 'medium',
           files: pattern.files,
           estimatedHours: this.estimateEffort(pattern),
@@ -536,7 +536,7 @@ class QualityMetricsService {
     this.technicalDebt = debtItems.slice(0, 50);
   }
 
-  private estimateEffort(pattern: any): number {
+  private estimateEffort(pattern: { type?: string; priority?: string; frequency?: number; automatable?: boolean }): number {
     if (pattern.automatable) {
       return Math.min(8, pattern.frequency * 0.1); // 0.1 hours per occurrence for automatable
     }
@@ -651,7 +651,7 @@ class QualityMetricsService {
     this.reports.push(report);
   }
 
-  private calculateOverallScore(buildSummary: any, errorSummary: any, qualityMetrics: any): number {
+  private calculateOverallScore(buildSummary: Record<string, unknown>, errorSummary: Record<string, unknown>, qualityMetrics: Record<string, unknown>): number {
     const weights = {
       codeQuality: 0.3,
       performance: 0.25,
@@ -812,7 +812,7 @@ class QualityMetricsService {
   }
 
   // Public API methods
-  public subscribe(callback: (data: any) => void) {
+  public subscribe(callback: (data: QualityInsight | QualityReport | TechnicalDebtItem) => void) {
     this.subscribers.add(callback);
     return () => this.subscribers.delete(callback);
   }

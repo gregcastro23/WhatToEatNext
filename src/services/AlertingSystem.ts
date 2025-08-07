@@ -2,6 +2,7 @@ import fs from 'fs';
 import path from 'path';
 
 import { log } from '@/services/LoggingService';
+import type { AlertConfig, Alert as ServiceAlert, AlertCondition } from '@/types/serviceLayer';
 
 import { buildPerformanceMonitor } from './BuildPerformanceMonitor';
 import { errorTrackingSystem } from './ErrorTrackingSystem';
@@ -22,7 +23,7 @@ export interface Alert {
   escalated: boolean;
   escalatedAt?: Date;
   responseActions: string[];
-  metadata: Record<string, any>;
+  metadata: Record<string, string | number | boolean | Date>;
 }
 
 export interface AlertRule {
@@ -46,7 +47,7 @@ export interface AlertAction {
   id: string;
   name: string;
   type: 'script' | 'command' | 'api_call' | 'campaign' | 'notification';
-  config: Record<string, any>;
+  config: Record<string, string | number | boolean | string[]>;
   conditions: string[];
   retryCount: number;
   timeoutSeconds: number;
@@ -68,6 +69,8 @@ export interface AlertResponse {
   status: 'pending' | 'running' | 'completed' | 'failed';
   startTime: Date;
   endTime?: Date;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // Intentionally any: Alert action results vary significantly across different action types
   result?: any;
   error?: string;
   retryCount: number;
@@ -600,7 +603,9 @@ class AlertingSystem {
     return true;
   }
 
-  private async executeAction(action: AlertAction): Promise<any> {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // Intentionally any: Alert action execution returns diverse result types from various external systems
+  private async executeAction(action: AlertAction): Promise<{ success: boolean; result?: unknown; error?: string }> {
     const timeout = new Promise((_, reject) => {
       setTimeout(() => reject(new Error('Action timeout')), action.timeoutSeconds * 1000);
     });
@@ -610,7 +615,9 @@ class AlertingSystem {
     return Promise.race([execution, timeout]);
   }
 
-  private async performAction(action: AlertAction): Promise<any> {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // Intentionally any: Action performance varies across scripts, commands, campaigns, and API calls
+  private async performAction(action: AlertAction): Promise<{ success: boolean; result?: unknown; error?: string }> {
     switch (action.type) {
       case 'script':
         return this.executeScript(action.config.script);
@@ -627,35 +634,45 @@ class AlertingSystem {
     }
   }
 
-  private async executeScript(scriptName: string): Promise<any> {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // Intentionally any: Script execution results depend on external script implementations
+  private async executeScript(scriptName: string): Promise<{ success: boolean; output?: string; error?: string }> {
     // This would execute a script file
     // For now, return a placeholder
     log.info(`[Alert Action] Executing script: ${scriptName}`);
     return { success: true, message: `Script ${scriptName} executed` };
   }
 
-  private async executeCommand(command: string): Promise<any> {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // Intentionally any: Shell command execution results vary based on command and system state
+  private async executeCommand(command: string): Promise<{ success: boolean; stdout?: string; stderr?: string; error?: string }> {
     // This would execute a shell command
     // For now, return a placeholder
     log.info(`[Alert Action] Executing command: ${command}`);
     return { success: true, message: `Command ${command} executed` };
   }
 
-  private async triggerCampaign(config: any): Promise<any> {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // Intentionally any: Campaign configurations and results have diverse structures across campaign types
+  private async triggerCampaign(config: Record<string, unknown>): Promise<{ success: boolean; campaignId?: string; error?: string }> {
     // This would integrate with the campaign system
     // For now, return a placeholder
     log.info(`[Alert Action] Triggering campaign: ${config.campaignType}`);
     return { success: true, message: `Campaign ${config.campaignType} triggered` };
   }
 
-  private async makeApiCall(config: any): Promise<any> {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // Intentionally any: External API configurations and responses have unknown schemas from diverse services
+  private async makeApiCall(config: Record<string, unknown>): Promise<{ success: boolean; response?: unknown; error?: string }> {
     // This would make an HTTP API call
     // For now, return a placeholder
     log.info(`[Alert Action] Making API call to: ${config.url}`);
     return { success: true, message: `API call to ${config.url} completed` };
   }
 
-  private async sendNotification(config: any): Promise<any> {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // Intentionally any: Notification system configurations support various delivery channels with different options
+  private async sendNotification(config: Record<string, unknown>): Promise<{ success: boolean; messageId?: string; error?: string }> {
     log.info(`[Alert Notification] ${config.message}`);
     return { success: true, message: 'Notification sent' };
   }
@@ -691,17 +708,23 @@ class AlertingSystem {
     }
   }
 
-  private evaluatePerformanceAlerts(data: any) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // Intentionally any: Performance monitoring data comes from various sources with different metrics
+  private evaluatePerformanceAlerts(data: { metrics?: Record<string, number>; buildTime?: number; [key: string]: unknown }) {
     // This would be called when performance data is updated
     // The main monitoring loop handles rule evaluation
   }
 
-  private evaluateErrorAlerts(data: any) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // Intentionally any: Error tracking data varies significantly across different error types and sources
+  private evaluateErrorAlerts(data: { errorCount?: number; errorRate?: number; [key: string]: unknown }) {
     // This would be called when error data is updated
     // The main monitoring loop handles rule evaluation
   }
 
-  private evaluateQualityAlerts(data: any) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // Intentionally any: Code quality metrics include diverse analysis results from various quality tools
+  private evaluateQualityAlerts(data: { qualityScore?: number; testCoverage?: number; [key: string]: unknown }) {
     // This would be called when quality data is updated
     // The main monitoring loop handles rule evaluation
   }

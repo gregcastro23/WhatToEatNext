@@ -73,7 +73,7 @@ export const CurrentChartProvider: React.FC<{children: React.ReactNode}> = ({ ch
   const calculateStelliums = (positions: Record<string, unknown>): Record<string, string[]> => {
     const signGroups: Record<string, string[]> = {};
     Object.entries(positions).forEach(([planet, data]) => {
-      const planetData = data as any;
+      const planetData = data as unknown as { sign?: string; degree?: number };
       if (planet === 'ascendant' || !data || !planetData?.sign) return;
       
       const sign = planetData.sign;
@@ -102,7 +102,7 @@ export const CurrentChartProvider: React.FC<{children: React.ReactNode}> = ({ ch
     };
 
     Object.entries(positions).forEach(([planet, data]) => {
-      const planetData = data as any;
+      const planetData = data as unknown as { sign?: string; degree?: number };
       if (planet === 'ascendant' || !data || !planetData?.sign) return;
       
       const sign = planetData.sign;
@@ -115,7 +115,7 @@ export const CurrentChartProvider: React.FC<{children: React.ReactNode}> = ({ ch
     return houseEffects;
   };
 
-  const getElementFromSign = (sign: string): string => {
+  const _getElementFromSign = (sign: string): string => {
     const fireElements = ['aries', 'leo', 'sagittarius'];
     const earthElements = ['taurus', 'virgo', 'capricorn'];
     const airElements = ['gemini', 'Libra', 'aquarius'];
@@ -128,7 +128,7 @@ export const CurrentChartProvider: React.FC<{children: React.ReactNode}> = ({ ch
     return 'Fire'; // Default
   };
 
-  const getSignFromDegree = (degree: number): string => {
+  const _getSignFromDegree = (degree: number): string => {
     const signIndex = Math.floor(degree / 30);
     return [
       'aries', 'taurus', 'gemini', 'cancer', 
@@ -137,7 +137,7 @@ export const CurrentChartProvider: React.FC<{children: React.ReactNode}> = ({ ch
     ][signIndex];
   };
 
-  const getHouseElement = (house: number): string => {
+  const _getHouseElement = (house: number): string => {
     const houseElements = [
       'Fire', 'Earth', 'Air', 'Water',
       'Fire', 'Earth', 'Air', 'Water',
@@ -204,7 +204,7 @@ export const CurrentChartProvider: React.FC<{children: React.ReactNode}> = ({ ch
     Object.entries(chart.planetaryPositions).forEach(([key, data]) => {
       if (key === 'ascendant') return;
       
-      const planetData = data as any;
+      const planetData = data as unknown as { sign?: string; degree?: number };
       const planetName = key.charAt(0).toUpperCase() + key.slice(1);
       formattedPlanets[planetName] = {
         sign: planetData?.sign || 'Unknown',
@@ -215,7 +215,7 @@ export const CurrentChartProvider: React.FC<{children: React.ReactNode}> = ({ ch
     });
     
     // Create a basic SVG representation
-    const ascendantData = chart.planetaryPositions.ascendant as any;
+    const ascendantData = chart.planetaryPositions.ascendant as unknown as { sign?: string; degree?: number };
     return {
       planetPositions: formattedPlanets,
       ascendantSign: ascendantData?.sign || 'Libra',
@@ -223,7 +223,7 @@ export const CurrentChartProvider: React.FC<{children: React.ReactNode}> = ({ ch
         <circle cx="150" cy="150" r="140" fill="none" stroke="#333" stroke-width="1"/>
         <text x="150" y="20" text-anchor="middle">Current Chart</text>
         ${Object.entries(formattedPlanets).map(([planet, data], index) => {
-          const planetInfo = data as any;
+          const planetInfo = data as unknown as { sign?: string; degree?: number };
           const angle = (index * 30) % 360;
           const x = 150 + 120 * Math.cos(angle * Math.PI / 180);
           const y = 150 + 120 * Math.sin(angle * Math.PI / 180);
@@ -251,12 +251,12 @@ export const useCurrentChart = () => {
   }
   
   // Return the same interface that standalone hook would return for compatibility
-  const ascendantData = context.chart.planetaryPositions.ascendant as any;
+  const ascendantData = context.chart.planetaryPositions.ascendant as unknown as { sign?: string; degree?: number };
   return {
     chartData: {
       planets: Object.entries(context.chart.planetaryPositions).reduce((acc, [key, data]) => {
         if (key === 'ascendant') return acc;
-        const planetData = data as any;
+        const planetData = data as unknown as { sign?: string; degree?: number };
         const planetName = key.charAt(0).toUpperCase() + key.slice(1);
         acc[planetName] = {
           sign: planetData?.sign || 'Unknown',

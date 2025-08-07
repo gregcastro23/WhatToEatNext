@@ -44,8 +44,8 @@ export function validateTransitDate(
       return false;
     }
 
-    const startDate = new Date(transit.Start as any);
-    const endDate = new Date(transit.End as any);
+    const startDate = new Date(transit.Start as string | number | Date);
+    const endDate = new Date(transit.End as string | number | Date);
 
     // Validate date format
     if (isNaN(startDate.getTime()) || isNaN(endDate.getTime())) {
@@ -155,8 +155,8 @@ export function validateAllTransitDates(transitDates: PlanetTransitDates): {
         continue;
       }
 
-      const startDate = new Date(transit.Start as any);
-      const endDate = new Date(transit.End as any);
+      const startDate = new Date(transit.Start as string | number | Date);
+      const endDate = new Date(transit.End as string | number | Date);
 
       if (isNaN(startDate.getTime())) {
         errors.push(`Invalid Start date format for sign ${sign}: ${transit.Start}`);
@@ -175,8 +175,8 @@ export function validateAllTransitDates(transitDates: PlanetTransitDates): {
     const sortedTransits = signs
       .map(sign => ({
         sign,
-        start: new Date((transitDates[sign] as any).Start),
-        end: new Date((transitDates[sign] as any).End)
+        start: new Date((transitDates[sign] as { Start: string | number | Date; End: string | number | Date }).Start),
+        end: new Date((transitDates[sign] as { Start: string | number | Date; End: string | number | Date }).End)
       }))
       .filter(t => !isNaN(t.start.getTime()) && !isNaN(t.end.getTime()))
       .sort((a, b) => a.start.getTime() - b.start.getTime());

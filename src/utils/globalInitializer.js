@@ -14,7 +14,7 @@ import { log } from '@/services/LoggingService';
   
   // Store original values of methods that might be affected by lockdown
   const safeObjectDefineProperty = Object.defineProperty;
-  const safeObjectCreate = Object.create;
+  const _safeObjectCreate = Object.create;
   
   /**
    * Create a reliable popup object with all necessary methods

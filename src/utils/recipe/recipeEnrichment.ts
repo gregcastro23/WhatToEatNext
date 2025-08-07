@@ -1,10 +1,9 @@
 import { Element , ElementalProperties } from "@/types/alchemy";
 import type { Recipe } from "@/types/recipe";
 
-import { calculatePlanetaryPositions } from '../astrologyUtils';
 import { createLogger } from '../logger';
 
-const logger = createLogger('RecipeEnrichment');
+const _logger = createLogger('RecipeEnrichment');
 
 /**
  * Enriches recipe data with enhanced astrological properties

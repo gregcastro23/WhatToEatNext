@@ -1,4 +1,3 @@
-import { type ZodiacSign } from "@/types/alchemy";
 import { logger } from '@/utils/logger';
 
 // Enhanced interfaces for Phase 11 - Alchemical Pillar utilities
@@ -829,7 +828,7 @@ export function getEnhancedCookingRecommendations(
       const equipmentComplexity = Number(methodData.equipmentComplexity || 0.5);
       const astrologicalInfluences = methodData.astrologicalInfluences as Record<string, unknown> || {};
       const duration = methodData.duration as Record<string, unknown> || {};
-      const toolsRequired = methodData.toolsRequired as string[] || [];
+      const _toolsRequired = methodData.toolsRequired as string[] || [];
 
       // Calculate base compatibility
       const baseCompatibility = calculateMethodCompatibility(item, methodName);

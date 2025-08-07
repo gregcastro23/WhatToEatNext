@@ -78,7 +78,13 @@ export function getTarotCardForDate(date: Date) {
 export function getRecipesForTarotCard(card: unknown): string[] {
   if (!card) return [];
   // Apply safe type casting for card access
-  const cardData = card as any;
+  const cardData = card as unknown as {
+    name?: string;
+    element?: string;
+    associatedRecipes?: string[];
+    energies?: Record<string, number>;
+    [key: string]: unknown;
+  };
   return cardData?.associatedRecipes || [];
 }
 
@@ -354,7 +360,13 @@ export const getTarotCardsForDate = (date: Date, sunPosition?: { sign: string, d
 
 export function getQuantumValueForCard(card: unknown): number {
   // Apply safe type casting for card access
-  const cardData = card as any;
+  const cardData = card as unknown as {
+    name?: string;
+    element?: string;
+    associatedRecipes?: string[];
+    energies?: Record<string, number>;
+    [key: string]: unknown;
+  };
   const quantum = cardData?.quantum;
   
   if (typeof quantum === 'number') {
@@ -376,7 +388,13 @@ export function getElementalQuantum(card: unknown) {
   if (!card) return { Fire: 0, Water: 0, Earth: 0, Air: 0 };
   
   // Apply safe type casting for card access
-  const cardData = card as any;
+  const cardData = card as unknown as {
+    name?: string;
+    element?: string;
+    associatedRecipes?: string[];
+    energies?: Record<string, number>;
+    [key: string]: unknown;
+  };
   const element = cardData?.element || 'Fire';
   const quantum = cardData?.quantum || 1;
   

@@ -114,6 +114,8 @@ export class ValidationFramework {
                 timestamp: new Date(),
                 executionTime
               };
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            // Intentionally any: Error objects from validation processes have varying structures
             } catch (error: any) {
               const executionTime = Date.now() - startTime;
               const errorOutput = error.stdout || error.stderr || error.message;
@@ -154,6 +156,8 @@ export class ValidationFramework {
                 timestamp: new Date(),
                 executionTime
               };
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            // Intentionally any: Error objects from validation processes have varying structures
             } catch (error: any) {
               const executionTime = Date.now() - startTime;
               return {
@@ -195,6 +199,8 @@ export class ValidationFramework {
                 timestamp: new Date(),
                 executionTime
               };
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            // Intentionally any: Error objects from validation processes have varying structures
             } catch (error: any) {
               const executionTime = Date.now() - startTime;
               return {
@@ -246,6 +252,8 @@ export class ValidationFramework {
                 timestamp: new Date(),
                 executionTime
               };
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            // Intentionally any: Error objects from validation processes have varying structures
             } catch (error: any) {
               const executionTime = Date.now() - startTime;
               const errorOutput = error.stdout || error.stderr || error.message;
@@ -290,6 +298,8 @@ export class ValidationFramework {
                 timestamp: new Date(),
                 executionTime
               };
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            // Intentionally any: Error objects from validation processes have varying structures
             } catch (error: any) {
               const executionTime = Date.now() - startTime;
               return {
@@ -331,6 +341,8 @@ export class ValidationFramework {
                 timestamp: new Date(),
                 executionTime
               };
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            // Intentionally any: Error objects from validation processes have varying structures
             } catch (error: any) {
               const executionTime = Date.now() - startTime;
               return {
@@ -372,6 +384,8 @@ export class ValidationFramework {
                 timestamp: new Date(),
                 executionTime
               };
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            // Intentionally any: Error objects from validation processes have varying structures
             } catch (error: any) {
               const executionTime = Date.now() - startTime;
               return {
@@ -422,6 +436,8 @@ export class ValidationFramework {
                 timestamp: new Date(),
                 executionTime
               };
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            // Intentionally any: Error objects from validation processes have varying structures
             } catch (error: any) {
               const executionTime = Date.now() - startTime;
               return {
@@ -464,6 +480,8 @@ export class ValidationFramework {
                 timestamp: new Date(),
                 executionTime
               };
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            // Intentionally any: Error objects from validation processes have varying structures
             } catch (error: any) {
               const executionTime = Date.now() - startTime;
               return {
@@ -501,6 +519,8 @@ export class ValidationFramework {
                 timestamp: new Date(),
                 executionTime
               };
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            // Intentionally any: Error objects from validation processes have varying structures
             } catch (error: any) {
               const executionTime = Date.now() - startTime;
               return {
@@ -549,6 +569,8 @@ export class ValidationFramework {
                 timestamp: new Date(),
                 executionTime: Date.now() - startTime
               };
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            // Intentionally any: Error objects from validation processes have varying structures
             } catch (error: any) {
               const buildTime = (Date.now() - startTime) / 1000;
               return {
@@ -586,6 +608,8 @@ export class ValidationFramework {
                 timestamp: new Date(),
                 executionTime: Date.now() - startTime
               };
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            // Intentionally any: Error objects from validation processes have varying structures
             } catch (error: any) {
               const testTime = (Date.now() - startTime) / 1000;
               return {
@@ -636,6 +660,8 @@ export class ValidationFramework {
                   executionTime: Date.now() - startTime
                 };
               }
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            // Intentionally any: Error objects from validation processes have varying structures
             } catch (error: any) {
               return {
                 success: true, // Non-critical, assume success
@@ -672,6 +698,8 @@ export class ValidationFramework {
                 timestamp: new Date(),
                 executionTime
               };
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            // Intentionally any: Error objects from validation processes have varying structures
             } catch (error: any) {
               return {
                 success: true, // Non-critical

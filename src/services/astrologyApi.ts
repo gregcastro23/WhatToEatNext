@@ -91,7 +91,7 @@ const getCachedCelestialPositions = async (): Promise<CelestialPosition> => {
         // Use AstrologicalService to get accurate positions for current date
         const currentDate = new Date();
         // Apply safe type casting for service method access
-        const astroService = AstrologicalService as unknown as any;
+        const astroService = AstrologicalService as unknown as { getStateForDate?: (date: Date) => Promise<unknown> };
         const astroState = await (astroService?.getStateForDate ? 
             astroService.getStateForDate(currentDate) : 
             astroService.getCurrentState?.(currentDate));
@@ -121,7 +121,7 @@ const getFallbackPositions = (date: Date = new Date()): CelestialPosition => {
     // Get fallback data from AstrologicalService for the specified date
     try {
         // Apply safe type casting for service method access
-        const astroService = AstrologicalService as unknown as any;
+        const astroService = AstrologicalService as unknown as { getStateForDate?: (date: Date) => Promise<unknown> };
         const fallbackStatePromise = astroService?.getStateForDate ? 
             astroService.getStateForDate(date) : 
             astroService.getCurrentState?.(date);

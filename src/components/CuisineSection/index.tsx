@@ -190,7 +190,7 @@ export const CuisineSection: React.FC<CuisineSectionProps> = ({
           const cuisineData = importedCuisine as Record<string, unknown>;
           
           if (cuisineData.dishes) {
-            const specialRecipes: any[] = [];
+            const specialRecipes: unknown[] = [];
             
             // Try to extract some recipes directly
             Object.entries(cuisineData.dishes).forEach(([_mealType, seasonalDishes]) => {
