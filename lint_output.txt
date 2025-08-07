@@ -6020,16 +6020,15 @@ See the typescript-eslint docs for more info: https://typescript-eslint.io/linti
   400:32  warning  Unexpected any. Specify a different type                                                               @typescript-eslint/no-explicit-any
 
 /Users/GregCastro/Desktop/WhatToEatNext/src/utils/astrology/astrologicalValidation.ts
-   17:3   error    'validateTransitDate' is defined but never used. Allowed unused vars must match /^(_|FALLBACK|RELIABLE|POSITIONS|TRANSIT|DEFAULT|MARCH2025|UNUSED_|planet|degree|sign|longitude)/u  @typescript-eslint/no-unused-vars
-   55:8   warning  Function 'validatePlanetaryPositions' has too many lines (92). Maximum allowed is 80                                                                                                max-lines-per-function
-   55:8   warning  Function 'validatePlanetaryPositions' has a complexity of 21. Maximum allowed is 15                                                                                                 complexity
-  151:1   warning  Function 'validateSinglePlanetaryPosition' has too many lines (122). Maximum allowed is 80                                                                                          max-lines-per-function
-  151:1   warning  Function 'validateSinglePlanetaryPosition' has a complexity of 29. Maximum allowed is 15                                                                                            complexity
-  182:77  warning  This assertion is unnecessary since it does not change the type of the expression                                                                                                   @typescript-eslint/no-unnecessary-type-assertion
-  248:50  warning  This assertion is unnecessary since it does not change the type of the expression                                                                                                   @typescript-eslint/no-unnecessary-type-assertion
-  255:78  warning  Unexpected any. Specify a different type                                                                                                                                            @typescript-eslint/no-explicit-any
-  374:8   warning  Async function 'validateAstrologicalCalculation' has a complexity of 16. Maximum allowed is 15                                                                                      complexity
-  403:81  warning  Unexpected any. Specify a different type                                                                                                                                            @typescript-eslint/no-explicit-any
+   54:8   warning  Function 'validatePlanetaryPositions' has too many lines (92). Maximum allowed is 80            max-lines-per-function
+   54:8   warning  Function 'validatePlanetaryPositions' has a complexity of 21. Maximum allowed is 15             complexity
+  150:1   warning  Function 'validateSinglePlanetaryPosition' has too many lines (122). Maximum allowed is 80      max-lines-per-function
+  150:1   warning  Function 'validateSinglePlanetaryPosition' has a complexity of 29. Maximum allowed is 15        complexity
+  181:77  warning  This assertion is unnecessary since it does not change the type of the expression               @typescript-eslint/no-unnecessary-type-assertion
+  247:50  warning  This assertion is unnecessary since it does not change the type of the expression               @typescript-eslint/no-unnecessary-type-assertion
+  254:78  warning  Unexpected any. Specify a different type                                                        @typescript-eslint/no-explicit-any
+  373:8   warning  Async function 'validateAstrologicalCalculation' has a complexity of 16. Maximum allowed is 15  complexity
+  402:81  warning  Unexpected any. Specify a different type                                                        @typescript-eslint/no-explicit-any
 
 /Users/GregCastro/Desktop/WhatToEatNext/src/utils/astrology/core.ts
     1:1   warning  Astrological calculation files should import transit validation utilities                   astrological/require-transit-date-validation
@@ -6073,21 +6072,20 @@ See the typescript-eslint docs for more info: https://typescript-eslint.io/linti
   138:8  warning  Function 'validateAllTransitDates' has a complexity of 19. Maximum allowed is 15            complexity
 
 /Users/GregCastro/Desktop/WhatToEatNext/src/utils/astrology/validation.ts
-    1:1   warning  Astrological calculation files should import transit validation utilities                                                                                                              astrological/require-transit-date-validation
-   35:5   error    Fallback variable 'reliablePositionsCache' should not be set to null or undefined                                                                                                      astrological/preserve-fallback-values
-   45:11  error    'PlanetDataWithTransits' is defined but never used. Allowed unused vars must match /^(_|FALLBACK|RELIABLE|POSITIONS|TRANSIT|DEFAULT|MARCH2025|UNUSED_|planet|degree|sign|longitude)/u  @typescript-eslint/no-unused-vars
-   47:38  warning  Unexpected any. Specify a different type                                                                                                                                               @typescript-eslint/no-explicit-any
-  200:8   warning  Function 'calculateSunSign' has a complexity of 45. Maximum allowed is 15                                                                                                              complexity
-  249:9   warning  Prefer using an optional chain expression instead, as it's more concise and easier to read                                                                                             @typescript-eslint/prefer-optional-chain
-  258:11  warning  Prefer using an optional chain expression instead, as it's more concise and easier to read                                                                                             @typescript-eslint/prefer-optional-chain
-  496:31  warning  Unexpected any. Specify a different type                                                                                                                                               @typescript-eslint/no-explicit-any
-  498:21  warning  Unexpected any. Specify a different type                                                                                                                                               @typescript-eslint/no-explicit-any
-  509:9   warning  Prefer using an optional chain expression instead, as it's more concise and easier to read                                                                                             @typescript-eslint/prefer-optional-chain
-  520:34  warning  Unexpected any. Specify a different type                                                                                                                                               @typescript-eslint/no-explicit-any
-  558:64  warning  Unexpected any. Specify a different type                                                                                                                                               @typescript-eslint/no-explicit-any
-  563:34  warning  Unexpected any. Specify a different type                                                                                                                                               @typescript-eslint/no-explicit-any
-  566:22  error    Planetary position object missing required properties: exactLongitude                                                                                                                  astrological/validate-planetary-position-structure
-  593:1   warning  Function '_calculateApproximateSunSign' has a complexity of 23. Maximum allowed is 15                                                                                                  complexity
+    1:1   warning  Astrological calculation files should import transit validation utilities                   astrological/require-transit-date-validation
+   35:5   error    Fallback variable 'reliablePositionsCache' should not be set to null or undefined           astrological/preserve-fallback-values
+   47:38  warning  Unexpected any. Specify a different type                                                    @typescript-eslint/no-explicit-any
+  200:8   warning  Function 'calculateSunSign' has a complexity of 45. Maximum allowed is 15                   complexity
+  249:9   warning  Prefer using an optional chain expression instead, as it's more concise and easier to read  @typescript-eslint/prefer-optional-chain
+  258:11  warning  Prefer using an optional chain expression instead, as it's more concise and easier to read  @typescript-eslint/prefer-optional-chain
+  496:31  warning  Unexpected any. Specify a different type                                                    @typescript-eslint/no-explicit-any
+  498:21  warning  Unexpected any. Specify a different type                                                    @typescript-eslint/no-explicit-any
+  509:9   warning  Prefer using an optional chain expression instead, as it's more concise and easier to read  @typescript-eslint/prefer-optional-chain
+  520:34  warning  Unexpected any. Specify a different type                                                    @typescript-eslint/no-explicit-any
+  558:64  warning  Unexpected any. Specify a different type                                                    @typescript-eslint/no-explicit-any
+  563:34  warning  Unexpected any. Specify a different type                                                    @typescript-eslint/no-explicit-any
+  566:22  error    Planetary position object missing required properties: exactLongitude                       astrological/validate-planetary-position-structure
+  593:1   warning  Function '_calculateApproximateSunSign' has a complexity of 23. Maximum allowed is 15       complexity
 
 /Users/GregCastro/Desktop/WhatToEatNext/src/utils/astrologyUtils.ts
     35:1   warning  Dependency cycle detected                                                                        import/no-cycle
@@ -6161,23 +6159,22 @@ See the typescript-eslint docs for more info: https://typescript-eslint.io/linti
   84:31  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
 
 /Users/GregCastro/Desktop/WhatToEatNext/src/utils/cookingMethodRecommender.ts
-   145:36  warning  Arrow function has a complexity of 30. Maximum allowed is 15                                                 complexity
-   235:8   warning  Function 'getMethodThermodynamics' has a complexity of 44. Maximum allowed is 15                             complexity
-   311:10  error    'calculateThermodynamicBaseScore' is defined but never used. Allowed unused vars must match /^(_|UNUSED_)/u  @typescript-eslint/no-unused-vars
-   520:8   warning  Async function 'getRecommendedCookingMethods' has too many lines (707). Maximum allowed is 80                max-lines-per-function
-   520:8   warning  Async function 'getRecommendedCookingMethods' has a complexity of 78. Maximum allowed is 15                  complexity
-   543:10  warning  Prefer using an optional chain expression instead, as it's more concise and easier to read                   @typescript-eslint/prefer-optional-chain
-   636:25  warning  Unexpected any. Specify a different type                                                                     @typescript-eslint/no-explicit-any
-   659:25  warning  Unexpected any. Specify a different type                                                                     @typescript-eslint/no-explicit-any
-   676:28  warning  Unexpected any. Specify a different type                                                                     @typescript-eslint/no-explicit-any
-   693:28  warning  Unexpected any. Specify a different type                                                                     @typescript-eslint/no-explicit-any
-   710:27  warning  Unexpected any. Specify a different type                                                                     @typescript-eslint/no-explicit-any
-   735:27  warning  Arrow function has too many lines (488). Maximum allowed is 80                                               max-lines-per-function
-   735:27  warning  Arrow function has a complexity of 187. Maximum allowed is 15                                                complexity
-  1051:11  warning  Prefer using an optional chain expression instead, as it's more concise and easier to read                   @typescript-eslint/prefer-optional-chain
-  1213:28  warning  Unexpected any. Specify a different type                                                                     @typescript-eslint/no-explicit-any
-  1218:10  warning  Unexpected any. Specify a different type                                                                     @typescript-eslint/no-explicit-any
-  1377:1   warning  Function 'getAstrologicalElementalProfile' has a complexity of 19. Maximum allowed is 15                     complexity
+   145:36  warning  Arrow function has a complexity of 30. Maximum allowed is 15                                   complexity
+   235:8   warning  Function 'getMethodThermodynamics' has a complexity of 44. Maximum allowed is 15               complexity
+   520:8   warning  Async function 'getRecommendedCookingMethods' has too many lines (707). Maximum allowed is 80  max-lines-per-function
+   520:8   warning  Async function 'getRecommendedCookingMethods' has a complexity of 78. Maximum allowed is 15    complexity
+   543:10  warning  Prefer using an optional chain expression instead, as it's more concise and easier to read     @typescript-eslint/prefer-optional-chain
+   636:25  warning  Unexpected any. Specify a different type                                                       @typescript-eslint/no-explicit-any
+   659:25  warning  Unexpected any. Specify a different type                                                       @typescript-eslint/no-explicit-any
+   676:28  warning  Unexpected any. Specify a different type                                                       @typescript-eslint/no-explicit-any
+   693:28  warning  Unexpected any. Specify a different type                                                       @typescript-eslint/no-explicit-any
+   710:27  warning  Unexpected any. Specify a different type                                                       @typescript-eslint/no-explicit-any
+   735:27  warning  Arrow function has too many lines (488). Maximum allowed is 80                                 max-lines-per-function
+   735:27  warning  Arrow function has a complexity of 187. Maximum allowed is 15                                  complexity
+  1051:11  warning  Prefer using an optional chain expression instead, as it's more concise and easier to read     @typescript-eslint/prefer-optional-chain
+  1213:28  warning  Unexpected any. Specify a different type                                                       @typescript-eslint/no-explicit-any
+  1218:10  warning  Unexpected any. Specify a different type                                                       @typescript-eslint/no-explicit-any
+  1377:1   warning  Function 'getAstrologicalElementalProfile' has a complexity of 19. Maximum allowed is 15       complexity
 
 /Users/GregCastro/Desktop/WhatToEatNext/src/utils/cookingMethodTips.ts
    12:8  warning  Function 'getTechnicalTips' has too many lines (352). Maximum allowed is 80     max-lines-per-function
@@ -6607,10 +6604,7 @@ See the typescript-eslint docs for more info: https://typescript-eslint.io/linti
   149:8   warning  Function 'calculatePrepTimeAppropriateness' has a complexity of 19. Maximum allowed is 15  complexity
 
 /Users/GregCastro/Desktop/WhatToEatNext/src/utils/typeValidation.ts
-   75:31  error    'T' is defined but never used. Allowed unused vars must match /^(_|UNUSED_)/u  @typescript-eslint/no-unused-vars
-  315:22  warning  Unexpected any. Specify a different type                                       @typescript-eslint/no-explicit-any
-  366:59  error    'index' is defined but never used. Allowed unused args must match /^_/u        @typescript-eslint/no-unused-vars
-  372:58  error    'index' is defined but never used. Allowed unused args must match /^_/u        @typescript-eslint/no-unused-vars
+  315:22  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
 
 /Users/GregCastro/Desktop/WhatToEatNext/src/utils/typescriptCampaignTrigger.ts
   265:19  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
@@ -6633,7 +6627,7 @@ See the typescript-eslint docs for more info: https://typescript-eslint.io/linti
    74:8   warning  Function 'getZodiacSign' has a complexity of 45. Maximum allowed is 15      complexity
   252:8   warning  Function 'getZodiacFromDate' has a complexity of 45. Maximum allowed is 15  complexity
 
-✖ 5154 problems (2208 errors, 2946 warnings)
+✖ 5148 problems (2202 errors, 2946 warnings)
   37 errors and 168 warnings potentially fixable with the `--fix` option.
 
 make: *** [lint] Error 1

@@ -1,6 +1,6 @@
 /**
  * Comprehensive Astrological Validation System
- * 
+ *
  * Provides a unified interface for validating all astrological calculations,
  * planetary positions, elemental properties, and transit dates.
  */
@@ -8,14 +8,14 @@
 import { ElementalProperties } from '@/types/alchemy';
 import { logger } from '@/utils/logger';
 
-import { 
-  validateElementalProperties, 
-  normalizeElementalProperties,
-  ELEMENTAL_CONSTANTS 
+import {
+    ELEMENTAL_CONSTANTS,
+    normalizeElementalProperties,
+    validateElementalProperties
 } from './elementalValidation';
-import { 
-  validatePlanetaryPosition,
-  TRANSIT_CONSTANTS 
+import {
+    TRANSIT_CONSTANTS,
+    validatePlanetaryPosition
 } from './transitValidation';
 
 /**
@@ -79,14 +79,14 @@ export function validatePlanetaryPositions(
 
       const position = positions[planet];
       const validation = validateSinglePlanetaryPosition(planet, position, strictMode);
-      
+
       if (!validation.isValid) {
         errors.push(...validation.errors);
       }
-      
+
       // Always collect warnings, regardless of validity
       warnings.push(...validation.warnings);
-      
+
       if (validation.correctedData && autoCorrect) {
         correctedData[planet] = validation.correctedData as PlanetaryPosition;
       }
@@ -97,7 +97,7 @@ export function validatePlanetaryPositions(
       if (planet in positions) {
         const position = positions[planet];
         const validation = validateSinglePlanetaryPosition(planet, position, strictMode);
-        
+
         if (!validation.isValid) {
           if (strictMode) {
             errors.push(...validation.errors);
@@ -105,10 +105,10 @@ export function validatePlanetaryPositions(
             warnings.push(...validation.errors);
           }
         }
-        
+
         // Always collect warnings, regardless of validity
         warnings.push(...validation.warnings);
-        
+
         if (validation.correctedData && autoCorrect) {
           correctedData[planet] = validation.correctedData as PlanetaryPosition;
         }
@@ -164,7 +164,7 @@ function validateSinglePlanetaryPosition(
 
     const pos = position as Record<string, unknown>;
     const requiredProps = ['sign', 'degree', 'exactLongitude', 'isRetrograde'];
-    
+
     // Check required properties
     for (const prop of requiredProps) {
       if (!(prop in pos)) {
@@ -284,18 +284,18 @@ export function validateAstrologicalElementalProperties(
   try {
     if (!validateElementalProperties(properties)) {
       errors.push(`Invalid elemental properties${context ? ` in ${context}` : ''}`);
-      
+
       // Try to normalize the properties
       if (properties && typeof properties === 'object') {
         correctedData = normalizeElementalProperties(properties as Partial<ElementalProperties>);
         warnings.push('Elemental properties were normalized to valid values');
       }
-      
+
       return { isValid: false, errors, warnings, correctedData };
     }
 
     const props = properties ;
-    
+
     // Check for elemental balance
     const total = Object.values(props).reduce((sum, val) => sum + val, 0);
     if (total > 1.2) {
@@ -303,7 +303,7 @@ export function validateAstrologicalElementalProperties(
     }
 
     // Check for self-reinforcement patterns
-    const dominant = Object.entries(props).reduce((max, current) => 
+    const dominant = Object.entries(props).reduce((max, current) =>
       current[1] > max[1] ? current : max
     );
 
@@ -390,7 +390,7 @@ export async function validateAstrologicalCalculation(
       const positionValidation = validatePlanetaryPositions(input.planetaryPositions, options);
       errors.push(...positionValidation.errors);
       warnings.push(...positionValidation.warnings);
-      
+
       if (positionValidation.correctedData) {
         correctedData.planetaryPositions = positionValidation.correctedData;
       }
@@ -418,7 +418,7 @@ export async function validateAstrologicalCalculation(
       );
       errors.push(...elementalValidation.errors);
       warnings.push(...elementalValidation.warnings);
-      
+
       if (elementalValidation.correctedData) {
         correctedData.elementalProperties = elementalValidation.correctedData;
       }

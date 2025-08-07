@@ -1,4 +1,3 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-  <circle cx="12" cy="12" r="10" stroke="currentColor" fill="currentColor"/>
-  <path d="M5 12h7V5a7 7 0 0 1 0 14 7 7 0 0 1-7-7z" fill="none" stroke="none"/>
-</svg> 
+version https://git-lfs.github.com/spec/v1
+oid sha256:93b90e59d91302d76a135f93f8ee36d1e62a52c3fd8e05c5ee9dc03b3ce2b10b
+size 346

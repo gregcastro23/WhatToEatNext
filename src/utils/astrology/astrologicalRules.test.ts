@@ -297,7 +297,7 @@ describe('Astrological Validation Utilities', () => {
         date: new Date('2024-04-01')
       };
 
-      const result = await validateAstrologicalCalculation(validInput);
+      const result = validateAstrologicalCalculation(validInput);
       expect(result.isValid).toBe(true);
     });
 
@@ -316,7 +316,7 @@ describe('Astrological Validation Utilities', () => {
         }
       };
 
-      const result = await validateAstrologicalCalculation(invalidInput);
+      const result = validateAstrologicalCalculation(invalidInput);
       expect(result.isValid).toBe(false);
       expect(result.errors.length).toBeGreaterThan(0);
       expect(result.warnings.length).toBeGreaterThan(0);

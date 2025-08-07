@@ -5,7 +5,7 @@
  * with robust fallback mechanisms when API calls fail.
  */
 
-import { logger } from '@/utils/logger';
+import { logger as UNUSED_logger } from '@/utils/logger';
 // getMCPServerIntegration removed with MCP cleanup
 
 // Cache system to avoid frequent API calls
