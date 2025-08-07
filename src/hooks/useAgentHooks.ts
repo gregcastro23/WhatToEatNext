@@ -66,41 +66,43 @@ export function useAgentHooks(config: Partial<AgentHookConfig> = {}) {
     setHookState(prev => ({ ...prev, isActive: true }));
     
     // Set up validation interval
-    intervalRef.current = setInterval(async () => {
-      try {
-        const results: Record<string, ValidationResult> = {};
-        
-        // Planetary data validation
-        if (finalConfig.enablePlanetaryValidation) {
-          const planetaryResult = await qa.validatePlanetaryData();
-          results.planetary = planetaryResult;
+    intervalRef.current = setInterval(() => {
+      void (async () => {
+        try {
+          const results: Record<string, ValidationResult> = {};
           
-          if (!planetaryResult.isValid) {
-            logger.warn('Planetary data validation failed:', planetaryResult.issues);
+          // Planetary data validation
+          if (finalConfig.enablePlanetaryValidation) {
+            const planetaryResult = await qa.validatePlanetaryData();
+            results.planetary = planetaryResult;
+            
+            if (!planetaryResult.isValid) {
+              logger.warn('Planetary data validation failed:', planetaryResult.issues);
+            }
           }
-        }
 
-        // TypeScript error threshold check
-        if (finalConfig.enableCampaignTriggers) {
-          const trigger = await qa.checkTypeScriptErrorThreshold();
-          if (trigger?.triggered) {
-            logger.warn('TypeScript campaign trigger activated:', trigger);
+          // TypeScript error threshold check
+          if (finalConfig.enableCampaignTriggers) {
+            const trigger = await qa.checkTypeScriptErrorThreshold();
+            if (trigger?.triggered) {
+              logger.warn('TypeScript campaign trigger activated:', trigger);
+            }
           }
+
+          // Update state
+          setHookState(prev => ({
+            ...prev,
+            lastValidation: Date.now(),
+            validationResults: { ...prev.validationResults, ...results },
+            campaignTriggers: qa.getActiveCampaignTriggers(),
+            qualityMetrics: qa.getQualityMetrics()
+          }));
+
+          logger.debug('Agent hooks validation cycle completed');
+        } catch (error) {
+          logger.error('Error in agent hooks validation cycle:', error);
         }
-
-        // Update state
-        setHookState(prev => ({
-          ...prev,
-          lastValidation: Date.now(),
-          validationResults: { ...prev.validationResults, ...results },
-          campaignTriggers: qa.getActiveCampaignTriggers(),
-          qualityMetrics: qa.getQualityMetrics()
-        }));
-
-        logger.debug('Agent hooks validation cycle completed');
-      } catch (error) {
-        logger.error('Error in agent hooks validation cycle:', error);
-      }
+      })();
     }, finalConfig.validationInterval * 60 * 1000);
 
     logger.info('Agent hooks started with config:', finalConfig);

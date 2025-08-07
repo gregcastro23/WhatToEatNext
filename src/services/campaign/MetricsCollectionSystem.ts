@@ -82,12 +82,14 @@ export class MetricsCollectionSystem {
     this.isCollecting = true;
     console.log(`📊 Starting real-time metrics collection (interval: ${intervalMs}ms)`);
 
-    this.collectionInterval = setInterval(async () => {
-      try {
-        await this.collectSnapshot();
-      } catch (error) {
-        console.error('❌ Error during metrics collection:', (error  as Record<string, unknown>).message || 'Unknown error');
-      }
+    this.collectionInterval = setInterval(() => {
+      void (async () => {
+        try {
+          await this.collectSnapshot();
+        } catch (error) {
+          console.error('❌ Error during metrics collection:', (error  as Record<string, unknown>).message || 'Unknown error');
+        }
+      })();
     }, intervalMs);
 
     // Collect initial snapshot

@@ -424,14 +424,16 @@ export class AutomatedQualityAssurance {
     }
 
     // Run validation every 5 minutes
-    this.validationInterval = setInterval(async () => {
-      try {
-        await this.validatePlanetaryData();
-        await this.checkTypeScriptErrorThreshold();
-        logger.debug('Automatic quality validation completed');
-      } catch (error) {
-        logger.error('Error in automatic validation:', error);
-      }
+    this.validationInterval = setInterval(() => {
+      void (async () => {
+        try {
+          await this.validatePlanetaryData();
+          await this.checkTypeScriptErrorThreshold();
+          logger.debug('Automatic quality validation completed');
+        } catch (error) {
+          logger.error('Error in automatic validation:', error);
+        }
+      })();
     }, 5 * 60 * 1000);
 
     logger.debug('Automatic quality validation started');

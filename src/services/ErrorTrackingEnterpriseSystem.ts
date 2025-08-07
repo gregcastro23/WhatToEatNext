@@ -107,12 +107,14 @@ export class ErrorTrackingEnterpriseSystem {
     this.isMonitoring = true;
     log.info(`🔄 Starting real-time error monitoring (${intervalMinutes}min intervals)`);
 
-    this.monitoringInterval = setInterval(async () => {
-      try {
-        await this.performAutomatedAnalysis();
-      } catch (error) {
-        console.error('❌ Error during automated analysis:', error);
-      }
+    this.monitoringInterval = setInterval(() => {
+      void (async () => {
+        try {
+          await this.performAutomatedAnalysis();
+        } catch (error) {
+          console.error('❌ Error during automated analysis:', error);
+        }
+      })();
     }, intervalMinutes * 60 * 1000);
 
     // Perform initial analysis

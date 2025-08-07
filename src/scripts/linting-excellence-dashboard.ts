@@ -218,27 +218,29 @@ class LintingExcellenceDashboardCLI {
       // Simple watch implementation
       let lastCheck = Date.now();
       
-      setInterval(async () => {
-        try {
-          const result = await this.dashboard.runComprehensiveValidation();
-          
-          if (result.alerts.length > 0 || result.regressionAnalysis.detected) {
-            console.log(`\n⚠️  [${new Date().toISOString()}] Issues detected:`);
-            console.log(`   Quality Score: ${result.metrics.qualityScore}/100`);
-            console.log(`   Total Issues: ${result.metrics.totalIssues}`);
-            console.log(`   Active Alerts: ${result.alerts.length}`);
+      setInterval(() => {
+        void (async () => {
+          try {
+            const result = await this.dashboard.runComprehensiveValidation();
             
-            if (result.regressionAnalysis.detected) {
-              console.log(`   🔴 Regression: ${result.regressionAnalysis.severity}`);
+            if (result.alerts.length > 0 || result.regressionAnalysis.detected) {
+              console.log(`\n⚠️  [${new Date().toISOString()}] Issues detected:`);
+              console.log(`   Quality Score: ${result.metrics.qualityScore}/100`);
+              console.log(`   Total Issues: ${result.metrics.totalIssues}`);
+              console.log(`   Active Alerts: ${result.alerts.length}`);
+              
+              if (result.regressionAnalysis.detected) {
+                console.log(`   🔴 Regression: ${result.regressionAnalysis.severity}`);
+              }
+            } else if (options.verbose) {
+              console.log(`✅ [${new Date().toISOString()}] All systems normal`);
             }
-          } else if (options.verbose) {
-            console.log(`✅ [${new Date().toISOString()}] All systems normal`);
+            
+            lastCheck = Date.now();
+          } catch (error) {
+            console.error(`❌ [${new Date().toISOString()}] Monitoring error:`, error);
           }
-          
-          lastCheck = Date.now();
-        } catch (error) {
-          console.error(`❌ [${new Date().toISOString()}] Monitoring error:`, error);
-        }
+        })();
       }, 60000); // Check every minute
       
     } else {

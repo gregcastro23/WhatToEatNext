@@ -347,7 +347,7 @@ export default function IngredientRecommender() {
   
   // Effect to generate recommendations when loading state changes
   useEffect(() => {
-    generateRecommendations();
+    void generateRecommendations();
   }, [generateRecommendations]);
   
   // Define herb names array for checking herb categories
@@ -1351,7 +1351,7 @@ export default function IngredientRecommender() {
               setLoadingTimedOut(false);
               setIsComponentLoading(true);
               (refreshRecommendations as () => void)();
-              generateRecommendations();
+              void generateRecommendations();
             }}
             className="px-4 py-2 bg-indigo-700 text-white rounded-md hover:bg-indigo-600 transition-colors"
           >

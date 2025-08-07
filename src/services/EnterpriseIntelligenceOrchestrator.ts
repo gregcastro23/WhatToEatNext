@@ -508,8 +508,14 @@ export class EnterpriseIntelligenceOrchestrator extends EventEmitter {
 
     if (!this.config.integration.healthChecks) return;
 
-    this.healthCheckInterval = setInterval(async () => {
-      await this.performHealthChecks();
+    this.healthCheckInterval = setInterval(() => {
+      void (async () => {
+        try {
+          await this.performHealthChecks();
+        } catch (error) {
+          console.error('❌ Error during health checks:', error);
+        }
+      })();
     }, 60000); // Check every minute
   }
 

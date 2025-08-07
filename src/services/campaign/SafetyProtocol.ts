@@ -327,32 +327,34 @@ export class SafetyProtocol {
   async startRealTimeMonitoring(files: string[], intervalMs: number = 5000): Promise<void> {
     console.log(`🔄 Starting real-time corruption monitoring for ${files.length} files...`);
     
-    const monitoringInterval = setInterval(async () => {
-      try {
-        const report = await this.detectCorruption(files);
-        
-        if (report.detectedFiles.length > 0) {
-          console.warn(`⚠️ Real-time monitoring detected corruption in ${report.detectedFiles.length} files`);
+    const monitoringInterval = setInterval(() => {
+      void (async () => {
+        try {
+          const report = await this.detectCorruption(files);
           
-          this.addSafetyEvent({
-            type: SafetyEventType.CORRUPTION_DETECTED,
-            timestamp: new Date(),
-            description: `Real-time monitoring detected corruption: ${report.severity}`,
-            severity: this.mapCorruptionToEventSeverity(report.severity),
-            action: 'REALTIME_CORRUPTION_DETECTED'
-          });
+          if (report.detectedFiles.length > 0) {
+            console.warn(`⚠️ Real-time monitoring detected corruption in ${report.detectedFiles.length} files`);
+            
+            this.addSafetyEvent({
+              type: SafetyEventType.CORRUPTION_DETECTED,
+              timestamp: new Date(),
+              description: `Real-time monitoring detected corruption: ${report.severity}`,
+              severity: this.mapCorruptionToEventSeverity(report.severity),
+              action: 'REALTIME_CORRUPTION_DETECTED'
+            });
 
-          // If critical corruption is detected, trigger emergency rollback
-          if (report.severity === CorruptionSeverity.CRITICAL && this.settings.automaticRollbackEnabled) {
-            console.error(`🚨 Critical corruption detected! Triggering emergency rollback...`);
-            clearInterval(monitoringInterval);
-            await this.emergencyRollback();
-            return;
+            // If critical corruption is detected, trigger emergency rollback
+            if (report.severity === CorruptionSeverity.CRITICAL && this.settings.automaticRollbackEnabled) {
+              console.error(`🚨 Critical corruption detected! Triggering emergency rollback...`);
+              clearInterval(monitoringInterval);
+              await this.emergencyRollback();
+              return;
+            }
           }
+        } catch (error) {
+          console.error(`❌ Error during real-time monitoring: ${(error as Record<string, unknown>).message || 'Unknown error'}`);
         }
-      } catch (error) {
-        console.error(`❌ Error during real-time monitoring: ${(error as Record<string, unknown>).message || 'Unknown error'}`);
-      }
+      })();
     }, intervalMs);
 
     // Store the interval ID for cleanup

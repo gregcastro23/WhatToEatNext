@@ -447,13 +447,15 @@ export class PerformanceMonitoringSystem extends ProgressTracker {
     
     console.log(`📊 Starting performance monitoring (every ${intervalMinutes} minutes)`);
     
-    this.monitoringInterval = setInterval(async () => {
-      try {
-        await this.getPerformanceMetrics();
-        await this.detectPerformanceRegression();
-      } catch (error) {
-        console.warn(`⚠️  Performance monitoring error: ${(error as Error).message}`);
-      }
+    this.monitoringInterval = setInterval(() => {
+      void (async () => {
+        try {
+          await this.getPerformanceMetrics();
+          await this.detectPerformanceRegression();
+        } catch (error) {
+          console.warn(`⚠️  Performance monitoring error: ${(error as Error).message}`);
+        }
+      })();
     }, intervalMinutes * 60 * 1000);
   }
 

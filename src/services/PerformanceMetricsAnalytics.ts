@@ -218,12 +218,14 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
     this.isMonitoring = true;
     log.info(`🔄 Starting performance monitoring (${intervalMinutes}min intervals)`);
 
-    this.monitoringInterval = setInterval(async () => {
-      try {
-        await this.capturePerformanceSnapshot();
-      } catch (error) {
-        console.error('❌ Error capturing performance snapshot:', error);
-      }
+    this.monitoringInterval = setInterval(() => {
+      void (async () => {
+        try {
+          await this.capturePerformanceSnapshot();
+        } catch (error) {
+          console.error('❌ Error capturing performance snapshot:', error);
+        }
+      })();
     }, intervalMinutes * 60 * 1000);
 
     // Capture initial snapshot

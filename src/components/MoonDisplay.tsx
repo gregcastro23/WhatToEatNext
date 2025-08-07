@@ -179,7 +179,7 @@ const MoonDisplay: React.FC = () => {
       }
     };
     
-    getLocation();
+    void getLocation();
   }, []);
 
   // Dynamic import for moon time calculations
@@ -224,10 +224,10 @@ const MoonDisplay: React.FC = () => {
       }
     };
     
-    calculateTimes();
+    void calculateTimes();
     
     // Update moon times every 30 minutes
-    const interval = setInterval(() => calculateTimes(), 30 * 60 * 1000);
+    const interval = setInterval(() => void calculateTimes(), 30 * 60 * 1000);
     return () => clearInterval(interval);
   }, [coordinates.latitude, coordinates.longitude]);
 
@@ -278,10 +278,10 @@ const MoonDisplay: React.FC = () => {
       }
     };
     
-    getLunarPhaseData();
+    void getLunarPhaseData();
     
     // Run calculation every minute to ensure accuracy
-    const interval = setInterval(() => getLunarPhaseData(), 60 * 1000);
+    const interval = setInterval(() => void getLunarPhaseData(), 60 * 1000);
     return () => clearInterval(interval);
   }, [planetaryPositions.moon]);
 
