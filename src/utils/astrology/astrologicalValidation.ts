@@ -14,7 +14,6 @@ import {
   ELEMENTAL_CONSTANTS 
 } from './elementalValidation';
 import { 
-  validateTransitDate, 
   validatePlanetaryPosition,
   TRANSIT_CONSTANTS 
 } from './transitValidation';

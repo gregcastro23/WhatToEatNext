@@ -2,7 +2,10 @@
 
 ## Overview
 
-This guide provides comprehensive documentation for the fully optimized Kiro workspace configuration for the WhatToEatNext project. The optimization transforms Kiro into a specialized development environment that understands astrological calculations, elemental principles, and campaign systems.
+This guide provides comprehensive documentation for the fully optimized Kiro
+workspace configuration for the WhatToEatNext project. The optimization
+transforms Kiro into a specialized development environment that understands
+astrological calculations, elemental principles, and campaign systems.
 
 ## Table of Contents
 
@@ -50,18 +53,23 @@ Kiro Workspace Configuration
 
 ### Key Benefits
 
-- **Contextual Intelligence**: Kiro understands the project's unique astrological domain
-- **Automated Quality**: Hooks maintain code quality and data accuracy automatically
+- **Contextual Intelligence**: Kiro understands the project's unique
+  astrological domain
+- **Automated Quality**: Hooks maintain code quality and data accuracy
+  automatically
 - **External Integration**: Seamless access to astrological and nutritional APIs
-- **Optimized Workflows**: Enhanced development experience for TypeScript/React/Astrology
+- **Optimized Workflows**: Enhanced development experience for
+  TypeScript/React/Astrology
 
 ## Steering Files System
 
 ### Core Steering Files
 
 #### 1. Product Vision (`product.md`)
-- **Purpose**: Defines the mission of bridging astrological wisdom with modern AI
-- **Key Content**: 
+
+- **Purpose**: Defines the mission of bridging astrological wisdom with modern
+  AI
+- **Key Content**:
   - Core workflows for astrological meal planning
   - Elemental harmony principles
   - Success metrics and KPIs
@@ -69,6 +77,7 @@ Kiro Workspace Configuration
 - **Usage**: Always included for contextual understanding
 
 #### 2. Project Structure (`structure.md`)
+
 - **Purpose**: Comprehensive guide to the project's architecture
 - **Key Content**:
   - Directory organization and patterns
@@ -78,6 +87,7 @@ Kiro Workspace Configuration
 - **Usage**: Always included for navigation assistance
 
 #### 3. Technology Stack (`tech.md`)
+
 - **Purpose**: Complete technology documentation
 - **Key Content**:
   - Next.js 15.3.4 with App Router
@@ -88,6 +98,7 @@ Kiro Workspace Configuration
 - **Usage**: Always included for technical guidance
 
 #### 4. Astrological Rules (`astrology-rules.md`)
+
 - **Purpose**: Guidelines for astronomical calculations
 - **Key Content**:
   - Planetary position system hierarchy
@@ -98,6 +109,7 @@ Kiro Workspace Configuration
 - **Usage**: Always included for calculation accuracy
 
 #### 5. Elemental Principles (`elemental-principles.md`)
+
 - **Purpose**: Four-element system enforcement
 - **Key Content**:
   - Self-reinforcement principles
@@ -108,6 +120,7 @@ Kiro Workspace Configuration
 - **Usage**: Always included for elemental consistency
 
 #### 6. Campaign Integration (`campaign-integration.md`)
+
 - **Purpose**: Campaign system patterns and integration
 - **Key Content**:
   - Error threshold management
@@ -120,11 +133,13 @@ Kiro Workspace Configuration
 ### File Reference System
 
 Steering files can reference other project files using:
+
 ```markdown
 #[[file:relative/path/to/file.ts]]
 ```
 
-This allows steering files to include relevant code examples and configurations directly.
+This allows steering files to include relevant code examples and configurations
+directly.
 
 ## Agent Hooks Automation
 
@@ -134,11 +149,11 @@ All hooks use YAML front matter configuration:
 
 ```yaml
 ---
-name: "Hook Name"
+name: 'Hook Name'
 triggers:
-  - file_change: "path/pattern"
-  - condition: "threshold"
-scope: "operation-scope"
+  - file_change: 'path/pattern'
+  - condition: 'threshold'
+scope: 'operation-scope'
 approval: auto|manual
 rollback: git_stash|file_backup
 priority: high|medium|low
@@ -149,8 +164,10 @@ timeout: 300
 ### Available Hooks
 
 #### 1. Planetary Data Validator
-- **Triggers**: Changes to `src/data/planets/*.ts`, `src/calculations/culinary/*.ts`
-- **Actions**: 
+
+- **Triggers**: Changes to `src/data/planets/*.ts`,
+  `src/calculations/culinary/*.ts`
+- **Actions**:
   - Validates transit dates against astronomical data
   - Checks position consistency
   - Runs astronomical tests
@@ -158,7 +175,9 @@ timeout: 300
 - **Safety**: Automatic approval with git stash rollback
 
 #### 2. Ingredient Consistency Checker
-- **Triggers**: Changes to `src/data/ingredients/**/*.ts`, `src/constants/elemental*.ts`
+
+- **Triggers**: Changes to `src/data/ingredients/**/*.ts`,
+  `src/constants/elemental*.ts`
 - **Actions**:
   - Validates elemental properties
   - Checks compatibility scores
@@ -167,6 +186,7 @@ timeout: 300
 - **Safety**: Automatic approval with file backup rollback
 
 #### 3. TypeScript Campaign Trigger
+
 - **Triggers**: TypeScript errors > 4500, build failures
 - **Actions**:
   - Analyzes error distribution
@@ -176,6 +196,7 @@ timeout: 300
 - **Safety**: Manual approval with campaign stash rollback
 
 #### 4. Build Quality Monitor
+
 - **Triggers**: Performance degradation, memory usage spikes
 - **Actions**:
   - Monitors build performance
@@ -230,7 +251,9 @@ The MCP configuration (`.kiro/settings/mcp.json`) includes:
 ### Fallback Strategy
 
 Multi-tier fallback system:
-1. **Primary API** → 2. **Cache** → 3. **Local Data** → 4. **Hardcoded Fallback**
+
+1. **Primary API** → 2. **Cache** → 3. **Local Data** → 4. **Hardcoded
+   Fallback**
 
 ### Credential Management
 
@@ -252,17 +275,17 @@ The workspace settings (`.kiro/settings/workspace.json`) include:
   "typescript.inlayHints.parameterNames.enabled": "all",
   "typescript.inlayHints.variableTypes.enabled": true,
   "typescript.inlayHints.functionLikeReturnTypes.enabled": true,
-  
+
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": true,
     "source.organizeImports": true
   },
-  
+
   "files.associations": {
     "*.astro": "typescript",
     "*.alchm": "typescript"
   },
-  
+
   "search.exclude": {
     "**/node_modules": true,
     "**/.next": true,
@@ -276,6 +299,7 @@ The workspace settings (`.kiro/settings/workspace.json`) include:
 ### Extension Recommendations
 
 Essential extensions for optimal development:
+
 - TypeScript and React support
 - Tailwind CSS IntelliSense
 - ESLint and Prettier integration
@@ -288,12 +312,14 @@ Essential extensions for optimal development:
 ### Available Templates
 
 #### 1. Feature Spec Template (`feature-spec-template.md`)
+
 - Standard EARS-format acceptance criteria
 - Requirement gathering sections
 - Design documentation templates
 - Task breakdown structures
 
 #### 2. Astrological Feature Template (`astrological-feature-template.md`)
+
 - Specialized for astrological features
 - Astronomical considerations
 - Elemental factors
@@ -301,6 +327,7 @@ Essential extensions for optimal development:
 - Performance criteria for calculations
 
 #### 3. Campaign Spec Template (`campaign-spec-template.md`)
+
 - Code improvement campaigns
 - Error analysis documentation
 - Fix strategy templates
@@ -320,27 +347,33 @@ Essential extensions for optimal development:
 ### Validation Tools
 
 #### 1. Complete Configuration Validator
+
 ```bash
 node .kiro/validation/complete-config-validator.cjs
 ```
+
 - Validates all steering files
 - Checks agent hook configurations
 - Verifies MCP server setup
 - Confirms workspace settings
 
 #### 2. Workflow Tester
+
 ```bash
 node .kiro/validation/workflow-tester.cjs
 ```
+
 - Tests spec creation workflows
 - Validates campaign integration
 - Checks documentation completeness
 - Verifies monitoring systems
 
 #### 3. Comprehensive Test Suite
+
 ```bash
 node .kiro/validation/comprehensive-test-suite.cjs
 ```
+
 - Configuration tests
 - Integration tests
 - Performance benchmarks
@@ -358,32 +391,36 @@ node .kiro/validation/comprehensive-test-suite.cjs
 ### Common Issues
 
 #### 1. Steering Files Not Loading
-**Symptoms**: Kiro doesn't understand project context
-**Solutions**:
+
+**Symptoms**: Kiro doesn't understand project context **Solutions**:
+
 - Check file paths in `.kiro/steering/`
 - Verify YAML front matter syntax
 - Ensure file references use correct syntax
 - Restart Kiro to reload configurations
 
 #### 2. Agent Hooks Not Triggering
-**Symptoms**: Automated validations not running
-**Solutions**:
+
+**Symptoms**: Automated validations not running **Solutions**:
+
 - Verify hook YAML front matter
 - Check file path patterns in triggers
 - Ensure Kiro has file system permissions
 - Review hook execution logs
 
 #### 3. MCP Server Connection Issues
-**Symptoms**: External API calls failing
-**Solutions**:
+
+**Symptoms**: External API calls failing **Solutions**:
+
 - Check MCP server configuration
 - Verify API credentials in environment
 - Test fallback mechanisms
 - Review server logs for errors
 
 #### 4. Performance Issues
-**Symptoms**: Slow TypeScript compilation or linting
-**Solutions**:
+
+**Symptoms**: Slow TypeScript compilation or linting **Solutions**:
+
 - Run performance benchmarks
 - Check for large file exclusions
 - Optimize TypeScript configuration
@@ -413,11 +450,13 @@ npx eslint --config eslint.config.cjs src --max-warnings=10000
 ### Weekly Maintenance
 
 1. **Configuration Validation**
+
    ```bash
    node .kiro/validation/complete-config-validator.cjs
    ```
 
 2. **Performance Monitoring**
+
    ```bash
    node .kiro/validation/comprehensive-test-suite.cjs
    ```
@@ -464,18 +503,21 @@ npx eslint --config eslint.config.cjs src --max-warnings=10000
 ### Emergency Procedures
 
 #### Configuration Corruption
+
 1. Stop all active operations
 2. Restore from backup configurations
 3. Run validation suite
 4. Gradually re-enable features
 
 #### Performance Degradation
+
 1. Run performance benchmarks
 2. Identify bottlenecks
 3. Implement temporary optimizations
 4. Schedule comprehensive review
 
 #### API Failures
+
 1. Verify fallback mechanisms
 2. Check credential validity
 3. Test alternative data sources
@@ -525,12 +567,14 @@ npx eslint --config eslint.config.cjs src --max-warnings=10000
 ## Support and Resources
 
 ### Internal Resources
+
 - `.kiro/steering/` - Contextual guidance files
 - `.kiro/validation/` - Testing and validation tools
 - `.kiro/templates/` - Spec and feature templates
 - `.kiro/docs/` - Comprehensive documentation
 
 ### External Resources
+
 - Kiro official documentation
 - MCP server documentation
 - Astrological calculation libraries
@@ -543,4 +587,6 @@ npx eslint --config eslint.config.cjs src --max-warnings=10000
 3. **Integration Failures**: Review MCP server logs
 4. **Development Questions**: Consult steering files
 
-This guide provides the foundation for maintaining and optimizing the Kiro workspace configuration. Regular maintenance and monitoring ensure continued effectiveness and reliability.
+This guide provides the foundation for maintaining and optimizing the Kiro
+workspace configuration. Regular maintenance and monitoring ensure continued
+effectiveness and reliability.

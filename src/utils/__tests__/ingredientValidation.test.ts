@@ -85,7 +85,7 @@ describe('Ingredient Data Validation', () => {
 
   describe('validateIngredientData', () => {
     it('should pass validation with valid ingredient data', async () => {
-      const result = validateIngredientData();
+      const result = await validateIngredientData();
 
       // Should have some warnings but no critical/high errors for the invalid ingredient
       expect(result.errors.filter(e => e.severity === 'CRITICAL').length).toBe(0);
@@ -94,7 +94,7 @@ describe('Ingredient Data Validation', () => {
     });
 
     it('should detect elemental property sum errors', async () => {
-      const result = validateIngredientData();
+      const result = await validateIngredientData();
 
       // Should detect that invalidIngredient has elemental properties that sum > 1.0
       const sumErrors = result.errors.filter(e => 
@@ -106,7 +106,7 @@ describe('Ingredient Data Validation', () => {
     });
 
     it('should detect invalid categories', async () => {
-      const result = validateIngredientData();
+      const result = await validateIngredientData();
 
       // Should detect invalid category
       const categoryErrors = result.errors.filter(e => 
@@ -118,7 +118,7 @@ describe('Ingredient Data Validation', () => {
     });
 
     it('should validate compatibility calculations', async () => {
-      const result = validateIngredientData();
+      const result = await validateIngredientData();
 
       // Should call compatibility calculations
       expect(mockCalculateElementalCompatibility).toHaveBeenCalled();
@@ -133,14 +133,14 @@ describe('Ingredient Data Validation', () => {
 
     it('should handle missing elemental properties', async () => {
       // This test would require mocking ingredients without elemental properties
-      const result = validateIngredientData();
+      const result = await validateIngredientData();
       
       // All our mock ingredients have elemental properties, so no errors expected
       expect(result).toBeDefined();
     });
 
     it('should validate data completeness', async () => {
-      const result = validateIngredientData();
+      const result = await validateIngredientData();
 
       // Should check for required fields
       const completenessErrors = result.errors.filter(e => 
@@ -258,7 +258,7 @@ describe('Ingredient Data Validation', () => {
   describe('Performance', () => {
     it('should complete validation within reasonable time', async () => {
       const startTime = Date.now();
-      const result = validateIngredientData();
+      const result = await validateIngredientData();
       const duration = Date.now() - startTime;
 
       expect(duration).toBeLessThan(10000); // Should complete within 10 seconds
@@ -273,7 +273,7 @@ describe('Ingredient Data Validation', () => {
         allIngredients: {}
       }));
 
-      const result = validateIngredientData();
+      const result = await validateIngredientData();
 
       expect(result).toBeDefined();
       expect(result.timestamp).toBeInstanceOf(Date);
@@ -289,7 +289,7 @@ describe('Ingredient Data Validation', () => {
         }
       }));
 
-      const result = validateIngredientData();
+      const result = await validateIngredientData();
 
       expect(result).toBeDefined();
       expect(result.errors.length).toBeGreaterThan(0);
@@ -298,7 +298,7 @@ describe('Ingredient Data Validation', () => {
 
   describe('Elemental Properties Validation', () => {
     it('should validate elemental property ranges', async () => {
-      const result = validateIngredientData();
+      const result = await validateIngredientData();
 
       // Check that validation catches out-of-range values
       const rangeErrors = result.errors.filter(e => 
@@ -311,7 +311,7 @@ describe('Ingredient Data Validation', () => {
     });
 
     it('should validate elemental property sums', async () => {
-      const result = validateIngredientData();
+      const result = await validateIngredientData();
 
       // Should detect sum errors for invalidIngredient
       const sumErrors = result.errors.filter(e => 
@@ -323,7 +323,7 @@ describe('Ingredient Data Validation', () => {
     });
 
     it('should check for elemental dominance', async () => {
-      const result = validateIngredientData();
+      const result = await validateIngredientData();
 
       // Should have warnings about elemental dominance if applicable
       const dominanceWarnings = result.warnings.filter(w => 
@@ -345,7 +345,7 @@ describe('Ingredient Data Validation', () => {
         return 0.75;
       });
 
-      const result = validateIngredientData();
+      const result = await validateIngredientData();
 
       // Should detect low self-compatibility
       const selfCompatibilityErrors = result.errors.filter(e => 
@@ -364,7 +364,7 @@ describe('Ingredient Data Validation', () => {
         return 0.6; // Below threshold
       });
 
-      const result = validateIngredientData();
+      const result = await validateIngredientData();
 
       // Should detect low cross-compatibility
       const crossCompatibilityErrors = result.errors.filter(e => 

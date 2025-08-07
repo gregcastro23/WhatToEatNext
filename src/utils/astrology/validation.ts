@@ -42,7 +42,7 @@ interface TransitDate {
 }
 
 // Interface for planet data with transits
-interface PlanetDataWithTransits {
+interface UNUSED_PlanetDataWithTransits {
   PlanetSpecific?: {
     ZodiacTransit?: { [key: string]: any };
     TransitDates?: { [key: string]: TransitDate };

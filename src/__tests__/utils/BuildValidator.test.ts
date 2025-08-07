@@ -26,7 +26,7 @@ describe('BuildValidator', () => {
       mockFs.existsSync.mockReturnValue(true);
       mockFs.readFileSync.mockReturnValue('{}');
 
-      const result = buildValidator.validateBuild();
+      const result = await buildValidator.validateBuild();
 
       expect(result.isValid).toBe(true);
       expect(result.missingFiles).toHaveLength(0);
@@ -36,7 +36,7 @@ describe('BuildValidator', () => {
     it('should detect missing build directory', async () => {
       mockFs.existsSync.mockReturnValue(false);
 
-      const result = buildValidator.validateBuild();
+      const result = await buildValidator.validateBuild();
 
       expect(result.isValid).toBe(false);
       expect(result.missingFiles).toContain('.next');
@@ -57,7 +57,7 @@ describe('BuildValidator', () => {
         return path === '.next' || path === '.next/server';
       });
 
-      const result = buildValidator.validateBuild();
+      const result = await buildValidator.validateBuild();
 
       expect(result.isValid).toBe(false);
       expect(result.missingFiles.length).toBeGreaterThan(0);
@@ -68,7 +68,7 @@ describe('BuildValidator', () => {
       mockFs.existsSync.mockReturnValue(true);
       mockFs.readFileSync.mockReturnValue('invalid json');
 
-      const result = buildValidator.validateBuild();
+      const result = await buildValidator.validateBuild();
 
       expect(result.isValid).toBe(false);
       expect(result.corruptedFiles.length).toBeGreaterThan(0);
@@ -78,7 +78,7 @@ describe('BuildValidator', () => {
       mockFs.existsSync.mockReturnValue(true);
       mockFs.readFileSync.mockReturnValue('');
 
-      const result = buildValidator.validateBuild();
+      const result = await buildValidator.validateBuild();
 
       expect(result.corruptedFiles.length).toBeGreaterThan(0);
       expect(result.repairActions).toEqual(
@@ -100,7 +100,7 @@ describe('BuildValidator', () => {
       mockFs.mkdirSync.mockImplementation();
       mockFs.writeFileSync.mockImplementation();
 
-      buildValidator.repairBuild();
+      await buildValidator.repairBuild();
 
       expect(mockFs.mkdirSync).toHaveBeenCalledWith('.next', { recursive: true });
       expect(mockFs.mkdirSync).toHaveBeenCalledWith('.next/server', { recursive: true });
@@ -112,7 +112,7 @@ describe('BuildValidator', () => {
       mockFs.existsSync.mockReturnValue(true);
       mockFs.readFileSync.mockReturnValue('{}');
 
-      buildValidator.repairBuild();
+      await buildValidator.repairBuild();
 
       expect(mockLogger).toHaveBeenCalledWith('Build is valid, no repairs needed');
     });
@@ -155,7 +155,7 @@ describe('BuildValidator', () => {
         isDirectory: () => false 
       } as any);
 
-      const report = buildValidator.monitorBuildHealth();
+      const report = await buildValidator.monitorBuildHealth();
 
       expect(report.buildExists).toBe(true);
       expect(report.manifestsValid).toBe(true);
@@ -165,7 +165,7 @@ describe('BuildValidator', () => {
     it('should report missing build', async () => {
       mockFs.existsSync.mockReturnValue(false);
 
-      const report = buildValidator.monitorBuildHealth();
+      const report = await buildValidator.monitorBuildHealth();
 
       expect(report.buildExists).toBe(false);
       expect(report.issues).toContain('Build directory does not exist');
@@ -181,7 +181,7 @@ describe('BuildValidator', () => {
       mockFs.existsSync.mockReturnValue(true);
       mockFs.readFileSync.mockReturnValue('{}');
 
-      const result = buildValidator.rebuildWithRecovery(3);
+      const result = await buildValidator.rebuildWithRecovery(3);
 
       expect(result).toBe(true);
       expect(mockLogger).toHaveBeenCalledWith('Build successful on attempt 1');
@@ -197,7 +197,7 @@ describe('BuildValidator', () => {
       mockFs.readFileSync.mockReturnValue('{}');
       mockFs.rmSync.mockImplementation();
 
-      const result = buildValidator.rebuildWithRecovery(3);
+      const result = await buildValidator.rebuildWithRecovery(3);
 
       expect(result).toBe(true);
       expect(execSync).toHaveBeenCalledTimes(2);
@@ -207,7 +207,7 @@ describe('BuildValidator', () => {
       const { execSync } = require('child_process');
       execSync.mockImplementation(() => { throw new Error('Build failed'); });
 
-      const result = buildValidator.rebuildWithRecovery(2);
+      const result = await buildValidator.rebuildWithRecovery(2);
 
       expect(result).toBe(false);
       expect(mockLogger).toHaveBeenCalledWith('Build failed after 2 attempts');

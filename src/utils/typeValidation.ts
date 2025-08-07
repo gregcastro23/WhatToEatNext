@@ -72,7 +72,7 @@ export const validateBoolean = (value: unknown, fieldName: string): ValidationRe
   return result;
 };
 
-export const validateArray = <T>(
+export const validateArray = (
   value: unknown,
   fieldName: string,
   itemValidator?: (item: unknown, _index: number) => ValidationResult
@@ -363,13 +363,13 @@ export const validatePlanetaryPositions = (
 };
 
 export const validateIngredientList = (ingredients: unknown): ValidationResult => {
-  return validateArray(ingredients, 'ingredients', (item, index) =>
+  return validateArray(ingredients, 'ingredients', (item, _index) =>
     validateIngredient(item)
   );
 };
 
 export const validateCookingMethodList = (methods: unknown): ValidationResult => {
-  return validateArray(methods, 'cookingMethods', (item, index) =>
+  return validateArray(methods, 'cookingMethods', (item, _index) =>
     validateCookingMethod(item)
   );
 };

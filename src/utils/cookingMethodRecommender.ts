@@ -308,7 +308,7 @@ export function getMethodThermodynamics(method: CookingMethodProfile): BasicTher
 
 // Calculate base score based on thermodynamic properties
 // Adapted from calculateMatchScore in CookingMethods.tsx
-function calculateThermodynamicBaseScore(thermodynamics: BasicThermodynamicProperties): number {
+function _calculateThermodynamicBaseScore(thermodynamics: BasicThermodynamicProperties): number {
   const heatScore = thermodynamics.heat || 0;
   // Invert entropy score as lower entropy is often preferred for structure retention
   const entropyScore = 1 - (thermodynamics.entropy || 0);

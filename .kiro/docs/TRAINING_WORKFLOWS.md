@@ -2,29 +2,37 @@
 
 ## Overview
 
-This document provides structured training workflows for team members to effectively use the optimized Kiro workspace configuration. The training is designed to be progressive, building from basic concepts to advanced usage patterns.
+This document provides structured training workflows for team members to
+effectively use the optimized Kiro workspace configuration. The training is
+designed to be progressive, building from basic concepts to advanced usage
+patterns.
 
 ## Training Levels
 
 ### Level 1: Basic Kiro Usage (1-2 hours)
-**Target Audience**: New team members, basic Kiro users
-**Prerequisites**: Basic understanding of TypeScript and React
+
+**Target Audience**: New team members, basic Kiro users **Prerequisites**: Basic
+understanding of TypeScript and React
 
 ### Level 2: Astrological Development (2-3 hours)
+
 **Target Audience**: Developers working on astrological features
 **Prerequisites**: Level 1 completion, understanding of the project domain
 
 ### Level 3: Advanced Automation (1-2 hours)
-**Target Audience**: Senior developers, DevOps team members
-**Prerequisites**: Level 2 completion, campaign system familiarity
+
+**Target Audience**: Senior developers, DevOps team members **Prerequisites**:
+Level 2 completion, campaign system familiarity
 
 ### Level 4: Configuration Management (1 hour)
-**Target Audience**: Tech leads, system administrators
-**Prerequisites**: Level 3 completion, system administration experience
+
+**Target Audience**: Tech leads, system administrators **Prerequisites**: Level
+3 completion, system administration experience
 
 ## Level 1: Basic Kiro Usage
 
 ### Learning Objectives
+
 - Understand Kiro's role in the development workflow
 - Navigate the optimized workspace effectively
 - Use basic steering file guidance
@@ -33,11 +41,13 @@ This document provides structured training workflows for team members to effecti
 ### Module 1.1: Workspace Overview (20 minutes)
 
 #### Hands-on Exercise: Workspace Exploration
+
 1. **Open the WhatToEatNext project in Kiro**
+
    ```bash
    # Ensure you're in the project directory
    cd /path/to/WhatToEatNext
-   
+
    # Open in Kiro
    kiro .
    ```
@@ -54,6 +64,7 @@ This document provides structured training workflows for team members to effecti
    - Observe type hints and parameter suggestions
 
 #### Knowledge Check
+
 - Where are the steering files located?
 - What file extensions get special TypeScript treatment?
 - How do you access the command palette?
@@ -61,7 +72,9 @@ This document provides structured training workflows for team members to effecti
 ### Module 1.2: Steering File System (30 minutes)
 
 #### Hands-on Exercise: Understanding Context
+
 1. **Explore steering files**
+
    ```bash
    # Navigate to steering directory
    ls -la .kiro/steering/
@@ -83,7 +96,9 @@ This document provides structured training workflows for team members to effecti
    - Learn about campaign system integration
 
 #### Practice Activity
+
 Create a simple component that demonstrates understanding of:
+
 - Elemental properties structure
 - Astrological context integration
 - Proper import patterns
@@ -98,9 +113,9 @@ interface ElementalDisplayProps {
   title: string;
 }
 
-export const ElementalDisplay: React.FC<ElementalDisplayProps> = ({ 
-  properties, 
-  title 
+export const ElementalDisplay: React.FC<ElementalDisplayProps> = ({
+  properties,
+  title
 }) => {
   return (
     <div className="elemental-display">
@@ -117,6 +132,7 @@ export const ElementalDisplay: React.FC<ElementalDisplayProps> = ({
 ```
 
 #### Knowledge Check
+
 - What are the four elements in our system?
 - What is the minimum compatibility score between different elements?
 - What is the self-reinforcement principle?
@@ -124,6 +140,7 @@ export const ElementalDisplay: React.FC<ElementalDisplayProps> = ({
 ### Module 1.3: Development Workflow (30 minutes)
 
 #### Hands-on Exercise: Enhanced Development
+
 1. **Code editing enhancements**
    - Open a TypeScript file
    - Use auto-completion for astrological types
@@ -141,13 +158,16 @@ export const ElementalDisplay: React.FC<ElementalDisplayProps> = ({
    - Find references across the codebase
 
 #### Practice Activity
+
 Modify an existing component to add elemental properties:
+
 1. Choose a simple component
 2. Add elemental properties interface
 3. Use Kiro's auto-completion
 4. Observe automatic import suggestions
 
 #### Knowledge Check
+
 - How do you organize imports automatically?
 - What file types are excluded from search?
 - How do you navigate to type definitions?
@@ -155,6 +175,7 @@ Modify an existing component to add elemental properties:
 ## Level 2: Astrological Development
 
 ### Learning Objectives
+
 - Understand astrological calculation principles
 - Work with planetary position systems
 - Implement elemental harmony logic
@@ -163,24 +184,37 @@ Modify an existing component to add elemental properties:
 ### Module 2.1: Astrological Principles (45 minutes)
 
 #### Hands-on Exercise: Planetary Positions
+
 1. **Study reliable astronomy utility**
+
    ```typescript
    // Open src/utils/reliableAstronomy.ts
    import { getReliablePlanetaryPositions } from '@/utils/reliableAstronomy';
-   
+
    // Understand the fallback hierarchy
    // 1. NASA JPL Horizons API
-   // 2. Public Astronomy APIs  
+   // 2. Public Astronomy APIs
    // 3. TimeAndDate.com API
    // 4. Local Fallback Data (March 28, 2025)
    ```
 
 2. **Explore planetary data structure**
+
    ```typescript
    // Example planetary position structure
    const positions = {
-     sun: { sign: 'aries', degree: 8.5, exactLongitude: 8.5, isRetrograde: false },
-     moon: { sign: 'aries', degree: 1.57, exactLongitude: 1.57, isRetrograde: false },
+     sun: {
+       sign: 'aries',
+       degree: 8.5,
+       exactLongitude: 8.5,
+       isRetrograde: false,
+     },
+     moon: {
+       sign: 'aries',
+       degree: 1.57,
+       exactLongitude: 1.57,
+       isRetrograde: false,
+     },
      // ... other planets
    };
    ```
@@ -193,9 +227,13 @@ Modify an existing component to add elemental properties:
    ```
 
 #### Practice Activity
+
 Create a function that safely gets planetary positions:
+
 ```typescript
-async function getSafePlanetaryPositions(date?: Date): Promise<PlanetaryPositions> {
+async function getSafePlanetaryPositions(
+  date?: Date
+): Promise<PlanetaryPositions> {
   try {
     const positions = await getReliablePlanetaryPositions(date);
     // Add validation logic
@@ -212,12 +250,14 @@ async function getSafePlanetaryPositions(date?: Date): Promise<PlanetaryPosition
 ### Module 2.2: Elemental Harmony System (45 minutes)
 
 #### Hands-on Exercise: Elemental Calculations
+
 1. **Study elemental principles**
    - Review `.kiro/steering/elemental-principles.md`
    - Understand self-reinforcement (same elements = 0.9+ compatibility)
    - Learn minimum compatibility (different elements = 0.7+ compatibility)
 
 2. **Implement compatibility calculation**
+
    ```typescript
    function calculateElementalCompatibility(
      source: ElementalProperties,
@@ -225,12 +265,12 @@ async function getSafePlanetaryPositions(date?: Date): Promise<PlanetaryPosition
    ): number {
      const sourceDominant = getDominantElement(source);
      const targetDominant = getDominantElement(target);
-     
+
      // Self-reinforcement: same elements have highest compatibility
      if (sourceDominant === targetDominant) {
        return Math.max(0.9, baseCompatibility);
      }
-     
+
      // All different combinations have good compatibility
      return Math.max(0.7, baseCompatibility);
    }
@@ -238,7 +278,9 @@ async function getSafePlanetaryPositions(date?: Date): Promise<PlanetaryPosition
 
 3. **Practice validation**
    ```typescript
-   function validateElementalProperties(properties: ElementalProperties): boolean {
+   function validateElementalProperties(
+     properties: ElementalProperties
+   ): boolean {
      // Check all elements are present and non-negative
      // Verify reasonable bounds
      // Return validation result
@@ -246,7 +288,9 @@ async function getSafePlanetaryPositions(date?: Date): Promise<PlanetaryPosition
    ```
 
 #### Practice Activity
+
 Build an elemental compatibility checker:
+
 1. Create input for two sets of elemental properties
 2. Calculate compatibility using self-reinforcement principles
 3. Display results with explanations
@@ -255,7 +299,9 @@ Build an elemental compatibility checker:
 ### Module 2.3: Astrological Integration (30 minutes)
 
 #### Hands-on Exercise: Service Integration
+
 1. **Study AlchemicalRecommendationService**
+
    ```typescript
    // Open src/services/AlchemicalRecommendationService.ts
    // Understand service patterns
@@ -263,10 +309,11 @@ Build an elemental compatibility checker:
    ```
 
 2. **Practice with alchemical engine**
+
    ```typescript
    // Use the AlchemicalEngine
    import { AlchemicalEngine } from '@/calculations/core/alchemicalEngine';
-   
+
    const engine = new AlchemicalEngine();
    const thermodynamics = engine.alchemize(planetaryPositions);
    ```
@@ -279,6 +326,7 @@ Build an elemental compatibility checker:
    ```
 
 #### Knowledge Check
+
 - What is the fallback date for planetary positions?
 - What is the minimum compatibility score between elements?
 - How do you validate elemental properties?
@@ -286,6 +334,7 @@ Build an elemental compatibility checker:
 ## Level 3: Advanced Automation
 
 ### Learning Objectives
+
 - Configure and manage agent hooks
 - Understand campaign system integration
 - Monitor automated processes
@@ -294,7 +343,9 @@ Build an elemental compatibility checker:
 ### Module 3.1: Agent Hooks System (45 minutes)
 
 #### Hands-on Exercise: Hook Configuration
+
 1. **Study existing hooks**
+
    ```bash
    # Explore hook configurations
    ls -la .kiro/hooks/
@@ -302,12 +353,13 @@ Build an elemental compatibility checker:
    ```
 
 2. **Understand hook structure**
+
    ```yaml
    ---
-   name: "Hook Name"
+   name: 'Hook Name'
    triggers:
-     - file_change: "path/pattern"
-   scope: "operation-scope"
+     - file_change: 'path/pattern'
+   scope: 'operation-scope'
    approval: auto|manual
    rollback: git_stash|file_backup
    ---
@@ -319,29 +371,32 @@ Build an elemental compatibility checker:
    - Check rollback mechanisms
 
 #### Practice Activity
+
 Create a custom hook for ingredient validation:
+
 ```yaml
 ---
-name: "Custom Ingredient Validator"
+name: 'Custom Ingredient Validator'
 triggers:
-  - file_change: "src/data/ingredients/custom/*.ts"
-scope: "custom-ingredients"
+  - file_change: 'src/data/ingredients/custom/*.ts'
+scope: 'custom-ingredients'
 approval: auto
 rollback: file_backup
 ---
-
 ## Custom Ingredient Validation Hook
 
 This hook validates custom ingredient files for:
-- Proper elemental properties
-- Valid nutritional data
-- Correct naming conventions
+  - Proper elemental properties
+  - Valid nutritional data
+  - Correct naming conventions
 ```
 
 ### Module 3.2: Campaign System Integration (45 minutes)
 
 #### Hands-on Exercise: Campaign Monitoring
+
 1. **Study campaign controller**
+
    ```typescript
    // Open src/services/campaign/CampaignController.ts
    // Understand campaign orchestration
@@ -349,10 +404,11 @@ This hook validates custom ingredient files for:
    ```
 
 2. **Monitor campaign progress**
+
    ```typescript
    // Use ProgressTracker
    import { ProgressTracker } from '@/services/campaign/ProgressTracker';
-   
+
    const tracker = new ProgressTracker();
    const metrics = await tracker.getProgressMetrics();
    ```
@@ -363,13 +419,15 @@ This hook validates custom ingredient files for:
      typescript: {
        current: 2566,
        target: 0,
-       criticalThreshold: 100
-     }
+       criticalThreshold: 100,
+     },
    };
    ```
 
 #### Practice Activity
+
 Create a campaign monitoring dashboard:
+
 1. Display current error counts
 2. Show campaign progress
 3. Implement threshold alerts
@@ -378,14 +436,16 @@ Create a campaign monitoring dashboard:
 ### Module 3.3: Automation Troubleshooting (30 minutes)
 
 #### Hands-on Exercise: Debug Automation
+
 1. **Run validation tools**
+
    ```bash
    # Test complete configuration
    node .kiro/validation/complete-config-validator.cjs
-   
+
    # Test workflows
    node .kiro/validation/workflow-tester.cjs
-   
+
    # Run comprehensive tests
    node .kiro/validation/comprehensive-test-suite.cjs
    ```
@@ -401,6 +461,7 @@ Create a campaign monitoring dashboard:
    - Performance bottlenecks
 
 #### Knowledge Check
+
 - How do you test hook configurations?
 - What are the TypeScript error thresholds?
 - How do you troubleshoot MCP server issues?
@@ -408,6 +469,7 @@ Create a campaign monitoring dashboard:
 ## Level 4: Configuration Management
 
 ### Learning Objectives
+
 - Manage Kiro configurations
 - Update and maintain steering files
 - Handle system upgrades
@@ -416,14 +478,16 @@ Create a campaign monitoring dashboard:
 ### Module 4.1: Configuration Maintenance (30 minutes)
 
 #### Hands-on Exercise: System Maintenance
+
 1. **Weekly maintenance routine**
+
    ```bash
    # Run configuration validation
    node .kiro/validation/complete-config-validator.cjs
-   
+
    # Check performance benchmarks
    node .kiro/validation/comprehensive-test-suite.cjs
-   
+
    # Review steering file accuracy
    ```
 
@@ -442,25 +506,28 @@ Create a campaign monitoring dashboard:
 ### Module 4.2: Advanced Configuration (30 minutes)
 
 #### Hands-on Exercise: Custom Configurations
+
 1. **Create custom steering files**
+
    ```markdown
    ---
    inclusion: conditional
    fileMatchPattern: 'src/custom/**'
    ---
-   
+
    # Custom Feature Guidance
-   
+
    This steering file provides guidance for custom features...
    ```
 
 2. **Configure specialized hooks**
+
    ```yaml
    ---
-   name: "Custom Feature Validator"
+   name: 'Custom Feature Validator'
    triggers:
-     - file_change: "src/custom/**/*.ts"
-   scope: "custom-features"
+     - file_change: 'src/custom/**/*.ts'
+   scope: 'custom-features'
    approval: manual
    ---
    ```
@@ -475,6 +542,7 @@ Create a campaign monitoring dashboard:
    ```
 
 #### Knowledge Check
+
 - How do you create conditional steering files?
 - What is the backup procedure for configurations?
 - How do you optimize performance settings?
@@ -482,36 +550,40 @@ Create a campaign monitoring dashboard:
 ## Training Assessment
 
 ### Level 1 Assessment
+
 **Practical Exercise**: Create a simple component that uses elemental properties
-**Time Limit**: 30 minutes
-**Success Criteria**:
+**Time Limit**: 30 minutes **Success Criteria**:
+
 - Proper TypeScript usage
 - Correct elemental properties structure
 - Appropriate imports and exports
 - Basic error handling
 
 ### Level 2 Assessment
-**Practical Exercise**: Implement an astrological calculation function
-**Time Limit**: 45 minutes
-**Success Criteria**:
+
+**Practical Exercise**: Implement an astrological calculation function **Time
+Limit**: 45 minutes **Success Criteria**:
+
 - Uses reliable astronomy utility
 - Implements elemental compatibility
 - Follows self-reinforcement principles
 - Includes proper validation
 
 ### Level 3 Assessment
-**Practical Exercise**: Configure and test a custom agent hook
-**Time Limit**: 30 minutes
-**Success Criteria**:
+
+**Practical Exercise**: Configure and test a custom agent hook **Time Limit**:
+30 minutes **Success Criteria**:
+
 - Proper YAML configuration
 - Appropriate trigger conditions
 - Correct safety settings
 - Successful test execution
 
 ### Level 4 Assessment
-**Practical Exercise**: Perform complete system maintenance
-**Time Limit**: 45 minutes
-**Success Criteria**:
+
+**Practical Exercise**: Perform complete system maintenance **Time Limit**: 45
+minutes **Success Criteria**:
+
 - Run all validation tools
 - Identify and fix issues
 - Update configurations
@@ -520,17 +592,20 @@ Create a campaign monitoring dashboard:
 ## Ongoing Learning Resources
 
 ### Documentation
+
 - `.kiro/docs/KIRO_OPTIMIZATION_GUIDE.md` - Complete configuration guide
 - `.kiro/steering/` - Contextual guidance files
 - `.kiro/validation/` - Testing and validation tools
 
 ### Practice Projects
+
 - Create custom elemental calculations
 - Build astrological visualization components
 - Implement campaign monitoring tools
 - Design custom automation workflows
 
 ### Community Resources
+
 - Internal knowledge sharing sessions
 - Code review best practices
 - Troubleshooting workshops
@@ -539,21 +614,26 @@ Create a campaign monitoring dashboard:
 ## Feedback and Continuous Improvement
 
 ### Training Feedback Collection
+
 - Post-training surveys
 - Practical exercise reviews
 - Ongoing usage monitoring
 - Regular check-ins with trainees
 
 ### Training Material Updates
+
 - Quarterly review of training content
 - Integration of new features
 - Incorporation of user feedback
 - Performance optimization updates
 
 ### Success Metrics
+
 - Training completion rates
 - Post-training competency assessments
 - Time to productivity for new team members
 - Reduction in configuration-related issues
 
-This training program ensures team members can effectively leverage the optimized Kiro workspace configuration while maintaining high code quality and development velocity.
+This training program ensures team members can effectively leverage the
+optimized Kiro workspace configuration while maintaining high code quality and
+development velocity.

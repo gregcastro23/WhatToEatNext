@@ -2,39 +2,51 @@
 
 ## Overview
 
-This document outlines the ongoing maintenance procedures required to keep the Kiro optimization system running effectively. Regular maintenance ensures continued performance, accuracy, and reliability of the optimized workspace configuration.
+This document outlines the ongoing maintenance procedures required to keep the
+Kiro optimization system running effectively. Regular maintenance ensures
+continued performance, accuracy, and reliability of the optimized workspace
+configuration.
 
 ## Maintenance Schedule
 
 ### Daily Maintenance (Automated)
+
 - **Agent Hook Monitoring**: Continuous monitoring of hook executions
-- **Performance Metrics Collection**: Automatic collection of development metrics
-- **Error Threshold Monitoring**: Continuous tracking of TypeScript and linting errors
-- **MCP Server Health Checks**: Automated connectivity and response time monitoring
+- **Performance Metrics Collection**: Automatic collection of development
+  metrics
+- **Error Threshold Monitoring**: Continuous tracking of TypeScript and linting
+  errors
+- **MCP Server Health Checks**: Automated connectivity and response time
+  monitoring
 
 ### Weekly Maintenance (15-30 minutes)
+
 - **Configuration Validation**: Run complete configuration validator
 - **Performance Benchmark Review**: Analyze performance trends
 - **Steering File Accuracy Check**: Review and update contextual guidance
 - **Hook Execution Analysis**: Review automated hook performance
 
 ### Monthly Maintenance (1-2 hours)
+
 - **Comprehensive System Review**: Full validation and testing suite
 - **Data Updates**: Update astrological data and fallback positions
 - **Documentation Updates**: Review and update all documentation
 - **Performance Optimization**: Analyze and optimize slow operations
 
 ### Quarterly Maintenance (2-4 hours)
+
 - **Full System Audit**: Complete configuration and security review
 - **Feature Updates**: Evaluate and integrate new Kiro features
 - **Training Material Updates**: Update training workflows and documentation
-- **Backup and Recovery Testing**: Verify backup procedures and recovery processes
+- **Backup and Recovery Testing**: Verify backup procedures and recovery
+  processes
 
 ## Daily Maintenance Procedures
 
 ### Automated Monitoring Setup
 
 #### 1. Agent Hook Monitoring
+
 ```bash
 #!/bin/bash
 # Daily hook monitoring script (.kiro/scripts/daily-hook-monitor.sh)
@@ -59,6 +71,7 @@ echo "✅ Hook monitoring complete"
 ```
 
 #### 2. Performance Metrics Collection
+
 ```bash
 #!/bin/bash
 # Daily performance metrics script (.kiro/scripts/daily-metrics.sh)
@@ -82,6 +95,7 @@ echo "✅ Metrics collection complete"
 ### Automated Alerts
 
 #### Error Threshold Alerts
+
 ```bash
 #!/bin/bash
 # Error threshold monitoring (.kiro/scripts/threshold-monitor.sh)
@@ -107,6 +121,7 @@ fi
 ### Configuration Validation
 
 #### 1. Complete Configuration Check
+
 ```bash
 #!/bin/bash
 # Weekly configuration validation (.kiro/scripts/weekly-validation.sh)
@@ -137,6 +152,7 @@ echo "Weekly validation complete"
 ```
 
 #### 2. Performance Benchmark Review
+
 ```bash
 #!/bin/bash
 # Weekly performance review (.kiro/scripts/weekly-performance.sh)
@@ -164,6 +180,7 @@ echo "Performance review complete"
 ### Steering File Maintenance
 
 #### 1. Accuracy Check Script
+
 ```bash
 #!/bin/bash
 # Weekly steering file check (.kiro/scripts/weekly-steering-check.sh)
@@ -174,12 +191,12 @@ echo "📋 Weekly Steering File Check - $(date)"
 echo "Checking file references..."
 for file in .kiro/steering/*.md; do
     echo "Checking $file..."
-    
+
     # Extract file references
     grep -o '#\[\[file:[^]]*\]\]' "$file" | while read -r ref; do
         # Extract file path
         filepath=$(echo "$ref" | sed 's/#\[\[file:\(.*\)\]\]/\1/')
-        
+
         if [ ! -f "$filepath" ]; then
             echo "⚠️  Broken reference in $file: $filepath"
         fi
@@ -194,6 +211,7 @@ echo "Steering file check complete"
 ```
 
 #### 2. Content Freshness Review
+
 ```bash
 #!/bin/bash
 # Content freshness check (.kiro/scripts/content-freshness.sh)
@@ -204,7 +222,7 @@ echo "🔄 Content Freshness Review - $(date)"
 for file in .kiro/steering/*.md; do
     last_modified=$(stat -f "%Sm" -t "%Y-%m-%d" "$file" 2>/dev/null || stat -c "%y" "$file" | cut -d' ' -f1)
     echo "$file: Last modified $last_modified"
-    
+
     # Flag files older than 30 days
     if [ -n "$last_modified" ]; then
         days_old=$(( ($(date +%s) - $(date -j -f "%Y-%m-%d" "$last_modified" +%s 2>/dev/null || date -d "$last_modified" +%s)) / 86400 ))
@@ -222,6 +240,7 @@ echo "Content freshness review complete"
 ### Comprehensive System Review
 
 #### 1. Full Validation Suite
+
 ```bash
 #!/bin/bash
 # Monthly comprehensive review (.kiro/scripts/monthly-review.sh)
@@ -269,6 +288,7 @@ echo "Monthly review complete - report saved to $REPORT_DIR/"
 ### Data Updates
 
 #### 1. Astrological Data Update
+
 ```bash
 #!/bin/bash
 # Monthly astrological data update (.kiro/scripts/monthly-astro-update.sh)
@@ -303,6 +323,7 @@ echo "Astrological data update check complete"
 ```
 
 #### 2. Dependency Updates
+
 ```bash
 #!/bin/bash
 # Monthly dependency update check (.kiro/scripts/monthly-deps.sh)
@@ -327,6 +348,7 @@ echo "Dependency update check complete"
 ### Performance Optimization
 
 #### 1. Performance Analysis
+
 ```bash
 #!/bin/bash
 # Monthly performance analysis (.kiro/scripts/monthly-performance.sh)
@@ -339,7 +361,7 @@ if [ -f ".kiro/logs/daily-metrics.csv" ]; then
     tail -30 .kiro/logs/daily-metrics.csv | awk -F',' '
     BEGIN { ts_sum=0; lint_sum=0; count=0 }
     /TS_ERRORS/ { ts_sum+=$3; lint_sum+=$5; count++ }
-    END { 
+    END {
         if(count > 0) {
             print "Average TypeScript errors: " ts_sum/count
             print "Average linting warnings: " lint_sum/count
@@ -359,6 +381,7 @@ echo "Performance analysis complete"
 ### Full System Audit
 
 #### 1. Security and Configuration Audit
+
 ```bash
 #!/bin/bash
 # Quarterly security audit (.kiro/scripts/quarterly-audit.sh)
@@ -399,6 +422,7 @@ echo "Security audit complete"
 ### Feature Updates and Integration
 
 #### 1. Kiro Feature Update Check
+
 ```bash
 #!/bin/bash
 # Quarterly feature update check (.kiro/scripts/quarterly-features.sh)
@@ -430,6 +454,7 @@ echo "Feature update check complete"
 ### Configuration Recovery
 
 #### 1. Emergency Configuration Restore
+
 ```bash
 #!/bin/bash
 # Emergency configuration restore (.kiro/scripts/emergency-restore.sh)
@@ -459,6 +484,7 @@ echo "Emergency restore complete"
 ### Performance Emergency Response
 
 #### 1. Performance Issue Response
+
 ```bash
 #!/bin/bash
 # Performance emergency response (.kiro/scripts/performance-emergency.sh)
@@ -487,6 +513,7 @@ echo "Performance emergency response complete"
 ### Automated Maintenance Scripts
 
 #### 1. Cron Job Setup
+
 ```bash
 # Add to crontab for automated maintenance
 # crontab -e
@@ -502,6 +529,7 @@ echo "Performance emergency response complete"
 ```
 
 #### 2. Maintenance Dashboard
+
 ```bash
 #!/bin/bash
 # Maintenance dashboard (.kiro/scripts/maintenance-dashboard.sh)
@@ -548,11 +576,11 @@ echo "Dashboard complete"
 ```markdown
 # Maintenance Log Entry
 
-**Date**: [YYYY-MM-DD]
-**Type**: [Daily/Weekly/Monthly/Quarterly/Emergency]
+**Date**: [YYYY-MM-DD] **Type**: [Daily/Weekly/Monthly/Quarterly/Emergency]
 **Performed By**: [Name]
 
 ## Activities Performed
+
 - [ ] Configuration validation
 - [ ] Performance benchmarks
 - [ ] Data updates
@@ -560,26 +588,31 @@ echo "Dashboard complete"
 - [ ] Security checks
 
 ## Issues Identified
+
 1. [Issue description]
    - **Severity**: [Low/Medium/High/Critical]
    - **Action Taken**: [Description]
    - **Status**: [Resolved/In Progress/Deferred]
 
 ## Performance Metrics
+
 - TypeScript Errors: [Count]
 - Linting Warnings: [Count]
 - Build Time: [Duration]
 - Test Suite Time: [Duration]
 
 ## Recommendations
+
 1. [Recommendation 1]
 2. [Recommendation 2]
 
 ## Next Actions
+
 - [ ] [Action item 1]
 - [ ] [Action item 2]
 
 **Maintenance Complete**: [Time]
 ```
 
-This comprehensive maintenance system ensures the Kiro optimization remains effective, secure, and performant over time.
+This comprehensive maintenance system ensures the Kiro optimization remains
+effective, secure, and performant over time.

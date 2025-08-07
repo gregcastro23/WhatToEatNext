@@ -1,4 +1,3 @@
-
 export default function Page() {
   return (
     <main>
@@ -9,6 +8,6 @@ export default function Page() {
 
 export function generateMetadata() {
   return {
-    title: 'Test Page'
+    title: 'Test Page',
   };
 }

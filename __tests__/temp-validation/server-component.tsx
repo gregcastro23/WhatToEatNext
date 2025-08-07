@@ -1,8 +1,7 @@
-
 async function ServerComponent() {
   const data = await fetch('https://api.example.com/data');
   const json = await data.json();
-  
+
   return (
     <div>
       <h1>Server Component</h1>

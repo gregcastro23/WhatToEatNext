@@ -51,30 +51,19 @@
           "tool": "EnhancedErrorFixerIntegration",
           "priority": "high",
           "successRate": "92%",
-          "targetErrors": [
-            "TS2352",
-            "TS2304",
-            "TS2339"
-          ]
+          "targetErrors": ["TS2352", "TS2304", "TS2339"]
         },
         {
           "tool": "TypeSafetyValidator",
           "priority": "high",
           "successRate": "88%",
-          "targetErrors": [
-            "TS2345",
-            "TS2322"
-          ]
+          "targetErrors": ["TS2345", "TS2322"]
         },
         {
           "tool": "NullSafetyEnforcer",
           "priority": "medium",
           "successRate": "90%",
-          "targetErrors": [
-            "TS18048",
-            "TS18046",
-            "TS18047"
-          ]
+          "targetErrors": ["TS18048", "TS18046", "TS18047"]
         }
       ],
       "estimatedDuration": "3-4 phases over 2-3 days",
