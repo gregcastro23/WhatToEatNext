@@ -26,7 +26,7 @@ export interface MemoryUsageFn {
 }
 
 // Jest mock-compatible memory usage function type for tests
-export type MockableMemoryUsageFn = MemoryUsageFn | jest.Mock<MemoryUsage, []> | jest.Mock<any, any>;
+export type MockableMemoryUsageFn = MemoryUsageFn | jest.Mock<MemoryUsage, []> | jest.Mock<unknown, unknown[]>;
 
 // Git operations mock interface - comprehensive implementation
 export interface GitOperationsMock {

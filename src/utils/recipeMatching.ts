@@ -1,12 +1,11 @@
+import { ingredientsMap } from '@/data/ingredients';
 import { LocalRecipeService } from '@/services/LocalRecipeService';
-// Removed unused log import
 import type {
     AstrologicalState,
     ElementalProperties,
     Recipe,
     Season,
 } from "@/types/alchemy";
-// Removed unused CookingMethod import
 
 
 // Define IngredientMapping locally since it's not exported from alchemy
@@ -28,7 +27,6 @@ interface IngredientMapping {
   mealType?: string;
 }
 
-import { ingredientsMap } from '@/data/ingredients';
 // Import from correct location
 
 interface MatchResult {
@@ -73,7 +71,7 @@ const matchCache = new Map<string, CacheEntry<MatchResult[]>>();
 const CACHE_TTL = 5 * 60 * 1000; // 5 minutes in milliseconds
 
 // Define Modality type
-type Modality = 'cardinal' | 'fixed' | 'mutable';
+// type Modality = 'cardinal' | 'fixed' | 'mutable';
 
 /**
  * Find the best recipe matches based on the given parameters

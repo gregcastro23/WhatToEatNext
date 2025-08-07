@@ -1,11 +1,11 @@
 import { cuisines } from '@/data/cuisines';
 import type {
-  ElementalProperties,
-  DietaryRestriction,
-  IngredientMapping,
+    DietaryRestriction,
+    ElementalProperties,
+    IngredientMapping,
 } from "@/types/alchemy";
 import { Cuisine, CuisineType } from '@/types/cuisine';
-import { Recipe, RecipeFilters , ScoredRecipe } from '@/types/recipe';
+import { Recipe, ScoredRecipe } from '@/types/recipe';
 
 import { logger } from './logger';
 import { connectIngredientsToMappings } from './recipeMatching';
@@ -780,7 +780,7 @@ export function filterRecipesByIngredientMappings(
     ) {
       const meetsRestrictions =
         ingredientRequirements.dietaryRestrictions.every((restriction) =>
-          Array.isArray(recipe.dietaryInfo) 
+          Array.isArray(recipe.dietaryInfo)
             ? recipe.dietaryInfo.includes(restriction)
             : (recipe.dietaryInfo as any)?.includes?.(restriction) || false
         );
@@ -829,8 +829,8 @@ export function filterRecipesByIngredientMappings(
       );
 
       // Boost score for each emphasized ingredient found
-      const emphasizedLength = Array.isArray(ingredientRequirements.emphasized) 
-        ? ingredientRequirements.emphasized.length 
+      const emphasizedLength = Array.isArray(ingredientRequirements.emphasized)
+        ? ingredientRequirements.emphasized.length
         : 1;
       score +=
         (emphasisMatches.length / emphasizedLength) * 0.2;

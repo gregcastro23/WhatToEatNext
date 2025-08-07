@@ -25,7 +25,7 @@ export interface GitMock {
   setMockStashes: jest.MockedFunction<(stashes: string[]) => void>;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   // Intentionally any: Git status structure varies by test scenario
-  setMockGitStatus: jest.MockedFunction<(status: unknown) => void>;
+  setMockGitStatus: (status: unknown) => void;
   setShouldFailCommands: jest.MockedFunction<(shouldFail: boolean) => void>;
   addMockStash: jest.MockedFunction<(stashId: string) => void>;
   removeMockStash: jest.MockedFunction<(stashId: string) => void>;
@@ -53,7 +53,7 @@ export interface ScriptMock {
   // Intentionally any: Mock results can be any type depending on script execution
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   // Intentionally any: Test results have varying structures by test scenario
-  setMockResult: jest.MockedFunction<(scriptPath: string, result: unknown) => void>;
+  setMockResult: (scriptPath: string, result: unknown) => void;
   setMockBuildSuccess: jest.MockedFunction<(success: boolean) => void>;
   setMockTestSuccess: jest.MockedFunction<(success: boolean) => void>;
   setShouldFailExecution: jest.MockedFunction<(shouldFail: boolean) => void>;
@@ -194,8 +194,8 @@ export interface ExtendedTestUtils {
 
   // Helper functions
   waitForAsync: (ms?: number) => Promise<void>;
-  createMockFunction: (returnValue?: any) => jest.MockedFunction<any>;
-  createMockComponent: (name: string, testId?: string) => React.ComponentType<any>;
+  createMockFunction: (returnValue?: unknown) => jest.MockedFunction<() => unknown>;
+  createMockComponent: (name: string, testId?: string) => React.ComponentType<Record<string, unknown>>;
 
   // Memory management utilities
   checkMemory: () => {

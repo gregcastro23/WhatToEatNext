@@ -168,7 +168,7 @@ class DependencySecurityCLI {
     }
   }
 
-  private printResults(result: any): void {
+  private printResults(result: Record<string, unknown>): void {
     console.log('\n📊 Dependency Security Monitoring Results:');
     console.log(`  - Dependencies scanned: ${result.dependenciesScanned}`);
     console.log(`  - Vulnerabilities found: ${result.vulnerabilitiesFound}`);
@@ -198,7 +198,7 @@ class DependencySecurityCLI {
     }
   }
 
-  private printSecurityReport(securityReport: any): void {
+  private printSecurityReport(securityReport: Record<string, unknown>): void {
     console.log('\n🔒 Security Vulnerability Report:');
     this.printSecuritySummary(securityReport);
 
@@ -225,7 +225,7 @@ class DependencySecurityCLI {
     }
   }
 
-  private printUpdateReport(updateReport: any): void {
+  private printUpdateReport(updateReport: Record<string, unknown>): void {
     console.log('\n📦 Dependency Update Report:');
     this.printUpdateSummary(updateReport);
 
@@ -260,7 +260,7 @@ class DependencySecurityCLI {
     }
   }
 
-  private printSecuritySummary(securityReport: any): void {
+  private printSecuritySummary(securityReport: Record<string, { summary: Record<string, number> }>): void {
     const { summary } = securityReport;
     console.log(`  - Critical: ${summary.critical}`);
     console.log(`  - High: ${summary.high}`);
@@ -269,7 +269,7 @@ class DependencySecurityCLI {
     console.log(`  - Total: ${summary.total}`);
   }
 
-  private printUpdateSummary(updateReport: any): void {
+  private printUpdateSummary(updateReport: Record<string, unknown>): void {
     const { summary } = updateReport;
     console.log(`  - Major updates: ${summary.major}`);
     console.log(`  - Minor updates: ${summary.minor}`);

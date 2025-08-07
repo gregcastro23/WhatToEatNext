@@ -1106,22 +1106,17 @@ See the typescript-eslint docs for more info: https://typescript-eslint.io/linti
   259:36  error  Promise returned in function argument where a void return was expected                                                                                              @typescript-eslint/no-misused-promises
 
 /Users/GregCastro/Desktop/WhatToEatNext/src/components/MoonDisplay.tsx
-    9:10   error  'log' is defined but never used. Allowed unused vars must match /^(_|UNUSED_)/u                                                                                     @typescript-eslint/no-unused-vars
-   16:40   error  'args' is defined but never used. Allowed unused args must match /^_/u                                                                                              @typescript-eslint/no-unused-vars
-   25:40   error  'args' is defined but never used. Allowed unused args must match /^_/u                                                                                              @typescript-eslint/no-unused-vars
-   87:31   error  'state' is assigned a value but never used. Allowed unused vars must match /^(_|UNUSED_)/u                                                                          @typescript-eslint/no-unused-vars
-  107:39   error  Unexpected any. Specify a different type                                                                                                                            @typescript-eslint/no-explicit-any
-  154:57   error  Unexpected any. Specify a different type                                                                                                                            @typescript-eslint/no-explicit-any
-  182:5    error  Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator  @typescript-eslint/no-floating-promises
-  227:5    error  Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator  @typescript-eslint/no-floating-promises
-  230:34   error  Promise returned in function argument where a void return was expected                                                                                              @typescript-eslint/no-misused-promises
-  281:5    error  Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator  @typescript-eslint/no-floating-promises
-  284:34   error  Promise returned in function argument where a void return was expected                                                                                              @typescript-eslint/no-misused-promises
-  350:11   error  'moonData' is assigned a value but never used. Allowed unused vars must match /^(_|UNUSED_)/u                                                                       @typescript-eslint/no-unused-vars
-  363:6    error  React Hook useEffect has a missing dependency: 'planetaryPositions'. Either include it or remove the dependency array                                               react-hooks/exhaustive-deps
-  390:72   error  Unexpected any. Specify a different type                                                                                                                            @typescript-eslint/no-explicit-any
-  390:120  error  Unexpected any. Specify a different type                                                                                                                            @typescript-eslint/no-explicit-any
-  461:70   error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`                                                                                                     react/no-unescaped-entities
+    9:10   error  'log' is defined but never used. Allowed unused vars must match /^(_|UNUSED_)/u                                        @typescript-eslint/no-unused-vars
+   16:40   error  'args' is defined but never used. Allowed unused args must match /^_/u                                                 @typescript-eslint/no-unused-vars
+   25:40   error  'args' is defined but never used. Allowed unused args must match /^_/u                                                 @typescript-eslint/no-unused-vars
+   87:31   error  'state' is assigned a value but never used. Allowed unused vars must match /^(_|UNUSED_)/u                             @typescript-eslint/no-unused-vars
+  107:39   error  Unexpected any. Specify a different type                                                                               @typescript-eslint/no-explicit-any
+  154:57   error  Unexpected any. Specify a different type                                                                               @typescript-eslint/no-explicit-any
+  350:11   error  'moonData' is assigned a value but never used. Allowed unused vars must match /^(_|UNUSED_)/u                          @typescript-eslint/no-unused-vars
+  363:6    error  React Hook useEffect has a missing dependency: 'planetaryPositions'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+  390:72   error  Unexpected any. Specify a different type                                                                               @typescript-eslint/no-explicit-any
+  390:120  error  Unexpected any. Specify a different type                                                                               @typescript-eslint/no-explicit-any
+  461:70   error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`                                                        react/no-unescaped-entities
 
 /Users/GregCastro/Desktop/WhatToEatNext/src/components/Navigation/Navigation.tsx
   40:11  error  'state' is assigned a value but never used. Allowed unused vars must match /^(_|UNUSED_)/u  @typescript-eslint/no-unused-vars
@@ -1851,10 +1846,8 @@ See the typescript-eslint docs for more info: https://typescript-eslint.io/linti
   633:4   error  Unexpected any. Specify a different type                                                                                                           @typescript-eslint/no-explicit-any
 
 /Users/GregCastro/Desktop/WhatToEatNext/src/components/recommendations/IngredientRecommender.tsx
-    21:1   error  There should be no empty line within import group                                                                                                                   import/order
-   304:38  error  Unexpected `await` of a non-Promise (non-"Thenable") value                                                                                                          @typescript-eslint/await-thenable
-   350:5   error  Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator  @typescript-eslint/no-floating-promises
-  1354:15  error  Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator  @typescript-eslint/no-floating-promises
+   21:1   error  There should be no empty line within import group           import/order
+  304:38  error  Unexpected `await` of a non-Promise (non-"Thenable") value  @typescript-eslint/await-thenable
 
 /Users/GregCastro/Desktop/WhatToEatNext/src/components/recommendations/RecommendationsDisplaySystem.tsx
     4:1   error  `lucide-react` import should occur before import of `react`                                                                                                         import/order
@@ -3694,19 +3687,12 @@ See the typescript-eslint docs for more info: https://typescript-eslint.io/linti
   742:5   warning  Unexpected console statement                                                                                                      no-console
 
 /Users/GregCastro/Desktop/WhatToEatNext/src/services/campaign/BundleSizeOptimizer.test.ts
-    9:31  error    'BundleAnalysis' is defined but never used. Allowed unused vars must match /^(_|mock|stub|test|UNUSED_)/u         @typescript-eslint/no-unused-vars
-    9:47  error    'LazyLoadingValidation' is defined but never used. Allowed unused vars must match /^(_|mock|stub|test|UNUSED_)/u  @typescript-eslint/no-unused-vars
-   18:33  warning  Arrow function has too many lines (357). Maximum allowed is 120                                                   max-lines-per-function
-   44:91  warning  Unexpected any. Specify a different type                                                                          @typescript-eslint/no-explicit-any
-   45:62  warning  Unexpected any. Specify a different type                                                                          @typescript-eslint/no-explicit-any
-  147:64  warning  Unexpected any. Specify a different type                                                                          @typescript-eslint/no-explicit-any
-  148:63  warning  Unexpected any. Specify a different type                                                                          @typescript-eslint/no-explicit-any
-  238:27  warning  Unexpected any. Specify a different type                                                                          @typescript-eslint/no-explicit-any
-  247:49  warning  Unexpected any. Specify a different type                                                                          @typescript-eslint/no-explicit-any
-  342:43  warning  Unexpected any. Specify a different type                                                                          @typescript-eslint/no-explicit-any
-  351:48  warning  Unexpected any. Specify a different type                                                                          @typescript-eslint/no-explicit-any
-  359:48  warning  Unexpected any. Specify a different type                                                                          @typescript-eslint/no-explicit-any
-  367:55  warning  Unexpected any. Specify a different type                                                                          @typescript-eslint/no-explicit-any
+   18:33  warning  Arrow function has too many lines (357). Maximum allowed is 120  max-lines-per-function
+  238:27  warning  Unexpected any. Specify a different type                         @typescript-eslint/no-explicit-any
+  342:43  warning  Unexpected any. Specify a different type                         @typescript-eslint/no-explicit-any
+  351:48  warning  Unexpected any. Specify a different type                         @typescript-eslint/no-explicit-any
+  359:48  warning  Unexpected any. Specify a different type                         @typescript-eslint/no-explicit-any
+  367:55  warning  Unexpected any. Specify a different type                         @typescript-eslint/no-explicit-any
 
 /Users/GregCastro/Desktop/WhatToEatNext/src/services/campaign/BundleSizeOptimizer.ts
    89:7  warning  Unexpected console statement  no-console
@@ -4274,14 +4260,7 @@ See the typescript-eslint docs for more info: https://typescript-eslint.io/linti
    37:25  warning  Unexpected any. Specify a different type                         @typescript-eslint/no-explicit-any
    38:25  warning  Unexpected any. Specify a different type                         @typescript-eslint/no-explicit-any
    41:50  warning  Arrow function has too many lines (160). Maximum allowed is 120  max-lines-per-function
-   73:30  warning  Unexpected any. Specify a different type                         @typescript-eslint/no-explicit-any
-   85:30  warning  Unexpected any. Specify a different type                         @typescript-eslint/no-explicit-any
-   97:30  warning  Unexpected any. Specify a different type                         @typescript-eslint/no-explicit-any
-  109:30  warning  Unexpected any. Specify a different type                         @typescript-eslint/no-explicit-any
-  158:30  warning  Unexpected any. Specify a different type                         @typescript-eslint/no-explicit-any
-  231:28  warning  Unexpected any. Specify a different type                         @typescript-eslint/no-explicit-any
   384:33  warning  Unexpected any. Specify a different type                         @typescript-eslint/no-explicit-any
-  505:75  warning  Unexpected any. Specify a different type                         @typescript-eslint/no-explicit-any
 
 /Users/GregCastro/Desktop/WhatToEatNext/src/services/campaign/ProgressReportingSystem.ts
     8:13  error    'path' is defined but never used. Allowed unused vars must match /^(_|CAMPAIGN|PROGRESS|METRICS|SAFETY|ERROR|UNUSED_)/u             @typescript-eslint/no-unused-vars
@@ -4434,17 +4413,7 @@ See the typescript-eslint docs for more info: https://typescript-eslint.io/linti
   73:9  warning  Unexpected console statement              no-console
 
 /Users/GregCastro/Desktop/WhatToEatNext/src/services/campaign/UnusedExportAnalyzer.test.ts
-    7:13  error    'path' is defined but never used. Allowed unused vars must match /^(_|mock|stub|test|UNUSED_)/u  @typescript-eslint/no-unused-vars
-   18:34  warning  Arrow function has too many lines (287). Maximum allowed is 120                                  max-lines-per-function
-  128:31  warning  Unexpected any. Specify a different type                                                         @typescript-eslint/no-explicit-any
-  129:31  warning  Unexpected any. Specify a different type                                                         @typescript-eslint/no-explicit-any
-  130:31  warning  Unexpected any. Specify a different type                                                         @typescript-eslint/no-explicit-any
-  131:31  warning  Unexpected any. Specify a different type                                                         @typescript-eslint/no-explicit-any
-  132:31  warning  Unexpected any. Specify a different type                                                         @typescript-eslint/no-explicit-any
-  145:31  warning  Unexpected any. Specify a different type                                                         @typescript-eslint/no-explicit-any
-  156:31  warning  Unexpected any. Specify a different type                                                         @typescript-eslint/no-explicit-any
-  157:31  warning  Unexpected any. Specify a different type                                                         @typescript-eslint/no-explicit-any
-  158:31  warning  Unexpected any. Specify a different type                                                         @typescript-eslint/no-explicit-any
+  17:34  warning  Arrow function has too many lines (287). Maximum allowed is 120  max-lines-per-function
 
 /Users/GregCastro/Desktop/WhatToEatNext/src/services/campaign/UnusedExportAnalyzer.ts
   127:5  warning  Unexpected console statement  no-console
@@ -4523,18 +4492,13 @@ See the typescript-eslint docs for more info: https://typescript-eslint.io/linti
   477:43  warning  Unexpected any. Specify a different type                                                                    @typescript-eslint/no-explicit-any
 
 /Users/GregCastro/Desktop/WhatToEatNext/src/services/campaign/__tests__/ProgressTracker.test.ts
-   12:3   error    'ProgressReport' is defined but never used. Allowed unused vars must match /^(_|mock|stub|test|UNUSED_)/u  @typescript-eslint/no-unused-vars
-   24:29  warning  Arrow function has too many lines (624). Maximum allowed is 120                                            max-lines-per-function
-   44:46  warning  Unexpected any. Specify a different type                                                                   @typescript-eslint/no-explicit-any
-   64:56  warning  Unexpected any. Specify a different type                                                                   @typescript-eslint/no-explicit-any
-   76:54  warning  Unexpected any. Specify a different type                                                                   @typescript-eslint/no-explicit-any
-  146:56  warning  Unexpected any. Specify a different type                                                                   @typescript-eslint/no-explicit-any
-  158:54  warning  Unexpected any. Specify a different type                                                                   @typescript-eslint/no-explicit-any
-  273:37  warning  Unexpected any. Specify a different type                                                                   @typescript-eslint/no-explicit-any
-  292:13  warning  Unexpected any. Specify a different type                                                                   @typescript-eslint/no-explicit-any
-  305:13  warning  Unexpected any. Specify a different type                                                                   @typescript-eslint/no-explicit-any
-  639:47  warning  Unexpected any. Specify a different type                                                                   @typescript-eslint/no-explicit-any
-  643:46  warning  Unexpected any. Specify a different type                                                                   @typescript-eslint/no-explicit-any
+   23:29  warning  Arrow function has too many lines (624). Maximum allowed is 120  max-lines-per-function
+   43:46  warning  Unexpected any. Specify a different type                         @typescript-eslint/no-explicit-any
+  272:37  warning  Unexpected any. Specify a different type                         @typescript-eslint/no-explicit-any
+  291:13  warning  Unexpected any. Specify a different type                         @typescript-eslint/no-explicit-any
+  304:13  warning  Unexpected any. Specify a different type                         @typescript-eslint/no-explicit-any
+  638:47  warning  Unexpected any. Specify a different type                         @typescript-eslint/no-explicit-any
+  642:46  warning  Unexpected any. Specify a different type                         @typescript-eslint/no-explicit-any
 
 /Users/GregCastro/Desktop/WhatToEatNext/src/services/campaign/__tests__/SafetyProtocol.test.ts
    26:28  warning  Arrow function has too many lines (747). Maximum allowed is 120                                                                                                     max-lines-per-function
@@ -6114,16 +6078,13 @@ See the typescript-eslint docs for more info: https://typescript-eslint.io/linti
   5:1  warning  Astrological calculation files should import transit validation utilities  astrological/require-transit-date-validation
 
 /Users/GregCastro/Desktop/WhatToEatNext/src/utils/astrology/positions.ts
-    1:1   warning  Astrological calculation files should import transit validation utilities                                                                                                         astrological/require-transit-date-validation
-    3:10  error    'log' is defined but never used. Allowed unused vars must match /^(_|FALLBACK|RELIABLE|POSITIONS|TRANSIT|DEFAULT|MARCH2025|UNUSED_|planet|degree|sign|longitude)/u                @typescript-eslint/no-unused-vars
-    4:15  error    'PlanetaryPosition' is defined but never used. Allowed unused vars must match /^(_|FALLBACK|RELIABLE|POSITIONS|TRANSIT|DEFAULT|MARCH2025|UNUSED_|planet|degree|sign|longitude)/u  @typescript-eslint/no-unused-vars
-   11:40  error    'args' is defined but never used. Allowed unused args must match /^(_|planet|position|degree|sign|longitude|retrograde)/u                                                         @typescript-eslint/no-unused-vars
-  155:77  warning  Unexpected any. Specify a different type                                                                                                                                          @typescript-eslint/no-explicit-any
-  156:37  warning  Unexpected any. Specify a different type                                                                                                                                          @typescript-eslint/no-explicit-any
-  232:8   warning  Function 'getAccuratePlanetaryPositions' has too many lines (109). Maximum allowed is 80                                                                                          max-lines-per-function
-  232:8   warning  Function 'getAccuratePlanetaryPositions' has a complexity of 22. Maximum allowed is 15                                                                                            complexity
-  413:72  warning  Unexpected any. Specify a different type                                                                                                                                          @typescript-eslint/no-explicit-any
-  458:10  error    Planetary position object missing required properties: exactLongitude, isRetrograde                                                                                               astrological/validate-planetary-position-structure
+    1:1   warning  Astrological calculation files should import transit validation utilities                 astrological/require-transit-date-validation
+  155:77  warning  Unexpected any. Specify a different type                                                  @typescript-eslint/no-explicit-any
+  156:37  warning  Unexpected any. Specify a different type                                                  @typescript-eslint/no-explicit-any
+  232:8   warning  Function 'getAccuratePlanetaryPositions' has too many lines (109). Maximum allowed is 80  max-lines-per-function
+  232:8   warning  Function 'getAccuratePlanetaryPositions' has a complexity of 22. Maximum allowed is 15    complexity
+  413:72  warning  Unexpected any. Specify a different type                                                  @typescript-eslint/no-explicit-any
+  458:10  error    Planetary position object missing required properties: exactLongitude, isRetrograde       astrological/validate-planetary-position-structure
 
 /Users/GregCastro/Desktop/WhatToEatNext/src/utils/astrology/transitValidation.ts
     8:1  warning  Astrological calculation files should import transit validation utilities                   astrological/require-transit-date-validation
@@ -6133,22 +6094,20 @@ See the typescript-eslint docs for more info: https://typescript-eslint.io/linti
 
 /Users/GregCastro/Desktop/WhatToEatNext/src/utils/astrology/validation.ts
     1:1   warning  Astrological calculation files should import transit validation utilities                                                                                                              astrological/require-transit-date-validation
-    8:3   error    'PlanetaryPosition' is defined but never used. Allowed unused vars must match /^(_|FALLBACK|RELIABLE|POSITIONS|TRANSIT|DEFAULT|MARCH2025|UNUSED_|planet|degree|sign|longitude)/u       @typescript-eslint/no-unused-vars
-   36:5   error    Fallback variable 'reliablePositionsCache' should not be set to null or undefined                                                                                                      astrological/preserve-fallback-values
-   46:11  error    'PlanetDataWithTransits' is defined but never used. Allowed unused vars must match /^(_|FALLBACK|RELIABLE|POSITIONS|TRANSIT|DEFAULT|MARCH2025|UNUSED_|planet|degree|sign|longitude)/u  @typescript-eslint/no-unused-vars
-   48:38  warning  Unexpected any. Specify a different type                                                                                                                                               @typescript-eslint/no-explicit-any
-  201:8   warning  Function 'calculateSunSign' has a complexity of 45. Maximum allowed is 15                                                                                                              complexity
-  250:9   warning  Prefer using an optional chain expression instead, as it's more concise and easier to read                                                                                             @typescript-eslint/prefer-optional-chain
-  259:11  warning  Prefer using an optional chain expression instead, as it's more concise and easier to read                                                                                             @typescript-eslint/prefer-optional-chain
-  497:31  warning  Unexpected any. Specify a different type                                                                                                                                               @typescript-eslint/no-explicit-any
-  498:3   error    'date' is assigned a value but never used. Allowed unused vars must match /^(_|FALLBACK|RELIABLE|POSITIONS|TRANSIT|DEFAULT|MARCH2025|UNUSED_|planet|degree|sign|longitude)/u           @typescript-eslint/no-unused-vars
-  499:21  warning  Unexpected any. Specify a different type                                                                                                                                               @typescript-eslint/no-explicit-any
-  510:9   warning  Prefer using an optional chain expression instead, as it's more concise and easier to read                                                                                             @typescript-eslint/prefer-optional-chain
-  521:34  warning  Unexpected any. Specify a different type                                                                                                                                               @typescript-eslint/no-explicit-any
-  559:64  warning  Unexpected any. Specify a different type                                                                                                                                               @typescript-eslint/no-explicit-any
-  564:34  warning  Unexpected any. Specify a different type                                                                                                                                               @typescript-eslint/no-explicit-any
-  567:22  error    Planetary position object missing required properties: exactLongitude                                                                                                                  astrological/validate-planetary-position-structure
-  594:1   warning  Function '_calculateApproximateSunSign' has a complexity of 23. Maximum allowed is 15                                                                                                  complexity
+   35:5   error    Fallback variable 'reliablePositionsCache' should not be set to null or undefined                                                                                                      astrological/preserve-fallback-values
+   45:11  error    'PlanetDataWithTransits' is defined but never used. Allowed unused vars must match /^(_|FALLBACK|RELIABLE|POSITIONS|TRANSIT|DEFAULT|MARCH2025|UNUSED_|planet|degree|sign|longitude)/u  @typescript-eslint/no-unused-vars
+   47:38  warning  Unexpected any. Specify a different type                                                                                                                                               @typescript-eslint/no-explicit-any
+  200:8   warning  Function 'calculateSunSign' has a complexity of 45. Maximum allowed is 15                                                                                                              complexity
+  249:9   warning  Prefer using an optional chain expression instead, as it's more concise and easier to read                                                                                             @typescript-eslint/prefer-optional-chain
+  258:11  warning  Prefer using an optional chain expression instead, as it's more concise and easier to read                                                                                             @typescript-eslint/prefer-optional-chain
+  496:31  warning  Unexpected any. Specify a different type                                                                                                                                               @typescript-eslint/no-explicit-any
+  498:21  warning  Unexpected any. Specify a different type                                                                                                                                               @typescript-eslint/no-explicit-any
+  509:9   warning  Prefer using an optional chain expression instead, as it's more concise and easier to read                                                                                             @typescript-eslint/prefer-optional-chain
+  520:34  warning  Unexpected any. Specify a different type                                                                                                                                               @typescript-eslint/no-explicit-any
+  558:64  warning  Unexpected any. Specify a different type                                                                                                                                               @typescript-eslint/no-explicit-any
+  563:34  warning  Unexpected any. Specify a different type                                                                                                                                               @typescript-eslint/no-explicit-any
+  566:22  error    Planetary position object missing required properties: exactLongitude                                                                                                                  astrological/validate-planetary-position-structure
+  593:1   warning  Function '_calculateApproximateSunSign' has a complexity of 23. Maximum allowed is 15                                                                                                  complexity
 
 /Users/GregCastro/Desktop/WhatToEatNext/src/utils/astrologyUtils.ts
     35:1   warning  Dependency cycle detected                                                                        import/no-cycle
@@ -6157,7 +6116,6 @@ See the typescript-eslint docs for more info: https://typescript-eslint.io/linti
    296:8   warning  Function 'calculateSunSign' has a complexity of 45. Maximum allowed is 15                        complexity
    797:8   warning  Function 'calculateEnhancedStelliumEffects' has too many lines (159). Maximum allowed is 80      max-lines-per-function
    822:41  warning  Arrow function has too many lines (95). Maximum allowed is 80                                    max-lines-per-function
-  1076:11  error    'aspects' is assigned a value but never used. Allowed unused vars must match /^(_|UNUSED_)/u     @typescript-eslint/no-unused-vars
   1156:8   warning  Function 'getPlanetaryDignityInfo' has too many lines (81). Maximum allowed is 80                max-lines-per-function
   1225:7   warning  Prefer using an optional chain expression instead, as it's more concise and easier to read       @typescript-eslint/prefer-optional-chain
   1244:8   warning  Function 'calculateAspects' has too many lines (128). Maximum allowed is 80                      max-lines-per-function
@@ -6181,41 +6139,31 @@ See the typescript-eslint docs for more info: https://typescript-eslint.io/linti
   211:47  warning  Arrow function has a complexity of 18. Maximum allowed is 15  complexity
 
 /Users/GregCastro/Desktop/WhatToEatNext/src/utils/automatedQualityAssurance.ts
-  156:67  warning  Unexpected any. Specify a different type                                     @typescript-eslint/no-explicit-any
-  228:45  warning  Unexpected any. Specify a different type                                     @typescript-eslint/no-explicit-any
-  229:49  warning  Unexpected any. Specify a different type                                     @typescript-eslint/no-explicit-any
-  457:34  error    'positions' is defined but never used. Allowed unused args must match /^_/u  @typescript-eslint/no-unused-vars
-  457:60  warning  Unexpected any. Specify a different type                                     @typescript-eslint/no-explicit-any
-  535:58  warning  Unexpected any. Specify a different type                                     @typescript-eslint/no-explicit-any
-  567:36  warning  Unexpected any. Specify a different type                                     @typescript-eslint/no-explicit-any
+  156:67  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  228:45  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  229:49  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  457:61  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  535:58  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  567:36  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
 
 /Users/GregCastro/Desktop/WhatToEatNext/src/utils/awaitThenableUtils.ts
   7:69  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
   8:68  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
 
 /Users/GregCastro/Desktop/WhatToEatNext/src/utils/buildQualityMonitor.ts
-   347:21  warning  Unexpected any. Specify a different type                                               @typescript-eslint/no-explicit-any
-   363:63  warning  Unexpected any. Specify a different type                                               @typescript-eslint/no-explicit-any
-   926:19  warning  Unexpected any. Specify a different type                                               @typescript-eslint/no-explicit-any
-   946:51  warning  Unexpected any. Specify a different type                                               @typescript-eslint/no-explicit-any
-   959:16  warning  Unexpected any. Specify a different type                                               @typescript-eslint/no-explicit-any
-   960:17  warning  Unexpected any. Specify a different type                                               @typescript-eslint/no-explicit-any
-   961:23  warning  Unexpected any. Specify a different type                                               @typescript-eslint/no-explicit-any
-   962:18  warning  Unexpected any. Specify a different type                                               @typescript-eslint/no-explicit-any
-  1051:3   error    'performanceAnalysis' is defined but never used. Allowed unused args must match /^_/u  @typescript-eslint/no-unused-vars
-  1052:3   error    'memoryAnalysis' is defined but never used. Allowed unused args must match /^_/u       @typescript-eslint/no-unused-vars
+  347:21  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  363:63  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  926:19  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  946:51  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  959:16  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  960:17  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  961:23  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  962:18  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
 
 /Users/GregCastro/Desktop/WhatToEatNext/src/utils/buildSystemRepair.ts
    16:24  warning  Unexpected console statement                                            no-console
   152:17  error    Promise returned in function argument where a void return was expected  @typescript-eslint/no-misused-promises
   176:37  warning  Unexpected any. Specify a different type                                @typescript-eslint/no-explicit-any
-
-/Users/GregCastro/Desktop/WhatToEatNext/src/utils/cache.ts
-   1:10  error    'config' is defined but never used. Allowed unused vars must match /^(_|UNUSED_)/u      @typescript-eslint/no-unused-vars
-   3:11  error    'CacheEntry' is defined but never used. Allowed unused vars must match /^(_|UNUSED_)/u  @typescript-eslint/no-unused-vars
-  12:20  error    'T' is defined but never used. Allowed unused vars must match /^(_|UNUSED_)/u           @typescript-eslint/no-unused-vars
-  12:24  warning  Unexpected any. Specify a different type                                                @typescript-eslint/no-explicit-any
-  78:38  warning  Unexpected any. Specify a different type                                                @typescript-eslint/no-explicit-any
 
 /Users/GregCastro/Desktop/WhatToEatNext/src/utils/calculationCache.ts
   16:50  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
@@ -6241,10 +6189,10 @@ See the typescript-eslint docs for more info: https://typescript-eslint.io/linti
    543:10  warning  Prefer using an optional chain expression instead, as it's more concise and easier to read                   @typescript-eslint/prefer-optional-chain
    636:25  warning  Unexpected any. Specify a different type                                                                     @typescript-eslint/no-explicit-any
    659:25  warning  Unexpected any. Specify a different type                                                                     @typescript-eslint/no-explicit-any
-   676:27  warning  Unexpected any. Specify a different type                                                                     @typescript-eslint/no-explicit-any
-   688:7   error    'mercuryTemperament' is assigned a value but never used. Allowed unused vars must match /^(_|UNUSED_)/u      @typescript-eslint/no-unused-vars
-   693:27  warning  Unexpected any. Specify a different type                                                                     @typescript-eslint/no-explicit-any
-   705:7   error    'jupiterTemperament' is assigned a value but never used. Allowed unused vars must match /^(_|UNUSED_)/u      @typescript-eslint/no-unused-vars
+   676:7   error    '_mercuryTemperament' is never reassigned. Use 'const' instead                                               prefer-const
+   676:28  warning  Unexpected any. Specify a different type                                                                     @typescript-eslint/no-explicit-any
+   693:7   error    '_jupiterTemperament' is never reassigned. Use 'const' instead                                               prefer-const
+   693:28  warning  Unexpected any. Specify a different type                                                                     @typescript-eslint/no-explicit-any
    710:27  warning  Unexpected any. Specify a different type                                                                     @typescript-eslint/no-explicit-any
    735:27  warning  Arrow function has too many lines (488). Maximum allowed is 80                                               max-lines-per-function
    735:27  warning  Arrow function has a complexity of 187. Maximum allowed is 15                                                complexity
@@ -6270,11 +6218,7 @@ See the typescript-eslint docs for more info: https://typescript-eslint.io/linti
   241:38  warning  Unexpected any. Specify a different type                                                   @typescript-eslint/no-explicit-any
 
 /Users/GregCastro/Desktop/WhatToEatNext/src/utils/cuisineResolver.test.ts
-  17:8   error    'PrimaryCuisineType' is defined but never used. Allowed unused vars must match /^(_|mock|stub|test|UNUSED_)/u  @typescript-eslint/no-unused-vars
-  20:30  warning  Arrow function has too many lines (167). Maximum allowed is 80                                                 max-lines-per-function
-
-/Users/GregCastro/Desktop/WhatToEatNext/src/utils/cuisineTypes.ts
-  243:3  error  'ingredients' is defined but never used. Allowed unused args must match /^_/u  @typescript-eslint/no-unused-vars
+  19:30  warning  Arrow function has too many lines (167). Maximum allowed is 80  max-lines-per-function
 
 /Users/GregCastro/Desktop/WhatToEatNext/src/utils/culturalMethodsAggregator.ts
   144:8  warning  Function 'extractCulturalCookingMethods' has too many lines (108). Maximum allowed is 80  max-lines-per-function
@@ -6304,19 +6248,12 @@ See the typescript-eslint docs for more info: https://typescript-eslint.io/linti
   108:7  warning  Prefer using an optional chain expression instead, as it's more concise and easier to read  @typescript-eslint/prefer-optional-chain
   144:9  warning  Prefer using an optional chain expression instead, as it's more concise and easier to read  @typescript-eslint/prefer-optional-chain
 
-/Users/GregCastro/Desktop/WhatToEatNext/src/utils/dependencyValidation.ts
-  291:62  error  'filePath' is defined but never used. Allowed unused args must match /^_/u  @typescript-eslint/no-unused-vars
-
 /Users/GregCastro/Desktop/WhatToEatNext/src/utils/developmentExperienceOptimizations.ts
    95:47  warning  Unexpected any. Specify a different type                                                      @typescript-eslint/no-explicit-any
   175:3   warning  Method 'generateAstrologicalTypeDefinitions' has too many lines (111). Maximum allowed is 80  max-lines-per-function
   424:10  warning  Unexpected any. Specify a different type                                                      @typescript-eslint/no-explicit-any
   553:27  warning  Unexpected any. Specify a different type                                                      @typescript-eslint/no-explicit-any
   554:45  warning  Unexpected any. Specify a different type                                                      @typescript-eslint/no-explicit-any
-
-/Users/GregCastro/Desktop/WhatToEatNext/src/utils/dynamicImport.ts
-  298:3  error  'fallbackFn' is assigned a value but never used. Allowed unused vars must match /^(_|UNUSED_)/u  @typescript-eslint/no-unused-vars
-  308:3  error  'fallbackFn' is assigned a value but never used. Allowed unused vars must match /^(_|UNUSED_)/u  @typescript-eslint/no-unused-vars
 
 /Users/GregCastro/Desktop/WhatToEatNext/src/utils/elemental/core.ts
   248:79   warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
@@ -6330,7 +6267,6 @@ See the typescript-eslint docs for more info: https://typescript-eslint.io/linti
     11:1   warning  Dependency cycle detected                                                                        import/no-cycle
    472:47  warning  Unexpected any. Specify a different type                                                         @typescript-eslint/no-explicit-any
    528:8   warning  Function 'transformItemsWithPlanetaryPositions' has too many lines (161). Maximum allowed is 80  max-lines-per-function
-   531:3   error    'isDaytime' is assigned a value but never used. Allowed unused vars must match /^(_|UNUSED_)/u   @typescript-eslint/no-unused-vars
    537:20  warning  Arrow function has too many lines (151). Maximum allowed is 80                                   max-lines-per-function
    837:8   warning  Function 'enhanceVegetableTransformations' has too many lines (337). Maximum allowed is 80       max-lines-per-function
    840:44  warning  Arrow function has too many lines (333). Maximum allowed is 80                                   max-lines-per-function
@@ -6361,23 +6297,21 @@ See the typescript-eslint docs for more info: https://typescript-eslint.io/linti
   8:34  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
 
 /Users/GregCastro/Desktop/WhatToEatNext/src/utils/foodRecommender.ts
-   62:34  warning  Arrow function has too many lines (108). Maximum allowed is 80                                         max-lines-per-function
-  243:1   warning  Function 'calculateElementalProperties' has too many lines (133). Maximum allowed is 80                max-lines-per-function
-  243:1   warning  Function 'calculateElementalProperties' has a complexity of 36. Maximum allowed is 15                  complexity
-  380:42  warning  Arrow function has too many lines (733). Maximum allowed is 80                                         max-lines-per-function
-  390:10  warning  Arrow function has too many lines (535). Maximum allowed is 80                                         max-lines-per-function
-  390:10  warning  Arrow function has a complexity of 126. Maximum allowed is 15                                          complexity
-  408:39  warning  Arrow function has a complexity of 24. Maximum allowed is 15                                           complexity
-  414:17  warning  Prefer using an optional chain expression instead, as it's more concise and easier to read             @typescript-eslint/prefer-optional-chain
-  437:9   error    'planetScore' is assigned a value but never used. Allowed unused vars must match /^(_|UNUSED_)/u       @typescript-eslint/no-unused-vars
-  496:13  warning  Prefer using an optional chain expression instead, as it's more concise and easier to read             @typescript-eslint/prefer-optional-chain
-  520:15  warning  Prefer using an optional chain expression instead, as it's more concise and easier to read             @typescript-eslint/prefer-optional-chain
-  632:11  warning  Prefer using an optional chain expression instead, as it's more concise and easier to read             @typescript-eslint/prefer-optional-chain
-  645:18  warning  Prefer using an optional chain expression instead, as it's more concise and easier to read             @typescript-eslint/prefer-optional-chain
-  692:37  warning  Arrow function has a complexity of 23. Maximum allowed is 15                                           complexity
-  892:9   error    'nutritionalScore' is assigned a value but never used. Allowed unused vars must match /^(_|UNUSED_)/u  @typescript-eslint/no-unused-vars
-  941:32  warning  Arrow function has too many lines (82). Maximum allowed is 80                                          max-lines-per-function
-  941:32  warning  Arrow function has a complexity of 44. Maximum allowed is 15                                           complexity
+   62:34  warning  Arrow function has too many lines (108). Maximum allowed is 80                              max-lines-per-function
+  243:1   warning  Function 'calculateElementalProperties' has too many lines (133). Maximum allowed is 80     max-lines-per-function
+  243:1   warning  Function 'calculateElementalProperties' has a complexity of 36. Maximum allowed is 15       complexity
+  380:42  warning  Arrow function has too many lines (733). Maximum allowed is 80                              max-lines-per-function
+  390:10  warning  Arrow function has too many lines (535). Maximum allowed is 80                              max-lines-per-function
+  390:10  warning  Arrow function has a complexity of 126. Maximum allowed is 15                               complexity
+  408:39  warning  Arrow function has a complexity of 24. Maximum allowed is 15                                complexity
+  414:17  warning  Prefer using an optional chain expression instead, as it's more concise and easier to read  @typescript-eslint/prefer-optional-chain
+  496:13  warning  Prefer using an optional chain expression instead, as it's more concise and easier to read  @typescript-eslint/prefer-optional-chain
+  520:15  warning  Prefer using an optional chain expression instead, as it's more concise and easier to read  @typescript-eslint/prefer-optional-chain
+  632:11  warning  Prefer using an optional chain expression instead, as it's more concise and easier to read  @typescript-eslint/prefer-optional-chain
+  645:18  warning  Prefer using an optional chain expression instead, as it's more concise and easier to read  @typescript-eslint/prefer-optional-chain
+  692:37  warning  Arrow function has a complexity of 23. Maximum allowed is 15                                complexity
+  941:32  warning  Arrow function has too many lines (82). Maximum allowed is 80                               max-lines-per-function
+  941:32  warning  Arrow function has a complexity of 44. Maximum allowed is 15                                complexity
 
 /Users/GregCastro/Desktop/WhatToEatNext/src/utils/formatElementalAffinity.ts
   16:25  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
@@ -6393,15 +6327,14 @@ See the typescript-eslint docs for more info: https://typescript-eslint.io/linti
   6:1  warning  Dependency cycle detected  import/no-cycle
 
 /Users/GregCastro/Desktop/WhatToEatNext/src/utils/ingredientDataNormalizer.ts
-    1:15  error    'IngredientMapping' is defined but never used. Allowed unused vars must match /^(_|UNUSED_)/u  @typescript-eslint/no-unused-vars
-  181:66  warning  Unexpected any. Specify a different type                                                       @typescript-eslint/no-explicit-any
-  221:1   warning  Function 'normalizeVarietyData' has a complexity of 16. Maximum allowed is 15                  complexity
-  221:63  warning  Unexpected any. Specify a different type                                                       @typescript-eslint/no-explicit-any
-  241:69  warning  Unexpected any. Specify a different type                                                       @typescript-eslint/no-explicit-any
-  263:77  warning  Unexpected any. Specify a different type                                                       @typescript-eslint/no-explicit-any
-  284:8   warning  Function 'normalizeIngredientData' has a complexity of 21. Maximum allowed is 15               complexity
-  284:79  warning  Unexpected any. Specify a different type                                                       @typescript-eslint/no-explicit-any
-  320:93  warning  Unexpected any. Specify a different type                                                       @typescript-eslint/no-explicit-any
+  180:66  warning  Unexpected any. Specify a different type                                          @typescript-eslint/no-explicit-any
+  220:1   warning  Function 'normalizeVarietyData' has a complexity of 16. Maximum allowed is 15     complexity
+  220:63  warning  Unexpected any. Specify a different type                                          @typescript-eslint/no-explicit-any
+  240:69  warning  Unexpected any. Specify a different type                                          @typescript-eslint/no-explicit-any
+  262:77  warning  Unexpected any. Specify a different type                                          @typescript-eslint/no-explicit-any
+  283:8   warning  Function 'normalizeIngredientData' has a complexity of 21. Maximum allowed is 15  complexity
+  283:79  warning  Unexpected any. Specify a different type                                          @typescript-eslint/no-explicit-any
+  319:93  warning  Unexpected any. Specify a different type                                          @typescript-eslint/no-explicit-any
 
 /Users/GregCastro/Desktop/WhatToEatNext/src/utils/ingredientRecommender.ts
     62:1   error    There should be no empty line within import group                                                import/order
@@ -6590,64 +6523,47 @@ See the typescript-eslint docs for more info: https://typescript-eslint.io/linti
   785:38  warning  Unexpected any. Specify a different type                                                      @typescript-eslint/no-explicit-any
 
 /Users/GregCastro/Desktop/WhatToEatNext/src/utils/recipeMatching.ts
-     3:1   error    There should be no empty line within import group                                                                              import/order
-    16:25  warning  Unexpected any. Specify a different type                                                                                       @typescript-eslint/no-explicit-any
-    24:12  warning  Unexpected any. Specify a different type                                                                                       @typescript-eslint/no-explicit-any
-    25:12  warning  Unexpected any. Specify a different type                                                                                       @typescript-eslint/no-explicit-any
-    26:14  warning  Unexpected any. Specify a different type                                                                                       @typescript-eslint/no-explicit-any
-    31:1   error    `@/data/ingredients` import should occur before import of `@/services/LocalRecipeService`                                      import/order
-    46:12  warning  Unexpected any. Specify a different type                                                                                       @typescript-eslint/no-explicit-any
-    47:14  warning  Unexpected any. Specify a different type                                                                                       @typescript-eslint/no-explicit-any
-    48:12  warning  Unexpected any. Specify a different type                                                                                       @typescript-eslint/no-explicit-any
-    76:6   error    'Modality' is defined but never used. Allowed unused vars must match /^(_|UNUSED_)/u                                           @typescript-eslint/no-unused-vars
-    81:8   warning  Async function 'findBestMatches' has too many lines (209). Maximum allowed is 80                                               max-lines-per-function
-    81:8   warning  Async function 'findBestMatches' has a complexity of 17. Maximum allowed is 15                                                 complexity
-   347:30  warning  Arrow function has a complexity of 23. Maximum allowed is 15                                                                   complexity
-   436:12  error    'primaryElement' is assigned a value but never used. Allowed unused elements of array destructuring patterns must match /^_/u  @typescript-eslint/no-unused-vars
-   615:1   warning  Function 'calculateModalityScore' has a complexity of 18. Maximum allowed is 15                                                complexity
-   916:45  warning  Arrow function has too many lines (152). Maximum allowed is 80                                                                 max-lines-per-function
-   960:42  warning  Arrow function has too many lines (89). Maximum allowed is 80                                                                  max-lines-per-function
-   960:42  warning  Arrow function has a complexity of 19. Maximum allowed is 15                                                                   complexity
-  1072:1   warning  Function 'calculateNutritionalMatch' has too many lines (83). Maximum allowed is 80                                            max-lines-per-function
-  1072:10  error    'calculateNutritionalMatch' is defined but never used. Allowed unused vars must match /^(_|UNUSED_)/u                          @typescript-eslint/no-unused-vars
-  1094:19  warning  Arrow function has a complexity of 18. Maximum allowed is 15                                                                   complexity
-  1165:1   warning  Function 'calculateAstrologicalMatch' has too many lines (277). Maximum allowed is 80                                          max-lines-per-function
-  1165:1   warning  Function 'calculateAstrologicalMatch' has a complexity of 19. Maximum allowed is 15                                            complexity
-  1165:10  error    'calculateAstrologicalMatch' is defined but never used. Allowed unused vars must match /^(_|UNUSED_)/u                         @typescript-eslint/no-unused-vars
-  1378:44  warning  Unexpected any. Specify a different type                                                                                       @typescript-eslint/no-explicit-any
-  1446:1   warning  Function 'calculateComplexityMatch' has too many lines (92). Maximum allowed is 80                                             max-lines-per-function
-  1446:1   warning  Function 'calculateComplexityMatch' has a complexity of 26. Maximum allowed is 15                                              complexity
-  1446:10  error    'calculateComplexityMatch' is defined but never used. Allowed unused vars must match /^(_|UNUSED_)/u                           @typescript-eslint/no-unused-vars
+     3:1   error    There should be no empty line within import group                                          import/order
+    16:25  warning  Unexpected any. Specify a different type                                                   @typescript-eslint/no-explicit-any
+    24:12  warning  Unexpected any. Specify a different type                                                   @typescript-eslint/no-explicit-any
+    25:12  warning  Unexpected any. Specify a different type                                                   @typescript-eslint/no-explicit-any
+    26:14  warning  Unexpected any. Specify a different type                                                   @typescript-eslint/no-explicit-any
+    31:1   error    `@/data/ingredients` import should occur before import of `@/services/LocalRecipeService`  import/order
+    46:12  warning  Unexpected any. Specify a different type                                                   @typescript-eslint/no-explicit-any
+    47:14  warning  Unexpected any. Specify a different type                                                   @typescript-eslint/no-explicit-any
+    48:12  warning  Unexpected any. Specify a different type                                                   @typescript-eslint/no-explicit-any
+    76:6   error    'Modality' is defined but never used. Allowed unused vars must match /^(_|UNUSED_)/u       @typescript-eslint/no-unused-vars
+    81:8   warning  Async function 'findBestMatches' has too many lines (209). Maximum allowed is 80           max-lines-per-function
+    81:8   warning  Async function 'findBestMatches' has a complexity of 17. Maximum allowed is 15             complexity
+   347:30  warning  Arrow function has a complexity of 23. Maximum allowed is 15                               complexity
+   615:1   warning  Function 'calculateModalityScore' has a complexity of 18. Maximum allowed is 15            complexity
+   916:45  warning  Arrow function has too many lines (152). Maximum allowed is 80                             max-lines-per-function
+   960:42  warning  Arrow function has too many lines (89). Maximum allowed is 80                              max-lines-per-function
+   960:42  warning  Arrow function has a complexity of 19. Maximum allowed is 15                               complexity
+  1072:1   warning  Function '_calculateNutritionalMatch' has too many lines (83). Maximum allowed is 80       max-lines-per-function
+  1094:19  warning  Arrow function has a complexity of 18. Maximum allowed is 15                               complexity
+  1165:1   warning  Function '_calculateAstrologicalMatch' has too many lines (277). Maximum allowed is 80     max-lines-per-function
+  1165:1   warning  Function '_calculateAstrologicalMatch' has a complexity of 19. Maximum allowed is 15       complexity
+  1378:44  warning  Unexpected any. Specify a different type                                                   @typescript-eslint/no-explicit-any
+  1446:1   warning  Function '_calculateComplexityMatch' has too many lines (92). Maximum allowed is 80        max-lines-per-function
+  1446:1   warning  Function '_calculateComplexityMatch' has a complexity of 26. Maximum allowed is 15         complexity
 
 /Users/GregCastro/Desktop/WhatToEatNext/src/utils/recommendation/cuisineRecommendation.ts
   124:95  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
 
 /Users/GregCastro/Desktop/WhatToEatNext/src/utils/recommendation/ingredientRecommendation.ts
-    7:11  error    'CalculationData' is defined but never used. Allowed unused vars must match /^(_|UNUSED_)/u                    @typescript-eslint/no-unused-vars
-   26:11  error    'CuisineData' is defined but never used. Allowed unused vars must match /^(_|UNUSED_)/u                        @typescript-eslint/no-unused-vars
-   38:11  error    'NutrientData' is defined but never used. Allowed unused vars must match /^(_|UNUSED_)/u                       @typescript-eslint/no-unused-vars
-   47:11  error    'MatchingResult' is defined but never used. Allowed unused vars must match /^(_|UNUSED_)/u                     @typescript-eslint/no-unused-vars
-  417:7   error    'cachedAllIngredientsData' is assigned a value but never used. Allowed unused vars must match /^(_|UNUSED_)/u  @typescript-eslint/no-unused-vars
-  418:7   error    'cacheTimestamp' is assigned a value but never used. Allowed unused vars must match /^(_|UNUSED_)/u            @typescript-eslint/no-unused-vars
-  455:34  warning  Async arrow function has too many lines (101). Maximum allowed is 80                                           max-lines-per-function
-  557:1   warning  Function 'standardizeIngredient' has a complexity of 18. Maximum allowed is 15                                 complexity
-  623:8   warning  Async function 'getIngredientRecommendations' has too many lines (115). Maximum allowed is 80                  max-lines-per-function
-  898:26  error    'Earth' is assigned a value but never used. Allowed unused vars must match /^(_|UNUSED_)/u                     @typescript-eslint/no-unused-vars
+  455:34  warning  Async arrow function has too many lines (101). Maximum allowed is 80                           max-lines-per-function
+  557:1   warning  Function 'standardizeIngredient' has a complexity of 18. Maximum allowed is 15                 complexity
+  623:8   warning  Async function 'getIngredientRecommendations' has too many lines (115). Maximum allowed is 80  max-lines-per-function
 
 /Users/GregCastro/Desktop/WhatToEatNext/src/utils/recommendation/methodRecommendation.ts
-   14:15  error    'CookingMethod' is defined but never used. Allowed unused vars must match /^(_|UNUSED_)/u                       @typescript-eslint/no-unused-vars
-   14:47  error    'CookingMethodEnum' is defined but never used. Allowed unused vars must match /^(_|UNUSED_)/u                   @typescript-eslint/no-unused-vars
-   31:34  error    'getCulturalVariations' is defined but never used. Allowed unused vars must match /^(_|UNUSED_)/u               @typescript-eslint/no-unused-vars
-   31:57  error    'CulturalCookingMethod' is defined but never used. Allowed unused vars must match /^(_|UNUSED_)/u               @typescript-eslint/no-unused-vars
-   32:39  error    'createElementalPropertiesFromUtils' is defined but never used. Allowed unused vars must match /^(_|UNUSED_)/u  @typescript-eslint/no-unused-vars
-  117:36  warning  Arrow function has a complexity of 24. Maximum allowed is 15                                                    complexity
-  185:8   warning  Function 'getMethodThermodynamics' has a complexity of 43. Maximum allowed is 15                                complexity
-  387:8   warning  Function 'getRecommendedCookingMethods' has too many lines (110). Maximum allowed is 80                         max-lines-per-function
+  117:36  warning  Arrow function has a complexity of 24. Maximum allowed is 15                             complexity
+  185:8   warning  Function 'getMethodThermodynamics' has a complexity of 43. Maximum allowed is 15         complexity
+  387:8   warning  Function 'getRecommendedCookingMethods' has too many lines (110). Maximum allowed is 80  max-lines-per-function
 
 /Users/GregCastro/Desktop/WhatToEatNext/src/utils/recommendationEngine.ts
-    1:62  error    'Planet' is defined but never used. Allowed unused vars must match /^(_|UNUSED_)/u  @typescript-eslint/no-unused-vars
-  203:8   warning  Function 'explainRecommendation' has a complexity of 20. Maximum allowed is 15      complexity
-  256:84  warning  Unexpected any. Specify a different type                                            @typescript-eslint/no-explicit-any
+  203:8   warning  Function 'explainRecommendation' has a complexity of 20. Maximum allowed is 15  complexity
+  256:84  warning  Unexpected any. Specify a different type                                        @typescript-eslint/no-explicit-any
 
 /Users/GregCastro/Desktop/WhatToEatNext/src/utils/reliableAstronomy.ts
    24:8   warning  Async function 'getReliablePlanetaryPositions' has too many lines (95). Maximum allowed is 80  max-lines-per-function
@@ -6747,7 +6663,7 @@ See the typescript-eslint docs for more info: https://typescript-eslint.io/linti
    74:8   warning  Function 'getZodiacSign' has a complexity of 45. Maximum allowed is 15      complexity
   252:8   warning  Function 'getZodiacFromDate' has a complexity of 45. Maximum allowed is 15  complexity
 
-✖ 5258 problems (2269 errors, 2989 warnings)
-  37 errors and 168 warnings potentially fixable with the `--fix` option.
+✖ 5182 problems (2220 errors, 2962 warnings)
+  39 errors and 168 warnings potentially fixable with the `--fix` option.
 
 make: *** [lint] Error 1

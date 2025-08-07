@@ -493,7 +493,7 @@ export function getCurrentTransitSign(planet: string, date: Date = new Date()): 
  * @returns Validated positions
  */
 export function validatePlanetaryPositions(
-  positions: { [key: string]: any }, 
+  positions: { [key: string]: any },
   _date: Date = new Date(),
 ): { [key: string]: any } {
   // If positions are missing or empty, use reliable positions

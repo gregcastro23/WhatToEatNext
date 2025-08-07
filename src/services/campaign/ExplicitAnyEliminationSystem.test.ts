@@ -35,7 +35,7 @@ describe('ExplicitAnyEliminationSystem', () => {
       };
 
       // Use reflection to access private method
-      const buildMethod = (system as any).buildFixerArguments.bind(system);
+      const buildMethod = (system as unknown as { buildFixerArguments: (options: ExplicitAnyOptions) => string[] }).buildFixerArguments.bind(system);
       const args = buildMethod(options);
 
       expect(args).toContain('--max-files=25');
@@ -51,7 +51,7 @@ describe('ExplicitAnyEliminationSystem', () => {
         json: true
       };
 
-      const buildMethod = (system as any).buildFixerArguments.bind(system);
+      const buildMethod = (system as unknown as { buildFixerArguments: (options: ExplicitAnyOptions) => string[] }).buildFixerArguments.bind(system);
       const args = buildMethod(options);
 
       expect(args).toContain('--dry-run');
@@ -200,7 +200,7 @@ describe('ExplicitAnyEliminationSystem', () => {
         })
       };
 
-      mockSpawn.mockReturnValue(mockChild as any);
+      mockSpawn.mockReturnValue(mockChild as unknown as import('child_process').ChildProcess);
       mockExecSync
         .mockReturnValueOnce('100\n') // Initial count
         .mockReturnValueOnce('Build successful') // Build validation
@@ -241,7 +241,7 @@ describe('ExplicitAnyEliminationSystem', () => {
         })
       };
 
-      mockSpawn.mockReturnValue(mockChild as any);
+      mockSpawn.mockReturnValue(mockChild as unknown as import('child_process').ChildProcess);
       
       // Mock campaign progress
       const mockProgress = {
@@ -280,7 +280,7 @@ describe('ExplicitAnyEliminationSystem', () => {
         })
       };
 
-      mockSpawn.mockReturnValue(mockChild as any);
+      mockSpawn.mockReturnValue(mockChild as unknown as import('child_process').ChildProcess);
       
       // Mock no progress scenario
       mockFs.existsSync.mockReturnValue(false);
@@ -347,7 +347,7 @@ describe('ExplicitAnyEliminationSystem', () => {
         })
       };
 
-      mockSpawn.mockReturnValue(mockChild as any);
+      mockSpawn.mockReturnValue(mockChild as unknown as import('child_process').ChildProcess);
 
       const results = await system.executeCampaignContinuation();
 
