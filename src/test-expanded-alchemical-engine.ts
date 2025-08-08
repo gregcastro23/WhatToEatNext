@@ -171,7 +171,7 @@ async function runComprehensiveTests() {
       'gemini',
       testAstrologicalState
     );
-    log.info('Astrological Power:', astrologicalPower.toFixed(4) as any);
+    log.info('Astrological Power:', astrologicalPower.toFixed(4));
     log.info('✅ Astrological power test completed\n');
 
     // Test 4: Elemental Affinity Analysis
@@ -222,14 +222,14 @@ async function runComprehensiveTests() {
     // Test 7: Enhanced Legacy Alchemize Function
     log.info('🔮 Test 7: Enhanced Legacy Alchemize Function');
     const legacyResult = await alchemize(testBirthInfo, testHoroscopeData);
-    const legacyResultData = legacyResult as any;
+    const legacyResultData = legacyResult as Record<string, unknown>;
     log.info('Legacy Alchemize Results:', {
-      Spirit: (legacyResultData?.Spirit || 0).toFixed(4),
-      Essence: (legacyResultData?.Essence || 0).toFixed(4),
-      Matter: (legacyResultData?.Matter || 0).toFixed(4),
-      Substance: (legacyResultData?.Substance || 0).toFixed(4),
-      dominantElement: legacyResultData?.dominantElement || 'Fire',
-      recommendation: legacyResultData?.recommendation || 'No recommendation available',
+      Spirit: ((legacyResultData?.Spirit as number) || 0).toFixed(4),
+      Essence: ((legacyResultData?.Essence as number) || 0).toFixed(4),
+      Matter: ((legacyResultData?.Matter as number) || 0).toFixed(4),
+      Substance: ((legacyResultData?.Substance as number) || 0).toFixed(4),
+      dominantElement: (legacyResultData?.dominantElement as string) || 'Fire',
+      recommendation: (legacyResultData?.recommendation as string) || 'No recommendation available',
     });
     // Check for enhanced properties
     if ('kalchm' in legacyResult) {

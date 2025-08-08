@@ -27,23 +27,23 @@ import { MLIntelligenceService } from '@/services/MLIntelligenceService';
 import { PredictiveIntelligenceService } from '@/services/PredictiveIntelligenceService';
 import type { ElementalProperties, LunarPhase, ZodiacSign } from '@/types/alchemy';
 import { getCurrentSeason } from '@/types/seasons';
-import type { Recipe } from '@/types/unified';
+import type { Recipe } from '@/types/recipe';
 
 // ========== INTERFACES ==========
 
 export interface MLIntelligencePanelProps {
   recipeData?: Recipe[];
-  ingredientData?: any[];
+  ingredientData?: unknown[];
   astrologicalContext?: {
     zodiacSign: ZodiacSign;
     lunarPhase: LunarPhase;
     elementalProperties: ElementalProperties;
-    planetaryPositions?: any;
+    planetaryPositions?: Record<string, unknown>;
   };
   className?: string;
   showDetailedAnalytics?: boolean;
   autoAnalyze?: boolean;
-  onAnalysisComplete?: (analysis: any) => void;
+  onAnalysisComplete?: (analysis: Record<string, unknown>) => void;
 }
 
 // ========== COMPONENT ==========
@@ -61,8 +61,10 @@ export default function MLIntelligencePanel({
 
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [mlAnalysis, setMLAnalysis] = useState<any>(null);
-  const [predictiveAnalysis, setPredictiveAnalysis] = useState<any>(null);
+  type MLResult = { confidence?: number; recipeOptimization?: { score?: number }; ingredientCompatibility?: { average?: number }; astrologicalAlignment?: { score?: number } } & Record<string, unknown>;
+  type PredictiveResult = { overallAccuracy?: number; predictions?: unknown[]; successProbability?: number; userSatisfaction?: number } & Record<string, unknown>;
+  const [mlAnalysis, setMLAnalysis] = useState<MLResult | null>(null);
+  const [predictiveAnalysis, setPredictiveAnalysis] = useState<PredictiveResult | null>(null);
   const [activeTab, setActiveTab] = useState<'overview' | 'ml' | 'predictive' | 'optimization'>('overview');
 
   // ========== SERVICES INITIALIZATION ==========
@@ -87,8 +89,8 @@ export default function MLIntelligencePanel({
     setError(null);
 
     try {
-      let mlResults: any = null;
-      let predictiveResults: any = null;
+      let mlResults: Record<string, unknown> | null = null;
+      let predictiveResults: Record<string, unknown> | null = null;
 
       // ML Intelligence Analysis
       if (recipeData.length > 0) {
@@ -108,23 +110,23 @@ export default function MLIntelligencePanel({
         };
 
         const mlResult = await mlIntelligenceService.generateMLIntelligence(
-          compatibleRecipe as unknown as Recipe,
-          ingredientData,
+          compatibleRecipe as unknown as import('@/types/unified').Recipe,
+          ingredientData as unknown as import('@/types/unified').Ingredient[],
           {}, // cuisineData
           mlContext
         );
-        mlResults = mlResult;
-        setMLAnalysis(mlResult);
+        mlResults = mlResult as unknown as Record<string, unknown>;
+        setMLAnalysis(mlResult as unknown as MLResult);
       }
 
       // Predictive Intelligence Analysis
       if (recipeData.length > 0) {
-        const predictiveContext = {
+        const predictiveContext: import('@/types/predictiveIntelligence').PredictiveContext = {
           zodiacSign: astrologicalContext.zodiacSign,
           lunarPhase: String(astrologicalContext.lunarPhase),
-          season: getCurrentSeason(),
+          season: String(getCurrentSeason()),
           elementalProperties: astrologicalContext.elementalProperties,
-          planetaryPositions: astrologicalContext.planetaryPositions
+          planetaryPositions: undefined
         };
 
         // Convert Recipe type to be compatible
@@ -135,13 +137,13 @@ export default function MLIntelligencePanel({
         };
 
         const predictiveResult = await predictiveIntelligenceService.generatePredictiveIntelligence(
-          compatibleRecipe2 as unknown as Recipe,
-          ingredientData,
+          compatibleRecipe2 as unknown as import('@/types/recipe').Recipe,
+          ingredientData as unknown as import('@/types/ingredient').Ingredient[],
           {}, // cuisineData
           predictiveContext
         );
-        predictiveResults = predictiveResult;
-        setPredictiveAnalysis(predictiveResult);
+        predictiveResults = predictiveResult as unknown as Record<string, unknown>;
+        setPredictiveAnalysis(predictiveResult as unknown as PredictiveResult);
       }
 
       // Notify completion
@@ -172,7 +174,7 @@ export default function MLIntelligencePanel({
             <span className="text-sm font-medium text-green-700">ML Intelligence</span>
           </div>
           <div className="text-2xl font-bold text-green-600">
-            {mlAnalysis ? Math.round(mlAnalysis.confidence * 100) : '—'}%
+            {mlAnalysis ? Math.round((mlAnalysis.confidence ?? 0) * 100) : '—'}%
           </div>
           <div className="text-xs text-gray-500">
             Status: {mlAnalysis ? 'Active' : 'Inactive'}
@@ -185,7 +187,7 @@ export default function MLIntelligencePanel({
             <span className="text-sm font-medium text-blue-700">Predictive Analysis</span>
           </div>
           <div className="text-2xl font-bold text-blue-600">
-            {predictiveAnalysis ? Math.round(predictiveAnalysis.overallAccuracy * 100) : '—'}%
+            {predictiveAnalysis ? Math.round((predictiveAnalysis.overallAccuracy ?? 0) * 100) : '—'}%
           </div>
           <div className="text-xs text-gray-500">
             Forecasts: {predictiveAnalysis?.predictions?.length || 0}
@@ -199,7 +201,7 @@ export default function MLIntelligencePanel({
           </div>
           <div className="text-2xl font-bold text-purple-600">
             {mlAnalysis && predictiveAnalysis ?
-              Math.round((mlAnalysis.confidence + predictiveAnalysis.overallAccuracy) * 50) : '—'}%
+              Math.round(((mlAnalysis.confidence ?? 0) + (predictiveAnalysis.overallAccuracy ?? 0)) * 50) : '—'}%
           </div>
           <div className="text-xs text-gray-500">
             Combined efficiency

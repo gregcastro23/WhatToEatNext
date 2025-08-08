@@ -29,7 +29,9 @@ if (typeof window !== 'undefined') {
   // Use declaration merged Window type
   window.calculateElementalScore = calculateElementalScore;
   window.getElementRanking = getElementRanking;
-  window.getDominantElement = getDominantElement;
+  window.getDominantElement = ((obj: import('@/types/alchemy').ElementalProperties) => getDominantElement(obj as unknown as Record<'Fire' | 'Water' | 'Earth' | 'Air', number>) as unknown as Element) as unknown as (
+    obj: import('@/types/alchemy').ElementalProperties
+  ) => Element;
   window.createElementObject = createElementObject;
   window.combineElementObjects = combineElementObjects;
   window.getAbsoluteElementValue = getAbsoluteElementValue;

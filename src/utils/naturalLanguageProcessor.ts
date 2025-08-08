@@ -249,15 +249,15 @@ function normalizeText(text: string): string {
 function calculateSimilarity(str1: string, str2: string): number {
   const len1 = str1.length;
   const len2 = str2.length;
-  
+
   if (len1 === 0) return len2;
   if (len2 === 0) return len1;
-  
+
   const matrix = Array(len2 + 1).fill(null).map(() => Array(len1 + 1).fill(null));
-  
+
   for (let i = 0; i <= len1; i++) matrix[0][i] = i;
   for (let j = 0; j <= len2; j++) matrix[j][0] = j;
-  
+
   for (let j = 1; j <= len2; j++) {
     for (let i = 1; i <= len1; i++) {
       const cost = str1[i - 1] === str2[j - 1] ? 0 : 1;
@@ -268,7 +268,7 @@ function calculateSimilarity(str1: string, str2: string): number {
       );
     }
   }
-  
+
   const maxLen = Math.max(len1, len2);
   return (maxLen - matrix[len2][len1]) / maxLen;
 }
@@ -285,7 +285,7 @@ function extractTimeRange(query: string): { min: number; max: number } | null {
     { pattern: /more\s*than\s*(\d+)/i, min: true },
     { pattern: /over\s*(\d+)/i, min: true }
   ];
-  
+
   for (const { pattern, multiplier = 1, max, min } of timePatterns) {
     const match = query.match(pattern);
     if (match) {
@@ -295,7 +295,7 @@ function extractTimeRange(query: string): { min: number; max: number } | null {
       return { min: value - 15, max: value + 15 };
     }
   }
-  
+
   return null;
 }
 
@@ -305,7 +305,7 @@ function extractTimeRange(query: string): { min: number; max: number } | null {
 function generateSuggestions(query: string): string[] {
   const normalizedQuery = normalizeText(query);
   const suggestions: Array<{ text: string; score: number }> = [];
-  
+
   // Common cuisine suggestions
   const cuisineSuggestions = [
     'Italian pasta dishes',
@@ -317,7 +317,7 @@ function generateSuggestions(query: string): string[] {
     'French comfort food',
     'Thai coconut curry'
   ];
-  
+
   // Dietary suggestions
   const dietarySuggestions = [
     'Vegetarian dinner recipes',
@@ -326,7 +326,7 @@ function generateSuggestions(query: string): string[] {
     'Keto-friendly meals',
     'Dairy-free options'
   ];
-  
+
   // Time-based suggestions
   const timeSuggestions = [
     'Quick 30-minute meals',
@@ -334,16 +334,16 @@ function generateSuggestions(query: string): string[] {
     'Slow-cooked comfort food',
     'Fast breakfast ideas'
   ];
-  
+
   const allSuggestions = [...cuisineSuggestions, ...dietarySuggestions, ...timeSuggestions];
-  
+
   for (const suggestion of allSuggestions) {
     const similarity = calculateSimilarity(normalizedQuery, normalizeText(suggestion));
     if (similarity > 0.3 || suggestion.toLowerCase().includes(normalizedQuery)) {
       suggestions.push({ text: suggestion, score: similarity });
     }
   }
-  
+
   return suggestions
     .sort((a, b) => b.score - a.score)
     .slice(0, 5)
@@ -360,24 +360,27 @@ export function processNaturalLanguageQuery(query: string): SearchIntent {
   const extractedFilters: Partial<SearchFilters> = {};
   let totalConfidence = 0;
   let matchCount = 0;
-  
+
   // Process each pattern category
   for (const pattern of ALL_PATTERNS) {
     for (const keyword of pattern.keywords) {
       const similarity = calculateSimilarity(normalizedQuery, keyword);
       const containsKeyword = normalizedQuery.includes(keyword);
-      
+
       if (similarity > 0.7 || containsKeyword) {
         const confidence = containsKeyword ? pattern.weight : similarity * pattern.weight;
-        
-        if (!extractedFilters[pattern.category]) {
-          extractedFilters[pattern.category] = [] as any;
+
+        // Initialize array-based categories except for structured ones
+        if (!extractedFilters[pattern.category] && pattern.category !== 'cookingTime') {
+          (extractedFilters as Record<string, unknown>)[pattern.category] = [] as string[];
         }
-        
+
         // Add values to the appropriate filter category
         if (pattern.category === 'cookingTime') {
           const timeRange = extractTimeRange(query) || { min: 0, max: 30 };
-          extractedFilters[pattern.category] = timeRange as any;
+          // cookingTime is a structured object in SearchFilters
+          // Assign strongly typed cookingTime
+          (extractedFilters as Partial<SearchFilters>).cookingTime = { min: timeRange.min, max: timeRange.max };
         } else if (Array.isArray(extractedFilters[pattern.category])) {
           const currentArray = extractedFilters[pattern.category] as string[];
           for (const value of pattern.values) {
@@ -386,14 +389,14 @@ export function processNaturalLanguageQuery(query: string): SearchIntent {
             }
           }
         }
-        
+
         totalConfidence += confidence;
         matchCount++;
         break; // Move to next pattern after first match
       }
     }
   }
-  
+
   // Extract specific time ranges
   const timeRange = extractTimeRange(query);
   if (timeRange) {
@@ -401,13 +404,13 @@ export function processNaturalLanguageQuery(query: string): SearchIntent {
     totalConfidence += 0.8;
     matchCount++;
   }
-  
+
   // Calculate overall confidence
   const overallConfidence = matchCount > 0 ? Math.min(totalConfidence / matchCount, 1) : 0;
-  
+
   // Generate suggestions
   const suggestions = generateSuggestions(query);
-  
+
   // Clean query by removing matched keywords
   let cleanedQuery = normalizedQuery;
   for (const pattern of ALL_PATTERNS) {
@@ -416,7 +419,7 @@ export function processNaturalLanguageQuery(query: string): SearchIntent {
     }
   }
   cleanedQuery = cleanedQuery.replace(/\s+/g, ' ').trim();
-  
+
   return {
     query: cleanedQuery || query,
     extractedFilters,
@@ -434,27 +437,27 @@ export function enhancedSearch(
   searchFields: string[] = ['name', 'description']
 ): any[] {
   if (!query.trim()) return items;
-  
+
   const normalizedQuery = normalizeText(query);
   const queryWords = normalizedQuery.split(' ').filter(word => word.length > 0);
-  
+
   return items
     .map(item => {
       let totalScore = 0;
       let matchCount = 0;
-      
+
       for (const field of searchFields) {
         const fieldValue = item[field];
         if (typeof fieldValue === 'string') {
           const normalizedField = normalizeText(fieldValue);
-          
+
           // Exact match bonus
           if (normalizedField.includes(normalizedQuery)) {
             totalScore += 1.0;
             matchCount++;
             continue;
           }
-          
+
           // Word-by-word matching
           for (const word of queryWords) {
             if (normalizedField.includes(word)) {
@@ -474,7 +477,7 @@ export function enhancedSearch(
           }
         }
       }
-      
+
       const averageScore = matchCount > 0 ? totalScore / matchCount : 0;
       return { ...item, searchScore: averageScore };
     })
@@ -491,42 +494,42 @@ export function applyFilters(items: any[], filters: SearchFilters): any[] {
     if (filters.dietaryRestrictions.length > 0) {
       const itemDietary = item.dietaryRestrictions || [];
       const hasRequiredDietary = filters.dietaryRestrictions.every(restriction =>
-        itemDietary.includes(restriction) || 
+        itemDietary.includes(restriction) ||
         (item.tags && item.tags.includes(restriction))
       );
       if (!hasRequiredDietary) return false;
     }
-    
+
     // Difficulty level
     if (filters.difficultyLevel.length > 0) {
       const itemDifficulty = item.difficulty || item.difficultyLevel || 'medium';
       if (!filters.difficultyLevel.includes(itemDifficulty.toLowerCase())) return false;
     }
-    
+
     // Cooking time
     if (filters.cookingTime.min > 0 || filters.cookingTime.max < 480) {
       const cookTime = parseInt(item.cookTime || item.cookingTime || '30');
       if (cookTime < filters.cookingTime.min || cookTime > filters.cookingTime.max) return false;
     }
-    
+
     // Cuisine types
     if (filters.cuisineTypes.length > 0) {
       const itemCuisine = (item.cuisine || item.cuisineType || '').toLowerCase();
       if (!filters.cuisineTypes.some(cuisine => itemCuisine.includes(cuisine))) return false;
     }
-    
+
     // Meal types
     if (filters.mealTypes.length > 0) {
       const itemMealType = (item.mealType || item.category || '').toLowerCase();
       if (!filters.mealTypes.some(meal => itemMealType.includes(meal))) return false;
     }
-    
+
     // Spiciness
     if (filters.spiciness.length > 0) {
       const itemSpiciness = (item.spiciness || item.spiceLevel || 'mild').toLowerCase();
       if (!filters.spiciness.includes(itemSpiciness)) return false;
     }
-    
+
     return true;
   });
 }

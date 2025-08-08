@@ -3402,19 +3402,6 @@ See the typescript-eslint docs for more info: https://typescript-eslint.io/linti
   359:12  warning  Unexpected any. Specify a different type                                                                    @typescript-eslint/no-explicit-any
   360:13  error    'recipeRecommendations' is assigned a value but never used. Allowed unused vars must match /^(_|UNUSED_)/u  @typescript-eslint/no-unused-vars
 
-/Users/GregCastro/Desktop/WhatToEatNext/src/services/SpoonacularElementalMapper.ts
-   33:9   warning  Prefer using an optional chain expression instead, as it's more concise and easier to read  @typescript-eslint/prefer-optional-chain
-  141:11  warning  Prefer using an optional chain expression instead, as it's more concise and easier to read  @typescript-eslint/prefer-optional-chain
-
-/Users/GregCastro/Desktop/WhatToEatNext/src/services/SpoonacularService.ts
-    3:39  warning  Unexpected any. Specify a different type                                                    @typescript-eslint/no-explicit-any
-    4:38  warning  Unexpected any. Specify a different type                                                    @typescript-eslint/no-explicit-any
-    4:53  warning  Unexpected any. Specify a different type                                                    @typescript-eslint/no-explicit-any
-  432:3   warning  Static method 'mapToRecipe' has too many lines (125). Maximum allowed is 120                max-lines-per-function
-  432:21  warning  Static method 'mapToRecipe' has a complexity of 30. Maximum allowed is 25                   complexity
-  484:9   warning  Prefer using an optional chain expression instead, as it's more concise and easier to read  @typescript-eslint/prefer-optional-chain
-  588:13  warning  Prefer using an optional chain expression instead, as it's more concise and easier to read  @typescript-eslint/prefer-optional-chain
-
 /Users/GregCastro/Desktop/WhatToEatNext/src/services/SwissEphemerisService.ts
   117:7   error    'SIGN_ELEMENTS' is assigned a value but never used. Allowed unused vars must match /^(_|UNUSED_)/u  @typescript-eslint/no-unused-vars
   365:37  warning  Unexpected any. Specify a different type                                                            @typescript-eslint/no-explicit-any
@@ -3441,16 +3428,15 @@ See the typescript-eslint docs for more info: https://typescript-eslint.io/linti
   546:27  error  'elementalProperties' is defined but never used. Allowed unused args must match /^_/u  @typescript-eslint/no-unused-vars
 
 /Users/GregCastro/Desktop/WhatToEatNext/src/services/UnifiedScoringService.ts
-   19:3   error    'ThermodynamicMetrics' is defined but never used. Allowed unused vars must match /^(_|UNUSED_)/u       @typescript-eslint/no-unused-vars
-   95:3   warning  Unused eslint-disable directive (no problems were reported from '@typescript-eslint/no-explicit-any')
-   97:21  warning  Unexpected any. Specify a different type                                                               @typescript-eslint/no-explicit-any
-  110:5   warning  Unused eslint-disable directive (no problems were reported from '@typescript-eslint/no-explicit-any')
-  112:20  warning  Unexpected any. Specify a different type                                                               @typescript-eslint/no-explicit-any
-  121:5   warning  Unused eslint-disable directive (no problems were reported from '@typescript-eslint/no-explicit-any')
-  123:20  warning  Unexpected any. Specify a different type                                                               @typescript-eslint/no-explicit-any
-  655:34  error    'context' is defined but never used. Allowed unused args must match /^_/u                              @typescript-eslint/no-unused-vars
-  736:5   error    'context' is defined but never used. Allowed unused args must match /^_/u                              @typescript-eslint/no-unused-vars
-  780:5   error    'context' is defined but never used. Allowed unused args must match /^_/u                              @typescript-eslint/no-unused-vars
+   94:3   warning  Unused eslint-disable directive (no problems were reported from '@typescript-eslint/no-explicit-any')
+   96:21  warning  Unexpected any. Specify a different type                                                               @typescript-eslint/no-explicit-any
+  109:5   warning  Unused eslint-disable directive (no problems were reported from '@typescript-eslint/no-explicit-any')
+  111:20  warning  Unexpected any. Specify a different type                                                               @typescript-eslint/no-explicit-any
+  120:5   warning  Unused eslint-disable directive (no problems were reported from '@typescript-eslint/no-explicit-any')
+  122:20  warning  Unexpected any. Specify a different type                                                               @typescript-eslint/no-explicit-any
+  654:34  error    'context' is defined but never used. Allowed unused args must match /^_/u                              @typescript-eslint/no-unused-vars
+  735:5   error    'context' is defined but never used. Allowed unused args must match /^_/u                              @typescript-eslint/no-unused-vars
+  779:5   error    'context' is defined but never used. Allowed unused args must match /^_/u                              @typescript-eslint/no-unused-vars
 
 /Users/GregCastro/Desktop/WhatToEatNext/src/services/UnusedVariableDetector.ts
    309:43   error  'filePath' is defined but never used. Allowed unused args must match /^_/u                                                 @typescript-eslint/no-unused-vars
@@ -5636,12 +5622,10 @@ See the typescript-eslint docs for more info: https://typescript-eslint.io/linti
   593:46  warning  Arrow function has a complexity of 32. Maximum allowed is 25                                             complexity
 
 /Users/GregCastro/Desktop/WhatToEatNext/src/services/recipeRecommendations.ts
-    1:36  error    'Ingredient' is defined but never used. Allowed unused vars must match /^(_|UNUSED_)/u                   @typescript-eslint/no-unused-vars
    40:72  warning  Unexpected any. Specify a different type                                                                 @typescript-eslint/no-explicit-any
    44:13  error    'celestialInfluence' is assigned a value but never used. Allowed unused vars must match /^(_|UNUSED_)/u  @typescript-eslint/no-unused-vars
   210:9   warning  Prefer using an optional chain expression instead, as it's more concise and easier to read               @typescript-eslint/prefer-optional-chain
   215:9   warning  Prefer using an optional chain expression instead, as it's more concise and easier to read               @typescript-eslint/prefer-optional-chain
-  303:47  error    'criteria' is defined but never used. Allowed unused args must match /^_/u                               @typescript-eslint/no-unused-vars
 
 /Users/GregCastro/Desktop/WhatToEatNext/src/services/unifiedNutritionalService.ts
    16:10  error    'createAstrologicalBridge' is defined but never used. Allowed unused vars must match /^(_|UNUSED_)/u  @typescript-eslint/no-unused-vars
@@ -6491,7 +6475,7 @@ See the typescript-eslint docs for more info: https://typescript-eslint.io/linti
    74:8   warning  Function 'getZodiacSign' has a complexity of 45. Maximum allowed is 15      complexity
   252:8   warning  Function 'getZodiacFromDate' has a complexity of 45. Maximum allowed is 15  complexity
 
-✖ 5018 problems (2088 errors, 2930 warnings)
+✖ 5006 problems (2085 errors, 2921 warnings)
   37 errors and 213 warnings potentially fixable with the `--fix` option.
 
 make: *** [lint] Error 1

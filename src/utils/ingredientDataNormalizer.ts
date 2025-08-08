@@ -177,7 +177,9 @@ function formatCulinaryMethod(method: string): string {
 /**
  * Normalize individual culinary method data
  */
-function normalizeCulinaryMethod(data: Record<string, unknown>): any {
+function normalizeCulinaryMethod(
+  data: Record<string, unknown>
+): { notes: unknown[]; techniques: unknown[]; dishes: unknown[]; tips: unknown[] } {
   if (!data) return {};
 
   return {
@@ -217,7 +219,18 @@ function formatVarietyName(name: string): string {
 /**
  * Normalize variety data
  */
-function normalizeVarietyData(data: Record<string, unknown>): any {
+function normalizeVarietyData(
+  data: Record<string, unknown>
+): {
+  appearance: unknown;
+  texture: unknown;
+  flavor: unknown;
+  bestUses: unknown[];
+  notes: unknown;
+  origin: unknown;
+  storage: unknown;
+  ripening: unknown;
+} {
   if (!data || typeof data !== 'object') return {};
 
   return {
@@ -237,7 +250,7 @@ function normalizeVarietyData(data: Record<string, unknown>): any {
 /**
  * Normalize storage information
  */
-export function normalizeStorage(storage: Record<string, unknown>): any {
+export function normalizeStorage(storage: Record<string, unknown>): Record<string, unknown> {
   if (!storage) return {};
 
   if (typeof storage === 'string') {
@@ -259,7 +272,7 @@ export function normalizeStorage(storage: Record<string, unknown>): any {
 /**
  * Normalize preparation information
  */
-export function normalizePreparation(preparation: Record<string, unknown>): any {
+export function normalizePreparation(preparation: Record<string, unknown>): Record<string, unknown> {
   if (!preparation) return {};
 
   if (typeof preparation === 'string') {
@@ -280,7 +293,7 @@ export function normalizePreparation(preparation: Record<string, unknown>): any 
 /**
  * Main ingredient normalization function
  */
-export function normalizeIngredientData(ingredient: Record<string, unknown>): any {
+export function normalizeIngredientData(ingredient: Record<string, unknown>): Record<string, unknown> | null {
   if (!ingredient) return null;
 
   // Safe type casting for nutritional profile

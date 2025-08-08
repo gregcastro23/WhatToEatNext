@@ -1,6 +1,6 @@
 /**
  * Demonstration script for the Linting Error Analysis System
- * 
+ *
  * This script demonstrates the functionality of the automated linting error
  * analysis and categorization system without running actual ESLint.
  */
@@ -9,8 +9,7 @@ import { log } from '@/services/LoggingService';
 
 import { DomainContextDetector } from './DomainContextDetector';
 import { ErrorClassificationSystem } from './ErrorClassificationSystem';
-import { LintingAnalysisService } from './LintingAnalysisService';
-import { LintingErrorAnalyzer, LintingIssue, CategorizedErrors } from './LintingErrorAnalyzer';
+import { CategorizedErrors, LintingErrorAnalyzer, LintingIssue } from './LintingErrorAnalyzer';
 import { ResolutionStrategyGenerator } from './ResolutionStrategyGenerator';
 
 // Mock ESLint output for demonstration
@@ -88,9 +87,9 @@ const mockESLintOutput = [
 function demonstrateErrorClassification() {
   log.info('\n🔍 DEMONSTRATING ERROR CLASSIFICATION SYSTEM');
   log.info('==============================================');
-  
+
   const classifier = new ErrorClassificationSystem();
-  
+
   // Classify different types of errors
   const testCases = [
     { rule: 'import/order', message: 'Import order incorrect', file: 'src/App.tsx', hasAutoFix: true },
@@ -98,7 +97,7 @@ function demonstrateErrorClassification() {
     { rule: 'react-hooks/exhaustive-deps', message: 'Missing dependency', file: 'src/components/Component.tsx', hasAutoFix: true },
     { rule: 'no-console', message: 'Console statement', file: 'src/calculations/astrology.ts', hasAutoFix: false }
   ];
-  
+
   testCases.forEach(testCase => {
     const classification = classifier.classifyError(
       testCase.rule,
@@ -106,7 +105,7 @@ function demonstrateErrorClassification() {
       testCase.file,
       testCase.hasAutoFix
     );
-    
+
     log.info(`\n📋 Rule: ${testCase.rule}`);
     log.info(`   Category: ${classification.category.primary} (${classification.category.secondary})`);
     log.info(`   Severity: ${classification.severity.level} (${classification.severity.score}/100)`);
@@ -122,9 +121,9 @@ function demonstrateErrorClassification() {
 async function demonstrateDomainContextDetection() {
   log.info('\n🏗️ DEMONSTRATING DOMAIN CONTEXT DETECTION');
   log.info('==========================================');
-  
+
   const detector = new DomainContextDetector('/project');
-  
+
   const testFiles = [
     'src/App.tsx',
     'src/calculations/astrology.ts',
@@ -133,7 +132,7 @@ async function demonstrateDomainContextDetection() {
     'src/scripts/build.js',
     'src/data/planets/mars.ts'
   ];
-  
+
   for (const file of testFiles) {
     try {
       // Mock file analysis since we don't have actual files
@@ -152,13 +151,19 @@ async function demonstrateDomainContextDetection() {
         riskFactors: [],
         preservationRequirements: []
       };
-      
+
       log.info(`\n📁 File: ${file}`);
       log.info(`   Domain: ${mockAnalysis.domainContext.type}`);
       log.info(`   Confidence: ${Math.round(mockAnalysis.domainContext.confidence * 100)}%`);
-      
+
       // Get domain-specific recommendations
-      const recommendations = detector.getDomainLintingRecommendations(mockAnalysis.domainContext as any);
+      const recommendations = detector.getDomainLintingRecommendations(mockAnalysis.domainContext as unknown as {
+        type: string;
+        confidence: number;
+        indicators: unknown[];
+        specialRules: unknown[];
+        handlingRecommendations: unknown[];
+      });
       if (recommendations.rulesToDisable.length > 0) {
         log.info(`   Rules to disable: ${recommendations.rulesToDisable.join(', ')}`);
       }
@@ -177,29 +182,34 @@ async function demonstrateDomainContextDetection() {
 function demonstrateResolutionStrategies() {
   log.info('\n🎯 DEMONSTRATING RESOLUTION STRATEGY GENERATION');
   log.info('===============================================');
-  
+
   const generator = new ResolutionStrategyGenerator();
   const classifier = new ErrorClassificationSystem();
-  
+
   // Create mock contexts for strategy generation
-  const testContexts = [
+      const testContexts: Array<{
+        errorClassification: ReturnType<ErrorClassificationSystem['classifyError']>;
+        domainContext: { type: string; confidence: number };
+        fileAnalysis: { filePath: string; riskFactors: unknown[]; preservationRequirements: unknown[] };
+        projectContext: { hasTests: boolean; teamSize: string; riskTolerance: string };
+      }> = [
     {
-      errorClassification: classifier.classifyError('import/order', 'Import order incorrect', 'src/App.tsx', true),
-      domainContext: { type: 'component', confidence: 0.9 } as any,
-      fileAnalysis: { filePath: 'src/App.tsx', riskFactors: [], preservationRequirements: [] } as any,
-      projectContext: { hasTests: true, teamSize: 'small', riskTolerance: 'moderate' } as any
+        errorClassification: classifier.classifyError('import/order', 'Import order incorrect', 'src/App.tsx', true),
+        domainContext: { type: 'component', confidence: 0.9 },
+        fileAnalysis: { filePath: 'src/App.tsx', riskFactors: [], preservationRequirements: [] },
+        projectContext: { hasTests: true, teamSize: 'small', riskTolerance: 'moderate' }
     },
     {
-      errorClassification: classifier.classifyError('@typescript-eslint/no-explicit-any', 'Unexpected any', 'src/calculations/astrology.ts', false),
-      domainContext: { type: 'astrological', confidence: 0.95 } as any,
-      fileAnalysis: { filePath: 'src/calculations/astrology.ts', riskFactors: [], preservationRequirements: [] } as any,
-      projectContext: { hasTests: true, teamSize: 'small', riskTolerance: 'conservative' } as any
+        errorClassification: classifier.classifyError('@typescript-eslint/no-explicit-any', 'Unexpected any', 'src/calculations/astrology.ts', false),
+        domainContext: { type: 'astrological', confidence: 0.95 },
+        fileAnalysis: { filePath: 'src/calculations/astrology.ts', riskFactors: [], preservationRequirements: [] },
+        projectContext: { hasTests: true, teamSize: 'small', riskTolerance: 'conservative' }
     }
   ];
-  
+
   testContexts.forEach((context, index) => {
     const strategy = generator.generateStrategy(context);
-    
+
     log.info(`\n📋 Strategy ${index + 1}: ${strategy.id.split('-')[0]}`);
     log.info(`   Type: ${strategy.type}`);
     log.info(`   Priority: ${strategy.priority}`);
@@ -209,7 +219,7 @@ function demonstrateResolutionStrategies() {
     log.info(`   Risk Level: ${strategy.riskAssessment.overall}`);
     log.info(`   Steps: ${strategy.steps.length}`);
     log.info(`   Validation Required: ${strategy.validationRequirements.length} checks`);
-    
+
     if (strategy.alternatives.length > 0) {
       log.info(`   Alternatives: ${strategy.alternatives.length} options available`);
     }
@@ -222,7 +232,7 @@ function demonstrateResolutionStrategies() {
 function demonstrateCompleteWorkflow() {
   log.info('\n🚀 DEMONSTRATING COMPLETE ANALYSIS WORKFLOW');
   log.info('============================================');
-  
+
   // Simulate categorized errors from the mock data
   const mockCategorizedErrors: CategorizedErrors = {
     total: 7,
@@ -298,12 +308,12 @@ function demonstrateCompleteWorkflow() {
     autoFixable: [],
     requiresManualReview: []
   };
-  
+
   // Populate derived fields
   const allIssues = Object.values(mockCategorizedErrors.byCategory).flat();
   mockCategorizedErrors.autoFixable = allIssues.filter(i => i.autoFixable);
   mockCategorizedErrors.requiresManualReview = allIssues.filter(i => i.resolutionStrategy.type === 'manual-review');
-  
+
   // Group by priority and file
   for (const issue of allIssues) {
     const priority = issue.category.priority;
@@ -311,30 +321,30 @@ function demonstrateCompleteWorkflow() {
       mockCategorizedErrors.byPriority[priority] = [];
     }
     mockCategorizedErrors.byPriority[priority].push(issue);
-    
+
     if (!mockCategorizedErrors.byFile[issue.file]) {
       mockCategorizedErrors.byFile[issue.file] = [];
     }
     mockCategorizedErrors.byFile[issue.file].push(issue);
   }
-  
+
   // Generate resolution plan
   const analyzer = new LintingErrorAnalyzer('/project');
   const plan = analyzer.generateResolutionPlan(mockCategorizedErrors);
-  
+
   log.info(`\n📊 Analysis Summary:`);
   log.info(`   Total Issues: ${mockCategorizedErrors.total}`);
   log.info(`   Errors: ${mockCategorizedErrors.errors}`);
   log.info(`   Warnings: ${mockCategorizedErrors.warnings}`);
   log.info(`   Auto-fixable: ${mockCategorizedErrors.autoFixable.length}`);
   log.info(`   Manual Review: ${mockCategorizedErrors.requiresManualReview.length}`);
-  
+
   log.info(`\n📋 Resolution Plan:`);
   log.info(`   Phases: ${plan.phases.length}`);
   log.info(`   Total Time: ${plan.totalEstimatedTime} minutes`);
   log.info(`   Success Probability: ${Math.round(plan.successProbability * 100)}%`);
   log.info(`   Overall Risk: ${plan.riskAssessment.overall}`);
-  
+
   plan.phases.forEach((phase, index) => {
     log.info(`\n   Phase ${index + 1}: ${phase.name}`);
     log.info(`     Issues: ${phase.issues.length}`);
@@ -342,7 +352,7 @@ function demonstrateCompleteWorkflow() {
     log.info(`     Risk: ${phase.riskLevel}`);
     log.info(`     Dependencies: ${phase.dependencies.length > 0 ? phase.dependencies.join(', ') : 'None'}`);
   });
-  
+
   if (plan.riskAssessment.mitigations.length > 0) {
     log.info(`\n🛡️ Risk Mitigations:`);
     plan.riskAssessment.mitigations.forEach((mitigation, index) => {
@@ -359,14 +369,14 @@ async function runDemonstration() {
   log.info('===============================================');
   log.info('This demonstration shows the capabilities of the automated');
   log.info('linting error analysis and categorization system.\n');
-  
+
   try {
     // Run all demonstrations
     demonstrateErrorClassification();
     await demonstrateDomainContextDetection();
     demonstrateResolutionStrategies();
     demonstrateCompleteWorkflow();
-    
+
     log.info('\n✅ DEMONSTRATION COMPLETE');
     log.info('=========================');
     log.info('The linting error analysis system is ready for use!');
@@ -377,7 +387,7 @@ async function runDemonstration() {
     log.info('• ✅ Resolution strategy generation');
     log.info('• ✅ Risk assessment and mitigation planning');
     log.info('• ✅ Comprehensive workflow integration');
-    
+
   } catch (error) {
     console.error('❌ Demonstration failed:', error);
   }

@@ -12,7 +12,7 @@ import type {
 interface IngredientMapping {
   name: string;
   elementalProperties: ElementalProperties;
-  astrologicalProfile?: any;
+  astrologicalProfile?: Record<string, unknown>;
   qualities?: string[];
   // Add commonly missing properties
   description?: string;
@@ -20,9 +20,9 @@ interface IngredientMapping {
   cuisine?: string;
   flavorProfile?: Record<string, number>;
   regionalCuisine?: string;
-  season?: any;
-  timing?: any;
-  duration?: any;
+  season?: string | string[];
+  timing?: string | number | Record<string, unknown>;
+  duration?: string | number | Record<string, unknown>;
   matchScore?: number;
   mealType?: string;
 }
@@ -41,9 +41,9 @@ interface MatchResult {
   }[];
   // Add commonly missing properties
   matchScore?: number;
-  timing?: any;
-  duration?: any;
-  season?: any;
+  timing?: string | number | Record<string, unknown>;
+  duration?: string | number | Record<string, unknown>;
+  season?: string | string[];
   mealType?: string;
 }
 

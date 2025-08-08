@@ -5,7 +5,7 @@
 
 export interface ComponentState {
   timestamp: number;
-  data: any;
+  data: unknown;
 }
 
 export interface NavigationState {
@@ -14,10 +14,10 @@ export interface NavigationState {
   selectedIngredients: string[];
   selectedCuisine: string | null;
   selectedCookingMethods: string[];
-  currentRecipe: any | null;
+  currentRecipe: unknown | null;
   selectedIngredientCategory: string | null;
   selectedIngredient: string | null;
-  selectedCookingMethod: any | null;
+  selectedCookingMethod: unknown | null;
   scrollPosition: number;
 }
 
@@ -106,7 +106,8 @@ export function getNavigationState(): NavigationState {
     if (!isStateValid(parsed.timestamp)) {
       return defaultState;
     }
-    return { ...defaultState, ...parsed.data };
+    const data = (parsed.data || {}) as Partial<NavigationState>;
+    return { ...defaultState, ...data };
   } catch (error) {
     console.warn('Failed to parse navigation state:', error);
     return defaultState;
@@ -116,7 +117,7 @@ export function getNavigationState(): NavigationState {
 /**
  * Save component-specific state
  */
-export function saveComponentState(componentId: string, state: any): void {
+export function saveComponentState(componentId: string, state: unknown): void {
   const allStates = getComponentStates();
   allStates[componentId] = {
     timestamp: Date.now(),
@@ -129,7 +130,7 @@ export function saveComponentState(componentId: string, state: any): void {
 /**
  * Get component-specific state
  */
-export function getComponentState(componentId: string): any {
+export function getComponentState(componentId: string): unknown {
   const allStates = getComponentStates();
   const componentState = allStates[componentId];
 
@@ -179,7 +180,7 @@ export function getScrollPosition(sectionId: string): number {
     return 0;
   }
 
-  return position.data;
+  return Number(position.data) || 0;
 }
 
 /**
@@ -269,18 +270,18 @@ export function useStateCleanup(): (() => void) | void {
   if (typeof window !== 'undefined') {
     // Clear expired state on page load
     clearExpiredState();
-    
+
     // Set up periodic cleanup (every 10 minutes)
     const interval = setInterval(clearExpiredState, 10 * 60 * 1000);
-    
+
     // Cleanup on page unload
     const cleanup = () => {
       clearInterval(interval);
       clearExpiredState();
     };
-    
+
     window.addEventListener('beforeunload', cleanup);
-    
+
     // Return cleanup function
     return cleanup;
   }
@@ -291,7 +292,7 @@ export function useStateCleanup(): (() => void) | void {
  */
 export function createStatePreservationHook(componentId: string) {
   return {
-    saveState: (state: any) => saveComponentState(componentId, state),
+    saveState: (state: unknown) => saveComponentState(componentId, state),
     getState: () => getComponentState(componentId),
     clearState: () => {
       const allStates = getComponentStates();

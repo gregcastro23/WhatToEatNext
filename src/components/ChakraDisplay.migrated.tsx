@@ -228,10 +228,10 @@ const ChakraDisplayMigrated: React.FC<ChakraDisplayProps> = ({ compact = false }
 
   // Prepare chakra data in the correct order
   const orderedChakras = CHAKRA_ORDER
-    .filter(chakraKey => chakraKey in (validatedChakraEnergies || {}))
+    .filter(chakraKey => validatedChakraEnergies?.[chakraKey] !== undefined)
     .map(chakraKey => ({
       key: chakraKey,
-      energy: (validatedChakraEnergies || {})[chakraKey] || 0
+      energy: validatedChakraEnergies?.[chakraKey] || 0
     }));
 
   return (

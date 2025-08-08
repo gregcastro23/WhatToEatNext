@@ -1882,7 +1882,7 @@ export const elementToZodiac: Record<string, string[]> = {
  * @param astroChartData Raw data from AstroCharts.com
  * @returns Formatted planetary positions in our internal format
  */
-export const parseAstroChartData = (astroChartData: unknown): Record<string, number> => {
+  export const parseAstroChartData = (astroChartData: unknown): Record<string, number> => {
   try {
     const result: Record<string, number> = {};
     const data = astroChartData as Record<string, unknown>;
@@ -1907,11 +1907,12 @@ export const parseAstroChartData = (astroChartData: unknown): Record<string, num
       };
 
       // Process each planet
-      Object.entries(data.planets).forEach(([planetName, planetData]: [string, any]) => {
+      Object.entries(data.planets as Record<string, unknown>).forEach(([planetName, planetData]) => {
         const internalName = planetMapping[planetName];
-        if (internalName && planetData?.longitude !== undefined) {
+        const pd = planetData as Record<string, unknown>;
+        if (internalName && pd?.longitude !== undefined) {
           // AstroCharts provides longitude in decimal degrees (0-360)
-          result[internalName] = planetData.longitude;
+          result[internalName] = Number(pd.longitude);
         }
       });
     }

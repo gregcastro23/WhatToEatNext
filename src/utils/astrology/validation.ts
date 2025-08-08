@@ -493,9 +493,9 @@ export function getCurrentTransitSign(planet: string, date: Date = new Date()): 
  * @returns Validated positions
  */
 export function validatePlanetaryPositions(
-  positions: { [key: string]: any },
+  positions: { [key: string]: unknown },
   _date: Date = new Date(),
-): { [key: string]: any } {
+): { [key: string]: CelestialPosition } {
   // If positions are missing or empty, use reliable positions
   if (!positions || Object.keys(positions || {}).length === 0) {
     return getReliablePlanetaryPositions();
@@ -517,11 +517,17 @@ export function validatePlanetaryPositions(
   }
 
   // Normalize sign names
-  const result: { [key: string]: any } = {};
+  const result: { [key: string]: CelestialPosition } = {};
 
   for (const [planet, data] of Object.entries(positions)) {
     if (typeof data === 'object' && data !== null) {
-      const position = { ...data };
+      const src = data as Record<string, unknown>;
+      const position: CelestialPosition = {
+        sign: String(src.sign || ''),
+        degree: Number(src.degree || 0),
+        exactLongitude: Number(src.exactLongitude || 0),
+        isRetrograde: Boolean(src.isRetrograde)
+      };
 
       // Convert sign to lowercase if it exists
       if (position.sign && typeof position.sign === 'string') {
@@ -555,16 +561,16 @@ export function getBaseSignLongitude(sign: ZodiacSign): number {
  * Get current transit positions
  * @returns Current planetary positions
  */
-export function getCurrentTransitPositions(): { [key: string]: any } {
+export function getCurrentTransitPositions(): { [key: string]: { sign: ZodiacSign; degree: number; isRetrograde: boolean } } {
   // First try to get reliable positions
   const positions = getReliablePlanetaryPositions();
 
   // Convert to transit format
-  const result: { [key: string]: any } = {};
+  const result: { [key: string]: { sign: ZodiacSign; degree: number; isRetrograde: boolean } } = {};
 
   for (const [planet, data] of Object.entries(positions)) {
     result[planet] = {
-      sign: data.sign,
+      sign: data.sign as ZodiacSign,
       degree: data.degree,
       isRetrograde: data.isRetrograde || false,
     };

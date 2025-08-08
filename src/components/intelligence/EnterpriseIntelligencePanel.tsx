@@ -1,51 +1,50 @@
 /**
  * Enterprise Intelligence Panel Component
  * Main Page Restoration - Task 3.8 Implementation
- * 
+ *
  * Displays enterprise intelligence insights, recommendations,
  * and system health information for cuisine recommendations.
  */
 
 'use client';
 
-import { 
-  Brain, 
-  TrendingUp, 
-  Shield, 
-  CheckCircle, 
-  AlertTriangle, 
-  XCircle,
-  BarChart3,
-  Lightbulb,
-  RefreshCw,
-  Eye,
-  EyeOff
+import {
+    AlertTriangle,
+    BarChart3,
+    Brain,
+    CheckCircle,
+    Eye,
+    EyeOff,
+    Lightbulb,
+    RefreshCw,
+    Shield,
+    TrendingUp,
+    XCircle
 } from 'lucide-react';
-import React, { useState, useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 
-import { 
-  useEnterpriseIntelligence,
-  useEnterpriseIntelligenceHealth,
-  useEnterpriseIntelligenceRecommendations,
-  useEnterpriseIntelligencePerformance
+import {
+    useEnterpriseIntelligence,
+    useEnterpriseIntelligencePerformance,
+    useEnterpriseIntelligenceRecommendations
 } from '@/hooks/useEnterpriseIntelligence';
-import type { ElementalProperties, ZodiacSign, LunarPhase } from '@/types/alchemy';
+import type { ElementalProperties, LunarPhase, ZodiacSign } from '@/types/alchemy';
 
 // ========== INTERFACES ==========
 
 export interface EnterpriseIntelligencePanelProps {
-  recipeData?: any;
-  ingredientData?: any;
+  recipeData?: unknown;
+  ingredientData?: unknown;
   astrologicalContext?: {
     zodiacSign: ZodiacSign;
     lunarPhase: LunarPhase;
     elementalProperties: ElementalProperties;
-    planetaryPositions?: any;
+    planetaryPositions?: Record<string, unknown>;
   };
   className?: string;
   showDetailedMetrics?: boolean;
   autoAnalyze?: boolean;
-  onAnalysisComplete?: (analysis: any) => void;
+  onAnalysisComplete?: (analysis: Record<string, unknown>) => void;
 }
 
 // ========== COMPONENT ==========
@@ -60,36 +59,40 @@ export default function EnterpriseIntelligencePanel({
   onAnalysisComplete
 }: EnterpriseIntelligencePanelProps) {
   // ========== STATE ==========
-  
+
   const [isExpanded, setIsExpanded] = useState(false);
 
   const [activeTab, setActiveTab] = useState<'overview' | 'recommendations' | 'health' | 'performance'>('overview');
 
   // ========== HOOKS ==========
-  
+
   const { state, actions, systemHealth, isHealthy, needsAttention } = useEnterpriseIntelligence({
     autoAnalyze
-  } as any);
+  });
 
 
   const { recommendations, hasRecommendations, highPriorityCount } = useEnterpriseIntelligenceRecommendations();
   const performanceStatus = useEnterpriseIntelligencePerformance();
 
   // ========== EFFECTS ==========
-  
+
   React.useEffect(() => {
     if (autoAnalyze && recipeData && ingredientData && astrologicalContext && !state.isAnalyzing) {
-      actions.performAnalysis(recipeData, ingredientData, astrologicalContext)
+      actions.performAnalysis(
+        recipeData as unknown as import('@/types/enterpriseHooks').EnterpriseRecipeData,
+        ingredientData as unknown as import('@/types/enterpriseHooks').EnterpriseIngredientData,
+        astrologicalContext as unknown as import('@/hooks/useEnterpriseIntelligence').EnterpriseIntelligenceActions extends { performAnalysis: (a: infer _A, b: infer _B, c: infer C) => any } ? C : never
+      )
         .then(analysis => {
           if (analysis && onAnalysisComplete) {
-            onAnalysisComplete(analysis);
+            onAnalysisComplete(analysis as unknown as Record<string, unknown>);
           }
         });
     }
   }, [recipeData, ingredientData, astrologicalContext, autoAnalyze, state.isAnalyzing, actions, onAnalysisComplete]);
 
   // ========== MEMOIZED VALUES ==========
-  
+
   const statusIcon = useMemo(() => {
     if (state.isAnalyzing) return <RefreshCw className="animate-spin" size={16} />;
     if (state.error) return <XCircle className="text-red-500" size={16} />;
@@ -115,12 +118,16 @@ export default function EnterpriseIntelligencePanel({
   }, [state.isAnalyzing, state.error, needsAttention, isHealthy]);
 
   // ========== EVENT HANDLERS ==========
-  
+
   const handleManualAnalysis = async () => {
     if (recipeData && ingredientData && astrologicalContext) {
-      const analysis = await actions.performAnalysis(recipeData, ingredientData, astrologicalContext);
+      const analysis = await actions.performAnalysis(
+        recipeData as unknown as import('@/types/enterpriseHooks').EnterpriseRecipeData,
+        ingredientData as unknown as import('@/types/enterpriseHooks').EnterpriseIngredientData,
+        astrologicalContext as unknown as import('@/hooks/useEnterpriseIntelligence').EnterpriseIntelligenceActions extends { performAnalysis: (a: infer _A, b: infer _B, c: infer C) => any } ? C : never
+      );
       if (analysis && onAnalysisComplete) {
-        onAnalysisComplete(analysis);
+        onAnalysisComplete(analysis as unknown as Record<string, unknown>);
       }
     }
   };
@@ -130,7 +137,7 @@ export default function EnterpriseIntelligencePanel({
   };
 
   // ========== RENDER HELPERS ==========
-  
+
   const renderOverviewTab = () => (
     <div className="space-y-4">
       {/* System Health Summary */}
@@ -142,7 +149,7 @@ export default function EnterpriseIntelligencePanel({
             <span className="text-sm font-medium">{statusText}</span>
           </div>
         </div>
-        
+
         {state.analysis && (
           <div className="grid grid-cols-2 gap-4 mt-3">
             <div className="text-center">
@@ -173,7 +180,7 @@ export default function EnterpriseIntelligencePanel({
               {Math.round((state.analysis.recipeIntelligence?.optimizationScore || 0) * 100)}%
             </div>
           </div>
-          
+
           <div className="bg-green-50 rounded-lg p-3">
             <div className="flex items-center space-x-2">
               <TrendingUp size={16} className="text-green-600" />
@@ -217,7 +224,7 @@ export default function EnterpriseIntelligencePanel({
               </div>
             </div>
           )}
-          
+
           <div className="space-y-3">
             {recommendations.slice(0, 5).map((rec, index) => (
               <div key={index} className="bg-gray-50 rounded-lg p-3">
@@ -246,7 +253,7 @@ export default function EnterpriseIntelligencePanel({
               </div>
             ))}
           </div>
-          
+
           {recommendations.length > 5 && (
             <div className="text-center">
               <span className="text-sm text-gray-500">
@@ -332,7 +339,7 @@ export default function EnterpriseIntelligencePanel({
                   </ul>
                 </div>
               )}
-              
+
               {systemHealth.warnings.length > 0 && (
                 <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-3">
                   <h5 className="font-medium text-yellow-800 mb-2">Warnings</h5>
@@ -367,7 +374,7 @@ export default function EnterpriseIntelligencePanel({
             <div className="text-xs text-gray-500">Total Analyses</div>
           </div>
         </div>
-        
+
         <div className="bg-gray-50 rounded-lg p-3">
           <div className="text-center">
             <div className="text-lg font-bold text-green-600">
@@ -376,7 +383,7 @@ export default function EnterpriseIntelligencePanel({
             <div className="text-xs text-gray-500">Avg Response Time</div>
           </div>
         </div>
-        
+
         <div className="bg-gray-50 rounded-lg p-3">
           <div className="text-center">
             <div className="text-lg font-bold text-purple-600">
@@ -385,7 +392,7 @@ export default function EnterpriseIntelligencePanel({
             <div className="text-xs text-gray-500">Cache Hit Rate</div>
           </div>
         </div>
-        
+
         <div className="bg-gray-50 rounded-lg p-3">
           <div className="text-center">
             <div className="text-lg font-bold text-red-600">
@@ -427,7 +434,7 @@ export default function EnterpriseIntelligencePanel({
   );
 
   // ========== RENDER ==========
-  
+
   return (
     <div className={`bg-white border border-gray-200 rounded-lg shadow-sm ${className}`}>
       {/* Header */}
@@ -439,14 +446,14 @@ export default function EnterpriseIntelligencePanel({
             <p className="text-xs text-gray-500">Recipe &amp; Ingredient Analysis</p>
           </div>
         </div>
-        
+
         <div className="flex items-center space-x-2">
           {state.lastAnalyzed && (
             <span className="text-xs text-gray-400">
               {state.lastAnalyzed.toLocaleTimeString()}
             </span>
           )}
-          
+
           <button
             onClick={handleManualAnalysis}
             disabled={state.isAnalyzing}
@@ -455,7 +462,7 @@ export default function EnterpriseIntelligencePanel({
           >
             <RefreshCw size={16} className={state.isAnalyzing ? 'animate-spin' : ''} />
           </button>
-          
+
           <button
             onClick={handleToggleExpanded}
             className="p-1 text-gray-400 hover:text-gray-600"

@@ -19,7 +19,7 @@ import { createElementalProperties } from '../elemental/elementalUtils';
  */
 export function adaptRecipeData(recipeData: RecipeData): Recipe {
   // Convert ingredients to the correct format with type safety
-  const ingredients: RecipeIngredient[] = adaptIngredients((recipeData.ingredients || []) as any[]);
+  const ingredients: RecipeIngredient[] = adaptIngredients((recipeData.ingredients || []) as unknown as Recipe[]);
 
   // Create a base recipe with required properties
   const recipe: Recipe = {
@@ -69,18 +69,18 @@ export function adaptRecipeData(recipeData: RecipeData): Recipe {
 
   // Handle season
   const energyProfile = recipeDataAny.energyProfile as Record<string, unknown>;
-  if (energyProfile.season) {
+  if (energyProfile && energyProfile.season) {
     recipe.currentSeason = energyProfile.currentSeason as string;
   }
 
   // Handle astrological properties
   if (energyProfile) {
     if (energyProfile.zodiac) {
-      recipe.zodiacInfluences = Array.isArray(energyProfile.zodiac) ? energyProfile.zodiac.map(z => String(z)) as any : [String(energyProfile.zodiac)] as any;
+      recipe.zodiacInfluences = Array.isArray(energyProfile.zodiac) ? (energyProfile.zodiac.map(z => String(z)) as string[]) : [String(energyProfile.zodiac)];
     }
 
     if (energyProfile.lunar) {
-      recipe.lunarPhaseInfluences = Array.isArray(energyProfile.lunar) ? energyProfile.lunar.map(l => String(l)) as any : [String(energyProfile.lunar)] as any;
+      recipe.lunarPhaseInfluences = Array.isArray(energyProfile.lunar) ? (energyProfile.lunar.map(l => String(l)) as string[]) : [String(energyProfile.lunar)];
     }
 
     if (energyProfile.planetary) {

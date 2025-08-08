@@ -761,7 +761,7 @@ export class QualityGatesValidation extends EventEmitter {
       result.output = output;
       result.status = 'passed';
       result.details.exitCode = 0;
-    } catch (error: any) {
+    } catch (error) {
       result.output = error.stdout || error.stderr || '';
       result.errorMessage = error.message;
 
@@ -797,7 +797,7 @@ export class QualityGatesValidation extends EventEmitter {
 
       result.output = output;
       result.status = 'passed';
-    } catch (error: any) {
+    } catch (error) {
       result.output = error.stdout || error.stderr || '';
       result.errorMessage = error.message;
       result.status = 'failed';
@@ -920,7 +920,7 @@ export class QualityGatesValidation extends EventEmitter {
    */
   private getMetricValue(metric: string, metrics: QualityMetrics): number {
     const metricPath = metric.split('.');
-    let value: any = metrics;
+    let value: unknown = metrics;
 
     for (const part of metricPath) {
       if (value && typeof value === 'object' && part in value) {
@@ -1107,7 +1107,7 @@ export class QualityGatesValidation extends EventEmitter {
         errorCount: 0,
         warningCount: this.countWarnings(buildOutput)
       };
-    } catch (error: any) {
+    } catch (error) {
       return {
         buildTime: 0,
         buildSize: 0,
@@ -1140,7 +1140,7 @@ export class QualityGatesValidation extends EventEmitter {
         coverage: testStats.coverage,
         testTime
       };
-    } catch (error: any) {
+    } catch (error) {
       const testStats = this.parseTestOutput(error.stdout || error.stderr || '');
       return {
         totalTests: testStats.totalTests,
@@ -1296,7 +1296,7 @@ export class QualityGatesValidation extends EventEmitter {
     return Math.random() * 5; // 0-5%
   }
 
-  private async checkPerformanceMetrics(): Promise<{ success: boolean; details: any }> {
+  private async checkPerformanceMetrics(): Promise<{ success: boolean; details: Record<string, unknown> }> {
     const metrics = await this.collectPerformanceMetrics();
     const success = metrics.cpuUsage < 80 && metrics.memoryUsage < 85;
 
@@ -1310,7 +1310,7 @@ export class QualityGatesValidation extends EventEmitter {
     };
   }
 
-  private async checkCodeQuality(): Promise<{ success: boolean; details: any }> {
+  private async checkCodeQuality(): Promise<{ success: boolean; details: Record<string, unknown> }> {
     const metrics = await this.collectCodeQualityMetrics();
     const success = metrics.maintainabilityIndex > 60 && metrics.complexity < 10;
 
@@ -1324,7 +1324,7 @@ export class QualityGatesValidation extends EventEmitter {
     };
   }
 
-  private async checkSecurityVulnerabilities(): Promise<{ success: boolean; details: any }> {
+  private async checkSecurityVulnerabilities(): Promise<{ success: boolean; details: Record<string, unknown> }> {
     const metrics = await this.collectSecurityMetrics();
     const success = metrics.vulnerabilityCount === 0 && metrics.securityScore > 80;
 

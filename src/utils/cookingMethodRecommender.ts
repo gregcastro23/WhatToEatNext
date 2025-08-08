@@ -633,7 +633,8 @@ export async function getRecommendedCookingMethods(
     : undefined;
 
   // Get Venus sign-based temperament for current zodiac
-  let venusTemperament: any = null;
+  type VenusTemperament = { FoodFocus?: string; Elements?: Record<string, number> };
+  let venusTemperament: VenusTemperament | null = null;
   if (currentZodiac && isVenusActive) {
     const lowerSign = currentZodiac.toLowerCase();
     const earthSigns = ['taurus', 'virgo', 'capricorn'];
@@ -656,7 +657,7 @@ export async function getRecommendedCookingMethods(
   }
 
   // Get Mars sign-based temperament for current zodiac
-  let _marsTemperament: any = null;
+  let _marsTemperament: Record<string, unknown> | null = null;
   if (currentZodiac && isMarsActive) {
     const lowerSign = currentZodiac.toLowerCase();
     const fireSigns = ['aries', 'leo', 'sagittarius'];
@@ -673,7 +674,7 @@ export async function getRecommendedCookingMethods(
   }
 
   // Get Mercury sign-based temperament for current zodiac
-  let _mercuryTemperament: any = null;
+  let _mercuryTemperament: Record<string, unknown> | null = null;
   if (currentZodiac && isMercuryActive) {
     const lowerSign = currentZodiac.toLowerCase();
     const airSigns = ['gemini', 'libra', 'aquarius'];
@@ -690,7 +691,7 @@ export async function getRecommendedCookingMethods(
   }
 
   // Get Jupiter sign-based temperament for current zodiac
-  let _jupiterTemperament: any = null;
+  let _jupiterTemperament: Record<string, unknown> | null = null;
   if (currentZodiac && isJupiterActive) {
     const lowerSign = currentZodiac.toLowerCase();
     const fireSigns = ['aries', 'leo', 'sagittarius'];
@@ -707,7 +708,7 @@ export async function getRecommendedCookingMethods(
   }
 
   // Get Saturn sign-based temperament for current zodiac
-  let _saturnTemperament: any = null;
+  let _saturnTemperament: Record<string, unknown> | null = null;
   if (currentZodiac && isSaturnActive) {
     const lowerSign = currentZodiac.toLowerCase();
     const earthSigns = ['taurus', 'virgo', 'capricorn'];
@@ -1206,16 +1207,9 @@ export async function getRecommendedCookingMethods(
     const planetaryAffinity = (methodData.planetaryAffinity as number) || 0;
     const scoreDetailsForUI = scoreDetails;
 
-    recommendations.push({
-      method: (method as Record<string, unknown>).id,
-      score: Math.max(0, score), // Ensure score isn't negative
-      description: (method as Record<string, unknown>).description,
-      benefits: (method as any)?.benefits || [],
-      lunarAffinity: calculateLunarMethodAffinity((method as unknown) as CookingMethod, lunarPhase),
-      elementalAffinity: (method as Record<string, unknown>).elementalEffect?.[signElement || 'Fire'] || 0,
-      planetaryAffinity: planetaryAffinity,
-      scoreDetails: scoreDetailsForUI // Include detailed scoring for UI display
-    } as any);
+    // Store score on the method object and push the method itself
+    method.score = Math.max(0, score);
+    recommendations.push(method);
 
     // Mark this method as processed to avoid duplicates
     recommendationsMap[methodNameNorm] = true;

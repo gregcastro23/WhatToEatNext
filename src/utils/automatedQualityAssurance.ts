@@ -153,9 +153,10 @@ export class AutomatedQualityAssurance {
       }
 
       // Validate position accuracy (check for reasonable longitude values)
-      Object.entries(positions).forEach(([planet, data]: [string, any]) => {
-        if (data?.exactLongitude !== undefined) {
-          if (data.exactLongitude < 0 || data.exactLongitude >= 360) {
+      Object.entries(positions).forEach(([planet, data]) => {
+        const p = data as { exactLongitude?: number };
+        if (p?.exactLongitude !== undefined) {
+          if (p.exactLongitude < 0 || p.exactLongitude >= 360) {
             issues.push(`Invalid longitude for ${planet}: ${data.exactLongitude}`);
             score -= 0.1;
           }

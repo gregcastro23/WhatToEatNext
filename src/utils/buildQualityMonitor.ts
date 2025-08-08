@@ -344,10 +344,10 @@ async function getErrorAndWarningCounts(): Promise<{ errors: number; warnings: n
       const errorMatches = tscOutput.match(/error TS\d+:/g);
       errors = errorMatches ? errorMatches.length : 0;
 
-    } catch (error: any) {
+    } catch (error) {
       // tsc returns non-zero exit code when there are errors
-      if (error.stdout) {
-        const errorMatches = error.stdout.match(/error TS\d+:/g);
+      if ((error as NodeJS.ErrnoException & { stdout?: string }).stdout) {
+        const errorMatches = (error as NodeJS.ErrnoException & { stdout?: string }).stdout?.match(/error TS\d+:/g);
         errors = errorMatches ? errorMatches.length : 0;
       }
     }
@@ -360,7 +360,7 @@ async function getErrorAndWarningCounts(): Promise<{ errors: number; warnings: n
       });
 
       const eslintResults = JSON.parse(eslintOutput);
-      warnings = eslintResults.reduce((total: number, result: any) => {
+      warnings = eslintResults.reduce((total: number, result: { warningCount?: number }) => {
         return total + (result.warningCount || 0);
       }, 0);
 
@@ -943,7 +943,7 @@ async function getLintingWarningCount(): Promise<number> {
     });
 
     const results = JSON.parse(output);
-    return results.reduce((total: number, result: any) => {
+    return results.reduce((total: number, result: { warningCount?: number }) => {
       return total + (result.warningCount || 0);
     }, 0);
 
@@ -956,10 +956,10 @@ async function getLintingWarningCount(): Promise<number> {
  * Calculate overall quality score
  */
 function calculateOverallQualityScore(
-  codeQuality: any,
-  buildQuality: any,
-  performanceQuality: any,
-  technicalDebt: any
+  codeQuality: { typeScriptErrors: number; lintingWarnings: number },
+  buildQuality: { successRate: number },
+  performanceQuality: { cacheEfficiency: number },
+  technicalDebt: { debtRatio: number }
 ): number {
   // Weighted scoring system
   const codeScore = Math.max(0, 100 - codeQuality.typeScriptErrors - codeQuality.lintingWarnings * 0.1);

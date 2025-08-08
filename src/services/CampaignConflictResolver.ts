@@ -471,7 +471,7 @@ export class CampaignConflictResolver {
       return {
         conflictId,
         success: false,
-        resolutionStrategy: conflict.resolutionStrategy!,
+        resolutionStrategy: conflict.resolutionStrategy || 'unknown',
         executionTime: 0,
         affectedCampaigns: [],
         sideEffects: [`Resolution failed: ${(error as Error).message}`]

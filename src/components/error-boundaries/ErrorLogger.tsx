@@ -1,6 +1,6 @@
 'use client';
 
-import React, { createContext, useContext, useCallback, useState, useEffect, ReactNode } from 'react';
+import { ReactNode, createContext, useCallback, useContext, useEffect, useState } from 'react';
 
 import { ErrorHandler } from '@/services/errorHandler';
 import { createLogger } from '@/utils/logger';
@@ -54,7 +54,7 @@ export function ErrorLoggerProvider({ children, maxLogSize = 100 }: ErrorLoggerP
   useEffect(() => {
     const cleanup = setInterval(() => {
       const oneHourAgo = new Date(Date.now() - 60 * 60 * 1000);
-      setErrorLog(prevLog => 
+      setErrorLog(prevLog =>
         prevLog.filter(entry => entry.timestamp > oneHourAgo)
       );
     }, 5 * 60 * 1000); // Clean up every 5 minutes
@@ -63,13 +63,13 @@ export function ErrorLoggerProvider({ children, maxLogSize = 100 }: ErrorLoggerP
   }, []);
 
   const logError = useCallback((
-    error: Error, 
-    context: string, 
-    componentName?: string, 
+    error: Error,
+    context: string,
+    componentName?: string,
     severity: ErrorLogEntry['severity'] = 'medium'
   ): string => {
     const errorId = `error-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
-    
+
     const logEntry: ErrorLogEntry = {
       id: errorId,
       timestamp: new Date(),
@@ -131,7 +131,7 @@ export function ErrorLoggerProvider({ children, maxLogSize = 100 }: ErrorLoggerP
     const totalErrors = errorLog.length;
     const resolvedErrors = errorLog.filter(entry => entry.resolved).length;
     const criticalErrors = errorLog.filter(entry => entry.severity === 'critical').length;
-    
+
     const totalRetries = errorLog.reduce((sum, entry) => sum + entry.retryCount, 0);
     const averageRetryCount = totalErrors > 0 ? totalRetries / totalErrors : 0;
 
@@ -200,18 +200,18 @@ export function useComponentErrorLogger(componentName: string) {
   const { logError, markErrorResolved } = useErrorLogger();
 
   const logComponentError = useCallback((
-    error: Error, 
-    context?: string, 
+    error: Error,
+    context?: string,
     severity?: ErrorLogEntry['severity']
   ): string => {
     return logError(error, context || componentName, componentName, severity);
   }, [logError, componentName]);
 
   const handleAsyncError = useCallback(async (
-    asyncFn: () => Promise<any>,
+    asyncFn: () => Promise<unknown>,
     context?: string,
-    fallbackValue?: any
-  ): Promise<any> => {
+    fallbackValue?: unknown
+  ): Promise<unknown | undefined> => {
     try {
       return await asyncFn();
     } catch (error) {
@@ -220,20 +220,20 @@ export function useComponentErrorLogger(componentName: string) {
         context || 'async operation',
         'medium'
       );
-      
+
       if (fallbackValue !== undefined) {
         return fallbackValue;
       }
-      
+
       return undefined;
     }
   }, [logComponentError]);
 
   const handleSyncError = useCallback((
-    syncFn: () => any,
+    syncFn: () => unknown,
     context?: string,
-    fallbackValue?: any
-  ): any => {
+    fallbackValue?: unknown
+  ): unknown => {
     try {
       return syncFn();
     } catch (error) {
@@ -242,11 +242,11 @@ export function useComponentErrorLogger(componentName: string) {
         context || 'sync operation',
         'medium'
       );
-      
+
       if (fallbackValue !== undefined) {
         return fallbackValue;
       }
-      
+
       return undefined;
     }
   }, [logComponentError]);

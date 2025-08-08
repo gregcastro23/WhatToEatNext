@@ -1,9 +1,9 @@
 /**
  * Perfect Codebase Campaign - Final Validation System
- * 
+ *
  * Comprehensive validation system confirming zero TypeScript errors,
  * zero linting warnings, and perfect performance achievement.
- * 
+ *
  * Requirements: 1.1, 2.1, 3.6, 4.8
  */
 
@@ -113,7 +113,7 @@ export class FinalValidationSystem {
     const certificationStatus = this.determineCertificationStatus(validationResults, performanceMetrics);
 
     // Overall success determination
-    const overallSuccess = validationResults.every(result => result.passed) && 
+    const overallSuccess = validationResults.every(result => result.passed) &&
                           certificationStatus.perfectCodebaseAchieved;
 
     const report: CampaignCompletionReport = {
@@ -144,13 +144,13 @@ export class FinalValidationSystem {
    */
   private async validateTypeScriptErrors(): Promise<ValidationResult> {
     console.log('🔧 Validating TypeScript Errors...');
-    
+
     try {
-      const output = execSync('yarn tsc --noEmit --skipLibCheck', { 
+      const output = execSync('yarn tsc --noEmit --skipLibCheck', {
         encoding: 'utf8',
         stdio: 'pipe'
       });
-      
+
       // If no errors, output will be empty or contain only info messages
       const errorLines = output.split('\n').filter(line => line.includes('error TS'));
       const errorCount = errorLines.length;
@@ -176,7 +176,8 @@ export class FinalValidationSystem {
       };
     } catch (error) {
       // TypeScript errors cause non-zero exit code
-      const errorOutput = (error as any).stdout || (error as any).message || '';
+      const err = error as unknown as { stdout?: string; message?: string };
+      const errorOutput = err.stdout || err.message || '';
       const errorLines = errorOutput.split('\n').filter((line: string) => line.includes('error TS'));
       const errorCount = errorLines.length;
 
@@ -203,13 +204,13 @@ export class FinalValidationSystem {
    */
   private async validateLintingWarnings(): Promise<ValidationResult> {
     console.log('✨ Validating Linting Warnings...');
-    
+
     try {
-      const output = execSync('yarn lint', { 
+      const output = execSync('yarn lint', {
         encoding: 'utf8',
         stdio: 'pipe'
       });
-      
+
       const warningLines = output.split('\n').filter(line => line.includes('warning'));
       const warningCount = warningLines.length;
 
@@ -241,7 +242,8 @@ export class FinalValidationSystem {
         criticalIssues
       };
     } catch (error) {
-      const errorOutput = (error as any).stdout || (error as any).message || '';
+      const err = error as unknown as { stdout?: string; message?: string };
+      const errorOutput = err.stdout || err.message || '';
       const warningLines = errorOutput.split('\n').filter((line: string) => line.includes('warning'));
       const warningCount = warningLines.length;
 
@@ -266,26 +268,26 @@ export class FinalValidationSystem {
    */
   private async validateEnterpriseIntelligence(): Promise<ValidationResult> {
     console.log('🧠 Validating Enterprise Intelligence Systems...');
-    
+
     try {
-      const output = execSync('grep -r "INTELLIGENCE_SYSTEM" src/', { 
+      const output = execSync('grep -r "INTELLIGENCE_SYSTEM" src/', {
         encoding: 'utf8',
         stdio: 'pipe'
       });
-      
+
       const intelligenceLines = output.split('\n').filter(line => line.trim().length > 0);
       const intelligenceCount = intelligenceLines.length;
 
       // Categorize intelligence systems
-      const highPriorityCount = intelligenceLines.filter(line => 
+      const highPriorityCount = intelligenceLines.filter(line =>
         line.includes('src/data/') || line.includes('src/recipes/')
       ).length;
-      
-      const mediumPriorityCount = intelligenceLines.filter(line => 
+
+      const mediumPriorityCount = intelligenceLines.filter(line =>
         line.includes('src/services/') || line.includes('src/components/')
       ).length;
-      
-      const lowPriorityCount = intelligenceLines.filter(line => 
+
+      const lowPriorityCount = intelligenceLines.filter(line =>
         line.includes('src/utils/') || line.includes('src/__tests__/')
       ).length;
 
@@ -330,7 +332,7 @@ export class FinalValidationSystem {
    */
   private async validatePerformanceTargets(): Promise<ValidationResult> {
     console.log('⚡ Validating Performance Targets...');
-    
+
     try {
       // Measure build time
       const buildStart = Date.now();
@@ -341,7 +343,7 @@ export class FinalValidationSystem {
       // Measure memory usage
       let memoryUsage = 0;
       try {
-        const memoryOutput = execSync('/usr/bin/time -v yarn build 2>&1 | grep "Maximum resident set size"', { 
+        const memoryOutput = execSync('/usr/bin/time -v yarn build 2>&1 | grep "Maximum resident set size"', {
           encoding: 'utf8',
           stdio: 'pipe'
         });
@@ -357,7 +359,7 @@ export class FinalValidationSystem {
       // Measure bundle size
       let bundleSize = 'unknown';
       try {
-        const bundleSizeOutput = execSync('du -sh .next/', { 
+        const bundleSizeOutput = execSync('du -sh .next/', {
           encoding: 'utf8',
           stdio: 'pipe'
         });
@@ -411,7 +413,7 @@ export class FinalValidationSystem {
    */
   private async validateBuildAndTests(): Promise<ValidationResult> {
     console.log('🏗️  Validating Build and Test Stability...');
-    
+
     let buildSuccess = false;
     let testSuccess = false;
     const details: string[] = [];
@@ -457,7 +459,7 @@ export class FinalValidationSystem {
     const buildStart = Date.now();
     try {
       execSync('yarn build', { stdio: 'pipe' });
-    } catch (error) {
+    } catch (_error) {
       // Continue even if build fails
     }
     const buildEnd = Date.now();
@@ -484,7 +486,7 @@ export class FinalValidationSystem {
   private async generateCampaignSummary(): Promise<CampaignSummary> {
     // Load baseline if available
     let initialState = { errors: 0, warnings: 0, intelligence: 0 };
-    
+
     try {
       if (fs.existsSync('.campaign-baseline.json')) {
         const baseline = JSON.parse(fs.readFileSync('.campaign-baseline.json', 'utf8'));
@@ -507,7 +509,8 @@ export class FinalValidationSystem {
       const tsOutput = execSync('yarn tsc --noEmit --skipLibCheck', { encoding: 'utf8', stdio: 'pipe' });
       finalErrors = tsOutput.split('\n').filter(line => line.includes('error TS')).length;
     } catch (error) {
-      const errorOutput = (error as any).stdout || '';
+      const err = error as unknown as { stdout?: string };
+      const errorOutput = err.stdout || '';
       finalErrors = errorOutput.split('\n').filter((line: string) => line.includes('error TS')).length;
     }
 
@@ -515,7 +518,8 @@ export class FinalValidationSystem {
       const lintOutput = execSync('yarn lint', { encoding: 'utf8', stdio: 'pipe' });
       finalWarnings = lintOutput.split('\n').filter(line => line.includes('warning')).length;
     } catch (error) {
-      const errorOutput = (error as any).stdout || '';
+      const err = error as unknown as { stdout?: string };
+      const errorOutput = err.stdout || '';
       finalWarnings = errorOutput.split('\n').filter((line: string) => line.includes('warning')).length;
     }
 
@@ -549,7 +553,7 @@ export class FinalValidationSystem {
    * Determine certification status based on validation results
    */
   private determineCertificationStatus(
-    validationResults: ValidationResult[], 
+    validationResults: ValidationResult[],
     performanceMetrics: PerformanceMetrics
   ): CertificationStatus {
     const allValidationsPassed = validationResults.every(result => result.passed);
@@ -558,7 +562,7 @@ export class FinalValidationSystem {
     const productionDeploymentReady = enterpriseReady && performanceMetrics.testCoverage >= 95;
 
     let certificationLevel: 'BASIC' | 'INTERMEDIATE' | 'ADVANCED' | 'ENTERPRISE' = 'BASIC';
-    
+
     if (productionDeploymentReady) {
       certificationLevel = 'ENTERPRISE';
     } else if (enterpriseReady) {
@@ -582,16 +586,16 @@ export class FinalValidationSystem {
   private displayValidationResults(report: CampaignCompletionReport): void {
     console.log('\n🎯 FINAL VALIDATION RESULTS');
     console.log('===========================');
-    
+
     report.validationResults.forEach(result => {
       const status = result.passed ? '✅ PASS' : '❌ FAIL';
       console.log(`\n${result.category}: ${status}`);
       console.log(`  Current: ${result.current} | Target: ${result.target}`);
-      
+
       result.details.forEach(detail => {
         console.log(`  ${detail}`);
       });
-      
+
       if (result.criticalIssues.length > 0) {
         console.log('  Critical Issues:');
         result.criticalIssues.forEach(issue => {
@@ -620,7 +624,7 @@ export class FinalValidationSystem {
     console.log(`Enterprise Ready: ${report.certificationStatus.enterpriseReady ? '✅ YES' : '❌ NO'}`);
     console.log(`Production Ready: ${report.certificationStatus.productionDeploymentReady ? '✅ YES' : '❌ NO'}`);
     console.log(`Certification Level: ${report.certificationStatus.certificationLevel}`);
-    
+
     if (report.certificationStatus.certificationDate) {
       console.log(`Certification Date: ${report.certificationStatus.certificationDate}`);
     }
@@ -648,7 +652,7 @@ export class FinalValidationSystem {
 
     const reportPath = path.join(reportDir, `final-validation-report-${Date.now()}.json`);
     fs.writeFileSync(reportPath, JSON.stringify(report, null, 2));
-    
+
     console.log(`\n📄 Validation report saved: ${reportPath}`);
   }
 
@@ -660,23 +664,23 @@ export class FinalValidationSystem {
 
 ## Campaign Completion Certificate
 
-**Project**: WhatToEatNext  
-**Campaign**: Perfect Codebase Campaign  
-**Certification Level**: ${report.certificationStatus.certificationLevel}  
-**Certification Date**: ${report.certificationStatus.certificationDate}  
-**Validation Timestamp**: ${report.timestamp}  
+**Project**: WhatToEatNext
+**Campaign**: Perfect Codebase Campaign
+**Certification Level**: ${report.certificationStatus.certificationLevel}
+**Certification Date**: ${report.certificationStatus.certificationDate}
+**Validation Timestamp**: ${report.timestamp}
 
 ## Achievement Summary
 
-✅ **Zero TypeScript Errors**: ${report.campaignSummary.finalState.errors} errors (Target: 0)  
-✅ **Zero Linting Warnings**: ${report.campaignSummary.finalState.warnings} warnings (Target: 0)  
-✅ **Enterprise Intelligence**: ${report.campaignSummary.finalState.intelligence} systems (Target: 200+)  
-✅ **Performance Optimized**: ${report.performanceMetrics.buildTime.toFixed(1)}s build time (Target: <10s)  
+✅ **Zero TypeScript Errors**: ${report.campaignSummary.finalState.errors} errors (Target: 0)
+✅ **Zero Linting Warnings**: ${report.campaignSummary.finalState.warnings} warnings (Target: 0)
+✅ **Enterprise Intelligence**: ${report.campaignSummary.finalState.intelligence} systems (Target: 200+)
+✅ **Performance Optimized**: ${report.performanceMetrics.buildTime.toFixed(1)}s build time (Target: <10s)
 
 ## Campaign Improvements
 
 - **Error Elimination**: ${report.campaignSummary.improvements.errorReduction} TypeScript errors eliminated
-- **Warning Elimination**: ${report.campaignSummary.improvements.warningReduction} linting warnings eliminated  
+- **Warning Elimination**: ${report.campaignSummary.improvements.warningReduction} linting warnings eliminated
 - **Intelligence Creation**: ${report.campaignSummary.improvements.intelligenceIncrease} enterprise intelligence systems created
 
 ## Performance Metrics
@@ -694,7 +698,7 @@ export class FinalValidationSystem {
 
 ## Validation Results
 
-${report.validationResults.map(result => 
+${report.validationResults.map(result =>
   `### ${result.category}\n**Status**: ${result.passed ? '✅ PASSED' : '❌ FAILED'}\n**Current**: ${result.current} | **Target**: ${result.target}\n`
 ).join('\n')}
 
@@ -702,13 +706,13 @@ ${report.validationResults.map(result =>
 
 **This certification confirms that the WhatToEatNext project has achieved Perfect Codebase status through the systematic Perfect Codebase Campaign, meeting all enterprise-grade quality standards and performance targets.**
 
-*Generated by Perfect Codebase Campaign Final Validation System*  
+*Generated by Perfect Codebase Campaign Final Validation System*
 *Certification ID: PCC-${Date.now()}*
 `;
 
     const certificationPath = 'PERFECT_CODEBASE_CERTIFICATION.md';
     fs.writeFileSync(certificationPath, certificationContent);
-    
+
     console.log(`\n🏆 Certification created: ${certificationPath}`);
   }
 }
@@ -716,7 +720,7 @@ ${report.validationResults.map(result =>
 // CLI execution
 if (require.main === module) {
   const validator = new FinalValidationSystem();
-  
+
   const args = process.argv.slice(2);
   const command = args[0] || 'validate';
 
@@ -732,7 +736,7 @@ if (require.main === module) {
           process.exit(1);
         });
       break;
-      
+
     default:
       console.log('Perfect Codebase Campaign - Final Validation System');
       console.log('Usage: node FinalValidationSystem.ts [validate]');
