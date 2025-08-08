@@ -23,7 +23,7 @@ interface Recipe {
 export default function AlchmKitchen() {
     const [mounted, setMounted] = useState(false);
     const [loading, setLoading] = useState(true);
-    const [recipes, setRecipes] = useState<Recipe[]>([]);
+    const [_recipes, setRecipes] = useState<Recipe[]>([]);
     const [filteredRecipes, setFilteredRecipes] = useState<Recipe[]>([]);
     const [error, setError] = useState<string | null>(null);
     const [renderCount, setRenderCount] = useState(0);
@@ -32,7 +32,7 @@ export default function AlchmKitchen() {
     const { 
         planetaryPositions, 
         state,
-        isDaytime
+        isDaytime: _isDaytime
     } = useAlchemical();
 
     const { elementalState, alchemicalValues, astrologicalState } = state;

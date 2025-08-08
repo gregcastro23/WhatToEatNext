@@ -119,7 +119,7 @@ jest.mock('@/components/IngredientRecommender', () => {
     
     const toggleIngredient = (ingredient: string) => {
       setSelectedIngredients(prev => 
-        prev.includes(ingredient) 
+        prev.includes_(ingredient) 
           ? prev.filter(i => i !== ingredient)
           : [...prev, ingredient]
       );

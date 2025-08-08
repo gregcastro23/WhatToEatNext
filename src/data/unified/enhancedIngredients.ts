@@ -305,7 +305,7 @@ export class EnhancedIngredientsSystem {
     if (criteria.cookingMethods && (criteria.cookingMethods || []).length > 0) {
       results = (results || []).filter(ingredient => 
         (criteria.cookingMethods || []).some(method => 
-          ingredient.culinaryProperties.cookingMethods.includes(method as CookingMethod)
+          ingredient.culinaryProperties.cookingMethods.includes(method as unknown as CookingMethod)
         )
       );
     }

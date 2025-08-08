@@ -16,14 +16,14 @@ jest.mock('child_process');
 jest.mock('fs');
 
 const mockExecSync = execSync as jest.MockedFunction<typeof execSync>;
-const mockWriteFileSync = writeFileSync as jest.MockedFunction<typeof writeFileSync>;
+const _mockWriteFileSync = writeFileSync as jest.MockedFunction<typeof writeFileSync>;
 const mockReadFileSync = readFileSync as jest.MockedFunction<typeof readFileSync>;
 const mockExistsSync = existsSync as jest.MockedFunction<typeof existsSync>;
-const mockMkdirSync = mkdirSync as jest.MockedFunction<typeof mkdirSync>;
-const mockRmSync = rmSync as jest.MockedFunction<typeof rmSync>;
+const _mockMkdirSync = mkdirSync as jest.MockedFunction<typeof mkdirSync>;
+const _mockRmSync = rmSync as jest.MockedFunction<typeof rmSync>;
 
 describe('Linting Performance and Memory Usage', () => {
-  const testDir = path.join(tmpdir(), 'eslint-performance-test');
+  const _testDir = path.join(tmpdir(), 'eslint-performance-test');
 
   beforeEach(() => {
     jest.clearAllMocks()
@@ -67,7 +67,7 @@ describe('Linting Performance and Memory Usage', () => {
     expect(actualExecutionTime).toBeLessThan(5000); // 5 seconds max for test
 
       // Verify output structure
-      const parsedResult = JSON.parse(result );
+      const parsedResult = JSON.parse_(result );
       expect(parsedResult).toHaveLength(50);
       expect(parsedResult[0].messages).toHaveLength(3);
     });
@@ -149,7 +149,7 @@ describe('Linting Performance and Memory Usage', () => {
       // Should handle large codebase efficiently
       expect(executionTime).toBeLessThan(10000); // 10 seconds max
 
-      const parsedResult = JSON.parse(result );
+      const parsedResult = JSON.parse_(result );
       expect(parsedResult).toHaveLength(500);
     });
 
@@ -169,7 +169,7 @@ describe('Linting Performance and Memory Usage', () => {
 
       // Parallel processing should be efficient
       expect(parallelTime).toBeLessThan(3000); // 3 seconds max
-      expect(JSON.parse(String(result))).toHaveLength(3);
+      expect(JSON.parse(String_(result))).toHaveLength(3);
     });
   });
 
@@ -229,7 +229,7 @@ describe('Linting Performance and Memory Usage', () => {
 
       // Test TypeScript parser memory efficiency
       const result = mockExecSync('yarn lint --format=json', { encoding: 'utf8' });
-      expect(JSON.parse(String(result))).toHaveLength(1);
+      expect(JSON.parse(String_(result))).toHaveLength(1);
       // Memory usage is monitored by the test framework
     });
 
@@ -378,7 +378,7 @@ describe('Linting Performance and Memory Usage', () => {
 
       expect(results).toHaveLength(3);
       results.forEach((result, index) => {
-        expect(JSON.parse(result )[0].filePath).toContain(`file${index + 1}.ts`);
+        expect(JSON.parse_(result )[0].filePath).toContain(`file${index + 1}.ts`);
       });
     });
 
@@ -400,7 +400,7 @@ describe('Linting Performance and Memory Usage', () => {
 
       // Import resolution should be fast
       expect(resolutionTime).toBeLessThan(2000); // 2 seconds
-      expect(JSON.parse(String(result))).toHaveLength(1);
+      expect(JSON.parse(String_(result))).toHaveLength(1);
     });
 
     test('should measure rule execution performance', async () => {
@@ -473,7 +473,7 @@ describe('Linting Performance and Memory Usage', () => {
 
       // Should handle large output without memory issues
       const result = mockExecSync('yarn lint --format=json', { encoding: 'utf8' });
-      const parsedResult = JSON.parse(result );
+      const parsedResult = JSON.parse_(result );
 
       expect(parsedResult).toHaveLength(1000);
       expect(parsedResult[0].messages).toHaveLength(20);
@@ -500,7 +500,7 @@ describe('Linting Performance and Memory Usage', () => {
 
       // CI execution should be optimized
       expect(ciExecutionTime).toBeLessThan(5000); // 5 seconds max
-      expect(JSON.parse(String(result))).toHaveLength(1);
+      expect(JSON.parse(String_(result))).toHaveLength(1);
 
       // Restore original environment
       if (originalCI !== undefined) {

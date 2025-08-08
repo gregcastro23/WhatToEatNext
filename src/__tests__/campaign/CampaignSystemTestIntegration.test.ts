@@ -11,16 +11,7 @@ import {
 } from '../../types/campaign';
 import { campaignTestController } from '../utils/CampaignTestController';
 import {
-    campaignTestAssertions,
-    campaignTestData,
-    cleanupCampaignTest,
-    createMockCampaignConfig,
-    executeCampaignTestScenario,
-    setupCampaignTest,
-    validateCampaignTestIsolation,
-    // Note: createMockProgressMetrics, simulateCampaignPhase, simulateProgressTracking imported but not used
-    withCampaignTestIsolation
-} from '../utils/campaignTestUtils';
+    campaignTestAssertions, campaignTestData, cleanupCampaignTest, createMockCampaignConfig, executeCampaignTestScenario, setupCampaignTest, validateCampaignTestIsolation, simulateCampaignPhase} from '../utils/campaignTestUtils';
 
 describe('Campaign System Test Integration', () => {
   // Test isolation and cleanup

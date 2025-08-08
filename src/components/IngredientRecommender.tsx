@@ -329,7 +329,7 @@ export default function IngredientRecommender({
         activePlanets: [],
         lunarPhase: 'new moon',
         aspects: []
-      } as { planetaryPositions: Record<string, unknown>; aspects: unknown[] }, { limit: 40 });
+      } as unknown as { planetaryPositions: Record<string, unknown>; aspects: unknown[] }, { limit: 40 });
       
       // Merge the recommendations, prioritizing chakra-based ones
       const mergedRecommendations: GroupedIngredientRecommendations = {};

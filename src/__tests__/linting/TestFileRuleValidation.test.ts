@@ -31,11 +31,11 @@ describe('Test File Rule Validation', () => {
         describe('Mock Variable Tests', () => {
           test('should handle mock variables', () => {
             const mockFunction = jest.fn();
-            const stubValue = 'test-stub';
+            const _stubValue = 'test-stub';
             const testData = { id: 1, name: 'test' };
-            const mockObject = { method: jest.fn() };
-            const stubArray = [1, 2, 3];
-            const testConfig = { enabled: true };
+            const _mockObject = { method: jest.fn() };
+            const _stubArray = [1, 2, 3];
+            const _testConfig = { enabled: true };
             const UNUSED_mock = 'unused-mock';
             const UNUSED_stub = 'unused-stub';
             const UNUSED_test = 'unused-test';
@@ -150,11 +150,11 @@ describe('Test File Rule Validation', () => {
       const testContent = `
         describe('Test Data Structures', () => {
           const testUser = { id: 1, name: 'Test User', email: 'test@example.com' };
-          const testIngredient = { name: 'tomato', elementalProperties: { Fire: 0.3, Water: 0.7, Earth: 0.2, Air: 0.1 } };
-          const testRecipe = { id: 1, name: 'Test Recipe', ingredients: [] };
-          const testPlanetaryPosition = { sign: 'aries', degree: 8.5, exactLongitude: 8.5, isRetrograde: false };
-          const testConfig = { apiUrl: 'http://test.api', timeout: 5000 };
-          const testMetrics = { errors: 0, warnings: 5, processed: 100 };
+          const _testIngredient = { name: 'tomato', elementalProperties: { Fire: 0.3, Water: 0.7, Earth: 0.2, Air: 0.1 } };
+          const _testRecipe = { id: 1, name: 'Test Recipe', ingredients: [] };
+          const _testPlanetaryPosition = { sign: 'aries', degree: 8.5, exactLongitude: 8.5, isRetrograde: false };
+          const _testConfig = { apiUrl: 'http://test.api', timeout: 5000 };
+          const _testMetrics = { errors: 0, warnings: 5, processed: 100 };
           
           test('should use test data', () => {
             expect(testUser.id).toBe(1);
@@ -403,8 +403,8 @@ describe('Test File Rule Validation', () => {
             const testScore = 98.7;
             const testCount = 42;
             const testPercentage = 75.5;
-            const testTimeout = 5000;
-            const testPort = 3000;
+            const _testTimeout = 5000;
+            const _testPort = 3000;
             const testStatusCode = 200;
             const testErrorCode = 404;
             
@@ -873,18 +873,18 @@ describe('Test File Rule Validation', () => {
             elementalProperties: { Fire: 0.3, Water: 0.7, Earth: 0.2, Air: 0.1 }
           });
           
-          const mockApiResponse = (data: any, status = 200) => ({
+          const _mockApiResponse = (data: any, status = 200) => ({
             data,
             status,
             headers: { 'content-type': 'application/json' }
           });
           
-          const setupTestEnvironment = () => {
+          const _setupTestEnvironment = () => {
             // Setup code
             return { initialized: true };
           };
           
-          const teardownTestEnvironment = () => {
+          const _teardownTestEnvironment = () => {
             // Cleanup code
           };
           

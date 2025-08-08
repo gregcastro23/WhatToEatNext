@@ -136,12 +136,12 @@ describe('Astrological ESLint Rules', () => {
 
     test('should not flag non-planetary objects', async () => {
       const code = `
-        const config = {
+        const UNUSED_config = {
           timeout: 5000,
           retries: 3
         };
 
-        const user = {
+        const UNUSED_user = {
           name: 'John',
           age: 30
         };
@@ -448,7 +448,7 @@ describe('Astrological ESLint Rules', () => {
 
     test('should handle nested objects correctly', async () => {
       const code = `
-        const planetData = {
+        const UNUSED_planetData = {
           mercury: {
             position: {
               sign: 'gemini',

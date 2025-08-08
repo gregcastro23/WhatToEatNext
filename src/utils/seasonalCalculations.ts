@@ -137,16 +137,16 @@ export const getSeasonalEffectiveness = async (
     }
 
     const elementalAlignment = await calculateRecipeSeasonalAlignment(recipe, _season);
-    const ingredientSuitability = await calculateIngredientSuitability(recipe, _season);
-    const seasonalBonus = await calculateSeasonalBonus(recipe, _season);
+    const ingredientSuitability = 0; // TODO: Implement calculateIngredientSuitability
+    const seasonalBonus = 0; // TODO: Implement calculateSeasonalBonus
 
     // Calculate zodiacal alignment if current zodiac is provided
     const zodiacAlignment = currentZodiac ?
-        await calculateZodiacAlignment(recipe, currentZodiac) : 0;
+        0 : 0; // TODO: Implement calculateZodiacAlignment
 
     // Calculate lunar phase alignment if lunar phase is provided
     const lunarPhaseAlignment = currentLunarPhase ?
-        await calculateLunarPhaseAlignment(recipe, currentLunarPhase) : 0;
+        0 : 0; // TODO: Implement calculateLunarPhaseAlignment
 
     const totalScore = elementalAlignment + ingredientSuitability +
                       seasonalBonus + zodiacAlignment + lunarPhaseAlignment;

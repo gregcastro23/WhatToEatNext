@@ -83,11 +83,11 @@ describe('Domain-Specific Rule Validation', () => {
     test('should preserve mathematical constants', async () => {
       // Create test file with protected constants
       const testContent = `
-        const DEGREES_PER_SIGN = 30;
+        const UNUSED_DEGREES_PER_SIGN = 30;
         const RELIABLE_POSITIONS = { sun: { sign: 'aries', degree: 8.5 } };
 
         // This should be flagged
-        // DEGREES_PER_SIGN = 25;
+        // UNUSED_DEGREES_PER_SIGN = 25;
       `;
 
       const testFile = join(projectRoot, 'src/calculations/temp-constants-test.ts');
@@ -121,7 +121,7 @@ describe('Domain-Specific Rule Validation', () => {
         const planet = 'mars';
         const position = { sign: 'cancer', degree: 22.63 };
         const longitude = 112.63;
-        const retrograde = false;
+        const UNUSED_retrograde = false;
         const UNUSED_planet = 'unused';
       `;
 
@@ -169,7 +169,7 @@ describe('Domain-Specific Rule Validation', () => {
 
     test('should validate elemental properties structure', async () => {
       const validElementalContent = `
-        const elementalProps = {
+        const UNUSED_elementalProps = {
           Fire: 0.8,
           Water: 0.2,
           Earth: 0.1,

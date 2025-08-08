@@ -663,7 +663,7 @@ describe('Configuration File Rule Validation', () => {
         function loadConfig(environment: string): any {
           const envConfig = config[environment];
           const customConfig: any = process.env.CUSTOM_CONFIG 
-            ? JSON.parse(process.env.CUSTOM_CONFIG)
+            ? JSON.parse(_process.env.CUSTOM_CONFIG)
             : {};
           
           return {

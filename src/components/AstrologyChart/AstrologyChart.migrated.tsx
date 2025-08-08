@@ -26,9 +26,9 @@ const AstrologyChartMigrated: React.FC<AstrologyChartProps> = ({
 
   // State for chart data
   const [planetaryPositions, setPlanetaryPositions] = useState<Record<string, number>>({});
-  const [aspectsData, setAspectsData] = useState<any[]>([]);
+  const [aspectsData, _setAspectsData] = useState<any[]>([]);
   const [risingDegree, setRisingDegree] = useState<number>(0);
-  const [isDaytime, setIsDaytime] = useState<boolean>(true);
+  const [_isDaytime, _setIsDaytime] = useState<boolean>(true);
 
   // Chart constants
   const centerX = size / 2;

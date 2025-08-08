@@ -35,7 +35,7 @@ describe('EnterpriseIntelligenceGenerator', () => {
       access: jest.fn().mockRejectedValue(new Error('Directory does not exist')),
       mkdir: jest.fn().mockResolvedValue(undefined),
       writeFile: jest.fn().mockResolvedValue(undefined)
-    } as typeof fs.promises;
+    } as unknown as typeof fs.promises;
   });
 
   describe('constructor', () => {

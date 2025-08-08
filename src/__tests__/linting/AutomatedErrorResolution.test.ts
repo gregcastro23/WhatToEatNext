@@ -15,13 +15,13 @@ jest.mock('child_process');
 jest.mock('fs');
 
 const mockExecSync = execSync as jest.MockedFunction<typeof execSync>;
-const mockWriteFileSync = writeFileSync as jest.MockedFunction<typeof writeFileSync>;
+const _mockWriteFileSync = writeFileSync as jest.MockedFunction<typeof writeFileSync>;
 const mockReadFileSync = readFileSync as jest.MockedFunction<typeof readFileSync>;
 const mockExistsSync = existsSync as jest.MockedFunction<typeof existsSync>;
-const mockMkdirSync = mkdirSync as jest.MockedFunction<typeof mkdirSync>;
+const _mockMkdirSync = mkdirSync as jest.MockedFunction<typeof mkdirSync>;
 
 describe('Automated Error Resolution Integration', () => {
-  const testDir = path.join(tmpdir(), 'eslint-test');
+  const _testDir = path.join(tmpdir(), 'eslint-test');
   
   beforeEach(() => {
     jest.clearAllMocks();
@@ -284,7 +284,7 @@ describe('Automated Error Resolution Integration', () => {
         function executeCampaign() {
           const campaign = 'typescript-elimination';
           const progress = { completed: 50, total: 100 };
-          const metrics = { errors: 10, warnings: 25 };
+          const UNUSED_metrics = { errors: 10, warnings: 25 };
           const safety = { backupCreated: true };
           const UNUSED_debug = 'debug info';
           
@@ -568,7 +568,7 @@ describe('Automated Error Resolution Integration', () => {
 
       // Execute workflow
       workflowSteps.forEach((step, index) => {
-        const result = mockExecSync(step, { encoding: 'utf8' });
+        const result = mockExecSync_(step, { encoding: 'utf8' });
         if (index === 0 || index === 3) {
           // Analysis steps should return JSON
           expect(() => JSON.parse(result )).not.toThrow();
@@ -598,7 +598,7 @@ describe('Automated Error Resolution Integration', () => {
       const result = JSON.parse(mockExecSync('yarn lint --format=json', { encoding: 'utf8' }) );
       
       expect(result[0].messages).toHaveLength(2);
-      expect(result[0].messages.every((msg: any) => msg.fix === null)).toBe(true);
+      expect(_result[0].messages.every((msg: any) => msg.fix === null)).toBe(true);
     });
 
     test('should preserve file safety during resolution', async () => {

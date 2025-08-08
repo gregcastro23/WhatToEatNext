@@ -333,7 +333,7 @@ describe('Campaign System Rule Validation', () => {
     test('should allow deep nesting in campaign files', async () => {
       const testContent = `
         class SafetyProtocolSystem {
-          private executeEmergencyProtocol(event: any): void {
+          private executeEmergencyProtocol_(event: any): void {
             // Deep nesting for comprehensive safety checks
             if (event.type === 'corruption') {
               if (event.severity === 'critical') {
@@ -341,46 +341,46 @@ describe('Campaign System Rule Validation', () => {
                   if (event.buildStatus === 'failed') {
                     if (event.rollbackAvailable) {
                       if (event.backupIntegrity === 'verified') {
-                        this.executeEmergencyRollback(event);
+                        this.executeEmergencyRollback_(event);
                       } else {
-                        this.createEmergencyBackup(event);
+                        this.createEmergencyBackup_(event);
                       }
                     } else {
-                      this.initiateManualRecovery(event);
+                      this.initiateManualRecovery_(event);
                     }
                   } else {
-                    this.monitorBuildStatus(event);
+                    this.monitorBuildStatus_(event);
                   }
                 } else {
-                  this.isolateAffectedFiles(event);
+                  this.isolateAffectedFiles_(event);
                 }
               } else {
-                this.logSafetyEvent(event);
+                this.logSafetyEvent_(event);
               }
             }
           }
 
-          private executeEmergencyRollback(event: any): void {
+          private executeEmergencyRollback_(event: any): void {
             console.log('Executing emergency rollback');
           }
 
-          private createEmergencyBackup(event: any): void {
+          private createEmergencyBackup_(event: any): void {
             console.log('Creating emergency backup');
           }
 
-          private initiateManualRecovery(event: any): void {
+          private initiateManualRecovery_(event: any): void {
             console.log('Initiating manual recovery');
           }
 
-          private monitorBuildStatus(event: any): void {
+          private monitorBuildStatus_(event: any): void {
             console.log('Monitoring build status');
           }
 
-          private isolateAffectedFiles(event: any): void {
+          private isolateAffectedFiles_(event: any): void {
             console.log('Isolating affected files');
           }
 
-          private logSafetyEvent(event: any): void {
+          private logSafetyEvent_(event: any): void {
             console.log('Logging safety event');
           }
         }
@@ -583,11 +583,11 @@ describe('Campaign System Rule Validation', () => {
             const progress = 0.75;
             const metrics = { errors: 100, fixed: 85 };
             const safety = true;
-            const CAMPAIGN_ID = 'ts-elim-2024';
-            const PROGRESS_THRESHOLD = 0.8;
-            const METRICS_INTERVAL = 5000;
-            const SAFETY_ENABLED = true;
-            const ERROR_THRESHOLD = 1000;
+            const UNUSED_CAMPAIGN_ID = 'ts-elim-2024';
+            const UNUSED_PROGRESS_THRESHOLD = 0.8;
+            const UNUSED_METRICS_INTERVAL = 5000;
+            const UNUSED_SAFETY_ENABLED = true;
+            const UNUSED_ERROR_THRESHOLD = 1000;
             const UNUSED_campaign = 'unused-campaign';
             const UNUSED_progress = 0.0;
             const UNUSED_metrics = {};

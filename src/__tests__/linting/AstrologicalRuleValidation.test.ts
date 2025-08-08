@@ -151,7 +151,7 @@ describe('Astrological Rule Validation', () => {
         const planet = 'mars';
         const position = { sign: 'cancer', degree: 22.63 };
         const longitude = 112.63;
-        const retrograde = false;
+        const UNUSED_retrograde = false;
         const degree = 15.5;
         const sign = 'leo';
       `;
@@ -240,10 +240,10 @@ describe('Astrological Rule Validation', () => {
       const testContent = `
         const exactLongitude = 112.63;
         const isRetrograde = false;
-        const TransitDates = { Start: '2024-07-01', End: '2024-09-15' };
-        const PlanetSpecific = { mars: 'cancer' };
-        const ZodiacTransit = { sign: 'cancer', degree: 22.63 };
-        const RetrogradePhases = { current: false };
+        const UNUSED_TransitDates = { Start: '2024-07-01', End: '2024-09-15' };
+        const UNUSED_PlanetSpecific = { mars: 'cancer' };
+        const UNUSED_ZodiacTransit = { sign: 'cancer', degree: 22.63 };
+        const UNUSED_RetrogradePhases = { current: false };
       `;
 
       const testFile = join(projectRoot, 'src/calculations/temp-naming-test.ts');

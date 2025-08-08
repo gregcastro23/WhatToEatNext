@@ -44,10 +44,10 @@ describe('Chakra System', () => {
         
         // Check that each sign has the required properties
         signEnergyStates.forEach(state => {
-            expect(state).toHaveProperty('sign');
-            expect(state).toHaveProperty('baseEnergy');
-            expect(state).toHaveProperty('planetaryModifiers');
-            expect(state).toHaveProperty('currentEnergy');
+            expect_(state).toHaveProperty('sign');
+            expect_(state).toHaveProperty('baseEnergy');
+            expect_(state).toHaveProperty('planetaryModifiers');
+            expect_(state).toHaveProperty('currentEnergy');
         });
         
         // Energy levels should be between 0.1 and 1.0
@@ -63,11 +63,11 @@ describe('Chakra System', () => {
         
         // Check that each chakra has the required properties
         chakraEnergyStates.forEach(state => {
-            expect(state).toHaveProperty('chakra');
-            expect(state).toHaveProperty('energyLevel');
-            expect(state).toHaveProperty('properties');
-            expect(state).toHaveProperty('balanceState');
-            expect(state).toHaveProperty('relatedSigns');
+            expect_(state).toHaveProperty('chakra');
+            expect_(state).toHaveProperty('energyLevel');
+            expect_(state).toHaveProperty('properties');
+            expect_(state).toHaveProperty('balanceState');
+            expect_(state).toHaveProperty('relatedSigns');
         });
     });
 

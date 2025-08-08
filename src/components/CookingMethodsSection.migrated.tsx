@@ -1,10 +1,10 @@
 'use client';
 
-import { ChevronDown, ChevronUp, Globe, Flame, Droplets, Wind, Mountain, Search, ArrowUp, ArrowDown, Zap, Sparkles, Minus, Info, ThumbsUp, Clock } from 'lucide-react';
+import { ChevronDown, ChevronUp, Globe, Flame, Droplets, Wind, Mountain, Search, ArrowUp, ArrowDown, Zap, Sparkles, Minus, ThumbsUp, Clock } from 'lucide-react';
 import React, { useState, useEffect, useMemo } from 'react';
 
 import { useServices } from '@/hooks/useServices';
-import { Element } from "@/types/alchemy";
+// Removed unused Element import
 import { logger } from '@/utils/logger';
 
 import styles from './CookingMethods.module.css';

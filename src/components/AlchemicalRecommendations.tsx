@@ -62,9 +62,9 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
   tarotPlanetaryBoosts,
   aspects = [],
   targetElementalProfile: _targetElementalProfile,
-  targetAlchemicalProfile,
+  targetAlchemicalProfile: _targetAlchemicalProfile,
   maxRecommendations = 5,
-  includeDetailedAnalysis = false
+  includeDetailedAnalysis: _includeDetailedAnalysis = false
 }) => {
   // Use AlchemicalContext to get current astronomical state if not provided
   const alchemicalContext = useAlchemical();
@@ -148,10 +148,10 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
   const [modalityFilter, setModalityFilter] = useState<Modality | 'all'>('all');
   
   // State for displaying recommendations using standardized types
-  const [recommendations, setRecommendations] = useState<AlchemicalRecommendations | null>(null);
+  const [_recommendations, _setRecommendations] = useState<AlchemicalRecommendations | null>(null);
   const [elementalRecommendation, setElementalRecommendation] = useState<ElementalRecommendation | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [_isLoading, _setIsLoading] = useState(false);
+  const [_error, _setError] = useState<string | null>(null);
   
   // Convert ingredients object to an array of ElementalItem objects using safe type creation
   const ingredientsArray = useMemo(() => {
@@ -325,7 +325,7 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
         elementalState = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
         
         const cuisineName = ((cuisine as Record<string, unknown>).name || key).toString().toLowerCase();
-        const region = ((cuisine as Record<string, unknown>).region || '').toString().toLowerCase();
+        const _region = ((cuisine as Record<string, unknown>).region || '').toString().toLowerCase();
         
         // Adjust by cuisine type/region
         if (cuisineName.includes('indian') || cuisineName.includes('thai') || 
@@ -402,9 +402,9 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
   // Get recommendations using our hook
   const {
     recommendations: alchemicalRecommendations,
-    transformedIngredients,
-    transformedMethods,
-    transformedCuisines,
+    transformedIngredients: _transformedIngredients,
+    transformedMethods: _transformedMethods,
+    transformedCuisines: _transformedCuisines,
     loading,
     error: alchemicalError,
     energeticProfile

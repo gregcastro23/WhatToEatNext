@@ -191,7 +191,7 @@ describe('Astrologize API Integration', () => {
   describe('Integration with other services', () => {
     test('should work with browser geolocation simulation', async () => {
       // Simulate getting location from browser
-      const mockGeolocation = {
+      const _mockGeolocation = {
         latitude: 37.7749,
         longitude: -122.4194 // San Francisco
       };

@@ -1,6 +1,7 @@
 
 
-interface CookingMethodData {
+// Unused in this file; safe to remove to satisfy no-unused-vars
+/* interface CookingMethodData {
   id?: string;
   name?: string;
   description?: string;
@@ -8,7 +9,7 @@ interface CookingMethodData {
   season?: string | string[];
   cuisine?: string;
   mealType?: string | string[];
-}
+} */
 'use client';
 
 import { ChevronDown, ChevronUp } from 'lucide-react';
@@ -29,7 +30,7 @@ import { createAstrologicalBridge } from '@/types/bridges/astrologicalBridge';
 import { ZodiacSign, Ingredient, UnifiedIngredient } from '@/types/unified';
 import { staticAlchemize } from '@/utils/alchemyInitializer';
 import { getLunarMultiplier } from '@/utils/lunarMultiplier';
-import { isValidAstrologicalState, safelyExtractElementalProperties, createDefaultElementalProperties } from '@/utils/typeGuards/astrologicalGuards';
+import { isValidAstrologicalState } from '@/utils/typeGuards/astrologicalGuards';
 
 import styles from './CookingMethods.module.css';
 
@@ -299,7 +300,7 @@ export default function CookingMethods() {
   // TODO: Remove debug-specific refs after enterprise intelligence implementation
   const renderCount = useRef(0);
   const isMountedRef = useRef(false);
-  const [isMounted, setIsMounted] = useState(false);
+  const [_isMounted, setIsMounted] = useState(false);
   
   // TODO: Consolidate mount state management
   useEffect(() => {
@@ -395,8 +396,8 @@ export default function CookingMethods() {
   // TODO: Consolidate state management for enterprise intelligence system
   const [loading, setLoading] = useState(!isReady);
   const [recommendedMethods, setRecommendedMethods] = useState<ExtendedAlchemicalItem[]>([]);
-  const [planetaryCookingMethods, setPlanetaryCookingMethods] = useState<Record<string, string[]>>({});
-  const [selectedCulture, setSelectedCulture] = useState<string>('');
+  const [_planetaryCookingMethods, setPlanetaryCookingMethods] = useState<Record<string, string[]>>({});
+  const [_selectedCulture, setSelectedCulture] = useState<string>('');
   const [showAllMethods, setShowAllMethods] = useState(false);
   const [expandedMethods, setExpandedMethods] = useState<Record<string, boolean>>({});
   const [methodScores, setMethodScores] = useState<Record<string, number>>({});
