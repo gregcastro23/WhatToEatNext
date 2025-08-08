@@ -70,7 +70,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
 
   private constructor() {
     // Initialize the ingredient cache
-    this.loadIngredients();
+    void this.loadIngredients();
   }
 
   /**
@@ -117,7 +117,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
   getAllIngredientsFlat(): UnifiedIngredient[] {
     const allIngredients: UnifiedIngredient[] = [];
     for (const ingredients of this.ingredientCache.values()) {
-      allIngredients.push(...ingredients);
+      void allIngredients.push(...ingredients);
     }
     return allIngredients;
   }
@@ -164,7 +164,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
     const result: UnifiedIngredient[] = [];
     for (const ingredients of this.ingredientCache.values()) {
       const matching = (ingredients || []).filter(ing => ing.subCategory?.toLowerCase() === normalizedSubCategory);
-      result.push(...matching);
+      void result.push(...matching);
     }
     return result;
   }
@@ -335,7 +335,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
       if (!_ingredient.seasonality) return false;
 
       return (seasons || []).some(s =>
-        Array.isArray(_ingredient.seasonality)
+        void Array.isArray(_ingredient.seasonality)
           ? _ingredient.seasonality.includes(s )
           : _ingredient.seasonality === (s as unknown as Record<string, unknown>)
       );
@@ -538,7 +538,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
     }
 
     // Sort pairings by score
-    pairings.sort((a, b) => b.score - a.score);
+    void pairings.sort((a, b) => b.score - a.score);
 
     // Identify strong and weak pairings
     const strongPairings = (pairings || []).filter(p => p.score >= 0.7);
@@ -857,7 +857,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
       }
 
       return (seasons || []).some(season =>
-        Array.isArray(_ingredient.seasonality)
+        void Array.isArray(_ingredient.seasonality)
           ? _ingredient.seasonality.includes(season as any)
           : _ingredient.seasonality === (season as any)
       );
@@ -913,7 +913,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
     excludedIngredients: string[]
   ): UnifiedIngredient[] {
     const normalizedExclusions = (excludedIngredients || []).map(name =>
-      name.toLowerCase().trim()
+      void name.toLowerCase().trim()
     );
 
     return (ingredients || []).filter(ingredient => {

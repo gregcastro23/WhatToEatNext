@@ -132,14 +132,14 @@ export class LintingErrorAnalyzer {
    * Analyze all linting issues in the codebase
    */
   async analyzeAllIssues(): Promise<CategorizedErrors> {
-    log.info('🔍 Starting comprehensive linting error analysis...');
+    void log.info('🔍 Starting comprehensive linting error analysis...');;
 
     try {
       // Run ESLint to get all issues
       const eslintOutput = await this.runESLint();
       const rawIssues = this.parseESLintOutput(eslintOutput);
 
-      log.info(`📊 Found ${rawIssues.length} total linting issues`);
+      void log.info(`📊 Found ${rawIssues.length} total linting issues`);;
 
       // Categorize and analyze each issue
       const analyzedIssues = rawIssues.map(issue => this.analyzeIssue(issue));
@@ -147,8 +147,8 @@ export class LintingErrorAnalyzer {
       // Categorize issues
       const categorized = this.categorizeIssues(analyzedIssues);
 
-      log.info('✅ Linting error analysis complete');
-      this.logAnalysisSummary(categorized);
+      void log.info('✅ Linting error analysis complete');;
+      void this.logAnalysisSummary(categorized);;
 
       return categorized;
 
@@ -162,7 +162,7 @@ export class LintingErrorAnalyzer {
    * Generate resolution strategies for categorized errors
    */
   generateResolutionPlan(categorizedErrors: CategorizedErrors): ResolutionPlan {
-    log.info('🎯 Generating resolution plan...');
+    void log.info('🎯 Generating resolution plan...');;
 
     const phases: ResolutionPhase[] = [];
     let totalTime = 0;
@@ -177,7 +177,7 @@ export class LintingErrorAnalyzer {
         riskLevel: 'low',
         dependencies: []
       };
-      phases.push(autoFixPhase);
+      void phases.push(autoFixPhase);;
       totalTime += autoFixPhase.estimatedTime;
     }
 
@@ -196,7 +196,7 @@ export class LintingErrorAnalyzer {
         riskLevel: 'medium',
         dependencies: ['auto-fix']
       };
-      phases.push(importStylePhase);
+      void phases.push(importStylePhase);;
       totalTime += importStylePhase.estimatedTime;
     }
 
@@ -211,7 +211,7 @@ export class LintingErrorAnalyzer {
         riskLevel: 'high',
         dependencies: ['auto-fix', 'import-style']
       };
-      phases.push(typescriptPhase);
+      void phases.push(typescriptPhase);;
       totalTime += typescriptPhase.estimatedTime;
     }
 
@@ -226,7 +226,7 @@ export class LintingErrorAnalyzer {
         riskLevel: 'medium',
         dependencies: ['typescript']
       };
-      phases.push(reactPhase);
+      void phases.push(reactPhase);;
       totalTime += reactPhase.estimatedTime;
     }
 
@@ -241,7 +241,7 @@ export class LintingErrorAnalyzer {
         riskLevel: 'high',
         dependencies: ['typescript', 'react']
       };
-      phases.push(domainPhase);
+      void phases.push(domainPhase);;
       totalTime += domainPhase.estimatedTime;
     }
 
@@ -258,7 +258,7 @@ export class LintingErrorAnalyzer {
       successProbability
     };
 
-    log.info(`📋 Resolution plan generated: ${phases.length} phases, ${totalTime} minutes estimated`);
+    void log.info(`📋 Resolution plan generated: ${phases.length} phases, ${totalTime} minutes estimated`);;
 
     return plan;
   }
@@ -600,17 +600,17 @@ export class LintingErrorAnalyzer {
 
     // Check for high-risk factors
     if (categorized.byCategory['typescript'].length > 50) {
-      factors.push('High number of TypeScript issues');
+      void factors.push('High number of TypeScript issues');;
       mitigations.push('Implement gradual TypeScript fixes with validation');
     }
 
     if (categorized.byCategory['domain'].length > 0) {
-      factors.push('Domain-specific issues require expert knowledge');
+      void factors.push('Domain-specific issues require expert knowledge');;
       mitigations.push('Manual review by domain experts required');
     }
 
     if (categorized.requiresManualReview.length > categorized.autoFixable.length) {
-      factors.push('More manual fixes than automated fixes');
+      void factors.push('More manual fixes than automated fixes');;
       mitigations.push('Prioritize automated fixes first to reduce workload');
     }
 
@@ -648,20 +648,20 @@ export class LintingErrorAnalyzer {
    * Log analysis summary
    */
   private logAnalysisSummary(categorized: CategorizedErrors): void {
-    log.info('\n📊 LINTING ANALYSIS SUMMARY');
+    void log.info('\n📊 LINTING ANALYSIS SUMMARY');;
     log.info('============================');
-    log.info(`Total Issues: ${categorized.total}`);
-    log.info(`Errors: ${categorized.errors}`);
-    log.info(`Warnings: ${categorized.warnings}`);
-    log.info(`Auto-fixable: ${categorized.autoFixable.length}`);
-    log.info(`Manual Review Required: ${categorized.requiresManualReview.length}`);
+    void log.info(`Total Issues: ${categorized.total}`);;
+    void log.info(`Errors: ${categorized.errors}`);;
+    void log.info(`Warnings: ${categorized.warnings}`);;
+    void log.info(`Auto-fixable: ${categorized.autoFixable.length}`);;
+    void log.info(`Manual Review Required: ${categorized.requiresManualReview.length}`);;
 
-    log.info('\n📋 BY CATEGORY:');
+    void log.info('\n📋 BY CATEGORY:');;
     Object.entries(categorized.byCategory).forEach(([category, issues]) => {
-      log.info(`  ${category}: ${issues.length} issues`);
+      void log.info(`  ${category}: ${issues.length} issues`);;
     });
 
-    log.info('\n🎯 BY PRIORITY:');
+    void log.info('\n🎯 BY PRIORITY:');;
     Object.entries(categorized.byPriority).forEach(([priority, issues]) => {
       log.info(`  Priority ${priority}: ${issues.length} issues`);
     });

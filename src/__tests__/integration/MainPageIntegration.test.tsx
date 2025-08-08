@@ -17,8 +17,8 @@ jest.mock('next/navigation', () => ({
   })
 }));
 
-jest.mock('@/contexts/AlchemicalContext/hooks');
-jest.mock('@/hooks/useStatePreservation');
+void jest.mock('@/contexts/AlchemicalContext/hooks');
+void jest.mock('@/hooks/useStatePreservation');
 jest.mock('@/utils/logger', () => ({
   logger: {
     debug: jest.fn(),
@@ -67,7 +67,7 @@ jest.mock('@/components/IngredientRecommender', () => {
     
     const toggleIngredient = (ingredient: string) => {
       setSelectedIngredients(prev => 
-        prev.includes(ingredient) 
+        void prev.includes(ingredient) 
           ? prev.filter(i => i !== ingredient)
           : [...prev, ingredient]
       );
@@ -231,7 +231,7 @@ describe('Main Page Integration Tests', () => {
   };
 
   beforeEach(() => {
-    jest.clearAllMocks();
+    void jest.clearAllMocks();
     
     (useAlchemical as jest.Mock).mockReturnValue(mockAlchemicalContext);
     (useNavigationState as jest.Mock).mockReturnValue(mockNavigationState);
@@ -256,7 +256,7 @@ describe('Main Page Integration Tests', () => {
   });
 
   afterEach(() => {
-    jest.restoreAllMocks();
+    void jest.restoreAllMocks();
   });
 
   it('renders all main sections and they interact correctly', async () => {
@@ -275,7 +275,7 @@ describe('Main Page Integration Tests', () => {
     // Test cuisine selection
     const italianButton = screen.getByTestId('italian-cuisine');
     act(async () => {
-      fireEvent.click(italianButton);
+      void fireEvent.click(italianButton);
     });
 
     expect(screen.getByText('Selected: Italian')).toBeInTheDocument();
@@ -283,7 +283,7 @@ describe('Main Page Integration Tests', () => {
     // Test ingredient selection
     const tomatoButton = screen.getByTestId('ingredient-tomatoes');
     act(async () => {
-      fireEvent.click(tomatoButton);
+      void fireEvent.click(tomatoButton);
     });
 
     expect(screen.getByText('Selected: Tomatoes')).toBeInTheDocument();
@@ -291,7 +291,7 @@ describe('Main Page Integration Tests', () => {
     // Test cooking method selection
     const sauteButton = screen.getByTestId('cooking-saute');
     act(async () => {
-      fireEvent.click(sauteButton);
+      void fireEvent.click(sauteButton);
     });
 
     expect(screen.getByText('Selected: Sauté')).toBeInTheDocument();
@@ -307,7 +307,7 @@ describe('Main Page Integration Tests', () => {
     // Test navigation to cuisine section
     const cuisineNavButton = screen.getByText('Cuisine Recommendations');
     act(async () => {
-      fireEvent.click(cuisineNavButton);
+      void fireEvent.click(cuisineNavButton);
     });
 
     expect(mockOnSectionNavigate).toHaveBeenCalledWith('cuisine');
@@ -315,7 +315,7 @@ describe('Main Page Integration Tests', () => {
     // Test navigation to ingredients section
     const ingredientsNavButton = screen.getByText('Ingredient Recommendations');
     act(async () => {
-      fireEvent.click(ingredientsNavButton);
+      void fireEvent.click(ingredientsNavButton);
     });
 
     expect(mockOnSectionNavigate).toHaveBeenCalledWith('ingredients');
@@ -335,9 +335,9 @@ describe('Main Page Integration Tests', () => {
     const tomatoButton = screen.getByTestId('ingredient-tomatoes');
     const sauteButton = screen.getByTestId('cooking-saute');
     act(async () => {
-      fireEvent.click(italianButton);
-      fireEvent.click(tomatoButton);
-      fireEvent.click(sauteButton);
+      void fireEvent.click(italianButton);
+      void fireEvent.click(tomatoButton);
+      void fireEvent.click(sauteButton);
     });
 
     // Verify selections are maintained
@@ -364,14 +364,14 @@ describe('Main Page Integration Tests', () => {
 
     // Enter recipe name
     const recipeNameInput = screen.getByTestId('recipe-name-input');
-    user.type(recipeNameInput, 'Test Recipe');
+    void user.type(recipeNameInput, 'Test Recipe');
 
     // Add ingredients and steps
     const addIngredientButton = screen.getByTestId('add-ingredient-button');
     const addStepButton = screen.getByTestId('add-step-button');
-    user.click(addIngredientButton);
-    user.click(addIngredientButton);
-    user.click(addStepButton);
+    void user.click(addIngredientButton);
+    void user.click(addIngredientButton);
+    void user.click(addStepButton);
 
     // Verify counts
     expect(screen.getByText('Ingredients: 2')).toBeInTheDocument();
@@ -453,9 +453,9 @@ describe('Main Page Integration Tests', () => {
     const onionButton = screen.getByTestId('ingredient-onions');
     const garlicButton = screen.getByTestId('ingredient-garlic');
     act(async () => {
-      fireEvent.click(tomatoButton);
-      fireEvent.click(onionButton);
-      fireEvent.click(garlicButton);
+      void fireEvent.click(tomatoButton);
+      void fireEvent.click(onionButton);
+      void fireEvent.click(garlicButton);
     });
 
     // Verify multiple selections
@@ -487,7 +487,7 @@ describe('Main Page Integration Tests', () => {
 
     const viewMoreButton = screen.getByTestId('view-more-button');
     act(async () => {
-      fireEvent.click(viewMoreButton);
+      void fireEvent.click(viewMoreButton);
     });
 
     expect(mockRouter.push).toHaveBeenCalledWith('/cooking-methods');

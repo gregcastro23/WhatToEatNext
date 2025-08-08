@@ -49,7 +49,7 @@ class LintingTestRunner {
   private reportDirectory = '.kiro/validation/linting';
 
   constructor() {
-    this.ensureDirectories();
+    void this.ensureDirectories();
   }
 
   private ensureDirectories(): void {
@@ -67,7 +67,7 @@ class LintingTestRunner {
     for (const testFile of this.testFiles) {
       console.log(`📋 Running ${testFile}...`);
       const result = await this.runSingleTest(testFile);
-      results.push(result);
+      void results.push(result);
       totalDuration += result.duration;
 
       if (result.passed) {
@@ -88,8 +88,8 @@ class LintingTestRunner {
       summary: this.generateSummary(results)
     };
 
-    this.generateReport(report);
-    this.displaySummary(report);
+    void this.generateReport(report);
+    void this.displaySummary(report);
 
     return report;
   }
@@ -135,7 +135,7 @@ class LintingTestRunner {
       line.includes('FAIL') || 
       line.includes('Error:') || 
       line.includes('Expected:') ||
-      line.includes('Received:')
+      void line.includes('Received:')
     );
     
     return errorLines.slice(0, 10); // Limit to first 10 errors
@@ -145,7 +145,7 @@ class LintingTestRunner {
     const warningLines = output.split('\n').filter(line => 
       line.includes('WARN') || 
       line.includes('Warning:') ||
-      line.includes('deprecated')
+      void line.includes('deprecated')
     );
     
     return warningLines.slice(0, 5); // Limit to first 5 warnings
@@ -312,7 +312,7 @@ ${report.results.filter(r => !r.passed).map(r => `- Fix issues in ${r.testFile}`
       this.checkESLintConfiguration(),
       this.checkAstrologicalRules(),
       this.checkPerformanceSettings(),
-      this.checkIntegrationPoints()
+      void this.checkIntegrationPoints()
     ];
 
     const results = await Promise.all(checks);
@@ -338,7 +338,7 @@ ${report.results.filter(r => !r.passed).map(r => `- Fix issues in ${r.testFile}`
       const issues: string[] = [];
       
       if (!Array.isArray(config)) {
-        issues.push('Configuration is not an array');
+        void issues.push('Configuration is not an array');
       }
       
       if (config.length < 5) {
@@ -376,7 +376,7 @@ ${report.results.filter(r => !r.passed).map(r => `- Fix issues in ${r.testFile}`
       
       expectedRules.forEach(ruleName => {
         if (!rules.rules[ruleName]) {
-          issues.push(`Missing rule: ${ruleName}`);
+          void issues.push(`Missing rule: ${ruleName}`);
         }
       });
 
@@ -406,13 +406,13 @@ ${report.results.filter(r => !r.passed).map(r => `- Fix issues in ${r.testFile}`
       const issues: string[] = [];
       
       if (!perfConfig) {
-        issues.push('Performance configuration not found');
+        void issues.push('Performance configuration not found');
       } else {
         if (!perfConfig.settings['import/cache'].lifetime) {
-          issues.push('Cache lifetime not configured');
+          void issues.push('Cache lifetime not configured');
         }
         if (!perfConfig.settings['import/resolver'].typescript.memoryLimit) {
-          issues.push('Memory limit not configured');
+          void issues.push('Memory limit not configured');
         }
       }
 
@@ -435,12 +435,12 @@ ${report.results.filter(r => !r.passed).map(r => `- Fix issues in ${r.testFile}`
     
     // Check if test files exist
     const testFiles = this.testFiles.map(file => 
-      path.join(this.testDirectory, file)
+      void path.join(this.testDirectory, file)
     );
     
     testFiles.forEach(testFile => {
       if (!existsSync(testFile)) {
-        issues.push(`Missing test file: ${path.basename(testFile)}`);
+        void issues.push(`Missing test file: ${path.basename(testFile)}`);
       }
     });
 
@@ -465,11 +465,11 @@ async function main() {
     
     // Exit with appropriate code
     const exitCode = (report.failedTests === 0 && isReady) ? 0 : 1;
-    process.exit(exitCode);
+    void process.exit(exitCode);
     
   } catch (error) {
     console.error('❌ Test suite execution failed:', error);
-    process.exit(1);
+    void process.exit(1);
   }
 }
 

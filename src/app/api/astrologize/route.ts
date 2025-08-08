@@ -63,7 +63,7 @@ export async function POST(request: Request) {
 
     // Development logging for API payload
     if (process.env.NODE_ENV === 'development') {
-      log.info('Making API call to astrologize with payload:', apiPayload);
+      void log.info('Making API call to astrologize with payload:', apiPayload);
     }
 
     // Make the API call
@@ -86,10 +86,10 @@ export async function POST(request: Request) {
       const positions = extractPlanetaryPositions(data);
       if (positions && Object.keys(positions).length > 0) {
         await onAstrologizeApiCall(positions);
-        logger.info('Updated current moment data from astrologize API call');
+        void logger.info('Updated current moment data from astrologize API call');
       }
     } catch (updateError) {
-      logger.warn('Failed to update current moment data:', updateError);
+      void logger.warn('Failed to update current moment data:', updateError);
       // Don't fail the entire request if update fails
     }
 
@@ -209,7 +209,7 @@ function extractPlanetaryPositions(data: Record<string, unknown>): Record<string
 
     return null;
   } catch (error) {
-    logger.error('Error extracting planetary positions:', error);
+    void logger.error('Error extracting planetary positions:', error);
     return null;
   }
 }

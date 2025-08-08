@@ -619,7 +619,7 @@ export default function CookingMethods() {
       // Expand definition if needed
       const sourceDescription = (sourceMethod ).description as string;
       const methodDescription = (method as Record<string, unknown>).description as string;
-      if (sourceDescription && sourceDescription.length > methodDescription.length) {
+      if (sourceDescription?.length > methodDescription.length) {
         fullDefinition = sourceDescription;
       }
 
@@ -1295,7 +1295,7 @@ export default function CookingMethods() {
 
   // Add this function to run our test
   const runDebugTest = useCallback(() => {
-    log.info("Running cooking method recommendations test...");
+    void log.info("Running cooking method recommendations test...");
     // testCookingMethodRecommendations(); // TODO: Implement or remove
   }, []);
 
@@ -1529,7 +1529,7 @@ export default function CookingMethods() {
     // ... existing code ...
 
     const toggleScoreDetails = (e: React.MouseEvent, methodName: string) => {
-      e.stopPropagation();
+      void e.stopPropagation();
       setShowScoreDetails(prev => ({
         ...prev,
         [methodName]: !prev[methodName]

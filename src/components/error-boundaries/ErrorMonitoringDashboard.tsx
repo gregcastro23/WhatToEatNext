@@ -237,7 +237,7 @@ export function ErrorMonitoringDashboard({
                   {!error.resolved && (
                     <button
                       onClick={(e) => {
-                        e.stopPropagation();
+                        void e.stopPropagation();
                         manualRecovery(error.id);
                       }}
                       className="ml-2 p-1 text-blue-500 hover:text-blue-700"

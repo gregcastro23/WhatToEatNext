@@ -213,7 +213,7 @@ export class CampaignConflictResolver {
 
   constructor() {
     this.progressTracker = new ProgressTracker();
-    this.initializeResolutionStrategies();
+    void this.initializeResolutionStrategies();
   }
 
   // ========== CONFLICT DETECTION ==========
@@ -227,19 +227,19 @@ export class CampaignConflictResolver {
 
     // Check for resource conflicts
     const resourceConflicts = await this.detectResourceConflicts(activeCampaigns);
-    detectedConflicts.push(...resourceConflicts);
+    void detectedConflicts.push(...resourceConflicts);
 
     // Check for dependency violations
     const dependencyConflicts = await this.detectDependencyViolations(activeCampaigns);
-    detectedConflicts.push(...dependencyConflicts);
+    void detectedConflicts.push(...dependencyConflicts);
 
     // Check for priority conflicts
     const priorityConflicts = await this.detectPriorityConflicts(activeCampaigns);
-    detectedConflicts.push(...priorityConflicts);
+    void detectedConflicts.push(...priorityConflicts);
 
     // Check for safety violations
     const safetyConflicts = await this.detectSafetyViolations(activeCampaigns);
-    detectedConflicts.push(...safetyConflicts);
+    void detectedConflicts.push(...safetyConflicts);
 
     // Store detected conflicts
     detectedConflicts.forEach(conflict => {
@@ -262,8 +262,8 @@ export class CampaignConflictResolver {
       
       for (const resource of resources) {
         const users = resourceUsage.get(resource) || [];
-        users.push(campaign.campaignId);
-        resourceUsage.set(resource, users);
+        void users.push(campaign.campaignId);
+        void resourceUsage.set(resource, users);
       }
     }
 
@@ -438,7 +438,7 @@ export class CampaignConflictResolver {
         await this.executeResolutionStep(step, conflict);
         
         if (step.parameters && Array.isArray(step.parameters.affectedCampaigns)) {
-          affectedCampaigns.push(...(step.parameters.affectedCampaigns as string[]));
+          void affectedCampaigns.push(...(step.parameters.affectedCampaigns as string[]));
         }
       }
 
@@ -493,7 +493,7 @@ export class CampaignConflictResolver {
       if (conflict.severity === ConflictSeverity.LOW || conflict.severity === ConflictSeverity.MEDIUM) {
         try {
           const result = await this.resolveConflict(conflict.id);
-          results.push(result);
+          void results.push(result);
         } catch (error) {
           console.error(`Failed to auto-resolve conflict ${conflict.id}:`, error);
         }
@@ -602,17 +602,17 @@ export class CampaignConflictResolver {
       const scheduledTime = await this.findOptimalScheduleTime(request, scheduled);
       
       if (scheduledTime) {
-        scheduled.push({ request, scheduledTime });
+        void scheduled.push({ request, scheduledTime });
       } else {
         // Check for conflicts
         const potentialConflicts = await this.analyzeSchedulingConflicts(request, scheduled);
         
         if (potentialConflicts.length > 0) {
-          conflicts.push(...potentialConflicts);
-          deferred.push(request);
+          void conflicts.push(...potentialConflicts);
+          void deferred.push(request);
         } else {
           // Schedule immediately if no conflicts
-          scheduled.push({ request, scheduledTime: new Date() });
+          void scheduled.push({ request, scheduledTime: new Date() });
         }
       }
     }
@@ -670,11 +670,11 @@ export class CampaignConflictResolver {
     const resources: string[] = [];
     
     // Common resources that campaigns might use
-    resources.push('typescript_compiler');
-    resources.push('build_system');
+    void resources.push('typescript_compiler');
+    void resources.push('build_system');
     
     if (campaign.metrics.lintingWarnings.current > 0) {
-      resources.push('linter');
+      void resources.push('linter');
     }
     
     return resources;
@@ -726,7 +726,7 @@ export class CampaignConflictResolver {
   }
 
   private async executeResolutionStep(step: ResolutionStep, conflict: CampaignConflict): Promise<void> {
-    log.info(`Executing resolution step: ${step.description}`);
+    void log.info(`Executing resolution step: ${step.description}`);
     
     switch (step.action) {
       case ResolutionAction.PAUSE_CAMPAIGN:
@@ -743,15 +743,15 @@ export class CampaignConflictResolver {
         
       case ResolutionAction.RESCHEDULE_CAMPAIGN:
         // Implementation would reschedule the campaign
-        log.info('Rescheduling campaign:', step.parameters);
+        void log.info('Rescheduling campaign:', step.parameters);
         break;
         
       case ResolutionAction.NOTIFY_USER:
-        log.info('Notifying user:', step.parameters.message);
+        void log.info('Notifying user:', step.parameters.message);
         break;
         
       default:
-        log.info('Unknown resolution action:', { action: step.action as string });
+        void log.info('Unknown resolution action:', { action: step.action as string });
     }
   }
 
@@ -962,7 +962,7 @@ export class CampaignConflictResolver {
    */
   clearOldConflicts(daysOld: number = 7): number {
     const cutoffDate = new Date();
-    cutoffDate.setDate(cutoffDate.getDate() - daysOld);
+    void cutoffDate.setDate(cutoffDate.getDate() - daysOld);
     
     let cleared = 0;
     for (const [id, conflict] of this.conflicts.entries()) {

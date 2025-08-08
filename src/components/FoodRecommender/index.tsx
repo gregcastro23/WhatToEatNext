@@ -9,13 +9,13 @@ import { useAstrologicalState } from '@/context/AstrologicalContext';
 import { log } from '@/services/LoggingService';
 
 
-import { 
-  calculateElementalScore,
-  getElementRanking, 
-  getDominantElement,
-  createElementObject, 
-  combineElementObjects, 
-  getAbsoluteElementValue 
+import {
+    calculateElementalScore,
+    combineElementObjects,
+    createElementObject,
+    getAbsoluteElementValue,
+    getDominantElement,
+    getElementRanking
 } from '../../utils/alchemicalFunctions';
 
 import IngredientDisplay from './IngredientDisplay';
@@ -35,13 +35,13 @@ if (typeof window !== 'undefined') {
   window.createElementObject = createElementObject;
   window.combineElementObjects = combineElementObjects;
   window.getAbsoluteElementValue = getAbsoluteElementValue;
-  
+
   // Override the ElementalCalculator methods if they exist
   if (window.ElementalCalculator) {
-    window.ElementalCalculator.calculateElementalBalance = 
+    window.ElementalCalculator.calculateElementalBalance =
       (props: Record<string, unknown>) => calculateElementalScore(props) * 100; // Convert to 0-100 scale
   }
-  
+
   // Log that our component is initializing correctly
   log.info('[FoodRecommender] Component loaded with fixes applied');
 }
@@ -54,7 +54,7 @@ const FoodRecommender = () => {
   const activePlanets = (astroState as unknown as Record<string, unknown>).activePlanets;
   const zodiacSign = (astroState as unknown as Record<string, unknown>).zodiacSign;
   const lunarPhase = (astroState as unknown as Record<string, unknown>).lunarPhase;
-  
+
   // Create a full astrological state object to pass to components
   const _astrologicalState = useMemo(() => ({
     planetaryPositions,
@@ -65,12 +65,12 @@ const FoodRecommender = () => {
     dominantElement: getDominantElement(elementalProperties),
     timestamp: new Date()
   }), [planetaryPositions, elementalProperties, activePlanets, zodiacSign, lunarPhase]);
-  
+
   return (
     <div className="food-recommender-container">
       <h2>Ingredient Recommendations</h2>
       <p>Based on current celestial influences</p>
-      
+
       {/* Only use the IngredientDisplay component to avoid duplicates */}
       <IngredientDisplay />
     </div>

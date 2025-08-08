@@ -63,7 +63,7 @@ class BuildPerformanceMonitor {
   };
 
   constructor() {
-    this.loadHistoricalData();
+    void this.loadHistoricalData();;
     this.startPeriodicMonitoring();
   }
 
@@ -86,7 +86,7 @@ class BuildPerformanceMonitor {
     try {
       const metricsDir = path.join(process.cwd(), '.kiro', 'metrics');
       if (!fs.existsSync(metricsDir)) {
-        fs.mkdirSync(metricsDir, { recursive: true });
+        void fs.mkdirSync(metricsDir, { recursive: true });;
       }
 
       const historyPath = path.join(metricsDir, 'build-history.json');
@@ -106,9 +106,9 @@ class BuildPerformanceMonitor {
   private startPeriodicMonitoring() {
     // Monitor every 5 minutes
     setInterval(() => {
-      this.detectRegressions();
-      this.saveHistoricalData();
-      this.notifySubscribers();
+      void this.detectRegressions();;
+      void this.saveHistoricalData();;
+      void this.notifySubscribers();;
     }, 5 * 60 * 1000);
   }
 
@@ -207,7 +207,7 @@ class BuildPerformanceMonitor {
         buildType
       };
 
-      this.recordBuildMetrics(metrics);
+      void this.recordBuildMetrics(metrics);;
       return metrics;
 
     } catch (error) {
@@ -230,7 +230,7 @@ class BuildPerformanceMonitor {
         buildType
       };
 
-      this.recordBuildMetrics(metrics);
+      void this.recordBuildMetrics(metrics);;
       throw error;
     }
   }
@@ -304,7 +304,7 @@ class BuildPerformanceMonitor {
           timestamp: new Date()
         };
 
-        this.recordAstrologicalMetrics(metrics);
+        void this.recordAstrologicalMetrics(metrics);;
 
         // Check for performance issues
         if (executionTime > this.THRESHOLDS.astrologicalCalculation) {
@@ -327,7 +327,7 @@ class BuildPerformanceMonitor {
           timestamp: new Date()
         };
 
-        this.recordAstrologicalMetrics(metrics);
+        void this.recordAstrologicalMetrics(metrics);;
         throw error;
       });
   }
@@ -341,7 +341,7 @@ class BuildPerformanceMonitor {
     }
 
     // Check for performance alerts
-    this.checkPerformanceAlerts(metrics);
+    void this.checkPerformanceAlerts(metrics);;
   }
 
   private recordAstrologicalMetrics(metrics: AstrologicalCalculationMetrics) {
@@ -669,7 +669,7 @@ class BuildPerformanceMonitor {
       const latest = builds[builds.length - 1];
       
       if (latest.typeScriptCompilationTime > this.THRESHOLDS.typeScriptCompilation) {
-        recommendations.push('Consider enabling TypeScript incremental compilation');
+        void recommendations.push('Consider enabling TypeScript incremental compilation');;
         recommendations.push('Review and optimize complex type definitions');
       }
       
@@ -679,19 +679,19 @@ class BuildPerformanceMonitor {
       }
       
       if (latest.cacheHitRate < this.THRESHOLDS.cacheHitRate) {
-        recommendations.push('Optimize build cache configuration');
-        recommendations.push('Consider using persistent cache storage');
+        void recommendations.push('Optimize build cache configuration');;
+        void recommendations.push('Consider using persistent cache storage');;
       }
       
       if (this.bottlenecks.length > 0) {
-        recommendations.push(`Address compilation bottlenecks in ${this.bottlenecks[0].file}`);
+        void recommendations.push(`Address compilation bottlenecks in ${this.bottlenecks[0].file}`);;
       }
     }
 
     const slowCalculations = calculations.filter(c => c.executionTime > this.THRESHOLDS.astrologicalCalculation);
     if (slowCalculations.length > 0) {
       recommendations.push('Optimize astrological calculation algorithms');
-      recommendations.push('Implement calculation result caching');
+      void recommendations.push('Implement calculation result caching');;
     }
 
     if (recommendations.length === 0) {
@@ -706,7 +706,7 @@ class BuildPerformanceMonitor {
     this.bottlenecks = [];
     this.regressions = [];
     this.astrologicalMetrics = [];
-    this.saveHistoricalData();
+    void this.saveHistoricalData();;
   }
 }
 

@@ -18,14 +18,14 @@ describe('React 19 and Next.js 15 Compatibility Validation', () => {
   beforeAll(() => {
     // Create test files directory
     if (!fs.existsSync(testFilesDir)) {
-      fs.mkdirSync(testFilesDir, { recursive: true });
+      void fs.mkdirSync(testFilesDir, { recursive: true });
     }
   });
 
   afterAll(() => {
     // Clean up test files
     if (fs.existsSync(testFilesDir)) {
-      fs.rmSync(testFilesDir, { recursive: true, force: true });
+      void fs.rmSync(testFilesDir, { recursive: true, force: true });
     }
   });
 
@@ -38,7 +38,7 @@ export default function ModernComponent() {
   return <div>Hello World</div>;
 }
 `;
-      fs.writeFileSync(testFile, content);
+      void fs.writeFileSync(testFile, content);
 
       const result = runESLintOnFile(testFile);
 
@@ -64,7 +64,7 @@ export function JSXComponent({ title, children }: Props) {
   );
 }
 `;
-      fs.writeFileSync(testFile, content);
+      void fs.writeFileSync(testFile, content);
 
       const result = runESLintOnFile(testFile);
 
@@ -88,7 +88,7 @@ export function ListComponent() {
   );
 }
 `;
-      fs.writeFileSync(testFile, content);
+      void fs.writeFileSync(testFile, content);
 
       const result = runESLintOnFile(testFile);
 
@@ -115,7 +115,7 @@ export function ConcurrentComponent() {
   return (
     <Suspense fallback={<div>Loading...</div>}>
       <div>
-        <button onClick={handleClick} disabled={isPending}>
+        <button onClick={() => void handleClick()} disabled={isPending}>
           {isPending ? 'Loading...' : 'Click me'}
         </button>
         <p>Deferred: {deferredValue}</p>
@@ -124,7 +124,7 @@ export function ConcurrentComponent() {
   );
 }
 `;
-      fs.writeFileSync(testFile, content);
+      void fs.writeFileSync(testFile, content);
 
       const result = runESLintOnFile(testFile);
 
@@ -152,7 +152,7 @@ export function generateMetadata() {
   };
 }
 `;
-      fs.writeFileSync(testFile, content);
+      void fs.writeFileSync(testFile, content);
 
       const result = runESLintOnFile(testFile);
 
@@ -180,7 +180,7 @@ export default function RootLayout({
   );
 }
 `;
-      fs.writeFileSync(testFile, content);
+      void fs.writeFileSync(testFile, content);
 
       const result = runESLintOnFile(testFile);
 
@@ -233,7 +233,7 @@ export default function ClientComponent() {
   );
 }
 `;
-      fs.writeFileSync(testFile, content);
+      void fs.writeFileSync(testFile, content);
 
       const result = runESLintOnFile(testFile);
 
@@ -265,7 +265,7 @@ export function EnhancedHooksComponent() {
   return <div>Enhanced Hooks</div>;
 }
 `;
-      fs.writeFileSync(testFile, content);
+      void fs.writeFileSync(testFile, content);
 
       const result = runESLintOnFile(testFile);
 
@@ -294,7 +294,7 @@ export function CustomHookComponent() {
   return <div>{value}</div>;
 }
 `;
-      fs.writeFileSync(testFile, content);
+      void fs.writeFileSync(testFile, content);
 
       const result = runESLintOnFile(testFile);
 
@@ -316,7 +316,7 @@ export function ConditionalHooksComponent({ condition }: { condition: boolean })
   return <div>Conditional Hooks</div>;
 }
 `;
-      fs.writeFileSync(testFile, content);
+      void fs.writeFileSync(testFile, content);
 
       const result = runESLintOnFile(testFile);
 
@@ -341,7 +341,7 @@ export function SuspenseBoundary() {
   );
 }
 `;
-      fs.writeFileSync(testFile, content);
+      void fs.writeFileSync(testFile, content);
 
       const result = runESLintOnFile(testFile);
 
@@ -385,7 +385,7 @@ export class ErrorBoundary extends Component<Props, State> {
   }
 }
 `;
-      fs.writeFileSync(testFile, content);
+      void fs.writeFileSync(testFile, content);
 
       const result = runESLintOnFile(testFile);
 
@@ -429,7 +429,7 @@ export const TypedButton: FC<ButtonProps> = ({ title, ...buttonProps }) => {
   );
 };
 `;
-      fs.writeFileSync(testFile, content);
+      void fs.writeFileSync(testFile, content);
 
       const result = runESLintOnFile(testFile);
 
@@ -455,12 +455,12 @@ export function PropValidationComponent({ required, optional, callback }: Props)
     <div>
       <p>{required}</p>
       {optional && <p>{optional}</p>}
-      <button onClick={handleClick}>Click</button>
+      <button onClick={() => void handleClick()}>Click</button>
     </div>
   );
 }
 `;
-      fs.writeFileSync(testFile, content);
+      void fs.writeFileSync(testFile, content);
 
       const result = runESLintOnFile(testFile);
 
@@ -547,7 +547,7 @@ const MemoizedItem = memo(({ id, name, onClick }: ItemProps) => {
   }, [id, onClick]);
 
   return (
-    <div onClick={handleClick}>
+    <div onClick={() => void handleClick()}>
       {name}
     </div>
   );
@@ -572,14 +572,14 @@ export function LargeComponentTree() {
           key={item.id}
           id={item.id}
           name={item.name}
-          onClick={handleItemClick}
+          onClick={() => void handleItemClick()}
         />
       ))}
     </div>
   );
 }
 `;
-      fs.writeFileSync(testFile, content);
+      void fs.writeFileSync(testFile, content);
 
       const result = runESLintOnFile(testFile);
 
@@ -620,7 +620,7 @@ const ImportOrganizationPage: NextPage = () => {
 
 export default ImportOrganizationPage;
 `;
-      fs.writeFileSync(testFile, content);
+      void fs.writeFileSync(testFile, content);
 
       const result = runESLintOnFile(testFile);
 

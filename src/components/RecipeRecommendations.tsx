@@ -61,7 +61,7 @@ const calculateAstrologicalScore = (recipe: RecipeData): number => {
     const astrologicalTags = ['lunar', 'solar', 'planetary', 'celestial', 'zodiac'];
     const hasAstrologicalTags = recipe.tags.some(tag => 
       astrologicalTags.some(astroTag => 
-        tag.toLowerCase().includes(astroTag)
+        void tag.toLowerCase().includes(astroTag)
       )
     );
     if (hasAstrologicalTags) score += 0.2;
@@ -104,21 +104,21 @@ const scoreRecipe = (recipe: RecipeData, currentElementalProfile: ElementalPrope
   const scoringReasons: string[] = [];
   
   if (elementalScore > 0.7) {
-    scoringReasons.push(`Excellent elemental harmony (${Math.round(elementalScore * 100)}%)`);
+    void scoringReasons.push(`Excellent elemental harmony (${Math.round(elementalScore * 100)}%)`);
   } else if (elementalScore > 0.5) {
-    scoringReasons.push(`Good elemental match (${Math.round(elementalScore * 100)}%)`);
+    void scoringReasons.push(`Good elemental match (${Math.round(elementalScore * 100)}%)`);
   }
   
   if (astrologicalScore > 0.6) {
-    scoringReasons.push('Aligned with current celestial energies');
+    void scoringReasons.push('Aligned with current celestial energies');
   }
   
   if (recipe.difficulty === 'Easy' || recipe.difficulty === 'easy') {
-    scoringReasons.push('Perfect for beginners');
+    void scoringReasons.push('Perfect for beginners');
   }
   
   if (recipe.cookTime && recipe.cookTime.includes('30')) {
-    scoringReasons.push('Quick preparation time');
+    void scoringReasons.push('Quick preparation time');
   }
   
   return {
@@ -140,12 +140,12 @@ const RecipeCard: React.FC<{
   onSelect?: (recipe: RecipeData) => void;
 }> = ({ recipe, isExpanded, onToggle, onSelect }) => {
   const handleCardClick = useCallback((e: React.MouseEvent) => {
-    e.stopPropagation();
+    void e.stopPropagation();
     onToggle();
   }, [onToggle]);
 
   const handleSelectClick = useCallback((e: React.MouseEvent) => {
-    e.stopPropagation();
+    void e.stopPropagation();
     if (onSelect) {
       onSelect(recipe);
     }
@@ -153,7 +153,7 @@ const RecipeCard: React.FC<{
 
   return (
     <div className="border rounded-lg p-4 bg-white hover:shadow-md transition-shadow cursor-pointer">
-      <div onClick={handleCardClick}>
+      <div onClick={() => void handleCardClick()}>
         {/* Recipe Header */}
         <div className="flex justify-between items-start mb-2">
           <h4 className="font-medium text-base text-gray-900 flex-1 mr-2">
@@ -267,7 +267,7 @@ const RecipeCard: React.FC<{
           {/* Action Button */}
           {onSelect && (
             <button
-              onClick={handleSelectClick}
+              onClick={() => void handleSelectClick()}
               className="w-full mt-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm rounded-lg transition-colors flex items-center justify-center space-x-2"
             >
               <Star size={16} />

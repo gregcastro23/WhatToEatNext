@@ -202,7 +202,7 @@ export default function EnterpriseIntelligencePanel({
           </div>
           <p className="text-sm text-red-600 mt-1">{state.error}</p>
           <button
-            onClick={handleManualAnalysis}
+            onClick={() => void handleManualAnalysis()}
             className="mt-2 text-sm text-red-700 hover:text-red-900 underline"
           >
             Retry Analysis
@@ -455,7 +455,7 @@ export default function EnterpriseIntelligencePanel({
           )}
 
           <button
-            onClick={handleManualAnalysis}
+            onClick={() => void handleManualAnalysis()}
             disabled={state.isAnalyzing}
             className="p-1 text-gray-400 hover:text-gray-600 disabled:opacity-50"
             title="Refresh Analysis"
@@ -464,7 +464,7 @@ export default function EnterpriseIntelligencePanel({
           </button>
 
           <button
-            onClick={handleToggleExpanded}
+            onClick={() => void handleToggleExpanded()}
             className="p-1 text-gray-400 hover:text-gray-600"
             title={isExpanded ? 'Collapse' : 'Expand'}
           >

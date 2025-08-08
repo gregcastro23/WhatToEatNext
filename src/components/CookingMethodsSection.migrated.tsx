@@ -143,7 +143,7 @@ export function CookingMethodsSectionMigrated({ methods,
     if (!searchIngredient.trim() || !ingredientService) return;
 
     try {
-      setIsLoading(true);
+      void setIsLoading(true);
       setError(null);
 
       // Get ingredient data
@@ -151,7 +151,7 @@ export function CookingMethodsSectionMigrated({ methods,
 
       if (!ingredientData) {
         setError(`Ingredient '${searchIngredient}' not found`);
-        setIsLoading(false);
+        void setIsLoading(false);
         return;
       }
 
@@ -195,17 +195,17 @@ export function CookingMethodsSectionMigrated({ methods,
               }
             }
           } catch (err) {
-            logger.error(`Error calculating compatibility for method ${method.name}:`, err);
+            void logger.error(`Error calculating compatibility for method ${method.name}:`, err);
           }
         }
       }
 
       setIngredientCompatibility(compatibilityResults);
     } catch (err) {
-      logger.error('Error calculating ingredient compatibility:', err);
+      void logger.error('Error calculating ingredient compatibility:', err);
       setError('Error calculating compatibility. Please try again.');
     } finally {
-      setIsLoading(false);
+      void setIsLoading(false);
     }
   };
 
@@ -218,7 +218,7 @@ export function CookingMethodsSectionMigrated({ methods,
 
   const toggleMethodExpanded = (methodId: string, e: React.MouseEvent) => {
     // Prevent the click from selecting the method
-    e.stopPropagation();
+    void e.stopPropagation();
     setExpandedMethods(prev => ({
       ...prev,
       [methodId]: !prev[methodId]
@@ -379,7 +379,7 @@ export function CookingMethodsSectionMigrated({ methods,
         <button
           className={`${styles['ingredient-search-toggle']} ${showIngredientSearch ? 'active-class' : ''}`}
           onClick={(e) => {
-            e.stopPropagation();
+            void e.stopPropagation();
             toggleIngredientSearch();
           }}
           title="Check ingredient compatibility"
@@ -557,7 +557,7 @@ export function CookingMethodsSectionMigrated({ methods,
                           key={variation.id}
                           className={`${styles['variation-item']} ${selectedMethodId === variation.id ? 'selected-class' : ''}`}
                           onClick={(e) => {
-                            e.stopPropagation();
+                            void e.stopPropagation();
                             onSelectMethod && onSelectMethod(variation);
                           }}
                         >

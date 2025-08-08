@@ -12,8 +12,8 @@ import { LintingMetrics } from '../../services/linting/LintingValidationDashboar
 import { ZeroErrorAchievementDashboard } from '../../services/linting/ZeroErrorAchievementDashboard';
 
 // Mock external dependencies
-jest.mock('child_process');
-jest.mock('fs');
+void jest.mock('child_process');
+void jest.mock('fs');
 
 const mockExecSync = execSync as jest.MockedFunction<typeof execSync>;
 const mockWriteFileSync = writeFileSync as jest.MockedFunction<typeof writeFileSync>;
@@ -26,16 +26,16 @@ describe('ZeroErrorAchievementDashboard', () => {
   let mockMetrics: LintingMetrics;
 
   beforeEach(() => {
-    jest.clearAllMocks()
+    void jest.clearAllMocks()
 
     // Mock file system operations
-    mockExistsSync.mockReturnValue(true);
-    mockReadFileSync.mockReturnValue('[]');
-    mockWriteFileSync.mockImplementation(() => {});
-    mockMkdirSync.mockImplementation(() => '');
+    void mockExistsSync.mockReturnValue(true);
+    void mockReadFileSync.mockReturnValue('[]');
+    void mockWriteFileSync.mockImplementation(() => {});
+    void mockMkdirSync.mockImplementation(() => '');
 
     // Mock successful command execution
-    mockExecSync.mockReturnValue('');
+    void mockExecSync.mockReturnValue('');
 
     // Create mock metrics
     mockMetrics = {
@@ -68,7 +68,7 @@ describe('ZeroErrorAchievementDashboard', () => {
   });
 
   afterEach(() => {
-    jest.restoreAllMocks()
+    void jest.restoreAllMocks()
   });
 
   describe('Dashboard Generation', () => {
@@ -94,10 +94,10 @@ describe('ZeroErrorAchievementDashboard', () => {
       };
 
       // Mock the validation dashboard
-      jest.spyOn(dashboard['validationDashboard'], 'runComprehensiveValidation')
+      void jest.spyOn(dashboard['validationDashboard'], 'runComprehensiveValidation')
         .mockResolvedValue(mockValidationResult);
 
-      dashboard.generateDashboard()
+      void dashboard.generateDashboard()
 
       // Verify dashboard report was generated
       expect(mockWriteFileSync).toHaveBeenCalledWith(
@@ -116,7 +116,7 @@ describe('ZeroErrorAchievementDashboard', () => {
 
     test('should handle dashboard generation errors gracefully', async () => {
       // Mock validation dashboard failure
-      jest.spyOn(dashboard['validationDashboard'], 'runComprehensiveValidation')
+      void jest.spyOn(dashboard['validationDashboard'], 'runComprehensiveValidation')
         .mockRejectedValue(new Error('Validation failed'));
 
       await expect(dashboard.generateDashboard()).rejects.toThrow('Validation failed');
@@ -142,10 +142,10 @@ describe('ZeroErrorAchievementDashboard', () => {
         }
       };
 
-      jest.spyOn(dashboard['validationDashboard'], 'runComprehensiveValidation')
+      void jest.spyOn(dashboard['validationDashboard'], 'runComprehensiveValidation')
         .mockResolvedValue(mockValidationResult);
 
-      dashboard.generateDashboard()
+      void dashboard.generateDashboard()
 
       // Verify targets file was written
       const targetsCall = (mockWriteFileSync as jest.Mock).mock.calls.find(call =>
@@ -221,7 +221,7 @@ describe('ZeroErrorAchievementDashboard', () => {
       const results: number[] = [];
       for (let i = 0; i < 5; i++) {
         const changes = dashboard['detectSignificantChanges'](mockMetrics, testMetrics);
-        results.push(changes.length);
+        void results.push(changes.length);
       }
 
       // Results should be consistent
@@ -256,7 +256,7 @@ describe('ZeroErrorAchievementDashboard', () => {
         { ...mockMetrics, totalIssues: 1500, timestamp: new Date('2025-01-04') }
       ];
 
-      mockReadFileSync.mockReturnValueOnce(JSON.stringify(historyData));
+      void mockReadFileSync.mockReturnValueOnce(JSON.stringify(historyData));
 
       const trends = dashboard['analyzeTrends'](mockMetrics);
 
@@ -274,7 +274,7 @@ describe('ZeroErrorAchievementDashboard', () => {
     test('should handle insufficient data for trend analysis', async () => {
       // Mock insufficient history data
       const historyData = [mockMetrics];
-      mockReadFileSync.mockReturnValueOnce(JSON.stringify(historyData));
+      void mockReadFileSync.mockReturnValueOnce(JSON.stringify(historyData));
 
       const trends = dashboard['analyzeTrends'](mockMetrics);
 
@@ -390,7 +390,7 @@ describe('ZeroErrorAchievementDashboard', () => {
         }
       };
 
-      jest.spyOn(dashboard['validationDashboard'], 'runComprehensiveValidation')
+      void jest.spyOn(dashboard['validationDashboard'], 'runComprehensiveValidation')
         .mockResolvedValue(mockValidationResult);
 
       const targets = dashboard['updateTargets'](mockMetrics);

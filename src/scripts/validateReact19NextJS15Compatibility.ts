@@ -32,18 +32,18 @@ class React19NextJS15Validator {
 
   constructor() {
     this.tempDir = path.join(__dirname, '../../__tests__/temp-validation');
-    this.ensureTempDir();
+    void this.ensureTempDir();
   }
 
   private ensureTempDir(): void {
     if (!fs.existsSync(this.tempDir)) {
-      fs.mkdirSync(this.tempDir, { recursive: true });
+      void fs.mkdirSync(this.tempDir, { recursive: true });
     }
   }
 
   private cleanup(): void {
     if (fs.existsSync(this.tempDir)) {
-      fs.rmSync(this.tempDir, { recursive: true, force: true });
+      void fs.rmSync(this.tempDir, { recursive: true, force: true });
     }
   }
 
@@ -82,7 +82,7 @@ export default function ModernComponent() {
   return <div>Hello World</div>;
 }
 `;
-    fs.writeFileSync(modernJSXFile, modernJSXContent);
+    void fs.writeFileSync(modernJSXFile, modernJSXContent);
 
     const result1 = this.runESLint(modernJSXFile);
     const hasReactInScopeError = result1.output.includes('react/react-in-jsx-scope');
@@ -109,7 +109,7 @@ export function FragmentComponent() {
   );
 }
 `;
-    fs.writeFileSync(fragmentFile, fragmentContent);
+    void fs.writeFileSync(fragmentFile, fragmentContent);
 
     const result2 = this.runESLint(fragmentFile);
     const hasFragmentError = result2.output.includes('react/react-in-jsx-scope');
@@ -148,7 +148,7 @@ export function generateMetadata() {
   };
 }
 `;
-    fs.writeFileSync(pageFile, pageContent);
+    void fs.writeFileSync(pageFile, pageContent);
 
     const result1 = this.runESLint(pageFile);
     const hasDefaultExportError = result1.output.includes('import/no-default-export');
@@ -180,7 +180,7 @@ async function ServerComponent() {
 
 export default ServerComponent;
 `;
-    fs.writeFileSync(serverComponentFile, serverComponentContent);
+    void fs.writeFileSync(serverComponentFile, serverComponentContent);
 
     const result2 = this.runESLint(serverComponentFile);
     const hasAsyncError = result2.output.includes('error') && !result2.success;
@@ -215,7 +215,7 @@ export default function ClientComponent() {
   );
 }
 `;
-    fs.writeFileSync(clientComponentFile, clientComponentContent);
+    void fs.writeFileSync(clientComponentFile, clientComponentContent);
 
     const result3 = this.runESLint(clientComponentFile);
     const hasClientError = result3.output.includes('error') && !result3.success;
@@ -252,7 +252,7 @@ export function SuspenseBoundary() {
   );
 }
 `;
-    fs.writeFileSync(suspenseFile, suspenseContent);
+    void fs.writeFileSync(suspenseFile, suspenseContent);
 
     const result1 = this.runESLint(suspenseFile);
     const hasSuspenseError = result1.output.includes('error') && !result1.success;
@@ -284,7 +284,7 @@ export function TransitionComponent() {
   
   return (
     <div>
-      <button onClick={handleClick} disabled={isPending}>
+      <button onClick={() => void handleClick()} disabled={isPending}>
         {isPending ? 'Loading...' : 'Click me'}
       </button>
       <p>Deferred: {deferredValue}</p>
@@ -292,7 +292,7 @@ export function TransitionComponent() {
   );
 }
 `;
-    fs.writeFileSync(transitionFile, transitionContent);
+    void fs.writeFileSync(transitionFile, transitionContent);
 
     const result2 = this.runESLint(transitionFile);
     const hasTransitionError = result2.output.includes('error') && !result2.success;
@@ -329,7 +329,7 @@ export function ExhaustiveDepsComponent() {
   return <div>Exhaustive Deps Component</div>;
 }
 `;
-    fs.writeFileSync(exhaustiveDepsFile, exhaustiveDepsContent);
+    void fs.writeFileSync(exhaustiveDepsFile, exhaustiveDepsContent);
 
     const result1 = this.runESLint(exhaustiveDepsFile);
     const hasExhaustiveDepsWarning = result1.output.includes('react-hooks/exhaustive-deps');
@@ -357,7 +357,7 @@ export function ConditionalHooksComponent({ condition }: { condition: boolean })
   return <div>Conditional Hooks</div>;
 }
 `;
-    fs.writeFileSync(rulesOfHooksFile, rulesOfHooksContent);
+    void fs.writeFileSync(rulesOfHooksFile, rulesOfHooksContent);
 
     const result2 = this.runESLint(rulesOfHooksFile);
     const hasRulesOfHooksError = result2.output.includes('react-hooks/rules-of-hooks');
@@ -487,15 +487,15 @@ export function ConditionalHooksComponent({ condition }: { condition: boolean })
     console.log('🚀 Starting React 19 and Next.js 15 Compatibility Validation\n');
 
     try {
-      this.validateModernJSXTransform();
-      this.validateAppRouterSupport();
-      this.validateConcurrentFeatures();
-      this.validateEnhancedHooksRules();
+      void this.validateModernJSXTransform();
+      void this.validateAppRouterSupport();
+      void this.validateConcurrentFeatures();
+      void this.validateEnhancedHooksRules();
       await this.validateConfiguration();
 
-      this.generateReport();
+      void this.generateReport();
     } finally {
-      this.cleanup();
+      void this.cleanup();
     }
   }
 
@@ -540,7 +540,7 @@ export function ConditionalHooksComponent({ condition }: { condition: boolean })
       console.log('🎉 All React 19 and Next.js 15 compatibility validations passed!');
     } else {
       console.log('⚠️  Some validations failed. Please review the configuration.');
-      process.exit(1);
+      void process.exit(1);
     }
   }
 }
@@ -550,7 +550,7 @@ if (import.meta.url === `file://${process.argv[1]}`) {
   const validator = new React19NextJS15Validator();
   validator.validate().catch(error => {
     console.error('Validation failed:', error);
-    process.exit(1);
+    void process.exit(1);
   });
 }
 

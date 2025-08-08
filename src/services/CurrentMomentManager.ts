@@ -79,7 +79,7 @@ class CurrentMomentManager {
    */
   async updateCurrentMoment(customDateTime?: Date, customLocation?: { latitude: number; longitude: number }): Promise<CurrentMomentData> {
     if (this.updateInProgress) {
-      logger.info('Update already in progress, waiting...');
+      void logger.info('Update already in progress, waiting...');
       // Wait for current update to complete
       while (this.updateInProgress) {
         await new Promise(resolve => setTimeout(resolve, 100));
@@ -97,7 +97,7 @@ class CurrentMomentManager {
     this.performanceMetrics.totalUpdates++;
     
     try {
-      logger.info('Starting current moment update...');
+      void logger.info('Starting current moment update...');
       
       const targetDate = customDateTime || new Date();
       const location = customLocation || DEFAULT_LOCATION;
@@ -113,9 +113,9 @@ class CurrentMomentManager {
           planetaryPositions = await getCurrentPlanetaryPositions(location);
         }
         source = 'api';
-        logger.info('Successfully retrieved positions from astrologize API');
+        void logger.info('Successfully retrieved positions from astrologize API');
       } catch (error) {
-        logger.warn('Failed to get positions from API, using fallback', error);
+        void logger.warn('Failed to get positions from API, using fallback', error);
         planetaryPositions = this.getFallbackPositions();
         source = 'fallback';
       }
@@ -155,7 +155,7 @@ class CurrentMomentManager {
         (this.performanceMetrics.averageResponseTime * (this.performanceMetrics.successfulUpdates - 1) + responseTime) / 
         this.performanceMetrics.successfulUpdates;
       
-      logger.info('Current moment update completed successfully', { responseTime });
+      void logger.info('Current moment update completed successfully', { responseTime });
       
       return this.currentMoment;
       
@@ -163,7 +163,7 @@ class CurrentMomentManager {
       // Track failed update
       this.performanceMetrics.failedUpdates++;
       this.performanceMetrics.lastError = error instanceof Error ? error.message : 'Unknown error';
-      logger.error('Current moment update failed', error);
+      void logger.error('Current moment update failed', error);
       throw error;
     } finally {
       this.updateInProgress = false;
@@ -178,7 +178,7 @@ class CurrentMomentManager {
       this.updateNotebook(momentData),
       this.updateSystemDefaults(momentData),
       this.updateStreamlinedPositions(momentData),
-      this.updateAccurateAstronomy(momentData)
+      void this.updateAccurateAstronomy(momentData)
     ];
 
     const results = await Promise.allSettled(updatePromises);
@@ -187,7 +187,7 @@ class CurrentMomentManager {
     results.forEach((result, index) => {
       if (result.status === 'rejected') {
         const updateNames = ['notebook', 'systemDefaults', 'streamlinedPositions', 'accurateAstronomy'];
-        logger.warn(`Failed to update ${updateNames[index]}:`, result.reason);
+        void logger.warn(`Failed to update ${updateNames[index]}:`, result.reason);
       }
     });
   }
@@ -255,11 +255,11 @@ class CurrentMomentManager {
         
         // Write updated notebook
         await fs.writeFile(notebookPath, JSON.stringify(notebook, null, 2));
-        logger.info('Updated current-moment-chart.ipynb successfully');
+        void logger.info('Updated current-moment-chart.ipynb successfully');
       }
       
     } catch (error) {
-      logger.error('Failed to update notebook:', error);
+      void logger.error('Failed to update notebook:', error);
       throw error;
     }
   }
@@ -282,10 +282,10 @@ class CurrentMomentManager {
       );
       
       await fs.writeFile(defaultsPath, updatedContent);
-      logger.info('Updated systemDefaults.ts successfully');
+      void logger.info('Updated systemDefaults.ts successfully');
       
     } catch (error) {
-      logger.error('Failed to update systemDefaults:', error);
+      void logger.error('Failed to update systemDefaults:', error);
       throw error;
     }
   }
@@ -308,10 +308,10 @@ class CurrentMomentManager {
       );
       
       await fs.writeFile(streamlinedPath, updatedContent);
-      logger.info('Updated streamlinedPlanetaryPositions.ts successfully');
+      void logger.info('Updated streamlinedPlanetaryPositions.ts successfully');
       
     } catch (error) {
-      logger.error('Failed to update streamlinedPlanetaryPositions:', error);
+      void logger.error('Failed to update streamlinedPlanetaryPositions:', error);
       throw error;
     }
   }
@@ -337,10 +337,10 @@ class CurrentMomentManager {
       );
       
       await fs.writeFile(astronomyPath, updatedContent);
-      logger.info('Updated accurateAstronomy.ts successfully');
+      void logger.info('Updated accurateAstronomy.ts successfully');
       
     } catch (error) {
-      logger.error('Failed to update accurateAstronomy:', error);
+      void logger.error('Failed to update accurateAstronomy:', error);
       throw error;
     }
   }
@@ -359,10 +359,10 @@ class CurrentMomentManager {
       const minutes = `${position.degree}° ${position.minute}'`;
       const retrograde = position.isRetrograde ? ", 'retrograde': True" : "";
       
-      lines.push(`    '${planet}': {'sign': '${position.sign}', 'degree': ${position.degree}, 'minutes': "${minutes}", 'element': '${element}', 'longitude': ${position.exactLongitude}${retrograde}},`);
+      void lines.push(`    '${planet}': {'sign': '${position.sign}', 'degree': ${position.degree}, 'minutes': "${minutes}", 'element': '${element}', 'longitude': ${position.exactLongitude}${retrograde}},`);
     });
     
-    lines.push("}");
+    void lines.push("}");
     return lines.join('\n');
   }
 
@@ -378,15 +378,15 @@ class CurrentMomentManager {
     ];
     
     Object.entries(positions).forEach(([planet, position]) => {
-      lines.push(`  ${planet}: {`);
-      lines.push(`    sign: '${position.sign}' as ZodiacSign,`);
-      lines.push(`    degree: ${position.degree + (position.minute / 60)},`);
-      lines.push(`    exactLongitude: ${position.exactLongitude},`);
-      lines.push(`    isRetrograde: ${position.isRetrograde}`);
-      lines.push(`  },`);
+      void lines.push(`  ${planet}: {`);
+      void lines.push(`    sign: '${position.sign}' as ZodiacSign,`);
+      void lines.push(`    degree: ${position.degree + (position.minute / 60)},`);
+      void lines.push(`    exactLongitude: ${position.exactLongitude},`);
+      void lines.push(`    isRetrograde: ${position.isRetrograde}`);
+      void lines.push(`  },`);
     });
     
-    lines.push("};");
+    void lines.push("};");
     return lines.join('\n');
   }
 
@@ -400,10 +400,10 @@ class CurrentMomentManager {
     ];
     
     Object.entries(positions).forEach(([planet, position]) => {
-      lines.push(`    ${planet}: { sign: '${position.sign}', degree: ${position.degree + (position.minute / 60)}, exactLongitude: ${position.exactLongitude}, isRetrograde: ${position.isRetrograde} },`);
+      void lines.push(`    ${planet}: { sign: '${position.sign}', degree: ${position.degree + (position.minute / 60)}, exactLongitude: ${position.exactLongitude}, isRetrograde: ${position.isRetrograde} },`);
     });
     
-    lines.push("  };");
+    void lines.push("  };");
     return lines.join('\n');
   }
 
@@ -417,10 +417,10 @@ class CurrentMomentManager {
     ];
     
     Object.entries(positions).forEach(([planet, position]) => {
-      lines.push(`  ${planet}: [${position.degree}, ${position.minute}, 0, '${position.sign}'],`);
+      void lines.push(`  ${planet}: [${position.degree}, ${position.minute}, 0, '${position.sign}'],`);
     });
     
-    lines.push("};");
+    void lines.push("};");
     return lines.join('\n');
   }
 
@@ -541,8 +541,8 @@ export const currentMomentManager = new CurrentMomentManager();
 // Export convenience functions
 export const getCurrentMoment = (forceRefresh = false) => currentMomentManager.getCurrentMoment(forceRefresh);
 export const updateCurrentMoment = (date?: Date, location?: { latitude: number; longitude: number }) => 
-  currentMomentManager.updateCurrentMoment(date, location);
+  void currentMomentManager.updateCurrentMoment(date, location);
 export const onAlchemizeApiCall = (positions?: Record<string, PlanetPosition>) => 
-  currentMomentManager.onAlchemizeApiCall(positions);
+  void currentMomentManager.onAlchemizeApiCall(positions);
 export const onAstrologizeApiCall = (positions?: Record<string, PlanetPosition>) => 
-  currentMomentManager.onAstrologizeApiCall(positions); 
+  void currentMomentManager.onAstrologizeApiCall(positions); 

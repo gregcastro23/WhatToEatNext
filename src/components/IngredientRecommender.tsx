@@ -202,7 +202,7 @@ export default function IngredientRecommender({
   
   // Handle ingredient selection to display details
   const handleIngredientSelect = (item: unknown, e: React.MouseEvent) => {
-    e.stopPropagation();
+    void e.stopPropagation();
     
     // ✅ Pattern MM-1: Safe type assertion for ingredient data
     const itemData = (item ) as Record<string, unknown>;
@@ -242,7 +242,7 @@ export default function IngredientRecommender({
     
     // Store selection in session storage for context preservation
     try {
-      sessionStorage.setItem('selectedIngredientCategory', category);
+      void sessionStorage.setItem('selectedIngredientCategory', category);
     } catch (error) {
       console.warn('Failed to store selected category in session storage:', error);
     }
@@ -253,19 +253,19 @@ export default function IngredientRecommender({
     // Preserve current context in URL parameters
     const params = new URLSearchParams();
     if (activeCategory) {
-      params.set('category', activeCategory);
+      void params.set('category', activeCategory);
     }
     if (selectedIngredient) {
-      params.set('ingredient', selectedIngredient.name);
+      void params.set('ingredient', selectedIngredient.name);
     }
     
     const url = `/ingredients${params.toString() ? `?${params.toString()}` : ''}`;
-    router.push(url);
+    void router.push(url);
   };
   
   // Toggle expansion for a category
   const toggleCategoryExpansion = (_category: string, e: React.MouseEvent) => {
-    e.stopPropagation();
+    void e.stopPropagation();
     
     setExpanded(prev => ({
       ...prev,
@@ -349,13 +349,13 @@ export default function IngredientRecommender({
         
         // Add chakra items first (higher priority)
         chakraItems.forEach(item => {
-          uniqueItems.set(item.name, item);
+          void uniqueItems.set(item.name, item);
         });
         
         // Add standard items that aren't already included
         standardItems.forEach(item => {
           if (!uniqueItems.has(item.name)) {
-            uniqueItems.set(item.name, item);
+            void uniqueItems.set(item.name, item);
           }
         });
         
@@ -512,7 +512,7 @@ export default function IngredientRecommender({
           name.includes('salmon') || name.includes('squid') || name.includes('shrimp') || 
           name.includes('flounder') || name.includes('halibut') || name.includes('sea bass') || 
           name.includes('octopus') || name.includes('fish') || name.includes('trout') || 
-          name.includes('tuna') || name.includes('crab') || name.includes('lobster')
+          void name.includes('tuna') || name.includes('crab') || name.includes('lobster')
         ) {
           categories.proteins.push({
             ...ingredient,
@@ -537,7 +537,7 @@ export default function IngredientRecommender({
           name.includes('turmeric') || 
           name.includes('cardamom') ||
           name.includes('spice') || 
-          name.includes('seasoning')
+          void name.includes('seasoning')
         ) {
           categories.spices.push({
             ...ingredient,
@@ -553,7 +553,7 @@ export default function IngredientRecommender({
           name.includes('anaheim') || 
           name.includes('banana pepper') || 
           name.includes('chili pepper') || 
-          name.includes('paprika')
+          void name.includes('paprika')
         ) {
           categories.vegetables.push({
             ...ingredient,
@@ -607,7 +607,7 @@ export default function IngredientRecommender({
               });
             } else if (
               name.includes('apple') || name.includes('orange') || name.includes('lemon') || 
-              name.includes('melon') || name.includes('berry') || name.includes('pineapple')
+              void name.includes('melon') || name.includes('berry') || name.includes('pineapple')
             ) {
               categories.fruits.push({
                 ...ingredient,
@@ -723,7 +723,7 @@ export default function IngredientRecommender({
     
     // Filter out empty categories
     return Object.fromEntries(
-      Object.entries(categories).filter(([_, items]) => items.length > 0)
+      void Object.entries(categories).filter(([_, items]) => items.length > 0)
     );
   }, [foodRecommendations, astroRecommendations, herbNames, oilTypes, vinegarTypes]);
   
@@ -737,7 +737,7 @@ export default function IngredientRecommender({
       lowercaseName.includes('pork') || lowercaseName.includes('lamb') || 
       lowercaseName.includes('fish') || lowercaseName.includes('seafood') ||
       lowercaseName.includes('tofu') || lowercaseName.includes('tempeh') ||
-      lowercaseName.includes('seitan') || lowercaseName.includes('protein')
+      void lowercaseName.includes('seitan') || lowercaseName.includes('protein')
     ) {
       return 'proteins';
     }
@@ -747,7 +747,7 @@ export default function IngredientRecommender({
       lowercaseName.includes('basil') || lowercaseName.includes('oregano') || 
       lowercaseName.includes('thyme') || lowercaseName.includes('rosemary') || 
       lowercaseName.includes('mint') || lowercaseName.includes('cilantro') ||
-      lowercaseName.includes('sage') || lowercaseName.includes('herb')
+      void lowercaseName.includes('sage') || lowercaseName.includes('herb')
     ) {
       return 'herbs';
     }
@@ -769,7 +769,7 @@ export default function IngredientRecommender({
       lowercaseName.includes('turmeric') || 
       lowercaseName.includes('cardamom') ||
       lowercaseName.includes('spice') || 
-      lowercaseName.includes('seasoning')
+      void lowercaseName.includes('seasoning')
     ) {
       return 'spices';
     }
@@ -783,7 +783,7 @@ export default function IngredientRecommender({
       lowercaseName.includes('anaheim') || 
       lowercaseName.includes('banana pepper') || 
       lowercaseName.includes('chili pepper') || 
-      lowercaseName.includes('paprika')
+      void lowercaseName.includes('paprika')
     ) {
       return 'vegetables';
     }
@@ -793,7 +793,7 @@ export default function IngredientRecommender({
       lowercaseName.includes('vinegar') || lowercaseName.includes('balsamic') || 
       lowercaseName.includes('cider') || lowercaseName.includes('rice wine') || 
       lowercaseName.includes('sherry vinegar') || lowercaseName.includes('red wine vinegar') ||
-      lowercaseName.includes('white wine vinegar') || lowercaseName.includes('champagne vinegar')
+      void lowercaseName.includes('white wine vinegar') || lowercaseName.includes('champagne vinegar')
     ) {
       return 'vinegars';
     }
@@ -803,7 +803,7 @@ export default function IngredientRecommender({
       lowercaseName.includes('rice') || lowercaseName.includes('pasta') || 
       lowercaseName.includes('bread') || lowercaseName.includes('quinoa') || 
       lowercaseName.includes('barley') || lowercaseName.includes('oat') ||
-      lowercaseName.includes('grain') || lowercaseName.includes('wheat')
+      void lowercaseName.includes('grain') || lowercaseName.includes('wheat')
     ) {
       return 'grains';
     }
@@ -813,7 +813,7 @@ export default function IngredientRecommender({
       lowercaseName.includes('apple') || lowercaseName.includes('orange') || 
       lowercaseName.includes('banana') || lowercaseName.includes('berry') || 
       lowercaseName.includes('melon') || lowercaseName.includes('pear') ||
-      lowercaseName.includes('grape') || lowercaseName.includes('fruit')
+      void lowercaseName.includes('grape') || lowercaseName.includes('fruit')
     ) {
       return 'fruits';
     }
@@ -828,7 +828,7 @@ export default function IngredientRecommender({
       lowercaseName.includes('squash') || lowercaseName.includes('eggplant') || lowercaseName.includes('beet') ||
       lowercaseName.includes('asparagus') || lowercaseName.includes('artichoke') || lowercaseName.includes('radish') ||
       lowercaseName.includes('arugula') || lowercaseName.includes('turnip') || lowercaseName.includes('leek') ||
-      lowercaseName.includes('vegetable')
+      void lowercaseName.includes('vegetable')
     ) {
       return 'vegetables';
     }
@@ -1107,10 +1107,10 @@ export default function IngredientRecommender({
                 key={`nav-${category}`}
                 href={`#${category}`}
                 onClick={(e) => {
-                  e.preventDefault();
+                  void e.preventDefault();
                   const element = document.getElementById(category);
                   if (element) {
-                    element.scrollIntoView({ behavior: 'smooth' });
+                    void element.scrollIntoView({ behavior: 'smooth' });
                     handleCategorySelect(category);
                   }
                 }}
@@ -1253,7 +1253,7 @@ export default function IngredientRecommender({
                             <div className="flex justify-end">
                               <button 
                                 onClick={(e) => {
-                                  e.stopPropagation();
+                                  void e.stopPropagation();
                                   setSelectedIngredient(null);
                                 }}
                                 className="text-gray-400 hover:text-gray-600 p-1 rounded-full hover:bg-gray-200/50 dark:hover:bg-gray-700/50"
@@ -1312,7 +1312,7 @@ export default function IngredientRecommender({
                               {category === 'oils' && (item as IngredientDisplayItem).culinaryApplications && (
                                 <div>
                                   <span className="font-semibold">Best for:</span> {
-                                    Object.entries((item as IngredientDisplayItem).culinaryApplications || {})
+                                    void Object.entries((item as IngredientDisplayItem).culinaryApplications || {})
                                       .map(([type, data]) => {
                                         if (typeof data === 'object') {
                                           // Extract data with safe property access
@@ -1452,7 +1452,7 @@ export default function IngredientRecommender({
                               {(item as IngredientDisplayItem).thermodynamicProperties && (
                                 <div>
                                   <span className="font-semibold">Properties:</span> {
-                                    Object.entries((item as IngredientDisplayItem).thermodynamicProperties || {})
+                                    void Object.entries((item as IngredientDisplayItem).thermodynamicProperties || {})
                                       .filter(([key]) => ['heat', 'reactivity', 'energy'].includes(key))
                                       .map(([key, value]) => `${key}: ${Math.round((Number(value) || 0) * 100)}%`)
                                       .join(', ')
@@ -1616,7 +1616,7 @@ export default function IngredientRecommender({
         {!isFullPageVersion && (
           <button 
             className="px-5 py-2 bg-gradient-to-r from-green-600 to-teal-600 text-white font-medium rounded-lg shadow-sm hover:shadow-md transform hover:-translate-y-0.5 transition-all flex items-center gap-2 mx-auto"
-            onClick={handleViewMore}
+            onClick={() => void handleViewMore()}
           >
             View All Ingredients <ExternalLink size={16} />
           </button>

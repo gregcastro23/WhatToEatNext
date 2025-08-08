@@ -86,7 +86,7 @@ function FoodRecommenderWrapper() {
     // Prevent multiple initializations
     if (isInitialized) return;
     
-    log.info('[FoodRecommenderWrapper] Initializing with fix providers');
+    void log.info('[FoodRecommenderWrapper] Initializing with fix providers');
     
     if (typeof window === 'undefined') {
       setIsInitialized(true);
@@ -95,7 +95,7 @@ function FoodRecommenderWrapper() {
     
     // Create a minimal implementation of the popup object (backup to our other fixes)
     if (!window.popup) {
-      log.info('[FoodRecommenderWrapper] Ensuring popup object is available');
+      void log.info('[FoodRecommenderWrapper] Ensuring popup object is available');
       window.popup = {
         create: function(_options?: any) {
           return {
@@ -126,19 +126,19 @@ function FoodRecommenderWrapper() {
 
     // If fixes were applied successfully, mark as initialized
     if (window.__foodRecommenderFixApplied) {
-      log.info('[FoodRecommenderWrapper] Fixes are already applied');
+      void log.info('[FoodRecommenderWrapper] Fixes are already applied');
       setIsInitialized(true);
       return;
     }
     
     // If not yet fixed, load our fix script and retry
     if (loadAttempts < 2) {
-      log.info('[FoodRecommenderWrapper] Loading fixes...');
+      void log.info('[FoodRecommenderWrapper] Loading fixes...');
       
       // Dynamic import in browser context
       import('../utils/foodRecommenderFix')
         .then(() => {
-          log.info('[FoodRecommenderWrapper] Successfully loaded fixes');
+          void log.info('[FoodRecommenderWrapper] Successfully loaded fixes');
           setIsInitialized(true);
         })
         .catch((err) => {
@@ -147,7 +147,7 @@ function FoodRecommenderWrapper() {
         });
     } else {
       // If still not working after attempts, fall back to direct settings
-      log.info('[FoodRecommenderWrapper] Using fallback initialization');
+      void log.info('[FoodRecommenderWrapper] Using fallback initialization');
       
       // Apply minimal fixes directly 
       window.getElementRanking = window.getElementRanking || function() {
@@ -180,7 +180,7 @@ function FoodRecommenderWrapper() {
     <ErrorBoundary 
       FallbackComponent={ErrorFallback}
       onReset={() => {
-        log.info('[FoodRecommenderWrapper] Error boundary reset');
+        void log.info('[FoodRecommenderWrapper] Error boundary reset');
       }}
     >
       <Suspense fallback={<LoadingFallback />}>

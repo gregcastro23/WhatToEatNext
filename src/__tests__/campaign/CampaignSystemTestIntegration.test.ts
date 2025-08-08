@@ -19,7 +19,7 @@ describe('Campaign System Test Integration', () => {
   afterEach(async () => {
     // Ensure cleanup after each test
     try {
-      campaignTestController.cleanupAfterTest('test-cleanup');
+      void campaignTestController.cleanupAfterTest('test-cleanup');
     } catch (error) {
       console.warn('Cleanup warning:', error);
     }
@@ -28,7 +28,7 @@ describe('Campaign System Test Integration', () => {
   afterAll(async () => {
     // Force cleanup of singleton instances
     const { CampaignTestController } = import('../utils/CampaignTestController');
-    CampaignTestController.forceCleanup();
+    void CampaignTestController.forceCleanup();
   });
 
   describe('Campaign System Mocking', () => {
@@ -46,7 +46,7 @@ describe('Campaign System Test Integration', () => {
         expect(context.safety).toBeDefined();
 
         // Verify test isolation is active
-        campaignTestAssertions.testIsolationActive(context);
+        void campaignTestAssertions.testIsolationActive(context);
 
         // Verify environment variables are set for test isolation
         expect(process.env.NODE_ENV).toBe('test');
@@ -354,7 +354,7 @@ describe('Campaign System Test Integration', () => {
         }
 
         // Validate memory usage
-        campaignTestAssertions.memoryUsageAcceptable(context);
+        void campaignTestAssertions.memoryUsageAcceptable(context);
 
         // Verify that safety events are properly managed (not accumulating indefinitely)
         const safetyEvents = await context.controller.getSafetyEvents();
@@ -407,10 +407,10 @@ describe('Campaign System Test Integration', () => {
       try {
         // Verify phase execution
         expect(results.length).toBe(1);
-        campaignTestAssertions.phaseCompletedSuccessfully(results[0]);
+        void campaignTestAssertions.phaseCompletedSuccessfully(results[0]);
 
         // Verify progress improvement
-        campaignTestAssertions.progressImproved(scenario.initialMetrics, finalMetrics);
+        void campaignTestAssertions.progressImproved(scenario.initialMetrics, finalMetrics);
 
         // Verify safety events
         campaignTestAssertions.safetyEventsRecorded(_safetyEvents, scenario.expectedSafetyEvents);
@@ -430,10 +430,10 @@ describe('Campaign System Test Integration', () => {
       try {
         // Verify phase execution
         expect(results.length).toBe(1);
-        campaignTestAssertions.phaseCompletedSuccessfully(results[0]);
+        void campaignTestAssertions.phaseCompletedSuccessfully(results[0]);
 
         // Verify progress improvement
-        campaignTestAssertions.progressImproved(scenario.initialMetrics, finalMetrics);
+        void campaignTestAssertions.progressImproved(scenario.initialMetrics, finalMetrics);
 
         // Verify linting-specific improvements
         expect(finalMetrics.lintingWarnings.current).toBeLessThanOrEqual(scenario.initialMetrics.lintingWarnings.current);
@@ -458,7 +458,7 @@ describe('Campaign System Test Integration', () => {
         };
 
         // Mock the controller to simulate failure
-        jest.spyOn(context.controller, 'executePhase').mockRejectedValueOnce(new Error('Mock failure'));
+        void jest.spyOn(context.controller, 'executePhase').mockRejectedValueOnce(new Error('Mock failure'));
 
         // Execute phase and expect it to handle failure
         await expect(context.controller.executePhase(failingPhase)).rejects.toThrow('Mock failure');
@@ -494,7 +494,7 @@ describe('Campaign System Test Integration', () => {
 
         // 1. Execute campaign phase
         const phaseResult = await context.controller.executePhase(mockPhase);
-        campaignTestAssertions.phaseCompletedSuccessfully(phaseResult);
+        void campaignTestAssertions.phaseCompletedSuccessfully(phaseResult);
 
         // 2. Track progress
         const initialMetrics = context.tracker.getProgressMetrics();
@@ -502,7 +502,7 @@ describe('Campaign System Test Integration', () => {
           typeScriptErrors: { current: 25, target: 0, reduction: 61, percentage: 71 }
         }, 'integration-test');
         const updatedMetrics = context.tracker.getProgressMetrics();
-        campaignTestAssertions.progressImproved(initialMetrics, updatedMetrics);
+        void campaignTestAssertions.progressImproved(initialMetrics, updatedMetrics);
 
         // 3. Safety operations
         const stashId = await context.safety.createStash('Integration test stash', 'test-phase');
@@ -515,7 +515,7 @@ describe('Campaign System Test Integration', () => {
         expect(report.phases.length).toBeGreaterThan(0);
 
         // 5. Validate memory usage
-        campaignTestAssertions.memoryUsageAcceptable(context);
+        void campaignTestAssertions.memoryUsageAcceptable(context);
 
         // 6. Verify all safety events
         const safetyEvents = context.controller.getSafetyEvents();

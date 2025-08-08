@@ -138,7 +138,7 @@ const _getAllDishesForCuisine = (cuisineId: string): Dish[] => {
  */
 export const getRecommendations = (mealTime: string, season: Season, cuisineId: string): Dish[] => {
   try {
-    debugLog(`Getting recommendations for: ${cuisineId}, ${mealTime}, ${season}`);
+    void debugLog(`Getting recommendations for: ${cuisineId}, ${mealTime}, ${season}`);
 
     const cuisine = cuisines[cuisineId];
     if (!cuisine || !cuisine.dishes) {

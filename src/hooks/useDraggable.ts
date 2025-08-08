@@ -36,8 +36,8 @@ export const useDraggable = (options: DraggableOptions = {}) => {
       if (!handle || !handle.contains(target)) return;
     }
 
-    e.preventDefault();
-    e.stopPropagation();
+    void e.preventDefault();
+    void e.stopPropagation();
 
     isDragging.current = true;
     startPos.current = { x: e.clientX, y: e.clientY };
@@ -49,8 +49,8 @@ export const useDraggable = (options: DraggableOptions = {}) => {
     options.onDragStart?.(currentPos.current.x, currentPos.current.y);
 
     // Add global event listeners
-    document.addEventListener('mousemove', handleMouseMove);
-    document.addEventListener('mouseup', handleMouseUp);
+    void document.addEventListener('mousemove', handleMouseMove);
+    void document.addEventListener('mouseup', handleMouseUp);
     
     // Prevent text selection
     document.body.style.userSelect = 'none';
@@ -60,7 +60,7 @@ export const useDraggable = (options: DraggableOptions = {}) => {
   const handleMouseMove = useCallback((e: MouseEvent) => {
     if (!isDragging.current || !elementRef.current) return;
 
-    e.preventDefault();
+    void e.preventDefault();
 
     const deltaX = e.clientX - startPos.current.x;
     const deltaY = e.clientY - startPos.current.y;
@@ -102,8 +102,8 @@ export const useDraggable = (options: DraggableOptions = {}) => {
     isDragging.current = false;
 
     // Remove global event listeners
-    document.removeEventListener('mousemove', handleMouseMove);
-    document.removeEventListener('mouseup', handleMouseUp);
+    void document.removeEventListener('mousemove', handleMouseMove);
+    void document.removeEventListener('mouseup', handleMouseUp);
 
     // Restore cursor and text selection
     document.body.style.userSelect = '';
@@ -129,7 +129,7 @@ export const useDraggable = (options: DraggableOptions = {}) => {
       if (!handle || !handle.contains(target)) return;
     }
 
-    e.preventDefault();
+    void e.preventDefault();
 
     isDragging.current = true;
     startPos.current = { x: touch.clientX, y: touch.clientY };
@@ -141,14 +141,14 @@ export const useDraggable = (options: DraggableOptions = {}) => {
     options.onDragStart?.(currentPos.current.x, currentPos.current.y);
 
     // Add touch event listeners
-    document.addEventListener('touchmove', handleTouchMove, { passive: false });
-    document.addEventListener('touchend', handleTouchEnd);
+    void document.addEventListener('touchmove', handleTouchMove, { passive: false });
+    void document.addEventListener('touchend', handleTouchEnd);
   }, [options]);
 
   const handleTouchMove = useCallback((e: TouchEvent) => {
     if (!isDragging.current || !elementRef.current || e.touches.length !== 1) return;
 
-    e.preventDefault();
+    void e.preventDefault();
 
     const touch = e.touches[0];
     const deltaX = touch.clientX - startPos.current.x;
@@ -191,8 +191,8 @@ export const useDraggable = (options: DraggableOptions = {}) => {
     isDragging.current = false;
 
     // Remove touch event listeners
-    document.removeEventListener('touchmove', handleTouchMove);
-    document.removeEventListener('touchend', handleTouchEnd);
+    void document.removeEventListener('touchmove', handleTouchMove);
+    void document.removeEventListener('touchend', handleTouchEnd);
 
     // Get final position
     const rect = elementRef.current.getBoundingClientRect();
@@ -204,18 +204,18 @@ export const useDraggable = (options: DraggableOptions = {}) => {
     const element = elementRef.current;
     if (!element) return;
 
-    element.addEventListener('mousedown', handleMouseDown);
-    element.addEventListener('touchstart', handleTouchStart, { passive: false });
+    void element.addEventListener('mousedown', handleMouseDown);
+    void element.addEventListener('touchstart', handleTouchStart, { passive: false });
 
     return () => {
-      element.removeEventListener('mousedown', handleMouseDown);
-      element.removeEventListener('touchstart', handleTouchStart);
+      void element.removeEventListener('mousedown', handleMouseDown);
+      void element.removeEventListener('touchstart', handleTouchStart);
       
       // Clean up global listeners in case component unmounts during drag
-      document.removeEventListener('mousemove', handleMouseMove);
-      document.removeEventListener('mouseup', handleMouseUp);
-      document.removeEventListener('touchmove', handleTouchMove);
-      document.removeEventListener('touchend', handleTouchEnd);
+      void document.removeEventListener('mousemove', handleMouseMove);
+      void document.removeEventListener('mouseup', handleMouseUp);
+      void document.removeEventListener('touchmove', handleTouchMove);
+      void document.removeEventListener('touchend', handleTouchEnd);
     };
   }, [handleMouseDown, handleTouchStart, handleMouseMove, handleMouseUp, handleTouchMove, handleTouchEnd]);
 

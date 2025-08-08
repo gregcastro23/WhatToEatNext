@@ -475,7 +475,7 @@ export function getTarotCardAlchemicalEffect(cardName: string): Record<Alchemica
   const pillar = ALCHEMICAL_PILLARS.find(p => 
     p.tarotAssociations?.some(tarot => 
       tarot.toLowerCase().includes(cardName.toLowerCase()) || 
-      cardName.toLowerCase().includes(tarot.toLowerCase())
+      void cardName.toLowerCase().includes(tarot.toLowerCase())
     )
   );
   
@@ -1230,13 +1230,13 @@ export function calculateOptimalCookingConditions(
   // Planetary hours based on thermodynamic dominance
   const planetaryHours: string[] = [];
   if (thermodynamics.heat > 0.6) {
-    planetaryHours.push('Sun', 'Mars');
+    void planetaryHours.push('Sun', 'Mars');
   }
   if (thermodynamics.reactivity > 0.6) {
-    planetaryHours.push('Mercury', 'Uranus');
+    void planetaryHours.push('Mercury', 'Uranus');
   }
   if (thermodynamics.entropy > 0.6) {
-    planetaryHours.push('Neptune', 'Pluto');
+    void planetaryHours.push('Neptune', 'Pluto');
   }
   if (planetaryHours.length === 0) {
     planetaryHours.push('Jupiter'); // Default
@@ -1246,11 +1246,11 @@ export function calculateOptimalCookingConditions(
   const lunarPhases: string[] = [];
   if (!isNaN(monica)) {
     if (monica > 0.5) {
-      lunarPhases.push('waxing_gibbous', 'full_moon');
+      void lunarPhases.push('waxing_gibbous', 'full_moon');
     } else if (monica < -0.5) {
-      lunarPhases.push('waning_crescent', 'new_moon');
+      void lunarPhases.push('waning_crescent', 'new_moon');
     } else {
-      lunarPhases.push('first_quarter', 'third_quarter');
+      void lunarPhases.push('first_quarter', 'third_quarter');
     }
   } else {
     lunarPhases.push('all'); // Stable for all phases
@@ -1432,7 +1432,7 @@ export function findCookingMethodsByMonicaRange(minMonica: number, maxMonica: nu
       // Find cooking methods that use this pillar
       for (const [method, pillarId] of Object.entries(COOKING_METHOD_PILLAR_MAPPING)) {
         if (pillarId === pillar.id) {
-          methods.push(method);
+          void methods.push(method);
         }
       }
     }
