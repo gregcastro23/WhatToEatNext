@@ -905,7 +905,7 @@ exports.indian = {
                     substitutions: {
                         "milk": ["full-fat plant milk + agar"],
                         "pistachios": ["almonds", "cashews"],
-                        "rose Water: ["kewra water", "vanilla"]
+                        "rose water": ["kewra water", "vanilla"]
                     },
                     servingSize: 8,
                     allergens: ["dAiry", "nuts"],

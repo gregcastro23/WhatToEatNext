@@ -11,7 +11,7 @@ import {
 } from '../../types/campaign';
 import { campaignTestController } from '../utils/CampaignTestController';
 import {
-    campaignTestAssertions, campaignTestData, cleanupCampaignTest, createMockCampaignConfig, executeCampaignTestScenario, setupCampaignTest, validateCampaignTestIsolation
+    campaignTestAssertions, campaignTestData, cleanupCampaignTest, createMockCampaignConfig, executeCampaignTestScenario, setupCampaignTest, validateCampaignTestIsolation, withCampaignTestIsolation
 } from '../utils/campaignTestUtils';
 
 describe('Campaign System Test Integration', () => {
@@ -27,7 +27,7 @@ describe('Campaign System Test Integration', () => {
 
   afterAll(async () => {
     // Force cleanup of singleton instances
-    const { CampaignTestController } = import('../utils/CampaignTestController');
+    const { CampaignTestController } = await import('../utils/CampaignTestController');
     void CampaignTestController.forceCleanup();
   });
 
@@ -78,12 +78,12 @@ describe('Campaign System Test Integration', () => {
 
       try {
         // Mock TypeScript error count should not run actual tsc
-        const errorCount = context.tracker.getTypeScriptErrorCount
+        const errorCount = context.tracker.getTypeScriptErrorCount();
         expect(typeof errorCount).toBe('number');
         expect(errorCount).toBeGreaterThanOrEqual(0);
 
         // Mock error breakdown should not run actual analysis
-        const breakdown = context.tracker.getTypeScriptErrorBreakdown
+        const breakdown = context.tracker.getTypeScriptErrorBreakdown();
         expect(typeof breakdown).toBe('object');
         expect(Object.keys(breakdown).length).toBeGreaterThan(0);
 
@@ -105,7 +105,7 @@ describe('Campaign System Test Integration', () => {
 
       try {
         // Mock stash creation should not run actual git commands
-        const stashId = await context.safety.createStash
+        const stashId = await context.safety.createStash('checkpoint', 'test');
         expect(typeof stashId).toBe('string');
         expect(stashId).toContain('mock_stash_');
 
@@ -183,7 +183,7 @@ describe('Campaign System Test Integration', () => {
 
       try {
         if (context.testSafeTracker) {
-          const initialMetrics = context.testSafeTracker.getProgressMetrics();
+          const initialMetrics = await context.testSafeTracker.getProgressMetrics();
           // Simulate progress to target metrics
           const targetMetrics = {
             typeScriptErrors: { current: 0, target: 0, reduction: 86, percentage: 100 },
@@ -192,7 +192,7 @@ describe('Campaign System Test Integration', () => {
 
           context.testSafeTracker.simulateProgress(targetMetrics, 1000, 'simulation-test');
 
-          const finalMetrics = context.testSafeTracker.getProgressMetrics();
+          const finalMetrics = await context.testSafeTracker.getProgressMetrics();
 
           // Verify progress was made
           expect(finalMetrics.typeScriptErrors.current).toBeLessThanOrEqual(initialMetrics.typeScriptErrors.current);
@@ -279,7 +279,7 @@ describe('Campaign System Test Integration', () => {
         context1.testController.updateMockMetrics({
           typeScriptErrors: { current: 10, target: 0, reduction: 76, percentage: 88 }
         }, 'isolation-test-1');
-        const metrics1 = context1.tracker.getProgressMetrics();
+        const metrics1 = await context1.tracker.getProgressMetrics();
         expect(metrics1.typeScriptErrors.current).toBe(10);
 
       } finally {
@@ -292,7 +292,7 @@ describe('Campaign System Test Integration', () => {
       });
 
       try {
-        const metrics2 = context2.tracker.getProgressMetrics();
+        const metrics2 = await context2.tracker.getProgressMetrics();
         // Should not have the modified metrics from test 1
         expect(metrics2.typeScriptErrors.current).not.toBe(10);
         expect(metrics2.typeScriptErrors.current).toBeGreaterThan(10); // Should be initial value
@@ -311,7 +311,7 @@ describe('Campaign System Test Integration', () => {
           context.testController.updateMockMetrics({
             typeScriptErrors: { current: 20, target: 0, reduction: 66, percentage: 77 }
           }, 'concurrent-test-1');
-          const metrics = context.tracker.getProgressMetrics();
+          const metrics = await context.tracker.getProgressMetrics();
           expect(metrics.typeScriptErrors.current).toBe(20);
           return 'test-1-complete';
         }),
@@ -320,7 +320,7 @@ describe('Campaign System Test Integration', () => {
           context.testController.updateMockMetrics({
             typeScriptErrors: { current: 30, target: 0, reduction: 56, percentage: 65 }
           }, 'concurrent-test-2');
-          const metrics = context.tracker.getProgressMetrics();
+          const metrics = await context.tracker.getProgressMetrics();
           expect(metrics.typeScriptErrors.current).toBe(30);
           return 'test-2-complete';
         })
@@ -497,11 +497,11 @@ describe('Campaign System Test Integration', () => {
         void campaignTestAssertions.phaseCompletedSuccessfully(phaseResult);
 
         // 2. Track progress
-        const initialMetrics = context.tracker.getProgressMetrics();
+        const initialMetrics = await context.tracker.getProgressMetrics();
         context.testController.updateMockMetrics({
           typeScriptErrors: { current: 25, target: 0, reduction: 61, percentage: 71 }
         }, 'integration-test');
-        const updatedMetrics = context.tracker.getProgressMetrics();
+        const updatedMetrics = await context.tracker.getProgressMetrics();
         void campaignTestAssertions.progressImproved(initialMetrics, updatedMetrics);
 
         // 3. Safety operations

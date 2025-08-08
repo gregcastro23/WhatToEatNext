@@ -343,9 +343,9 @@ async function createCICDReport(args: string[]) {
     });
   }
   
-  if (report.recommendations.length > 0) {
+  if (report?.recommendations.length > 0) {
     console.log('\n💡 Recommendations:');
-    report.recommendations.forEach((rec: string, index: number) => {
+    report?.recommendations.forEach((rec: string, index: number) => {
       console.log(`  ${index + 1}. ${rec}`);
     });
   }

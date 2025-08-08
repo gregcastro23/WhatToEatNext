@@ -959,12 +959,12 @@ export class EnterpriseIntelligenceIntegration {
 
   private generateRecipeIntelligenceRecommendations(analysis: Record<string, unknown>): string[] {
     const recommendations: string[] = [];
-    if ((analysis as unknown as { coreMetrics?: { overallCompatibility?: number } })?.coreMetrics?.overallCompatibility &&
-        (analysis as unknown as { coreMetrics?: { overallCompatibility?: number } })?.coreMetrics?.overallCompatibility < 0.9) {
+    if ((analysis as unknown as { coreMetrics?: { overallCompatibility?: number } })?.coreMetrics?.overallCompatibility !== undefined &&
+        (((analysis as unknown as { coreMetrics?: { overallCompatibility?: number } })?.coreMetrics?.overallCompatibility) as number) < 0.9) {
       recommendations.push('Consider ingredient substitutions for better compatibility');
     }
-    if ((analysis as unknown as { advancedAnalysis?: { temporalFactors?: { seasonalRelevance?: number } } })?.advancedAnalysis?.temporalFactors?.seasonalRelevance &&
-        (analysis as unknown as { advancedAnalysis?: { temporalFactors?: { seasonalRelevance?: number } } })?.advancedAnalysis?.temporalFactors?.seasonalRelevance < 0.8) {
+    if ((analysis as unknown as { advancedAnalysis?: { temporalFactors?: { seasonalRelevance?: number } } })?.advancedAnalysis?.temporalFactors?.seasonalRelevance !== undefined &&
+        (((analysis as unknown as { advancedAnalysis?: { temporalFactors?: { seasonalRelevance?: number } } })?.advancedAnalysis?.temporalFactors?.seasonalRelevance) as number) < 0.8) {
       recommendations.push('Adjust timing for better seasonal alignment');
     }
     return recommendations;

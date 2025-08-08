@@ -194,7 +194,7 @@ describe('CampaignController', () => {
 
       const events = (controller as unknown as { safetyEvents: unknown[] }).safetyEvents;
       expect(events.length).toBeGreaterThan(0);
-      expect(events[0].description).toContain('Starting phase: TypeScript Error Elimination');
+      expect((events as Record<string, unknown>)[0].description).toContain('Starting phase: TypeScript Error Elimination');
     });
   });
 
@@ -292,7 +292,7 @@ describe('CampaignController', () => {
 
       const events = (controller as unknown as { safetyEvents: unknown[] }).safetyEvents;
       expect(events.length).toBe(1);
-      expect(events[0].description).toContain('Safety checkpoint created: Test checkpoint');
+      expect((events as Record<string, unknown>)[0].description).toContain('Safety checkpoint created: Test checkpoint');
     });
   });
 
@@ -302,7 +302,7 @@ describe('CampaignController', () => {
 
       const events = (controller as unknown as { safetyEvents: unknown[] }).safetyEvents;
       expect(events.length).toBe(1);
-      expect(events[0].description).toContain('Rolling back to checkpoint: checkpoint_123');
+      expect((events as Record<string, unknown>)[0].description).toContain('Rolling back to checkpoint: checkpoint_123');
     });
   });
 
@@ -422,7 +422,7 @@ describe('CampaignController', () => {
       }
 
       const events = (controller as unknown as { safetyEvents: unknown[] }).safetyEvents;
-      expect(events[events.length - 1].description).toBe('Event 1099');
+      expect((events as Record<string, unknown>)[(events as Record<string, unknown>).length - 1].description).toBe('Event 1099');
     });
   });
 

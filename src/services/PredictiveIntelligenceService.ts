@@ -1065,10 +1065,10 @@ export class PredictiveIntelligenceService {
 
   private calculateOverallConfidence(result: PredictiveIntelligenceResult): number {
     const predictions = [
-      result.recipePrediction.successProbability,
-      result.ingredientPrediction.compatibilityPrediction,
-      result.cuisinePrediction.fusionSuccessPrediction,
-      result.astrologicalPrediction.alignmentPrediction
+      (result as Record<string, unknown>).recipePrediction.successProbability,
+      (result as Record<string, unknown>).ingredientPrediction.compatibilityPrediction,
+      (result as Record<string, unknown>).cuisinePrediction.fusionSuccessPrediction,
+      (result as Record<string, unknown>).astrologicalPrediction.alignmentPrediction
     ];
     
     return predictions.reduce((sum, pred) => sum + pred, 0) / predictions.length;

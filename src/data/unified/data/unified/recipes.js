@@ -188,7 +188,7 @@ class RecipeEnhancer {
     /**
      * Generate thermodynamic recommendations
      */
-    static generateThermodynamicRecommendations(thermodynamics monica) {
+    static generateThermodynamicRecommendations(thermodynamics, monicaConstant) {
         const recommendations = [];
         const { heat, entropy, reactivity } = thermodynamics;
         // Heat-based recommendations
@@ -288,7 +288,7 @@ class RecipeEnhancer {
         const planetaryTiming = this.calculatePlanetaryTiming(recipe);
         const monicaAdjustments = this.calculateMonicaAdjustments(monicaConstant);
         const elementalCookingMethod = this.determineElementalCookingMethod(elementalBalance);
-        const thermodynamicRecommendations = this.generateThermodynamicRecommendations(thermodynamics monicaConstant);
+        const thermodynamicRecommendations = this.generateThermodynamicRecommendations(thermodynamics, monicaConstant);
         // Create enhanced recipe (PRESERVES ALL EXISTING DATA)
         const enhancedRecipe = {
             ...recipe,

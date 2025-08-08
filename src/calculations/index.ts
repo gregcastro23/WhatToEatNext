@@ -118,18 +118,18 @@ export const COMPREHENSIVE_CALCULATION_INTELLIGENCE = {
    * @param analysis - The comprehensive analysis results
    * @returns Array of intelligent recommendations
    */
-  generateRecommendations: (analysis: { predictiveAccuracy?: { shortTerm?: number; confidence?: number }; optimizationOpportunities?: unknown[] }) => {
+  generateRecommendations: (analysis: { predictiveAccuracy?: { shortTerm?: number; confidence?: number }; optimization?: { calculationEfficiency?: number }; contextualAdjustments?: { seasonalFactors?: number } }) => {
     const recommendations: string[] = [];
     
-    if (analysis.predictiveAccuracy.shortTerm < 0.8) {
+    if (analysis?.predictiveAccuracy.shortTerm < 0.8) {
       recommendations.push("Consider enhancing short-term prediction models for improved accuracy");
     }
     
-    if (analysis.optimization.calculationEfficiency < 0.85) {
+    if ((analysis.optimization?.calculationEfficiency ?? 1) < 0.85) {
       recommendations.push("Optimize calculation algorithms for enhanced efficiency");
     }
     
-    if (analysis.contextualAdjustments.seasonalFactors < 0.75) {
+    if ((analysis.contextualAdjustments?.seasonalFactors ?? 1) < 0.75) {
       recommendations.push("Strengthen seasonal factor integration for better contextual relevance");
     }
     
@@ -211,18 +211,18 @@ export const CALCULATION_INPUT_INTELLIGENCE = {
    * @param enhancedInput - The enhanced input analysis
    * @returns Array of intelligent recommendations
    */
-  generateRecommendations: (enhancedInput: Record<string, unknown>) => {
+  generateRecommendations: (enhancedInput: { validation?: { planetaryPositions?: { completeness?: number } }; enhancement?: { missingData?: { estimatedValues?: number } }; intelligentProcessing?: { patternRecognition?: { accuracy?: number } } }) => {
     const recommendations: string[] = [];
     
-    if (enhancedInput.validation.planetaryPositions.completeness < 0.9) {
+    if (((enhancedInput.validation?.planetaryPositions?.completeness) ?? 1) < 0.9) {
       recommendations.push("Enhance planetary position data completeness for improved accuracy");
     }
     
-    if (enhancedInput.enhancement.missingData.estimatedValues < 0.8) {
+    if (((enhancedInput.enhancement?.missingData?.estimatedValues) ?? 1) < 0.8) {
       recommendations.push("Improve missing data estimation algorithms for better reliability");
     }
     
-    if (enhancedInput.intelligentProcessing.patternRecognition.accuracy < 0.85) {
+    if (((enhancedInput.intelligentProcessing?.patternRecognition?.accuracy) ?? 1) < 0.85) {
       recommendations.push("Strengthen pattern recognition algorithms for enhanced accuracy");
     }
     
@@ -300,18 +300,18 @@ export const RECIPE_COMPATIBILITY_INTELLIGENCE = {
    * @param analysis - The compatibility analysis results
    * @returns Array of intelligent recommendations
    */
-  generateRecommendations: (analysis: { coreMetrics?: { overallCompatibility?: number }; crossElementalEffects?: unknown[] }) => {
+  generateRecommendations: (analysis: { coreMetrics?: { overallCompatibility?: number }; advancedAnalysis?: { temporalFactors?: { seasonalRelevance?: number } }; predictiveInsights?: { shortTerm?: { accuracy?: number } } }) => {
     const recommendations: string[] = [];
     
-    if (analysis.coreMetrics.overallCompatibility < 0.9) {
+    if ((analysis.coreMetrics?.overallCompatibility ?? 1) < 0.9) {
       recommendations.push("Consider ingredient substitutions to improve overall compatibility");
     }
     
-    if (analysis.advancedAnalysis.temporalFactors.seasonalRelevance < 0.8) {
+    if ((analysis.advancedAnalysis?.temporalFactors?.seasonalRelevance ?? 1) < 0.8) {
       recommendations.push("Adjust recipe timing for better seasonal alignment");
     }
     
-    if (analysis.predictiveInsights.shortTerm.accuracy < 0.85) {
+    if ((analysis.predictiveInsights?.shortTerm?.accuracy ?? 1) < 0.85) {
       recommendations.push("Enhance short-term prediction models for improved accuracy");
     }
     
@@ -320,54 +320,54 @@ export const RECIPE_COMPATIBILITY_INTELLIGENCE = {
 };
 
 // Helper functions for intelligence systems
-function generateCalculationRecommendations(analysis: { predictiveAccuracy?: { confidence?: number }; optimizationOpportunities?: unknown[] }): string[] {
+function generateCalculationRecommendations(analysis: { predictiveAccuracy?: { shortTerm?: number }; optimization?: { calculationEfficiency?: number }; contextualAdjustments?: { seasonalFactors?: number } }): string[] {
   const recommendations: string[] = [];
   
-  if (analysis.predictiveAccuracy.shortTerm < 0.8) {
+  if ((analysis.predictiveAccuracy?.shortTerm ?? 1) < 0.8) {
     recommendations.push("Enhance short-term prediction models for improved accuracy");
   }
   
-  if (analysis.optimization.calculationEfficiency < 0.85) {
+  if ((analysis.optimization?.calculationEfficiency ?? 1) < 0.85) {
     recommendations.push("Optimize calculation algorithms for enhanced efficiency");
   }
   
-  if (analysis.contextualAdjustments.seasonalFactors < 0.75) {
+  if ((analysis.contextualAdjustments?.seasonalFactors ?? 1) < 0.75) {
     recommendations.push("Strengthen seasonal factor integration for better contextual relevance");
   }
   
   return recommendations;
 }
 
-function generateInputRecommendations(enhancedInput: { inputQuality?: { score?: number }; missingFields?: unknown[] }): string[] {
+function generateInputRecommendations(enhancedInput: { validation?: { planetaryPositions?: { completeness?: number } }; enhancement?: { missingData?: { estimatedValues?: number } }; intelligentProcessing?: { patternRecognition?: { accuracy?: number } } }): string[] {
   const recommendations: string[] = [];
   
-  if (enhancedInput.validation.planetaryPositions.completeness < 0.9) {
+  if (((enhancedInput.validation?.planetaryPositions?.completeness) ?? 1) < 0.9) {
     recommendations.push("Enhance planetary position data completeness for improved accuracy");
   }
   
-  if (enhancedInput.enhancement.missingData.estimatedValues < 0.8) {
+  if (((enhancedInput.enhancement?.missingData?.estimatedValues) ?? 1) < 0.8) {
     recommendations.push("Improve missing data estimation algorithms for better reliability");
   }
   
-  if (enhancedInput.intelligentProcessing.patternRecognition.accuracy < 0.85) {
+  if (((enhancedInput.intelligentProcessing?.patternRecognition?.accuracy) ?? 1) < 0.85) {
     recommendations.push("Strengthen pattern recognition algorithms for enhanced accuracy");
   }
   
   return recommendations;
 }
 
-function generateCompatibilityRecommendations(analysis: { compatibilityMatrix?: unknown[][]; crossElementalEffects?: unknown[] }): string[] {
+function generateCompatibilityRecommendations(analysis: { coreMetrics?: { overallCompatibility?: number }; advancedAnalysis?: { temporalFactors?: { seasonalRelevance?: number } }; predictiveInsights?: { shortTerm?: { accuracy?: number } } }): string[] {
   const recommendations: string[] = [];
   
-  if (analysis.coreMetrics.overallCompatibility < 0.9) {
+  if ((analysis.coreMetrics?.overallCompatibility ?? 1) < 0.9) {
     recommendations.push("Consider ingredient substitutions to improve overall compatibility");
   }
   
-  if (analysis.advancedAnalysis.temporalFactors.seasonalRelevance < 0.8) {
+  if ((analysis.advancedAnalysis?.temporalFactors?.seasonalRelevance ?? 1) < 0.8) {
     recommendations.push("Adjust recipe timing for better seasonal alignment");
   }
   
-  if (analysis.predictiveInsights.shortTerm.accuracy < 0.85) {
+  if ((analysis.predictiveInsights?.shortTerm?.accuracy ?? 1) < 0.85) {
     recommendations.push("Enhance short-term prediction models for improved accuracy");
   }
   
@@ -386,7 +386,7 @@ export interface ComprehensiveAlchemicalResult {
   planetaryInfluences: {
     alchemicalInfluences: { [key: string]: number };
     elementalInfluences: { [key: string]: number };
-    dominantPlanets: Array<{ planet: string; strength: number; element: Element }>;
+  dominantPlanets: Array<{ planet: string; strength: number; element: Element }>;
     planetaryHours?: { dayRuler: string; hourRuler: string; influence: number };
   };
   
@@ -476,7 +476,7 @@ export async function calculateComprehensiveAlchemicalResult(
 
     // 6. Generate cuisine recommendations
     const cuisineRecommendations = generateCuisineRecommendations(
-      planetaryInfluencesResult.dominantPlanets,
+      planetaryInfluencesResult.dominantPlanets.map(p => ({ planet: p.planet, influence: p.strength })),
       elementalProperties
     );
 
@@ -682,7 +682,7 @@ async function getFallbackResult(input: CalculationInput, cacheKey: string): Pro
     // Create a new input with real positions
     const enhancedInput: CalculationInput = {
       ...input,
-      planetaryPositions: realPositions as Record<string, { sign: string; degree: number }> // Type assertion for compatibility
+      planetaryPositions: realPositions as unknown as Record<string, PlanetaryPosition>
     };
     
     // Try calculation again with real data

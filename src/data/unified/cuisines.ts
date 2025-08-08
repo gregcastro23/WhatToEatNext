@@ -124,7 +124,7 @@ export class CuisineEnhancer {
     // Calculate total cuisine Kalchm (weighted average of recipe Kalchm and ingredient profile)
     const ingredientKalchmWeight = 0.6;
     const recipeKalchmWeight = 0.4;
-    const totalKalchm = (ingredientKalchmProfile.kalchmRange.average * ingredientKalchmWeight) +
+    const totalKalchm = ((ingredientKalchmProfile as Record<string, unknown>).kalchmRange.average * ingredientKalchmWeight) +
                        (averageRecipeKalchm * recipeKalchmWeight);
 
     return {

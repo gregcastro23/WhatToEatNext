@@ -1,12 +1,12 @@
 /**
  * Automated Error Resolution Integration Tests
- * 
+ *
  * Tests the automated error resolution systems including import fixing,
  * unused variable cleanup, and console statement replacement.
  */
 
 import { execSync } from 'child_process';
-import { writeFileSync, readFileSync, existsSync, mkdirSync } from 'fs';
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'fs';
 import { tmpdir } from 'os';
 import path from 'path';
 
@@ -22,7 +22,7 @@ const _mockMkdirSync = mkdirSync as jest.MockedFunction<typeof mkdirSync>;
 
 describe('Automated Error Resolution Integration', () => {
   const _testDir = path.join(tmpdir(), 'eslint-test');
-  
+
   beforeEach(() => {
     jest.clearAllMocks();
     mockExistsSync.mockReturnValue(true);
@@ -65,7 +65,7 @@ describe('Automated Error Resolution Integration', () => {
       const result = mockExecSync(command, { encoding: 'utf8' });
 
       expect(mockExecSync).toHaveBeenCalledWith(command, { encoding: 'utf8' });
-      expect(JSON.parse(result )[0].fixableErrorCount).toBe(2);
+      expect(JSON.parse(result as unknown as string)[0].fixableErrorCount).toBe(2);
     });
 
     test('should handle ESLint execution errors gracefully', async () => {
@@ -112,8 +112,8 @@ describe('Automated Error Resolution Integration', () => {
 
       mockExecSync.mockReturnValue(mockBatchOutput);
 
-      const result = JSON.parse(mockExecSync('yarn lint:fix --format=json', { encoding: 'utf8' }) );
-      
+      const result = JSON.parse(mockExecSync('yarn lint:fix --format=json', { encoding: 'utf8' }) as unknown as string);
+
       expect(result).toHaveLength(3);
       expect(result[0].fixableErrorCount).toBe(1);
       expect(result[1].fixableErrorCount).toBe(0);
@@ -135,13 +135,13 @@ describe('Automated Error Resolution Integration', () => {
         import fs from 'fs';
         import path from 'path';
         import { Component } from 'react';
-        
+
         import { calculatePlanetaryPositions } from '@/calculations/planetary';
         import { ElementalProperties } from '@/types/elemental';
       `;
 
       mockReadFileSync.mockReturnValue(testFileContent);
-      
+
       // Simulate import organization fix
       const mockFixedOutput = JSON.stringify([
         {
@@ -153,8 +153,8 @@ describe('Automated Error Resolution Integration', () => {
 
       mockExecSync.mockReturnValue(mockFixedOutput);
 
-      const result = JSON.parse(mockExecSync('yarn lint:fix --fix-type layout', { encoding: 'utf8' }) );
-      
+      const result = JSON.parse(mockExecSync('yarn lint:fix --fix-type layout', { encoding: 'utf8' }) as unknown as string);
+
       expect(result[0].output).toContain('import fs from \'fs\'');
       expect(result[0].output).toContain('import path from \'path\'');
       expect(result[0].messages).toHaveLength(0);
@@ -180,7 +180,7 @@ describe('Automated Error Resolution Integration', () => {
       mockReadFileSync.mockReturnValue(testFileContent);
 
       const result = JSON.parse(mockExecSync('yarn lint:fix', { encoding: 'utf8' }) );
-      
+
       expect(result[0].output).not.toContain('// Duplicate');
       expect((result[0].output.match(/import.*from 'react'/g) || []).length).toBeLessThan(3);
     });
@@ -194,7 +194,7 @@ describe('Automated Error Resolution Integration', () => {
       `;
 
       mockReadFileSync.mockReturnValue(astrologicalImports);
-      
+
       const mockFixedOutput = JSON.stringify([
         {
           filePath: '/test/astrological.ts',
@@ -206,7 +206,7 @@ describe('Automated Error Resolution Integration', () => {
       mockExecSync.mockReturnValue(mockFixedOutput);
 
       const result = JSON.parse(mockExecSync('yarn lint:fix', { encoding: 'utf8' }) );
-      
+
       expect(result[0].output).toContain('calculatePlanetaryPositions');
       expect(result[0].output).toContain('validateTransitDate');
       expect(result[0].output).toContain('FALLBACK_POSITIONS');
@@ -221,7 +221,7 @@ describe('Automated Error Resolution Integration', () => {
           const unusedVar = 'test';
           const usedVar = 'active';
           const _intentionallyUnused = 'ok';
-          
+
           return usedVar;
         }
       `;
@@ -244,8 +244,8 @@ describe('Automated Error Resolution Integration', () => {
       mockExecSync.mockReturnValue(mockLintOutput);
       mockReadFileSync.mockReturnValue(testFileContent);
 
-      const result = JSON.parse(mockExecSync('yarn lint --format=json', { encoding: 'utf8' }) );
-      
+      const result = JSON.parse(mockExecSync('yarn lint --format=json', { encoding: 'utf8' }) as unknown as string);
+
       expect(result[0].messages).toHaveLength(1);
       expect(result[0].messages[0].ruleId).toBe('@typescript-eslint/no-unused-vars');
       expect(result[0].messages[0].message).toContain('unusedVar');
@@ -259,7 +259,7 @@ describe('Automated Error Resolution Integration', () => {
           const degree = position.degree;
           const sign = position.sign;
           const UNUSED_fallback = FALLBACK_POSITIONS;
-          
+
           return { planet, degree }; // sign and UNUSED_fallback intentionally unused
         }
       `;
@@ -274,8 +274,8 @@ describe('Automated Error Resolution Integration', () => {
       mockExecSync.mockReturnValue(mockLintOutput);
       mockReadFileSync.mockReturnValue(astrologicalCode);
 
-      const result = JSON.parse(mockExecSync('yarn lint --format=json', { encoding: 'utf8' }) );
-      
+      const result = JSON.parse(mockExecSync('yarn lint --format=json', { encoding: 'utf8' }) as unknown as string);
+
       expect(result[0].messages).toHaveLength(0);
     });
 
@@ -287,7 +287,7 @@ describe('Automated Error Resolution Integration', () => {
           const UNUSED_metrics = { errors: 10, warnings: 25 };
           const safety = { backupCreated: true };
           const UNUSED_debug = 'debug info';
-          
+
           return { campaign, progress };
         }
       `;
@@ -302,8 +302,8 @@ describe('Automated Error Resolution Integration', () => {
       mockExecSync.mockReturnValue(mockLintOutput);
       mockReadFileSync.mockReturnValue(campaignCode);
 
-      const result = JSON.parse(mockExecSync('yarn lint --format=json', { encoding: 'utf8' }) );
-      
+      const result = JSON.parse(mockExecSync('yarn lint --format=json', { encoding: 'utf8' }) as unknown as string);
+
       expect(result[0].messages).toHaveLength(0);
     });
   });
@@ -338,7 +338,7 @@ describe('Automated Error Resolution Integration', () => {
       mockReadFileSync.mockReturnValue(testFileContent);
 
       const result = JSON.parse(mockExecSync('yarn lint --format=json', { encoding: 'utf8' }) );
-      
+
       expect(result[0].messages).toHaveLength(1);
       expect(result[0].messages[0].ruleId).toBe('no-console');
       expect(result[0].messages[0].message).toContain('console statement');
@@ -350,7 +350,7 @@ describe('Automated Error Resolution Integration', () => {
           console.log('Calculating planetary positions');
           console.debug('Debug astronomical data');
           console.info('Using fallback positions');
-          
+
           return FALLBACK_POSITIONS;
         }
       `;
@@ -366,7 +366,7 @@ describe('Automated Error Resolution Integration', () => {
       mockReadFileSync.mockReturnValue(astrologicalCode);
 
       const result = JSON.parse(mockExecSync('yarn lint --format=json', { encoding: 'utf8' }) );
-      
+
       expect(result[0].messages).toHaveLength(0);
     });
 
@@ -376,7 +376,7 @@ describe('Automated Error Resolution Integration', () => {
           console.log('Starting campaign phase');
           console.info('Progress: 50%');
           console.warn('Safety protocol activated');
-          
+
           return { status: 'running' };
         }
       `;
@@ -392,7 +392,7 @@ describe('Automated Error Resolution Integration', () => {
       mockReadFileSync.mockReturnValue(campaignCode);
 
       const result = JSON.parse(mockExecSync('yarn lint --format=json', { encoding: 'utf8' }) );
-      
+
       expect(result[0].messages).toHaveLength(0);
     });
   });
@@ -403,7 +403,7 @@ describe('Automated Error Resolution Integration', () => {
         function processData(data: any) { // Should be error
           return data.someProperty;
         }
-        
+
         function processAstrologicalData(data: any) { // May be allowed in astrological files
           return data.planetaryPosition;
         }
@@ -428,7 +428,7 @@ describe('Automated Error Resolution Integration', () => {
       mockReadFileSync.mockReturnValue(testFileContent);
 
       const result = JSON.parse(mockExecSync('yarn lint --format=json', { encoding: 'utf8' }) );
-      
+
       expect(result[0].messages).toHaveLength(1);
       expect(result[0].messages[0].ruleId).toBe('@typescript-eslint/no-explicit-any');
     });
@@ -462,7 +462,7 @@ describe('Automated Error Resolution Integration', () => {
       mockReadFileSync.mockReturnValue(testFileContent);
 
       const result = JSON.parse(mockExecSync('yarn lint --format=json', { encoding: 'utf8' }) );
-      
+
       expect(result[0].messages).toHaveLength(1);
       expect(result[0].messages[0].ruleId).toBe('@typescript-eslint/no-unnecessary-condition');
     });
@@ -472,15 +472,15 @@ describe('Automated Error Resolution Integration', () => {
     test('should handle exhaustive deps warnings', async () => {
       const reactCode = `
         import { useEffect, useState } from 'react';
-        
+
         function Component() {
           const [count, setCount] = useState(0);
           const [name, setName] = useState('');
-          
+
           useEffect(() => {
             console.log(count, name);
           }, [count]); // Missing 'name' in dependencies
-          
+
           return null;
         }
       `;
@@ -504,7 +504,7 @@ describe('Automated Error Resolution Integration', () => {
       mockReadFileSync.mockReturnValue(reactCode);
 
       const result = JSON.parse(mockExecSync('yarn lint --format=json', { encoding: 'utf8' }) );
-      
+
       expect(result[0].messages).toHaveLength(1);
       expect(result[0].messages[0].ruleId).toBe('react-hooks/exhaustive-deps');
       expect(result[0].messages[0].message).toContain('missing dependency');
@@ -515,15 +515,15 @@ describe('Automated Error Resolution Integration', () => {
         import { useEffect } from 'react';
         import { useRecoilValue } from 'recoil';
         import { usePlanetaryPositions } from '@/hooks/usePlanetaryPositions';
-        
+
         function AstrologicalComponent() {
           const positions = usePlanetaryPositions();
           const currentDate = useRecoilValue(currentDateState);
-          
+
           useEffect(() => {
             console.log('Planetary positions updated', positions);
           }, [positions]); // Should be valid
-          
+
           return null;
         }
       `;
@@ -539,7 +539,7 @@ describe('Automated Error Resolution Integration', () => {
       mockReadFileSync.mockReturnValue(astrologicalReactCode);
 
       const result = JSON.parse(mockExecSync('yarn lint --format=json', { encoding: 'utf8' }) );
-      
+
       expect(result[0].messages).toHaveLength(0);
     });
   });
@@ -568,15 +568,15 @@ describe('Automated Error Resolution Integration', () => {
 
       // Execute workflow
       workflowSteps.forEach((step, index) => {
-        const result = mockExecSync_(step, { encoding: 'utf8' });
+        const result = mockExecSync(step, { encoding: 'utf8' }) as unknown as string;
         if (index === 0 || index === 3) {
           // Analysis steps should return JSON
-          expect(() => JSON.parse(result )).not.toThrow();
+          expect(() => JSON.parse(result as unknown as string)).not.toThrow();
         }
       });
 
       expect(mockExecSync).toHaveBeenCalledTimes(4);
-      
+
       // Verify final result is clean
       const finalResult = JSON.parse(mockOutputs[3]);
       expect(finalResult[0].messages).toHaveLength(0);
@@ -595,10 +595,10 @@ describe('Automated Error Resolution Integration', () => {
 
       mockExecSync.mockReturnValue(partialResolutionOutput);
 
-      const result = JSON.parse(mockExecSync('yarn lint --format=json', { encoding: 'utf8' }) );
-      
+      const result = JSON.parse(mockExecSync('yarn lint --format=json', { encoding: 'utf8' }) as unknown as string);
+
       expect(result[0].messages).toHaveLength(2);
-      expect(_result[0].messages.every((msg: any) => msg.fix === null)).toBe(true);
+      expect(result[0].messages.every((msg: any) => msg.fix === null)).toBe(true);
     });
 
     test('should preserve file safety during resolution', async () => {

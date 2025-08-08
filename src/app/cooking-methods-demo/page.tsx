@@ -17,9 +17,9 @@ export default function CookingMethodsDemoPage() {
   useEffect(() => {
     // Prepare demo data by formatting methods from different categories
     const demoMethods = [
-      ...formatMethodsForComponent(dryCookingMethods, 'dry'),
-      ...formatMethodsForComponent(wetCookingMethods, 'wet'),
-      ...formatMethodsForComponent(molecularCookingMethods, 'molecular')
+      ..._formatMethodsForComponent(dryCookingMethods as Record<string, unknown>, 'dry'),
+      ..._formatMethodsForComponent(wetCookingMethods as Record<string, unknown>, 'wet'),
+      ..._formatMethodsForComponent(molecularCookingMethods as Record<string, unknown>, 'molecular')
     ];
     
     // Sort by score for a more realistic demo

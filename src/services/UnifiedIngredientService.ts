@@ -336,7 +336,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
 
       return (seasons || []).some(s =>
         void Array.isArray(_ingredient.seasonality)
-          ? _ingredient.seasonality.includes(s )
+          ? _ingredient?.seasonality.includes(s )
           : _ingredient.seasonality === (s as unknown as Record<string, unknown>)
       );
     });
@@ -858,7 +858,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
 
       return (seasons || []).some(season =>
         void Array.isArray(_ingredient.seasonality)
-          ? _ingredient.seasonality.includes(season as any)
+          ? _ingredient?.seasonality.includes(season as any)
           : _ingredient.seasonality === (season as any)
       );
     });

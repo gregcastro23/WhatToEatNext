@@ -240,7 +240,7 @@ describe('EnterpriseIntelligenceGenerator', () => {
       const template = (generator as unknown as { selectTemplate: (candidate: Record<string, unknown>) => { name: string } }).selectTemplate(candidate);
       const capabilities = (generator as unknown as { generateCapabilities: (candidate: Record<string, unknown>, template: Record<string, unknown>) => Record<string, unknown> }).generateCapabilities(candidate, template);
 
-      expect(capabilities.some((cap: any) => cap.name === 'analyzeFunction')).toBe(true);
+      expect((capabilities as Record<string, unknown>).some((cap: any) => cap.name === 'analyzeFunction')).toBe(true);
       expect(capabilities.length).toBeGreaterThan(2);
     });
 
@@ -264,7 +264,7 @@ describe('EnterpriseIntelligenceGenerator', () => {
       const template = (generator as unknown as { selectTemplate: (candidate: Record<string, unknown>) => { name: string } }).selectTemplate(candidate);
       const capabilities = (generator as unknown as { generateCapabilities: (candidate: Record<string, unknown>, template: Record<string, unknown>) => Record<string, unknown> }).generateCapabilities(candidate, template);
 
-      expect(capabilities.some((cap: any) => cap.name === 'analyzeClassStructure')).toBe(true);
+      expect((capabilities as Record<string, unknown>).some((cap: any) => cap.name === 'analyzeClassStructure')).toBe(true);
     });
 
     it('should add advanced capabilities for complex exports', () => {
@@ -287,7 +287,7 @@ describe('EnterpriseIntelligenceGenerator', () => {
       const template = (generator as unknown as { selectTemplate: (candidate: Record<string, unknown>) => { name: string } }).selectTemplate(candidate);
       const capabilities = (generator as unknown as { generateCapabilities: (candidate: Record<string, unknown>, template: Record<string, unknown>) => Record<string, unknown> }).generateCapabilities(candidate, template);
 
-      expect(capabilities.some((cap: any) => cap.name === 'generateAdvancedInsights')).toBe(true);
+      expect((capabilities as Record<string, unknown>).some((cap: any) => cap.name === 'generateAdvancedInsights')).toBe(true);
     });
   });
 
@@ -312,8 +312,8 @@ describe('EnterpriseIntelligenceGenerator', () => {
       const integrationPoints = (generator as unknown as { generateIntegrationPoints: (candidate: Record<string, unknown>, path: string) => Record<string, unknown> }).generateIntegrationPoints(candidate, '/test/test.ts');
 
       expect(integrationPoints.length).toBeGreaterThan(0);
-      expect(integrationPoints.some((ip: any) => ip.method === IntegrationMethod.DIRECT_IMPORT)).toBe(true);
-      expect(integrationPoints.some((ip: any) => ip.method === IntegrationMethod.API_ENDPOINT)).toBe(true);
+      expect((integrationPoints as Record<string, unknown>).some((ip: any) => ip.method === IntegrationMethod.DIRECT_IMPORT)).toBe(true);
+      expect((integrationPoints as Record<string, unknown>).some((ip: any) => ip.method === IntegrationMethod.API_ENDPOINT)).toBe(true);
     });
 
     it('should include original file integration for safe candidates', () => {
@@ -335,7 +335,7 @@ describe('EnterpriseIntelligenceGenerator', () => {
 
       const integrationPoints = (generator as unknown as { generateIntegrationPoints: (candidate: Record<string, unknown>, path: string) => Record<string, unknown> }).generateIntegrationPoints(candidate, '/test/test.ts');
 
-      expect(integrationPoints.some((ip: any) => ip.target === '/test/test.ts')).toBe(true);
+      expect((integrationPoints as Record<string, unknown>).some((ip: any) => ip.target === '/test/test.ts')).toBe(true);
     });
   });
 

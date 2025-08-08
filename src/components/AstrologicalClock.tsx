@@ -109,7 +109,7 @@ const AstrologicalClock: React.FC = () => {
     
     Object.entries(planetaryPositions).forEach(([planet, position]) => {
       if (position && typeof position === 'object') {
-        const posData = position as unknown as { sign?: string; degree?: number; longitude?: number };
+        const posData = position as unknown as { sign?: string; degree?: number; exactLongitude?: number; isRetrograde?: boolean };
         const sign = posData.sign?.toLowerCase() || 'aries';
         const degree = typeof posData.degree === 'number' ? posData.degree : 
                        typeof posData.exactLongitude === 'number' ? posData.exactLongitude % 30 : 0;
@@ -120,7 +120,7 @@ const AstrologicalClock: React.FC = () => {
         processed[planet] = {
           sign: sign as ZodiacSign,
           degree: degree,
-          dignity: (dignity as unknown as { type?: string })?.type || dignity?.strength ? `${(dignity as unknown as { type?: string })?.type || 'Neutral'}` : undefined,
+          dignity: (dignity as unknown as { type?: string })?.type || (dignity?.strength !== undefined ? `${(dignity as unknown as { type?: string })?.type || 'Neutral'}` : undefined),
           dignityValue: dignity?.strength || 0,
           dignityDescription: (dignity as unknown as { description?: string })?.description || `${dignity?.strength > 0 ? 'Favorable' : dignity?.strength < 0 ? 'Challenging' : 'Neutral'} placement`,
           exactLongitude: posData.exactLongitude,
@@ -310,10 +310,10 @@ const AstrologicalClock: React.FC = () => {
                         <span className="mr-1">{PLANET_SYMBOLS[planet]}</span>
                         {planet === 'NorthNode' ? 'North Node' : planet === 'SouthNode' ? 'South Node' : planet}
                       </td>
-                      <td className="px-2 py-1">
-                        <span className="mr-1">{ZODIAC_SYMBOLS[sign]}</span>
-                        {sign}
-                      </td>
+                       <td className="px-2 py-1">
+                         <span className="mr-1">{ZODIAC_SYMBOLS[sign || 'aries']}</span>
+                         {sign}
+                       </td>
                       <td className="px-2 py-1">
                         {degree?.toFixed(1)}°
                         {isRetrograde && <span className="ml-1 text-orange-500">℞</span>}

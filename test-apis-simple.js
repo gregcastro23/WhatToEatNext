@@ -4,9 +4,9 @@
  * Simple Test Script for Astrologize and Alchemize APIs
  */
 
-import fetch from 'node-fetch;
+import fetch from 'node-fetch';
 
-const BASE_URL = http://localhost:3000';
+const BASE_URL = 'http://localhost:3000';
 const ASTROLOGIZE_ENDPOINT = `${BASE_URL}/api/astrologize`;
 const ALCHEMIZE_ENDPOINT = `${BASE_URL}/api/alchemize`;
 
@@ -22,9 +22,10 @@ async function testAstrologizeAPI() {
     console.log('📤 Testing GET /api/astrologize...');
     const getResponse = await fetch(ASTROLOGIZE_ENDPOINT);
     
-    if (getResponse.ok) {     const getData = await getResponse.json();
+    if (getResponse.ok) {
+      const getData = await getResponse.json();
       console.log('✅ GET request successful');
-      console.log(`📊 Response has celestial bodies: ${getData._celestialBodies ?Yes: 'No}`);
+      console.log(`📊 Response has celestial bodies: ${getData._celestialBodies ? 'Yes' : 'No'}`);
       
       if (getData._celestialBodies) {
         const planetCount = Object.keys(getData._celestialBodies).length;
@@ -53,9 +54,10 @@ async function testAstrologizeAPI() {
       body: JSON.stringify(postPayload)
     });
     
-    if (postResponse.ok) {    const postData = await postResponse.json();
+    if (postResponse.ok) {
+      const postData = await postResponse.json();
       console.log('✅ POST request successful');
-      console.log(`📊 Response has celestial bodies: ${postData._celestialBodies ?Yes: 'No}`);
+      console.log(`📊 Response has celestial bodies: ${postData._celestialBodies ? 'Yes' : 'No'}`);
       
       if (postData._celestialBodies) {
         const planetCount = Object.keys(postData._celestialBodies).length;
@@ -67,7 +69,7 @@ async function testAstrologizeAPI() {
     
     return true;
   } catch (error) {
-    console.error(❌ Astrologize API Error:', error.message);
+    console.error('❌ Astrologize API Error:', error.message);
     return false;
   }
 }
@@ -81,10 +83,11 @@ async function testAlchemizeAPI() {
     console.log('📤 Testing GET /api/alchemize...');
     const getResponse = await fetch(ALCHEMIZE_ENDPOINT);
     
-    if (getResponse.ok) {     const getData = await getResponse.json();
+    if (getResponse.ok) {
+      const getData = await getResponse.json();
       console.log('✅ GET request successful');
-      console.log(`📊 Response has alchemical result: ${getData.alchemicalResult ?Yes : }`);
-      console.log(`📊 Response has planetary positions: ${getData.planetaryPositions ?Yes: 'No}`);
+      console.log(`📊 Response has alchemical result: ${getData.alchemicalResult ? 'Yes' : 'No'}`);
+      console.log(`📊 Response has planetary positions: ${getData.planetaryPositions ? 'Yes' : 'No'}`);
       
       if (getData.alchemicalResult) {  const alchemical = getData.alchemicalResult;
         if (alchemical.elementalBalance) {
@@ -92,16 +95,17 @@ async function testAlchemizeAPI() {
           console.log(`   Fire: ${alchemical.elementalBalance.fire?.toFixed(3) || 'N/A'}`);
           console.log(`   Water: ${alchemical.elementalBalance.water?.toFixed(3) || 'N/A'}`);
           console.log(`   Earth: ${alchemical.elementalBalance.earth?.toFixed(3) || 'N/A'}`);
-          console.log(`   Air: ${alchemical.elementalBalance.air?.toFixed(3) ||N/A'}`);
+          console.log(`   Air: ${alchemical.elementalBalance.air?.toFixed(3) || 'N/A'}`);
         }
         
-        if (alchemical.thermodynamicMetrics) {      const thermo = alchemical.thermodynamicMetrics;
+        if (alchemical.thermodynamicMetrics) {
+          const thermo = alchemical.thermodynamicMetrics;
           console.log('⚗️ Thermodynamic Metrics:');
           console.log(`   Heat: ${thermo.heat?.toFixed(3) || 'N/A'}`);
           console.log(`   Entropy: ${thermo.entropy?.toFixed(3) || 'N/A'}`);
           console.log(`   Reactivity: ${thermo.reactivity?.toFixed(3) || 'N/A'}`);
           console.log(`   Kalchm: ${thermo.kalchm?.toFixed(3) || 'N/A'}`);
-          console.log(`   Monica: ${thermo.monica?.toFixed(3) ||N/A'}`);
+          console.log(`   Monica: ${thermo.monica?.toFixed(3) || 'N/A'}`);
         }
       }
     } else {
@@ -127,10 +131,11 @@ async function testAlchemizeAPI() {
       body: JSON.stringify(postPayload)
     });
     
-    if (postResponse.ok) {    const postData = await postResponse.json();
+    if (postResponse.ok) {
+      const postData = await postResponse.json();
       console.log('✅ POST request successful');
-      console.log(`📊 Response has alchemical result: ${postData.alchemicalResult ?Yes : }`);
-      console.log(`📊 Response has planetary positions: ${postData.planetaryPositions ?Yes: 'No}`);
+      console.log(`📊 Response has alchemical result: ${postData.alchemicalResult ? 'Yes' : 'No'}`);
+      console.log(`📊 Response has planetary positions: ${postData.planetaryPositions ? 'Yes' : 'No'}`);
       
       if (postData.alchemicalResult) {  const alchemical = postData.alchemicalResult;
         if (alchemical.elementalBalance) {
@@ -138,7 +143,7 @@ async function testAlchemizeAPI() {
           console.log(`   Fire: ${alchemical.elementalBalance.fire?.toFixed(3) || 'N/A'}`);
           console.log(`   Water: ${alchemical.elementalBalance.water?.toFixed(3) || 'N/A'}`);
           console.log(`   Earth: ${alchemical.elementalBalance.earth?.toFixed(3) || 'N/A'}`);
-          console.log(`   Air: ${alchemical.elementalBalance.air?.toFixed(3) ||N/A'}`);
+          console.log(`   Air: ${alchemical.elementalBalance.air?.toFixed(3) || 'N/A'}`);
         }
       }
     } else {
@@ -159,8 +164,8 @@ async function main() {
   
   console.log('📊 Test Summary');
   console.log('===============');
-  console.log(`Astrologize API: ${astrologizeSuccess ? ✅ PASS : AIL'}`);
-  console.log(`Alchemize API: ${alchemizeSuccess ? ✅ PASS' :❌ FAIL}`);
+  console.log(`Astrologize API: ${astrologizeSuccess ? '✅ PASS' : '❌ FAIL'}`);
+  console.log(`Alchemize API: ${alchemizeSuccess ? '✅ PASS' : '❌ FAIL'}`);
   
   if (astrologizeSuccess && alchemizeSuccess) {    console.log('🎉 All APIs are working correctly!');
   }else {    console.log('\n⚠️ Some APIs failed. Check the output above for details.'); }

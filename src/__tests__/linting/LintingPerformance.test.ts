@@ -169,7 +169,7 @@ describe('Linting Performance and Memory Usage', () => {
 
       // Parallel processing should be efficient
       expect(parallelTime).toBeLessThan(3000); // 3 seconds max
-      expect(JSON.parse(String_(result))).toHaveLength(3);
+      expect(JSON.parse(String(result))).toHaveLength(3);
     });
   });
 
@@ -229,7 +229,7 @@ describe('Linting Performance and Memory Usage', () => {
 
       // Test TypeScript parser memory efficiency
       const result = mockExecSync('yarn lint --format=json', { encoding: 'utf8' });
-      expect(JSON.parse(String_(result))).toHaveLength(1);
+      expect(JSON.parse(String(result))).toHaveLength(1);
       // Memory usage is monitored by the test framework
     });
 
@@ -400,7 +400,7 @@ describe('Linting Performance and Memory Usage', () => {
 
       // Import resolution should be fast
       expect(resolutionTime).toBeLessThan(2000); // 2 seconds
-      expect(JSON.parse(String_(result))).toHaveLength(1);
+      expect(JSON.parse(String(result))).toHaveLength(1);
     });
 
     test('should measure rule execution performance', async () => {

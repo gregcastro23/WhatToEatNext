@@ -506,7 +506,7 @@ export function validatePlanetaryPositions(
   let isValid = true;
 
   for (const planet of requiredPlanets) {
-    if (!positions[planet] || !positions[planet].sign) {
+    if (!(positions as Record<string, unknown>)[planet] || !(positions as Record<string, unknown>)[planet].sign) {
       isValid = false;
       break;
     }

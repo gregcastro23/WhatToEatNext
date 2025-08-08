@@ -23,8 +23,7 @@ export interface GitMock {
   shouldFailCommands: boolean;
   setMockBranch: jest.MockedFunction<(branch: string) => void>;
   setMockStashes: jest.MockedFunction<(stashes: string[]) => void>;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  // Intentionally any: Git status structure varies by test scenario
+  // Git status structure varies by test scenario
   setMockGitStatus: (status: unknown) => void;
   setShouldFailCommands: jest.MockedFunction<(shouldFail: boolean) => void>;
   addMockStash: jest.MockedFunction<(stashId: string) => void>;
@@ -49,10 +48,8 @@ export interface ScriptMock {
   mockStdout: string;
   mockStderr: string;
   mockExitCode: number;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  // Intentionally any: Mock results can be any type depending on script execution
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  // Intentionally any: Test results have varying structures by test scenario
+  // Mock results can be any type depending on script execution
+  // Test results have varying structures by test scenario
   setMockResult: (scriptPath: string, result: unknown) => void;
   setMockBuildSuccess: jest.MockedFunction<(success: boolean) => void>;
   setMockTestSuccess: jest.MockedFunction<(success: boolean) => void>;
@@ -70,13 +67,9 @@ export interface CampaignMock {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     // Intentionally any: Campaign controller methods have varying signatures for test flexibility
     executePhase: jest.MockedFunction<unknown>;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     validatePhaseCompletion: jest.MockedFunction<unknown>;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     createSafetyCheckpoint: jest.MockedFunction<unknown>;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     rollbackToCheckpoint: jest.MockedFunction<unknown>;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     getProgressMetrics: jest.MockedFunction<unknown>;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     pauseCampaign: jest.MockedFunction<unknown>;

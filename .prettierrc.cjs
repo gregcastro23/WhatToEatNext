@@ -12,22 +12,22 @@ module.exports = {
   arrowParens: 'avoid',
   endOfLine: 'lf',
   quoteProps: 'as-needed',
-  
+
   // JSX specific
   jsxSingleQuote: true,
-  
+
   // HTML/CSS
   htmlWhitespaceSensitivity: 'css',
   embeddedLanguageFormatting: 'auto',
   proseWrap: 'preserve',
-  
+
   // Plugins - TailwindCSS must be last
   plugins: ['prettier-plugin-tailwindcss'],
-  
+
   // TailwindCSS configuration
   tailwindConfig: './tailwind.config.js',
   tailwindFunctions: ['clsx', 'cn', 'tw'],
-  
+
   // File-specific overrides
   overrides: [
     {

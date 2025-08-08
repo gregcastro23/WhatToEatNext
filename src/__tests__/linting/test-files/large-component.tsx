@@ -9,7 +9,7 @@ interface ItemProps {
 
 const MemoizedItem = memo(({ id, name, onClick }: ItemProps) => {
   const handleClick = useCallback(() => {
-    onClick_(id);
+    onClick(id);
   }, [id, onClick]);
   
   return (

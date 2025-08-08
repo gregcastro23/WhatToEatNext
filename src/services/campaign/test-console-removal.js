@@ -36,7 +36,7 @@ async function testConsoleRemoval() {
     const byType = consoleAnalysis.reduce((acc, stmt) => {
       acc[stmt.type] = (acc[stmt.type] || 0) + 1;
       return acc;
-    }, {} as Record<string, number>);
+    }, {});
     
     console.log('📈 Breakdown by Type:');
     Object.entries(byType).forEach(([type, count]) => {

@@ -100,8 +100,8 @@ describe('SafetyProtocol', () => {
 
       const events = (safetyProtocol as unknown as { safetyEvents: unknown[] }).safetyEvents;
       expect(events.length).toBe(1);
-      expect(events[0].type).toBe(SafetyEventType.CHECKPOINT_CREATED);
-      expect(events[0].description).toContain('Git stash created');
+      expect((events as Record<string, unknown>)[0].type).toBe(SafetyEventType.CHECKPOINT_CREATED);
+      expect((events as Record<string, unknown>)[0].description).toContain('Git stash created');
     });
 
     it('should handle git validation failure', async () => {
@@ -168,8 +168,8 @@ describe('SafetyProtocol', () => {
 
       const events = (safetyProtocol as unknown as { safetyEvents: unknown[] }).safetyEvents;
       expect(events.length).toBe(1);
-      expect(events[0].type).toBe(SafetyEventType.ROLLBACK_TRIGGERED);
-      expect(events[0].description).toContain('Git stash applied: test-stash-1');
+      expect((events as Record<string, unknown>)[0].type).toBe(SafetyEventType.ROLLBACK_TRIGGERED);
+      expect((events as Record<string, unknown>)[0].description).toContain('Git stash applied: test-stash-1');
     });
 
     it('should validate git state after application when requested', async () => {
@@ -327,7 +327,7 @@ describe('SafetyProtocol', () => {
 
       const events = (safetyProtocol as unknown as { safetyEvents: unknown[] }).safetyEvents;
       expect(events.length).toBe(1);
-      expect(events[0].type).toBe(SafetyEventType.CORRUPTION_DETECTED);
+      expect((events as Record<string, unknown>)[0].type).toBe(SafetyEventType.CORRUPTION_DETECTED);
     });
   });
 
@@ -463,8 +463,8 @@ import something, { a, b } from './module';
 
       const events = (safetyProtocol as unknown as { safetyEvents: unknown[] }).safetyEvents;
       expect(events.length).toBe(1);
-      expect(events[0].type).toBe(SafetyEventType.EMERGENCY_RECOVERY);
-      expect(events[0].description).toContain('Emergency rollback completed');
+      expect((events as Record<string, unknown>)[0].type).toBe(SafetyEventType.EMERGENCY_RECOVERY);
+      expect((events as Record<string, unknown>)[0].description).toContain('Emergency rollback completed');
     });
 
     it('should handle no available stashes', async () => {
@@ -766,7 +766,7 @@ import something, { a, b } from './module';
       }
 
       const events = (safetyProtocol as unknown as { safetyEvents: unknown[] }).safetyEvents;
-      expect(events[events.length - 1].description).toBe('Event 1099');
+      expect((events as Record<string, unknown>)[(events as Record<string, unknown>).length - 1].description).toBe('Event 1099');
     });
   });
 });

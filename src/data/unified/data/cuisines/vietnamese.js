@@ -413,7 +413,7 @@ exports.vietnamese = {
                     substitutions: {
                         "catfish": ["salmon", "mackerel", "tofu"],
                         "fish sauce": ["soy sauce", "coconut aminos"],
-                        "coconut Water: ['Water', "stock"]
+                        "coconut water": ["water", "stock"]
                     },
                     servingSize: 4,
                     allergens: ["fish"],

@@ -177,24 +177,24 @@ class DependencySecurityCLI {
     console.log(`  - Security patches applied: ${result.securityPatchesApplied}`);
     console.log(`  - Compatibility tests: ${result.compatibilityTestsPassed ? '✅ Passed' : '❌ Failed'}`);
 
-    if (result.securityReport.summary.total > 0) {
+    if ((result as Record<string, unknown>).securityReport.summary.total > 0) {
       console.log('\n🔒 Security Report:');
       this.printSecuritySummary(result.securityReport);
     }
 
-    if (result.updateReport.summary.total > 0) {
+    if ((result as Record<string, unknown>).updateReport.summary.total > 0) {
       console.log('\n📦 Update Report:');
       this.printUpdateSummary(result.updateReport);
     }
 
-    if (result.errors.length > 0) {
+    if ((result as Record<string, unknown>).errors.length > 0) {
       console.log('\n❌ Errors:');
-      result.errors.forEach((error: string) => console.log(`  - ${error}`));
+      (result as Record<string, unknown>).errors.forEach((error: string) => console.log(`  - ${error}`));
     }
 
-    if (result.warnings.length > 0) {
+    if ((result as Record<string, unknown>).warnings.length > 0) {
       console.log('\n⚠️  Warnings:');
-      result.warnings.forEach((warning: string) => console.log(`  - ${warning}`));
+      (result as Record<string, unknown>).warnings.forEach((warning: string) => console.log(`  - ${warning}`));
     }
   }
 
@@ -202,9 +202,9 @@ class DependencySecurityCLI {
     console.log('\n🔒 Security Vulnerability Report:');
     this.printSecuritySummary(securityReport);
 
-    if (this.options.verbose && securityReport.vulnerabilities.length > 0) {
+    if (this.options.verbose && (securityReport as Record<string, unknown>).vulnerabilities.length > 0) {
       console.log('\n📋 Detailed Vulnerabilities:');
-      securityReport.vulnerabilities.forEach((vuln: any) => {
+      (securityReport as Record<string, unknown>).vulnerabilities.forEach((vuln: any) => {
         const severityIcon = this.getSeverityIcon(vuln.severity);
         const patchStatus = vuln.patchAvailable ? '✅ Patch available' : '❌ No patch';
 
@@ -219,9 +219,9 @@ class DependencySecurityCLI {
       });
     }
 
-    if (securityReport.recommendations.length > 0) {
+    if ((securityReport as Record<string, unknown>).recommendations.length > 0) {
       console.log('\n💡 Recommendations:');
-      securityReport.recommendations.forEach((rec: string) => console.log(`  ${rec}`));
+      (securityReport as Record<string, unknown>).recommendations.forEach((rec: string) => console.log(`  ${rec}`));
     }
   }
 
@@ -229,9 +229,9 @@ class DependencySecurityCLI {
     console.log('\n📦 Dependency Update Report:');
     this.printUpdateSummary(updateReport);
 
-    if (this.options.verbose && updateReport.availableUpdates.length > 0) {
+    if (this.options.verbose && (updateReport as Record<string, unknown>).availableUpdates.length > 0) {
       console.log('\n📋 Available Updates:');
-      updateReport.availableUpdates.forEach((update: any) => {
+      (updateReport as Record<string, unknown>).availableUpdates.forEach((update: any) => {
         const updateIcon = this.getUpdateTypeIcon(update.updateType);
         const breakingIcon = update.breakingChanges ? '⚠️' : '✅';
 
@@ -244,17 +244,17 @@ class DependencySecurityCLI {
       });
     }
 
-    if (updateReport.appliedUpdates.length > 0) {
+    if ((updateReport as Record<string, unknown>).appliedUpdates.length > 0) {
       console.log('\n✅ Applied Updates:');
-      updateReport.appliedUpdates.forEach((update: any) => {
+      (updateReport as Record<string, unknown>).appliedUpdates.forEach((update: any) => {
         const securityIcon = update.securityFix ? '🔒' : '📦';
         console.log(`  ${securityIcon} ${update.packageName}: ${update.currentVersion} → ${update.latestVersion}`);
       });
     }
 
-    if (updateReport.failedUpdates.length > 0) {
+    if ((updateReport as Record<string, unknown>).failedUpdates.length > 0) {
       console.log('\n❌ Failed Updates:');
-      updateReport.failedUpdates.forEach((update: any) => {
+      (updateReport as Record<string, unknown>).failedUpdates.forEach((update: any) => {
         console.log(`  - ${update.packageName}: ${update.currentVersion} → ${update.latestVersion}`);
       });
     }

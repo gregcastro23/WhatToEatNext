@@ -797,7 +797,7 @@ exports.middleEastern = {
                     substitutions: {
                         "akkawi cheese": ["mozzarella", "fresh cheese"],
                         "ghee": ["clarified butter", "butter"],
-                        "orange blossom Water: ["rose water", "vanilla"]
+                        "orange blossom water": ["rose water", "vanilla"]
                     },
                     servingSize: 12,
                     allergens: ["dAiry", "nuts", "gluten"],

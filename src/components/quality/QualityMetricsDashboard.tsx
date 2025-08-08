@@ -120,9 +120,9 @@ const QualityMetricsDashboard: React.FC = () => {
       {
         title: 'Code Quality Score',
         value: qualityTrends.codeQuality,
-        trend: qualityTrends.codeQuality > 80 ? 'up' : qualityTrends.codeQuality > 60 ? 'stable' : 'down',
+        trend: (qualityTrends as Record<string, unknown>).codeQuality > 80 ? 'up' : (qualityTrends as Record<string, unknown>).codeQuality > 60 ? 'stable' : 'down',
         trendValue: `${qualityTrends.codeQuality}%`,
-        color: qualityTrends.codeQuality > 80 ? 'green' : qualityTrends.codeQuality > 60 ? 'yellow' : 'red',
+        color: (qualityTrends as Record<string, unknown>).codeQuality > 80 ? 'green' : (qualityTrends as Record<string, unknown>).codeQuality > 60 ? 'yellow' : 'red',
         description: 'Overall code quality based on errors and warnings'
       },
       {
@@ -144,17 +144,17 @@ const QualityMetricsDashboard: React.FC = () => {
       {
         title: 'Technical Debt',
         value: qualityTrends.technicalDebt,
-        trend: qualityTrends.technicalDebt < 30 ? 'up' : qualityTrends.technicalDebt < 60 ? 'stable' : 'down',
+        trend: (qualityTrends as Record<string, unknown>).technicalDebt < 30 ? 'up' : (qualityTrends as Record<string, unknown>).technicalDebt < 60 ? 'stable' : 'down',
         trendValue: `${qualityTrends.technicalDebt}%`,
-        color: qualityTrends.technicalDebt < 30 ? 'green' : qualityTrends.technicalDebt < 60 ? 'yellow' : 'red',
+        color: (qualityTrends as Record<string, unknown>).technicalDebt < 30 ? 'green' : (qualityTrends as Record<string, unknown>).technicalDebt < 60 ? 'yellow' : 'red',
         description: 'Accumulated technical debt score'
       },
       {
         title: 'Maintainability',
         value: qualityTrends.maintainability,
-        trend: qualityTrends.maintainability > 80 ? 'up' : qualityTrends.maintainability > 60 ? 'stable' : 'down',
+        trend: (qualityTrends as Record<string, unknown>).maintainability > 80 ? 'up' : (qualityTrends as Record<string, unknown>).maintainability > 60 ? 'stable' : 'down',
         trendValue: `${qualityTrends.maintainability}%`,
-        color: qualityTrends.maintainability > 80 ? 'green' : qualityTrends.maintainability > 60 ? 'yellow' : 'red',
+        color: (qualityTrends as Record<string, unknown>).maintainability > 80 ? 'green' : (qualityTrends as Record<string, unknown>).maintainability > 60 ? 'yellow' : 'red',
         description: 'Code maintainability index'
       },
       {
@@ -258,16 +258,16 @@ const QualityMetricsDashboard: React.FC = () => {
                 <g key={i}>
                   <circle
                     cx={50 + (i * 300 / Math.max(chart.data.length - 1, 1))}
-                    cy={180 - (point.y * 150 / Math.max(...chart.data.map(p => p.y)))}
+                    cy={180 - ((point as Record<string, unknown>).y * 150 / Math.max(...chart.data.map(p => p.y)))}
                     r="3"
                     fill="#3b82f6"
                   />
                   {i < chart.data.length - 1 && (
                     <line
                       x1={50 + (i * 300 / Math.max(chart.data.length - 1, 1))}
-                      y1={180 - (point.y * 150 / Math.max(...chart.data.map(p => p.y)))}
+                      y1={180 - ((point as Record<string, unknown>).y * 150 / Math.max(...chart.data.map(p => p.y)))}
                       x2={50 + ((i + 1) * 300 / Math.max(chart.data.length - 1, 1))}
-                      y2={180 - (chart.data[i + 1].y * 150 / Math.max(...chart.data.map(p => p.y)))}
+                      y2={180 - ((chart as Record<string, unknown>).data[i + 1].y * 150 / Math.max(...(chart as Record<string, unknown>).data.map(p => p.y)))}
                       stroke="#3b82f6"
                       strokeWidth="2"
                     />
@@ -285,7 +285,7 @@ const QualityMetricsDashboard: React.FC = () => {
               <div key={i} className="flex flex-col items-center">
                 <div
                   className="bg-blue-500 w-8 mb-2"
-                  style={{ height: `${(bar.y / Math.max(...chart.data.map(b => b.y))) * 150}px` }}
+                  style={{ height: `${((bar as Record<string, unknown>).y / Math.max(...chart.data.map(b => b.y))) * 150}px` }}
                 ></div>
                 <span className="text-xs text-gray-600 transform -rotate-45 origin-center">
                   {bar.label}

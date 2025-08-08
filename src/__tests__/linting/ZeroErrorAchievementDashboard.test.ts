@@ -97,7 +97,7 @@ describe('ZeroErrorAchievementDashboard', () => {
       void jest.spyOn(dashboard['validationDashboard'], 'runComprehensiveValidation')
         .mockResolvedValue(mockValidationResult);
 
-      void dashboard.generateDashboard()
+      await dashboard.generateDashboard()
 
       // Verify dashboard report was generated
       expect(mockWriteFileSync).toHaveBeenCalledWith(

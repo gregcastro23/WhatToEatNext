@@ -1,0 +1,7 @@
+.kiro/
+dist/
+build/
+.next/
+coverage/
+node_modules/
+

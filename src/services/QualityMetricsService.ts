@@ -538,9 +538,9 @@ class QualityMetricsService {
 
   private estimateEffort(pattern: { type?: string; priority?: string; frequency?: number; automatable?: boolean }): number {
     if (pattern.automatable) {
-      return Math.min(8, pattern.frequency * 0.1); // 0.1 hours per occurrence for automatable
+      return Math.min(8, pattern?.frequency * 0.1); // 0.1 hours per occurrence for automatable
     }
-    
+
     const baseEffort = {
       'critical': 2,
       'high': 1.5,
@@ -548,7 +548,7 @@ class QualityMetricsService {
       'low': 0.5
     }[pattern.priority] || 1;
 
-    return Math.min(40, pattern.frequency * baseEffort);
+    return Math.min(40, pattern?.frequency * baseEffort);
   }
 
   private calculateDebtPriority(priority: string, frequency: number): number {
@@ -659,15 +659,16 @@ class QualityMetricsService {
       technicalDebt: 0.2
     };
 
-    const scores = {
-      codeQuality: qualityMetrics?.codeQualityScore || 0,
-      performance: buildSummary.performanceScore,
-      maintainability: qualityMetrics?.maintainabilityIndex || 0,
-      technicalDebt: Math.max(0, 100 - (qualityMetrics?.technicalDebtScore || 0))
+    const scores: { codeQuality: number; performance: number; maintainability: number; technicalDebt: number } = {
+      codeQuality: (qualityMetrics as Record<string, number>)?.codeQualityScore || 0,
+      performance: (buildSummary as Record<string, number>).performanceScore || 0,
+      maintainability: (qualityMetrics as Record<string, number>)?.maintainabilityIndex || 0,
+      technicalDebt: Math.max(0, 100 - ((qualityMetrics as Record<string, number>)?.technicalDebtScore || 0))
     };
 
-    return Object.entries(weights).reduce((total, [key, weight]) => {
-      return total + (scores[key as keyof typeof scores] * weight);
+    return (Object.entries(weights) as Array<[keyof typeof weights, number]>).reduce((total, [key, weight]) => {
+      const value = (scores as Record<string, number>)[key as keyof typeof scores] || 0;
+      return total + (value * weight);
     }, 0);
   }
 
@@ -678,16 +679,16 @@ class QualityMetricsService {
     const current = recentReports[1].summary.overallScore;
     const previous = recentReports[0].summary.overallScore;
 
-    return current - previous;
+    return Number(current) - Number(previous);
   }
 
   private getKeyAchievements(): string[] {
     const achievements: string[] = [];
-    
+
     // Check completed milestones
     for (const goal of this.goals) {
       for (const milestone of goal.milestones) {
-        if (milestone.completed && milestone.completedDate && 
+        if (milestone.completed && milestone.completedDate &&
             (Date.now() - milestone.completedDate.getTime()) < 7 * 24 * 60 * 60 * 1000) {
           achievements.push(`Completed milestone: ${milestone.name}`);
         }
@@ -695,7 +696,7 @@ class QualityMetricsService {
     }
 
     // Check significant improvements
-    const recentInsights = this.insights.filter(i => 
+    const recentInsights = this.insights.filter(i =>
       (Date.now() - new Date(i.timeframe).getTime()) < 7 * 24 * 60 * 60 * 1000 &&
       i.type === 'trend' && i.severity === 'info'
     );
@@ -819,15 +820,15 @@ class QualityMetricsService {
 
   public getInsights(type?: string, severity?: string): QualityInsight[] {
     let filtered = this.insights;
-    
+
     if (type) {
       filtered = filtered.filter(i => i.type === type);
     }
-    
+
     if (severity) {
       filtered = filtered.filter(i => i.severity === severity);
     }
-    
+
     return filtered.slice(-50);
   }
 
@@ -855,30 +856,30 @@ class QualityMetricsService {
       progress: 0,
       onTrack: true
     };
-    
+
     this.goals.push(newGoal);
     this.saveHistoricalData();
-    
+
     return id;
   }
 
   public updateGoal(id: string, updates: Partial<QualityGoal>): boolean {
     const goalIndex = this.goals.findIndex(g => g.id === id);
     if (goalIndex === -1) return false;
-    
+
     this.goals[goalIndex] = { ...this.goals[goalIndex], ...updates };
     this.saveHistoricalData();
-    
+
     return true;
   }
 
   public deleteGoal(id: string): boolean {
     const goalIndex = this.goals.findIndex(g => g.id === id);
     if (goalIndex === -1) return false;
-    
+
     this.goals.splice(goalIndex, 1);
     this.saveHistoricalData();
-    
+
     return true;
   }
 

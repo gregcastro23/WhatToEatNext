@@ -245,8 +245,8 @@ const calculateAlchemicalBalance = (alchemicalProperties: {
 
   // Calculate balance based on how evenly distributed the alchemical properties are
   const values = [Spirit, Essence, Matter, Substance];
-  const mean = values.reduce((sum, val) => sum + val, 0) / values.length;
-  const variance = values.reduce((sum, val) => sum + Math.pow(val - mean, 2), 0) / values.length;
+  const mean = values?.reduce((sum, val) => sum + val, 0) / values.length;
+  const variance = values?.reduce((sum, val) => sum + Math.pow(val - mean, 2), 0) / values.length;
   const standardDeviation = Math.sqrt(variance);
 
   // Lower standard deviation = better balance
@@ -308,7 +308,7 @@ const calculateRecipeKalchmHarmony = (
 
   // Otherwise, score based on thermodynamic stability
   const stabilityScore = Math.max(0, 1 - Math.abs(recipeThermodynamics.gregsEnergy) / 5);
-  const kalchmScore = Math.min(1, recipeThermodynamics.kalchm / 2); // Normalize Kalchm
+  const kalchmScore = Math.min(1, recipeThermodynamics?.kalchm / 2); // Normalize Kalchm
 
   return Math.max(0, Math.min(1, (stabilityScore * 0.5) + (kalchmScore * 0.5)));
 };
@@ -327,8 +327,8 @@ const calculateThermodynamicOptimization = (
 
   // Calculate optimization based on thermodynamic efficiency
   const heatEfficiency = Math.max(0, Math.min(1, thermodynamics.heat));
-  const entropyBalance = Math.max(0, 1 - thermodynamics.entropy / 2);
-  const reactivityOptimal = Math.max(0, 1 - Math.abs(thermodynamics.reactivity - 1) / 2);
+  const entropyBalance = Math.max(0, 1 - thermodynamics?.entropy / 2);
+  const reactivityOptimal = Math.max(0, 1 - Math.abs(thermodynamics?.reactivity - 1) / 2);
 
   // Weight the factors for overall optimization
   const optimization = (heatEfficiency * 0.4) + (entropyBalance * 0.3) + (reactivityOptimal * 0.3);

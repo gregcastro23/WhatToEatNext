@@ -271,7 +271,7 @@ class ErrorTrackingSystem {
     for (const fileResult of lintResults) {
       const filePath = fileResult.filePath;
       
-      for (const message of fileResult.messages) {
+      for (const message of fileResult?.messages) {
         violations.push({
           rule: message.ruleId || 'unknown',
           message: message.message,

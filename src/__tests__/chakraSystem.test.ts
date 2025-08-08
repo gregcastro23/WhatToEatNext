@@ -1,5 +1,5 @@
 import { calculateSignEnergyStates, SignEnergyState, ZodiacSign } from '../constants/signEnergyStates';
-import { ChakraService, ChakraEnergyState } from '../services/ChakraService';
+import { ChakraEnergyState, ChakraService } from '../services/ChakraService';
 import { getFoodRecommendationsFromChakras, getZodiacSignFoodRecommendations } from '../utils/chakraFoodUtils';
 
 describe('Chakra System', () => {
@@ -30,10 +30,10 @@ describe('Chakra System', () => {
     beforeAll(() => {
         // Calculate sign energy states
         signEnergyStates = calculateSignEnergyStates(mockPlanetaryPositions, mockAspects);
-        
+
         // Create chakra service
         chakraService = new ChakraService();
-        
+
         // Calculate chakra energy states
         chakraEnergyStates = chakraService.calculateChakraEnergyStates(signEnergyStates);
     });
@@ -41,15 +41,15 @@ describe('Chakra System', () => {
     test('Sign energy states are calculated correctly', () => {
         expect(signEnergyStates).toBeDefined();
         expect(signEnergyStates.length).toBe(12); // All zodiac signs
-        
+
         // Check that each sign has the required properties
         signEnergyStates.forEach(state => {
-            expect_(state).toHaveProperty('sign');
-            expect_(state).toHaveProperty('baseEnergy');
-            expect_(state).toHaveProperty('planetaryModifiers');
-            expect_(state).toHaveProperty('currentEnergy');
+            expect(state).toHaveProperty('sign');
+            expect(state).toHaveProperty('baseEnergy');
+            expect(state).toHaveProperty('planetaryModifiers');
+            expect(state).toHaveProperty('currentEnergy');
         });
-        
+
         // Energy levels should be between 0.1 and 1.0
         signEnergyStates.forEach(state => {
             expect(state.currentEnergy).toBeGreaterThanOrEqual(0.1);
@@ -60,14 +60,14 @@ describe('Chakra System', () => {
     test('Chakra energy states are calculated correctly', () => {
         expect(chakraEnergyStates).toBeDefined();
         expect(chakraEnergyStates.length).toBe(7); // All chakras
-        
+
         // Check that each chakra has the required properties
         chakraEnergyStates.forEach(state => {
-            expect_(state).toHaveProperty('chakra');
-            expect_(state).toHaveProperty('energyLevel');
-            expect_(state).toHaveProperty('properties');
-            expect_(state).toHaveProperty('balanceState');
-            expect_(state).toHaveProperty('relatedSigns');
+            expect(state).toHaveProperty('chakra');
+            expect(state).toHaveProperty('energyLevel');
+            expect(state).toHaveProperty('properties');
+            expect(state).toHaveProperty('balanceState');
+            expect(state).toHaveProperty('relatedSigns');
         });
     });
 
@@ -78,14 +78,14 @@ describe('Chakra System', () => {
             energyLevel: 0.3, // Set to underactive
             balanceState: 'underactive' as const
         }));
-        
+
         const recommendations = getFoodRecommendationsFromChakras(modifiedChakraStates);
-        
+
         expect(recommendations).toHaveProperty('primaryFoods');
         expect(recommendations).toHaveProperty('secondaryFoods');
         expect(recommendations).toHaveProperty('avoidFoods');
         expect(recommendations).toHaveProperty('balancingMeals');
-        
+
         // At least some recommendations should be present
         expect(recommendations.primaryFoods.length).toBeGreaterThan(0);
         expect(recommendations.balancingMeals.length).toBeGreaterThan(0);
@@ -93,11 +93,11 @@ describe('Chakra System', () => {
 
     test('Zodiac sign food recommendations', () => {
         const zodiacSigns: ZodiacSign[] = [
-            'aries', 'taurus', 'gemini', 'cancer', 
+            'aries', 'taurus', 'gemini', 'cancer',
             'leo', 'virgo', 'libra', 'scorpio',
             'sagittarius', 'capricorn', 'aquarius', 'pisces'
         ];
-        
+
         zodiacSigns.forEach(sign => {
             const recommendations = getZodiacSignFoodRecommendations(sign);
             expect(recommendations).toBeDefined();
@@ -113,11 +113,11 @@ describe('Chakra System', () => {
             energyLevel: index % 3 === 0 ? 0.3 : 0.6, // Set some to underactive
             balanceState: index % 3 === 0 ? 'underactive' as const : 'balanced' as const
         }));
-        
+
         const suggestions = chakraService.suggestDietaryAdjustments(modifiedChakraStates);
-        
+
         expect(suggestions).toBeDefined();
         expect(Array.isArray(suggestions)).toBe(true);
         expect(suggestions.length).toBeGreaterThan(0);
     });
-}); 
+});

@@ -117,7 +117,7 @@ TARGET_FILES.forEach(filename => {
   // 6. Update any logging mentions of herbs to the current category
   content = content.replace(
     /console\.log\(`Completed enhancing herbs\.`\)/g,
-    `console.log(`Completed enhancing ${category}.`)`
+    'console.log(`Completed enhancing ${category}.`)' 
   );
   
   // 7. Update function name in exports

@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 
 import { onAstrologizeApiCall } from '@/services/CurrentMomentManager';
 import { log } from '@/services/LoggingService';
+import type { ZodiacSign } from '@/types/alchemy';
 import { PlanetPosition } from '@/utils/astrologyUtils';
 import { createLogger } from '@/utils/logger';
 
@@ -140,7 +141,7 @@ export async function GET(request: Request) {
 /**
  * Extract planetary positions from astrologize API response
  */
-function extractPlanetaryPositions(data: Record<string, unknown>): Record<string, PlanetPosition> | null {
+function extractPlanetaryPositions(data: Record<string, any>): Record<string, PlanetPosition> | null {
   try {
     // Try to extract from _celestialBodies structure
     const celestialBodies = data._celestialBodies;
@@ -163,13 +164,13 @@ function extractPlanetaryPositions(data: Record<string, unknown>): Record<string
       Object.entries(planetMap).forEach(([apiKey, planetName]) => {
         const planetData = celestialBodies[apiKey];
         if (planetData?.Sign && planetData.ChartPosition) {
-          const sign = planetData.Sign.key?.toLowerCase();
+          const sign = planetData.Sign.key?.toLowerCase() as ZodiacSign;
           const arcDegrees = planetData.ChartPosition.Ecliptic?.ArcDegrees;
           const decimalDegrees = planetData.ChartPosition.Ecliptic?.DecimalDegrees;
 
           if (sign && arcDegrees && decimalDegrees !== undefined) {
             positions[planetName] = {
-              sign: sign ,
+              sign,
               degree: arcDegrees.degrees || 0,
               minute: arcDegrees.minutes || 0,
               exactLongitude: ((decimalDegrees % 360) + 360) % 360,
@@ -183,23 +184,23 @@ function extractPlanetaryPositions(data: Record<string, unknown>): Record<string
     }
 
     // Try alternative structure if available
-    const astrologyInfo = (data as unknown as { astrology_info?: { horoscope_parameters?: { planets?: Record<string, unknown> } } }).astrology_info?.horoscope_parameters?.planets;
+    const astrologyInfo = (data as { astrology_info?: { horoscope_parameters?: { planets?: Record<string, any> } } }).astrology_info?.horoscope_parameters?.planets;
     if (astrologyInfo) {
       const positions: Record<string, PlanetPosition> = {};
 
-      Object.entries(astrologyInfo).forEach(([planetName, planetData]: [string, unknown]) => {
-        const typedPlanetData = planetData as unknown as { sign?: string; angle?: number };
+      Object.entries(astrologyInfo).forEach(([planetName, planetData]: [string, any]) => {
+        const typedPlanetData = planetData as { sign?: string; angle?: number; isRetrograde?: boolean };
         if (typedPlanetData?.sign && typedPlanetData?.angle !== undefined) {
           const totalDegrees = typedPlanetData.angle;
           const degrees = Math.floor(totalDegrees);
           const minutes = Math.floor((totalDegrees - degrees) * 60);
 
           positions[planetName] = {
-            sign: typedPlanetData.sign.toLowerCase() ,
+            sign: typedPlanetData.sign.toLowerCase() as ZodiacSign,
             degree: degrees,
             minute: minutes,
             exactLongitude: ((totalDegrees % 360) + 360) % 360,
-            isRetrograde: planetData.isRetrograde || false
+            isRetrograde: Boolean(typedPlanetData.isRetrograde)
           };
         }
       });
