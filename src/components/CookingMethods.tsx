@@ -402,8 +402,8 @@ export default function CookingMethods() {
   const [_expandedMethods, setExpandedMethods] = useState<Record<string, boolean>>({});
   const [_methodScores, setMethodScores] = useState<Record<string, number>>({});
   const [showScoreDetails, setShowScoreDetails] = useState<Record<string, boolean>>({});
-  const [_modalityFilter, setModalityFilter] = useState<string>('all');
-  const [_searchIngredient, setSearchIngredient] = useState<string>('');
+  const [_modalityFilter, _setModalityFilter] = useState<string>('all');
+  const [_searchIngredient, _setSearchIngredient] = useState<string>('');
   const [_ingredientCompatibility, setIngredientCompatibility] = useState<Record<string, number>>({});
 
   // TODO: Integrate with enhanced tarot context system
@@ -584,13 +584,13 @@ export default function CookingMethods() {
   };
 
   // TODO: Implement molecular gastronomy analysis system
-  const _getMolecularDetails = (method: ExtendedAlchemicalItem) => {
+  const _getMolecularDetails = (_method: ExtendedAlchemicalItem) => {
     // TODO: Add comprehensive molecular technique detection and analysis
     return null;
   };
 
   // TODO: Implement comprehensive method data extraction system
-  const _getMethodSpecificData = (method: ExtendedAlchemicalItem) => {
+  const _getMethodSpecificData = (_method: ExtendedAlchemicalItem) => {
     // TODO: Add integration with cooking method database
     // TODO: Include molecular method detection and data extraction
     return null;
@@ -602,7 +602,7 @@ export default function CookingMethods() {
     const methodName = ((method as Record<string, unknown>).name || '').toString().toLowerCase();
     // Use generateMethodInfo to enrich method details
     const methodInfo = generateMethodInfo(method.name || '');
-    const description = method.description || methodInfo.description;
+    const _description = method.description || methodInfo.description;
 
 
     // Default values
@@ -1260,7 +1260,7 @@ export default function CookingMethods() {
   };
 
   // Add import for our utility function at the top of the component
-  const { getTechnicalTips: getMethodTips } = require('../utils/cookingMethodTips');
+  const { getTechnicalTips: _getMethodTips } = require('../utils/cookingMethodTips');
 
   // Add a function to determine which modality a cooking method best complements
   const _getMethodModalityAffinity = (method: ExtendedAlchemicalItem): Modality => {

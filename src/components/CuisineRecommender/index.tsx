@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import DirectRecipeService from '@/services/DirectRecipeService';
 // Removed unused Element import
@@ -44,7 +44,7 @@ export const CuisineRecommender: React.FC<CuisineRecommenderProps> = ({
       setError(null);
 
       const recipeService = DirectRecipeService.getInstance();
-      
+
       // Get current celestial influence data (placeholder for now)
       const celestialInfluence: CelestialAlignment = {
         date: new Date().toISOString(),
@@ -144,7 +144,7 @@ export const CuisineRecommender: React.FC<CuisineRecommenderProps> = ({
                   <div key={element} className="element-bar">
                     <span className="element-name">{element}:</span>
                     <div className="bar">
-                      <div 
+                      <div
                         className={`fill ${element.toLowerCase()}`}
                         style={{ width: `${(value ) * 100}%` }}
                       />
@@ -169,7 +169,7 @@ export const CuisineRecommender: React.FC<CuisineRecommenderProps> = ({
           {mealType && ` for ${mealType}`}
           {season && ` for ${season}`}
         </h3>
-        
+
         {(recommendations || []).length === 0 ? (
           <p>No recipes found matching your criteria and current celestial influences.</p>
         ) : (
@@ -183,7 +183,7 @@ export const CuisineRecommender: React.FC<CuisineRecommenderProps> = ({
                     <span className="label">Astrological Compatibility</span>
                   </div>
                 </div>
-                
+
                 <div className="recipe-details">
                   <p className="description">{recipe.description}</p>
                   <div className="meta-info">
@@ -247,7 +247,7 @@ export const CuisineRecommender: React.FC<CuisineRecommenderProps> = ({
                       ))}
                     </div>
                   )}
-                  
+
                   {recipe.planetaryInfluences?.favorable && (recipe.planetaryInfluences.favorable || []).length > 0 && (
                     <div className="influences-section">
                       <strong>Favorable Planets:</strong>
@@ -256,7 +256,7 @@ export const CuisineRecommender: React.FC<CuisineRecommenderProps> = ({
                       ))}
                     </div>
                   )}
-                  
+
                   {recipe.lunarPhaseInfluences && (recipe.lunarPhaseInfluences || []).length > 0 && (
                     <div className="influences-section">
                       <strong>Lunar Phases:</strong>
@@ -586,4 +586,4 @@ export const CuisineRecommender: React.FC<CuisineRecommenderProps> = ({
   );
 };
 
-export default CuisineRecommender; 
+export default CuisineRecommender;

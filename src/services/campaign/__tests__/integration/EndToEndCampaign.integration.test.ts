@@ -7,13 +7,13 @@ import { execSync } from 'child_process';
 import * as fs from 'fs';
 
 import {
-  CampaignConfig,
-  SafetySettings,
-  SafetyLevel,
-  PhaseStatus,
-  CorruptionSeverity,
-  RecoveryAction,
-  SafetyEventType
+    CampaignConfig,
+    CorruptionSeverity,
+    PhaseStatus,
+    RecoveryAction,
+    SafetyEventType,
+    SafetyLevel,
+    SafetySettings
 } from '../../../../types/campaign';
 import { CampaignController } from '../../CampaignController';
 import { ProgressTracker } from '../../ProgressTracker';
@@ -154,7 +154,7 @@ describe('End-to-End Campaign Integration Tests', () => {
     // Default successful git operations
     mockExecSync.mockImplementation((command) => {
       const cmd = command.toString();
-      
+
       if (cmd.includes('git status --porcelain')) return '';
       if (cmd.includes('git stash push')) return '';
       if (cmd.includes('git stash list')) return 'stash@{0}: campaign-stash';
@@ -162,7 +162,7 @@ describe('End-to-End Campaign Integration Tests', () => {
       if (cmd.includes('git branch --show-current')) return 'main';
       if (cmd.includes('yarn build')) return '';
       if (cmd.includes('yarn test')) return 'Tests passed';
-      
+
       return '';
     });
 
@@ -233,10 +233,10 @@ describe('End-to-End Campaign Integration Tests', () => {
 
       // Verify safety events were recorded for each phase
       expect(allSafetyEvents.length).toBeGreaterThan(0);
-      
+
       // Check that each phase has safety events
       for (const phase of mockConfig.phases) {
-        expect(allSafetyEvents.some(event => 
+        expect(allSafetyEvents.some(event =>
           String((event )?.description || '').includes(phase.name) || String((event )?.description || '').includes(phase.id)
         )).toBe(true);
       }
@@ -264,7 +264,7 @@ describe('End-to-End Campaign Integration Tests', () => {
       }
 
       expect(metricsHistory.length).toBeGreaterThan(0);
-      
+
       // Verify progressive improvement
       const finalMetrics = metricsHistory[metricsHistory.length - 1] ;
       expect((finalMetrics?.typeScriptErrors )?.current ?? 0).toBeLessThanOrEqual(86);
@@ -329,9 +329,9 @@ describe('End-to-End Campaign Integration Tests', () => {
   describe('Campaign Failure and Recovery Scenarios', () => {
     it('should handle phase failure and trigger rollback', async () => {
       const phase1 = mockConfig.phases[0];
-      
+
       // Mock tool execution failure
-      jest.spyOn(campaignController as unknown as Record<string, any>, 'executeTool').mockRejectedValue(
+      jest.spyOn(campaignController as unknown as { executeTool: jest.Mock }, 'executeTool').mockRejectedValue(
         new Error('Critical tool failure')
       );
 
@@ -339,7 +339,7 @@ describe('End-to-End Campaign Integration Tests', () => {
 
       expect(result.success).toBe(false);
       expect(result.phaseId).toBe('phase1');
-      expect(result.safetyEvents.some(event => 
+      expect(result.safetyEvents.some(event =>
         event.type === SafetyEventType.BUILD_FAILURE
       )).toBe(true);
     });
@@ -366,7 +366,7 @@ describe('End-to-End Campaign Integration Tests', () => {
         // Create a stash first for rollback
         await safetyProtocol.createStash('Emergency stash');
         await safetyProtocol.emergencyRollback();
-        
+
         expect(mockExecSync).toHaveBeenCalledWith(
           expect.stringContaining('git stash apply'),
           expect.any(Object)
@@ -376,7 +376,7 @@ describe('End-to-End Campaign Integration Tests', () => {
 
     it('should handle build failures during phase execution', async () => {
       const phase1 = mockConfig.phases[0];
-      
+
       // Mock build failure
       mockExecSync.mockImplementation((command) => {
         if (command.toString().includes('yarn build')) {
@@ -395,10 +395,10 @@ describe('End-to-End Campaign Integration Tests', () => {
 
     it('should recover from partial phase failures', async () => {
       const phase1 = mockConfig.phases[0];
-      
+
       // Mock partial failure - first tool fails, second succeeds
       let toolCallCount = 0;
-      jest.spyOn(campaignController as unknown as Record<string, any>, 'executeTool').mockImplementation(async () => {
+      jest.spyOn(campaignController as unknown as { executeTool: jest.Mock }, 'executeTool').mockImplementation(async () => {
         toolCallCount++;
         if (toolCallCount === 1) {
           throw new Error('First tool failed');
@@ -421,11 +421,11 @@ describe('End-to-End Campaign Integration Tests', () => {
   describe('Performance and Scalability', () => {
     it('should handle large file batches efficiently', async () => {
       const phase1 = mockConfig.phases[0];
-      
+
       // Mock large file processing
       const largeFileList = Array.from({ length: 100 }, (_, i) => `file${i}.ts`);
-      
-      jest.spyOn(campaignController as any, 'executeTool').mockResolvedValue({
+
+      jest.spyOn(campaignController as unknown as { executeTool: jest.Mock }, 'executeTool').mockResolvedValue({
         filesProcessed: largeFileList,
         changesApplied: largeFileList.length * 2,
         success: true
@@ -446,7 +446,7 @@ describe('End-to-End Campaign Integration Tests', () => {
 
       for (const phase of mockConfig.phases) {
         await campaignController.executePhase(phase);
-        
+
         const memoryUsage = await progressTracker.getMemoryUsage();
         expect(memoryUsage).toBeLessThan(50); // Should stay under 50MB
       }
@@ -454,7 +454,7 @@ describe('End-to-End Campaign Integration Tests', () => {
 
     it('should handle concurrent safety operations', async () => {
       // Create multiple stashes concurrently
-      const stashPromises = Array.from({ length: 5 }, (_, i) => 
+      const stashPromises = Array.from({ length: 5 }, (_, i) =>
         safetyProtocol.createStash(`Concurrent stash ${i}`)
       );
 

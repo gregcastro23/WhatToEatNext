@@ -49,7 +49,7 @@ interface _MatchingResult {
 'use client';
 
 import Link from 'next/link';
-import React, { useState, useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import { useServices } from '@/hooks/useServices';
 import type { Recipe } from '@/types/recipe';
@@ -86,12 +86,12 @@ interface CuisineSectionProps {
 
 /**
  * CuisineSection Component - Migrated Version
- * 
+ *
  * This component displays information about a specific cuisine, including:
  * - Related recipes
  * - Traditional sauces
  * - Regional variations
- * 
+ *
  * It has been migrated from context-based data access to service-based architecture.
  */
 export function CuisineSectionMigrated({
@@ -122,11 +122,11 @@ export function CuisineSectionMigrated({
     const loadCuisineData = async () => {
       try {
         setIsLoading(true);
-        
+
         // ✅ Pattern MM-1: getRecipesByCuisine expects string parameter, not object
         if (cuisine) {
           const response = await recipeService.getRecipesByCuisine(cuisine);
-          
+
           // Apply Pattern PP-3: Safe response handling for array or object response
           if (Array.isArray(response)) {
             setCuisineRecipesFromService(response);
@@ -139,10 +139,10 @@ export function CuisineSectionMigrated({
             }
           }
         }
-        
+
         // For now, we'll leave traditional sauces empty since cuisineService doesn't exist
         setTraditionalSauces([]);
-        
+
         setError(null);
       } catch (err) {
         logger.error('Error loading cuisine data:', err);
@@ -153,7 +153,7 @@ export function CuisineSectionMigrated({
         setIsLoading(false);
       }
     };
-    
+
     if (cuisine) {
       void loadCuisineData();
     }
@@ -163,26 +163,26 @@ export function CuisineSectionMigrated({
   const cuisineRecipes = useMemo(() => {
     // Combine provided recipes with recipes from service
     const allRecipes = [...(recipes || []), ...cuisineRecipesFromService];
-    
+
     if (allRecipes.length === 0) {
       return [];
     }
-    
+
     // Filter and sort recipes
     return allRecipes
       .filter(recipe => {
         if (!recipe) return false;
-        
+
         // Apply surgical type casting with variable extraction
         const cuisineStringMatch = String(cuisine || '');
         const cuisineLowerMatch = cuisineStringMatch.toLowerCase();
-        
+
         // Direct cuisine match
         if (recipe.cuisine?.toLowerCase() === cuisineLowerMatch) return true;
-        
+
         // Regional cuisine match
         if ((recipe.regionalCuisine as string).toLowerCase() === cuisineLowerMatch) return true;
-        
+
         // High match score
         return (Number(recipe.matchScore) || 0) > 0.75;
       })
@@ -191,20 +191,20 @@ export function CuisineSectionMigrated({
         // Apply Pattern KK-1: Explicit Type Assertion for arithmetic operations
         const scoreA = Number(a.matchScore) || 0;
         const scoreB = Number(b.matchScore) || 0;
-        
+
         if (scoreB !== scoreA) return scoreB - scoreA;
-        
+
         // If match scores are equal, prioritize direct cuisine matches
         // Apply surgical type casting with variable extraction
         const cuisineStringSort = String(cuisine || '');
         const cuisineLowerSort = cuisineStringSort.toLowerCase();
-        
+
         const directMatchA = a.cuisine?.toLowerCase() === cuisineLowerSort;
         const directMatchB = b.cuisine?.toLowerCase() === cuisineLowerSort;
-        
+
         if (directMatchA && !directMatchB) return -1;
         if (!directMatchA && directMatchB) return 1;
-        
+
         // Default to alphabetical ordering
         return (a.name || '').localeCompare(b.name || '');
       })
@@ -214,7 +214,7 @@ export function CuisineSectionMigrated({
   // Check for regional variations to add information about cuisine relationships
   const isRegionalVariant = (cuisineRecipes || []).some(r => (r.regionalCuisine as string).toLowerCase() === (cuisine ).toLowerCase());
   const parentCuisineName = isRegionalVariant ? cuisineRecipes.find(r => (r.regionalCuisine as string).toLowerCase() === (cuisine ).toLowerCase())?.cuisine : null;
-  
+
   // Check if this is a parent cuisine with regional variants shown
   const hasRegionalVariants = (cuisineRecipes || []).some(r => r.regionalCuisine && r.cuisine?.toLowerCase() === cuisine.toLowerCase());
   const regionalVariantNames = [... new Set(cuisineRecipes
@@ -253,14 +253,14 @@ export function CuisineSectionMigrated({
     if (score >= 0.65) return 'bg-yellow-50 text-yellow-600';
     return 'bg-gray-100 text-gray-600';
   };
-  
+
   // Function to render a score badge with stars for high scores
   const renderScoreBadge = (score: number, hasDualMatch: boolean = false) => {
     // Apply a small multiplier to emphasize differences in scores
     const enhancedScore = Math.min(100, Math.round(score * 110));
     let stars = '';
     let tooltipText = 'Match score based on cuisine, season, and elemental balance';
-    
+
     if (score >= 0.95) {
       stars = '★★★';
       tooltipText = 'Perfect match: Highly recommended for your preferences';
@@ -271,13 +271,13 @@ export function CuisineSectionMigrated({
       stars = '★';
       tooltipText = 'Very good match for your preferences';
     }
-    
+
     if (hasDualMatch) {
       tooltipText = `${tooltipText} (Matches multiple criteria)`;
     }
-    
+
     return (
-      <span 
+      <span
         className={`text-sm ${getMatchScoreClass(score)} px-2 py-1 rounded flex items-center gap-1 transition-all duration-300 hover:scale-105`}
         title={tooltipText}
       >
@@ -293,13 +293,13 @@ export function CuisineSectionMigrated({
     if (!sauce || !sauce.id) {
       return null;
     }
-    
+
     // Create a URL-friendly sauce ID
     const sauceUrlId = sauce.id.toLowerCase().replace(/ /g, '-').replace(/[^\w-]/g, '');
     const sauceUrl = `/sauces/${cuisine.toLowerCase() || 'unknown'}/${sauceUrlId}`;
-    
+
     return (
-      <Link 
+      <Link
         key={`${sauce.id}-${index}`}
         href={sauceUrl}
         className="border rounded-lg p-4 bg-white hover:shadow-md transition-shadow"
@@ -312,9 +312,9 @@ export function CuisineSectionMigrated({
             </span>
           )}
         </div>
-        
+
         <p className="text-sm text-gray-600 mb-3">{sauce.description || 'No description available'}</p>
-        
+
         {/* Seasonal info if available */}
         {sauce.seasonality && (
           <span className="text-xs px-2 py-1 bg-green-50 text-green-700 rounded mr-2">
@@ -330,12 +330,12 @@ export function CuisineSectionMigrated({
     if (!recipe || !recipe.name) {
       return null;
     }
-    
+
     // Create URL-friendly recipe ID
     const recipeId = recipe.name.toLowerCase().replace(/ /g, '-').replace(/[^\w-]/g, '');
-    
+
     return (
-      <Link 
+      <Link
         key={`${recipe.name}-${index}`}
         href={`/recipes/${recipeId}`}
         className="border rounded-lg p-4 bg-white hover:shadow-md transition-shadow"
@@ -346,16 +346,16 @@ export function CuisineSectionMigrated({
             renderScoreBadge(Number(recipe.matchScore) || 0, !!recipe.dualMatch)
           )}
         </div>
-        
+
         {/* Show regional cuisine if different from main cuisine */}
         {Boolean(recipe.regionalCuisine && recipe.regionalCuisine !== recipe.cuisine) && (
           <div className="text-xs text-gray-500 mb-2">
             Regional style: <span className="font-medium">{recipe.regionalCuisine as string}</span>
           </div>
         )}
-        
+
         <p className="text-sm text-gray-600 mb-3">{recipe.description || 'No description available'}</p>
-        
+
         {renderSeasonalInfo(recipe)}
       </Link>
     );
@@ -390,7 +390,7 @@ export function CuisineSectionMigrated({
         </h2>
         <div className="bg-red-50 border border-red-200 text-red-700 p-4 rounded-lg">
           <p>Error loading cuisine data: {(servicesError || error)?.message}</p>
-          <button 
+          <button
             className="mt-4 px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
             onClick={() => window.location.reload()}
           >
@@ -416,7 +416,7 @@ export function CuisineSectionMigrated({
         <div className="bg-gray-50 rounded-lg p-4 text-center text-gray-500">
           <p>No recipes available for this cuisine at the moment</p>
           <p className="mt-2 text-sm">Please try another cuisine or check back later</p>
-          <button 
+          <button
             className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors"
             onClick={() => window.location.reload()}
           >
@@ -434,7 +434,7 @@ export function CuisineSectionMigrated({
         <h2 className="text-2xl font-bold capitalize">
           {cuisine.replace('_', ' ')} Cuisine
         </h2>
-        
+
         {/* Display number of recipes */}
         {(cuisineRecipes || []).length > 0 && (
           <span className="text-sm text-gray-600">
@@ -464,8 +464,8 @@ export function CuisineSectionMigrated({
           <ul className="flex flex-wrap gap-2">
             {(regionalVariantNames || []).map((variant, index) => (
               <li key={index}>
-                <Link 
-                  href={`/cuisines/${variant.toLowerCase()}`} 
+                <Link
+                  href={`/cuisines/${variant.toLowerCase()}`}
                   className="px-3 py-1 bg-blue-100 rounded-full hover:bg-blue-200 transition-colors"
                 >
                   {variant}
@@ -481,7 +481,7 @@ export function CuisineSectionMigrated({
         <div className="flex justify-between items-center mb-3">
           <h3 className="text-xl font-semibold">Recipes</h3>
           {(cuisineRecipes || []).length > 4 && (
-            <button 
+            <button
               onClick={() => setViewAllRecipes(!viewAllRecipes)}
               className="text-blue-600 hover:text-blue-800 text-sm"
             >
@@ -489,7 +489,7 @@ export function CuisineSectionMigrated({
             </button>
           )}
         </div>
-        
+
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {(cuisineRecipes || []).map((recipe, index) => renderRecipeCard(recipe, index))}
         </div>
@@ -506,4 +506,4 @@ export function CuisineSectionMigrated({
       )}
     </div>
   );
-} 
+}

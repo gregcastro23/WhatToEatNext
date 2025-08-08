@@ -479,7 +479,7 @@ export function CookingMethodsSectionMigrated({ methods,
                     <div className={styles['elemental-label']}>Elemental Effects:</div>
                     <div className={styles['elemental-grid']}>
                       {Object.entries(getElementalTransformations(method)).map(([element, value]) => {
-                        const { direction, intensity } = getElementalDirection(value);
+                        const { direction, intensity: _intensity } = getElementalDirection(value);
                         return (
                           <div key={element} className={`${styles['elemental-effect']} ${styles[`effect-${direction}`]}`}>
                             {element === 'Fire' && <Flame size={14} />}

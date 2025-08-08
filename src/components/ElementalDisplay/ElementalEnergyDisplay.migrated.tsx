@@ -1,11 +1,10 @@
 'use client';
 
 import { isEqual } from 'lodash';
-import React, { useEffect, useState, useMemo, useCallback } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 
 import { useServices } from '@/hooks/useServices';
 import { log } from '@/services/LoggingService';
-import { PlanetaryPosition } from "@/types/celestial";
 import { ElementType, ElementalEnergy } from '@/types/elements';
 import { getCachedCalculation } from '@/utils/calculationCache';
 
@@ -17,7 +16,7 @@ const ElementalEnergyDisplayMigrated: React.FC<ElementalEnergyDisplayProps> = ({
   const [renderCount, setRenderCount] = useState(0);
   const [energies, setEnergies] = useState<ElementalEnergy[]>([]);
   const [lastPositions, setLastPositions] = useState<Record<string, unknown>>({});
-  
+
   // Use the useServices hook instead of the AlchemicalContext
   const {
     isLoading,
@@ -52,34 +51,34 @@ const ElementalEnergyDisplayMigrated: React.FC<ElementalEnergyDisplayProps> = ({
       try {
         // Get current planetary positions from the astrologyService
         const positions = await astrologyService.getCurrentPlanetaryPositions();
-        
+
         // Check if daytime
         const isDaytime = await astrologyService.isDaytime();
-        
+
         // Skip calculation if positions haven't changed
         if (isEqual(lastPositions, positions)) {
           if (showDebug) log.info('Skipping calculation - positions unchanged');
           return;
         }
-        
+
         // Calculate elemental energies
         const result = getCachedCalculation(
           'elementalEnergies',
           { positions, isDaytime },
           () => calculateElementalEnergies(positions, isDaytime)
         );
-        
+
         if (!result || !Array.isArray(result)) {
           console.error('Invalid calculation result:', result);
           return;
         }
-        
+
         // Only update state if energies have changed
         if (!isEqual(energies, result)) {
           if (showDebug) log.info('Updating energy values:', result);
           setEnergies(result);
         }
-        
+
         setLastPositions(positions);
       } catch (err) {
         console.error('Error loading planetary data:', err);
@@ -130,8 +129,8 @@ const ElementalEnergyDisplayMigrated: React.FC<ElementalEnergyDisplayProps> = ({
       )}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         {(sortedEnergies || []).map((element) => (
-          <div 
-            key={element.type} 
+          <div
+            key={element.type}
             className="element-card p-3 rounded-lg shadow-md"
             style={{
               backgroundColor: getElementColor(element.type, 0.2),
@@ -141,11 +140,11 @@ const ElementalEnergyDisplayMigrated: React.FC<ElementalEnergyDisplayProps> = ({
           >
             <h3 className="font-bold">{capitalizeFirstLetter(element.type)}</h3>
             <div className="strength-bar h-4 rounded bg-gray-200 mt-2">
-              <div 
+              <div
                 className="h-full rounded"
-                style={{ 
+                style={{
                   width: `${Math.max(5, Math.min(100, element.strength * 100))}%`,
-                  backgroundColor: getElementColor(element.type, 0.8) 
+                  backgroundColor: getElementColor(element.type, 0.8)
                 }}
               ></div>
             </div>
@@ -167,11 +166,11 @@ function calculateElementalEnergies(
   }
 
   // Initialize energy values for each element
-  const energyValues = { 
-    Fire: 0, 
-    Water: 0, 
-    Earth: 0, 
-    Air: 0 
+  const energyValues = {
+    Fire: 0,
+    Water: 0,
+    Earth: 0,
+    Air: 0
   } as Record<ElementType, number>;
 
   // Define planetary influences (weights)
@@ -258,7 +257,7 @@ function getPlanetaryInfluencers(
   planetaryPositions: { [key: string]: any },
   elementType: ElementType
 ): string[] { // Define which planets influence which elements
-  const elementInfluencers = { 
+  const elementInfluencers = {
     Fire: ['Sun', 'Mars', 'Jupiter'],
     Water: ['Moon', 'Venus', 'Neptune'],
     Earth: ['Venus', 'Saturn', 'Pluto'],
@@ -293,13 +292,13 @@ function capitalizeFirstLetter(string: string): string {
 }
 
 function getElementColor(elementType: ElementType, opacity: number = 1): string {
-  const colors = { 
+  const colors = {
     Fire: `rgba(255, 59, 48, ${opacity})`,
     Water: `rgba(0, 122, 255, ${opacity})`,
     Air: `rgba(255, 204, 0, ${opacity})`,
     Earth: `rgba(52, 199, 89, ${opacity})`
   } as Record<ElementType, string>;
-  
+
   return colors[elementType] || `rgba(155, 155, 155, ${opacity})`;
 }
 
@@ -307,4 +306,4 @@ function getElementColor(elementType: ElementType, opacity: number = 1): string 
 export default React.memo(ElementalEnergyDisplayMigrated, (prevProps, nextProps) => {
   // Only re-render if showDebug changes
   return prevProps.showDebug === nextProps.showDebug;
-}); 
+});

@@ -3,8 +3,7 @@
  * Main Page Restoration - Task 3.8 Implementation
  */
 
-import type { ElementalProperties, ZodiacSign, LunarPhase } from '@/types/alchemy';
-import type { Recipe } from '@/types/recipe';
+import type { ElementalProperties, ZodiacSign } from '@/types/alchemy';
 
 import { EnterpriseIntelligenceIntegration } from '../EnterpriseIntelligenceIntegration';
 
@@ -37,7 +36,7 @@ describe('EnterpriseIntelligenceIntegration', () => {
     season: ['all'],
     mealType: ['dinner'],
     numberOfServings: 4
-  } as any; // Type assertion for test compatibility
+  } as unknown as import('@/types/unified').Recipe;
 
   const mockCuisineData = {
     name: 'Test Cuisine',
@@ -107,9 +106,9 @@ describe('EnterpriseIntelligenceIntegration', () => {
       expect(result.ingredientIntelligence).toBeDefined();
       expect(result.validationIntelligence?.dataIntegrity).toBeDefined();
       expect(result.safetyIntelligence?.riskAssessment).toBeDefined();
-      expect((result as any).optimizationRecommendations || result.optimizationIntelligence).toBeDefined();
-      expect((result as any).overallScore || 0.8).toBeGreaterThan(0);
-      expect((result as any).systemHealth || 'good').toMatch(/excellent|good|fair|poor/);
+      expect(result.optimizationRecommendations || result.optimizationIntelligence).toBeDefined();
+      expect(result.overallScore || 0.8).toBeGreaterThan(0);
+      expect(result.systemHealth || 'good').toMatch(/excellent|good|fair|poor/);
       expect(result.timestamp).toBeDefined();
     });
 
@@ -197,14 +196,14 @@ describe('EnterpriseIntelligenceIntegration', () => {
         mockAstrologicalContext
       );
 
-      const optimization = (result as unknown as Record<string, unknown>)?.optimizationRecommendations as Record<string, any>;
-      expect((optimization )?.performance).toBeDefined();
-      expect((optimization )?.accuracy).toBeDefined();
-      expect((optimization )?.userExperience).toBeDefined();
-      expect((optimization )?.systemIntegration).toBeDefined();
-      expect((optimization )?.overallOptimization).toBeDefined();
-      expect(((optimization )?.overallOptimization as Record<string, any>)?.priority).toMatch(/low|medium|high|critical/);
-      expect(((optimization )?.overallOptimization as Record<string, any>)?.estimatedValue).toBeGreaterThanOrEqual(0);
+      const optimization = result.optimizationRecommendations as Record<string, any>;
+      expect(optimization?.performance).toBeDefined();
+      expect(optimization?.accuracy).toBeDefined();
+      expect(optimization?.userExperience).toBeDefined();
+      expect(optimization?.systemIntegration).toBeDefined();
+      expect(optimization?.overallOptimization).toBeDefined();
+      expect((optimization?.overallOptimization as Record<string, any>)?.priority).toMatch(/low|medium|high|critical/);
+      expect((optimization?.overallOptimization as Record<string, any>)?.estimatedValue).toBeGreaterThanOrEqual(0);
     });
 
     it('should handle missing data gracefully', async () => {

@@ -1,29 +1,23 @@
 'use client';
 
-import { Flame, Droplets, Mountain, Wind, Shield, CornerUpRight, Shuffle } from 'lucide-react';
-import React, { useState, useEffect, useMemo, FC, ReactNode, useRef } from 'react';
+import { CornerUpRight, Droplets, Flame, Mountain, Shield, Shuffle, Wind } from 'lucide-react';
+import React, { FC, ReactNode, useEffect, useMemo, useRef, useState } from 'react';
 
-import { 
-  calculateAlchemicalDistribution, 
-  convertToElementalProperties, 
-  calculateThermodynamicProperties 
+import {
+    calculateAlchemicalDistribution,
+    calculateThermodynamicProperties,
+    convertToElementalProperties
 } from '@/constants/alchemicalEnergyMapping';
-import { ElementalCharacter } from '@/constants/planetaryElements';
-import { AlchemicalContextType } from '@/contexts/AlchemicalContext/context';
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 import { useAstrologicalState } from '@/hooks/useAstrologicalState';
 import { ElementalCalculator } from '@/services/ElementalCalculator';
-import { 
-  CelestialPosition, 
-  PlanetaryAlignment, 
-  Modality, 
-  Element,
-  AlchemicalProperties, 
-  ElementalProperties, 
-  ThermodynamicProperties 
+import {
+    AlchemicalProperties,
+    CelestialPosition,
+    ElementalProperties,
+    Modality,
+    ThermodynamicProperties
 } from '@/types/celestial';
-import { getCachedCalculation } from '@/utils/calculationCache';
-import { safeImportAndExecute } from '@/utils/dynamicImport';
 import { createLogger } from '@/utils/logger';
 
 import styles from './ElementalEnergyDisplay.module.css';
@@ -105,13 +99,13 @@ const getEnergyLevelDescription = (value: number, type: keyof typeof energyState
 const ElementalEnergyDisplay: FC = (): ReactNode => {
   // Use the defined interface for the useAlchemical hook result
   const { planetaryPositions, isDaytime, refreshPlanetaryPositions, state } = useAlchemical() as AlchemicalHookResult;
-  
+
   const { currentPlanetaryAlignment, currentZodiac } = useAstrologicalState();
   const [renderCount, setRenderCount] = useState<number>(0);
-  
+
   // Create the ref at the component level instead of inside useEffect
   const lastPositionKeyRef = useRef<string>('');
-  
+
   // Log render count - run only once
   useEffect(() => {
     // Only increment once when component mounts
@@ -120,7 +114,7 @@ const ElementalEnergyDisplay: FC = (): ReactNode => {
       logger.debug(`ElementalEnergyDisplay mounted`);
     }
   }, [renderCount]); // Added renderCount to deps
-  
+
   const [alchemicalResults, setAlchemicalResults] = useState<AlchemicalResults>(() => {
     // Start with defaults
     const initialState: AlchemicalResults = {
@@ -140,10 +134,10 @@ const ElementalEnergyDisplay: FC = (): ReactNode => {
       try {
         // Get the distribution of alchemical energies
         const alchemicalDistribution = calculateAlchemicalDistribution(planetaryPositions, isDaytime);
-        
+
         // Convert to elemental properties
         const elementalProps = convertToElementalProperties(alchemicalDistribution);
-        
+
         // Calculate thermodynamic properties
         const thermodynamicProps = calculateThermodynamicProperties(alchemicalDistribution);
 
@@ -166,7 +160,7 @@ const ElementalEnergyDisplay: FC = (): ReactNode => {
 
     return initialState;
   });
-  
+
   // Memoize planetary position input with proper serialization to prevent infinite loops
   const memoizedPlanetaryInput = useMemo(() => {
     // Create a stable hash from the positions that only changes when relevant data changes
@@ -175,16 +169,16 @@ const ElementalEnergyDisplay: FC = (): ReactNode => {
       // Only include data that affects calculations
       return acc + `${planet}:${data.sign || ''}:${data.degree || 0}:${data.isRetrograde ? 1 : 0}|`;
     }, '');
-    
+
     const serialized = {
       positionsHash,
       isDaytime,
       timestamp: Math.floor(Date.now() / 60000) // Only recalculate at most once per minute
     };
-    
+
     return serialized;
   }, [planetaryPositions, isDaytime]);
-  
+
   // Memoize expensive calculations
   useEffect(() => {
     // Skip if we don't have valid data
@@ -192,18 +186,18 @@ const ElementalEnergyDisplay: FC = (): ReactNode => {
       logger.debug("Skipping alchemical calculation - no planetary positions available");
       return;
     }
-    
+
     // Calculate alchemical properties using our new helper functions
     try {
       // Get the distribution of alchemical energies
       const alchemicalDistribution = calculateAlchemicalDistribution(planetaryPositions, isDaytime);
-      
+
       // Convert to elemental properties
       const elementalProps = convertToElementalProperties(alchemicalDistribution);
-      
+
       // Calculate thermodynamic properties
       const thermodynamicProps = calculateThermodynamicProperties(alchemicalDistribution);
-      
+
       // Use a function to determine if updates are needed, with defined equality thresholds
       const isSignificantChange = (prev: AlchemicalResults, newProps: {
         elementalProps: ElementalProperties,
@@ -211,7 +205,7 @@ const ElementalEnergyDisplay: FC = (): ReactNode => {
         thermodynamicProps: ThermodynamicProperties
       }) => {
         const THRESHOLD = 0.01; // 1% change threshold
-        
+
         return (
           Math.abs(prev.heat - newProps.thermodynamicProps.heat) >= THRESHOLD ||
           Math.abs(prev.entropy - newProps.thermodynamicProps.entropy) >= THRESHOLD ||
@@ -222,7 +216,7 @@ const ElementalEnergyDisplay: FC = (): ReactNode => {
           Math.abs(prev.elementalCounts.Air - newProps.elementalProps.Air) >= THRESHOLD
         );
       };
-      
+
       // Update state with new values, but only if there's a significant change
       setAlchemicalResults(prev => {
         // Check if there's a significant change worth updating for
@@ -230,12 +224,12 @@ const ElementalEnergyDisplay: FC = (): ReactNode => {
           logger.debug("Skipping update - results identical to previous state");
           return prev;
         }
-        
+
         logger.debug("Updating alchemical results with new data:", {
           elements: elementalProps,
           thermodynamics: thermodynamicProps
         });
-        
+
         return {
           ...prev,
           elementalCounts: elementalProps,
@@ -261,7 +255,7 @@ const ElementalEnergyDisplay: FC = (): ReactNode => {
     try {
       if (state.astrologicalState?.alchemicalValues) {
         logger.debug("Using alchemical values from context:", state.astrologicalState.alchemicalValues);
-        
+
         // Update the alchemical counts from context state, ensuring non-zero values
         setAlchemicalResults(prev => ({
           ...prev,
@@ -273,7 +267,7 @@ const ElementalEnergyDisplay: FC = (): ReactNode => {
           }
         }));
       }
-      
+
       // Update modality distribution if available
       if (state.astrologicalState?.modalityDistribution) {
         setAlchemicalResults(prev => ({
@@ -282,7 +276,7 @@ const ElementalEnergyDisplay: FC = (): ReactNode => {
           dominantModality: state.astrologicalState?.dominantModality || prev.dominantModality
         }));
       }
-      
+
       // Update planetary dignities if available
       if (state.astrologicalState?.planetaryDignities) {
         setAlchemicalResults(prev => ({
@@ -299,16 +293,16 @@ const ElementalEnergyDisplay: FC = (): ReactNode => {
   const totalElementals = useMemo(() => {
     logger.debug("Recalculating totalElementals");
     return Object.values(alchemicalResults.elementalCounts).reduce(
-      (sum: number, val: unknown) => sum + (typeof val === 'number' ? val : 0), 
+      (sum: number, val: unknown) => sum + (typeof val === 'number' ? val : 0),
       0
     );
   }, [alchemicalResults.elementalCounts]);
-  
+
   // Memoize total alchemicals calculation
   const totalAlchemicals = useMemo(() => {
     logger.debug("Recalculating totalAlchemicals");
     return Object.values(alchemicalResults.alchemicalCounts).reduce(
-      (sum: number, val: unknown) => sum + (typeof val === 'number' ? val : 0), 
+      (sum: number, val: unknown) => sum + (typeof val === 'number' ? val : 0),
       0
     );
   }, [alchemicalResults.alchemicalCounts]);
@@ -320,15 +314,15 @@ const ElementalEnergyDisplay: FC = (): ReactNode => {
     reactivity: energyStateDescriptions[alchemicalResults.reactivity >= 0.7 ? 'high' : alchemicalResults.reactivity >= 0.4 ? 'medium' : 'low'].reactivity,
     gregsEnergy: energyStateDescriptions[alchemicalResults.gregsEnergy >= 0.7 ? 'high' : alchemicalResults.gregsEnergy >= 0.4 ? 'medium' : 'low'].gregsEnergy
   }), [
-    alchemicalResults.heat, 
-    alchemicalResults.entropy, 
+    alchemicalResults.heat,
+    alchemicalResults.entropy,
     alchemicalResults.reactivity,
     alchemicalResults.gregsEnergy
   ]);
 
   useEffect(() => {
     logger.debug("Planetary positions available:", planetaryPositions);
-    
+
     // Debug indicator for data format
     if (planetaryPositions) {
       const firstPlanet = Object.keys(planetaryPositions)[0] || '';
@@ -351,7 +345,7 @@ const ElementalEnergyDisplay: FC = (): ReactNode => {
           .filter(([_k, v]) => typeof v === 'object' && v !== null && 'sign' in v)
           .map(([k, v]) => `${k}:${(v ).sign}:${(v ).degree || 0}`)
           .join('|');
-        
+
         // Skip calculation if we've already calculated for this exact alignment
         // Use the ref that's defined at the component level
         if (positionKey === lastPositionKeyRef.current) {
@@ -359,30 +353,30 @@ const ElementalEnergyDisplay: FC = (): ReactNode => {
           return;
         }
         lastPositionKeyRef.current = positionKey;
-        
+
         // Use our new alchemical energy mapping functions
         // Calculate alchemical distribution from planetary positions
         const alchemicalDistribution = calculateAlchemicalDistribution(currentPlanetaryAlignment as unknown as Record<string, CelestialPosition>, isDaytime);
-        
+
         // Convert alchemical distribution to elemental properties
         const elementalProps = convertToElementalProperties(alchemicalDistribution);
-        
+
         // Calculate thermodynamic properties from alchemical distribution
         const thermodynamicProps = calculateThermodynamicProperties(alchemicalDistribution);
-        
+
         // Update the alchemical results state
         setAlchemicalResults(prev => {
           // Only update if there's a significant change
           const THRESHOLD = 0.01;
-          const hasSignificantChange = 
+          const hasSignificantChange =
             Math.abs(prev.heat - thermodynamicProps.heat) >= THRESHOLD ||
             Math.abs(prev.entropy - thermodynamicProps.entropy) >= THRESHOLD ||
             Math.abs(prev.reactivity - thermodynamicProps.reactivity) >= THRESHOLD;
-          
+
           if (!hasSignificantChange) {
             return prev;
           }
-          
+
           return {
             ...prev,
             elementalCounts: elementalProps,
@@ -399,7 +393,7 @@ const ElementalEnergyDisplay: FC = (): ReactNode => {
             gregsEnergy: (thermodynamicProps.heat + thermodynamicProps.reactivity + thermodynamicProps.entropy) / 3
           };
         });
-        
+
         // Calculate modality distribution - pulled this out of the state update to avoid unnecessary re-renders
         const modalityCount = { Cardinal: 0, Fixed: 0, Mutable: 0 };
         let totalPlanets = 0;
@@ -430,33 +424,33 @@ const ElementalEnergyDisplay: FC = (): ReactNode => {
           Fixed: totalPlanets > 0 ? modalityCount.Fixed / totalPlanets : 0.33,
           Mutable: totalPlanets > 0 ? modalityCount.Mutable / totalPlanets : 0.33
         };
-        
+
         // Determine dominant modality
         const entries = Object.entries(modalityDistribution) as [Modality, number][];
         const dominantModality = entries.reduce(
-          (max, [modality, value]) => value > max.value ? {modality, value} : max, 
+          (max, [modality, value]) => value > max.value ? {modality, value} : max,
           {modality: 'Mutable' as Modality, value: 0}
         ).modality;
 
         // Update modality distribution in a separate state update
         setAlchemicalResults(prev => {
-          if (prev.dominantModality === dominantModality && 
+          if (prev.dominantModality === dominantModality &&
               Math.abs(prev.modalityDistribution.Cardinal - modalityDistribution.Cardinal) < 0.01 &&
               Math.abs(prev.modalityDistribution.Fixed - modalityDistribution.Fixed) < 0.01 &&
               Math.abs(prev.modalityDistribution.Mutable - modalityDistribution.Mutable) < 0.01) {
             return prev;
           }
-          
+
           return {
             ...prev,
             modalityDistribution,
             dominantModality
           };
         });
-        
+
       } catch (err) {
         logger.error("Error calculating elemental state:", err);
-        
+
         // Fallback to a default state if calculation fails
         const defaultState = ElementalCalculator.getCurrentElementalState();
         setAlchemicalResults(prev => ({
@@ -473,8 +467,8 @@ const ElementalEnergyDisplay: FC = (): ReactNode => {
     }
   }, [currentPlanetaryAlignment, isDaytime]); // Only depend on these two values
 
- 
-  
+
+
   // Get color based on value
   const getEnergyColor = (value: number) => {
     if (isNaN(value)) return "rgb(128, 128, 128)";
@@ -482,7 +476,7 @@ const ElementalEnergyDisplay: FC = (): ReactNode => {
     if (value >= 0.4) return "rgb(65, 105, 225)";
     return "rgb(255, 165, 0)";
   };
-  
+
   // Functions for visualization
   const getElementIcon = (element: string) => {
     switch (element) {
@@ -493,7 +487,7 @@ const ElementalEnergyDisplay: FC = (): ReactNode => {
       default: return '';
     }
   };
-  
+
   const getElementColor = (element: string) => {
     switch (element) {
       case 'Fire': return 'rgb(255, 87, 51)';
@@ -503,7 +497,7 @@ const ElementalEnergyDisplay: FC = (): ReactNode => {
       default: return 'rgb(128, 128, 128)';
     }
   };
-  
+
   const getAlchemicalPropertyIcon = (property: string) => {
     switch (property) {
       case 'Spirit': return '✨';
@@ -513,7 +507,7 @@ const ElementalEnergyDisplay: FC = (): ReactNode => {
       default: return '';
     }
   };
-  
+
   const getAlchemicalPropertyColor = (property: string) => {
     switch (property) {
       case 'Spirit': return 'rgb(186, 85, 211)';
@@ -535,7 +529,7 @@ const ElementalEnergyDisplay: FC = (): ReactNode => {
     <div className={styles.container}>
       {/* Use the memoized debug component */}
       <DebugInfo />
-      
+
       <div className={styles.elementSection}>
         <h3 className={styles.sectionTitle}>Elemental State</h3>
         <div className={styles.elementBars}>
@@ -545,8 +539,8 @@ const ElementalEnergyDisplay: FC = (): ReactNode => {
               <span>Fire</span>
             </div>
             <div className={styles.barContainer}>
-              <div 
-                className={`${styles.barFill} ${styles.fireFill}`} 
+              <div
+                className={`${styles.barFill} ${styles.fireFill}`}
                 style={{ width: `${Math.round(alchemicalResults.elementalCounts.Fire * 100)}%` }}
               ></div>
             </div>
@@ -559,8 +553,8 @@ const ElementalEnergyDisplay: FC = (): ReactNode => {
               <span>Water</span>
             </div>
             <div className={styles.barContainer}>
-              <div 
-                className={`${styles.barFill} ${styles.waterFill}`} 
+              <div
+                className={`${styles.barFill} ${styles.waterFill}`}
                 style={{ width: `${Math.round(alchemicalResults.elementalCounts.Water * 100)}%` }}
               ></div>
             </div>
@@ -573,8 +567,8 @@ const ElementalEnergyDisplay: FC = (): ReactNode => {
               <span>Earth</span>
             </div>
             <div className={styles.barContainer}>
-              <div 
-                className={`${styles.barFill} ${styles.earthFill}`} 
+              <div
+                className={`${styles.barFill} ${styles.earthFill}`}
                 style={{ width: `${Math.round(alchemicalResults.elementalCounts.Earth * 100)}%` }}
               ></div>
             </div>
@@ -587,8 +581,8 @@ const ElementalEnergyDisplay: FC = (): ReactNode => {
               <span>Air</span>
             </div>
             <div className={styles.barContainer}>
-              <div 
-                className={`${styles.barFill} ${styles.airFill}`} 
+              <div
+                className={`${styles.barFill} ${styles.airFill}`}
                 style={{ width: `${Math.round(alchemicalResults.elementalCounts.Air * 100)}%` }}
               ></div>
             </div>
@@ -625,7 +619,7 @@ const ElementalEnergyDisplay: FC = (): ReactNode => {
             </p>
           </div>
         </div>
-        
+
         <div className={styles.elementBars}>
           <div className={styles.elementBar}>
             <div className={styles.elementLabel}>
@@ -633,22 +627,22 @@ const ElementalEnergyDisplay: FC = (): ReactNode => {
               <span>Cardinal</span>
             </div>
             <div className={styles.barContainer}>
-              <div 
-                className={`${styles.barFill} ${styles.cardinalFill}`} 
+              <div
+                className={`${styles.barFill} ${styles.cardinalFill}`}
                 style={{ width: `${Math.round(alchemicalResults.modalityDistribution.Cardinal * 100)}%` }}
               ></div>
             </div>
             <span className={styles.percentage}>{Math.round(alchemicalResults.modalityDistribution.Cardinal * 100)}%</span>
           </div>
-          
+
           <div className={styles.elementBar}>
             <div className={styles.elementLabel}>
               <Shield className={`${styles.elementIcon} ${styles.fixedIcon}`} size={18} />
               <span>Fixed</span>
             </div>
             <div className={styles.barContainer}>
-              <div 
-                className={`${styles.barFill} ${styles.fixedFill}`} 
+              <div
+                className={`${styles.barFill} ${styles.fixedFill}`}
                 style={{ width: `${Math.round(alchemicalResults.modalityDistribution.Fixed * 100)}%` }}
               ></div>
             </div>
@@ -661,8 +655,8 @@ const ElementalEnergyDisplay: FC = (): ReactNode => {
               <span>Mutable</span>
             </div>
             <div className={styles.barContainer}>
-              <div 
-                className={`${styles.barFill} ${styles.mutableFill}`} 
+              <div
+                className={`${styles.barFill} ${styles.mutableFill}`}
                 style={{ width: `${Math.round(alchemicalResults.modalityDistribution.Mutable * 100)}%` }}
               ></div>
             </div>
@@ -701,8 +695,8 @@ const ElementalEnergyDisplay: FC = (): ReactNode => {
               <span>Spirit</span>
             </div>
             <div className={styles.barContainer}>
-              <div 
-                className={`${styles.barFill} ${styles.spiritFill}`} 
+              <div
+                className={`${styles.barFill} ${styles.spiritFill}`}
                 style={{ width: `${Math.min(Math.round(alchemicalResults.alchemicalCounts.Spirit * 100), 100)}%` }}
               ></div>
             </div>
@@ -716,8 +710,8 @@ const ElementalEnergyDisplay: FC = (): ReactNode => {
               <span>Essence</span>
             </div>
             <div className={styles.barContainer}>
-              <div 
-                className={`${styles.barFill} ${styles.essenceFill}`} 
+              <div
+                className={`${styles.barFill} ${styles.essenceFill}`}
                 style={{ width: `${Math.min(Math.round(alchemicalResults.alchemicalCounts.Essence * 100), 100)}%` }}
               ></div>
             </div>
@@ -731,8 +725,8 @@ const ElementalEnergyDisplay: FC = (): ReactNode => {
               <span>Matter</span>
             </div>
             <div className={styles.barContainer}>
-              <div 
-                className={`${styles.barFill} ${styles.matterFill}`} 
+              <div
+                className={`${styles.barFill} ${styles.matterFill}`}
                 style={{ width: `${Math.min(Math.round(alchemicalResults.alchemicalCounts.Matter * 100), 100)}%` }}
               ></div>
             </div>
@@ -746,8 +740,8 @@ const ElementalEnergyDisplay: FC = (): ReactNode => {
               <span>Substance</span>
             </div>
             <div className={styles.barContainer}>
-              <div 
-                className={`${styles.barFill} ${styles.substanceFill}`} 
+              <div
+                className={`${styles.barFill} ${styles.substanceFill}`}
                 style={{ width: `${Math.min(Math.round(alchemicalResults.alchemicalCounts.Substance * 100), 100)}%` }}
               ></div>
             </div>
@@ -757,11 +751,11 @@ const ElementalEnergyDisplay: FC = (): ReactNode => {
           </div>
         </div>
       </div>
-      
+
       {/* Energy Metrics */}
       <div className={styles.energySection}>
         <h3 className={styles.sectionTitle}>Energy Metrics</h3>
-        
+
         <div className={styles.energyBars}>
           {/* Heat */}
           <div className={styles.energyBar}>
@@ -770,8 +764,8 @@ const ElementalEnergyDisplay: FC = (): ReactNode => {
               <span>Heat</span>
             </div>
             <div className={styles.barContainer}>
-              <div 
-                className={`${styles.barFill} ${styles.heatFill}`} 
+              <div
+                className={`${styles.barFill} ${styles.heatFill}`}
                 style={{ width: `${Math.min(alchemicalResults.heat * 100, 100)}%` }}
               ></div>
             </div>
@@ -779,7 +773,7 @@ const ElementalEnergyDisplay: FC = (): ReactNode => {
               {(alchemicalResults.heat).toFixed(2)}
             </span>
           </div>
-          
+
           {/* Entropy */}
           <div className={styles.energyBar}>
             <div className={styles.energyLabel}>
@@ -787,8 +781,8 @@ const ElementalEnergyDisplay: FC = (): ReactNode => {
               <span>Entropy</span>
             </div>
             <div className={styles.barContainer}>
-              <div 
-                className={`${styles.barFill} ${styles.entropyFill}`} 
+              <div
+                className={`${styles.barFill} ${styles.entropyFill}`}
                 style={{ width: `${Math.min(alchemicalResults.entropy * 100, 100)}%` }}
               ></div>
             </div>
@@ -796,7 +790,7 @@ const ElementalEnergyDisplay: FC = (): ReactNode => {
               {(alchemicalResults.entropy).toFixed(2)}
             </span>
           </div>
-          
+
           {/* Reactivity */}
           <div className={styles.energyBar}>
             <div className={styles.energyLabel}>
@@ -804,8 +798,8 @@ const ElementalEnergyDisplay: FC = (): ReactNode => {
               <span>Reactivity</span>
             </div>
             <div className={styles.barContainer}>
-              <div 
-                className={`${styles.barFill} ${styles.reactivityFill}`} 
+              <div
+                className={`${styles.barFill} ${styles.reactivityFill}`}
                 style={{ width: `${Math.min(alchemicalResults.reactivity * 100, 100)}%` }}
               ></div>
             </div>
@@ -813,7 +807,7 @@ const ElementalEnergyDisplay: FC = (): ReactNode => {
               {(alchemicalResults.reactivity).toFixed(2)}
             </span>
           </div>
-          
+
           {/* Alchemical Energy */}
           <div className={styles.energyBar}>
             <div className={styles.energyLabel}>
@@ -821,8 +815,8 @@ const ElementalEnergyDisplay: FC = (): ReactNode => {
               <span>Alchemical Energy</span>
             </div>
             <div className={styles.barContainer}>
-              <div 
-                className={`${styles.barFill} ${styles.gregsEnergyFill}`} 
+              <div
+                className={`${styles.barFill} ${styles.gregsEnergyFill}`}
                 style={{ width: `${Math.min(alchemicalResults.gregsEnergy * 100, 100)}%` }}
               ></div>
             </div>
@@ -832,8 +826,8 @@ const ElementalEnergyDisplay: FC = (): ReactNode => {
           </div>
         </div>
       </div>
-      
-      <button 
+
+      <button
         onClick={refreshPlanetaryPositions}
         className={styles.refreshButton}
       >
@@ -844,4 +838,4 @@ const ElementalEnergyDisplay: FC = (): ReactNode => {
 };
 
 // Wrap with React.memo to prevent unnecessary re-renders
-export default React.memo(ElementalEnergyDisplay); 
+export default React.memo(ElementalEnergyDisplay);

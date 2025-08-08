@@ -50,7 +50,7 @@ describe('AlertingSystem', () => {
     jest.clearAllMocks();
     
     // Create a new instance for each test
-    alertingSystem = new (AlertingSystem as any)();
+    alertingSystem = new AlertingSystem();
     
     // Reset the instance to ensure clean state
     alertingSystem.reset();
@@ -175,7 +175,7 @@ describe('AlertingSystem', () => {
       // Manually trigger rule evaluation (in real system this happens automatically)
       const rule = alertingSystem.getAlertRules().find(r => r.id === ruleId);
       if (rule) {
-        (alertingSystem as any).evaluateRule(rule);
+        (alertingSystem as unknown as { evaluateRule: (rule: AlertRule) => void }).evaluateRule(rule);
       }
 
       // Check if alert was created
@@ -210,7 +210,7 @@ describe('AlertingSystem', () => {
       // Manually trigger rule evaluation
       const rule = alertingSystem.getAlertRules().find(r => r.id === ruleId);
       if (rule) {
-        (alertingSystem as any).evaluateRule(rule);
+        (alertingSystem as unknown as { evaluateRule: (rule: AlertRule) => void }).evaluateRule(rule);
       }
 
       // Check that no alert was created for this rule
@@ -239,10 +239,10 @@ describe('AlertingSystem', () => {
       const rule = alertingSystem.getAlertRules().find(r => r.id === ruleId);
       if (rule) {
         // First evaluation should create alert
-        (alertingSystem as any).evaluateRule(rule);
+        (alertingSystem as unknown as { evaluateRule: (rule: AlertRule) => void }).evaluateRule(rule);
         
         // Second evaluation should be blocked by cooldown (immediate)
-        (alertingSystem as any).evaluateRule(rule);
+        (alertingSystem as unknown as { evaluateRule: (rule: AlertRule) => void }).evaluateRule(rule);
       }
 
       // Should only have one alert despite two evaluations
@@ -273,7 +273,7 @@ describe('AlertingSystem', () => {
 
       const rule = alertingSystem.getAlertRules().find(r => r.id === ruleId);
       if (rule) {
-        (alertingSystem as any).evaluateRule(rule);
+        (alertingSystem as unknown as { evaluateRule: (rule: AlertRule) => void }).evaluateRule(rule);
       }
 
       const alerts = alertingSystem.getAlerts({ resolved: false });
@@ -311,7 +311,7 @@ describe('AlertingSystem', () => {
 
       const rule = alertingSystem.getAlertRules().find(r => r.id === ruleId);
       if (rule) {
-        (alertingSystem as any).evaluateRule(rule);
+        (alertingSystem as unknown as { evaluateRule: (rule: AlertRule) => void }).evaluateRule(rule);
       }
 
       const alerts = alertingSystem.getAlerts({ resolved: false });
@@ -377,7 +377,7 @@ describe('AlertingSystem', () => {
 
         const rule = alertingSystem.getAlertRules().find(r => r.id === ruleId);
         if (rule) {
-          (alertingSystem as any).evaluateRule(rule);
+          (alertingSystem as unknown as { evaluateRule: (rule: AlertRule) => void }).evaluateRule(rule);
         }
       }
     });
@@ -429,7 +429,7 @@ describe('AlertingSystem', () => {
 
       const rule = alertingSystem.getAlertRules().find(r => r.id === ruleId);
       if (rule) {
-        (alertingSystem as any).evaluateRule(rule);
+        (alertingSystem as unknown as { evaluateRule: (rule: AlertRule) => void }).evaluateRule(rule);
       }
 
       const summary = alertingSystem.getAlertSummary();

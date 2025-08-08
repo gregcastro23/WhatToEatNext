@@ -708,9 +708,8 @@ See the typescript-eslint docs for more info: https://typescript-eslint.io/linti
   105:70  error    React Hook "React.useMemo" is called conditionally. React Hooks must be called in the exact same order in every component render. Did you accidentally call a React Hook after an early return?  react-hooks/rules-of-hooks
 
 /Users/GregCastro/Desktop/WhatToEatNext/src/components/AstrologyChart/AstrologyChart.migrated.tsx
-   29:51  error  Unexpected any. Specify a different type                                                               @typescript-eslint/no-explicit-any
-  122:9   error  'elementalBalance' is assigned a value but never used. Allowed unused vars must match /^(_|UNUSED_)/u  @typescript-eslint/no-unused-vars
-  130:19  error  Unreachable code                                                                                       no-unreachable
+   29:51  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  130:19  error  Unreachable code                          no-unreachable
 
 /Users/GregCastro/Desktop/WhatToEatNext/src/components/BridgeExampleComponent.tsx
    98:46  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
@@ -724,21 +723,13 @@ See the typescript-eslint docs for more info: https://typescript-eslint.io/linti
   226:66  error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
 
 /Users/GregCastro/Desktop/WhatToEatNext/src/components/CookingMethods.tsx
-   401:10  error    'showAllMethods' is assigned a value but never used. Allowed unused elements of array destructuring patterns must match /^_/u           @typescript-eslint/no-unused-vars
-   402:10  error    'expandedMethods' is assigned a value but never used. Allowed unused elements of array destructuring patterns must match /^_/u          @typescript-eslint/no-unused-vars
-   403:10  error    'methodScores' is assigned a value but never used. Allowed unused elements of array destructuring patterns must match /^_/u             @typescript-eslint/no-unused-vars
-   405:10  error    'modalityFilter' is assigned a value but never used. Allowed unused elements of array destructuring patterns must match /^_/u           @typescript-eslint/no-unused-vars
-   405:26  error    'setModalityFilter' is assigned a value but never used. Allowed unused elements of array destructuring patterns must match /^_/u        @typescript-eslint/no-unused-vars
-   406:10  error    'searchIngredient' is assigned a value but never used. Allowed unused elements of array destructuring patterns must match /^_/u         @typescript-eslint/no-unused-vars
-   406:28  error    'setSearchIngredient' is assigned a value but never used. Allowed unused elements of array destructuring patterns must match /^_/u      @typescript-eslint/no-unused-vars
-   407:10  error    'ingredientCompatibility' is assigned a value but never used. Allowed unused elements of array destructuring patterns must match /^_/u  @typescript-eslint/no-unused-vars
-   411:11  error    'tarotCard' is assigned a value but never used. Allowed unused vars must match /^(_|UNUSED_)/u                                          @typescript-eslint/no-unused-vars
-   411:22  error    'tarotElementalInfluences' is assigned a value but never used. Allowed unused vars must match /^(_|UNUSED_)/u                           @typescript-eslint/no-unused-vars
-   587:33  error    'method' is defined but never used. Allowed unused args must match /^_/u                                                                @typescript-eslint/no-unused-vars
-   593:35  error    'method' is defined but never used. Allowed unused args must match /^_/u                                                                @typescript-eslint/no-unused-vars
-   605:11  error    'description' is assigned a value but never used. Allowed unused vars must match /^(_|UNUSED_)/u                                        @typescript-eslint/no-unused-vars
-  1263:29  error    'getMethodTips' is assigned a value but never used. Allowed unused vars must match /^(_|UNUSED_)/u                                      @typescript-eslint/no-unused-vars
-  1362:58  warning  This assertion is unnecessary since it does not change the type of the expression                                                       @typescript-eslint/no-unnecessary-type-assertion
+   405:27  error    'setModalityFilter' is assigned a value but never used. Allowed unused elements of array destructuring patterns must match /^_/u    @typescript-eslint/no-unused-vars
+   406:29  error    'setSearchIngredient' is assigned a value but never used. Allowed unused elements of array destructuring patterns must match /^_/u  @typescript-eslint/no-unused-vars
+   587:33  error    'method' is defined but never used. Allowed unused args must match /^_/u                                                            @typescript-eslint/no-unused-vars
+   593:35  error    'method' is defined but never used. Allowed unused args must match /^_/u                                                            @typescript-eslint/no-unused-vars
+   605:11  error    'description' is assigned a value but never used. Allowed unused vars must match /^(_|UNUSED_)/u                                    @typescript-eslint/no-unused-vars
+  1263:29  error    'getMethodTips' is assigned a value but never used. Allowed unused vars must match /^(_|UNUSED_)/u                                  @typescript-eslint/no-unused-vars
+  1362:58  warning  This assertion is unnecessary since it does not change the type of the expression                                                   @typescript-eslint/no-unnecessary-type-assertion
 
 /Users/GregCastro/Desktop/WhatToEatNext/src/components/CookingMethodsSection.migrated.tsx
   127:13  warning  Prefer using an optional chain expression instead, as it's more concise and easier to read      @typescript-eslint/prefer-optional-chain
@@ -761,18 +752,15 @@ See the typescript-eslint docs for more info: https://typescript-eslint.io/linti
   749:29   warning  Prefer using an optional chain expression instead, as it's more concise and easier to read                     @typescript-eslint/prefer-optional-chain
 
 /Users/GregCastro/Desktop/WhatToEatNext/src/components/CuisineRecommender.tsx
-    36:10  error    'EnterpriseIntelligenceIntegration' is defined but never used. Allowed unused vars must match /^(_|UNUSED_)/u  @typescript-eslint/no-unused-vars
-    43:10  error    'createAstrologicalBridge' is defined but never used. Allowed unused vars must match /^(_|UNUSED_)/u           @typescript-eslint/no-unused-vars
-   326:3   error    'currentElementalProfile' is defined but never used. Allowed unused args must match /^_/u                      @typescript-eslint/no-unused-vars
-   681:23  error    'trackView' is assigned a value but never used. Allowed unused vars must match /^(_|UNUSED_)/u                 @typescript-eslint/no-unused-vars
-   688:14  warning  This assertion is unnecessary since it does not change the type of the expression                              @typescript-eslint/no-unnecessary-type-assertion
-  1621:64  error    `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`                                                react/no-unescaped-entities
-  1659:97  error    Unexpected any. Specify a different type                                                                       @typescript-eslint/no-explicit-any
-  1673:38  error    Unexpected any. Specify a different type                                                                       @typescript-eslint/no-explicit-any
-  1680:59  error    Unexpected any. Specify a different type                                                                       @typescript-eslint/no-explicit-any
+   324:3   error    'currentElementalProfile' is defined but never used. Allowed unused args must match /^_/u       @typescript-eslint/no-unused-vars
+   679:23  error    'trackView' is assigned a value but never used. Allowed unused vars must match /^(_|UNUSED_)/u  @typescript-eslint/no-unused-vars
+   686:14  warning  This assertion is unnecessary since it does not change the type of the expression               @typescript-eslint/no-unnecessary-type-assertion
+  1619:64  error    `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`                                 react/no-unescaped-entities
+  1657:97  error    Unexpected any. Specify a different type                                                        @typescript-eslint/no-explicit-any
+  1671:38  error    Unexpected any. Specify a different type                                                        @typescript-eslint/no-explicit-any
+  1678:59  error    Unexpected any. Specify a different type                                                        @typescript-eslint/no-explicit-any
 
 /Users/GregCastro/Desktop/WhatToEatNext/src/components/CuisineRecommender/index.tsx
-    4:10  error  'Element' is defined but never used. Allowed unused vars must match /^(_|UNUSED_)/u                                     @typescript-eslint/no-unused-vars
    39:6   error  React Hook useEffect has a missing dependency: 'loadRecommendations'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
   109:25  error  Promise-returning function provided to attribute where a void return was expected                                       @typescript-eslint/no-misused-promises
   158:27  error  Promise-returning function provided to attribute where a void return was expected                                       @typescript-eslint/no-misused-promises
@@ -785,30 +773,24 @@ See the typescript-eslint docs for more info: https://typescript-eslint.io/linti
   292:14  error  Unknown property 'jsx' found                                                                                            react/no-unknown-property
 
 /Users/GregCastro/Desktop/WhatToEatNext/src/components/CuisineSection.tsx
-    9:10  error    'getBestRecipeMatches' is defined but never used. Allowed unused vars must match /^(_|UNUSED_)/u                                  @typescript-eslint/no-unused-vars
-   44:3   error    'elementalState' is defined but never used. Allowed unused args must match /^_/u                                                  @typescript-eslint/no-unused-vars
-   46:26  error    'setViewAllRecipes' is assigned a value but never used. Allowed unused elements of array destructuring patterns must match /^_/u  @typescript-eslint/no-unused-vars
-   47:10  error    'traditionalSauces' is assigned a value but never used. Allowed unused elements of array destructuring patterns must match /^_/u  @typescript-eslint/no-unused-vars
-   65:47  error    Unexpected any. Specify a different type                                                                                          @typescript-eslint/no-explicit-any
-  186:33  error    Unexpected any. Specify a different type                                                                                          @typescript-eslint/no-explicit-any
-  296:9   error    'parentCuisineName' is assigned a value but never used. Allowed unused vars must match /^(_|UNUSED_)/u                            @typescript-eslint/no-unused-vars
-  306:9   error    'hasRegionalVariants' is assigned a value but never used. Allowed unused vars must match /^(_|UNUSED_)/u                          @typescript-eslint/no-unused-vars
-  310:9   error    'regionalVariantNames' is assigned a value but never used. Allowed unused vars must match /^(_|UNUSED_)/u                         @typescript-eslint/no-unused-vars
-  321:9   error    'renderSauceCard' is assigned a value but never used. Allowed unused vars must match /^(_|UNUSED_)/u                              @typescript-eslint/no-unused-vars
-  322:9   warning  Prefer using an optional chain expression instead, as it's more concise and easier to read                                        @typescript-eslint/prefer-optional-chain
-  362:9   error    'renderRecipeCard' is assigned a value but never used. Allowed unused vars must match /^(_|UNUSED_)/u                             @typescript-eslint/no-unused-vars
-  363:9   warning  Prefer using an optional chain expression instead, as it's more concise and easier to read                                        @typescript-eslint/prefer-optional-chain
+   43:3   error    'elementalState' is defined but never used. Allowed unused args must match /^_/u                                                  @typescript-eslint/no-unused-vars
+   45:26  error    'setViewAllRecipes' is assigned a value but never used. Allowed unused elements of array destructuring patterns must match /^_/u  @typescript-eslint/no-unused-vars
+   46:10  error    'traditionalSauces' is assigned a value but never used. Allowed unused elements of array destructuring patterns must match /^_/u  @typescript-eslint/no-unused-vars
+   64:47  error    Unexpected any. Specify a different type                                                                                          @typescript-eslint/no-explicit-any
+  185:33  error    Unexpected any. Specify a different type                                                                                          @typescript-eslint/no-explicit-any
+  295:9   error    'parentCuisineName' is assigned a value but never used. Allowed unused vars must match /^(_|UNUSED_)/u                            @typescript-eslint/no-unused-vars
+  305:9   error    'hasRegionalVariants' is assigned a value but never used. Allowed unused vars must match /^(_|UNUSED_)/u                          @typescript-eslint/no-unused-vars
+  309:9   error    'regionalVariantNames' is assigned a value but never used. Allowed unused vars must match /^(_|UNUSED_)/u                         @typescript-eslint/no-unused-vars
+  320:9   error    'renderSauceCard' is assigned a value but never used. Allowed unused vars must match /^(_|UNUSED_)/u                              @typescript-eslint/no-unused-vars
+  321:9   warning  Prefer using an optional chain expression instead, as it's more concise and easier to read                                        @typescript-eslint/prefer-optional-chain
+  361:9   error    'renderRecipeCard' is assigned a value but never used. Allowed unused vars must match /^(_|UNUSED_)/u                             @typescript-eslint/no-unused-vars
+  362:9   warning  Prefer using an optional chain expression instead, as it's more concise and easier to read                                        @typescript-eslint/prefer-optional-chain
 
 /Users/GregCastro/Desktop/WhatToEatNext/src/components/CuisineSection/CuisineSection.migrated.tsx
-    2:11  error    'CalculationData' is defined but never used. Allowed unused vars must match /^(_|UNUSED_)/u  @typescript-eslint/no-unused-vars
-    8:11  error    'ScoredItem' is defined but never used. Allowed unused vars must match /^(_|UNUSED_)/u       @typescript-eslint/no-unused-vars
-   21:11  error    'CuisineData' is defined but never used. Allowed unused vars must match /^(_|UNUSED_)/u      @typescript-eslint/no-unused-vars
-   33:11  error    'NutrientData' is defined but never used. Allowed unused vars must match /^(_|UNUSED_)/u     @typescript-eslint/no-unused-vars
-   42:11  error    'MatchingResult' is defined but never used. Allowed unused vars must match /^(_|UNUSED_)/u   @typescript-eslint/no-unused-vars
-  100:3   error    'elementalState' is defined but never used. Allowed unused args must match /^_/u             @typescript-eslint/no-unused-vars
-  136:65  error    Unexpected any. Specify a different type                                                     @typescript-eslint/no-explicit-any
-  293:9   warning  Prefer using an optional chain expression instead, as it's more concise and easier to read   @typescript-eslint/prefer-optional-chain
-  330:9   warning  Prefer using an optional chain expression instead, as it's more concise and easier to read   @typescript-eslint/prefer-optional-chain
+  100:3   error    'elementalState' is defined but never used. Allowed unused args must match /^_/u            @typescript-eslint/no-unused-vars
+  136:65  error    Unexpected any. Specify a different type                                                    @typescript-eslint/no-explicit-any
+  293:9   warning  Prefer using an optional chain expression instead, as it's more concise and easier to read  @typescript-eslint/prefer-optional-chain
+  330:9   warning  Prefer using an optional chain expression instead, as it's more concise and easier to read  @typescript-eslint/prefer-optional-chain
 
 /Users/GregCastro/Desktop/WhatToEatNext/src/components/CuisineSection/index.tsx
     1:8   error  'Link' is defined but never used. Allowed unused vars must match /^(_|UNUSED_)/u                                                  @typescript-eslint/no-unused-vars
@@ -821,13 +803,9 @@ See the typescript-eslint docs for more info: https://typescript-eslint.io/linti
   343:9   error  'renderRecipeCard' is assigned a value but never used. Allowed unused vars must match /^(_|UNUSED_)/u                             @typescript-eslint/no-unused-vars
 
 /Users/GregCastro/Desktop/WhatToEatNext/src/components/CuisineSelector.migrated.tsx
-    7:15  error  'Ingredient' is defined but never used. Allowed unused vars must match /^(_|UNUSED_)/u                                            @typescript-eslint/no-unused-vars
-    9:44  error  'Element' is defined but never used. Allowed unused vars must match /^(_|UNUSED_)/u                                               @typescript-eslint/no-unused-vars
-   10:10  error  'PlanetaryPosition' is defined but never used. Allowed unused vars must match /^(_|UNUSED_)/u                                     @typescript-eslint/no-unused-vars
-   51:95  error  Unexpected any. Specify a different type                                                                                          @typescript-eslint/no-explicit-any
-   52:10  error  'resolvedIsDaytime' is assigned a value but never used. Allowed unused elements of array destructuring patterns must match /^_/u  @typescript-eslint/no-unused-vars
-  255:9   error  'zodiacSigns' is assigned a value but never used. Allowed unused vars must match /^(_|UNUSED_)/u                                  @typescript-eslint/no-unused-vars
-  415:23  error  Promise-returning function provided to attribute where a void return was expected                                                 @typescript-eslint/no-misused-promises
+   50:95  error  Unexpected any. Specify a different type                                                          @typescript-eslint/no-explicit-any
+  254:9   error  'zodiacSigns' is assigned a value but never used. Allowed unused vars must match /^(_|UNUSED_)/u  @typescript-eslint/no-unused-vars
+  414:23  error  Promise-returning function provided to attribute where a void return was expected                 @typescript-eslint/no-misused-promises
 
 /Users/GregCastro/Desktop/WhatToEatNext/src/components/CuisineSelector.tsx
     1:36   error  'useEffect' is defined but never used. Allowed unused vars must match /^(_|UNUSED_)/u             @typescript-eslint/no-unused-vars
@@ -856,13 +834,11 @@ See the typescript-eslint docs for more info: https://typescript-eslint.io/linti
 
 /Users/GregCastro/Desktop/WhatToEatNext/src/components/ElementalDisplay/ElementalEnergyDisplay.migrated.tsx
     3:10  warning  isEqual not found in 'lodash'                                                                                   import/named
-    4:47  error    'useCallback' is defined but never used. Allowed unused vars must match /^(_|UNUSED_)/u                         @typescript-eslint/no-unused-vars
-    8:10  error    'PlanetaryPosition' is defined but never used. Allowed unused vars must match /^(_|UNUSED_)/u                   @typescript-eslint/no-unused-vars
-   35:6   error    React Hook useEffect has a missing dependency: 'showDebug'. Either include it or remove the dependency array    react-hooks/exhaustive-deps
-   43:6   error    React Hook useEffect has a missing dependency: 'renderCount'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
-  162:40  error    Unexpected any. Specify a different type                                                                        @typescript-eslint/no-explicit-any
-  218:7   error    'totalWeight' is assigned a value but never used. Allowed unused vars must match /^(_|UNUSED_)/u                @typescript-eslint/no-unused-vars
-  258:40  error    Unexpected any. Specify a different type                                                                        @typescript-eslint/no-explicit-any
+   34:6   error    React Hook useEffect has a missing dependency: 'showDebug'. Either include it or remove the dependency array    react-hooks/exhaustive-deps
+   42:6   error    React Hook useEffect has a missing dependency: 'renderCount'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+  161:40  error    Unexpected any. Specify a different type                                                                        @typescript-eslint/no-explicit-any
+  217:7   error    'totalWeight' is assigned a value but never used. Allowed unused vars must match /^(_|UNUSED_)/u                @typescript-eslint/no-unused-vars
+  257:40  error    Unexpected any. Specify a different type                                                                        @typescript-eslint/no-explicit-any
 
 /Users/GregCastro/Desktop/WhatToEatNext/src/components/ElementalDisplay/ElementalEnergyDisplay.tsx
    3:10  warning  isEqual not found in 'lodash'                                                                                   import/named
@@ -870,24 +846,18 @@ See the typescript-eslint docs for more info: https://typescript-eslint.io/linti
   39:6   error    React Hook useEffect has a missing dependency: 'renderCount'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
 
 /Users/GregCastro/Desktop/WhatToEatNext/src/components/ElementalEnergyDisplay.tsx
-   11:10  error  'ElementalCharacter' is defined but never used. Allowed unused vars must match /^(_|UNUSED_)/u                                           @typescript-eslint/no-unused-vars
-   12:10  error  'AlchemicalContextType' is defined but never used. Allowed unused vars must match /^(_|UNUSED_)/u                                        @typescript-eslint/no-unused-vars
-   18:3   error  'PlanetaryAlignment' is defined but never used. Allowed unused vars must match /^(_|UNUSED_)/u                                           @typescript-eslint/no-unused-vars
-   20:3   error  'Element' is defined but never used. Allowed unused vars must match /^(_|UNUSED_)/u                                                      @typescript-eslint/no-unused-vars
-   25:10  error  'getCachedCalculation' is defined but never used. Allowed unused vars must match /^(_|UNUSED_)/u                                         @typescript-eslint/no-unused-vars
-   26:10  error  'safeImportAndExecute' is defined but never used. Allowed unused vars must match /^(_|UNUSED_)/u                                         @typescript-eslint/no-unused-vars
-   98:7   error  'getEnergyLevelDescription' is assigned a value but never used. Allowed unused vars must match /^(_|UNUSED_)/u                           @typescript-eslint/no-unused-vars
-  109:38  error  'currentZodiac' is assigned a value but never used. Allowed unused vars must match /^(_|UNUSED_)/u                                       @typescript-eslint/no-unused-vars
-  257:6   error  React Hook useEffect has missing dependencies: 'isDaytime' and 'planetaryPositions'. Either include them or remove the dependency array  react-hooks/exhaustive-deps
-  299:9   error  'totalElementals' is assigned a value but never used. Allowed unused vars must match /^(_|UNUSED_)/u                                     @typescript-eslint/no-unused-vars
-  308:9   error  'totalAlchemicals' is assigned a value but never used. Allowed unused vars must match /^(_|UNUSED_)/u                                    @typescript-eslint/no-unused-vars
-  317:9   error  'energyDescriptions' is assigned a value but never used. Allowed unused vars must match /^(_|UNUSED_)/u                                  @typescript-eslint/no-unused-vars
-  479:9   error  'getEnergyColor' is assigned a value but never used. Allowed unused vars must match /^(_|UNUSED_)/u                                      @typescript-eslint/no-unused-vars
-  487:9   error  'getElementIcon' is assigned a value but never used. Allowed unused vars must match /^(_|UNUSED_)/u                                      @typescript-eslint/no-unused-vars
-  497:9   error  'getElementColor' is assigned a value but never used. Allowed unused vars must match /^(_|UNUSED_)/u                                     @typescript-eslint/no-unused-vars
-  507:9   error  'getAlchemicalPropertyIcon' is assigned a value but never used. Allowed unused vars must match /^(_|UNUSED_)/u                           @typescript-eslint/no-unused-vars
-  517:9   error  'getAlchemicalPropertyColor' is assigned a value but never used. Allowed unused vars must match /^(_|UNUSED_)/u                          @typescript-eslint/no-unused-vars
-  837:17  error  Promise-returning function provided to attribute where a void return was expected                                                        @typescript-eslint/no-misused-promises
+   92:7   error  'getEnergyLevelDescription' is assigned a value but never used. Allowed unused vars must match /^(_|UNUSED_)/u                           @typescript-eslint/no-unused-vars
+  103:38  error  'currentZodiac' is assigned a value but never used. Allowed unused vars must match /^(_|UNUSED_)/u                                       @typescript-eslint/no-unused-vars
+  251:6   error  React Hook useEffect has missing dependencies: 'isDaytime' and 'planetaryPositions'. Either include them or remove the dependency array  react-hooks/exhaustive-deps
+  293:9   error  'totalElementals' is assigned a value but never used. Allowed unused vars must match /^(_|UNUSED_)/u                                     @typescript-eslint/no-unused-vars
+  302:9   error  'totalAlchemicals' is assigned a value but never used. Allowed unused vars must match /^(_|UNUSED_)/u                                    @typescript-eslint/no-unused-vars
+  311:9   error  'energyDescriptions' is assigned a value but never used. Allowed unused vars must match /^(_|UNUSED_)/u                                  @typescript-eslint/no-unused-vars
+  473:9   error  'getEnergyColor' is assigned a value but never used. Allowed unused vars must match /^(_|UNUSED_)/u                                      @typescript-eslint/no-unused-vars
+  481:9   error  'getElementIcon' is assigned a value but never used. Allowed unused vars must match /^(_|UNUSED_)/u                                      @typescript-eslint/no-unused-vars
+  491:9   error  'getElementColor' is assigned a value but never used. Allowed unused vars must match /^(_|UNUSED_)/u                                     @typescript-eslint/no-unused-vars
+  501:9   error  'getAlchemicalPropertyIcon' is assigned a value but never used. Allowed unused vars must match /^(_|UNUSED_)/u                           @typescript-eslint/no-unused-vars
+  511:9   error  'getAlchemicalPropertyColor' is assigned a value but never used. Allowed unused vars must match /^(_|UNUSED_)/u                          @typescript-eslint/no-unused-vars
+  831:17  error  Promise-returning function provided to attribute where a void return was expected                                                        @typescript-eslint/no-misused-promises
 
 /Users/GregCastro/Desktop/WhatToEatNext/src/components/ElementalExplorer.tsx
   3:15  error  'Modality' is defined but never used. Allowed unused vars must match /^(_|UNUSED_)/u  @typescript-eslint/no-unused-vars
@@ -5825,17 +5795,6 @@ See the typescript-eslint docs for more info: https://typescript-eslint.io/linti
    6:60  error  '/Users/GregCastro/Desktop/WhatToEatNext/src/types/alchemy.ts' imported multiple times  import/no-duplicates
   16:8   error  '/Users/GregCastro/Desktop/WhatToEatNext/src/types/alchemy.ts' imported multiple times  import/no-duplicates
 
-/Users/GregCastro/Desktop/WhatToEatNext/src/types/global.d.ts
-  45:21  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
-  46:21  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
-  47:23  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
-  49:37  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
-  51:19  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
-  52:19  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
-  53:21  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
-  55:35  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
-  73:67  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
-
 /Users/GregCastro/Desktop/WhatToEatNext/src/types/index.ts
     6:82  error    '/Users/GregCastro/Desktop/WhatToEatNext/src/types/alchemy.ts' imported multiple times  import/no-duplicates
    14:8   error    '/Users/GregCastro/Desktop/WhatToEatNext/src/types/alchemy.ts' imported multiple times  import/no-duplicates
@@ -5865,26 +5824,25 @@ See the typescript-eslint docs for more info: https://typescript-eslint.io/linti
   1:8  warning  Function 'calculateMatchScore' has a complexity of 62. Maximum allowed is 15    complexity
 
 /Users/GregCastro/Desktop/WhatToEatNext/src/utils/__tests__/buildQualityMonitor.test.ts
-    5:1   error    `../buildQualityMonitor` import should occur after import of `fs`                                         import/order
-    9:3   error    'AlertSeverity' is defined but never used. Allowed unused vars must match /^(_|mock|stub|test|UNUSED_)/u  @typescript-eslint/no-unused-vars
-   42:35  warning  Arrow function has too many lines (343). Maximum allowed is 80                                            max-lines-per-function
-   52:7   warning  Unused eslint-disable directive (no problems were reported from '@typescript-eslint/no-explicit-any')
-   54:10  warning  Unexpected any. Specify a different type                                                                  @typescript-eslint/no-explicit-any
-   57:35  warning  Arrow function has too many lines (160). Maximum allowed is 80                                            max-lines-per-function
-   92:7   warning  Unused eslint-disable directive (no problems were reported from '@typescript-eslint/no-explicit-any')
-   94:67  warning  Unexpected any. Specify a different type                                                                  @typescript-eslint/no-explicit-any
-  123:7   warning  Unused eslint-disable directive (no problems were reported from '@typescript-eslint/no-explicit-any')
-  125:48  warning  Unexpected any. Specify a different type                                                                  @typescript-eslint/no-explicit-any
-  129:7   warning  Unused eslint-disable directive (no problems were reported from '@typescript-eslint/no-explicit-any')
-  131:72  warning  Unexpected any. Specify a different type                                                                  @typescript-eslint/no-explicit-any
-  135:9   warning  Unused eslint-disable directive (no problems were reported from '@typescript-eslint/no-explicit-any')
-  137:12  warning  Unexpected any. Specify a different type                                                                  @typescript-eslint/no-explicit-any
-  147:7   warning  Unused eslint-disable directive (no problems were reported from '@typescript-eslint/no-explicit-any')
-  149:48  warning  Unexpected any. Specify a different type                                                                  @typescript-eslint/no-explicit-any
-  250:7   warning  Unused eslint-disable directive (no problems were reported from '@typescript-eslint/no-explicit-any')
-  252:67  warning  Unexpected any. Specify a different type                                                                  @typescript-eslint/no-explicit-any
-  295:7   warning  Unused eslint-disable directive (no problems were reported from '@typescript-eslint/no-explicit-any')
-  297:67  warning  Unexpected any. Specify a different type                                                                  @typescript-eslint/no-explicit-any
+    5:1   error    `../buildQualityMonitor` import should occur after import of `fs`                                      import/order
+   41:35  warning  Arrow function has too many lines (343). Maximum allowed is 80                                         max-lines-per-function
+   51:7   warning  Unused eslint-disable directive (no problems were reported from '@typescript-eslint/no-explicit-any')
+   53:10  warning  Unexpected any. Specify a different type                                                               @typescript-eslint/no-explicit-any
+   56:35  warning  Arrow function has too many lines (160). Maximum allowed is 80                                         max-lines-per-function
+   91:7   warning  Unused eslint-disable directive (no problems were reported from '@typescript-eslint/no-explicit-any')
+   93:67  warning  Unexpected any. Specify a different type                                                               @typescript-eslint/no-explicit-any
+  122:7   warning  Unused eslint-disable directive (no problems were reported from '@typescript-eslint/no-explicit-any')
+  124:48  warning  Unexpected any. Specify a different type                                                               @typescript-eslint/no-explicit-any
+  128:7   warning  Unused eslint-disable directive (no problems were reported from '@typescript-eslint/no-explicit-any')
+  130:72  warning  Unexpected any. Specify a different type                                                               @typescript-eslint/no-explicit-any
+  134:9   warning  Unused eslint-disable directive (no problems were reported from '@typescript-eslint/no-explicit-any')
+  136:12  warning  Unexpected any. Specify a different type                                                               @typescript-eslint/no-explicit-any
+  146:7   warning  Unused eslint-disable directive (no problems were reported from '@typescript-eslint/no-explicit-any')
+  148:48  warning  Unexpected any. Specify a different type                                                               @typescript-eslint/no-explicit-any
+  249:7   warning  Unused eslint-disable directive (no problems were reported from '@typescript-eslint/no-explicit-any')
+  251:67  warning  Unexpected any. Specify a different type                                                               @typescript-eslint/no-explicit-any
+  294:7   warning  Unused eslint-disable directive (no problems were reported from '@typescript-eslint/no-explicit-any')
+  296:67  warning  Unexpected any. Specify a different type                                                               @typescript-eslint/no-explicit-any
 
 /Users/GregCastro/Desktop/WhatToEatNext/src/utils/__tests__/errorHandling.test.ts
   128:26  warning  Arrow function has too many lines (118). Maximum allowed is 80                                                                                                      max-lines-per-function
@@ -6634,7 +6592,7 @@ See the typescript-eslint docs for more info: https://typescript-eslint.io/linti
    74:8   warning  Function 'getZodiacSign' has a complexity of 45. Maximum allowed is 15      complexity
   252:8   warning  Function 'getZodiacFromDate' has a complexity of 45. Maximum allowed is 15  complexity
 
-✖ 5155 problems (2173 errors, 2982 warnings)
+✖ 5115 problems (2142 errors, 2973 warnings)
   37 errors and 211 warnings potentially fixable with the `--fix` option.
 
 make: *** [lint] Error 1

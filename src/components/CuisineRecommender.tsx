@@ -1,24 +1,24 @@
 'use client';
 
 import {
-  Sparkles,
-  Star,
-  Moon,
-  AlertCircle,
-  RefreshCw,
-  BarChart3,
-  Zap,
-  Brain,
-  Leaf,
-  Clock,
-  Shield,
-  TrendingUp,
-  Activity,
-  Target,
-  Lightbulb,
-  Settings
+    Activity,
+    AlertCircle,
+    BarChart3,
+    Brain,
+    Clock,
+    Leaf,
+    Lightbulb,
+    Moon,
+    RefreshCw,
+    Settings,
+    Shield,
+    Sparkles,
+    Star,
+    Target,
+    TrendingUp,
+    Zap
 } from 'lucide-react';
-import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 
 
@@ -27,39 +27,37 @@ import PerformanceAnalyticsDashboard from '@/components/analytics/PerformanceAna
 import EnterpriseIntelligencePanel from '@/components/intelligence/EnterpriseIntelligencePanel';
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 import { getAllRecipes } from '@/data/recipes';
-import { useRecommendationAnalytics, useInteractionTracking } from '@/hooks/useRecommendationAnalytics';
-import { 
-  CulturalAnalyticsService,
-  CulturalAnalytics,
-  FusionCuisineRecommendation 
+import { useInteractionTracking, useRecommendationAnalytics } from '@/hooks/useRecommendationAnalytics';
+import {
+    CulturalAnalytics,
+    CulturalAnalyticsService,
+    FusionCuisineRecommendation
 } from '@/services/CulturalAnalyticsService';
-import { EnterpriseIntelligenceIntegration } from '@/services/EnterpriseIntelligenceIntegration';
 // RecipeIntelligenceService types will be defined inline
 import {
-  ElementalProperties,
-  ZodiacSign,
-  LunarPhase,
+    ElementalProperties,
+    LunarPhase,
+    ZodiacSign,
 } from '@/types/alchemy';
-import { createAstrologicalBridge } from '@/types/bridges/astrologicalBridge';
 import type { AstrologicalState } from '@/types/commonTypes';
 import { Recipe } from '@/types/recipe';
-import { 
-  getCuisineRecommendations,
-  generateTopSauceRecommendations,
-  getMatchScoreClass,
-  calculateElementalProfileFromZodiac,
+import {
+    calculateElementalProfileFromZodiac,
+    generateTopSauceRecommendations,
+    getCuisineRecommendations,
+    getMatchScoreClass,
 } from '@/utils/cuisineRecommender';
 import { logger } from '@/utils/logger';
-import { 
-  calculateMomentMonicaConstant,
-  performEnhancedAnalysis,
-  calculateMonicaKalchmCompatibility,
+import {
+    calculateMomentMonicaConstant,
+    calculateMonicaKalchmCompatibility,
+    performEnhancedAnalysis,
 } from '@/utils/monicaKalchmCalculations';
-import { 
-  processNaturalLanguageQuery, 
-  enhancedSearch, 
-  applyFilters,
-  SearchIntent 
+import {
+    SearchIntent,
+    applyFilters,
+    enhancedSearch,
+    processNaturalLanguageQuery
 } from '@/utils/naturalLanguageProcessor';
 
 import AdvancedSearchFilters, { SearchFilters } from './AdvancedSearchFilters';
@@ -227,7 +225,7 @@ const getSafeScore = (score: unknown): number => {
 const getCurrentSeason = (): string => {
   const now = new Date();
   const month = now.getMonth(); // 0 = January, 11 = December
-  
+
   if (month >= 2 && month <= 4) return 'spring';
   if (month >= 5 && month <= 7) return 'summer';
   if (month >= 8 && month <= 10) return 'autumn';
@@ -242,19 +240,19 @@ const calculateAlchemicalBalance = (alchemicalProperties: {
   Substance?: number;
 }): number => {
   if (!alchemicalProperties) return 0.5;
-  
+
   const { Spirit, Essence, Matter, Substance } = alchemicalProperties;
-  
+
   // Calculate balance based on how evenly distributed the alchemical properties are
   const values = [Spirit, Essence, Matter, Substance];
   const mean = values.reduce((sum, val) => sum + val, 0) / values.length;
   const variance = values.reduce((sum, val) => sum + Math.pow(val - mean, 2), 0) / values.length;
   const standardDeviation = Math.sqrt(variance);
-  
+
   // Lower standard deviation = better balance
   // Normalize to 0-1 scale where 1 is perfect balance
   const balanceScore = Math.max(0, 1 - (standardDeviation / mean));
-  
+
   return Math.min(1, Math.max(0, balanceScore));
 };
 
@@ -272,14 +270,14 @@ const calculateSeasonalOptimization = (cuisineName: string, season: string): num
     'mediterranean': { spring: 0.95, summer: 0.95, autumn: 0.85, winter: 0.75 },
     'middle-eastern': { spring: 0.85, summer: 0.9, autumn: 0.8, winter: 0.85 }
   };
-  
+
   const cuisineKey = cuisineName.toLowerCase();
   const preferences = seasonalPreferences[cuisineKey];
-  
+
   if (preferences?.[season]) {
     return preferences[season];
   }
-  
+
   // Default seasonal optimization
   return 0.8;
 };
@@ -298,20 +296,20 @@ const calculateRecipeKalchmHarmony = (
   }
 ): number => {
   if (!recipeThermodynamics) return 0.7;
-  
+
   // If we have cuisine thermodynamics, compare them
   if (cuisineThermodynamics) {
-    const kalchmRatio = Math.min(recipeThermodynamics.kalchm, cuisineThermodynamics.kalchm) / 
+    const kalchmRatio = Math.min(recipeThermodynamics.kalchm, cuisineThermodynamics.kalchm) /
                        Math.max(recipeThermodynamics.kalchm, cuisineThermodynamics.kalchm);
     const monicaHarmony = 1 - Math.abs(recipeThermodynamics.monica - cuisineThermodynamics.monica) / 5;
-    
+
     return Math.max(0, Math.min(1, (kalchmRatio * 0.6) + (monicaHarmony * 0.4)));
   }
-  
+
   // Otherwise, score based on thermodynamic stability
   const stabilityScore = Math.max(0, 1 - Math.abs(recipeThermodynamics.gregsEnergy) / 5);
   const kalchmScore = Math.min(1, recipeThermodynamics.kalchm / 2); // Normalize Kalchm
-  
+
   return Math.max(0, Math.min(1, (stabilityScore * 0.5) + (kalchmScore * 0.5)));
 };
 
@@ -323,18 +321,18 @@ const calculateThermodynamicOptimization = (
     reactivity?: number;
     energyBalance?: number;
   },
-  currentElementalProfile: ElementalProperties
+  _currentElementalProfile: ElementalProperties
 ): number => {
   if (!thermodynamics) return 0.7;
-  
+
   // Calculate optimization based on thermodynamic efficiency
   const heatEfficiency = Math.max(0, Math.min(1, thermodynamics.heat));
   const entropyBalance = Math.max(0, 1 - thermodynamics.entropy / 2);
   const reactivityOptimal = Math.max(0, 1 - Math.abs(thermodynamics.reactivity - 1) / 2);
-  
+
   // Weight the factors for overall optimization
   const optimization = (heatEfficiency * 0.4) + (entropyBalance * 0.3) + (reactivityOptimal * 0.3);
-  
+
   return Math.max(0, Math.min(1, optimization));
 };
 
@@ -395,19 +393,19 @@ const buildCompleteRecipe = (
 
   // Phase 2B: Ingredient Intelligence Systems Integration
   const ingredientCategories = new Set(
-    Array.isArray(recipe.ingredients) 
+    Array.isArray(recipe.ingredients)
       ? recipe.ingredients.map((ing: { category?: string }) => ing.category).filter(Boolean)
       : []
   );
-  
+
   const ingredientIntelligence = {
     categorizationAnalysis: {
       categoryHarmony: ingredientCount > 0 ? 0.85 : 0.5,
       categoryCount: ingredientCategories.size,
       ingredientDistribution: Array.from(ingredientCategories).map(cat => ({
         category: cat,
-        count: Array.isArray(recipe.ingredients) 
-          ? recipe.ingredients.filter((ing: { category?: string }) => ing.category === cat).length 
+        count: Array.isArray(recipe.ingredients)
+          ? recipe.ingredients.filter((ing: { category?: string }) => ing.category === cat).length
           : 0
       }))
     },
@@ -492,8 +490,8 @@ const buildCompleteRecipe = (
           seasonalAlignment: seasonalOptimization > 0.8 ? 'optimal' : 'suboptimal',
           currentSeason: currentSeason || 'unknown',
           cuisineSeasons: recipeSeasons,
-          seasonalRecommendations: seasonalOptimization > 0.8 ? 
-            [`${cuisineName} is optimal for ${currentSeason}`] : 
+          seasonalRecommendations: seasonalOptimization > 0.8 ?
+            [`${cuisineName} is optimal for ${currentSeason}`] :
             [`Consider seasonal alternatives for ${currentSeason}`]
         },
         compatibilityAnalysis: {
@@ -567,7 +565,7 @@ class CuisineRecommenderErrorBoundary extends React.Component<
             <h3 className="text-red-800 font-medium">Something went wrong</h3>
           </div>
           <p className="text-red-600 text-sm mb-4">
-            We encountered an error loading the cuisine recommendations. 
+            We encountered an error loading the cuisine recommendations.
             {this.state.retryCount < 3 && " You can try again."}
           </p>
           {this.state.retryCount < 3 && (
@@ -595,8 +593,8 @@ const LoadingComponent: React.FC<{ loadingState: LoadingState }> = ({ loadingSta
     <p className="text-lg font-medium">Loading cuisine recommendations...</p>
     <p className="text-sm text-gray-500">{loadingState.step}</p>
     <div className="w-full max-w-xs bg-gray-200 rounded-full h-2">
-      <div 
-        className="bg-blue-500 h-2 rounded-full transition-all duration-300" 
+      <div
+        className="bg-blue-500 h-2 rounded-full transition-all duration-300"
         style={{ width: `${loadingState.progress}%` }}
       ></div>
     </div>
@@ -623,17 +621,17 @@ export default function CuisineRecommender() {
   const [error, setError] = useState<string | null>(null);
   const [matchingRecipes, setMatchingRecipes] = useState<RecipeData[]>([]);
   const [sauceRecommendations, setSauceRecommendations] = useState<SauceData[]>([]);
-  
+
   // Cultural Analytics state
   const [culturalAnalytics, setCulturalAnalytics] = useState<Record<string, CulturalAnalytics>>({});
   const [fusionRecommendations, setFusionRecommendations] = useState<FusionCuisineRecommendation[]>([]);
-  
+
   // UI state
   const [showCuisineDetails, setShowCuisineDetails] = useState<boolean>(false);
   const [selectedRecipe, setSelectedRecipe] = useState<RecipeData | null>(null);
   const [showCulturalAnalytics, setShowCulturalAnalytics] = useState<boolean>(false);
   const [showFusionRecommendations, setShowFusionRecommendations] = useState<boolean>(false);
-  
+
   // Advanced Search and Filtering state
   const [searchFilters, setSearchFilters] = useState<SearchFilters>({
     query: '',
@@ -651,7 +649,7 @@ export default function CuisineRecommender() {
 
   // Performance Analytics and Caching state
   const [showPerformanceAnalytics, setShowPerformanceAnalytics] = useState<boolean>(false);
-  
+
   // Enterprise Intelligence state
   const [showEnterpriseIntelligence, setShowEnterpriseIntelligence] = useState<boolean>(false);
   const [enterpriseIntelligenceAnalysis, setEnterpriseIntelligenceAnalysis] = useState<{
@@ -669,7 +667,7 @@ export default function CuisineRecommender() {
       fusionAnalysis?: Record<string, unknown>;
     };
   } | null>(null);
-  
+
   // Analytics hooks
   const [analyticsState, analyticsActions] = useRecommendationAnalytics({
     enablePerformanceTracking: true,
@@ -677,11 +675,11 @@ export default function CuisineRecommender() {
     enableInteractionTracking: true,
     metricsUpdateInterval: 5000
   });
-  
-  const { trackClick, trackView, trackExpand, trackSearch, trackFilter } = useInteractionTracking();
+
+  const { trackClick, trackView: _trackView, trackExpand, trackSearch, trackFilter } = useInteractionTracking();
 
   // ========== MEMOIZED VALUES ==========
-  
+
   const currentMomentElementalProfile = useMemo(() => {
     const elementalState = (state as unknown as { elementalState?: ElementalProperties; astrologicalState?: { elementalState?: ElementalProperties } })?.elementalState || (state as unknown as { astrologicalState?: { elementalState?: ElementalProperties } })?.astrologicalState?.elementalState;
     if (elementalState) {
@@ -693,9 +691,9 @@ export default function CuisineRecommender() {
     return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
   }, [state, currentZodiac]);
 
-  const astrologicalStateForRecommendations = useMemo(() => ({ 
-    zodiacSign: String(currentZodiac || 'aries') as ZodiacSign, 
-    lunarPhase: String(lunarPhase || 'new moon') as LunarPhase, 
+  const astrologicalStateForRecommendations = useMemo(() => ({
+    zodiacSign: String(currentZodiac || 'aries') as ZodiacSign,
+    lunarPhase: String(lunarPhase || 'new moon') as LunarPhase,
     planetaryPositions: planetaryPositions || {}
   } as AstrologicalState), [currentZodiac, lunarPhase, planetaryPositions]);
 
@@ -705,11 +703,11 @@ export default function CuisineRecommender() {
     // Start performance tracking
     const endTiming = analyticsActions.startTiming('cuisine_recommendation_load');
     const loadStartTime = performance.now();
-    
+
     try {
       setLoadingState({ isLoading: true, step: 'Getting astrological state...', progress: 10 });
       setError(null);
-      
+
       // Check cache first
       const cacheKey = `cuisine_recommendations_${JSON.stringify(currentMomentElementalProfile)}_${JSON.stringify(astrologicalStateForRecommendations)}`;
       const cachedRecommendations = analyticsActions.getCachedRecommendation<{
@@ -718,7 +716,7 @@ export default function CuisineRecommender() {
         fusionRecommendations: FusionCuisineRecommendation[];
         sauces: SauceData[];
       }>(cacheKey);
-      
+
       if (cachedRecommendations) {
         logger.info('Using cached cuisine recommendations');
         setCuisineRecommendations(cachedRecommendations.cuisines);
@@ -727,67 +725,67 @@ export default function CuisineRecommender() {
         setCulturalAnalytics(cachedRecommendations.culturalAnalytics);
         setFusionRecommendations(cachedRecommendations.fusionRecommendations);
         setSauceRecommendations(cachedRecommendations.sauces);
-        
+
         const loadTime = performance.now() - loadStartTime;
         analyticsActions.recordLoadTime(loadTime);
         endTiming();
-        
+
         setLoadingState({ isLoading: false, step: 'Complete!', progress: 100 });
         return;
       }
-      
+
       // Small delay to show loading state
       await new Promise(resolve => setTimeout(resolve, 100));
-      
+
       setLoadingState({ isLoading: true, step: 'Generating cuisine recommendations...', progress: 30 });
-      
+
       const recommendations = getCuisineRecommendations(
         currentMomentElementalProfile,
         astrologicalStateForRecommendations as unknown as import('@/types/celestial').AstrologicalState,
         { count: 12, includeRegional: true }
       );
-      
+
       setLoadingState({ isLoading: true, step: 'Loading recipe data...', progress: 50 });
-      
+
       const recipes = await getAllRecipes();
-      
+
       setLoadingState({ isLoading: true, step: 'Calculating Monica/Kalchm compatibility...', progress: 65 });
-      
+
       // Enhanced recommendations with Monica/Kalchm integration
       const enhancedRecommendations = recommendations.map(cuisine => {
         // Ensure elemental properties are properly typed
-        const cuisineElemental: ElementalProperties = (cuisine.elementalProperties as ElementalProperties) || 
+        const cuisineElemental: ElementalProperties = (cuisine.elementalProperties as ElementalProperties) ||
           { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
-        
+
         // Perform comprehensive enhanced analysis
         const enhancedAnalysis = performEnhancedAnalysis(
           { elemental: cuisineElemental },
           currentMomentElementalProfile
         );
-        
+
         // Calculate Monica compatibility
         const monicaCompatibility = calculateMonicaKalchmCompatibility(
           { elemental: cuisineElemental },
           { elemental: currentMomentElementalProfile }
         );
-        
+
         // Calculate moment Monica constant for user and cuisine
         const userMonica = calculateMomentMonicaConstant(currentMomentElementalProfile);
         const cuisineMonica = calculateMomentMonicaConstant(cuisineElemental);
-        
+
         // Calculate thermodynamic harmony score
         const thermodynamicHarmony = Math.max(0, 1 - Math.abs(enhancedAnalysis.thermodynamicMetrics.gregsEnergy) / 10);
-        
+
         // Calculate alchemical balance optimization
         const alchemicalBalance = calculateAlchemicalBalance(enhancedAnalysis.alchemicalProperties);
-        
+
         // Calculate cultural synergy score (5% weight in 7-factor algorithm)
         const culturalSynergyData = CulturalAnalyticsService.calculateCulturalSynergy(
           cuisine.name.toLowerCase(),
           [],
           { season: getCurrentSeason() }
         );
-        
+
         // Enhanced 7-factor scoring algorithm:
         // 1. Original astrological score (50%)
         // 2. Monica/Kalchm compatibility (20%)
@@ -798,17 +796,17 @@ export default function CuisineRecommender() {
         // 7. Seasonal optimization (2%)
         const originalScore = getSafeScore(cuisine.score);
         const seasonalOptimization = calculateSeasonalOptimization(cuisine.name, getCurrentSeason());
-        
+
         const enhancedScore = (
-          (originalScore * 0.50) + 
-          (monicaCompatibility * 0.20) + 
-          (thermodynamicHarmony * 0.10) + 
-          (alchemicalBalance * 0.10) + 
-          (culturalSynergyData.score * 0.05) + 
-          (enhancedAnalysis.confidence * 0.03) + 
+          (originalScore * 0.50) +
+          (monicaCompatibility * 0.20) +
+          (thermodynamicHarmony * 0.10) +
+          (alchemicalBalance * 0.10) +
+          (culturalSynergyData.score * 0.05) +
+          (enhancedAnalysis.confidence * 0.03) +
           (seasonalOptimization * 0.02)
         );
-        
+
         // Log enhanced analytics integration for verification
         logger.info(`Enhanced Monica/Kalchm Analytics for ${cuisine.name}:`, {
           originalScore,
@@ -821,7 +819,7 @@ export default function CuisineRecommender() {
           enhancedScore,
           thermodynamicMetrics: enhancedAnalysis.thermodynamicMetrics
         });
-        
+
         return {
           ...cuisine,
           score: enhancedScore,
@@ -840,53 +838,53 @@ export default function CuisineRecommender() {
           ]
         };
       });
-      
+
       setLoadingState({ isLoading: true, step: 'Matching recipes to cuisines...', progress: 75 });
-      
+
       const cuisinesWithRecipes = enhancedRecommendations.map(cuisine => {
-        const matching = recipes.filter(recipe => 
+        const matching = recipes.filter(recipe =>
           recipe.cuisine && recipe.cuisine.toLowerCase() === cuisine.name.toLowerCase()
         );
-        
+
         // Enhanced recipe building with Recipe Intelligence Systems integration
         const enhancedRecipes = matching.map(recipe => {
           const baseRecipe = buildCompleteRecipe(
-            recipe, 
-            cuisine.name, 
-            currentMomentElementalProfile, 
+            recipe,
+            cuisine.name,
+            currentMomentElementalProfile,
             { kalchm: currentMomentElementalProfile },
             astrologicalStateForRecommendations,
             getCurrentSeason()
           );
-          
+
           // Perform enhanced analysis on recipe
           if (baseRecipe.elementalProperties) {
             const analysis = performEnhancedAnalysis(
               { elemental: baseRecipe.elementalProperties },
               currentMomentElementalProfile
             );
-            
+
             // Calculate Kalchm harmony score for recipe
             const kalchmHarmony = calculateRecipeKalchmHarmony(
               analysis.thermodynamicMetrics,
               (cuisine as unknown as { enhancedAnalysis?: { thermodynamicMetrics?: unknown } }).enhancedAnalysis?.thermodynamicMetrics
             );
-            
+
             // Calculate recipe thermodynamic optimization
             const thermodynamicOptimization = calculateThermodynamicOptimization(
               analysis.thermodynamicMetrics,
               currentMomentElementalProfile
             );
-            
+
             // Enhanced recipe scoring with thermodynamic properties
             const originalScore = baseRecipe.matchScore || 0.85;
             const enhancedRecipeScore = (
-              (originalScore * 0.60) + 
-              (analysis.compatibilityScore * 0.25) + 
-              (kalchmHarmony * 0.10) + 
+              (originalScore * 0.60) +
+              (analysis.compatibilityScore * 0.25) +
+              (kalchmHarmony * 0.10) +
               (thermodynamicOptimization * 0.05)
             );
-            
+
             return {
               ...baseRecipe,
               enhancedAnalysis: analysis,
@@ -900,10 +898,10 @@ export default function CuisineRecommender() {
               matchPercentage: Math.round(enhancedRecipeScore * 100)
             };
           }
-          
+
           return baseRecipe;
         });
-        
+
         return {
           ...cuisine,
           recipes: enhancedRecipes
@@ -914,7 +912,7 @@ export default function CuisineRecommender() {
       setFilteredCuisines(cuisinesWithRecipes as unknown as CuisineData[]);
 
       setLoadingState({ isLoading: true, step: 'Analyzing cultural intelligence...', progress: 80 });
-      
+
       // Generate cultural analytics for each cuisine
       const culturalAnalyticsData: Record<string, CulturalAnalytics> = {};
       for (const cuisine of cuisinesWithRecipes) {
@@ -930,7 +928,7 @@ export default function CuisineRecommender() {
         }
       }
       setCulturalAnalytics(culturalAnalyticsData);
-      
+
       // Generate fusion recommendations
       const availableCuisineNames = cuisinesWithRecipes.map(c => c.name.toLowerCase());
       const topCuisine = cuisinesWithRecipes[0]?.name?.toLowerCase();
@@ -944,7 +942,7 @@ export default function CuisineRecommender() {
       }
 
       setLoadingState({ isLoading: true, step: 'Harmonizing sauces...', progress: 90 });
-      
+
       const topSauces = generateTopSauceRecommendations(
         currentMomentElementalProfile,
         6,
@@ -969,14 +967,14 @@ export default function CuisineRecommender() {
         fusionRecommendations: fusionRecommendations,
         sauces: topSauces
       };
-      
+
       analyticsActions.cacheRecommendation(cacheKey, cacheData, overallConfidence.overallScore);
-      
+
       // Record final load time
       const totalLoadTime = performance.now() - loadStartTime;
       analyticsActions.recordLoadTime(totalLoadTime);
       endTiming();
-      
+
       logger.info(`Cuisine recommendations loaded in ${totalLoadTime.toFixed(2)}ms with confidence ${overallConfidence.overallScore.toFixed(2)}`);
 
       setLoadingState({ isLoading: false, step: 'Complete!', progress: 100 });
@@ -984,7 +982,7 @@ export default function CuisineRecommender() {
       logger.error('Error loading cuisine data:', err);
       setError('Failed to load cuisine recommendations. Please try again.');
       setLoadingState({ isLoading: false, step: 'Error', progress: 0 });
-      
+
       // Record error in analytics
       const errorLoadTime = performance.now() - loadStartTime;
       analyticsActions.recordLoadTime(errorLoadTime);
@@ -1016,7 +1014,7 @@ export default function CuisineRecommender() {
       });
       return;
     }
-    
+
     setSelectedCuisine(cuisineId);
     setShowCuisineDetails(true);
 
@@ -1036,12 +1034,12 @@ export default function CuisineRecommender() {
 
   const handleFiltersChange = useCallback((filters: SearchFilters) => {
     setSearchFilters(filters);
-    
+
     // Process natural language query if present
     if (filters.query.trim()) {
       const intent = processNaturalLanguageQuery(filters.query);
       setSearchIntent(intent);
-      
+
       // Merge extracted filters with manual filters
       const mergedFilters = {
         ...filters,
@@ -1066,18 +1064,18 @@ export default function CuisineRecommender() {
           ])
         ]
       };
-      
+
       // Apply enhanced search and filtering
       let filtered = originalCuisines;
-      
+
       // Apply text search first
       if (intent.query.trim()) {
         filtered = enhancedSearch(filtered, intent.query, ['name', 'description']);
       }
-      
+
       // Apply filters
       filtered = applyFilters(filtered, mergedFilters);
-      
+
       setFilteredCuisines(filtered);
     } else {
       // No query, just apply filters
@@ -1096,23 +1094,23 @@ export default function CuisineRecommender() {
 
     const intent = processNaturalLanguageQuery(query);
     setSearchIntent(intent);
-    
+
     // Update filters with extracted information
     const updatedFilters = {
       ...searchFilters,
       query,
       ...intent.extractedFilters
     };
-    
+
     setSearchFilters(updatedFilters);
-    
+
     // Apply enhanced search
     let filtered = originalCuisines;
-    
+
     if (intent.query.trim()) {
       filtered = enhancedSearch(filtered, intent.query, ['name', 'description']);
     }
-    
+
     filtered = applyFilters(filtered, updatedFilters);
     setFilteredCuisines(filtered);
 
@@ -1127,7 +1125,7 @@ export default function CuisineRecommender() {
 
   // ========== RENDER HELPERS ==========
 
-  const selectedCuisineData = useMemo(() => 
+  const selectedCuisineData = useMemo(() =>
     cuisineRecommendations.find(c => c.id === selectedCuisine),
     [cuisineRecommendations, selectedCuisine]
   );
@@ -1166,8 +1164,8 @@ export default function CuisineRecommender() {
             <button
               onClick={() => setShowEnterpriseIntelligence(!showEnterpriseIntelligence)}
               className={`flex items-center space-x-1 px-3 py-1 text-sm rounded transition-colors ${
-                showEnterpriseIntelligence 
-                  ? 'bg-purple-100 text-purple-700' 
+                showEnterpriseIntelligence
+                  ? 'bg-purple-100 text-purple-700'
                   : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
               }`}
               title="Toggle Enterprise Intelligence"
@@ -1178,8 +1176,8 @@ export default function CuisineRecommender() {
             <button
               onClick={() => setShowPerformanceAnalytics(!showPerformanceAnalytics)}
               className={`flex items-center space-x-1 px-3 py-1 text-sm rounded transition-colors ${
-                showPerformanceAnalytics 
-                  ? 'bg-blue-100 text-blue-700' 
+                showPerformanceAnalytics
+                  ? 'bg-blue-100 text-blue-700'
                   : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
               }`}
               title="Toggle Performance Analytics"
@@ -1193,7 +1191,7 @@ export default function CuisineRecommender() {
         {/* Performance Analytics Dashboard */}
         {showPerformanceAnalytics && (
           <div className="mb-6">
-            <PerformanceAnalyticsDashboard 
+            <PerformanceAnalyticsDashboard
               className="border-t pt-4"
               compact={false}
               showDetails={true}
@@ -1308,7 +1306,7 @@ export default function CuisineRecommender() {
                     <div className="flex justify-between">
                       <span className="text-gray-600">Astrological Alignment:</span>
                       <span className="font-medium text-indigo-600">
-                        {String(astrologicalStateForRecommendations.zodiacSign || 'aries').charAt(0).toUpperCase() + 
+                        {String(astrologicalStateForRecommendations.zodiacSign || 'aries').charAt(0).toUpperCase() +
                          String(astrologicalStateForRecommendations.zodiacSign || 'aries').slice(1)} influence active
                       </span>
                     </div>
@@ -1367,11 +1365,11 @@ export default function CuisineRecommender() {
                   </div>
                 </div>
                 <p className="text-xs text-gray-600 leading-relaxed">
-                  Enterprise intelligence analysis reveals {(enterpriseIntelligenceAnalysis.overallScore || 0.78) > 0.8 ? 'excellent' : 'good'} 
-                  alignment between selected cuisines and current astrological conditions. 
-                  The {astrologicalStateForRecommendations.zodiacSign} influence provides {(enterpriseIntelligenceAnalysis.overallScore || 0.78) > 0.8 ? 'strong' : 'moderate'} 
-                  compatibility with {cuisineRecommendations.length} available cuisine options. 
-                  System performance metrics indicate {Math.round((enterpriseIntelligenceAnalysis.performanceMetrics?.efficiency || 0.82) * 100)}% operational efficiency 
+                  Enterprise intelligence analysis reveals {(enterpriseIntelligenceAnalysis.overallScore || 0.78) > 0.8 ? 'excellent' : 'good'}
+                  alignment between selected cuisines and current astrological conditions.
+                  The {astrologicalStateForRecommendations.zodiacSign} influence provides {(enterpriseIntelligenceAnalysis.overallScore || 0.78) > 0.8 ? 'strong' : 'moderate'}
+                  compatibility with {cuisineRecommendations.length} available cuisine options.
+                  System performance metrics indicate {Math.round((enterpriseIntelligenceAnalysis.performanceMetrics?.efficiency || 0.82) * 100)}% operational efficiency
                   with {(enterpriseIntelligenceAnalysis.recommendations?.length || 5)} active optimization recommendations.
                 </p>
               </div>
@@ -1411,7 +1409,7 @@ export default function CuisineRecommender() {
             availableCuisines={originalCuisines.map(c => c.name.toLowerCase())}
             className="mb-4"
           />
-          
+
           {/* Search Intent Display */}
           {(searchIntent?.confidence ?? 0) > 0.5 && (
             <div className="mb-4 p-3 bg-blue-50 border border-blue-200 rounded-lg">
@@ -1430,7 +1428,7 @@ export default function CuisineRecommender() {
               )}
             </div>
           )}
-          
+
           {/* Results Summary */}
           <div className="flex items-center justify-between mb-4 text-sm text-gray-600">
             <span>
@@ -1486,8 +1484,8 @@ export default function CuisineRecommender() {
               </div>
               {cuisine.reasoning?.[1] && (
                 <div className="flex items-center space-x-2 text-xs text-gray-500 mt-1">
-                  {cuisine.reasoning[1].includes('Favorable') ? 
-                    <Star size={14} className="text-green-500" /> : 
+                  {cuisine.reasoning[1].includes('Favorable') ?
+                    <Star size={14} className="text-green-500" /> :
                     <Moon size={14} className="text-blue-500" />
                   }
                   <span>{cuisine.reasoning[1]}</span>
@@ -1523,7 +1521,7 @@ export default function CuisineRecommender() {
               </span>
             </div>
             <p className="text-sm text-gray-600 mb-3">{selectedCuisineData.description}</p>
-            
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
               <div className="bg-gray-50 p-3 rounded border">
                 <h4 className="text-sm font-medium mb-2">Elemental Properties</h4>
@@ -1532,8 +1530,8 @@ export default function CuisineRecommender() {
                     <div key={element} className="flex items-center justify-between">
                       <span className="text-sm">{element}</span>
                       <div className="w-20 bg-gray-200 rounded-full h-2.5">
-                        <div 
-                          className="h-2.5 rounded-full bg-blue-500" 
+                        <div
+                          className="h-2.5 rounded-full bg-blue-500"
                           style={{ width: `${Math.round(Number(value) * 100)}%` }}
                         ></div>
                       </div>
@@ -1621,48 +1619,48 @@ export default function CuisineRecommender() {
                     <div className="text-xs text-gray-600">Greg's Energy</div>
                   </div>
                 </div>
-                
+
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
                   <div className="bg-white p-3 rounded border">
                     <h5 className="text-sm font-medium mb-2">Heat Efficiency</h5>
                     <div className="flex items-center justify-between">
                       <span className="text-sm">{((selectedCuisineData as unknown as { enhancedAnalysis?: { thermodynamicMetrics?: { heat?: number } } }).enhancedAnalysis?.thermodynamicMetrics?.heat || 0).toFixed(3)}</span>
                       <div className="w-16 bg-gray-200 rounded-full h-2">
-                        <div 
-                          className="h-2 rounded-full bg-red-500" 
+                        <div
+                          className="h-2 rounded-full bg-red-500"
                           style={{ width: `${Math.min(100, Math.max(0, ((selectedCuisineData as unknown as { enhancedAnalysis?: { thermodynamicMetrics?: { heat?: number } } }).enhancedAnalysis?.thermodynamicMetrics?.heat || 0) * 100))}%` }}
                         ></div>
                       </div>
                     </div>
                   </div>
-                  
+
                   <div className="bg-white p-3 rounded border">
                     <h5 className="text-sm font-medium mb-2">Entropy Balance</h5>
                     <div className="flex items-center justify-between">
                       <span className="text-sm">{((selectedCuisineData as unknown as { enhancedAnalysis?: { thermodynamicMetrics?: { entropy?: number } } }).enhancedAnalysis?.thermodynamicMetrics?.entropy || 0).toFixed(3)}</span>
                       <div className="w-16 bg-gray-200 rounded-full h-2">
-                        <div 
-                          className="h-2 rounded-full bg-yellow-500" 
+                        <div
+                          className="h-2 rounded-full bg-yellow-500"
                           style={{ width: `${Math.min(100, Math.max(0, ((selectedCuisineData as unknown as { enhancedAnalysis?: { thermodynamicMetrics?: { entropy?: number } } }).enhancedAnalysis?.thermodynamicMetrics?.entropy || 0) * 50))}%` }}
                         ></div>
                       </div>
                     </div>
                   </div>
-                  
+
                   <div className="bg-white p-3 rounded border">
                     <h5 className="text-sm font-medium mb-2">Reactivity</h5>
                     <div className="flex items-center justify-between">
                       <span className="text-sm">{((selectedCuisineData as unknown as { enhancedAnalysis?: { thermodynamicMetrics?: { reactivity?: number } } }).enhancedAnalysis?.thermodynamicMetrics?.reactivity || 0).toFixed(3)}</span>
                       <div className="w-16 bg-gray-200 rounded-full h-2">
-                        <div 
-                          className="h-2 rounded-full bg-orange-500" 
+                        <div
+                          className="h-2 rounded-full bg-orange-500"
                           style={{ width: `${Math.min(100, Math.max(0, ((selectedCuisineData as any).enhancedAnalysis?.thermodynamicMetrics?.reactivity || 0) * 50))}%` }}
                         ></div>
                       </div>
                     </div>
                   </div>
                 </div>
-                
+
                 <div className="mt-3 text-xs text-gray-600">
                   Enhanced thermodynamic analysis integrates heat efficiency, entropy balance, and reactivity for optimal culinary recommendations.
                 </div>
@@ -1684,8 +1682,8 @@ export default function CuisineRecommender() {
                       </div>
                       <div className="text-xs text-gray-600">{property}</div>
                       <div className="w-full bg-gray-200 rounded-full h-2 mt-1">
-                        <div 
-                          className="h-2 rounded-full bg-amber-500" 
+                        <div
+                          className="h-2 rounded-full bg-amber-500"
                           style={{ width: `${Math.min(100, Math.max(0, (Number(value) || 0) * 100))}%` }}
                         ></div>
                       </div>
@@ -1713,7 +1711,7 @@ export default function CuisineRecommender() {
                     {showCulturalAnalytics ? 'Hide Details' : 'Show Details'}
                   </button>
                 </div>
-                
+
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-3">
                   <div className="text-center">
                     <div className="text-lg font-semibold text-amber-600">
@@ -1740,19 +1738,19 @@ export default function CuisineRecommender() {
                     <div className="text-xs text-gray-600">Cultural Diversity</div>
                   </div>
                 </div>
-                
+
                 {showCulturalAnalytics && (
                   <div className="space-y-3 mt-4">
                     <div className="bg-white p-3 rounded border">
                       <h5 className="text-sm font-medium mb-2">Historical Significance</h5>
                       <p className="text-xs text-gray-700">{culturalAnalytics[selectedCuisineData.id].historicalSignificance}</p>
                     </div>
-                    
+
                     <div className="bg-white p-3 rounded border">
                       <h5 className="text-sm font-medium mb-2">Cultural Context</h5>
                       <p className="text-xs text-gray-700">{culturalAnalytics[selectedCuisineData.id].culturalContext}</p>
                     </div>
-                    
+
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                       <div className="bg-white p-3 rounded border">
                         <h5 className="text-sm font-medium mb-2">Traditional Principles</h5>
@@ -1762,7 +1760,7 @@ export default function CuisineRecommender() {
                           ))}
                         </ul>
                       </div>
-                      
+
                       <div className="bg-white p-3 rounded border">
                         <h5 className="text-sm font-medium mb-2">Modern Adaptations</h5>
                         <ul className="list-disc pl-4 text-xs text-gray-700">
@@ -1774,7 +1772,7 @@ export default function CuisineRecommender() {
                     </div>
                   </div>
                 )}
-                
+
                 <div className="mt-3 text-xs text-gray-600">
                   Cultural synergy contributes 5% weight to the 7-factor recommendation algorithm.
                 </div>
@@ -1796,7 +1794,7 @@ export default function CuisineRecommender() {
                     {showFusionRecommendations ? 'Hide Fusion' : 'Show Fusion'}
                   </button>
                 </div>
-                
+
                 {showFusionRecommendations && (
                   <div className="space-y-3">
                     {fusionRecommendations.map((fusion, index) => (
@@ -1812,11 +1810,11 @@ export default function CuisineRecommender() {
                             </span>
                           </div>
                         </div>
-                        
+
                         <p className="text-xs text-gray-600 mb-2">
                           Blend of {fusion.parentCuisines.join(' and ')} cuisines
                         </p>
-                        
+
                         <div className="mb-2">
                           <h6 className="text-xs font-medium mb-1">Recommended Dishes:</h6>
                           <div className="flex flex-wrap gap-1">
@@ -1827,7 +1825,7 @@ export default function CuisineRecommender() {
                             ))}
                           </div>
                         </div>
-                        
+
                         <div className="text-xs text-gray-700">
                           <p>{fusion.culturalNotes[0]}</p>
                         </div>
@@ -1835,13 +1833,13 @@ export default function CuisineRecommender() {
                     ))}
                   </div>
                 )}
-                
+
                 <div className="mt-3 text-xs text-gray-600">
                   Fusion recommendations based on cultural compatibility and culinary harmony analysis.
                 </div>
               </div>
             )}
-            
+
             {/* Enhanced Recipe Recommendations */}
             <div className="mt-4">
               <RecipeRecommendations
@@ -1873,7 +1871,7 @@ export default function CuisineRecommender() {
                             {Math.round(recipe.intelligenceAnalysis.score * 100)}% Intelligence
                           </span>
                         </div>
-                        
+
                         <div className="space-y-2">
                           <div className="flex justify-between text-xs">
                             <span>Elemental Alignment:</span>
@@ -1912,7 +1910,7 @@ export default function CuisineRecommender() {
                             </span>
                           </div>
                         </div>
-                        
+
                         {recipe.intelligenceAnalysis.compatibility.recommendations.length > 0 && (
                           <div className="mt-2 pt-2 border-t border-gray-100">
                             <div className="text-xs text-gray-600 mb-1">Recommendations:</div>
@@ -1948,7 +1946,7 @@ export default function CuisineRecommender() {
                             {Math.round(recipe.intelligenceAnalysis.ingredientIntelligence.optimizationScore * 100)}% Optimization
                           </span>
                         </div>
-                        
+
                         <div className="space-y-2">
                           <div className="flex justify-between text-xs">
                             <span>Category Harmony:</span>
@@ -1999,7 +1997,7 @@ export default function CuisineRecommender() {
                             </span>
                           </div>
                         </div>
-                        
+
                         {recipe.intelligenceAnalysis.ingredientIntelligence.recommendations.length > 0 && (
                           <div className="mt-2 pt-2 border-t border-gray-100">
                             <div className="text-xs text-gray-600 mb-1">Ingredient Recommendations:</div>
@@ -2008,7 +2006,7 @@ export default function CuisineRecommender() {
                             </div>
                           </div>
                         )}
-                        
+
                         {recipe.intelligenceAnalysis.ingredientIntelligence.categorizationAnalysis.ingredientDistribution.length > 0 && (
                           <div className="mt-2 pt-2 border-t border-gray-100">
                             <div className="text-xs text-gray-600 mb-1">Ingredient Distribution:</div>
@@ -2026,9 +2024,9 @@ export default function CuisineRecommender() {
                     )
                   ))}
                 </div>
-                
+
                 <div className="mt-3 text-xs text-gray-600">
-                  Ingredient Intelligence Systems provide advanced analytics for ingredient categorization, 
+                  Ingredient Intelligence Systems provide advanced analytics for ingredient categorization,
                   seasonal optimization, compatibility analysis, and validation results.
                 </div>
               </div>
@@ -2051,7 +2049,7 @@ export default function CuisineRecommender() {
                             {Math.round(recipe.intelligenceAnalysis.cuisineIntelligence.optimizationScore * 100)}% Optimization
                           </span>
                         </div>
-                        
+
                         <div className="space-y-2">
                           <div className="flex justify-between text-xs">
                             <span>Cultural Synergy:</span>
@@ -2120,7 +2118,7 @@ export default function CuisineRecommender() {
                             </span>
                           </div>
                         </div>
-                        
+
                         {recipe.intelligenceAnalysis.cuisineIntelligence.recommendations.length > 0 && (
                           <div className="mt-2 pt-2 border-t border-gray-100">
                             <div className="text-xs text-gray-600 mb-1">Cuisine Recommendations:</div>
@@ -2129,7 +2127,7 @@ export default function CuisineRecommender() {
                             </div>
                           </div>
                         )}
-                        
+
                         {recipe.intelligenceAnalysis.cuisineIntelligence.fusionAnalysis.fusionRecommendations.length > 0 && (
                           <div className="mt-2 pt-2 border-t border-gray-100">
                             <div className="text-xs text-gray-600 mb-1">Fusion Recommendations:</div>

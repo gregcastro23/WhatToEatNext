@@ -2,11 +2,10 @@
  * Tests for Build Quality Monitor
  */
 
-import { 
-  monitorBuildQuality,
-  getBuildQualityScore,
-  AlertType,
-  AlertSeverity
+import {
+    AlertType,
+    getBuildQualityScore,
+    monitorBuildQuality
 } from '../buildQualityMonitor';
 
 // Mock child_process
@@ -42,7 +41,7 @@ const mockStatSync = fs.statSync as jest.MockedFunction<typeof fs.statSync>;
 describe('Build Quality Monitor', () => {
   beforeEach(() => {
     jest.clearAllMocks();
-    
+
     // Mock default file system responses
     mockExistsSync.mockReturnValue(false);
     mockReaddirSync.mockReturnValue([]);
@@ -88,7 +87,7 @@ describe('Build Quality Monitor', () => {
         'src/test2.ts(15,10): error TS2352: Conversion error.',
         'src/test3.ts(20,15): error TS2345: Argument error.'
       ].join('\n');
-      
+
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       // Intentionally any: Error object needs custom properties for test mock scenarios
       const error = new Error('TypeScript compilation failed') as any;
@@ -110,10 +109,10 @@ describe('Build Quality Monitor', () => {
       const report = await monitorBuildQuality();
 
       // Check if performance alerts are generated for slow builds
-      const performanceAlerts = report.alerts.filter(alert => 
+      const performanceAlerts = report.alerts.filter(alert =>
         alert.type === AlertType.BUILD_PERFORMANCE
       );
-      
+
       // May or may not have alerts depending on actual timing
       expect(performanceAlerts.length).toBeGreaterThanOrEqual(0);
     });
@@ -125,7 +124,7 @@ describe('Build Quality Monitor', () => {
       mockExistsSync.mockImplementation((path: any) => {
         return path.includes('.next');
       });
-      
+
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       // Intentionally any: Jest mock return value for fs.readdirSync requires array flexibility
       mockReaddirSync.mockReturnValue(['static', 'server', 'cache'] as any);
@@ -169,7 +168,7 @@ describe('Build Quality Monitor', () => {
       const report = await monitorBuildQuality();
 
       expect(Array.isArray(report.recommendations)).toBe(true);
-      
+
       if (report.recommendations.length > 0) {
         const recommendation = report.recommendations[0];
         expect(recommendation.category).toBeDefined();
@@ -246,7 +245,7 @@ describe('Build Quality Monitor', () => {
         'src/test4.ts(25,20): error TS2698: Spread error.',
         'src/test5.ts(30,25): error TS2362: Arithmetic error.'
       ].join('\n');
-      
+
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       // Intentionally any: Error object needs custom properties for test mock scenarios
       const error = new Error('TypeScript compilation failed') as any;
@@ -258,7 +257,7 @@ describe('Build Quality Monitor', () => {
       const report = await monitorBuildQuality();
 
       expect(report.performanceAnalysis.bottleneckAnalysis.length).toBeGreaterThan(0);
-      
+
       const tsBottleneck = report.performanceAnalysis.bottleneckAnalysis.find(
         b => b.phase === 'TypeScript Compilation'
       );
@@ -291,7 +290,7 @@ describe('Build Quality Monitor', () => {
         'src/test2.ts(15,10): error TS2352: Conversion error.',
         'src/test3.ts(20,15): error TS2345: Argument error.'
       ].join('\n');
-      
+
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       // Intentionally any: Error object needs custom properties for test mock scenarios
       const error = new Error('TypeScript compilation failed') as any;
