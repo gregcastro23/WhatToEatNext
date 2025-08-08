@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 import DirectRecipeService from '@/services/DirectRecipeService';
-import { Element } from "@/types/alchemy";
+// Removed unused Element import
 import { ScoredRecipe } from '@/types/recipe';
 
 // Define CelestialAlignment locally since it doesn't exist in alchemy types

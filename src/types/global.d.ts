@@ -8,31 +8,31 @@ declare global {
     chrome?: {
       tabs?: {
         create?: (options: Partial<unknown>) => Promise<{id: number}>;
-        query?: (queryInfo: unknown, callback?: Function) => boolean;
-        update?: (tabId: number, properties: unknown, callback?: Function) => boolean;
-        sendMessage?: (tabId: number, message: unknown, options?: Record<string, unknown>, callback?: Function) => boolean;
+        query?: (queryInfo: unknown, callback?: (tabs: chrome.tabs.Tab[]) => void) => void;
+        update?: (tabId: number, properties: chrome.tabs.UpdateProperties, callback?: () => void) => void;
+        sendMessage?: (tabId: number, message: unknown, options?: chrome.tabs.SendMessageOptions, callback?: (response: unknown) => void) => void;
       };
       runtime?: {
-        lastError?: Error | null;
+        lastError?: chrome.runtime.LastError | null;
         getURL?: (path: string) => string;
-        sendMessage?: (message: unknown) => void;
+        sendMessage?: (message: unknown, responseCallback?: (response: unknown) => void) => void;
         onMessage?: {
-          addListener: (callback: (message: unknown) => void) => void;
-          removeListener: (callback: (message: unknown) => void) => void;
+          addListener: (callback: (message: unknown, sender: chrome.runtime.MessageSender, sendResponse: (response?: unknown) => void) => boolean | void | Promise<unknown>) => void;
+          removeListener: (callback: (message: unknown, sender: chrome.runtime.MessageSender, sendResponse: (response?: unknown) => void) => boolean | void | Promise<unknown>) => void;
         };
       };
       storage?: {
         local?: {
-          get?: (keys: unknown, callback?: Function) => boolean;
-          set?: (items: unknown, callback?: Function) => boolean;
+          get?: (keys: string | string[] | Record<string, unknown> | null, callback: (items: Record<string, unknown>) => void) => void;
+          set?: (items: Record<string, unknown>, callback?: () => void) => void;
         };
         sync?: {
-          get?: (keys: unknown, callback?: Function) => boolean;
-          set?: (items: unknown, callback?: Function) => boolean;
+          get?: (keys: string | string[] | Record<string, unknown> | null, callback: (items: Record<string, unknown>) => void) => void;
+          set?: (items: Record<string, unknown>, callback?: () => void) => void;
         };
       };
       i18n?: {
-        getMessage?: (messageName: string, substitutions?: string[] | Record<string, string>) => string;
+        getMessage?: (messageName: string, substitutions?: string | string[]) => string;
       };
       extension?: {
         getURL?: (path: string) => string;
@@ -42,17 +42,17 @@ declare global {
     // Popup.js mock replacement
     popup?: {
       create: (options?: Record<string, unknown>) => {
-        show: () => any;
-        hide: () => any;
-        update: () => any;
-        on: (event: string, callback?: (...args: unknown[]) => void) => { off: () => void };
-        trigger: (event: string) => any;
+        show: () => void;
+        hide: () => void;
+        update: () => void;
+        on: (event: string, callback: (...args: unknown[]) => void) => { off: () => void };
+        trigger: (event: string) => void;
       };
-      show: () => any;
-      hide: () => any;
-      update: () => any;
-      on: (event: string, callback?: (...args: unknown[]) => void) => { off: () => void };
-      trigger: (event: string) => any;
+      show: () => void;
+      hide: () => void;
+      update: () => void;
+      on: (event: string, callback: (...args: unknown[]) => void) => { off: () => void };
+      trigger: (event: string) => void;
     };
 
     // Tracking flags for our script replacer
@@ -61,16 +61,16 @@ declare global {
     __foodRecommenderFixApplied?: boolean;
 
     // Storage for Chrome message listeners
-    _chromeMessageListeners?: ((message: unknown) => void)[];
+    _chromeMessageListeners?: ((message: unknown, sender: chrome.runtime.MessageSender, sendResponse: (response?: unknown) => void) => void)[];
 
     // Alchemical functions used by FoodRecommender
-    getElementRanking?: (element_object: Element, rank?: number) => { [key: number]: string };
-    createElementObject?: () => { Fire: number; Water: number; Air: number; Earth: number };
-    combineElementObjects?: (obj1: unknown, obj2: unknown) => { Fire: number; Water: number; Air: number; Earth: number };
-    getAbsoluteElementValue?: (obj: unknown) => number;
-    calculateElementalScore?: (obj: unknown) => number;
-    getDominantElement?: (obj: unknown) => string;
-    alchemize?: (birth_info: unknown, horoscope_dict: unknown) => any;
+    getElementRanking?: (element_object: Element, rank?: number) => Record<number, string>;
+    createElementObject?: () => ElementalProperties;
+    combineElementObjects?: (obj1: ElementalProperties, obj2: ElementalProperties) => ElementalProperties;
+    getAbsoluteElementValue?: (obj: ElementalProperties) => number;
+    calculateElementalScore?: (obj: ElementalProperties) => number;
+    getDominantElement?: (obj: ElementalProperties) => Element;
+    alchemize?: (birth_info: Record<string, unknown>, horoscope_dict: Record<string, unknown>) => ThermodynamicMetrics;
     capitalize?: (str: string) => string;
 
     // Service objects

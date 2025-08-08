@@ -13,7 +13,7 @@
 'use client';
 
 import { ChevronDown, ChevronUp } from 'lucide-react';
-import React, { useState, useEffect, useMemo, useCallback, useRef } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 
 // Type Harmony imports
@@ -27,7 +27,7 @@ import { useAstrologicalState } from '@/hooks/useAstrologicalState';
 import { log } from '@/services/LoggingService';
 import { BasicThermodynamicProperties, COOKING_METHOD_THERMODYNAMICS, CookingMethod, ElementalProperties } from '@/types/alchemy';
 import { createAstrologicalBridge } from '@/types/bridges/astrologicalBridge';
-import { ZodiacSign, Ingredient, UnifiedIngredient } from '@/types/unified';
+import { Ingredient, UnifiedIngredient, ZodiacSign } from '@/types/unified';
 import { staticAlchemize } from '@/utils/alchemyInitializer';
 import { getLunarMultiplier } from '@/utils/lunarMultiplier';
 import { isValidAstrologicalState } from '@/utils/typeGuards/astrologicalGuards';
@@ -106,22 +106,22 @@ const alchemize = async (
 
 const calculateMatchScore = (elements: unknown): number => {
   if (!elements) return 0;
-  
+
   // Extract elements data with safe property access
   const elementsData = elements as ElementalProperties;
-  
+
   // More sophisticated calculation that weights the properties differently
   // Heat and reactivity are positive factors, while high entropy is generally a negative factor
   const heatScore = elementsData.heat || 0;
   const entropyScore = 1 - (elementsData.entropy || 0); // Invert entropy so lower is better
   const reactivityScore = elementsData.reactivity || 0;
-  
+
   // Calculate weighted average with more weight on heat and reactivity
   const rawScore = (heatScore * 0.4) + (entropyScore * 0.3) + (reactivityScore * 0.3);
-  
+
   // Apply a higher multiplier to ensure clear differentiation between methods
   const multiplier = 2.5; // Higher multiplier for more obvious differences
-  
+
   // Cap at 1.0 (100%) but ensure minimum of 0.1 (10%)
   return Math.min(1.0, Math.max(0.1, rawScore * multiplier));
 };
@@ -172,16 +172,16 @@ const generateMethodInfo = (methodName: string) => {
   // TODO: Replace with comprehensive cooking method database integration
   const readableName = methodName.replace(/_/g, ' ').split(' ')
     .map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
-  
+
   return {
     description: `${readableName} cooking technique - requires enterprise intelligence implementation`,
     technicalTips: ["Placeholder - implement comprehensive technique guidance"],
     idealIngredients: ["Placeholder - implement ingredient compatibility analysis"],
     timing: { duration: "Variable", temperature: "Method-specific" },
-    impact: { 
-      impact: "Requires implementation", 
-      benefits: ["Placeholder"], 
-      considerations: ["Placeholder"] 
+    impact: {
+      impact: "Requires implementation",
+      benefits: ["Placeholder"],
+      considerations: ["Placeholder"]
     }
   };
 };
@@ -219,7 +219,7 @@ const LUNAR_PHASE_DISPLAY: Record<LunarPhase, string> = {
   'NEW_MOON': 'New Moon',
   'WAXING_CRESCENT': 'Waxing Crescent',
   'FIRST_QUARTER': 'First Quarter',
-  'WAXING_GIBBOUS': 'Waxing Gibbous', 
+  'WAXING_GIBBOUS': 'Waxing Gibbous',
   'WANING_GIBBOUS': 'Waning Gibbous',
   'LAST_QUARTER': 'Last Quarter',
   'WANING_CRESCENT': 'Waning Crescent'
@@ -228,15 +228,15 @@ const LUNAR_PHASE_DISPLAY: Record<LunarPhase, string> = {
 // Function to safely convert any lunar phase string to the correct type
 const normalizeLunarPhase = (phase: string | null | undefined): LunarPhase | undefined => {
   if (!phase) return undefined;
-  
+
   // If it's already a valid LunarPhase, return it
   if (Object.keys(LUNAR_PHASE_MAP).includes(phase)) {
     return phase as LunarPhase;
   }
-  
+
   // Try to convert by looking for matching patterns
   const phaseLower = (phase ).toLowerCase();
-  
+
   if ((phaseLower ).includes('full') && (phaseLower ).includes('moon')) {
     return 'FULL_MOON';
   }
@@ -261,7 +261,7 @@ const normalizeLunarPhase = (phase: string | null | undefined): LunarPhase | und
   if ((phaseLower ).includes('waning') && (phaseLower ).includes('crescent')) {
     return 'WANING_CRESCENT';
   }
-  
+
   return undefined;
 };
 
@@ -301,22 +301,22 @@ export default function CookingMethods() {
   const renderCount = useRef(0);
   const isMountedRef = useRef(false);
   const [_isMounted, setIsMounted] = useState(false);
-  
+
   // TODO: Consolidate mount state management
   useEffect(() => {
     renderCount.current += 1;
   });
-  
+
   useEffect(() => {
     isMountedRef.current = true;
     setIsMounted(true);
-    
+
     return () => {
       isMountedRef.current = false;
       setIsMounted(false);
     };
   }, []);
-  
+
   // TODO: Integrate with enhanced astrological state processing
   const {
     isReady,
@@ -327,14 +327,14 @@ export default function CookingMethods() {
     domElements,
     isDaytime
   } = useAstrologicalState();
-  
+
   // Define the list of 14 common cooking methods to prioritize
   const commonCookingMethods = useMemo(() => [
-    'baking', 'roasting', 'grilling', 'broiling', 'sauteing', 
-    'frying', 'stir_frying', 'boiling', 'simmering', 'steaming', 
+    'baking', 'roasting', 'grilling', 'broiling', 'sauteing',
+    'frying', 'stir_frying', 'boiling', 'simmering', 'steaming',
     'poaching', 'sous_vide', 'stewing', 'blanching', 'microwaving'
   ], []);
-  
+
   // Helper functions for the component
   const normalizeAstroState = useCallback(() => {
     return {
@@ -345,10 +345,10 @@ export default function CookingMethods() {
       currentPlanetaryAlignment
     };
   }, [currentZodiac, lunarPhase, activePlanets, isDaytime, currentPlanetaryAlignment]);
-  
+
   const methodToThermodynamics = (method: unknown): BasicThermodynamicProperties => {
     const methodName = ((method as Record<string, unknown>).name || '').toString().toLowerCase();
-    
+
     // Check if the method has direct thermodynamic properties
     if (method && typeof method === 'object' && 'heat' in method && 'entropy' in method && 'reactivity' in method) {
       const methodObj = method as Record<string, unknown>;
@@ -362,7 +362,7 @@ export default function CookingMethods() {
         gregsEnergy: heat - (entropy * reactivity)
       };
     }
-    
+
     // Look for the method in the COOKING_METHOD_THERMODYNAMICS constant
     for (const knownMethod of Object.keys(COOKING_METHOD_THERMODYNAMICS)) {
       if ((methodName ).includes(knownMethod)) {
@@ -375,7 +375,7 @@ export default function CookingMethods() {
         };
       }
     }
-    
+
     // Fallback values based on method characteristics
     if (methodName.includes('grill') || methodName.includes('roast') || methodName.includes('fry')) {
       const heat = 0.8, entropy = 0.6, reactivity = 0.7;
@@ -387,7 +387,7 @@ export default function CookingMethods() {
       const heat = 0.1, entropy = 0.5, reactivity = 0.4;
       return { heat, entropy, reactivity, gregsEnergy: heat - (entropy * reactivity) }; // No/low heat methods
     }
-    
+
     // Default values
     const heat = 0.5, entropy = 0.5, reactivity = 0.5;
     return { heat, entropy, reactivity, gregsEnergy: heat - (entropy * reactivity) };
@@ -398,45 +398,45 @@ export default function CookingMethods() {
   const [recommendedMethods, setRecommendedMethods] = useState<ExtendedAlchemicalItem[]>([]);
   const [_planetaryCookingMethods, setPlanetaryCookingMethods] = useState<Record<string, string[]>>({});
   const [_selectedCulture, setSelectedCulture] = useState<string>('');
-  const [showAllMethods, setShowAllMethods] = useState(false);
-  const [expandedMethods, setExpandedMethods] = useState<Record<string, boolean>>({});
-  const [methodScores, setMethodScores] = useState<Record<string, number>>({});
+  const [_showAllMethods, setShowAllMethods] = useState(false);
+  const [_expandedMethods, setExpandedMethods] = useState<Record<string, boolean>>({});
+  const [_methodScores, setMethodScores] = useState<Record<string, number>>({});
   const [showScoreDetails, setShowScoreDetails] = useState<Record<string, boolean>>({});
-  const [modalityFilter, setModalityFilter] = useState<string>('all');
-  const [searchIngredient, setSearchIngredient] = useState<string>('');
-  const [ingredientCompatibility, setIngredientCompatibility] = useState<Record<string, number>>({});
-  
+  const [_modalityFilter, setModalityFilter] = useState<string>('all');
+  const [_searchIngredient, setSearchIngredient] = useState<string>('');
+  const [_ingredientCompatibility, setIngredientCompatibility] = useState<Record<string, number>>({});
+
   // TODO: Integrate with enhanced tarot context system
   const tarotContext = useTarotContext();
-  const { tarotCard, tarotElementalInfluences } = tarotContext || DEFAULT_TAROT_DATA;
+  const { tarotCard: _tarotCard, tarotElementalInfluences: _tarotElementalInfluences } = tarotContext || DEFAULT_TAROT_DATA;
 
   // Add this function to calculate ingredient compatibility with methods
   const _calculateIngredientCompatibility = (ingredient: string) => {
     if (!ingredient.trim()) return;
-    
+
     // Create a compatibility map
     const compatibilityMap: Record<string, number> = {};
-    
+
     recommendedMethods.forEach(method => {
       if ((method as Record<string, unknown>).elementalProperties) {
         // Create basic compatibility score based on elemental properties
         // This is a simplified version - you would use your actual compatibility calculation
         let compatibilityScore = 0.5; // Default medium compatibility
-        
+
         // Check if ingredient is in the method's suitable_for list with safe array access
         const suitableFor = method.suitable_for;
-        if (suitableFor && Array.isArray(suitableFor) && suitableFor.some(item => 
+        if (suitableFor && Array.isArray(suitableFor) && suitableFor.some(item =>
           (item as string).toLowerCase().includes((ingredient ).toLowerCase())
         )) {
           compatibilityScore += 0.3; // Big boost for explicitly suitable ingredients
         }
-        
+
         // Store the compatibility score
         const methodId = String((method as Record<string, unknown>).id || (method as Record<string, unknown>).name || 'unknown');
         compatibilityMap[methodId] = Math.min(1.0, compatibilityScore);
       }
     });
-    
+
     // Update state with the compatibility scores
     setIngredientCompatibility(compatibilityMap);
   };
@@ -521,42 +521,42 @@ export default function CookingMethods() {
   // Improve access to thermodynamic properties
   const _getThermodynamicValue = (method: ExtendedAlchemicalItem, property: string): number => {
     // First try to get from thermodynamicProperties
-    if (method.thermodynamicProperties && 
+    if (method.thermodynamicProperties &&
         property in method.thermodynamicProperties) {
       return method.thermodynamicProperties[property as keyof ThermodynamicProperties];
     }
-    
+
     // Fall back to direct property if exists
     if (property in method) {
       return method[property as keyof typeof method] as number || 0;
     }
-    
+
     // Check COOKING_METHOD_THERMODYNAMICS constant
     const methodName = ((method as Record<string, unknown>).name || '').toString().toLowerCase();
     if (COOKING_METHOD_THERMODYNAMICS && (COOKING_METHOD_THERMODYNAMICS as Record<string, Record<string, unknown>>)[methodName]) {
       return Number((COOKING_METHOD_THERMODYNAMICS as Record<string, Record<string, unknown>>)[methodName][property as keyof BasicThermodynamicProperties]) || 0;
     }
-    
+
     // Generate values based on method name keywords if no explicit values found
     // This ensures all methods have reasonable thermodynamic values
     const methodLower = ((method as Record<string, unknown>).name || '').toString().toLowerCase();
-    
+
     if (property === 'heat') {
-      if (methodLower.includes('boil') || methodLower.includes('fry') || 
+      if (methodLower.includes('boil') || methodLower.includes('fry') ||
           methodLower.includes('grill') || methodLower.includes('roast')) {
         return 0.8; // High heat methods
-      } else if (methodLower.includes('steam') || methodLower.includes('simmer') || 
+      } else if (methodLower.includes('steam') || methodLower.includes('simmer') ||
                  methodLower.includes('poach')) {
         return 0.4; // Medium heat methods
-      } else if (methodLower.includes('ferment') || methodLower.includes('cure') || 
+      } else if (methodLower.includes('ferment') || methodLower.includes('cure') ||
                  methodLower.includes('pickle') || methodLower.includes('raw')) {
         return 0.1; // Low/no heat methods
       }
       return 0.5; // Default medium heat
     }
-    
+
     if (property === 'entropy') {
-      if (methodLower.includes('ferment') || methodLower.includes('brais') || 
+      if (methodLower.includes('ferment') || methodLower.includes('brais') ||
           methodLower.includes('stew')) {
         return 0.8; // High breakdown methods
       } else if (methodLower.includes('marinate') || methodLower.includes('tenderize')) {
@@ -566,12 +566,12 @@ export default function CookingMethods() {
       }
       return 0.5; // Default medium entropy
     }
-    
+
     if (property === 'reactivity') {
-      if (methodLower.includes('grill') || methodLower.includes('sear') || 
+      if (methodLower.includes('grill') || methodLower.includes('sear') ||
           methodLower.includes('roast') || methodLower.includes('broil')) {
         return 0.8; // High reactivity methods (Maillard reactions)
-      } else if (methodLower.includes('ferment') || methodLower.includes('pickle') || 
+      } else if (methodLower.includes('ferment') || methodLower.includes('pickle') ||
                  methodLower.includes('cure')) {
         return 0.7; // Medium-high reactivity methods (chemical transformations)
       } else if (methodLower.includes('steam') || methodLower.includes('poach')) {
@@ -579,7 +579,7 @@ export default function CookingMethods() {
       }
       return 0.5; // Default medium reactivity
     }
-    
+
     return 0.5; // Default medium value
   };
 
@@ -604,16 +604,16 @@ export default function CookingMethods() {
     const methodInfo = generateMethodInfo(method.name || '');
     const description = method.description || methodInfo.description;
 
-    
+
     // Default values
     let examples: string[] = [];
     let fullDefinition = (method as Record<string, unknown>).description || "";
-    
+
     // Check if we have data from the source first
     const methodRecord = method as unknown as Record<string, unknown>;
     const methodId = methodRecord.id as string;
     const cookingMethodsRecord = cookingMethods as unknown as Record<string, Record<string, unknown>>;
-    
+
     if (methodId && cookingMethodsRecord[methodId]) {
       const sourceMethod = cookingMethodsRecord[methodId];
       // Expand definition if needed
@@ -622,7 +622,7 @@ export default function CookingMethods() {
       if (sourceDescription && sourceDescription.length > methodDescription.length) {
         fullDefinition = sourceDescription;
       }
-      
+
       // Use existing suitable_for as examples if available
       const suitableFor = (sourceMethod ).suitable_for as unknown[];
       if (suitableFor && Array.isArray(suitableFor) && suitableFor.length > 0) {
@@ -641,7 +641,7 @@ export default function CookingMethods() {
         return { examples, fullDefinition: String(fullDefinition) || "Cooking method description" };
       }
     }
-    
+
     // Method-specific information if not found in source data
     switch(methodName) {
       case 'baking':
@@ -654,7 +654,7 @@ export default function CookingMethods() {
           "Casseroles and gratins"
         ];
         break;
-        
+
       case 'boiling':
         fullDefinition = "Cooking food in water or liquid that's heated to 212°F (100°C) at sea level, causing large bubbles to rise rapidly to the surface. Heat is transferred through convection.";
         examples = [
@@ -665,7 +665,7 @@ export default function CookingMethods() {
           "Dumplings (wontons, pierogi, gnocchi)"
         ];
         break;
-        
+
       case 'grilling':
         fullDefinition = "Cooking food directly over high heat on an open grate, allowing fat to drip away. This creates distinctive char marks and imparts a smoky flavor through direct heat radiation and partial combustion.";
         examples = [
@@ -676,7 +676,7 @@ export default function CookingMethods() {
           "Kebabs and skewers"
         ];
         break;
-        
+
       case 'roasting':
         fullDefinition = "Cooking food with dry heat, usually in an oven, where hot air circulates around the food. Typically used for larger cuts of meat or whole vegetables to create a browned exterior and tender interior.";
         examples = [
@@ -687,7 +687,7 @@ export default function CookingMethods() {
           "Coffee beans"
         ];
         break;
-        
+
       case 'steaming':
         fullDefinition = "Cooking food with the vapor from boiling water, without immersing the food in the water itself. This gentle method preserves nutrients, color, and texture without adding fat.";
         examples = [
@@ -698,7 +698,7 @@ export default function CookingMethods() {
           "Puddings and custards"
         ];
         break;
-        
+
       case 'frying':
       case 'deep frying':
         fullDefinition = "Cooking food by submerging it in hot oil or fat (deep-frying) or using a thin layer of oil (pan-frying). The high temperature quickly seals the surface, creating a crispy exterior while cooking the interior.";
@@ -710,7 +710,7 @@ export default function CookingMethods() {
           "Falafel and croquettes"
         ];
         break;
-        
+
       case 'braising':
         fullDefinition = "A two-step cooking method that first sears food at high temperature, then finishes it in a covered pot with liquid at low temperature. This breaks down tough fibers in meat and develops rich flavors.";
         examples = [
@@ -721,7 +721,7 @@ export default function CookingMethods() {
           "Lamb shanks in red wine"
         ];
         break;
-        
+
       case 'sous vide':
         fullDefinition = "Vacuum-sealing food in a bag and cooking it in a precisely temperature-controlled water bath. This method allows for exact doneness and retention of moisture and nutrients.";
         examples = [
@@ -732,7 +732,7 @@ export default function CookingMethods() {
           "Custards and crème brûlée"
         ];
         break;
-        
+
       case 'smoking':
         fullDefinition = "Cooking food by exposing it to smoke from burning or smoldering wood. Can be hot-smoking (cooking + flavor) or cold-smoking (flavor only). Adds complex flavors and acts as a preservative.";
         examples = [
@@ -743,7 +743,7 @@ export default function CookingMethods() {
           "Bacon and ham"
         ];
         break;
-        
+
       case 'stir-frying':
       case 'stir frying':
         fullDefinition = "Quick cooking in a wok or pan over very high heat with constant motion. Food is cut into small, uniform pieces and cooked in a small amount of oil, often with aromatics.";
@@ -755,7 +755,7 @@ export default function CookingMethods() {
           "Fried rice"
         ];
         break;
-        
+
       case 'spherification':
         fullDefinition = "A molecular gastronomy technique that encapsulates liquids in a thin gel membrane, creating spheres that burst in the mouth. Uses sodium alginate and calcium to form a membrane through ionic gelation.";
         examples = [
@@ -766,7 +766,7 @@ export default function CookingMethods() {
           "Sauce pearls for garnishing"
         ];
         break;
-        
+
       case 'fermentation':
       case 'fermenting':
         fullDefinition = "The transformation of food through controlled microbial growth and enzymatic action. Can be lacto-fermentation (using lactic acid bacteria), alcoholic fermentation (using yeast), or other methods.";
@@ -778,7 +778,7 @@ export default function CookingMethods() {
           "Miso and tempeh"
         ];
         break;
-        
+
       case 'solenije':
         fullDefinition = "Solenije (соленье) is a traditional Eastern European preservation technique that uses salt brine fermentation to preserve vegetables. Unlike Western pickling methods that rely heavily on vinegar, solenije uses a natural fermentation process where lactobacillus bacteria converts sugars to lactic acid, creating a tangy flavor and preservative environment. The term comes from the Russian word for salt - 'sol'.";
         examples = [
@@ -789,7 +789,7 @@ export default function CookingMethods() {
           "Fermented bell peppers (with salt and spices)"
         ];
         break;
-        
+
       case 'confit':
         fullDefinition = "Confit is a French preservation technique where food is slow-cooked in fat at low temperatures (typically around 200°F/93°C), then stored in the same fat. Originally developed as a preservation method, confit is now prized for creating exceptionally tender texture and rich flavor, especially in meats.";
         examples = [
@@ -800,7 +800,7 @@ export default function CookingMethods() {
           "Fruit confit (cooked in sugar syrup)"
         ];
         break;
-        
+
       case 'tagine':
         fullDefinition = "Tagine refers both to a North African earthenware cooking vessel with a conical lid and the slow-cooked stews prepared in it. The unique shape creates a natural condensation cycle that returns moisture to the food, allowing aromatic stews to develop complex flavors while using minimal liquid.";
         examples = [
@@ -811,7 +811,7 @@ export default function CookingMethods() {
           "Beef tagine with prunes and honey"
         ];
         break;
-        
+
       case 'nixtamal':
         fullDefinition = "Nixtamalization is an ancient Mesoamerican technique where dried corn (maize) is soaked and cooked in an alkaline solution, typically limewater (calcium hydroxide). This process loosens the hulls, softens the corn, improves its nutritional value by releasing niacin, and imparts a distinctive flavor essential for authentic tortillas and masa products.";
         examples = [
@@ -822,7 +822,7 @@ export default function CookingMethods() {
           "Arepas (when made with nixtamalized corn)"
         ];
         break;
-        
+
       case 'poaching':
         fullDefinition = "A gentle cooking method where food is simmered in liquid at temperatures between 160-180°F (71-82°C). Unlike boiling, poaching uses minimal agitation and lower temperatures to preserve delicate textures and flavors.";
         examples = [
@@ -833,7 +833,7 @@ export default function CookingMethods() {
           "Poached seafood (shrimp, scallops, lobster)"
         ];
         break;
-        
+
       case 'simmering':
         fullDefinition = "Cooking food in liquid maintained just below the boiling point (185-200°F/85-93°C), where tiny bubbles form slowly. This gentle method prevents food from toughening or breaking apart while allowing flavors to develop fully.";
         examples = [
@@ -844,7 +844,7 @@ export default function CookingMethods() {
           "Tough cuts of meat (chuck, brisket)"
         ];
         break;
-        
+
       case 'pressure_cooking':
         fullDefinition = "Cooking food in a sealed vessel that prevents steam from escaping, creating pressure that raises the boiling point of water and significantly reduces cooking time. Modern pressure cookers have precise controls and safety features.";
         examples = [
@@ -855,7 +855,7 @@ export default function CookingMethods() {
           "Stocks and broths (intense flavor in 30-60 minutes)"
         ];
         break;
-        
+
       case 'curing':
         fullDefinition = "Preserving food by drawing out moisture using salt, sugar, nitrates, or smoke. This ancient technique extends shelf life and develops unique flavors and textures through controlled dehydration and chemical transformations.";
         examples = [
@@ -866,7 +866,7 @@ export default function CookingMethods() {
           "Preserved citrus (salt-cured lemons, oranges)"
         ];
         break;
-        
+
       case 'broiling':
         fullDefinition = "Cooking food with intense direct heat from above, typically in an oven's broiler compartment. Similar to grilling but with the heat source above instead of below, creating quick browning and caramelization on food surfaces.";
         examples = [
@@ -877,7 +877,7 @@ export default function CookingMethods() {
           "Roasted vegetables (quick-charred peppers, tomatoes)"
         ];
         break;
-        
+
       case 'cryogenic_cooking':
       case 'cryo_cooking':
         fullDefinition = "A molecular gastronomy technique using extremely low temperatures (usually with liquid nitrogen at -196°C/-321°F) to instantly freeze foods, creating unique textures and visual effects while preserving flavors and nutrients.";
@@ -889,7 +889,7 @@ export default function CookingMethods() {
           "Flash-frozen foams (stable espuma with unique mouthfeel)"
         ];
         break;
-        
+
       case 'emulsification':
         fullDefinition = "The process of combining two immiscible liquids (like oil and water) into a stable mixture using an emulsifier that prevents separation. This technique is fundamental in creating sauces, dressings, and many molecular gastronomy preparations.";
         examples = [
@@ -900,7 +900,7 @@ export default function CookingMethods() {
           "Culinary foams (air emulsified into liquids)"
         ];
         break;
-        
+
       case 'distilling':
         fullDefinition = "A process of separating components by selective boiling and condensation, traditionally used for alcoholic beverages but also employed in modern cuisine for flavor extraction, concentration, and purification of essences.";
         examples = [
@@ -911,7 +911,7 @@ export default function CookingMethods() {
           "Distilled vinegars (specialty flavor profiles)"
         ];
         break;
-        
+
       case 'gelification':
         fullDefinition = "Using hydrocolloids (like agar-agar, gelatin, or carrageenan) to transform liquids into gels with various textures, from soft and yielding to firm and bouncy. A key technique in both traditional and modernist cuisine.";
         examples = [
@@ -922,7 +922,7 @@ export default function CookingMethods() {
           "Edible cocktails (alcoholic jellies and gels)"
         ];
         break;
-        
+
       case 'infusing':
         fullDefinition = "Extracting flavors, colors, and aromas from ingredients by steeping them in a liquid (water, oil, alcohol) at specific temperatures. The process transfers soluble compounds to create flavorful bases for cooking.";
         examples = [
@@ -933,7 +933,7 @@ export default function CookingMethods() {
           "Aromatics in broths and stocks"
         ];
         break;
-        
+
       case 'sushi':
       case 'sushi_making':
         fullDefinition = "A Japanese cooking technique that involves combining vinegar-seasoned rice with other ingredients, typically seafood, vegetables, and sometimes egg or tofu. The vinegar-seasoned rice, called 'sushi-meshi', is prepared with vinegar, sugar, and salt, and is usually wrapped in a sheet of nori (seaweed) before being eaten.";
@@ -945,7 +945,7 @@ export default function CookingMethods() {
           "Sashimi (slices of raw fish or seafood)"
         ];
         break;
-        
+
       case 'canning':
       case 'home_canning':
         fullDefinition = "The process of preserving food by sealing it in containers, usually glass jars, and processing it in a water bath or pressure canner. This process kills bacteria and extends the shelf life of the food. Canning is a common method of preserving food in many cultures.";
@@ -957,7 +957,7 @@ export default function CookingMethods() {
           "Canned soups and stews (vegetable, chicken, beef)"
         ];
         break;
-        
+
       case 'dehydrating':
         fullDefinition = "The process of removing water from food through a controlled drying process, usually in a dehydrator or under controlled heat. Dehydrating is a common method of preserving food by removing water, which inhibits bacterial growth and extends the shelf life of the food.";
         examples = [
@@ -968,18 +968,18 @@ export default function CookingMethods() {
           "Dehydrated soups and stews (vegetable, chicken, beef)"
         ];
         break;
-      
+
       default:
         // For methods not explicitly covered, return basic information
         examples = getIdealIngredients(method as unknown as { name: string; category: string }).map(ingredient => String(ingredient));
     }
-    
+
     return { examples, fullDefinition: String(fullDefinition) || "Cooking method description" };
   };
 
   // Replace getNutritionalImpact function with getIngredientCompatibility
-  const _getIngredientCompatibility = (method: ExtendedAlchemicalItem): { 
-    compatibility: string, 
+  const _getIngredientCompatibility = (method: ExtendedAlchemicalItem): {
+    compatibility: string,
     idealCharacteristics: string[],
     avoidCharacteristics: string[]
   } => {
@@ -987,7 +987,7 @@ export default function CookingMethods() {
     let compatibility = "";
     let idealCharacteristics: string[] = [];
     let avoidCharacteristics: string[] = [];
-    
+
     // Method-specific information with expanded coverage
     switch(methodName) {
       case 'steaming':
@@ -1004,7 +1004,7 @@ export default function CookingMethods() {
           "Dishes where excess moisture would be problematic"
         ];
         break;
-        
+
       case 'boiling':
         compatibility = "Ideal for ingredients requiring thorough hydration and even cooking";
         idealCharacteristics = [
@@ -1019,7 +1019,7 @@ export default function CookingMethods() {
           "Foods where texture would become mushy or waterlogged"
         ];
         break;
-        
+
       case 'baking':
         compatibility = "Perfect for items needing even heat distribution and surface browning";
         idealCharacteristics = [
@@ -1034,9 +1034,9 @@ export default function CookingMethods() {
           "Delicate items that cannot withstand prolonged heat"
         ];
         break;
-      
+
       // Add more cases for other cooking methods...
-      
+
       case 'solenije':
         compatibility = "Perfect for vegetables with high water content and natural sugars";
         idealCharacteristics = [
@@ -1052,7 +1052,7 @@ export default function CookingMethods() {
           "Leafy greens that wilt excessively"
         ];
         break;
-      
+
       case 'grilling':
         compatibility = "Excellent for foods that benefit from high direct heat and smoke flavor";
         idealCharacteristics = [
@@ -1068,9 +1068,9 @@ export default function CookingMethods() {
           "Dishes requiring slow, gentle cooking"
         ];
         break;
-      
+
       // Many more methods would be added here...
-      
+
       case 'sous vide':
       case 'sous_vide':
         compatibility = "Perfect for precision cooking proteins and delicate items";
@@ -1086,7 +1086,7 @@ export default function CookingMethods() {
           "Recipes where varied textural contrasts are the goal"
         ];
         break;
-      
+
       case 'smoking':
         compatibility = "Ideal for foods that absorb smoke compounds well";
         idealCharacteristics = [
@@ -1101,7 +1101,7 @@ export default function CookingMethods() {
           "Foods where subtle natural flavors should be the highlight"
         ];
         break;
-      
+
       case 'pressure cooking':
       case 'pressure_cooking':
         compatibility = "Excellent for tough ingredients needing quick tenderization";
@@ -1117,7 +1117,7 @@ export default function CookingMethods() {
           "Dishes where evaporation and reduction is part of the process"
         ];
         break;
-      
+
       case 'fermentation':
       case 'fermenting':
         compatibility = "Best for foods with natural sugars and stable structure";
@@ -1133,7 +1133,7 @@ export default function CookingMethods() {
           "Ingredients too delicate to withstand pH changes"
         ];
         break;
-      
+
       case 'blanching':
         compatibility = "Ideal for vegetables needing brief heat exposure";
         idealCharacteristics = [
@@ -1148,7 +1148,7 @@ export default function CookingMethods() {
           "Recipes where flavor development through prolonged cooking is needed"
         ];
         break;
-      
+
       case 'hand pounding':
       case 'hand_pounding':
         compatibility = "Exceptional for ingredients where cell rupture enhances flavor release and textural complexity";
@@ -1166,7 +1166,7 @@ export default function CookingMethods() {
           "Highly acidic foods that might react with certain mortar materials"
         ];
         break;
-      
+
       case 'braising':
         compatibility = "Perfect for tough cuts and ingredients needing flavor infusion";
         idealCharacteristics = [
@@ -1181,9 +1181,9 @@ export default function CookingMethods() {
           "Items where distinct textural contrast should be maintained"
         ];
         break;
-      
+
       // Many more specific methods would be added here...
-      
+
       default:
         // Make the default case less generic by analyzing the method name
         if ((methodName ).includes('fry')) {
@@ -1212,20 +1212,20 @@ export default function CookingMethods() {
           ];
         }
     }
-    
+
     return { compatibility, idealCharacteristics, avoidCharacteristics };
   };
 
   // Add this function to generate method-specific elemental properties
   const _getMethodElementalProperties = (method: ExtendedAlchemicalItem) => {
     const methodName = ((method as Record<string, unknown>).name || '').toString().toLowerCase();
-    
+
     // If the method already has valid elemental properties, use those
-    if ((method as Record<string, unknown>).elementalProperties && 
+    if ((method as Record<string, unknown>).elementalProperties &&
         Object.values((method as Record<string, unknown>).elementalProperties || {}).some(val => Number(val) > 0)) {
       return (method as Record<string, unknown>).elementalProperties;
     }
-    
+
     // Generate method-specific elemental properties
     const properties = {
       Fire: 0,
@@ -1233,7 +1233,7 @@ export default function CookingMethods() {
       Earth: 0,
       Air: 0
     };
-    
+
     if ((methodName ).includes('solenije') || (methodName ).includes('pickle')) {
       properties.Water = 0.5;
       properties.Earth = 0.3;
@@ -1255,7 +1255,7 @@ export default function CookingMethods() {
       properties.Fire = 0.2;
       properties.Air = 0.1;
     }
-    
+
     return properties;
   };
 
@@ -1268,11 +1268,11 @@ export default function CookingMethods() {
     // If it has higher Earth/Water values, it's likely Fixed
     // If it has balanced elements, it's likely Mutable
     const elementalEffect = (method as Record<string, unknown>).elementalEffect || {};
-    
+
     const elementalData = elementalEffect as Record<string, unknown>;
     const fireAirSum = (Number(elementalData.Fire) || 0) + (Number(elementalData.Air) || 0);
     const earthWaterSum = (Number(elementalData.Earth) || 0) + (Number(elementalData.Water) || 0);
-    
+
     if (fireAirSum > earthWaterSum + 0.2) {
       return 'Cardinal';
     } else if (earthWaterSum > fireAirSum + 0.2) {
@@ -1284,7 +1284,7 @@ export default function CookingMethods() {
 
   // State for component expansion
   const [isExpanded, setIsExpanded] = useState(false);
-  
+
   // Function to toggle expansion
   const _toggleExpanded = useCallback(() => {
     setIsExpanded(prev => !prev);
@@ -1292,20 +1292,20 @@ export default function CookingMethods() {
 
   // Add a state for the debug panel
   const [showDebug, setShowDebug] = useState(false);
-  
+
   // Add this function to run our test
   const runDebugTest = useCallback(() => {
     log.info("Running cooking method recommendations test...");
     // testCookingMethodRecommendations(); // TODO: Implement or remove
   }, []);
-  
+
   // Update the fetchMethods function to use isMountedRef
   const fetchMethods = useCallback(async () => {
     try {
       setLoading(true);
-      
+
       const astroState = normalizeAstroState();
-      
+
       // Get the cooking methods with default thermodynamic properties
       const baseMethods = Object.entries(cookingMethods).map(([key, method]) => {
         return {
@@ -1316,13 +1316,13 @@ export default function CookingMethods() {
           matchReason: ''
         };
       });
-      
+
       // Process methods in parallel using Promise.all
       const methodsWithScores = await Promise.all(
         (Array.isArray(baseMethods) ? baseMethods : []).map(async (method) => {
           // Get thermodynamic properties for this method
           const thermodynamics = methodToThermodynamics(method);
-          
+
           // Include thermodynamic properties in the method data
           const methodWithThermodynamics = {
             ...method,
@@ -1331,7 +1331,7 @@ export default function CookingMethods() {
             entropy: thermodynamics.entropy,
             reactivity: thermodynamics.reactivity
           };
-          
+
           try {
             // Calculate transformed alchemical properties
             const alchemized = await alchemize(
@@ -1339,13 +1339,13 @@ export default function CookingMethods() {
               astroState,
               thermodynamics
             );
-            
+
             // Calculate match score with enhanced algorithm for better differentiation
             const baseScore = calculateMatchScore(alchemized);
-            
+
             // Add additional factors to differentiate scores
             let adjustedScore = baseScore;
-            
+
             // Add zodiac sign affinity bonus/penalty - larger bonus for better differentiation
             const astroData = astroState as Record<string, unknown>;
             const zodiacSign = astroData.currentZodiac as string;
@@ -1355,7 +1355,7 @@ export default function CookingMethods() {
             } else if (zodiacSign && Array.isArray(astroInfluences.unfavorableZodiac) && astroInfluences.unfavorableZodiac.includes(zodiacSign)) {
               adjustedScore -= 0.15; // Made penalty stronger
             }
-            
+
             // Add lunar phase adjustment with stronger effect
             if (astroData.lunarPhase) {
               const adaptedPhase = adaptLunarPhase(astroData.lunarPhase as LunarPhase);
@@ -1363,12 +1363,12 @@ export default function CookingMethods() {
               // Apply a more significant adjustment
               adjustedScore = adjustedScore * (0.8 + (lunarMultiplier * 0.4)); // More impactful adjustment
             }
-            
+
             // Apply dominant elements adjustment
             if (domElements && typeof domElements === 'object') {
               const elementEntries = Object.entries(domElements as Record<string, number>);
               if (elementEntries.length > 0) {
-                const dominantElement = elementEntries.reduce((max, current) => 
+                const dominantElement = elementEntries.reduce((max, current) =>
                   current[1] > max[1] ? current : max
                 )[0];
                 const methodData = method as Record<string, unknown>;
@@ -1378,27 +1378,27 @@ export default function CookingMethods() {
                 }
               }
             }
-            
+
             // Apply bonus for common cooking methods
             const methodName = (method.name || '').toLowerCase();
             if (commonCookingMethods.some(common => methodName.includes(common))) {
               adjustedScore *= 1.05; // 5% bonus for being a common method
             }
-            
+
             // Add random variation to break up methods that would otherwise get the same score
             // But only during initial calculation, not on re-renders
             const jitter = Math.random() * 0.05; // Small random factor - will be saved in methodScores state
             adjustedScore += jitter;
-            
+
             // Cap the score at 1.0 maximum and minimum of 0.1
             const finalScore = Math.min(1.0, Math.max(0.1, adjustedScore));
-            
+
             // Generate a reason for the match using Type Harmony bridge
             const _bridge = createAstrologicalBridge();
-            const matchReason = isValidAstrologicalState(astroState) 
+            const matchReason = isValidAstrologicalState(astroState)
               ? determineMatchReason(methodWithThermodynamics as unknown as { name: string; thermodynamics?: unknown }, astroState as unknown as Record<string, unknown>)
               : "Compatible elemental properties";
-            
+
             return {
               ...methodWithThermodynamics,
               alchemicalProperties: (alchemized as Record<string, unknown>).alchemicalProperties,
@@ -1420,33 +1420,33 @@ export default function CookingMethods() {
           }
         })
       );
-      
+
       // Sort methods by gregsEnergy score in descending order
       const sortedMethods = methodsWithScores
         .sort((a, b) => b.gregsEnergy - a.gregsEnergy);
-      
+
       // Only update state if component is still mounted
       if (isMountedRef.current) {
         setRecommendedMethods(sortedMethods as typeof recommendedMethods);
-        
+
         // Also set planetary cooking methods with safe array access
         const planetaryCookingMethodsMap: Record<string, string[]> = {};
         if (Array.isArray(planets)) {
           planets.forEach(planet => {
             const methodsForPlanet = sortedMethods
-              .filter(method => 
+              .filter(method =>
                 method.astrologicalInfluences.dominantPlanets.includes(planet)
               )
               .map(method => String((method as Record<string, unknown>).name || ''));
-            
+
             if (Array.isArray(methodsForPlanet) && methodsForPlanet.length > 0) {
               planetaryCookingMethodsMap[planet] = methodsForPlanet ;
             }
           });
         }
-        
+
         setPlanetaryCookingMethods(planetaryCookingMethodsMap);
-        
+
         // Store the initial scores in our state AFTER sorting the methods
         // Use method.id or name as a more reliable key instead of index
         const scoreMap: Record<string, number> = {};
@@ -1455,7 +1455,7 @@ export default function CookingMethods() {
           scoreMap[String(scoreKey)] = method.gregsEnergy || 0.5;
         });
         setMethodScores(scoreMap);
-        
+
         setLoading(false);
       }
     } catch (error) {
@@ -1486,7 +1486,7 @@ export default function CookingMethods() {
   // Add this at the end of the component, just before the final return
   const _renderDebugPanel = () => {
     if (process.env.NODE_ENV !== 'development') return null;
-    
+
     return (
       <div className="mt-8 p-4 border border-gray-300 rounded">
         <div className="flex justify-between items-center">
@@ -1498,7 +1498,7 @@ export default function CookingMethods() {
             {showDebug ? 'Hide' : 'Show'}
           </button>
         </div>
-        
+
         {showDebug && (
           <div className="mt-4">
             <button
@@ -1515,7 +1515,7 @@ export default function CookingMethods() {
       </div>
     );
   };
-  
+
   // Update the culture selector handler
   const _handleCultureChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const newCulture = e.target.value;
@@ -1538,35 +1538,35 @@ export default function CookingMethods() {
 
     // Add this inside the method card JSX, before the closing div
     return (
-      <div 
+      <div
         className={`${(styles as Record<string, unknown>).methodCard} ${isExpanded[method.name || ''] ? styles.expanded : ''}`}
         onClick={() => toggleMethodExpansion(method.name || '')}
       >
         {/* Existing card content */}
         {/* ... */}
-        
+
         {/* Add this new section for score details */}
         <div className={styles.scoreSection}>
           <div className={styles.scoreHeader} onClick={(e) => toggleScoreDetails(e, method.name || '')}>
             <span>Match Score: {((method.score || 0) * 100).toFixed(0)}%</span>
-            <button 
+            <button
               className={styles.scoreDetailsButton}
               aria-label="Toggle score details"
             >
               {showScoreDetails[method.name || ''] ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
             </button>
           </div>
-          
+
           {showScoreDetails[method.name || ''] && method.scoreDetails && (
             <div className={styles.scoreDetails}>
               <h4>Score Breakdown:</h4>
               <ul className={styles.scoreDetailsList}>
                 {method.scoreDetails.elemental !== undefined && (
                   <li>
-                    <span>Elemental:</span> 
+                    <span>Elemental:</span>
                     <div className={styles.scoreBar}>
-                      <div 
-                        className={styles.scoreBarFill} 
+                      <div
+                        className={styles.scoreBarFill}
                         style={{width: `${Math.min(100, (method.scoreDetails.elemental || 0) * 100)}%`}}
                       />
                     </div>
@@ -1577,8 +1577,8 @@ export default function CookingMethods() {
                   <li>
                     <span>Astrological:</span>
                     <div className={styles.scoreBar}>
-                      <div 
-                        className={styles.scoreBarFill} 
+                      <div
+                        className={styles.scoreBarFill}
                         style={{width: `${Math.min(100, (method.scoreDetails.astrological || 0) * 100)}%`}}
                       />
                     </div>
@@ -1589,8 +1589,8 @@ export default function CookingMethods() {
                   <li>
                     <span>Seasonal:</span>
                     <div className={styles.scoreBar}>
-                      <div 
-                        className={styles.scoreBarFill} 
+                      <div
+                        className={styles.scoreBarFill}
                         style={{width: `${Math.min(100, (method.scoreDetails.seasonal || 0) * 100)}%`}}
                       />
                     </div>
@@ -1601,8 +1601,8 @@ export default function CookingMethods() {
                   <li>
                     <span>Tools:</span>
                     <div className={styles.scoreBar}>
-                      <div 
-                        className={styles.scoreBarFill} 
+                      <div
+                        className={styles.scoreBarFill}
                         style={{width: `${Math.min(100, (method.scoreDetails.tools || 0) * 100)}%`}}
                       />
                     </div>
@@ -1613,8 +1613,8 @@ export default function CookingMethods() {
                   <li>
                     <span>Dietary:</span>
                     <div className={styles.scoreBar}>
-                      <div 
-                        className={styles.scoreBarFill} 
+                      <div
+                        className={styles.scoreBarFill}
                         style={{width: `${Math.min(100, (method.scoreDetails.dietary || 0) * 100)}%`}}
                       />
                     </div>
@@ -1625,8 +1625,8 @@ export default function CookingMethods() {
                   <li>
                     <span>Cultural:</span>
                     <div className={styles.scoreBar}>
-                      <div 
-                        className={styles.scoreBarFill} 
+                      <div
+                        className={styles.scoreBarFill}
                         style={{width: `${Math.min(100, (method.scoreDetails.cultural || 0) * 100)}%`}}
                       />
                     </div>
@@ -1637,8 +1637,8 @@ export default function CookingMethods() {
                   <li>
                     <span>Lunar:</span>
                     <div className={styles.scoreBar}>
-                      <div 
-                        className={styles.scoreBarFill} 
+                      <div
+                        className={styles.scoreBarFill}
                         style={{width: `${Math.min(100, (method.scoreDetails.lunar || 0) * 100)}%`}}
                       />
                     </div>
@@ -1649,8 +1649,8 @@ export default function CookingMethods() {
                   <li>
                     <span>Venus:</span>
                     <div className={styles.scoreBar}>
-                      <div 
-                        className={styles.scoreBarFill} 
+                      <div
+                        className={styles.scoreBarFill}
                         style={{width: `${Math.min(100, (method.scoreDetails.venus || 0) * 100)}%`}}
                       />
                     </div>
@@ -1661,7 +1661,7 @@ export default function CookingMethods() {
             </div>
           )}
         </div>
-        
+
         {/* Rest of card content */}
         {/* ... */}
       </div>

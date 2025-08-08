@@ -27,10 +27,10 @@ export default function AlchmKitchen() {
     const [filteredRecipes, setFilteredRecipes] = useState<Recipe[]>([]);
     const [error, setError] = useState<string | null>(null);
     const [renderCount, setRenderCount] = useState(0);
-    
+
     // Get state from AlchemicalContext
-    const { 
-        planetaryPositions, 
+    const {
+        planetaryPositions,
         state,
         isDaytime: _isDaytime
     } = useAlchemical();
@@ -54,19 +54,19 @@ export default function AlchmKitchen() {
     // Data fetching effect - depends on planetary positions
     useEffect(() => {
         if (!mounted) return; // Don't fetch until mounted
-        
+
         const fetchData = async () => {
             try {
                 setLoading(true);
                 logger.debug('Fetching tarot data for recipes', { currentSign, planetaryHour });
-                
+
                 // Get current tarot cards
                 const currentDate = new Date();
                 const cards = getTarotCardsForDate(currentDate, planetaryPositions.Sun ? {
                     sign: (planetaryPositions.Sun as any)?.sign || 'aries',
                     degree: (planetaryPositions.Sun as any)?.degree || 0
                 } : undefined);
-                
+
                 // Get recipes based on tarot cards
                 const fetchedRecipes = await getRecipesForTarotCard({
                     minorCard: {
@@ -80,10 +80,10 @@ export default function AlchmKitchen() {
                     },
                     majorCard: cards.majorCard
                 });
-                
+
                 setRecipes(fetchedRecipes);
                 setFilteredRecipes(fetchedRecipes);
-                
+
                 setLoading(false);
             } catch (err) {
                 logger.error('Error fetching recipe data', err);
@@ -111,7 +111,7 @@ export default function AlchmKitchen() {
         <div className={styles.container}>
             <h1>Alchm Kitchen</h1>
             <h2>The Menu of the Moment in the Stars and Elements</h2>
-            
+
             {loading ? (
                 <div className={styles.loading}>Loading application...</div>
             ) : (
@@ -134,7 +134,7 @@ export default function AlchmKitchen() {
                     </div>
                 </div>
             )}
-            
+
             <div className={styles.debugInfo}>
                 <h3>Debug Info</h3>
                 <div>Mounted: {mounted.toString()}</div>
@@ -155,4 +155,4 @@ export default function AlchmKitchen() {
             </div>
         </div>
     );
-} 
+}

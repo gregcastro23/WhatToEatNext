@@ -49,7 +49,7 @@ function CuisineSelectorMigrated({
   const [zodiacFilter, setZodiacFilter] = useState<string>('all');
   const [sortBy, setSortBy] = useState<string>('default');
   const [resolvedPlanetaryPositions, setResolvedPlanetaryPositions] = useState<Record<string, any>>({});
-  const [resolvedIsDaytime, setResolvedIsDaytime] = useState<boolean>(true);
+  const [_resolvedIsDaytime, setResolvedIsDaytime] = useState<boolean>(true);
   const [resolvedCurrentZodiac, setResolvedCurrentZodiac] = useState<ZodiacSign | null>(null);
   const [resolvedLunarPhase, setResolvedLunarPhase] = useState<LunarPhaseWithSpaces | null>(null);
   const [cuisineList, setCuisineList] = useState<ElementalItem[]>([]);

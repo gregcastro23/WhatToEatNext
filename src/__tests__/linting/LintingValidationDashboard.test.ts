@@ -92,7 +92,7 @@ describe('LintingValidationDashboard', () => {
 
       mockExecSync.mockReturnValue(JSON.stringify(mockLintResults));
 
-      const result = dashboard.runComprehensiveValidation();
+      const result = await dashboard.runComprehensiveValidation();
 
       expect(result).toBeDefined();
       expect(result.metrics).toBeDefined();
@@ -109,7 +109,7 @@ describe('LintingValidationDashboard', () => {
         throw new Error('ESLint execution failed');
       });
 
-      const result = dashboard.runComprehensiveValidation();
+      const result = await dashboard.runComprehensiveValidation();
       expect(result).toBeDefined();
       expect(result.metrics.totalIssues).toBe(-1); // Error state
       expect(result.metrics.qualityScore).toBe(0);
@@ -158,7 +158,7 @@ describe('LintingValidationDashboard', () => {
 
       mockExecSync.mockReturnValue(JSON.stringify(mockLintResults));
 
-      const result = dashboard.runComprehensiveValidation();
+      const result = await dashboard.runComprehensiveValidation();
 
       expect(result.metrics.domainSpecificIssues.astrologicalCalculations).toBe(1);
       expect(result.metrics.domainSpecificIssues.campaignSystem).toBe(1);
@@ -185,7 +185,7 @@ describe('LintingValidationDashboard', () => {
 
       mockExecSync.mockReturnValue(JSON.stringify(mockLintResults));
 
-      const result = dashboard.runComprehensiveValidation();
+      const result = await dashboard.runComprehensiveValidation();
       expect(result.metrics.qualityScore).toBeGreaterThan(90); // Should be high with only minor issues
     });
 
@@ -208,7 +208,7 @@ describe('LintingValidationDashboard', () => {
 
       mockExecSync.mockReturnValue(JSON.stringify(mockLintResults));
 
-      const result = dashboard.runComprehensiveValidation();
+      const result = await dashboard.runComprehensiveValidation();
       expect(result.metrics.parserErrors).toBe(1);
       expect(result.metrics.qualityScore).toBeLessThan(60); // Should be heavily penalized
     });
@@ -229,7 +229,7 @@ describe('LintingValidationDashboard', () => {
 
       mockExecSync.mockReturnValue(JSON.stringify(mockLintResults));
 
-      const result = dashboard.runComprehensiveValidation();
+      const result = await dashboard.runComprehensiveValidation();
       expect(result.metrics.explicitAnyErrors).toBe(150);
       expect(result.metrics.qualityScore).toBeLessThan(80); // Should be penalized for many explicit any
     });
@@ -255,7 +255,7 @@ describe('LintingValidationDashboard', () => {
 
       mockExecSync.mockReturnValue(JSON.stringify(mockLintResults));
 
-      const result = dashboard.runComprehensiveValidation();
+      const result = await dashboard.runComprehensiveValidation();
       const criticalAlerts = result.alerts.filter(alert => alert.severity === 'critical');
       expect(criticalAlerts.length).toBeGreaterThan(0);
       expect(criticalAlerts[0].metric).toBe('parserErrors');
@@ -277,7 +277,7 @@ describe('LintingValidationDashboard', () => {
 
       mockExecSync.mockReturnValue(JSON.stringify(mockLintResults));
 
-      const result = dashboard.runComprehensiveValidation();
+      const result = await dashboard.runComprehensiveValidation();
       const errorAlerts = result.alerts.filter(alert => alert.severity === 'error');
       expect(errorAlerts.some(alert => alert.metric === 'explicitAnyErrors')).toBe(true);
     });
@@ -293,7 +293,7 @@ describe('LintingValidationDashboard', () => {
         return JSON.stringify([]);
       });
 
-      const result = dashboard.runComprehensiveValidation();
+      const result = await dashboard.runComprehensiveValidation();
       // Performance alerts are based on actual execution time
       // This test verifies the alert generation logic exists
       expect(result.alerts).toBeDefined();
@@ -336,7 +336,7 @@ describe('LintingValidationDashboard', () => {
 
       mockExecSync.mockReturnValue(JSON.stringify(mockLintResults));
 
-      const result = dashboard.runComprehensiveValidation();
+      const result = await dashboard.runComprehensiveValidation();
 
       expect(result.regressionAnalysis.detected).toBe(true);
       expect(result.regressionAnalysis.affectedMetrics).toContain('totalIssues');
@@ -353,7 +353,7 @@ describe('LintingValidationDashboard', () => {
 
       mockExecSync.mockReturnValue(JSON.stringify([]));
 
-      const result = dashboard.runComprehensiveValidation();
+      const result = await dashboard.runComprehensiveValidation();
       expect(result.regressionAnalysis.detected).toBe(false);
       expect(result.regressionAnalysis.recommendations).toContain('Insufficient historical data for regression analysis');
     });
@@ -379,7 +379,7 @@ describe('LintingValidationDashboard', () => {
 
       mockExecSync.mockReturnValue(JSON.stringify(mockLintResults));
 
-      const result = dashboard.runComprehensiveValidation();
+      const result = await dashboard.runComprehensiveValidation();
       expect(result.recommendations.some(rec =>
         rec.includes('URGENT: Fix parser errors immediately')
       )).toBe(true);
@@ -404,7 +404,7 @@ describe('LintingValidationDashboard', () => {
 
       mockExecSync.mockReturnValue(JSON.stringify(mockLintResults));
 
-      const result = dashboard.runComprehensiveValidation();
+      const result = await dashboard.runComprehensiveValidation();
       expect(result.recommendations.some(rec =>
         rec.includes('HIGH PRIORITY: Reduce explicit any types')
       )).toBe(true);
@@ -429,7 +429,7 @@ describe('LintingValidationDashboard', () => {
 
       mockExecSync.mockReturnValue(JSON.stringify(mockLintResults));
 
-      const result = dashboard.runComprehensiveValidation();
+      const result = await dashboard.runComprehensiveValidation();
       expect(result.recommendations.some(rec =>
         rec.includes('READY: Deploy enhanced import organization')
       )).toBe(true);
@@ -454,7 +454,7 @@ describe('LintingValidationDashboard', () => {
 
       mockExecSync.mockReturnValue(JSON.stringify(mockLintResults));
 
-      const result = dashboard.runComprehensiveValidation();
+      const result = await dashboard.runComprehensiveValidation();
       expect(result.recommendations.some(rec =>
         rec.includes('DOMAIN: Review astrological calculation files')
       )).toBe(true);
@@ -468,7 +468,7 @@ describe('LintingValidationDashboard', () => {
     test('should collect performance metrics', async () => {
       mockExecSync.mockReturnValue(JSON.stringify([]));
 
-      const result = dashboard.runComprehensiveValidation();
+      const result = await dashboard.runComprehensiveValidation();
       expect(result.metrics.performanceMetrics).toBeDefined();
       expect(result.metrics.performanceMetrics.lintingDuration).toBeGreaterThan(0);
       expect(result.metrics.performanceMetrics.memoryUsage).toBeGreaterThan(0);
@@ -486,7 +486,7 @@ describe('LintingValidationDashboard', () => {
         return JSON.stringify([]);
       });
 
-      const result = dashboard.runComprehensiveValidation();
+      const result = await dashboard.runComprehensiveValidation();
       // Check if performance recommendations are generated
       // (This depends on actual execution time, so we check the structure);
       expect(result.recommendations).toBeDefined();
@@ -498,7 +498,7 @@ describe('LintingValidationDashboard', () => {
     test('should generate comprehensive dashboard report', async () => {
       mockExecSync.mockReturnValue(JSON.stringify([]));
 
-      const _result = dashboard.runComprehensiveValidation();
+      const _result = await dashboard.runComprehensiveValidation();
       // Verify that writeFileSync was called to generate the report
       expect(mockWriteFileSync).toHaveBeenCalledWith(
         expect.stringContaining('linting-dashboard-report.md'),
@@ -510,7 +510,7 @@ describe('LintingValidationDashboard', () => {
     test('should include all required sections in report', async () => {
       mockExecSync.mockReturnValue(JSON.stringify([]));
 
-      dashboard.runComprehensiveValidation();
+      await dashboard.runComprehensiveValidation();
 
       // Get the report content from the mock call
       const reportCall = (mockWriteFileSync as jest.Mock).mock.calls.find(
@@ -533,7 +533,7 @@ describe('LintingValidationDashboard', () => {
     test('should handle JSON parsing errors gracefully', async () => {
       mockExecSync.mockReturnValue('invalid json');
 
-      const result = dashboard.runComprehensiveValidation();
+      const result = await dashboard.runComprehensiveValidation();
       expect(result.metrics.totalIssues).toBe(-1); // Error state
       expect(result.passed).toBe(true); // No critical alerts in error state
     });
@@ -581,13 +581,13 @@ describe('LintingValidationDashboard', () => {
 
       mockExecSync.mockReturnValue(JSON.stringify(mockLintResults));
 
-      const result = dashboard.runComprehensiveValidation();
+      const result = await dashboard.runComprehensiveValidation();
       // Verify alerts were generated
       expect(result.alerts.length).toBeGreaterThan(0);
 
       // Test alerting system processing
       const processAlertsSpy = jest.spyOn(alerting, 'processAlerts');
-      alerting.processAlerts(result.alerts, result.metrics);
+      await alerting.processAlerts(result.alerts, result.metrics);
 
       expect(processAlertsSpy).toHaveBeenCalledWith(result.alerts, result.metrics);
     });

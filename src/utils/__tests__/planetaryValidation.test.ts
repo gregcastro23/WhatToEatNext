@@ -2,11 +2,10 @@
  * Tests for Planetary Data Validation
  */
 
-import { 
-  validatePlanetaryData, 
-  shouldRollback,
-  ValidationResult,
-  ValidationError 
+import {
+    ValidationResult,
+    shouldRollback,
+    validatePlanetaryData
 } from '../planetaryValidation';
 
 // Mock the reliable astronomy module
@@ -51,18 +50,18 @@ describe('Planetary Data Validation', () => {
         southNode: { sign: 'virgo', degree: 26.88, exactLongitude: 176.88, isRetrograde: true }
       });
 
-      const result = validatePlanetaryData();
+      const result = await validatePlanetaryData();
 
       // The main requirement is no critical or high-severity errors
       expect(result.errors.filter(e => e.severity === 'CRITICAL' || e.severity === 'HIGH')).toHaveLength(0);
       expect(result.timestamp).toBeInstanceOf(Date);
-      
+
       // Log the result for debugging
       if (!result.isValid) {
         console.log('Validation failed with errors:', result.errors);
         console.log('Warnings:', result.warnings);
       }
-      
+
       // Should be valid if no critical/high errors
       expect(result.isValid).toBe(true);
     });
@@ -75,7 +74,7 @@ describe('Planetary Data Validation', () => {
         mercury: { sign: 'aries', degree: 0.85, exactLongitude: 400, isRetrograde: true }, // Invalid longitude > 360
       });
 
-      const result = validatePlanetaryData();
+      const result = await validatePlanetaryData();
 
       expect(result.isValid).toBe(false);
       expect(result.errors.length).toBeGreaterThan(0);
@@ -87,7 +86,7 @@ describe('Planetary Data Validation', () => {
       // Mock API failure
       mockGetReliablePlanetaryPositions.mockRejectedValue(new Error('API timeout'));
 
-      const result = validatePlanetaryData();
+      const result = await validatePlanetaryData();
 
       // Should still complete validation even with API failure
       expect(result).toBeDefined();
@@ -110,7 +109,7 @@ describe('Planetary Data Validation', () => {
         southNode: { sign: 'virgo', degree: 26.88, exactLongitude: 176.88, isRetrograde: true }
       });
 
-      const result = validatePlanetaryData();
+      const result = await validatePlanetaryData();
 
       // Should pass validation with proper retrograde data
       expect(result.errors.filter(e => e.message.includes('retrograde')).length).toBe(0);
@@ -133,12 +132,12 @@ describe('Planetary Data Validation', () => {
         southNode: { sign: 'pisces', degree: 26.88, exactLongitude: 356.88, isRetrograde: true } // Same position as north node - should fail
       });
 
-      const result = validatePlanetaryData();
+      const result = await validatePlanetaryData();
 
       // Should detect that nodes are not opposite (either in errors or test failures)
-      const hasOppositeError = result.errors.some(e => 
-        e.message.includes('opposite') || 
-        e.message.includes('Lunar Node') || 
+      const hasOppositeError = result.errors.some(e =>
+        e.message.includes('opposite') ||
+        e.message.includes('Lunar Node') ||
         e.message.includes('opposition')
       );
       expect(hasOppositeError).toBe(true);
@@ -241,7 +240,7 @@ describe('Planetary Data Validation', () => {
       });
 
       const startTime = Date.now();
-      const result = validatePlanetaryData();
+      const result = await validatePlanetaryData();
       const duration = Date.now() - startTime;
 
       expect(duration).toBeLessThan(30000); // Should complete within 30 seconds
@@ -254,7 +253,7 @@ describe('Planetary Data Validation', () => {
       // Mock empty planetary positions
       mockGetReliablePlanetaryPositions.mockResolvedValue({});
 
-      const result = validatePlanetaryData();
+      const result = await validatePlanetaryData();
 
       expect(result).toBeDefined();
       expect(result.errors.length).toBeGreaterThan(0);
@@ -270,7 +269,7 @@ describe('Planetary Data Validation', () => {
         venus: { invalidStructure: true }
       });
 
-      const result = validatePlanetaryData();
+      const result = await validatePlanetaryData();
 
       expect(result).toBeDefined();
       expect(result.errors.length).toBeGreaterThan(0);

@@ -10,23 +10,31 @@ yarn lint
   267:23  error  Expected non-Promise value in a boolean conditional                                                                                                                 @typescript-eslint/no-misused-promises
 
 /Users/GregCastro/Desktop/WhatToEatNext/src/__tests__/campaign/CampaignSystemTestIntegration.test.ts
-   14:173  error  'simulateCampaignPhase' is defined but never used. Allowed unused vars must match /^(_|mock|stub|test|UNUSED_)/u                                                    @typescript-eslint/no-unused-vars
-   21:7    error  Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator  @typescript-eslint/no-floating-promises
-   68:9    error  Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator  @typescript-eslint/no-floating-promises
-   95:9    error  Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator  @typescript-eslint/no-floating-promises
-  125:9    error  Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator  @typescript-eslint/no-floating-promises
-  173:9    error  Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator  @typescript-eslint/no-floating-promises
-  202:9    error  Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator  @typescript-eslint/no-floating-promises
-  237:9    error  Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator  @typescript-eslint/no-floating-promises
-  267:9    error  Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator  @typescript-eslint/no-floating-promises
-  285:9    error  Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator  @typescript-eslint/no-floating-promises
-  300:9    error  Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator  @typescript-eslint/no-floating-promises
-  363:9    error  Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator  @typescript-eslint/no-floating-promises
-  386:7    error  Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator  @typescript-eslint/no-floating-promises
-  421:9    error  Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator  @typescript-eslint/no-floating-promises
-  441:9    error  Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator  @typescript-eslint/no-floating-promises
-  470:9    error  Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator  @typescript-eslint/no-floating-promises
-  527:9    error  Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator  @typescript-eslint/no-floating-promises
+   22:7   error  Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator  @typescript-eslint/no-floating-promises
+   69:9   error  Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator  @typescript-eslint/no-floating-promises
+   96:9   error  Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator  @typescript-eslint/no-floating-promises
+  108:25  error  Unexpected `await` of a non-Promise (non-"Thenable") value                                                                                                          @typescript-eslint/await-thenable
+  126:9   error  Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator  @typescript-eslint/no-floating-promises
+  144:11  error  Unexpected `await` of a non-Promise (non-"Thenable") value                                                                                                          @typescript-eslint/await-thenable
+  159:27  error  Unexpected `await` of a non-Promise (non-"Thenable") value                                                                                                          @typescript-eslint/await-thenable
+  164:31  error  Unexpected `await` of a non-Promise (non-"Thenable") value                                                                                                          @typescript-eslint/await-thenable
+  170:11  error  Unexpected `await` of a non-Promise (non-"Thenable") value                                                                                                          @typescript-eslint/await-thenable
+  174:9   error  Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator  @typescript-eslint/no-floating-promises
+  193:11  error  Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator  @typescript-eslint/no-floating-promises
+  203:9   error  Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator  @typescript-eslint/no-floating-promises
+  238:9   error  Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator  @typescript-eslint/no-floating-promises
+  268:9   error  Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator  @typescript-eslint/no-floating-promises
+  286:9   error  Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator  @typescript-eslint/no-floating-promises
+  301:9   error  Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator  @typescript-eslint/no-floating-promises
+  360:30  error  Unexpected `await` of a non-Promise (non-"Thenable") value                                                                                                          @typescript-eslint/await-thenable
+  364:9   error  Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator  @typescript-eslint/no-floating-promises
+  380:9   error  Unexpected `await` of a non-Promise (non-"Thenable") value                                                                                                          @typescript-eslint/await-thenable
+  387:7   error  Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator  @typescript-eslint/no-floating-promises
+  395:28  error  Unexpected `await` of a non-Promise (non-"Thenable") value                                                                                                          @typescript-eslint/await-thenable
+  422:9   error  Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator  @typescript-eslint/no-floating-promises
+  442:9   error  Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator  @typescript-eslint/no-floating-promises
+  471:9   error  Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator  @typescript-eslint/no-floating-promises
+  528:9   error  Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator  @typescript-eslint/no-floating-promises
 
 /Users/GregCastro/Desktop/WhatToEatNext/src/__tests__/e2e/MainPageWorkflows.test.tsx
   461:5  error  Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator  @typescript-eslint/no-floating-promises
@@ -184,10 +192,6 @@ yarn lint
   247:9   warning  Prefer using an optional chain expression instead, as it's more concise and easier to read  @typescript-eslint/prefer-optional-chain
   291:9   warning  Prefer using an optional chain expression instead, as it's more concise and easier to read  @typescript-eslint/prefer-optional-chain
 
-/Users/GregCastro/Desktop/WhatToEatNext/src/__tests__/linting/LintingValidationDashboard.test.ts
-  513:7  error  Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator  @typescript-eslint/no-floating-promises
-  590:7  error  Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator  @typescript-eslint/no-floating-promises
-
 /Users/GregCastro/Desktop/WhatToEatNext/src/__tests__/linting/React19NextJS15CompatibilityValidation.test.ts
   491:9  warning  Prefer using an optional chain expression instead, as it's more concise and easier to read  @typescript-eslint/prefer-optional-chain
   504:9  warning  Prefer using an optional chain expression instead, as it's more concise and easier to read  @typescript-eslint/prefer-optional-chain
@@ -266,18 +270,52 @@ See the typescript-eslint docs for more info: https://typescript-eslint.io/linti
    52:3   warning  Unused eslint-disable directive (no problems were reported from '@typescript-eslint/no-explicit-any')
    54:3   warning  Unused eslint-disable directive (no problems were reported from '@typescript-eslint/no-explicit-any')
    70:5   warning  Unused eslint-disable directive (no problems were reported from '@typescript-eslint/no-explicit-any')
-   72:39  warning  Unexpected any. Specify a different type                                                               @typescript-eslint/no-explicit-any
+   73:5   warning  Unused eslint-disable directive (no problems were reported from '@typescript-eslint/no-explicit-any')
+   75:5   warning  Unused eslint-disable directive (no problems were reported from '@typescript-eslint/no-explicit-any')
+   77:5   warning  Unused eslint-disable directive (no problems were reported from '@typescript-eslint/no-explicit-any')
+   79:5   warning  Unused eslint-disable directive (no problems were reported from '@typescript-eslint/no-explicit-any')
+   81:5   warning  Unused eslint-disable directive (no problems were reported from '@typescript-eslint/no-explicit-any')
+   83:5   warning  Unused eslint-disable directive (no problems were reported from '@typescript-eslint/no-explicit-any')
+   85:5   warning  Unused eslint-disable directive (no problems were reported from '@typescript-eslint/no-explicit-any')
+   87:5   warning  Unused eslint-disable directive (no problems were reported from '@typescript-eslint/no-explicit-any')
+   89:5   warning  Unused eslint-disable directive (no problems were reported from '@typescript-eslint/no-explicit-any')
+   91:5   warning  Unused eslint-disable directive (no problems were reported from '@typescript-eslint/no-explicit-any')
+   93:5   warning  Unused eslint-disable directive (no problems were reported from '@typescript-eslint/no-explicit-any')
    97:5   warning  Unused eslint-disable directive (no problems were reported from '@typescript-eslint/no-explicit-any')
-   99:50  warning  Unexpected any. Specify a different type                                                               @typescript-eslint/no-explicit-any
+  100:5   warning  Unused eslint-disable directive (no problems were reported from '@typescript-eslint/no-explicit-any')
+  102:5   warning  Unused eslint-disable directive (no problems were reported from '@typescript-eslint/no-explicit-any')
+  104:5   warning  Unused eslint-disable directive (no problems were reported from '@typescript-eslint/no-explicit-any')
+  106:5   warning  Unused eslint-disable directive (no problems were reported from '@typescript-eslint/no-explicit-any')
+  108:5   warning  Unused eslint-disable directive (no problems were reported from '@typescript-eslint/no-explicit-any')
+  110:5   warning  Unused eslint-disable directive (no problems were reported from '@typescript-eslint/no-explicit-any')
+  112:5   warning  Unused eslint-disable directive (no problems were reported from '@typescript-eslint/no-explicit-any')
+  114:5   warning  Unused eslint-disable directive (no problems were reported from '@typescript-eslint/no-explicit-any')
+  116:5   warning  Unused eslint-disable directive (no problems were reported from '@typescript-eslint/no-explicit-any')
+  118:5   warning  Unused eslint-disable directive (no problems were reported from '@typescript-eslint/no-explicit-any')
+  120:5   warning  Unused eslint-disable directive (no problems were reported from '@typescript-eslint/no-explicit-any')
+  122:5   warning  Unused eslint-disable directive (no problems were reported from '@typescript-eslint/no-explicit-any')
+  124:5   warning  Unused eslint-disable directive (no problems were reported from '@typescript-eslint/no-explicit-any')
+  126:5   warning  Unused eslint-disable directive (no problems were reported from '@typescript-eslint/no-explicit-any')
   130:5   warning  Unused eslint-disable directive (no problems were reported from '@typescript-eslint/no-explicit-any')
-  132:38  warning  Unexpected any. Specify a different type                                                               @typescript-eslint/no-explicit-any
+  133:5   warning  Unused eslint-disable directive (no problems were reported from '@typescript-eslint/no-explicit-any')
+  135:5   warning  Unused eslint-disable directive (no problems were reported from '@typescript-eslint/no-explicit-any')
+  137:5   warning  Unused eslint-disable directive (no problems were reported from '@typescript-eslint/no-explicit-any')
+  139:5   warning  Unused eslint-disable directive (no problems were reported from '@typescript-eslint/no-explicit-any')
+  141:5   warning  Unused eslint-disable directive (no problems were reported from '@typescript-eslint/no-explicit-any')
+  143:5   warning  Unused eslint-disable directive (no problems were reported from '@typescript-eslint/no-explicit-any')
+  145:5   warning  Unused eslint-disable directive (no problems were reported from '@typescript-eslint/no-explicit-any')
   149:5   warning  Unused eslint-disable directive (no problems were reported from '@typescript-eslint/no-explicit-any')
-  151:44  warning  Unexpected any. Specify a different type                                                               @typescript-eslint/no-explicit-any
-  176:55  warning  Unexpected any. Specify a different type                                                               @typescript-eslint/no-explicit-any
-  177:50  warning  Unexpected any. Specify a different type                                                               @typescript-eslint/no-explicit-any
-  178:51  warning  Unexpected any. Specify a different type                                                               @typescript-eslint/no-explicit-any
-  179:45  warning  Unexpected any. Specify a different type                                                               @typescript-eslint/no-explicit-any
-  180:45  warning  Unexpected any. Specify a different type                                                               @typescript-eslint/no-explicit-any
+  152:5   warning  Unused eslint-disable directive (no problems were reported from '@typescript-eslint/no-explicit-any')
+  154:5   warning  Unused eslint-disable directive (no problems were reported from '@typescript-eslint/no-explicit-any')
+  156:5   warning  Unused eslint-disable directive (no problems were reported from '@typescript-eslint/no-explicit-any')
+  158:5   warning  Unused eslint-disable directive (no problems were reported from '@typescript-eslint/no-explicit-any')
+  160:5   warning  Unused eslint-disable directive (no problems were reported from '@typescript-eslint/no-explicit-any')
+  162:5   warning  Unused eslint-disable directive (no problems were reported from '@typescript-eslint/no-explicit-any')
+  164:5   warning  Unused eslint-disable directive (no problems were reported from '@typescript-eslint/no-explicit-any')
+  166:5   warning  Unused eslint-disable directive (no problems were reported from '@typescript-eslint/no-explicit-any')
+  168:5   warning  Unused eslint-disable directive (no problems were reported from '@typescript-eslint/no-explicit-any')
+  170:5   warning  Unused eslint-disable directive (no problems were reported from '@typescript-eslint/no-explicit-any')
+  172:5   warning  Unused eslint-disable directive (no problems were reported from '@typescript-eslint/no-explicit-any')
   207:24  warning  Unexpected any. Specify a different type                                                               @typescript-eslint/no-explicit-any
   216:50  warning  Unexpected any. Specify a different type                                                               @typescript-eslint/no-explicit-any
   217:17  warning  Unexpected any. Specify a different type                                                               @typescript-eslint/no-explicit-any
@@ -655,28 +693,24 @@ See the typescript-eslint docs for more info: https://typescript-eslint.io/linti
   114:9  warning  Identifier 'UNUSED_seasonMultiplier' is not in camel case                  camelcase
 
 /Users/GregCastro/Desktop/WhatToEatNext/src/components/AlchemicalRecommendations.tsx
-   23:1   error  There should be no empty line within import group                import/order
-  433:64  error  Unexpected any. Specify a different type                         @typescript-eslint/no-explicit-any
-  536:41  error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
-  645:51  error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
-  802:14  error  Unknown property 'jsx' found                                     react/no-unknown-property
+   21:1   error  There should be no empty line within import group                import/order
+  431:64  error  Unexpected any. Specify a different type                         @typescript-eslint/no-explicit-any
+  534:41  error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+  643:51  error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+  800:14  error  Unknown property 'jsx' found                                     react/no-unknown-property
 
 /Users/GregCastro/Desktop/WhatToEatNext/src/components/AlchmKitchen.tsx
-  26:12  error  'recipes' is assigned a value but never used. Allowed unused elements of array destructuring patterns must match /^_/u  @typescript-eslint/no-unused-vars
-  35:9   error  'isDaytime' is assigned a value but never used. Allowed unused vars must match /^(_|UNUSED_)/u                          @typescript-eslint/no-unused-vars
-  66:54  error  Unexpected any. Specify a different type                                                                                @typescript-eslint/no-explicit-any
-  67:56  error  Unexpected any. Specify a different type                                                                                @typescript-eslint/no-explicit-any
+  66:54  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  67:56  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
 
 /Users/GregCastro/Desktop/WhatToEatNext/src/components/AstrologicalClock.tsx
    47:19  warning  This assertion is unnecessary since it does not change the type of the expression                                                                                                                @typescript-eslint/no-unnecessary-type-assertion
   105:70  error    React Hook "React.useMemo" is called conditionally. React Hooks must be called in the exact same order in every component render. Did you accidentally call a React Hook after an early return?  react-hooks/rules-of-hooks
 
 /Users/GregCastro/Desktop/WhatToEatNext/src/components/AstrologyChart/AstrologyChart.migrated.tsx
-   29:23  error  'setAspectsData' is assigned a value but never used. Allowed unused elements of array destructuring patterns must match /^_/u  @typescript-eslint/no-unused-vars
-   29:50  error  Unexpected any. Specify a different type                                                                                       @typescript-eslint/no-explicit-any
-   31:10  error  'isDaytime' is assigned a value but never used. Allowed unused elements of array destructuring patterns must match /^_/u       @typescript-eslint/no-unused-vars
-  122:9   error  'elementalBalance' is assigned a value but never used. Allowed unused vars must match /^(_|UNUSED_)/u                          @typescript-eslint/no-unused-vars
-  130:19  error  Unreachable code                                                                                                               no-unreachable
+   29:51  error  Unexpected any. Specify a different type                                                               @typescript-eslint/no-explicit-any
+  122:9   error  'elementalBalance' is assigned a value but never used. Allowed unused vars must match /^(_|UNUSED_)/u  @typescript-eslint/no-unused-vars
+  130:19  error  Unreachable code                                                                                       no-unreachable
 
 /Users/GregCastro/Desktop/WhatToEatNext/src/components/BridgeExampleComponent.tsx
    98:46  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
@@ -690,37 +724,29 @@ See the typescript-eslint docs for more info: https://typescript-eslint.io/linti
   226:66  error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
 
 /Users/GregCastro/Desktop/WhatToEatNext/src/components/CookingMethods.tsx
-     3:11  error    'CookingMethodData' is defined but never used. Allowed unused vars must match /^(_|UNUSED_)/u                                           @typescript-eslint/no-unused-vars
-    32:36  error    'safelyExtractElementalProperties' is defined but never used. Allowed unused vars must match /^(_|UNUSED_)/u                            @typescript-eslint/no-unused-vars
-    32:70  error    'createDefaultElementalProperties' is defined but never used. Allowed unused vars must match /^(_|UNUSED_)/u                            @typescript-eslint/no-unused-vars
-   302:10  error    'isMounted' is assigned a value but never used. Allowed unused elements of array destructuring patterns must match /^_/u                @typescript-eslint/no-unused-vars
-   398:10  error    'planetaryCookingMethods' is assigned a value but never used. Allowed unused elements of array destructuring patterns must match /^_/u  @typescript-eslint/no-unused-vars
-   399:10  error    'selectedCulture' is assigned a value but never used. Allowed unused elements of array destructuring patterns must match /^_/u          @typescript-eslint/no-unused-vars
-   400:10  error    'showAllMethods' is assigned a value but never used. Allowed unused elements of array destructuring patterns must match /^_/u           @typescript-eslint/no-unused-vars
-   401:10  error    'expandedMethods' is assigned a value but never used. Allowed unused elements of array destructuring patterns must match /^_/u          @typescript-eslint/no-unused-vars
-   402:10  error    'methodScores' is assigned a value but never used. Allowed unused elements of array destructuring patterns must match /^_/u             @typescript-eslint/no-unused-vars
-   404:10  error    'modalityFilter' is assigned a value but never used. Allowed unused elements of array destructuring patterns must match /^_/u           @typescript-eslint/no-unused-vars
-   404:26  error    'setModalityFilter' is assigned a value but never used. Allowed unused elements of array destructuring patterns must match /^_/u        @typescript-eslint/no-unused-vars
-   405:10  error    'searchIngredient' is assigned a value but never used. Allowed unused elements of array destructuring patterns must match /^_/u         @typescript-eslint/no-unused-vars
-   405:28  error    'setSearchIngredient' is assigned a value but never used. Allowed unused elements of array destructuring patterns must match /^_/u      @typescript-eslint/no-unused-vars
-   406:10  error    'ingredientCompatibility' is assigned a value but never used. Allowed unused elements of array destructuring patterns must match /^_/u  @typescript-eslint/no-unused-vars
-   410:11  error    'tarotCard' is assigned a value but never used. Allowed unused vars must match /^(_|UNUSED_)/u                                          @typescript-eslint/no-unused-vars
-   410:22  error    'tarotElementalInfluences' is assigned a value but never used. Allowed unused vars must match /^(_|UNUSED_)/u                           @typescript-eslint/no-unused-vars
-   586:33  error    'method' is defined but never used. Allowed unused args must match /^_/u                                                                @typescript-eslint/no-unused-vars
-   592:35  error    'method' is defined but never used. Allowed unused args must match /^_/u                                                                @typescript-eslint/no-unused-vars
-   604:11  error    'description' is assigned a value but never used. Allowed unused vars must match /^(_|UNUSED_)/u                                        @typescript-eslint/no-unused-vars
-  1262:29  error    'getMethodTips' is assigned a value but never used. Allowed unused vars must match /^(_|UNUSED_)/u                                      @typescript-eslint/no-unused-vars
-  1361:58  warning  This assertion is unnecessary since it does not change the type of the expression                                                       @typescript-eslint/no-unnecessary-type-assertion
+   401:10  error    'showAllMethods' is assigned a value but never used. Allowed unused elements of array destructuring patterns must match /^_/u           @typescript-eslint/no-unused-vars
+   402:10  error    'expandedMethods' is assigned a value but never used. Allowed unused elements of array destructuring patterns must match /^_/u          @typescript-eslint/no-unused-vars
+   403:10  error    'methodScores' is assigned a value but never used. Allowed unused elements of array destructuring patterns must match /^_/u             @typescript-eslint/no-unused-vars
+   405:10  error    'modalityFilter' is assigned a value but never used. Allowed unused elements of array destructuring patterns must match /^_/u           @typescript-eslint/no-unused-vars
+   405:26  error    'setModalityFilter' is assigned a value but never used. Allowed unused elements of array destructuring patterns must match /^_/u        @typescript-eslint/no-unused-vars
+   406:10  error    'searchIngredient' is assigned a value but never used. Allowed unused elements of array destructuring patterns must match /^_/u         @typescript-eslint/no-unused-vars
+   406:28  error    'setSearchIngredient' is assigned a value but never used. Allowed unused elements of array destructuring patterns must match /^_/u      @typescript-eslint/no-unused-vars
+   407:10  error    'ingredientCompatibility' is assigned a value but never used. Allowed unused elements of array destructuring patterns must match /^_/u  @typescript-eslint/no-unused-vars
+   411:11  error    'tarotCard' is assigned a value but never used. Allowed unused vars must match /^(_|UNUSED_)/u                                          @typescript-eslint/no-unused-vars
+   411:22  error    'tarotElementalInfluences' is assigned a value but never used. Allowed unused vars must match /^(_|UNUSED_)/u                           @typescript-eslint/no-unused-vars
+   587:33  error    'method' is defined but never used. Allowed unused args must match /^_/u                                                                @typescript-eslint/no-unused-vars
+   593:35  error    'method' is defined but never used. Allowed unused args must match /^_/u                                                                @typescript-eslint/no-unused-vars
+   605:11  error    'description' is assigned a value but never used. Allowed unused vars must match /^(_|UNUSED_)/u                                        @typescript-eslint/no-unused-vars
+  1263:29  error    'getMethodTips' is assigned a value but never used. Allowed unused vars must match /^(_|UNUSED_)/u                                      @typescript-eslint/no-unused-vars
+  1362:58  warning  This assertion is unnecessary since it does not change the type of the expression                                                       @typescript-eslint/no-unnecessary-type-assertion
 
 /Users/GregCastro/Desktop/WhatToEatNext/src/components/CookingMethodsSection.migrated.tsx
-    3:124  error    'Info' is defined but never used. Allowed unused vars must match /^(_|UNUSED_)/u                @typescript-eslint/no-unused-vars
-    7:10   error    'Element' is defined but never used. Allowed unused vars must match /^(_|UNUSED_)/u             @typescript-eslint/no-unused-vars
-  127:13   warning  Prefer using an optional chain expression instead, as it's more concise and easier to read      @typescript-eslint/prefer-optional-chain
-  150:30   error    Unexpected `await` of a non-Promise (non-"Thenable") value                                      @typescript-eslint/await-thenable
-  410:25   error    Promise-returning function provided to attribute where a void return was expected               @typescript-eslint/no-misused-promises
-  434:32   warning  Prefer using an optional chain expression instead, as it's more concise and easier to read      @typescript-eslint/prefer-optional-chain
-  482:44   error    'intensity' is assigned a value but never used. Allowed unused vars must match /^(_|UNUSED_)/u  @typescript-eslint/no-unused-vars
-  561:29   warning  Prefer using an optional chain expression instead, as it's more concise and easier to read      @typescript-eslint/prefer-optional-chain
+  127:13  warning  Prefer using an optional chain expression instead, as it's more concise and easier to read      @typescript-eslint/prefer-optional-chain
+  150:30  error    Unexpected `await` of a non-Promise (non-"Thenable") value                                      @typescript-eslint/await-thenable
+  410:25  error    Promise-returning function provided to attribute where a void return was expected               @typescript-eslint/no-misused-promises
+  434:32  warning  Prefer using an optional chain expression instead, as it's more concise and easier to read      @typescript-eslint/prefer-optional-chain
+  482:44  error    'intensity' is assigned a value but never used. Allowed unused vars must match /^(_|UNUSED_)/u  @typescript-eslint/no-unused-vars
+  561:29  warning  Prefer using an optional chain expression instead, as it's more concise and easier to read      @typescript-eslint/prefer-optional-chain
 
 /Users/GregCastro/Desktop/WhatToEatNext/src/components/CookingMethodsSection.tsx
   110:52   error    Unexpected any. Specify a different type                                                                       @typescript-eslint/no-explicit-any
@@ -5876,24 +5902,22 @@ See the typescript-eslint docs for more info: https://typescript-eslint.io/linti
   341:21  warning  Unexpected any. Specify a different type                                                                                                                            @typescript-eslint/no-explicit-any
 
 /Users/GregCastro/Desktop/WhatToEatNext/src/utils/__tests__/ingredientValidation.test.ts
-    5:1   error    There should be no empty line within import group                                                                     import/order
-    9:3   error    'IngredientValidationError' is defined but never used. Allowed unused vars must match /^(_|mock|stub|test|UNUSED_)/u  @typescript-eslint/no-unused-vars
-   67:1   error    `../elementalUtils` import should occur before import of `../ingredientValidation`                                    import/order
-   71:40  warning  Arrow function has too many lines (308). Maximum allowed is 80                                                        max-lines-per-function
-  156:41  warning  Arrow function has too many lines (101). Maximum allowed is 80                                                        max-lines-per-function
+    5:1   error    There should be no empty line within import group                                   import/order
+   66:1   error    `../elementalUtils` import should occur before import of `../ingredientValidation`  import/order
+   70:40  warning  Arrow function has too many lines (308). Maximum allowed is 80                      max-lines-per-function
+  155:41  warning  Arrow function has too many lines (101). Maximum allowed is 80                      max-lines-per-function
 
 /Users/GregCastro/Desktop/WhatToEatNext/src/utils/__tests__/naturalLanguageProcessor.test.ts
     7:38  warning  Arrow function has too many lines (293). Maximum allowed is 80  max-lines-per-function
   122:28  warning  Arrow function has too many lines (177). Maximum allowed is 80  max-lines-per-function
 
 /Users/GregCastro/Desktop/WhatToEatNext/src/utils/__tests__/planetaryValidation.test.ts
-    5:1   error    There should be no empty line within import group                                                           import/order
-    9:3   error    'ValidationError' is defined but never used. Allowed unused vars must match /^(_|mock|stub|test|UNUSED_)/u  @typescript-eslint/no-unused-vars
-   31:39  warning  Arrow function has too many lines (249). Maximum allowed is 80                                              max-lines-per-function
-   36:37  warning  Arrow function has too many lines (111). Maximum allowed is 80                                              max-lines-per-function
-   62:9   warning  Unexpected console statement                                                                                no-console
-   63:9   warning  Unexpected console statement                                                                                no-console
-  148:30  warning  Arrow function has too many lines (87). Maximum allowed is 80                                               max-lines-per-function
+    5:1   error    There should be no empty line within import group               import/order
+   30:39  warning  Arrow function has too many lines (249). Maximum allowed is 80  max-lines-per-function
+   35:37  warning  Arrow function has too many lines (111). Maximum allowed is 80  max-lines-per-function
+   61:9   warning  Unexpected console statement                                    no-console
+   62:9   warning  Unexpected console statement                                    no-console
+  147:30  warning  Arrow function has too many lines (87). Maximum allowed is 80   max-lines-per-function
 
 /Users/GregCastro/Desktop/WhatToEatNext/src/utils/__tests__/typescriptCampaignTrigger.test.ts
    29:1   error    `child_process` import should occur before import of `../typescriptCampaignTrigger`                    import/order
@@ -6610,7 +6634,7 @@ See the typescript-eslint docs for more info: https://typescript-eslint.io/linti
    74:8   warning  Function 'getZodiacSign' has a complexity of 45. Maximum allowed is 15      complexity
   252:8   warning  Function 'getZodiacFromDate' has a complexity of 45. Maximum allowed is 15  complexity
 
-✖ 5129 problems (2181 errors, 2948 warnings)
-  37 errors and 168 warnings potentially fixable with the `--fix` option.
+✖ 5155 problems (2173 errors, 2982 warnings)
+  37 errors and 211 warnings potentially fixable with the `--fix` option.
 
 make: *** [lint] Error 1

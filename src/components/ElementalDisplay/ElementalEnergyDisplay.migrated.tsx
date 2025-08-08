@@ -16,7 +16,7 @@ interface ElementalEnergyDisplayProps {
 const ElementalEnergyDisplayMigrated: React.FC<ElementalEnergyDisplayProps> = ({ showDebug = false }) => {
   const [renderCount, setRenderCount] = useState(0);
   const [energies, setEnergies] = useState<ElementalEnergy[]>([]);
-  const [lastPositions, setLastPositions] = useState({});
+  const [lastPositions, setLastPositions] = useState<Record<string, unknown>>({});
   
   // Use the useServices hook instead of the AlchemicalContext
   const {

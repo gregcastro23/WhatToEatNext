@@ -1,13 +1,12 @@
-import React, { useState, useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 // Type Harmony imports
 
 import { ElementalItem } from '@/calculations/alchemicalTransformation';
-import { ElementalCharacter, AlchemicalProperty } from '@/constants/planetaryElements';
+import { AlchemicalProperty, ElementalCharacter } from '@/constants/planetaryElements';
 import { RulingPlanet } from '@/constants/planets';
 import {
-  BalancedElementalProperties,
-  DefaultAlchemicalProperties as _DefaultAlchemicalProperties,
-  createSafeElementalProperties
+    BalancedElementalProperties,
+    createSafeElementalProperties
 } from '@/constants/typeDefaults';
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 import { cookingMethods } from '@/data/cooking/cookingMethods';
@@ -16,25 +15,24 @@ import allIngredients from '@/data/ingredients';
 import type { Modality } from '@/data/ingredients/types';
 import { useAlchemicalRecommendations } from '@/hooks/useAlchemicalRecommendations';
 import type {
-  AlchemicalServiceResponse as _AlchemicalServiceResponse,
-  AlchemicalRecommendations,
-  ElementalRecommendation
+    AlchemicalRecommendations,
+    ElementalRecommendation
 } from '@/services/AlchemicalService';
-import { LunarPhaseWithSpaces as _LunarPhaseWithSpaces, ZodiacSign as _ZodiacSign, PlanetaryAspect } from '@/types/alchemy';
+import { PlanetaryAspect } from '@/types/alchemy';
 
 // Import the correct data sources
 
 // Add import for modality type and utils
 import type {
-  ElementalPropertiesType,
-  AlchemicalPropertiesType,
-  ZodiacSignType,
-  LunarPhaseType,
-  PlanetaryPositionsType
+    AlchemicalPropertiesType,
+    ElementalPropertiesType,
+    LunarPhaseType,
+    PlanetaryPositionsType,
+    ZodiacSignType
 } from '@/types/alchemy';
 import { createAstrologicalBridge } from '@/types/bridges/astrologicalBridge';
 import { determineIngredientModality } from '@/utils/ingredientUtils';
-import { safelyExtractElementalProperties, createDefaultElementalProperties as _createDefaultElementalProperties } from '@/utils/typeGuards/astrologicalGuards';
+import { safelyExtractElementalProperties } from '@/utils/typeGuards/astrologicalGuards';
 
 // ========== PHASE 4: UPDATED IMPORTS TO USE TYPE ALIASES ==========
 
@@ -68,7 +66,7 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
 }) => {
   // Use AlchemicalContext to get current astronomical state if not provided
   const alchemicalContext = useAlchemical();
-  
+
   // Use context values as fallbacks if props aren't provided
   const resolvedPlanetaryPositions = useMemo(() => {
     // Convert planetary positions to the format expected by the hook: Record<RulingPlanet, number>
@@ -86,9 +84,9 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
         Neptune: 330,  // Pisces 0°
         Pluto: 210     // Scorpio 0°
       };
-      
+
       if (!positions) return defaultPositions;
-      
+
       // Convert zodiac signs to approximate degrees
       const zodiacToDegrees = (sign: string): number => {
         const signMapping: Record<string, number> = {
@@ -98,9 +96,9 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
         };
         return signMapping[sign.toLowerCase()] || 0;
       };
-      
+
       const result: Record<RulingPlanet, number> = { ...defaultPositions };
-      
+
       // Convert each position
       Object.entries(positions).forEach(([planet, value]) => {
         if (planet in result) {
@@ -116,49 +114,49 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
           }
         }
       });
-      
+
       return result;
     };
-    
+
     if (planetPositions) {
       return convertToHookFormat(planetPositions);
     }
-    
+
     // Convert from context planetary positions
     if (alchemicalContext.planetaryPositions) {
       return convertToHookFormat(alchemicalContext.planetaryPositions);
     }
-    
+
     // Return default positions
     return convertToHookFormat(null);
   }, [planetPositions, alchemicalContext.planetaryPositions]);
-  
+
   const resolvedIsDaytime = isDaytime !== undefined ? isDaytime : alchemicalContext.isDaytime;
-  const resolvedCurrentZodiac: ZodiacSignType | null = currentZodiac || 
+  const resolvedCurrentZodiac: ZodiacSignType | null = currentZodiac ||
     (alchemicalContext.state.astrologicalState.zodiacSign as ZodiacSignType) || null;
-  
+
   // Fix the lunar phase type resolution
-  const resolvedLunarPhase: LunarPhaseType = lunarPhase || 
-    (alchemicalContext.state.astrologicalState.lunarPhase as LunarPhaseType) || 
+  const resolvedLunarPhase: LunarPhaseType = lunarPhase ||
+    (alchemicalContext.state.astrologicalState.lunarPhase as LunarPhaseType) ||
     'new moon';
-  
+
   // State for targeting specific elements or properties using type aliases
   const [targetElement, setTargetElement] = useState<ElementalCharacter | undefined>(undefined);
   const [targetProperty, setTargetProperty] = useState<AlchemicalProperty | undefined>(undefined);
   const [modalityFilter, setModalityFilter] = useState<Modality | 'all'>('all');
-  
+
   // State for displaying recommendations using standardized types
   const [_recommendations, _setRecommendations] = useState<AlchemicalRecommendations | null>(null);
   const [elementalRecommendation, setElementalRecommendation] = useState<ElementalRecommendation | null>(null);
   const [_isLoading, _setIsLoading] = useState(false);
   const [_error, _setError] = useState<string | null>(null);
-  
+
   // Convert ingredients object to an array of ElementalItem objects using safe type creation
   const ingredientsArray = useMemo(() => {
     return Object.entries(allIngredients).map(([key, ingredient]) => {
       // Get ingredient elemental properties or calculate them
       let elementalProps: ElementalPropertiesType;
-      
+
       // Use Type Harmony approach for safe property extraction
       const extractedProps = safelyExtractElementalProperties(ingredient);
       if (extractedProps) {
@@ -167,14 +165,14 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
         // Calculate based on ingredient category and attributes
         const category = (ingredient as Record<string, unknown>).category || '';
         const astrologicalProfile = (ingredient as Record<string, unknown>).astrologicalProfile;
-        const rulingPlanets = (astrologicalProfile && typeof astrologicalProfile === 'object' && 
-          Array.isArray((astrologicalProfile as Record<string, unknown>).rulingPlanets)) 
-          ? (astrologicalProfile as Record<string, unknown>).rulingPlanets as string[] 
+        const rulingPlanets = (astrologicalProfile && typeof astrologicalProfile === 'object' &&
+          Array.isArray((astrologicalProfile as Record<string, unknown>).rulingPlanets))
+          ? (astrologicalProfile as Record<string, unknown>).rulingPlanets as string[]
           : [];
-        
+
         // Start with balanced properties
         const tempProps = { ...BalancedElementalProperties };
-        
+
         // Adjust by category
         const categoryStr = typeof category === 'string' ? category : '';
         if (categoryStr.toLowerCase().includes('vegetable')) {
@@ -193,7 +191,7 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
           tempProps.Fire += 0.3;
           tempProps.Air += 0.4;
         }
-        
+
         // Adjust by ruling planets
         rulingPlanets.forEach((planet: unknown) => {
           const planetStr = typeof planet === 'string' ? planet : '';
@@ -223,17 +221,17 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
               break;
           }
         });
-        
+
         // Use safe creation to normalize values
         elementalProps = createSafeElementalProperties(tempProps);
       }
-      
+
       // Use Type Harmony approach for safe object creation
       const bridge = createAstrologicalBridge();
       const ingredientName = bridge.safeAccess<string>(ingredient, 'name') || key;
       const qualities = bridge.safeAccess<string[]>(ingredient, 'qualities') || [];
       const modality = bridge.safeAccess(ingredient, 'modality') || 'cardinal';
-      
+
       return {
         id: key,
         name: ingredientName,
@@ -246,7 +244,7 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
       } as ElementalItem;
     });
   }, []);
-  
+
   // Convert cooking methods to ElementalItem array
   const cookingMethodsArray = useMemo(() => {
     return Object.entries(cookingMethods).map(([key, method]) => {
@@ -257,9 +255,9 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
       } else {
         // Calculate based on cooking method characteristics
         elementalEffect = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
-        
+
         const methodName = (method.name || key).toLowerCase();
-        
+
         // Adjust by cooking method type
         if (methodName.includes('grill') || methodName.includes('roast') || methodName.includes('bake') ||
             methodName.includes('broil') || methodName.includes('fry')) {
@@ -288,7 +286,7 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
           elementalEffect.Water += 0.2;
           elementalEffect.Air += 0.2;
         }
-        
+
         // Normalize values
         // Pattern KK-8: Advanced calculation safety for reduction and division operations
         const total = Object.values(elementalEffect).reduce((sum, val) => {
@@ -304,7 +302,7 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
           }
         }
       }
-      
+
       return {
         id: key,
         name: (method as Record<string, unknown>).name || key,
@@ -312,7 +310,7 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
       } as ElementalItem;
     });
   }, []);
-  
+
   // Convert cuisines to ElementalItem array
   const cuisinesArray = useMemo(() => {
     return Object.entries(cuisines).map(([key, cuisine]) => {
@@ -323,12 +321,12 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
       } else {
         // Calculate based on cuisine characteristics
         elementalState = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
-        
+
         const cuisineName = ((cuisine as Record<string, unknown>).name || key).toString().toLowerCase();
         const _region = ((cuisine as Record<string, unknown>).region || '').toString().toLowerCase();
-        
+
         // Adjust by cuisine type/region
-        if (cuisineName.includes('indian') || cuisineName.includes('thai') || 
+        if (cuisineName.includes('indian') || cuisineName.includes('thai') ||
             cuisineName.includes('mexican') || cuisineName.includes('cajun')) {
           // Spicy cuisines tend to have more Fire
           elementalState.Fire += 0.5;
@@ -361,7 +359,7 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
           elementalState.Fire += 0.2;
           elementalState.Air += 0.2;
         }
-        
+
         // Normalize values
         // Pattern KK-8: Advanced calculation safety for reduction and division operations
         const total = Object.values(elementalState).reduce((sum, val) => {
@@ -377,7 +375,7 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
           }
         }
       }
-      
+
       return {
         id: key,
         name: (cuisine as Record<string, unknown>).name || key,
@@ -385,20 +383,20 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
       } as ElementalItem;
     });
   }, []);
-  
+
   // Filter ingredients array by modality
   const filteredIngredientsArray = useMemo(() => {
     if (modalityFilter === 'all') return ingredientsArray;
-    
+
     return ingredientsArray.filter(ingredient => {
       const elementalProps = ingredient.elementalProperties;
       const qualities = ingredient.qualities || [];
-      const modality = ingredient.modality || 
+      const modality = ingredient.modality ||
         determineIngredientModality(qualities as string[], elementalProps);
       return modality === modalityFilter;
     });
   }, [ingredientsArray, modalityFilter]);
-  
+
   // Get recommendations using our hook
   const {
     recommendations: alchemicalRecommendations,
@@ -423,7 +421,7 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
     tarotPlanetaryBoosts,
     aspects
   });
-  
+
   // Generate elemental recommendation based on current astrological state
   React.useEffect(() => {
     if (alchemicalRecommendations && energeticProfile) {
@@ -433,20 +431,20 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
         const elementalBalance = (alchemicalRecommendations as any).elementalBalance || {
           Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
         };
-        
+
         // Calculate harmony score based on elemental balance
         const harmony = Object.values(elementalBalance).reduce((acc: number, val: unknown) => acc + ((val as number) * (val as number)), 0);
         const harmonyScore = Math.max(0, Math.min(1, 1 - (Math.abs(Number(harmony) - 0.25) * 2)));
-        
+
         // Generate cooking techniques based on dominant element
-        const cookingTechniques = dominantElement === 'Fire' 
+        const cookingTechniques = dominantElement === 'Fire'
           ? ['grilling', 'roasting', 'searing', 'flambéing']
           : dominantElement === 'Water'
           ? ['steaming', 'boiling', 'poaching', 'sous vide']
-          : dominantElement === 'Earth' 
+          : dominantElement === 'Earth'
           ? ['braising', 'slow cooking', 'stewing', 'baking']
           : ['smoking', 'dehydrating', 'whipping', 'fermentation'];
-        
+
         // Generate complementary ingredients
         const complementaryIngredients = dominantElement === 'Fire'
           ? ['peppers', 'ginger', 'cinnamon', 'garlic']
@@ -455,7 +453,7 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
           : dominantElement === 'Earth'
           ? ['root vegetables', 'grains', 'mushrooms', 'potatoes']
           : ['herbs', 'leafy greens', 'citrus', 'seeds'];
-        
+
         // Generate flavor profiles
         const flavorProfiles = dominantElement === 'Fire'
           ? ['spicy', 'pungent', 'warming', 'stimulating']
@@ -464,7 +462,7 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
           : dominantElement === 'Earth'
           ? ['grounding', 'nourishing', 'stabilizing', 'satisfying']
           : ['light', 'uplifting', 'clarifying', 'energizing'];
-        
+
         return {
           dominantElement: dominantElement,
           elementalProfile: elementalBalance,
@@ -473,7 +471,7 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
           flavorProfiles,
           healthBenefits: [`Supports ${dominantElement.toLowerCase()} constitution`, 'Promotes elemental balance'],
           timeOfDay: resolvedIsDaytime ? ['morning', 'midday'] : ['evening', 'night'],
-          seasonalBest: dominantElement === 'Fire' ? ['summer'] : dominantElement === 'Water' ? ['spring'] : 
+          seasonalBest: dominantElement === 'Fire' ? ['summer'] : dominantElement === 'Water' ? ['spring'] :
                        dominantElement === 'Earth' ? ['autumn'] : ['winter'],
           moodEffects: [`Enhances ${dominantElement.toLowerCase()} qualities`, 'Balances energy'],
           culinaryHerbs: dominantElement === 'Fire' ? ['basil', 'rosemary'] : dominantElement === 'Water' ? ['mint', 'parsley'] :
@@ -481,18 +479,18 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
           compatibility: harmonyScore
         };
       };
-      
+
       setElementalRecommendation(generateElementalRecommendation());
     }
   }, [alchemicalRecommendations, energeticProfile, resolvedIsDaytime, resolvedLunarPhase]);
-  
+
   if (loading) return <div>Loading alchemical recommendations...</div>;
   if (alchemicalError) return <div>Error: {alchemicalError.message}</div>;
-  
+
   return (
     <div className="alchemical-recommendations">
       <h2>Alchemical Recommendations</h2>
-      
+
       <div className="alchemical-stats">
         <h3>Dominant Influences</h3>
         <div className="stat-grid">
@@ -517,7 +515,7 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
             </div>
           )}
         </div>
-        
+
         <h3>Energetic Profile</h3>
         <div className="stat-grid">
           <div className="stat">
@@ -537,7 +535,7 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
             <span className="value">{alchemicalRecommendations.gregsEnergy.toFixed(2)}</span>
           </div>
         </div>
-        
+
         {/* New section to display the energetic profile details */}
         {energeticProfile && (
           <div className="elemental-balance">
@@ -547,8 +545,8 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
                 <div key={element} className="balance-bar">
                   <span className="element-label">{element}</span>
                   <div className="bar-container">
-                    <div 
-                      className={`bar-fill ${element.toLowerCase()}`} 
+                    <div
+                      className={`bar-fill ${element.toLowerCase()}`}
                       style={{ width: `${Math.min(100, value * 100)}%` }}
                     />
                   </div>
@@ -556,15 +554,15 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
                 </div>
               ))}
             </div>
-            
+
             <h3>Alchemical Properties</h3>
             <div className="balance-bars">
               {Object.entries(energeticProfile.alchemicalProperties).map(([property, value]) => (
                 <div key={property} className="balance-bar">
                   <span className="property-label">{property}</span>
                   <div className="bar-container">
-                    <div 
-                      className={`bar-fill ${property.toLowerCase()}`} 
+                    <div
+                      className={`bar-fill ${property.toLowerCase()}`}
                       style={{ width: `${Math.min(100, value * 100)}%` }}
                     />
                   </div>
@@ -575,14 +573,14 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
           </div>
         )}
       </div>
-      
+
       <div className="recommendations-filters">
         <h3>Filter Recommendations</h3>
         <div className="filter-controls">
           <div className="filter-group">
             <label>Element:</label>
-            <select 
-              value={targetElement || ''} 
+            <select
+              value={targetElement || ''}
               onChange={(e) => setTargetElement(e.target.value as ElementalCharacter || undefined)}
             >
               <option value="">Any Element</option>
@@ -592,11 +590,11 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
               <option value="Earth">Earth</option>
             </select>
           </div>
-          
+
           <div className="filter-group">
             <label>Alchemical Property:</label>
-            <select 
-              value={targetProperty || ''} 
+            <select
+              value={targetProperty || ''}
               onChange={(e) => setTargetProperty(e.target.value as AlchemicalProperty || undefined)}
             >
               <option value="">Any Property</option>
@@ -606,11 +604,11 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
               <option value="Substance">Substance</option>
             </select>
           </div>
-          
+
           <div className="filter-group">
             <label htmlFor="modality-filter">Quality:</label>
-            <select 
-              id="modality-filter" 
+            <select
+              id="modality-filter"
               value={modalityFilter}
               onChange={(e) => setModalityFilter(e.target.value as Modality | 'all')}
             >
@@ -622,7 +620,7 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
           </div>
         </div>
       </div>
-      
+
       <div className="recommendation-sections">
         {/* Recommended Ingredients */}
         <div className="recommendation-section">
@@ -662,7 +660,7 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
             <p>No ingredient recommendations available.</p>
           )}
         </div>
-        
+
         {/* Recommended Cooking Methods */}
         <div className="recommendation-section">
           <h3>Recommended Cooking Methods</h3>
@@ -697,7 +695,7 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
             <p>No cooking method recommendations available.</p>
           )}
         </div>
-        
+
         {/* Recommended Cuisines */}
         <div className="recommendation-section">
           <h3>Recommended Cuisines</h3>
@@ -732,7 +730,7 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
             <p>No cuisine recommendations available.</p>
           )}
         </div>
-        
+
         {/* Elemental Harmony Recommendations */}
         {elementalRecommendation && (
           <div className="recommendation-section elemental-section">
@@ -746,7 +744,7 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
                   </span>
                 </p>
               </div>
-              
+
               <div className="techniques-section">
                 <h4>🍳 Recommended Cooking Techniques</h4>
                 <div className="technique-list">
@@ -755,7 +753,7 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
                   ))}
                 </div>
               </div>
-              
+
               <div className="ingredients-section">
                 <h4>🌿 Complementary Ingredients</h4>
                 <div className="ingredient-list">
@@ -764,7 +762,7 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
                   ))}
                 </div>
               </div>
-              
+
               <div className="flavor-section">
                 <h4>👅 Flavor Profile</h4>
                 <div className="flavor-list">
@@ -773,7 +771,7 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
                   ))}
                 </div>
               </div>
-              
+
               <div className="timing-section">
                 <h4>⏰ Optimal Timing</h4>
                 <div className="timing-grid">
@@ -785,7 +783,7 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
                   </div>
                 </div>
               </div>
-              
+
               <div className="herbs-section">
                 <h4>🌿 Culinary Herbs</h4>
                 <div className="herbs-list">
@@ -798,102 +796,102 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
           </div>
         )}
       </div>
-      
+
       <style jsx>{`
         .alchemical-recommendations {
           padding: 1rem;
           max-width: 1200px;
           margin: 0 auto;
         }
-        
+
         .stat-grid {
           display: grid;
           grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
           gap: 1rem;
           margin-bottom: 2rem;
         }
-        
+
         .stat {
           background-color: #f5f5f5;
           padding: 1rem;
           border-radius: 6px;
           box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
-        
+
         .label {
           font-weight: 600;
           display: block;
           margin-bottom: 0.5rem;
           color: #555;
         }
-        
+
         .value {
           font-size: 1.2rem;
           color: #222;
         }
-        
+
         .filter-controls {
           display: flex;
           gap: 1rem;
           margin-bottom: 2rem;
         }
-        
+
         .filter-group {
           display: flex;
           flex-direction: column;
         }
-        
+
         .filter-group select {
           padding: 0.5rem;
           border-radius: 4px;
           border: 1px solid #ccc;
           min-width: 150px;
         }
-        
+
         .recommendation-sections {
           display: grid;
           grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
           gap: 2rem;
         }
-        
+
         .recommendation-section {
           background-color: #fff;
           border-radius: 8px;
           box-shadow: 0 4px 8px rgba(0,0,0,0.1);
           padding: 1.5rem;
         }
-        
+
         .recommendation-list {
           list-style: none;
           padding: 0;
           margin: 0;
         }
-        
+
         .recommendation-item {
           border-bottom: 1px solid #eee;
           padding: 1rem 0;
         }
-        
+
         .recommendation-item:last-child {
           border-bottom: none;
         }
-        
+
         .item-details {
           display: grid;
           grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
           gap: 0.5rem;
           margin-top: 0.5rem;
         }
-        
+
         .detail {
           font-size: 0.9rem;
         }
-        
+
         .item-modality {
           margin-top: 0.5rem;
           text-align: right;
         }
-        
+
         .modality-badge {
           padding: 0.2rem 0.5rem;
           border-radius: 4px;
@@ -901,7 +899,7 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
           color: #555;
           font-size: 0.8rem;
         }
-        
+
         /* Elemental Recommendation Styles */
         .elemental-section {
           background: linear-gradient(135deg, #f8f9fa, #e9ecef);
@@ -909,40 +907,40 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
           border-radius: 12px;
           margin-top: 2rem;
         }
-        
+
         .elemental-recommendation {
           display: grid;
           gap: 1.5rem;
           padding: 1rem;
         }
-        
+
         .elemental-summary {
           background-color: white;
           padding: 1.5rem;
           border-radius: 8px;
           box-shadow: 0 2px 8px rgba(0,0,0,0.1);
         }
-        
+
         .harmony-score .score.high {
           color: #28a745;
           font-weight: bold;
         }
-        
+
         .harmony-score .score.medium {
           color: #ffc107;
           font-weight: bold;
         }
-        
+
         .harmony-score .score.low {
           color: #dc3545;
           font-weight: bold;
         }
-        
+
         .balance-suggestions {
           display: grid;
           gap: 0.75rem;
         }
-        
+
         .balance-suggestion {
           display: grid;
           grid-template-columns: auto 1fr auto;
@@ -953,7 +951,7 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
           border-radius: 6px;
           box-shadow: 0 1px 4px rgba(0,0,0,0.1);
         }
-        
+
         .element-badge {
           padding: 0.25rem 0.75rem;
           border-radius: 20px;
@@ -961,45 +959,45 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
           font-weight: bold;
           color: white;
         }
-        
+
         .element-badge.fire {
           background-color: #dc3545;
         }
-        
+
         .element-badge.water {
           background-color: #007bff;
         }
-        
+
         .element-badge.earth {
           background-color: #28a745;
         }
-        
+
         .element-badge.air {
           background-color: #6c757d;
         }
-        
+
         .suggestion-text {
           font-size: 0.9rem;
           color: #495057;
         }
-        
+
         .adjustment-indicator {
           font-weight: bold;
           font-size: 0.9rem;
           color: #6c757d;
         }
-        
+
         .optimal-timing {
           background-color: #fff3cd;
           border: 1px solid #ffeaa7;
           border-radius: 8px;
           padding: 1.5rem;
         }
-        
+
         .timing-details p {
           margin: 0.5rem 0;
         }
-        
+
         /* New Elemental Recommendation Badge Styles */
         .technique-list, .ingredient-list, .flavor-list, .herbs-list {
           display: flex;
@@ -1007,7 +1005,7 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
           gap: 0.5rem;
           margin-top: 0.75rem;
         }
-        
+
         .technique-badge, .ingredient-badge, .flavor-badge, .herb-badge {
           padding: 0.3rem 0.75rem;
           border-radius: 15px;
@@ -1016,29 +1014,29 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
           color: white;
           background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         }
-        
+
         .technique-badge {
           background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
         }
-        
+
         .ingredient-badge {
           background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
         }
-        
+
         .flavor-badge {
           background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
         }
-        
+
         .herb-badge {
           background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
         }
-        
+
         .timing-grid {
           display: grid;
           gap: 1rem;
           margin-top: 0.75rem;
         }
-        
+
         .timing-item {
           background-color: rgba(255, 255, 255, 0.7);
           padding: 0.75rem;
@@ -1050,4 +1048,4 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
   );
 };
 
-export default AlchemicalRecommendationsView; 
+export default AlchemicalRecommendationsView;

@@ -110,7 +110,7 @@ const ElementalEnergyDisplay: FC = (): ReactNode => {
   const [renderCount, setRenderCount] = useState<number>(0);
   
   // Create the ref at the component level instead of inside useEffect
-  const lastPositionKeyRef = useRef('');
+  const lastPositionKeyRef = useRef<string>('');
   
   // Log render count - run only once
   useEffect(() => {

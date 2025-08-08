@@ -1,7 +1,7 @@
 'use client';
 
-import { ChevronDown, ChevronUp, Globe, Flame, Droplets, Wind, Mountain, Search, ArrowUp, ArrowDown, Zap, Sparkles, Minus, ThumbsUp, Clock } from 'lucide-react';
-import React, { useState, useEffect, useMemo } from 'react';
+import { ArrowDown, ArrowUp, ChevronDown, ChevronUp, Clock, Droplets, Flame, Globe, Minus, Mountain, Search, Sparkles, ThumbsUp, Wind, Zap } from 'lucide-react';
+import React, { useEffect, useMemo, useState } from 'react';
 
 import { useServices } from '@/hooks/useServices';
 // Removed unused Element import
@@ -46,13 +46,13 @@ interface CookingMethodsProps {
 
 /**
  * CookingMethodsSection Component - Migrated Version
- * 
+ *
  * This component displays a list of cooking methods with their details, including:
  * - Elemental effects
  * - Alchemical properties
  * - Ingredient compatibility
  * - Method variations
- * 
+ *
  * It has been migrated from using direct hook imports to service-based architecture.
  */
 export function CookingMethodsSectionMigrated({ methods,
@@ -66,7 +66,7 @@ export function CookingMethodsSectionMigrated({ methods,
     error: servicesError,
     ingredientService
   } = useServices();
-  
+
   // Component state
   const [isExpanded, setIsExpanded] = useState(initiallyExpanded);
   const [expandedMethods, setExpandedMethods] = useState<Record<string, boolean>>({});
@@ -76,7 +76,7 @@ export function CookingMethodsSectionMigrated({ methods,
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [showAllMethods, setShowAllMethods] = useState(false);
-  
+
   // Get top method based on score
   const topMethod = useMemo(() => {
     if (!methods || methods.length === 0) return null;
@@ -86,7 +86,7 @@ export function CookingMethodsSectionMigrated({ methods,
       return scoreB - scoreA;
     })[0];
   }, [methods]);
-  
+
   // Sort methods by score and limit display unless showAll is true
   const displayMethods = useMemo(() => {
     const sortedMethods = [...methods].sort((a, b) => {
@@ -94,10 +94,10 @@ export function CookingMethodsSectionMigrated({ methods,
       const scoreB = b.score !== undefined ? b.score : 0;
       return scoreB - scoreA;
     });
-    
+
     return showAllMethods ? sortedMethods : sortedMethods.slice(0, 8);
   }, [methods, showAllMethods]);
-  
+
   // Auto-expand the section if we have methods and a pre-selected method
   useEffect(() => {
     if (methods?.length > 0) {
@@ -105,14 +105,14 @@ export function CookingMethodsSectionMigrated({ methods,
       if (methods.length <= 5) {
         setIsExpanded(true);
       }
-      
+
       // Also expand if there's a selected method
       if (selectedMethodId) {
         setIsExpanded(true);
-        
+
         // Find the selected method
         const selectedMethod = methods.find(m => m.id === selectedMethodId);
-        
+
         if (selectedMethod) {
           // If the selected method has variations, expand it
           if (selectedMethod.variations && selectedMethod.variations.length > 0) {
@@ -121,12 +121,12 @@ export function CookingMethodsSectionMigrated({ methods,
               [selectedMethodId]: true
             }));
           }
-          
+
           // If this is a variation, find and expand its parent method
-          const parentMethod = methods.find(m => 
+          const parentMethod = methods.find(m =>
             m.variations && m.variations.some(v => v.id === selectedMethodId)
           );
-          
+
           if (parentMethod) {
             setExpandedMethods(prev => ({
               ...prev,
@@ -137,34 +137,34 @@ export function CookingMethodsSectionMigrated({ methods,
       }
     }
   }, [methods, selectedMethodId]);
-  
+
   // Handle ingredient compatibility calculation
   const calculateIngredientCompatibility = async () => {
     if (!searchIngredient.trim() || !ingredientService) return;
-    
+
     try {
       setIsLoading(true);
       setError(null);
-      
+
       // Get ingredient data
       const ingredientData = await ingredientService.getIngredientByName(searchIngredient);
-      
+
       if (!ingredientData) {
         setError(`Ingredient '${searchIngredient}' not found`);
         setIsLoading(false);
         return;
       }
-      
+
       // Calculate compatibility with each cooking method based on elemental properties
       const compatibilityResults: { [key: string]: number } = {};
-      
+
       for (const method of methods || []) {
         if (method.elementalEffect) {
           try {
             // Mock elemental harmony calculation
             const ingredientProps = ingredientData.elementalProperties || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
             const methodProps = method.elementalEffect;
-            
+
             // Simple compatibility calculation based on elemental similarity
             let harmony = 0;
             Object.keys(ingredientProps).forEach(element => {
@@ -172,15 +172,15 @@ export function CookingMethodsSectionMigrated({ methods,
               const methodValue = methodProps[element as keyof typeof methodProps] || 0;
               harmony += Math.min(ingredientValue, methodValue);
             });
-            
+
             compatibilityResults[method.id] = harmony;
-            
+
             // Also calculate for variations if they exist
             if (method.variations) {
               for (const variation of method.variations) {
                 // Use parent method's elemental effect if variation doesn't have one
                 const variationElemental = variation.elementalEffect || method.elementalEffect;
-                
+
                 if (variationElemental) {
                   // Simple compatibility calculation for variations
                   let variationHarmony = 0;
@@ -189,7 +189,7 @@ export function CookingMethodsSectionMigrated({ methods,
                     const variationValue = variationElemental[element as keyof typeof variationElemental] || 0;
                     variationHarmony += Math.min(ingredientValue, variationValue);
                   });
-                  
+
                   compatibilityResults[variation.id] = variationHarmony;
                 }
               }
@@ -199,7 +199,7 @@ export function CookingMethodsSectionMigrated({ methods,
           }
         }
       }
-      
+
       setIngredientCompatibility(compatibilityResults);
     } catch (err) {
       logger.error('Error calculating ingredient compatibility:', err);
@@ -208,14 +208,14 @@ export function CookingMethodsSectionMigrated({ methods,
       setIsLoading(false);
     }
   };
-  
+
   const toggleExpanded = () => {
     // Only allow toggling if there are more than 5 methods
     if (methods?.length > 5) {
       setIsExpanded(prev => !prev);
     }
   };
-  
+
   const toggleMethodExpanded = (methodId: string, e: React.MouseEvent) => {
     // Prevent the click from selecting the method
     e.stopPropagation();
@@ -224,7 +224,7 @@ export function CookingMethodsSectionMigrated({ methods,
       [methodId]: !prev[methodId]
     }));
   };
-  
+
   // Toggle ingredient search section
   const toggleIngredientSearch = () => {
     setShowIngredientSearch(prev => !prev);
@@ -234,7 +234,7 @@ export function CookingMethodsSectionMigrated({ methods,
       setSearchIngredient('');
     }
   };
-  
+
   // Calculate elemental transformation capacity from alchemical properties
   const getElementalTransformations = (method: CookingMethod) => {
     const transformations = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
@@ -246,25 +246,25 @@ export function CookingMethodsSectionMigrated({ methods,
         transformations.Fire += method.alchemicalProperties.Spirit * 0.6;
         transformations.Air += method.alchemicalProperties.Spirit * 0.4;
       }
-      
+
       // Essence primarily influences Water and Air
       if (method.alchemicalProperties.Essence > 0) {
         transformations.Water += method.alchemicalProperties.Essence * 0.6;
         transformations.Air += method.alchemicalProperties.Essence * 0.4;
       }
-      
+
       // Matter primarily influences Earth and Water
       if (method.alchemicalProperties.Matter > 0) {
         transformations.Earth += method.alchemicalProperties.Matter * 0.6;
         transformations.Water += method.alchemicalProperties.Matter * 0.4;
       }
-      
+
       // Substance primarily influences Earth and Fire
       if (method.alchemicalProperties.Substance > 0) {
         transformations.Earth += method.alchemicalProperties.Substance * 0.6;
         transformations.Fire += method.alchemicalProperties.Substance * 0.4;
       }
-    } 
+    }
     // If no alchemical properties, use elementalEffect as directional indicators
     else if (method.elementalEffect) {
       transformations.Fire = method.elementalEffect.Fire;
@@ -286,12 +286,12 @@ export function CookingMethodsSectionMigrated({ methods,
   // Get the alchemical label for a method
   const getAlchemicalLabel = (method: CookingMethod): { primary: string, secondary: string } | null => {
     if (!method.alchemicalProperties) return null;
-    
+
     const properties = method.alchemicalProperties;
     const sortedProps = Object.entries(properties).sort((a, b) => b[1] - a[1]);
-    
+
     if ((sortedProps || []).length < 2) return null;
-    
+
     return {
       primary: sortedProps[0][0],
       secondary: sortedProps[1][0]
@@ -359,8 +359,8 @@ export function CookingMethodsSectionMigrated({ methods,
 
   return (
     <div className={styles['cooking-methods-container']}>
-      <div 
-        className={`${styles['cooking-methods-header']} ${!showToggle ? styles['no-toggle'] : ''}`} 
+      <div
+        className={`${styles['cooking-methods-header']} ${!showToggle ? styles['no-toggle'] : ''}`}
         onClick={showToggle ? toggleExpanded : undefined}
       >
         <h3 className={'title-class'}>
@@ -368,15 +368,15 @@ export function CookingMethodsSectionMigrated({ methods,
           <span className={'titleText-class'}>Alchemical Cooking Methods</span>
           <span className={'titleCount-class'}>({methods.length})</span>
         </h3>
-        
+
         {topMethod && (
           <div className={styles['top-recommendation']}>
             Top: <span>{topMethod.name}</span>
           </div>
         )}
-        
+
         {/* Add ingredient search toggle button */}
-        <button 
+        <button
           className={`${styles['ingredient-search-toggle']} ${showIngredientSearch ? 'active-class' : ''}`}
           onClick={(e) => {
             e.stopPropagation();
@@ -386,14 +386,14 @@ export function CookingMethodsSectionMigrated({ methods,
         >
           <Search size={18} />
         </button>
-        
+
         {showToggle && (
           <button className={styles['toggle-button']}>
             {isExpanded ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
           </button>
         )}
       </div>
-      
+
       {/* Ingredient search form */}
       {showIngredientSearch && (
         <div className={styles['ingredient-search']}>
@@ -406,7 +406,7 @@ export function CookingMethodsSectionMigrated({ methods,
                 placeholder="Enter ingredient name..."
                 className={styles['search-input']}
               />
-              <button 
+              <button
                 onClick={() => calculateIngredientCompatibility()}
                 disabled={isLoading || !searchIngredient.trim()}
                 className={styles['search-button']}
@@ -414,7 +414,7 @@ export function CookingMethodsSectionMigrated({ methods,
                 {isLoading ? 'Loading...' : 'Calculate Compatibility'}
               </button>
             </div>
-            
+
             {error && (
               <div className={styles['search-error']}>
                 {error}
@@ -423,19 +423,19 @@ export function CookingMethodsSectionMigrated({ methods,
           </div>
         </div>
       )}
-      
+
       {isExpanded && (
         <div className={styles['cooking-methods-content']}>
           <div className={styles['methods-grid']}>
             {(displayMethods || []).map((method) => (
-              <div 
-                key={method.id} 
+              <div
+                key={method.id}
                 className={`${styles['method-card']} ${selectedMethodId === method.id ? 'selected-class' : ''}`}
                 onClick={() => onSelectMethod && onSelectMethod(method)}
               >
                 <div className={styles['method-header']}>
                   <h4 className={styles['method-name']}>{method.name}</h4>
-                  
+
                   {method.score !== undefined && (
                     <div className={`${styles['method-score']} ${getScoreClass(method.score)}`}>
                       <span className={styles['score-value']}>{Math.round(method.score * 100)}%</span>
@@ -444,7 +444,7 @@ export function CookingMethodsSectionMigrated({ methods,
                       </div>
                     </div>
                   )}
-                  
+
                   {/* Show ingredient compatibility if available */}
                   {ingredientCompatibility[method.id] !== undefined && (
                     <div className={`${styles['ingredient-compatibility']} ${styles[getCompatibilityLabel(ingredientCompatibility[method.id]).className]}`}>
@@ -455,24 +455,24 @@ export function CookingMethodsSectionMigrated({ methods,
                       </div>
                     </div>
                   )}
-                  
+
                   {method.variations && method.variations.length > 0 && (
-                    <button 
+                    <button
                       className={styles['toggle-variations']}
                       onClick={(e) => toggleMethodExpanded(method.id, e)}
                       aria-label={expandedMethods[method.id] ? "Collapse variations" : "Expand variations"}
                     >
                       <span className={styles['variations-count']}>{method.variations.length}</span>
-                      {expandedMethods[method.id] ? 
-                        <ChevronUp size={16} /> : 
+                      {expandedMethods[method.id] ?
+                        <ChevronUp size={16} /> :
                         <ChevronDown size={16} />
                       }
                     </button>
                   )}
                 </div>
-                
+
                 <p className={styles['method-description']}>{method.description}</p>
-                
+
                 {/* Always display elemental transformation capacity */}
                 {(method.elementalEffect || method.alchemicalProperties) && (
                   <div className={styles['method-elemental']}>
@@ -498,7 +498,7 @@ export function CookingMethodsSectionMigrated({ methods,
                     </div>
                   </div>
                 )}
-                
+
                 {/* Show alchemical properties if available */}
                 {method.alchemicalProperties && (
                   <div className={styles['method-alchemical']}>
@@ -519,7 +519,7 @@ export function CookingMethodsSectionMigrated({ methods,
                     </div>
                   </div>
                 )}
-                
+
                 {/* Duration information if available */}
                 {method.duration && (
                   <div className={styles['method-duration']}>
@@ -530,7 +530,7 @@ export function CookingMethodsSectionMigrated({ methods,
                     </span>
                   </div>
                 )}
-                
+
                 {/* Cultural origin if available */}
                 {method.culturalOrigin && (
                   <div className={styles['method-origin']}>
@@ -538,7 +538,7 @@ export function CookingMethodsSectionMigrated({ methods,
                     <span>{method.culturalOrigin}</span>
                   </div>
                 )}
-                
+
                 {/* Suitable for if available */}
                 {method.suitable_for && method.suitable_for.length > 0 && (
                   <div className={styles['method-suitable']}>
@@ -546,15 +546,15 @@ export function CookingMethodsSectionMigrated({ methods,
                     <span>Best for: {method.suitable_for.join(', ')}</span>
                   </div>
                 )}
-                
+
                 {/* Show variations if expanded */}
                 {method.variations && method.variations.length > 0 && expandedMethods[method.id] && (
                   <div className={styles['method-variations']}>
                     <div className={styles['variations-label']}>Variations:</div>
                     <div className={styles['variations-list']}>
                       {method.variations.map(variation => (
-                        <div 
-                          key={variation.id} 
+                        <div
+                          key={variation.id}
                           className={`${styles['variation-item']} ${selectedMethodId === variation.id ? 'selected-class' : ''}`}
                           onClick={(e) => {
                             e.stopPropagation();
@@ -563,7 +563,7 @@ export function CookingMethodsSectionMigrated({ methods,
                         >
                           <h5 className={styles['variation-name']}>{variation.name}</h5>
                           <p className={styles['variation-description']}>{variation.description}</p>
-                          
+
                           {/* Show ingredient compatibility for variation if available */}
                           {ingredientCompatibility[variation.id] !== undefined && (
                             <div className={`${styles['variation-compatibility']} ${styles[getCompatibilityLabel(ingredientCompatibility[variation.id]).className]}`}>
@@ -578,7 +578,7 @@ export function CookingMethodsSectionMigrated({ methods,
               </div>
             ))}
           </div>
-          
+
           {/* Show all/less button */}
           {(methods || []).length > 8 && (
             <div className={styles['methods-footer']}>
@@ -594,4 +594,4 @@ export function CookingMethodsSectionMigrated({ methods,
       )}
     </div>
   );
-} 
+}

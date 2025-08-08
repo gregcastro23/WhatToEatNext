@@ -1,16 +1,16 @@
 // Phase 10: Calculation Type Interfaces
-interface CalculationData {
+interface _CalculationData {
   value: number;
   weight?: number;
   score?: number;
 }
 
-interface ScoredItem {
+interface _ScoredItem {
   score: number;
   [key: string]: unknown;
 }
 
-interface ElementalData {
+interface _ElementalData {
   Fire: number;
   Water: number;
   Earth: number;
@@ -18,7 +18,7 @@ interface ElementalData {
   [key: string]: unknown;
 }
 
-interface CuisineData {
+interface _CuisineData {
   id: string;
   name: string;
   zodiacInfluences?: string[];
@@ -30,7 +30,7 @@ interface CuisineData {
   [key: string]: unknown;
 }
 
-interface NutrientData {
+interface _NutrientData {
   nutrient?: { name?: string };
   nutrientName?: string;
   name?: string;
@@ -39,7 +39,7 @@ interface NutrientData {
   [key: string]: unknown;
 }
 
-interface MatchingResult {
+interface _MatchingResult {
   score: number;
   elements: ElementalData;
   recipe?: unknown;

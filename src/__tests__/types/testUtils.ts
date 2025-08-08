@@ -69,115 +69,115 @@ export interface CampaignMock {
   controller: {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     // Intentionally any: Campaign controller methods have varying signatures for test flexibility
-    executePhase: jest.MockedFunction<any>;
+    executePhase: jest.MockedFunction<unknown>;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    validatePhaseCompletion: jest.MockedFunction<any>;
+    validatePhaseCompletion: jest.MockedFunction<unknown>;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    createSafetyCheckpoint: jest.MockedFunction<any>;
+    createSafetyCheckpoint: jest.MockedFunction<unknown>;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    rollbackToCheckpoint: jest.MockedFunction<any>;
+    rollbackToCheckpoint: jest.MockedFunction<unknown>;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    getProgressMetrics: jest.MockedFunction<any>;
+    getProgressMetrics: jest.MockedFunction<unknown>;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    pauseCampaign: jest.MockedFunction<any>;
+    pauseCampaign: jest.MockedFunction<unknown>;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    resumeCampaign: jest.MockedFunction<any>;
+    resumeCampaign: jest.MockedFunction<unknown>;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    isPaused: jest.MockedFunction<any>;
+    isPaused: jest.MockedFunction<unknown>;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    isRunning: jest.MockedFunction<any>;
+    isRunning: jest.MockedFunction<unknown>;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    getSafetyEvents: jest.MockedFunction<any>;
+    getSafetyEvents: jest.MockedFunction<unknown>;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    updateMockMetrics: jest.MockedFunction<any>;
+    updateMockMetrics: jest.MockedFunction<unknown>;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    resetMockState: jest.MockedFunction<any>;
+    resetMockState: jest.MockedFunction<unknown>;
   };
   tracker: {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     // Intentionally any: Tracker methods return various metric types for test scenarios
-    getTypeScriptErrorCount: jest.MockedFunction<any>;
+    getTypeScriptErrorCount: jest.MockedFunction<unknown>;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    getTypeScriptErrorBreakdown: jest.MockedFunction<any>;
+    getTypeScriptErrorBreakdown: jest.MockedFunction<unknown>;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    getLintingWarningCount: jest.MockedFunction<any>;
+    getLintingWarningCount: jest.MockedFunction<unknown>;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    getLintingWarningBreakdown: jest.MockedFunction<any>;
+    getLintingWarningBreakdown: jest.MockedFunction<unknown>;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    getBuildTime: jest.MockedFunction<any>;
+    getBuildTime: jest.MockedFunction<unknown>;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    getEnterpriseSystemCount: jest.MockedFunction<any>;
+    getEnterpriseSystemCount: jest.MockedFunction<unknown>;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    getCacheHitRate: jest.MockedFunction<any>;
+    getCacheHitRate: jest.MockedFunction<unknown>;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    getMemoryUsage: jest.MockedFunction<any>;
+    getMemoryUsage: jest.MockedFunction<unknown>;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    getProgressMetrics: jest.MockedFunction<any>;
+    getProgressMetrics: jest.MockedFunction<unknown>;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    generateProgressReport: jest.MockedFunction<any>;
+    generateProgressReport: jest.MockedFunction<unknown>;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    startTracking: jest.MockedFunction<any>;
+    startTracking: jest.MockedFunction<unknown>;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    stopTracking: jest.MockedFunction<any>;
+    stopTracking: jest.MockedFunction<unknown>;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    isTrackingActive: jest.MockedFunction<any>;
+    isTrackingActive: jest.MockedFunction<unknown>;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    updateMockMetrics: jest.MockedFunction<any>;
+    updateMockMetrics: jest.MockedFunction<unknown>;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    resetMockState: jest.MockedFunction<any>;
+    resetMockState: jest.MockedFunction<unknown>;
   };
   safety: {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     // Intentionally any: Safety protocol methods need flexible return types for test scenarios
-    createStash: jest.MockedFunction<any>;
+    createStash: jest.MockedFunction<unknown>;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    applyStash: jest.MockedFunction<any>;
+    applyStash: jest.MockedFunction<unknown>;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    detectCorruption: jest.MockedFunction<any>;
+    detectCorruption: jest.MockedFunction<unknown>;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    validateGitState: jest.MockedFunction<any>;
+    validateGitState: jest.MockedFunction<unknown>;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    emergencyRollback: jest.MockedFunction<any>;
+    emergencyRollback: jest.MockedFunction<unknown>;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    listStashes: jest.MockedFunction<any>;
+    listStashes: jest.MockedFunction<unknown>;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    getSafetyEvents: jest.MockedFunction<any>;
+    getSafetyEvents: jest.MockedFunction<unknown>;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    resetMockState: jest.MockedFunction<any>;
+    resetMockState: jest.MockedFunction<unknown>;
   };
   testController: {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     // Intentionally any: Test controller methods require complete flexibility for test isolation
-    initializeForTest: jest.MockedFunction<any>;
+    initializeForTest: jest.MockedFunction<unknown>;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    pauseCampaignForTest: jest.MockedFunction<any>;
+    pauseCampaignForTest: jest.MockedFunction<unknown>;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    resumeCampaignAfterTest: jest.MockedFunction<any>;
+    resumeCampaignAfterTest: jest.MockedFunction<unknown>;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    cleanupAfterTest: jest.MockedFunction<any>;
+    cleanupAfterTest: jest.MockedFunction<unknown>;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    isPaused: jest.MockedFunction<any>;
+    isPaused: jest.MockedFunction<unknown>;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    isIsolated: jest.MockedFunction<any>;
+    isIsolated: jest.MockedFunction<unknown>;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    getTestState: jest.MockedFunction<any>;
+    getTestState: jest.MockedFunction<unknown>;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    simulateProgress: jest.MockedFunction<any>;
+    simulateProgress: jest.MockedFunction<unknown>;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    updateMockMetrics: jest.MockedFunction<any>;
+    updateMockMetrics: jest.MockedFunction<unknown>;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    validateTestIsolation: jest.MockedFunction<any>;
+    validateTestIsolation: jest.MockedFunction<unknown>;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    getMockInstances: jest.MockedFunction<any>;
+    getMockInstances: jest.MockedFunction<unknown>;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    getTestSafeTracker: jest.MockedFunction<any>;
+    getTestSafeTracker: jest.MockedFunction<unknown>;
   };
   isolation: {
-    initializeMockCampaignSystem: jest.MockedFunction<any>;
-    pauseCampaignOperations: jest.MockedFunction<any>;
-    resumeCampaignOperations: jest.MockedFunction<any>;
-    resetAllMockStates: jest.MockedFunction<any>;
-    restoreEnvironment: jest.MockedFunction<any>;
+    initializeMockCampaignSystem: jest.MockedFunction<unknown>;
+    pauseCampaignOperations: jest.MockedFunction<unknown>;
+    resumeCampaignOperations: jest.MockedFunction<unknown>;
+    resetAllMockStates: jest.MockedFunction<unknown>;
+    restoreEnvironment: jest.MockedFunction<unknown>;
   };
   resetAllMocks: jest.MockedFunction<() => void>;
 }
