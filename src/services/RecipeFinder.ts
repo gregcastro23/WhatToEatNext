@@ -1,18 +1,12 @@
-import type { ElementalProperties , 
-  Element, 
-  Season, 
-  ZodiacSign, 
-  LunarPhase, 
-  PlanetName 
-} from '@/types/alchemy';
+import type { ElementalProperties } from '@/types/alchemy';
 import type { Recipe, ScoredRecipe } from '@/types/recipe';
 
 /**
  * RecipeFinder.ts
- * 
+ *
  * A service for finding recipes based on various criteria. This service implements
  * the RecipeServiceInterface and delegates to the ConsolidatedRecipeService.
- * 
+ *
  * This class is designed to provide a simplified recipe-finding experience with better
  * error handling and type safety.
  */
@@ -26,25 +20,23 @@ import { errorHandler } from '@/utils/errorHandler';
 
 import { ConsolidatedRecipeService } from './ConsolidatedRecipeService';
 import type {
-  ApiResponse,
-  GetRecipeByIdParams,
-  GetRecipesByCuisineParams,
-  GetRecipesByZodiacParams,
-  GetRecipesBySeasonParams,
-  GetRecipesByLunarPhaseParams,
-  GetRecipesByMealTypeParams,
-  GetRecipesForPlanetaryAlignmentParams,
-  GetRecipesForFlavorProfileParams,
-  GetBestRecipeMatchesParams,
-  SearchRecipesParams,
-  GenerateRecipeParams,
-  GenerateFusionRecipeParams,
-  AdaptRecipeForSeasonParams
+    AdaptRecipeForSeasonParams,
+    ApiResponse,
+    GenerateFusionRecipeParams,
+    GenerateRecipeParams,
+    GetBestRecipeMatchesParams,
+    GetRecipeByIdParams,
+    GetRecipesByCuisineParams,
+    GetRecipesByLunarPhaseParams,
+    GetRecipesByMealTypeParams,
+    GetRecipesBySeasonParams,
+    GetRecipesByZodiacParams,
+    GetRecipesForFlavorProfileParams,
+    GetRecipesForPlanetaryAlignmentParams,
+    SearchRecipesParams
 } from './interfaces/RecipeApiInterfaces';
 import type {
-  RecipeSearchCriteria, 
-  RecipeRecommendationOptions,
-  RecipeServiceInterface
+    RecipeServiceInterface
 } from './interfaces/RecipeServiceInterface';
 
 
@@ -59,14 +51,14 @@ import type {
 export class RecipeFinder implements RecipeServiceInterface {
   private static instance: RecipeFinder;
   private recipeService: ConsolidatedRecipeService;
-  
+
   /**
    * Private constructor to enforce singleton pattern
    */
   private constructor() {
     this.recipeService = ConsolidatedRecipeService.getInstance();
   }
-  
+
   /**
    * Get singleton instance
    */
@@ -76,7 +68,7 @@ export class RecipeFinder implements RecipeServiceInterface {
     }
     return RecipeFinder.instance;
   }
-  
+
   /**
    * Get all available recipes
    */
@@ -104,7 +96,7 @@ export class RecipeFinder implements RecipeServiceInterface {
       };
     }
   }
-  
+
   /**
    * Search for recipes based on criteria
    */
@@ -132,7 +124,7 @@ export class RecipeFinder implements RecipeServiceInterface {
       };
     }
   }
-  
+
   /**
    * Get recipes by cuisine
    */
@@ -160,7 +152,7 @@ export class RecipeFinder implements RecipeServiceInterface {
       };
     }
   }
-  
+
   /**
    * Get recipes by zodiac sign
    */
@@ -188,7 +180,7 @@ export class RecipeFinder implements RecipeServiceInterface {
       };
     }
   }
-  
+
   /**
    * Get recipes by season
    */
@@ -216,7 +208,7 @@ export class RecipeFinder implements RecipeServiceInterface {
       };
     }
   }
-  
+
   /**
    * Get recipes by lunar phase
    */
@@ -244,7 +236,7 @@ export class RecipeFinder implements RecipeServiceInterface {
       };
     }
   }
-  
+
   /**
    * Get recipes by meal type
    */
@@ -272,7 +264,7 @@ export class RecipeFinder implements RecipeServiceInterface {
       };
     }
   }
-  
+
   /**
    * Get recipes that match current planetary alignments
    */
@@ -303,7 +295,7 @@ export class RecipeFinder implements RecipeServiceInterface {
       };
     }
   }
-  
+
   /**
    * Get recipes that match a given flavor profile
    */
@@ -334,7 +326,7 @@ export class RecipeFinder implements RecipeServiceInterface {
       };
     }
   }
-  
+
   /**
    * Get best recipe matches based on multiple criteria
    */
@@ -346,7 +338,7 @@ export class RecipeFinder implements RecipeServiceInterface {
         ...recipe,
         score: recipe.score ?? (1 - index * 0.1) // Assign decreasing scores if not present
       }));
-      
+
       return {
         success: true,
         data: scoredRecipes,
@@ -368,7 +360,7 @@ export class RecipeFinder implements RecipeServiceInterface {
       };
     }
   }
-  
+
   /**
    * Get a recipe by its ID
    */
@@ -377,7 +369,7 @@ export class RecipeFinder implements RecipeServiceInterface {
       // Since ConsolidatedRecipeService doesn't have getRecipeById, we'll search for it
       const allRecipes = await this.recipeService.getAllRecipes();
       const recipe = allRecipes.find(r => r.id === params.id);
-      
+
       if (!recipe) {
         return {
           success: false,
@@ -388,7 +380,7 @@ export class RecipeFinder implements RecipeServiceInterface {
           }
         };
       }
-      
+
       return {
         success: true,
         data: recipe,
@@ -409,7 +401,7 @@ export class RecipeFinder implements RecipeServiceInterface {
       };
     }
   }
-  
+
   /**
    * Generate a recipe based on criteria
    */
@@ -444,7 +436,7 @@ export class RecipeFinder implements RecipeServiceInterface {
       };
     }
   }
-  
+
   /**
    * Generate a fusion recipe combining multiple cuisines
    */
@@ -479,7 +471,7 @@ export class RecipeFinder implements RecipeServiceInterface {
       };
     }
   }
-  
+
   /**
    * Adapt a recipe for the current season
    */
@@ -506,7 +498,7 @@ export class RecipeFinder implements RecipeServiceInterface {
       };
     }
   }
-  
+
   /**
    * Calculate the elemental properties of a recipe
    */
@@ -519,7 +511,7 @@ export class RecipeFinder implements RecipeServiceInterface {
       return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
     }
   }
-  
+
   /**
    * Get the dominant element of a recipe
    */
@@ -532,7 +524,7 @@ export class RecipeFinder implements RecipeServiceInterface {
       return { element: 'Fire', value: 0 };
     }
   }
-  
+
   /**
    * Calculate the similarity between two recipes
    */
@@ -545,7 +537,7 @@ export class RecipeFinder implements RecipeServiceInterface {
       return 0;
     }
   }
-  
+
   /**
    * Clear the recipe cache
    */
@@ -562,4 +554,4 @@ export class RecipeFinder implements RecipeServiceInterface {
 export const getAllRecipes = async (): Promise<Recipe[]> => {
   const response = await RecipeFinder.getInstance().getAllRecipes();
   return response.success ? (response.data || []) : [];
-}; 
+};

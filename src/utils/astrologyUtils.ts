@@ -1438,7 +1438,7 @@ export async function getCurrentAstrologicalState(date: Date = new Date()): Prom
       currentPlanetaryAlignment,
       planetaryPositions,
       activePlanets,
-      planetaryHour: planetaryHour as any,
+      planetaryHour: planetaryHour as ExtendedPlanet,
       aspects: aspects as import('@/types/celestial').PlanetaryAspect[],
       tarotElementBoosts: { Fire: 0, Water: 0, Earth: 0, Air: 0 },
       tarotPlanetaryBoosts: {}
@@ -1458,7 +1458,7 @@ export async function getCurrentAstrologicalState(date: Date = new Date()): Prom
       currentPlanetaryAlignment: {},
       planetaryPositions: defaultPositions,
       activePlanets: [],
-      planetaryHour: 'sun' as any,
+      planetaryHour: 'Sun' as ExtendedPlanet,
       aspects: [],
       tarotElementBoosts: { Fire: 0, Water: 0, Earth: 0, Air: 0 },
       tarotPlanetaryBoosts: {}
@@ -2252,7 +2252,7 @@ export function transformItemsWithPlanetaryPositions(
         transformations: calculateElementalTransformations(
           item.elementalProperties,
           currentElementalInfluence
-        ) as any,
+        ) as unknown as Array<{ from: Element; to: Element; intensity: number }>,
         seasonalResonance: calculateSeasonalResonance(dominantElement)
       } as unknown as AlchemicalItem;
 

@@ -1,6 +1,6 @@
 /**
  * Memory Leak Detector for Test Environment
- * 
+ *
  * Detects common memory leak patterns in tests and provides
  * specific recommendations for fixing them.
  */
@@ -38,10 +38,10 @@ export class MemoryLeakDetector {
       {
         name: 'Excessive Event Listeners',
         detector: () => {
-          if (typeof window !== 'undefined' && (window as any)._eventListeners) {
-            const totalListeners = Object.values((window as any)._eventListeners)
-              .reduce((sum: number, listeners: any) => sum + (listeners?.length || 0), 0);
-            return (totalListeners as number) > 50;
+          if (typeof window !== 'undefined' && (window as unknown as { _eventListeners?: Record<string, unknown[]> })._eventListeners) {
+            const totalListeners = Object.values((window as unknown as { _eventListeners: Record<string, unknown[]> })._eventListeners)
+              .reduce((sum: number, listeners: unknown[]) => sum + (listeners?.length || 0), 0);
+            return totalListeners > 50;
           }
           return false;
         },
@@ -53,7 +53,7 @@ export class MemoryLeakDetector {
         name: 'Unclosed Timers',
         detector: () => {
           // Check for active timers (this is a simplified check)
-          const activeTimers = (global as any)._activeTimers || [];
+          const activeTimers = (global as unknown as { _activeTimers?: unknown[] })._activeTimers || [];
           return activeTimers.length > 10;
         },
         description: 'Active timers not cleared after tests',
@@ -64,7 +64,7 @@ export class MemoryLeakDetector {
         name: 'Large Test Cache',
         detector: () => {
           if (global.__TEST_CACHE__ && global.__TEST_CACHE__ instanceof Map) {
-            return global.__TEST_CACHE__.size > 100;
+            return (global.__TEST_CACHE__ as Map<unknown, unknown>).size > 100;
           }
           return false;
         },
@@ -113,7 +113,7 @@ export class MemoryLeakDetector {
         name: 'Global Reference Accumulation',
         detector: () => {
           if (global.__TEST_REFS__) {
-            return global.__TEST_REFS__.length > 50;
+            return (global.__TEST_REFS__ as unknown[]).length > 50;
           }
           return false;
         },
@@ -201,10 +201,10 @@ export class MemoryLeakDetector {
 
     try {
       // Fix 1: Clear excessive event listeners
-      if (typeof window !== 'undefined' && (window as any)._eventListeners) {
-        Object.keys((window as any)._eventListeners).forEach(eventType => {
-          const listeners = (window as any)._eventListeners[eventType] || [];
-          listeners.forEach((listener: any) => {
+      if (typeof window !== 'undefined' && (window as unknown as { _eventListeners?: Record<string, ((event: Event) => void)[]> })._eventListeners) {
+        Object.keys((window as unknown as { _eventListeners: Record<string, ((event: Event) => void)[]> })._eventListeners).forEach(eventType => {
+          const listeners = (window as unknown as { _eventListeners: Record<string, ((event: Event) => void)[]> })._eventListeners[eventType] || [];
+          listeners.forEach((listener: (event: Event) => void) => {
             try {
               window.removeEventListener(eventType, listener);
             } catch (error) {
@@ -212,7 +212,7 @@ export class MemoryLeakDetector {
             }
           });
         });
-        (window as any)._eventListeners = {};
+        (window as unknown as { _eventListeners: Record<string, ((event: Event) => void)[]> })._eventListeners = {};
         fixed.push('Cleared excessive event listeners');
       }
     } catch (error) {
@@ -222,10 +222,10 @@ export class MemoryLeakDetector {
     try {
       // Fix 2: Clear test cache
       if (global.__TEST_CACHE__) {
-        if (typeof global.__TEST_CACHE__.clear === 'function') {
-          global.__TEST_CACHE__.clear();
+        if (typeof (global.__TEST_CACHE__ as { clear?: () => void }).clear === 'function') {
+          (global.__TEST_CACHE__ as { clear: () => void }).clear();
         } else {
-          global.__TEST_CACHE__ = new Map();
+          global.__TEST_CACHE__ = new Map<unknown, unknown>();
         }
         fixed.push('Cleared test cache');
       }
@@ -246,7 +246,7 @@ export class MemoryLeakDetector {
     try {
       // Fix 4: Clear global references
       if (global.__TEST_REFS__) {
-        global.__TEST_REFS__.length = 0;
+        (global.__TEST_REFS__ as unknown[]).length = 0;
         fixed.push('Cleared global test references');
       }
     } catch (error) {
@@ -281,7 +281,7 @@ export class MemoryLeakDetector {
    */
   generateDetailedReport(): string {
     const report = this.scanForLeaks();
-    
+
     let output = `
 Memory Leak Detection Report
 ============================

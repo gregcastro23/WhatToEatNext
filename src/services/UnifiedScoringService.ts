@@ -16,12 +16,8 @@ import { log } from '@/services/LoggingService';
 import { GeographicCoordinates, PlanetaryLocationService } from '../data/planets/locationService';
 import type { 
   ElementalProperties, 
-  ZodiacSign, 
-  AlchemicalProperties,
   ThermodynamicMetrics,
-  Season,
-  CuisineType,
-  DietaryRestriction
+  Season
 } from '../types/alchemy';
 import type { 
   Planet, 

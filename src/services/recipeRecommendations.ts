@@ -300,7 +300,7 @@ export class RecipeRecommender {
     };
   }
 
-  private async getSpoonacularRecommendations(criteria: RecommendationCriteria): Promise<Recipe[]> {
+  private async getSpoonacularRecommendations(_criteria: RecommendationCriteria): Promise<Recipe[]> {
     try {
       // SpoonacularService removed - returning empty array (local recipes used instead)
       logger.info('Spoonacular recommendations disabled - using local recipes');

@@ -1,7 +1,6 @@
 import * as Astronomy from 'astronomy-engine';
 
-import { log } from '@/services/LoggingService';
-import type { PlanetaryPosition, ZodiacSign } from '@/types/alchemy';
+import type { ZodiacSign } from '@/types/alchemy';
 
 /**
  * A utility function for logging debug information
@@ -233,8 +232,8 @@ const CACHE_EXPIRATION = 15 * 60 * 1000;
 
 // Zodiac signs in order
 const ZODIAC_SIGNS = [
-  'Aries', 'Taurus', 'Gemini', 'Cancer', 
-  'Leo', 'Virgo', 'Libra', 'Scorpio', 
+  'Aries', 'Taurus', 'Gemini', 'Cancer',
+  'Leo', 'Virgo', 'Libra', 'Scorpio',
   'Sagittarius', 'Capricorn', 'Aquarius', 'Pisces'
 ];
 
@@ -261,11 +260,11 @@ function calculateReferenceLongitude(planet: string): number {
     console.warn(`No reference position for ${planet}, using default`);
     return 0;
   }
-  
+
   const [degrees, minutes, seconds, sign] = REFERENCE_POSITIONS[planet];
   const decimalDegrees = dmsToDecimal(degrees, minutes, seconds);
   const signStart = zodiacStartDegree(sign);
-  
+
   return (signStart + decimalDegrees) % 360;
 }
 
@@ -274,32 +273,32 @@ function calculateReferenceLongitude(planet: string): number {
  */
 export function getFallbackPlanetaryPositions(date: Date): Record<string, PlanetPositionData> {
   const positions: Record<string, PlanetPositionData> = {};
-  
+
   // Calculate days difference from reference date
   const daysDiff = (date.getTime() - REFERENCE_DATE.getTime()) / (24 * 60 * 60 * 1000);
-  
+
   // Calculate position for each planet
   for (const planet of Object.keys(REFERENCE_POSITIONS)) {
     const refLongitude = calculateReferenceLongitude(planet);
     const motion = DAILY_MOTION[planet] || 0;
     const isRetrograde = RETROGRADE_STATUS[planet] || false;
-    
+
     // Adjust motion direction for retrograde planets
     const adjustedMotion = isRetrograde ? -Math.abs(motion) : Math.abs(motion);
-    
+
     // Calculate new position with minimal randomness (just for slight variation)
     // Reduced randomness for more accurate predictions
     const randomFactor = Math.sin(date.getTime() / 1000000 + planet.charCodeAt(0)) * 0.2;
     let newLongitude = refLongitude + (adjustedMotion * daysDiff) + randomFactor;
-    
+
     // Normalize to 0-360 degrees
     newLongitude = ((newLongitude % 360) + 360) % 360;
-    
+
     // Get zodiac sign and degree
     const signIndex = Math.floor(newLongitude / 30);
     const degree = newLongitude % 30;
     const sign = ZODIAC_SIGNS[signIndex];
-    
+
     // Store both the raw longitude and the formatted data
     positions[planet] = {
       sign: sign.toLowerCase() as ZodiacSign,
@@ -308,7 +307,7 @@ export function getFallbackPlanetaryPositions(date: Date): Record<string, Planet
       isRetrograde
     };
   }
-  
+
   return positions;
 }
 
@@ -321,20 +320,20 @@ function calculateLunarNodes(date: Date): { northNode: number, isRetrograde: boo
   try {
     // Since MoonNode is not available in astronomy-engine,
     // we'll implement a simple approximation using astronomical formulas
-    
+
     // Time in Julian centuries since 2000
     const jd = Astronomy.MakeTime(date).tt;
     const T = (jd - 2451545.0) / 36525;
-    
+
     // Mean longitude of ascending node (Meeus formula)
     let Omega = 125.04452 - 1934.136261 * T + 0.0020708 * T*T + T*T*T/450000;
-    
+
     // Normalize to 0-360 range
     Omega = ((Omega % 360) + 360) % 360;
-    
+
     // The ascending node (North Node) is the opposite of Omega
     const northNode = (Omega + 180) % 360;
-    
+
     // Nodes are always retrograde
     return { northNode, isRetrograde: true };
   } catch (error) {
@@ -352,16 +351,16 @@ function calculateLunarNodes(date: Date): { northNode: number, isRetrograde: boo
 export async function getAccuratePlanetaryPositions(date: Date = new Date()): Promise<Record<string, PlanetPositionData>> {
   try {
     // Check cache first
-    if (positionsCache && 
+    if (positionsCache &&
         (date.getTime() - positionsCache.date.getTime()) < 60000 && // 1 minute cache for same date
         (Date.now() - positionsCache.timestamp) < CACHE_EXPIRATION) {
       debugLog('Using cached planetary positions');
       return positionsCache.positions;
     }
-    
+
     const astroTime = new Astronomy.AstroTime(date);
     const positions: Record<string, PlanetPositionData> = {};
-    
+
     // Calculate position for each planet
     for (const [planet, body] of Object.entries(PLANET_MAPPING)) {
       try {
@@ -372,9 +371,9 @@ export async function getAccuratePlanetaryPositions(date: Date = new Date()): Pr
           const earthLong = Astronomy.EclipticLongitude(Astronomy.Body.Earth, astroTime);
           // Sun is 180 degrees opposite Earth's heliocentric position
           const sunLong = (earthLong + 180) % 360;
-          
+
           const { sign, degree } = getLongitudeToZodiacPosition(sunLong);
-          
+
           positions[planet] = {
             sign: sign as ZodiacSign,
             degree,
@@ -385,9 +384,9 @@ export async function getAccuratePlanetaryPositions(date: Date = new Date()): Pr
           // For other planets use standard calculation
           const eclipLong = Astronomy.EclipticLongitude(body, astroTime);
           const isRetrograde = isPlanetRetrograde(body, date);
-          
+
           const { sign, degree } = getLongitudeToZodiacPosition(eclipLong);
-          
+
           positions[planet] = {
             sign: sign as ZodiacSign,
             degree,
@@ -404,36 +403,36 @@ export async function getAccuratePlanetaryPositions(date: Date = new Date()): Pr
         }
       }
     }
-    
+
     // Add lunar nodes
     const nodeData = calculateLunarNodes(date);
     const { sign: nodeSign, degree: nodeDegree } = getLongitudeToZodiacPosition(nodeData.northNode);
-    
+
     positions.northNode = {
       sign: nodeSign as ZodiacSign,
       degree: nodeDegree,
       exactLongitude: nodeData.northNode,
       isRetrograde: nodeData.isRetrograde
     };
-    
+
     // Calculate south node (opposite to north node)
     const southNodeLong = (nodeData.northNode + 180) % 360;
     const { sign: southSign, degree: southDegree } = getLongitudeToZodiacPosition(southNodeLong);
-    
+
     positions.southNode = {
       sign: southSign as ZodiacSign,
       degree: southDegree,
       exactLongitude: southNodeLong,
       isRetrograde: nodeData.isRetrograde
     };
-    
+
     // Cache the results
     positionsCache = {
       positions,
       timestamp: Date.now(),
       date: new Date(date)
     };
-    
+
     return positions;
   } catch (error) {
     debugLog('Error calculating planetary positions:', error instanceof Error ? error.message : String(error));
@@ -454,21 +453,21 @@ function isPlanetRetrograde(body: Astronomy.Body, date: Date): boolean {
     if (body === Astronomy.Body.Sun || body === Astronomy.Body.Moon) {
       return false;
     }
-    
+
     // Create proper AstroTime objects
     const astroTime = new Astronomy.AstroTime(date);
     const prevTime = new Astronomy.AstroTime(new Date(date.getTime() - 2 * 24 * 60 * 60 * 1000)); // 2 days before
-    
+
     // Check if position is decreasing (retrograde)
     const currentLong = Astronomy.EclipticLongitude(body, astroTime);
     const prevLong = Astronomy.EclipticLongitude(body, prevTime);
-    
+
     // Adjust for crossing 0/360 boundary
     let diff = currentLong - prevLong;
     if (Math.abs(diff) > 180) {
       diff = diff > 0 ? diff - 360 : diff + 360;
     }
-    
+
     return diff < 0;
   } catch (error) {
     debugLog(`Error determining retrograde for ${body}:`, error instanceof Error ? error.message : String(error));
@@ -488,21 +487,21 @@ function isPlanetRetrograde(body: Astronomy.Body, date: Date): boolean {
 export function getLongitudeToZodiacPosition(longitude: number): { sign: string, degree: number } {
   // Normalize longitude to 0-360 range
   const normalizedLong = ((longitude % 360) + 360) % 360;
-  
+
   // Calculate sign index (0-11)
   const signIndex = Math.floor(normalizedLong / 30);
-  
+
   // Calculate degree within sign (0-29.999...)
   const degree = normalizedLong % 30;
-  
+
   // Get sign name
   const signs: ZodiacSign[] = [
     'aries', 'taurus', 'gemini', 'cancer', 'leo', 'virgo',
     'libra', 'scorpio', 'sagittarius', 'capricorn', 'aquarius', 'pisces'
   ];
-  
+
   const sign = signs[signIndex];
-  
+
   return { sign, degree };
 }
 
@@ -515,11 +514,11 @@ function calculateSunPosition(date: Date): number {
   // Simple approximation of sun's position
   const dayOfYear = getDayOfYear(date);
   const year = date.getFullYear();
-  
+
   // Account for leap years
   const isLeapYear = (year % 4 === 0 && year % 100 !== 0) || (year % 400 === 0);
   const daysInYear = isLeapYear ? 366 : 365;
-  
+
   // Calculate approximate position (360 degrees / days in year) * day of year
   // Starting from winter solstice at ~270 degrees (in Capricorn)
   const position = (360 / daysInYear) * dayOfYear + 270;
@@ -534,13 +533,13 @@ function calculateSunPosition(date: Date): number {
 function _calculateMoonPosition(date: Date): number {
   // Very simple approximation
   const sunPosition = calculateSunPosition(date);
-  
+
   // Moon completes a cycle in ~29.53 days
   // Calculate days since new moon (Jan 1, 2000)
   const daysSince2000 = (date.getTime() - new Date(2000, 0, 1).getTime()) / (1000 * 60 * 60 * 24);
   const lunarCycles = daysSince2000 / 29.53;
   const cycleProgress = (lunarCycles - Math.floor(lunarCycles)) * 360;
-  
+
   // Moon position is sun position + cycle progress
   return (sunPosition + cycleProgress) % 360;
 }
@@ -554,4 +553,4 @@ function getDayOfYear(date: Date): number {
   const start = new Date(date.getFullYear(), 0, 0);
   const diff = date.getTime() - start.getTime();
   return Math.floor(diff / (1000 * 60 * 60 * 24));
-} 
+}

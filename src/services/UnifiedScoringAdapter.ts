@@ -1,23 +1,21 @@
 /**
  * UnifiedScoringAdapter.ts
- * 
+ *
  * This adapter provides a bridge between existing recommendation components
  * and the UnifiedScoringService. It handles the conversion of existing
  * data structures to the format expected by the UnifiedScoringService.
  */
 
-import type { 
-  ElementalProperties, 
-  Season, 
-  CuisineType, 
-  DietaryRestriction 
+import type {
+    ElementalProperties,
+    Season
 } from '../types/alchemy';
 import type { Planet } from '../types/celestial';
 import type { CookingMethod } from '../types/cooking';
 import type { UnifiedIngredient } from '../types/ingredient';
 import type { Recipe } from '../types/recipe';
 
-import { scoreRecommendation, ScoringContext, ScoringResult } from './UnifiedScoringService';
+import { scoreRecommendation, ScoringContext } from './UnifiedScoringService';
 
 // ==================== INTERFACES ====================
 
@@ -46,9 +44,9 @@ export interface ScoredItem<T> {
 
 export class UnifiedScoringAdapter {
   private static instance: UnifiedScoringAdapter;
-  
+
   private constructor() {}
-  
+
   public static getInstance(): UnifiedScoringAdapter {
     if (!UnifiedScoringAdapter.instance) {
       UnifiedScoringAdapter.instance = new UnifiedScoringAdapter();
@@ -87,7 +85,7 @@ export class UnifiedScoringAdapter {
     };
 
     const result = await scoreRecommendation(context);
-    
+
     return {
       item: ingredient,
       score: result.score,
@@ -150,7 +148,7 @@ export class UnifiedScoringAdapter {
     };
 
     const result = await scoreRecommendation(context);
-    
+
     return {
       item: recipe,
       score: result.score,
@@ -198,7 +196,7 @@ export class UnifiedScoringAdapter {
     };
 
     const result = await scoreRecommendation(context);
-    
+
     return {
       item: method,
       score: result.score,
@@ -242,7 +240,7 @@ export class UnifiedScoringAdapter {
     };
 
     const result = await scoreRecommendation(context);
-    
+
     return {
       item: cuisineName,
       score: result.score,
@@ -264,7 +262,7 @@ export class UnifiedScoringAdapter {
     options: ScoringAdapterOptions = {}
   ): Promise<ScoredItem<UnifiedIngredient>[]> {
     const scoredIngredients = await this.scoreIngredients(ingredients, options);
-    
+
     return scoredIngredients
       .filter(item => item.score >= minScore)
       .slice(0, limit);
@@ -318,4 +316,4 @@ export const getRecommendedRecipes = (
   minScore?: number,
   limit?: number,
   options?: ScoringAdapterOptions
-) => UnifiedScoringAdapter.getInstance().getRecommendedRecipes(recipes, minScore, limit, options); 
+) => UnifiedScoringAdapter.getInstance().getRecommendedRecipes(recipes, minScore, limit, options);

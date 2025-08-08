@@ -8,7 +8,7 @@
 
 export interface TestValidationRule {
   name: string;
-  validator: (result: any) => boolean;
+  validator: (result: unknown) => boolean;
   errorMessage: string;
   severity: 'error' | 'warning' | 'info';
 }
@@ -18,7 +18,7 @@ export interface TestConsistencyCheck {
   expectedType: string;
   tolerancePercent?: number;
   requiredFields?: string[];
-  customValidator?: (results: any[]) => boolean;
+  customValidator?: (results: unknown[]) => boolean;
 }
 
 export interface ValidationResult {
@@ -55,25 +55,25 @@ export class TestResultValidator {
     this.addValidationRules('performance', [
       {
         name: 'execution_time',
-        validator: (result) => typeof result.executionTime === 'number' && result.executionTime > 0,
+        validator: (result) => typeof result === 'object' && result !== null && typeof (result as Record<string, unknown>).executionTime === 'number' && (result as Record<string, unknown>).executionTime as number > 0,
         errorMessage: 'Execution time must be a positive number',
         severity: 'error'
       },
       {
         name: 'memory_usage',
-        validator: (result) => typeof result.memoryUsage === 'number' && result.memoryUsage >= 0,
+        validator: (result) => typeof result === 'object' && result !== null && typeof (result as Record<string, unknown>).memoryUsage === 'number' && (result as Record<string, unknown>).memoryUsage as number >= 0,
         errorMessage: 'Memory usage must be a non-negative number',
         severity: 'error'
       },
       {
         name: 'reasonable_execution_time',
-        validator: (result) => result.executionTime < 60000, // 1 minute
+        validator: (result) => typeof result === 'object' && result !== null && typeof (result as Record<string, unknown>).executionTime === 'number' && (result as Record<string, unknown>).executionTime as number < 60000, // 1 minute
         errorMessage: 'Execution time exceeds reasonable limit (60 seconds)',
         severity: 'warning'
       },
       {
         name: 'memory_efficiency',
-        validator: (result) => result.memoryUsage < 1024 * 1024 * 1024, // 1GB
+        validator: (result) => typeof result === 'object' && result !== null && typeof (result as Record<string, unknown>).memoryUsage === 'number' && (result as Record<string, unknown>).memoryUsage as number < 1024 * 1024 * 1024, // 1GB
         errorMessage: 'Memory usage exceeds efficiency threshold (1GB)',
         severity: 'warning'
       }
@@ -83,19 +83,19 @@ export class TestResultValidator {
     this.addValidationRules('realtime', [
       {
         name: 'response_time',
-        validator: (result) => result.responseTime < 5000, // 5 seconds
+        validator: (result) => typeof result === 'object' && result !== null && typeof (result as Record<string, unknown>).responseTime === 'number' && (result as Record<string, unknown>).responseTime as number < 5000, // 5 seconds
         errorMessage: 'Real-time response time exceeds acceptable limit (5 seconds)',
         severity: 'error'
       },
       {
         name: 'monitoring_accuracy',
-        validator: (result) => result.accuracy >= 0.95, // 95% accuracy
+        validator: (result) => typeof result === 'object' && result !== null && typeof (result as Record<string, unknown>).accuracy === 'number' && (result as Record<string, unknown>).accuracy as number >= 0.95, // 95% accuracy
         errorMessage: 'Monitoring accuracy below acceptable threshold (95%)',
         severity: 'error'
       },
       {
         name: 'resource_cleanup',
-        validator: (result) => result.resourcesCleanedUp === true,
+        validator: (result) => typeof result === 'object' && result !== null && typeof (result as Record<string, unknown>).resourcesCleanedUp === 'boolean' && (result as Record<string, unknown>).resourcesCleanedUp === true,
         errorMessage: 'Resources were not properly cleaned up',
         severity: 'warning'
       }
@@ -105,19 +105,19 @@ export class TestResultValidator {
     this.addValidationRules('build', [
       {
         name: 'build_success',
-        validator: (result) => result.success === true,
+        validator: (result) => typeof result === 'object' && result !== null && typeof (result as Record<string, unknown>).success === 'boolean' && (result as Record<string, unknown>).success === true,
         errorMessage: 'Build did not complete successfully',
         severity: 'error'
       },
       {
         name: 'error_count',
-        validator: (result) => typeof result.errorCount === 'number' && result.errorCount >= 0,
+        validator: (result) => typeof result === 'object' && result !== null && typeof (result as Record<string, unknown>).errorCount === 'number' && (result as Record<string, unknown>).errorCount as number >= 0,
         errorMessage: 'Error count must be a non-negative number',
         severity: 'error'
       },
       {
         name: 'build_time',
-        validator: (result) => result.buildTime < 120000, // 2 minutes
+        validator: (result) => typeof result === 'object' && result !== null && typeof (result as Record<string, unknown>).buildTime === 'number' && (result as Record<string, unknown>).buildTime as number < 120000, // 2 minutes
         errorMessage: 'Build time exceeds acceptable limit (2 minutes)',
         severity: 'warning'
       }
@@ -127,19 +127,19 @@ export class TestResultValidator {
     this.addValidationRules('memory', [
       {
         name: 'memory_leak_check',
-        validator: (result) => result.memoryLeakDetected !== true,
+        validator: (result) => typeof result === 'object' && result !== null && typeof (result as Record<string, unknown>).memoryLeakDetected === 'boolean' && (result as Record<string, unknown>).memoryLeakDetected !== true,
         errorMessage: 'Memory leak detected during test execution',
         severity: 'error'
       },
       {
         name: 'peak_memory',
-        validator: (result) => result.peakMemory < 2048 * 1024 * 1024, // 2GB
+        validator: (result) => typeof result === 'object' && result !== null && typeof (result as Record<string, unknown>).peakMemory === 'number' && (result as Record<string, unknown>).peakMemory as number < 2048 * 1024 * 1024, // 2GB
         errorMessage: 'Peak memory usage exceeds limit (2GB)',
         severity: 'error'
       },
       {
         name: 'memory_stability',
-        validator: (result) => result.memoryVariance < 0.3, // 30% variance
+        validator: (result) => typeof result === 'object' && result !== null && typeof (result as Record<string, unknown>).memoryVariance === 'number' && (result as Record<string, unknown>).memoryVariance as number < 0.3, // 30% variance
         errorMessage: 'Memory usage variance exceeds stability threshold (30%)',
         severity: 'warning'
       }
@@ -163,7 +163,7 @@ export class TestResultValidator {
   /**
    * Validate a single test result
    */
-  validateResult(result: any, category: string): ValidationResult {
+  validateResult(result: unknown, category: string): ValidationResult {
     const validationResult: ValidationResult = {
       isValid: true,
       errors: [],
@@ -215,7 +215,7 @@ export class TestResultValidator {
   /**
    * Validate multiple test results for consistency
    */
-  validateConsistency(testName: string, results: any[]): ValidationResult {
+  validateConsistency(testName: string, results: unknown[]): ValidationResult {
     const validationResult: ValidationResult = {
       isValid: true,
       errors: [],
@@ -263,7 +263,7 @@ export class TestResultValidator {
 
       // Check tolerance for numeric results
       if (check.tolerancePercent && check.expectedType === 'number') {
-        const numericResults = results.filter(r => typeof r === 'number');
+        const numericResults = results.filter(r => typeof r === 'number') as number[];
         if (numericResults.length > 1) {
           const mean = numericResults.reduce((a, b) => a + b, 0) / numericResults.length;
           const variance = this.calculateVariance(numericResults, mean);
@@ -310,7 +310,7 @@ export class TestResultValidator {
    * Validate test suite results
    */
   validateTestSuite(
-    suiteResults: Map<string, any>,
+    suiteResults: Map<string, unknown>,
     categoryMapping: Map<string, string>
   ): Map<string, ValidationResult> {
     const validationResults = new Map<string, ValidationResult>();
@@ -415,7 +415,7 @@ export class TestResultValidator {
 /**
  * Convenience function for validating a single test result
  */
-export function validateTestResult(result: any, category: string): ValidationResult {
+export function validateTestResult(result: unknown, category: string): ValidationResult {
   const validator = TestResultValidator.getInstance();
   return validator.validateResult(result, category);
 }
@@ -423,7 +423,7 @@ export function validateTestResult(result: any, category: string): ValidationRes
 /**
  * Convenience function for validating test consistency
  */
-export function validateTestConsistency(testName: string, results: any[]): ValidationResult {
+export function validateTestConsistency(testName: string, results: unknown[]): ValidationResult {
   const validator = TestResultValidator.getInstance();
   return validator.validateConsistency(testName, results);
 }
@@ -433,7 +433,7 @@ export function validateTestConsistency(testName: string, results: any[]): Valid
  */
 export function createValidationRule(
   name: string,
-  validator: (result: any) => boolean,
+  validator: (result: unknown) => boolean,
   errorMessage: string,
   severity: 'error' | 'warning' | 'info' = 'error'
 ): TestValidationRule {
@@ -449,7 +449,7 @@ export function createConsistencyCheck(
   options: {
     tolerancePercent?: number;
     requiredFields?: string[];
-    customValidator?: (results: any[]) => boolean;
+    customValidator?: (results: unknown[]) => boolean;
   } = {}
 ): TestConsistencyCheck {
   return {

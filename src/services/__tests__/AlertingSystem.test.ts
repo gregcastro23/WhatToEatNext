@@ -1,4 +1,4 @@
-import AlertingSystem, { Alert, AlertRule } from '../AlertingSystem';
+import AlertingSystem, { AlertRule } from '../AlertingSystem';
 
 // Mock the dependencies
 jest.mock('../BuildPerformanceMonitor', () => ({
@@ -48,13 +48,13 @@ describe('AlertingSystem', () => {
   beforeEach(() => {
     // Clear all mocks
     jest.clearAllMocks();
-    
+
     // Create a new instance for each test
     alertingSystem = new AlertingSystem();
-    
+
     // Reset the instance to ensure clean state
     alertingSystem.reset();
-    
+
     // Mock subscriber
     mockSubscriber = jest.fn();
     alertingSystem.subscribe(mockSubscriber);
@@ -112,7 +112,7 @@ describe('AlertingSystem', () => {
       };
 
       const ruleId = alertingSystem.addAlertRule(rule);
-      const updated = alertingSystem.updateAlertRule(ruleId, { 
+      const updated = alertingSystem.updateAlertRule(ruleId, {
         threshold: 90000,
         severity: 'error'
       });
@@ -181,7 +181,7 @@ describe('AlertingSystem', () => {
       // Check if alert was created
       const alerts = alertingSystem.getAlerts({ resolved: false });
       expect(alerts.length).toBeGreaterThan(0);
-      
+
       const alert = alerts.find(a => a.title === 'High Error Count');
       expect(alert).toBeDefined();
       expect(alert?.currentValue).toBe(150);
@@ -240,7 +240,7 @@ describe('AlertingSystem', () => {
       if (rule) {
         // First evaluation should create alert
         (alertingSystem as unknown as { evaluateRule: (rule: AlertRule) => void }).evaluateRule(rule);
-        
+
         // Second evaluation should be blocked by cooldown (immediate)
         (alertingSystem as unknown as { evaluateRule: (rule: AlertRule) => void }).evaluateRule(rule);
       }
@@ -433,7 +433,7 @@ describe('AlertingSystem', () => {
       }
 
       const summary = alertingSystem.getAlertSummary();
-      
+
       expect(summary.totalAlerts).toBeGreaterThan(0);
       expect(summary.unresolvedAlerts).toBeGreaterThan(0);
       expect(summary.criticalAlerts).toBeGreaterThan(0);

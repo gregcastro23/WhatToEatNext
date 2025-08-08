@@ -154,7 +154,7 @@ export async function findBestMatches(
       if (!aIsInSeason && bIsInSeason) return 1;
       return 0;
     });
-    // log.info(`After season sorting (${(matchFilters as any)?.season}): prioritized seasonal recipes`);
+    // log.info(`After season sorting (${(matchFilters as Record<string, unknown>)?.season}): prioritized seasonal recipes`);
   }
 
   if (matchFilters.servings) {
@@ -725,7 +725,7 @@ function determineIngredientModality(
   // Sort by count in descending order
   const sorted = entries.sort((a, b) => b[1] - a[1]);
 
-  // Return the dominant modality if it has any count, otherwise null
+  // Return the dominant modality if it has a count, otherwise null
   return sorted[0][1] > 0 ? sorted[0][0] : null;
 }
 
@@ -1373,7 +1373,7 @@ function _calculateAstrologicalMatch(
   if (!userElement) return 0.5; // Default to neutral if sign not recognized
 
   // Extract recipeInfluence data with safe property access
-  const influenceData = recipeInfluence as any;
+  const influenceData = recipeInfluence as Record<string, unknown>;
   const sign = influenceData?.sign;
   const elements = influenceData?.elements;
 

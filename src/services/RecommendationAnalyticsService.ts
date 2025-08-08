@@ -1,6 +1,6 @@
 /**
  * Recommendation Analytics Service
- * 
+ *
  * Provides comprehensive analytics for recommendation systems including:
  * - Performance metrics tracking (load time, API response time)
  * - Recommendation confidence scoring
@@ -83,15 +83,15 @@ class RecommendationAnalyticsService {
   /**
    * Start timing a recommendation operation
    */
-  startTiming(operation: string): () => number {
+  startTiming(_operation: string): () => number {
     const startTime = performance.now();
-    
+
     return () => {
       const endTime = performance.now();
       const duration = endTime - startTime;
-      
+
       this.performanceMonitor.recordMetric('calculationTime', duration);
-      
+
       return duration;
     };
   }
@@ -119,13 +119,13 @@ class RecommendationAnalyticsService {
     const startTime = performance.now();
     const result = this.recommendationCache.get(key) as T | null;
     const duration = performance.now() - startTime;
-    
+
     // Update cache hit rate
     const stats = this.recommendationCache.getStats();
     this.performanceMonitor.recordMetric('cacheHitRate', stats.hitRate);
-    
+
     logger.debug(`Cache ${result ? 'hit' : 'miss'} for key: ${key} (${duration.toFixed(2)}ms)`);
-    
+
     return result;
   }
 
@@ -135,7 +135,7 @@ class RecommendationAnalyticsService {
   cacheRecommendation<T>(key: string, data: T, confidenceScore?: number): void {
     // Adjust TTL based on confidence score
     let ttl = 600000; // Default 10 minutes
-    
+
     if (confidenceScore) {
       if (confidenceScore >= 0.9) {
         ttl = 1800000; // 30 minutes for high confidence
@@ -145,9 +145,9 @@ class RecommendationAnalyticsService {
         ttl = 300000; // 5 minutes for low confidence
       }
     }
-    
+
     this.recommendationCache.set(key, data, ttl);
-    
+
     logger.debug(`Cached recommendation with key: ${key} (TTL: ${ttl}ms, confidence: ${confidenceScore})`);
   }
 
@@ -159,7 +159,7 @@ class RecommendationAnalyticsService {
   calculateConfidenceScore(factors: Partial<ConfidenceFactors>): RecommendationConfidence {
     const cacheKey = `confidence_${JSON.stringify(factors)}`;
     const cached = this.confidenceCache.get(cacheKey);
-    
+
     if (cached) {
       return cached;
     }
@@ -191,7 +191,7 @@ class RecommendationAnalyticsService {
 
     // Generate reasoning based on factors
     const reasoning: string[] = [];
-    
+
     if (completedFactors.astrologicalAlignment >= 0.9) {
       reasoning.push('Strong astrological alignment with current planetary positions');
     } else if (completedFactors.astrologicalAlignment < 0.6) {
@@ -268,7 +268,7 @@ class RecommendationAnalyticsService {
   } {
     const now = Date.now();
     const windowStart = timeWindow ? now - timeWindow : 0;
-    
+
     const relevantInteractions = this.userInteractions.filter(
       interaction => interaction.timestamp >= windowStart
     );
@@ -369,7 +369,7 @@ class RecommendationAnalyticsService {
   } {
     const now = Date.now();
     const windowStart = timeWindow ? now - timeWindow : 0;
-    
+
     const relevantMetrics = this.metricsHistory.filter(
       metric => metric.timestamp >= windowStart
     );
@@ -426,7 +426,7 @@ class RecommendationAnalyticsService {
     this.confidenceCache.clear();
     this.performanceMonitor.clear();
     this.sessionId = this.generateSessionId();
-    
+
     logger.info('Analytics data cleared');
   }
 
