@@ -1,22 +1,22 @@
 'use client';
 
 import {
-  Activity,
-  AlertCircle,
-  BarChart3,
-  Brain,
-  Clock,
-  Leaf,
-  Lightbulb,
-  Moon,
-  RefreshCw,
-  Settings,
-  Shield,
-  Sparkles,
-  Star,
-  Target,
-  TrendingUp,
-  Zap,
+    Activity,
+    AlertCircle,
+    BarChart3,
+    Brain,
+    Clock,
+    Leaf,
+    Lightbulb,
+    Moon,
+    RefreshCw,
+    Settings,
+    Shield,
+    Sparkles,
+    Star,
+    Target,
+    TrendingUp,
+    Zap,
 } from 'lucide-react';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
@@ -26,35 +26,35 @@ import EnterpriseIntelligencePanel from '@/components/intelligence/EnterpriseInt
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 import { getAllRecipes } from '@/data/recipes';
 import {
-  useInteractionTracking,
-  useRecommendationAnalytics,
+    useInteractionTracking,
+    useRecommendationAnalytics,
 } from '@/hooks/useRecommendationAnalytics';
 import {
-  CulturalAnalytics,
-  CulturalAnalyticsService,
-  FusionCuisineRecommendation,
+    CulturalAnalytics,
+    CulturalAnalyticsService,
+    FusionCuisineRecommendation,
 } from '@/services/CulturalAnalyticsService';
 // RecipeIntelligenceService types will be defined inline
 import { ElementalProperties, LunarPhase, ZodiacSign } from '@/types/alchemy';
 import type { AstrologicalState } from '@/types/commonTypes';
 import { Recipe } from '@/types/recipe';
 import {
-  calculateElementalProfileFromZodiac,
-  generateTopSauceRecommendations,
-  getCuisineRecommendations,
-  getMatchScoreClass,
+    calculateElementalProfileFromZodiac,
+    generateTopSauceRecommendations,
+    getCuisineRecommendations,
+    getMatchScoreClass,
 } from '@/utils/cuisineRecommender';
 import { logger } from '@/utils/logger';
 import {
-  calculateMomentMonicaConstant,
-  calculateMonicaKalchmCompatibility,
-  performEnhancedAnalysis,
+    calculateMomentMonicaConstant,
+    calculateMonicaKalchmCompatibility,
+    performEnhancedAnalysis,
 } from '@/utils/monicaKalchmCalculations';
 import {
-  SearchIntent,
-  applyFilters,
-  enhancedSearch,
-  processNaturalLanguageQuery,
+    SearchIntent,
+    applyFilters,
+    enhancedSearch,
+    processNaturalLanguageQuery,
 } from '@/utils/naturalLanguageProcessor';
 
 import AdvancedSearchFilters, { SearchFilters } from './AdvancedSearchFilters';
@@ -240,9 +240,16 @@ const calculateAlchemicalBalance = (alchemicalProperties: {
   const { Spirit, Essence, Matter, Substance } = alchemicalProperties;
 
   // Calculate balance based on how evenly distributed the alchemical properties are
-  const values = [Spirit, Essence, Matter, Substance];
-  const mean = values?.reduce((sum, val) => sum + val, 0) / values.length;
-  const variance = values?.reduce((sum, val) => sum + Math.pow(val - mean, 2), 0) / values.length;
+  const safeValues: number[] = [
+    Number(Spirit ?? 0),
+    Number(Essence ?? 0),
+    Number(Matter ?? 0),
+    Number(Substance ?? 0),
+  ];
+  const mean = safeValues.reduce((acc: number, val: number) => acc + val, 0) / safeValues.length;
+  const variance =
+    safeValues.reduce((acc: number, val: number) => acc + Math.pow(val - mean, 2), 0) /
+    safeValues.length;
   const standardDeviation = Math.sqrt(variance);
 
   // Lower standard deviation = better balance
@@ -295,18 +302,22 @@ const calculateRecipeKalchmHarmony = (
 
   // If we have cuisine thermodynamics, compare them
   if (cuisineThermodynamics) {
-    const kalchmRatio =
-      Math.min(recipeThermodynamics.kalchm, cuisineThermodynamics.kalchm) /
-      Math.max(recipeThermodynamics.kalchm, cuisineThermodynamics.kalchm);
-    const monicaHarmony =
-      1 - Math.abs(recipeThermodynamics.monica - cuisineThermodynamics.monica) / 5;
+  const rK = recipeThermodynamics.kalchm ?? 0;
+  const cK = cuisineThermodynamics.kalchm ?? (rK || 1);
+    const kalchmRatio = Math.max(0, Math.min(1, Math.min(rK, cK) / Math.max(rK || 1, cK || 1)));
+    const rM = (recipeThermodynamics as unknown as { monica?: number }).monica ?? 0;
+    const cM = (cuisineThermodynamics as unknown as { monica?: number }).monica ?? rM;
+    const monicaHarmony = 1 - Math.abs(rM - cM) / 5;
 
     return Math.max(0, Math.min(1, kalchmRatio * 0.6 + monicaHarmony * 0.4));
   }
 
   // Otherwise, score based on thermodynamic stability
-  const stabilityScore = Math.max(0, 1 - Math.abs(recipeThermodynamics.gregsEnergy) / 5);
-  const kalchmScore = Math.min(1, recipeThermodynamics?.kalchm / 2); // Normalize Kalchm
+  const stabilityScore = Math.max(
+    0,
+    1 - Math.abs((recipeThermodynamics as unknown as { gregsEnergy?: number }).gregsEnergy ?? 0) / 5,
+  );
+  const kalchmScore = Math.min(1, (recipeThermodynamics?.kalchm ?? 0) / 2); // Normalize Kalchm
 
   return Math.max(0, Math.min(1, stabilityScore * 0.5 + kalchmScore * 0.5));
 };
@@ -324,9 +335,12 @@ const calculateThermodynamicOptimization = (
   if (!thermodynamics) return 0.7;
 
   // Calculate optimization based on thermodynamic efficiency
-  const heatEfficiency = Math.max(0, Math.min(1, thermodynamics.heat));
-  const entropyBalance = Math.max(0, 1 - thermodynamics?.entropy / 2);
-  const reactivityOptimal = Math.max(0, 1 - Math.abs(thermodynamics?.reactivity - 1) / 2);
+  const heatEfficiency = Math.max(0, Math.min(1, Number(thermodynamics.heat ?? 0)));
+  const entropyBalance = Math.max(0, 1 - Number(thermodynamics.entropy ?? 0) / 2);
+  const reactivityOptimal = Math.max(
+    0,
+    1 - Math.abs(Number(thermodynamics.reactivity ?? 0) - 1) / 2,
+  );
 
   // Weight the factors for overall optimization
   const optimization = heatEfficiency * 0.4 + entropyBalance * 0.3 + reactivityOptimal * 0.3;
@@ -360,12 +374,44 @@ const buildCompleteRecipe = (
   };
   const elementalProperties = recipe.elementalProperties || defaultElementalProperties;
   // Use real current moment alchemical result if provided, else fallback to elemental profile
-  const alchemicalResult = currentMomentAlchemicalResult || {
-    kalchm: currentMomentElementalProfile,
-  };
+  const alchemicalResult =
+    currentMomentAlchemicalResult ||
+    ({
+      kalchm: 0,
+      monica: 0,
+      gregsEnergy: 0,
+      alchemicalProperties: {
+        Spirit: currentMomentElementalProfile?.Fire ?? 0.25,
+        Essence: currentMomentElementalProfile?.Water ?? 0.25,
+        Matter: currentMomentElementalProfile?.Earth ?? 0.25,
+        Substance: currentMomentElementalProfile?.Air ?? 0.25,
+      },
+    } as unknown as {
+      kalchm?: number;
+      monica?: number;
+      gregsEnergy?: number;
+      alchemicalProperties?: { Spirit?: number; Essence?: number; Matter?: number; Substance?: number };
+    });
 
   // 1. Core compatibility analytics
-  const compatibility = calculateRecipeCompatibility(elementalProperties, alchemicalResult);
+  const compatibility = calculateRecipeCompatibility(
+    elementalProperties,
+    ({
+      kalchm: alchemicalResult.kalchm ?? 0,
+      elementalProperties,
+      planetaryInfluences: {
+        alchemicalInfluences: {},
+        elementalInfluences: elementalProperties,
+        dominantPlanets: [],
+      },
+      recommendations: {
+        elemental: { dominant: 'Fire', balance: 0.5, recommendations: [] },
+        culinary: { ingredients: [], cookingMethods: [], flavors: [], timing: [] },
+      },
+      timestamp: new Date().toISOString(),
+      cacheKey: `compat_${recipe.name || 'recipe'}`,
+    } as unknown) as import('@/calculations').ComprehensiveAlchemicalResult,
+  );
 
   // 2. Ingredient complexity (real count)
   const ingredientCount = Array.isArray(recipe.ingredients) ? recipe.ingredients.length : 0;
@@ -409,7 +455,7 @@ const buildCompleteRecipe = (
       categoryHarmony: ingredientCount > 0 ? 0.85 : 0.5,
       categoryCount: ingredientCategories.size,
       ingredientDistribution: Array.from(ingredientCategories).map(cat => ({
-        category: cat,
+        category: String(cat || ''),
         count: Array.isArray(recipe.ingredients)
           ? recipe.ingredients.filter((ing: { category?: string }) => ing.category === cat).length
           : 0,

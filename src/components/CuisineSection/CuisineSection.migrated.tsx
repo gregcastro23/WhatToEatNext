@@ -10,13 +10,7 @@ interface _ScoredItem {
   [key: string]: unknown;
 }
 
-interface _ElementalData {
-  Fire: number;
-  Water: number;
-  Earth: number;
-  Air: number;
-  [key: string]: unknown;
-}
+import type { ElementalProperties as ElementalData } from '@/types/alchemy';
 
 interface _CuisineData {
   id: string;

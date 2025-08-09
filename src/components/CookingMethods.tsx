@@ -16,20 +16,20 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 // Type Harmony imports
 
 import { AlchemicalItem } from '@/calculations/alchemicalTransformation';
-import type { LunarPhase } from '@/constants/lunarPhases';
 import { useTarotContext } from '@/contexts/TarotContext';
 import { cookingMethods } from '@/data/cooking/cookingMethods';
 import type { Modality } from '@/data/ingredients/types';
 import { useAstrologicalState } from '@/hooks/useAstrologicalState';
 import { log } from '@/services/LoggingService';
 import {
-  BasicThermodynamicProperties,
-  COOKING_METHOD_THERMODYNAMICS,
-  CookingMethod,
-  ElementalProperties,
+    BasicThermodynamicProperties,
+    COOKING_METHOD_THERMODYNAMICS,
+    CookingMethod,
+    ElementalProperties,
 } from '@/types/alchemy';
 import { createAstrologicalBridge } from '@/types/bridges/astrologicalBridge';
-import { Ingredient, UnifiedIngredient, ZodiacSign } from '@/types/unified';
+import type { LunarPhase } from '@/types/celestial';
+import { ZodiacSign } from '@/types/unified';
 import { staticAlchemize } from '@/utils/alchemyInitializer';
 import { getLunarMultiplier } from '@/utils/lunarMultiplier';
 import { isValidAstrologicalState } from '@/utils/typeGuards/astrologicalGuards';
@@ -242,37 +242,47 @@ const DEFAULT_TAROT_DATA = {
 // First, let's add a utility function to convert between the different lunar phase formats
 // Add this near the top of your file, after the imports
 
-// Map between title case format and uppercase underscore format
-// Important: The values should match the LunarPhase type from constants/lunarPhases.ts
+// Map between uppercase underscore format and project-standard lowercase-with-spaces format
+// Important: The values must match the LunarPhase type from '@/types/celestial'
 const LUNAR_PHASE_MAP: Record<string, LunarPhase> = {
-  FULL_MOON: 'FULL_MOON',
-  NEW_MOON: 'NEW_MOON',
-  WAXING_CRESCENT: 'WAXING_CRESCENT',
-  FIRST_QUARTER: 'FIRST_QUARTER',
-  WAXING_GIBBOUS: 'WAXING_GIBBOUS',
-  WANING_GIBBOUS: 'WANING_GIBBOUS',
-  LAST_QUARTER: 'LAST_QUARTER',
-  WANING_CRESCENT: 'WANING_CRESCENT',
+  FULL_MOON: 'full moon',
+  NEW_MOON: 'new moon',
+  WAXING_CRESCENT: 'waxing crescent',
+  FIRST_QUARTER: 'first quarter',
+  WAXING_GIBBOUS: 'waxing gibbous',
+  WANING_GIBBOUS: 'waning gibbous',
+  LAST_QUARTER: 'last quarter',
+  WANING_CRESCENT: 'waning crescent',
 };
 
 // For display purposes
 const LUNAR_PHASE_DISPLAY: Record<LunarPhase, string> = {
-  FULL_MOON: 'Full Moon',
-  NEW_MOON: 'New Moon',
-  WAXING_CRESCENT: 'Waxing Crescent',
-  FIRST_QUARTER: 'First Quarter',
-  WAXING_GIBBOUS: 'Waxing Gibbous',
-  WANING_GIBBOUS: 'Waning Gibbous',
-  LAST_QUARTER: 'Last Quarter',
-  WANING_CRESCENT: 'Waning Crescent',
+  'full moon': 'Full Moon',
+  'new moon': 'New Moon',
+  'waxing crescent': 'Waxing Crescent',
+  'first quarter': 'First Quarter',
+  'waxing gibbous': 'Waxing Gibbous',
+  'waning gibbous': 'Waning Gibbous',
+  'last quarter': 'Last Quarter',
+  'waning crescent': 'Waning Crescent',
 };
 
 // Function to safely convert any lunar phase string to the correct type
 const normalizeLunarPhase = (phase: string | null | undefined): LunarPhase | undefined => {
   if (!phase) return undefined;
 
-  // If it's already a valid LunarPhase, return it
-  if (Object.keys(LUNAR_PHASE_MAP).includes(phase)) {
+  // If it's already a valid LunarPhase (lowercase with spaces), return it
+  const validPhases: LunarPhase[] = [
+    'new moon',
+    'waxing crescent',
+    'first quarter',
+    'waxing gibbous',
+    'full moon',
+    'waning gibbous',
+    'last quarter',
+    'waning crescent',
+  ];
+  if (validPhases.includes(phase as LunarPhase)) {
     return phase as LunarPhase;
   }
 
@@ -280,28 +290,28 @@ const normalizeLunarPhase = (phase: string | null | undefined): LunarPhase | und
   const phaseLower = phase.toLowerCase();
 
   if (phaseLower.includes('full') && phaseLower.includes('moon')) {
-    return 'FULL_MOON';
+    return 'full moon';
   }
   if (phaseLower.includes('new') && phaseLower.includes('moon')) {
-    return 'NEW_MOON';
+    return 'new moon';
   }
   if (phaseLower.includes('waxing') && phaseLower.includes('crescent')) {
-    return 'WAXING_CRESCENT';
+    return 'waxing crescent';
   }
   if (phaseLower.includes('first') && phaseLower.includes('quarter')) {
-    return 'FIRST_QUARTER';
+    return 'first quarter';
   }
   if (phaseLower.includes('waxing') && phaseLower.includes('gibbous')) {
-    return 'WAXING_GIBBOUS';
+    return 'waxing gibbous';
   }
   if (phaseLower.includes('waning') && phaseLower.includes('gibbous')) {
-    return 'WANING_GIBBOUS';
+    return 'waning gibbous';
   }
   if (phaseLower.includes('last') && phaseLower.includes('quarter')) {
-    return 'LAST_QUARTER';
+    return 'last quarter';
   }
   if (phaseLower.includes('waning') && phaseLower.includes('crescent')) {
-    return 'WANING_CRESCENT';
+    return 'waning crescent';
   }
 
   return undefined;
@@ -322,8 +332,8 @@ function getIdealIngredients(_method: CookingMethod): string[] {
 }
 
 function determineMatchReason(
-  _ingredient: Ingredient | UnifiedIngredient,
-  _method: CookingMethod,
+  _methodWithThermodynamics: { name: string; thermodynamics?: unknown },
+  _astroState: Record<string, unknown>,
 ): string {
   // Placeholder implementation
   return 'Compatible elemental properties';
@@ -1542,10 +1552,9 @@ export default function CookingMethods() {
 
             // Add lunar phase adjustment with stronger effect
             if (astroData.lunarPhase) {
-              const adaptedPhase = adaptLunarPhase(
+              const lunarMultiplier = getLunarMultiplier(
                 astroData.lunarPhase as LunarPhase | null | undefined,
               );
-              const lunarMultiplier = getLunarMultiplier(adaptedPhase as unknown as string);
               // Apply a more significant adjustment
               adjustedScore = adjustedScore * (0.8 + lunarMultiplier * 0.4); // More impactful adjustment
             }
@@ -1619,7 +1628,7 @@ export default function CookingMethods() {
 
       // Only update state if component is still mounted
       if (isMountedRef.current) {
-        setRecommendedMethods(sortedMethods as typeof recommendedMethods);
+        setRecommendedMethods(sortedMethods as unknown as typeof recommendedMethods);
 
         // Also set planetary cooking methods with safe array access
         const planetaryCookingMethodsMap: Record<string, string[]> = {};

@@ -1,43 +1,43 @@
 import {
-  Flame,
-  Droplets,
-  Mountain,
-  Wind,
-  Clock,
-  Tag,
-  Leaf,
-  X,
-  ChevronDown,
-  ChevronUp,
-  Beaker,
-  Brain,
-  ExternalLink,
-  Shield,
-  CheckCircle,
-  TrendingUp,
-  Lightbulb,
-  BarChart3,
-  RefreshCw,
+    BarChart3,
+    Beaker,
+    Brain,
+    CheckCircle,
+    ChevronDown,
+    ChevronUp,
+    Clock,
+    Droplets,
+    ExternalLink,
+    Flame,
+    Leaf,
+    Lightbulb,
+    Mountain,
+    RefreshCw,
+    Shield,
+    Tag,
+    TrendingUp,
+    Wind,
+    X,
 } from 'lucide-react';
-import { useEffect, useState, useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import { useRouter } from 'next/navigation';
 
 import EnterpriseIntelligencePanel from '@/components/intelligence/EnterpriseIntelligencePanel';
-import type { Ingredient, UnifiedIngredient } from '@/types/ingredient';
 import { ElementalCalculator } from '@/services/ElementalCalculator';
-import { ElementalProperties, ZodiacSign, LunarPhase } from '@/types/alchemy';
+import { ElementalProperties, LunarPhase, ZodiacSign } from '@/types/alchemy';
+import type { Ingredient, UnifiedIngredient } from '@/types/ingredient';
 import {
-  getChakraBasedRecommendations,
-  GroupedIngredientRecommendations,
-  getIngredientRecommendations,
-  IngredientRecommendation,
+    GroupedIngredientRecommendations,
+    IngredientRecommendation,
+    getChakraBasedRecommendations,
+    getIngredientRecommendations,
 } from '@/utils/ingredientRecommender';
 
 import { herbsCollection, oilsCollection, vinegarsCollection } from '@/data/ingredients';
-import { log } from '@/services/LoggingService';
 import { useAstrologicalState } from '@/hooks/useAstrologicalState';
 import { useChakraInfluencedFood } from '@/hooks/useChakraInfluencedFood';
+import { log } from '@/services/LoggingService';
 
 // Enhanced Type Safety Interfaces
 interface IngredientDisplayItem {
@@ -319,6 +319,7 @@ export default function IngredientRecommender({
   // Use chakra energies and planetary positions to generate ingredient recommendations
   useEffect(() => {
     if (!astroLoading && !astroError) {
+      const generateRecommendations = async () => {
       // Create a combined approach using both chakra and standard recommendations
       const chakraRecommendations = contextChakraEnergies
         ? getChakraBasedRecommendations(contextChakraEnergies, 16)
@@ -374,17 +375,25 @@ export default function IngredientRecommender({
       };
 
       // Get standard recommendations with all planets
-      const standardRecommendations = getIngredientRecommendations(
+      const standardRecommendations = await getIngredientRecommendations(
         {
-          ...astroState,
+          elementalProperties: astroState.elementalProperties,
           timestamp: new Date(),
           currentStability: 1.0,
-          planetaryAlignment: {},
-          zodiacSign: 'aries',
-          activePlanets: [],
+          planetaryAlignment: astroState.planetaryAlignment as Record<string, { sign: string; degree: number }>,
+          zodiacSign: String(astroState.zodiacSign || 'aries'),
+          activePlanets: Array.isArray(astroState.activePlanets) ? astroState.activePlanets : [],
           lunarPhase: 'new moon',
           aspects: [],
-        } as unknown as { planetaryPositions: Record<string, unknown>; aspects: unknown[] },
+        } as unknown as ElementalProperties & {
+          timestamp: Date;
+          currentStability: number;
+          planetaryAlignment: Record<string, { sign: string; degree: number }>;
+          zodiacSign: string;
+          activePlanets: string[];
+          lunarPhase: string;
+          aspects: Array<any>;
+        },
         { limit: 40 },
       );
 
@@ -421,6 +430,8 @@ export default function IngredientRecommender({
       });
 
       setAstroRecommendations(mergedRecommendations);
+      };
+      void generateRecommendations();
     }
   }, [astroLoading, contextChakraEnergies, planetaryPositions, astroError, currentZodiac]);
 

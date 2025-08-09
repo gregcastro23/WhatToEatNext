@@ -1,20 +1,21 @@
 'use client';
 
-import { Flame, Droplets, Mountain, Wind } from 'lucide-react';
-import { useState, useEffect } from 'react';
+import { Droplets, Flame, Mountain, Wind } from 'lucide-react';
+import { useEffect, useState } from 'react';
 
 import type { Modality } from '@/data/ingredients/types';
 import { useAstrologicalState } from '@/hooks/useAstrologicalState';
 import { log } from '@/services/LoggingService';
-import type { ElementalProperties, Season, Ingredient } from '@/types/alchemy';
+import type { ElementalProperties, Ingredient, Season } from '@/types/alchemy';
 import {
-  getIngredientRecommendations,
-  IngredientRecommendation,
-  RecommendationOptions,
-  GroupedIngredientRecommendations,
+    GroupedIngredientRecommendations,
+    IngredientRecommendation,
+    RecommendationOptions,
+    getIngredientRecommendations,
 } from '@/utils/ingredientRecommender';
 import { toZodiacSign } from '@/utils/zodiacUtils';
 
+import { calculateAlchemicalPropertiesForDisplay as _calcAlchProps } from '@/utils/alchemicalResults';
 import styles from './IngredientRecommendations.module.css';
 
 // Helper function to adapt the elemental properties for the recommender system
@@ -174,7 +175,9 @@ export default function IngredientRecommendations({
     };
 
     // Calculate alchemical properties
-    const alchemicalProps = calculateAlchemicalPropertiesForDisplay(elementalProps);
+    const alchemicalProps = _calcAlchProps
+      ? _calcAlchProps(elementalProps)
+      : _calculateAlchemicalPropertiesForDisplay(elementalProps);
 
     // Calculate thermodynamic properties based on elemental properties
     const thermodynamicProps = {
